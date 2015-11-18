@@ -1,4 +1,4 @@
-# [Mashshare](https://www.mashshare.net) 
+# [Quick AdSense Reloaded](https://wordpress.org/support/plugin/quick-adsense-reloaded) 
 
 ### Welcome to the Quick AdSense Reloaded GitHub Repository
 
