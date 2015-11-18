@@ -9,11 +9,9 @@ More information can be found at [wordpress.org](https://wordpress.org/support/p
 ## Note ##
 
 This is the latest developer version of Quick AdSense Reloaded. 
-if you just want to use Quick AdSense Reloaded install the productive version which you get at [wordpress.org](http://wordpress.org/plugins/mashsharer/)
+if you just want to use Quick AdSense Reloaded install the productive version which you get at [wordpress.org](https://wordpress.org/support/plugin/quick-adsense-reloaded)
 
 ## Installation ##
-
-For detailed setup instructions, visit the official [Documentation](http://www.mashshare.net/documentation/) page.
 
 1. You can clone the GitHub repository: `https://github.com/rene-hermenau/quick-adsense-reloaded.git`
 2. Or download it directly as a ZIP file: `https://github.com/rene-hermenau/quick-adsense-reloaded/archive/master.zip`

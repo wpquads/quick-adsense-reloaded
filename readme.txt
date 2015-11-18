@@ -1,143 +1,85 @@
-=== Quick Adsense ===
-Contributors: toddynho, philipze
-Tags: WordPress Plugin, adsense, google adsense, random adsense, random ads, advertising, adsense insertion, ad manager, ad, yahoo, google, ads, text insertion, widget, sidebar, admin, posts, plugin
-Requires at least: 2.5
-Tested up to: 3.5.1
-Stable tag: 1.9.2
+=== Quick AdSense Reloaded === 
 
-Quick Adsense offers a quicker & flexible way to insert Google Adsense or any Ads code into a blog post.
+Author URL: https://profiles.wordpress.org/renehermi/
+Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
+Contributors: ReneHermi
+Donate link: 
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: Quick AdSense Reloaded, adSense plugin, advertising, ads, ad, plugin, ad manager, admin, ads, adsense, adsense insertion, advertising, google, google adsense, plugin, posts, random ads, random adsense, sidebar, text insertion, widget
+Requires at least: 3.6+
+Tested up to: 4.3.1
+Stable tag: 0.9.0
 
-== Description ==
+A further development of Quick Adsense! Insert Google AdSense or any Ads code into your website.
 
-**Quick Adsense** is an Ads management Wordpress plugin. It offers a quicker & flexible way to insert Adsense or any Ads code into a blog post. Besides, it can randomly place the Ads anywhere within a post. It comes with a simple setting page, and it does not overwhelm you with complicated customizable options. 
+== Description == 
 
-In general, placing Adsense randomly within a post is a good way to experiment a variety of ads formats & placements besides optimizing your Adsense. If you have many regular visitors who frequently revisit your blog, the **randomization** will likely catch their attention.
+> #### Quick AdSense Reloaded
+> This free AdSense plugin is a fork of the discontinued plugin [Quick AdSense](https://wordpress.org/plugins/quick-adsense/) <br /> 
+> It will be maintained and updated to be compatible with all future WordPress versions<br />
+> This plugin is brandnew, well tested but still beta and work in progress! <br>
+> If you find a bug please open a ticket in the [support request](https://wordpress.org/support/plugin/quick-adsense-reloaded/ "support forum"). Every issue will be fixed asap!
+> 
+> Biggest thanks goes to the original creator of Quick AdSense [toddynho](https://profiles.wordpress.org/toddynho/) <br /> 
 
-Here are some **features** that come with this plugin:
 
-1. Absolutely NO author revenue reward or revenue sharing from your Adsense or that kind of features.
-1. Default Ads positioning: Assign Ads to the beginning of post, assign Ads to the middle of post, assign Ads to the end of post, assign Ads after 'more' tag, assign Ads before last paragraph, assign Ads after certain paragraphs (3 options available) & assign Ads after certain images.
-1. Flexible Ads placement, insert Ads specifically or randomly anywhere within a post.
-1. Simple configuration interface, requires no coding knowledge: Just copy and paste AdSense code, tick & select options, the plugin will then do the rest for you.  
-1. Support any Ads code, not limited to Adsense code only.
-1. Display up to a maximum of 10 Ads on a page. Google allows publishers to place up to 3 Adsense for Content on a page. If you are using other Ads, you may display up to 10 Ads.
-1. Support up to a maximum of 10 Ads codes on Sidebar Widgets.
-1. Support up to a maximum of 10 Ads codes for specific placement & randomization within a post.
-1. Insert Ads on-the-fly, simply insert &lt;!--Ads1--&gt;, &lt;!--Ads2--&gt; ... , &lt;!--RndAds--&gt; to a post to accomplish this.
-1. Disable Ads on-the-fly, simply insert &lt;!--NoAds--&gt;, &lt;!--OffDef--&gt;, &lt;!--OffWidget--&gt;, &lt;!--OffBegin--&gt; ... and more to a post to accomplish this.
-1. The above Tags can be inserted into a post easily via the additional Quicktag Buttons added to the HTML Edit Post SubPanel.
+= Main Features =
 
-Sign up for a [Google Adsense Account](http://adsense.google.com/) to generate revenue from your blog, if you don't have one.
+* Absolutely NO plugin author revenue reward or revenue sharing from your advertising income.
+* No external script dependencies. All plugin code reside on your site. 
+* Dynamic Ads positioning: Assign Ads to the beginning, middle and end of post, assign Ads after 'more' tag, before last paragraph, after certain paragraphs & assign Ads after certain images.
+* Insert Ads specifically or randomly anywhere within a post.
+* Support any Ads code, not limited to Adsense only.
+* Display up to a maximum of 10 Ads on a page. Google allows publishers to place up to 3 Adsense for Content on a page. If you are using other Ads, you may display up to 10 Ads.
+* Support up to a maximum of 10 Ads codes on Sidebar Widgets.
+* Support up to a maximum of 10 Ads codes for specific placement & randomization within a post.
+* Insert Ads on-the-fly, insert &lt;!--Ads1--&gt;, &lt;!--Ads2--&gt; ... , &lt;!--RndAds--&gt; to a post to accomplish this.
+* Disable Ads on-the-fly, insert &lt;!--NoAds--&gt;, &lt;!--OffDef--&gt;, &lt;!--OffWidget--&gt;, &lt;!--OffBegin--&gt; ... and more to a post to accomplish this.
+* The above quicktags can be inserted into a post easily via the additional Quicktag Buttons added to the HTML Edit Post SubPanel.
 
-[Installation](http://wordpress.org/extend/plugins/quick-adsense/installation/) | [Screen Shots](http://wordpress.org/extend/plugins/quick-adsense/screenshots/) | [Plugin Homepage](http://quicksense.net/)
+More features are coming soon....
 
-== Screenshots ==
+= High Performance =
 
-1. Screen shot showing the additional Quicktag Buttons added to the HTML Edit Post SubPanel.
-2. The Settings page from Quick Adsense plugin. There are many ways to configure your Ads display, specifically or randomly as you wish.
+Quick AdSense Reloaded is *coded well and developed for high performance*.
+It loads only the code it needs at the moment of execution, making it small and fast and with a lot of hooks easy extensible by third party developers.
 
-== Installation ==
+** GitHub **
+Follow the development and improve the plugin.
+You find it on [GitHub](https://github.com/rene-hermenau/quick-adsense-reloaded/)
 
-1. Unzip the downloaded plugin and upload the folder "quick-adsense" to the "/wp-content/plugins/" directory.
-1. Go to the plugin menu in WordPress and activate the plugin.
-1. Go to the "Settings-&gt;Quick Adsense" page and configure the options. Paste the Ads codes to the respective text box.
-1. Optionally, insert the trigger Tags into a post via the additional Quicktag Buttons added to the HTML Edit Post SubPanel.
 
 == Frequently Asked Questions ==
 
-Please feedback to [http://quicksense.net/](http://quicksense.net/) for any bug you might have found, or any suggestion you like to add. 
+Post your question in the [support forum](https://wordpress.org/support/plugin/quick-adsense-reloaded)
 
-== Change Log ==
+== Installation ==
 
-= 1.9.2 =
-* Update the depreciated wp code function for AdsWidget in the plugin.
-* New Feature - Enable user to insert Ads after Image's outer div wp-caption & not just right below the image.
-* New Feature - Enable user to insert Ads before the last paragraph of the post.
-* New Feature - Option to disable ads at particular positions, such as Beginning, Middle & End of post, ads on Sidebar, ads after 'more' tag and ads before last paragraph.
-* Date: 8-May-2013
+Recommended Installation:
 
-= 1.9.1 =
-* Bug Fix - Fix the Quicktag Buttons display error on the HTML Edit Post SubPanel.
-* Bug Fix - Fix the conflict with Jetpack by WordPress.com & some other plugins.
-* Info update.
-* Date: 11-January-2013
+1. Go to YourWebsite->Plugins->Add New
+2. Search for "Quick Adsense reloaded"
+3. Click "install Now"
 
-= 1.9 =
-* New functionality added - Hide Ads when user is logged in to Wordpress, giving you option to exclude ads view by you from the total ads impression.
-* Date: 12-June-2011
+Alternative Installation: 
 
-= 1.8.4 =
-* Bug Fix - Fix the Quicktag Buttons display error on the HTML Edit Post SubPanel, make it compatible with WP 3.1 onward.
-* Date: 31-Mar-2011
+1. [Download the plugin](https://downloads.wordpress.org/plugin/quick-adsense-reloaded.latest-stable.zip) , unzip and place it in your wp-content/plugins/ folder.
+2. Activate the plugin through the 'Plugins' menu in WordPress.
 
-= 1.8.3 =
-* Bug Fix - Remove the ads from Feed, Ads shouldn't be there in the first place.
-* Date: 16-Jan-2011
+== Screenshots ==
 
-= 1.8.2 =
-* New functionality - Default Ads positioning: Assign Ads right after the &lt;!--more--&gt; tag.
-* Date: 03-Dec-2010
+1. Quicktag Buttons added to the post editor.
+2. The Settings page
 
-= 1.8.1 =
-* New functionality - Default Ads positioning: Assign Ads to Middle of post.
-* Date: 22-Nov-2010
+== Changelog == 
 
-= 1.8 =
-* Text correction: Change the words "must be identical" to "must not be identical".
-* New functionality - Default Ads positioning after certain paragraphs, make it up to the total of three.
-* Also, option to display ads at End of Post if the above function is selected & fewer paragraphs are found.
-* Date: 20-Nov-2010
-
-= 1.7 =
-* Fix the error message problem when the plugin is first activated. Error message: "The plugin generated 'n' characters of unexpected output during activation ..."
-* Date: 13-Aug-2010
-
-= 1.6 =
-* Fix for the problem on Setting page stop loading & the disappearing of "Save Setting" button in some cases.
-* Fix the AdsWidget div tag's class name. Now you can use CSS to style the AdsWidget.
-* Extend the number of AdsWidget (Sidebar Ads) from 3 to 10, as requested by users. Now, AdsWidgets are automatically appear in Appearance-&gt;Widgets page only when the code is available.
-* Remove the &lt;!--OffAds--&gt; option as this function doesn't work well in certain theme. However, if you are using this function in previous version, you can continue to use it.
-* Minor code modifications.
-* Date: 10-Apr-2010
-
-= 1.5.1 =
-* v1.5 has been tested up to WP2.9, update the compatible version notice.
-* Date: 04-Jan-2010
-
-= 1.5 =
-* New functionality - Default Ads positioning: Assign Ads after certain paragraphs & assign Ads after certain images.
-* You can now disable AdsWidget (Sidebar Ads) on Homepage. 
-* Insert a &lt;!--OffDef--&gt; to temporary disable the default positioned Ads, so that you can insert the specific Ads or Random ad tags in the post.
-* Google allows publishers to place up to 3 Adsense for Content on a page. If you are using other Ads, you may now display up to 10 Ads.
-* Minor bug fix & code modifications.
-* Date: 09-Dec-2009
-
-= 1.4 =
-* Fix for plugin user Roles. Now, only Administrator is allowed to read & modified the plugin.
-* Quicktag Buttons for Ads1-Ads10 are now automatically shown only when the Ads codes are available. You will have the option to hide the RndAds, NoAds & OffAds Quicktag Buttons.
-* Minor code modification on the AdsWidget portions.
-* Update plugin screenshots & add a Paypal donation button.
-* Date: 14-Nov-2009
-
-= 1.3 =
-* Code modification: Option to place all possible Ads on Homepage, Categories, Archives and Tags page. Previously, only one Ads (the one assigned to the Beginning of Post) is displayed.
-* Code update to take advantage of some WP functions for options page, also for forward compatibility in future version.
-* Code update to make it compatible with WordpressMU, tested on WordpressMU 2.7.1
-* Some minor page & wording modification.
-* Date: 13-Oct-2009
-
-= 1.2 =
-* Re-fix the frist time default options loading value.
-* Date: 03-Oct-2009
-
-= 1.1 =
-* Minor fix for the removal of &lt;p&gt;&lt;/p&gt; tag wrapped around Ads code.
-* Default options value will now load when the frist time plugin is activated, not every time during plugin reactivation.
-* Change the clearing DIV height at the end of post from 1px to 0px to hide this transparent line.
-* Date: 02-Oct-2009
-
-= 1.0 =
-* Initial public release. 
-* Date: 21-Sep-2009
+= 0.9.0 =
+* Hooray! Quick Adsense Reloaded is alive
 
 
+
+== Upgrade Notice ==
+
+= 0.9 =
+0.9.0  <a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">See the changelog!</a> It's recommended to test all plugin updates on a staging website first before installing them on a live site. (Use <a href="https://wordpress.org/plugins/wp-staging/" target="_blank" style="color:white;text-decoration: underline;">WP Staging</a> for creating a test site or any other of your prefered staging tool)
