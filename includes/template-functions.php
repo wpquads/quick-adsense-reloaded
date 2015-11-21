@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 
 add_shortcode('quadsshare', 'quadsshareShortcodeShow');
-add_filter('the_content', 'quadsshare_filter_content', getExecutionOrder(), 1);
+add_filter('the_content', 'quadsshare_filter_content', quadsGetExecutionOrder(), 1);
 add_filter('widget_text', 'do_shortcode');
 add_action('quadsshare', 'quadsshare');
 add_filter('quads_share_title', 'quads_get_title', 10, 2);
@@ -36,7 +36,7 @@ add_filter('quads_share_title', 'quads_get_title', 10, 2);
  * @return int
  */
 
-function getExecutionOrder(){
+function quadsGetExecutionOrder(){
     global $quads_options;
     isset($quads_options['execution_order']) && is_numeric($quads_options['execution_order']) ? $priority = trim($quads_options['execution_order']) : $priority = 1000;
     return $priority;

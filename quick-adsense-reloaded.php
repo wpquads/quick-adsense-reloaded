@@ -1,9 +1,8 @@
 <?php
-
 /**
  * Plugin Name: Quick AdSense Reloaded
  * Plugin URI: https://wordpress.org/plugins/quick-adsense-reloaded/
- * Description: Insert Google AdSense or any Ads code into your website.
+ * Description: Insert Google AdSense or any Ads code into your website. A fork of Quick AdSense by Todd Garland
  * Author: René Hermenau, ReneHermi, WP-Staging
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
  * Version: 0.0.9

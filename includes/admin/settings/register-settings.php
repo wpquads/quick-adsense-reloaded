@@ -508,13 +508,6 @@ function quads_get_registered_settings() {
 					'desc' => '',
 					'type' => 'header'
 				),
-                                'visible_services' => array(
-					'id' => 'visible_services',
-					'name' => __( 'Large Buttons', 'quads' ),
-					'desc' => __( 'Specify how many services and social networks are visible before the "Plus" Button is shown. This buttons turn into large prominent buttons.', 'quads' ),
-					'type' => 'select',
-                                        'options' => numberServices()
-				),
                                 'networks' => array(
 					'id' => 'networks',
 					'name' => '<strong>' . __( 'Services', 'quads' ) . '</strong>',
@@ -1322,21 +1315,6 @@ function quads_set_settings_cap() {
 add_filter( 'option_page_capability_quads_settings', 'quads_set_settings_cap' );
 
 
-/* returns array with amount of available services
- * @since 2.0
- * @return array
- */
-
-function numberServices(){
-    $number = 1;
-    $array = array();
-    while ($number <= count(quads_get_networks_list())){
-        $array[] = $number++; 
-
-    }
-    $array['all'] = __('All Services');
-    return apply_filters('quads_return_services', $array);
-}
 
 /* Purge the Quick AdSense Reloaded 
  * database quads_TABLE
