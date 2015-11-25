@@ -115,18 +115,18 @@ function quads_load_admin_scripts( $hook ) {
 	}
 	global $wp_version;
 
-	$js_dir  = quads_PLUGIN_URL . 'assets/js/';
-	$css_dir = quads_PLUGIN_URL . 'assets/css/';
+	$js_dir  = QUADS_PLUGIN_URL . 'assets/js/';
+	$css_dir = QUADS_PLUGIN_URL . 'assets/css/';
 
 	// Use minified libraries if SCRIPT_DEBUG is turned off
 	$suffix  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
         //echo $css_dir . 'quads-admin' . $suffix . '.css', quads_VERSION;
 	// These have to be global
-	wp_enqueue_script( 'quads-admin-scripts', $js_dir . 'quads-admin' . $suffix . '.js', array( 'jquery' ), quads_VERSION, false );
+	wp_enqueue_script( 'quads-admin-scripts', $js_dir . 'quads-admin' . $suffix . '.js', array( 'jquery' ), QUADS_VERSION, false );
         wp_enqueue_script('jquery-ui-sortable');
         wp_enqueue_script('media-upload'); //Provides all the functions needed to upload, validate and give format to files.
         wp_enqueue_script('thickbox'); //Responsible for managing the modal window.
         wp_enqueue_style('thickbox'); //Provides the styles needed for this window.
-	wp_enqueue_style( 'quads-admin', $css_dir . 'quads-admin' . $suffix . '.css', quads_VERSION );
+	wp_enqueue_style( 'quads-admin', $css_dir . 'quads-admin' . $suffix . '.css', QUADS_VERSION );
 }
 add_action( 'admin_enqueue_scripts', 'quads_load_admin_scripts', 100 );

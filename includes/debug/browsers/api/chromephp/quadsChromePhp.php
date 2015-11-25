@@ -21,7 +21,7 @@
  * @package ChromePhp
  * @author Craig Campbell <iamcraigcampbell@gmail.com>
  */
-class quadssbChromePhp 
+class quadsChromePhp 
 {
     /**
      * @var string
@@ -139,7 +139,7 @@ class quadssbChromePhp
     public static function getInstance()
     {
         if (self::$_instance === null) {
-            self::$_instance = new quadssbChromePhp();
+            self::$_instance = new quadsChromePhp();
         }
         return self::$_instance;
     }

@@ -38,18 +38,17 @@ function quads_get_option( $key = '', $default = false ) {
  */
 function quads_get_settings() {
 	$settings = get_option( 'quads_settings' );
-               
-        
+
+
 	if( empty( $settings ) ) {
 		// Update old settings with new single option
-
 		$general_settings = is_array( get_option( 'quads_settings_general' ) )    ? get_option( 'quads_settings_general' )  	: array();
                 $visual_settings = is_array( get_option( 'quads_settings_visual' ) )   ? get_option( 'quads_settings_visual' )   : array();
                 $networks = is_array( get_option( 'quads_settings_networks' ) )   ? get_option( 'quads_settings_networks' )   : array();
 		$ext_settings     = is_array( get_option( 'quads_settings_extensions' ) ) ? get_option( 'quads_settings_extensions' )	: array();
 		$license_settings = is_array( get_option( 'quads_settings_licenses' ) )   ? get_option( 'quads_settings_licenses' )   : array();
                 $addons_settings = is_array( get_option( 'quads_settings_addons' ) )   ? get_option( 'quads_settings_addons' )   : array();
-                
+
 		$settings = array_merge( $general_settings, $visual_settings, $networks, $ext_settings, $license_settings, $addons_settings);
 
 		update_option( 'quads_settings', $settings);
@@ -91,6 +90,7 @@ function quads_register_settings() {
 				array(
 					'id'      => isset( $option['id'] ) ? $option['id'] : null,
 					'desc'    => ! empty( $option['desc'] ) ? $option['desc'] : '',
+                                        'desc2'   => ! empty( $option['desc2'] ) ? $option['desc2'] : '',
 					'name'    => isset( $option['name'] ) ? $option['name'] : null,
 					'section' => $tab,
 					'size'    => isset( $option['size'] ) ? $option['size'] : null,
@@ -125,24 +125,39 @@ function quads_get_registered_settings() {
 		/** General Settings */
 		'general' => apply_filters( 'quads_settings_general',
 			array(
-                                'general_header' => array(
+                                array(
 					'id' => 'general_header',
 					'name' => '<strong>' . __( 'General settings', 'quads' ) . '</strong>',
 					'desc' => __( ' ', 'quads' ),
 					'type' => 'header'
 				),
-                                'quads_sharemethod' => array(
-					'id' => 'quads_sharemethod',
-					'name' =>  __( 'Share counts', 'quads' ),
-					'desc' => __('<i>quadsEngine</i> collects shares by calling directly social networks from your server. All shares are cached and stored in your database. <p> If you notice performance issues choose the classical <i>Sharedcount.com</i>. This needs an API key and is limited to 10.000 free requests daily but it is a little bit faster on requesting. After caching there is no performance advantage to quadsEngine! <p> <strong>quadsEngine collects: </strong> Facebook, Twitter, LinkedIn, Google+, Pinterest, Stumbleupon, Buffer, VK. <strong>Default:</strong> quadsEngine', 'quads'),
-					'type' => 'select',
-					'options' => array(
-                                            'quadsengine' => 'quadsEngine',
-                                            'sharedcount' => 'Sharedcount.com'
-                                        )
-     
+                                array(
+					'id' => 'maxads',
+					'name' => __( 'Adsense:', 'quads' ),
+					'desc' => __( 'Ads on a page. Select up to 3 Ads only if you are solely using Google Ads.', 'quads' ),
+                                        'desc2' => __('(Google allows publishers to place up to 3 Adsense for Content on a page. If you have placed these ads manually in the page, you will need to take those into account. If you are using other Ads services, you may select up to 10 Ads.)','quads'),
+                                        'type' => 'select',
+                                        'options' => array(
+                                            1,
+                                            2,
+                                            3,
+                                            4,
+                                            5,
+                                            6,
+                                            7,
+                                            8,
+                                            9,
+                                            10,
+                                        ),
 				),
-				
+                                array(
+					'id' => 'ad_position',
+					'name' => __( 'Position: <br> (Default)', 'quads' ),
+					'desc' => __( 'Select on which post_types the share buttons appear. This values will be ignored when position is specified "manual".', 'quads' ),
+					'type' => 'ad_position'
+				),
+
+
 				'quickads_apikey' => array(
 					'id' => 'quickads_apikey',
 					'name' => __( 'Sharedcount.com API Key', 'quads' ),
@@ -215,7 +230,7 @@ function quads_get_registered_settings() {
                                             'shares' => 'Shares',
                                             'likes' => 'Likes',
                                             'total' => 'Total: likes + shares + comments'
-                                            
+
                                         )
 				),
                                 'uninstall_on_delete' => array(
@@ -242,14 +257,14 @@ function quads_get_registered_settings() {
 					'desc' => __( '<strong>Note: </strong>Use this with caution when you think your share counts are wrong. Checking this and using the save button will delete all stored quadsshare post_meta objects.<br>' . quads_delete_cache_objects(), 'quads' ),
 					'type' => 'checkbox'
 				),
-                                
+
                                 'debug_mode' => array(
 					'id' => 'debug_mode',
 					'name' => __( 'Debug mode', 'quads' ),
 					'desc' => __( '<strong>Note: </strong> Check this box before you get in contact with our support team. This allows us to check publically hidden debug messages on your website. Do not forget to disable it thereafter! Enable this also to write daily sorted log files of requested share counts to folder <strong>/wp-content/plugins/quadssharer/logs</strong>. Please send us this files when you notice a wrong share count.' . quads_log_permissions(), 'quads' ),
 					'type' => 'checkbox'
 				)
-                                
+
 			)
 		),
                 'visual' => apply_filters('quads_settings_visual',
@@ -333,7 +348,7 @@ function quads_get_registered_settings() {
                                                 'default' => 'default'
 					),
                                         'std' => 'default'
-					
+
 				),
                                 array(
                                         'id' => 'button_width',
@@ -342,7 +357,7 @@ function quads_get_registered_settings() {
                                         'type' => 'number',
                                         'size' => 'normal',
                                         'std' => '177'
-                                ), 
+                                ),
                                 'quads_style' => array(
 					'id' => 'quads_style',
 					'name' => __( 'Share button style', 'quads' ),
@@ -354,7 +369,7 @@ function quads_get_registered_settings() {
                                                 'default' => 'Clean buttons - no effects'
 					),
                                         'std' => 'default'
-					
+
 				),
                                 'small_buttons' => array(
 					'id' => 'small_buttons',
@@ -372,7 +387,7 @@ function quads_get_registered_settings() {
                                                 'link' => 'Open Subscribe Link'
 					),
                                         'std' => 'content'
-					
+
 				),
                                 'subscribe_link' => array(
 					'id' => 'subscribe_link',
@@ -421,14 +436,14 @@ function quads_get_registered_settings() {
                                                 'size' => 15
                                                 )
                                         )
-				),                   
+				),
                                 'custom_css' => array(
 					'id' => 'custom_css',
 					'name' => __( 'Custom CSS', 'quads' ),
 					'desc' => __( '<br>Use Quick AdSense Reloaded custom styles here', 'quads' ),
 					'type' => 'textarea',
 					'size' => 15
-                                        
+
 				),
                                 'location_header' => array(
 					'id' => 'location_header',
@@ -447,7 +462,7 @@ function quads_get_registered_settings() {
                                                 'both' => __( 'Top and Bottom', 'quads' ),
 						'manual' => __( 'Manual', 'quads' )
 					)
-					
+
 				),
                                 'post_types' => array(
 					'id' => 'post_types',
@@ -487,7 +502,7 @@ function quads_get_registered_settings() {
 					'desc' => __('Check this box if your twitter popup is openening twice. This happens sometimes when you are using any third party twitter plugin or the twitter SDK on your website.','quads'),
 					'type' => 'checkbox',
                                         'std' => '0'
-                                    
+
 				),
                                 /*'quads_shortcode_info' => array(
 					'id' => 'quads_shortcode_info',
@@ -495,9 +510,9 @@ function quads_get_registered_settings() {
 					'desc' => __('Using the shortcode <strong>[quadsshare]</strong> forces loading of dependacy scripts and styles on specific pages. It is overwriting any other location setting.','quads'),
 					'type' => 'note',
                                         'label_for' => 'test'
-                                    
+
 				),*/
-                                
+
                         )
 		),
                  'networks' => apply_filters( 'quads_settings_networks',
@@ -550,7 +565,7 @@ function quads_get_registered_settings() {
  * Adds a settings error (for the updated message)
  * At some point this will validate input
  *
- * @since 1.0.0
+ * @since 0.0.9
  *
  * @param array $input The value input in the field
  *
@@ -612,6 +627,32 @@ function quads_settings_sanitize( $input = array() ) {
 }
 
 /**
+ * Ad position Settings Sanitization
+ *
+ * Adds a settings error (for the updated message)
+ * This also saves the tax rates table
+ *
+ * @since 0.0.9
+ * @param array $input The value inputted in the field
+ * @return string $input Sanitizied value
+ */
+/*function quads_settings_sanitize_taxes( $input ) {
+
+	if( ! current_user_can( 'manage_shop_settings' ) ) {
+		return $input;
+	}
+
+	$new_rates = ! empty( $_POST['ad_position'] ) ? array_values( $_POST['ad_position'] ) : array();
+
+	update_option( 'quads_ad_position', $new_rates );
+
+	return $input;
+}
+add_filter( 'quads_settings_ad_position_sanitize', 'quads_settings_sanitize_ad_position' );
+ * */
+ 
+
+/**
  * DEPRECATED Misc Settings Sanitization
  *
  * @since 1.0
@@ -667,16 +708,16 @@ function quads_get_settings_tabs() {
 
         if( ! empty( $settings['visual'] ) ) {
 		$tabs['visual'] = __( 'Visual', 'quads' );
-	} 
-        
+	}
+
         if( ! empty( $settings['networks'] ) ) {
 		$tabs['networks'] = __( 'Social Networks', 'quads' );
-	}  
-        
+	}
+
 	if( ! empty( $settings['extensions'] ) ) {
 		$tabs['extensions'] = __( 'Extensions', 'quads' );
 	}
-	
+
 	if( ! empty( $settings['licenses'] ) ) {
 		$tabs['licenses'] = __( 'Licenses', 'quads' );
 	}
@@ -691,7 +732,7 @@ function quads_get_settings_tabs() {
 	* Retrieve a list of possible expire cache times
 	*
 	* @since  2.0.0
-	* @change 
+	* @change
 	*
 	* @param  array  $methods  Array mit verfügbaren Arten
 	*/
@@ -710,13 +751,13 @@ function quads_get_settings_tabs() {
         );
             return $times;
 	}
-   
+
 
 /**
  * Retrieve array of  social networks Facebook / Twitter / Subscribe
  *
  * @since 2.0.0
- * 
+ *
  * @return array Defined social networks
  */
 function quads_get_networks_list() {
@@ -835,29 +876,7 @@ function quads_gateways_callback( $args ) {
 	endforeach;
 }
 
-/**
- * Dropdown Callback (drop down)
- *
- * Renders gateways select menu
- *
- * @since 1.5
- * @param array $args Arguments passed by the setting
- * @global $quads_options Array of all the QUADS Options
- * @return void
- */
-function quads_gateway_select_callback($args) {
-	global $quads_options;
 
-	echo '<select name="quads_settings[' . $args['id'] . ']"" id="quads_settings[' . $args['id'] . ']">';
-
-	foreach ( $args['options'] as $key => $option ) :
-		$selected = isset( $quads_options[ $args['id'] ] ) ? selected( $key, $quads_options[$args['id']], false ) : '';
-		echo '<option value="' . esc_attr( $key ) . '"' . $selected . '>' . esc_html( $option['admin_label'] ) . '</option>';
-	endforeach;
-
-	echo '</select>';
-	echo '<label for="quads_settings[' . $args['id'] . ']"> '  . $args['desc'] . '</label>';
-}
 
 /**
  * Text Callback
@@ -1003,9 +1022,12 @@ function quads_select_callback($args) {
 
 	$html .= '</select>';
 	$html .= '<label class="quads_hidden" for="quads_settings[' . $args['id'] . ']"> '  . $args['desc'] . '</label>';
+        $html .= '<br>' . $args['desc2'];
 
 	echo $html;
 }
+
+
 
 /**
  * Color select Callback
@@ -1040,7 +1062,7 @@ function quads_select_callback($args) {
 
 function quads_color_select_callback( $args ) {
 	global $quads_options;
-        
+
         if ( isset( $quads_options[ $args['id'] ] ) )
 		$value = $quads_options[ $args['id'] ];
 	else
@@ -1168,7 +1190,7 @@ if ( ! function_exists( 'quads_license_key_callback' ) ) {
 		$html .= '<label for="quads_settings[' . $args['id'] . ']"> '  . $args['desc'] . '</label>';
 
                 wp_nonce_field( $args['id'] . '-nonce', $args['id'] . '-nonce' );
-                
+
 		echo $html;
 	}
 }
@@ -1206,25 +1228,25 @@ function quads_addons_callback( $args ) {
 
 		$size = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
 		$html = '<input type="text" class="' . $size . '-text ' . $args['id'] . '" id="quads_settings[' . $args['id'] . ']" name="quads_settings[' . $args['id'] . ']" value="' . esc_attr( $value ) . '"/>';
-	
+
 		$html .= '<input type="submit" class="button-secondary quads_upload_image" name="' . $args['id'] . '_upload" value="' . __( 'Select Image',  'quads' ) . '"/>';
-		
+
 		$html .= '<label class="quads_hidden" for="quads_settings[' . $args['id'] . ']"> '  . $args['desc'] . '</label>';
 
 		echo $html;
 	}
-        
-        
-/* 
+
+
+/*
  * Post Types Callback
- * 
+ *
  * Adds a multiple choice drop box
  * for selecting where Quick AdSense Reloaded should be enabled
- * 
+ *
  * @since 2.0.9
  * @param array $args Arguments passed by the setting
  * @return void
- * 
+ *
  */
 
 function quads_posttypes_callback ($args){
@@ -1243,15 +1265,17 @@ function quads_posttypes_callback ($args){
 	}
 }
 
-/* 
+
+
+/*
  * Note Callback
- * 
+ *
  * Show a note
- * 
+ *
  * @since 2.2.8
  * @param array $args Arguments passed by the setting
  * @return void
- * 
+ *
  */
 
 function quads_note_callback ($args){
@@ -1262,8 +1286,8 @@ function quads_note_callback ($args){
 }
 
 /**
- * Additional content Callback 
- * Adds several content text boxes selectable via jQuery easytabs() 
+ * Additional content Callback
+ * Adds several content text boxes selectable via jQuery easytabs()
  *
  * @param array $args
  * @return string $html
@@ -1289,7 +1313,7 @@ function quads_add_content_callback($args){
 	echo $html;
 }
 
-        
+
 /**
  * Hook Callback
  *
@@ -1316,9 +1340,9 @@ add_filter( 'option_page_capability_quads_settings', 'quads_set_settings_cap' );
 
 
 
-/* Purge the Quick AdSense Reloaded 
+/* Purge the Quick AdSense Reloaded
  * database quads_TABLE
- * 
+ *
  * @since 2.0.4
  * @return string
  */
@@ -1330,7 +1354,7 @@ function quads_delete_cache_objects(){
         //require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         //$wpdb->query($sql);
         delete_post_meta_by_key( 'quads_timestamp' );
-        delete_post_meta_by_key( 'quads_shares' ); 
+        delete_post_meta_by_key( 'quads_shares' );
         delete_post_meta_by_key( 'quads_jsonshares' );
         return ' <strong style="color:red;">' . __('DB cache deleted! Do not forget to uncheck this box for performance increase after doing the job.', 'quads') . '</strong> ';
     }
@@ -1360,4 +1384,649 @@ function quads_log_permissions(){
     if (!QUADS()->logger->checkDir() ){
         return '<br><strong style="color:red;">' . __('Log file directory not writable! Set FTP permission to 755 or 777 for /wp-content/plugins/quadssharer/logs/', 'quads') . '</strong> <br> Read here more about <a href="http://codex.wordpress.org/Changing_File_Permissions" target="_blank">file permissions</a> ';
     }
+}
+
+
+/*
+ * Get the possible ads
+ *
+ * return array
+ */
+function quads_get_adposition(){
+    return array(
+        1 => array (
+            'title1' => __('Assign', 'quads'),
+            'title2' => __('to <strong>beginning of post</strong>', 'quads'),
+            'title3' => ''
+        ),
+        2 => array (
+            'title1' => __('Assign', 'quads'),
+            'title2' => __('Middle of post', 'quads'),
+            'title3' => ''
+        ),
+        3 => array (
+            'title1' => __('Assign', 'quads'),
+            'title2' => __('End of post', 'quads'),
+            'title3' => ''
+        ),
+        4 => array (
+            'title1' => __('Assign', 'quads'),
+            'title2' => __('right after the <!--more--> tag', 'quads'),
+            'title3' => ''
+        ),
+        5 => array (
+            'title1' => __('Assign', 'quads'),
+            'title2' => __('right before the last Paragraph', 'quads'),
+            'title3' => ''
+        ),
+        6 => array (
+            'title1' => __('Assign', 'quads'),
+            'title2' => __('After Paragraph', 'quads'),
+            'title3' => ''
+        ),
+        7 => array (
+            'title1' => __('Assign', 'quads'),
+            'title2' => __('After Paragraph', 'quads'),
+            'title3' => ''
+        ),
+        8 => array (
+            'title1' => __('Assign', 'quads'),
+            'title2' => __('After Paragraph', 'quads'),
+            'title3' => __('Right after the <span style="font-family:Courier New,Courier,Fixed;">&lt;!--more--&gt; </span>tag', 'quads')
+        ),
+        9 => array (
+            'title1' => __('Assign', 'quads'),
+            'title2' => __('After Image', 'quads'),
+            'title3' => __('after <strong>Image&#39;s outer</strong> &lt;div&gt; <span style="font-family:Courier New,Courier,Fixed;">wp-caption</span>', 'quads')
+        ),
+
+    );
+}
+
+
+/*
+ * Maximum allows ads Callback
+ *
+ * Adds a multiple choice drop box
+ * for selecting where Quick AdSense Reloaded should be enabled
+ *
+ * @since 2.0.9
+ * @param array $args Arguments passed by the setting
+ * @return void
+ *
+ */
+
+function quads_maxads_callback ($args){
+  global $quads_options;
+  $ads = 4;
+
+  if ( ! empty( $ads ) ) {
+                foreach( $ads as $key => $option ):
+			if( isset( $quads_options[$args['id']][$key] ) ) { $enabled = $option; } else { $enabled = NULL; }
+                        echo $option['title1'] . '&nbsp;';
+			echo '<input name="quads_settings[' . $args['id'] . '][' . $key['title1'] . ']" id="quads_settings[' . $args['id'] . '][' . $key . ']" type="checkbox" value="' . $option . '" ' . checked($option, $enabled, false) . '/>&nbsp;';
+			echo '<br>';
+		endforeach;
+		echo '<p class="description quads_hidden">' . $args['desc'] . '</p>';
+	}
+}
+
+/**
+ * Get list of available ads
+ * 
+ * @global $quads_options $quads_options
+ * @return array
+ */
+
+function quads_get_ads(){
+    global $quads_options;
+    
+    $ads = array(
+        0 => __('Random Ads','quads'),
+        1 => 'ad1',
+        2 => 'ad2',
+        3 => 'ad3',
+        4 => 'ad4',
+        5 => 'ad5',
+        6 => 'ad6',
+        7 => 'ad7',
+        8 => 'ad8',
+        9 => 'ad9',
+        10=> 'ad10'
+    );
+    return $ads;
+}
+
+
+
+
+/**
+ * Ad position Callback
+ *
+ * Renders multioptions fields for ad position
+ *
+ * @since 1.0
+ * @param array $args Arguments passed by the setting
+ * @global $quads_options Array of all the QUADS Options
+ * @return void
+ */
+function quads_ad_position_callback($args) {
+	global $quads_options;
+
+        // Pos 1
+        $html  = QUADS()->html->checkbox(array('name' => 'quads_settings[pos1][BegnAds]','current'  => $quads_options['pos1']['BegnAds'],'class' => 'quads-checkbox' ));
+        $html .= ' ' . __('Assign','quads') . ' ';
+        $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[pos1][BegnRnd]','selected' => $quads_options['pos1']['BegnRnd'], 'show_option_all'  => false,'show_option_none' => false));
+        $html .= ' ' . __('to <strong>Beginning of Post</strong>','quads') . '</br>';
+        
+        // Pos 2
+        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[pos2][MiddAds]', 'current'  => $quads_options['pos2']['MiddAds'], 'class' => 'quads-checkbox' ));
+        $html .= ' ' . __('Assign','quads') . ' ';
+        $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[pos2][MiddRnd]','selected' => $quads_options['pos2']['MiddRnd'], 'show_option_all'  => false,'show_option_none' => false));
+        $html .= ' ' . __('to <strong>Middle of Post</strong>','quads') . '</br>';
+        
+        // Pos 3
+        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[pos3][EndiAds]', 'current'  => $quads_options['pos3']['EndiAds'], 'class' => 'quads-checkbox' ));
+        $html .= ' ' . __('Assign','quads') . ' ';
+        $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[pos3][EndiRnd]','selected' => $quads_options['pos3']['EndiRnd'], 'show_option_all'  => false,'show_option_none' => false));
+        $html .= ' ' . __('to <strong>End of Post</strong>','quads') . '</br>';
+        
+        // Pos 4
+        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[pos4][MoreAds]', 'current'  => $quads_options['pos4']['MoreAds'], 'class' => 'quads-checkbox' ));
+        $html .= ' ' . __('Assign','quads') . ' ';
+        $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[pos4][MoreRnd]','selected' => $quads_options['pos4']['MoreRnd'], 'show_option_all'  => false,'show_option_none' => false));
+        $html .= ' ' . __('right after <strong>the <span style="font-family:Courier New,Courier,Fixed;">&lt;!--more--&gt;</span> tag</strong>','quads') . '</br>';
+
+        // Pos 5
+        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[pos5][LapaAds]', 'current'  => $quads_options['pos5']['LapaAds'], 'class' => 'quads-checkbox' ));
+        $html .= ' ' . __('Assign','quads') . ' ';
+        $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[pos5][LapaRnd]','selected' => $quads_options['pos5']['LapaRnd'], 'show_option_all'  => false,'show_option_none' => false));
+        $html .= ' ' . __('right before <strong>the last Paragraph</strong>','quads') . ' </br>';
+
+        // Pos 6
+        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[pos6][Par1Ads]', 'current'  => $quads_options['pos6']['Par1Ads'], 'class' => 'quads-checkbox' ));
+        $html .= ' ' . __('Assign','quads') . ' ';
+        $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[pos6][Par1Rnd]','selected' => $quads_options['pos6']['Par1Rnd'], 'show_option_all'  => false,'show_option_none' => false));
+        $html .= ' ' . __('<strong>After Paragraph</strong>','quads') . ' ';
+        $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[pos6][Par1Nup]','selected' => $quads_options['pos6']['Par1Nup'], 'show_option_all'  => false,'show_option_none' => false));
+        $html .= ' ' . __('→','quads') . ' ';
+        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[pos6][Par1Con]', 'current'  => $quads_options['pos6']['Par1Con'], 'class' => 'quads-checkbox' ));
+        $html .= ' ' . __('to <strong>End of Post</strong> if fewer paragraphs are found.','quads') . ' </br>';
+        
+        // Pos 7
+        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[pos7][Par2Ads]', 'current'  => $quads_options['pos7']['Par2Ads'], 'class' => 'quads-checkbox' ));
+        $html .= ' ' . __('Assign','quads') . ' ';
+        $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[pos7][Par2Rnd]','selected' => $quads_options['pos7']['Par2Rnd'], 'show_option_all'  => false,'show_option_none' => false));
+        $html .= ' ' . __('<strong>After Paragraph</strong>','quads') . ' ';
+        $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[pos7][Par2Nup]','selected' => $quads_options['pos7']['Par2Nup'], 'show_option_all'  => false,'show_option_none' => false));
+        $html .= ' ' . __('→','quads') . ' ';
+        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[pos7][Par2Con]', 'current'  => $quads_options['pos7']['Par2Con'], 'class' => 'quads-checkbox' ));
+        $html .= ' ' . __('to <strong>End of Post</strong> if fewer paragraphs are found.','quads') . ' </br>';
+        
+        // Pos 8
+        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[pos8][Par3Ads]', 'current'  => $quads_options['pos8']['Par3Ads'], 'class' => 'quads-checkbox' ));
+        $html .= ' ' . __('Assign','quads') . ' ';
+        $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[pos8][Par3Rnd]','selected' => $quads_options['pos8']['Par2Rnd'], 'show_option_all'  => false,'show_option_none' => false));
+        $html .= ' ' . __('<strong>After Paragraph</strong>','quads') . ' ';
+        $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[pos8][Par3Nup]','selected' => $quads_options['pos8']['Par3Nup'], 'show_option_all'  => false,'show_option_none' => false));
+        $html .= ' ' . __('→','quads') . ' ';
+        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[pos8][Par3Con]', 'current'  => $quads_options['pos8']['Par3Con'], 'class' => 'quads-checkbox' ));
+        $html .= ' ' . __('to <strong>End of Post</strong> if fewer paragraphs are found.','quads') . ' </br>';
+        
+        // Pos 9
+        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[pos9][Par3Ads]', 'current'  => $quads_options['pos9']['Par3Ads'], 'class' => 'quads-checkbox' ));
+        $html .= ' ' . __('Assign','quads') . ' ';
+        $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[pos9][Par3Rnd]','selected' => $quads_options['pos9']['Par2Rnd'], 'show_option_all'  => false,'show_option_none' => false));
+        $html .= ' ' . __('<strong>After Image</strong>','quads') . ' ';
+        $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[pos9][Par3Nup]','selected' => $quads_options['pos9']['Par3Nup'], 'show_option_all'  => false,'show_option_none' => false));
+        $html .= ' ' . __('→','quads') . ' ';
+        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[pos9][Par3Con]', 'current'  => $quads_options['pos9']['Par3Con'], 'class' => 'quads-checkbox' ));
+        $html .= ' ' . __('after <b>Image\'s outer</b><b><span style="font-family:Courier New,Courier,Fixed;"> &lt;div&gt; wp-caption</span></b> if any.','quads') . ' </br>';
+
+        
+    $html_old = '<input type="checkbox" id="quads_settings[pos1][BegnAds]" name="quads_settings[pos1][BegnAds]" value="true" onchange="checkinfo1(\'quads_settings[pos1][BegnRnd]\',this)"> Assign 
+                <select id="quads_settings[pos1][BegnRnd]" name="quads_settings[pos1][BegnRnd]" onchange="selectinfo(this)" disabled="">
+                    <option id="OptBegn0" value="0">Random Ads</option>
+                    <option id="OptBegn1" value="1">Ads1</option>
+                    <option id="OptBegn2" value="2">Ads2</option>
+                    <option id="OptBegn3" value="3">Ads3</option>
+                    <option id="OptBegn4" value="4">Ads4</option>
+                    <option id="OptBegn5" value="5">Ads5</option>
+                    <option id="OptBegn6" value="6">Ads6</option>
+                    <option id="OptBegn7" value="7">Ads7</option>
+                    <option id="OptBegn8" value="8">Ads8</option>
+                    <option id="OptBegn9" value="9">Ads9</option>
+                    <option id="OptBegn10" value="10">Ads10</option>
+                </select> to <b>Beginning of Post</b><br>
+                    <input type="checkbox" id="MiddAds" name="MiddAds" value="false" onchange="checkinfo1(\'MiddRnd\',this)"> Assign 
+                <select id="MiddRnd" name="MiddRnd" onchange="selectinfo(this)" disabled="">
+                    <option id="OptMidd0" value="0">Random Ads</option>
+                    <option id="OptMidd1" value="1">Ads1</option>
+                    <option id="OptMidd2" value="2">Ads2</option>
+                    <option id="OptMidd3" value="3">Ads3</option>
+                    <option id="OptMidd4" value="4">Ads4</option>
+                    <option id="OptMidd5" value="5">Ads5</option>
+                    <option id="OptMidd6" value="6">Ads6</option>
+                    <option id="OptMidd7" value="7">Ads7</option>
+                    <option id="OptMidd8" value="8">Ads8</option>
+                    <option id="OptMidd9" value="9">Ads9</option>
+                    <option id="OptMidd10" value="10">Ads10</option>
+                </select> to <b>Middle of Post</b><br>
+				<input type="checkbox" id="EndiAds" name="EndiAds" value="false" checked="" onchange="checkinfo1(\'EndiRnd\',this)"> Assign 
+                                <select id="EndiRnd" name="EndiRnd" onchange="selectinfo(this)" disabled="">
+                    <option id="OptEndi0" value="0" selected="">Random Ads</option>
+                    <option id="OptEndi1" value="1">Ads1</option>
+                    <option id="OptEndi2" value="2">Ads2</option>
+                    <option id="OptEndi3" value="3">Ads3</option>
+                    <option id="OptEndi4" value="4">Ads4</option>
+                    <option id="OptEndi5" value="5">Ads5</option>
+                    <option id="OptEndi6" value="6">Ads6</option>
+                    <option id="OptEndi7" value="7">Ads7</option>
+                    <option id="OptEndi8" value="8">Ads8</option>
+                    <option id="OptEndi9" value="9">Ads9</option>
+                    <option id="OptEndi10" value="10">Ads10</option>
+					</select> to <b>End of Post</b><br>
+				<input type="checkbox" id="MoreAds" name="MoreAds" value="false" onchange="checkinfo1(\'MoreRnd\',this)"> Assign 
+                                <select id="MoreRnd" name="MoreRnd" onchange="selectinfo(this)" disabled="">
+											<option id="OptMore0" value="0">Random Ads</option>
+											<option id="OptMore1" value="1">Ads1</option>
+											<option id="OptMore2" value="2">Ads2</option>
+											<option id="OptMore3" value="3">Ads3</option>
+											<option id="OptMore4" value="4">Ads4</option>
+											<option id="OptMore5" value="5">Ads5</option>
+											<option id="OptMore6" value="6">Ads6</option>
+											<option id="OptMore7" value="7">Ads7</option>
+											<option id="OptMore8" value="8">Ads8</option>
+											<option id="OptMore9" value="9">Ads9</option>
+											<option id="OptMore10" value="10">Ads10</option>
+					</select> right after <b>the <span style="font-family:Courier New,Courier,Fixed;">&lt;!--more--&gt;</span> tag</b><br>
+				<input type="checkbox" id="LapaAds" name="LapaAds" value="false" onchange="checkinfo1(\'LapaRnd\',this)"> Assign 
+                                <select id="LapaRnd" name="LapaRnd" onchange="selectinfo(this)" disabled="">
+											<option id="OptLapa0" value="0">Random Ads</option>
+											<option id="OptLapa1" value="1">Ads1</option>
+											<option id="OptLapa2" value="2">Ads2</option>
+											<option id="OptLapa3" value="3">Ads3</option>
+											<option id="OptLapa4" value="4">Ads4</option>
+											<option id="OptLapa5" value="5">Ads5</option>
+											<option id="OptLapa6" value="6">Ads6</option>
+											<option id="OptLapa7" value="7">Ads7</option>
+											<option id="OptLapa8" value="8">Ads8</option>
+											<option id="OptLapa9" value="9">Ads9</option>
+											<option id="OptLapa10" value="10">Ads10</option>
+					</select> right before <b>the last Paragraph</b><span style="color:#a00;"> <b>(New)</b></span><br>
+
+					<input type="checkbox" id="Par1Ads" name="Par1Ads" value="false" onchange="checkinfo2(this,\'Par1Rnd\',\'Par1Nup\',\'Par1Con\')"> Assign 
+                                        <select id="Par1Rnd" name="Par1Rnd" onchange="selectinfo(this)" disabled="">
+													<option id="OptPar10" value="0">Random Ads</option>
+													<option id="OptPar11" value="1">Ads1</option>
+													<option id="OptPar12" value="2">Ads2</option>
+													<option id="OptPar13" value="3">Ads3</option>
+													<option id="OptPar14" value="4">Ads4</option>
+													<option id="OptPar15" value="5">Ads5</option>
+													<option id="OptPar16" value="6">Ads6</option>
+													<option id="OptPar17" value="7">Ads7</option>
+													<option id="OptPar18" value="8">Ads8</option>
+													<option id="OptPar19" value="9">Ads9</option>
+													<option id="OptPar110" value="10">Ads10</option>
+						</select> <b>After Paragraph</b>  <select id="Par1Nup" name="Par1Nup" disabled="">
+															<option id="Opt1Nu1" value="1">1</option>
+															<option id="Opt1Nu2" value="2">2</option>
+															<option id="Opt1Nu3" value="3">3</option>
+															<option id="Opt1Nu4" value="4">4</option>
+															<option id="Opt1Nu5" value="5">5</option>
+															<option id="Opt1Nu6" value="6">6</option>
+															<option id="Opt1Nu7" value="7">7</option>
+															<option id="Opt1Nu8" value="8">8</option>
+															<option id="Opt1Nu9" value="9">9</option>
+															<option id="Opt1Nu10" value="10">10</option>
+															<option id="Opt1Nu11" value="11">11</option>
+															<option id="Opt1Nu12" value="12">12</option>
+															<option id="Opt1Nu13" value="13">13</option>
+															<option id="Opt1Nu14" value="14">14</option>
+															<option id="Opt1Nu15" value="15">15</option>
+															<option id="Opt1Nu16" value="16">16</option>
+															<option id="Opt1Nu17" value="17">17</option>
+															<option id="Opt1Nu18" value="18">18</option>
+															<option id="Opt1Nu19" value="19">19</option>
+															<option id="Opt1Nu20" value="20">20</option>
+															<option id="Opt1Nu21" value="21">21</option>
+															<option id="Opt1Nu22" value="22">22</option>
+															<option id="Opt1Nu23" value="23">23</option>
+															<option id="Opt1Nu24" value="24">24</option>
+															<option id="Opt1Nu25" value="25">25</option>
+															<option id="Opt1Nu26" value="26">26</option>
+															<option id="Opt1Nu27" value="27">27</option>
+															<option id="Opt1Nu28" value="28">28</option>
+															<option id="Opt1Nu29" value="29">29</option>
+															<option id="Opt1Nu30" value="30">30</option>
+															<option id="Opt1Nu31" value="31">31</option>
+															<option id="Opt1Nu32" value="32">32</option>
+															<option id="Opt1Nu33" value="33">33</option>
+															<option id="Opt1Nu34" value="34">34</option>
+															<option id="Opt1Nu35" value="35">35</option>
+															<option id="Opt1Nu36" value="36">36</option>
+															<option id="Opt1Nu37" value="37">37</option>
+															<option id="Opt1Nu38" value="38">38</option>
+															<option id="Opt1Nu39" value="39">39</option>
+															<option id="Opt1Nu40" value="40">40</option>
+															<option id="Opt1Nu41" value="41">41</option>
+															<option id="Opt1Nu42" value="42">42</option>
+															<option id="Opt1Nu43" value="43">43</option>
+															<option id="Opt1Nu44" value="44">44</option>
+															<option id="Opt1Nu45" value="45">45</option>
+															<option id="Opt1Nu46" value="46">46</option>
+															<option id="Opt1Nu47" value="47">47</option>
+															<option id="Opt1Nu48" value="48">48</option>
+															<option id="Opt1Nu49" value="49">49</option>
+															<option id="Opt1Nu50" value="50">50</option>
+							</select> →
+							<input type="checkbox" id="Par1Con" name="Par1Con" value="false" disabled=""> to <b>End of Post</b> if fewer paragraphs are found.<br>
+
+					<input type="checkbox" id="Par2Ads" name="Par2Ads" value="false" onchange="checkinfo2(this,\'Par2Rnd\',\'Par2Nup\',\'Par2Con\')"> Assign 
+                                        <select id="Par2Rnd" name="Par2Rnd" onchange="selectinfo(this)" disabled="">
+													<option id="OptPar20" value="0">Random Ads</option>
+													<option id="OptPar21" value="1">Ads1</option>
+													<option id="OptPar22" value="2">Ads2</option>
+													<option id="OptPar23" value="3">Ads3</option>
+													<option id="OptPar24" value="4">Ads4</option>
+													<option id="OptPar25" value="5">Ads5</option>
+													<option id="OptPar26" value="6">Ads6</option>
+													<option id="OptPar27" value="7">Ads7</option>
+													<option id="OptPar28" value="8">Ads8</option>
+													<option id="OptPar29" value="9">Ads9</option>
+													<option id="OptPar210" value="10">Ads10</option>
+						</select> <b>After Paragraph</b>  <select id="Par2Nup" name="Par2Nup" disabled="">
+															<option id="Opt2Nu1" value="1">1</option>
+															<option id="Opt2Nu2" value="2">2</option>
+															<option id="Opt2Nu3" value="3">3</option>
+															<option id="Opt2Nu4" value="4">4</option>
+															<option id="Opt2Nu5" value="5">5</option>
+															<option id="Opt2Nu6" value="6">6</option>
+															<option id="Opt2Nu7" value="7">7</option>
+															<option id="Opt2Nu8" value="8">8</option>
+															<option id="Opt2Nu9" value="9">9</option>
+															<option id="Opt2Nu10" value="10">10</option>
+															<option id="Opt2Nu11" value="11">11</option>
+															<option id="Opt2Nu12" value="12">12</option>
+															<option id="Opt2Nu13" value="13">13</option>
+															<option id="Opt2Nu14" value="14">14</option>
+															<option id="Opt2Nu15" value="15">15</option>
+															<option id="Opt2Nu16" value="16">16</option>
+															<option id="Opt2Nu17" value="17">17</option>
+															<option id="Opt2Nu18" value="18">18</option>
+															<option id="Opt2Nu19" value="19">19</option>
+															<option id="Opt2Nu20" value="20">20</option>
+															<option id="Opt2Nu21" value="21">21</option>
+															<option id="Opt2Nu22" value="22">22</option>
+															<option id="Opt2Nu23" value="23">23</option>
+															<option id="Opt2Nu24" value="24">24</option>
+															<option id="Opt2Nu25" value="25">25</option>
+															<option id="Opt2Nu26" value="26">26</option>
+															<option id="Opt2Nu27" value="27">27</option>
+															<option id="Opt2Nu28" value="28">28</option>
+															<option id="Opt2Nu29" value="29">29</option>
+															<option id="Opt2Nu30" value="30">30</option>
+															<option id="Opt2Nu31" value="31">31</option>
+															<option id="Opt2Nu32" value="32">32</option>
+															<option id="Opt2Nu33" value="33">33</option>
+															<option id="Opt2Nu34" value="34">34</option>
+															<option id="Opt2Nu35" value="35">35</option>
+															<option id="Opt2Nu36" value="36">36</option>
+															<option id="Opt2Nu37" value="37">37</option>
+															<option id="Opt2Nu38" value="38">38</option>
+															<option id="Opt2Nu39" value="39">39</option>
+															<option id="Opt2Nu40" value="40">40</option>
+															<option id="Opt2Nu41" value="41">41</option>
+															<option id="Opt2Nu42" value="42">42</option>
+															<option id="Opt2Nu43" value="43">43</option>
+															<option id="Opt2Nu44" value="44">44</option>
+															<option id="Opt2Nu45" value="45">45</option>
+															<option id="Opt2Nu46" value="46">46</option>
+															<option id="Opt2Nu47" value="47">47</option>
+															<option id="Opt2Nu48" value="48">48</option>
+															<option id="Opt2Nu49" value="49">49</option>
+															<option id="Opt2Nu50" value="50">50</option>
+							</select> →
+							<input type="checkbox" id="Par2Con" name="Par2Con" value="false" disabled=""> to <b>End of Post</b> if fewer paragraphs are found.<br>
+
+					<input type="checkbox" id="Par3Ads" name="Par3Ads" value="false" onchange="checkinfo2(this,\'Par3Rnd\',\'Par3Nup\',\'Par3Con\')"> Assign <select id="Par3Rnd" name="Par3Rnd" onchange="selectinfo(this)" disabled="">
+													<option id="OptPar30" value="0">Random Ads</option>
+													<option id="OptPar31" value="1">Ads1</option>
+													<option id="OptPar32" value="2">Ads2</option>
+													<option id="OptPar33" value="3">Ads3</option>
+													<option id="OptPar34" value="4">Ads4</option>
+													<option id="OptPar35" value="5">Ads5</option>
+													<option id="OptPar36" value="6">Ads6</option>
+													<option id="OptPar37" value="7">Ads7</option>
+													<option id="OptPar38" value="8">Ads8</option>
+													<option id="OptPar39" value="9">Ads9</option>
+													<option id="OptPar310" value="10">Ads10</option>
+						</select> <b>After Paragraph</b>  <select id="Par3Nup" name="Par3Nup" disabled="">
+															<option id="Opt3Nu1" value="1">1</option>
+															<option id="Opt3Nu2" value="2">2</option>
+															<option id="Opt3Nu3" value="3">3</option>
+															<option id="Opt3Nu4" value="4">4</option>
+															<option id="Opt3Nu5" value="5">5</option>
+															<option id="Opt3Nu6" value="6">6</option>
+															<option id="Opt3Nu7" value="7">7</option>
+															<option id="Opt3Nu8" value="8">8</option>
+															<option id="Opt3Nu9" value="9">9</option>
+															<option id="Opt3Nu10" value="10">10</option>
+															<option id="Opt3Nu11" value="11">11</option>
+															<option id="Opt3Nu12" value="12">12</option>
+															<option id="Opt3Nu13" value="13">13</option>
+															<option id="Opt3Nu14" value="14">14</option>
+															<option id="Opt3Nu15" value="15">15</option>
+															<option id="Opt3Nu16" value="16">16</option>
+															<option id="Opt3Nu17" value="17">17</option>
+															<option id="Opt3Nu18" value="18">18</option>
+															<option id="Opt3Nu19" value="19">19</option>
+															<option id="Opt3Nu20" value="20">20</option>
+															<option id="Opt3Nu21" value="21">21</option>
+															<option id="Opt3Nu22" value="22">22</option>
+															<option id="Opt3Nu23" value="23">23</option>
+															<option id="Opt3Nu24" value="24">24</option>
+															<option id="Opt3Nu25" value="25">25</option>
+															<option id="Opt3Nu26" value="26">26</option>
+															<option id="Opt3Nu27" value="27">27</option>
+															<option id="Opt3Nu28" value="28">28</option>
+															<option id="Opt3Nu29" value="29">29</option>
+															<option id="Opt3Nu30" value="30">30</option>
+															<option id="Opt3Nu31" value="31">31</option>
+															<option id="Opt3Nu32" value="32">32</option>
+															<option id="Opt3Nu33" value="33">33</option>
+															<option id="Opt3Nu34" value="34">34</option>
+															<option id="Opt3Nu35" value="35">35</option>
+															<option id="Opt3Nu36" value="36">36</option>
+															<option id="Opt3Nu37" value="37">37</option>
+															<option id="Opt3Nu38" value="38">38</option>
+															<option id="Opt3Nu39" value="39">39</option>
+															<option id="Opt3Nu40" value="40">40</option>
+															<option id="Opt3Nu41" value="41">41</option>
+															<option id="Opt3Nu42" value="42">42</option>
+															<option id="Opt3Nu43" value="43">43</option>
+															<option id="Opt3Nu44" value="44">44</option>
+															<option id="Opt3Nu45" value="45">45</option>
+															<option id="Opt3Nu46" value="46">46</option>
+															<option id="Opt3Nu47" value="47">47</option>
+															<option id="Opt3Nu48" value="48">48</option>
+															<option id="Opt3Nu49" value="49">49</option>
+															<option id="Opt3Nu50" value="50">50</option>
+							</select> →
+							<input type="checkbox" id="Par3Con" name="Par3Con" value="false" disabled=""> to <b>End of Post</b> if fewer paragraphs are found.<br>
+								<input type="checkbox" id="Img1Ads" name="Img1Ads" value="false" onchange="checkinfo2(this,\'Img1Rnd\',\'Img1Nup\',\'Img1Con\')"> Assign <select id="Img1Rnd" name="Img1Rnd" onchange="selectinfo(this)" disabled="">
+											<option id="OptImg10" value="0">Random Ads</option>
+											<option id="OptImg11" value="1">Ads1</option>
+											<option id="OptImg12" value="2">Ads2</option>
+											<option id="OptImg13" value="3">Ads3</option>
+											<option id="OptImg14" value="4">Ads4</option>
+											<option id="OptImg15" value="5">Ads5</option>
+											<option id="OptImg16" value="6">Ads6</option>
+											<option id="OptImg17" value="7">Ads7</option>
+											<option id="OptImg18" value="8">Ads8</option>
+											<option id="OptImg19" value="9">Ads9</option>
+											<option id="OptImg110" value="10">Ads10</option>
+					</select> <b>After Image</b>  <select id="Img1Nup" name="Img1Nup" disabled="">
+													<option id="Opt1Im1" value="1">1</option>
+													<option id="Opt1Im2" value="2">2</option>
+													<option id="Opt1Im3" value="3">3</option>
+													<option id="Opt1Im4" value="4">4</option>
+													<option id="Opt1Im5" value="5">5</option>
+													<option id="Opt1Im6" value="6">6</option>
+													<option id="Opt1Im7" value="7">7</option>
+													<option id="Opt1Im8" value="8">8</option>
+													<option id="Opt1Im9" value="9">9</option>
+													<option id="Opt1Im10" value="10">10</option>
+													<option id="Opt1Im11" value="11">11</option>
+													<option id="Opt1Im12" value="12">12</option>
+													<option id="Opt1Im13" value="13">13</option>
+													<option id="Opt1Im14" value="14">14</option>
+													<option id="Opt1Im15" value="15">15</option>
+													<option id="Opt1Im16" value="16">16</option>
+													<option id="Opt1Im17" value="17">17</option>
+													<option id="Opt1Im18" value="18">18</option>
+													<option id="Opt1Im19" value="19">19</option>
+													<option id="Opt1Im20" value="20">20</option>
+													<option id="Opt1Im21" value="21">21</option>
+													<option id="Opt1Im22" value="22">22</option>
+													<option id="Opt1Im23" value="23">23</option>
+													<option id="Opt1Im24" value="24">24</option>
+													<option id="Opt1Im25" value="25">25</option>
+													<option id="Opt1Im26" value="26">26</option>
+													<option id="Opt1Im27" value="27">27</option>
+													<option id="Opt1Im28" value="28">28</option>
+													<option id="Opt1Im29" value="29">29</option>
+													<option id="Opt1Im30" value="30">30</option>
+													<option id="Opt1Im31" value="31">31</option>
+													<option id="Opt1Im32" value="32">32</option>
+													<option id="Opt1Im33" value="33">33</option>
+													<option id="Opt1Im34" value="34">34</option>
+													<option id="Opt1Im35" value="35">35</option>
+													<option id="Opt1Im36" value="36">36</option>
+													<option id="Opt1Im37" value="37">37</option>
+													<option id="Opt1Im38" value="38">38</option>
+													<option id="Opt1Im39" value="39">39</option>
+													<option id="Opt1Im40" value="40">40</option>
+													<option id="Opt1Im41" value="41">41</option>
+													<option id="Opt1Im42" value="42">42</option>
+													<option id="Opt1Im43" value="43">43</option>
+													<option id="Opt1Im44" value="44">44</option>
+													<option id="Opt1Im45" value="45">45</option>
+													<option id="Opt1Im46" value="46">46</option>
+													<option id="Opt1Im47" value="47">47</option>
+													<option id="Opt1Im48" value="48">48</option>
+													<option id="Opt1Im49" value="49">49</option>
+													<option id="Opt1Im50" value="50">50</option>
+						</select> →
+						<input type="checkbox" id="Img1Con" name="Img1Con" value="false" disabled=""> after <b>Image\'s outer</b><b><span style="font-family:Courier New,Courier,Fixed;"> &lt;div&gt; wp-caption</span></b> if any.<span style="color:#a00;"> <b>(New)</b></span><br>
+
+		</td>';
+    echo $html;
+}
+
+/**
+ * Ad Position Callback
+ *
+ * Renders ad position table
+ *
+ * @since 0.0.9
+ * @param array $args Arguments passed by the setting
+ * @global $edd_options Array of all the QUADS Options
+ * @return void
+ */
+function quads_ad_position_callback_($args) {
+	global $quads_options;
+	$rates = edd_get_tax_rates();
+	ob_start(); ?>
+	<p><?php echo $args['desc']; ?></p>
+	<table id="edd_quads_settings" class="wp-list-table widefat fixed posts">
+		<thead>
+			<tr>
+				<th scope="col" class="edd_tax_country"><?php _e( 'Country', 'easy-digital-downloads' ); ?></th>
+				<th scope="col" class="edd_tax_state"><?php _e( 'State / Province', 'easy-digital-downloads' ); ?></th>
+				<th scope="col" class="edd_tax_global" title="<?php _e( 'Apply rate to whole country, regardless of state / province', 'easy-digital-downloads' ); ?>"><?php _e( 'Country Wide', 'easy-digital-downloads' ); ?></th>
+				<th scope="col" class="edd_tax_rate"><?php _e( 'Rate', 'easy-digital-downloads' ); ?></th>
+				<th scope="col"><?php _e( 'Remove', 'easy-digital-downloads' ); ?></th>
+			</tr>
+		</thead>
+		<?php if( ! empty( $rates ) ) : ?>
+			<?php foreach( $rates as $key => $rate ) : ?>
+			<tr>
+				<td class="edd_tax_country">
+					<?php
+					echo EDD()->html->select( array(
+						'options'          => edd_get_country_list(),
+						'name'             => 'quads_settings[' . $key . '][country]',
+						'selected'         => $rate['country'],
+						'show_option_all'  => false,
+						'show_option_none' => false,
+						'class'            => 'edd-select edd-tax-country',
+						'chosen'           => false,
+						'placeholder'      => __( 'Choose a country', 'easy-digital-downloads' )
+					) );
+					?>
+				</td>
+				<td class="edd_tax_state">
+					<?php
+					$states = edd_get_shop_states( $rate['country'] );
+					if( ! empty( $states ) ) {
+						echo EDD()->html->select( array(
+							'options'          => $states,
+							'name'             => 'quads_settings[' . $key . '][state]',
+							'selected'         => $rate['state'],
+							'show_option_all'  => false,
+							'show_option_none' => false,
+							'chosen'           => false,
+							'placeholder'      => __( 'Choose a state', 'easy-digital-downloads' ),
+                                                        'multiple'         => false
+						) );
+					} else {
+						echo EDD()->html->text( array(
+							'name'  => 'quads_settings[' . $key . '][state]', $rate['state'],
+							'value' => ! empty( $rate['state'] ) ? $rate['state'] : '',
+						) );
+					}
+					?>
+				</td>
+				<td class="edd_tax_global">
+					<input type="checkbox" name="quads_settings[<?php echo $key; ?>][global]" id="quads_settings[<?php echo $key; ?>][global]" value="1"<?php checked( true, ! empty( $rate['global'] ) ); ?>/>
+					<label for="quads_settings[<?php echo $key; ?>][global]"><?php _e( 'Apply to whole country', 'easy-digital-downloads' ); ?></label>
+				</td>
+				<td class="edd_tax_rate"><input type="number" class="small-text" step="0.0001" min="0.0" max="99" name="quads_settings[<?php echo $key; ?>][rate]" value="<?php echo $rate['rate']; ?>"/></td>
+				<td><span class="edd_remove_tax_rate button-secondary"><?php _e( 'Remove Rate', 'easy-digital-downloads' ); ?></span></td>
+			</tr>
+			<?php endforeach; ?>
+		<?php else : ?>
+			<tr>
+				<td class="edd_tax_country">
+					<?php
+					echo EDD()->html->select( array(
+						'options'          => edd_get_country_list(),
+						'name'             => 'quads_settings[0][country]',
+						'show_option_all'  => false,
+						'show_option_none' => false,
+						'class'            => 'edd-select edd-tax-country',
+						'chosen'           => false,
+						'placeholder'      => __( 'Choose a country', 'easy-digital-downloads' )
+					) ); ?>
+				</td>
+				<td class="edd_tax_state">
+					<?php echo EDD()->html->text( array(
+						'name' => 'quads_settings[0][state]'
+					) ); ?>
+				</td>
+				<td class="edd_tax_global">
+					<input type="checkbox" name="quads_settings[0][global]" value="1"/>
+					<label for="tax_rates[0][global]"><?php _e( 'Apply to whole country', 'easy-digital-downloads' ); ?></label>
+				</td>
+				<td class="edd_tax_rate"><input type="number" class="small-text" step="0.0001" min="0.0" name="quads_settings[0][rate]" value=""/></td>
+				<td><span class="edd_remove_tax_rate button-secondary"><?php _e( 'Remove Rate', 'easy-digital-downloads' ); ?></span></td>
+			</tr>
+		<?php endif; ?>
+	</table>
+	<p>
+		<span class="button-secondary" id="edd_add_tax_rate"><?php _e( 'Add Tax Rate', 'easy-digital-downloads' ); ?></span>
+	</p>
+	<?php
+	echo ob_get_clean();
 }

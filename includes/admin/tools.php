@@ -6,7 +6,7 @@
  *
  * @package     QUADS
  * @subpackage  Admin/Tools
- * @copyright   Copyright (c) 2014, Pippin Williamson, René Hermenau
+ * @copyright   Copyright (c) 2015, Pippin Williamson, René Hermenau
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  */
 
