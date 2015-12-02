@@ -24,10 +24,10 @@ function quads_add_ons_page() {
 	ob_start(); ?>
 	<div class="wrap" id="quads-add-ons">
 		<h2>
-			<?php _e( 'Add Ons for Quick AdSense Reloaded', 'quads' ); ?>
-			<!--&nbsp;&mdash;&nbsp;<a href="https://www.quadsshare.net" class="button-primary" title="<?php _e( 'Visit Website', 'quads' ); ?>" target="_blank"><?php _e( 'See Details', 'quads' ); ?></a>-->
+			<?php _e( 'Add Ons for Quick AdSense Reloaded', 'quick-adsense-reloaded' ); ?>
+			<!--&nbsp;&mdash;&nbsp;<a href="https://www.quadsshare.net" class="button-primary" title="<?php _e( 'Visit Website', 'quick-adsense-reloaded' ); ?>" target="_blank"><?php _e( 'See Details', 'quick-adsense-reloaded' ); ?></a>-->
 		</h2>
-		<p><?php _e( 'These add-ons extend the functionality of Quick AdSense Reloaded.', 'quads' ); ?></p>
+		<p><?php _e( 'These add-ons extend the functionality of Quick AdSense Reloaded.', 'quick-adsense-reloaded' ); ?></p>
 		<?php //echo quads_add_ons_get_feed(); ?>
 	</div>
 	<?php
@@ -51,7 +51,7 @@ function quads_add_ons_get_feed() {
 				set_transient( 'quadsshare_add_ons_feed', $cache, 3600 );
 			}
 		} else {
-			$cache = '<div class="error"><p>' . __( 'There was an error retrieving the Quick AdSense Reloaded addon list from the server. Please try again later.', 'quads' ) . '
+			$cache = '<div class="error"><p>' . __( 'There was an error retrieving the Quick AdSense Reloaded addon list from the server. Please try again later.', 'quick-adsense-reloaded' ) . '
                                    <br>Visit instead the Quick AdSense Reloaded Addon Website <a href="https://www.quadsshare.net" class="button-primary" title="Quick AdSense Reloaded Add ons" target="_blank"> Get Add-Ons  </a></div>';
 		}
 	}

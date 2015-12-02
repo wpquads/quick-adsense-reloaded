@@ -5,8 +5,8 @@
  * Description: Insert Google AdSense or any Ads code into your website. A fork of Quick AdSense by Todd Garland
  * Author: René Hermenau, ReneHermi, WP-Staging
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
- * Version: 0.0.9
- * Text Domain: quads
+ * Version: 0.9.0
+ * Text Domain: quick-adsense-reloaded
  * Domain Path: languages
  * Credits: Quick AdSense Reloaded is a fork of Quick AdSense by Todd Garland https://profiles.wordpress.org/toddynho/
  *
@@ -26,7 +26,7 @@
  * @package QUADS
  * @category Core
  * @author René Hermenau
- * @version 0.0.9
+ * @version 0.9.0
  */
 // Exit if accessed directly
 if (!defined('ABSPATH'))
@@ -87,7 +87,8 @@ if (!class_exists('QuickAdsenseReloaded')) :
                 self::$instance->setup_constants();
                 self::$instance->includes();
                 self::$instance->load_textdomain();
-                //self::$instance->logger = new quadssbLogger("quadslog_" . date("Y-m-d") . ".log", quadssbLogger::INFO);
+                self::$instance->logger = new quadsLogger("quick_adsense_log_" . date("Y-m-d") . ".log", quadsLogger::INFO);
+                self::$instance->html = new QUADS_HTML_Elements();
             }
             return self::$instance;
         }
@@ -163,6 +164,7 @@ if (!class_exists('QuickAdsenseReloaded')) :
             require_once QUADS_PLUGIN_DIR . 'includes/debug/classes/QuadsDebug.interface.php';
             require_once QUADS_PLUGIN_DIR . 'includes/debug/classes/QuadsDebug.class.php';
             require_once QUADS_PLUGIN_DIR . 'includes/logger.php';
+            require_once QUADS_PLUGIN_DIR . 'includes/class-quads-html-elements.php';
 
             if (is_admin() || ( defined('WP_CLI') && WP_CLI )) {
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/add-ons.php';
@@ -176,6 +178,7 @@ if (!class_exists('QuickAdsenseReloaded')) :
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/settings/contextual-help.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/install.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/tools.php';
+
             }
         }
 
@@ -188,12 +191,12 @@ if (!class_exists('QuickAdsenseReloaded')) :
          */
         public function load_textdomain() {
             // Set filter for plugin's languages directory
-            $quads_lang_dir = dirname(plugin_basename(quads_PLUGIN_FILE)) . '/languages/';
+            $quads_lang_dir = dirname(plugin_basename(QUADS_PLUGIN_FILE)) . '/languages/';
             $quads_lang_dir = apply_filters('quads_languages_directory', $quads_lang_dir);
 
             // Traditional WordPress plugin locale filter
-            $locale = apply_filters('plugin_locale', get_locale(), 'quads');
-            $mofile = sprintf('%1$s-%2$s.mo', 'quads', $locale);
+            $locale = apply_filters('plugin_locale', get_locale(), 'quick-adsense-reloaded');
+            $mofile = sprintf('%1$s-%2$s.mo', 'quick-adsense-reloaded', $locale);
 
             // Setup paths to current locale file
             $mofile_local = $quads_lang_dir . $mofile;
@@ -201,13 +204,13 @@ if (!class_exists('QuickAdsenseReloaded')) :
             //echo $mofile_local;
             if (file_exists($mofile_global)) {
                 // Look in global /wp-content/languages/quads folder
-                load_textdomain('quads', $mofile_global);
+                load_textdomain('quick-adsense-reloaded', $mofile_global);
             } elseif (file_exists($mofile_local)) {
                 // Look in local /wp-content/plugins/quick-adsense-reloaded/languages/ folder
-                load_textdomain('quads', $mofile_local);
+                load_textdomain('quick-adsense-reloaded', $mofile_local);
             } else {
                 // Load the default language files
-                load_plugin_textdomain('quads', false, $quads_lang_dir);
+                load_plugin_textdomain('quick-adsense-reloaded', false, $quads_lang_dir);
             }
         }
 

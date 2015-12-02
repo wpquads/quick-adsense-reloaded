@@ -64,9 +64,9 @@ class quads_Welcome {
                 
                 //@since 2.0.3
 		if( ! $upgrade ) { // First time install
-			wp_safe_redirect( admin_url( 'options-general.php?page=quads-settings&tab=networks' ) ); exit;
+			wp_safe_redirect( admin_url( 'options-general.php?page=quads-settings' ) ); exit;
 		} else { // Update
-			wp_safe_redirect( admin_url( 'options-general.php?page=quads-settings&tab=networks' ) ); exit;
+			wp_safe_redirect( admin_url( 'options-general.php?page=quads-settings' ) ); exit;
 		}
 	}
 }

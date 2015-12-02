@@ -6,7 +6,7 @@
  *
  * @package     QUADS
  * @subpackage  Admin/Tools
- * @copyright   Copyright (c) 2014, Pippin Williamson, René Hermenau
+ * @copyright   Copyright (c) 2015, Pippin Williamson, René Hermenau
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  */
 
@@ -19,8 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Shows the tools panel which contains QUADS-specific tools including the
  * built-in import/export system.
  *
- * @since       2.1.6
- * @author      Daniel J Griffiths
+ * @since       0.9.0
+ * @author      Daniel J Griffiths, René Hermenau
  * @return      void
  */
 function quads_tools_page() {
@@ -65,8 +65,8 @@ function quads_tools_page() {
 function quads_get_tools_tabs() {
 
 	$tabs                  = array();
-	$tabs['import_export'] = __( 'Import/Export', 'quads' );
-        $tabs['system_info'] = __( 'System Info', 'quads' );
+	$tabs['import_export'] = __( 'Import/Export', 'quick-adsense-reloaded' );
+        $tabs['system_info'] = __( 'System Info', 'quick-adsense-reloaded' );
 
 	return apply_filters( 'quads_tools_tabs', $tabs );
 }
@@ -87,33 +87,33 @@ function quads_tools_import_export_display() {
     
 	do_action( 'quads_tools_import_export_before' );
 ?>
-	<div class="postbox">
-		<h3><span><?php _e( 'Export Settings', 'quads' ); ?></span></h3>
+	<div class="quads-postbox">
+		<h3><span><?php _e( 'Export Settings', 'quick-adsense-reloaded' ); ?></span></h3>
 		<div class="inside">
-			<p><?php _e( 'Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quads' ); ?></p>
+			<p><?php _e( 'Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded' ); ?></p>
 			
-			<form method="post" action="<?php echo admin_url( 'admin.php?page=quads-tools&tab=import_export' ); ?>">
+			<form method="post" action="<?php echo admin_url( 'admin.php?page=quads-settings&tab=imexport' ); ?>">
 				<p><input type="hidden" name="quads-action" value="export_settings" /></p>
 				<p>
 					<?php wp_nonce_field( 'quads_export_nonce', 'quads_export_nonce' ); ?>
-					<?php submit_button( __( 'Export', 'quads' ), 'primary', 'submit', false ); ?>
+					<?php submit_button( __( 'Export', 'quick-adsense-reloaded' ), 'primary', 'submit', false ); ?>
 				</p>
 			</form>
 		</div><!-- .inside -->
 	</div><!-- .postbox -->
 
-	<div class="postbox">
-		<h3><span><?php _e( 'Import Settings', 'quads' ); ?></span></h3>
+	<div class="quads-postbox">
+		<h3><span><?php _e( 'Import Settings', 'quick-adsense-reloaded' ); ?></span></h3>
 		<div class="inside">
-			<p><?php _e( 'Import the Quick AdSense Reloaded settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'quads' ); ?></p>
-			<form method="post" enctype="multipart/form-data" action="<?php echo admin_url( 'admin.php?page=quads-tools&tab=import_export' ); ?>">
+			<p><?php _e( 'Import the Quick AdSense Reloaded settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'quick-adsense-reloaded' ); ?></p>
+			<form method="post" enctype="multipart/form-data" action="<?php echo admin_url( 'admin.php?page=quads-settings&tab=imexport' ); ?>">
 				<p>
 					<input type="file" name="import_file"/>
 				</p>
 				<p>
 					<input type="hidden" name="quads-action" value="import_settings" />
 					<?php wp_nonce_field( 'quads_import_nonce', 'quads_import_nonce' ); ?>
-					<?php submit_button( __( 'Import', 'quads' ), 'secondary', 'submit', false ); ?>
+					<?php submit_button( __( 'Import', 'quick-adsense-reloaded' ), 'secondary', 'submit', false ); ?>
 				</p>
 			</form>
 		</div><!-- .inside -->
@@ -215,13 +215,13 @@ function quads_tools_import_export_process_import() {
 		return;
 
     if( quads_get_file_extension( $_FILES['import_file']['name'] ) != 'json' ) {
-        wp_die( __( 'Please upload a valid .json file', 'quads' ) );
+        wp_die( __( 'Please upload a valid .json file', 'quick-adsense-reloaded' ) );
     }
 
 	$import_file = $_FILES['import_file']['tmp_name'];
 
 	if( empty( $import_file ) ) {
-		wp_die( __( 'Please upload a file to import', 'quads' ) );
+		wp_die( __( 'Please upload a file to import', 'quick-adsense-reloaded' ) );
 	}
 
 	// Retrieve the settings from the file and convert the json object to an array
@@ -229,7 +229,7 @@ function quads_tools_import_export_process_import() {
 
 	update_option( 'quads_settings', $settings );
 
-	wp_safe_redirect( admin_url( 'admin.php?page=quads-tools&quads-message=settings-imported' ) ); exit;
+	wp_safe_redirect( admin_url( 'admin.php?page=quads-settings&quads-message=settings-imported&tab=imexport' ) ); exit;
 
 }
 add_action( 'quads_import_settings', 'quads_tools_import_export_process_import' );
@@ -249,13 +249,13 @@ function quads_tools_sysinfo_display() {
 	}
         
 ?>
-	<form action="<?php echo esc_url( admin_url( 'admin.php?page=quads-tools&tab=system_info' ) ); ?>" method="post" dir="ltr">
+	<!--<form action="<?php echo esc_url( admin_url( 'admin.php?page=quads-settings&tab=system_info' ) ); ?>" method="post" dir="ltr">//-->
 		<textarea readonly="readonly" onclick="this.focus(); this.select()" id="system-info-textarea" name="quads-sysinfo" title="To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac)."><?php echo quads_tools_sysinfo_get(); ?></textarea>
 		<p class="submit">
-			<input type="hidden" name="quads-action" value="download_sysinfo" />
-			<?php submit_button( 'Download System Info File', 'primary', 'quads-download-sysinfo', false ); ?>
+			<!--<input type="hidden" name="quads-action" value="download_sysinfo" />-->
+			<?php //submit_button( 'Download System Info File', 'primary', 'quads-download-sysinfo', false ); ?>
 		</p>
-	</form>
+	<!--</form>//-->
 <?php
 }
 add_action( 'quads_tools_tab_system_info', 'quads_tools_sysinfo_display' );
@@ -274,7 +274,7 @@ function quads_tools_sysinfo_get() {
 	global $wpdb, $quads_options;
 
 	if( !class_exists( 'Browser' ) )
-		require_once quads_PLUGIN_DIR . 'includes/libraries/browser.php';
+		require_once QUADS_PLUGIN_DIR . 'includes/libraries/browser.php';
 
 	$browser = new Browser();
 
@@ -328,7 +328,7 @@ function quads_tools_sysinfo_get() {
 	$params = array(
 		'sslverify'     => false,
 		'timeout'       => 60,
-		'user-agent'    => 'QUADS/' . quads_VERSION,
+		'user-agent'    => 'QUADS/' . QUADS_VERSION,
 		'body'          => $request
 	);
 
@@ -350,7 +350,7 @@ function quads_tools_sysinfo_get() {
 
 	// QUADS configuration
 	$return .= "\n" . '-- QUADS Configuration' . "\n\n";
-	$return .= 'Version:                  ' . quads_VERSION . "\n";
+	$return .= 'Version:                  ' . QUADS_VERSION . "\n";
 	$return .= 'Upgraded From:            ' . get_option( 'quads_version_upgraded_from', 'None' ) . "\n";
 
 	$return  = apply_filters( 'quads_sysinfo_after_quads_config', $return );
@@ -459,3 +459,180 @@ function quads_tools_sysinfo_download() {
 	wp_die();
 }
 add_action( 'quads_download_sysinfo', 'quads_tools_sysinfo_download' );
+
+/*
+ * Import settings from Quick AdSense reloaded  v. 1.9.2
+ */
+
+function quads_import_quick_adsense_settings(){
+    // Check first if Quick AdSense is installed and version matches
+    if (!quads_check_quick_adsense_version())
+        return;
+   
+    
+        if( ! current_user_can( 'update_plugins' ) ) {
+		return;
+	}
+    
+	do_action( 'quads_import_quick_adsense_settings_before' );
+?>
+	<div class="quads-postbox" id="quads-import-settings">
+		<h3><span><?php _e( 'Import from Quick AdSense', 'quick-adsense-reloaded' ); ?></span></h3>
+		<div class="inside">
+			<p><?php _e( 'Import the settings for Quick AdSense Reloaded from Quick AdSense v. 1.9.2.', 'quick-adsense-reloaded' ); ?></p>
+			
+			<!--
+                        <form id="quads_quick_adsense_input" method="post" action="<?php echo admin_url( 'admin.php?page=quads-settings&tab=imexport' ); ?>" onsubmit="return confirm('Importing the settings from Quick AdSense will overwrite all your current settings. Are you sure?');">
+                        -->
+				<p><input type="hidden" name="quads-action" value="import_quick_adsense" /></p>
+				<p>
+					<?php wp_nonce_field( 'quads_quick_adsense_nonce', 'quads_quick_adsense_nonce' ); ?>
+					<?php submit_button( __( 'Start Import process', 'quick-adsense-reloaded' ), 'primary quads-import-settings', 'submit', false ); ?>
+				</p>
+			<!--</form>-->
+                        <div id="quads-error-details"></div>
+		</div><!-- .inside -->
+	</div><!-- .postbox -->
+<?php
+	do_action( 'quads_import_quick_adsense_settings_after' );
+}
+add_action( 'quads_import_quick_adsense_settings', 'quads_import_quick_adsense_settings' );
+
+/**
+ * Ajax process a settings import from Quick AdSense
+ *
+ * @since       0.9.0
+ * @return      string json
+ */
+function quads_import_quick_adsense_process() {
+
+        check_ajax_referer( 'quads_ajax_nonce', 'nonce' );
+
+	if( ! current_user_can( 'manage_options' ) )
+		return;
+
+	ignore_user_abort( true );
+
+	if ( ! quads_is_func_disabled( 'set_time_limit' ) && ! ini_get( 'safe_mode' ) )
+		set_time_limit( 0 );
+        
+        
+        $quads_settings          = get_quick_adsense_setting();
+        $quads_reloaded_settings = get_option('quads_settings');
+        
+
+        if (update_option('quads_settings', $quads_settings ) ){
+            $message = __('Most of the settings have been sucessfully imported from Quick AdSense <br> but due to some inconsistencies there are still some options which needs your attention and manual adjusting.','quick-adsense-reloaded');
+            wp_send_json ( $message );
+        }
+
+        $message = __('Most of settings have been already imported successfully! (If not we probably have an unknown issue here)', 'quick-adsense-reloaded');
+        //$message = get_quick_adsense_setting();
+        wp_send_json ( $message );
+
+}
+//add_action( 'quads_import_quick_adsense', 'quads_import_quick_adsense_process' );
+add_action('wp_ajax_quads_import_quick_adsense', 'quads_import_quick_adsense_process');
+
+/**
+ * Check if Quick AdSense is installed and if version is 1.9.2
+ * 
+ * @return boolean true when it is installed and version matches
+ */
+function quads_check_quick_adsense_version(){
+    $plugin_file = 'quick-adsense/quick-adsense.php';
+    $plugin_abs_path = get_home_path() . '/wp-content/plugins/quick-adsense/quick-adsense.php';
+    $checkVersion = '1.9.2';
+    
+     if ( is_plugin_active( $plugin_file ) || is_plugin_inactive ($plugin_file) ) {
+        $plugin_data = get_plugin_data( $plugin_abs_path, $markup = true, $translate = true );
+        
+        if ($plugin_data['Version'] === $checkVersion)
+            return true;   
+    } 
+}
+
+/**
+ * Get all Quick AdSense settings and convert the to a Quick AdSense reloaded compatible array
+ * 
+ * @since 0.9.0
+ * @return array
+ */
+function get_quick_adsense_setting(){
+    $amountAds = 10;
+    $amountWidgets = 10;
+    $settings = array();
+    
+    
+    for ($i=1;$i<=$amountAds;$i++) { 
+        if( get_option('AdsCode'.$i) != '' ){
+            $settings['ad' . $i]['code'] = get_option('AdsCode'.$i);
+            $settings['ad' . $i]['align'] = get_option('AdsAlign'.$i);
+            $settings['ad' . $i]['margin'] = get_option('AdsMargin'.$i);
+        }
+    }
+    for ($i=1;$i<=$amountWidgets;$i++) { 
+        if( get_option('WidCode'.$i) != '' ){
+            $settings['ad' . $i . '_widget'] = get_option('WidCode'.$i);
+        }
+    }
+    $settings['maxads'] = get_option('AdsDisp');
+    $settings['pos1']['BegnAds'] = get_option('BegnAds');
+    $settings['pos1']['BegnRnd'] = get_option('BegnRnd');
+    $settings['pos2']['MiddAds'] = get_option('MiddAds');
+    $settings['pos2']['MiddRnd'] = get_option('MiddRnd');	
+    $settings['pos3']['EndiAds'] = get_option('EndiAds');
+    $settings['pos3']['EndiRnd'] = get_option('EndiRnd');	
+    $settings['pos4']['MoreAds'] = get_option('MoreAds');
+    $settings['pos4']['MoreRnd'] = get_option('MoreRnd');	
+    $settings['pos5']['LapaAds'] = get_option('LapaAds');
+    $settings['pos5']['LapaRnd'] = get_option('LapaRnd');		
+    $rc = 3;
+    $value = 5;
+    for ($j=1;$j<=$rc;$j++) {
+            $key = $value + $j;
+            $settings['pos' . $key]['Par' . $j . 'Ads'] = get_option('Par'.$j.'Ads');	
+            $settings['pos' . $key]['Par' . $j . 'Rnd'] = get_option('Par'.$j.'Rnd');		
+            $settings['pos' . $key]['Par' . $j . 'Nup'] = get_option('Par'.$j.'Nup');			
+            $settings['pos' . $key]['Par' . $j . 'Con'] = get_option('Par'.$j.'Con');			
+    }	
+    $settings['pos9']['Img1Ads'] = get_option('Img1Ads');	
+    $settings['pos9']['Img1Rnd'] = get_option('Img1Rnd');		
+    $settings['pos9']['Img1Nup'] = get_option('Img1Nup');		
+    $settings['pos9']['Img1Con'] = get_option('Img1Con');			
+    $settings['visibility']['AppPost'] = get_option('AppPost');
+    $settings['visibility']['AppPage'] = get_option('AppPage');
+    $settings['visibility']['AppHome'] = get_option('AppHome');	
+    $settings['visibility']['AppCate'] = get_option('AppCate');
+    $settings['visibility']['AppArch'] = get_option('AppArch');
+    $settings['visibility']['AppTags'] = get_option('AppTags');
+    $settings['visibility']['AppMaxA'] = get_option('AppMaxA');	
+    $settings['visibility']['AppSide'] = get_option('AppSide');	
+    $settings['visibility']['AppLogg'] = get_option('AppLogg');		
+    $settings['quicktags']['QckTags'] = get_option('QckTags');
+    $settings['quicktags']['QckRnds'] = get_option('QckRnds');
+    $settings['quicktags']['QckOffs'] = get_option('QckOffs');
+    $settings['quicktags']['QckOfPs'] = get_option('QckOfPs');
+    
+    $settings1 = quads_str_replace_json("true", "1", $settings);
+    return $settings1;
+}
+
+/**
+ * A faster way to replace the strings in multidimensional array is to json_encode() it, 
+ * do the str_replace() and then json_decode() it
+ * 
+ * @param string $search
+ * @param string $replace
+ * @param array $subject
+ * @return array
+ */
+function quads_str_replace_json($search, $replace, $subject){
+     $stdClass = json_decode(str_replace($search, $replace, json_encode($subject)));
+     
+     return quads_object_to_array($stdClass);
+}
+
+
+
+

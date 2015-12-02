@@ -2,7 +2,7 @@
 
 Author URL: https://profiles.wordpress.org/renehermi/
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
-Contributors: ReneHermi
+Contributors: René Hermenau, ReneHermi, WP-Staging, toddynho
 Donate link: 
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -11,22 +11,30 @@ Requires at least: 3.6+
 Tested up to: 4.3.1
 Stable tag: 0.9.0
 
-A further development of Quick Adsense! Insert Google AdSense or any Ads code into your website.
+Quick Adsense Reloaded! The quickest way to insert Google AdSense code into your website.
 
 == Description == 
 
 > #### Quick AdSense Reloaded
 > This free AdSense plugin is a fork of the discontinued plugin [Quick AdSense](https://wordpress.org/plugins/quick-adsense/) <br /> 
-> It will be maintained and updated to be compatible with all future WordPress versions<br />
+> Its rewritten from scratch with a solid code base and will be maintained and updated to be compatible with all future WordPress versions<br />
 > This plugin is brandnew, well tested but still beta and work in progress! <br>
 > If you find a bug please open a ticket in the [support request](https://wordpress.org/support/plugin/quick-adsense-reloaded/ "support forum"). Every issue will be fixed asap!
 > 
 > Biggest thanks goes to the original creator of Quick AdSense [toddynho](https://profiles.wordpress.org/toddynho/) <br /> 
 
+<h2>Why a fork?</h2>
+
+Quick Adsense is a great plugin and still used by thousands of websites. Its also still downloaded hundred of times a day. Unfortunately it is not under maintainance and developpment for more than 3 years.
+It is used by myself since years but i fear the day where it is not working any longer with a new WordPress version. Thast's just a matter of time so i decided to continue the project.
+
+All deprecated functions has been removed and new filters and hooks were built in to make this plugin extensible by third party developers!
 
 = Main Features =
 
-* Absolutely NO plugin author revenue reward or revenue sharing from your advertising income.
+* Import all settings from Quick AdSense v. 1.9.2 and convert them into serialized options.
+* No revenue sharing from your advertising income.
+* Quicktags of Quick Adsense are 100% compatible to Quick AdSense Reloaded
 * No external script dependencies. All plugin code reside on your site. 
 * Dynamic Ads positioning: Assign Ads to the beginning, middle and end of post, assign Ads after 'more' tag, before last paragraph, after certain paragraphs & assign Ads after certain images.
 * Insert Ads specifically or randomly anywhere within a post.
@@ -38,7 +46,24 @@ A further development of Quick Adsense! Insert Google AdSense or any Ads code in
 * Disable Ads on-the-fly, insert &lt;!--NoAds--&gt;, &lt;!--OffDef--&gt;, &lt;!--OffWidget--&gt;, &lt;!--OffBegin--&gt; ... and more to a post to accomplish this.
 * The above quicktags can be inserted into a post easily via the additional Quicktag Buttons added to the HTML Edit Post SubPanel.
 
-More features are coming soon....
+= Improvements to original Quick AdSense =
+
+* Performance improvements
+* Serialized storing of options instead storing every single option as separate table entry all over
+* Multi language support
+* Remove of small coding issues like "unexpected output" message when plugin is activated on several sites
+* Import / Export function makes migrating to other sites easier
+* Safety improvements: 
+** Exit if plugin code is not called by WordPress directly, 
+** better sanitizing of user input
+** Prevent the use of globals all over
+
+@todo:
+
+* Support for responsive ads
+* GUI improvements
+
+Do you have ideas for more features?
 
 = High Performance =
 
@@ -82,4 +107,4 @@ Alternative Installation:
 == Upgrade Notice ==
 
 = 0.9 =
-0.9.0  <a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">See the changelog!</a> It's recommended to test all plugin updates on a staging website first before installing them on a live site. (Use <a href="https://wordpress.org/plugins/wp-staging/" target="_blank" style="color:white;text-decoration: underline;">WP Staging</a> for creating a test site or any other of your prefered staging tool)
+0.9.0  <a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">Complete changelog!</a> It's recommended to test all plugin updates on a staging website first before installing them on a live site. (Use <a href="https://wordpress.org/plugins/wp-staging/" target="_blank" style="color:white;text-decoration: underline;">WP Staging</a> for creating a test site or some other prefered staging tool)

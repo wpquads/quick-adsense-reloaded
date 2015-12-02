@@ -1,51 +1,65 @@
 jQuery(document).ready(function ($) {
-    
-/* Fade in sharedcount settings if needed */
-$('#quads_settings\\[quads_sharemethod\\]').change(function(){
-    if($('#quads_settings\\[quads_sharemethod\\]').val() === "sharedcount")
-    {
-        $('#quads_settingsgeneral_header .row:nth-child(3), #quads_settingsgeneral_header .row:nth-child(4)').fadeIn(500);
-    }
-    else 
-    {
-        $('#quads_settingsgeneral_header .row:nth-child(3), #quads_settingsgeneral_header .row:nth-child(4)').fadeOut(500);
-    }
-});
+   
+   
+       
+        
+/*
+ * Quick Adsense import process
+ */
 
-/*make visible when sharedcount.com is used*/
-if($('#quads_settings\\[quads_sharemethod\\]').val() === "sharedcount")
-    {
-        $('#quads_settingsgeneral_header .row:nth-child(3), #quads_settingsgeneral_header .row:nth-child(4)').fadeIn(500);
-    }
+
+jQuery( '.quads-import-settings' ).click( function (e) {
+    e.preventDefault();
+    
+    if ( !confirm('Importing settings from Quick AdSense will overwrite all your current settings. Are you sure?'))
+        return;
+    
+    jQuery('#quads-import-settings').addClass('loading');
+        var data = {
+            action: 'quads_import_quick_adsense',
+            nonce: quads.nonce,
+        };
+        $.post(ajaxurl, data, function (resp, status, xhr) {
+
+            //console.log('success:' + resp + status + xhr);
+            quads_show_message(resp);
+            
+        }).fail(function (xhr) { // Will be executed when $.post() fails
+            quads_show_message('Ajax Error: ' + xhr.status + ' ' + xhr.statusText);
+            //console.log('error: ' + xhr.statusText);
+        });
+    }); 
+           
+/**
+ * Show error message and die()
+ * Writes error message into log file
+ * 
+ * @param {string} $error notice
+ * @returns void
+ */
+function quads_show_message(error) {
+    $('#quads-error-details').show();
+    $('#quads-error-details').html(error);
+    console.log(error);
+}
+
       
 // Start easytabs()
 if ( $( ".quads-tabs" ).length ) {
-$('#tab_container').easytabs({
-    animate:true
+$('#quads_tab_container').easytabs({
+    animate:true,
+    updateHash: false,
+    animationSpeed: 'fast'
 });
 }
 
-if ( $( ".quadstab" ).length ) {
+/*if ( $( ".quadstab" ).length ) {
 $('#quadstabcontainer').easytabs({
     animate:true
 });
-}
-
-// Drag n drop social networks
-	$('#quads_network_list').sortable({
-                items: '.quads_list_item',
-                opacity: 0.6,
-                cursor: 'move',
-                axis: 'y',
-                update: function(){
-                    var order = $(this).sortable('serialize') + '&action=quads_update_order';
-                    $.post(ajaxurl, order, function(response){
-                        //alert(response);
-                        
-                    });
-                }
-        });          
-});
+}*/
+        
+}); // document ready
 
 /*
  * jQuery hashchange event - v1.3 - 7/21/2010
@@ -591,4 +605,46 @@ For usage and examples: colpick.com/plugin
 		}
 	});
 })(jQuery);
+
+function selectinfo(ts) {
+		if (ts.selectedIndex == 0) { return; }
+		cek = new Array(
+			document.getElementById('BegnRnd'),
+			document.getElementById('MiddRnd'),
+			document.getElementById('EndiRnd'),
+			document.getElementById('MoreRnd'),
+			document.getElementById('LapaRnd'),				
+			document.getElementById('Par1Rnd'),
+			document.getElementById('Par2Rnd'),
+			document.getElementById('Par3Rnd'),
+			document.getElementById('Img1Rnd') );
+		for (i=0;i<cek.length;i++) {
+			if (ts != cek[i] && ts.selectedIndex == cek[i].selectedIndex) {
+				cek[i].selectedIndex = 0;
+			}
+		}
+	}
+	function checkinfo1(selnme,ts) {
+		document.getElementById(selnme).disabled=!ts.checked;
+	}
+	function checkinfo2(ts,selnm1,selnm2,selnm3,selnm4) {
+		if(selnm1){document.getElementById(selnm1).disabled=!ts.checked};
+		if(selnm2){document.getElementById(selnm2).disabled=!ts.checked};		
+		if(selnm3){document.getElementById(selnm3).disabled=!ts.checked};		
+	}	
+	function deftcheckinfo() {	
+		checkinfo1('BegnRnd',document.getElementById('BegnAds'));
+		checkinfo1('MiddRnd',document.getElementById('MiddAds'));
+		checkinfo1('EndiRnd',document.getElementById('EndiAds'));
+		checkinfo1('MoreRnd',document.getElementById('MoreAds'));
+		checkinfo1('LapaRnd',document.getElementById('LapaAds'));		
+		for (i=1;i<=3;i++) {
+			checkinfo2(document.getElementById('Par'+i+'Ads'),'Par'+i+'Rnd','Par'+i+'Nup','Par'+i+'Con');		
+		}	
+		checkinfo2(document.getElementById('Img1Ads'),'Img1Rnd','Img1Nup','Img1Con');				
+	}
+        
+
+        
+          
 

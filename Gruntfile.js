@@ -10,9 +10,9 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON( 'package.json' ),
         paths : {
             // Base destination dir
-            base : '../../../../plugin/svn/tags/<%= pkg.version %>',
-            basetrunk : '../../../../plugin/svn/trunk/',
-            basezip: '../../../../plugin/svn/' 
+            base : '../../wordpress-svn/tags/<%= pkg.version %>',
+            basetrunk : '../../wordpress-svn/trunk/',
+            basezip: '../../wordpress-svn/' 
         },
 
         // Tasks here

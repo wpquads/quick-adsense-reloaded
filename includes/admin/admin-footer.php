@@ -24,7 +24,7 @@ function quads_admin_rate_us( $footer_text ) {
 	global $typenow;
 
 	if ( quads_is_admin_page() ) {
-		$rate_text = sprintf( __( 'Thank you for using <a href="%1$s" target="_blank">Quick AdSense Reloaded</a>! Please <a href="%2$s" target="_blank">rate us</a> on <a href="%2$s" target="_blank">WordPress.org</a> and help to support this project.<br>Something not working as expected or need help for customizing Quick AdSense Reloaded? Visit the Quick AdSense Reloaded <a href="https://wordpress.org/support/plugin/quick-adsense-reloaded" target="blank">Support Forum</a>', 'quads' ),
+		$rate_text = sprintf( __( 'Thank you for using <a href="%1$s" target="_blank">Quick AdSense Reloaded</a>! Please <a href="%2$s" target="_blank">rate us</a> on <a href="%2$s" target="_blank">WordPress.org</a> and help to support this project.<br>Something not working as expected or need help for customizing Quick AdSense Reloaded? Visit the Quick AdSense Reloaded <a href="https://wordpress.org/support/plugin/quick-adsense-reloaded" target="blank">Support Forum</a>', 'quick-adsense-reloaded' ),
 			'http://wordpress.org/support/view/plugin-reviews/quick-adsense-reloaded',
 			'http://wordpress.org/support/view/plugin-reviews/quick-adsense-reloaded?filter=5#postform'
 		);

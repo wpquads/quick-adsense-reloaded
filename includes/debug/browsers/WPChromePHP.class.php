@@ -2,8 +2,8 @@
 class WPChromePHP implements iquadsdebug {
 
 	public function __construct() {
-		include 'api/chromephp/quadssbChromePhp.php';
-		$this->api = quadssbChromePhp::getInstance();
+		include 'api/chromephp/quadsChromePhp.php';
+		$this->api = quadsChromePhp::getInstance();
 	}
 
 

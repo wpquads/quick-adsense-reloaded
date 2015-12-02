@@ -23,13 +23,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @return void
  */
 function quads_add_options_link() {
-	global $quads_parent_page, $quads_add_ons_page, $quads_add_ons_page2, $quads_settings_page, $quads_tools_page;
+	global $quads_options, $quads_parent_page, $quads_add_ons_page, $quads_add_ons_page2, $quads_settings_page, $quads_tools_page;
 
+        $create_settings = isset($quads_options['create_settings']) ? true : false;
+        if ($create_settings){
+            $quads_settings_page = add_submenu_page( 'options-general.php', __( 'Quick AdSense Reloaded Settings', 'quick-adsense-reloaded' ), __( 'Quick AdSense Reloaded', 'quick-adsense-reloaded' ), 'manage_options', 'quads-settings', 'quads_options_page' );
+        }else{
+            $quads_parent_page   = add_menu_page( 'Quick AdSense Reloaded Settings', __( 'Quick AdSense Reloaded', 'quick-adsense-reloaded' ), 'manage_options', 'quads-settings', 'quads_options_page' );
+        }
         //$quads_parent_page = add_menu_page( 'Quick AdSense Reloaded Welcome Screen' , 'Quick AdSense Reloaded' , 'manage_options' , 'quadsshare-welcome' , 'quadsshare_welcome_conf');   
-	$quads_parent_page   = add_menu_page( 'Quick AdSense Reloaded Settings', __( 'Quick AdSense Reloaded', 'quads' ), 'manage_options', 'quads-settings', 'quads_options_page' );
-        $quads_settings_page = add_submenu_page( 'quads-settings', __( 'Quick AdSense Reloaded Settings', 'quads' ), __( 'Settings', 'quads' ), 'manage_options', 'quads-settings', 'quads_options_page' );
-        $quads_add_ons_page  = add_submenu_page( 'quads-settings', __( 'Quick AdSense Reloaded Add Ons', 'quads' ), __( 'Add Ons', 'quads' ), 'manage_options', 'quads-addons', 'quads_add_ons_page' ); 
-        $quads_tools_page = add_submenu_page( 'quads-settings', __( 'Quick AdSense Reloaded Tools', 'quads' ), __( 'Tools', 'quads' ), 'manage_options', 'quads-tools', 'quads_tools_page' );
+        //$quads_settings_page = add_submenu_page( 'quads-settings', __( 'Quick AdSense Reloaded Settings', 'quick-adsense-reloaded' ), __( 'Settings', 'quick-adsense-reloaded' ), 'manage_options', 'quads-settings', 'quads_options_page' );
+        //$quads_add_ons_page  = add_submenu_page( 'quads-settings', __( 'Quick AdSense Reloaded Add Ons', 'quick-adsense-reloaded' ), __( 'Add Ons', 'quick-adsense-reloaded' ), 'manage_options', 'quads-addons', 'quads_add_ons_page' ); 
+        //$quads_tools_page = add_submenu_page( 'quads-settings', __( 'Quick AdSense Reloaded Tools', 'quick-adsense-reloaded' ), __( 'Tools', 'quick-adsense-reloaded' ), 'manage_options', 'quads-tools', 'quads_tools_page' );
 
 }
 add_action( 'admin_menu', 'quads_add_options_link', 10 );
@@ -56,15 +61,5 @@ function quads_is_admin_page() {
 		return true;      
 	}
 	
-	//$quads_admin_pages = apply_filters( 'quads_admin_pages', array( $quads_parent_page, $quads_settings_page, $quads_add_ons_page, ) );
-	
-	/*if ( in_array( $currentpage, $quads_admin_pages ) ) {
-            quadsdebug()->info("quads_is_admin_page() = true");
-		return true;
-	} else {
-		return false;
-                quadsdebug()->info("quads_is_admin_page() = false");
-	}
-         * */
          
 }

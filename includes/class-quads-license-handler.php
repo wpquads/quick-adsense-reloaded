@@ -145,7 +145,7 @@ class quads_License {
 		$quads_license_settings = array(
 			array(
 				'id'      => $this->item_shortname . '_license_key',
-				'name'    => sprintf( __( '%1$s License Key', 'quads' ), $this->item_name ),
+				'name'    => sprintf( __( '%1$s License Key', 'quick-adsense-reloaded' ), $this->item_name ),
 				'desc'    => '',
 				'type'    => 'license_key',
 				'options' => array( 'is_valid_license_option' => $this->item_shortname . '_license_active' ),
@@ -181,7 +181,7 @@ class quads_License {
 
 		if( ! wp_verify_nonce( $_REQUEST[ $this->item_shortname . '_license_key-nonce'], $this->item_shortname . '_license_key-nonce' ) ) {
 		
-			wp_die( __( 'Nonce verification failed', 'quads' ), __( 'Error', 'quads' ), array( 'response' => 403 ) );
+			wp_die( __( 'Nonce verification failed', 'quick-adsense-reloaded' ), __( 'Error', 'quick-adsense-reloaded' ), array( 'response' => 403 ) );
                 
 		}
                 
@@ -254,7 +254,7 @@ class quads_License {
 
 		if( ! wp_verify_nonce( $_REQUEST[ $this->item_shortname . '_license_key-nonce'], $this->item_shortname . '_license_key-nonce' ) ) {
 		
-			wp_die( __( 'Nonce verification failed', 'quads' ), __( 'Error', 'quads' ), array( 'response' => 403 ) );
+			wp_die( __( 'Nonce verification failed', 'quick-adsense-reloaded' ), __( 'Error', 'quick-adsense-reloaded' ), array( 'response' => 403 ) );
                 
 		}
                 
@@ -330,22 +330,22 @@ class quads_License {
 
 				case 'item_name_mismatch' :
 
-					$message = __( 'This license does not belong to the product you have entered it for.', 'quads' );
+					$message = __( 'This license does not belong to the product you have entered it for.', 'quick-adsense-reloaded' );
 					break;
 
 				case 'no_activations_left' :
 
-					$message = __( 'This license does not have any activations left', 'quads' );
+					$message = __( 'This license does not have any activations left', 'quick-adsense-reloaded' );
 					break;
 
 				case 'expired' :
 
-					$message = __( 'This license key is expired. Please renew it.', 'quads' );
+					$message = __( 'This license key is expired. Please renew it.', 'quick-adsense-reloaded' );
 					break;
 
 				default :
 
-					$message = sprintf( __( 'There was a problem activating your license key, please try again or contact support. Error code: %s', 'quads' ), $license_error->error );
+					$message = sprintf( __( 'There was a problem activating your license key, please try again or contact support. Error code: %s', 'quick-adsense-reloaded' ), $license_error->error );
 					break;
 
 			}

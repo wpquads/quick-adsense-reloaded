@@ -6,1083 +6,375 @@
  * @subpackage  Functions/Templates
  * @copyright   Copyright (c) 2015, René Hermenau
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       2.0.0
+ * @since       0.9.0
  */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+    $ShownAds = 0;
+    $AdsId = array();
+    $beginend = 0;
 
-
-/* Load Hooks
- * @since 2.0
- * return void
- */
-
-add_shortcode('quadsshare', 'quadsshareShortcodeShow');
-add_filter('the_content', 'quadsshare_filter_content', quadsGetExecutionOrder(), 1);
-add_filter('widget_text', 'do_shortcode');
-add_action('quadsshare', 'quadsshare');
-add_filter('quads_share_title', 'quads_get_title', 10, 2);
-
-
-// uncomment for debugging
-//global $wp_filter; 
-//print_r($wp_filter['the_content']);
-
-/* Get Execution order of injected Share Buttons in $content 
- *
- * @since 2.0.4
- * @return int
- */
-
-function quadsGetExecutionOrder(){
-    global $quads_options;
-    isset($quads_options['execution_order']) && is_numeric($quads_options['execution_order']) ? $priority = trim($quads_options['execution_order']) : $priority = 1000;
-    return $priority;
-}
-    
-/* Creates some shares for older posts which has been already 
- * shared dozens of times
- * This smooths the Velocity Graph Add-On if available
- * 
- * @since 2.0.9
- * @return int
- * @deprecated deprecated since version 2.2.8
- */
-
-function quadssbSmoothVelocity($quadssbShareCounts) {
-    switch ($quadssbShareCounts) {
-        case $quadssbShareCounts >= 1000:
-            $quadssbShareCountArr = array(100, 170, 276, 329, 486, 583, 635, 736, 875, $quadssbShareCounts);
-            return $quadssbShareCountArr;
-            break;
-        case $quadssbShareCounts >= 600:
-            $quadssbShareCountArr = array(75, 99, 165, 274, 384, 485, 573, $quadssbShareCounts);
-            return $quadssbShareCountArr;
-            break;
-        case $quadssbShareCounts >= 400:
-            $quadssbShareCountArr = array(25, 73, 157, 274, 384, 399, $quadssbShareCounts);
-            return $quadssbShareCountArr;
-            break;
-        case $quadssbShareCounts >= 200:
-            $quadssbShareCountArr = array(52, 88, 130, 176, 199, $quadssbShareCounts);
-            return $quadssbShareCountArr;
-            break;
-        case $quadssbShareCounts >= 100:
-            $quadssbShareCountArr = array(23, 54, 76, 87, 99, $quadssbShareCounts);
-            return $quadssbShareCountArr;
-            break;
-        case $quadssbShareCounts >= 60:
-            $quadssbShareCountArr = array(2, 10, 14, 18, 27, 33, 45, 57, $quadssbShareCounts);
-            return $quadssbShareCountArr;
-            break;
-        case $quadssbShareCounts >= 20:
-            $quadssbShareCountArr = array(2, 5, 7, 9, 9, 10, 11, 13, 15, 20, $quadssbShareCounts);
-            return $quadssbShareCountArr;
-            break;
-        case $quadssbShareCounts == 0:
-            $quadssbShareCountArr = array(0);
-            return $quadssbShareCountArr;
-            break;
-        default:
-            $quadssbShareCountArr = array(0);
-            return $quadssbShareCountArr;
-    }
-}
-
-/* Get quadssbShareObject 
- * depending if quadsEngine or sharedcount.com is used
- * 
- * @since 2.0.9
- * @return object
- * @changed 2.2.7
- */
-
-function quadssbGetShareObj($url) {
-    global $quads_options;
-    $quadsengine = isset($quads_options['quads_sharemethod']) && $quads_options['quads_sharemethod'] === 'quadsengine' ? true : false;
-    if ($quadsengine) {
-        if(!class_exists('RollingCurlX'))  
-        require_once quads_PLUGIN_DIR . 'includes/libraries/RolingCurlX.php';
-        if(!class_exists('quadsengine'))         
-            require_once(quads_PLUGIN_DIR . 'includes/quadsengine.php');
-        $quadssbSharesObj = new quadsengine($url);
-        return $quadssbSharesObj;
-    } 
-        require_once(quads_PLUGIN_DIR . 'includes/sharedcount.class.php');
-        $quadssbSharesObj = new quadssbSharedcount($url);
-        return $quadssbSharesObj;   
-}
-
-/* Get the correct share method depending if quadsshare networks is enabled
- * 
- * @since 2.0.9
- * @return var
- * 
- */
-
-/* Get the sharecounts from sharedcount.com or quadsEngine
- * Creates the share count cache using post_meta db fields.
- * 
- * @since 2.0.9
- * @returns int
- */
-
-function quadssbGetShareMethod($quadssbSharesObj) {
-    if (class_exists('Quick AdSense ReloadedNetworks')) {
-        $quadssbShareCounts = $quadssbSharesObj->getAllCounts();
-        return $quadssbShareCounts;
-    } 
-        $quadssbShareCounts = $quadssbSharesObj->getFBTWCounts();
-        return $quadssbShareCounts;
-}
-
-/**
- * Get share count for all pages where $post is empty. E.g. category or blog list pages
- * Uses transient 
- * 
- * @param string $url
- * @param in $cacheexpire
- * @returns integer $shares
- */
-/*function quadssbGetNonPostShares($url, $cacheexpire) {
-    // Get any existing copy of our transient data
-    if (false === ( $non_post_shares = get_transient('non_post_shares') )) {
-        // It wasn't there, so regenerate the data and save the transient
-        // Get the share Object
-        $quadssbSharesObj = quadssbGetShareObj($url);
-        // Get the share counts
-        $quadssbShareCounts = quadssbGetShareMethod($quadssbSharesObj);
-        $transient_name = md5($url);
-        // Set the transient
-        set_transient('$transient_name', $quadssbShareCounts, $cacheexpire);
-    } else {
-        $shares = get_transient('non_post_shares');
-    }
-    if (is_numeric($shares)){    
-        return $shares;
-        quadsdebug()->info('Share count where $post is_null(): ' . $shares);
-    }
-}*/
-
-/*
- * Return the share count
- * 
- * @param string url of the page the share count is collected for
- * @returns int
- */
-function getSharedcount($url) {
-    global $wpdb, $quads_options, $post;
-    
-    if (is_null($post)) {
-    	return apply_filters('filter_get_sharedcount', 0);
-    }
-    
-    isset($quads_options['quickads_cache']) ? $cacheexpire = $quads_options['quickads_cache'] : $cacheexpire = 300;
-    /* make sure 300sec is default value */
-    $cacheexpire < 300 ? $cacheexpire = 300 : $cacheexpire;
-
-    if (isset($quads_options['disable_cache'])) {
-        $cacheexpire = 5;
-    }
-    
-    /* Bypass next lines and return share count for pages with empty $post object
-       share count for pages where $post is empty. E.g. category or blog list pages
-       Otherwise share counts are requested with every page load 
-     *      */
-    /*if (is_null($post)) {
-    	return apply_filters('filter_get_sharedcount', quadssbGetNonPostShares($url, $cacheexpire));
-    }*/
-    
-    
-    $quadssbNextUpdate = (int) $cacheexpire;
-    $quadssbLastUpdated = get_post_meta($post->ID, 'quads_timestamp', true);
-
-    if (empty($quadssbLastUpdated)) {
-        $quadssbCheckUpdate = true;
-        $quadssbLastUpdated = 0;
-    }
-
-    if ($quadssbLastUpdated + $quadssbNextUpdate <= time()) {
-        quadsdebug()->info("First Update - Frequency: " . $quadssbNextUpdate . " Next update: " . date('Y-m-d H:i:s', $quadssbLastUpdated + $quadssbNextUpdate) . " last updated: " . date('Y-m-d H:i:s', $quadssbLastUpdated) . " Current time: " . date('Y-m-d H:i:s', time()));
-        // Get the share Object
-        $quadssbSharesObj = quadssbGetShareObj($url);
-        // Get the share counts
-        $quadssbShareCounts = quadssbGetShareMethod($quadssbSharesObj);
-        //$quadssbShareCounts = new stdClass(); // USE THIS FOR DEBUGGING
-        //$quadssbShareCounts->total = 13; // USE THIS FOR DEBUGGING
-        $quadssbStoredDBMeta = get_post_meta($post->ID, 'quads_shares', true);
-        // Write timestamp
-        update_post_meta($post->ID, 'quads_timestamp', time());
-
-        /* Update post_meta only when API is requested and
-         * API share count is greater than real fresh requested share count ->
-         * ### This meas there is an error in the API (Failure or hammering any limits, e.g. X-Rate-Limit) ###
-         */
-
-        if ($quadssbShareCounts->total >= $quadssbStoredDBMeta) {
-            update_post_meta($post->ID, 'quads_shares', $quadssbShareCounts->total);
-            update_post_meta($post->ID, 'quads_jsonshares', json_encode($quadssbShareCounts));
-            quadsdebug()->info("updated database with share count: " . $quadssbShareCounts->total);
-            /* return counts from getAllCounts() after DB update */
-            return apply_filters('filter_get_sharedcount', $quadssbShareCounts->total + getFakecount());
-        }
-        /* return previous counts from DB Cache | this happens when API has a hiccup and does not return any results as expected */
-        return apply_filters('filter_get_sharedcount', $quadssbStoredDBMeta + getFakecount());
-    } else {
-        /* return counts from post_meta plus fake count | This is regular cached result */
-        $cachedCountsMeta = get_post_meta($post->ID, 'quads_shares', true);
-        $cachedCounts = $cachedCountsMeta + getFakecount();
-        quadsdebug()->info("Cached result - Frequency: " . $quadssbNextUpdate . " Next update: " . date('Y-m-d H:i:s', $quadssbLastUpdated + $quadssbNextUpdate) . " last updated: " . date('Y-m-d H:i:s', $quadssbLastUpdated) . " Current time: " . date('Y-m-d H:i:s', time()));
-        return apply_filters('filter_get_sharedcount', $cachedCounts);
-    }
-}
-
-function quads_subscribe_button(){
+function quads_process_content($content)
+{
+	//global $QData;
+	global $ShownAds;
+	global $AdsId;
+	global $beginend;
+        
         global $quads_options;
-        if ($quads_options['networks'][2]){
-            $subscribebutton = '<a href="javascript:void(0)" class="quadsicon-subscribe" id="quads-subscribe-control"><span class="icon"></span><span class="text">' . __('Subscribe', 'quads') . '</span></a>';
-        } else {
-            $subscribebutton = '';    
-        }
-         return apply_filters('quads_filter_subscribe_button', $subscribebutton );
-    }
-    
-    /* Put the Subscribe container under the share buttons
-     * @since 2.0.0.
-     * @return string
-     */
-    
-    function quads_subscribe_content(){
-        global $quads_options;
-        if ($quads_options['networks'][2] && $quads_options['subscribe_behavior'] === 'content'){ //Subscribe content enabled
-            $container = '<div class="quads-toggle-container">' . quads_cleanShortcode('quadsshare', $quads_options['subscribe_content']). '</div>';
-        } else {
-            $container = '';    
-        }
-         return apply_filters('quads_toggle_container', $container);
-    }
-    
-    
-   /* Check if [quadsshare] shortcode is used in subscribe field and deletes it
-    * Prevents infinte loop
-    * 
-    * @since 2.0.9
-    * @return string / shortcodes parsed
-    */
-    
-    function quads_cleanShortcode($code, $content){
-       global $shortcode_tags;
-        $stack = $shortcode_tags;
-        $shortcode_tags = array($code => 1);
-        $content = strip_shortcodes($content);
-        $shortcode_tags = $stack;
+
+        $adWidgets = 10; // number of widgets
+        $numberAds =  10; // number of regular ads
+        $AdsWidName = 'AdsWidget%d (Quick Adsense Reloaded)';
+	
         
-        return do_shortcode($content);  
-    }
         
-   
-    
-    
-    /* Round the totalshares
-     * 
-     * @since 1.0
-     * @return string
-     */
-    
-    function roundshares($totalshares){           
-         if ($totalshares > 1000000) {
-            $totalshares = round($totalshares / 1000000, 1) . 'M';
-        } elseif ($totalshares > 1000) {
-            $totalshares = round($totalshares / 1000, 1) . 'k';
-        }
-        return apply_filters('get_rounded_shares', $totalshares);
-    }
-    
-    /* Return the more networks button
-     * @since 2.0
-     * @return string
-     */
-    function onOffSwitch(){
-        $output = '<div class="onoffswitch"></div>';
-        return apply_filters('quadssh_onoffswitch', $output);
-    }
-    
-    /* Return the second more networks button after 
-     * last hidden additional service. initial status: hidden
-     * Become visible with click on plus icon
-     * 
-     * @since 2.0
-     * @return string
-     */
-    function onOffSwitch2(){
-        $output = '<div class="onoffswitch2" style="display:none;"></div>';
-        return apply_filters('quadssh_onoffswitch2', $output);
-    }
-
-    /* Delete all services from array which are not enabled
-     * @since 2.0.0
-     * @return callback
-     */
-    function isStatus($var){
-        return (!empty($var["status"]));
-        }
-       
-
-
-
-/* Array of all available network share urls
-    * 
-    * @param string $name id of the network
-    * @param string $url to share
-    * @param string $title to share
-    * @param mixed $customurl boolean | string false default
-    * 
-    * @since 2.1.3
-    * @return string
-    */   
-        
-    function arrNetworks($name) {
-        global $quads_options, $post, $quads_custom_url, $quads_custom_text;
-        $singular = isset( $quads_options['singular'] ) ? $singular = true : $singular = false;     
-
-        $url = $quads_custom_url ? $quads_custom_url : quads_get_url() ;
-        $twitter_url = $quads_custom_url ? $quads_custom_url : quads_get_twitter_url();
-        $title = $quads_custom_text ? $quads_custom_text : quads_get_title();
-        $twitter_title = $quads_custom_text ? $quads_custom_text : quads_get_twitter_title();
-
-        !empty($quads_options['quickads_hashtag']) ? $via = '&amp;via=' . $quads_options['quickads_hashtag'] : $via = '';
-       
-        $networks = apply_filters('quads_array_networks', array(
-            'facebook' => 'http://www.facebook.com/sharer.php?u=' . $url,
-            'twitter' =>  'https://twitter.com/intent/tweet?text=' . $twitter_title . $via . '&amp;url=' . $twitter_url,
-            'subscribe' => '#',
-            'url' => $url,
-            'title' => quads_get_title()   
-        ));
-        
-            return isset($networks[$name]) ? $networks[$name] : '';    
-        }
-        
-
-
-    /* Returns all available networks
-     * 
-     * @since 2.0
-     * @param string $url to share
-     * @param string $title to share
-     * @param mixed $customurl boolean | string false default
-     * @param string $custom_title a custom title for sharing 
-     * @returns string
-     */
-    function getNetworks() {
-        //quadsdebug()->timer('getNetworks');
-        global $quads_options, $enablednetworks;
-
-        $output = '';
-        $startsecondaryshares = '';
-        $endsecondaryshares = '';
-        /* content of 'more services' button */
-        $onoffswitch = '';
-        /* counter for 'Visible Services' */
-        $startcounter = 1;
-        $maxcounter = $quads_options['visible_services']+1; // plus 1 because our array values start counting from zero
-        /* our list of available services, includes the disabled ones! 
-         * We have to clean this array first!
-         */
-        $getnetworks = $quads_options['networks'];
-        // Delete disabled services from array. Use callback function here. Only once: array_filter is slow. 
-        // Use the newly created array and bypass the callback function than
-        if (is_array($getnetworks)){
-            if (!is_array($enablednetworks)){
-                //echo "is not array";
-                //var_dump($enablednetworks);
-            $enablednetworks = array_filter($getnetworks, 'isStatus');
-            }else {
-                //echo "is array";
-                //var_dump($enablednetworks);
-            $enablednetworks = $enablednetworks;    
-            }
-        }else{
-        $enablednetworks = $getnetworks; 
-        }
-
-    if (!empty($enablednetworks)) {
-        foreach ($enablednetworks as $key => $network):
-            if($quads_options['visible_services'] !== 'all' && $maxcounter != count($enablednetworks) && $quads_options['visible_services'] < count($enablednetworks)){
-                if ($startcounter === $maxcounter ){ 
-                    $onoffswitch = onOffSwitch();
-                    $startsecondaryshares   = '<div class="secondary-shares" style="display:none;">';} else {$onoffswitch = ''; $onoffswitch2 = ''; $startsecondaryshares   = '';}
-                if ($startcounter === (count($enablednetworks))){ 
-                    $endsecondaryshares     = '</div>'; } else { ;$endsecondaryshares = '';}
-                    
-                //echo "<h1>Debug: Startcounter " . $startcounter . " Hello: " . $maxcounter+1 .
-                //" Debug: Enabled services: " . count($enablednetworks) . "</h1>"; 
-            }
-            if ($enablednetworks[$key]['name'] !='') {
-                /* replace all spaces with $nbsp; This prevents error in css style content: text-intend */
-                $name = preg_replace('/\040{1,}/','&nbsp;',$enablednetworks[$key]['name']);
-            } else {
-                $name = ucfirst($enablednetworks[$key]['id']);
-            }
-            $enablednetworks[$key]['id'] == 'whatsapp' ? $display = 'display:none;' : $display = ''; // Whatsapp button is made visible via js when opened on mobile devices
-
-            $output .= '<a style="' . $display . '" class="quadsicon-' . $enablednetworks[$key]['id'] . '" href="' . arrNetworks($enablednetworks[$key]['id']) . '" target="_blank" rel="nofollow"><span class="icon"></span><span class="text">' . $name . '</span></a>';
-            $output .= $onoffswitch;
-            $output .= $startsecondaryshares;
-            
-            $startcounter++;
-        endforeach;
-        $output .= onOffSwitch2();
-        $output .= $endsecondaryshares;
-    }
-    //quadsdebug()->timer('getNetworks', true);
-    return apply_filters('return_networks', $output);
-    
-}
-
-    /* Select Share count from database and returns share buttons and share counts
-     * @since 1.0
-     * @returns string
-     */
-    function quadsshareShow($atts, $place) {
-        quadsdebug()->timer('timer');
-        $url = quads_get_url();
-        //$title = quads_get_title();
-        
-        global $wpdb, $quads_options, $post;
-        !empty($quads_options['quickads_apikey']) ? $apikey = $quads_options['quickads_apikey'] : $apikey = '';
-        !empty($quads_options['sharecount_title']) ? $sharecount_title = $quads_options['sharecount_title'] : $sharecount_title = __('SHARES', 'quads');
-        
-            
-            if (!isset($quads_options['disable_sharecount'])) {
-                    /* Get totalshares of the current page */
-                    $totalshares = getSharedcount($url);
-                    /* Round total shares when enabled */
-                    if (isset($quads_options['quickads_round'])) {
-                        $totalshares = roundshares($totalshares);
-                    }  
-                 $sharecount = '<div class="quads-count"><div class="counts quadssbcount">' . $totalshares . '</div><span class="quads-sharetext">' . $sharecount_title . '</span></div>';    
-             } else {
-                 $sharecount = '';
-             }
-             
-                     
-                $return = '<aside class="quads-container">'
-                        . quads_content_above().
-                    '<div class="quads-box">'
-                        . apply_filters('quads_sharecount_filter', $sharecount) .
-                    '<div class="quads-buttons">' 
-                        . getNetworks() . 
-                    '</div></div>
-                    <div style="clear:both;"></div>'
-                    . quads_subscribe_content()
-                    . quads_content_below() .
-                    '</aside>
-                        <!-- Share buttons by quadsshare.net - Version: ' . quads_VERSION . '-->';
-            quadsdebug()->timer('timer', true);
-            return apply_filters( 'quads_output_buttons', $return );
-            
-    }
-    
-    
-    /* Shortcode function
-     * Select Share count from database and returns share buttons and share counts
-     * @since 1.0
-     * @returns string
-     */
-    function quadsshareShortcodeShow($atts, $place) {
-        global $wpdb ,$quads_options, $post, $wp, $quads_custom_url, $quads_custom_text;
-        
-        //$mainurl = quads_get_url();
-
-        !empty($quads_options['sharecount_title']) ? $sharecount_title = $quads_options['sharecount_title'] : $sharecount_title = __('SHARES', 'quads');
-        
-        $sharecount = '';
-
-        extract(shortcode_atts(array(
-            'cache' => '3600',
-            'shares' => 'true',
-            'buttons' => 'true',
-            'align' => 'left',
-            'text' => '',
-            'url' => ''
-                        ), $atts));
-
-            /* Load hashshag*/       
-            if ($quads_options['quickads_hashtag'] != '') {
-                $via = '&amp;via=' . $quads_options['quickads_hashtag'];
-            } else {
-                $via = '';
-            }
-
-            // Define custom url var to share
-            $quads_custom_url = empty($url) ? false : $url;
-            
-            // Define custom text to share
-            $quads_custom_text = empty($text) ? false : $text;
-            
-            //$sharecount_url = empty($url) ? quads_get_url() : $url;
-            
-             if ($shares != 'false') {
-                    /* get totalshares of the current page with sharedcount.com */
-                    $totalshares = getSharedcount($quads_custom_url);
-                    //$totalshares = getSharedcount($mainurl);
-                    //$totalshares = $quads_custom_url;
-                    /* Round total shares when enabled */
-                    $roundenabled = isset($quads_options['quickads_round']) ? $quads_options['quickads_round'] : null;
-                        if ($roundenabled) {
-                            $totalshares = roundshares($totalshares);
-                        }
-                    $sharecount = '<div class="quads-count" style="float:' . $align . ';"><div class="counts">' . $totalshares . '</div><span class="quads-sharetext">' . $sharecount_title . '</span></div>';    
-                    /*If shortcode [quadsshare shares="true" onlyshares="true"]
-                     * return shares and exit;
-                     */
-                    if ($shares === "true" && $buttons === 'false'){
-                       return $sharecount; 
-                    }
-                    if ($shares === "false" && $buttons === 'true'){
-                       $sharecount = '';
-                }  
-             }
-     
-                $return = '<aside class="quads-container">'
-                    . quads_content_above().
-                    '<div class="quads-box">'
-                        . $sharecount .
-                    '<div class="quads-buttons">' 
-                        . getNetworks() . 
-                    '</div></div>
-                    <div style="clear:both;"></div>'
-                    . quads_subscribe_content()
-                    . quads_content_below() .
-                    '</aside>
-                        <!-- Share buttons made by quadsshare.net - Version: ' . quads_VERSION . '-->';
-        
-        // Do not execute filter for excerpts
-        //if(in_array('get_the_excerpt', $GLOBALS['wp_current_filter'])) apply_filters( 'quads_output_buttons', '' );
-            
-        return apply_filters( 'quads_output_buttons', $return );    
-    }
-    
-    /* Returns active status of Quick AdSense Reloaded.
-     * Used for scripts.php $hook
-     * @since 2.0.3
-     * @return bool True if QUADS is enabled on specific page or post.
-     * @TODO: Check if shortcode [quadsshare] is used in widget
-     */
-   
-    function quadssbGetActiveStatus(){
-       global $quads_options, $post;
-
-       $frontpage = isset( $quads_options['frontpage'] ) ? $frontpage = 1 : $frontpage = 0;
-       $current_post_type = get_post_type();
-       $enabled_post_types = isset( $quads_options['post_types'] ) ? $quads_options['post_types'] : array();
-       $excluded = isset( $quads_options['excluded_from'] ) ? $quads_options['excluded_from'] : null;
-       $singular = isset( $quads_options['singular'] ) ? $singular = true : $singular = false;
-       $loadall = isset( $quads_options['loadall'] ) ? $loadall = true : $loadall = false;
-       
-       /*if ( is_404() )
-           return false;*/
-           
-       if ($loadall){
-           quadsdebug()->info("load all quadssb scripts");
-           return true;
-       }
-       
-       // Load scripts when shortcode is used
-       /* Check if shortcode is used */ 
-       if( function_exists('has_shortcode') && is_object($post) && has_shortcode( $post->post_content, 'quadsshare' ) ) {
-           quadsdebug()->info("has_shortcode");
-            return true;
-       } 
-       
-       
-       // Load scripts when do_action('quadsshare') is used
-       //if(has_action('quadsshare') && quads_is_excluded() !== true) {
-       /*if(has_action('quadsshare')) {
-           quadsdebug()->info("action1");
-           return true;    
-       }*/
-       
-       // Load scripts when do_action('quadssharer') is used
-       //if(has_action('quadssharer') && quads_is_excluded() !== true) {
-       /*if(has_action('quadssharer')) {
-           quadsdebug()->info("action2");
-           return true;    
-       }*/ 
-       
-       // No scripts on non singular page
-       if (!is_singular() == 1 && $singular !== true) {
-           return false;
-       }
-
-        // Load scripts when page is not excluded
-        if (strpos($excluded, ',') !== false) {
-            //quadsdebug()->error("hoo");
-            $excluded = explode(',', $excluded);
-            if (!in_array($post->ID, $excluded)) {
-                return true;
-            }
-        }
-        if ($post->ID == $excluded) {
-            return false;
-        }
-       
-       // Load scripts when post_type is defined (for automatic embeding)
-       //if ($enabled_post_types && in_array($currentposttype, $enabled_post_types) && quads_is_excluded() !== true ) {
-       //if ($enabled_post_types == null or in_array($current_post_type, $enabled_post_types)) {
-       if (in_array($current_post_type, $enabled_post_types)) {
-           quadsdebug()->info("100");
-           return true;
-       }  
-       
-       /* Check if post types are allowed */
-       //quadsdebug()->info("var frontpage enabled: " . $frontpage . " is_front_page(): " . is_front_page());
-       //if ($enabled_post_types && in_array($currentposttype, $enabled_post_types) && quads_is_excluded() !== true) {
-       /*if ($enabled_post_types && in_array($current_post_type, $enabled_post_types)) {
-           quadsdebug()->info("200");
-           return true;
-       }*/
-       
-       // No scripts on frontpage when disabled
-       //if ($frontpage == 1 && is_front_page() == 1 && quads_is_excluded() !== true) {
-       if ($frontpage == 1 && is_front_page() == 1) {
-           quadsdebug()->info("300");
-            return true;
-       }
-
-    }
-    
-
-
-    
-    /* Returns Share buttons on specific positions
-     * Uses the_content filter
-     * @since 1.0
-     * @return string
-     */
-    function quadsshare_filter_content($content){
-        global $atts, $quads_options, $post, $wp_current_filter, $wp;
-        
-        // Do not execute filter for excerpts
-        //if(in_array('get_the_excerpt', $GLOBALS['wp_current_filter'])) return $content;
-        
-        /* define some vars here to reduce multiple execution of basic functions */
-        /* Use permalink when its not singular page, so on category pages the permalink is used. */
-        $url = quads_get_url();
-        $title = quads_get_title();
-        /*function_exists('quadsOG') ? $title = quadsOG()->quadsOG_OG_Output->_get_title() : $title = the_title_attribute('echo=0');
-        $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
-        $title = urlencode($title);
-        $title = str_replace('#' , '%23', $title);
-        $title = esc_html($title);*/
-        
-        $position = !empty($quads_options['quickads_position']) ? $quads_options['quickads_position'] : '';
-        $enabled_post_types = isset( $quads_options['post_types'] ) ? $quads_options['post_types'] : null;
-        $current_post_type = get_post_type();
-        $frontpage = isset( $quads_options['frontpage'] ) ? $quads_options['frontpage'] : null;
-        $excluded = isset( $quads_options['excluded_from'] ) ? $quads_options['excluded_from'] : null;
-        $singular = isset( $quads_options['singular'] ) ? $singular = true : $singular = false;
-        
-        if (strpos($excluded, ',') !== false) {
-             $excluded = explode(',', $excluded);
-             if (in_array($post->ID, $excluded)) {
-                return $content;
-             }  
-        }
-    
-        if ($post->ID == $excluded) {
-                return $content;
-        }  
-
-        if (!is_singular() == 1 && $singular !== true) {
-            return $content;
-        }
-
-        if ($frontpage == 0 && is_front_page() == 1) {
-            return $content;
-        }
-        
-        if ($enabled_post_types == null or !in_array($current_post_type, $enabled_post_types)) {
-            return $content;
-        }
-
-        if (in_array('get_the_excerpt', $wp_current_filter)) {
-            return $content;
-        }
-        
-        if (is_feed()) {
-            return $content;
-        }
-		
-            switch($position){
-                case 'manual':
-                break;
-
-                case 'both':
-                    $content = quadsshareShow($atts, '') . $content . quadsshareShow($atts, "bottom");
-                break;
-
-                case 'before':
-                    $content = quadsshareShow($atts, '') . $content;
-                    
-                break;
-
-                case 'after':
-                    $content .= quadsshareShow($atts, '');
-                break;
-            }
-            return $content;
-
-        }
-
-/* Template function quadsshare() 
- * @since 2.0.0
- * @return string
-*/ 
-function quadsshare(){
-    global $atts;
-    /*global $content;
-    global $post;
-    global $wp;*/
-
-    /* Use permalink when its not singular page, so on category pages the permalink is used. */
-    //is_singular() ? $url = urlencode(home_url( $wp->request )) : $url = urlencode(get_permalink($post->ID));
-    //$url = quads_get_url();
-    //$title = quads_get_title(); 
-    /*function_exists('quadsOG') ? $title = quadsOG()->quadsOG_OG_Output->_get_title() : $title = the_title_attribute('echo=0');
-    $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
-    $title = urlencode($title);
-    $title = str_replace('#' , '%23', $title);
-    $title = esc_html($title);*/
-    echo quadsshareShow($atts, '');
-}
-
-/* Deprecated: Template function quadssharer()
- * @since 1.0
- * @return string
-*/ 
-function quadssharer(){
-    global $atts;
-    /*global $content;
-    global $post;
-    global $wp;*/
-    //is_singular() ? $url = urlencode(home_url( $wp->request )) : $url = urlencode(get_permalink($post->ID));
-    //$url = quads_get_url();
-    //$title = quads_get_title();       
-    /*function_exists('quadsOG') ? $title = quadsOG()->quadsOG_OG_Output->_get_title() : $title = the_title_attribute('echo=0');
-    $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
-    $title = urlencode($title);
-    $title = str_replace('#' , '%23', $title);
-    $title = esc_html($title);*/
-    echo quadsshareShow($atts, '');
-}
-
-
-
-
-/**
- * Get Thumbnail image if existed
- *
- * @since 1.0
- * @param int $postID
- * @return string
- */
-function quads_get_image($postID){
-    quadsdebug()->timer('quads_get_image');
-            global $post;
-            if (has_post_thumbnail( $post->ID )) {
-				$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'single-post-thumbnail' );
-				return $image[0];
-            	}
-    quadsdebug()->timer('quads_get_image', true);
+	/* verifying */ 
+	if(	(is_feed()) ||
+			(strpos($content,'<!--NoAds-->')!==false) ||
+			(strpos($content,'<!--OffAds-->')!==false) ||
+			(is_single() && !( isset( $quads_options['visibility']['AppPost'] ) ) ) ||
+			(is_page() && !( isset($quads_options['visibility']['AppPage'] ) ) ) ||
+			(is_home() && !( isset( $quads_options['visibility']['AppHome'] ) ) ) ||			
+			(is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
+			(is_archive() && !( isset($quads_options['visibility']['AppArch'] ) ) ) ||
+			(is_tag() && !( isset($quads_options['visibility']['AppTags'] ) ) ) ||
+			(is_user_logged_in() && ( isset($quads_options['visibility']['AppLogg'] ) ) ) ) {
+		$content = quads_clean_tags($content); 
+                return $content; 
 	}
-add_action( 'quads_get_image', 'quads_get_image' );
+	
+	$AdsToShow = $quads_options['maxads'];
+	if (strpos($content,'<!--OffWidget-->')===false) {
+		for($i=1;$i<=$adWidgets;$i++) {
+			$wadsid = sanitize_title(str_replace(array('(',')'),'',sprintf($AdsWidName,$i)));
+			$AdsToShow -= (is_active_widget(true, $wadsid)) ? 1 : 0 ;
+		}		
+	}
 
-/**
- * Get excerpt for Facebook Share
- *
- * @since 1.0
- * @param int $postID
- * @return string
- */
-function quads_get_excerpt_by_id($post_id){
-    quadsdebug()->timer('quads_get_exerpt');
-	$the_post = get_post($post_id); //Gets post ID
-	$the_excerpt = $the_post->post_content; //Gets post_content to be used as a basis for the excerpt
-	$excerpt_length = 35; //Sets excerpt length by word count
-	$the_excerpt = strip_tags(strip_shortcodes($the_excerpt)); //Strips tags and images
-	$words = explode(' ', $the_excerpt, $excerpt_length + 1);
-	if(count($words) > $excerpt_length) :
-	array_pop($words);
-	array_push($words, '…');
-	$the_excerpt = implode(' ', $words);
-	endif;
-	$the_excerpt = '<p>' . $the_excerpt . '</p>';
-	return wp_strip_all_tags($the_excerpt);
-    quadsdebug()->timer('quads_get_exerpt', true);
+	if( $ShownAds >= $AdsToShow ) { 
+            $content = quads_clean_tags($content); 
+            return $content; 
+           
+        };
+
+	if( !count($AdsId) ) {  
+		for($i=1;$i<=$numberAds;$i++) { 
+			//$tmp = trim(get_option('AdsCode'.$i));
+                        $tmp = trim($quads_options['ad' . $i]['code']);
+
+			if( !empty($tmp) ) {
+                                $AdsId[] = $i;
+				//array_push($AdsId, $i); //Is throwing error because $AdsId is no array when 0 rhe
+			}
+		}
+	}	
+	if( !count($AdsId) ) { $content = quads_clean_tags($content); return $content; };
+
+	/* ... Tidy up content ... */
+	$content = str_replace("<p></p>", "##QA-TP1##", $content);
+	$content = str_replace("<p>&nbsp;</p>", "##QA-TP2##", $content);	
+	$offdef = (strpos($content,'<!--OffDef-->')!==false);
+	if( !$offdef ) {
+
+		$AdsIdCus = array();
+		$cusads = 'CusAds'; 
+                $cusrnd = 'CusRnd';
+                
+                $begn1 = isset($quads_options['pos1']['BegnAds']) ? true : false; 
+                $begn2 = isset($quads_options['pos1']['BegnRnd']) ? $quads_options['pos1']['BegnRnd'] : 0;
+
+		$midd1 = isset($quads_options['pos2']['MiddAds']) ? true : false; 
+                $midd2 = isset($quads_options['pos2']['MiddRnd']) ? $quads_options['pos2']['MiddRnd'] : 0;
+
+		$endi1 = isset($quads_options['pos3']['EndiAds']) ? true : false; 
+                $endi2 = isset($quads_options['pos3']['EndiRnd']) ? $quads_options['pos3']['EndiRnd'] : 0;
+                
+		$more1 = isset($quads_options['pos4']['MoreAds']) ? true : false; 
+                $more2 = isset($quads_options['pos4']['MoreRnd']) ? $quads_options['pos4']['MoreRnd'] : 0;
+                
+		$lapa1 = isset($quads_options['pos5']['LapaAds']) ? true : false; 
+                $lapa2 = isset($quads_options['pos5']['LapaRnd'])? $quads_options['pos5']['LapaRnd'] : 0 ;	
+                
+               
+		$rc=3;
+                $default = 5;
+		for($i=1;$i<=$rc;$i++) { 
+
+                        $key = $default +$i; // 6;7;8
+                        
+                        $para1[$i] = isset($quads_options['pos' . $key]['Par'.$i .'Ads']) ? $quads_options['pos' . $key]['Par'.$i .'Ads'] : 0;
+                        $para2[$i] = isset($quads_options['pos' . $key]['Par'.$i .'Rnd']) ? $quads_options['pos' . $key]['Par'.$i .'Rnd'] : 0;	
+                        $para3[$i] = isset($quads_options['pos' . $key]['Par'.$i .'Nup']) ? $quads_options['pos' . $key]['Par'.$i .'Nup'] : 0;	
+                        $para4[$i] = isset($quads_options['pos' . $key]['Par'.$i .'Con']) ? $quads_options['pos' . $key]['Par'.$i .'Con'] : 0;
+                        
+		}              
+                
+		$imageActive    = isset($quads_options['pos9']['Img1Ads']) ? $quads_options['pos9']['Img1Ads'] : false;	
+                $imageAdNo      = isset($quads_options['pos9']['Img1Rnd']) ? $quads_options['pos9']['Img1Rnd'] : false;	
+                $imageNo        = isset($quads_options['pos9']['Img1Nup']) ? $quads_options['pos9']['Img1Nup'] : false; 
+                $imageCaption   = isset($quads_options['pos9']['Img1Con']) ? $quads_options['pos9']['Img1Con'] : false;	
+                
+                
+		/*if ( !$begn2 ) { $b1 = $cusrnd; } else { $b1 = $cusads.$begn2; array_push($AdsIdCus, $begn2); };
+		if ( !$more2 ) { $r1 = $cusrnd; } else { $r1 = $cusads.$more2; array_push($AdsIdCus, $more2); };		
+		if ( !$midd2 ) { $m1 = $cusrnd; } else { $m1 = $cusads.$midd2; array_push($AdsIdCus, $midd2); };
+		if ( !$lapa2 ) { $g1 = $cusrnd; } else { $g1 = $cusads.$lapa2; array_push($AdsIdCus, $lapa2); };
+		if ( !$endi2 ) { $b2 = $cusrnd; } else { $b2 = $cusads.$endi2; array_push($AdsIdCus, $endi2); };*/
+
+                if ( $begn2 == 0 ) { $b1 = $cusrnd; } else { $b1 = $cusads.$begn2; array_push($AdsIdCus, $begn2); };
+		if ( $more2 == 0 ) { $r1 = $cusrnd; } else { $r1 = $cusads.$more2; array_push($AdsIdCus, $more2); };		
+		if ( $midd2 == 0 ) { $m1 = $cusrnd; } else { $m1 = $cusads.$midd2; array_push($AdsIdCus, $midd2); };
+		if ( $lapa2 == 0 ) { $g1 = $cusrnd; } else { $g1 = $cusads.$lapa2; array_push($AdsIdCus, $lapa2); };
+		if ( $endi2 == 0 ) { $b2 = $cusrnd; } else { $b2 = $cusads.$endi2; array_push($AdsIdCus, $endi2); };
+ 
+		for($i=1;$i<=$rc;$i++) { 
+			if ( $para2[$i] == 0 ) { $b3[$i] = $cusrnd; } else { $b3[$i] = $cusads.$para2[$i]; array_push($AdsIdCus, $para2[$i]); };	
+		}
+                
+                // Check if image ad is random one
+		if ( $imageAdNo == 0 ) { 
+                    $b4 = $cusrnd;
+                    } else { 
+                        $b4 = $cusads.$imageAdNo; 
+                        array_push($AdsIdCus, $imageAdNo); 
+                };
+                
+                // Check if image ad is middle one
+		if( $midd1 && strpos($content,'<!--OffMiddle-->')===false) {
+			if( substr_count(strtolower($content), '</p>')>=2 ) {
+				$sch = "</p>";
+				$content = str_replace("</P>", $sch, $content);
+				$arr = explode($sch, $content);			
+				$nn = 0; $mm = strlen($content)/2;
+				for($i=0;$i<count($arr);$i++) {
+					$nn += strlen($arr[$i]) + 4;
+					if($nn>$mm) {
+						if( ($mm - ($nn - strlen($arr[$i]))) > ($nn - $mm) && $i+1<count($arr) ) {
+							$arr[$i+1] = '<!--'.$m1.'-->'.$arr[$i+1];							
+						} else {
+							$arr[$i] = '<!--'.$m1.'-->'.$arr[$i];
+						}
+						break;
+					}
+				}
+				$content = implode($sch, $arr);
+			}	
+		}
+                
+                // Check if image ad is "More Tag" one
+		if( $more1 && strpos($content,'<!--OffAfMore-->')===false) {
+			$mmr = '<!--'.$r1.'-->';
+			$postid = get_the_ID();
+			$content = str_replace('<span id="more-'.$postid.'"></span>', $mmr, $content);		
+		}	
+
+		if( $begn1 && strpos($content,'<!--OffBegin-->')===false) {
+			$content = '<!--'.$b1.'-->'.$content;
+		}
+		if( $endi1 && strpos($content,'<!--OffEnd-->')===false) {
+			$content = $content.'<!--'.$b2.'-->';
+		}
+		if( $lapa1 && strpos($content,'<!--OffBfLastPara-->')===false){
+			$sch = "<p>";
+			$content = str_replace("<P>", $sch, $content);
+			$arr = explode($sch, $content);
+			if ( count($arr) > 2 ) {
+				$content = implode($sch, array_slice($arr, 0, count($arr)-1)) .'<!--'.$g1.'-->'. $sch. $arr[count($arr)-1];
+			}
+		}
+		for($i=$rc;$i>=1;$i--) { 
+			if ( $para1[$i] ){
+				$sch = "</p>";
+				$content = str_replace("</P>", $sch, $content);
+				$arr = explode($sch, $content);
+				if ( (int)$para3[$i] < count($arr) ) {
+					$content = implode($sch, array_slice($arr, 0, $para3[$i])).$sch .'<!--'.$b3[$i].'-->'. implode($sch, array_slice($arr, $para3[$i]));
+				}	elseif ($para4[$i]) {
+					$content = implode($sch, $arr).'<!--'.$b3[$i].'-->';
+				}
+			}
+		}	
+
+		if ( $imageActive ){
+
+                        // Sanitation
+			$imgtag = "<img"; 
+                        $delimiter = ">"; 
+                        $caption = "[/caption]"; 
+                        $atag = "</a>";			
+			$content = str_replace("<IMG", $imgtag, $content);
+			$content = str_replace("</A>", $atag, $content);
+                        
+                        // Start
+			$arr = explode($imgtag, $content);
+			if ( (int)$imageNo < count($arr) ) {
+				$arrImages = explode($delimiter, $arr[$imageNo]);
+				if ( count($arrImages) > 1 ) {
+					$tss = explode($caption, $arr[$imageNo]);
+					$ccp = ( count($tss) > 1 ) ? strpos(strtolower($tss[0]),'[caption ')===false : false ;
+					$arrAtag = explode($atag, $arr[$imageNo]);
+					$cdu = ( count($arrAtag) > 1 ) ? strpos(strtolower($arrAtag[0]),'<a href')===false : false ;					
+					if ( $imageCaption && $ccp ) {
+						$arr[$imageNo] = implode($caption, array_slice($tss, 0, 1)).$caption. "\r\n".'<!--'.$b4.'-->'."\r\n". implode($caption, array_slice($tss, 1));
+					}else if ( $cdu ) {
+						$arr[$imageNo] = implode($atag, array_slice($arrAtag, 0, 1)).$atag. "\r\n".'<!--'.$b4.'-->'."\r\n". implode($atag, array_slice($arrAtag, 1));
+					}else{
+						$arr[$imageNo] = implode($delimiter, array_slice($arrImages, 0, 1)).$delimiter. "\r\n".'<!--'.$b4.'-->'."\r\n". implode($delimiter, array_slice($arrImages, 1));
+					}
+				}
+				$content = implode($imgtag, $arr);
+			}	
+		}		
+	}
+	
+	/* ... Tidy up content ... */
+	$content = '<!--EmptyClear-->'.$content."\n".'<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div>';
+	$content = quads_clean_tags($content, true);	
+	$ismany = (!is_single() && !is_page());
+	$showall = isset($quads_options['visibility']['AppMaxA']) ? $quads_options['visibility']['AppMaxA'] : 0;
+	
+	/* ... Replace Beginning/Middle/End Ads1-10 ... */
+	if( !$offdef ) {
+		for( $i=1; $i<=count($AdsIdCus); $i++ ) {
+			if( $showall || !$ismany || $beginend != $i ) {
+				if( strpos($content,'<!--'.$cusads.$AdsIdCus[$i-1].'-->')!==false && in_array($AdsIdCus[$i-1], $AdsId)) {
+					$content = quads_replace_ads( $content, $cusads.$AdsIdCus[$i-1], $AdsIdCus[$i-1] ); 
+                                        $AdsId = quads_del_element($AdsId, array_search($AdsIdCus[$i-1], $AdsId)) ;
+					$ShownAds += 1; 
+                                        if( $ShownAds >= $AdsToShow || !count($AdsId) ){ 
+                                            $content = quads_clean_tags($content); 
+                                            return $content; 
+                                        };
+					$beginend = $i; 
+                                        if(!$showall && $ismany){
+                                            break;
+                                        } 
+				}
+			}	
+		}	
+	}
+	
+	/* ... Replace Ads1 to Ads10 ... */
+	if( $showall || !$ismany ) {
+		$tcn = count($AdsId); $tt = 0;
+		for( $i=1; $i<=$tcn; $i++ ) {
+			if( strpos($content, '<!--Ads'.$AdsId[$tt].'-->')!==false ) {
+				$content = quads_replace_ads( $content, 'Ads'.$AdsId[$tt], $AdsId[$tt] ); $AdsId = quads_del_element($AdsId, $tt) ;
+				$ShownAds += 1; if( $ShownAds >= $AdsToShow || !count($AdsId) ){ $content = clean_tags($content); return $content; };
+			} else {
+				$tt += 1;
+			}
+		}	
+	}	
+
+	/* ... Replace Beginning/Middle/End random Ads ... */
+	if( strpos($content, '<!--'.$cusrnd.'-->')!==false && ($showall || !$ismany) ) {
+		$tcx = count($AdsId);
+		$tcy = substr_count($content, '<!--'.$cusrnd.'-->');
+		for( $i=$tcx; $i<=$tcy-1; $i++ ) {
+			array_push($AdsId, -1);
+		}
+		shuffle($AdsId);
+		for( $i=1; $i<=$tcy; $i++ ) {
+			$content = quads_replace_ads( $content, $cusrnd, $AdsId[0] ); $AdsId = quads_del_element($AdsId, 0) ;
+			$ShownAds += 1; if( $ShownAds >= $AdsToShow || !count($AdsId) ){ $content = quads_clean_tags($content); return $content; };
+		}
+	}
+	
+	/* ... Replace RndAds ... */
+	if( strpos($content, '<!--RndAds-->')!==false && ($showall || !$ismany) ) {
+		$AdsIdTmp = array();
+		shuffle($AdsId);
+		for( $i=1; $i<=$AdsToShow-$ShownAds; $i++ ) {
+			if( $i <= count($AdsId) ) {
+				array_push($AdsIdTmp, $AdsId[$i-1]);
+			}
+		}
+		$tcx = count($AdsIdTmp);
+		$tcy = substr_count($content, '<!--RndAds-->');
+ 		for( $i=$tcx; $i<=$tcy-1; $i++ ) {
+			array_push($AdsIdTmp, -1);
+		}
+		shuffle($AdsIdTmp);
+		for( $i=1; $i<=$tcy; $i++ ) {
+			$tmp = $AdsIdTmp[0];
+			$content = quads_replace_ads( $content, 'RndAds', $AdsIdTmp[0] ); $AdsIdTmp = quads_del_element($AdsIdTmp, 0) ;
+			if($tmp != -1){$ShownAds += 1;}; if( $ShownAds >= $AdsToShow || !count($AdsIdTmp) ){ $content = clean_tags($content); return $content; };
+		}
+	}	
+
+	/* ... That's it. DONE :) ... */
+	$content = quads_clean_tags($content); return $content;
 }
-add_action( 'quads_get_excerpt_by_id', 'quads_get_excerpt_by_id' );
-
-/**
- * Create a factor for calculating individual fake counts 
- * based on the number of word within a page title
- *
- * @since 2.0
- * @return int
- */
-function quads_get_fake_factor() {
-    $wordcount = str_word_count(the_title_attribute('echo=0')); //Gets title to be used as a basis for the count
-    $factor = $wordcount / 10;
-    return apply_filters('quads_fake_factor', $factor);
-}
-
-/* Sharecount fake number
- * @return int
- * @since 2.0.9
- * 
- */
-
-function getFakecount() {
-    global $quads_options, $wp;
-    $fakecountoption = 0;
-    if (isset($quads_options['fake_count'])) {
-        $fakecountoption = $quads_options['fake_count'];
-    }
-    $fakecount = round($fakecountoption * quads_get_fake_factor(), 0);
-    //quadsdebug()->info("fakecount: " . $fakecount);
-    //return apply_filters('filter_get_fakecount', $fakecount);
-    return $fakecount;
-}
-
-/* Show sharecount only when there is number of x shares. otherwise its hidden via css
- * @return bool
- * @since 2.0.7
- */
-
-function quads_hide_shares(){
-    global $quads_options, $post, $wp;
-    $url = get_permalink(isset($post->ID));
-    $sharelimit = isset($quads_options['hide_sharecount']) ? $quads_options['hide_sharecount'] : 0;
-   
-    if ($sharelimit > 0){
-        //quadsdebug()->error( "getsharedcount: " . getSharedcount($url) . "sharelimit " . $sharelimit);
-        if (getSharedcount($url) > $sharelimit){
-            return false;
-        }else {
-            return true;
-        }
-    }
-    return false;
-}
-
-/**
- * Add Custom Styles with WP wp_add_inline_style Method
- *
- * @since 1.0
- * 
- * @return string
- */
-
-function quads_styles_method() {
-    global $quads_options;
-    isset($quads_options['small_buttons']) ? $smallbuttons = true : $smallbuttons = false;
-    
-    /* VARS */
-    isset($quads_options['share_color']) ? $share_color = $quads_options['share_color'] : $share_color = '';
-    isset($quads_options['custom_css']) ? $custom_css = $quads_options['custom_css'] : $custom_css = '';
-    isset($quads_options['button_width']) ? $button_width = $quads_options['button_width'] : $button_width = '';
-    
-    /* STYLES */
-    $quads_custom_css = "
-        .quads-count {
-        color: {$share_color};
-        }"; 
-    if ( !empty($quads_options['border_radius']) && $quads_options['border_radius'] != 'default' ){
-    $quads_custom_css .= '
-        [class^="quadsicon-"], .onoffswitch-label, .onoffswitch2-label {
-            border-radius: ' . $quads_options['border_radius'] . 'px;
-        }';   
-    }
-    if ( !empty($quads_options['quads_style']) && $quads_options['quads_style']  == 'shadow' ){
-    $quads_custom_css .= '
-        .quads-buttons a, .onoffswitch, .onoffswitch2, .onoffswitch-inner:before, .onoffswitch2-inner:before  {
-            -webkit-transition: all 0.07s ease-in;
-            -moz-transition: all 0.07s ease-in;
-            -ms-transition: all 0.07s ease-in;
-            -o-transition: all 0.07s ease-in;
-            transition: all 0.07s ease-in;
-            box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.2),inset 0 -1px 0 0 rgba(0, 0, 0, 0.3);
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
-            border: none;
-            -moz-user-select: none;
-            -webkit-font-smoothing: subpixel-antialiased;
-            -webkit-transition: all linear .25s;
-            -moz-transition: all linear .25s;
-            -o-transition: all linear .25s;
-            -ms-transition: all linear .25s;
-            transition: all linear .25s;
-        }';   
-    }
-    if ( !empty($quads_options['quads_style']) && $quads_options['quads_style']  == 'gradiant' ){
-    $quads_custom_css .= '
-        .quads-buttons a  {
-            background-image: -webkit-linear-gradient(bottom,rgba(0, 0, 0, 0.17) 0%,rgba(255, 255, 255, 0.17) 100%);
-            background-image: -moz-linear-gradient(bottom,rgba(0, 0, 0, 0.17) 0%,rgba(255, 255, 255, 0.17) 100%);
-            background-image: linear-gradient(bottom,rgba(0,0,0,.17) 0%,rgba(255,255,255,.17) 100%);
-            
-        }';   
-    }
-    if (quads_hide_shares() === true){
-    $quads_custom_css .= ' 
-        .quads-box .quads-count {
-            display: none;
-        }';   
-    }
-    
-    if ($smallbuttons === true){
-    $quads_custom_css .= '[class^="quadsicon-"] .text, [class*=" quadsicon-"] .text{
-        text-indent: -9999px !important;
-        line-height: 0px;
-        display: block;
-        } 
-    [class^="quadsicon-"] .text:after, [class*=" quadsicon-"] .text:after {
-        content: "" !important;
-        text-indent: 0;
-        font-size:13px;
-        display: block !important;
-    }
-    [class^="quadsicon-"], [class*=" quadsicon-"] {
-        width:25%;
-        text-align: center !important;
-    }
-    [class^="quadsicon-"] .icon:before, [class*=" quadsicon-"] .icon:before {
-        float:none;
-        margin-right: 0;
-    }
-    .quads-buttons a{
-       margin-right: 3px;
-       margin-bottom:3px;
-       min-width: 0;
-       width: 41px;
-    }
-
-    .onoffswitch, 
-    .onoffswitch-inner:before, 
-    .onoffswitch-inner:after 
-    .onoffswitch2,
-    .onoffswitch2-inner:before, 
-    .onoffswitch2-inner:after  {
-        margin-right: 0px;
-        width: 41px;
-        line-height: 41px;
-    }';   
-    } else {
-    $quads_custom_css .= '
-    .quads-buttons a {
-    min-width: ' . $button_width . 'px;}';
-    }
-    
-    $quads_custom_css .= $custom_css;
-        // ----------- Hook into existed 'quads-style' at /templates/quadssb.min.css -----------
-        wp_add_inline_style( 'quads-styles', $quads_custom_css );
-}
-add_action( 'wp_enqueue_scripts', 'quads_styles_method' );
-
-
-
-    /* Additional content above share buttons 
-     * 
-     * @return string $html
-     * @scince 2.3.2
-     */
-    function quads_content_above(){
+function quads_clean_tags($content, $trimonly = false) {
+	global $QData;
+	global $ShownAds;
+	global $AdsId;
+	global $beginend;
         global $quads_options;
-        $html = !empty ($quads_options['content_above']) ? '<div class="quads_above_buttons">' . $quads_options['content_above'] . '</div>' : '';
-        return apply_filters( 'quads_above_buttons', $html );
-    }
-    
-    /* Additional content above share buttons 
-     * 
-     * @return string $html
-     * @scince 2.3.2
-     */
-    function quads_content_below(){
-        global $quads_options;
-        $html = !empty ($quads_options['content_below']) ? '<div class="quads_below_buttons">' .$quads_options['content_below'] . '</div>' : '';
-        return apply_filters( 'quads_below_buttons', $html );
-    }
-
-/**
- * Return general post title
- * 
- * @param string $title default post title
- * @return string the default post title, shortcode title or custom twitter title
- */
-function quads_get_title() {
-    function_exists('quadsOG') ? $title = quadsOG()->quadsOG_OG_Output->_get_title() : $title = the_title_attribute('echo=0');
-    $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
-    $title = urlencode($title);
-    $title = str_replace('#' , '%23', $title);
-    $title = esc_html($title);
-    
-    return $title;
+        
+	$tagnames = array('EmptyClear','RndAds','NoAds','OffDef','OffAds','OffWidget','OffBegin','OffMiddle','OffEnd','OffBfMore','OffAfLastPara','CusRnd');
+	//for($i=1;$i<=$QData['Ads'];$i++) { array_push($tagnames, 'CusAds'.$i); array_push($tagnames, 'Ads'.$i); };
+        for($i=1;$i<=10;$i++) { array_push($tagnames, 'CusAds'.$i); array_push($tagnames, 'Ads'.$i); };
+        
+        
+	foreach ($tagnames as $tgn) {
+		if(strpos($content,'<!--'.$tgn.'-->')!==false || $tgn=='EmptyClear') {
+			if($trimonly) {
+				$content = str_replace('<p><!--'.$tgn.'--></p>', '<!--'.$tgn.'-->', $content);	
+			}else{
+				$content = str_replace(array('<p><!--'.$tgn.'--></p>','<!--'.$tgn.'-->'), '', $content);	
+				$content = str_replace("##QA-TP1##", "<p></p>", $content);
+				$content = str_replace("##QA-TP2##", "<p>&nbsp;</p>", $content);
+			}
+		}
+	}
+	if(!$trimonly && (is_single() || is_page()) ) {
+		$ShownAds = 0;
+		$AdsId = array();
+		$beginend = 0;
+	}	
+	return $content;
 }
+function quads_replace_ads($content, $nme, $adn) {
+	if( strpos($content,'<!--'.$nme.'-->')===false ) { return $content; }	
+	global $quads_options;
 
-/**
- * Return twitter custom title
- * 
- * @return string the custom twitter title
- */
-function quads_get_twitter_title() {
-    if (function_exists('quadsOG')) {
-        $title = quadsOG()->quadsOG_OG_Output->_get_tw_title();
-        $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
-        $title = urlencode($title);
-        $title = str_replace('#', '%23', $title);
-        $title = esc_html($title);
-        $title = str_replace('+', '%20', $title);
-    } else {
-        $title = quads_get_title();
-        $title = str_replace('+', '%20', $title);
-    }
-    return $title;
+	if ($adn != -1) {
+		$arr = array('',
+			'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
+			'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
+			'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
+			'float:none;margin:0px;');
+		$adsalign = $quads_options['ad' . $adn]['align'];
+		$adsmargin = $quads_options['ad' . $adn]['margin'];
+		$style = sprintf($arr[(int)$adsalign], $adsmargin);
+		//$adscode = get_option('AdsCode'.$adn);
+                $adscode = $quads_options['ad' . $adn ]['code'];
+
+		$adscode =
+			"\n".'<!-- Quick AdSense Reloaded Plugin v. ' . QUADS_VERSION .' -->'."\n".
+			'<div style="'.$style.'">'."\n".
+			$adscode."\n".
+			'</div>'."\n";
+	} else {
+		$adscode ='';
+	}	
+	$cont = explode('<!--'.$nme.'-->', $content, 2);	
+	return $cont[0].$adscode.$cont[1];
 }
-
-    
-/* Get URL to share
- * 
- * @return url  $string
- * @scince 2.2.8
- */
-
-function quads_get_url(){
-    global $wp, $post, $numpages;
-    if($numpages > 1){ // check if '<!-- nextpage -->' is used
-        $url = urlencode(get_permalink($post->ID));
-    } elseif (is_singular()){
-        $url = urlencode(get_permalink($post->ID));
-    }else{
-        $url = urlencode(get_permalink($post->ID));
-    }
-    return apply_filters('quads_get_url', $url);
+function quads_del_element($array, $idx) {
+  $copy = array();
+	for( $i=0; $i<count($array) ;$i++) {
+		if ( $idx != $i ) {
+			array_push($copy, $array[$i]);
+		}
+	}	
+  return $copy;
 }
+add_filter('the_content', 'quads_process_content');
 
-/* Get twitter URL to share
- * 
- * @return url  $string
- * @scince 2.2.8
- */
 
-function quads_get_twitter_url(){
-    global $wp, $post, $numpages; 
-       if ( function_exists('quadssuGetShortURL')){
-            $url = quads_get_url();
-            quadssuGetShortURL($url) !== 0 ? $url = quadssuGetShortURL( $url ) : $url = quads_get_url();
-        } else {
-            $url = quads_get_url();
-        }
-    return apply_filters('quads_get_twitter_url', $url);
-}

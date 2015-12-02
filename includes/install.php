@@ -6,19 +6,18 @@
  * @subpackage  Functions/Install
  * @copyright   Copyright (c) 2015, René Hermenau
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       2.0
+ * @since       0.9.0
 */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-/* Install Multisite
+/* Install on Multisite
+ * 
  * check first if multisite is enabled
- * @since 2.1.1
+ * @since 0.9.0
  * 
  */
-
-register_activation_hook( quads_PLUGIN_FILE, 'quads_install_multisite' );
 
 function quads_install_multisite($networkwide) {
     global $wpdb;
@@ -39,6 +38,7 @@ function quads_install_multisite($networkwide) {
     } 
     quads_install();      
 }
+register_activation_hook( QUADS_PLUGIN_FILE, 'quads_install_multisite' );
 
 /**
  * Install
@@ -47,7 +47,7 @@ function quads_install_multisite($networkwide) {
  * pages. After successful install, the user is redirected to the QUADS Welcome
  * screen.
  *
- * @since 2.0
+ * @since 0.9.0
  * @global $wpdb
  * @global $quads_options
  * @global $wp_version
@@ -66,37 +66,18 @@ function quads_install() {
 	}
 
         // Update the current version
-        update_option( 'quads_version', quads_VERSION );
+        update_option( 'quads_version', QUADS_VERSION );
         // Add plugin installation date and variable for rating div
-        add_option('quads_installDate',date('Y-m-d h:i:s'));
-        add_option('quads_RatingDiv','no');
-        if ( !get_option('quads_update_notice') )
+        add_option('quads_install_date',date('Y-m-d h:i:s'));
+        add_option('quads_rating_div','no');
+        /*if ( !get_option('quads_update_notice') )
             add_option('quads_update_notice','no');
-	
+	*/
                 
-    /* Setup some default options
-     * Store our initial social networks in separate option row.
-     * For easier modification and to prevent some trouble
-     */
-    $networks = array(
-        'Facebook',
-        'Twitter',
-        'Subscribe'
-    );
-    
-    if (is_plugin_inactive('quadsshare-networks/quadsshare-networks.php')) {
-        update_option('quads_networks', $networks);
-    }
-    
-    // Bail if activating from network, or bulk
-	if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
-		return;	
-        }
         
         // Add the transient to redirect / not for multisites
 	set_transient( '_quads_activation_redirect', true, 30 );
         
-
 
 }
 
@@ -106,7 +87,7 @@ function quads_install() {
  * Runs just after plugin installation and exposes the
  * quads_after_install hook.
  *
- * @since 2.0
+ * @since 0.9.0
  * @return void
  */
 function quads_after_install() {

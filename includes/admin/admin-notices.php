@@ -15,25 +15,42 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Admin Messages
  *
- * @since 2.2.3
- * @global $quads_options Array of all the QUADS Options
+ * @since 0.9.0
+ * @global $quads_options array of all the QUADS Options
  * @return void
  */
 function quads_admin_messages() {
 	global $quads_options;
+        
+        if ( isset( $_GET['quads-message'] ) && 'settings-imported' == $_GET['quads-message'] && current_user_can( 'update_plugins' ) ) {
+		 add_settings_error( 'quads-notices', 'quads-settings-imported', __( 'The settings have been imported.', 'quick-adsense-reloaded' ), 'updated' );
+	}
+        if ( quads_check_quick_adsense_status() && current_user_can( 'update_plugins' ) ) {
+
+                echo '<div class="error">';
+			echo '<p>' . __( 'You have to disable <strong> Quick AdSense plugin</strong> first to be able to use Quick AdSense Reloaded without issues. <br> You should not use both plugins enabled! Try if you can migrate the settings from Quick AdSense via "Import/Export"', 'quick-adsense-reloaded' ) . '</p>';
+		echo '</div>';
+	}
+     
+        
+        // Show rating notice only to administrator
+        if (!current_user_can('update_plugins'))
+        return;
         
         $install_date = get_option('quads_install_date');
         $display_date = date('Y-m-d h:i:s');
 	$datetime1 = new DateTime($install_date);
 	$datetime2 = new DateTime($display_date);
 	$diff_intrval = round(($datetime2->format('U') - $datetime1->format('U')) / (60*60*24));
-        if($diff_intrval >= 7 && get_option('quads_rating_div')=="no")
+        //if($diff_intrval >= 7 && get_option('quads_rating_div')=="no")
+        if($diff_intrval >= 6 && get_option('quads_rating_div')== "no")
     {
-	 echo '<div class="quads_fivestar" style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);">
-    	<p>Awesome, you\'ve been using <strong>Quick AdSense Reloaded</strong> for more than 1 week. May we ask you to give it a <strong>5-star</strong> rating on Wordpress? 
-        <br><strong>~ René Hermenau</strong>
+	 echo '<div class="quads_fivestar updated settings-error notice style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);">
+    	<p>Awesome, you\'ve been using <strong>Quick AdSense Reloaded</strong> for more than 1 week. <br> May i ask you to give it a rating on Wordpress? <br>
+        This will help to spread its popularity and to make this plugin a better one.
+        <br><br>Your help is much appreciated. Thank you very much,<br> ~René Hermenau
         <ul>
-        	<li><a href="https://wordpress.org/support/view/plugin-reviews/quick-adsense-reloaded" class="thankyou" target="_new" title="Ok, you deserved it" style="font-weight:bold;">Ok, you deserved it</a></li>
+            <li><a href="https://wordpress.org/support/view/plugin-reviews/quick-adsense-reloaded" class="thankyou" target="_new" title="Ok, you deserved it" style="font-weight:bold;">Ok, you deserved it</a></li>
             <li><a href="javascript:void(0);" class="quadsHideRating" title="I already did" style="font-weight:bold;">I already did</a></li>
             <li><a href="javascript:void(0);" class="quadsHideRating" title="No, not good enough" style="font-weight:bold;">No, not good enough</a></li>
         </ul>
@@ -52,7 +69,7 @@ function quads_admin_messages() {
         async: !0,
         success: function(e) {
             if (e=="success") {
-               jQuery(\'.quads_fivestar\').slideUp(\'slow\');
+               jQuery(\'.quads_fivestar\').slideUp(\'fast\');
 			   
             }
         }
@@ -102,18 +119,18 @@ add_action('wp_ajax_hide_update','quads_hide_update_div');
 /**
  * Admin Add-ons Notices
  *
- * @since 1.0
+ * @since 0.9.0
  * @return void
 */
 function quads_admin_addons_notices() {
-	add_settings_error( 'quads-notices', 'quads-addons-feed-error', __( 'There seems to be an issue with the server. Please try again in a few minutes.', 'quads' ), 'error' );
+	add_settings_error( 'quads-notices', 'quads-addons-feed-error', __( 'There seems to be an issue with the server. Please try again in a few minutes.', 'quick-adsense-reloaded' ), 'error' );
 	settings_errors( 'quads-notices' );
 }
 
 /**
  * Dismisses admin notices when Dismiss links are clicked
  *
- * @since 1.8
+ * @since 0.9.0
  * @return void
 */
 function quads_dismiss_notices() {
@@ -136,7 +153,7 @@ add_action( 'quads_dismiss_notices', 'quads_dismiss_notices' );
  * 
  */
 
-function in_plugin_update_message( $args ) {
+function quads_plugin_update_message( $args ) {
     $transient_name = 'quads_upgrade_notice_' . $args['Version'];
 
     if ( false === ( $upgrade_notice = get_transient( $transient_name ) ) ) {
@@ -172,4 +189,4 @@ function in_plugin_update_message( $args ) {
 
     echo wp_kses_post( $upgrade_notice );
   }
- add_action ( "in_plugin_update_message-quick-adsense-reloaded/quick-adsense-reloaded.php", 'in_plugin_update_message'  );
+ add_action ( "in_plugin_update_message-quick-adsense-reloaded/quick-adsense-reloaded.php", 'quads_plugin_update_message'  );

@@ -3,6 +3,7 @@
 * Simple Logger Class
 *
 * @author Josh Nesbitt <josh@josh-nesbitt.net>
+* @author René Hermenau info@mashshare.net
 *
 * By default will write to path/to/logger/ + log/filename.log
 * Author url: https://raw.githubusercontent.com/joshnesbitt/logger/master/lib/logger.php
@@ -20,8 +21,8 @@ class quadsLogger {
 	{
 		$this->file = $file;
 		$this->level = $level;
-		$this->path = quads_PLUGIN_DIR . "logs/$this->file";
-                $this->folder = quads_PLUGIN_DIR . "logs";
+		$this->path = QUADS_PLUGIN_DIR . "logs/$this->file";
+                $this->folder = QUADS_PLUGIN_DIR . "logs";
 		$this->start();
 	}
 	

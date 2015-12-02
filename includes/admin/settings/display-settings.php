@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @return string
  */
 
-function getTabHeader($page, $section){
+function quads_get_tab_header($page, $section){
     global $quads_options;
     global $wp_settings_fields;
     
@@ -31,13 +31,26 @@ function getTabHeader($page, $section){
     foreach ((array) $wp_settings_fields[$page][$section] as $field) {  
     $sanitizedID = str_replace('[', '', $field['id'] );
     $sanitizedID = str_replace(']', '', $sanitizedID );     
-     if (strpos($field['callback'],'header') !== false) { 
+     if ( strpos($field['callback'],'header') !== false && !quads_is_excluded(array('help') ) ) { 
          echo '<li class="quads-tabs"><a href="#' . $sanitizedID . '">' . $field['title'] .'</a></li>';
-     }      
+     }
     }
     echo '</ul>';
 }
 
+/**
+ * Check if current page is excluded
+ * 
+ * @param array $pages
+ * @return boolean
+ */
+function quads_is_excluded($pages){
+    if (isset($_GET['tab'])){
+        $currentpage = $_GET['tab'];
+        if (isset($currentpage) && in_array($currentpage, $pages))
+                return true;
+    }
+}
 
 /**
  * Print out the settings fields for a particular settings section
@@ -85,23 +98,23 @@ function quads_do_settings_fields($page, $section) {
        // Check if header has been created previously
        if (strpos($field['callback'],'header') !== false && $firstHeader === false) { 
            echo '<div id="' . $sanitizedID . '">'; 
-           echo '<table class="form-table"><tbody>';
+           echo '<table class="quads-form-table"><tbody>';
            $firstHeader = true;
        } elseif (strpos($field['callback'],'header') !== false && $firstHeader === true) { 
        // Header has been created previously so we have to close the first opened div
            echo '</table></div><div id="' . $sanitizedID . '">'; 
-           echo '<table class="form-table"><tbody>';
+           echo '<table class="quads-form-table"><tbody>';
            
        }  
-        echo '<tr class="row"><th class="row th">';
+        echo '<tr class="row"><td class="row th" style="width:150px;vertical-align:top;">';
         //echo "<pre>";
         //var_dump($field);
         if (!empty($field['args']['label_for']))
             echo '<label for="' . esc_attr($field['args']['label_for']) . '">' . $field['title'] . '</label>';
         else
-            echo '<div class="col-title">' . $field['title'] . '<span class="description">' . $field['args']['desc'] . '</span></div>';
-        echo '</th>';
-        echo '<td>';
+            echo '<div class="col-title">' . $field['title'] . '</div>';
+        echo '</td>';
+        echo '<td class="row th">';
         call_user_func($field['callback'], $field['args']);
         echo '</td></tr>';
         
@@ -130,14 +143,26 @@ function quads_options_page() {
 	ob_start();
 	?>
 	<div class="wrap quads_admin">
-             <h1 class="quadssharelogo"> <?php echo __('Welcome to Quick AdSense Reloaded ', 'quads') . quads_VERSION; ?></h1>
-            <div class="about-text" style="font-weight: 400;line-height: 1.6em;font-size: 19px;">
-                <?php echo __('Thank you for updating to the latest version!', 'quads');?>
+             <h1 style="text-align:center;"> <?php echo __('Welcome to Quick AdSense Reloaded ', 'quick-adsense-reloaded') . QUADS_VERSION; ?></h1>
+            <div class="about-text" style="font-weight: 400;line-height: 1.6em;text-align:center;">
+                 <?php echo __('A fork of Quick AdSense 1.9.2 by Tedd Garland', 'quick-adsense-reloaded'); ?> 
                 <br>
-                <?php echo __('Quick AdSense Reloaded is ready to increase your Shares!', 'quads'); ?>
-                <?php if (!function_exists('curl_init')){ echo '<br><span style="color:red;">' . __('php_curl is not working on your server. </span><a href="http://us.informatiweb.net/programmation/32--enable-curl-extension-of-php-on-windows.html" target="_blank">Please enable it.</a>'); } ?>
-                <br>
-                <iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fquadsshare.net&amp;width=100&amp;layout=standard&amp;action=like&amp;show_faces=false&amp;share=true&amp;height=35&amp;appId=449277011881884" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:400px; height:25px;" allowTransparency="true"></iframe>
+                        <div class='quads-share-button-container'>
+                        <div class='quads-share-button quads-share-button-twitter' data-share-url="https://wordpress.org/plugins/quick-adsense-reloaded">
+                            <div clas='box'>
+                                <a href="https://twitter.com/share?url=https://wordpress.org/plugins/quick-adsense-reloaded&text=Quick%20AdSense%20reloaded%20-%20a%20brand%20new%20fork%20of%20the%20popular%20AdSense%20Plugin%20Quick%20Adsense!" target='_blank'>
+                                    <span class='quads-share'><?php echo __('Tweet','quick-adsense-reloaded'); ?></span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="quads-share-button quads-share-button-facebook" data-share-url="https://wordpress.org/plugins/quick-adsense-reloaded">
+                            <div class="box">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https://wordpress.org/plugins/quick-adsense-reloaded" target="_blank">
+                                    <span class='quads-share'><?php echo __('Share','quick-adsense-reloaded'); ?></span>
+                                </a>
+                            </div>
+                        </div>
             </div>
 		<h2 class="nav-tab-wrapper">
 			<?php
@@ -156,9 +181,9 @@ function quads_options_page() {
 			}
 			?>
 		</h2>
-		<div id="tab_container" class="tab_container">
-                        <?php getTabHeader( 'quads_settings_' . $active_tab, 'quads_settings_' . $active_tab ); ?>   
-                    <div class="panel-container"> <!-- new //-->
+		<div id="quads_tab_container" class="quads_tab_container">
+                        <?php quads_get_tab_header( 'quads_settings_' . $active_tab, 'quads_settings_' . $active_tab ); ?>   
+                    <div class="quads-panel-container"> <!-- new //-->
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'quads_settings' );
@@ -166,6 +191,7 @@ function quads_options_page() {
 				?>
 				<!--</table>-->
                                 
+                                <?php  settings_errors(); ?>
 				<?php 
                                 // do not show save button on add-on page
                                 if ($active_tab !== 'addons')

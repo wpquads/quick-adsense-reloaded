@@ -24,8 +24,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @return array $links
  */
 function quads_plugin_action_links( $links, $file ) {
-	$settings_link = '<a href="' . admin_url( 'options-general.php?page=quads-settings' ) . '">' . esc_html__( 'General Settings', 'quads' ) . '</a>';
-	if ( $file == 'quadssharer/quadsshare.php' )
+	$settings_link = '<a href="' . admin_url( 'options-general.php?page=quads-settings' ) . '">' . esc_html__( 'General Settings', 'quick-adsense-reloaded' ) . '</a>';
+	if ( $file == 'quick-adsense-reloaded/quick-adsense-reloaded.php' )
 		array_unshift( $links, $settings_link );
 
 	return $links;
@@ -37,19 +37,19 @@ add_filter( 'plugin_action_links', 'quads_plugin_action_links', 10, 2 );
  * Plugin row meta links
  *
  * @author Michael Cannon <mc@aihr.us>
- * @since 2.0
+ * @since 0.0.9
  * @param array $input already defined meta links
  * @param string $file plugin file path and name being processed
  * @return array $input
  */
 function quads_plugin_row_meta( $input, $file ) {
-	if ( $file != 'quadssharer/quadsshare.php' )
+	if ( $file != 'quick-adsense-reloaded/quick-adsense-reloaded.php' )
 		return $input;
 
 	$links = array(
-		'<a href="' . admin_url( 'options-general.php?page=quads-settings' ) . '">' . esc_html__( 'Getting Started', 'quads' ) . '</a>',
-		'<a href="https://www.quadsshare.net/downloads/">' . esc_html__( 'Add Ons', 'quads' ) . '</a>',
+		'<a href="' . admin_url( 'options-general.php?page=quads-settings' ) . '">' . esc_html__( 'Getting Started', 'quick-adsense-reloaded' ) . '</a>',
 	);
+        
 
 	$input = array_merge( $input, $links );
 
