@@ -110,8 +110,12 @@ Alternative Installation:
 == Changelog == 
 
 = 0.9.2 =
-* Fix: Widgets shown even admin setting "Hide Ads when user is logged in" is marked
+* Fix: AdSense Widgets shown although setting "Hide Ads when user is logged in" is enabled
 * Fix: Empty quads.min.js loaded on frontend
+* Fix: AdSense Widgets not created correctly
+* Fix: AdSense max ads value ignored for widgets
+* Tweak: Removing of create_function() due to security reasons ( Dont be evil() )
+
 
 = 0.9.1 =
 * Hooray! Quick Adsense Reloaded is alive
