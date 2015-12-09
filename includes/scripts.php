@@ -12,68 +12,6 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-/**
- * Load Scripts
- *
- * Enqueues the required scripts.
- *
- * @since 1.0
- * @global $quads_options
- * @global $post
- * @return void
- * @param string $hook Page hook
- */
-function quads_load_scripts($hook) {
-    global $wp;
-        /*if ( ! apply_filters( 'quads_load_scripts', quadsGetActiveStatus(), $hook ) ) {
-            quadsdebug()->info("quads_load_script not active");
-            return;
-	}*/
-    
-	global $quads_options;
-
-            
-	$js_dir = QUADS_PLUGIN_URL . 'assets/js/';
-	// Use minified libraries if SCRIPT_DEBUG is turned off
-	$suffix  = ( quadsIsDebugMode() ) ? '' : '.min';
-        
-        isset($quads_options['load_scripts_footer']) ? $in_footer = true : $in_footer = false;       
-	wp_enqueue_script( 'quads', $js_dir . 'quads' . $suffix . '.js', array( 'jquery' ), QUADS_VERSION, $in_footer );
-
-                wp_localize_script( 'quads', 'quads', array(
-			'sample' => 1
-                    ));
-                        
-}
-add_action( 'wp_enqueue_scripts', 'quads_load_scripts' );
-
-/**
- * Register Styles
- *
- * Checks the styles option and hooks the required filter.
- *
- * @since 1.0
- * @global $quads_options
- * @return void
- */
-function quads_register_styles($hook) {
-        /*if ( ! apply_filters( 'quads_register_styles', quadsGetActiveStatus(), $hook ) ) {
-            return;
-	}*/
-	global $quads_options;
-
-	if ( isset( $quads_options['disable_styles'] ) ) {
-		return;
-	}
-
-	// Use minified libraries if SCRIPT_DEBUG is turned off
-	$suffix  = ( quadsIsDebugMode() ) ? '' : '.min';
-	$file          = 'quads' . $suffix . '.css';
-
-        $url = QUADS_PLUGIN_URL . 'templates/' .   $file;
-	wp_enqueue_style( 'quads-styles', $url, array(), QUADS_VERSION );
-}
-//add_action( 'wp_enqueue_scripts', 'quads_register_styles' );
 
 /**
  * Load Admin Scripts

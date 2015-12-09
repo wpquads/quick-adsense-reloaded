@@ -18,7 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 function quads_process_content($content)
 {
-	//global $QData;
 	global $ShownAds;
 	global $AdsId;
 	global $beginend;
@@ -49,9 +48,9 @@ function quads_process_content($content)
 	$AdsToShow = $quads_options['maxads'];
 	if (strpos($content,'<!--OffWidget-->')===false) {
 		for($i=1;$i<=$adWidgets;$i++) {
-			$wadsid = sanitize_title(str_replace(array('(',')'),'',sprintf($AdsWidName,$i)));
-			$AdsToShow -= (is_active_widget(true, $wadsid)) ? 1 : 0 ;
-		}		
+			$wadsid = sanitize_title(str_replace(array('(',')'),'',sprintf($AdsWidName,$i))); 
+                        $AdsToShow -= (is_active_widget('', '',  $wadsid)) ? 1 : 0 ; 
+		}
 	}
 
 	if( $ShownAds >= $AdsToShow ) { 
@@ -376,5 +375,37 @@ function quads_del_element($array, $idx) {
   return $copy;
 }
 add_filter('the_content', 'quads_process_content');
+
+/**
+ * Check if the maximum amount of ads are reached
+ * 
+ * @global int number of already actived ads
+ * @var int amount of ads to activate 
+
+ * @return bool true if max is reached
+ * @deprecated since version 0.9.2
+ */
+/*function quads_reached_maxads($ShownAds){
+    global $ShownAds; 
+    if ($ShownAds >= $AdsToShow)
+        return true;
+}*/
+
+/**
+ * Check if the maximum amount of ads are reached and increment $ShownAds
+ * 
+ * @global int number of already actived ads
+ * @var int amount of ads to activate 
+ * @return bool true if max is reached
+ * 
+ * @deprecated since version 0.9.2
+ */
+/*function quads_reached_maxads_incr($ShownAds){
+    global $ShownAds; 
+    
+    $ShownAds += 1;
+    if ($ShownAds >= $AdsToShow)
+        return true;
+}*/
 
 

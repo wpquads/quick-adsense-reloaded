@@ -1498,47 +1498,7 @@ function quads_adsense_code_callback($args){
         echo $html;
 }
 
-/**
- * Register widgets
- * 
- * @global array $quads_options
- * @return void
- */
-function quads_ads_widget_register() {
-        global $quads_options;
-       
-	if (!function_exists('wp_register_sidebar_widget')) { 
-            return; 
-        };
-        
-        $AdsWidName = 'AdsWidget%d (Quick Adsense Reloaded)';
-        $amountWidgets = 10;
-        
-  for($i=1;$i<=$amountWidgets;$i++) {
-		//if($quads_options['ad' . $i . '_widget'] !='') {
-                    if(!empty($quads_options['ad' . $i . '_widget'])) {
-			$displaystr =
-				'$cont = get_the_content();'.
-				'if( strpos($cont,"<!--OffAds-->")===false && strpos($cont,"<!--OffWidget-->")===false && !(is_home()&&get_option("AppSide")) ) {'.
-				'extract($args);'.
-				'$title = get_option("WidCode-title-'.$i.'");'.
-				'$codetxt = get_option("WidCode'.$i.'");'.
-				'echo "\n"."<!-- Quick Adsense Reloaded -->"."\n";'.
-				'echo $before_widget."\n";'.
-				'if (!empty($title)) { '.
-				'echo $before_title.$title.$after_title."\n"; '.
-				'};'.
-				'echo $codetxt;'.
-				'echo "\n".$after_widget;'.
-				'}';
-			$displaycall[$i] = create_function('$args', $displaystr);
-			$wadnam = sprintf($AdsWidName,$i);
-			$wadsid = sanitize_title(str_replace(array('(',')'),'',$wadnam));
-			wp_register_sidebar_widget($wadsid, $wadnam, $displaycall[$i], array('description' => 'Quick Adsense Reloaded on Sidebar Widget'));
-		}			
-	}
-}	
-add_action('init', 'quads_ads_widget_register');
+
 
 /**
  * Check if Quick AdSense is installed and active
