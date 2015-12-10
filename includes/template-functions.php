@@ -12,37 +12,39 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-    $ShownAds = 0;
-    $AdsId = array();
-    $beginend = 0;
+// Globals
+$ShownAds = 0; // Amount of ads which are shown
+$AdsId = array(); // Array of active ad id's
+$beginend = 0; //
 
 function quads_process_content($content)
 {
-	global $ShownAds;
-	global $AdsId;
-	global $beginend;
+	global $quads_options, $ShownAds, $AdsId, $beginend;
         
-        global $quads_options;
-
+        // Declare the global vars here again. 
+        // Filter 'the_content' is not able to access from outside to these globals
+        $ShownAds = 0; // Amount of ads which are shown
+        $AdsId = array(); // Array of active ad id's
+        $beginend = 0; //
         $adWidgets = 10; // number of widgets
         $numberAds =  10; // number of regular ads
         $AdsWidName = 'AdsWidget%d (Quick Adsense Reloaded)';
-	
-        
+
         
 	/* verifying */ 
 	if(	(is_feed()) ||
-			(strpos($content,'<!--NoAds-->')!==false) ||
-			(strpos($content,'<!--OffAds-->')!==false) ||
-			(is_single() && !( isset( $quads_options['visibility']['AppPost'] ) ) ) ||
-			(is_page() && !( isset($quads_options['visibility']['AppPage'] ) ) ) ||
-			(is_home() && !( isset( $quads_options['visibility']['AppHome'] ) ) ) ||			
-			(is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
-			(is_archive() && !( isset($quads_options['visibility']['AppArch'] ) ) ) ||
-			(is_tag() && !( isset($quads_options['visibility']['AppTags'] ) ) ) ||
-			(is_user_logged_in() && ( isset($quads_options['visibility']['AppLogg'] ) ) ) ) {
-		$content = quads_clean_tags($content); 
-                return $content; 
+                (strpos($content,'<!--NoAds-->')!==false) ||
+                (strpos($content,'<!--OffAds-->')!==false) ||
+                (is_single() && !( isset( $quads_options['visibility']['AppPost'] ) ) ) ||
+                (is_page() && !( isset($quads_options['visibility']['AppPage'] ) ) ) ||
+                (is_home() && !( isset( $quads_options['visibility']['AppHome'] ) ) ) ||			
+                (is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
+                (is_archive() && !( isset($quads_options['visibility']['AppArch'] ) ) ) ||
+                (is_tag() && !( isset($quads_options['visibility']['AppTags'] ) ) ) ||
+                (is_user_logged_in() && ( isset($quads_options['visibility']['AppLogg'] ) ) ) ) 
+        {
+                    $content = quads_clean_tags($content); 
+                    return $content; 
 	}
 	
 	$AdsToShow = $quads_options['maxads'];
@@ -50,27 +52,33 @@ function quads_process_content($content)
 		for($i=1;$i<=$adWidgets;$i++) {
 			$wadsid = sanitize_title(str_replace(array('(',')'),'',sprintf($AdsWidName,$i))); 
                         $AdsToShow -= (is_active_widget('', '',  $wadsid)) ? 1 : 0 ; 
+                        //echo "<br>single:" . $AdsToShow .'<br>';
 		}
+                //echo "<br>total:" . $AdsToShow . ' shownad: ' . $ShownAds;
 	}
 
-	if( $ShownAds >= $AdsToShow ) { 
+	if( $ShownAds >= $AdsToShow ) { // ShownAds === 0 or larger/equal than $AdsToShow
             $content = quads_clean_tags($content); 
             return $content; 
-           
         };
 
-	if( !count($AdsId) ) {  
+        //if( !count($AdsId) ) { // 
+	if( count($AdsId) === 0 ) { //   
 		for($i=1;$i<=$numberAds;$i++) { 
-			//$tmp = trim(get_option('AdsCode'.$i));
                         $tmp = trim($quads_options['ad' . $i]['code']);
 
 			if( !empty($tmp) ) {
                                 $AdsId[] = $i;
-				//array_push($AdsId, $i); //Is throwing error because $AdsId is no array when 0 rhe
+				//array_push($AdsId, $i); //Is throwing error because $AdsId is no array when 0 rhe     
 			}
 		}
-	}	
-	if( !count($AdsId) ) { $content = quads_clean_tags($content); return $content; };
+                //var_dump($AdsId);
+	}
+
+	if( count($AdsId) === 0 ) { // No ads, so break here
+            $content = quads_clean_tags($content); 
+            return $content; 
+        };
 
 	/* ... Tidy up content ... */
 	$content = str_replace("<p></p>", "##QA-TP1##", $content);
@@ -116,12 +124,6 @@ function quads_process_content($content)
                 $imageNo        = isset($quads_options['pos9']['Img1Nup']) ? $quads_options['pos9']['Img1Nup'] : false; 
                 $imageCaption   = isset($quads_options['pos9']['Img1Con']) ? $quads_options['pos9']['Img1Con'] : false;	
                 
-                
-		/*if ( !$begn2 ) { $b1 = $cusrnd; } else { $b1 = $cusads.$begn2; array_push($AdsIdCus, $begn2); };
-		if ( !$more2 ) { $r1 = $cusrnd; } else { $r1 = $cusads.$more2; array_push($AdsIdCus, $more2); };		
-		if ( !$midd2 ) { $m1 = $cusrnd; } else { $m1 = $cusads.$midd2; array_push($AdsIdCus, $midd2); };
-		if ( !$lapa2 ) { $g1 = $cusrnd; } else { $g1 = $cusads.$lapa2; array_push($AdsIdCus, $lapa2); };
-		if ( !$endi2 ) { $b2 = $cusrnd; } else { $b2 = $cusads.$endi2; array_push($AdsIdCus, $endi2); };*/
 
                 if ( $begn2 == 0 ) { $b1 = $cusrnd; } else { $b1 = $cusads.$begn2; array_push($AdsIdCus, $begn2); };
 		if ( $more2 == 0 ) { $r1 = $cusrnd; } else { $r1 = $cusads.$more2; array_push($AdsIdCus, $more2); };		
@@ -262,7 +264,12 @@ function quads_process_content($content)
 		for( $i=1; $i<=$tcn; $i++ ) {
 			if( strpos($content, '<!--Ads'.$AdsId[$tt].'-->')!==false ) {
 				$content = quads_replace_ads( $content, 'Ads'.$AdsId[$tt], $AdsId[$tt] ); $AdsId = quads_del_element($AdsId, $tt) ;
-				$ShownAds += 1; if( $ShownAds >= $AdsToShow || !count($AdsId) ){ $content = clean_tags($content); return $content; };
+				$ShownAds += 1; 
+                                if( $ShownAds >= $AdsToShow || !count($AdsId) ){ 
+                                    $content = clean_tags($content); 
+                                    return $content; 
+                                    
+                                };
 			} else {
 				$tt += 1;
 			}
@@ -306,8 +313,10 @@ function quads_process_content($content)
 	}	
 
 	/* ... That's it. DONE :) ... */
-	$content = quads_clean_tags($content); return $content;
+	$content = quads_clean_tags($content); 
+        return $content;
 }
+
 function quads_clean_tags($content, $trimonly = false) {
 	global $QData;
 	global $ShownAds;
@@ -316,7 +325,7 @@ function quads_clean_tags($content, $trimonly = false) {
         global $quads_options;
         
 	$tagnames = array('EmptyClear','RndAds','NoAds','OffDef','OffAds','OffWidget','OffBegin','OffMiddle','OffEnd','OffBfMore','OffAfLastPara','CusRnd');
-	//for($i=1;$i<=$QData['Ads'];$i++) { array_push($tagnames, 'CusAds'.$i); array_push($tagnames, 'Ads'.$i); };
+
         for($i=1;$i<=10;$i++) { array_push($tagnames, 'CusAds'.$i); array_push($tagnames, 'Ads'.$i); };
         
         
@@ -343,7 +352,7 @@ function quads_replace_ads($content, $nme, $adn) {
 	global $quads_options;
 
 	if ($adn != -1) {
-		$arr = array('',
+		$arr = array(
 			'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
 			'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
 			'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
@@ -351,7 +360,6 @@ function quads_replace_ads($content, $nme, $adn) {
 		$adsalign = $quads_options['ad' . $adn]['align'];
 		$adsmargin = $quads_options['ad' . $adn]['margin'];
 		$style = sprintf($arr[(int)$adsalign], $adsmargin);
-		//$adscode = get_option('AdsCode'.$adn);
                 $adscode = $quads_options['ad' . $adn ]['code'];
 
 		$adscode =
@@ -385,11 +393,11 @@ add_filter('the_content', 'quads_process_content');
  * @return bool true if max is reached
  * @deprecated since version 0.9.2
  */
-/*function quads_reached_maxads($ShownAds){
+function quads_reached_maxads($ShownAds){
     global $ShownAds; 
     if ($ShownAds >= $AdsToShow)
         return true;
-}*/
+}
 
 /**
  * Check if the maximum amount of ads are reached and increment $ShownAds

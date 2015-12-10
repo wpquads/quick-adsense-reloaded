@@ -9,7 +9,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Quick AdSense Reloaded, Quick AdSense, AdSense plugin, advertising, ads, ad, plugin, ad manager, admin, ads, adsense, adsense insertion, advertising, google, google adsense, plugin, posts, post, page, random ads, random adsense, sidebar, shortcode, text insertion, widget
 Requires at least: 3.6+
 Tested up to: 4.4
-Stable tag: 0.9.2
+Stable tag: 0.9.3
 
 Quick Adsense Reloaded! The quickest way to insert Google AdSense code into your website.
 
@@ -108,6 +108,9 @@ Alternative Installation:
 
 
 == Changelog == 
+
+= 0.9.3 =
+* Fix: Alignment is ignored
 
 = 0.9.2 =
 * Fix: AdSense Widgets shown although setting "Hide Ads when user is logged in" is enabled

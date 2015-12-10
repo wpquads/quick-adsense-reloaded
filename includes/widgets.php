@@ -60,7 +60,7 @@ add_action( 'widgets_init', function(){
 });
 
 class quads_widgets_1 extends WP_Widget {
-    
+
 	/**
 	 * Register widget with WordPress.
 	 */
@@ -76,10 +76,17 @@ class quads_widgets_1 extends WP_Widget {
 		);
 	}
 
+        /**
+         * Create widget
+         * 
+         * @global array $quads_options
+         * @param array $args
+         * @param array $instance
+         */
 	public function widget($args, $instance) {
         global $quads_options;
         extract($args);
-
+            
         $cont = get_the_content();
         if (strpos($cont, "<!--OffAds-->") === false && strpos($cont, "<!--OffWidget-->") === false && !(is_home() && $quads_options["visibility"]["AppSide"])) {
 
