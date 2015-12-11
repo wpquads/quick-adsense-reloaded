@@ -53,9 +53,6 @@ register_activation_hook( QUADS_PLUGIN_FILE, 'quads_install_multisite' );
  * @global $wp_version
  * @return void
  */
-
-
-
 function quads_install() {
 	global $wpdb, $quads_options, $wp_version;
 
@@ -70,12 +67,9 @@ function quads_install() {
         // Add plugin installation date and variable for rating div
         add_option('quads_install_date',date('Y-m-d h:i:s'));
         add_option('quads_rating_div','no');
-        /*if ( !get_option('quads_update_notice') )
-            add_option('quads_update_notice','no');
-	*/
                 
         
-        // Add the transient to redirect / not for multisites
+        // Add the transient to redirect (not for multisites)
 	set_transient( '_quads_activation_redirect', true, 30 );
         
 
