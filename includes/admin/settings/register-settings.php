@@ -187,12 +187,7 @@ function quads_get_registered_settings() {
 					'name' => __( 'Ad 1:', 'quick-adsense-reloaded' ),
 					'desc' => __( '', 'quick-adsense-reloaded' ),
                                         'type' => 'adsense_code',
-                                        'options' => array(
-                                            'left',
-                                            'right',
-                                            'center',
-                                            'none',
-                                        ),
+                                        'options' => quads_get_alignment(),
                                         
 				),
                             array(
@@ -200,12 +195,7 @@ function quads_get_registered_settings() {
 					'name' => __( 'Ad 2:', 'quick-adsense-reloaded' ),
 					'desc' => __( '', 'quick-adsense-reloaded' ),
                                         'type' => 'adsense_code',
-                                        'options' => array(
-                                            'left',
-                                            'right',
-                                            'center',
-                                            'none',
-                                        ),
+                                        'options' => quads_get_alignment(),
                                         
 				),
                             array(
@@ -213,12 +203,7 @@ function quads_get_registered_settings() {
 					'name' => __( 'Ad 3:', 'quick-adsense-reloaded' ),
 					'desc' => __( '', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
-                                        'options' => array(
-                                            'left',
-                                            'right',
-                                            'center',
-                                            'none',
-                                        ),
+                                        'options' => quads_get_alignment(),
                                         
 				),
                                 array(
@@ -226,12 +211,7 @@ function quads_get_registered_settings() {
 					'name' => __( 'Ad 4:', 'quick-adsense-reloaded' ),
 					'desc' => __( '', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
-                                        'options' => array(
-                                            'left',
-                                            'right',
-                                            'center',
-                                            'none',
-                                        ),
+                                        'options' => quads_get_alignment(),
                                         
 				),
                                 array(
@@ -239,84 +219,49 @@ function quads_get_registered_settings() {
 					'name' => __( 'Ad 5:', 'quick-adsense-reloaded' ),
 					'desc' => __( '', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
-                                        'options' => array(
-                                            'left',
-                                            'right',
-                                            'center',
-                                            'none',
-                                        ),
+                                        'options' => quads_get_alignment(),
 				),
                                 array(
 					'id' => 'ad5',
 					'name' => __( 'Ad 5:', 'quick-adsense-reloaded' ),
 					'desc' => __( '', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
-                                        'options' => array(
-                                            'left',
-                                            'right',
-                                            'center',
-                                            'none',
-                                        ),
+                                        'options' => quads_get_alignment(),
 				),
                                 array(
 					'id' => 'ad6',
 					'name' => __( 'Ad 6:', 'quick-adsense-reloaded' ),
 					'desc' => __( '', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
-                                        'options' => array(
-                                            'left',
-                                            'right',
-                                            'center',
-                                            'none',
-                                        ),
+                                        'options' => quads_get_alignment(),
 				),
                                 array(
 					'id' => 'ad7',
 					'name' => __( 'Ad 7:', 'quick-adsense-reloaded' ),
 					'desc' => __( '', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
-                                        'options' => array(
-                                            'left',
-                                            'right',
-                                            'center',
-                                            'none',
-                                        ),
+                                        'options' => quads_get_alignment(),
 				),
                                 array(
 					'id' => 'ad8',
 					'name' => __( 'Ad 8:', 'quick-adsense-reloaded' ),
 					'desc' => __( '', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
-                                        'options' => array(
-                                            'left',
-                                            'right',
-                                            'center',
-                                            'none',
-                                        ),
+                                        'options' => quads_get_alignment(),
                                 ),
                                 array(
 					'id' => 'ad9',
 					'name' => __( 'Ad 9:', 'quick-adsense-reloaded' ),
 					'desc' => __( '', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
-                                        'options' => array(
-                                            'left',
-                                            'right',
-                                            'center',
-                                            'none',
-                                        ),
+                                        'options' => quads_get_alignment(),
 				),
                                 array(
 					'id' => 'ad10',
 					'name' => __( 'Ad 10:', 'quick-adsense-reloaded' ),
 					'desc' => __( '', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
-                                        'options' => array(
-                                            'left',
-                                            'right',
-                                            'center',
-                                            'none',
-                                        ),
+                                        'options' => quads_get_alignment(),
 				),
                                 'widget_header' => array(
 					'id' => 'widget_header',
@@ -1513,4 +1458,19 @@ function quads_check_quick_adsense_status(){
      if ( is_plugin_active( $plugin_file ) ) {
             return true;   
     } 
+}
+
+/**
+ * 
+ * Return array of alignment options
+ * 
+ * @return array
+ */
+function quads_get_alignment() {
+    return array(
+        'left',
+        'center',
+        'right',
+        'none',
+    );
 }
