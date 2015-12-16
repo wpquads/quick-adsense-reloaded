@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Quick AdSense Reloaded
  * Plugin URI: https://wordpress.org/plugins/quick-adsense-reloaded/
- * Description: Insert Google AdSense or any Ads code into your website. A fork of Quick AdSense by Todd Garland
- * Author: René Hermenau, ReneHermi, WP-Staging, toddynho
+ * Description: Insert Google AdSense or any Ads code into your website. A fork of Quick AdSense
+ * Author: ReneHermi, WP-Staging, toddynho
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
  * Version: 0.9.3
  * Text Domain: quick-adsense-reloaded
@@ -34,8 +34,18 @@ if (!defined('ABSPATH'))
 
 // Plugin version
 if (!defined('QUADS_VERSION')) {
-    define('QUADS_VERSION', '0.9.3');
+    define('QUADS_VERSION', '0.9.4');
 }
+
+// Define some globals
+$ShownAds = 0; // Amount of ads which are shown
+$ad_count_shortcode = 0; // Number of active ads which are shown via shortcodes
+$ad_count_content = 0; // Number of active ads which are shown in the_content
+$AdsId = array(); // Array of active ad id's
+$adWidgets = 10; // number of widgets
+$numberAds = 10; // number of regular ads
+$AdsWidName = 'AdsWidget%d (Quick Adsense Reloaded)';
+
 
 if (!class_exists('QuickAdsenseReloaded')) :
 
@@ -166,6 +176,7 @@ if (!class_exists('QuickAdsenseReloaded')) :
             require_once QUADS_PLUGIN_DIR . 'includes/logger.php';
             require_once QUADS_PLUGIN_DIR . 'includes/class-quads-html-elements.php';
             require_once QUADS_PLUGIN_DIR . 'includes/widgets.php';
+            require_once QUADS_PLUGIN_DIR . 'includes/shortcodes.php';
 
             if (is_admin() || ( defined('WP_CLI') && WP_CLI )) {
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/add-ons.php';
@@ -179,7 +190,7 @@ if (!class_exists('QuickAdsenseReloaded')) :
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/settings/contextual-help.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/install.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/tools.php';
-
+                //require_once QUADS_PLUGIN_DIR . 'includes/meta-boxes.php';
             }
         }
 

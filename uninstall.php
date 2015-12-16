@@ -15,13 +15,11 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) exit;
 // Load QUADS file
 include_once( 'quick-adsense-reloaded.php' );
 
-//global $wpdb, $quads_options;
-
 if( quads_get_option( 'uninstall_on_delete' ) ) {
 	/** Delete all the Plugin Options */
 	delete_option( 'quads_settings' );
         delete_option( 'quads_install_date');
-        delete_option( 'quads_rating_div');
+        delete_option( 'quads_rating_div'); 
         delete_option( 'quads_version');
         delete_option( 'quads_version_upgraded_from');
         
@@ -31,5 +29,4 @@ if( quads_get_option( 'uninstall_on_delete' ) ) {
         delete_post_meta_by_key( 'quads_shares' );
         delete_post_meta_by_key( 'quads_jsonshares' );
         
-        //wp_clear_scheduled_hook('quads_transients_cron');
 }

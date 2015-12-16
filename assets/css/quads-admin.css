@@ -8,10 +8,7 @@
 */
 
 .quads-share-button-container{
-	margin: 20px 0;
-	padding: 10px 0;
-	border-top: solid 1px #e4e4e4;
-	border-bottom: solid 1px #e4e4e4;
+	margin: 5px 0;
 }
 
 .quads-share-button-container p{
@@ -19,7 +16,6 @@
 }
 
 .quads-share-button {
-	margin-left: 20px;
         display: inline-block;
 }
 
@@ -158,6 +154,7 @@ background: #FFF;
 padding:20px;
 overflow:auto;
 text-align:left;
+margin-bottom:10px;
 }
 
 .form-table{
@@ -266,10 +263,6 @@ color:#777777;
       border: 0px solid #ececec;
 }
 
-h2.nav-tab-wrapper{
-    padding-left:40px;
-}
-
 .quads-quote-docs {
     font-family:Courier New,Courier,Fixed;
     color:#050;
@@ -296,3 +289,12 @@ h2.nav-tab-wrapper{
  background-color: white;
  border-bottom:0px;
 }
+
+.wp-admin .quads-align-input{
+    padding: 0px;
+    line-height: 23px;
+    height: 24px;
+    vertical-align: top;
+}
+
+

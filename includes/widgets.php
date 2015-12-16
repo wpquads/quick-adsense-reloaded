@@ -13,43 +13,13 @@
 
 
 /**
- * Register widgets
- * 
- * @global array $quads_options
- * @return void
- */	
-
-
-/*function quads_widget_display_($args, $params) {
-        global $quads_options;
-
-        $cont = get_the_content();
-        if (strpos($cont, "<!--OffAds-->") === false && strpos($cont, "<!--OffWidget-->") === false && !(is_home() && $quads_options["visibility"]["AppSide"])) {
-            extract($args);
-            extract($params);
-            $title = get_option('WidCode-title-' . $params['incr']);
-            $codetxt = $quads_options["ad" . $params['incr'] . "_widget"];
-
-            echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
-            echo $args['before_widget'] . "\n";
-            if (!empty($title)) {
-                echo $args['before_title'] . $title . $args['after_title'] . "\n";
-            };
-            echo $codetxt;
-            echo "\n" . $args['after_widget'];
-        };
-};*/
-
-
-
-/**
  * Register Widgets
  * 
  * @return void
  * @since 0.9.2
  */
 add_action( 'widgets_init', function(){
-    global $quads_options, $ShownAds;
+    global $quads_options;
     $amountWidgets = 10;
     
     for($i=1;$i<=$amountWidgets;$i++) {

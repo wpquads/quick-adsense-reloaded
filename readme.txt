@@ -9,9 +9,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Quick AdSense Reloaded, Quick AdSense, AdSense plugin, advertising, ads, ad, plugin, ad manager, admin, ads, adsense, adsense insertion, advertising, google, google adsense, plugin, posts, post, page, random ads, random adsense, sidebar, shortcode, text insertion, widget
 Requires at least: 3.6+
 Tested up to: 4.4
-Stable tag: 0.9.3
+Stable tag: 0.9.4
 
-Quick Adsense Reloaded! The quickest way to insert Google AdSense code into your website.
+Quick Adsense Reloaded! The quickest way to insert Google AdSense or other Ads code into your website.
 
 == Description == 
 
@@ -34,7 +34,7 @@ All deprecated functions has been removed, bugs have been fixed and new filters 
 
 = Main Features =
 
-* Import all settings from Quick AdSense v. 1.9.2 and convert them into serialized options.
+* Import all ads settings from Quick AdSense v. 1.9.2 and convert them into serialized options.
 * No revenue sharing from your AdSense advertising income.
 * Quicktags of Quick Adsense are 100% compatible to Quick AdSense Reloaded
 * No external script dependencies. All plugin code reside on your site. 
@@ -51,7 +51,7 @@ All deprecated functions has been removed, bugs have been fixed and new filters 
 = Improvements to original Quick AdSense plugin =
 
 * Performance improvements
-* Serialized storing of options instead storing every single option as separate table entry all over
+* Serialized storing of Ad options instead storing every single option as separate table entry all over
 * Multi language support
 * Remove of small coding issues like "unexpected output" message when plugin is activated on several sites
 * Import / Export function makes plugin migrating to other sites easier
@@ -67,7 +67,7 @@ All deprecated functions has been removed, bugs have been fixed and new filters 
 * Support for responsive AdSense ads
 * GUI improvements
 
-Do you have ideas for more features?
+Do you have suggestions for more features?
 
 = High Performance =
 
@@ -108,6 +108,12 @@ Alternative Installation:
 
 
 == Changelog == 
+
+= 0.9.4 =
+* New: Allow the use of shortcodes to integrate adsense ads, e.g. [quad_ad id="1"] or echo do_shortcode('[[quad_ad id="1"]]'); in template files. Max ad setting will be used for shortcode embeded ads as well.
+* Tweak: Cleaner GUI
+* Tweak: Clean up code and remove deprecated ads code
+* Fix: Stored setting for ad position 9 was not shown properly in option field.
 
 = 0.9.3 =
 * Fix: Alignment is ignored

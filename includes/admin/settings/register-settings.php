@@ -43,13 +43,13 @@ function quads_get_settings() {
 	if( empty( $settings ) ) {
 		// Update old settings with new single option
 		$general_settings = is_array( get_option( 'quads_settings_general' ) )    ? get_option( 'quads_settings_general' )  	: array();
-		//$ext_settings     = is_array( get_option( 'quads_settings_extensions' ) ) ? get_option( 'quads_settings_extensions' )	: array();
+		$ext_settings     = is_array( get_option( 'quads_settings_extensions' ) ) ? get_option( 'quads_settings_extensions' )	: array();
 		//$license_settings = is_array( get_option( 'quads_settings_licenses' ) )   ? get_option( 'quads_settings_licenses' )   : array();
-                //$addons_settings = is_array( get_option( 'quads_settings_addons' ) )   ? get_option( 'quads_settings_addons' )   : array();
+                $addons_settings = is_array( get_option( 'quads_settings_addons' ) )   ? get_option( 'quads_settings_addons' )   : array();
                 $imexport_settings = is_array( get_option( 'quads_settings_imexport' ) )   ? get_option( 'quads_settings_imexport' )   : array();
                 $help_settings = is_array( get_option( 'quads_settings_help' ) )   ? get_option( 'quads_settings_help' )   : array();
                 
-		$settings = array_merge( $general_settings, $imexport_settings, $help_settings);
+		$settings = array_merge( $general_settings, $ext_settings, $imexport_settings, $help_settings);
                 
 		update_option( 'quads_settings', $settings);
 	}
@@ -179,13 +179,13 @@ function quads_get_registered_settings() {
                                 'adsense_header' => array(
 					'id' => 'adsense_header',
 					'name' => '<strong>' . __( 'AdSense Code', 'quick-adsense-reloaded' ) . '</strong>',
-					'desc' => __( 'Paste up to 10 Ad codes on Post Body as assigned above, and up to 10 Ad codes on Sidebar Widget. Ad codes provided must not be identical, repeated codes may result the Ads not being display correctly. Ads will never displays more than once in a page.', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Paste up to 10 Ad codes on Post Body as assigned above, and up to 10 Ad codes on Sidebar Widget. Ad codes provided must not be identical, repeated codes may result the Ads not being display correctly. Ads will never displays more than once in a page as long as you use the automatic function. If you are using shortcodes take care not to use the same ad on different locations.', 'quick-adsense-reloaded' ),
 					'type' => 'header'
 				),
                                 array(
 					'id' => 'ad1',
 					'name' => __( 'Ad 1:', 'quick-adsense-reloaded' ),
-					'desc' => __( '', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quad_ad id="1"] </strong></br>Function: <strong>echo do_shortcode[\'[quad_ad id="1"]\'];</strong>', 'quick-adsense-reloaded' ),
                                         'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
                                         
@@ -193,7 +193,7 @@ function quads_get_registered_settings() {
                             array(
 					'id' => 'ad2',
 					'name' => __( 'Ad 2:', 'quick-adsense-reloaded' ),
-					'desc' => __( '', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quad_ad id="2"] </strong></br>Function: <strong>echo do_shortcode[\'[quad_ad id="2"]\'];</strong>', 'quick-adsense-reloaded' ),
                                         'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
                                         
@@ -201,7 +201,7 @@ function quads_get_registered_settings() {
                             array(
 					'id' => 'ad3',
 					'name' => __( 'Ad 3:', 'quick-adsense-reloaded' ),
-					'desc' => __( '', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quad_ad id="3"] </strong></br>Function: <strong>echo do_shortcode[\'[quad_ad id="3"]\'];</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
                                         
@@ -209,7 +209,7 @@ function quads_get_registered_settings() {
                                 array(
 					'id' => 'ad4',
 					'name' => __( 'Ad 4:', 'quick-adsense-reloaded' ),
-					'desc' => __( '', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quad_ad id="4"] </strong></br>Function: <strong>echo do_shortcode[\'[quad_ad id="4"]\'];</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
                                         
@@ -217,49 +217,42 @@ function quads_get_registered_settings() {
                                 array(
 					'id' => 'ad5',
 					'name' => __( 'Ad 5:', 'quick-adsense-reloaded' ),
-					'desc' => __( '', 'quick-adsense-reloaded' ),
-					'type' => 'adsense_code',
-                                        'options' => quads_get_alignment(),
-				),
-                                array(
-					'id' => 'ad5',
-					'name' => __( 'Ad 5:', 'quick-adsense-reloaded' ),
-					'desc' => __( '', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quad_ad id="1"] </strong></br>Function: <strong>echo do_shortcode[\'[quad_ad id="1"]\'];</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
 				),
                                 array(
 					'id' => 'ad6',
 					'name' => __( 'Ad 6:', 'quick-adsense-reloaded' ),
-					'desc' => __( '', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quad_ad id="6"] </strong></br>Function: <strong>echo do_shortcode[\'[quad_ad id="6"]\'];</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
 				),
                                 array(
 					'id' => 'ad7',
 					'name' => __( 'Ad 7:', 'quick-adsense-reloaded' ),
-					'desc' => __( '', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quad_ad id="7"] </strong></br>Function: <strong>echo do_shortcode[\'[quad_ad id="7"]\'];</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
 				),
                                 array(
 					'id' => 'ad8',
 					'name' => __( 'Ad 8:', 'quick-adsense-reloaded' ),
-					'desc' => __( '', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quad_ad id="8"] </strong></br>Function: <strong>echo do_shortcode[\'[quad_ad id="8"]\'];</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
                                 ),
                                 array(
 					'id' => 'ad9',
 					'name' => __( 'Ad 9:', 'quick-adsense-reloaded' ),
-					'desc' => __( '', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quad_ad id="9"] </strong></br>Function: <strong>echo do_shortcode[\'[quad_ad id="9"]\'];</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
 				),
                                 array(
 					'id' => 'ad10',
 					'name' => __( 'Ad 10:', 'quick-adsense-reloaded' ),
-					'desc' => __( '', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quad_ad id="10"] </strong></br>Function: <strong>echo do_shortcode[\'[quad_ad id="10"]\'];</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
 				),
@@ -524,7 +517,7 @@ function quads_get_settings_tabs() {
 	}
 
 	if( ! empty( $settings['extensions'] ) ) {
-		//$tabs['extensions'] = __( 'Extensions', 'quick-adsense-reloaded' );
+		$tabs['extensions'] = __( 'Add-On Setting', 'quick-adsense-reloaded' );
 	}
 
 	if( ! empty( $settings['licenses'] ) ) {
@@ -1238,21 +1231,16 @@ function quads_visibility_callback($args){
     	global $quads_options;
         
         // Posts & Pages
-        $html  = '[ ';
-        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[visibility][AppPost]','current'  => !empty($quads_options['visibility']['AppPost']) ? $quads_options['visibility']['AppPost'] : null,'class' => 'quads-checkbox' ));
-        $html .= ' ' . __('Posts ', 'quick-adsense-reloaded');
+        $html = QUADS()->html->checkbox(array('name' => 'quads_settings[visibility][AppPost]','current'  => !empty($quads_options['visibility']['AppPost']) ? $quads_options['visibility']['AppPost'] : null,'class' => 'quads-checkbox' ));
+        $html .= __('Posts ', 'quick-adsense-reloaded');
         $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[visibility][AppPage]','current'  => !empty($quads_options['visibility']['AppPage']) ? $quads_options['visibility']['AppPage'] : null,'class' => 'quads-checkbox' ));
-        $html .= ' ' . __('Pages', 'quick-adsense-reloaded') . '<span> ] </span><br>';
-        $html .= '<span>[ </span>';
+        $html .= ' ' . __('Pages', 'quick-adsense-reloaded') . '<br>';
         $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[visibility][AppHome]','current'  => !empty($quads_options['visibility']['AppHome']) ? $quads_options['visibility']['AppHome'] : null,'class' => 'quads-checkbox' )) . __('Homepage ','quick-adsense-reloaded');
         $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[visibility][AppCate]','current'  => !empty($quads_options['visibility']['AppCate']) ? $quads_options['visibility']['AppCate'] : null,'class' => 'quads-checkbox' )) . __('Categories ','quick-adsense-reloaded');
         $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[visibility][AppArch]','current'  => !empty($quads_options['visibility']['AppArch']) ? $quads_options['visibility']['AppArch'] : null,'class' => 'quads-checkbox' )) . __('Archives ','quick-adsense-reloaded');
-        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[visibility][AppTags]','current'  => !empty($quads_options['visibility']['AppTags']) ? $quads_options['visibility']['AppTags'] : null,'class' => 'quads-checkbox' )) . __('Tags ] → ','quick-adsense-reloaded');
-        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[visibility][AppMaxA]','current'  => !empty($quads_options['visibility']['AppMaxA']) ? $quads_options['visibility']['AppMaxA'] : null,'class' => 'quads-checkbox' )) . __('Place all possible Ads on these pages.','quick-adsense-reloaded') . '<br>';
-        $html .= '<span> [ </span>';
-        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[visibility][AppSide]','current'  => !empty($quads_options['visibility']['AppSide']) ? $quads_options['visibility']['AppSide'] : null,'class' => 'quads-checkbox' )) . __('Disable AdsWidget on Homepage ]','quick-adsense-reloaded') . '<br>';
-        $html .= '[ ';
-        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[visibility][AppLogg]','current'  => !empty($quads_options['visibility']['AppLogg']) ? $quads_options['visibility']['AppLogg'] : null,'class' => 'quads-checkbox' )) . __('Hide Ads when user is logged in to Wordpress ]','quick-adsense-reloaded') . '<br>';
+        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[visibility][AppTags]','current'  => !empty($quads_options['visibility']['AppTags']) ? $quads_options['visibility']['AppTags'] : null,'class' => 'quads-checkbox' )) . __('Tags','quick-adsense-reloaded') . '<br>';
+        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[visibility][AppSide]','current'  => !empty($quads_options['visibility']['AppSide']) ? $quads_options['visibility']['AppSide'] : null,'class' => 'quads-checkbox' )) . __('Hide AdsWidget on Homepage','quick-adsense-reloaded') . '<br>';
+        $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[visibility][AppLogg]','current'  => !empty($quads_options['visibility']['AppLogg']) ? $quads_options['visibility']['AppLogg'] : null,'class' => 'quads-checkbox' )) . __('Hide Ads when user is logged in.','quick-adsense-reloaded') . '<br>';
 
         echo $html;
 }
@@ -1324,7 +1312,7 @@ function quads_ad_position_callback($args) {
         // Pos 8
         $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[pos8][Par3Ads]', 'current'  => !empty($quads_options['pos8']['Par3Ads']) ? $quads_options['pos8']['Par3Ads'] : null, 'class' => 'quads-checkbox' ));
         $html .= ' ' . __('Assign','quick-adsense-reloaded') . ' ';
-        $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[pos8][Par3Rnd]','selected' => !empty($quads_options['pos8']['Par2Rnd']) ? $quads_options['pos8']['Par2Rnd'] : null, 'show_option_all'  => false,'show_option_none' => false));
+        $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[pos8][Par3Rnd]','selected' => !empty($quads_options['pos8']['Par3Rnd']) ? $quads_options['pos8']['Par3Rnd'] : null, 'show_option_all'  => false,'show_option_none' => false));
         $html .= ' ' . __('<strong>After Paragraph</strong>','quick-adsense-reloaded') . ' ';
         $html .= QUADS()->html->select(array('options' => quads_get_values(),'name' => 'quads_settings[pos8][Par3Nup]','selected' => !empty($quads_options['pos8']['Par3Nup']) ? $quads_options['pos8']['Par3Nup'] : null, 'show_option_all'  => false,'show_option_none' => false));
         $html .= ' ' . __('→','quick-adsense-reloaded') . ' ';
@@ -1341,7 +1329,8 @@ function quads_ad_position_callback($args) {
         $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[pos9][Img1Con]', 'current'  => !empty($quads_options['pos9']['Img1Con']) ? $quads_options['pos9']['Img1Con'] : null, 'class' => 'quads-checkbox' ));
         $html .= ' ' . __('after <b>Image\'s outer</b><b><span style="font-family:Courier New,Courier,Fixed;"> &lt;div&gt; wp-caption</span></b> if any.','quick-adsense-reloaded') . ' </br>';
 
-        echo $html;
+        echo apply_filters('quads_ad_position_callback', $html);
+        //echo $html;
 }
 
 
@@ -1361,13 +1350,13 @@ function quads_quicktags_callback($args){
     	global $quads_options;
         
         // Quicktags info
-        $html  = __('Insert Ads into a post, on-the-fly :','quick-adsense-reloaded') .
-                '<ol style="margin-top:5px;">
+        $html  = '<a href="#" id="quads_insert_ads_action">' . __('Insert Ads into a post, on-the-fly','quick-adsense-reloaded') . '</a></br>' . 
+                '<ol style="margin-top:5px;display:none;" id="quads_insert_ads_box">
                 <li>' . __('Insert <span class="quads-quote-docs">&lt;!--Ads1--&gt;</span>, <span class="quads-quote-docs">&lt;!--Ads2--&gt;</span>, etc. into a post to show the <b>Particular Ads</b> at specific location.','quick-adsense-reloaded') . '</li>
                 <li>' . __('Insert <span class="quads-quote-docs">&lt;!--RndAds--&gt;</span> (or more) into a post to show the <b>Random Ads</b> at specific location','quick-adsense-reloaded') . '</li>
                 </ol>' .
-                __('Disable Ads in a post, on-the-fly :','quick-adsense-reloaded') .
-                '<ol style="margin-top:5px;">				
+                '<a href="#" id="quads_disable_ads_action" style="line-height:3em;">' . __('Disable Ads in a post, on-the-fly','quick-adsense-reloaded') . '</a></br>' . 
+                '<ol style="margin-top:5px;display:none;" id="quads_disable_ads_box">				
                 <li>' . __('Insert <span class="quads-quote-docs">&lt;!--NoAds--&gt;</span> to <b>disable all Ads</b> in a post.<span class="description" style="font-style:italic"> (does not affect Ads on Sidebar)</span>','quick-adsense-reloaded') . '</li>				
                 <li>' . __('Insert <span class="quads-quote-docs">&lt;!--OffDef--&gt;</span> to <b>disable the default positioned Ads</b>, and use <span class="quads-quote-docs">&lt;!--Ads1--&gt;</span>, <span class="quads-quote-docs">&lt;!--Ads2--&gt;</span>, etc. to insert Ads.<span class="description" style="font-style:italic"> (does not affect Ads on Sidebar)</span>','quick-adsense-reloaded') . '</li>								
                 <li>' . __('Insert <span class="quads-quote-docs">&lt;!--OffWidget--&gt;</span> to <b>disable all Ads on Sidebar</b>.','quick-adsense-reloaded') . '</li>								
@@ -1376,14 +1365,14 @@ function quads_quicktags_callback($args){
                 </ol>	
         ';
         
-                $html .= '[ ' . QUADS()->html->checkbox(array('name' => 'quads_settings[quicktags][QckTags]', 'current'  => !empty($quads_options['quicktags']['QckTags']) ? $quads_options['quicktags']['QckTags'] : null , 'class' => 'quads-checkbox' )); 
-                $html .= __('Show Quicktag Buttons on the HTML Edit Post SubPanel ]','quick-adsense-reloaded') . '</br>';
-                $html .= '[ ' . QUADS()->html->checkbox(array('name' => 'quads_settings[quicktags][QckRnds]', 'current'  => !empty($quads_options['quicktags']['QckRnds']) ? $quads_options['quicktags']['QckRnds'] : null, 'class' => 'quads-checkbox' )); 
+                $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[quicktags][QckTags]', 'current'  => !empty($quads_options['quicktags']['QckTags']) ? $quads_options['quicktags']['QckTags'] : null , 'class' => 'quads-checkbox' )); 
+                $html .= __('Show Quicktag Buttons on the HTML Edit Post SubPanel','quick-adsense-reloaded') . '</br>';
+                $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[quicktags][QckRnds]', 'current'  => !empty($quads_options['quicktags']['QckRnds']) ? $quads_options['quicktags']['QckRnds'] : null, 'class' => 'quads-checkbox' )); 
                 $html .= __('Hide <span class="quads-quote-docs">&lt;!--RndAds--&gt;</span> from Quicktag Buttons ]','quick-adsense-reloaded') . '</br>';
-                $html .= '[ ' . QUADS()->html->checkbox(array('name' => 'quads_settings[quicktags][QckOffs]', 'current'  => !empty($quads_options['quicktags']['QckOffs']) ? $quads_options['quicktags']['QckOffs'] : null, 'class' => 'quads-checkbox' ));
-                $html .= __('Hide <span class="quads-quote-docs">&lt;!--NoAds--&gt;</span>, <span class="quads-quote-docs">&lt;!--OffDef--&gt;</span>, <span class="quads-quote-docs">&lt;!--OffWidget--&gt;</span> from Quicktag Buttons ]','quick-adsense-reloaded') . '</br>';
-                $html .= '[ ' .  QUADS()->html->checkbox(array('name' => 'quads_settings[quicktags][QckOfPs]', 'current'  => !empty($quads_options['quicktags']['QckOfPs']) ? $quads_options['quicktags']['QckOfPs'] : null, 'class' => 'quads-checkbox' )); 
-                $html .= __('Hide <span class="quads-quote-docs">&lt;!--OffBegin--&gt;</span>, <span class="quads-quote-docs">&lt;!--OffMiddle--&gt;</span>, <span class="quads-quote-docs">&lt;!--OffEnd--&gt;</span>, <span class="quads-quote-docs">&lt;!--OffAfMore--&gt;</span>, <span class="quads-quote-docs">&lt;!--OffBfLastPara--&gt;</span> from Quicktag Buttons ]','quick-adsense-reloaded') . '</br>';
+                $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[quicktags][QckOffs]', 'current'  => !empty($quads_options['quicktags']['QckOffs']) ? $quads_options['quicktags']['QckOffs'] : null, 'class' => 'quads-checkbox' ));
+                $html .= __('Hide <span class="quads-quote-docs">&lt;!--NoAds--&gt;</span>, <span class="quads-quote-docs">&lt;!--OffDef--&gt;</span>, <span class="quads-quote-docs">&lt;!--OffWidget--&gt;</span> from Quicktag Buttons','quick-adsense-reloaded') . '</br>';
+                $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[quicktags][QckOfPs]', 'current'  => !empty($quads_options['quicktags']['QckOfPs']) ? $quads_options['quicktags']['QckOfPs'] : null, 'class' => 'quads-checkbox' )); 
+                $html .= __('Hide <span class="quads-quote-docs">&lt;!--OffBegin--&gt;</span>, <span class="quads-quote-docs">&lt;!--OffMiddle--&gt;</span>, <span class="quads-quote-docs">&lt;!--OffEnd--&gt;</span>, <span class="quads-quote-docs">&lt;!--OffAfMore--&gt;</span>, <span class="quads-quote-docs">&lt;!--OffBfLastPara--&gt;</span> from Quicktag Buttons','quick-adsense-reloaded') . '</br>';
                 $html .= '<span class="quads-desc">' . __('Tags can be inserted into a post via the additional Quicktag Buttons at the HTML Edit Post SubPanel.','quick-adsense-reloaded') . '</span>';
         echo $html;
 }
@@ -1424,21 +1413,21 @@ function quads_adsense_code_callback($args){
         $checked = isset( $quads_options[ $args[ 'id' ] ]['align'] ) ? checked( 1, $quads_options[ $args[ 'id' ] ]['align'], false ) : '';
                 
         $html = '<div>';
-        $html .= '<textarea class="medium-text quads-textarea" cols="50" rows="4" id="quads_settings[' . $args['id'] . '][code]" name="quads_settings[' . $args['id'] . '][code]">' . esc_textarea( stripslashes( $value_code ) ) . '</textarea>';
+        $html .= '<textarea style="vertical-align:top;margin-right:20px;float:left;" class="medium-text quads-textarea" cols="50" rows="4" id="quads_settings[' . $args['id'] . '][code]" name="quads_settings[' . $args['id'] . '][code]">' . esc_textarea( stripslashes( $value_code ) ) . '</textarea><label for="quads_settings[' . $args['id'] . '][code]">' . $args['desc'].'</label>';
         $html .= '</div><div>';
         
-        $html .= '<label for="quads_settings[' . $args['id'] . '][margin]"> '.__('Margin:', 'quick-adsense-reloaded').' </label>';
-	$html .= '<input type="number" step="1" max="" min="" class="small-text" id="quads_settings[' . $args['id'] . '][margin]" name="quads_settings[' . $args['id'] . '][margin]" value="' . esc_attr( stripslashes( $value_margin ) ) . '"/> px';
+        $html .= '<label for="quads_settings[' . $args['id'] . '][margin]"> '.__('Margin (px): ', 'quick-adsense-reloaded').' </label>';
+	$html .= '<input type="number" step="1" max="" min="" class="small-text" id="quads_settings[' . $args['id'] . '][margin]" name="quads_settings[' . $args['id'] . '][margin]" value="' . esc_attr( stripslashes( $value_margin ) ) . '"/> ';
 
         $html .= '<label for="quads_settings[' . $args['id'] . '][align]"> '.__('Alignment:', 'quick-adsense-reloaded').' </label>';
-        $html .= '<select id="quads_settings[' . $args['id'] . '][align]" name="quads_settings[' . $args['id'] . '][align]"/>';
+        $html .= '<select class="quads-align-input" id="quads_settings[' . $args['id'] . '][align]" name="quads_settings[' . $args['id'] . '][align]"/>';
 	foreach ( $args['options'] as $option => $name ) :
 		$selected = selected( $option, $value_align, false );
 		$html .= '<option value="' . $option . '" ' . $selected . '>' . $name . '</option>';
 	endforeach;
 	$html .= '</select>';
         $html .= '</div>';
-	$html .= '<label class="quads_hidden" class="quads_hidden" for="quads_settings[' . $args['id'] . ']"> '  . $args['desc'] . '</label>';
+	//$html .= '<label class="quads_hidden" class="quads_hidden" for="quads_settings[' . $args['id'] . ']"> '  . $args['desc'] . '</label>';
         
         echo $html;
 }

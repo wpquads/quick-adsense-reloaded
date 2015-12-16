@@ -1,12 +1,10 @@
 jQuery(document).ready(function ($) {
    
    
-       
         
 /*
  * Quick Adsense import process
  */
-
 
 jQuery( '.quads-import-settings' ).click( function (e) {
     e.preventDefault();
@@ -29,6 +27,55 @@ jQuery( '.quads-import-settings' ).click( function (e) {
             //console.log('error: ' + xhr.statusText);
         });
     }); 
+
+    jQuery('#quads_insert_ads_action').click(function (e) {
+        e.preventDefault();
+        jQuery('#quads_insert_ads_box').toggle();
+    });
+
+    jQuery('#quads_disable_ads_action').click(function (e) {
+        e.preventDefault();
+        jQuery('#quads_disable_ads_box').toggle();
+    }); 
+
+/*function selectinfo(ts) {
+		if (ts.selectedIndex == 0) { return; }
+		cek = new Array(
+			document.getElementById('BegnRnd'),
+			document.getElementById('MiddRnd'),
+			document.getElementById('EndiRnd'),
+			document.getElementById('MoreRnd'),
+			document.getElementById('LapaRnd'),				
+			document.getElementById('Par1Rnd'),
+			document.getElementById('Par2Rnd'),
+			document.getElementById('Par3Rnd'),
+			document.getElementById('Img1Rnd') );
+		for (i=0;i<cek.length;i++) {
+			if (ts != cek[i] && ts.selectedIndex == cek[i].selectedIndex) {
+				cek[i].selectedIndex = 0;
+			}
+		}
+	}
+	function checkinfo1(selnme,ts) {
+		document.getElementById(selnme).disabled=!ts.checked;
+	}
+	function checkinfo2(ts,selnm1,selnm2,selnm3,selnm4) {
+		if(selnm1){document.getElementById(selnm1).disabled=!ts.checked};
+		if(selnm2){document.getElementById(selnm2).disabled=!ts.checked};		
+		if(selnm3){document.getElementById(selnm3).disabled=!ts.checked};		
+	}	
+	function deftcheckinfo() {	
+		checkinfo1('BegnRnd',document.getElementById('BegnAds'));
+		checkinfo1('MiddRnd',document.getElementById('MiddAds'));
+		checkinfo1('EndiRnd',document.getElementById('EndiAds'));
+		checkinfo1('MoreRnd',document.getElementById('MoreAds'));
+		checkinfo1('LapaRnd',document.getElementById('LapaAds'));		
+		for (i=1;i<=3;i++) {
+			checkinfo2(document.getElementById('Par'+i+'Ads'),'Par'+i+'Rnd','Par'+i+'Nup','Par'+i+'Con');		
+		}	
+		checkinfo2(document.getElementById('Img1Ads'),'Img1Rnd','Img1Nup','Img1Con');				
+	}*/
+        
            
 /**
  * Show error message and die()
@@ -606,44 +653,7 @@ For usage and examples: colpick.com/plugin
 	});
 })(jQuery);
 
-function selectinfo(ts) {
-		if (ts.selectedIndex == 0) { return; }
-		cek = new Array(
-			document.getElementById('BegnRnd'),
-			document.getElementById('MiddRnd'),
-			document.getElementById('EndiRnd'),
-			document.getElementById('MoreRnd'),
-			document.getElementById('LapaRnd'),				
-			document.getElementById('Par1Rnd'),
-			document.getElementById('Par2Rnd'),
-			document.getElementById('Par3Rnd'),
-			document.getElementById('Img1Rnd') );
-		for (i=0;i<cek.length;i++) {
-			if (ts != cek[i] && ts.selectedIndex == cek[i].selectedIndex) {
-				cek[i].selectedIndex = 0;
-			}
-		}
-	}
-	function checkinfo1(selnme,ts) {
-		document.getElementById(selnme).disabled=!ts.checked;
-	}
-	function checkinfo2(ts,selnm1,selnm2,selnm3,selnm4) {
-		if(selnm1){document.getElementById(selnm1).disabled=!ts.checked};
-		if(selnm2){document.getElementById(selnm2).disabled=!ts.checked};		
-		if(selnm3){document.getElementById(selnm3).disabled=!ts.checked};		
-	}	
-	function deftcheckinfo() {	
-		checkinfo1('BegnRnd',document.getElementById('BegnAds'));
-		checkinfo1('MiddRnd',document.getElementById('MiddAds'));
-		checkinfo1('EndiRnd',document.getElementById('EndiAds'));
-		checkinfo1('MoreRnd',document.getElementById('MoreAds'));
-		checkinfo1('LapaRnd',document.getElementById('LapaAds'));		
-		for (i=1;i<=3;i++) {
-			checkinfo2(document.getElementById('Par'+i+'Ads'),'Par'+i+'Rnd','Par'+i+'Nup','Par'+i+'Con');		
-		}	
-		checkinfo2(document.getElementById('Img1Ads'),'Img1Rnd','Img1Nup','Img1Con');				
-	}
-        
+
 
         
           

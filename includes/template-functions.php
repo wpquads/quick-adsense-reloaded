@@ -12,25 +12,11 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-// Globals
-$ShownAds = 0; // Amount of ads which are shown
-$AdsId = array(); // Array of active ad id's
-$beginend = 0; //
-
+add_filter('the_content', 'quads_process_content', 20);
 function quads_process_content($content)
 {
-	global $quads_options, $ShownAds, $AdsId, $beginend;
-        
-        // Declare the global vars here again. 
-        // Filter 'the_content' is not able to access from outside to these globals
-        $ShownAds = 0; // Amount of ads which are shown
-        $AdsId = array(); // Array of active ad id's
-        $beginend = 0; //
-        $adWidgets = 10; // number of widgets
-        $numberAds =  10; // number of regular ads
-        $AdsWidName = 'AdsWidget%d (Quick Adsense Reloaded)';
+	global $quads_options, $ShownAds, $AdsId, $adWidgets, $numberAds, $AdsWidName, $ad_count_content, $ad_count_shortcode;
 
-        
 	/* verifying */ 
 	if(	(is_feed()) ||
                 (strpos($content,'<!--NoAds-->')!==false) ||
@@ -46,17 +32,19 @@ function quads_process_content($content)
                     $content = quads_clean_tags($content); 
                     return $content; 
 	}
+        
+        if (!is_main_query())
+            return $content;
 	
 	$AdsToShow = $quads_options['maxads'];
 	if (strpos($content,'<!--OffWidget-->')===false) {
 		for($i=1;$i<=$adWidgets;$i++) {
 			$wadsid = sanitize_title(str_replace(array('(',')'),'',sprintf($AdsWidName,$i))); 
                         $AdsToShow -= (is_active_widget('', '',  $wadsid)) ? 1 : 0 ; 
-                        //echo "<br>single:" . $AdsToShow .'<br>';
 		}
-                //echo "<br>total:" . $AdsToShow . ' shownad: ' . $ShownAds;
 	}
 
+        
 	if( $ShownAds >= $AdsToShow ) { // ShownAds === 0 or larger/equal than $AdsToShow
             $content = quads_clean_tags($content); 
             return $content; 
@@ -68,8 +56,7 @@ function quads_process_content($content)
                         $tmp = trim($quads_options['ad' . $i]['code']);
 
 			if( !empty($tmp) ) {
-                                $AdsId[] = $i;
-				//array_push($AdsId, $i); //Is throwing error because $AdsId is no array when 0 rhe     
+                                $AdsId[] = $i;   
 			}
 		}
                 //var_dump($AdsId);
@@ -132,7 +119,13 @@ function quads_process_content($content)
 		if ( $endi2 == 0 ) { $b2 = $cusrnd; } else { $b2 = $cusads.$endi2; array_push($AdsIdCus, $endi2); };
  
 		for($i=1;$i<=$rc;$i++) { 
-			if ( $para2[$i] == 0 ) { $b3[$i] = $cusrnd; } else { $b3[$i] = $cusads.$para2[$i]; array_push($AdsIdCus, $para2[$i]); };	
+			if ( $para2[$i] == 0 ) { $b3[$i] = $cusrnd; 
+                        
+                        } else { 
+                            $b3[$i] = $cusads.$para2[$i]; 
+                            array_push($AdsIdCus, $para2[$i]); 
+                            
+                        };	
 		}
                 
                 // Check if image ad is random one
@@ -233,37 +226,43 @@ function quads_process_content($content)
 	
 	/* ... Tidy up content ... */
 	$content = '<!--EmptyClear-->'.$content."\n".'<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div>';
-	$content = quads_clean_tags($content, true);	
-	$ismany = (!is_single() && !is_page());
+	$content = quads_clean_tags($content, true);
+	//$ismany = (!is_single() && !is_page());
 	$showall = isset($quads_options['visibility']['AppMaxA']) ? $quads_options['visibility']['AppMaxA'] : 0;
 	
 	/* ... Replace Beginning/Middle/End Ads1-10 ... */
 	if( !$offdef ) {
 		for( $i=1; $i<=count($AdsIdCus); $i++ ) {
-			if( $showall || !$ismany || $beginend != $i ) {
+			//if( $showall || !$ismany || $beginend != $i ) {
+                            if ( is_singular() ){
 				if( strpos($content,'<!--'.$cusads.$AdsIdCus[$i-1].'-->')!==false && in_array($AdsIdCus[$i-1], $AdsId)) {
 					$content = quads_replace_ads( $content, $cusads.$AdsIdCus[$i-1], $AdsIdCus[$i-1] ); 
                                         $AdsId = quads_del_element($AdsId, array_search($AdsIdCus[$i-1], $AdsId)) ;
-					$ShownAds += 1; 
-                                        if( $ShownAds >= $AdsToShow || !count($AdsId) ){ 
+					$ShownAds += 1;
+                                        //get_active_ads();
+                                        
+                                        if( ($ShownAds+$ad_count_shortcode) >= $AdsToShow || !count($AdsId) ){ 
+                                        //if( $ShownAds >= $AdsToShow || !count($AdsId) ){ 
                                             $content = quads_clean_tags($content); 
-                                            return $content; 
+                                            return $content;
                                         };
-					$beginend = $i; 
-                                        if(!$showall && $ismany){
-                                            break;
-                                        } 
-				}
 			}	
 		}	
 	}
 	
+        /**
+         * Replace Ads1 to Ads10
+         * 
+         * Deprecated
+         * @since 0.9.4
+         */
 	/* ... Replace Ads1 to Ads10 ... */
-	if( $showall || !$ismany ) {
+	/*if( $showall || !$ismany ) {
 		$tcn = count($AdsId); $tt = 0;
 		for( $i=1; $i<=$tcn; $i++ ) {
 			if( strpos($content, '<!--Ads'.$AdsId[$tt].'-->')!==false ) {
-				$content = quads_replace_ads( $content, 'Ads'.$AdsId[$tt], $AdsId[$tt] ); $AdsId = quads_del_element($AdsId, $tt) ;
+				$content = quads_replace_ads( $content, 'Ads'.$AdsId[$tt], $AdsId[$tt] ); 
+                                $AdsId = quads_del_element($AdsId, $tt) ;
 				$ShownAds += 1; 
                                 if( $ShownAds >= $AdsToShow || !count($AdsId) ){ 
                                     $content = clean_tags($content); 
@@ -274,10 +273,13 @@ function quads_process_content($content)
 				$tt += 1;
 			}
 		}	
-	}	
+	}*/
+       
 
 	/* ... Replace Beginning/Middle/End random Ads ... */
-	if( strpos($content, '<!--'.$cusrnd.'-->')!==false && ($showall || !$ismany) ) {
+	//if( strpos($content, '<!--'.$cusrnd.'-->')!==false && ($showall || is_singular() ) ) {
+        if( strpos($content, '<!--'.$cusrnd.'-->')!==false && is_singular() ) {
+        }
 		$tcx = count($AdsId);
 		$tcy = substr_count($content, '<!--'.$cusrnd.'-->');
 		for( $i=$tcx; $i<=$tcy-1; $i++ ) {
@@ -285,13 +287,21 @@ function quads_process_content($content)
 		}
 		shuffle($AdsId);
 		for( $i=1; $i<=$tcy; $i++ ) {
-			$content = quads_replace_ads( $content, $cusrnd, $AdsId[0] ); $AdsId = quads_del_element($AdsId, 0) ;
-			$ShownAds += 1; if( $ShownAds >= $AdsToShow || !count($AdsId) ){ $content = quads_clean_tags($content); return $content; };
+			$content = quads_replace_ads( $content, $cusrnd, $AdsId[0] ); 
+                        $AdsId = quads_del_element($AdsId, 0) ;
+			$ShownAds += 1; 
+                        //get_active_ads();
+                        if( ($ShownAds+$ad_count_shortcode) >= $AdsToShow || !count($AdsId) ){ 
+                      //if( ($ShownAds) >= $AdsToShow || !count($AdsId) ){ 
+                            $content = quads_clean_tags($content); 
+                            return $content; 
+                            
+                        };
 		}
 	}
 	
 	/* ... Replace RndAds ... */
-	if( strpos($content, '<!--RndAds-->')!==false && ($showall || !$ismany) ) {
+	if( strpos($content, '<!--RndAds-->')!==false && ($showall || is_singular() ) ) {
 		$AdsIdTmp = array();
 		shuffle($AdsId);
 		for( $i=1; $i<=$AdsToShow-$ShownAds; $i++ ) {
@@ -307,13 +317,22 @@ function quads_process_content($content)
 		shuffle($AdsIdTmp);
 		for( $i=1; $i<=$tcy; $i++ ) {
 			$tmp = $AdsIdTmp[0];
-			$content = quads_replace_ads( $content, 'RndAds', $AdsIdTmp[0] ); $AdsIdTmp = quads_del_element($AdsIdTmp, 0) ;
-			if($tmp != -1){$ShownAds += 1;}; if( $ShownAds >= $AdsToShow || !count($AdsIdTmp) ){ $content = clean_tags($content); return $content; };
+			$content = quads_replace_ads( $content, 'RndAds', $AdsIdTmp[0] ); 
+                        $AdsIdTmp = quads_del_element($AdsIdTmp, 0) ;
+			if($tmp != -1){
+                            $ShownAds += 1;
+                        }; 
+                        if( $ShownAds >= $AdsToShow || !count($AdsIdTmp) ){ 
+                            $content = clean_tags($content); 
+                            return $content; 
+                        };
 		}
-	}	
-
+	}	       
+        //$content = $ad_count;
 	/* ... That's it. DONE :) ... */
 	$content = quads_clean_tags($content); 
+        // Reset ad_count - Important!!!
+        $ad_count_content = 0; 
         return $content;
 }
 
@@ -321,12 +340,15 @@ function quads_clean_tags($content, $trimonly = false) {
 	global $QData;
 	global $ShownAds;
 	global $AdsId;
-	global $beginend;
         global $quads_options;
+        global $ad_count;
         
 	$tagnames = array('EmptyClear','RndAds','NoAds','OffDef','OffAds','OffWidget','OffBegin','OffMiddle','OffEnd','OffBfMore','OffAfLastPara','CusRnd');
 
-        for($i=1;$i<=10;$i++) { array_push($tagnames, 'CusAds'.$i); array_push($tagnames, 'Ads'.$i); };
+        for($i=1;$i<=10;$i++) { 
+            array_push($tagnames, 'CusAds'.$i); 
+            array_push($tagnames, 'Ads'.$i); 
+        };
         
         
 	foreach ($tagnames as $tgn) {
@@ -337,20 +359,34 @@ function quads_clean_tags($content, $trimonly = false) {
 				$content = str_replace(array('<p><!--'.$tgn.'--></p>','<!--'.$tgn.'-->'), '', $content);	
 				$content = str_replace("##QA-TP1##", "<p></p>", $content);
 				$content = str_replace("##QA-TP2##", "<p>&nbsp;</p>", $content);
+                                //get_active_ads();
 			}
 		}
 	}
 	if(!$trimonly && (is_single() || is_page()) ) {
 		$ShownAds = 0;
 		$AdsId = array();
-		$beginend = 0;
 	}	
 	return $content;
 }
-function quads_replace_ads($content, $nme, $adn) {
-	if( strpos($content,'<!--'.$nme.'-->')===false ) { return $content; }	
-	global $quads_options;
 
+/**
+ * Replace ad code in content
+ * 
+ * @global type $quads_options
+ * @param string $content
+ * @param string $nme Quicktag
+ * @param string $adn id of the ad
+ * @return type
+ */
+function quads_replace_ads($content, $nme, $adn) {
+    	global $quads_options, $ad_count_content, $ad_count_shortcode;
+    
+    
+	if( strpos($content,'<!--'.$nme.'-->')===false ) { 
+            return $content; 
+        }	
+        
 	if ($adn != -1) {
 		$arr = array(
 			'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
@@ -361,18 +397,29 @@ function quads_replace_ads($content, $nme, $adn) {
 		$adsmargin = $quads_options['ad' . $adn]['margin'];
 		$style = sprintf($arr[(int)$adsalign], $adsmargin);
                 $adscode = $quads_options['ad' . $adn ]['code'];
-
+                // increment the ad counter
+                quads_set_ad_count_content();
 		$adscode =
 			"\n".'<!-- Quick AdSense Reloaded Plugin v. ' . QUADS_VERSION .' -->'."\n".
 			'<div style="'.$style.'">'."\n".
 			$adscode."\n".
 			'</div>'."\n";
+                //$adscode .= 'total: ' . $ad_count;
 	} else {
 		$adscode ='';
 	}	
-	$cont = explode('<!--'.$nme.'-->', $content, 2);	
+	$cont = explode('<!--'.$nme.'-->', $content, 2);
+        
 	return $cont[0].$adscode.$cont[1];
+        //return $cont[0].$adscode.$cont[1] . ' total: ' . quads_get_total_ad_count() . ' content: ' . $ad_count_content . ' shortcode: ' . $ad_count_shortcode;
 }
+/**
+ * Remove element from array
+ * 
+ * @param array $array
+ * @param int $idx key to remove from array
+ * @return array
+ */
 function quads_del_element($array, $idx) {
   $copy = array();
 	for( $i=0; $i<count($array) ;$i++) {
@@ -382,38 +429,20 @@ function quads_del_element($array, $idx) {
 	}	
   return $copy;
 }
-add_filter('the_content', 'quads_process_content');
+
 
 /**
- * Check if the maximum amount of ads are reached
+ * Get the total number of active ads
  * 
- * @global int number of already actived ads
- * @var int amount of ads to activate 
-
- * @return bool true if max is reached
- * @deprecated since version 0.9.2
+ * @global int $ad_count_shortcode
+ * @global int $ad_count_content
+ * @return int number of active ads
  */
-function quads_reached_maxads($ShownAds){
-    global $ShownAds; 
-    if ($ShownAds >= $AdsToShow)
-        return true;
+function quads_get_total_ad_count(){
+    global $ad_count_shortcode, $ad_count_content;
+        return $ad_count_shortcode + $ad_count_content;
 }
 
-/**
- * Check if the maximum amount of ads are reached and increment $ShownAds
- * 
- * @global int number of already actived ads
- * @var int amount of ads to activate 
- * @return bool true if max is reached
- * 
- * @deprecated since version 0.9.2
- */
-/*function quads_reached_maxads_incr($ShownAds){
-    global $ShownAds; 
-    
-    $ShownAds += 1;
-    if ($ShownAds >= $AdsToShow)
-        return true;
-}*/
+
 
 
