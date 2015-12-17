@@ -114,6 +114,7 @@ Alternative Installation:
 * Tweak: Cleaner GUI
 * Tweak: Clean up code and remove deprecated ads code
 * Fix: Stored setting for ad position 9 was not shown properly in option field.
+* Fix: Quicktags not shown
 
 = 0.9.3 =
 * Fix: Alignment is ignored

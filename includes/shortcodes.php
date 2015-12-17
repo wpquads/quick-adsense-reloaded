@@ -22,6 +22,8 @@ add_shortcode( 'quads_ad', 'quads_shortcode_display_ad', 1); // Important use a 
  * @param array $atts
  */
 function quads_shortcode_display_ad($atts) {
+    if ( !quads_ad_is_allowed() )
+        return;
     
     $id = isset($atts['id']) ? (int) $atts['id'] : 0;
     return quads_get_ad($id);

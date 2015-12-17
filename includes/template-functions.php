@@ -13,12 +13,39 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 add_filter('the_content', 'quads_process_content', 20);
+
+/**
+ * Main processing for the_content filter
+ * 
+ * @global arr $quads_options all plugin settings
+ * @global int $ShownAds number of active content ads (reseted internally so we have to use a similar global below for external purposes: $ad_count_content)
+ * @global arr $AdsId Whitespace trimmed array of ad codes
+ * @global int $numberWidgets number of ad widgets
+ * @global int $numberAds number of ads
+ * @global string $AdsWidName name of widget
+ * @global int $ad_count_content   number of active content ads
+ * @global int $ad_count_shortcode number of active shortcode ads
+ * @param string $content
+ * 
+ * @return string
+ * 
+ * @since 0.9.0
+ */
+
 function quads_process_content($content)
 {
-	global $quads_options, $ShownAds, $AdsId, $adWidgets, $numberAds, $AdsWidName, $ad_count_content, $ad_count_shortcode;
+	global $quads_options, $ShownAds, $AdsId, $numberWidgets, $numberAds, $AdsWidName, $ad_count_content, $ad_count_shortcode;
 
+        if ( !quads_ad_is_allowed($content) ) {
+            $content = quads_clean_tags($content); 
+            return $content;
+        }
+         
+        $AdsToShow = $quads_options['maxads'];
+        //$showall = isset($quads_options['visibility']['AppMaxA']) ? $quads_options['visibility']['AppMaxA'] : 0;
+        // @deprecated since 0.9.4
 	/* verifying */ 
-	if(	(is_feed()) ||
+	/*if(	(is_feed()) ||
                 (strpos($content,'<!--NoAds-->')!==false) ||
                 (strpos($content,'<!--OffAds-->')!==false) ||
                 (is_single() && !( isset( $quads_options['visibility']['AppPost'] ) ) ) ||
@@ -35,22 +62,22 @@ function quads_process_content($content)
         
         if (!is_main_query())
             return $content;
-	
-	$AdsToShow = $quads_options['maxads'];
+         */
+
 	if (strpos($content,'<!--OffWidget-->')===false) {
-		for($i=1;$i<=$adWidgets;$i++) {
+		for($i=1;$i<=$numberWidgets;$i++) {
 			$wadsid = sanitize_title(str_replace(array('(',')'),'',sprintf($AdsWidName,$i))); 
                         $AdsToShow -= (is_active_widget('', '',  $wadsid)) ? 1 : 0 ; 
 		}
 	}
 
         
-	if( $ShownAds >= $AdsToShow ) { // ShownAds === 0 or larger/equal than $AdsToShow
+	if( $ShownAds+$ad_count_shortcode >= $AdsToShow ) { // ShownAds === 0 or larger/equal than $AdsToShow
             $content = quads_clean_tags($content); 
             return $content; 
         };
 
-        //if( !count($AdsId) ) { // 
+        // remove whitespaces at beginning and end of all ad codes
 	if( count($AdsId) === 0 ) { //   
 		for($i=1;$i<=$numberAds;$i++) { 
                         $tmp = trim($quads_options['ad' . $i]['code']);
@@ -59,10 +86,10 @@ function quads_process_content($content)
                                 $AdsId[] = $i;   
 			}
 		}
-                //var_dump($AdsId);
 	}
-
-	if( count($AdsId) === 0 ) { // No ads, so break here
+        
+        // Ad code array is empty so break here
+	if( count($AdsId) === 0 ) { 
             $content = quads_clean_tags($content); 
             return $content; 
         };
@@ -71,6 +98,7 @@ function quads_process_content($content)
 	$content = str_replace("<p></p>", "##QA-TP1##", $content);
 	$content = str_replace("<p>&nbsp;</p>", "##QA-TP2##", $content);	
 	$offdef = (strpos($content,'<!--OffDef-->')!==false);
+        
 	if( !$offdef ) {
 
 		$AdsIdCus = array();
@@ -224,48 +252,50 @@ function quads_process_content($content)
 		}		
 	}
 	
-	/* ... Tidy up content ... */
+	/* 
+         * Tidy up content
+         */
 	$content = '<!--EmptyClear-->'.$content."\n".'<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div>';
 	$content = quads_clean_tags($content, true);
 	//$ismany = (!is_single() && !is_page());
-	$showall = isset($quads_options['visibility']['AppMaxA']) ? $quads_options['visibility']['AppMaxA'] : 0;
+	//$showall = isset($quads_options['visibility']['AppMaxA']) ? $quads_options['visibility']['AppMaxA'] : 0;
+
 	
-	/* ... Replace Beginning/Middle/End Ads1-10 ... */
-	if( !$offdef ) {
+	/* 
+         * Replace Beginning/Middle/End Ads1-10
+         */
+            if( !$offdef ) {
 		for( $i=1; $i<=count($AdsIdCus); $i++ ) {
-			//if( $showall || !$ismany || $beginend != $i ) {
-                            if ( is_singular() ){
-				if( strpos($content,'<!--'.$cusads.$AdsIdCus[$i-1].'-->')!==false && in_array($AdsIdCus[$i-1], $AdsId)) {
-					$content = quads_replace_ads( $content, $cusads.$AdsIdCus[$i-1], $AdsIdCus[$i-1] ); 
-                                        $AdsId = quads_del_element($AdsId, array_search($AdsIdCus[$i-1], $AdsId)) ;
-					$ShownAds += 1;
-                                        //get_active_ads();
-                                        
-                                        if( ($ShownAds+$ad_count_shortcode) >= $AdsToShow || !count($AdsId) ){ 
-                                        //if( $ShownAds >= $AdsToShow || !count($AdsId) ){ 
-                                            $content = quads_clean_tags($content); 
-                                            return $content;
-                                        };
-			}	
-		}	
-	}
+                  //if( $showall || !$ismany || $beginend != $i ) {
+                    //if ( $showall || is_singular() ){
+                    if( strpos($content,'<!--'.$cusads.$AdsIdCus[$i-1].'-->')!==false && in_array($AdsIdCus[$i-1], $AdsId)) {
+                            $content = quads_replace_ads( $content, $cusads.$AdsIdCus[$i-1], $AdsIdCus[$i-1] ); 
+                            $AdsId = quads_del_element($AdsId, array_search($AdsIdCus[$i-1], $AdsId)) ;
+                            $ShownAds += 1;
+                            //get_active_ads();
+
+                            if( ($ShownAds+$ad_count_shortcode) >= $AdsToShow || !count($AdsId) ){ 
+                            //if( $ShownAds >= $AdsToShow || !count($AdsId) ){ 
+                                $content = quads_clean_tags($content); 
+                                return $content;
+                            };
+                    }	
+                }	
+            }
 	
         /**
-         * Replace Ads1 to Ads10
-         * 
-         * Deprecated
-         * @since 0.9.4
-         */
-	/* ... Replace Ads1 to Ads10 ... */
-	/*if( $showall || !$ismany ) {
+         * Replace Quicktags Ads1 to Ads10
+         **/
+
+        //if( $showall || is_singular() ) {
 		$tcn = count($AdsId); $tt = 0;
 		for( $i=1; $i<=$tcn; $i++ ) {
 			if( strpos($content, '<!--Ads'.$AdsId[$tt].'-->')!==false ) {
 				$content = quads_replace_ads( $content, 'Ads'.$AdsId[$tt], $AdsId[$tt] ); 
                                 $AdsId = quads_del_element($AdsId, $tt) ;
 				$ShownAds += 1; 
-                                if( $ShownAds >= $AdsToShow || !count($AdsId) ){ 
-                                    $content = clean_tags($content); 
+                                if( $ShownAds+$ad_count_shortcode >= $AdsToShow || !count($AdsId) ){ 
+                                    $content = quads_clean_tags($content); 
                                     return $content; 
                                     
                                 };
@@ -273,13 +303,12 @@ function quads_process_content($content)
 				$tt += 1;
 			}
 		}	
-	}*/
+	//}
        
 
 	/* ... Replace Beginning/Middle/End random Ads ... */
-	//if( strpos($content, '<!--'.$cusrnd.'-->')!==false && ($showall || is_singular() ) ) {
-        if( strpos($content, '<!--'.$cusrnd.'-->')!==false && is_singular() ) {
-        }
+
+        if( strpos($content, '<!--'.$cusrnd.'-->')!==false && ($showall || is_singular() ) ) {
 		$tcx = count($AdsId);
 		$tcy = substr_count($content, '<!--'.$cusrnd.'-->');
 		for( $i=$tcx; $i<=$tcy-1; $i++ ) {
@@ -292,7 +321,6 @@ function quads_process_content($content)
 			$ShownAds += 1; 
                         //get_active_ads();
                         if( ($ShownAds+$ad_count_shortcode) >= $AdsToShow || !count($AdsId) ){ 
-                      //if( ($ShownAds) >= $AdsToShow || !count($AdsId) ){ 
                             $content = quads_clean_tags($content); 
                             return $content; 
                             
@@ -300,7 +328,9 @@ function quads_process_content($content)
 		}
 	}
 	
-	/* ... Replace RndAds ... */
+	/*
+         * Replace RndAds Random Ads
+         */
 	if( strpos($content, '<!--RndAds-->')!==false && ($showall || is_singular() ) ) {
 		$AdsIdTmp = array();
 		shuffle($AdsId);
@@ -334,7 +364,7 @@ function quads_process_content($content)
         // Reset ad_count - Important!!!
         $ad_count_content = 0; 
         return $content;
-}
+    }
 
 function quads_clean_tags($content, $trimonly = false) {
 	global $QData;
@@ -441,6 +471,38 @@ function quads_del_element($array, $idx) {
 function quads_get_total_ad_count(){
     global $ad_count_shortcode, $ad_count_content;
         return $ad_count_shortcode + $ad_count_content;
+}
+
+/**
+ * Determine if ads are visible
+ * 
+ * @global arr $quads_options
+ * @param string $content 
+ * @since 0.9.4
+ * @return boolean true when ads are shown´
+ */
+function quads_ad_is_allowed($content = null){
+    global $quads_options;
+    
+        if(	(is_feed()) ||
+                (strpos($content,'<!--NoAds-->')!==false) ||
+                (strpos($content,'<!--OffAds-->')!==false) ||
+                (is_single() && !( isset( $quads_options['visibility']['AppPost'] ) ) ) ||
+                (is_page() && !( isset($quads_options['visibility']['AppPage'] ) ) ) ||
+                (is_home() && !( isset( $quads_options['visibility']['AppHome'] ) ) ) ||			
+                (is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
+                (is_archive() && !( isset($quads_options['visibility']['AppArch'] ) ) ) ||
+                (is_tag() && !( isset($quads_options['visibility']['AppTags'] ) ) ) ||
+                (is_user_logged_in() && ( isset($quads_options['visibility']['AppLogg'] ) ) ) ) 
+        {
+            return false;
+	}
+        
+        if (!is_main_query())
+            return false; 
+        
+        // else
+        return true;
 }
 
 
