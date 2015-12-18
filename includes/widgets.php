@@ -21,9 +21,9 @@
 add_action( 'widgets_init', function(){
     global $quads_options;
     $amountWidgets = 10;
-    
+
     for($i=1;$i<=$amountWidgets;$i++) {
-        if( $quads_options['ad' . $i . '_widget'] !='') {
+        if( ! empty( $quads_options['ad' . $i . '_widget'] ) ) {
             register_widget( 'quads_widgets_' . $i );
         }
     }
