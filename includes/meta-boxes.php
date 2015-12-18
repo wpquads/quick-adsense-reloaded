@@ -10,99 +10,205 @@
  * @since       0.9.4
  */
 
+function quads_load_meta_box () {
+	new Quads_Meta_Box();
+}
+
+add_action( 'load-post.php', 		'quads_load_meta_box' );
+add_action( 'load-post-new.php', 	'quads_load_meta_box' );
+
 /**
- * Adds a box to the main column on the Post and Page edit screens.
+ * Config for all quads related options
  */
-function quads_add_meta_box() {
+class Quads_Meta_Box {
+	private $config_key;
+	private $meta_key_visibility;
 
-	$screens = array( 'post', 'page' );
+	public function __construct() {
+		$this->config_key 			= 'quads_config';
+		$this->meta_key_visibility 	= '_quads_config_visibility';
 
-	foreach ( $screens as $screen ) {
+		$this->setup_hooks();
+	}
+
+	public function setup_hooks() {
+		add_action( 'add_meta_boxes', 	array( $this, 'add_meta_boxes' ) );
+		add_action( 'save_post', 		array( $this, 'save' ) );
+
+		// @todo move to taget location
+		add_filter( 'content_edit_pre', '' ); // usuwa z wp edytora jak jest config visibility w bazie
+		add_filter( 'content_save_pre', '' ); // usuwa fizycznie z contentu quicktags na save-ie, jak jest config visibility w bazie
+	}
+
+	public function get_allowed_post_types () {
+		return apply_filters( 'quads_meta_box_post_types', array( 'post', 'page' ) );
+	}
+
+	public function add_meta_boxes ( $post_type ) {
+		if ( !in_array( $post_type, $this->get_allowed_post_types() ) ) {
+			return;
+		}
 
 		add_meta_box(
-			'quads_sectionid',
-			__( 'Quick AdSense Reloaded', 'quick-adsense-reloaded' ),
-			'quads_meta_box_callback',
-			$screen
+			'quads_meta_box', 		    // id
+			__( 'Hide Ads', 'g1_simple_ads' ),       // title
+			array( $this, 'render_meta_box' ),      // render function callback
+			$post_type, 							// post_type
+			'normal', 							    // context
+			'default'  								// priority
 		);
 	}
-}
-add_action( 'add_meta_boxes', 'quads_add_meta_box' );
 
-/**
- * Prints the box content.
- * 
- * @param WP_Post $post The object for the current post/page.
- */
-function quads_meta_box_callback( $post ) {
+	public function render_meta_box ( $post, $meta_box ) {
+		// Secure the form with nonce field
+		$nonce = wp_nonce_field(
+			'quads_config',
+			'quads_config_nonce',
+			true,
+			false
+		);
 
-	// Add a nonce field so we can check for it later.
-	wp_nonce_field( 'quads_save_meta_box_data', 'quads_meta_box_nonce' );
+		// process visibility options
+		$visibility_value = get_post_meta( $post->ID, $this->meta_key_visibility, true );
 
-	/*
-	 * Use get_post_meta() to retrieve an existing value
-	 * from the database and use the value for the form.
-	 */
-	$value = get_post_meta( $post->ID, 'quads_disable_all_ads', true );
+		$visibility_value = wp_parse_args( $visibility_value, $this->get_qtags_from_content( $post->post_content ) );
+		$qtags = $this->get_qtags_to_hide_ads();
 
-	echo '<label for="quads_new_field">';
-	_e( 'Disable all ads', 'quads_textdomain' );
-	echo '</label> ';
-	echo '<input type="text" id="quads_disable_all_ads" name="quads_disable_all_ads" value="' . esc_attr( $value ) . '" size="25" />';
-}
+		echo $nonce;
 
-/**
- * When the post is saved, saves our custom data.
- *
- * @param int $post_id The ID of the post being saved.
- */
-function quads_save_meta_box_data( $post_id ) {
-
-	/*
-	 * We need to verify this came from our screen and with proper authorization,
-	 * because the save_post action can be triggered at other times.
-	 */
-
-	// Check if our nonce is set.
-	if ( ! isset( $_POST['quads_meta_box_nonce'] ) ) {
-		return;
-	}
-
-	// Verify that the nonce is valid.
-	if ( ! wp_verify_nonce( $_POST['quads_meta_box_nonce'], 'quads_save_meta_box_data' ) ) {
-		return;
-	}
-
-	// If this is an autosave, our form has not been submitted, so we don't want to do anything.
-	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-		return;
-	}
-
-	// Check the user's permissions.
-	if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
-
-		if ( ! current_user_can( 'edit_page', $post_id ) ) {
-			return;
-		}
-
-	} else {
-
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			return;
+		foreach ( $qtags as $qtag_id => $qtag_label ) {
+			$checkbox_name = sprintf( '%s[visibility][%s]', $this->config_key, $qtag_id );
+			?>
+			<p>
+				<label>
+					<input id="<?php echo esc_attr( $checkbox_name ) ?>" type="checkbox" name="<?php echo esc_attr( $checkbox_name ) ?>" value="1" <?php checked( isset( $visibility_value[ $qtag_id ] ), true ); ?> />
+					<?php echo esc_html( $qtag_label ); ?>
+				</label>
+			</p>
+			<?php
 		}
 	}
 
-	/* OK, it's safe for us to save the data now. */
-	
-	// Make sure that it is set.
-	if ( ! isset( $_POST['quads_disable_all_ads'] ) ) {
-		return;
+	public function get_qtags_to_hide_ads () {
+		return apply_filters( 'quads_qtags_to_hide_ads', array(
+			'NoAds' 		=> __( '<!--NoAds-->', 'quick-adsense-reloaded' ),
+			'OffDef'		=> __( '<!--OffDef-->', 'quick-adsense-reloaded' ),
+			'OffWidget'		=> __( '<!--OffWidget-->', 'quick-adsense-reloaded' ),
+			'OffBegin'		=> __( '<!--OffBegin-->', 'quick-adsense-reloaded' ),
+			'OffMiddle'		=> __( '<!--OffMiddle-->', 'quick-adsense-reloaded' ),
+			'OffEnd'		=> __( '<!--OffEnd-->', 'quick-adsense-reloaded' ),
+			'OffAfMore'		=> __( '<!--OffAfMore-->', 'quick-adsense-reloaded' ),
+			'OffBfLastPara'	=> __( '<!--OffBfLastPara-->', 'quick-adsense-reloaded' ),
+		) );
 	}
 
-	// Sanitize user input.
-	$my_data = sanitize_text_field( $_POST['quads_disable_all_ads'] );
+	public function get_qtags_from_content ( $content ) {
+		$found = array();
+		$qtags = $this->get_qtags_to_hide_ads();
 
-	// Update the meta field in the database.
-	update_post_meta( $post_id, 'quads_disable_all_ads', $my_data );
+		// we can use preg_match instead of multiple calls of strpos(),
+		// but strpos is much faster and for such a small array should still be faster than preg_match()
+		foreach ( $qtags as $qtag_id => $qtag_label ) {
+			if ( false !== strpos( $content, '<!--' . $qtag_id . '-->' ) ) {
+				$found[ $qtag_id ] = 1;
+			}
+		}
+
+		return $found;
+	}
+
+	public function save ( $post_id ) {
+		// Don't save data automatically via autosave feature
+		if ( $this->is_doing_autosave() ) {
+			return $post_id;
+		}
+
+		// Don't save data when doing preview
+		if ( $this->is_doing_preview() ) {
+			return $post_id;
+		}
+
+		// Don't save data when using Quick Edit
+		if ($this->is_inline_edit() ) {
+			return $post_id;
+		}
+
+		$post_type = isset( $_POST['post_type'] ) ? $_POST['post_type'] : null;
+
+		// Update options only if they are appliable
+		if( !in_array( $post_type, $this->get_allowed_post_types() ) ) {
+			return $post_id;
+		}
+
+		// Check permissions
+		$post_type_obj = get_post_type_object( $post_type );
+		if ( !current_user_can( $post_type_obj->cap->edit_post, $post_id ) ) {
+			return $post_id;
+		}
+
+		// Verify nonce
+		if ( !check_admin_referer( 'quads_config', 'quads_config_nonce' ) ) {
+			wp_die( __( 'Nonce incorrect!', 'g1_simple_ads' ) );
+		}
+
+		if ( ! isset( $_POST[ $this->config_key ] ) ) {
+			return;
+		}
+
+		$config = $_POST[ $this->config_key ];
+
+		// process visibility config
+		// store it in separate meta key
+		if ( isset( $config['visibility'] ) ) {
+			$checked_qtags = array();
+			$allowed_fields = $this->get_qtags_to_hide_ads();
+
+			foreach ( $allowed_fields as $qtag_id => $qtag_label ) {
+				if ( isset( $config['visibility'][ $qtag_id ] ) ) {
+					$checked_qtags[ $qtag_id ] = 1;
+				}
+			}
+
+			// strip all forbidden values
+			foreach ( $config['visibility'] as $qtag_id => $qtag_label ) {
+				if ( isset( $allowed_fields[ $qtag_id ] ) ) {
+					$checked_qtags[ $qtag_id ] = 1;
+				}
+			}
+
+			update_post_meta( $post_id, $this->meta_key_visibility, $checked_qtags );
+		}
+	}
+
+	// @todo remove this code
+//	protected function remove_unchecked_qtags_from_content ( $post_id, $allowed_qtags, $all_qtags ) {
+//		$post = get_post( $post_id );
+//		$post_content = $post->post_content;
+//
+//		foreach ( $all_qtags as $qtag_id => $qtag_label ) {
+//			if ( ! isset( $allowed_qtags[ $qtag_id ] ) ) {
+//				// remove qtag from content
+//				$post_content = str_replace( '<!--'. $qtag_id .'-->', '', $post_content );
+//			}
+//		}
+//
+//		$new_data = array(
+//			'ID'           => $post_id,
+//			'post_content' => $post_content,
+//		);
+//
+//		wp_update_post( $new_data );
+//	}
+
+	protected function is_doing_autosave() {
+		return defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ? true : false;
+	}
+
+	protected function is_inline_edit() {
+		return isset( $_POST['_inline_edit'] ) ?  true : false;
+	}
+
+	protected function is_doing_preview () {
+		return !empty( $_POST['wp-preview'] );
+	}
 }
-add_action( 'save_post', 'quads_save_meta_box_data' );
