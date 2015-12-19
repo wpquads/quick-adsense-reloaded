@@ -2,7 +2,7 @@
 
 Author URL: https://profiles.wordpress.org/renehermi/
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
-Contributors: René Hermenau, ReneHermi, WP-Staging, toddynho
+Contributors: ReneHermi, WP-Staging, toddynho
 Donate link: 
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
