@@ -340,14 +340,14 @@ function quads_get_registered_settings() {
 				),
                                 'create_settings' => array(
 					'id' => 'create_settings',
-					'name' => __( 'Create settings link', 'quick-adsense-reloaded' ),
-					'desc' => __( 'Check this if you want to have the quick adsense settings available from <pre>Settings->quick adsense reloaded</pre> This will remove the menue button from the left admin sidebar', 'quick-adsense-reloaded' ),
+					'name' => __( 'Settings link', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong> This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
 					'type' => 'checkbox',
 				),
                                 'uninstall_on_delete' => array(
 					'id' => 'uninstall_on_delete',
 					'name' => __( 'Remove Data on Uninstall?', 'quick-adsense-reloaded' ),
-					'desc' => __( 'Check this box if you would like Quick AdSense Reloaded to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Check this box if you would like <strong>Settings->WPQUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
 					'type' => 'checkbox'
 				),
 			)
@@ -389,7 +389,7 @@ function quads_get_registered_settings() {
                                 'help_header' => array(
 					'id' => 'help_header',
 					'name' => '<strong>' . __( 'Help', 'quick-adsense-reloaded' ) . '</strong>',
-					'desc' => sprintf( __( 'Something not working as expected? Visit the Quick AdSense Reloaded <a href="%1s" target="_blank">Support Forum</a>', 'quick-adsense-reloaded' ) , 'https://wordpress.org/support/plugin/quick-adsense-reloaded'),
+					'desc' => sprintf( __( 'Something not working as expected? Visit the WP<strong>QUADS</strong> <a href="%1s" target="_blank">Support Forum</a>', 'quick-adsense-reloaded' ) , 'https://wordpress.org/support/plugin/quick-adsense-reloaded'),
 					'type' => 'header'
 				),
                                 'systeminfo' => array(
@@ -973,7 +973,7 @@ if ( ! function_exists( 'quads_license_key_callback' ) ) {
 
 
 /**
- * Registers the Add-Ons field callback for Quick AdSense Reloaded Add-Ons
+ * Registers the Add-Ons field callback for WPQUADS Add-Ons
  *
  * @since 2.0.5
  * @param array $args Arguments passed by the setting
@@ -985,7 +985,7 @@ function quads_addons_callback( $args ) {
 }
 
 /**
- * Registers the im/export callback for Quick AdSense Reloaded
+ * Registers the im/export callback for WPQUADS
  *
  * @since 0.9.0
  * @param array $args Arguments passed by the setting
@@ -998,7 +998,7 @@ function quads_imexport_callback( $args ) {
 }
 
 /**
- * Registers the system info for Quick AdSense Reloaded
+ * Registers the system info for WPQUADS
  *
  * @since 0.9.0
  * @param array $args Arguments passed by the setting
@@ -1041,7 +1041,7 @@ function quads_systeminfo_callback( $args ) {
  * Post Types Callback
  *
  * Adds a multiple choice drop box
- * for selecting where Quick AdSense Reloaded should be enabled
+ * for selecting where WPQUADS should be enabled
  *
  * @since 2.0.9
  * @param array $args Arguments passed by the setting
