@@ -8,9 +8,9 @@
  * Version: 0.9.4
  * Text Domain: quick-adsense-reloaded
  * Domain Path: languages
- * Credits: Quick AdSense Reloaded is a fork of Quick AdSense by Todd Garland https://profiles.wordpress.org/toddynho/
+ * Credits: WPQUADS - Quick AdSense Reloaded is a fork of Quick AdSense by Todd Garland https://profiles.wordpress.org/toddynho/
  *
- * Quick AdSense Reloaded is free software: you can redistribute it and/or modify
+ * WPQUADS is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
  * any later version.
