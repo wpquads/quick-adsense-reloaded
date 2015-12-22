@@ -18,7 +18,7 @@ add_action( 'load-post.php', 		'quads_load_meta_box' );
 add_action( 'load-post-new.php', 	'quads_load_meta_box' );
 
 /**
- * Config for all quads related options
+ * Ads options for a single post
  */
 class Quads_Meta_Box {
 	private $config_key;
@@ -34,10 +34,6 @@ class Quads_Meta_Box {
 	public function setup_hooks() {
 		add_action( 'add_meta_boxes', 	array( $this, 'add_meta_boxes' ) );
 		add_action( 'save_post', 		array( $this, 'save' ) );
-
-		// @todo move to taget location
-		add_filter( 'content_edit_pre', '' ); // usuwa z wp edytora jak jest config visibility w bazie
-		add_filter( 'content_save_pre', '' ); // usuwa fizycznie z contentu quicktags na save-ie, jak jest config visibility w bazie
 	}
 
 	public function get_allowed_post_types () {
@@ -50,12 +46,12 @@ class Quads_Meta_Box {
 		}
 
 		add_meta_box(
-			'quads_meta_box', 		    // id
-			__( 'Hide Ads', 'g1_simple_ads' ),       // title
-			array( $this, 'render_meta_box' ),      // render function callback
-			$post_type, 							// post_type
-			'normal', 							    // context
-			'default'  								// priority
+			'quads_meta_box', 		    		// id
+			__( 'Hide Ads', 'quads' ),       	// title
+			array( $this, 'render_meta_box' ),  // render function callback
+			$post_type, 						// post_type
+			'normal', 							// context
+			'default'  							// priority
 		);
 	}
 
@@ -71,50 +67,23 @@ class Quads_Meta_Box {
 		// process visibility options
 		$visibility_value = get_post_meta( $post->ID, $this->meta_key_visibility, true );
 
-		$visibility_value = wp_parse_args( $visibility_value, $this->get_qtags_from_content( $post->post_content ) );
-		$qtags = $this->get_qtags_to_hide_ads();
+		// on first load, when post meta value is empty, we set defaults based on quicktags in content
+		$visibility_value = wp_parse_args( $visibility_value, quads_get_quicktags_from_content( $post->post_content ) );
+		$quicktags = quads_quicktag_list();
 
 		echo $nonce;
 
-		foreach ( $qtags as $qtag_id => $qtag_label ) {
-			$checkbox_name = sprintf( '%s[visibility][%s]', $this->config_key, $qtag_id );
+		foreach ( $quicktags as $quicktag_id => $quicktag_label ) {
+			$checkbox_name = sprintf( '%s[visibility][%s]', $this->config_key, $quicktag_id );
 			?>
 			<p>
 				<label>
-					<input id="<?php echo esc_attr( $checkbox_name ) ?>" type="checkbox" name="<?php echo esc_attr( $checkbox_name ) ?>" value="1" <?php checked( isset( $visibility_value[ $qtag_id ] ), true ); ?> />
-					<?php echo esc_html( $qtag_label ); ?>
+					<input id="<?php echo esc_attr( $checkbox_name ) ?>" type="checkbox" name="<?php echo esc_attr( $checkbox_name ) ?>" value="1" <?php checked( isset( $visibility_value[ $quicktag_id ] ), true ); ?> />
+					<?php echo esc_html( $quicktag_label ); ?>
 				</label>
 			</p>
 			<?php
 		}
-	}
-
-	public function get_qtags_to_hide_ads () {
-		return apply_filters( 'quads_qtags_to_hide_ads', array(
-			'NoAds' 		=> __( '<!--NoAds-->', 'quick-adsense-reloaded' ),
-			'OffDef'		=> __( '<!--OffDef-->', 'quick-adsense-reloaded' ),
-			'OffWidget'		=> __( '<!--OffWidget-->', 'quick-adsense-reloaded' ),
-			'OffBegin'		=> __( '<!--OffBegin-->', 'quick-adsense-reloaded' ),
-			'OffMiddle'		=> __( '<!--OffMiddle-->', 'quick-adsense-reloaded' ),
-			'OffEnd'		=> __( '<!--OffEnd-->', 'quick-adsense-reloaded' ),
-			'OffAfMore'		=> __( '<!--OffAfMore-->', 'quick-adsense-reloaded' ),
-			'OffBfLastPara'	=> __( '<!--OffBfLastPara-->', 'quick-adsense-reloaded' ),
-		) );
-	}
-
-	public function get_qtags_from_content ( $content ) {
-		$found = array();
-		$qtags = $this->get_qtags_to_hide_ads();
-
-		// we can use preg_match instead of multiple calls of strpos(),
-		// but strpos is much faster and for such a small array should still be faster than preg_match()
-		foreach ( $qtags as $qtag_id => $qtag_label ) {
-			if ( false !== strpos( $content, '<!--' . $qtag_id . '-->' ) ) {
-				$found[ $qtag_id ] = 1;
-			}
-		}
-
-		return $found;
 	}
 
 	public function save ( $post_id ) {
@@ -148,7 +117,7 @@ class Quads_Meta_Box {
 
 		// Verify nonce
 		if ( !check_admin_referer( 'quads_config', 'quads_config_nonce' ) ) {
-			wp_die( __( 'Nonce incorrect!', 'g1_simple_ads' ) );
+			wp_die( __( 'Nonce incorrect!', 'quads' ) );
 		}
 
 		if ( ! isset( $_POST[ $this->config_key ] ) ) {
@@ -161,7 +130,7 @@ class Quads_Meta_Box {
 		// store it in separate meta key
 		if ( isset( $config['visibility'] ) ) {
 			$checked_qtags = array();
-			$allowed_fields = $this->get_qtags_to_hide_ads();
+			$allowed_fields = quads_quicktag_list();
 
 			foreach ( $allowed_fields as $qtag_id => $qtag_label ) {
 				if ( isset( $config['visibility'][ $qtag_id ] ) ) {
@@ -179,26 +148,6 @@ class Quads_Meta_Box {
 			update_post_meta( $post_id, $this->meta_key_visibility, $checked_qtags );
 		}
 	}
-
-	// @todo remove this code
-//	protected function remove_unchecked_qtags_from_content ( $post_id, $allowed_qtags, $all_qtags ) {
-//		$post = get_post( $post_id );
-//		$post_content = $post->post_content;
-//
-//		foreach ( $all_qtags as $qtag_id => $qtag_label ) {
-//			if ( ! isset( $allowed_qtags[ $qtag_id ] ) ) {
-//				// remove qtag from content
-//				$post_content = str_replace( '<!--'. $qtag_id .'-->', '', $post_content );
-//			}
-//		}
-//
-//		$new_data = array(
-//			'ID'           => $post_id,
-//			'post_content' => $post_content,
-//		);
-//
-//		wp_update_post( $new_data );
-//	}
 
 	protected function is_doing_autosave() {
 		return defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ? true : false;
