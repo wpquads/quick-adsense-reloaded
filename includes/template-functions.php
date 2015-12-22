@@ -42,11 +42,13 @@ function quads_get_visibility_quicktags_str ( $post_id = null ) {
 		$post_id = get_the_ID();
 	}
 
-	$config = get_post_meta( $post_id, '_quads_config_visibility', true );
 	$str = '';
+	$config = get_post_meta( $post_id, '_quads_config_visibility', true );
 
-	foreach ( $config as $qtag_id => $qtag_label ) {
-		$str .= '<!--' . $qtag_id . '-->';
+	if ( $config ) {
+		foreach ( $config as $qtag_id => $qtag_label ) {
+			$str .= '<!--' . $qtag_id . '-->';
+		}
 	}
 
 	return $str;
