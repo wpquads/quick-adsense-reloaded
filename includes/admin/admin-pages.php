@@ -27,15 +27,10 @@ function quads_add_options_link() {
 
         $create_settings = isset($quads_options['create_settings']) ? true : false;
         if ($create_settings){
-            $quads_settings_page = add_submenu_page( 'options-general.php', __( 'Quick AdSense Reloaded Settings', 'quick-adsense-reloaded' ), __( 'Quick AdSense Reloaded', 'quick-adsense-reloaded' ), 'manage_options', 'quads-settings', 'quads_options_page' );
+            $quads_settings_page = add_submenu_page( 'options-general.php', __( 'WP QUADS Settings', 'quick-adsense-reloaded' ), __( 'WP QUADS', 'quick-adsense-reloaded' ), 'manage_options', 'quads-settings', 'quads_options_page' );
         }else{
-            $quads_parent_page   = add_menu_page( 'Quick AdSense Reloaded Settings', __( 'WP<strong>QUADS</strong>', 'quick-adsense-reloaded' ), 'manage_options', 'quads-settings', 'quads_options_page' );
+            $quads_parent_page   = add_menu_page( 'Quick AdSense Reloaded Settings', __( 'WP <strong>QUADS</strong>', 'quick-adsense-reloaded' ), 'manage_options', 'quads-settings', 'quads_options_page' );
         }
-        //$quads_parent_page = add_menu_page( 'Quick AdSense Reloaded Welcome Screen' , 'Quick AdSense Reloaded' , 'manage_options' , 'quadsshare-welcome' , 'quadsshare_welcome_conf');   
-        //$quads_settings_page = add_submenu_page( 'quads-settings', __( 'Quick AdSense Reloaded Settings', 'quick-adsense-reloaded' ), __( 'Settings', 'quick-adsense-reloaded' ), 'manage_options', 'quads-settings', 'quads_options_page' );
-        //$quads_add_ons_page  = add_submenu_page( 'quads-settings', __( 'Quick AdSense Reloaded Add Ons', 'quick-adsense-reloaded' ), __( 'Add Ons', 'quick-adsense-reloaded' ), 'manage_options', 'quads-addons', 'quads_add_ons_page' ); 
-        //$quads_tools_page = add_submenu_page( 'quads-settings', __( 'Quick AdSense Reloaded Tools', 'quick-adsense-reloaded' ), __( 'Tools', 'quick-adsense-reloaded' ), 'manage_options', 'quads-tools', 'quads_tools_page' );
-
 }
 add_action( 'admin_menu', 'quads_add_options_link', 10 );
 

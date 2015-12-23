@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Widget Functions
  *
@@ -9,9 +8,6 @@
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       0.9.1
  */
-
-
-
 /**
  * Register Widgets
  * 
@@ -21,22 +17,18 @@
 add_action( 'widgets_init', function(){
     global $quads_options;
     $amountWidgets = 10;
-
     for($i=1;$i<=$amountWidgets;$i++) {
         if( ! empty( $quads_options['ad' . $i . '_widget'] ) ) {
             register_widget( 'quads_widgets_' . $i );
         }
     }
 });
-
 class quads_widgets_1 extends WP_Widget {
-
 	/**
 	 * Register widget with WordPress.
 	 */
 	function __construct() {
                 $this->adsID = '1';
-
                 $this->AdsWidName = sprintf('AdsWidget%d (Quick Adsense Reloaded)',$this->adsID);
 		$this->AdsWidID = sanitize_title(str_replace(array('(',')'),'',$this->AdsWidName));
 		parent::__construct(
@@ -45,7 +37,6 @@ class quads_widgets_1 extends WP_Widget {
 			array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
 		);
 	}
-
         /**
          * Create widget
          * 
@@ -57,24 +48,18 @@ class quads_widgets_1 extends WP_Widget {
         global $quads_options;
         extract($args);
             
-        $cont = get_the_content();
+        $cont = quads_post_settings_to_quicktags( get_the_content() );
         if (strpos($cont, "<!--OffAds-->") === false && strpos($cont, "<!--OffWidget-->") === false && !(is_home() && $quads_options["visibility"]["AppSide"])) {
-
             $codetxt = $quads_options['ad' . $this->adsID . '_widget'];
-
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-
             echo $codetxt;
-
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
     }
-
 } // class My_Widget1
-
 class quads_widgets_2 extends WP_Widget {
 	/**
 	 * Register widget with WordPress.
@@ -90,30 +75,22 @@ class quads_widgets_2 extends WP_Widget {
 			array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
 		);
 	}
-
 	public function widget($args, $instance) {
         global $quads_options;
         extract($args);
         
-        $cont = get_the_content();
+        $cont = quads_post_settings_to_quicktags( get_the_content() );
         if (strpos($cont, "<!--OffAds-->") === false && strpos($cont, "<!--OffWidget-->") === false && !(is_home() && $quads_options["visibility"]["AppSide"])) {
-
-
             $codetxt = $quads_options['ad' . $this->adsID . '_widget'];
-
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             //if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-
             echo $codetxt;
-
             //if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
     }
-
 } // class My_Widget2
-
 class quads_widgets_3 extends WP_Widget {
 	/**
 	 * Register widget with WordPress.
@@ -130,29 +107,21 @@ class quads_widgets_3 extends WP_Widget {
 			array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
 		);
 	}
-
 	public function widget($args, $instance) {
         global $quads_options;
         extract($args);
-
-        $cont = get_the_content();
+        $cont = quads_post_settings_to_quicktags( get_the_content() );
         if (strpos($cont, "<!--OffAds-->") === false && strpos($cont, "<!--OffWidget-->") === false && !(is_home() && $quads_options["visibility"]["AppSide"])) {
-
             $codetxt = $quads_options['ad' . $this->adsID . '_widget'];
-
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-
             echo $codetxt;
-
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
     }
-
 } // class My_Widget3
-
 class quads_widgets_4 extends WP_Widget {
 	/**
 	 * Register widget with WordPress.
@@ -168,33 +137,24 @@ class quads_widgets_4 extends WP_Widget {
 			array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
 		);
 	}
-
 	public function widget($args, $instance) {
         global $quads_options;
         
         extract($args);
-
-        $cont = get_the_content();
+        $cont = quads_post_settings_to_quicktags( get_the_content() );
         if (strpos($cont, "<!--OffAds-->") === false && strpos($cont, "<!--OffWidget-->") === false && !(is_home() && $quads_options["visibility"]["AppSide"])) {
             
              
-
             $codetxt = $quads_options['ad' . $this->adsID . '_widget'];
-
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-
             echo $codetxt;
-
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
     }
-
 } // class My_Widget4
-
-
 class quads_widgets_5 extends WP_Widget {
 	/**
 	 * Register widget with WordPress.
@@ -210,32 +170,23 @@ class quads_widgets_5 extends WP_Widget {
 			array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
 		);
 	}
-
 	public function widget($args, $instance) {
         global $quads_options;
         
         extract($args);
-
-        $cont = get_the_content();
+        $cont = quads_post_settings_to_quicktags( get_the_content() );
         if (strpos($cont, "<!--OffAds-->") === false && strpos($cont, "<!--OffWidget-->") === false && !(is_home() && $quads_options["visibility"]["AppSide"])) {
-
              
-
             $codetxt = $quads_options['ad' . $this->adsID . '_widget'];
-
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-
             echo $codetxt;
-
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
     }
-
 } // class My_Widget5
-
 class quads_widgets_6 extends WP_Widget {
 	/**
 	 * Register widget with WordPress.
@@ -251,32 +202,24 @@ class quads_widgets_6 extends WP_Widget {
 			array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
 		);
 	}
-
 	public function widget($args, $instance) {
         global $quads_options;
         
         extract($args);
-
-        $cont = get_the_content();
+        $cont = quads_post_settings_to_quicktags( get_the_content() );
         if (strpos($cont, "<!--OffAds-->") === false && strpos($cont, "<!--OffWidget-->") === false && !(is_home() && $quads_options["visibility"]["AppSide"])) {
             
              
-
             $codetxt = $quads_options['ad' . $this->adsID . '_widget'];
-
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-
             echo $codetxt;
-
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
     }
-
 } // class My_Widget6
-
 class quads_widgets_7 extends WP_Widget {
 	/**
 	 * Register widget with WordPress.
@@ -292,32 +235,24 @@ class quads_widgets_7 extends WP_Widget {
 			array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
 		);
 	}
-
 	public function widget($args, $instance) {
         global $quads_options;
         
         extract($args);
-
-        $cont = get_the_content();
+        $cont = quads_post_settings_to_quicktags( get_the_content() );
         if (strpos($cont, "<!--OffAds-->") === false && strpos($cont, "<!--OffWidget-->") === false && !(is_home() && $quads_options["visibility"]["AppSide"])) {
             
              
-
             $codetxt = $quads_options['ad' . $this->adsID . '_widget'];
-
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-
             echo $codetxt;
-
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
     }
-
 } // class My_Widget7
-
 class quads_widgets_8 extends WP_Widget {
 	/**
 	 * Register widget with WordPress.
@@ -333,30 +268,23 @@ class quads_widgets_8 extends WP_Widget {
 			array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
 		);
 	}
-
 	public function widget($args, $instance) {
         global $quads_options;
         
         extract($args);
-
-        $cont = get_the_content();
+        $cont = quads_post_settings_to_quicktags( get_the_content() );
         if (strpos($cont, "<!--OffAds-->") === false && strpos($cont, "<!--OffWidget-->") === false && !(is_home() && $quads_options["visibility"]["AppSide"])) {
             
             $codetxt = $quads_options['ad' . $this->adsID . '_widget'];
-
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-
             echo $codetxt;
-
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
     }
-
 } // class My_Widget8
-
 class quads_widgets_9 extends WP_Widget {
 	/**
 	 * Register widget with WordPress.
@@ -372,32 +300,24 @@ class quads_widgets_9 extends WP_Widget {
 			array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
 		);
 	}
-
 	public function widget($args, $instance) {
         global $quads_options;
         
         extract($args);
-
-        $cont = get_the_content();
+        $cont = quads_post_settings_to_quicktags( get_the_content() );
         if (strpos($cont, "<!--OffAds-->") === false && strpos($cont, "<!--OffWidget-->") === false && !(is_home() && $quads_options["visibility"]["AppSide"])) {
             
              
-
             $codetxt = $quads_options['ad' . $this->adsID . '_widget'];
-
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-
             echo $codetxt;
-
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
     }
-
 } // class My_Widget9
-
 class quads_widgets_10 extends WP_Widget {
 	/**
 	 * Register widget with WordPress.
@@ -413,33 +333,21 @@ class quads_widgets_10 extends WP_Widget {
 			array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
 		);
 	}
-
 	public function widget($args, $instance) {
         global $quads_options;
         
         extract($args);
-
-        $cont = get_the_content();
+        $cont = quads_post_settings_to_quicktags( get_the_content() );
         if (strpos($cont, "<!--OffAds-->") === false && strpos($cont, "<!--OffWidget-->") === false && !(is_home() && $quads_options["visibility"]["AppSide"])) {
             
              
-
             $codetxt = $quads_options['ad' . $this->adsID . '_widget'];
-
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-
             echo $codetxt;
-
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
     }
-
 } // class My_Widget10
-
-
-
-
-

@@ -12,7 +12,10 @@
 
 
 // add short codes
+//@deprecated since 0.9.5
 add_shortcode( 'quads_ad', 'quads_shortcode_display_ad', 1); // Important use a very early priority to be able to count total ads accurate
+// new shortcode since 0.9.5
+add_shortcode( 'quads', 'quads_shortcode_display_ad', 1); // Important use a very early priority to be able to count total ads accurate
 
 
 /**
@@ -23,6 +26,11 @@ add_shortcode( 'quads_ad', 'quads_shortcode_display_ad', 1); // Important use a 
  */
 function quads_shortcode_display_ad($atts) {
     if ( !quads_ad_is_allowed() )
+        return;
+    
+    //return quads_check_meta_setting('NoAds');
+    //return quads_check_meta_setting('NoAds');
+    if ( quads_check_meta_setting('NoAds') === '1')
         return;
     
     $id = isset($atts['id']) ? (int) $atts['id'] : 0;
@@ -94,5 +102,28 @@ function quads_ad_reach_max_count(){
     if ( quads_get_total_ad_count() >= $quads_options['maxads'] ){
         return true;
     }
+}
+
+/**
+ * Return value of quads meta box settings
+ * 
+ * @param type $id id of meta settings
+ * @return mixed string | bool value if setting is active. False if there is no setting
+ */
+function quads_check_meta_setting($key){
+    global $post;
+    
+    if ( !isset($post->ID ) )
+    return false;
+    
+    $meta_key = '_quads_config_visibility';
+
+    $value_arr = get_post_meta ( $post->ID, $meta_key, true );
+    $value_key = isset($value_arr[$key]) ? $value_arr[$key] : null;
+               
+    if (!empty($value_key))
+    return (string)$value_key;
+    
+    return false;
 }
 

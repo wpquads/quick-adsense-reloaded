@@ -95,34 +95,34 @@ function quads_ads_head_script() {
 				edaddID[edaddID.length] = "random_ads";
 				edaddNm[edaddNm.length] = "RndAds";
 			<?php } ?>	
-			<?php if( !isset( $quads_options['quicktags']['QckOffs'] ) ){ ?>
-				edButtons[edButtons.length]=new edButton("no_ads","NoAds","\n<!--NoAds-->\n","","",-1);
-				edaddID[edaddID.length] = "no_ads";
-				edaddNm[edaddNm.length] = "NoAds";
-				edButtons[edButtons.length]=new edButton("off_def","OffDef","\n<!--OffDef-->\n","","",-1);	
-				edaddID[edaddID.length] = "off_def";
-				edaddNm[edaddNm.length] = "OffDef";
-				edButtons[edButtons.length]=new edButton("off_wid","OffWidget","\n<!--OffWidget-->\n","","",-1);	
-				edaddID[edaddID.length] = "off_wid";
-				edaddNm[edaddNm.length] = "OffWidget";				
-			<?php } ?>
-			<?php if( !isset( $quads_options['quicktags']['QckOfPs'] ) ){ ?>
-				edButtons[edButtons.length]=new edButton("off_bgn","OffBegin","\n<!--OffBegin-->\n","","",-1);
-				edaddID[edaddID.length] = "off_bgn";
-				edaddNm[edaddNm.length] = "OffBegin";
-				edButtons[edButtons.length]=new edButton("off_mid","OffMiddle","\n<!--OffMiddle-->\n","","",-1);
-				edaddID[edaddID.length] = "off_mid";
-				edaddNm[edaddNm.length] = "OffMiddle";
-				edButtons[edButtons.length]=new edButton("off_end","OffEnd","\n<!--OffEnd-->\n","","",-1);
-				edaddID[edaddID.length] = "off_end";
-				edaddNm[edaddNm.length] = "OffEnd";				
-				edButtons[edButtons.length]=new edButton("off_more","OffAfMore","\n<!--OffAfMore-->\n","","",-1);
-				edaddID[edaddID.length] = "off_more";
-				edaddNm[edaddNm.length] = "OffAfMore";				
-				edButtons[edButtons.length]=new edButton("off_last","OffBfLastPara","\n<!--OffBfLastPara-->\n","","",-1);
-				edaddID[edaddID.length] = "off_last";
-				edaddNm[edaddNm.length] = "OffBfLastPara";								
-			<?php } ?>			
+			<?php //if( !isset( $quads_options['quicktags']['QckOffs'] ) ){ ?>
+				//edButtons[edButtons.length]=new edButton("no_ads","NoAds","\n<!--NoAds-->\n","","",-1);
+				//edaddID[edaddID.length] = "no_ads";
+				//edaddNm[edaddNm.length] = "NoAds";
+				//edButtons[edButtons.length]=new edButton("off_def","OffDef","\n<!--OffDef-->\n","","",-1);	
+				//edaddID[edaddID.length] = "off_def";
+				//edaddNm[edaddNm.length] = "OffDef";
+				//edButtons[edButtons.length]=new edButton("off_wid","OffWidget","\n<!--OffWidget-->\n","","",-1);	
+				//edaddID[edaddID.length] = "off_wid";
+				//edaddNm[edaddNm.length] = "OffWidget";				
+			<?php //} ?>
+			<?php //if( !isset( $quads_options['quicktags']['QckOfPs'] ) ){ ?>
+				//edButtons[edButtons.length]=new edButton("off_bgn","OffBegin","\n<!--OffBegin-->\n","","",-1);
+				//edaddID[edaddID.length] = "off_bgn";
+				//edaddNm[edaddNm.length] = "OffBegin";
+				//edButtons[edButtons.length]=new edButton("off_mid","OffMiddle","\n<!--OffMiddle-->\n","","",-1);
+				//edaddID[edaddID.length] = "off_mid";
+				//edaddNm[edaddNm.length] = "OffMiddle";
+				//edButtons[edButtons.length]=new edButton("off_end","OffEnd","\n<!--OffEnd-->\n","","",-1);
+				//edaddID[edaddID.length] = "off_end";
+				//edaddNm[edaddNm.length] = "OffEnd";				
+				//edButtons[edButtons.length]=new edButton("off_more","OffAfMore","\n<!--OffAfMore-->\n","","",-1);
+				//edaddID[edaddID.length] = "off_more";
+				//edaddNm[edaddNm.length] = "OffAfMore";				
+				//edButtons[edButtons.length]=new edButton("off_last","OffBfLastPara","\n<!--OffBfLastPara-->\n","","",-1);
+				//edaddID[edaddID.length] = "off_last";
+				//edaddNm[edaddNm.length] = "OffBfLastPara";								
+			<?php //} ?>			
 		};
 		(function(){
 			if(typeof(edButtons)!='undefined' && typeof(jQuery)!='undefined' && wpvcomp){

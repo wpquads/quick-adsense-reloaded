@@ -12,7 +12,41 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+// we need to hook into the_content on lower than default priority (that's why we use separate hook)
+add_filter('the_content', 'quads_post_settings_to_quicktags', 5);
 add_filter('the_content', 'quads_process_content', 20);
+
+/**
+ * Adds quicktags, defined via post meta options, to content.
+ *
+ * @param $content 		Post content
+ *
+ * @return string
+ */
+function quads_post_settings_to_quicktags ( $content ) {
+	$quicktags_str = quads_get_visibility_quicktags_str();
+	return $content . $quicktags_str;
+}
+/**
+ * Returns quicktags based on post meta options.
+ * These quicktags define which ads should be hidden on current page.
+ *
+ * @param null $post_id 	Post id
+ *
+ * @return string
+ */
+function quads_get_visibility_quicktags_str ( $post_id = null ) {
+    
+	if ( ! $post_id ) {
+		$post_id = get_the_ID();
+	}
+	$config = get_post_meta( $post_id, '_quads_config_visibility', true );
+	$str = '';
+	foreach ( $config as $qtag_id => $qtag_label ) {
+		$str .= '<!--' . $qtag_id . '-->';
+	}
+	return $str;
+}
 
 /**
  * Main processing for the_content filter
@@ -42,27 +76,6 @@ function quads_process_content($content)
         }
          
         $AdsToShow = $quads_options['maxads'];
-        //$showall = isset($quads_options['visibility']['AppMaxA']) ? $quads_options['visibility']['AppMaxA'] : 0;
-        // @deprecated since 0.9.4
-	/* verifying */ 
-	/*if(	(is_feed()) ||
-                (strpos($content,'<!--NoAds-->')!==false) ||
-                (strpos($content,'<!--OffAds-->')!==false) ||
-                (is_single() && !( isset( $quads_options['visibility']['AppPost'] ) ) ) ||
-                (is_page() && !( isset($quads_options['visibility']['AppPage'] ) ) ) ||
-                (is_home() && !( isset( $quads_options['visibility']['AppHome'] ) ) ) ||			
-                (is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
-                (is_archive() && !( isset($quads_options['visibility']['AppArch'] ) ) ) ||
-                (is_tag() && !( isset($quads_options['visibility']['AppTags'] ) ) ) ||
-                (is_user_logged_in() && ( isset($quads_options['visibility']['AppLogg'] ) ) ) ) 
-        {
-                    $content = quads_clean_tags($content); 
-                    return $content; 
-	}
-        
-        if (!is_main_query())
-            return $content;
-         */
 
 	if (strpos($content,'<!--OffWidget-->')===false) {
 		for($i=1;$i<=$numberWidgets;$i++) {
