@@ -31,6 +31,6 @@ Anyone is welcome to contribute to Quick AdSense Reloaded. Please read the [guid
 There are various ways you can contribute:
 
 1. Raise an [Issue](https://github.com/rene-hermenau/quick-adsense-reloaded/issues) on GitHub
-2. Send us a Pull Request with your bug fixes and/or new features
+2. Send us a Pull Request with your bug fixes and/or new features to the dev branch
 3. Translate Quick AdSense Reloaded into different languages
 4. Provide feedback and suggestions on [enhancements](https://github.com/rene-hermenau/quick-adsense-reloaded/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open)
