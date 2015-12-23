@@ -1,6 +1,6 @@
-# [Quick AdSense Reloaded](https://wordpress.org/support/plugin/quick-adsense-reloaded) 
+# [WP QUADS (Quick AdSense Reloaded)](https://wordpress.org/support/plugin/quick-adsense-reloaded) 
 
-### Welcome to the Quick AdSense Reloaded GitHub Repository
+### Welcome to WP QUADS GitHub Repository
 
 A further development of Quick Adsense! Insert Google AdSense or any Ads code into your website.
 
@@ -8,8 +8,8 @@ More information can be found at [wordpress.org](https://wordpress.org/support/p
 
 ## Note ##
 
-This is the latest developer version of Quick AdSense Reloaded. 
-if you just want to use Quick AdSense Reloaded install the productive version which you get at [wordpress.org](https://wordpress.org/support/plugin/quick-adsense-reloaded)
+This is the latest developer version of WP QUADS. 
+if you just want to use WP QUADS install the productive version which you get at [wordpress.org](https://wordpress.org/support/plugin/quick-adsense-reloaded)
 
 ## Installation ##
 
@@ -22,15 +22,15 @@ This will download the latest developer copy of Quick AdSense Reloaded.
 If you find an issue, let us know [here](https://github.com/rene-hermenau/quick-adsense-reloaded/issues)!
 
 ## Support ##
-This is a developer's portal for Quick AdSense Reloaded and should _not_ be used for support. 
+This is a developer's portal for WP QUADS and should _not_ be used for support. 
 Please visit the [support forums](https://wordpress.org/support/plugin/quick-adsense-reloaded/).
 
 ## Contributions ##
-Anyone is welcome to contribute to Quick AdSense Reloaded. Please read the [guidelines for contributing](https://github.com/rene-hermenau/quick-adsense-reloaded/blob/master/CONTRIBUTING.md) to this repository.
+Anyone is welcome to contribute to WP QUADS. Please read the [guidelines for contributing](https://github.com/rene-hermenau/quick-adsense-reloaded/blob/master/CONTRIBUTING.md) to this repository.
 
 There are various ways you can contribute:
 
 1. Raise an [Issue](https://github.com/rene-hermenau/quick-adsense-reloaded/issues) on GitHub
 2. Send us a Pull Request with your bug fixes and/or new features to the dev branch
-3. Translate Quick AdSense Reloaded into different languages
+3. Translate WP QUADS into different languages
 4. Provide feedback and suggestions on [enhancements](https://github.com/rene-hermenau/quick-adsense-reloaded/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open)
