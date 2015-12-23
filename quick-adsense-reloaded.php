@@ -190,7 +190,8 @@ if (!class_exists('QuickAdsenseReloaded')) :
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/settings/contextual-help.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/install.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/tools.php';
-                //require_once QUADS_PLUGIN_DIR . 'includes/meta-boxes.php';
+                require_once QUADS_PLUGIN_DIR . 'includes/quicktags.php';
+                require_once QUADS_PLUGIN_DIR . 'includes/meta-boxes.php';
             }
         }
 
