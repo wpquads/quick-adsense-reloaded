@@ -1,21 +1,21 @@
 <?php
 /**
- * Plugin Name: Quick AdSense Reloaded
+ * Plugin Name: WP QUADS - Quick AdSense Reloaded
  * Plugin URI: https://wordpress.org/plugins/quick-adsense-reloaded/
  * Description: Insert Google AdSense or any Ads code into your website. A fork of Quick AdSense
  * Author: ReneHermi, WP-Staging
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
- * Version: 0.9.4
+ * Version: 0.9.6
  * Text Domain: quick-adsense-reloaded
  * Domain Path: languages
- * Credits: WPQUADS - Quick AdSense Reloaded is a fork of Quick AdSense by Todd Garland https://profiles.wordpress.org/toddynho/
+ * Credits: WP QUADS - Quick AdSense Reloaded is a fork of Quick AdSense
  *
- * WPQUADS is free software: you can redistribute it and/or modify
+ * WP QUADS is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or
  * any later version.
  *
- * Quick AdSense Reloaded is distributed in the hope that it will be useful,
+ * WP QUADS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
@@ -34,7 +34,7 @@ if (!defined('ABSPATH'))
 
 // Plugin version
 if (!defined('QUADS_VERSION')) {
-    define('QUADS_VERSION', '0.9.4');
+    define('QUADS_VERSION', '0.9.6');
 }
 
 // Define some globals
@@ -44,7 +44,7 @@ $ad_count_content = 0; // Number of active ads which are shown in the_content
 $AdsId = array(); // Array of active ad id's
 $adWidgets = 10; // number of widgets
 $numberAds = 10; // number of regular ads
-$AdsWidName = 'AdsWidget%d (Quick Adsense Reloaded)';
+$AdsWidName = 'AdsWidget%d (WP QUADS)';
 
 
 if (!class_exists('QuickAdsenseReloaded')) :
@@ -190,8 +190,8 @@ if (!class_exists('QuickAdsenseReloaded')) :
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/settings/contextual-help.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/install.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/tools.php';
-                require_once QUADS_PLUGIN_DIR . 'includes/quicktags.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/meta-boxes.php';
+                require_once QUADS_PLUGIN_DIR . 'includes/quicktags.php';
             }
         }
 

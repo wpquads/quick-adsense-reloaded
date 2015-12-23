@@ -1,4 +1,4 @@
-=== WPQUADS - Quick AdSense Reloaded === 
+=== WP QUADS - Quick AdSense Reloaded === 
 
 Author URL: https://profiles.wordpress.org/renehermi/
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
@@ -6,16 +6,16 @@ Contributors: ReneHermi, WP-Staging, toddynho
 Donate link: 
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: Quick AdSense Reloaded, Quick AdSense, AdSense plugin, WPQUADS, QUADS advertising, ads, ad, plugin, ad manager, admin, ads, adsense, adsense insertion, advertising, google, google adsense, plugin, posts, post, page, random ads, random adsense, sidebar, shortcode, text insertion, widget
+Tags: Quick AdSense Reloaded, Quick AdSense, AdSense plugin, WPQUADS, QUADS, WP QUADS, advertising, ads, ad, plugin, ad manager, admin, ads, adsense, adsense insertion, advertising, google, google adsense, plugin, posts, post, page, random ads, random adsense, sidebar, shortcode, text insertion, widget
 Requires at least: 3.6+
 Tested up to: 4.4
-Stable tag: 0.9.4
+Stable tag: 0.9.6
 
 Quick Adsense Reloaded! The quickest way to insert Google AdSense or other Ads code into your website.
 
 == Description == 
 
-> #### WPQUADS - Quick AdSense Reloaded
+> #### WP QUADS - Quick AdSense Reloaded
 > This free Google AdSense plugin is a fork of the discontinued AdSense plugin [Quick AdSense](https://wordpress.org/plugins/quick-adsense/) <br /> 
 > Its rewritten from scratch with a solid code base and will be maintained and updated to be compatible with all future WordPress versions<br />
 > This plugin is brandnew, well tested but still beta and work in progress! <br>
@@ -40,8 +40,8 @@ All deprecated functions has been removed, bugs have been fixed and new filters 
 * No external script dependencies. All plugin code reside on your site. 
 * Dynamic AdSense positioning: Assign Google AdSense ads to the beginning, middle and end of post, assign Ads after 'more' tag, before last paragraph, after certain paragraphs & assign Ads after certain images.
 * Insert Google AdSense ads specifically or randomly anywhere within a post.
-* Support any Ads code, not limited to Adsense only.
-* Display up to a maximum of 10 Ads on a page. Google allows publishers to place up to 3 Google Adsense for Content on a page. If you are using other Ads, you may display up to 10 Ads.
+* Support any Ads code, not limited to Google Adsense only.
+* Display up to a maximum of 10 Ads on a page. Google TOS allows publishers to place up to 3 Google Adsense for Content on a page. If you are using other Ads, you may display up to 10 Ads.
 * Support up to a maximum of 10 Ads codes on Sidebar Widgets.
 * Support up to a maximum of 10 Ads codes for specific placement & randomization within a post.
 * Insert Google AdSense ads on-the-fly, insert &lt;!--Ads1--&gt;, &lt;!--Ads2--&gt; ... , &lt;!--RndAds--&gt; to a post to accomplish this.
@@ -109,6 +109,14 @@ Alternative Installation:
 
 == Changelog == 
 
+= 0.9.6 =
+* New: Use new Meta Box on post and pages for disabling ads
+* New: Remove quicktags for disabling ads from editor (backward compatible)
+
+= 0.9.5 =
+* New: Rebirth - Change name to WP QUADS
+* New: Modify official shortcodes to [quads]. Old shortcodes [quads_ad] are still supported
+
 = 0.9.4 =
 * New: Allow the use of shortcodes to integrate google adsense ads, e.g. [quad_ad id="1"] or echo do_shortcode('[[quad_ad id="1"]]'); in template files. Max ad setting will be used for shortcode embeded ads as well.
 * Tweak: Cleaner GUI
@@ -135,5 +143,5 @@ Alternative Installation:
 = 0.9.1 =
 * New: Tested up to WP 4.4
 
-= 0.9.2 =
-0.9.2  <a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">Complete changelog! </a> It's recommended to test all plugin updates on a staging website first before installing them on a live site. (Use <a href="https://wordpress.org/plugins/wp-staging/" target="_blank" style="color:white;text-decoration: underline;">WP Staging</a> for creating a test site or some other prefered staging tool)
+= 0.9.6 =
+0.9.6  <a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">Complete changelog! </a> It's recommended to plugin updates on a staging website first before installing them on a live site. (Use <a href="https://wordpress.org/plugins/wp-staging/" target="_blank" style="color:white;text-decoration: underline;">WP Staging</a> for creating a test site or any other prefered staging tool)
