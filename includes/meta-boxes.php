@@ -67,8 +67,11 @@ class Quads_Meta_Box {
 		// process visibility options
 		$visibility_value = get_post_meta( $post->ID, $this->meta_key_visibility, true );
 
-		// on first load, when post meta value is empty, we set defaults based on quicktags in content
-		$visibility_value = wp_parse_args( $visibility_value, quads_get_quicktags_from_content( $post->post_content ) );
+		// on first load, when post meta value doesn't exist, we set defaults based on quicktags in content
+		if ( $visibility_value === false ) {
+			$visibility_value = wp_parse_args( $visibility_value, quads_get_quicktags_from_content( $post->post_content ) );
+		}
+
 		$quicktags = quads_quicktag_list();
 
 		echo $nonce;
@@ -120,33 +123,29 @@ class Quads_Meta_Box {
 			wp_die( __( 'Nonce incorrect!', 'quads' ) );
 		}
 
-		if ( ! isset( $_POST[ $this->config_key ] ) ) {
-			return;
-		}
-
-		$config = $_POST[ $this->config_key ];
+		$config = isset( $_POST[ $this->config_key ] ) ? $_POST[ $this->config_key ] : array();
+		$visibility_config = isset( $config['visibility'] ) ? $config['visibility'] : array();
 
 		// process visibility config
 		// store it in separate meta key
-		if ( isset( $config['visibility'] ) ) {
-			$checked_qtags = array();
-			$allowed_fields = quads_quicktag_list();
+		$checked_qtags = array();
+		$allowed_fields = quads_quicktag_list();
 
-			foreach ( $allowed_fields as $qtag_id => $qtag_label ) {
-				if ( isset( $config['visibility'][ $qtag_id ] ) ) {
-					$checked_qtags[ $qtag_id ] = 1;
-				}
+		foreach ( $allowed_fields as $qtag_id => $qtag_label ) {
+			if ( isset( $visibility_config[ $qtag_id ] ) ) {
+				$checked_qtags[ $qtag_id ] = 1;
 			}
-
-			// strip all forbidden values
-			foreach ( $config['visibility'] as $qtag_id => $qtag_label ) {
-				if ( isset( $allowed_fields[ $qtag_id ] ) ) {
-					$checked_qtags[ $qtag_id ] = 1;
-				}
-			}
-
-			update_post_meta( $post_id, $this->meta_key_visibility, $checked_qtags );
 		}
+
+		// strip all forbidden values
+		foreach ( $visibility_config as $qtag_id => $qtag_label ) {
+			if ( isset( $allowed_fields[ $qtag_id ] ) ) {
+				$checked_qtags[ $qtag_id ] = 1;
+			}
+		}
+
+		update_post_meta( $post_id, $this->meta_key_visibility, $checked_qtags );
+
 	}
 
 	protected function is_doing_autosave() {

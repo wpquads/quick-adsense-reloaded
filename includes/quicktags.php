@@ -20,11 +20,11 @@ add_filter( 'content_save_pre', 'quads_strip_quicktags_from_content' );
  * @return string Filtered content
  */
 function quads_strip_quicktags_from_content ( $content ) {
-	$ads_visibility_config = get_post_meta( get_the_ID(), '_quads_config_visibility', true );
+	$config_exists = false !== get_post_meta( get_the_ID(), '_quads_config_visibility', true );
 
 	// if config exists, quicktags are handled via metabox
 	// so we don't need them anymore in the content
-	if ( $ads_visibility_config ) {
+	if ( $config_exists ) {
 		$content = quads_strip_quicktags( $content );
 	}
 
