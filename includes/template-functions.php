@@ -19,19 +19,20 @@ add_filter('the_content', 'quads_process_content', 20);
 /**
  * Adds quicktags, defined via post meta options, to content.
  *
- * @param $content 		Post content
+ * @param $content Post content
  *
  * @return string
  */
 function quads_post_settings_to_quicktags ( $content ) {
 	$quicktags_str = quads_get_visibility_quicktags_str();
-	return $content . $quicktags_str;
+
+        return $content;
 }
 /**
  * Returns quicktags based on post meta options.
  * These quicktags define which ads should be hidden on current page.
  *
- * @param null $post_id 	Post id
+ * @param null $post_id Post id
  *
  * @return string
  */
@@ -42,9 +43,12 @@ function quads_get_visibility_quicktags_str ( $post_id = null ) {
 	}
 	$config = get_post_meta( $post_id, '_quads_config_visibility', true );
 	$str = '';
+        
+        if ( !empty($config) )
 	foreach ( $config as $qtag_id => $qtag_label ) {
 		$str .= '<!--' . $qtag_id . '-->';
 	}
+        
 	return $str;
 }
 
