@@ -28,7 +28,7 @@ function quads_shortcode_display_ad($atts) {
     if ( !quads_ad_is_allowed() )
         return;
     
-    //return quads_check_meta_setting('NoAds');
+
     //return quads_check_meta_setting('NoAds');
     if ( quads_check_meta_setting('NoAds') === '1')
         return;
