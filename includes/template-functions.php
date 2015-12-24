@@ -24,9 +24,14 @@ add_filter('the_content', 'quads_process_content', 20);
  * @return string
  */
 function quads_post_settings_to_quicktags ( $content ) {
+    
+        // Return original content if QUADS is not allowed
+        if ( !quads_ad_is_allowed($content) )
+            return $content;
+    
 	$quicktags_str = quads_get_visibility_quicktags_str();
 
-        return $content;
+        return $content . $quicktags_str;
 }
 /**
  * Returns quicktags based on post meta options.
@@ -74,6 +79,7 @@ function quads_process_content($content)
 {
 	global $quads_options, $ShownAds, $AdsId, $numberWidgets, $numberAds, $AdsWidName, $ad_count_content, $ad_count_shortcode;
 
+        // Return original content if QUADS is not allowed
         if ( !quads_ad_is_allowed($content) ) {
             $content = quads_clean_tags($content); 
             return $content;
@@ -324,7 +330,7 @@ function quads_process_content($content)
        
 
 	/* ... Replace Beginning/Middle/End random Ads ... */
-
+    if( !$offdef ) {
         if( strpos($content, '<!--'.$cusrnd.'-->')!==false && ($showall || is_singular() ) ) {
 		$tcx = count($AdsId);
 		$tcy = substr_count($content, '<!--'.$cusrnd.'-->');
@@ -344,6 +350,7 @@ function quads_process_content($content)
                         };
 		}
 	}
+    }
 	
 	/*
          * Replace RndAds Random Ads

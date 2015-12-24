@@ -9,7 +9,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Quick AdSense Reloaded, Quick AdSense, AdSense plugin, WPQUADS, QUADS, WP QUADS, advertising, ads, ad, plugin, ad manager, admin, ads, adsense, adsense insertion, advertising, google, google adsense, plugin, posts, post, page, random ads, random adsense, sidebar, shortcode, text insertion, widget
 Requires at least: 3.6+
 Tested up to: 4.4
-Stable tag: 0.9.6
+Stable tag: 0.9.7
 
 Quick Adsense Reloaded! The quickest way to insert Google AdSense or other Ads code into your website.
 
@@ -109,8 +109,12 @@ Alternative Installation:
 
 == Changelog == 
 
+= 0.9.7 =
+* Fix: Invalid argument supplied for foreach()
+* Fix: undefined var cusrnd
+
 = 0.9.6 =
-* New: Use new Meta Box on post and pages for disabling ads
+* New: Use new Meta Box on post and pages for disabling ads instead using quicktags
 * New: Remove quicktags for disabling ads from editor (backward compatible)
 
 = 0.9.5 =
@@ -143,5 +147,5 @@ Alternative Installation:
 = 0.9.1 =
 * New: Tested up to WP 4.4
 
-= 0.9.6 =
-0.9.6  <a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">Complete changelog! </a> It's recommended to plugin updates on a staging website first before installing them on a live site. (Use <a href="https://wordpress.org/plugins/wp-staging/" target="_blank" style="color:white;text-decoration: underline;">WP Staging</a> for creating a test site or any other prefered staging tool)
+= 0.9.7 =
+0.9.7  <a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">Complete changelog! </a> It's recommended to plugin updates on a staging website first before installing them on a live site. (Use <a href="https://wordpress.org/plugins/wp-staging/" target="_blank" style="color:white;text-decoration: underline;">WP Staging</a> for creating a test site or any other prefered staging tool)

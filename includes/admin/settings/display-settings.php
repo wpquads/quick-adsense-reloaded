@@ -143,7 +143,7 @@ function quads_options_page() {
 	ob_start();
 	?>
 	<div class="wrap quads_admin">
-             <h1 style="text-align:center;"> <?php echo __('WP<strong>QUADS</strong> (Quick AdSense Reloaded) ', 'quick-adsense-reloaded') . QUADS_VERSION; ?></h1>
+             <h1 style="text-align:center;"> <?php echo __('WP <strong>QUADS</strong> (Quick AdSense Reloaded) ', 'quick-adsense-reloaded') . QUADS_VERSION; ?></h1>
             <div class="about-text" style="font-weight: 400;line-height: 1.6em;text-align:center;">
                         <div class='quads-share-button-container'>
                         <div class='quads-share-button quads-share-button-twitter' data-share-url="https://wordpress.org/plugins/quick-adsense-reloaded">
