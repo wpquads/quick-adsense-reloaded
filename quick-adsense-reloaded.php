@@ -177,6 +177,7 @@ if (!class_exists('QuickAdsenseReloaded')) :
             require_once QUADS_PLUGIN_DIR . 'includes/class-quads-html-elements.php';
             require_once QUADS_PLUGIN_DIR . 'includes/widgets.php';
             require_once QUADS_PLUGIN_DIR . 'includes/shortcodes.php';
+            require_once QUADS_PLUGIN_DIR . 'includes/api.php';
 
             if (is_admin() || ( defined('WP_CLI') && WP_CLI )) {
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/add-ons.php';

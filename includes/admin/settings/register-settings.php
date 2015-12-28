@@ -1328,9 +1328,9 @@ function quads_ad_position_callback($args) {
         $html .= ' ' . __('→','quick-adsense-reloaded') . ' ';
         $html .= QUADS()->html->checkbox(array('name' => 'quads_settings[pos9][Img1Con]', 'current'  => !empty($quads_options['pos9']['Img1Con']) ? $quads_options['pos9']['Img1Con'] : null, 'class' => 'quads-checkbox' ));
         $html .= ' ' . __('after <b>Image\'s outer</b><b><span style="font-family:Courier New,Courier,Fixed;"> &lt;div&gt; wp-caption</span></b> if any.','quick-adsense-reloaded') . ' </br>';
-
+        
         echo apply_filters('quads_ad_position_callback', $html);
-        //echo $html;
+
 }
 
 
