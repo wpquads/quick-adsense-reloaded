@@ -56,7 +56,7 @@ function quads_register_ad( $args = array() ){
         $html .= QUADS()->html->select(array('options' => quads_get_ads(),'name' => 'quads_settings[custom]['.$id.']','selected' => !empty($quads_options['custom'][$id]) ? $quads_options['custom'][$id] : null, 'show_option_all'  => false,'show_option_none' => false));
         $html .= ' ' . $desc . '</br>';
 
-    return $html;
+    return apply_filters('quads_filter_register_ad',$html, 10);
 }
 
 
