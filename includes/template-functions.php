@@ -42,7 +42,6 @@ function quads_post_settings_to_quicktags ( $content ) {
  * @return string
  */
 function quads_get_visibility_quicktags_str ( $post_id = null ) {
-
 	if ( ! $post_id ) {
 		$post_id = get_the_ID();
 	}
