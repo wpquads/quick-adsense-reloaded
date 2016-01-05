@@ -70,30 +70,6 @@ class Quads_Meta_Box {
 			</p>
 			<?php
 		}
-
-		$config = isset( $_POST[ $this->config_key ] ) ? $_POST[ $this->config_key ] : array();
-		$visibility_config = isset( $config['visibility'] ) ? $config['visibility'] : array();
-
-		// process visibility config
-		// store it in separate meta key
-		$checked_qtags = array();
-		$allowed_fields = quads_quicktag_list();
-
-		foreach ( $allowed_fields as $qtag_id => $qtag_label ) {
-			if ( isset( $visibility_config[ $qtag_id ] ) ) {
-				$checked_qtags[ $qtag_id ] = 1;
-			}
-		}
-
-		// strip all forbidden values
-		foreach ( $visibility_config as $qtag_id => $qtag_label ) {
-			if ( isset( $allowed_fields[ $qtag_id ] ) ) {
-				$checked_qtags[ $qtag_id ] = 1;
-			}
-		}
-
-		update_post_meta( $post_id, $this->meta_key_visibility, $checked_qtags );
-
 	}
         public function save($post_id) {
         // Don't save data automatically via autosave feature
