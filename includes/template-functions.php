@@ -42,7 +42,7 @@ function quads_post_settings_to_quicktags ( $content ) {
  * @return string
  */
 function quads_get_visibility_quicktags_str ( $post_id = null ) {
-    
+
 	if ( ! $post_id ) {
 		$post_id = get_the_ID();
 	}
@@ -84,7 +84,7 @@ function quads_process_content($content)
             $content = quads_clean_tags($content); 
             return $content;
         }
-         
+	
         $AdsToShow = $quads_options['maxads'];
 
 	if (strpos($content,'<!--OffWidget-->')===false) {
