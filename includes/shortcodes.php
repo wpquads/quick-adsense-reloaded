@@ -60,49 +60,6 @@ function quads_get_ad($id = 0) {
 }
 
 
-/**
- * Set ad count and returns value for the_content
- * 
- * @global int $ad_count
- * @param type $ad_count
- * @return int amount of active ads in the_content
- */
-function quads_set_ad_count_content(){
-    global $ad_count_content;
-       
-    $ad_count_content++;
-    return $ad_count_content;
-}
-
-/**
- * Set ad count and returns value for shortcodes
- * 
- * @global int $ShownAds
- * @param type $ShownAds
- * @return int amount of active ads in the_content
- */
-function quads_set_ad_count_shortcode(){
-    global $ad_count_shortcode;
-       
-    $ad_count_shortcode++;
-    return $ad_count_shortcode;
-}
-
-/**
- * Check if the maximum amount of ads are reached
- * 
- * @global arr $quads_options settings
- * @var int amount of ads to activate 
-
- * @return bool true if max is reached
- */
-
-function quads_ad_reach_max_count(){
-    global $quads_options;
-    if ( quads_get_total_ad_count() >= $quads_options['maxads'] ){
-        return true;
-    }
-}
 
 /**
  * Return value of quads meta box settings

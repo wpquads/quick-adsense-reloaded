@@ -8,15 +8,15 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Quick AdSense Reloaded, Quick AdSense, AdSense plugin, WPQUADS, QUADS, WP QUADS, advertising, ads, ad, plugin, ad manager, admin, ads, adsense, adsense insertion, advertising, google, google adsense, plugin, posts, post, page, random ads, random adsense, sidebar, shortcode, text insertion, widget
 Requires at least: 3.6+
-Tested up to: 4.4
-Stable tag: 0.9.8
+Tested up to: 4.4.1
+Stable tag: 0.9.9
 
 Quick Adsense Reloaded! The quickest way to insert Google AdSense or other Ads code into your website.
 
 == Description == 
 
 > #### WP QUADS - Quick AdSense Reloaded
-> This free Google AdSense plugin is a fork of the discontinued AdSense plugin [Quick AdSense](https://wordpress.org/plugins/quick-adsense/) <br /> 
+> This free Google AdSense plugin is a fork of the discontinued AdSense ads plugin [Quick AdSense](https://wordpress.org/plugins/quick-adsense/) <br /> 
 > Its rewritten from scratch with a solid code base and will be maintained and updated to be compatible with all future WordPress versions<br />
 > This plugin is brandnew, well tested but still beta and work in progress! <br>
 > If you find a bug please open a ticket in the [support request](https://wordpress.org/support/plugin/quick-adsense-reloaded/ "support forum"). Every issue will be fixed asap!
@@ -29,7 +29,7 @@ Quick Adsense is a great plugin and used by more than 100.000 websites.
 Although is not under maintainance and development for more than 3 years by the original author it is still downloaded hundred times a day.
 So i decided to continue the project to make sure the plugin will also work in future with new WordPress versions.
 
-All deprecated functions has been removed, bugs have been fixed and new filters and hooks will be build in soon in to make this plugin extensible by third party developers!
+All deprecated functions has been removed, bugs have been fixed and new filters and hooks will be created to make this plugin extensible by third party developers!
 
 
 = Main Features =
@@ -38,23 +38,23 @@ All deprecated functions has been removed, bugs have been fixed and new filters 
 * No revenue sharing from your Google AdSense advertising income.
 * Quicktags of Quick Adsense are 100% compatible to Quick AdSense Reloaded
 * No external script dependencies. All plugin code reside on your site. 
-* Dynamic AdSense positioning: Assign Google AdSense ads to the beginning, middle and end of post, assign Ads after 'more' tag, before last paragraph, after certain paragraphs & assign Ads after certain images.
+* Dynamic AdSense positioning: Assign Google AdSense ads to the beginning, middle and end of post, assign dds after 'more' tag, before last paragraph, after certain paragraphs & assign Ads after certain images.
 * Insert Google AdSense ads specifically or randomly anywhere within a post.
-* Support any Ads code, not limited to Google Adsense only.
-* Display up to a maximum of 10 Ads on a page. Google TOS allows publishers to place up to 3 Google Adsense for Content on a page. If you are using other Ads, you may display up to 10 Ads.
+* Support any Ads code, not limited to Google Adsense dds only.
+* Display up to a maximum of 10 Ads on a page. Google TOS allows publishers to place up to 3 Google Adsense for Content on a page. If you are using other dds, you may display up to 10 Ads.
 * Support up to a maximum of 10 Ads codes on Sidebar Widgets.
 * Support up to a maximum of 10 Ads codes for specific placement & randomization within a post.
 * Insert Google AdSense ads on-the-fly, insert &lt;!--Ads1--&gt;, &lt;!--Ads2--&gt; ... , &lt;!--RndAds--&gt; to a post to accomplish this.
 * Disable Ads on-the-fly, insert &lt;!--NoAds--&gt;, &lt;!--OffDef--&gt;, &lt;!--OffWidget--&gt;, &lt;!--OffBegin--&gt; ... and more to a post to accomplish this.
 * The above quicktags can be inserted into a post easily via the additional Quicktag Buttons added to the HTML Edit Post SubPanel.
 
-= Improvements to original Quick AdSense plugin =
+= Improvements to original Quick AdSense Ads plugin =
 
 * Performance improvements
 * Serialized storing of Ad options instead storing every single option as separate table entry all over
 * Multi language support
 * Remove of small coding issues like "unexpected output" message when plugin is activated on several sites
-* Import / Export function makes plugin migrating to other sites easier
+* Import / Export function makes plugin migrating to other sites easier. Copy your dds code to other sites.
 
 = Safety improvements = 
 
@@ -108,6 +108,10 @@ Alternative Installation:
 
 
 == Changelog == 
+
+= 0.9.9 =
+* New: API for easy integration of custom ad positions. See /includes/api.php for how to use custom ads positions in your theme
+       (Custom ad positions are calculated within max allowed ads setting)
 
 = 0.9.8 =
 * Fix: Still not fixed on all systems: Invalid argument supplied for foreach()

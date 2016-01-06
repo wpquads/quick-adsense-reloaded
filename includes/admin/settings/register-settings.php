@@ -1369,6 +1369,46 @@ function quads_quicktags_callback($args){
 }
 
 /**
+  * This hook should be removed and the hook function should replace entire "quads_ad_position_callback" function.
+  */
+ add_filter( 'quads_ad_position_callback', 'quads_render_ad_positions' );
+  		  
+ /**
+  * Return ad locations HTML based on new API.
+  *
+  * @param $html
+  * @return string   Locations HTML
+  */
+ function quads_render_ad_positions( $html ) {
+ 	global $quads_options;
+ 
+ 	if ( isset( $quads_options['locations'] ) && is_array( $quads_options['locations'] ) ) {
+ 		foreach ( $quads_options['locations'] as $location => $location_args ) {
+ 
+ 			$location_settings = quads_get_ad_location_settings( $location );
+ 
+ 			$html .= QUADS()->html->checkbox( array(
+ 				'name'              => 'quads_settings[location_settings][' . $location . '][status]',
+ 				'current'           => ! empty( $location_settings['status'] ) ? $location_settings['status'] : null,
+ 				'class'             => 'quads-checkbox'
+ 			) );
+ 			$html .= ' ' . __('Assign','quick-adsense-reloaded') . ' ';
+ 
+ 			$html .= QUADS()->html->select( array(
+ 				'options'           => quads_get_ads(),
+ 				'name'              => 'quads_settings[location_settings][' . $location . '][ad]',
+ 				'selected'          => ! empty( $location_settings['ad'] ) ? $location_settings['ad'] : null,
+ 				'show_option_all'   => false,
+ 				'show_option_none'  => false
+ 			) );
+ 			$html .= ' ' . $location_args['description'] . '</br>';
+ 		}
+ 	}
+ 
+ 	return $html;
+ }
+
+/**
  * AdSense Code Callback
  *
  * Renders adsense code fields
@@ -1418,7 +1458,6 @@ function quads_adsense_code_callback($args){
 	endforeach;
 	$html .= '</select>';
         $html .= '</div>';
-	//$html .= '<label class="quads_hidden" class="quads_hidden" for="quads_settings[' . $args['id'] . ']"> '  . $args['desc'] . '</label>';
         
         echo $html;
 }
