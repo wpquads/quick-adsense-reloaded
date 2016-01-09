@@ -467,7 +467,7 @@ function quads_replace_ads($content, $nme, $adn) {
                 //quads_set_ad_count_content();
                 
                 $adscode =
-			"\n".'<!-- Quick AdSense Reloaded Plugin v. ' . QUADS_VERSION .' -->'."\n".
+			"\n".'<!-- WP QUADS Plugin v. ' . QUADS_VERSION .' -->'."\n".
 			'<div style="'.$style.'">'."\n".
 			$adscode."\n".
 			'</div>'. "\n";

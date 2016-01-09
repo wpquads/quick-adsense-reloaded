@@ -88,12 +88,12 @@ function quads_ad( $args ) {
         'echo'      => true,
     );
     $args = wp_parse_args( $args, $defaults );
-    $code = '';
+    $code = "\n".'<!-- WP QUADS Plugin v. ' . QUADS_VERSION .' -->'."\n";
     if ( quads_has_ad( $args['location'] ) && ! quads_ad_reach_max_count() ) {
         global $quads_options;
         quads_set_ad_count_custom(); // increase amount of shortcode ads
         $location_settings = quads_get_ad_location_settings( $args['location'] );
-        $code = $quads_options['ad' . $location_settings['ad'] ]['code'];
+        $code .= $quads_options['ad' . $location_settings['ad'] ]['code'];
     }
     if ( $args['echo'] ) {
         echo $code;
