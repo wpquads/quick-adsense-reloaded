@@ -16,10 +16,11 @@
  * 
  * Use the code below in your functions.php to register custom ad positions:
  
-      <?php if (function_exists('quads_register_ad'))
+      <?php if (function_exists('quads_register_ad')){
             quads_register_ad( array('location' => 'header', 'description' => 'Header position') );
             quads_register_ad( array('location' => 'footer', 'description' => 'Footer position') );
             quads_register_ad( array('location' => 'custom', 'description' => 'Custom position') );
+            }
        ?> 
   
   Use this in your template files whereever you want to show a custom WPQUADS ad position on your site
