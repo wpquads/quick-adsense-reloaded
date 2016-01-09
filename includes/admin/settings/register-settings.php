@@ -1371,7 +1371,7 @@ function quads_quicktags_callback($args){
 /**
   * This hook should be removed and the hook function should replace entire "quads_ad_position_callback" function.
   */
- add_filter( 'quads_ad_position_callback', 'quads_render_ad_positions' );
+ add_filter( 'quads_ad_position_callback', 'quads_render_ad_locations' );
   		  
  /**
   * Return ad locations HTML based on new API.
@@ -1379,11 +1379,11 @@ function quads_quicktags_callback($args){
   * @param $html
   * @return string   Locations HTML
   */
- function quads_render_ad_positions( $html ) {
+  function quads_render_ad_locations ( $html ) {
+ 	global $_quads_registered_ad_locations;
  	global $quads_options;
- 
- 	if ( isset( $quads_options['locations'] ) && is_array( $quads_options['locations'] ) ) {
- 		foreach ( $quads_options['locations'] as $location => $location_args ) {
+ 	if ( isset( $_quads_registered_ad_locations ) && is_array( $_quads_registered_ad_locations ) ) {
+ 		foreach ( $_quads_registered_ad_locations as $location => $location_args ) {
  
  			$location_settings = quads_get_ad_location_settings( $location );
  

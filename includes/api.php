@@ -37,7 +37,7 @@
  * @param array $args   Location settings
  */
 function quads_register_ad( $args ) {
-    global $quads_options;
+    global $_quads_registered_ad_locations;;
     $defaults = array(
         'location'      => '',
         'description'   => ''
@@ -46,10 +46,10 @@ function quads_register_ad( $args ) {
     if ( empty( $args['location'] ) ) {
         return;
     }
-    if ( ! isset( $quads_options['locations'] ) ) {
-        $quads_options['locations'] = array();
+    if ( ! isset( $_quads_registered_ad_locations  ) ) {
+        $_quads_registered_ad_locations  = array();
     }
-    $quads_options['locations'][ $args['location'] ] = $args;
+    $_quads_registered_ad_locations [ $args['location'] ] = $args;
 }
 /**
  * Whether a registered ad location has an ad assigned to it.
@@ -60,11 +60,11 @@ function quads_register_ad( $args ) {
 function quads_has_ad( $location ) {
     global $quads_options;
     $result = false;
-    if ( isset( $quads_options['locations'] ) && isset( $quads_options['locations'][ $location ] ) ) {
-        $location_settings = $quads_options['location_settings'][ $location ];
-        if ( isset( $location_settings['status'] ) && $location_settings['status'] && ! empty( $location_settings['ad'] ) ) {
-            $result = true;
-        }
+
+    $location_settings = quads_get_ad_location_settings( $location );
+    
+    if ( $location_settings['status'] && ! empty( $location_settings['ad'] ) ) {
+      $result = true;
     }
     
     if (!quads_ad_is_allowed())
@@ -87,19 +87,13 @@ function quads_ad( $args ) {
         'echo'      => true,
     );
     $args = wp_parse_args( $args, $defaults );
-    if ( ! quads_has_ad( $args['location'] ) ) {
-        return '';
+    $code = '';
+    if ( quads_has_ad( $args['location'] ) && ! quads_ad_reach_max_count() ) {
+        global $quads_options;
+        quads_set_ad_count_custom(); // increase amount of shortcode ads
+        $location_settings = quads_get_ad_location_settings( $args['location'] );
+        $code = $quads_options['ad' . $location_settings['ad'] ]['code'];
     }
-    
-    if ( quads_ad_reach_max_count() )
-        return;
-        
-    global $quads_options, $ad_count_custom;
-   
-    quads_set_ad_count_custom(); //increase amount of shortcode ads
-    
-    $location_settings = quads_get_ad_location_settings( $args['location'] );
-    $code = $quads_options['ad' . $location_settings['ad'] ]['code'];
     if ( $args['echo'] ) {
         echo $code;
     } else {
