@@ -109,6 +109,9 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.0.0 = NOT RELEASED
+* Tweak: Remove is_main_query() check
+
 = 0.9.9 =
 * New: API for easy integration of custom ad positions. See /includes/api.php for how to use custom ads positions in your theme
        (Custom ad positions are calculated within max allowed ads setting)
