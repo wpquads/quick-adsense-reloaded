@@ -16,10 +16,11 @@
  * 
  * Use the code below in your functions.php to register custom ad positions:
  
-      <?php if (function_exists('quads_register_ad'))
+      <?php if (function_exists('quads_register_ad')){
             quads_register_ad( array('location' => 'header', 'description' => 'Header position') );
             quads_register_ad( array('location' => 'footer', 'description' => 'Footer position') );
             quads_register_ad( array('location' => 'custom', 'description' => 'Custom position') );
+            }
        ?> 
   
   Use this in your template files whereever you want to show a custom WPQUADS ad position on your site
@@ -37,7 +38,7 @@
  * @param array $args   Location settings
  */
 function quads_register_ad( $args ) {
-    global $_quads_registered_ad_locations;
+    global $_quads_registered_ad_locations;;
     $defaults = array(
         'location'      => '',
         'description'   => ''
@@ -46,10 +47,10 @@ function quads_register_ad( $args ) {
     if ( empty( $args['location'] ) ) {
         return;
     }
-    if ( ! isset( $_quads_registered_ad_locations ) ) {
-        $_quads_registered_ad_locations = array();
+    if ( ! isset( $_quads_registered_ad_locations  ) ) {
+        $_quads_registered_ad_locations  = array();
     }
-    $_quads_registered_ad_locations[ $args['location'] ] = $args;
+    $_quads_registered_ad_locations [ $args['location'] ] = $args;
 }
 /**
  * Whether a registered ad location has an ad assigned to it.
@@ -58,18 +59,18 @@ function quads_register_ad( $args ) {
  * @return bool
  */
 function quads_has_ad( $location ) {
+    global $quads_options;
     $result = false;
 
     $location_settings = quads_get_ad_location_settings( $location );
-
+    
     if ( $location_settings['status'] && ! empty( $location_settings['ad'] ) ) {
-        $result = true;
+      $result = true;
     }
-
-    if ( ! quads_ad_is_allowed() || quads_ad_reach_max_count() ) {
+    
+    if (!quads_ad_is_allowed())
         $result = false;
-    }
-
+    
     /**
      * Filter whether an ad is assigned to the specified location.
      */
@@ -87,17 +88,13 @@ function quads_ad( $args ) {
         'echo'      => true,
     );
     $args = wp_parse_args( $args, $defaults );
-    $code = '';
-
-    if ( quads_has_ad( $args['location'] ) ) {
+    $code = "\n".'<!-- WP QUADS Plugin v. ' . QUADS_VERSION .' -->'."\n";
+    if ( quads_has_ad( $args['location'] ) && ! quads_ad_reach_max_count() ) {
         global $quads_options;
-
         quads_set_ad_count_custom(); // increase amount of shortcode ads
-
         $location_settings = quads_get_ad_location_settings( $args['location'] );
-        $code = $quads_options['ad' . $location_settings['ad'] ]['code'];
+        $code .= $quads_options['ad' . $location_settings['ad'] ]['code'];
     }
-
     if ( $args['echo'] ) {
         echo $code;
     } else {
@@ -111,15 +108,12 @@ function quads_ad( $args ) {
  * @return array
  */
 function quads_get_ad_location_settings( $location ) {
-    global $_quads_registered_ad_locations;
     global $quads_options;
-
     $result = array(
         'status'    => false,
         'ad'        => '',
     );
-
-    if ( isset( $_quads_registered_ad_locations ) && isset( $_quads_registered_ad_locations[ $location ] ) ) {
+    if ( isset( $quads_options['locations'] ) && isset( $quads_options['locations'][ $location ] ) ) {
         $result = wp_parse_args( $quads_options['location_settings'][ $location ], $result );
     }
     return $result;

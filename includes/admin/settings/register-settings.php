@@ -1379,10 +1379,9 @@ function quads_quicktags_callback($args){
   * @param $html
   * @return string   Locations HTML
   */
- function quads_render_ad_locations ( $html ) {
+  function quads_render_ad_locations ( $html ) {
  	global $_quads_registered_ad_locations;
  	global $quads_options;
-
  	if ( isset( $_quads_registered_ad_locations ) && is_array( $_quads_registered_ad_locations ) ) {
  		foreach ( $_quads_registered_ad_locations as $location => $location_args ) {
  

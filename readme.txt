@@ -9,7 +9,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: Quick AdSense Reloaded, Quick AdSense, AdSense plugin, WPQUADS, QUADS, WP QUADS, advertising, ads, ad, plugin, ad manager, admin, ads, adsense, adsense insertion, advertising, google, google adsense, plugin, posts, post, page, random ads, random adsense, sidebar, shortcode, text insertion, widget
 Requires at least: 3.6+
 Tested up to: 4.4.1
-Stable tag: 0.9.9
+Stable tag: 1.0.0
 
 Quick Adsense Reloaded! The quickest way to insert Google AdSense or other Ads code into your website.
 
@@ -108,6 +108,10 @@ Alternative Installation:
 
 
 == Changelog == 
+
+= 1.0.0 = NOT RELEASED
+* Tweak: Remove is_main_query() check
+
 
 = 0.9.9 =
 * New: API for easy integration of custom ad positions. See /includes/api.php for how to use custom ads positions in your theme

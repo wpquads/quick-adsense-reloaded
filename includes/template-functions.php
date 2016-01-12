@@ -462,9 +462,12 @@ function quads_replace_ads($content, $nme, $adn) {
 		$adsmargin = $quads_options['ad' . $adn]['margin'];
 		$style = sprintf($arr[(int)$adsalign], $adsmargin);
                 $adscode = $quads_options['ad' . $adn ]['code'];
-                // increment the ad counter
+                
+                // IMPORTANT: increment the ad counter
+                //quads_set_ad_count_content();
+                
                 $adscode =
-			"\n".'<!-- Quick AdSense Reloaded Plugin v. ' . QUADS_VERSION .' -->'."\n".
+			"\n".'<!-- WP QUADS Plugin v. ' . QUADS_VERSION .' -->'."\n".
 			'<div style="'.$style.'">'."\n".
 			$adscode."\n".
 			'</div>'. "\n";
@@ -595,7 +598,6 @@ function quads_set_ad_count_widget(){
 function quads_ad_is_allowed($content = null){
     global $quads_options;
     
-    
         if(	(is_feed()) ||
                 (strpos($content,'<!--NoAds-->')!==false) ||
                 (strpos($content,'<!--OffAds-->')!==false) ||
@@ -609,12 +611,6 @@ function quads_ad_is_allowed($content = null){
         {
             return false;
 	}
-        
-        
-        
-        if (!is_main_query())
-            return false; 
-        
         // else
         return true;
 }
