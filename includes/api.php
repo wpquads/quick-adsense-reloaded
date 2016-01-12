@@ -68,9 +68,10 @@ function quads_has_ad( $location ) {
       $result = true;
     }
     
-    if (!quads_ad_is_allowed())
+    if ( ! quads_ad_is_allowed() || quads_ad_reach_max_count() ) {
         $result = false;
-    
+    }
+
     /**
      * Filter whether an ad is assigned to the specified location.
      */
@@ -89,7 +90,7 @@ function quads_ad( $args ) {
     );
     $args = wp_parse_args( $args, $defaults );
     $code = "\n".'<!-- WP QUADS Plugin v. ' . QUADS_VERSION .' -->'."\n";
-    if ( quads_has_ad( $args['location'] ) && ! quads_ad_reach_max_count() ) {
+    if ( quads_has_ad( $args['location'] ) ) {
         global $quads_options;
         quads_set_ad_count_custom(); // increase amount of shortcode ads
         $location_settings = quads_get_ad_location_settings( $args['location'] );
