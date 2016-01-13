@@ -89,13 +89,18 @@ function quads_ad( $args ) {
         'echo'      => true,
     );
     $args = wp_parse_args( $args, $defaults );
-    $code = "\n".'<!-- WP QUADS Custom Ad v. ' . QUADS_VERSION .' -->'."\n";
+    $code = '';
+    
     if ( quads_has_ad( $args['location'] ) ) {
         global $quads_options;
+        
         quads_set_ad_count_custom(); // increase amount of shortcode ads
-        $location_settings = quads_get_ad_location_settings( $args['location'] );
-        $code .= $quads_options['ad' . $location_settings['ad'] ]['code'];
+        
+        $location_settings = quads_get_ad_location_settings( $args['location'] ); 
+        $code .= "\n".'<!-- WP QUADS Custom Ad v. ' . QUADS_VERSION .' -->'."\n";
+        $code .= $quads_options[ 'ad' . $location_settings['ad'] ]['code'];
     }
+    
     if ( $args['echo'] ) {
         echo $code;
     } else {
@@ -109,12 +114,13 @@ function quads_ad( $args ) {
  * @return array
  */
 function quads_get_ad_location_settings( $location ) {
+    global $_quads_registered_ad_locations;
     global $quads_options;
     $result = array(
         'status'    => false,
         'ad'        => '',
     );
-    if ( isset( $quads_options['locations'] ) && isset( $quads_options['locations'][ $location ] ) ) {
+    if ( isset( $_quads_registered_ad_locations ) && isset( $_quads_registered_ad_locations[ $location ] ) ) {
         $result = wp_parse_args( $quads_options['location_settings'][ $location ], $result );
     }
     return $result;
