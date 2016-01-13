@@ -55,7 +55,8 @@ function quads_get_ad($id = 0) {
     if ( isset($quads_options['ad' . $id]['code']) ){
         // Count how often the shortcode is used - Important
         quads_set_ad_count_shortcode();
-        return $quads_options['ad' . $id]['code'];
+        $code = "\n".'<!-- WP QUADS Shortcode Ad v. ' . QUADS_VERSION .' -->'."\n";
+        return $code . $quads_options['ad' . $id]['code'];
     }
 }
 

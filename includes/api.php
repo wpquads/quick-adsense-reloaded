@@ -89,7 +89,7 @@ function quads_ad( $args ) {
         'echo'      => true,
     );
     $args = wp_parse_args( $args, $defaults );
-    $code = "\n".'<!-- WP QUADS Plugin v. ' . QUADS_VERSION .' -->'."\n";
+    $code = "\n".'<!-- WP QUADS Custom Ad v. ' . QUADS_VERSION .' -->'."\n";
     if ( quads_has_ad( $args['location'] ) ) {
         global $quads_options;
         quads_set_ad_count_custom(); // increase amount of shortcode ads
