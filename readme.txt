@@ -11,25 +11,27 @@ Requires at least: 3.6+
 Tested up to: 4.4.1
 Stable tag: 1.0.0
 
-Quick Adsense Reloaded! The quickest way to insert Google AdSense or other Ads code into your website.
+Quick Adsense Reloaded! The quickest way to insert Google AdSense and other ads code into your website.
 
 == Description == 
 
 > #### WP QUADS - Quick AdSense Reloaded
 > This free Google AdSense plugin is a fork of the discontinued AdSense ads plugin [Quick AdSense](https://wordpress.org/plugins/quick-adsense/) <br /> 
 > Its rewritten from scratch with a solid code base and will be maintained and updated to be compatible with all future WordPress versions<br />
-> This plugin is brandnew, well tested but still beta and work in progress! <br>
-> If you find a bug please open a ticket in the [support request](https://wordpress.org/support/plugin/quick-adsense-reloaded/ "support forum"). Every issue will be fixed asap!
+> This plugin is brandnew, well tested but still work in progress! <br>
+> Find a bug? Open a ticket in the [support request](https://wordpress.org/support/plugin/quick-adsense-reloaded/ "support forum"). Issue will be fixed asap!
 > 
-> Credits goes to the plugin owner of Quick AdSense [toddynho](https://profiles.wordpress.org/toddynho/) <br /> 
+> <strong>NEW: </strong>
+> Create custom ad positions in your template files with quads_register_ad();
+> Check out the sample code and complete API in <em>includes/api.php</em> <br /> 
 
-<h2>Why a Quick AdSense fork?</h2>
+= Why a Quick AdSense fork? =
 
 Quick Adsense is a great plugin and used by more than 100.000 websites. 
 Although is not under maintainance and development for more than 3 years by the original author it is still downloaded hundred times a day.
 So i decided to continue the project to make sure the plugin will also work in future with new WordPress versions.
 
-All deprecated functions has been removed, bugs have been fixed and new filters and hooks will be created to make this plugin extensible by third party developers!
+Deprecated functions removed, bugs fixed and new filters and hooks created to make this plugin extensible by third party developers!
 
 
 = Main Features =

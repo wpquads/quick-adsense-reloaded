@@ -467,7 +467,7 @@ function quads_replace_ads($content, $nme, $adn) {
                 //quads_set_ad_count_content();
                 
                 $adscode =
-			"\n".'<!-- WP QUADS Plugin v. ' . QUADS_VERSION .' -->'."\n".
+			"\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
 			'<div style="'.$style.'">'."\n".
 			$adscode."\n".
 			'</div>'. "\n";
@@ -510,16 +510,18 @@ function quads_get_total_ad_count(){
 }
 
 /**
- * Get the total number of active ads
+ * Get the total number of active ads (test)
  * 
  * @global int $ad_count_shortcode
  * @global int $ad_count_content
  * @return int number of active ads
+ * 
+ * @deprecated since 1.0.0
  */
-function test(){
+/*function test(){
     global $ad_count_shortcode, $ad_count_content, $ad_count_custom, $ad_count_widget;
         return array('ad_count_shortcode' => $ad_count_shortcode, 'ad_count_content' => $ad_count_content , 'ad_count_custom'=>$ad_count_custom, 'ad_count_widget' => $ad_count_widget );
-}
+}*/
 
 /**
  * Check if the maximum amount of ads are reached
