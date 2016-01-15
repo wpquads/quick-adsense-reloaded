@@ -120,8 +120,13 @@ function quads_get_ad_location_settings( $location ) {
         'status'    => false,
         'ad'        => '',
     );
-    if ( isset( $_quads_registered_ad_locations ) && isset( $_quads_registered_ad_locations[ $location ] ) ) {
+
+    $location_registered     = isset( $_quads_registered_ad_locations ) && isset( $_quads_registered_ad_locations[ $location ] );
+    $location_settings_exist = isset( $quads_options['location_settings'] ) && isset( $quads_options['location_settings'][ $location ] );
+
+    if ( $location_registered && $location_settings_exist ) {
         $result = wp_parse_args( $quads_options['location_settings'][ $location ], $result );
     }
+
     return $result;
 }
