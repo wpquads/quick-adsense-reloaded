@@ -111,6 +111,10 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.0.2 =
+* Fix: undefined var notice if plugin is installed first time
+* Fix: Hide AdsWidget option on front page is ignored
+
 = 1.0.1 =
 * Fix: Undefined variable notice if plugin is activated first time
 

@@ -534,6 +534,9 @@ function quads_get_total_ad_count(){
 
 function quads_ad_reach_max_count(){
     global $quads_options;
+    
+    $maxads = isset($quads_options['maxads']) ? $quads_options['maxads'] : 10;
+    
     if ( quads_get_total_ad_count() >= $quads_options['maxads'] ){
         return true;
     }
