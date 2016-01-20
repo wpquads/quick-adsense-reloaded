@@ -35,12 +35,10 @@ function quads_hide_adwidget_on_homepage(){
  
  $is_active = isset($quads_options["visibility"]["AppSide"]) ? $quads_options["visibility"]["AppSide"] : null;
  
- if (!$is_active)
-     return false;
-
- 
- if( is_home() && $quads_options["visibility"]["AppSide"] )
+ if( is_front_page() && $is_active )
      return true;
+ 
+ return false;
  
 }
 
