@@ -14,7 +14,9 @@
  * @return void
  * @since 0.9.2
  */
-add_action( 'widgets_init', function(){
+add_action( 'widgets_init', 'quads_register_widgets', 1);
+
+function quads_register_widgets(){
     global $quads_options;
     $amountWidgets = 10;
     for($i=1;$i<=$amountWidgets;$i++) {
@@ -22,7 +24,7 @@ add_action( 'widgets_init', function(){
             register_widget( 'quads_widgets_' . $i );
         }
     }
-}, 1);
+}
 
 /**
  * Check if Ad widgets are visible on homepage
