@@ -29,27 +29,3 @@ function quads_process_actions() {
 	}
 }
 add_action( 'admin_init', 'quads_process_actions' );
-
-
-
-function quads_save_order(){
-        global $quads_options;
-        // Get all settings
-        
-        $current_list = get_option('quads_networks');
-        $new_order = $_POST['quads_list'];
-        $new_list = array();
-   
-        /* First write the sort order */
-        foreach ($new_order as $n){
-            if (isset($current_list[$n])){
-                $new_list[$n] = $current_list[$n];
-                
-            }
-        }
-        //print_r($_POST);
-        /* Update sort order of networks */
-        update_option('quads_networks', $new_list);
-        die();
-}
-add_action ('wp_ajax_quads_update_order', 'quads_save_order');
