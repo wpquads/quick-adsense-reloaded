@@ -6,10 +6,10 @@ Contributors: ReneHermi, WP-Staging, toddynho
 Donate link: 
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: Quick AdSense Reloaded, Quick AdSense, AdSense plugin, WPQUADS, QUADS, WP QUADS, advertising, ads, ad, plugin, ad manager, admin, ads, adsense, adsense insertion, advertising, google, google adsense, plugin, posts, post, page, random ads, random adsense, sidebar, shortcode, text insertion, widget
+Tags: advertising, ads, adsense, google, google adsense, posts, post, page, sidebar, shortcode, admin, plugin 
 Requires at least: 3.6+
 Tested up to: 4.4.1
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 
 Quick Adsense Reloaded! The quickest way to insert Google AdSense and other ads code into your website.
 
@@ -111,8 +111,13 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.0.4 not released =
+* Tweak: Clean up code and remove admin-notices.php
+* Tweak: Add new class quads-locations for ads wrapper
+
 = 1.0.3 =
 * Fix: php 5.2 does not support anonymous function
+* Tweak: Lower amount of tags in readme.txt
 
 = 1.0.2 =
 * Fix: undefined var notice if plugin is installed first time
@@ -168,8 +173,5 @@ Alternative Installation:
 
 == Upgrade Notice ==
 
-= 0.9.1 =
-* New: Tested up to WP 4.4
-
-= 0.9.8 =
-0.9.8  <a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">Complete changelog! </a> It's recommended to plugin updates on a staging website first before installing them on a live site. (Use <a href="https://wordpress.org/plugins/wp-staging/" target="_blank" style="color:white;text-decoration: underline;">WP Staging</a> for creating a test site or any other prefered staging tool)
+= 1.0.3 =
+1.0.3  <a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">Complete changelog! </a> It's recommended to plugin updates on a staging website first before installing them on a live site. (Use <a href="https://wordpress.org/plugins/wp-staging/" target="_blank" style="color:white;text-decoration: underline;">WP Staging</a> for creating a test site or any other prefered staging tool)
