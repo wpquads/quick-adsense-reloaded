@@ -94,7 +94,10 @@ function quads_ads_head_script() {
 				edButtons[edButtons.length]=new edButton("random_ads","RndAds","\n<!--RndAds-->\n","","",-1);
 				edaddID[edaddID.length] = "random_ads";
 				edaddNm[edaddNm.length] = "RndAds";
-			<?php } ?>	
+			<?php } ?>
+                                edButtons[edButtons.length]=new edButton("no_ads","NoAds","\n<!--NoAds-->\n","","",-1);
+				edaddID[edaddID.length] = "no_ads";
+				edaddNm[edaddNm.length] = "NoAds";
 			<?php //if( !isset( $quads_options['quicktags']['QckOffs'] ) ){ ?>
 				//edButtons[edButtons.length]=new edButton("no_ads","NoAds","\n<!--NoAds-->\n","","",-1);
 				//edaddID[edaddID.length] = "no_ads";

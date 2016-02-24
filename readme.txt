@@ -9,7 +9,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: advertising, ads, adsense, google, google adsense, posts, post, page, sidebar, shortcode, admin, plugin 
 Requires at least: 3.6+
 Tested up to: 4.5
-Stable tag: 1.0.4
+Stable tag: 1.0.6
 
 Quick Adsense Reloaded! The quickest way to insert Google AdSense and other ads code into your website.
 
@@ -111,7 +111,12 @@ Alternative Installation:
 
 == Changelog == 
 
-= 1.0.5 not released =
+= 1.0.6 =
+* Fix: Url to widget section leads to 127.0.0.1
+
+= 1.0.5 =
+* Fix: Check if Quick AdSense is installed is throwing error message when it is not installed.
+* New: Show a <!--NoAds--> Quicktag button in the html editor. Necessary to hide ads on not defined post_types like woocommerce product pages
 * Tweak: Tested up to WP 4.5
 * Tweak: Change author name to Rene Hermenau
 

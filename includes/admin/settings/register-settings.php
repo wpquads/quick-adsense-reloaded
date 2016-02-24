@@ -259,7 +259,7 @@ function quads_get_registered_settings() {
                                 'widget_header' => array(
 					'id' => 'widget_header',
 					'name' => '<strong>' . __( 'Widgets Code', 'quick-adsense-reloaded' ) . '</strong>',
-					'desc' => sprintf( __( 'Every code block creates an unique ad widget in the <a href="%1$s" target="_self">widget section</a> of WordPress', 'quick-adsense-reloaded' ) , 'http://127.0.0.1/dev/wp-admin/widgets.php'),
+					'desc' => sprintf( __( 'Every code block creates an unique ad widget in the <a href="%1$s" target="_self">widget section</a> of WordPress', 'quick-adsense-reloaded' ) , admin_url() . 'wp-admin/widgets.php'),
 					'type' => 'header'
 				),
                                 'ad1_widget' => array(
@@ -1460,23 +1460,6 @@ function quads_adsense_code_callback($args){
         $html .= '</div>';
         
         echo $html;
-}
-
-
-
-/**
- * Check if Quick AdSense is installed and active
- * 
- * 
- * @return boolean true when it is installed
- */
-function quads_check_quick_adsense_status(){
-    $plugin_file = 'quick-adsense/quick-adsense.php';
-    $plugin_abs_path = get_home_path() . '/wp-content/plugins/quick-adsense/quick-adsense.php';
-    
-     if ( is_plugin_active( $plugin_file ) ) {
-            return true;   
-    } 
 }
 
 /**

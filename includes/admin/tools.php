@@ -545,12 +545,20 @@ function quads_check_quick_adsense_version(){
     $plugin_abs_path = get_home_path() . '/wp-content/plugins/quick-adsense/quick-adsense.php';
     $checkVersion = '1.9.2';
     
-     if ( is_plugin_active( $plugin_file ) || is_plugin_inactive ($plugin_file) ) {
+    if ( is_plugin_active( $plugin_file ) ) {
         $plugin_data = get_plugin_data( $plugin_abs_path, $markup = true, $translate = true );
         
         if ($plugin_data['Version'] === $checkVersion)
             return true;   
-    } 
+    }
+    
+    if ( is_plugin_inactive( $plugin_file ) ) {
+        $plugin_data = get_plugin_data( $plugin_abs_path, $markup = true, $translate = true );
+        
+        if ($plugin_data['Version'] === $checkVersion)
+            return true;   
+    }
+   
 }
 
 /**
