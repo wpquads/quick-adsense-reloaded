@@ -81,7 +81,7 @@ class quadsLogger {
 	  return fwrite($this->stream, $string);
 	}
   
-        /* Check if Quick AdSense debug debug mode is enabled
+        /* Check if debug mode is enabled
          * 
          * @return bool
          */
