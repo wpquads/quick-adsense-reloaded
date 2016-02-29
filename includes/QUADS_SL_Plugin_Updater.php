@@ -9,7 +9,7 @@
  * @author Pippin Williamson
  * @version 1.6
  */
-class quads_SL_Plugin_Updater {
+class QUADS_SL_Plugin_Updater {
 	private $api_url   = '';
 	private $api_data  = array();
 	private $name      = '';
