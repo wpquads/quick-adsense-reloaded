@@ -35,8 +35,7 @@ module.exports = function(grunt) {
         uglify: {
             build: { 
                 files:[
-                    {'assets/js/quads-admin.min.js' : 'assets/js/quads-admin.js'},
-                    {'assets/js/quads.min.js' : 'assets/js/quads.js'},
+                    {'assets/js/quads-admin.min.js' : 'assets/js/quads-admin.js'}
                 ]
             }
         },
