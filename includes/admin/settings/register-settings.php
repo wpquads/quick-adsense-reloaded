@@ -1437,7 +1437,7 @@ function quads_adsense_code_callback($args){
         if ( isset ($quads_options[ $args['id'] ]['align'] ) ) {
             $value_align = $quads_options[ $args['id'] ]['align'];
         } else {
-            $value_align = '2'; // default value
+            $value_align = '1'; // default value
         }
 
 	$size = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
