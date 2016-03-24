@@ -9,13 +9,13 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: advertising, ads, adsense, google, google adsense, posts, post, page, sidebar, shortcode, admin, plugin 
 Requires at least: 3.6+
 Tested up to: 4.5
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 
 Quick Adsense Reloaded! The quickest way to insert Google AdSense and other ads code into your website.
 
 == Description == 
 
-> #### WP QUADS - Quick AdSense Reloaded
+> #### WP QUADS - Quick AdSense Reloaded 
 > This free Google AdSense plugin is a fork of the discontinued AdSense ads plugin [Quick AdSense](https://wordpress.org/plugins/quick-adsense/) <br /> 
 > Its rewritten from scratch with a solid code base and will be maintained and updated to be compatible with all future WordPress versions<br />
 > This plugin is brandnew, well tested but still work in progress! <br>
@@ -110,6 +110,9 @@ Alternative Installation:
 
 
 == Changelog == 
+
+= 1.0.7 =
+* Fix: Change shortcode description to echo do_shortcode('[quads id="4"]');
 
 = 1.0.6 =
 * Fix: Url to widget section leads to 127.0.0.1

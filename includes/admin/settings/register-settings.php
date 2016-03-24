@@ -185,7 +185,7 @@ function quads_get_registered_settings() {
                                 array(
 					'id' => 'ad1',
 					'name' => __( 'Ad 1:', 'quick-adsense-reloaded' ),
-					'desc' => __( 'Shortcode: <strong>[quads id="1"] </strong></br>Function: <strong>echo do_shortcode[\'[quads id="1"]\'];</strong>', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quads id="1"] </strong></br>Function: <strong>echo do_shortcode(\'[quads id="1"]\');</strong>', 'quick-adsense-reloaded' ),
                                         'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
                                         
@@ -193,7 +193,7 @@ function quads_get_registered_settings() {
                             array(
 					'id' => 'ad2',
 					'name' => __( 'Ad 2:', 'quick-adsense-reloaded' ),
-					'desc' => __( 'Shortcode: <strong>[quads id="2"] </strong></br>Function: <strong>echo do_shortcode[\'[quads id="2"]\'];</strong>', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quads id="2"] </strong></br>Function: <strong>echo do_shortcode(\'[quads id="2"]\');</strong>', 'quick-adsense-reloaded' ),
                                         'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
                                         
@@ -201,7 +201,7 @@ function quads_get_registered_settings() {
                             array(
 					'id' => 'ad3',
 					'name' => __( 'Ad 3:', 'quick-adsense-reloaded' ),
-					'desc' => __( 'Shortcode: <strong>[quads id="3"] </strong></br>Function: <strong>echo do_shortcode[\'[quads id="3"]\'];</strong>', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quads id="3"] </strong></br>Function: <strong>echo do_shortcode(\'[quads id="3"]\');</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
                                         
@@ -209,7 +209,7 @@ function quads_get_registered_settings() {
                                 array(
 					'id' => 'ad4',
 					'name' => __( 'Ad 4:', 'quick-adsense-reloaded' ),
-					'desc' => __( 'Shortcode: <strong>[quads id="4"] </strong></br>Function: <strong>echo do_shortcode[\'[quads id="4"]\'];</strong>', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quads id="4"] </strong></br>Function: <strong>echo do_shortcode(\'[quads id="4"]\');</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
                                         
@@ -217,42 +217,42 @@ function quads_get_registered_settings() {
                                 array(
 					'id' => 'ad5',
 					'name' => __( 'Ad 5:', 'quick-adsense-reloaded' ),
-					'desc' => __( 'Shortcode: <strong>[quads id="1"] </strong></br>Function: <strong>echo do_shortcode[\'[quads id="1"]\'];</strong>', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quads id="5"] </strong></br>Function: <strong>echo do_shortcode(\'[quads id="5"]\');</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
 				),
                                 array(
 					'id' => 'ad6',
 					'name' => __( 'Ad 6:', 'quick-adsense-reloaded' ),
-					'desc' => __( 'Shortcode: <strong>[quads id="6"] </strong></br>Function: <strong>echo do_shortcode[\'[quads id="6"]\'];</strong>', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quads id="6"] </strong></br>Function: <strong>echo do_shortcode(\'[quads id="6"]\');</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
 				),
                                 array(
 					'id' => 'ad7',
 					'name' => __( 'Ad 7:', 'quick-adsense-reloaded' ),
-					'desc' => __( 'Shortcode: <strong>[quads id="7"] </strong></br>Function: <strong>echo do_shortcode[\'[quads id="7"]\'];</strong>', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quads id="7"] </strong></br>Function: <strong>echo do_shortcode(\'[quads id="7"]\');</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
 				),
                                 array(
 					'id' => 'ad8',
 					'name' => __( 'Ad 8:', 'quick-adsense-reloaded' ),
-					'desc' => __( 'Shortcode: <strong>[quads id="8"] </strong></br>Function: <strong>echo do_shortcode[\'[quads id="8"]\'];</strong>', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quads id="8"] </strong></br>Function: <strong>echo do_shortcode(\'[quads id="8"]\');</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
                                 ),
                                 array(
 					'id' => 'ad9',
 					'name' => __( 'Ad 9:', 'quick-adsense-reloaded' ),
-					'desc' => __( 'Shortcode: <strong>[quads id="9"] </strong></br>Function: <strong>echo do_shortcode[\'[quads id="9"]\'];</strong>', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quads id="9"] </strong></br>Function: <strong>echo do_shortcode(\'[quads id="9"]\');</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
 				),
                                 array(
 					'id' => 'ad10',
 					'name' => __( 'Ad 10:', 'quick-adsense-reloaded' ),
-					'desc' => __( 'Shortcode: <strong>[quads id="10"] </strong></br>Function: <strong>echo do_shortcode[\'[quads id="10"]\'];</strong>', 'quick-adsense-reloaded' ),
+					'desc' => __( 'Shortcode: <strong>[quads id="10"] </strong></br>Function: <strong>echo do_shortcode(\'[quads id="10"]\');</strong>', 'quick-adsense-reloaded' ),
 					'type' => 'adsense_code',
                                         'options' => quads_get_alignment(),
 				),
