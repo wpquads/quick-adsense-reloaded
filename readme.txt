@@ -9,7 +9,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: advertising, ads, adsense, google, google adsense, posts, post, page, sidebar, shortcode, admin, plugin 
 Requires at least: 3.6+
 Tested up to: 4.5
-Stable tag: 1.0.7
+Stable tag: 1.1.0
 
 Quick Adsense Reloaded! The quickest way to insert Google AdSense and other ads code into your website.
 
@@ -110,6 +110,16 @@ Alternative Installation:
 
 
 == Changelog == 
+
+= 1.1.0 =
+* Fix: Rating container not always hidden
+
+= 1.0.9 =
+* Tweak: Disable all AdSense ads on 404 pages (Google AdSense does not allow this.)
+* New: A nice looking rating div for asking to rate this plugin. Can be deactivated with one click and will never appear again.
+
+= 1.0.8 =
+* Tweak: Default alignment is center 
 
 = 1.0.7 =
 * Fix: Change shortcode description to echo do_shortcode('[quads id="4"]');
