@@ -14,7 +14,22 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 // we need to hook into the_content on lower than default priority (that's why we use separate hook)
 add_filter('the_content', 'quads_post_settings_to_quicktags', 5);
-add_filter('the_content', 'quads_process_content', 20);
+add_filter('the_content', 'quads_process_content', quads_get_load_priority());
+
+/**
+ * Get load priority
+ * 
+ * @global arr $quads_options
+ * @return int
+ */
+function quads_get_load_priority(){
+    global $quads_options;
+    
+    if (!empty($quads_options['priority'])){
+        return intval($quads_options['priority']);
+    }
+    return 20;
+}
 
 /**
  * Adds quicktags, defined via post meta options, to content.

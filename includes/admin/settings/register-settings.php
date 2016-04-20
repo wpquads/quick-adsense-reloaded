@@ -338,6 +338,14 @@ function quads_get_registered_settings() {
 					'desc' => __( '', 'quick-adsense-reloaded' ),
 					'type' => 'header'
 				),
+                                'priority' => array(
+					'id' => 'priority',
+					'name' => __( 'Load Priority', 'quick-adsense-reloaded' ),
+					'desc' => __( 'A low value loads WP QUADS earlier than other Plugins. Use a higher value for loading WP QUADS later. Try to lower the value to a value less than 10 if not all ads are shown. <strong>Default:</strong> 20', 'quick-adsense-reloaded' ),
+					'type' => 'number',
+					'size' => 'small',
+                                        'std' => 20
+				),
                                 'create_settings' => array(
 					'id' => 'create_settings',
 					'name' => __( 'Settings link', 'quick-adsense-reloaded' ),

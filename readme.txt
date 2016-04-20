@@ -9,7 +9,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: advertising, ads, adsense, google, google adsense, posts, post, page, sidebar, shortcode, admin, plugin 
 Requires at least: 3.6+
 Tested up to: 4.5
-Stable tag: 1.1.0
+Stable tag: 1.1.2
 
 Quick Adsense Reloaded! The quickest way to insert Google AdSense and other ads code into your website.
 
@@ -111,8 +111,14 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.1.2 =
+* New: Specify plugin load priority
+
+= 1.1.1 =
+* Fix: fopen error message on import settings page when Quick AdSense ist not installed and inactive
+
 = 1.1.0 =
-* Fix: Rating container not always hidden
+* Fix: Rating container not always hiding after rating the plugin
 
 = 1.0.9 =
 * Tweak: Disable all AdSense ads on 404 pages (Google AdSense does not allow this.)

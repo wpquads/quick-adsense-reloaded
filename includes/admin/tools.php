@@ -552,7 +552,7 @@ function quads_check_quick_adsense_version(){
             return true;   
     }
     
-    if ( is_plugin_inactive( $plugin_file ) ) {
+    if ( is_plugin_inactive( $plugin_file ) || file_exists( $plugin_abs_path ) ) {
         $plugin_data = get_plugin_data( $plugin_abs_path, $markup = true, $translate = true );
         
         if ($plugin_data['Version'] === $checkVersion)
