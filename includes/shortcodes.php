@@ -47,10 +47,11 @@ function quads_shortcode_display_ad($atts) {
  * @return string
  */
 function quads_get_ad($id = 0) {
-    global $quads_options, $ad_count_shortcode;
+    global $quads_options;
 
-    if ( quads_ad_reach_max_count() )
+    if ( quads_ad_reach_max_count() ){
         return;
+    }
     
     if ( isset($quads_options['ad' . $id]['code']) ){
         // Count how often the shortcode is used - Important

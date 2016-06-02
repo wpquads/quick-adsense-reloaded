@@ -1,4 +1,4 @@
-=== WP QUADS - Quick AdSense Reloaded === 
+=== AdSense Integration WP QUADS === 
 
 Author URL: https://profiles.wordpress.org/renehermi/
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
@@ -6,12 +6,12 @@ Contributors: ReneHermi, WP-Staging, toddynho
 Donate link: 
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: advertising, ads, adsense, google, google adsense, posts, post, page, sidebar, shortcode, admin, plugin 
+Tags: advertising, ads, adsense, google, google adsense, posts, post, page, sidebar, shortcode, admin, plugin, widget
 Requires at least: 3.6+
-Tested up to: 4.5
-Stable tag: 1.1.2
+Tested up to: 4.5.3
+Stable tag: 1.1.5
 
-Quick Adsense Reloaded! The quickest way to insert Google AdSense and other ads code into your website.
+Quick Adsense Reloaded! The quickest way to insert Google AdSense & other ads into your website. Google AdSense integration simplified!
 
 == Description == 
 
@@ -110,6 +110,18 @@ Alternative Installation:
 
 
 == Changelog == 
+
+
+= 1.1.5 =
+* Fix: Max ad count sometimes not working as expected and ads are not shown and max count is not reached, though
+* Fix: Link to widget section not working
+
+= 1.1.4 =
+* Fix: Undefined var $showall
+
+= 1.1.3 =
+* Fix: Import Screen is showing No such file or directory error notice
+* New: Tested up to WP 4.5.2
 
 = 1.1.2 =
 * New: Specify plugin load priority
