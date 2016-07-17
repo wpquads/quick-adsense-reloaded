@@ -620,26 +620,28 @@ function quads_set_ad_count_widget(){
  * @since 0.9.4
  * @return boolean true when ads are shown
  */
-function quads_ad_is_allowed($content = null){
+function quads_ad_is_allowed( $content = null ) {
     global $quads_options;
     
-        if(	(is_feed()) ||
-                (strpos($content,'<!--NoAds-->')!==false) ||
-                (strpos($content,'<!--OffAds-->')!==false) ||
-                (is_front_page() && !( isset( $quads_options['visibility']['AppHome'] ) ) ) || 
-                (is_single() && !( isset( $quads_options['visibility']['AppPost'] ) ) ) ||
-                (is_page() && !( isset($quads_options['visibility']['AppPage'] ) ) ) ||			
-                (is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
-                (is_archive() && !( isset($quads_options['visibility']['AppArch'] ) ) ) ||
-                (is_tag() && !( isset($quads_options['visibility']['AppTags'] ) ) ) ||
-                (is_user_logged_in() && ( isset($quads_options['visibility']['AppLogg'] ) ) ) ) 
-        {
-            return false;
-	}
-        // else
-        return true;
+    // Only show ads in main query
+    if( !is_main_query() ) {
+        return false;
+    }
+
+    if(
+            (is_feed()) ||
+            (strpos( $content, '<!--NoAds-->' ) !== false) ||
+            (strpos( $content, '<!--OffAds-->' ) !== false) ||
+            (is_front_page() && !( isset( $quads_options['visibility']['AppHome'] ) ) ) ||
+            (is_single() && !( isset( $quads_options['visibility']['AppPost'] ) ) ) ||
+            (is_page() && !( isset( $quads_options['visibility']['AppPage'] ) ) ) ||
+            (is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
+            (is_archive() && !( isset( $quads_options['visibility']['AppArch'] ) ) ) ||
+            (is_tag() && !( isset( $quads_options['visibility']['AppTags'] ) ) ) ||
+            (is_user_logged_in() && ( isset( $quads_options['visibility']['AppLogg'] ) ) )
+    ) {
+        return false;
+    }
+    // else
+    return true;
 }
-
-
-
-
