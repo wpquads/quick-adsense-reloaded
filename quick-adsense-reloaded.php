@@ -5,7 +5,7 @@
  * Description: Insert Google AdSense or any Ads code into your website. A fork of Quick AdSense
  * Author: Rene Hermenau, WP-Staging
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
- * Version: 1.1.5
+ * Version: 1.1.5a
  * Text Domain: quick-adsense-reloaded
  * Domain Path: languages
  * Credits: WP QUADS - Quick AdSense Reloaded is a fork of Quick AdSense
