@@ -111,6 +111,7 @@ Alternative Installation:
 
 == Changelog == 
 
+
 = 1.1.5 =
 * Fix: Max ad count sometimes not working as expected and ads are not shown and max count is not reached, though
 * Fix: Link to widget section not working
