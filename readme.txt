@@ -1,4 +1,4 @@
-=== AdSense Integration WP QUADS === 
+=== Google AdSense Integration WP QUADS === 
 
 Author URL: https://profiles.wordpress.org/renehermi/
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
@@ -111,6 +111,9 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.1.6 =
+* Tweak: Plugin Title
+* Fix: Show ads only when query is main query
 
 = 1.1.5 =
 * Fix: Max ad count sometimes not working as expected and ads are not shown and max count is not reached, though
