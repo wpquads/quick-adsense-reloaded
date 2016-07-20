@@ -9,7 +9,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: advertising, ads, adsense, google, google adsense, posts, post, page, sidebar, shortcode, admin, plugin, widget
 Requires at least: 3.6+
 Tested up to: 4.5.3
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 
 Quick Adsense Reloaded! The quickest way to insert Google AdSense & other ads into your website. Google AdSense integration simplified!
 
@@ -110,7 +110,6 @@ Alternative Installation:
 
 
 == Changelog == 
-
 
 = 1.1.5 =
 * Fix: Max ad count sometimes not working as expected and ads are not shown and max count is not reached, though
