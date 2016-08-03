@@ -414,7 +414,7 @@ function quads_process_content($content){
 	$content = quads_clean_tags($content); 
         // Reset ad_count - Important!!!
         $ad_count_content = 0; 
-        return $content;
+        return do_shortcode($content);
     }
 
 function quads_clean_tags($content, $trimonly = false) {
