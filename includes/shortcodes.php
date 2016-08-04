@@ -34,7 +34,7 @@ function quads_shortcode_display_ad($atts) {
         return;
     
     $id = isset($atts['id']) ? (int) $atts['id'] : 0;
-    return quads_get_ad($id);
+    return do_shortcode(quads_get_ad($id));
 }
 
 
