@@ -1,4 +1,4 @@
-=== Google AdSense Integration WP QUADS === 
+=== AdSense Integration WP QUADS === 
 
 Author URL: https://profiles.wordpress.org/renehermi/
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
@@ -112,8 +112,9 @@ Alternative Installation:
 == Changelog == 
 
 = 1.1.7 =
-* New: Tested up to WP 4.6.1
-* New: Allow shortcodes [shortcode] in adsense input fields
+* New: Tested up to WP 4.6.0
+* New: Allow shortcodes in adsense input fields
+* New: Add css class quads-id1-10 for ad container
 
 = 1.1.6 =
 * Tweak: Plugin Title

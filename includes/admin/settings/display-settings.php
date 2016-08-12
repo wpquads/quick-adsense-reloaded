@@ -106,7 +106,7 @@ function quads_do_settings_fields($page, $section) {
            echo '<table class="quads-form-table"><tbody>';
            
        }  
-        echo '<tr class="row"><td class="row th" style="width:150px;vertical-align:top;">';
+        echo '<tr class="row"><td class="row th" style="width:100px;vertical-align:top;">';
         //echo "<pre>";
         //var_dump($field);
         if (!empty($field['args']['label_for']))
@@ -198,6 +198,10 @@ function quads_options_page() {
 			</form>
 
                     </div> <!-- new //-->
+                    <div class="quads-panel-sidebar" style="float:left;min-width: 100px;margin-left: 5px;margin-top:5px;">
+                        <a href="http://demo.clickfraud-monitoring.com/pricing/?utm_source=wpquads&utm_medium=banner&utm_term=click&utm_campaign=wpquads" target="_blank">
+                            <img src="<?php echo QUADS_PLUGIN_URL . '/assets/images/banner_250x400.png'; ?>">
+                        </a></div>
 		</div><!-- #tab_container-->
 	</div><!-- .wrap -->
 	<?php

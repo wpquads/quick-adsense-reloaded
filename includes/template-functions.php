@@ -481,7 +481,7 @@ function quads_replace_ads($content, $nme, $adn) {
                 
                 $adscode =
 			"\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
-			'<div class="quads-location" style="'.$style.'">'."\n".
+			'<div class="quads-location quads-id' .$adn. '" style="'.$style.'">'."\n".
 			$adscode."\n".
 			'</div>'. "\n";
               

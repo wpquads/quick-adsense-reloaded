@@ -27,7 +27,7 @@ function quads_add_options_link() {
 
         $create_settings = isset($quads_options['create_settings']) ? true : false;
         if ($create_settings){
-            $quads_settings_page = add_submenu_page( 'options-general.php', __( 'WP QUADS Settings', 'quick-adsense-reloaded' ), __( 'WP QUADS', 'quick-adsense-reloaded' ), 'manage_options', 'quads-settings', 'quads_options_page' );
+            $quads_settings_page = add_submenu_page( 'options-general.php', __( 'WP QUADS Settings', 'quick-adsense-reloaded' ), __( 'WPQUADS', 'quick-adsense-reloaded' ), 'manage_options', 'quads-settings', 'quads_options_page' );
         }else{
             $quads_parent_page   = add_menu_page( 'Quick AdSense Reloaded Settings', __( 'WP <strong>QUADS</strong>', 'quick-adsense-reloaded' ), 'manage_options', 'quads-settings', 'quads_options_page' );
         }
