@@ -196,7 +196,11 @@ function quads_options_page() {
                                     submit_button(); 
                                 ?>
 			</form>
-
+                        <?php
+                        echo sprintf( __( 'This plugin is 100%% free. Please do us a BIG favor and give us a 5 star rating <a href="%1$s" target="_blank">here</a> . If you`re not happy, please get in touch with us at support@clickfraud-monitoring.com, so that we can sort it out. Thank you!', 'quick-adsense-reloaded' ),
+			'http://wordpress.org/support/view/plugin-reviews/quick-adsense-reloaded'
+                        );
+                        ?>
                     </div> <!-- new //-->
                     <div class="quads-panel-sidebar" style="float:left;min-width: 100px;margin-left: 5px;margin-top:5px;">
                         <a href="http://demo.clickfraud-monitoring.com/pricing/?utm_source=wpquads&utm_medium=banner&utm_term=click&utm_campaign=wpquads" target="_blank">

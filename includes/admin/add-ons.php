@@ -23,12 +23,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function quads_add_ons_page() {
 	ob_start(); ?>
 	<div class="wrap" id="quads-add-ons">
-		<h2>
-			<?php _e( 'Add Ons for Quick AdSense Reloaded', 'quick-adsense-reloaded' ); ?>
+            <p>Whats New in v.<?php echo QUADS_VERSION;?>?</p>
+		<h1>
+			<?php _e( 'Clickfraud Monitor Integration', 'quick-adsense-reloaded' ); ?>
 			<!--&nbsp;&mdash;&nbsp;<a href="https://www.quadsshare.net" class="button-primary" title="<?php _e( 'Visit Website', 'quick-adsense-reloaded' ); ?>" target="_blank"><?php _e( 'See Details', 'quick-adsense-reloaded' ); ?></a>-->
-		</h2>
-		<p><?php _e( 'These add-ons extend the functionality of Quick AdSense Reloaded.', 'quick-adsense-reloaded' ); ?></p>
-		<?php //echo quads_add_ons_get_feed(); ?>
+		</h1>
+		<h2><?php _e( 'Protect your AdSense Account from being banned! ', 'quick-adsense-reloaded' ); ?></h2>  
+                <p><?php _e('Monitor and protect all your advertisements on your site.<br> Click protection for Google AdSense and other pay per click vendors.','quick-adsense-reloaded' ); ?></p>
+                <p><?php _e('Fully integrated in WP<strong>QUADS</strong> or completely independant and compatible with <br>any other AdSense Plugin, even with manual inserted ads.', 'quick-adsense-reloaded' ); ?></p>
+                <a href="http://demo.clickfraud-monitoring.com/pricing/?utm_source=wpquads&utm_medium=addon_page&utm_term=click&utm_campaign=wpquads" target="_blank" class="button button-primary">Get Add-On</a>
 	</div>
 	<?php
 	echo ob_get_clean();

@@ -1,6 +1,6 @@
 <?php
 /**
- * Weclome Page Class
+ * Welcome Page Class
  *
  * @package     QUADS
  * @subpackage  Admin/Welcome

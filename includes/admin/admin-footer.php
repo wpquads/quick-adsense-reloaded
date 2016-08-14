@@ -24,13 +24,16 @@ function quads_admin_rate_us( $footer_text ) {
 	global $typenow;
 
 	if ( quads_is_admin_page() ) {
-		$rate_text = sprintf( __( 'Thank you for using <a href="%1$s" target="_blank">WP QUADS</a>! Please <a href="%2$s" target="_blank">rate it</a> on <a href="%2$s" target="_blank">WordPress.org</a> and help to support this project.<br>Something not working as expected or need help for customizing Quick AdSense Reloaded? Visit the Quick AdSense Reloaded <a href="https://wordpress.org/support/plugin/quick-adsense-reloaded" target="blank">Support Forum</a>.', 'quick-adsense-reloaded' ),
-			'http://wordpress.org/support/view/plugin-reviews/quick-adsense-reloaded',
-			'http://wordpress.org/support/view/plugin-reviews/quick-adsense-reloaded?filter=5#postform'
+		$rate_text = sprintf( __( 'This plugin is 100%% free. Please do us a BIG favor and give us a 5 star rating <a href="%1$s" target="_blank">here</a> . If you`re not happy, please get in touch with us at support@clickfraud-monitoring.com, so that we can sort it out. Thank you!', 'quick-adsense-reloaded' ),
+			'http://wordpress.org/support/view/plugin-reviews/quick-adsense-reloaded'
 		);
+//		$rate_text = sprintf( __( 'Thank you for using <a href="%1$s" target="_blank">WP QUADS</a>! Please <a href="%2$s" target="_blank">rate it</a> on <a href="%2$s" target="_blank">WordPress.org</a> and help to support this project.<br>Something not working as expected or need help for customizing Quick AdSense Reloaded? Visit the Quick AdSense Reloaded <a href="https://wordpress.org/support/plugin/quick-adsense-reloaded" target="blank">Support Forum</a>.', 'quick-adsense-reloaded' ),
+//			'http://wordpress.org/support/view/plugin-reviews/quick-adsense-reloaded',
+//			'http://wordpress.org/support/view/plugin-reviews/quick-adsense-reloaded?filter=5#postform'
+//		);
 
 		//return str_replace( '</span>', '', '' ) . $rate_text . '</span>';
-                return $rate_text;
+                //return $rate_text;
 	} else {
 		return $footer_text;
 	}

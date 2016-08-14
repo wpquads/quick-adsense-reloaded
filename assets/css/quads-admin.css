@@ -298,3 +298,9 @@ color:#777777;
     height: 24px;
     vertical-align: top;
 }
+
+
+#quads-add-ons {
+   border: 2px solid white;
+   padding: 20px; 
+}

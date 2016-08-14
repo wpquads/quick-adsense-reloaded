@@ -155,6 +155,8 @@ padding:20px;
 overflow:auto;
 text-align:left;
 margin-bottom:10px;
+max-width: 750px;
+float: left;
 }
 
 .form-table{
@@ -297,4 +299,7 @@ color:#777777;
     vertical-align: top;
 }
 
-
+#quads-add-ons {
+   border: 2px solid white;
+   padding: 20px; 
+}

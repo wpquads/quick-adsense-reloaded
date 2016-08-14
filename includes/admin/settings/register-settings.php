@@ -358,6 +358,8 @@ function quads_get_registered_settings() {
 					'desc' => __( 'Check this box if you would like <strong>Settings->WPQUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
 					'type' => 'checkbox'
 				),
+
+    
 			)
 		),
 		'licenses' => apply_filters('quads_settings_licenses',
@@ -1483,4 +1485,20 @@ function quads_get_alignment() {
         'right',
         'none',
     );
+}
+
+/**
+ * Check if plugin Clickfraud Monitoring is installed
+ * 
+ * @return boolean true when it is installed and active
+ */
+function quads_is_installed_clickfraud(){
+    $plugin_file = 'cfmonitor/cfmonitor.php';
+    $plugin_file2 = 'clickfraud-monitoring/cfmonitor.php';
+    
+    if ( is_plugin_active( $plugin_file ) || is_plugin_active( $plugin_file2 ) ) {
+            return true;   
+    }
+    
+   return false; 
 }
