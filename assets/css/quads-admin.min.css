@@ -155,8 +155,6 @@ padding:20px;
 overflow:auto;
 text-align:left;
 margin-bottom:10px;
-max-width: 750px;
-float: left;
 }
 
 .form-table{
@@ -298,3 +296,5 @@ color:#777777;
     height: 24px;
     vertical-align: top;
 }
+
+
