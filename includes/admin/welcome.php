@@ -60,14 +60,22 @@ class quads_Welcome {
 		if ( is_network_admin() || isset( $_GET['activate-multi'] ) )
 			return;
 
-		$upgrade = get_option( 'quads_version_upgraded_from' );
+		//$upgrade = get_option( 'quads_version_upgraded_from' );
+                
+                
                 
                 //@since 2.0.3
-		if( ! $upgrade ) { // First time install
-			wp_safe_redirect( admin_url( 'options-general.php?page=quads-settings' ) ); exit;
-		} else { // Update
-			wp_safe_redirect( admin_url( 'options-general.php?page=quads-settings' ) ); exit;
+		if( quads_is_installed_clickfraud() ) { // clickfraud plugin already installed
+			// no redirect
+		} else { 
+			wp_safe_redirect( admin_url( 'admin.php?page=quads-addons' ) ); exit;
 		}
+//                //@since 2.0.3
+//		if( ! $upgrade ) { // First time install
+//			wp_safe_redirect( admin_url( 'admin.php?page=quads-addons' ) ); exit;
+//		} else { // Update
+//			wp_safe_redirect( admin_url( 'admin.php?page=quads-addons' ) ); exit;
+//		}
 	}
 }
 new quads_Welcome();

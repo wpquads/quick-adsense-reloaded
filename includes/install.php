@@ -70,7 +70,7 @@ function quads_install() {
                 
         
         // Add the transient to redirect (not for multisites)
-	set_transient( '_quads_activation_redirect', true, 30 );
+	set_transient( '_quads_activation_redirect', true, 3600 );
    
 }
 

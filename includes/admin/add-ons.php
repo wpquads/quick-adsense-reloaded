@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function quads_add_ons_page() {
 	ob_start(); ?>
 	<div class="wrap" id="quads-add-ons">
-            <p>Whats New in v.<?php echo QUADS_VERSION;?>?</p>
+            <p>You have updated WQUADS to v.<?php echo QUADS_VERSION;?>. So what's new?</p>
 		<h1>
 			<?php _e( 'Clickfraud Monitor Integration', 'quick-adsense-reloaded' ); ?>
 			<!--&nbsp;&mdash;&nbsp;<a href="https://www.quadsshare.net" class="button-primary" title="<?php _e( 'Visit Website', 'quick-adsense-reloaded' ); ?>" target="_blank"><?php _e( 'See Details', 'quick-adsense-reloaded' ); ?></a>-->

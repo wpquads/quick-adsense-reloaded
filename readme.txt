@@ -16,14 +16,13 @@ Quick Adsense Reloaded! The quickest way to insert Google AdSense & other ads in
 == Description == 
 
 > #### WPQUADS - Quick AdSense Reloaded 
-> This free Google AdSense plugin is a fork of the discontinued AdSense ads plugin [Quick AdSense](https://wordpress.org/plugins/quick-adsense/) <br /> 
+> This free Google AdSense plugin is a fork of the discontinued Quick AdSense ads plugin <br /> 
 > Its rewritten from scratch with a solid code base and will be maintained and updated to be compatible with all future WordPress versions<br />
-> This plugin is brandnew, well tested but still work in progress! <br>
-> Find a bug? Open a ticket in the [support request](https://wordpress.org/support/plugin/quick-adsense-reloaded/ "support forum"). Issue will be fixed asap!
+> Find a bug? Open a ticket in the [support request](https://wordpress.org/support/plugin/quick-adsense-reloaded/ "support forum").
 > 
 > <strong>NEW: </strong>
-> Create custom ad positions in your template files with quads_register_ad();
-> Check out the sample code and complete API in <em>includes/api.php</em> <br /> 
+> Support of the popular Click Fraud Monitor plugin <br /> 
+> Visit the site: [clickfraud-monitoring.com](http://www.clickfraud-monitoring.com/) <br /> 
 
 = Why a Quick AdSense fork? =
 
