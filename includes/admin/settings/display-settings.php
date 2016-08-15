@@ -202,8 +202,8 @@ function quads_options_page() {
                         );
                         ?>
                     </div> <!-- new //-->
-                    <div class="quads-panel-sidebar" style="float:left;min-width: 100px;margin-left: 5px;margin-top:5px;">
-                        <a href="http://demo.clickfraud-monitoring.com/pricing/?utm_source=wpquads&utm_medium=banner&utm_term=click&utm_campaign=wpquads" target="_blank">
+                    <div class="quads-panel-sidebar" style="float:left;min-width: 100px;margin-left: 1px;margin-top:0px;">
+                        <a href="http://demo.clickfraud-monitoring.com/?utm_source=wpquads&utm_medium=banner&utm_term=click&utm_campaign=wpquads" target="_blank">
                             <img src="<?php echo QUADS_PLUGIN_URL . '/assets/images/banner_250x400.png'; ?>">
                         </a></div>
 		</div><!-- #tab_container-->
