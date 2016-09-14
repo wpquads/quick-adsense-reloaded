@@ -90,7 +90,7 @@
 
 /* System Info page styles
 -------------------------------------------------------------- */
-#system-info-textarea { width: 600px; height: 400px; font-family: Menlo, Monaco, monospace; background: none; white-space: pre; overflow: auto; display: block; }
+#system-info-textarea { width: 580px; height: 400px; font-family: Menlo, Monaco, monospace; background: none; white-space: pre; overflow: auto; display: block; }
 
 
 /* General styles
@@ -155,7 +155,7 @@ padding:20px;
 overflow:auto;
 text-align:left;
 margin-bottom:10px;
-max-width: 750px;
+max-width: 640px;
 float: left;
 }
 

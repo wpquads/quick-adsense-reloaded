@@ -198,7 +198,7 @@ function quads_options_page() {
 			</form>
                         <?php
                         echo sprintf( __( 'This plugin is 100%% free. Please do us a BIG favor and give us a 5 star rating <a href="%1$s" target="_blank">here</a> . If you`re not happy, please get in touch with us at support@clickfraud-monitoring.com, so that we can sort it out. Thank you!', 'quick-adsense-reloaded' ),
-			'http://wordpress.org/support/view/plugin-reviews/quick-adsense-reloaded'
+			'https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/#new-post'
                         );
                         ?>
                     </div> <!-- new //-->
