@@ -134,7 +134,7 @@ class QUADS_HTML_Elements {
 			$options .= ' readonly';
 		}
 
-		$output = '<input type="checkbox"' . $options . ' name="' . esc_attr( $args['name'] ) . '" id="' . esc_attr( $args['name'] ) . '" class="' . $args['class'] . ' ' . esc_attr( $args['name'] ) . '" ' . checked( $args['value'], $args['current'], false ) . ' />';
+		$output = '<input type="checkbox"' . $options . ' name="' . esc_attr( $args['name'] ) . '" id="' . esc_attr( $args['name'] ) . '" class="' . $args['class'] . ' ' . esc_attr( $args['name'] ) . '" ' . checked( $args['value'], $args['current'], false ) . ' />\n';
 
 		return $output;
 	}

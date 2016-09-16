@@ -106,17 +106,29 @@ function quads_do_settings_fields($page, $section) {
            echo '<table class="quads-form-table"><tbody>';
            
        }  
-        echo '<tr class="row"><td class="row th" style="width:100px;vertical-align:top;">';
-        //echo "<pre>";
-        //var_dump($field);
-        if (!empty($field['args']['label_for']))
+//        echo '<tr class="row">';
+//        echo '<td class="row th" style="width:100px;vertical-align:top;"></td>';
+//        echo '</tr>';
+        
+
+        if (!empty($field['args']['label_for'])){
+            echo '<tr class="row">';
+            echo '<td class="row th">';
             echo '<label for="' . esc_attr($field['args']['label_for']) . '">' . $field['title'] . '</label>';
-        else
+        }else if (!empty($field['title'])){
+            echo '<tr class="row">';
+            echo '<td class="row th">';
             echo '<div class="col-title">' . $field['title'] . '</div>';
-        echo '</td>';
-        echo '<td class="row th">';
-        call_user_func($field['callback'], $field['args']);
+        }else {
+            echo '';
+        }
+//        echo '</td>';
+//        echo '<td class="row th">';
         echo '</td></tr>';
+        echo '<tr><td>';
+            call_user_func($field['callback'], $field['args']);
+        echo '<tr><td>';
+
         
         
     }
