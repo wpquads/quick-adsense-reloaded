@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: AdSense Integration WP QUADS
+ * Plugin Name: WP QUADS PRO
  * Plugin URI: https://wordpress.org/plugins/quick-adsense-reloaded/
  * Description: Insert Google AdSense or any Ads code into your website. A fork of Quick AdSense
  * Author: Rene Hermenau, WP-Staging

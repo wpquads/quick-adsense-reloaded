@@ -1432,41 +1432,63 @@ function quads_quicktags_callback($args){
 function quads_adsense_code_callback($args){
     	global $quads_options;
 
-	if ( isset( $quads_options[ $args['id'] ]['code'] ) ){
-		$value_code = $quads_options[ $args['id'] ]['code'];                
-        } else {
-            $value_code = ''; // default value
-        }
-        
-        if ( isset ($quads_options[ $args['id'] ]['margin'] ) ) {
-            $value_margin = $quads_options[ $args['id'] ]['margin'];
-        } else {
-            $value_margin = '10'; // default value
-        }
-        
-        if ( isset ($quads_options[ $args['id'] ]['align'] ) ) {
-            $value_align = $quads_options[ $args['id'] ]['align'];
-        } else {
-            $value_align = '2'; // default value
-        }
+//	if ( isset( $quads_options[ $args['id'] ]['code'] ) ){
+//		$value_code = $quads_options[ $args['id'] ]['code'];                
+//        } else {
+//            $value_code = ''; // default value
+////        }
+//                if ( isset ($quads_options[ $args['id'] ]['margin'] ) ) {
+//            $value_margin = $quads_options[ $args['id'] ]['margin'];
+//        } else {
+//            $value_margin = '10'; // default value
+//        }
+//                
+//
+//        
+//        if ( isset ($quads_options[ $args['id'] ]['align'] ) ) {
+//            $value_align = $quads_options[ $args['id'] ]['align'];
+//        } else {
+//            $value_align = '2'; // default value
+//        }
 
-	$size = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
-        $checked = isset( $quads_options[ $args[ 'id' ] ]['align'] ) ? checked( 1, $quads_options[ $args[ 'id' ] ]['align'], false ) : '';
                 
-        $html = '<div>';
-        $html .= '<textarea style="vertical-align:top;margin-right:20px;float:left;" class="medium-text quads-textarea" cols="50" rows="4" id="quads_settings[' . $args['id'] . '][code]" name="quads_settings[' . $args['id'] . '][code]">' . esc_textarea( stripslashes( $value_code ) ) . '</textarea><label for="quads_settings[' . $args['id'] . '][code]">' . $args['desc'].'</label>';
-        $html .= '</div><div>';
-        
-        $html .= '<label for="quads_settings[' . $args['id'] . '][margin]"> '.__('Margin (px): ', 'quick-adsense-reloaded').' </label>';
-	$html .= '<input type="number" step="1" max="" min="" class="small-text" id="quads_settings[' . $args['id'] . '][margin]" name="quads_settings[' . $args['id'] . '][margin]" value="' . esc_attr( stripslashes( $value_margin ) ) . '"/> ';
+                
 
+        
+        $code = isset( $quads_options[ $args['id'] ]['code'] ) ?  $quads_options[ $args['id'] ]['code'] : '';
+        
+        $margin = isset ($quads_options[ $args['id'] ]['margin'] ) ?  esc_attr( stripslashes( $quads_options[$args['id']]['margin'] ) ) : '';
+        
+        $align = isset ($quads_options[ $args['id'] ]['align'] ) ?  $quads_options[ $args['id'] ]['align'] : '';
+        
+	$size = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
+        
+        $checked = isset( $quads_options[ $args[ 'id' ] ]['align'] ) ? checked( 1, $quads_options[ $args[ 'id' ] ]['align'], false ) : '';
+        
+        $id = $args['id'];
+        
+        
+        
+        
+        $html = '<div class="quads-ad-toggle-header quads-box-close" data-box-id="quads-toggle'.$id.'">' .
+                    '<div class="quads-toogle-title">Ad '.str_replace('ad','', $id) . '</div>' .
+                    '<a class="quads-toggle" data-box-id="quads-toggle'.$id.'" href="#"><div class="quads-close-open-icon"></div></a>' . 
+                '</div>';
+        $html .= '<div class="quads-ad-toggle-container" id="quads-toggle'.$id.'" style="display:none;">';
+        $html .= '<div>';
+        $html .= '<textarea style="vertical-align:top;margin-right:20px;float:left;" class="medium-text quads-textarea" cols="50" rows="4" id="quads_settings[' . $args['id'] . '][code]" name="quads_settings[' . $args['id'] . '][code]">' . esc_textarea( stripslashes( $code ) ) . '</textarea><label for="quads_settings[' . $args['id'] . '][code]">' . $args['desc'].'</label>';
+        $html .= '</div>';
+        $html .= '<div>';        
+        $html .= '<label for="quads_settings[' . $args['id'] . '][margin]"> '.__('Margin (px): ', 'quick-adsense-reloaded').' </label>';
+	$html .= '<input type="number" step="1" max="" min="" class="small-text" id="quads_settings[' . $args['id'] . '][margin]" name="quads_settings[' . $args['id'] . '][margin]" value="' . esc_attr( stripslashes( $margin ) ) . '"/> ';
         $html .= '<label for="quads_settings[' . $args['id'] . '][align]"> '.__('Alignment:', 'quick-adsense-reloaded').' </label>';
         $html .= '<select class="quads-align-input" id="quads_settings[' . $args['id'] . '][align]" name="quads_settings[' . $args['id'] . '][align]"/>';
 	foreach ( $args['options'] as $option => $name ) :
-		$selected = selected( $option, $value_align, false );
+		$selected = selected( $option, $align, false );
 		$html .= '<option value="' . $option . '" ' . $selected . '>' . $name . '</option>';
 	endforeach;
 	$html .= '</select>';
+        $html .= '</div>';
         $html .= '</div>';
         
         echo $html;

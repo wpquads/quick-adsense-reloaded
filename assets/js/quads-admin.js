@@ -1,6 +1,12 @@
+var strict;
+
 jQuery(document).ready(function ($) {
    
-   
+$('quads-ad-toggle-header').each(function(){
+    this.click( function(){
+       this.find('quads-ad-toggle-container').show(); 
+    });
+});   
         
 /*
  * Quick Adsense import process
