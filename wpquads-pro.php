@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WP QUADS PRO
+ * Plugin Name: AdSense Integration WP QUADS PRO
  * Plugin URI: https://wordpress.org/plugins/quick-adsense-reloaded/
  * Description: Insert Google AdSense or any Ads code into your website. A fork of Quick AdSense
  * Author: Rene Hermenau, WP-Staging
@@ -8,20 +8,7 @@
  * Version: {{ version }}
  * Text Domain: quick-adsense-reloaded
  * Domain Path: languages
- * Credits: WP QUADS - Quick AdSense Reloaded is a fork of Quick AdSense
  *
- * WP QUADS is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * any later version.
- *
- * WP QUADS is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with plugin. If not, see <http://www.gnu.org/licenses/>.
  *
  * @package QUADS
  * @category Core
@@ -35,6 +22,16 @@ if (!defined('ABSPATH'))
 // Plugin version
 if (!defined('QUADS_VERSION')) {
     define('QUADS_VERSION', '{{ version }}');
+}
+
+// Plugin name
+if (!defined('QUADS_NAME')) {
+    define('QUADS_NAME', 'WP QUADS PRO');
+}
+
+// Files that needs to be loaded early
+if( !class_exists( 'QUADS_Utils' ) ) {
+    require dirname( __FILE__ ) . '/includes/quads-utils.php';
 }
 
 // Define some globals
@@ -195,6 +192,7 @@ if (!class_exists('QuickAdsenseReloaded')) :
                 require_once QUADS_PLUGIN_DIR . 'includes/meta-boxes.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/quicktags.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/admin-notices.php';
+                require_once QUADS_PLUGIN_DIR . 'includes/admin/settings/advanced-settings.php';
             }
         }
 
@@ -246,9 +244,36 @@ if (!class_exists('QuickAdsenseReloaded')) :
  * @since 2.0.0
  * @return object The one true QuickAdsenseReloaded Instance
  */
-function QUADS() {
-    return QuickAdsenseReloaded::instance();
-}
+//function QUADS() {
+//    return QuickAdsenseReloaded::instance();
+//}
+//
+//// Get QUADS Running
+//QUADS();
 
-// Get QUADS Running
-QUADS();
+
+
+/**
+ * Populate the $quads global with an instance of the QuickAdsenseReloaded class and return it.
+ *
+ * @return $quads a global instance class of the QuickAdsenseReloaded class.
+ */
+function quads_loaded() {
+
+    global $quads;
+
+    if ( !is_null($quads) ) {
+        return $quads;
+    }
+
+    $quads_instance = new QuickAdsenseReloaded;
+    $quads = $quads_instance->instance();
+    return $quads;
+
+}
+add_action('plugins_loaded', 'quads_loaded');
+
+// This hook is run immediately after any plugin is activated, and may be used to detect the activation of plugins.
+add_action('activated_plugin', array('QUADS_Utils', 'deactivate_other_instances'));
+
+

@@ -26,6 +26,7 @@ function quads_admin_messages() {
     if( !current_user_can( 'update_plugins' ) )
         return;
 
+    quads_plugin_deactivated_notice();
 
     $install_date = get_option( 'quads_install_date' );
     $display_date = date( 'Y-m-d h:i:s' );
@@ -69,7 +70,6 @@ function quads_admin_messages() {
     ';
     }
 }
-
 add_action( 'admin_notices', 'quads_admin_messages' );
 
 
@@ -89,5 +89,24 @@ function quads_hide_rating_div() {
     echo json_encode( array("success") );
     exit;
 }
-
 add_action( 'wp_ajax_quads_hide_rating', 'quads_hide_rating_div' );
+
+/**
+ * Show a message when pro or free plugin become disabled
+ * 
+ * @return void
+ */
+function quads_plugin_deactivated_notice() {
+    if (false !== ( $deactivated_notice_id = get_transient('quads_deactivated_notice_id') )) {
+        if ('1' === $deactivated_notice_id) {
+            $message = __("WP QUADS and WP QUADS Pro cannot both be active. We've automatically deactivated WP QUADS.", 'wpstg');
+        } else {
+            $message = __("WP QUADS and WP QUADS Pro cannot both be active. We've automatically deactivated WP Staging Pro.", 'wpstg');
+        }
+?>
+        <div class="updated notice is-dismissible" style="border-left: 4px solid #ffba00;">
+                <p><?php echo esc_html($message); ?></p>
+        </div> <?php
+        delete_transient('quads_deactivated_notice_id');
+    }
+}

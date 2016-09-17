@@ -37,6 +37,11 @@ if (!defined('QUADS_VERSION')) {
     define('QUADS_VERSION', '{{ version }}');
 }
 
+// Plugin name
+if (!defined('QUADS_NAME')) {
+    define('QUADS_NAME', 'WP QUADS (Quick AdSense Reloaded)');
+}
+
 // Define some globals
 $ShownAds = 0; // Amount of ads which are shown
 $ad_count_shortcode = 0; // Number of active ads which are shown via shortcodes
