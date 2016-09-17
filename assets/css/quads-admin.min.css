@@ -394,3 +394,9 @@ input.large-text, textarea.large-text {
     font-size: 12px;
     /*margin-left:5px;*/
 }
+
+.quads-pro-overlay{
+    height: 170px;
+    /*background-image: url("../images/get_pro_overlay.png");*/
+
+}

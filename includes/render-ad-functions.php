@@ -35,7 +35,7 @@ function quads_render_ad( $id, $string ) {
     }
     
     // Return ad code as it is when we have no advanced settings
-    if ( !file_exists(QUADS_PLUGIN_DIR . '/includes/admin/settings/advanced-settings.php') ){
+    if ( !quads_is_advanced() ){
         return $string;
     }
     

@@ -1,12 +1,26 @@
 var strict;
 
 jQuery(document).ready(function ($) {
-   
-$('quads-ad-toggle-header').each(function(){
-    this.click( function(){
-       this.find('quads-ad-toggle-container').show(); 
+  
+    /**
+     * Toggle the adsense container
+     */
+    $('.quads-ad-toggle-header').click(function (event) {
+        event.preventDefault();
+        
+        var container = $('#' + $(this).data('box-id'));
+        
+        container.toggle(function(event){
+            console.log(container);
+            if (container.parents('.quads-ad-toggle-header').hasClass('quads-box-close')) {
+                console.log('find');
+                // open the box
+                container.parents('.quads-ad-toggle-header').removeClass('quads-box-close');
+            }else {
+                container.parents('.quads-ad-toggle-header').addClass('quads-box-close');
+            }
+        });
     });
-});   
         
 /*
  * Quick Adsense import process

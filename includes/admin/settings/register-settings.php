@@ -1433,30 +1433,10 @@ function quads_quicktags_callback($args){
 
 function quads_adsense_code_callback($args){
     	global $quads_options;
-
-//	if ( isset( $quads_options[ $args['id'] ]['code'] ) ){
-//		$value_code = $quads_options[ $args['id'] ]['code'];                
-//        } else {
-//            $value_code = ''; // default value
-////        }
-//                if ( isset ($quads_options[ $args['id'] ]['margin'] ) ) {
-//            $value_margin = $quads_options[ $args['id'] ]['margin'];
-//        } else {
-//            $value_margin = '10'; // default value
-//        }
-//                
-//
-//        
-//        if ( isset ($quads_options[ $args['id'] ]['align'] ) ) {
-//            $value_align = $quads_options[ $args['id'] ]['align'];
-//        } else {
-//            $value_align = '2'; // default value
-//        }
-
         
         $code = isset( $quads_options[ $args['id'] ]['code'] ) ?  $quads_options[ $args['id'] ]['code'] : '';
         
-        $margin = isset ($quads_options[ $args['id'] ]['margin'] ) ?  esc_attr( stripslashes( $quads_options[$args['id']]['margin'] ) ) : '';
+        $margin = isset ($quads_options[ $args['id'] ]['margin'] ) ?  esc_attr( stripslashes( $quads_options[$args['id']]['margin'] ) ) : 0;
         
         $align = isset ($quads_options[ $args['id'] ]['align'] ) ?  $quads_options[ $args['id'] ]['align'] : 3; // Default value 3 = none
         
@@ -1486,9 +1466,22 @@ function quads_adsense_code_callback($args){
 	$html .=    '</select>';
         $html .= '</div>';
         $html .= apply_filters('quads_advanced_settings', '', $id);
+        $html .= quads_pro_overlay();
         $html .='</div>';
         
         echo apply_filters('quads_adsense_settings', $html);
+}
+
+function quads_pro_overlay(){
+        if (quads_is_advanced()){
+            //return '';
+        }
+    
+        $html  = '<div class="quads-advanced-ad-box quads-pro-overlay"><a href="https://wpquads.com/" target="_blank"><img src="'. QUADS_PLUGIN_URL . '/assets/images/get_pro_overlay.png"></a></div>';
+        $html .='<div style="clear:both;height:1px;"><span>' . sprintf(__('If you get a error while saving <a href="%s1" target="_blank">read this.</a>', 'quick-adsense-reloaded'), 'https://wordpress.org/support/topic/404-error-when-saving-plugin-options-takes-me-to-wp-adminoptionsphp/') . '</span></div>';
+    
+    return $html;
+
 }
 
 
@@ -1611,8 +1604,6 @@ global $quads_options;
 foreach ( $quads_options as $id => $values ) {
 
         if( !empty( $values['code'] ) ) {
-            // Create the human readable id for storing array data (ad1, ad2, ad3 etc.)
-            //$id = 'ad' . $key; 
 
             //check to see if it is google ad
             if( preg_match( '/googlesyndication.com/', $values['code'] ) ) {
@@ -1650,4 +1641,14 @@ foreach ( $quads_options as $id => $values ) {
     }
 
     update_option('quads_settings', $quads_options);
+}
+/**
+ * Check if advanced settings are available
+ * @return boolean
+ */
+function quads_is_advanced(){
+    if ( file_exists(QUADS_PLUGIN_DIR . '/includes/admin/settings/advanced-settings.php') ){
+        return true;
+    }
+    return false;
 }
