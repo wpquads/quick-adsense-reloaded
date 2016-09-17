@@ -45,9 +45,9 @@ module.exports = function (grunt) {
         copy: {
             build: {
                 files: [
-                    {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wpquads-pro.php'],
+                    {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wpquads-pro.php', '!advanced-settings.php', '!render-ad-functions.php'],
                         dest: '<%= paths.base %>'},
-                    {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wpquads-pro.php'],
+                    {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wpquads-pro.php', '!advanced-settings.php', '!render-ad-functions.php'],
                         dest: '<%= paths.basetrunk %>'},
                     {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!quick-adsense-reloaded.php'],
                         dest: '<%= paths.pro_base %>'}

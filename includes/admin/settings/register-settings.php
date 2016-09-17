@@ -52,6 +52,7 @@ function quads_get_settings() {
 		$settings = array_merge( $general_settings, $ext_settings, $imexport_settings, $help_settings);
                 
 		update_option( 'quads_settings', $settings);
+                
 	}
 	return apply_filters( 'quads_get_settings', $settings );
 }
@@ -100,11 +101,14 @@ function quads_register_settings() {
 				)
 			);
 		}
+                // Store adsense values 
+                quads_store_adsense_args();
 
 	}
 
 	// Creates our settings in the options table
 	register_setting( 'quads_settings', 'quads_settings', 'quads_settings_sanitize' );
+        
 
 }
 add_action('admin_init', 'quads_register_settings');
@@ -479,11 +483,10 @@ function quads_settings_sanitize( $input = array() ) {
 
 		}
 	}
+      
 
 	// Merge our new settings with the existing
 	$output = array_merge( $quads_options, $input );
-
-        
 
 
 	add_settings_error( 'quads-notices', '', __( 'Settings updated.', 'quick-adsense-reloaded' ), 'updated' );
@@ -1594,4 +1597,57 @@ function quads_get_adsense_sizes() {
     );
     
     return $sizes;
+}
+
+
+/**
+ * Store AdSense parameters
+ * 
+ * @return boolean
+ */
+function quads_store_adsense_args() {
+global $quads_options;
+
+foreach ( $quads_options as $id => $values ) {
+
+        if( !empty( $values['code'] ) ) {
+            // Create the human readable id for storing array data (ad1, ad2, ad3 etc.)
+            //$id = 'ad' . $key; 
+
+            //check to see if it is google ad
+            if( preg_match( '/googlesyndication.com/', $values['code'] ) ) {
+                $quads_options[$id]['current_ad_type'] = 'google';
+
+                //test to see if if google ad asincron
+                if( preg_match( '/data-ad-client=/', $values['code'] ) ) {
+                    //*** GOOGLE ASYNCRON *************
+                    //get g_data_ad_client
+                    $explode_ad_code = explode( 'data-ad-client', $values['code'] );
+                    preg_match( '/"([a-zA-Z0-9-\s]+)"/', $explode_ad_code[1], $matches_add_client );
+                    $quads_options[$id]['g_data_ad_client'] = str_replace( array('"', ' '), array(''), $matches_add_client[1] );
+
+                    //get g_data_ad_slot
+                    $explode_ad_code = explode( 'data-ad-slot', $values['code'] );
+                    preg_match( '/"([a-zA-Z0-9\s]+)"/', $explode_ad_code[1], $matches_add_slot );
+                    $quads_options[$id]['g_data_ad_slot'] = str_replace( array('"', ' '), array(''), $matches_add_slot[1] );
+                } else {
+
+                    //*** GOOGLE SYNCRON *************
+                    //get g_data_ad_client
+                    $explode_ad_code = explode( 'google_ad_client', $values['code'] );
+                    preg_match( '/"([a-zA-Z0-9-\s]+)"/', $explode_ad_code[1], $matches_add_client );
+                    $quads_options[$id]['g_data_ad_client'] = str_replace( array('"', ' '), array(''), $matches_add_client[1] );
+
+                    //get g_data_ad_slot
+                    $explode_ad_code = explode( 'google_ad_slot', $values['code'] );
+                    preg_match( '/"([a-zA-Z0-9\s]+)"/', $explode_ad_code[1], $matches_add_slot );
+                    $quads_options[$id]['g_data_ad_slot'] = str_replace( array('"', ' '), array(''), $matches_add_slot[1] );
+                }
+            } else {
+                $quads_options[$id]['current_ad_type'] = 'other';
+            }
+        }
+    }
+
+    update_option('quads_settings', $quads_options);
 }

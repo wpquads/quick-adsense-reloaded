@@ -457,10 +457,10 @@ function quads_clean_tags($content, $trimonly = false) {
  * @global type $quads_options
  * @param string $content
  * @param string $nme Quicktag
- * @param string $adn id of the ad
+ * @param string $id id of the ad
  * @return type
  */
-function quads_replace_ads($content, $nme, $adn) {
+function quads_replace_ads($content, $nme, $id) {
     	global $quads_options;
    
     
@@ -468,21 +468,21 @@ function quads_replace_ads($content, $nme, $adn) {
             return $content; 
         }	
         
-	if ($adn != -1) {
+	if ($id != -1) {
 		$arr = array(
 			'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
 			'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
 			'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
 			'float:none;margin:0px;');
-		$adsalign = $quads_options['ad' . $adn]['align'];
-		$adsmargin = $quads_options['ad' . $adn]['margin'];
+		$adsalign = $quads_options['ad' . $id]['align'];
+		$adsmargin = $quads_options['ad' . $id]['margin'];
 		$style = sprintf($arr[(int)$adsalign], $adsmargin);
-                $adscode = $quads_options['ad' . $adn ]['code'];
+                $adscode = $quads_options['ad' . $id ]['code'];
                 
                 $adscode =
 			"\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
-			'<div class="quads-location quads-id' .$adn. '" style="'.$style.'">'."\n".
-			$adscode."\n".
+			'<div class="quads-location quads-id' .$id. '" style="'.$style.'">'."\n".
+			quads_render_ad($id, $adscode, $style)."\n".
 			'</div>'. "\n";
               
 	} else {
@@ -492,6 +492,9 @@ function quads_replace_ads($content, $nme, $adn) {
         
 	return $cont[0].$adscode.$cont[1];
 }
+
+
+
 /**
  * Remove element from array
  * 

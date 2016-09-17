@@ -35,3 +35,12 @@ function quads_advanced_settings($content, $id){
     return $html;
 }
 
+/**
+ * Check if advanced classes are there
+ * 
+ * @return boolean
+ */
+function quads_is_advanced(){
+    return ' ';
+}
+

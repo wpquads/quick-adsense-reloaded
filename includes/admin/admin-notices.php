@@ -99,9 +99,9 @@ add_action( 'wp_ajax_quads_hide_rating', 'quads_hide_rating_div' );
 function quads_plugin_deactivated_notice() {
     if (false !== ( $deactivated_notice_id = get_transient('quads_deactivated_notice_id') )) {
         if ('1' === $deactivated_notice_id) {
-            $message = __("WP QUADS and WP QUADS Pro cannot both be active. We've automatically deactivated WP QUADS.", 'wpstg');
+            $message = __("WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS.", 'wpstg');
         } else {
-            $message = __("WP QUADS and WP QUADS Pro cannot both be active. We've automatically deactivated WP Staging Pro.", 'wpstg');
+            $message = __("WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS Pro.", 'wpstg');
         }
 ?>
         <div class="updated notice is-dismissible" style="border-left: 4px solid #ffba00;">
