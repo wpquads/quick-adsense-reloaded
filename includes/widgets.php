@@ -79,7 +79,8 @@ class quads_widgets_1 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-            echo $codetxt;
+            echo quads_render_ad($this->adsID, $codetxt);
+
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
@@ -113,7 +114,7 @@ class quads_widgets_2 extends WP_Widget {
                     echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
                     //if (array_key_exists('before_widget', $args))
                         echo $args['before_widget'];
-                    echo $codetxt;
+                    echo quads_render_ad($this->adsID, $codetxt);
                     //if (array_key_exists('after_widget', $args))
                         echo $args['after_widget'];
                 };
@@ -148,7 +149,7 @@ class quads_widgets_3 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-            echo $codetxt;
+            echo quads_render_ad($this->adsID, $codetxt);
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
@@ -181,7 +182,7 @@ class quads_widgets_4 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-            echo $codetxt;
+            echo quads_render_ad($this->adsID, $codetxt);
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
@@ -214,7 +215,7 @@ class quads_widgets_5 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-            echo $codetxt;
+            echo quads_render_ad($this->adsID, $codetxt);
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
@@ -247,7 +248,7 @@ class quads_widgets_6 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-            echo $codetxt;
+            echo quads_render_ad($this->adsID, $codetxt);
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
@@ -280,7 +281,7 @@ class quads_widgets_7 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-            echo $codetxt;
+            echo quads_render_ad($this->adsID, $codetxt);
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
@@ -313,7 +314,7 @@ class quads_widgets_8 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-            echo $codetxt;
+            echo quads_render_ad($this->adsID, $codetxt);
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
@@ -346,7 +347,7 @@ class quads_widgets_9 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-            echo $codetxt;
+            echo quads_render_ad($this->adsID, $codetxt);
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };
@@ -379,7 +380,7 @@ class quads_widgets_10 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-            echo $codetxt;
+            echo quads_render_ad($this->adsID, $codetxt);
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };

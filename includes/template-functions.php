@@ -440,7 +440,6 @@ function quads_clean_tags($content, $trimonly = false) {
 				$content = str_replace(array('<p><!--'.$tgn.'--></p>','<!--'.$tgn.'-->'), '', $content);	
 				$content = str_replace("##QA-TP1##", "<p></p>", $content);
 				$content = str_replace("##QA-TP2##", "<p>&nbsp;</p>", $content);
-                                //get_active_ads();
 			}
 		}
 	}
@@ -482,7 +481,7 @@ function quads_replace_ads($content, $nme, $id) {
                 $adscode =
 			"\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
 			'<div class="quads-location quads-id' .$id. '" style="'.$style.'">'."\n".
-			quads_render_ad($id, $adscode, $style)."\n".
+			quads_render_ad($id, $adscode)."\n".
 			'</div>'. "\n";
               
 	} else {

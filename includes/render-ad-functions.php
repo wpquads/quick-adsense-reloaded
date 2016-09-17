@@ -20,7 +20,7 @@ if( !defined( 'ABSPATH' ) )
  * @param2 string $string The adsense code
  * @return string HTML js adsense code
  */
-function quads_render_ad( $id, $string, $align ) {
+function quads_render_ad( $id, $string ) {
     global $quads_options;
    
 
@@ -97,7 +97,6 @@ function quads_render_ad( $id, $string, $align ) {
     //google async script
     $html .= '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
 
-    //$html .= '<div class="td-g-rec td-g-rec-id-' . $id . $align . '">' . "\n";
     $html .= '<script type="text/javascript">' . "\n";
     $html .= 'var quads_screen_width = document.body.clientWidth;' . "\n";
 
