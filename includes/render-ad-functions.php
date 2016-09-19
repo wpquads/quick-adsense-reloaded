@@ -18,9 +18,12 @@ if( !defined( 'ABSPATH' ) )
  * 
  * @param1 int the ad id 
  * @param2 string $string The adsense code
+ * @param3 bool True when function is called from widget
+ * 
+ * @todo create support for widgets
  * @return string HTML js adsense code
  */
-function quads_render_ad( $id, $string ) {
+function quads_render_ad( $id, $string, $widget = false ) {
     global $quads_options;
    
 
@@ -31,6 +34,11 @@ function quads_render_ad( $id, $string ) {
 
     // Return the original ad code if its no adsense code
     if( !quads_is_adsense( $string ) ) {
+        return $string;
+    }
+    
+    // Return the original ad code if its called from widget
+    if( $widget === true ) {
         return $string;
     }
     
@@ -105,7 +113,7 @@ function quads_render_ad( $id, $string ) {
         $html .= '
                     if ( quads_screen_width >= 1140 ) {
                         /* desktop monitors */
-                        document.write(\'' . (!empty( $spot_title ) ? ('<span class="td-adspot-title">' . $spot_title . '</span>') : '') . '<ins class="adsbygoogle" style="display:inline-block;width:' . $default_ad_sizes[$id]['desktop_width'] . 'px;height:' . $default_ad_sizes[$id]['desktop_height'] . 'px" data-ad-client="' . $quads_options[$id]['g_data_ad_client'] . '" data-ad-slot="' . $quads_options[$id]['g_data_ad_slot'] . '"></ins>\');
+                        document.write(\'' . (!empty( $spot_title ) ? ('<span class="quads-ad-title">' . $spot_title . '</span>') : '') . '<ins class="adsbygoogle" style="display:inline-block;width:' . $default_ad_sizes[$id]['desktop_width'] . 'px;height:' . $default_ad_sizes[$id]['desktop_height'] . 'px" data-ad-client="' . $quads_options[$id]['g_data_ad_client'] . '" data-ad-slot="' . $quads_options[$id]['g_data_ad_slot'] . '"></ins>\');
                         (adsbygoogle = window.adsbygoogle || []).push({});
                     }
             ';
@@ -116,7 +124,7 @@ function quads_render_ad( $id, $string ) {
         $html .= '
 	                    if ( quads_screen_width >= 1019  && quads_screen_width < 1140 ) {
 	                        /* landscape tablets */
-                        document.write(\'' . (!empty( $spot_title ) ? ('<span class="td-adspot-title">' . $spot_title . '</span>') : '') . '<ins class="adsbygoogle" style="display:inline-block;width:' . $default_ad_sizes[$id]['tbl_landscape_width'] . 'px;height:' . $default_ad_sizes[$id]['tbl_landscape_height'] . 'px" data-ad-client="' . $quads_options[$id]['g_data_ad_client'] . '" data-ad-slot="' . $quads_options[$id]['g_data_ad_slot'] . '"></ins>\');
+                        document.write(\'' . (!empty( $spot_title ) ? ('<span class="quads-ad-title">' . $spot_title . '</span>') : '') . '<ins class="adsbygoogle" style="display:inline-block;width:' . $default_ad_sizes[$id]['tbl_landscape_width'] . 'px;height:' . $default_ad_sizes[$id]['tbl_landscape_height'] . 'px" data-ad-client="' . $quads_options[$id]['g_data_ad_client'] . '" data-ad-slot="' . $quads_options[$id]['g_data_ad_slot'] . '"></ins>\');
 	                        (adsbygoogle = window.adsbygoogle || []).push({});
 	                    }
 	                ';
@@ -127,7 +135,7 @@ function quads_render_ad( $id, $string ) {
         $html .= '
                     if ( quads_screen_width >= 768  && quads_screen_width < 1019 ) {
                         /* portrait tablets */
-                        document.write(\'' . (!empty( $spot_title ) ? ('<span class="td-adspot-title">' . $spot_title . '</span>') : '') . '<ins class="adsbygoogle" style="display:inline-block;width:' . $default_ad_sizes[$id]['tbl_portrait_width'] . 'px;height:' . $default_ad_sizes[$id]['tbl_portrait_height'] . 'px" data-ad-client="' . $quads_options[$id]['g_data_ad_client'] . '" data-ad-slot="' . $quads_options[$id]['g_data_ad_slot'] . '"></ins>\');
+                        document.write(\'' . (!empty( $spot_title ) ? ('<span class="quads-ad-title">' . $spot_title . '</span>') : '') . '<ins class="adsbygoogle" style="display:inline-block;width:' . $default_ad_sizes[$id]['tbl_portrait_width'] . 'px;height:' . $default_ad_sizes[$id]['tbl_portrait_height'] . 'px" data-ad-client="' . $quads_options[$id]['g_data_ad_client'] . '" data-ad-slot="' . $quads_options[$id]['g_data_ad_slot'] . '"></ins>\');
                         (adsbygoogle = window.adsbygoogle || []).push({});
                     }
                 ';
@@ -137,19 +145,16 @@ function quads_render_ad( $id, $string ) {
         $html .= '
                     if ( quads_screen_width < 768 ) {
                         /* Phones */
-                        document.write(\'' . (!empty( $spot_title ) ? ('<span class="td-adspot-title">' . $spot_title . '</span>') : '') . '<ins class="adsbygoogle" style="display:inline-block;width:' . $default_ad_sizes[$id]['phone_width'] . 'px;height:' . $default_ad_sizes[$id]['phone_height'] . 'px" data-ad-client="' . $quads_options[$id]['g_data_ad_client'] . '" data-ad-slot="' . $quads_options[$id]['g_data_ad_slot'] . '"></ins>\');
+                        document.write(\'' . (!empty( $spot_title ) ? ('<span class="quads-ad-title">' . $spot_title . '</span>') : '') . '<ins class="adsbygoogle" style="display:inline-block;width:' . $default_ad_sizes[$id]['phone_width'] . 'px;height:' . $default_ad_sizes[$id]['phone_height'] . 'px" data-ad-client="' . $quads_options[$id]['g_data_ad_client'] . '" data-ad-slot="' . $quads_options[$id]['g_data_ad_slot'] . '"></ins>\');
                         (adsbygoogle = window.adsbygoogle || []).push({});
                     }
                 ';
     }
 
-
-    //$html .= 'console.log(td_a_g_custom_size)';
-
     $html .= '</script>' . "\n";
 
     $html .= '</div>' . "\n";
-    $html .= "\n <!-- end A --> \n\n";
+    $html .= "\n <!-- end WP QUADS --> \n\n";
     return $html;
 }
 
