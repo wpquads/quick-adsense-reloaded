@@ -2,7 +2,7 @@
 
 Author URL: https://profiles.wordpress.org/renehermi/
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
-Contributors: ReneHermi, WP-Staging, toddynho
+Contributors: ReneHermi, WP-Staging
 Donate link: 
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -111,7 +111,8 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
-* New: Create pro version
+* New: Create pro version with mobile support
+* New: Pro Version with responsive adsense support
 
 = 1.1.9 =
 * Fix: Change rating urls

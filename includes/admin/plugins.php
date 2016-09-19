@@ -25,12 +25,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 function quads_plugin_action_links( $links, $file ) {
 	$settings_link = '<a href="' . admin_url( 'options-general.php?page=quads-settings' ) . '">' . esc_html__( 'General Settings', 'quick-adsense-reloaded' ) . '</a>';
-	if ( $file == 'quick-adsense-reloaded/quick-adsense-reloaded.php' )
+        
+	if ( $file == 'quick-adsense-reloaded/quick-adsense-reloaded.php' || $file == 'quads-pro/wpquads-pro.php' ){
 		array_unshift( $links, $settings_link );
+        }
 
 	return $links;
 }
 add_filter( 'plugin_action_links', 'quads_plugin_action_links', 10, 2 );
+
 
 
 /**
@@ -42,17 +45,18 @@ add_filter( 'plugin_action_links', 'quads_plugin_action_links', 10, 2 );
  * @param string $file plugin file path and name being processed
  * @return array $input
  */
-function quads_plugin_row_meta( $input, $file ) {
-	if ( $file != 'quick-adsense-reloaded/quick-adsense-reloaded.php' )
-		return $input;
-
-	$links = array(
-		'<a href="' . admin_url( 'options-general.php?page=quads-settings' ) . '">' . esc_html__( 'Getting Started', 'quick-adsense-reloaded' ) . '</a>',
-	);
-        
-
-	$input = array_merge( $input, $links );
-
-	return $input;
-}
-add_filter( 'plugin_row_meta', 'quads_plugin_row_meta', 10, 2 );
+//function quads_plugin_row_meta( $input, $file ) {
+//	if ( $file != 'quick-adsense-reloaded/quick-adsense-reloaded.php' && $file != 'quads-pro/wpquads-pro.php' ){
+//		return $input;
+//        }
+//
+//	$links = array(
+//		'<a href="' . admin_url( 'options-general.php?page=quads-settings' ) . '">' . esc_html__( 'Getting Started', 'quick-adsense-reloaded' ) . '</a>',
+//	);
+//        
+//
+//	$input = array_merge( $input, $links );
+//
+//	return $input;
+//}
+//add_filter( 'plugin_row_meta', 'quads_plugin_row_meta', 10, 2 );

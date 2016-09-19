@@ -66,8 +66,8 @@ module.exports = function (grunt) {
                     
                     '<%= paths.pro_base %>/wpquads-pro.php': 'wpquads-pro.php',
                     '<%= paths.pro_base %>/readme.txt': 'readme.txt',
-                    '<%= paths.pro_basetrunk %>/wpquads-pro.php': 'wpquads-pro.php',
-                    '<%= paths.pro_basetrunk %>/readme.txt': 'readme.txt'
+//                    '<%= paths.pro_basetrunk %>/wpquads-pro.php': 'wpquads-pro.php',
+//                    '<%= paths.pro_basetrunk %>/readme.txt': 'readme.txt'
                 },
                 options: {
                     replacements: [{
@@ -87,7 +87,7 @@ module.exports = function (grunt) {
                     {src: ['<%= paths.base %>']},
                     {src: ['<%= paths.basetrunk %>']},
                     {src: ['<%= paths.pro_base %>']},
-                    {src: ['<%= paths.pro_basetrunk %>']},
+                    //{src: ['<%= paths.pro_basetrunk %>']},
                 ]
 
             }
@@ -108,8 +108,12 @@ module.exports = function (grunt) {
                             archive: '<%= paths.pro_basezip %>/quads-pro.zip'
                         },
                 files:[
-                    {cwd: '<%= paths.pro_base %>'},
-                    {src: ['**/*']}
+                    {
+                    expand: true,
+                    cwd: '<%= paths.pro_base %>',
+                    src: ['**/*'],
+                    //dest: '<%= paths.pro_basezip %>'
+                    }
                 ]
             }
         }

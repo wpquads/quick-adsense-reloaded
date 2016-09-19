@@ -1472,9 +1472,13 @@ function quads_adsense_code_callback($args){
         echo apply_filters('quads_adsense_settings', $html);
 }
 
+/**
+ * If advanced settings are not available load overlay premium image
+ * @return string
+ */
 function quads_pro_overlay(){
         if (quads_is_advanced()){
-            //return '';
+            return '';
         }
     
         $html  = '<div class="quads-advanced-ad-box quads-pro-overlay"><a href="https://wpquads.com/" target="_blank"><img src="'. QUADS_PLUGIN_URL . '/assets/images/get_pro_overlay.png"></a></div>';
