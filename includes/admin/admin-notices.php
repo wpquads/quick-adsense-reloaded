@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Admin Notices
  *
@@ -23,8 +22,10 @@ if( !defined( 'ABSPATH' ) )
 function quads_admin_messages() {
     global $quads_options;
 
-    if( !current_user_can( 'update_plugins' ) )
+    if( !current_user_can( 'update_plugins' ) ){
         return;
+    }
+    
 
     quads_plugin_deactivated_notice();
 
@@ -70,6 +71,7 @@ function quads_admin_messages() {
     ';
     }
 }
+
 add_action( 'admin_notices', 'quads_admin_messages' );
 
 
@@ -89,7 +91,9 @@ function quads_hide_rating_div() {
     echo json_encode( array("success") );
     exit;
 }
+
 add_action( 'wp_ajax_quads_hide_rating', 'quads_hide_rating_div' );
+
 
 /**
  * Show a message when pro or free plugin become disabled
@@ -97,16 +101,16 @@ add_action( 'wp_ajax_quads_hide_rating', 'quads_hide_rating_div' );
  * @return void
  */
 function quads_plugin_deactivated_notice() {
-    if (false !== ( $deactivated_notice_id = get_transient('quads_deactivated_notice_id') )) {
-        if ('1' === $deactivated_notice_id) {
-            $message = __("WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS.", 'wpstg');
+    if( false !== ( $deactivated_notice_id = get_transient( 'quads_deactivated_notice_id' ) ) ) {
+        if( '1' === $deactivated_notice_id ) {
+            $message = __( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS.", 'wpstg' );
         } else {
-            $message = __("WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS Pro.", 'wpstg');
+            $message = __( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS Pro.", 'wpstg' );
         }
-?>
+        ?>
         <div class="updated notice is-dismissible" style="border-left: 4px solid #ffba00;">
-                <p><?php echo esc_html($message); ?></p>
+            <p><?php echo esc_html( $message ); ?></p>
         </div> <?php
-        delete_transient('quads_deactivated_notice_id');
+        delete_transient( 'quads_deactivated_notice_id' );
     }
 }

@@ -16,6 +16,14 @@ add_filter('quads_advanced_settings', 'quads_advanced_settings', 10, 2);
 function quads_advanced_settings($content, $id){
     global $quads_options, $quads;
     
+    $lic = get_option('quads_wp_quads_pro_license_active');
+    
+    if ( !$lic || (is_object($lic) && $lic->success !== true)){
+        return sprintf(__('<strong><a href="%s">Enter license key</a> to activate the plugin <br>and to make use of all premium features.</strong>', 'quick-adsense-reloaded'),
+                admin_url() . 'admin.php?page=quads-settings&tab=licenses'
+                );
+    }
+    
         $html  = '<div class="quads-advanced-ad-box">';
         $html .= '<div>'.__('Use <strong>Auto</strong> for automatic AdSense ad size detection.', 'quick-adsense-reloaded').'</div>';
         $html .=   '<div class="quads-left-box">';

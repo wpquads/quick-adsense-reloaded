@@ -1,29 +1,31 @@
 <?php
 /**
- * License handler for Quick AdSense Reloaded Add-Ons
+ * License handler for WP QUADS
  *
  * This class should simplify the process of adding license information
- * to new QUADS extensions.
+ * to WP QUADSs.
  *
  * @version 1.1
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! class_exists( 'quads_License' ) ) :
+if ( ! class_exists( 'QUADS_License' ) ) :
 
 /**
- * quads_License Class
+ * QUADS_License Class
  */
-class quads_License {
+class QUADS_License {
 	private $file;
 	private $license;
 	private $item_name;
 	private $item_shortname;
 	private $version;
 	private $author;
-	private $api_url = 'https://www.quadsshare.net/edd-sl-api/'; // production
-        //private $api_url = 'http://dev.quadsshare.net/edd-sl-api/'; // development
+	private $api_url = 'http://wpquads.com/edd-sl-api/'; // production
+	//private $api_url = 'https://www.mashshare.net/edd-sl-api/'; // production
+        private $api_url_debug = 'http://src.wordpress-develop.dev/edd-sl-api/'; // development
 	/**
 	 * Class constructor
 	 *
@@ -43,8 +45,14 @@ class quads_License {
 		$this->item_shortname = 'quads_' . preg_replace( '/[^a-zA-Z0-9_\s]/', '', str_replace( ' ', '_', strtolower( $this->item_name ) ) );
 		$this->version        = $_version;
 		$this->license        = isset( $quads_options[ $this->item_shortname . '_license_key' ] ) ? trim( $quads_options[ $this->item_shortname . '_license_key' ] ) : '';
-		$this->author         = $_author;
-		$this->api_url        = is_null( $_api_url ) ? $this->api_url : $_api_url;
+                $this->author         = $_author;
+                if (QUADS_DEBUG){
+                $this->api_url        = is_null( $_api_url ) ? $this->api_url_debug : $_api_url;
+                }else{
+                $this->api_url        = is_null( $_api_url ) ? $this->api_url : $_api_url;   
+                }
+
+
 
 		/**
 		 * Allows for backwards compatibility with old license options,
@@ -63,7 +71,7 @@ class quads_License {
 		// Setup hooks
 		$this->includes();
 		$this->hooks();
-		//$this->auto_updater();
+
 	}
 
 	/**
@@ -73,7 +81,9 @@ class quads_License {
 	 * @return  void
 	 */
 	private function includes() {
-		if ( ! class_exists( 'quads_SL_Plugin_Updater' ) ) require_once 'quads_SL_Plugin_Updater.php';         
+		if ( ! class_exists( 'QUADS_SL_Plugin_Updater' ) ) {
+                    require_once 'QUADS_SL_Plugin_Updater.php';    
+                }
 	}
 
 	/**
@@ -87,49 +97,56 @@ class quads_License {
 		// Register settings
 		add_filter( 'quads_settings_licenses', array( $this, 'settings' ), 1 );
 
+		// Display help text at the top of the Licenses tab
+		add_action( 'quads_settings_tab_top', array( $this, 'license_help_text' ) );
+
 		// Activate license key on settings save
 		add_action( 'admin_init', array( $this, 'activate_license' ) );
 
 		// Deactivate license key
 		add_action( 'admin_init', array( $this, 'deactivate_license' ) );
 
+		// Check that license is valid once per week
+		add_action( 'quads_weekly_scheduled_events', array( $this, 'weekly_license_check' ) );
+
+		// For testing license notices, uncomment this line to force checks on every page load
+		//add_action( 'admin_init', array( $this, 'weekly_license_check' ) );
+
 		// Updater
 		add_action( 'admin_init', array( $this, 'auto_updater' ), 0 );
 
+		// Display notices to admins
 		add_action( 'admin_notices', array( $this, 'notices' ) );
+
+		add_action( 'in_plugin_update_message-' . plugin_basename( $this->file ), array( $this, 'plugin_row_license_missing' ), 10, 2 );
+
 	}
 
 	/**
 	 * Auto updater
 	 *
 	 * @access  private
-	 * @global  array $quads_options
 	 * @return  void
 	 */
 	public function auto_updater() {
-
-		//if ( 'valid' !== get_option( $this->item_shortname . '_license_active' ) )
-			//return;
-            //rhe
- 
-            /*$test = array(
-				'version'   => $this->version,
-				'license'   => $this->license,
-				'item_name' => $this->item_name,
-				'author'    => $this->author
-			);*/
-
-
+            
+		$args = array(
+			'version'   => $this->version,
+			'license'   => $this->license,
+			'author'    => $this->author
+		);
+            
+		if( ! empty( $this->item_id ) ) {
+			$args['item_id']   = $this->item_id;
+		} else {
+			$args['item_name'] = $this->item_name;
+		}
+            
 		// Setup the updater
-		$quads_updater = new quads_SL_Plugin_Updater(
+		$quads_updater = new QUADS_SL_Plugin_Updater(
 			$this->api_url,
 			$this->file,
-			array(
-				'version'   => $this->version,
-				'license'   => $this->license,
-				'item_name' => $this->item_name,
-				'author'    => $this->author
-			)
+			$args
 		);
 	}
 
@@ -158,38 +175,72 @@ class quads_License {
 
 
 	/**
+	 * Display help text at the top of the Licenses tag
+	 *
+	 * @access  public
+	 * @since   2.5
+	 * @param   string   $active_tab
+	 * @return  void
+	 */
+	public function license_help_text( $active_tab = '' ) {
+
+		static $has_ran;
+
+		if( 'licenses' !== $active_tab ) {
+			return;
+		}
+
+		if( ! empty( $has_ran ) ) {
+			return;
+		}
+
+		echo '<p>' . sprintf(
+			__( 'Enter your extension license keys here to receive updates for purchased extensions. If your license key has expired, please <a href="%s" target="_blank" title="License renewal FAQ">renew your license</a>.', 'quick-adsense-reloaded' ),
+			'https://wpquads.com/documentation/license-renewal/#How_do_I_renew_my_license'
+		) . '</p>';
+
+		$has_ran = true;
+
+	}
+
+
+	/**
 	 * Activate the license key
 	 *
 	 * @access  public
 	 * @return  void
 	 */
 	public function activate_license() {
-		if ( ! isset( $_POST['quads_settings'] ) ) {
+
+
+		if ( ! isset( $_REQUEST[ $this->item_shortname . '_license_key-nonce'] ) || ! wp_verify_nonce( $_REQUEST[ $this->item_shortname . '_license_key-nonce'], $this->item_shortname . '_license_key-nonce' ) ) {
+
+			return;
+
+		}                
+
+               if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
-		if ( ! isset( $_POST['quads_settings'][ $this->item_shortname . '_license_key'] ) ) {
+		if ( empty( $_POST['quads_settings'][ $this->item_shortname . '_license_key'] ) ) {
+		
+			delete_option( $this->item_shortname . '_license_active' );
+                
 			return;
-		}
 
-		foreach( $_POST as $key => $value ) {
+		}
+                
+		foreach ( $_POST as $key => $value ) {
 			if( false !== strpos( $key, 'license_key_deactivate' ) ) {
 				// Don't activate a key when deactivating a different key
 				return;
 			}
 		}
 
-		if( ! wp_verify_nonce( $_REQUEST[ $this->item_shortname . '_license_key-nonce'], $this->item_shortname . '_license_key-nonce' ) ) {
-		
-			wp_die( __( 'Nonce verification failed', 'quick-adsense-reloaded' ), __( 'Error', 'quick-adsense-reloaded' ), array( 'response' => 403 ) );
-                
-		}
-                
-               if( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
+		$details = get_option( $this->item_shortname . '_license_active' );
 
-		if ( 'valid' === get_option( $this->item_shortname . '_license_active' ) ) {
+		if ( is_object( $details ) && 'valid' === $details->license ) {
 			return;
 		}
 
@@ -228,14 +279,9 @@ class quads_License {
 		// Decode license data
 		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 
-		update_option( $this->item_shortname . '_license_active', $license_data->license );
+		update_option( $this->item_shortname . '_license_active', $license_data );
 
-		if( ! (bool) $license_data->success ) {
-			set_transient( 'quads_license_error', $license_data, 1000 );
-		} else {
-			delete_transient( 'quads_license_error' );
                 }
-	}
 
 
 	/**
@@ -293,13 +339,55 @@ class quads_License {
 
 			delete_option( $this->item_shortname . '_license_active' );
 
-			if( ! (bool) $license_data->success ) {
-				set_transient( 'quads_license_error', $license_data, 1000 );
-			} else {
-				delete_transient( 'quads_license_error' );
 		}
 	}
-}
+        
+        
+        /**
+	 * Check if license key is valid once per week
+	 *
+	 * @access  public
+	 * @since   2.5
+	 * @return  void
+	 */
+	public function weekly_license_check() {
+
+		if( ! empty( $_POST['quads_settings'] ) ) {
+			return; // Don't fire when saving settings
+		}
+
+		if( empty( $this->license ) ) {
+			return;
+		}
+
+		// data to send in our API request
+		$api_params = array(
+			'edd_action'=> 'check_license',
+			'license' 	=> $this->license,
+			'item_name' => urlencode( $this->item_name ),
+			'url'       => home_url()
+		);
+
+		// Call the API
+		$response = wp_remote_post(
+			$this->api_url,
+			array(
+				'timeout'   => 15,
+				'sslverify' => false,
+				'body'      => $api_params
+			)
+		);
+
+		// make sure the response came back okay
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+
+		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+
+		update_option( $this->item_shortname . '_license_active', $license_data );
+
+	}
 
 
 	/**
@@ -310,49 +398,38 @@ class quads_License {
 	 */
 	public function notices() {
 
-		if( ! isset( $_GET['page'] ) || 'quads-settings' !== $_GET['page'] ) {
+		static $showed_invalid_message;
+
+		if( empty( $this->license ) ) {
 			return;
 		}
 
-		if( ! isset( $_GET['tab'] ) || 'licenses' !== $_GET['tab'] ) {
+                if( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
-		$license_error = get_transient( 'quads_license_error' );
+		$messages = array();
 
-		if( false === $license_error ) {
-			return;
-		}
+		$license = get_option( $this->item_shortname . '_license_active' );
 
-		if( ! empty( $license_error->error ) ) {
+		if( is_object( $license ) && 'valid' !== $license->license && empty( $showed_invalid_message ) ) {
 
-			switch( $license_error->error ) {
+			if( empty( $_GET['tab'] ) || 'licenses' !== $_GET['tab'] ) {
 
-				case 'item_name_mismatch' :
+				$messages[] = sprintf(
+					__( 'You have invalid or expired license keys for WPQUADS PRO. Please go to the <a href="%s" title="Go to Licenses page">Licenses page</a> to correct this issue.', 'quick-adsense-reloaded' ),
+					admin_url( 'admin.php?page=quads-settings&tab=licenses' )
+				);
 
-					$message = __( 'This license does not belong to the product you have entered it for.', 'quick-adsense-reloaded' );
-					break;
-
-				case 'no_activations_left' :
-
-					$message = __( 'This license does not have any activations left', 'quick-adsense-reloaded' );
-					break;
-
-				case 'expired' :
-
-					$message = __( 'This license key is expired. Please renew it.', 'quick-adsense-reloaded' );
-					break;
-
-				default :
-
-					$message = sprintf( __( 'There was a problem activating your license key, please try again or contact support. Error code: %s', 'quick-adsense-reloaded' ), $license_error->error );
-					break;
+				$showed_invalid_message = true;
 
 			}
 
 		}
 
-		if( ! empty( $message ) ) {
+		if( ! empty( $messages ) ) {
+
+			foreach( $messages as $message ) {
 
 			echo '<div class="error">';
 				echo '<p>' . $message . '</p>';
@@ -360,9 +437,30 @@ class quads_License {
 
 		}
 
-		delete_transient( 'quads_license_error' );
+		}
 
 	}
+        
+       /**
+	 * Displays message inline on plugin row that the license key is missing
+	 *
+	 * @access  public
+	 * @since   2.5
+	 * @return  void
+	 */
+	public function plugin_row_license_missing( $plugin_data, $version_info ) {
+
+		static $showed_imissing_key_message;
+
+		$license = get_option( $this->item_shortname . '_license_active' );
+
+		if( ( ! is_object( $license ) || 'valid' !== $license->license ) && empty( $showed_imissing_key_message[ $this->item_shortname ] ) ) {
+
+			echo '&nbsp;<strong><a href="' . esc_url( admin_url( 'admin.php?page=mashsb-settings&tab=licenses' ) ) . '">' . __( 'Enter valid license key for automatic updates.', 'quick-adsense-reloaded' ) . '</a></strong>';
+			$showed_imissing_key_message[ $this->item_shortname ] = true;
+		}
+
+	} 
 }
 
 endif; // end class_exists check

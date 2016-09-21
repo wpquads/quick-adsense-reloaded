@@ -397,6 +397,49 @@ input.large-text, textarea.large-text {
 
 .quads-pro-overlay{
     height: 170px;
-    /*background-image: url("../images/get_pro_overlay.png");*/
+}
 
+
+
+.quads-license-error-notice,
+.quads-license-expires-soon-notice { 
+    background-color: #fff; 
+    padding: 10px; 
+    border-left: 4px solid #7ad03a; 
+    overflow: auto; 
+    -webkit-box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 ); 
+    box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 ); 
+    border: 1px solid #ECECEC;
+    border-radius: 3px;
+}
+.quads-license-error-notice a {
+    color: #0097df;
+    text-decoration: underline;
+}
+.quads-license-error-notice { border-left: 4px solid #dd3d36; }
+.quads-license-lifetime-notice,
+.quads-license-expiration-date-notice,
+.quads-license-null { padding: 0 0 0 14px; }
+.quads-license-lifetime-notice .quads-license-data p,
+.quads-license-expiration-date-notice .quads-license-data p { color: #666; font-size: 14px; font-style: italic; margin: 4px 0 0; }
+
+#quads_settingslicenses_header-nav{
+    display:none;
+}
+
+#quads_settingslicenses_header{
+    max-width:640px;
+}
+
+#quads_settingslicenses_header .row.th{
+    min-width:250px;
+}
+
+.quads-notice{
+    background: #fff;
+    border-left: 4px solid #46b450;
+    -webkit-box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 );
+    box-shadow: 0 1px 1px 0 rgba( 0, 0, 0, 0.1 );
+    margin: 5px 15px 2px;
+    padding: 1px 12px;
 }

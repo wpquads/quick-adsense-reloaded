@@ -44,7 +44,7 @@ function quads_get_settings() {
 		// Update old settings with new single option
 		$general_settings = is_array( get_option( 'quads_settings_general' ) )    ? get_option( 'quads_settings_general' )  	: array();
 		$ext_settings     = is_array( get_option( 'quads_settings_extensions' ) ) ? get_option( 'quads_settings_extensions' )	: array();
-		//$license_settings = is_array( get_option( 'quads_settings_licenses' ) )   ? get_option( 'quads_settings_licenses' )   : array();
+		$license_settings = is_array( get_option( 'quads_settings_licenses' ) )   ? get_option( 'quads_settings_licenses' )   : array();
                 $addons_settings = is_array( get_option( 'quads_settings_addons' ) )   ? get_option( 'quads_settings_addons' )   : array();
                 $imexport_settings = is_array( get_option( 'quads_settings_imexport' ) )   ? get_option( 'quads_settings_imexport' )   : array();
                 $help_settings = is_array( get_option( 'quads_settings_help' ) )   ? get_option( 'quads_settings_help' )   : array();
@@ -369,7 +369,7 @@ function quads_get_registered_settings() {
 		'licenses' => apply_filters('quads_settings_licenses',
 			array('licenses_header' => array(
 					'id' => 'licenses_header',
-					'name' => __( 'Activate your Add-Ons', 'quick-adsense-reloaded' ),
+					'name' => __( 'Activate Your License', 'quick-adsense-reloaded' ),
 					'desc' => '',
 					'type' => 'header'
 				),)
@@ -534,7 +534,7 @@ function quads_get_settings_tabs() {
 	}
 
 	if( ! empty( $settings['licenses'] ) ) {
-		//$tabs['licenses'] = __( 'Licenses', 'quick-adsense-reloaded' );
+		$tabs['licenses'] = __( 'Licenses', 'quick-adsense-reloaded' );
 	}
         
         //$tabs['addons'] = __( 'Add-Ons', 'quick-adsense-reloaded' );
@@ -827,26 +827,7 @@ function quads_select_callback($args) {
  * @global $quads_options Array of all the QUADS Options
  * @return void
  */
-/*function quads_color_select_callback( $args ) {
-	global $quads_options;
 
-	if ( isset( $quads_options[ $args['id'] ] ) )
-		$value = $quads_options[ $args['id'] ];
-	else
-		$value = isset( $args['std'] ) ? $args['std'] : '';
-
-	$html = '<select id="quads_settings[' . $args['id'] . ']" name="quads_settings[' . $args['id'] . ']"/>';
-
-	foreach ( $args['options'] as $option => $color ) :
-		$selected = selected( $option, $value, false );
-		$html .= '<option value="' . $option . '" ' . $selected . '>' . $color['label'] . '</option>';
-	endforeach;
-
-	$html .= '</select>';
-	$html .= '<label for="quads_settings[' . $args['id'] . ']"> '  . $args['desc'] . '</label>';
-
-	echo $html;
-}*/
 
 function quads_color_select_callback( $args ) {
 	global $quads_options;
@@ -950,37 +931,171 @@ function quads_color_callback( $args ) {
 
 
 /**
- * Registers the license field callback for Software Licensing
+ * Registers the license field callback
  *
- * @since 1.5
+ * @since 3.0.0
  * @param array $args Arguments passed by the setting
- * @global $quads_options Array of all the QUADS Options
+ * @global $quads_options Array of all the QUADS options
  * @return void
  */
 if ( ! function_exists( 'quads_license_key_callback' ) ) {
-	function quads_license_key_callback( $args ) {
-		global $quads_options;
+    function quads_license_key_callback( $args ) {
+        global $quads_options;
+        
+        $class = '';
 
-		if ( isset( $quads_options[ $args['id'] ] ) )
-			$value = $quads_options[ $args['id'] ];
-		else
-			$value = isset( $args['std'] ) ? $args['std'] : '';
+        $messages = array();
+        $license  = get_option( $args['options']['is_valid_license_option'] );
 
-		$size = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
-		$html = '<input type="text" class="' . $size . '-text" id="quads_settings[' . $args['id'] . ']" name="quads_settings[' . $args['id'] . ']" value="' . esc_attr( $value ) . '"/>';
 
-		if ( 'valid' == get_option( $args['options']['is_valid_license_option'] ) ) {
-			$html .= '<input type="submit" class="button-secondary" name="' . $args['id'] . '_deactivate" value="' . __( 'Deactivate License',  'quick-adsense-reloaded' ) . '"/>';
-                        $html .= '<span style="font-weight:bold;color:green;"> License key activated! </span> <p style="color:green;font-size:13px;"> You´ll get updates for this Add-On automatically!</p>';
-                } else {
-                    $html .= '<span style="color:red;"> License key not activated!</span style=""><p style="font-size:13px;font-weight:bold;">You´ll get no important security and feature updates for this Add-On!</p>';
+        if( isset( $quads_options[$args['id']] ) ) {
+            $value = $quads_options[$args['id']];
+        } else {
+            $value = isset( $args['std'] ) ? $args['std'] : '';
+        }
+
+        if( ! empty( $license ) && is_object( $license ) ) {
+
+            // activate_license 'invalid' on anything other than valid, so if there was an error capture it
+            if ( false === $license->success ) {
+
+                switch( $license->error ) {
+
+                    case 'expired' :
+
+                        $class = 'error';
+                        $messages[] = sprintf(
+                            __( 'Your license key expired on %s. Please <a href="%s" target="_blank" title="Renew your license key">renew your license key</a>.', 'quick-adsense-reloaded' ),
+                            date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ),
+                            'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=license_tab&utm_medium=admin&utm_content=license-expired'
+                        );
+
+                        $license_status = 'quads-license-' . $class . '-notice';
+
+                        break;
+
+                    case 'missing' :
+
+                        $class = 'error';
+                        $messages[] = sprintf(
+                            __( 'Invalid license. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> and verify it.', 'quick-adsense-reloaded' ),
+                            'http://wpquads.com/your-account?utm_source=licenses-tab&utm_medium=admin&utm_content=invalid-license&utm_campaign=notice'
+                        );
+
+                        $license_status = 'quads-license-' . $class . '-notice';
+
+                        break;
+
+                    case 'invalid' :
+                    case 'site_inactive' :
+
+                        $class = 'error';
+                        $messages[] = sprintf(
+                            __( 'Your %s is not active for this URL. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> to manage your license key URLs.', 'quick-adsense-reloaded' ),
+                            $args['name'],
+                            'http://wpquads.com/your-account?utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin&utm_content=invalid-license'
+                        );
+
+                        $license_status = 'quads-license-' . $class . '-notice';
+
+                        break;
+
+                    case 'item_name_mismatch' :
+
+                        $class = 'error';
+                        $messages[] = sprintf( __( 'This is not a %s.', 'quick-adsense-reloaded' ), $args['name'] );
+
+                        $license_status = 'quads-license-' . $class . '-notice';
+
+                        break;
+
+                    case 'no_activations_left':
+
+                        $class = 'error';
+                        $messages[] = sprintf( __( 'Your license key has reached its activation limit. <a href="%s" target="_blank">View possible upgrades</a> now.', 'quick-adsense-reloaded' ), 'http://wpquads.com/your-account?utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin&utm_content=invalid-license' );
+
+                        $license_status = 'quads-license-' . $class . '-notice';
+
+                        break;
+
                 }
-		$html .= '<label for="quads_settings[' . $args['id'] . ']"> '  . $args['desc'] . '</label>';
 
-                wp_nonce_field( $args['id'] . '-nonce', $args['id'] . '-nonce' );
+            } else {
 
-		echo $html;
-	}
+                switch( $license->license ) {
+
+                    case 'valid' :
+                    default:
+
+                        $class = 'valid';
+
+                        $now        = current_time( 'timestamp' );
+                        $expiration = strtotime( $license->expires, current_time( 'timestamp' ) );
+
+                        if( 'lifetime' === $license->expires ) {
+
+                            $messages[] = __( 'License key never expires.', 'quick-adsense-reloaded' );
+
+                            $license_status = 'quads-license-lifetime-notice';
+
+                        } elseif( $expiration > $now && $expiration - $now < ( DAY_IN_SECONDS * 30 ) ) {
+
+                            $messages[] = sprintf(
+                                __( 'Your license key expires soon! It expires on %s. <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ),
+                                date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ),
+                                'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
+                            );
+
+                            $license_status = 'quads-license-expires-soon-notice';
+
+                        } else {
+
+                            $messages[] = sprintf(
+                                __( 'Your license key expires on %s.', 'quick-adsense-reloaded' ),
+                                date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) )
+                            );
+
+                            $license_status = 'quads-license-expiration-date-notice';
+
+                        }
+
+                        break;
+
+                }
+
+            }
+
+        } else {
+            $license_status = null;
+        }
+
+        $size = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
+        $html = '<input type="text" class="' . sanitize_html_class( $size ) . '-text" id="quads_settings[' . quads_sanitize_key( $args['id'] ) . ']" name="quads_settings[' . quads_sanitize_key( $args['id'] ) . ']" value="' . esc_attr( $value ) . '"/>';
+
+        if ( ( is_object( $license ) && 'valid' == $license->license ) || 'valid' == $license ) {
+            $html .= '<input type="submit" class="button-secondary" name="' . $args['id'] . '_deactivate" value="' . __( 'Deactivate License',  'quick-adsense-reloaded' ) . '"/>';
+        }
+
+        $html .= '<label for="quads_settings[' . quads_sanitize_key( $args['id'] ) . ']"> '  . wp_kses_post( $args['desc'] ) . '</label>';
+
+        if ( ! empty( $messages ) ) {
+            foreach( $messages as $message ) {
+
+                $html .= '<div class="quads-license-data quads-license-' . $class . '">';
+                $html .= '<p>' . $message . '</p>';
+                $html .= '</div>';
+
+            }
+        }
+
+        wp_nonce_field( quads_sanitize_key( $args['id'] ) . '-nonce', quads_sanitize_key( $args['id'] ) . '-nonce' );
+
+        if ( isset( $license_status ) ) {
+            echo '<div class="' . $license_status . '">' . $html . '</div>';
+        } else {
+            echo '<div class="quads-license-null">' . $html . '</div>';
+        }
+    }
 }
 
 
@@ -1655,4 +1770,26 @@ function quads_is_advanced(){
         return true;
     }
     return false;
+}
+
+/**
+ * Sanitizes a string key for QUADS Settings
+ *
+ * Keys are used as internal identifiers. Alphanumeric characters, dashes, underscores, stops, colons and slashes are allowed
+ *
+ * @since  2.0.0
+ * @param  string $key String key
+ * @return string Sanitized key
+ */
+function quads_sanitize_key( $key ) {
+    $raw_key = $key;
+    $key = preg_replace( '/[^a-zA-Z0-9_\-\.\:\/]/', '', $key );
+    /**
+     * Filter a sanitized key string.
+     *
+     * @since 2.5.8
+     * @param string $key     Sanitized key.
+     * @param string $raw_key The key prior to sanitization.
+     */
+    return apply_filters( 'quads_sanitize_key', $key, $raw_key );
 }
