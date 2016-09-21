@@ -1596,7 +1596,7 @@ function quads_pro_overlay(){
             return '';
         }
     
-        $html  = '<div class="quads-advanced-ad-box quads-pro-overlay"><a href="https://wpquads.com/" target="_blank"><img src="'. QUADS_PLUGIN_URL . '/assets/images/get_pro_overlay.png"></a></div>';
+        $html  = '<div class="quads-advanced-ad-box quads-pro-overlay"><a href="http://wpquads.com/" target="_blank"><img src="'. QUADS_PLUGIN_URL . '/assets/images/get_pro_overlay.png"></a></div>';
         $html .='<div style="clear:both;height:1px;"><span>' . sprintf(__('If you get a error while saving <a href="%s1" target="_blank">read this.</a>', 'quick-adsense-reloaded'), 'https://wordpress.org/support/topic/404-error-when-saving-plugin-options-takes-me-to-wp-adminoptionsphp/') . '</span></div>';
     
     return $html;

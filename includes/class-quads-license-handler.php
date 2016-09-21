@@ -196,7 +196,7 @@ class QUADS_License {
 
 		echo '<p>' . sprintf(
 			__( 'Enter your extension license keys here to receive updates for purchased extensions. If your license key has expired, please <a href="%s" target="_blank" title="License renewal FAQ">renew your license</a>.', 'quick-adsense-reloaded' ),
-			'https://wpquads.com/documentation/license-renewal/#How_do_I_renew_my_license'
+			'http://wpquads.com/renew-my-license/'
 		) . '</p>';
 
 		$has_ran = true;
