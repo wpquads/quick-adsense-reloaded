@@ -1768,7 +1768,7 @@ foreach ( $quads_options as $id => $values ) {
  * @return boolean
  */
 function quads_is_advanced(){
-    
+    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
     $plugin = 'wp-quads-pro/wp-quads-pro.php';
     if ( is_plugin_active($plugin) ){
         return true;

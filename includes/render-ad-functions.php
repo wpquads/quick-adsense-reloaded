@@ -49,7 +49,7 @@ function quads_render_ad( $id, $string, $widget = false ) {
     
     $background_color = '#fff';
     // Create CSS
-    $bgcolor = 'background-color:"' . $bgcolor . ';';
+    $bgcolor = 'background-color:"' . $background_color . ';';
 
     // Create the global id
     $id = 'ad' . $id;
