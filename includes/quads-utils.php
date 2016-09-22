@@ -11,6 +11,7 @@ class QUADS_Utils {
 	 *
 	 */
 	public static function deactivate_other_instances( $plugin ) {
+            
 		if ( ! in_array( basename( $plugin ), array( 'wp-quads-pro.php', 'quick-adsense-reloaded.php' ) ) ) {
 			return;
 		}
@@ -28,15 +29,17 @@ class QUADS_Utils {
 		} else {
 			$active_plugins = (array) get_option( 'active_plugins', array() );
 		}
+                
+
 
 		foreach ( $active_plugins as $basename ) {
 			if ( false !== strpos( $basename, $plugin_to_deactivate ) ) {
 				set_transient( 'quads_deactivated_notice_id', $deactivated_notice_id, 1 * HOUR_IN_SECONDS );
 				deactivate_plugins( $basename );
-
 				return;
 			}
 		}
 	}
+       
 
 }
