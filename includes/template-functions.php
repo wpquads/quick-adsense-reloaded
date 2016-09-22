@@ -492,8 +492,6 @@ function quads_replace_ads($content, $nme, $id) {
 	return $cont[0].$adscode.$cont[1];
 }
 
-
-
 /**
  * Remove element from array
  * 

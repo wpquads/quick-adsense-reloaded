@@ -111,6 +111,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: Fatal Error on frontpage
+
+= 1.2.0 =
 * New: Create pro version with mobile support
 * New: Pro Version with responsive adsense support
 
@@ -230,5 +233,5 @@ Alternative Installation:
 
 == Upgrade Notice ==
 
-= 1.0.3 =
-1.0.3  <a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">Complete changelog! </a> It's recommended to plugin updates on a staging website first before installing them on a live site. (Use <a href="https://wordpress.org/plugins/wp-staging/" target="_blank" style="color:white;text-decoration: underline;">WP Staging</a> for creating a test site or any other prefered staging tool)
+= 1.2.1 =
+1.2.1 Important Update. This update fixes a fatal error
