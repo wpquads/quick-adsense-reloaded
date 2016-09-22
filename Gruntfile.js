@@ -13,9 +13,9 @@ module.exports = function (grunt) {
             basetrunk: '../../wordpress-svn/trunk/',
             basezip: '../../wordpress-svn/',
             // pro version
-            pro_base: '../../wpquads-pro/tags/<%= pkg.version %>',
-            pro_basetrunk: '../../wpquads-pro/trunk/',
-            pro_basezip: '../../wpquads-pro/'
+            pro_base: '../../wp-quads-pro/tags/<%= pkg.version %>',
+            pro_basetrunk: '../../wp-quads-pro/trunk/',
+            pro_basezip: '../../wp-quads-pro/'
         },
         // Tasks here
         // Bump version numbers
@@ -45,11 +45,11 @@ module.exports = function (grunt) {
         copy: {
             build: {
                 files: [
-                    {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wpquads-pro.php', '!advanced-settings.php', '!render-ad-functions.php'],
+                    {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wp-quads-pro.php', '!**/includes/admin/settings/advanced-settings.php', '!**/includes/render-ad-functions.php', '!grafik/**'],
                         dest: '<%= paths.base %>'},
-                    {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wpquads-pro.php', '!advanced-settings.php', '!render-ad-functions.php'],
+                    {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wp-quads-pro.php', '!**/includes/admin/settings/advanced-settings.php', '!**/includes/render-ad-functions.php', '!grafik/**'],
                         dest: '<%= paths.basetrunk %>'},
-                    {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!quick-adsense-reloaded.php'],
+                    {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!quick-adsense-reloaded.php', '!grafik/**'],
                         dest: '<%= paths.pro_base %>'}
 //                    {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!quick-adsense-reloaded.php'],
 //                        dest: '<%= paths.pro_basetrunk %>'},
@@ -64,9 +64,9 @@ module.exports = function (grunt) {
                     '<%= paths.base %>/readme.txt': 'readme.txt',
                     '<%= paths.basetrunk %>readme.txt': 'readme.txt',
                     
-                    '<%= paths.pro_base %>/wpquads-pro.php': 'wpquads-pro.php',
+                    '<%= paths.pro_base %>/wp-quads-pro.php': 'wp-quads-pro.php',
                     '<%= paths.pro_base %>/readme.txt': 'readme.txt',
-//                    '<%= paths.pro_basetrunk %>/wpquads-pro.php': 'wpquads-pro.php',
+//                    '<%= paths.pro_basetrunk %>/wp-quads-pro.php': 'wp-quads-pro.php',
 //                    '<%= paths.pro_basetrunk %>/readme.txt': 'readme.txt'
                 },
                 options: {
@@ -105,7 +105,7 @@ module.exports = function (grunt) {
             build: {
                 options:
                         {
-                            archive: '<%= paths.pro_basezip %>/quads-pro.zip'
+                            archive: '<%= paths.pro_basezip %>/wp-quads-pro.zip'
                         },
                 files:[
                     {

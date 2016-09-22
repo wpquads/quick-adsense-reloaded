@@ -12,10 +12,22 @@
 // Exit if accessed directly
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) exit;
 
-// Load QUADS file
-include_once( 'quick-adsense-reloaded.php' );
+/**
+ * Get an option
+ *
+ * Looks to see if the specified setting exists, returns default if not
+ *
+ * @since 1.0.0
+ * @return mixed
+ */
+function quads_get_option_uninstall( $key = '', $default = false ) {
+	global $quads_options;
+	$value = ! empty( $quads_options[ $key ] ) ? $quads_options[ $key ] : $default;
+	$value = apply_filters( 'quads_get_option', $value, $key, $default );
+	return apply_filters( 'quads_get_option_' . $key, $value, $key, $default );
+}
 
-if( quads_get_option( 'uninstall_on_delete' ) ) {
+if( quads_get_option_uninstall( 'uninstall_on_delete' ) ) {
 	/** Delete all the Plugin Options */
 	delete_option( 'quads_settings' );
         delete_option( 'quads_install_date');

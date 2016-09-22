@@ -533,7 +533,8 @@ function quads_get_settings_tabs() {
 		$tabs['extensions'] = __( 'Add-On Setting', 'quick-adsense-reloaded' );
 	}
 
-	if( ! empty( $settings['licenses'] ) ) {
+        
+	if( ! empty( $settings['licenses'] ) && quads_is_advanced() ) {
 		$tabs['licenses'] = __( 'Licenses', 'quick-adsense-reloaded' );
 	}
         
@@ -1507,9 +1508,9 @@ function quads_quicktags_callback($args){
   * @return string   Locations HTML
   */
   function quads_render_ad_locations ( $html ) {
- 	global $_quads_registered_ad_locations;
- 	global $quads_options;
- 	if ( isset( $_quads_registered_ad_locations ) && is_array( $_quads_registered_ad_locations ) ) {
+ 	global $quads_options, $_quads_registered_ad_locations, $quads;
+
+        if ( isset( $_quads_registered_ad_locations ) && is_array( $_quads_registered_ad_locations ) ) {
  		foreach ( $_quads_registered_ad_locations as $location => $location_args ) {
  
  			$location_settings = quads_get_ad_location_settings( $location );
@@ -1588,7 +1589,7 @@ function quads_adsense_code_callback($args){
 }
 
 /**
- * If advanced settings are not available load overlay premium image
+ * If advanced settings are not available load overlay image
  * @return string
  */
 function quads_pro_overlay(){
@@ -1596,8 +1597,8 @@ function quads_pro_overlay(){
             return '';
         }
     
-        $html  = '<div class="quads-advanced-ad-box quads-pro-overlay"><a href="http://wpquads.com/" target="_blank"><img src="'. QUADS_PLUGIN_URL . '/assets/images/get_pro_overlay.png"></a></div>';
-        $html .='<div style="clear:both;height:1px;"><span>' . sprintf(__('If you get a error while saving <a href="%s1" target="_blank">read this.</a>', 'quick-adsense-reloaded'), 'https://wordpress.org/support/topic/404-error-when-saving-plugin-options-takes-me-to-wp-adminoptionsphp/') . '</span></div>';
+        $html  = '<div class="quads-advanced-ad-box quads-pro-overlay"><a href="http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin" target="_blank"><img src="'. QUADS_PLUGIN_URL . '/assets/images/get_pro_overlay.png"></a></div>';
+        $html .='<div style="clear:both;height:1px;"><span>' . sprintf(__('If you get an error while saving <a href="%s1" target="_blank">read this.</a>', 'quick-adsense-reloaded'), 'https://wordpress.org/support/topic/404-error-when-saving-plugin-options-takes-me-to-wp-adminoptionsphp/') . '</span></div>';
     
     return $html;
 
@@ -1763,12 +1764,20 @@ foreach ( $quads_options as $id => $values ) {
 }
 /**
  * Check if advanced settings are available
+ * 
  * @return boolean
  */
 function quads_is_advanced(){
-    if ( file_exists(QUADS_PLUGIN_DIR . '/includes/admin/settings/advanced-settings.php') ){
+    
+    $plugin = 'wp-quads-pro/wp-quads-pro.php';
+    if ( is_plugin_active($plugin) ){
         return true;
     }
+    
+    
+//    if ( file_exists(QUADS_PLUGIN_DIR . '/includes/admin/settings/advanced-settings.php') ){
+//        return true;
+//    }
     return false;
 }
 

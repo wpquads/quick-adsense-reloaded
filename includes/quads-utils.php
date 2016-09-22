@@ -11,14 +11,14 @@ class QUADS_Utils {
 	 *
 	 */
 	public static function deactivate_other_instances( $plugin ) {
-		if ( ! in_array( basename( $plugin ), array( 'wpquads-pro.php', 'quick-adsense-reloaded.php' ) ) ) {
+		if ( ! in_array( basename( $plugin ), array( 'wp-quads-pro.php', 'quick-adsense-reloaded.php' ) ) ) {
 			return;
 		}
 
 		$plugin_to_deactivate  = 'quick-adsense-reloaded.php';
 		$deactivated_notice_id = '1';
 		if ( basename( $plugin ) == $plugin_to_deactivate ) {
-			$plugin_to_deactivate  = 'wpquads-pro.php';
+			$plugin_to_deactivate  = 'wp-quads-pro.php';
 			$deactivated_notice_id = '2';
 		}
 

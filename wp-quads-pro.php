@@ -287,7 +287,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
  *
  * @return $quads a global instance class of the QuickAdsenseReloaded class.
  */
-function quads_loaded() {
+function wp_quads_loaded() {
 
     global $quads;
 
@@ -299,8 +299,7 @@ function quads_loaded() {
     $quads = $quads_instance->instance();
     return $quads;
 }
-
-add_action( 'plugins_loaded', 'quads_loaded' );
+add_action( 'plugins_loaded', 'wp_quads_loaded' );
 
 // This hook is run immediately after any plugin is activated, and may be used to detect the activation of plugins.
 add_action( 'activated_plugin', array('QUADS_Utils', 'deactivate_other_instances') );

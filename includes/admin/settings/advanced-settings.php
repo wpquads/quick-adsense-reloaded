@@ -25,7 +25,7 @@ function quads_advanced_settings($content, $id){
     }
     
         $html  = '<div class="quads-advanced-ad-box">';
-        $html .= '<div>'.__('Use <strong>Auto</strong> for automatic AdSense ad size detection.', 'quick-adsense-reloaded').'</div>';
+        $html .= '<div>'.__('Use <strong>Auto</strong> for automatic AdSense resizing.', 'quick-adsense-reloaded').'</div>';
         $html .=   '<div class="quads-left-box">';
         $html .=        '<div class="quads-advanced-description"><label for="quads_settings['.$id.'][desktop]">' . __('Disable on Desktop ', 'quick-adsense-reloaded') . '</label></div>' .  $quads->html->checkbox(array('name' => 'quads_settings['.$id.'][desktop]', 'current'  => !empty($quads_options[$id]['desktop']) ? $quads_options[$id]['desktop'] : null , 'class' => 'quads-checkbox' )); 
         $html .=        '<div class="quads-advanced-description"><label for="quads_settings['.$id.'][tablet_landscape]">' .__('Disable on Tablet Landscape ', 'quick-adsense-reloaded') . '</label></div>' . $quads->html->checkbox(array('name' => 'quads_settings['.$id.'][tablet_landscape]', 'current'  => !empty($quads_options[$id]['tablet_landscape']) ? $quads_options[$id]['tablet_landscape'] : null , 'class' => 'quads-checkbox' )); 

@@ -48,6 +48,11 @@ if( !defined( 'QUADS_DEBUG' ) ) {
     define( 'QUADS_DEBUG', false );
 }
 
+// Files that needs to be loaded early
+if( !class_exists( 'QUADS_Utils' ) ) {
+    require dirname( __FILE__ ) . '/includes/quads-utils.php';
+}
+
 // Define some globals
 $ShownAds = 0; // Amount of ads which are shown
 $ad_count_shortcode = 0; // Number of active ads which are shown via shortcodes
@@ -257,9 +262,31 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
  * @since 2.0.0
  * @return object The one true QuickAdsenseReloaded Instance
  */
-function QUADS() {
-    return QuickAdsenseReloaded::instance();
-}
+//function QUADS() {
+//    return QuickAdsenseReloaded::instance();
+//}
+//
+//// Get QUADS Running
+//QUADS();
+    
+/**
+ * Populate the $quads global with an instance of the QuickAdsenseReloaded class and return it.
+ *
+ * @return $quads a global instance class of the QuickAdsenseReloaded class.
+ */
+function quads_loaded() {
 
-// Get QUADS Running
-QUADS();
+    global $quads;
+
+    if( !is_null( $quads ) ) {
+        return $quads;
+    }
+
+    $quads_instance = new QuickAdsenseReloaded;
+    $quads = $quads_instance->instance();
+    return $quads;
+}
+add_action( 'plugins_loaded', 'quads_loaded' );
+
+// This hook is run immediately after any plugin is activated, and may be used to detect the activation of plugins.
+add_action( 'activated_plugin', array('QUADS_Utils', 'deactivate_other_instances') );
