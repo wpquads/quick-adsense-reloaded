@@ -1,5 +1,6 @@
 /* local path 
  cd "P:\quick-adsense-reloaded\github\quick-adsense-reloaded"
+server path http://wpquads.com/wp-content/uploads/edd/2016/09/wp-quads-pro.zip
  * 
  */
 module.exports = function (grunt) {
