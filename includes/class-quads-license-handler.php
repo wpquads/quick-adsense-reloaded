@@ -456,7 +456,7 @@ class QUADS_License {
 
 		if( ( ! is_object( $license ) || 'valid' !== $license->license ) && empty( $showed_imissing_key_message[ $this->item_shortname ] ) ) {
 
-			echo '&nbsp;<strong><a href="' . esc_url( admin_url( 'admin.php?page=mashsb-settings&tab=licenses' ) ) . '">' . __( 'Enter valid license key for automatic updates.', 'quick-adsense-reloaded' ) . '</a></strong>';
+			echo '&nbsp;<strong><a href="' . esc_url( admin_url( 'admin.php?page=quads-settings&tab=licenses' ) ) . '">' . __( 'Enter valid license key for automatic updates.', 'quick-adsense-reloaded' ) . '</a></strong>';
 			$showed_imissing_key_message[ $this->item_shortname ] = true;
 		}
 
