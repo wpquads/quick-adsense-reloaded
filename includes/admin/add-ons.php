@@ -30,8 +30,8 @@ function quads_add_ons_page() {
 		</h2>
 		<h2 style="display:none;"><?php _e( 'Mobile and Responsive AdSense Support ', 'quick-adsense-reloaded' ); ?></h2>  
                 <li><strong>Responsive Ads</strong> - <?php _e('individual AdSense sizes for Desktop, Phone and Tablet devices.','quick-adsense-reloaded' ); ?></li>
-                <li><strong>Visibility conditions</strong> - <?php _e('select if AdSense is visible on mobile, tablet or desktop', 'quick-adsense-reloaded' ); ?></li>
-                <li><strong>Automatic mode</strong> - <?php _e('let the plugin detect optimal ad size on all devices.', 'quick-adsense-reloaded' ); ?></li>
+                <li><strong>Visibility Conditionals</strong> - <?php _e('select if AdSense is visible on mobile, tablet or desktop', 'quick-adsense-reloaded' ); ?></li>
+                <li><strong>Automatic Mode</strong> - <?php _e('let the plugin detect optimal ad size on all devices.', 'quick-adsense-reloaded' ); ?></li>
                 <li><strong>High Performance</strong> - <?php _e('this plugin keeps the speed of your site', 'quick-adsense-reloaded' ); ?></li>
                 <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=addon_page&utm_term=click-quads-pro&utm_campaign=wpquads" target="_blank" class="quads-button green">Buy WP QUADS Pro</a>
                 <a href="<?php echo admin_url(); ?>admin.php?page=quads-settings" target="_self" style="margin-left:30px;">Skip - Go to Settings</a>
