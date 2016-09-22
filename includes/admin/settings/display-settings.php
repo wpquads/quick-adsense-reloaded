@@ -280,19 +280,35 @@ function quads_options_page() {
                         );
                         ?>
                     </div> <!-- new //-->
-                    <div class="quads-panel-sidebar" style="float:left;min-width: 301px;margin-left: 1px;margin-top:0px;">
-                        <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-quads&utm_campaign=wpquads" target="_blank">
-                            <img src="<?php echo QUADS_PLUGIN_URL . '/assets/images/banner_300x250_quads.png'; ?>">
-                        </a>
-                        <br>
-                        <a style="display:none;" href="http://demo.clickfraud-monitoring.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-cfm&utm_campaign=wpquads" target="_blank">
-                            <img src="<?php echo QUADS_PLUGIN_URL . '/assets/images/banner_300x250_cfm.png'; ?>">
-                        </a>
-                    </div>
+                    <?php quads_return_ad(); ?>
 		</div><!-- #tab_container-->
 	</div><!-- .wrap -->
 	<?php
 	echo ob_get_clean();
+}
+
+/**
+ * Render ad and return it when plugin is not pro version
+ * @return string
+ */
+function quads_return_ad() {
+    
+    if (  quads_is_advanced() ){
+        return '';
+    }
+    ob_start();
+            ?>
+    <div class="quads-panel-sidebar" style="float:left;min-width: 301px;margin-left: 1px;margin-top:0px;">
+        <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-quads&utm_campaign=wpquads" target="_blank">
+            <img src="<?php echo QUADS_PLUGIN_URL . '/assets/images/banner_300x250_quads.png'; ?>">
+        </a>
+        <br>
+        <a style="display:none;" href="http://demo.clickfraud-monitoring.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-cfm&utm_campaign=wpquads" target="_blank">
+            <img src="<?php echo QUADS_PLUGIN_URL . '/assets/images/banner_300x250_cfm.png'; ?>">
+        </a>
+    </div>
+    <?php
+    echo ob_get_clean();
 }
 
 /**
