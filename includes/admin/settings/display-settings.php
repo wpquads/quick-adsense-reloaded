@@ -285,7 +285,7 @@ function quads_options_page() {
                             <img src="<?php echo QUADS_PLUGIN_URL . '/assets/images/banner_300x250_quads.png'; ?>">
                         </a>
                         <br>
-                        <a href="http://demo.clickfraud-monitoring.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-cfm&utm_campaign=wpquads" target="_blank">
+                        <a style="display:none;" href="http://demo.clickfraud-monitoring.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-cfm&utm_campaign=wpquads" target="_blank">
                             <img src="<?php echo QUADS_PLUGIN_URL . '/assets/images/banner_300x250_cfm.png'; ?>">
                         </a>
                     </div>
