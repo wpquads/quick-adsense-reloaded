@@ -1758,8 +1758,9 @@ foreach ( $quads_options as $id => $values ) {
                 $quads_options[$id]['current_ad_type'] = 'other';
             }
         }
-        update_option('quads_settings', $quads_options);
     }
+
+    update_option('quads_settings', $quads_options);
 }
 /**
  * Check if advanced settings are available

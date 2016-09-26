@@ -5,15 +5,15 @@ jQuery(document).ready(function ($) {
     /**
      * Toggle the adsense container
      */
-    $('.quads-ad-toggle-header').click(function (event) {
-        event.preventDefault();
+    $('.quads-ad-toggle-header').click(function (e) {
+        e.preventDefault();
         
         var container = $('#' + $(this).data('box-id'));
         
-        container.toggle(function(event){
-            console.log(container);
+        container.toggle(function(){
+            //console.log(container);
             if (container.parents('.quads-ad-toggle-header').hasClass('quads-box-close')) {
-                console.log('find');
+                //console.log('find');
                 // open the box
                 container.parents('.quads-ad-toggle-header').removeClass('quads-box-close');
             }else {

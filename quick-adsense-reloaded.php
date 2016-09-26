@@ -290,4 +290,4 @@ function quads_loaded() {
 add_action( 'plugins_loaded', 'quads_loaded' );
 
 // This hook is run immediately after any plugin is activated, and may be used to detect the activation of plugins.
-add_action( 'activated_plugin', array('QUADS_Utils', 'deactivate_other_instances') );
+//add_action( 'activated_plugin', array('QUADS_Utils', 'deactivate_other_instances') );

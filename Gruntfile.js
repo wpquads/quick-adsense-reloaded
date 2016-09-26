@@ -13,10 +13,6 @@ module.exports = function (grunt) {
             base: '../../wordpress-svn/tags/<%= pkg.version %>',
             basetrunk: '../../wordpress-svn/trunk/',
             basezip: '../../wordpress-svn/',
-            // pro version
-            pro_base: '../../wp-quads-pro/tags/<%= pkg.version %>',
-            pro_basetrunk: '../../wp-quads-pro/trunk/',
-            pro_basezip: '../../wp-quads-pro/'
         },
         // Tasks here
         // Bump version numbers
@@ -49,11 +45,7 @@ module.exports = function (grunt) {
                     {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wp-quads-pro.php', '!**/includes/admin/settings/advanced-settings.php', '!grafik/**'],
                         dest: '<%= paths.base %>'},
                     {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wp-quads-pro.php', '!**/includes/admin/settings/advanced-settings.php', '!grafik/**'],
-                        dest: '<%= paths.basetrunk %>'},
-                    {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!quick-adsense-reloaded.php', '!grafik/**'],
-                        dest: '<%= paths.pro_base %>'}
-//                    {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!quick-adsense-reloaded.php'],
-//                        dest: '<%= paths.pro_basetrunk %>'},
+                        dest: '<%= paths.basetrunk %>'}
                 ]
             },
         },
@@ -65,10 +57,6 @@ module.exports = function (grunt) {
                     '<%= paths.base %>/readme.txt': 'readme.txt',
                     '<%= paths.basetrunk %>readme.txt': 'readme.txt',
                     
-                    '<%= paths.pro_base %>/wp-quads-pro.php': 'wp-quads-pro.php',
-                    '<%= paths.pro_base %>/readme.txt': 'readme.txt',
-//                    '<%= paths.pro_basetrunk %>/wp-quads-pro.php': 'wp-quads-pro.php',
-//                    '<%= paths.pro_basetrunk %>/readme.txt': 'readme.txt'
                 },
                 options: {
                     replacements: [{
@@ -87,8 +75,6 @@ module.exports = function (grunt) {
                 files: [
                     {src: ['<%= paths.base %>']},
                     {src: ['<%= paths.basetrunk %>']},
-                    {src: ['<%= paths.pro_base %>']},
-                    //{src: ['<%= paths.pro_basetrunk %>']},
                 ]
 
             }
@@ -106,29 +92,17 @@ module.exports = function (grunt) {
             build: {
                 options:
                         {
-                            archive: '<%= paths.pro_basezip %>/wp-quads-pro.zip'
+                            archive: '<%= paths.basezip %>/quick-adsense-reloaded.zip'
                         },
                 files:[
                     {
                     expand: true,
-                    cwd: '<%= paths.pro_base %>',
-                    src: ['**/*'],
-                    //dest: '<%= paths.pro_basezip %>'
-                    }
+                    cwd: '<%= paths.base %>',
+                    src: ['**/*']
+                }
                 ]
             }
         }
-//        compress: {
-//            build: {
-//                options: {
-//                    archive: '<%= paths.basezip %>/<%= pkg.name %>.zip'
-//                },
-//                cwd: '<%= paths.base %>',
-//                src: ['**/*']
-//                //dest: '../../',
-//                //expand: true
-//            }
-//        }
 
 
     });
