@@ -103,12 +103,13 @@ function quads_register_settings() {
 		}
 
 	}
+        
+                // Store adsense values 
+        quads_store_adsense_args();
 
 	// Creates our settings in the options table
 	register_setting( 'quads_settings', 'quads_settings', 'quads_settings_sanitize' );
            
-        // Store adsense values 
-        quads_store_adsense_args();
 
 }
 add_action('admin_init', 'quads_register_settings');

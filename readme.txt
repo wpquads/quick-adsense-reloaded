@@ -111,9 +111,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
-* Fix: Fatal Error on frontpage
+* Fix: Some setting are not stored
 
-= {{ version }} =
+= 1.2.1 =
 * Fix: Fatal Error on frontpage
 
 = 1.2.0 =
