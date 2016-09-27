@@ -113,6 +113,9 @@ Alternative Installation:
 = {{ version }} =
 * Fix: Fatal Error on frontpage
 
+= {{ version }} =
+* Fix: Fatal Error on frontpage
+
 = 1.2.0 =
 * New: Create pro version with mobile support
 * New: Pro Version with responsive adsense support

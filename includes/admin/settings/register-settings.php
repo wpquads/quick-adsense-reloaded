@@ -101,14 +101,14 @@ function quads_register_settings() {
 				)
 			);
 		}
-                // Store adsense values 
-                quads_store_adsense_args();
 
 	}
 
 	// Creates our settings in the options table
 	register_setting( 'quads_settings', 'quads_settings', 'quads_settings_sanitize' );
-        
+           
+        // Store adsense values 
+        quads_store_adsense_args();
 
 }
 add_action('admin_init', 'quads_register_settings');
@@ -440,6 +440,7 @@ function quads_get_registered_settings() {
 function quads_settings_sanitize( $input = array() ) {
 
 	global $quads_options;
+        
 
 	if ( empty( $_POST['_wp_http_referer'] ) ) {
 		return $input;
@@ -488,7 +489,7 @@ function quads_settings_sanitize( $input = array() ) {
 	// Merge our new settings with the existing
 	$output = array_merge( $quads_options, $input );
 
-
+        
 	add_settings_error( 'quads-notices', '', __( 'Settings updated.', 'quick-adsense-reloaded' ), 'updated' );
 
 	return $output;
@@ -1556,9 +1557,11 @@ function quads_adsense_code_callback($args){
         
         $align = isset ($quads_options[ $args['id'] ]['align'] ) ?  $quads_options[ $args['id'] ]['align'] : 3; // Default value 3 = none
         
-	//$size = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
+        $current_ad_type = isset ($quads_options[ $args['id'] ]['current_ad_type'] ) ?  $quads_options[ $args['id'] ]['current_ad_type'] : '';
         
-        //$checked = isset( $quads_options[ $args[ 'id' ] ]['align'] ) ? checked( 1, $quads_options[ $args[ 'id' ] ]['align'], false ) : '';
+        $g_data_ad_client = isset ($quads_options[ $args['id'] ]['g_data_ad_client'] ) ?  $quads_options[ $args['id'] ]['g_data_ad_client'] : '';
+        
+        $g_data_ad_slot = isset ($quads_options[ $args['id'] ]['g_data_ad_slot'] ) ?  $quads_options[ $args['id'] ]['g_data_ad_slot'] : '';
         
         $id = $args['id'];
         
@@ -1569,6 +1572,9 @@ function quads_adsense_code_callback($args){
         $html .= '<div class="quads-ad-toggle-container" id="quads-toggle'.$id.'" style="display:none;">';
         $html .= '<div>';
         $html .=    '<textarea style="vertical-align:top;margin-right:20px;float:left;" class="medium-text quads-textarea" cols="50" rows="4" id="quads_settings[' . $args['id'] . '][code]" name="quads_settings[' . $args['id'] . '][code]">' . esc_textarea( stripslashes( $code ) ) . '</textarea><label for="quads_settings[' . $args['id'] . '][code]">' . $args['desc'].'</label>';
+        $html .= '<input type="hidden" name="quads_settings[' . $args['id'] . '][current_ad_type]" value="'.$current_ad_type.'"><label for="quads_settings[' . $args['id'] . '][current_ad_type]">Ad Type</label>';
+        $html .= '<input type="hidden" name="quads_settings[' . $args['id'] . '][g_data_ad_client]" value="'.$g_data_ad_client.'"><label for="quads_settings[' . $args['id'] . '][g_data_ad_client]">AdSense ID</label>';
+        $html .= '<input type="hidden" name="quads_settings[' . $args['id'] . '][g_data_ad_slot]" value="'.$g_data_ad_slot.'"><label for="quads_settings[' . $args['id'] . '][g_data_ad_slot]">AdSense Ad Slot</label>';
         $html .= '</div>';
         $html .= '<div>';        
         $html .=    '<label for="quads_settings[' . $args['id'] . '][margin]"> '.__('Margin (px): ', 'quick-adsense-reloaded').' </label>';
@@ -1723,13 +1729,14 @@ global $quads_options;
 
 foreach ( $quads_options as $id => $values ) {
 
-        if( !empty( $values['code'] ) ) {
+    //if( !empty( $values['code'] ) ) {
+    if( is_array($values) && array_key_exists( 'code', $values ) ) {
 
             //check to see if it is google ad
             if( preg_match( '/googlesyndication.com/', $values['code'] ) ) {
                 $quads_options[$id]['current_ad_type'] = 'google';
 
-                //test to see if if google ad asincron
+                //test to see if its google ad asyncron
                 if( preg_match( '/data-ad-client=/', $values['code'] ) ) {
                     //*** GOOGLE ASYNCRON *************
                     //get g_data_ad_client
@@ -1756,11 +1763,16 @@ foreach ( $quads_options as $id => $values ) {
                 }
             } else {
                 $quads_options[$id]['current_ad_type'] = 'other';
+                $quads_options[$id]['g_data_ad_client'] = '';
+                $quads_options[$id]['g_data_ad_slot'] = '';
             }
-        }
-    }
+  
+        }     
 
+    }
+    //var_dump($quads_options);
     update_option('quads_settings', $quads_options);
+
 }
 /**
  * Check if advanced settings are available
