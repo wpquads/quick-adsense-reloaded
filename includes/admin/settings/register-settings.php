@@ -1573,9 +1573,9 @@ function quads_adsense_code_callback($args){
         $html .= '<div class="quads-ad-toggle-container" id="quads-toggle'.$id.'" style="display:none;">';
         $html .= '<div>';
         $html .=    '<textarea style="vertical-align:top;margin-right:20px;float:left;" class="medium-text quads-textarea" cols="50" rows="4" id="quads_settings[' . $args['id'] . '][code]" name="quads_settings[' . $args['id'] . '][code]">' . esc_textarea( stripslashes( $code ) ) . '</textarea><label for="quads_settings[' . $args['id'] . '][code]">' . $args['desc'].'</label>';
-        $html .= '<input type="hidden" name="quads_settings[' . $args['id'] . '][current_ad_type]" value="'.$current_ad_type.'"><label for="quads_settings[' . $args['id'] . '][current_ad_type]">Ad Type</label>';
-        $html .= '<input type="hidden" name="quads_settings[' . $args['id'] . '][g_data_ad_client]" value="'.$g_data_ad_client.'"><label for="quads_settings[' . $args['id'] . '][g_data_ad_client]">AdSense ID</label>';
-        $html .= '<input type="hidden" name="quads_settings[' . $args['id'] . '][g_data_ad_slot]" value="'.$g_data_ad_slot.'"><label for="quads_settings[' . $args['id'] . '][g_data_ad_slot]">AdSense Ad Slot</label>';
+        $html .= '<input type="hidden" name="quads_settings[' . $args['id'] . '][current_ad_type]" value="'.$current_ad_type.'">';
+        $html .= '<input type="hidden" name="quads_settings[' . $args['id'] . '][g_data_ad_client]" value="'.$g_data_ad_client.'">';
+        $html .= '<input type="hidden" name="quads_settings[' . $args['id'] . '][g_data_ad_slot]" value="'.$g_data_ad_slot.'">';
         $html .= '</div>';
         $html .= '<div>';        
         $html .=    '<label for="quads_settings[' . $args['id'] . '][margin]"> '.__('Margin (px): ', 'quick-adsense-reloaded').' </label>';
