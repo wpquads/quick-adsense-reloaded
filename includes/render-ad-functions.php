@@ -73,7 +73,6 @@ function quads_render_ad( $id, $string, $widget = false ) {
         $ad_size_parts = explode( ' x ', $quads_options[$id]['desktop_size'] );
         $default_ad_sizes[$id]['desktop_width'] = $ad_size_parts[0];
         $default_ad_sizes[$id]['desktop_height'] = $ad_size_parts[1];
-        //wp_die($default_ad_sizes[$id]['desktop_height']);
     }
 
 
