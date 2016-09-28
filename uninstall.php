@@ -35,11 +35,15 @@ if( quads_get_option_uninstall( 'uninstall_on_delete' ) ) {
         delete_option( 'quads_rating_div'); 
         delete_option( 'quads_version');
         delete_option( 'quads_version_upgraded_from');
+        delete_option( 'quads_show_theme_notice');
         
-
         /* Delete all post meta options */
         delete_post_meta_by_key( 'quads_timestamp' );
         delete_post_meta_by_key( 'quads_shares' );
         delete_post_meta_by_key( 'quads_jsonshares' );
+        
+        // Delete transients
+        delete_transient ('quads_check_theme');
+        delete_transient ('quads_activation_redirect');
         
 }

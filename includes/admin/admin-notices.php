@@ -26,8 +26,9 @@ function quads_admin_messages() {
         return;
     }
     
+    quads_theme_notice();
 
-    quads_plugin_deactivated_notice();
+    //quads_plugin_deactivated_notice();
     
     $install_date = get_option( 'quads_install_date' );
     $display_date = date( 'Y-m-d h:i:s' );
@@ -91,7 +92,6 @@ function quads_hide_rating_div() {
     echo json_encode( array("success") );
     exit;
 }
-
 add_action( 'wp_ajax_quads_hide_rating', 'quads_hide_rating_div' );
 
 
@@ -99,6 +99,7 @@ add_action( 'wp_ajax_quads_hide_rating', 'quads_hide_rating_div' );
  * Show a message when pro or free plugin become disabled
  * 
  * @return void
+ * @not used
  */
 function quads_plugin_deactivated_notice() {
     if( false !== ( $deactivated_notice_id = get_transient( 'quads_deactivated_notice_id' ) ) ) {
@@ -116,32 +117,18 @@ function quads_plugin_deactivated_notice() {
 }
 
 /**
- * This notice is shown for user of the bimber theme
+ * This notice is shown for user of the bimber and bunchy theme
  * 
  * Not used at the moment
  */
-function quads_bimber_theme_notice(){
+function quads_theme_notice(){
     
-        if( false !== ( $deactivated_notice_id = get_transient( 'quads_bimber_notice' ) ) ) {
-            $message = __( 'Extend your <strong>BIMBER</strong> theme with <strong>WP QUADS PRO</strong> and bring your AdSense earnings to next level. <a href="http://wpquads.com?utm_campaign=quads-free&utm_source=&utm_medium=admin&utm_content=bimber_upgrade_notice" target="_blank">Purchase</a>', 'quick-adsense-reloaded' );
+        if( false !== get_option('quads_show_theme_notice') )  {
+            $message = __( '<strong>Now is your chance to extend the <strong>' . quads_is_commercial_theme(). '</strong> theme with <strong>WP QUADS PRO!</strong> Save time and earn more - Bring your AdSense earnings to next level. <a href="http://wpquads.com?utm_campaign=quads-free&utm_source=&utm_medium=admin&utm_content=bimber_upgrade_notice" target="_blank"> Purchase Now</a> or <a href="http://wpquads.com?utm_campaign=quads-free&utm_source=&utm_medium=admin&utm_content=bimber_upgrade_notice" target="_blank">Get Details</a></strong>', 'quick-adsense-reloaded' );
         ?>
         <div class="updated notice is-dismissible" style="border-left: 4px solid #ffba00;">
-            <p>//<?php echo esc_html( $message ); ?></p>
-        </div> //<?php
-        delete_transient( 'quads_bimber_notice' );
+            <p><?php echo $message; ?></p>
+        </div> <?php
+        delete_option ('quads_show_theme_notice');
     }
 }
-
-
-///**
-// * Set a transient when Bimber theme is installed
-// * We use that leter for showing a dedicated upsell notice
-// */
-//function quads_set_bimber_transient() {
-//    // Get current theme name
-//    $my_theme = wp_get_theme();
-//
-//    if( is_object( $my_theme ) && $my_theme->get( 'Name' ) === 'Bimber' ) {
-//        set_transient( 'quads_bimber_notice', 'show', 10 );
-//    }
-//}

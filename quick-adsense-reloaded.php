@@ -115,10 +115,36 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
                 self::$instance->setup_constants();
                 self::$instance->includes();
                 self::$instance->load_textdomain();
+                self::$instance->load_hooks();
                 self::$instance->logger = new quadsLogger( "quick_adsense_log_" . date( "Y-m-d" ) . ".log", quadsLogger::INFO );
                 self::$instance->html = new QUADS_HTML_Elements();
             }
             return self::$instance;
+        }
+
+        public function load_hooks() {
+            add_action( 'activated_plugin', array('this', 'quads_install_multisite') );
+            add_action( 'activated_plugin', 'quads_install_multisite' );
+        }
+
+        public function quads_install_multisite( $networkwide ) {
+            global $wpdb;
+            wp_die( 'test' );
+            if( function_exists( 'is_multisite' ) && is_multisite() ) {
+                // check if it is a network activation - if so, run the activation function for each blog id
+                if( $networkwide ) {
+                    $old_blog = $wpdb->blogid;
+                    // Get all blog ids
+                    $blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+                    foreach ( $blogids as $blog_id ) {
+                        switch_to_blog( $blog_id );
+                        quads_install();
+                    }
+                    switch_to_blog( $old_blog );
+                    return;
+                }
+            }
+            quads_install();
         }
 
         /**
@@ -207,11 +233,12 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/welcome.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/settings/display-settings.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/settings/contextual-help.php';
-                require_once QUADS_PLUGIN_DIR . 'includes/install.php';
+                //require_once QUADS_PLUGIN_DIR . 'includes/install.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/tools.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/meta-boxes.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/quicktags.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/admin-notices.php';
+                require_once QUADS_PLUGIN_DIR . 'includes/admin/upgrades/upgrade-functions.php';
             }
         }
 
@@ -247,6 +274,59 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             }
         }
 
+        /* Activation function fires when the plugin is activated.  
+         * Checks first if multisite is enabled
+         * @since 1.0.0
+         * 
+         */
+
+        public static function activation( $networkwide ) {
+            global $wpdb;
+
+            if( function_exists( 'is_multisite' ) && is_multisite() ) {
+                // check if it is a network activation - if so, run the activation function for each blog id
+                if( $networkwide ) {
+                    $old_blog = $wpdb->blogid;
+                    // Get all blog ids
+                    $blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+                    foreach ( $blogids as $blog_id ) {
+                        switch_to_blog( $blog_id );
+                        QuickAdsenseReloaded::during_activation();
+                    }
+                    switch_to_blog( $old_blog );
+                    return;
+                }
+            }
+            QuickAdsenseReloaded::during_activation();
+        }
+
+        /**
+         * This function is fired from the activation method.
+         *
+         * @since 2.1.1
+         * @access public
+         *
+         * @return void
+         */
+        public static function during_activation() {
+
+            // Add Upgraded From Option
+            $current_version = get_option( 'quads_version' );
+            if( $current_version ) {
+                update_option( 'quads_version_upgraded_from', $current_version );
+            }
+
+            // Update the current version
+            update_option( 'quads_version', QUADS_VERSION );
+
+            // Add plugin installation date and variable for rating div
+            add_option( 'quads_install_date', date( 'Y-m-d h:i:s' ) );
+            add_option( 'quads_rating_div', 'no' );
+
+            // Add the transient to redirect (not for multisites)
+            set_transient( 'quads_activation_redirect', true, 3600 );
+        }
+
     }
 
     endif; // End if class_exists check
@@ -269,7 +349,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
 //
 //// Get QUADS Running
 //QUADS();
-    
+
 /**
  * Populate the $quads global with an instance of the QuickAdsenseReloaded class and return it.
  *
@@ -287,7 +367,12 @@ function quads_loaded() {
     $quads = $quads_instance->instance();
     return $quads;
 }
+
 add_action( 'plugins_loaded', 'quads_loaded' );
 
-// This hook is run immediately after any plugin is activated, and may be used to detect the activation of plugins.
-//add_action( 'activated_plugin', array('QUADS_Utils', 'deactivate_other_instances') );
+/**
+ * The activation hook is called outside of the singleton because WordPress doesn't
+ * register the call from within the class hence, needs to be called outside and the
+ * function also needs to be static.
+ */
+register_activation_hook( __FILE__, array('QuickAdsenseReloaded', 'activation') );

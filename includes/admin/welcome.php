@@ -43,39 +43,30 @@ class quads_Welcome {
 	 *
 	 * @access public
 	 * @since 1.0.1
-	 * @global $quads_options Array of all the QUADS Options
 	 * @return void
 	 */
 	public function welcome() {
-		global $quads_options;
-
 		// Bail if no activation redirect
-		if ( ! get_transient( '_quads_activation_redirect' ) )
+		if ( false === get_transient( 'quads_activation_redirect' ) ){
 			return;
+                }
 
 		// Delete the redirect transient
-		delete_transient( '_quads_activation_redirect' );
+		delete_transient( 'quads_activation_redirect' );
 
 		// Bail if activating from network, or bulk
-		if ( is_network_admin() || isset( $_GET['activate-multi'] ) )
+		if ( is_network_admin() || isset( $_GET['activate-multi'] ) ){
 			return;
+                }
 
-		//$upgrade = get_option( 'quads_version_upgraded_from' );
-                
-                
+		$upgrade = get_option( 'quads_version_upgraded_from' );
                 
                 //@since 2.0.3
-		if( quads_is_installed_clickfraud() ) { // clickfraud plugin already installed
-			// no redirect
-		} else { 
+		if( ! $upgrade ) { // First time install
+			wp_safe_redirect( admin_url( 'admin.php?page=quads-addons' ) ); exit;
+		} else { // Update
 			wp_safe_redirect( admin_url( 'admin.php?page=quads-addons' ) ); exit;
 		}
-//                //@since 2.0.3
-//		if( ! $upgrade ) { // First time install
-//			wp_safe_redirect( admin_url( 'admin.php?page=quads-addons' ) ); exit;
-//		} else { // Update
-//			wp_safe_redirect( admin_url( 'admin.php?page=quads-addons' ) ); exit;
-//		}
 	}
 }
 new quads_Welcome();
