@@ -16,8 +16,8 @@ Quick Adsense Reloaded! The quickest way to insert Google AdSense & other ads in
 == Description == 
 
 > #### WPQUADS - Quick AdSense Reloaded 
-> This free Google AdSense plugin is a fork of the discontinued Quick AdSense ads<br />  
-> plugin with more than 100k installations. Its rewritten from scratch with a solid code <br>
+> This free Google AdSense plugin is a fork of the discontinued Quick AdSense ads 
+> plugin with more than 100k installations. Its rewritten from scratch with a solid code
 > base and will be maintained and updated to be compatible with all future WordPress versions<br />
 > Find a bug? Open a ticket in the [support request](https://wordpress.org/support/plugin/quick-adsense-reloaded/ "support forum").
 > 
