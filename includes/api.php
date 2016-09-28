@@ -16,6 +16,7 @@
  * 
  * Use the code below in your functions.php to register custom ad positions:
  
+ 
       <?php if (function_exists('quads_register_ad')){
             quads_register_ad( array('location' => 'header', 'description' => 'Header position') );
             quads_register_ad( array('location' => 'footer', 'description' => 'Footer position') );
@@ -98,7 +99,8 @@ function quads_ad( $args ) {
         
         $location_settings = quads_get_ad_location_settings( $args['location'] ); 
         $code .= "\n".'<!-- WP QUADS Custom Ad v. ' . QUADS_VERSION .' -->'."\n";
-        $code .= $quads_options[ 'ad' . $location_settings['ad'] ]['code'];
+        //$code .= $quads_options[ 'ad' . $location_settings['ad'] ]['code'];
+        $code .= quads_render_ad( $location_settings['ad'], $quads_options[ 'ad' . $location_settings['ad'] ]['code'] );
     }
     
     if ( $args['echo'] ) {
