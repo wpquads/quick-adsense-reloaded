@@ -89,7 +89,7 @@ Post your question in the [support forum](https://wordpress.org/support/plugin/q
 Recommended Installation:
 
 1. Go to YourWebsite->Plugins->Add New
-2. Search for "Quick Adsense reloaded"
+2. Search for "Quick Adsense reloaded" or "WP QUADS"
 3. Click "install Now"
 
 Alternative Installation: 
@@ -111,6 +111,10 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: AdSense Custom Theme API integration is ignoring the new responsive ads when WP QUADS PRO plugin is installed
+* Tweak: clean up code
+
+= 1.2.2 =
 * Fix: Some AdSense setting are not stored
 
 = 1.2.1 =
