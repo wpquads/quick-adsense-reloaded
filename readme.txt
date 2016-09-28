@@ -16,13 +16,20 @@ Quick Adsense Reloaded! The quickest way to insert Google AdSense & other ads in
 == Description == 
 
 > #### WPQUADS - Quick AdSense Reloaded 
-> This free Google AdSense plugin is a fork of the discontinued Quick AdSense ads plugin <br /> 
-> Its rewritten from scratch with a solid code base and will be maintained and updated to be compatible with all future WordPress versions<br />
+> This free Google AdSense plugin is a fork of the discontinued Quick AdSense ads<br />  
+> plugin with more than 100k installations. Its rewritten from scratch with a solid code <br>
+> base and will be maintained and updated to be compatible with all future WordPress versions<br />
 > Find a bug? Open a ticket in the [support request](https://wordpress.org/support/plugin/quick-adsense-reloaded/ "support forum").
 > 
-> <strong>NEW: </strong>
 > Support of the popular Click Fraud Monitor plugin <br /> 
-> Visit the site: [clickfraud-monitoring.com](http://www.clickfraud-monitoring.com/) <br /> 
+> Visit the site: [clickfraud-monitoring.com](http://demo.clickfraud-monitoring.com/) <br /> 
+>
+> <strong>NEW: WP QUADS PRO </strong><br>
+> - Use mobile optimized and responsive AdSense ads<br /> 
+> - Deactivate AdSense on phone, tablet or desktop device<br /> 
+> - Specify AdSense size on different devices<br />
+>
+> Check out WP QUADS PRO: [wpquads.com](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) <br /> 
 
 = Why a Quick AdSense fork? =
 
@@ -63,10 +70,12 @@ Deprecated functions removed, bugs fixed and new filters and hooks created to ma
 * Better sanitizing of user input
 
 
-@todo:
+<h3>WP QUADS PRO:</h3>
 
 * Support for responsive Google AdSense ads
 * GUI improvements
+
+Check out WP QUADS PRO: [wpquads.com](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) <br /> 
 
 Do you have suggestions for more features?
 
