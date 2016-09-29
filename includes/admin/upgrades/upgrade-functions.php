@@ -61,7 +61,7 @@ function quads_is_commercial_theme() {
     $my_theme = wp_get_theme();
 
     // Known commercial themes which are using WP QUADS
-    $themes = array('Bunchy', 'Bimber');
+    $themes = array('Bunchy', 'Bimber', 'boombox', 'Boombox');
 
     if( is_object( $my_theme ) && in_array( $my_theme->get( 'Name' ), $themes ) ) {
         return $my_theme->get( 'Name' );
