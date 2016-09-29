@@ -120,6 +120,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: Error warning when plugin is activated
+
+= 1.2.3 =
 * Fix: AdSense Custom Theme API integration is ignoring the new responsive ads when WP QUADS PRO plugin is installed
 * New: Ad Background color white per default
 * Tweak: clean up code
