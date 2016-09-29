@@ -1787,10 +1787,6 @@ function quads_is_advanced(){
         return true;
     }
     
-    
-//    if ( file_exists(QUADS_PLUGIN_DIR . '/includes/admin/settings/advanced-settings.php') ){
-//        return true;
-//    }
     return false;
 }
 

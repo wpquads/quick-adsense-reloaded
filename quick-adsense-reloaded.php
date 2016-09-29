@@ -115,36 +115,10 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
                 self::$instance->setup_constants();
                 self::$instance->includes();
                 self::$instance->load_textdomain();
-                self::$instance->load_hooks();
                 self::$instance->logger = new quadsLogger( "quick_adsense_log_" . date( "Y-m-d" ) . ".log", quadsLogger::INFO );
                 self::$instance->html = new QUADS_HTML_Elements();
             }
             return self::$instance;
-        }
-
-        public function load_hooks() {
-            add_action( 'activated_plugin', array('this', 'quads_install_multisite') );
-            add_action( 'activated_plugin', 'quads_install_multisite' );
-        }
-
-        public function quads_install_multisite( $networkwide ) {
-            global $wpdb;
-            wp_die( 'test' );
-            if( function_exists( 'is_multisite' ) && is_multisite() ) {
-                // check if it is a network activation - if so, run the activation function for each blog id
-                if( $networkwide ) {
-                    $old_blog = $wpdb->blogid;
-                    // Get all blog ids
-                    $blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
-                    foreach ( $blogids as $blog_id ) {
-                        switch_to_blog( $blog_id );
-                        quads_install();
-                    }
-                    switch_to_blog( $old_blog );
-                    return;
-                }
-            }
-            quads_install();
         }
 
         /**
@@ -282,7 +256,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
 
         public static function activation( $networkwide ) {
             global $wpdb;
-
+            
             if( function_exists( 'is_multisite' ) && is_multisite() ) {
                 // check if it is a network activation - if so, run the activation function for each blog id
                 if( $networkwide ) {
