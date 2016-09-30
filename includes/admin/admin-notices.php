@@ -123,12 +123,14 @@ function quads_plugin_deactivated_notice() {
  */
 function quads_theme_notice(){
     
-        if( false !== get_option('quads_show_theme_notice') )  {
+    $show_notice = get_option('quads_show_theme_notice');
+    
+        if( false !== $show_notice && 'no' !== $show_notice )  {
             $message = __( '<strong>Now is your chance to extend the <strong>' . quads_is_commercial_theme(). '</strong> theme with <strong>WP QUADS PRO!</strong> Save time and earn more - Bring your AdSense earnings to next level. <a href="http://wpquads.com?utm_campaign=quads-free&utm_source=&utm_medium=admin&utm_content=bimber_upgrade_notice" target="_blank"> Purchase Now</a> or <a href="http://wpquads.com?utm_campaign=quads-free&utm_source=&utm_medium=admin&utm_content=bimber_upgrade_notice" target="_blank">Get Details</a></strong>', 'quick-adsense-reloaded' );
         ?>
         <div class="updated notice is-dismissible" style="border-left: 4px solid #ffba00;">
             <p><?php echo $message; ?></p>
         </div> <?php
-        delete_option ('quads_show_theme_notice');
+        update_option ('quads_show_theme_notice', 'no');
     }
 }

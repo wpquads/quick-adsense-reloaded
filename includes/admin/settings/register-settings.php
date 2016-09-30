@@ -1735,31 +1735,31 @@ foreach ( $quads_options as $id => $values ) {
 
             //check to see if it is google ad
             if( preg_match( '/googlesyndication.com/', $values['code'] ) ) {
-                $quads_options[$id]['current_ad_type'] = 'google';
 
-                //test to see if its google ad asyncron
+                // Test if its google asyncron ad
                 if( preg_match( '/data-ad-client=/', $values['code'] ) ) {
                     //*** GOOGLE ASYNCRON *************
+                    $quads_options[$id]['current_ad_type'] = 'google_async';
                     //get g_data_ad_client
                     $explode_ad_code = explode( 'data-ad-client', $values['code'] );
-                    preg_match( '/"([a-zA-Z0-9-\s]+)"/', $explode_ad_code[1], $matches_add_client );
+                    preg_match( '#"([a-zA-Z0-9-\s]+)"#', $explode_ad_code[1], $matches_add_client );
                     $quads_options[$id]['g_data_ad_client'] = str_replace( array('"', ' '), array(''), $matches_add_client[1] );
 
                     //get g_data_ad_slot
                     $explode_ad_code = explode( 'data-ad-slot', $values['code'] );
-                    preg_match( '/"([a-zA-Z0-9\s]+)"/', $explode_ad_code[1], $matches_add_slot );
+                    preg_match( '#"([a-zA-Z0-9/\s]+)"#', $explode_ad_code[1], $matches_add_slot );
                     $quads_options[$id]['g_data_ad_slot'] = str_replace( array('"', ' '), array(''), $matches_add_slot[1] );
                 } else {
-
                     //*** GOOGLE SYNCRON *************
+                    $quads_options[$id]['current_ad_type'] = 'google_sync';
                     //get g_data_ad_client
                     $explode_ad_code = explode( 'google_ad_client', $values['code'] );
-                    preg_match( '/"([a-zA-Z0-9-\s]+)"/', $explode_ad_code[1], $matches_add_client );
+                    preg_match( '#"([a-zA-Z0-9-\s]+)"#', $explode_ad_code[1], $matches_add_client );
                     $quads_options[$id]['g_data_ad_client'] = str_replace( array('"', ' '), array(''), $matches_add_client[1] );
 
                     //get g_data_ad_slot
                     $explode_ad_code = explode( 'google_ad_slot', $values['code'] );
-                    preg_match( '/"([a-zA-Z0-9\s]+)"/', $explode_ad_code[1], $matches_add_slot );
+                    preg_match( '#"([a-zA-Z0-9/\s]+)"#', $explode_ad_code[1], $matches_add_slot );
                     $quads_options[$id]['g_data_ad_slot'] = str_replace( array('"', ' '), array(''), $matches_add_slot[1] );
                 }
             } else {
@@ -1775,6 +1775,8 @@ foreach ( $quads_options as $id => $values ) {
     update_option('quads_settings', $quads_options);
 
 }
+
+
 /**
  * Check if advanced settings are available
  * 

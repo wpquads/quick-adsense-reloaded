@@ -24,9 +24,9 @@ function quads_do_automatic_upgrades() {
     $did_upgrade = false;
     $quads_version = preg_replace( '/[^0-9.].*/', '', get_option( 'quads_version' ) );
 
-    if( version_compare( $quads_version, '1.2.3', '<' ) ) {
+    if( version_compare( $quads_version, '1.2.5', '<' ) ) {
+        quads_store_adsense_args();
         quads_check_theme();
-        //quads_redirect_after_update();
     }
 
     // Check if version number in DB is lower than version number in current plugin

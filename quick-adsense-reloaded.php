@@ -296,6 +296,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             // Add plugin installation date and variable for rating div
             add_option( 'quads_install_date', date( 'Y-m-d h:i:s' ) );
             add_option( 'quads_rating_div', 'no' );
+            add_option( 'quads_show_theme_notice', 'yes' );
 
             // Add the transient to redirect (not for multisites)
             set_transient( 'quads_activation_redirect', true, 3600 );
