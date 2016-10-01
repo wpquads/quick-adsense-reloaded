@@ -120,6 +120,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* New: New cleaner design for adsense admin dashboard
+
+= 1.2.4 =
 * Fix: Error warning when plugin is activated
 
 = 1.2.3 =

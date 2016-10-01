@@ -24,8 +24,8 @@
 }
 
 .quads-share-button .quads-share {
-    font-family:"Helvetica Neue";
-    font-weight:700;
+    font-family:sans-serif;
+    font-weight:bold;
     text-decoration:none;
     text-align:center;
 }
@@ -37,7 +37,7 @@
     border-radius:2px;
     color:#FFF;
     display:inline;
-    font-size:13px;
+    font-size:16px;
     width:40px;
     padding:4px 8px;
 }
@@ -108,7 +108,7 @@ input.large-text, textarea.large-text {
     list-style: none;
     margin: 0;
     padding: 0;
-    background: #f1f1f1;
+    background: #fff;
     float: left;
     padding-top: 0px;
     /*list-style-type: square;*/
@@ -137,7 +137,20 @@ input.large-text, textarea.large-text {
 
 .quads-tabs a {
     padding:5px;
+    color:#262626;
 }
+
+li.quads-tabs {
+    float:left;
+    margin-left:0px;
+}
+
+/*@media only screen and (min-width:400px) {
+    li.quads-tabs {
+    float:left;
+    margin-left:14px;
+}
+}*/
 
 #quads_tab_container > ul > li.quads-tabs.active {
     background-color:white;
@@ -157,6 +170,7 @@ input.large-text, textarea.large-text {
     margin-bottom:10px;
     max-width: 640px;
     float: left;
+    clear:both;
 }
 
 .form-table{
@@ -200,6 +214,7 @@ input.large-text, textarea.large-text {
 @media only screen and (max-width:680px) {
     #quads_tab_container ul {
         float:none;
+        background: #fff;
     }
     #quads_tab_container .form-table tr > th {
         width:100%;
@@ -210,6 +225,13 @@ input.large-text, textarea.large-text {
     #quads_tab_container .form-table tr > th, #tab_container .form-table tr > td {
         padding:10px;
     }
+    #quads_tab_container .quads-tabs a{
+        text-align: left;
+    }
+    #quads_tab_container li.quads-tabs {
+    float:none;
+    margin-left:0px;
+}
 }
 
 #quads_tab_container ul li {
@@ -218,17 +240,20 @@ input.large-text, textarea.large-text {
 
 #quads_tab_container ul li a {
     display: block;
-    padding:10px 4px 10px 14px;
-    border-width: 1px 0;
+    padding:10px 10px 10px 10px;
+/*    border-width: 1px 0;
     border-style: solid;
     border-top-color:white;
-    border-bottom-color:#e7e7e7;
+    border-bottom-color:#e7e7e7;*/
     text-decoration: none;
     font-weight: bold;
 }
 #quads_tab_container ul li a:hover {
-    background-color: #e5e5e5;
-    color:#777777;
+/*    background-color: #e5e5e5;*/
+    color:#383838;
+}
+#quads_tab_container ul li a.active {
+    text-decoration: underline;
 }
 
 
@@ -447,6 +472,10 @@ input.large-text, textarea.large-text {
     border:0px;
 }
 
+.quads_admin .nav-tab{
+    border:0px;
+}
+
 .quads-h1 {
     font-size: 2.75em;
     margin-bottom: 1.35rem;
@@ -503,4 +532,9 @@ input.large-text, textarea.large-text {
     top: 0;
     left: 0;
     color: #77b227;
+}
+
+.adsense_admin_header {
+    font-size: 14px;
+    font-weight: 500;
 }

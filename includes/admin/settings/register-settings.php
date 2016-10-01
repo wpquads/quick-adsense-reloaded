@@ -184,7 +184,7 @@ function quads_get_registered_settings() {
                                 'adsense_header' => array(
 					'id' => 'adsense_header',
 					'name' => '<strong>' . __( 'AdSense Code', 'quick-adsense-reloaded' ) . '</strong>',
-					'desc' => __( 'Paste up to 10 Ad codes on Post Body as assigned above, and up to 10 Ad codes on Sidebar Widget. Ad codes provided must not be identical, repeated codes may result the Ads not being display correctly. Ads will never displays more than once in a page as long as you use the automatic function. If you are using shortcodes take care not to use the same ad on different locations.', 'quick-adsense-reloaded' ),
+					'desc' => '<span class="adsense_admin_header">' . sprintf(__( 'Paste up to 10 Ad codes on Post Body as assigned above, and up to 10 Ad codes on Sidebar Widget. <a href="%s" target="_blank">Read here</a> and find out the most effective AdSense banner sizes.', 'quick-adsense-reloaded' ), 'http://wpquads.com/effective-adsense-banner-size-formats/?utm_campaign=plugin&utm_source=general_tab&utm_medium=admin&utm_content=best_banner_sizes') . '</span>',
 					'type' => 'header'
 				),
                                 array(
