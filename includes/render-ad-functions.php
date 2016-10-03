@@ -34,6 +34,7 @@ function quads_render_ad( $id, $string, $widget = false ) {
 
     // Return the original ad code if its no adsense code
     if( !quads_is_adsense( $string ) ) {
+        wp_die('test4');
         return $string;
     }
 

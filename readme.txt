@@ -120,6 +120,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: WP auto P tags breaks inline javascript
+
+= 1.2.5 =
 * New: New cleaner design for adsense admin dashboard
 
 = 1.2.4 =

@@ -40,7 +40,7 @@ if( !defined( 'QUADS_VERSION' ) ) {
 
 // Plugin name
 if( !defined( 'QUADS_NAME' ) ) {
-    define( 'QUADS_NAME', 'WP <strong>QUADS</strong> - Quick AdSense Reloaded' );
+    define( 'QUADS_NAME', 'WP QUADS - Quick AdSense Reloaded' );
 }
 
 // Debug
