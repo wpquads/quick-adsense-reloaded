@@ -26,6 +26,7 @@ if( !defined( 'ABSPATH' ) )
 function quads_render_ad( $id, $string, $widget = false ) {
     global $quads_options;
 
+    $string = apply_filters('quads_render_ad', $string);
 
     // Return empty string
     if( empty( $id ) || empty( $string ) ) {
@@ -34,7 +35,6 @@ function quads_render_ad( $id, $string, $widget = false ) {
 
     // Return the original ad code if its no adsense code
     if( !quads_is_adsense( $string ) ) {
-        wp_die('test4');
         return $string;
     }
 
@@ -148,7 +148,9 @@ document.write(\'' . (!empty( $spot_title ) ? ('<span class="quads-ad-title">' .
     $html .= '</script>' . "\n";
 
     $html .= "\n <!-- end WP QUADS --> \n\n";
-    return $html;
+    
+    return apply_filters('quads_render_ad', $html);
+    //return $html;
 }
 
 /**

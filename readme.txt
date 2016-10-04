@@ -1,4 +1,4 @@
-=== AdSense Integration WP QUADS === 
+=== AdSense Plugin WP QUADS === 
 
 Author URL: https://profiles.wordpress.org/renehermi/
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
@@ -6,7 +6,7 @@ Contributors: ReneHermi, WP-Staging
 Donate link: 
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: advertising, ads, adsense, google, google adsense, posts, post, page, sidebar, shortcode, admin, plugin, widget
+Tags: advertising, ads, adsense, google, google adsense, posts, post, page, sidebar, shortcode, admin, plugin, widget, adsense plugin
 Requires at least: 3.6+
 Tested up to: 4.7
 Stable tag: {{ version }}
@@ -121,6 +121,9 @@ Alternative Installation:
 
 = {{ version }} =
 * Fix: WP auto P tags breaks inline javascript
+* New: Support for Custom Banner Sizes and AdSense Label in WP QUADS PRO
+* New: Banner for click fraud monitor plugin in admin settings
+* Tweak: UI improvements in admin settings
 
 = 1.2.5 =
 * New: New cleaner design for adsense admin dashboard

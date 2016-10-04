@@ -138,6 +138,7 @@ input.large-text, textarea.large-text {
 .quads-tabs a {
     padding:5px;
     color:#262626;
+    text-transform: uppercase;
 }
 
 li.quads-tabs {
@@ -249,7 +250,7 @@ li.quads-tabs {
     font-weight: bold;
 }
 #quads_tab_container ul li a:hover {
-/*    background-color: #e5e5e5;*/
+    background-color: #e5e5e5;
     color:#383838;
 }
 #quads_tab_container ul li a.active {
