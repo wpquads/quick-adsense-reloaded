@@ -120,6 +120,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* New: Ignore Cloudflare Rocket Script Loader for AdSense generated code
+
+= 1.2.6 =
 * Fix: WP auto P tags breaks inline javascript
 * New: Support for Custom Banner Sizes and AdSense Label in WP QUADS PRO
 * New: Banner for click fraud monitor plugin in admin settings

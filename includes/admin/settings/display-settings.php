@@ -155,23 +155,23 @@ function quads_options_page() {
 	?>
 	<div class="wrap quads_admin">
              <h1 style="text-align:center;"> <?php echo QUADS_NAME . ' ' . QUADS_VERSION; ?></h1>
-            <div class="about-text" style="font-weight: 400;line-height: 1.6em;text-align:center;">
-                        <div class='quads-share-button-container'>
-                        <div class='quads-share-button quads-share-button-twitter' data-share-url="https://wordpress.org/plugins/quick-adsense-reloaded">
-                            <div clas='box'>
-                                <a href="https://twitter.com/share?url=http://wpquads.com&text=WPQUADS+-+The quickest+and+most+easiest+way+to+integrate+AdSense+into+WordPress+websites+@wpquads" target='_blank'>
-                                    <span class='quads-share'><?php echo __('Shout out a tweet','quick-adsense-reloaded'); ?></span>
-                                </a>
-                            </div>
+             <div class="about-text" style="font-weight: 400;line-height: 1.6em;text-align:center;">
+                <div class='quads-share-button-container'>
+                    <div class='quads-share-button quads-share-button-twitter' data-share-url="https://wordpress.org/plugins/quick-adsense-reloaded">
+                        <div clas='box'>
+                            <a href="https://twitter.com/share?url=http://wpquads.com&text=WPQUADS+-+The quickest+and+most+easiest+way+to+integrate+AdSense+into+WordPress+websites+@wpquads" target='_blank'>
+                                <span class='quads-share'><?php echo __('Shout out a tweet','quick-adsense-reloaded'); ?></span>
+                            </a>
                         </div>
-
-                        <div class="quads-share-button quads-share-button-facebook" data-share-url="https://wordpress.org/plugins/quick-adsense-reloaded">
-                            <div class="box">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u=http://wpquads.com" target="_blank">
-                                    <span class='quads-share'><?php echo __('Share on Facebook','quick-adsense-reloaded'); ?></span>
-                                </a>
-                            </div>
+                    </div>
+                    <div class="quads-share-button quads-share-button-facebook" data-share-url="https://wordpress.org/plugins/quick-adsense-reloaded">
+                        <div class="box">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=http://wpquads.com" target="_blank">
+                                <span class='quads-share'><?php echo __('Share on Facebook','quick-adsense-reloaded'); ?></span>
+                            </a>
                         </div>
+                    </div>
+                </div>
             </div>
 		<h2 class="nav-tab-wrapper">
 			<?php
@@ -215,6 +215,7 @@ function quads_options_page() {
                     </div> <!-- new //-->
                     <?php quads_return_ad(); ?>
 		</div><!-- #tab_container-->
+                <?php echo quads_render_adsense_form(); ?>
 	</div><!-- .wrap -->
 	<?php
 	echo ob_get_clean();
@@ -272,4 +273,24 @@ function quads_render_social(){
         
         <?php
         echo ob_get_clean();
+}
+
+
+/**
+ * Render AdSense Form
+ */
+function quads_render_adsense_form(){
+    
+?>
+<div id="quads-adsense-bg-div" style="display: none;">
+    <div id="quads-adsense-container">
+        <h3><?php _e( 'Copy ad code from AdSense account and paste it here', 'quick-adsense-reloaded' ); ?></h3>
+        <textarea rows="15" cols="55" id="quads-adsense-form"></textarea><hr />
+        <button class="button button-primary" id="quads-paste-button"><?php _e( 'Get Code', 'quick-adsense-reloaded' ); ?></button>&nbsp;&nbsp;
+        <button class="button button-secondary" id="quads-close-button"><?php _e( 'Close', 'quick-adsense-reloaded' ); ?></button>
+        <div id="quads-msg"></div>
+        <input type="hidden" id="quads-adsense-id" value="">
+    </div>
+</div>
+<?php
 }

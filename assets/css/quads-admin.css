@@ -539,3 +539,32 @@ li.quads-tabs {
     font-size: 14px;
     font-weight: 500;
 }
+
+#quads-adsense-bg-div{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65);
+    z-index: 250000;
+}
+
+#quads-adsense-container {
+    width: 480px;
+    margin: 85px auto 0 auto;
+    background-color: #fff;
+    padding: 2%;
+    border-radius: 2px;
+}
+#quads-adsense-container h3{
+    margin-top:0px;
+}
+
+#quads-adsense-container textarea{
+    width: 100%;
+}
+
+#quads_settings[ad1][ad_type_adsense] label {
+    margin-left: 10px;
+}
