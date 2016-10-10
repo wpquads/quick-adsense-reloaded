@@ -2,9 +2,226 @@ var strict;
 
 jQuery(document).ready(function ($) {
 
+    $(document).on('click', '#quads-paste-button', function () {
+
+        //$('#advanced-ads-ad-parameters').on('paramloaded', function () {
+        var content = $('#quads-adsense-form').val();
+        var parseResult = quadsParseAdSenseCode(content);
+        if (false !== parseResult) {
+            console.log(parseResult);
+            setDetailsFromAdCode(parseResult);
+        }
+        //});
+    });
+
+    /**
+     * Populate AdSense Date Fields
+     * 
+     * @param object adsense
+     * @param2 string id of the parent container
+     * @returns false
+     */
+    function setDetailsFromAdCode(GoogleAd) {
+
+        var containerID = $('#quads-adsense-id').val();
+
+        var id = containerID.replace("quads-toggle", "");
+
+
+        $('#quads_settings\\[' + id + '\\]\\[g_data_ad_slot\\]').val(GoogleAd.slotId);
+        $('#quads_settings\\[' + id + '\\]\\[g_data_ad_client\\]').val(GoogleAd.pubId);
+        if ('normal' == GoogleAd.type) {
+            $('#quads_settings\\[' + id + '\\]\\[adsense_type\\]').val('normal');
+            $('#quads_settings\\[' + id + '\\]\\[g_data_ad_width\\]').val(GoogleAd.width);
+            $('#quads_settings\\[' + id + '\\]\\[g_data_ad_height\\]').val(GoogleAd.height);
+        }
+        if ('responsive' == GoogleAd.type) {
+            $('#quads_settings\\[' + id + '\\]\\[adsense_type\\]').val('responsive');
+            //$('#ad-resize-type').val('auto');
+            $('#quads_settings\\[' + id + '\\]\\[g_data_ad_width\\]').val('');
+            $('#quads_settings\\[' + id + '\\]\\[g_data_ad_height\\]').val('');
+        }
+
+        //$('#unit-type').trigger('change');
+        //$('#quads-adsense-bg-div').trigger('click');
+        $('#quads-adsense-bg-div').hide();
+    }
+
+    /**
+     * Parse the adsense ad content
+     * @param {type} content
+     * @returns {quads-admin.min_L3.parseAdContent.GoogleAd|Boolean}
+     */
+    function quadsParseAdSenseCode(content) {
+
+        var rawContent = ('undefined' != typeof (content)) ? content.trim() : '';
+        var GoogleAd = {};
+        var theContent = $('<div />').html(rawContent);
+        var asyncGoogleAd = theContent.find('ins');
+        var syncGoogleAd = theContent.find('google_ad_client');
+
+        // Its a async adsense ad
+        if (asyncGoogleAd.length > 0) {
+            console.log('async ad');
+
+            // Ad Slot ID
+            GoogleAd.slotId = adByGoogle.attr('data-ad-slot');
+
+            if ('undefined' != typeof (asyncGoogleAd.attr('data-ad-client'))) {
+                // Ad Publisher ID
+                GoogleAd.pubId = asyncGoogleAd.attr('data-ad-client').substr(3);
+            }
+
+            if (undefined !== GoogleAd.slotId && '' != GoogleAd.pubId) {
+                GoogleAd.display = asyncGoogleAd.css('display');
+                GoogleAd.format = asyncGoogleAd.attr('data-ad-format');
+                GoogleAd.style = asyncGoogleAd.attr('style');
+
+                if ('undefined' == typeof (GoogleAd.format) && -1 != GoogleAd.style.indexOf('width')) {
+                    /* normal ad */
+                    GoogleAd.type = 'normal';
+                    GoogleAd.width = asyncGoogleAd.css('width').replace('px', '');
+                    GoogleAd.height = asyncGoogleAd.css('height').replace('px', '');
+                    return GoogleAd;
+                }
+
+                if ('undefined' != typeof (GoogleAd.format) && 'auto' == GoogleAd.format) {
+                    /* Responsive ad, auto resize */
+                    GoogleAd.type = 'responsive';
+                    return GoogleAd;
+                }
+            }
+
+            return false;
+        }
+
+        // Google syncronous ad
+        if (syncGoogleAd.length === 0) {
+            console.log('syncronous code');
+
+            // Ad Slot ID
+            GoogleAd.slotId = get_google_ad_slot(content);
+            
+            console.log(get_google_ad_slot(content));
+            console.log(get_google_ad_client(content));
+            console.log(get_google_ad_height(content));
+            console.log(get_google_ad_width(content));
+
+            if (!quadsIsEmpty(get_google_ad_client(content))) {
+                // Ad Publisher ID
+                GoogleAd.pubId = 'ca-pub-' + get_google_ad_client(content);
+            }
+
+            if (!quadsIsEmpty(GoogleAd.slotId) && !quadsIsEmpty(GoogleAd.pubId)) {
+
+                if (!quadsIsEmpty(get_google_ad_width(content))) {
+                    GoogleAd.type = 'normal';
+                    GoogleAd.width = get_google_ad_width(content);
+                    GoogleAd.height = get_google_ad_height(content);
+                    return GoogleAd;
+                }
+            }
+            return false;
+        }
+
+        return false;
+    }
+
+    function get_google_ad_slot(content) {
+        const regex = /google_ad_slot\s*=\s*"(\d*)";/g;
+        const str = content;
+        let m;
+        var result = {};
+        
+        while ((m = regex.exec(str)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (m.index === regex.lastIndex) {
+                regex.lastIndex++;
+            }
+
+            // The result can be accessed through the `m`-variable.
+            m.forEach((match, groupIndex) => {
+                //console.log(`Found match, group ${groupIndex}: ${match}`);
+                result = match;
+            });
+        }
+        return result;
+    }
+    function get_google_ad_client(content) {
+        const regex = /google_ad_client\s*=\s*"ca-pub-(\d*)";/g;
+        const str = content;
+        let m;
+        var result = {};
+        
+        while ((m = regex.exec(str)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (m.index === regex.lastIndex) {
+                regex.lastIndex++;
+            }
+
+            // The result can be accessed through the `m`-variable.
+            m.forEach((match, groupIndex) => {
+                //console.log(`Found match, group ${groupIndex}: ${match}`);
+                result = match;
+            });
+        }
+        return result;
+    }
+    function get_google_ad_width(content) {
+        const regex = /google_ad_width\s*=\s*(\d*);/g;
+        const str = content;
+        let m;
+        var result = {};
+        
+        while ((m = regex.exec(str)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (m.index === regex.lastIndex) {
+                regex.lastIndex++;
+            }
+
+            // The result can be accessed through the `m`-variable.
+            m.forEach((match, groupIndex) => {
+                //console.log(`Found match, group ${groupIndex}: ${match}`);
+                result = match;
+            });
+        }
+        return result;
+    }
+    function get_google_ad_height(content) {
+        const regex = /google_ad_height\s*=\s*(\d*);/g;
+        const str = content;
+        let m;
+        var result = {};
+        
+        while ((m = regex.exec(str)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (m.index === regex.lastIndex) {
+                regex.lastIndex++;
+            }
+
+            // The result can be accessed through the `m`-variable.
+            m.forEach((match, groupIndex) => {
+                //console.log(`Found match, group ${groupIndex}: ${match}`);
+                result = match;
+            });
+        }
+        return result;
+    }
+   
+    /**
+     * Check if return value is empty or not
+     * @param {type} str
+     * @returns {Boolean}
+     */
+    function quadsIsEmpty(str) {
+        return (!str || 0 === str.length);
+    }
+
     // AdSense Code Input Form
-    $(document).on('click', '#quads-add-adsense', function (e) {
+    $(document).on('click', '.quads-add-adsense', function (e) {
         e.preventDefault();
+        var parentContainerID = $(this).parents('.quads-ad-toggle-container').attr('id');
+        $('#quads-adsense-id').val(parentContainerID);
         $('#quads-adsense-bg-div').show();
     });
     $(document).on('click', '#quads-close-button', function (e) {
@@ -13,6 +230,38 @@ jQuery(document).ready(function ($) {
     });
 
 
+    // Switch between AdSense or Plain Text
+    $(document).on('click', '.quads_adsense_type', function () {
+
+        var parentContainerID = $(this).parents('.quads-ad-toggle-container').attr('id');
+
+        if ($(this).val() === 'adsense') {
+            $('#' + parentContainerID).children('textarea').fadeOut();
+            $('#' + parentContainerID).find('div.quads_adsense_code').fadeIn(10);
+
+        }
+        if ($(this).val() === 'plain_text') {
+            $('#' + parentContainerID).children('textarea').fadeIn(0);
+            $('#' + parentContainerID).children('div.quads_adsense_code').hide();
+        }
+    });
+
+    // Hide and show AdSense elements on first loading
+    $('.quads-ad-toggle-container').find('.quads_adsense_type').each(function (index, value) {
+
+        var parentContainerID = $(this).parents('.quads-ad-toggle-container').attr('id');
+
+        if ($(this).attr('checked') === 'checked' && $(this).val() === 'adsense') {
+            $('#' + parentContainerID).children('textarea').fadeOut();
+            $('#' + parentContainerID).find('div.quads_adsense_code').fadeIn(200);
+        }
+        if ($(this).attr('checked') === 'checked' && $(this).val() === 'plain_text') {
+            $('#' + parentContainerID).children('textarea').fadeIn();
+            $('#' + parentContainerID).children('div.quads_adsense_code').hide();
+        }
+    });
+
+//*[@id="quads-togglead1"]/div[2]
     /**
      * Toggle the adsense container
      */
@@ -21,10 +270,8 @@ jQuery(document).ready(function ($) {
 
         var container = $('#' + $(this).data('box-id'));
 
-        container.toggle(function () {
-            //console.log(container);
+        container.toggle(0, function () {
             if (container.parents('.quads-ad-toggle-header').hasClass('quads-box-close')) {
-                //console.log('find');
                 // open the box
                 container.parents('.quads-ad-toggle-header').removeClass('quads-box-close');
             } else {
@@ -572,14 +819,14 @@ jQuery(document).ready(function ($) {
                     submitText: 'OK',
                     height: 156
                 },
-        //Fill the inputs of the plugin
-        fillRGBFields = function (hsb, cal) {
-            var rgb = hsbToRgb(hsb);
-            $(cal).data('colpick').fields
-                    .eq(1).val(rgb.r).end()
-                    .eq(2).val(rgb.g).end()
-                    .eq(3).val(rgb.b).end();
-        },
+                //Fill the inputs of the plugin
+                fillRGBFields = function (hsb, cal) {
+                    var rgb = hsbToRgb(hsb);
+                    $(cal).data('colpick').fields
+                            .eq(1).val(rgb.r).end()
+                            .eq(2).val(rgb.g).end()
+                            .eq(3).val(rgb.b).end();
+                },
                 fillHSBFields = function (hsb, cal) {
                     $(cal).data('colpick').fields
                             .eq(4).val(Math.round(hsb.h)).end()
@@ -1034,33 +1281,27 @@ jQuery(document).ready(function ($) {
                 rgb.r = t1;
                 rgb.b = t2;
                 rgb.g = t2 + t3
-            }
-            else if (h < 120) {
+            } else if (h < 120) {
                 rgb.g = t1;
                 rgb.b = t2;
                 rgb.r = t1 - t3
-            }
-            else if (h < 180) {
+            } else if (h < 180) {
                 rgb.g = t1;
                 rgb.r = t2;
                 rgb.b = t2 + t3
-            }
-            else if (h < 240) {
+            } else if (h < 240) {
                 rgb.b = t1;
                 rgb.r = t2;
                 rgb.g = t1 - t3
-            }
-            else if (h < 300) {
+            } else if (h < 300) {
                 rgb.b = t1;
                 rgb.g = t2;
                 rgb.r = t2 + t3
-            }
-            else if (h < 360) {
+            } else if (h < 360) {
                 rgb.r = t1;
                 rgb.g = t2;
                 rgb.b = t1 - t3
-            }
-            else {
+            } else {
                 rgb.r = 0;
                 rgb.g = 0;
                 rgb.b = 0

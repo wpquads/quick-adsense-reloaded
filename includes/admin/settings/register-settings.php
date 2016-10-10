@@ -1649,8 +1649,8 @@ function quads_adsense_code_callback( $args ) {
             <!--<input type="text" name="quads_settings[<?php //echo $id; ?>][current_ad_type]" value=" <?php //echo $current_ad_type; ?>">-->
             <label for="quads_settings[<?php echo $id; ?>][g_data_ad_client]">Publisher ID</label><input type="text" id="quads_settings[<?php echo $id; ?>][g_data_ad_client]" class="medium-text" name="quads_settings[<?php echo $id; ?>][g_data_ad_client]" value="<?php echo $g_data_ad_client; ?>">
             <label for="quads_settings[<?php echo $id; ?>][g_data_ad_slot]">Ad Slot ID </label><input type="text" id="quads_settings[<?php echo $id; ?>][g_data_ad_slot]" name="quads_settings[<?php echo $id; ?>][g_data_ad_slot]" value="<?php echo $g_data_ad_slot; ?>"><br />
-            <label for="quads_settings[<?php echo $id; ?>][g_data_ad_width]">Width </label><input type="text" id="quads_settings[<?php echo $id; ?>][g_data_ad_width]" name="quads_settings[<?php echo $id; ?>][g_data_ad_width]" value="<?php echo $g_data_ad_width; ?>">
-            <label for="quads_settings[<?php echo $id; ?>][g_data_ad_height]">Height </label><input type="text" id="quads_settings[<?php echo $id; ?>][g_data_ad_height]" name="quads_settings[<?php echo $id; ?>][g_data_ad_height]" value="<?php echo $g_data_ad_height; ?>">
+            <label for="quads_settings[<?php echo $id; ?>][g_data_ad_width]">Width </label><input type="number" step="1" id="quads_settings[<?php echo $id; ?>][g_data_ad_width]" name="quads_settings[<?php echo $id; ?>][g_data_ad_width]" class="small-text" value="<?php echo $g_data_ad_width; ?>">
+            <label for="quads_settings[<?php echo $id; ?>][g_data_ad_height]">Height </label><input type="number" step="1" id="quads_settings[<?php echo $id; ?>][g_data_ad_height]" name="quads_settings[<?php echo $id; ?>][g_data_ad_height]" class="small-text" value="<?php echo $g_data_ad_height; ?>">
             <br />
                 <?php
             $args_adsense_type = array(
