@@ -246,7 +246,7 @@ function quads_get_registered_settings() {
             ),
             'widget_header' => array(
                 'id' => 'widget_header',
-                'name' => '<strong>' . __( 'Widgets Ads', 'quick-adsense-reloaded' ) . '</strong>',
+                'name' => '<strong>' . __( 'Widgets Ad Code', 'quick-adsense-reloaded' ) . '</strong>',
                 'desc' => sprintf( __( 'Every code block creates an unique ad widget in the <a href="%s" target="_self">widget section</a> of WordPress', 'quick-adsense-reloaded' ), admin_url() . 'widgets.php' ),
                 'type' => 'header'
             ),
