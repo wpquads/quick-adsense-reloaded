@@ -29,7 +29,6 @@ function quads_do_automatic_upgrades() {
         quads_store_adsense_args();
         quads_check_theme();
     }
-    
     if( version_compare( $quads_version, '1.2.7', '<' ) ) {
         quads_change_widget_values();
     }

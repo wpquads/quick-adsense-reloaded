@@ -36,10 +36,10 @@ function quads_render_ad( $id, $string, $widget = false ) {
         return '';
     }
 
-    // Return the original ad code if its called from widget
-    if( $widget === true && !empty( $string ) ) {
-        return $string;
-    }
+//    // Return the original ad code if its called from widget
+//    if( $widget === true && !empty( $string ) ) {
+//        return $string;
+//    }
 
     // Return the original ad code if it's no adsense code
     if( false === quads_is_adsense( $id, $string ) && !empty( $string ) ) {

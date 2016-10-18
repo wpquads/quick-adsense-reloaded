@@ -118,5 +118,6 @@ module.exports = function (grunt) {
 
     // Build task
     //grunt.registerTask( 'build', [ 'compress:build' ]);
-    grunt.registerTask('build', ['clean:build', 'uglify:build', 'cssmin:build', 'copy:build', 'string-replace:version', 'compress:build']);
+    //grunt.registerTask('build', ['clean:build', 'uglify:build', 'cssmin:build', 'copy:build', 'string-replace:version', 'compress:build']);
+    grunt.registerTask('build', ['clean:build', 'cssmin:build', 'copy:build', 'string-replace:version', 'compress:build']);
 };

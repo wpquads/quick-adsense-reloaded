@@ -650,3 +650,7 @@ li.quads-tabs {
     z-index:1002;
     overflow: auto;
 }
+
+.quads-form-table{
+    width: 100%;
+}
