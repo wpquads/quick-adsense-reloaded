@@ -69,9 +69,9 @@
 
 
 /* Input forms */
-.quads-textarea{
+/*.quads-textarea{
     font-size:11px;
-}
+}*/
 .quads-richeditor{
     font-size:11px;
 }
@@ -99,6 +99,9 @@
 
 input.large-text, textarea.large-text {
     max-width: 600px;
+}
+input.medium-text, textarea.medium-text {
+    min-width: 190px;
 }
 
 /* CSS for Tabs */
@@ -137,8 +140,11 @@ input.large-text, textarea.large-text {
 
 .quads-tabs a {
     padding:5px;
-    color:#262626;
+    color:#83c11f;
     text-transform: uppercase;
+}
+.quads-tabs a strong {
+    font-weight: 700;
 }
 
 li.quads-tabs {
@@ -154,7 +160,7 @@ li.quads-tabs {
 }*/
 
 #quads_tab_container > ul > li.quads-tabs.active {
-    background-color:white;
+    background-color:#f8f8f8;
 }
 
 
@@ -378,6 +384,7 @@ li.quads-tabs {
 }
 
 .quads-advanced-ad-box{
+    clear: both;
     margin-top:20px;
 }
 .quads-left-box{
@@ -388,10 +395,11 @@ li.quads-tabs {
 }
 
 .adsense-size-title {
-    margin-right:20px;
+    margin-right:10px;
     float:left;
-    line-height: 30px;
+    line-height: 32px;
     margin-left: 34px;
+    min-width: 80px;
 }
 
 .quads-select-style-overwrite {
@@ -475,6 +483,9 @@ li.quads-tabs {
 
 .quads_admin .nav-tab{
     border:0px;
+    text-transform: uppercase;
+    color: #1e1e1e;
+    font-weight: 700;
 }
 
 .quads-h1 {
@@ -551,6 +562,7 @@ li.quads-tabs {
 }
 
 #quads-adsense-container {
+    text-align: center;
     width: 480px;
     margin: 85px auto 0 auto;
     background-color: #fff;
@@ -565,6 +577,76 @@ li.quads-tabs {
     width: 100%;
 }
 
-#quads_settings[ad1][ad_type_adsense] label {
-    margin-left: 10px;
+
+.quads-ad-toggle-container textarea{
+    width: 100%;
+}
+
+.quads-ad-toggle-container input{
+    margin-top: 7px;
+    margin-bottom:10px;
+}
+
+.quads-adsense-code label, input{
+    margin-right:10px;
+}
+
+#quads_settings\5b ad2\5d \5b g_data_ad_client\5d {
+    width:200px;
+}
+
+.quads-ad-toggle-container label {
+    display: inline-block;
+    margin-right:10px;
+}
+
+/*.quads-adsense-code > label:nth-child(1){
+    min-width: 74px;
+}*/
+
+.quads_adsense_code .quads-add-adsense {
+    margin:20px;
+    margin-left:0px;
+}
+
+.quads-label-left {
+    min-width: 71px;
+}
+
+#quads-label-Type {
+    min-width: 67px;
+}
+
+.quads-medium-size{
+    width: 110px;
+}
+
+#quads-msg{
+    display:none;
+    margin: 5px;
+    background-color: #c55c5c;
+    color: white;
+}
+
+.quads-success-modal {
+    display: block;
+    position: fixed;
+    top: 45%;
+    left: 25%;
+    width: 200px;
+    height: auto;
+    padding: 5px 20px;
+    z-index:1002;
+    overflow: auto;
+}
+.quads-loader {
+    display: block;
+    position: fixed;
+    top: 45%;
+    left: 25%;
+    width: 200px;
+    height: auto;
+    padding: 5px 20px;
+    z-index:1002;
+    overflow: auto;
 }

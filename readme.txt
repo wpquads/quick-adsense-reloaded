@@ -121,6 +121,11 @@ Alternative Installation:
 
 = {{ version }} =
 * New: Ignore Cloudflare Rocket Script Loader for AdSense generated code
+* New: Settings are saved without page reload
+* New: Basic Support for Responsive Ads
+* New: No more script security errors when saving settings
+* New: New Graphival User Interface
+* Tweak: Remove deprecated debug code
 
 = 1.2.6 =
 * Fix: WP auto P tags breaks inline javascript

@@ -105,16 +105,15 @@ function quads_do_settings_fields($page, $section) {
        } elseif (strpos($field['callback'],'header') !== false && $firstHeader === true) { 
        // Header has been created previously so we have to close the first opened div
            echo '</table></div><div id="' . $sanitizedID . '">'; 
-           echo '<table class="quads-form-table"><tbody>';
-           
+           echo '<table class="quads-form-table"><tbody>';  
        }  
         
-        if (!empty($field['args']['label_for'])){
+        if (!empty($field['args']['label_for']) && !quads_is_excluded_title( $field['args']['id'] )){
             echo '<tr class="row">';
             echo '<td class="row th">';
             echo '<label for="' . esc_attr($field['args']['label_for']) . '">' . $field['title'] . '</label>';
             echo '</td></tr>';
-        }else if (!empty($field['title'])){
+        }else if (!empty($field['title']) && !quads_is_excluded_title( $field['args']['id'] )){
             echo '<tr class="row">';
             echo '<td class="row th">';
             echo '<div class="col-title">' . $field['title'] . '</div>';
@@ -135,6 +134,29 @@ function quads_do_settings_fields($page, $section) {
     if ($header === true){
     echo '</div>';
     }
+}
+
+/**
+ * If title is one of these entries do not show it
+ */
+function quads_is_excluded_title($string){
+    $haystack = array('ad1','ad2','ad3','ad4','ad5','ad6','ad7','ad8','ad9','ad10', 
+        'ad1_widget',
+        'ad2_widget',
+        'ad3_widget',
+        'ad4_widget',
+        'ad5_widget',
+        'ad6_widget',
+        'ad7_widget',
+        'ad8_widget',
+        'ad9_widget',
+        'ad10_widget'
+        );
+
+    if (in_array($string, $haystack)){
+            return true;
+    }
+    return false;
 }
 
 /**
@@ -193,7 +215,7 @@ function quads_options_page() {
 		<div id="quads_tab_container" class="quads_tab_container">
                         <?php quads_get_tab_header( 'quads_settings_' . $active_tab, 'quads_settings_' . $active_tab ); ?>   
                     <div class="quads-panel-container"> <!-- new //-->
-			<form method="post" action="options.php">
+			<form method="post" action="options.php" id="quads_settings">
 				<?php
 				settings_fields( 'quads_settings' );
 				quads_do_settings_fields( 'quads_settings_' . $active_tab, 'quads_settings_' . $active_tab );
@@ -215,6 +237,7 @@ function quads_options_page() {
                     </div> <!-- new //-->
                     <?php quads_return_ad(); ?>
 		</div><!-- #tab_container-->
+                <div id="quads-save-result"></div>
                 <?php echo quads_render_adsense_form(); ?>
 	</div><!-- .wrap -->
 	<?php

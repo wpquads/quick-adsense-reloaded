@@ -75,11 +75,12 @@ class quads_widgets_1 extends WP_Widget {
         if ( strpos($cont, "<!--OffAds-->") === false && strpos($cont, "<!--OffWidget-->") === false && !quads_hide_adwidget_on_homepage() && !quads_ad_reach_max_count() ) {
             
             quads_set_ad_count_widget();
-            $codetxt = $quads_options['ad' . $this->adsID . '_widget'];
+            //$codetxt = $quads_options['ad' . $this->adsID . '_widget'];
+            $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if (array_key_exists('before_widget', $args))
                 echo $args['before_widget'];
-            echo $codetxt;
+            echo $code;
             if (array_key_exists('after_widget', $args))
                 echo $args['after_widget'];
         };

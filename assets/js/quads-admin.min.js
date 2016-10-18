@@ -2,17 +2,41 @@ var strict;
 
 jQuery(document).ready(function ($) {
 
+    // Save settings via ajax
+    jQuery('#quads_settings').submit(function() {
+        jQuery('#quads-save-result').html("<div id='quads-loader' class='quads-loader'></div>");
+        jQuery('#quads-loader').append('<p><img src="'+quads.path+'/wp-content/plugins/quick-adsense-reloaded/assets/images/loader1.gif"></p>').show();
+        jQuery(this).ajaxSubmit({
+            
+            success: function(){
+                jQuery('#quads-save-result').html("<div id='quads-save-message' class='quads-success-modal'></div>");
+                jQuery('#quads-save-message').append('<p><img src="'+quads.path+'/wp-content/plugins/quick-adsense-reloaded/assets/images/saved.gif"></p>').show();
+            },timeout: 0,
+            
+            error: function(){
+               alert ('Error: Can not save settings. Try again'); 
+            }
+        });
+        setTimeout("jQuery('#quads-save-message').hide('fast');", 2000);
+        return false;
+    });
+    
+    
+    // Paste AdSense Code form
     $(document).on('click', '#quads-paste-button', function () {
 
-        //$('#advanced-ads-ad-parameters').on('paramloaded', function () {
         var content = $('#quads-adsense-form').val();
         var parseResult = quadsParseAdSenseCode(content);
         if (false !== parseResult) {
             console.log(parseResult);
             setDetailsFromAdCode(parseResult);
+        }else{
+            $('#quads-msg').html('Can not parse AdSense Code. Is the code valid?');
+            $('#quads-msg').show();
+            //alert('Can not parse AdSense Code. Is the code invalid?');
         }
-        //});
     });
+   
 
     /**
      * Populate AdSense Date Fields
@@ -27,7 +51,6 @@ jQuery(document).ready(function ($) {
 
         var id = containerID.replace("quads-toggle", "");
 
-
         $('#quads_settings\\[' + id + '\\]\\[g_data_ad_slot\\]').val(GoogleAd.slotId);
         $('#quads_settings\\[' + id + '\\]\\[g_data_ad_client\\]').val(GoogleAd.pubId);
         if ('normal' == GoogleAd.type) {
@@ -41,10 +64,16 @@ jQuery(document).ready(function ($) {
             $('#quads_settings\\[' + id + '\\]\\[g_data_ad_width\\]').val('');
             $('#quads_settings\\[' + id + '\\]\\[g_data_ad_height\\]').val('');
         }
-
-        //$('#unit-type').trigger('change');
-        //$('#quads-adsense-bg-div').trigger('click');
+        // Trigger the ad type select
+        $('.quads-select-Type').trigger('change');
+        // Hide the overlay
         $('#quads-adsense-bg-div').hide();
+        // Ad code input form must not be empty!
+        if ($('#' + containerID).children('textarea').val().length === 0){
+            $('#' + containerID).children('textarea').val('adsense');
+        }
+        
+        
     }
 
     /**
@@ -58,14 +87,14 @@ jQuery(document).ready(function ($) {
         var GoogleAd = {};
         var theContent = $('<div />').html(rawContent);
         var asyncGoogleAd = theContent.find('ins');
-        var syncGoogleAd = theContent.find('google_ad_client');
+        //var syncGoogleAd = theContent.search('google_ad_client');
 
         // Its a async adsense ad
         if (asyncGoogleAd.length > 0) {
             console.log('async ad');
 
             // Ad Slot ID
-            GoogleAd.slotId = adByGoogle.attr('data-ad-slot');
+            GoogleAd.slotId = asyncGoogleAd.attr('data-ad-slot');
 
             if ('undefined' != typeof (asyncGoogleAd.attr('data-ad-client'))) {
                 // Ad Publisher ID
@@ -96,7 +125,7 @@ jQuery(document).ready(function ($) {
         }
 
         // Google syncronous ad
-        if (syncGoogleAd.length === 0) {
+        if (rawContent.search('google_ad_client') > 0) {
             console.log('syncronous code');
 
             // Ad Slot ID
@@ -110,6 +139,8 @@ jQuery(document).ready(function ($) {
             if (!quadsIsEmpty(get_google_ad_client(content))) {
                 // Ad Publisher ID
                 GoogleAd.pubId = 'ca-pub-' + get_google_ad_client(content);
+            }else{
+                return false;
             }
 
             if (!quadsIsEmpty(GoogleAd.slotId) && !quadsIsEmpty(GoogleAd.pubId)) {
@@ -221,6 +252,8 @@ jQuery(document).ready(function ($) {
     $(document).on('click', '.quads-add-adsense', function (e) {
         e.preventDefault();
         var parentContainerID = $(this).parents('.quads-ad-toggle-container').attr('id');
+        // Empty the ad plain text form
+        $('#quads-adsense-form').val('');
         $('#quads-adsense-id').val(parentContainerID);
         $('#quads-adsense-bg-div').show();
     });
@@ -230,34 +263,74 @@ jQuery(document).ready(function ($) {
     });
 
 
-    // Switch between AdSense or Plain Text
+    // Toggle between AdSense or Plain Text
     $(document).on('click', '.quads_adsense_type', function () {
 
         var parentContainerID = $(this).parents('.quads-ad-toggle-container').attr('id');
 
         if ($(this).val() === 'adsense') {
-            $('#' + parentContainerID).children('textarea').fadeOut();
-            $('#' + parentContainerID).find('div.quads_adsense_code').fadeIn(10);
+            $('#' + parentContainerID).children('textarea').hide();
+            $('#' + parentContainerID).find('div.quads_adsense_code').show();
 
         }
         if ($(this).val() === 'plain_text') {
-            $('#' + parentContainerID).children('textarea').fadeIn(0);
+            $('#' + parentContainerID).children('textarea').show();
             $('#' + parentContainerID).children('div.quads_adsense_code').hide();
         }
     });
 
-    // Hide and show AdSense elements on first loading
+
+    // Hide or show AdSense elements on loading
     $('.quads-ad-toggle-container').find('.quads_adsense_type').each(function (index, value) {
 
         var parentContainerID = $(this).parents('.quads-ad-toggle-container').attr('id');
 
         if ($(this).attr('checked') === 'checked' && $(this).val() === 'adsense') {
             $('#' + parentContainerID).children('textarea').fadeOut();
-            $('#' + parentContainerID).find('div.quads_adsense_code').fadeIn(200);
+            $('#' + parentContainerID).find('div.quads_adsense_code').show();
         }
         if ($(this).attr('checked') === 'checked' && $(this).val() === 'plain_text') {
             $('#' + parentContainerID).children('textarea').fadeIn();
             $('#' + parentContainerID).children('div.quads_adsense_code').hide();
+        }
+    });
+    
+        
+    // Hide or show AdSense width and height on loading
+    $('.quads-ad-toggle-container').find('.quads-select-Type').each(function (index, value) {
+
+        var parentContainerID = $(this).parents('.quads-ad-toggle-container').attr('id');
+
+        if ($(this).val() === 'responsive') {
+            $('#' + parentContainerID).find('.quads-type-normal').hide();
+            $('#' + parentContainerID).find('.quads-pro-notice').show();
+            $('#' + parentContainerID).find('.quads-sizes').show();
+            $('#' + parentContainerID).find('.quads-sizes-container').css('clear',''); 
+        }
+        if ($(this).val() === 'normal') {
+            $('#' + parentContainerID).find('.quads-type-normal').show();
+            $('#' + parentContainerID).find('.quads-pro-notice').hide();
+            $('#' + parentContainerID).find('.quads-sizes').hide();
+            $('#' + parentContainerID).find('.quads-sizes-container').css('clear','both');   
+        }
+    });
+    
+    
+    // Toggle between Fixed Size or Responsive ad type
+    $(document).on('change', '.quads-select-Type', function () {
+        var parentContainerID = $(this).parents('.quads-ad-toggle-container').attr('id');
+
+        if ($(this).val() === 'responsive') {
+            $('#' + parentContainerID).find('.quads-type-normal').hide();
+            $('#' + parentContainerID).find('.quads-pro-notice').show();
+            $('#' + parentContainerID).find('.quads-sizes').show();
+            $('#' + parentContainerID).find('.quads-sizes-container').css('clear',''); 
+        }
+        if ($(this).val() === 'normal') {
+            $('#' + parentContainerID).find('.quads-type-normal').show();
+            $('#' + parentContainerID).find('.quads-pro-notice').hide();           
+            $('#' + parentContainerID).find('.quads-sizes').hide();
+            $('#' + parentContainerID).find('.quads-sizes-container').css('clear','both');     
         }
     });
 
@@ -1342,8 +1415,3 @@ jQuery(document).ready(function ($) {
         }
     });
 })(jQuery);
-
-
-
-
-

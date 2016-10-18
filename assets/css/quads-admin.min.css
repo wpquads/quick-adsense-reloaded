@@ -140,8 +140,11 @@ input.medium-text, textarea.medium-text {
 
 .quads-tabs a {
     padding:5px;
-    color:#262626;
+    color:#83c11f;
     text-transform: uppercase;
+}
+.quads-tabs a strong {
+    font-weight: 700;
 }
 
 li.quads-tabs {
@@ -157,7 +160,7 @@ li.quads-tabs {
 }*/
 
 #quads_tab_container > ul > li.quads-tabs.active {
-    background-color:white;
+    background-color:#f8f8f8;
 }
 
 
@@ -392,10 +395,11 @@ li.quads-tabs {
 }
 
 .adsense-size-title {
-    margin-right:20px;
+    margin-right:10px;
     float:left;
-    line-height: 30px;
+    line-height: 32px;
     margin-left: 34px;
+    min-width: 80px;
 }
 
 .quads-select-style-overwrite {
@@ -479,6 +483,9 @@ li.quads-tabs {
 
 .quads_admin .nav-tab{
     border:0px;
+    text-transform: uppercase;
+    color: #1e1e1e;
+    font-weight: 700;
 }
 
 .quads-h1 {
@@ -576,7 +583,7 @@ li.quads-tabs {
 }
 
 .quads-ad-toggle-container input{
-    margin-top: 10px;
+    margin-top: 7px;
     margin-bottom:10px;
 }
 
@@ -593,15 +600,53 @@ li.quads-tabs {
     margin-right:10px;
 }
 
-#quads-label-Type {
-    min-width: 65px;
-}
-
-.quads-adsense-code > label:nth-child(1){
+/*.quads-adsense-code > label:nth-child(1){
     min-width: 74px;
-}
+}*/
 
 .quads_adsense_code .quads-add-adsense {
     margin:20px;
     margin-left:0px;
+}
+
+.quads-label-left {
+    min-width: 71px;
+}
+
+#quads-label-Type {
+    min-width: 67px;
+}
+
+.quads-medium-size{
+    width: 110px;
+}
+
+#quads-msg{
+    display:none;
+    margin: 5px;
+    background-color: #c55c5c;
+    color: white;
+}
+
+.quads-success-modal {
+    display: block;
+    position: fixed;
+    top: 45%;
+    left: 25%;
+    width: 200px;
+    height: auto;
+    padding: 5px 20px;
+    z-index:1002;
+    overflow: auto;
+}
+.quads-loader {
+    display: block;
+    position: fixed;
+    top: 45%;
+    left: 25%;
+    width: 200px;
+    height: auto;
+    padding: 5px 20px;
+    z-index:1002;
+    overflow: auto;
 }

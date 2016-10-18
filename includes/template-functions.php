@@ -116,6 +116,7 @@ function quads_process_content($content){
             return $content; 
         };
 
+        // Create array of valid ids and 
         // remove whitespaces at beginning and end of all ad codes
 	if( count($AdsId) === 0 ) { //   
 		for($i=1;$i<=$numberAds;$i++) { 
@@ -126,7 +127,7 @@ function quads_process_content($content){
 			}
 		}
 	}
-        
+
         // Ad code array is empty so break here
 	if( count($AdsId) === 0 ) { 
             $content = quads_clean_tags($content); 
@@ -301,9 +302,12 @@ function quads_process_content($content){
 	/* 
          * Replace Beginning/Middle/End Ads1-10
          */
+
             if( !$offdef ) {
 		for( $i=1; $i<=count($AdsIdCus); $i++ ) {
+
                     if( strpos($content,'<!--'.$cusads.$AdsIdCus[$i-1].'-->')!==false && in_array($AdsIdCus[$i-1], $AdsId)) {
+
                             $content = quads_replace_ads( $content, $cusads.$AdsIdCus[$i-1], $AdsIdCus[$i-1] ); 
                             $AdsId = quads_del_element($AdsId, array_search($AdsIdCus[$i-1], $AdsId)) ;
                             $ShownAds += 1;
@@ -311,13 +315,7 @@ function quads_process_content($content){
                             quads_set_ad_count_content();
                             if ( quads_ad_reach_max_count() ){
                                 $content = quads_clean_tags($content); 
-                                //return $content;
                             }
-
-                            /*if( ($ShownAds+$ad_count_shortcode) >= $AdsToShow || !count($AdsId) ){ 
-                                $content = quads_clean_tags($content); 
-                                return $content;
-                            };*/
                     }	
                 }	
             }
@@ -337,10 +335,7 @@ function quads_process_content($content){
                                 $content = quads_clean_tags($content); 
                                 return $content;
                             }
-                                /*if( $ShownAds+$ad_count_shortcode >= $AdsToShow || !count($AdsId) ){ 
-                                    $content = quads_clean_tags($content); 
-                                    return $content;   
-                                };*/
+
 			} else {
 				$tt += 1;
 			}
@@ -353,6 +348,7 @@ function quads_process_content($content){
         if( strpos($content, '<!--'.$cusrnd.'-->')!==false && is_singular() ) {
 		$tcx = count($AdsId);
 		$tcy = substr_count($content, '<!--'.$cusrnd.'-->');
+
 		for( $i=$tcx; $i<=$tcy-1; $i++ ) {
 			array_push($AdsId, -1);
 		}
@@ -409,8 +405,8 @@ function quads_process_content($content){
                         };*/
 		}
 	}	       
-        //$content = $ad_count;
-	/* ... That's it. DONE :) ... */
+
+        /* ... That's it. DONE :) ... */
 	$content = quads_clean_tags($content); 
         // Reset ad_count - Important!!!
         $ad_count_content = 0; 
@@ -462,17 +458,17 @@ function quads_clean_tags($content, $trimonly = false) {
 function quads_replace_ads($content, $nme, $id) {
     	global $quads_options;
    
-    
+
 	if( strpos($content,'<!--'.$nme.'-->')===false ) { 
             return $content; 
         }	
-        
 	if ($id != -1) {
 		$arr = array(
 			'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
 			'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
 			'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
 			'float:none;margin:0px;');
+                
 		$adsalign = $quads_options['ad' . $id]['align'];
 		$adsmargin = $quads_options['ad' . $id]['margin'];
 		$style = sprintf($arr[(int)$adsalign], $adsmargin);
@@ -481,7 +477,7 @@ function quads_replace_ads($content, $nme, $id) {
                 $adscode =
 			"\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
 			'<div class="quads-location quads-id' .$id. '" style="'.$style.'">'."\n".
-			quads_render_ad($id, $adscode)."\n".
+			quads_render_ad('ad'.$id, $adscode)."\n".
 			'</div>'. "\n";
               
 	} else {

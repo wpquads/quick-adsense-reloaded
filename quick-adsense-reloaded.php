@@ -189,8 +189,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             require_once QUADS_PLUGIN_DIR . 'includes/scripts.php';
             require_once QUADS_PLUGIN_DIR . 'includes/template-functions.php';
             require_once QUADS_PLUGIN_DIR . 'includes/class-quads-license-handler.php';
-            require_once QUADS_PLUGIN_DIR . 'includes/debug/classes/QuadsDebug.interface.php';
-            require_once QUADS_PLUGIN_DIR . 'includes/debug/classes/QuadsDebug.class.php';
             require_once QUADS_PLUGIN_DIR . 'includes/logger.php';
             require_once QUADS_PLUGIN_DIR . 'includes/class-quads-html-elements.php';
             require_once QUADS_PLUGIN_DIR . 'includes/widgets.php';

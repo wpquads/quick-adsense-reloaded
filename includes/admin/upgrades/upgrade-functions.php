@@ -13,6 +13,7 @@
 if( !defined( 'ABSPATH' ) )
     exit;
 
+
 /**
  * Perform automatic upgrades when necessary
  *
@@ -27,6 +28,10 @@ function quads_do_automatic_upgrades() {
     if( version_compare( $quads_version, '1.2.5', '<' ) ) {
         quads_store_adsense_args();
         quads_check_theme();
+    }
+    
+    if( version_compare( $quads_version, '1.2.7', '<' ) ) {
+        quads_change_widget_values();
     }
 
     // Check if version number in DB is lower than version number in current plugin
@@ -43,6 +48,52 @@ function quads_do_automatic_upgrades() {
 }
 
 add_action( 'admin_init', 'quads_do_automatic_upgrades' );
+
+
+/**
+ * Change array quads_settings['ad1_widget'] to quads_settings[ad1_widget][code]
+ */
+function quads_change_widget_values(){
+    $settings = get_option('quads_settings');
+
+    foreach ($settings as $key => $value){
+        if ($key === 'ad1_widget' && is_string($settings['ad1_widget']) )
+            $new['ad1_widget']['code'] = $value;
+        
+        else if ($key === 'ad2_widget' && is_string($settings['ad2_widget']) )
+            $new['ad2_widget']['code'] = $value;
+        
+        else if ($key === 'ad3_widget' && is_string($settings['ad3_widget']) )
+            $new['ad3_widget']['code'] = $value;
+        
+        else if ($key === 'ad4_widget' && is_string($settings['ad4_widget']) )
+            $new['ad4_widget']['code'] = $value;
+        
+        else if ($key === 'ad5_widget' && is_string($settings['ad5_widget']) )
+            $new['ad5_widget']['code'] = $value;
+        
+        else if ($key === 'ad6_widget' && is_string($settings['ad6_widget']) )
+            $new['ad6_widget']['code'] = $value;
+        
+        else if ($key === 'ad7_widget' && is_string($settings['ad7_widget']) )
+            $new['ad7_widget']['code'] = $value;
+        
+        else if ($key === 'ad8_widget' && is_string($settings['ad8_widget']) )
+            $new['ad8_widget']['code'] = $value;
+        
+        else if ($key === 'ad9_widget' && is_string($settings['ad9_widget']) )
+            $new['ad9_widget']['code'] = $value;
+        
+        else if ($key === 'ad10_widget' && is_string($settings['ad10_widget']) )
+            $new['ad10_widget']['code'] = $value;
+        else
+            $new[$key] = $value;
+    }
+    
+    update_option('quads_settings', $new);
+    //wp_die('<pre>' . var_dump($new));
+}
+
 
 /**
  * Check if theme is a commercial one. Than write the option

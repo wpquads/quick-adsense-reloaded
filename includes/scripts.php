@@ -38,11 +38,13 @@ function quads_load_admin_scripts( $hook ) {
 
 	// These have to be global
 	wp_enqueue_script( 'quads-admin-scripts', $js_dir . 'quads-admin' . $suffix . '.js', array( 'jquery' ), QUADS_VERSION, false );
+        wp_enqueue_script( 'jquery-form' );
 	wp_enqueue_style( 'quads-admin', $css_dir . 'quads-admin' . $suffix . '.css', QUADS_VERSION );
         
         wp_localize_script( 'quads-admin-scripts', 'quads', array(
         'nonce' => wp_create_nonce( 'quads_ajax_nonce' ),
         'error' => __( "error", 'wpstg' ),
+        'path' => get_option('siteurl'),
 	));
 }
 add_action( 'admin_enqueue_scripts', 'quads_load_admin_scripts', 100 );

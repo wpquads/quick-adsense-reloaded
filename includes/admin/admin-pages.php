@@ -56,7 +56,6 @@ function quads_is_admin_page() {
 	global $quads_parent_page, $pagenow, $typenow, $quads_settings_page, $quads_add_ons_page, $quads_tools_page;
 
 	if ( 'quads-settings' == $currentpage || 'quads-addons' == $currentpage || 'quads-tools' == $currentpage) {
-                quadsdebug()->info("quads_is_admin_page() = true");
 		return true;      
 	}
 	
