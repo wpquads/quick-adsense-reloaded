@@ -236,9 +236,9 @@ li.quads-tabs {
         text-align: left;
     }
     #quads_tab_container li.quads-tabs {
-    float:none;
-    margin-left:0px;
-}
+        float:none;
+        margin-left:0px;
+    }
 }
 
 #quads_tab_container ul li {
@@ -248,10 +248,10 @@ li.quads-tabs {
 #quads_tab_container ul li a {
     display: block;
     padding:10px 10px 10px 10px;
-/*    border-width: 1px 0;
-    border-style: solid;
-    border-top-color:white;
-    border-bottom-color:#e7e7e7;*/
+    /*    border-width: 1px 0;
+        border-style: solid;
+        border-top-color:white;
+        border-bottom-color:#e7e7e7;*/
     text-decoration: none;
     font-weight: bold;
 }
@@ -379,7 +379,7 @@ li.quads-tabs {
     float:left;
     width:215px;
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 600;
     text-transform: uppercase;
 }
 
@@ -387,19 +387,18 @@ li.quads-tabs {
     clear: both;
     margin-top:20px;
 }
-.quads-left-box{
-    width:45%;
-    min-height:100px;
-    float:left;
-    line-height: 35px;
-}
+
+
 
 .adsense-size-title {
-    margin-right:10px;
-    float:left;
+    margin-right: 0px;
+    float: left;
     line-height: 32px;
-    margin-left: 34px;
-    min-width: 80px;
+    margin-left: 14px;
+    min-width: 100px;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
 }
 
 .quads-select-style-overwrite {
@@ -653,4 +652,30 @@ li.quads-tabs {
 
 .quads-form-table{
     width: 100%;
+}
+
+.quads-left-box{
+    width:45%;
+    min-height:100px;
+    float:left;
+    line-height: 35px;
+    min-width: 300px; 
+}
+
+@media screen and (max-width:700px){
+    .adsense-size-title {
+        margin-left: 0px;
+    }
+    .quads-left-box{
+        width:45%;
+        min-height:100px;
+        float:none;
+        line-height: 35px;
+        min-width: 300px; 
+    }
+
+    .quads-style img{
+        max-width: 50px;
+    }
+
 }
