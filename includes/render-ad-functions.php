@@ -37,12 +37,12 @@ function quads_render_ad( $id, $string, $widget = false ) {
 
     // Return the original ad code if it's no adsense code
     if( false === quads_is_adsense( $id, $string ) && !empty( $string ) ) {
-        return $string;
+        return apply_filters( 'quads_render_ad', $string );
     }
 
     // Return the adsense ad code
     if( true === quads_is_adsense( $id, $string ) ) {
-        return quads_render_google_async( $id );
+        return apply_filters( 'quads_render_ad', quads_render_google_async( $id ) );
     }
 
     // Return empty string
@@ -111,6 +111,7 @@ function quads_render_google_async( $id ) {
 
     $html .= '<script type="text/javascript" data-cfasync="false">' . "\n";
     $html .= 'var quads_screen_width = document.body.clientWidth;' . "\n";
+    
 
     $html .= quads_render_desktop_js( $id, $default_ad_sizes );
     $html .= quads_render_tablet_landscape_js( $id, $default_ad_sizes );
@@ -165,7 +166,7 @@ function quads_render_desktop_js( $id, $default_ad_sizes ) {
     $html .= ' data-ad-client="' . $quads_options[$id]['g_data_ad_client'] . '"';
     $html .= ' data-ad-slot="' . $quads_options[$id]['g_data_ad_slot'] . '" ' . $ad_format . '></ins>';
 
-    if( !isset( $quads_options[$id][$adtype] ) and ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
+    if( !isset( $quads_options[$id][$adtype] ) and !empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
         $js = 'if ( quads_screen_width >= 1140 ) {
 /* desktop monitors */
 document.write(\'' . $html . '\');
@@ -332,6 +333,7 @@ document.write(\'' . $html . '\');
         return $js;
     }
 }
+
 
 /**
  * Check if ad code is adsense or other ad code

@@ -53,10 +53,15 @@ class quads_widgets_1 extends WP_Widget {
         $this->adsID = '1';
         $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', $this->adsID );
         $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
+        
+        
         parent::__construct(
                 $this->AdsWidID, // Base ID
                 $this->AdsWidName, // Name
-                array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
+                array(
+                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    ) // Args
         );
     }
 
@@ -81,7 +86,9 @@ class quads_widgets_1 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
+            echo '<div id="quads-ad' . $this->adsID . '_widget">';
             echo $code;
+            echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
         };
@@ -104,7 +111,10 @@ class quads_widgets_2 extends WP_Widget {
         parent::__construct(
                 $this->AdsWidID, // Base ID
                 $this->AdsWidName, // Name
-                array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
+                array(
+                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    ) // Args
         );
     }
 
@@ -120,7 +130,9 @@ class quads_widgets_2 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             //if (array_key_exists('before_widget', $args))
             echo $args['before_widget'];
+            echo '<div id="quads-ad' . $this->adsID . '_widget">';
             echo $code;
+            echo '</div>';
             //if (array_key_exists('after_widget', $args))
             echo $args['after_widget'];
         };
@@ -143,7 +155,10 @@ class quads_widgets_3 extends WP_Widget {
         parent::__construct(
                 $this->AdsWidID, // Base ID
                 $this->AdsWidName, // Name
-                array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
+                array(
+                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    ) // Args
         );
     }
 
@@ -158,7 +173,9 @@ class quads_widgets_3 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
+            echo '<div id="quads-ad' . $this->adsID . '_widget">';
             echo $code;
+            echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
         };
@@ -181,7 +198,10 @@ class quads_widgets_4 extends WP_Widget {
         parent::__construct(
                 $this->AdsWidID, // Base ID
                 $this->AdsWidName, // Name
-                array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
+                array(
+                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    ) // Args
         );
     }
 
@@ -197,7 +217,9 @@ class quads_widgets_4 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
+            echo '<div id="quads-ad' . $this->adsID . '_widget">';
             echo $code;
+            echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
         };
@@ -220,7 +242,10 @@ class quads_widgets_5 extends WP_Widget {
         parent::__construct(
                 $this->AdsWidID, // Base ID
                 $this->AdsWidName, // Name
-                array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
+                array(
+                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    ) // Args
         );
     }
 
@@ -236,7 +261,9 @@ class quads_widgets_5 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
+            echo '<div id="quads-ad' . $this->adsID . '_widget">';
             echo $code;
+            echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
         };
@@ -259,7 +286,10 @@ class quads_widgets_6 extends WP_Widget {
         parent::__construct(
                 $this->AdsWidID, // Base ID
                 $this->AdsWidName, // Name
-                array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
+                array(
+                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    ) // Args
         );
     }
 
@@ -275,7 +305,9 @@ class quads_widgets_6 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
+            echo '<div id="quads-ad' . $this->adsID . '_widget">';
             echo $code;
+            echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
         };
@@ -298,7 +330,10 @@ class quads_widgets_7 extends WP_Widget {
         parent::__construct(
                 $this->AdsWidID, // Base ID
                 $this->AdsWidName, // Name
-                array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
+                array(
+                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    ) // Args
         );
     }
 
@@ -314,7 +349,9 @@ class quads_widgets_7 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
+            echo '<div id="quads-ad' . $this->adsID . '_widget">';
             echo $code;
+            echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
         };
@@ -337,7 +374,10 @@ class quads_widgets_8 extends WP_Widget {
         parent::__construct(
                 $this->AdsWidID, // Base ID
                 $this->AdsWidName, // Name
-                array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
+                array(
+                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    ) // Args
         );
     }
 
@@ -353,7 +393,9 @@ class quads_widgets_8 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
+            echo '<div id="quads-ad' . $this->adsID . '_widget">';
             echo $code;
+            echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
         };
@@ -376,7 +418,10 @@ class quads_widgets_9 extends WP_Widget {
         parent::__construct(
                 $this->AdsWidID, // Base ID
                 $this->AdsWidName, // Name
-                array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
+                array(
+                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    ) // Args
         );
     }
 
@@ -392,7 +437,9 @@ class quads_widgets_9 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
+            echo '<div id="quads-ad' . $this->adsID . '_widget">';
             echo $code;
+            echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
         };
@@ -415,7 +462,10 @@ class quads_widgets_10 extends WP_Widget {
         parent::__construct(
                 $this->AdsWidID, // Base ID
                 $this->AdsWidName, // Name
-                array('description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),) // Args
+                array(
+                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    ) // Args
         );
     }
 
@@ -431,7 +481,9 @@ class quads_widgets_10 extends WP_Widget {
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
+            echo '<div id="quads-ad' . $this->adsID . '_widget">';
             echo $code;
+            echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
         };

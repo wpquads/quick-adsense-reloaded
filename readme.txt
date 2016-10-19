@@ -124,8 +124,11 @@ Alternative Installation:
 * New: Settings are saved without page reload
 * New: Basic Responsive Support for Ads including widget ads
 * New: No more script security errors when saving settings
-* New: New Graphival User Interface
+* New: Improved Graphical User Interface
+* New: Another class name for ad container
 * Tweak: Remove deprecated debug code
+* Fix: Adsense ad label 'Advertisment' not shown
+* Fix: Remove ad container completely when it is deactivated via WP QUADS PRO
 
 = 1.2.6 =
 * Fix: WP auto P tags breaks inline javascript
