@@ -96,6 +96,8 @@ function quads_register_settings() {
 
     // Store adsense values 
     quads_store_adsense_args();
+    // Store AdSense value
+    quads_fix_ad_not_shown();
 
     // Creates our settings in the options table
     register_setting( 'quads_settings', 'quads_settings', 'quads_settings_sanitize' );
@@ -1691,31 +1693,31 @@ function quads_adsense_code_callback( $args ) {
  * @global $quads_options Array of all the QUADS Options
  * @return void
  */
-function quads_widget_callback( $args ) {
-    global $quads_options;
-    
-    $code = isset( $quads_options[$args['id']]['code'] ) ? $quads_options[$args['id']]['code'] : '';
-    
-    $margin = isset( $quads_options[$args['id']]['margin'] ) ? esc_attr( stripslashes( $quads_options[$args['id']]['margin'] ) ) : 0;
-
-    $g_data_ad_client = isset( $quads_options[$args['id']]['g_data_ad_client'] ) ? $quads_options[$args['id']]['g_data_ad_client'] : '';
-
-    $g_data_ad_slot = isset( $quads_options[$args['id']]['g_data_ad_slot'] ) ? $quads_options[$args['id']]['g_data_ad_slot'] : '';
-    
-    $g_data_ad_width = isset( $quads_options[$args['id']]['g_data_ad_width'] ) ? $quads_options[$args['id']]['g_data_ad_width'] : '';
-    
-    $g_data_ad_height = isset( $quads_options[$args['id']]['g_data_ad_height'] ) ? $quads_options[$args['id']]['g_data_ad_height'] : '';
-    
-    // Create a shorter var to make HTML cleaner
-    //$id = $args['id'];
-
-    $size = ( isset( $args['size'] ) && !is_null( $args['size'] ) ) ? $args['size'] : '40';
-    $html = '<textarea class="large-text quads-textarea" cols="50" rows="' . $size . '" id="quads_settings[' . $args['id'] . '][code]" name="quads_settings[' . $args['id'] . '][code]">' . esc_textarea( stripslashes( $code ) ) . '</textarea>';
-    $html .= '<label class="quads_hidden" for="quads_settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
-        
-    echo $html;
-    echo apply_filters( 'quads_advanced_settings', '', $args['id'] ); 
-}
+//function quads_widget_callback( $args ) {
+//    global $quads_options;
+//    
+//    $code = isset( $quads_options[$args['id']]['code'] ) ? $quads_options[$args['id']]['code'] : '';
+//    
+//    $margin = isset( $quads_options[$args['id']]['margin'] ) ? esc_attr( stripslashes( $quads_options[$args['id']]['margin'] ) ) : 0;
+//
+//    $g_data_ad_client = isset( $quads_options[$args['id']]['g_data_ad_client'] ) ? $quads_options[$args['id']]['g_data_ad_client'] : '';
+//
+//    $g_data_ad_slot = isset( $quads_options[$args['id']]['g_data_ad_slot'] ) ? $quads_options[$args['id']]['g_data_ad_slot'] : '';
+//    
+//    $g_data_ad_width = isset( $quads_options[$args['id']]['g_data_ad_width'] ) ? $quads_options[$args['id']]['g_data_ad_width'] : '';
+//    
+//    $g_data_ad_height = isset( $quads_options[$args['id']]['g_data_ad_height'] ) ? $quads_options[$args['id']]['g_data_ad_height'] : '';
+//    
+//    // Create a shorter var to make HTML cleaner
+//    //$id = $args['id'];
+//
+//    $size = ( isset( $args['size'] ) && !is_null( $args['size'] ) ) ? $args['size'] : '40';
+//    $html = '<textarea class="large-text quads-textarea" cols="50" rows="' . $size . '" id="quads_settings[' . $args['id'] . '][code]" name="quads_settings[' . $args['id'] . '][code]">' . esc_textarea( stripslashes( $code ) ) . '</textarea>';
+//    $html .= '<label class="quads_hidden" for="quads_settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+//        
+//    echo $html;
+//    echo apply_filters( 'quads_advanced_settings', '', $args['id'] ); 
+//}
 
 /**
  * If advanced settings are not available load overlay image
@@ -1886,10 +1888,26 @@ function quads_store_adsense_args() {
                 //$quads_options[$id]['g_data_ad_client'] = '';
                 //$quads_options[$id]['g_data_ad_slot'] = '';
             }
-        }
+        } 
     }
     //var_dump($quads_options);
     update_option( 'quads_settings', $quads_options );
+}
+
+
+/**
+ * Populate AdSense Code field otherwise ads are not shown on frontpage (Bug). @todo
+ * 
+ * @global $quads_options $quads_options
+ */
+function quads_fix_ad_not_shown(){
+    global $quads_options;
+    
+    foreach ( $quads_options as $id => $values ) {
+        if( is_array( $values ) && array_key_exists( 'code', $values ) && array_key_exists( 'ad_type', $values ) && empty($values['code']) ) {
+            $quads_options[$id]['code'] = '...';
+        }
+    }
 }
 
 /**

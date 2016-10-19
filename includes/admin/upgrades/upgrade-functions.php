@@ -51,10 +51,16 @@ add_action( 'admin_init', 'quads_do_automatic_upgrades' );
 
 /**
  * Change array quads_settings['ad1_widget'] to quads_settings[ad1_widget][code]
+ * 
+ * return mixed bool|void false when settings are empty
  */
 function quads_change_widget_values(){
     $settings = get_option('quads_settings');
 
+    if (empty($settings)){
+        return false;
+    }
+    
     foreach ($settings as $key => $value){
         if ($key === 'ad1_widget' && is_string($settings['ad1_widget']) )
             $new['ad1_widget']['code'] = $value;
