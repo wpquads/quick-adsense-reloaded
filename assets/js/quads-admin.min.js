@@ -11,17 +11,22 @@ jQuery(document).ready(function ($) {
             success: function(){
                 jQuery('#quads-save-result').html("<div id='quads-save-message' class='quads-success-modal'></div>");
                 jQuery('#quads-save-message').append('<p><img src="'+quads.path+'/wp-content/plugins/quick-adsense-reloaded/assets/images/saved.gif"></p>').show();
+                quads_hide_success_message();
             },
             //,timeout: 0,
             
             error: function(){
                alert ('Error: Can not save settings. Try again'); 
-               jQuery('#quads-save-result').hide('fast');;
+               jQuery('#quads-save-result').hide('fast');
             }
         });
-        setTimeout("jQuery('#quads-save-message').hide('fast');", 2000);
         return false;
     });
+    
+    function quads_hide_success_message(){
+        console.log('quads success');
+        setTimeout("jQuery('#quads-save-message').hide()", 1000);
+    }
     
     
     // Paste AdSense Code form

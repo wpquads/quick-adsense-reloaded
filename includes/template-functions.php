@@ -92,8 +92,6 @@ function quads_get_visibility_quicktags_str ( $post_id = null ) {
 
 function quads_process_content($content){
     global $quads_options, $ShownAds, $AdsId, $numberWidgets, $numberAds, $AdsWidName, $ad_count_content, $ad_count_shortcode;
-
-        
         
         // Return original content if QUADS is not allowed
         if ( !quads_ad_is_allowed($content) ) {

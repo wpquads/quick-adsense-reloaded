@@ -62,11 +62,9 @@ function quads_load_admin_scripts( $hook ) {
 function quads_register_styles( $hook ) {
     global $quads_options;
 
-    // Use minified libraries if Mashshare debug mode is turned off
-    $suffix = '';
-    $file = 'quads' . $suffix . '.css';
-    $url = MASHSB_PLUGIN_URL . 'assets/css/' . $file;
-    $url = ' ';
+    // Register empty quads.css to be able to register quads_inline_styles()
+    $url = QUADS_PLUGIN_URL . 'assets/css/quads.css';
+
     wp_enqueue_style( 'quads-styles', $url, array(), QUADS_VERSION );
 }
 

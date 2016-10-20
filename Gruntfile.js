@@ -35,7 +35,8 @@ module.exports = function (grunt) {
         uglify: {
             build: {
                 files: [
-                    {'assets/js/quads-admin.min.js': 'assets/js/quads-admin.js'}
+                    //{'assets/js/quads-admin.min.js': 'assets/js/quads-admin.js'}
+                    {'<%= paths.base %>/assets/js/quads-admin.min.js': '<%= paths.base %>/assets/js/quads-admin.js'}
                 ]
             }
         },
@@ -84,7 +85,8 @@ module.exports = function (grunt) {
         cssmin: {
             build: {
                 files: [
-                    {'assets/css/quads-admin.min.css': 'assets/css/quads-admin.css'}
+                    //{'assets/css/quads-admin.min.css': 'assets/css/quads-admin.css'}
+                    {'<%= paths.base %>/assets/css/quads-admin.min.css': '<%= paths.base %>/assets/css/quads-admin.css'}
                 ]
             }
         },
@@ -119,5 +121,5 @@ module.exports = function (grunt) {
     // Build task
     //grunt.registerTask( 'build', [ 'compress:build' ]);
     //grunt.registerTask('build', ['clean:build', 'uglify:build', 'cssmin:build', 'copy:build', 'string-replace:version', 'compress:build']);
-    grunt.registerTask('build', ['clean:build', 'cssmin:build', 'copy:build', 'string-replace:version', 'compress:build']);
+    grunt.registerTask('build', ['clean:build', 'copy:build', 'cssmin:build', 'string-replace:version', 'compress:build']);
 };
