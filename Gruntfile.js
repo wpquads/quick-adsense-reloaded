@@ -36,7 +36,7 @@ module.exports = function (grunt) {
             build: {
                 files: [
                     //{'assets/js/quads-admin.min.js': 'assets/js/quads-admin.js'}
-                    {'<%= paths.base %>/assets/js/quads-admin.min.js': '<%= paths.base %>/assets/js/quads-admin.js'}
+                    {'<%= paths.base %>/assets/js/quads-admin.min.js': 'assets/js/quads-admin.js'}
                 ]
             }
         },
@@ -86,7 +86,7 @@ module.exports = function (grunt) {
             build: {
                 files: [
                     //{'assets/css/quads-admin.min.css': 'assets/css/quads-admin.css'}
-                    {'<%= paths.base %>/assets/css/quads-admin.min.css': '<%= paths.base %>/assets/css/quads-admin.css'}
+                    {'<%= paths.base %>/assets/css/quads-admin.min.css': 'assets/css/quads-admin.css'}
                 ]
             }
         },
