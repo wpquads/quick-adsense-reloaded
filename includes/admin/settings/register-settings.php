@@ -249,7 +249,7 @@ function quads_get_registered_settings() {
             'widget_header' => array(
                 'id' => 'widget_header',
                 'name' => '<strong>' . __( 'Widgets Ad Code', 'quick-adsense-reloaded' ) . '</strong>',
-                'desc' => sprintf( __( 'Every code block creates an unique ad widget in the <a href="%s" target="_self">widget section</a> of WordPress', 'quick-adsense-reloaded' ), admin_url() . 'widgets.php' ),
+                'desc' => sprintf( __( 'After creating your ads here go to <a href="%s" target="_self">Appearance->Widgets</a> and drag the WP QUADS widget into place.', 'quick-adsense-reloaded' ), admin_url() . 'widgets.php' ),
                 'type' => 'header'
             ),
             'ad1_widget' => array(

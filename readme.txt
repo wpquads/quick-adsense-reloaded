@@ -127,6 +127,7 @@ Alternative Installation:
 * New: Improved Graphical User Interface
 * New: Another class name for ad container
 * Tweak: Remove deprecated debug code
+* Tweak: Better description what to do after creating widget adsense code
 * Fix: Adsense ad label 'Advertisment' not shown
 * Fix: Remove ad container completely when it is deactivated via WP QUADS PRO
 
