@@ -167,7 +167,7 @@ jQuery(document).ready(function ($) {
     function get_google_ad_slot(content) {
         const regex = /google_ad_slot\s*=\s*"(\d*)";/g;
         const str = content;
-        let m;
+        var m;
         var result = {};
         
         while ((m = regex.exec(str)) !== null) {
@@ -177,8 +177,9 @@ jQuery(document).ready(function ($) {
             }
 
             // The result can be accessed through the `m`-variable.
-            m.forEach((match, groupIndex) => {
+            m.forEach(function(match, index){
                 //console.log(`Found match, group ${groupIndex}: ${match}`);
+                console.log(match);
                 result = match;
             });
         }
@@ -187,7 +188,7 @@ jQuery(document).ready(function ($) {
     function get_google_ad_client(content) {
         const regex = /google_ad_client\s*=\s*"ca-pub-(\d*)";/g;
         const str = content;
-        let m;
+        var m;
         var result = {};
         
         while ((m = regex.exec(str)) !== null) {
@@ -197,8 +198,9 @@ jQuery(document).ready(function ($) {
             }
 
             // The result can be accessed through the `m`-variable.
-            m.forEach((match, groupIndex) => {
+            m.forEach(function(match, index){
                 //console.log(`Found match, group ${groupIndex}: ${match}`);
+                console.log(match);
                 result = match;
             });
         }
@@ -207,7 +209,7 @@ jQuery(document).ready(function ($) {
     function get_google_ad_width(content) {
         const regex = /google_ad_width\s*=\s*(\d*);/g;
         const str = content;
-        let m;
+        var m;
         var result = {};
         
         while ((m = regex.exec(str)) !== null) {
@@ -217,8 +219,9 @@ jQuery(document).ready(function ($) {
             }
 
             // The result can be accessed through the `m`-variable.
-            m.forEach((match, groupIndex) => {
+            m.forEach(function(match, index){
                 //console.log(`Found match, group ${groupIndex}: ${match}`);
+                console.log(match);
                 result = match;
             });
         }
@@ -227,7 +230,7 @@ jQuery(document).ready(function ($) {
     function get_google_ad_height(content) {
         const regex = /google_ad_height\s*=\s*(\d*);/g;
         const str = content;
-        let m;
+        var m;
         var result = {};
         
         while ((m = regex.exec(str)) !== null) {
@@ -237,8 +240,9 @@ jQuery(document).ready(function ($) {
             }
 
             // The result can be accessed through the `m`-variable.
-            m.forEach((match, groupIndex) => {
+            m.forEach(function(match, index){
                 //console.log(`Found match, group ${groupIndex}: ${match}`);
+                console.log(match);
                 result = match;
             });
         }
