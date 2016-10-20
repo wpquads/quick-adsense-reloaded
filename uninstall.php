@@ -22,7 +22,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) exit;
  * @return mixed
  */
 function quads_get_option_uninstall( $key = '', $default = false ) {
-	global $quads_options;
+	$quads_options = get_option('quads_settings');
 	$value = ! empty( $quads_options[ $key ] ) ? $quads_options[ $key ] : $default;
 	$value = apply_filters( 'quads_get_option', $value, $key, $default );
 	return apply_filters( 'quads_get_option_' . $key, $value, $key, $default );
