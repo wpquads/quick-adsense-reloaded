@@ -572,6 +572,25 @@ function quads_checkbox_callback( $args ) {
 
     echo $html;
 }
+/**
+ * Checkbox Callback
+ *
+ * Renders checkboxes.
+ *
+ * @since 1.0
+ * @param array $args Arguments passed by the setting
+ * @global $quads_options Array of all the QUADS Options
+ * @return void
+ */
+function quads_checkbox_adsense_callback( $args ) {
+    global $quads_options;
+
+    $checked = isset( $quads_options[$args['id']] ) ? checked( 1, $quads_options[$args['id']], false ) : '';
+    $html = '<input type="checkbox" id="quads_settings[' . $args['id'] . ']" name="quads_settings[' . $args['id'] . ']" value="1" ' . $checked . '/>';
+    $html .= '<label class="quads_hidden" for="quads_settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+
+    return $html;
+}
 
 /**
  * Multicheck Callback
@@ -1945,6 +1964,4 @@ function quads_sanitize_key( $key ) {
      */
     return apply_filters( 'quads_sanitize_key', $key, $raw_key );
 }
-
-
 

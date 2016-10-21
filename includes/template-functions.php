@@ -469,7 +469,8 @@ function quads_replace_ads($content, $nme, $id) {
                 
 		$adsalign = $quads_options['ad' . $id]['align'];
 		$adsmargin = $quads_options['ad' . $id]['margin'];
-		$style = sprintf($arr[(int)$adsalign], $adsmargin);
+                // Do not create inline style on AMP site
+		$style = !quads_is_amp_endpoint() ? sprintf($arr[(int)$adsalign], $adsmargin) : '';
                 $adscode = $quads_options['ad' . $id ]['code'];
                 
                 $adscode =

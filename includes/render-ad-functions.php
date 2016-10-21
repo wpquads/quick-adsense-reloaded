@@ -27,12 +27,15 @@ function quads_render_ad( $id, $string, $widget = false ) {
 
     $string = apply_filters( 'quads_render_ad', $string );
 
-    // Create the global id
-    //$id = 'ad' . $ads_id;
 
     // Return empty string
     if( empty( $id ) ) {
         return '';
+    }
+    
+    
+    if (quads_is_amp_endpoint()){
+        return quads_render_amp($id);
     }
 
     // Return the original ad code if it's no adsense code
@@ -58,6 +61,7 @@ function quads_render_ad( $id, $string, $widget = false ) {
  */
 function quads_render_google_async( $id ) {
     global $quads_options;
+
 
     // Default ad sizes - Option: Auto
     $default_ad_sizes[$id] = array(
@@ -368,3 +372,33 @@ function quads_is_adsense( $id, $string ) {
 //    }
 //    return false;
 //}
+
+
+function quads_render_amp($id){
+    global $quads_options;
+
+    if (!isset($quads_options[$id]['amp'])){
+        return '';
+    }
+    
+    //$html = '<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="'. $quads_options[$id]['g_data_ad_client'] . '" data-ad-slot="'.$quads_options[$id]['g_data_ad_slot'].'"></amp-ad>';
+    $html = '<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="'. $quads_options[$id]['g_data_ad_client'] . '" data-ad-slot="'.$quads_options[$id]['g_data_ad_slot'].'"></amp-ad>';
+    //$html = '<amp-ad layout="fixed-height" height=100 type="adsense" data-ad-client="'. $quads_options[$id]['g_data_ad_client'] . '" data-ad-slot="'.$quads_options[$id]['g_data_ad_slot'].'"></amp-ad>';
+    
+    return $html;
+}
+
+/**
+ * Check if page is AMP one
+ * 
+ * @return boolean
+ */
+function quads_is_amp_endpoint(){
+    // Automattic AMP plugin
+    if (  function_exists( 'is_amp_endpoint' )){
+        if ( is_amp_endpoint()){
+            return true;
+        }
+    }
+    return false;
+}

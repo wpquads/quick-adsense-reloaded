@@ -120,6 +120,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* New: AMP support with WP QUADS PRO
+
+= 1.2.8 =
 * Fix: Can not parse responsive AdSense async code when its custom modified
 * Fix: Use custom AdSense ads with modified css rules
 * Fix: Do not change adsense default format

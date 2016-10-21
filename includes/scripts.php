@@ -31,7 +31,7 @@ function quads_load_admin_scripts( $hook ) {
         return;
     }
     global $wp_version;
-
+    
     $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
     $css_dir = QUADS_PLUGIN_URL . 'assets/css/';
 
@@ -45,7 +45,7 @@ function quads_load_admin_scripts( $hook ) {
 
     wp_localize_script( 'quads-admin-scripts', 'quads', array(
         'nonce' => wp_create_nonce( 'quads_ajax_nonce' ),
-        'error' => __( "error", 'wpstg' ),
+        'error' => __( "error", 'quick-adsense-reloaded' ),
         'path' => get_option( 'siteurl' ),
     ) );
 }
