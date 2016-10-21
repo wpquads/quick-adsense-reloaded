@@ -11,7 +11,7 @@ Requires at least: 3.6+
 Tested up to: 4.7
 Stable tag: {{ version }}
 
-Quick Adsense Reloaded! The quickest way to insert Google AdSense & other ads into your website. Google AdSense integration simplified! Google AMP support
+Quick Adsense Reloaded! Quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support
 
 == Description == 
 
@@ -24,13 +24,13 @@ Quick Adsense Reloaded! The quickest way to insert Google AdSense & other ads in
 > Support of the popular Click Fraud Monitor plugin <br /> 
 > Visit the site: [clickfraud-monitoring.com](http://demo.clickfraud-monitoring.com/) <br /> 
 >
-> <strong>NEW: WP QUADS PRO </strong><br>
-> - AMP support - Add AMP ads automatically to your site*
+> <strong>NEW: AMP SUPPORT WITH WP QUADS PRO </strong><br>
+> - AMP support! Add AMP ads automatically to your site
 > - Use mobile optimized and responsive AdSense ads<br /> 
 > - Disable AdSense ads on phone, tablet or desktop devices<br /> 
 > - Define AdSense size for different devices<br />
 >
-> *Requires [Automattic AMP plugin](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) installed
+> AMP feature requires [Automattic AMP plugin](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) installed
 > Get WP QUADS PRO: [wpquads.com](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) <br /> 
 
 = Why a Quick AdSense fork? =
