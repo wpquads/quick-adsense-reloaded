@@ -125,6 +125,7 @@ jQuery(document).ready(function ($) {
                     GoogleAd.type = 'responsive';
                     return GoogleAd;
                 }
+                return GoogleAd;
             }
 
             return false;

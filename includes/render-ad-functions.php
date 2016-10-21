@@ -344,8 +344,11 @@ document.write(\'' . $html . '\');
 function quads_is_adsense( $id, $string ) {
     global $quads_options;
 
-    if( strpos( $string, 'googlesyndication.com' ) !== false ||
-            (isset( $quads_options[$id]['ad_type'] ) && $quads_options[$id]['ad_type'] === 'adsense') ) {
+//    if( strpos( $string, 'googlesyndication.com' ) !== false ||
+//            (isset( $quads_options[$id]['ad_type'] ) && $quads_options[$id]['ad_type'] === 'adsense') ) {
+//        return true;
+//    }
+    if( $quads_options[$id]['ad_type'] === 'adsense') {
         return true;
     }
     return false;

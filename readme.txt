@@ -120,6 +120,11 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: Can not parse responsive AdSense async code when its custom modified
+* Fix: Use custom AdSense ads with modified css rules
+* Fix: Do not change adsense default format
+
+= 1.2.7 =
 * New: Ignore Cloudflare Rocket Script Loader for AdSense generated code
 * New: Settings are saved without page reload
 * New: Basic Responsive Support for Ads including widget ads
