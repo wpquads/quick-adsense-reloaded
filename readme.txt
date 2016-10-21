@@ -6,12 +6,12 @@ Contributors: ReneHermi, WP-Staging
 Donate link: 
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: advertising, ads, adsense, google, google adsense, posts, post, page, sidebar, shortcode, admin, plugin, widget, adsense plugin
+Tags: advertising, ads, adsense, google, google adsense, posts, post, page, sidebar, shortcode, admin, plugin, widget, adsense plugin, amp
 Requires at least: 3.6+
 Tested up to: 4.7
 Stable tag: {{ version }}
 
-Quick Adsense Reloaded! The quickest way to insert Google AdSense & other ads into your website. Google AdSense integration simplified!
+Quick Adsense Reloaded! The quickest way to insert Google AdSense & other ads into your website. Google AdSense integration simplified! Google AMP support
 
 == Description == 
 
@@ -25,11 +25,13 @@ Quick Adsense Reloaded! The quickest way to insert Google AdSense & other ads in
 > Visit the site: [clickfraud-monitoring.com](http://demo.clickfraud-monitoring.com/) <br /> 
 >
 > <strong>NEW: WP QUADS PRO </strong><br>
+> - AMP support - Add AMP ads automatically to your site*
 > - Use mobile optimized and responsive AdSense ads<br /> 
-> - Deactivate AdSense on phone, tablet or desktop device<br /> 
-> - Specify AdSense size on different devices<br />
+> - Disable AdSense ads on phone, tablet or desktop devices<br /> 
+> - Define AdSense size for different devices<br />
 >
-> Check out WP QUADS PRO: [wpquads.com](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) <br /> 
+> *Requires [Automattic AMP plugin](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) installed
+> Get WP QUADS PRO: [wpquads.com](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) <br /> 
 
 = Why a Quick AdSense fork? =
 
@@ -120,7 +122,7 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
-* New: AMP support with WP QUADS PRO
+* New: AMP support with WP QUADS PRO and Automattic AMP plugin
 
 = 1.2.8 =
 * Fix: Can not parse responsive AdSense async code when its custom modified
