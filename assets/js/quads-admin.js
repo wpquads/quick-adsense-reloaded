@@ -1,6 +1,40 @@
 var strict;
 
 jQuery(document).ready(function ($) {
+    
+    // show / hide helper description
+    $('.quads-helper').click(function (e) {
+        e.preventDefault();
+        var icon = $(this),
+                bubble = $(this).next();
+
+        // Close any that are already open
+        $('.quads-message').not(bubble).hide();
+
+        var position = icon.position();
+        if (bubble.hasClass('bottom')) {
+            bubble.css({
+                'left': (position.left - bubble.width() / 2) + 'px',
+                'top': (position.top + icon.height() + 9) + 'px'
+            });
+        } else {
+            bubble.css({
+                'left': (position.left + icon.width() + 9) + 'px',
+                'top': (position.top + icon.height() / 2 - 18) + 'px'
+            });
+        }
+
+        bubble.toggle();
+        e.stopPropagation();
+    });
+
+    $('body').click(function () {
+        $('.quads-message').hide();
+    });
+
+    $('.quads-message').click(function (e) {
+        e.stopPropagation();
+    });
 
     // Save settings via ajax
     jQuery('#quads_settings').submit(function() {
