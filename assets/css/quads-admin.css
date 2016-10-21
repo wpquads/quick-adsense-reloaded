@@ -679,3 +679,9 @@ li.quads-tabs {
     }
 
 }
+
+.adsense_admin_header ul li{
+    margin-top:2px;
+    margin-left:20px;
+    list-style-type: square;
+}
