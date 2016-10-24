@@ -352,7 +352,7 @@ function quads_is_adsense( $id, $string ) {
 //            (isset( $quads_options[$id]['ad_type'] ) && $quads_options[$id]['ad_type'] === 'adsense') ) {
 //        return true;
 //    }
-    if( $quads_options[$id]['ad_type'] === 'adsense') {
+    if( isset($quads_options[$id]['ad_type']) && $quads_options[$id]['ad_type'] === 'adsense') {
         return true;
     }
     return false;

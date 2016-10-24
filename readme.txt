@@ -122,6 +122,13 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: Make sure existing adsense code is not changed after updating
+* Fix: Missing quads-ad class in custom Ad spots
+* Fix: Hide on (mobile, desktop, tablet) device rules not working for custom Ad spots
+* Fix: WP QUADS PRO can not be detected if folder name is not default wp-content/plugins/wp-quads-pro
+* Tweak: Change description of load order
+
+= 1.2.9 =
 * New: AMP support with WP QUADS PRO and Automattic AMP plugin
 
 = 1.2.8 =

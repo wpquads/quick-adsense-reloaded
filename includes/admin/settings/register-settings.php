@@ -333,7 +333,7 @@ function quads_get_registered_settings() {
             'priority' => array(
                 'id' => 'priority',
                 'name' => __( 'Load Priority', 'quick-adsense-reloaded' ),
-                'desc' => __( 'A low value loads WP QUADS earlier than other Plugins. Use a higher value for loading WP QUADS later. Try to lower the value to a value less than 10 if not all ads are shown. <strong>Default:</strong> 20', 'quick-adsense-reloaded' ),
+                'desc' => __( 'Do not change this if everything is working fine. It could result in non showing ads! A lower value loads WP QUADS earlier than other Plugins. Use a higher value for loading WP QUADS later. Try to lower the value to a value less than 10 if not all ads are shown. <strong>Default:</strong> 20', 'quick-adsense-reloaded' ),
                 'type' => 'number',
                 'size' => 'small',
                 'std' => 20
@@ -1701,41 +1701,6 @@ function quads_adsense_code_callback( $args ) {
 <?php
 }
 
-/**
- * Widget Callback
- *
- * Renders widget fields.
- *
- * @since 1.0
- * @param array $args Arguments passed by the setting
- * @global $quads_options Array of all the QUADS Options
- * @return void
- */
-//function quads_widget_callback( $args ) {
-//    global $quads_options;
-//    
-//    $code = isset( $quads_options[$args['id']]['code'] ) ? $quads_options[$args['id']]['code'] : '';
-//    
-//    $margin = isset( $quads_options[$args['id']]['margin'] ) ? esc_attr( stripslashes( $quads_options[$args['id']]['margin'] ) ) : 0;
-//
-//    $g_data_ad_client = isset( $quads_options[$args['id']]['g_data_ad_client'] ) ? $quads_options[$args['id']]['g_data_ad_client'] : '';
-//
-//    $g_data_ad_slot = isset( $quads_options[$args['id']]['g_data_ad_slot'] ) ? $quads_options[$args['id']]['g_data_ad_slot'] : '';
-//    
-//    $g_data_ad_width = isset( $quads_options[$args['id']]['g_data_ad_width'] ) ? $quads_options[$args['id']]['g_data_ad_width'] : '';
-//    
-//    $g_data_ad_height = isset( $quads_options[$args['id']]['g_data_ad_height'] ) ? $quads_options[$args['id']]['g_data_ad_height'] : '';
-//    
-//    // Create a shorter var to make HTML cleaner
-//    //$id = $args['id'];
-//
-//    $size = ( isset( $args['size'] ) && !is_null( $args['size'] ) ) ? $args['size'] : '40';
-//    $html = '<textarea class="large-text quads-textarea" cols="50" rows="' . $size . '" id="quads_settings[' . $args['id'] . '][code]" name="quads_settings[' . $args['id'] . '][code]">' . esc_textarea( stripslashes( $code ) ) . '</textarea>';
-//    $html .= '<label class="quads_hidden" for="quads_settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
-//        
-//    echo $html;
-//    echo apply_filters( 'quads_advanced_settings', '', $args['id'] ); 
-//}
 
 /**
  * If advanced settings are not available load overlay image
@@ -1747,7 +1712,6 @@ function quads_pro_overlay() {
     }
 
     $html = '<div class="quads-advanced-ad-box quads-pro-overlay"><a href="http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin" target="_blank"><img src="' . QUADS_PLUGIN_URL . '/assets/images/get_pro_overlay.png"></a></div>';
-    //$html .='<div style="clear:both;height:1px;"><span>' . sprintf( __( 'Error while saving? <a href="%s1" target="_blank" id="quads-add-adsense">Paste AdSense Code</a> alternative way.', 'quick-adsense-reloaded' ), 'https://wordpress.org/support/topic/404-error-when-saving-plugin-options-takes-me-to-wp-adminoptionsphp/' ) . '</span></div>';
 
     return $html;
 }
@@ -1926,21 +1890,6 @@ function quads_fix_ad_not_shown(){
             $quads_options[$id]['code'] = '...';
         }
     }
-}
-
-/**
- * Check if advanced settings are available
- * 
- * @return boolean
- */
-function quads_is_advanced() {
-    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-    $plugin = 'wp-quads-pro/wp-quads-pro.php';
-    if( is_plugin_active( $plugin ) ) {
-        return true;
-    }
-
-    return false;
 }
 
 /**

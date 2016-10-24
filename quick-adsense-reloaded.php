@@ -351,3 +351,47 @@ add_action( 'plugins_loaded', 'quads_loaded' );
  * function also needs to be static.
  */
 register_activation_hook( __FILE__, array('QuickAdsenseReloaded', 'activation') );
+
+/**
+ * Check if advanced settings are available
+ * 
+ * @return boolean
+ */
+//function quads_is_advanced() {
+//    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+//    //$plugin = 'wp-quads-pro/wp-quads-pro.php';
+//    $plugin = 'wp-quads-pro.php';
+//    //$plugin = plugin_dir_path( __FILE__ ) . basename( __FILE__ );
+//
+//    if( is_plugin_active( $plugin ) ) {
+//        return true;
+//    }
+//
+//    return false;
+//}
+
+function quads_is_advanced(){
+    if (  function_exists( 'quads_is_active_pro' )){
+        return quads_is_active_pro();
+    } else {
+        return quads_is_active_deprecated();
+    }
+    return false;
+}
+/**
+ * Check if wp quads pro is active and installed
+ * 
+ * @deprecated since version 1.3.0
+ * @return boolean
+ */
+function quads_is_active_deprecated(){
+        
+    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+    $plugin = 'wp-quads-pro/wp-quads-pro.php';
+
+    if( is_plugin_active( $plugin ) ) {
+        return true;
+    }
+
+    return false;
+}
