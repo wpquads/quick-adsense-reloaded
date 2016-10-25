@@ -126,6 +126,7 @@ Alternative Installation:
 * Fix: Missing quads-ad class in custom Ad spots
 * Fix: Hide on (mobile, desktop, tablet) device rules not working for custom Ad spots
 * Fix: WP QUADS PRO can not be detected if folder name is not default wp-content/plugins/wp-quads-pro
+* Fix: Can not export settings without reloading page
 * Tweak: Change description of load order
 
 = 1.2.9 =

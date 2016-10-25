@@ -87,12 +87,13 @@ function quads_tools_import_export_display() {
     
 	do_action( 'quads_tools_import_export_before' );
 ?>
+        <!-- We have to close the old form first//-->
+
 	<div class="quads-postbox">
 		<h3><span><?php _e( 'Export Settings', 'quick-adsense-reloaded' ); ?></span></h3>
 		<div class="inside">
 			<p><?php _e( 'Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded' ); ?></p>
-			
-			<form method="post" action="<?php echo admin_url( 'admin.php?page=quads-settings&tab=imexport' ); ?>">
+			<form method="post" action="<?php echo admin_url( 'admin.php?page=quads-settings&tab=imexport' ); ?>" id="quads-export-settings">
 				<p><input type="hidden" name="quads-action" value="export_settings" /></p>
 				<p>
 					<?php wp_nonce_field( 'quads_export_nonce', 'quads_export_nonce' ); ?>

@@ -38,6 +38,11 @@ jQuery(document).ready(function ($) {
 
     // Save settings via ajax
     jQuery('#quads_settings').submit(function() {
+        
+        // Check current url / settings page
+        var url = window.location.search;
+        var search = url.search("page=quads-settings&tab=imexport");
+        
         jQuery('#quads-save-result').html("<div id='quads-loader' class='quads-loader'></div>");
         jQuery('#quads-loader').append('<p><img src="'+quads.path+'/wp-content/plugins/quick-adsense-reloaded/assets/images/loader1.gif"></p>').show();
         jQuery(this).ajaxSubmit({
@@ -50,15 +55,20 @@ jQuery(document).ready(function ($) {
             //,timeout: 0,
             
             error: function(){
-               alert ('Error: Can not save settings. Try again'); 
-               jQuery('#quads-save-result').hide('fast');
+                //Do not show alert on import/export tab
+                if ( search === -1 ){
+                    alert ('Error: Can not save settings. Try again'); 
+                }
+                    jQuery('#quads-save-result').hide('fast');
             }
         });
-        return false;
+        // Do not preventDefault on import/export tab
+        if ( search === -1 ){
+            return false;
+        }
     });
     
     function quads_hide_success_message(){
-        console.log('quads success');
         setTimeout("jQuery('#quads-save-message').hide()", 1000);
     }
     

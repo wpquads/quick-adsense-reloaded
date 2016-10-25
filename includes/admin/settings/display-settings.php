@@ -225,8 +225,9 @@ function quads_options_page() {
                                 <?php  settings_errors(); ?>
 				<?php 
                                 // do not show save button on add-on page
-                                if ($active_tab !== 'addons')
+                                if ($active_tab !== 'addons'){
                                     submit_button(); 
+                                }
                                 ?>
 			</form>
                         <?php
@@ -257,11 +258,11 @@ function quads_return_ad() {
             ?>
     <div class="quads-panel-sidebar" style="float:left;min-width: 301px;margin-left: 1px;margin-top:0px;">
         <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-quads&utm_campaign=wpquads" target="_blank">
-            <img src="<?php echo QUADS_PLUGIN_URL . '/assets/images/banner_300x250_quads.png'; ?>">
+            <img src="<?php echo QUADS_PLUGIN_URL . '/assets/images/quads_banner_250x270.png'; ?>">
         </a>
         <br>
-        <a style="display:none;" href="http://demo.clickfraud-monitoring.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-cfm&utm_campaign=wpquads" target="_blank">
-            <img src="<?php echo QUADS_PLUGIN_URL . '/assets/images/banner_300x250_cfm.png'; ?>">
+        <a style="display:block;" href="http://demo.clickfraud-monitoring.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-cfm&utm_campaign=wpquads" target="_blank">
+            <img src="<?php echo QUADS_PLUGIN_URL . '/assets/images/banner_250x296-cfm.png'; ?>">
         </a>
     </div>
     <?php
