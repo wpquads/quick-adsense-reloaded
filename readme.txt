@@ -25,7 +25,7 @@ Quick Adsense Reloaded! Quickest way to insert Google AdSense & other ads into y
 > Visit the site: [clickfraud-monitoring.com](http://demo.clickfraud-monitoring.com/) <br /> 
 >
 > <strong>NEW: AMP SUPPORT WITH WP QUADS PRO </strong><br>
-> - AMP support! Add AMP ads automatically to your site
+> - AMP support! Add AMP ads automatically to your site<br /> 
 > - Use mobile optimized and responsive AdSense ads<br /> 
 > - Disable AdSense ads on phone, tablet or desktop devices<br /> 
 > - Define AdSense size for different devices<br />
@@ -57,6 +57,7 @@ Deprecated functions removed, bugs fixed and new filters and hooks created to ma
 * Insert Google AdSense ads on-the-fly, insert &lt;!--Ads1--&gt;, &lt;!--Ads2--&gt; ... , &lt;!--RndAds--&gt; to a post to accomplish this.
 * Disable Ads on-the-fly, insert &lt;!--NoAds--&gt;, &lt;!--OffDef--&gt;, &lt;!--OffWidget--&gt;, &lt;!--OffBegin--&gt; ... and more to a post to accomplish this.
 * The above quicktags can be inserted into a post easily via the additional Quicktag Buttons added to the HTML Edit Post SubPanel.
+* Use shortcodes within ads (Suppport advertisements from other ad plugins for example Simple Ads Manager or AdRotate)
 
 = Improvements to original Quick AdSense Ads plugin =
 
@@ -111,17 +112,17 @@ Alternative Installation:
 == Screenshots ==
 
 1. The Quick AdSense Settings page
-2. Import / Export tab: Import your Quick AdSense settings to Quick AdSense reloaded
-3. The Quick AdSense Reloaded help tab
-4. Create Quick AdSense Widgets
-5. AdSense widgets available from the widgets admin page
-6. Copy and paste the Google AdSense code
-7. Quicktag Buttons added to the post editor.
+2. General Settings
+3. AdSense Widgets
+4. AdSense Options from the post editor
 
 
 == Changelog == 
 
 = {{ version }} =
+* Tweak: Cleaner graphical admin tabs
+
+= 1.3.0 =
 * Fix: Make sure existing adsense code is not changed after updating
 * Fix: Missing quads-ad class in custom Ad spots
 * Fix: Hide on (mobile, desktop, tablet) device rules not working for custom Ad spots
@@ -292,5 +293,5 @@ Alternative Installation:
 
 == Upgrade Notice ==
 
-= 1.0.3 =
-1.0.3  <a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">Complete changelog! </a> It's recommended to plugin updates on a staging website first before installing them on a live site. (Use <a href="https://wordpress.org/plugins/wp-staging/" target="_blank" style="color:white;text-decoration: underline;">WP Staging</a> for creating a test site or any other prefered staging tool)
+= 1.3.1 =
+1.3.1 Smaller, Faster, Quicker, Better - WP QUADS<a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">Complete changelog! </a>

@@ -140,7 +140,7 @@ input.medium-text, textarea.medium-text {
 
 .quads-tabs a {
     padding:5px;
-    color:#83c11f;
+    color:#a1a1a1;
     text-transform: uppercase;
 }
 .quads-tabs a strong {
@@ -150,6 +150,7 @@ input.medium-text, textarea.medium-text {
 li.quads-tabs {
     float:left;
     margin-left:0px;
+    background-color: #e5e5e5;
 }
 
 /*@media only screen and (min-width:400px) {
@@ -160,7 +161,10 @@ li.quads-tabs {
 }*/
 
 #quads_tab_container > ul > li.quads-tabs.active {
-    background-color:#f8f8f8;
+    background-color:#fff;
+}
+#quads_tab_container > ul > li.quads-tabs.active a {
+    color: #83c11f;
 }
 
 
@@ -256,7 +260,6 @@ li.quads-tabs {
     font-weight: bold;
 }
 #quads_tab_container ul li a:hover {
-    background-color: #e5e5e5;
     color:#383838;
 }
 #quads_tab_container ul li a.active {
@@ -484,7 +487,7 @@ li.quads-tabs {
 .quads_admin .nav-tab{
     border:0px;
     text-transform: uppercase;
-    color: #1e1e1e;
+    color: #a1a1a1;
     font-weight: 700;
 }
 

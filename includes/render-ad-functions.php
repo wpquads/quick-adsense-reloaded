@@ -24,10 +24,11 @@ if( !defined( 'ABSPATH' ) )
  * @return string HTML js adsense code
  */
 function quads_render_ad( $id, $string, $widget = false ) {
-
-    $string = apply_filters( 'quads_render_ad', $string );
-
-
+   
+//    if (  function_exists( 'quads_overwrite_all_ads' ) && quads_overwrite_all_ads()){
+//        return quads_overwrite_all_ads();
+//    }
+    
     // Return empty string
     if( empty( $id ) ) {
         return '';
@@ -37,6 +38,8 @@ function quads_render_ad( $id, $string, $widget = false ) {
     if (quads_is_amp_endpoint()){
         return quads_render_amp($id);
     }
+    
+    $string = apply_filters( 'quads_render_ad', $string );
 
     // Return the original ad code if it's no adsense code
     if( false === quads_is_adsense( $id, $string ) && !empty( $string ) ) {
