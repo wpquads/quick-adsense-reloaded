@@ -74,6 +74,13 @@ We are an active and engaged member of the WordPress community and we are follow
 * Exit code if Quick AdSense plugin is not called by WordPress directly 
 * Better sanitizing of user input
 
+= We Distance Ourself From =
+These are known AdSense plugins which are removed from the WordPress repository because of non ethic behavior:
+
+* AdSense Extreme
+* AdSense Insert 
+
+Make sure to switch to WP QUADS or any other AdSense plugin if you are still using these plugins!
 
 <h3>WP QUADS PRO:</h3>
 
