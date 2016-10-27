@@ -129,6 +129,10 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* New: Button for opening all ads for easier editing
+* Fix: Plain Text / HTML as default mode
+
+= 1.3.1 =
 * Tweak: Cleaner graphical admin tabs
 
 = 1.3.0 =

@@ -2,6 +2,19 @@ var strict;
 
 jQuery(document).ready(function ($) {
     
+    /**
+     * Toggle Button Open All Tabs
+     */
+    $('#quads-open-toggle').click(function(){
+            if ($('#quads-open-toggle').html() == 'Open All Tabs' ){
+                $('.quads-ad-toggle-container').show();
+                $('#quads-open-toggle').html('Close Tabs');
+            }else{
+                $('.quads-ad-toggle-container').hide();
+                $('#quads-open-toggle').html('Open All Tabs');
+            }
+    });
+    
     // show / hide helper description
     $('.quads-helper').click(function (e) {
         e.preventDefault();

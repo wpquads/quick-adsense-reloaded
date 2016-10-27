@@ -747,3 +747,9 @@ li.quads-tabs {
 #quads-pro-hover-background{
     width: 100%; height:100%;background:rgba(0,0,0,0.6);
 }
+
+#quads-open-toggle{
+    clear: both;
+    float:left;
+    margin-top:10px;
+}

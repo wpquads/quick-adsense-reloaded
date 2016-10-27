@@ -24,10 +24,6 @@ if( !defined( 'ABSPATH' ) )
  * @return string HTML js adsense code
  */
 function quads_render_ad( $id, $string, $widget = false ) {
-   
-//    if (  function_exists( 'quads_overwrite_all_ads' ) && quads_overwrite_all_ads()){
-//        return quads_overwrite_all_ads();
-//    }
     
     // Return empty string
     if( empty( $id ) ) {

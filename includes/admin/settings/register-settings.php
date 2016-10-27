@@ -173,9 +173,12 @@ function quads_get_registered_settings() {
             'adsense_header' => array(
                 'id' => 'adsense_header',
                 'name' => '<strong>' . __( 'AdSense Code', 'quick-adsense-reloaded' ) . '</strong>',
-                'desc' => '<span class="adsense_admin_header">' . sprintf( __( 'Paste up to 10 Ad codes on post body and up to 10 Ad codes on sidebar widget. <a href="%s" target="_blank">Read here</a> to find out the most effective AdSense banner sizes. '
-                        . '<ul><li> Use option <i>AdSense</i> for unmodified AdSense code</li>'
-                        . '<li> Use <i>Plain Text / HTML / JS</i> for modified AdSense code with custom css or for none AdSense ads</li></ul>', 'quick-adsense-reloaded' ), 'http://wpquads.com/effective-adsense-banner-size-formats/?utm_campaign=plugin&utm_source=general_tab&utm_medium=admin&utm_content=best_banner_sizes' ) . '</span>',
+                'desc' => '<div class="adsense_admin_header">' . sprintf( __( 'Paste up to 10 Ad codes on post body and up to 10 Ad codes on sidebar widget. <a href="%s" target="_blank">Read here</a> to find out the most effective AdSense banner sizes. </div>'
+                        . '<ul style="margin-top:10px;">'
+                            . '<li> Use option <i>AdSense</i> for unmodified AdSense code</li>'
+                            . '<li> Use <i>Plain Text / HTML / JS</i> for modified AdSense code with custom css or for none AdSense ads</li></ul>', 'quick-adsense-reloaded' ), 'http://wpquads.com/effective-adsense-banner-size-formats/?utm_campaign=plugin&utm_source=general_tab&utm_medium=admin&utm_content=best_banner_sizes' ) 
+                        . '</ul>'
+                        . '<div id="quads-open-toggle" class="button">'.__('Open All Tabs','quick-adsense-reloaded').'</div>',
                 'type' => 'header'
             ),
             array(
@@ -1635,7 +1638,7 @@ function quads_adsense_code_callback( $args ) {
                 'id' => 'ad_type',
                 'name' => 'Type',
                 'desc' => '',
-                'std' => 'adsense',
+                'std' => 'plain_text',
                 'options' => array(
                     'adsense' => 'AdSense',
                     'plain_text' => 'Plain Text / HTML / JS'
