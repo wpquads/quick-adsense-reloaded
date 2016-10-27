@@ -30,7 +30,7 @@ Quick Adsense Reloaded! Quickest way to insert Google AdSense & other ads into y
 > - Disable AdSense ads on phone, tablet or desktop devices<br /> 
 > - Define AdSense size for different devices<br />
 >
-> AMP feature requires [Automattic AMP plugin](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) installed
+> AMP feature requires [Automattic AMP plugin](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) installed <br />
 > Get WP QUADS PRO: [wpquads.com](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) <br /> 
 
 = Why a Quick AdSense fork? =
@@ -41,11 +41,13 @@ So i decided to continue the project to make sure the plugin will also work in f
 
 Deprecated functions removed, bugs fixed and new filters and hooks created to make this plugin extensible by third party developers!
 
+<strong>We Guarantee: </strong><br>
+No revenue sharing from your Google AdSense advertising income. We never show our ads on your website.<br>
+We are an active and engaged member of the WordPress community and we are following strongly the WordPress Codex in terms of code quality and good behave.
 
 = Main Features =
 
 * Import all ads settings from Quick AdSense v. 1.9.2 and convert them into serialized options.
-* No revenue sharing from your Google AdSense advertising income.
 * Quicktags of Quick Adsense are 100% compatible to Quick AdSense Reloaded
 * No external script dependencies. All plugin code reside on your site. 
 * Dynamic AdSense positioning: Assign Google AdSense ads to the beginning, middle and end of post, assign dds after 'more' tag, before last paragraph, after certain paragraphs & assign Ads after certain images.
