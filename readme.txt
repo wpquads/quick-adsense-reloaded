@@ -131,6 +131,7 @@ Alternative Installation:
 = {{ version }} =
 * New: Button for opening all ads for easier editing
 * Fix: Plain Text / HTML as default mode
+* Fix: Invalid argument supplied for foreach() message when using custom shortcodes in ad content
 
 = 1.3.1 =
 * Tweak: Cleaner graphical admin tabs

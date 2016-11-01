@@ -61,10 +61,16 @@ function quads_get_visibility_quicktags_str ( $post_id = null ) {
 	if ( ! $post_id ) {
 		$post_id = get_the_ID();
 	}
+        
+        if (false !== $post_id){
+            return $str;
+        }
+        
 	$config = get_post_meta( $post_id, '_quads_config_visibility', true );
 	$str = '';
         
-        if ( !empty($config) )
+        
+        if ( !empty($config))
 	foreach ( $config as $qtag_id => $qtag_label ) {
 		$str .= '<!--' . $qtag_id . '-->';
 	}
