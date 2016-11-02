@@ -61,9 +61,9 @@ function quads_get_visibility_quicktags_str ( $post_id = null ) {
 	if ( ! $post_id ) {
 		$post_id = get_the_ID();
 	}
-        
+
         $str = '';
-        if (false !== $post_id){
+        if (false === $post_id){        
             return $str;
         }
         
