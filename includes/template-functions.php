@@ -474,7 +474,7 @@ function quads_replace_ads($content, $nme, $id) {
 			'float:none;margin:0px;');
                 
 		$adsalign = $quads_options['ad' . $id]['align'];
-		$adsmargin = $quads_options['ad' . $id]['margin'];
+		$adsmargin = isset($quads_options['ad' . $id]['margin']) ? $quads_options['ad' . $id]['margin'] : '3'; // default
                 $margin = sprintf($arr[(int)$adsalign], $adsmargin);
                 
                 // Do not create any inline style on AMP site
