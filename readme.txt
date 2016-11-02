@@ -129,6 +129,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* New: Support for multiple margin values: top, right, bottom, left (Needs WP QUADS PRO)
+
+= 1.3.2 =
 * New: Button for opening all ads for easier editing
 * Fix: Plain Text / HTML as default mode
 * Fix: Invalid argument supplied for foreach() message when using custom shortcodes in ad content

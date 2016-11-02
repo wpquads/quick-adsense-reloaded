@@ -1691,10 +1691,13 @@ function quads_adsense_code_callback( $args ) {
                 )
             );
             echo quads_adposition_callback($id, $args_ad_position);
+            if (  !quads_is_advanced() ){
             ?> 
+            
             <br />
             <label class="quads-label-left" for="quads_settings[<?php echo $id; ?>][margin]"><?php _e( 'Margin', 'quick-adsense-reloaded' );?></label>
             <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[<?php echo $id; ?>][margin]" name="quads_settings[<?php echo $id; ?>][margin]" value="<?php echo esc_attr( stripslashes( $margin ) ); ?>"/>px
+            <?php } echo apply_filters('quads_render_margin', '', $id); ?>
         </div>
         <?php 
         echo apply_filters( 'quads_advanced_settings', '', $id ); 
@@ -1703,6 +1706,7 @@ function quads_adsense_code_callback( $args ) {
     </div>
 <?php
 }
+
 
 
 /**

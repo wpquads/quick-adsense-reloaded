@@ -62,12 +62,12 @@ function quads_get_visibility_quicktags_str ( $post_id = null ) {
 		$post_id = get_the_ID();
 	}
         
+        $str = '';
         if (false !== $post_id){
             return $str;
         }
         
 	$config = get_post_meta( $post_id, '_quads_config_visibility', true );
-	$str = '';
         
         
         if ( !empty($config))
@@ -475,8 +475,10 @@ function quads_replace_ads($content, $nme, $id) {
                 
 		$adsalign = $quads_options['ad' . $id]['align'];
 		$adsmargin = $quads_options['ad' . $id]['margin'];
-                // Do not create inline style on AMP site
-		$style = !quads_is_amp_endpoint() ? sprintf($arr[(int)$adsalign], $adsmargin) : '';
+                $margin = sprintf($arr[(int)$adsalign], $adsmargin);
+                
+                // Do not create any inline style on AMP site
+		$style = !quads_is_amp_endpoint() ? apply_filters ('quads_filter_margins', $margin, 'ad'.$id ) : '';
                 $adscode = $quads_options['ad' . $id ]['code'];
                 
                 $adscode =
