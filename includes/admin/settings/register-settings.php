@@ -386,7 +386,7 @@ function quads_get_registered_settings() {
             'help_header' => array(
                 'id' => 'help_header',
                 'name' => '<strong>' . __( 'Help', 'quick-adsense-reloaded' ) . '</strong>',
-                'desc' => sprintf( __( 'Something not working as expected? Visit the WP<strong>QUADS</strong> <a href="%1s" target="_blank">Support Forum</a>', 'quick-adsense-reloaded' ), 'https://wordpress.org/support/plugin/quick-adsense-reloaded' ),
+                'desc' => quads_is_advanced() ? sprintf( __( 'Something not working as expected? Open a <a href="%1s" target="_blank">support ticket</a>', 'quick-adsense-reloaded' ), 'http://wpquads.com/support/' ) : sprintf( __( 'Something not working as expected? Visit the WP<strong>QUADS</strong> <a href="%1s" target="_blank">Support Forum</a>', 'quick-adsense-reloaded' ), 'https://wordpress.org/support/plugin/quick-adsense-reloaded' ),
                 'type' => 'header'
             ),
             'systeminfo' => array(
