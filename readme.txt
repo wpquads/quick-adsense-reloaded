@@ -128,7 +128,14 @@ Alternative Installation:
 
 == Changelog == 
 
-= {{ version }} =
+{{ version }}
+* Fix: Meta Box Settings "Hide ads" are ignored. Error caused by code changes in 1.3.2
+
+
+= 1.3.3 =
+* Skip version
+
+= 1.3.2 =
 * New: Button for opening all ads for easier editing
 * Fix: Plain Text / HTML as default mode
 * Fix: Invalid argument supplied for foreach() message when using custom shortcodes in ad content
