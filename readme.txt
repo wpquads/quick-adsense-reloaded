@@ -6,7 +6,7 @@ Contributors: ReneHermi, WP-Staging
 Donate link: 
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: advertising, ads, adsense, google, google adsense, posts, post, page, sidebar, shortcode, admin, plugin, widget, adsense plugin, amp
+Tags: adsense, ads, google, google adsense, advertising, posts, post, page, sidebar, shortcode, admin, plugin, widget, adsense plugin, amp
 Requires at least: 3.6+
 Tested up to: 4.7
 Stable tag: {{ version }}
