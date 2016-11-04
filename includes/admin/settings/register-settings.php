@@ -1668,7 +1668,7 @@ function quads_adsense_code_callback( $args ) {
             );
             echo quads_adense_select_callback($id, $args_adsense_type);
             ?>
-            <?php if ( !quads_is_advanced()) {?>
+            <?php if ( !quads_is_advanced_1_2_7() ) {?>
             <span class="quads-pro-notice" style="display:block;margin-top:20px;"><?php echo sprintf(__('Install <a href="%s" target="_blank">WP QUADS PRO</a> to fully support AdSense Responsive ads.', 'quick-adsense-reloaded'),'http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin')?></span>
             <?php } ?>
             <br />
