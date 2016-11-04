@@ -591,7 +591,7 @@ li.quads-tabs {
 }
 
 .quads-adsense-code label, input{
-    margin-right:10px;
+    margin-right:2px;
 }
 
 #quads_settings\5b ad2\5d \5b g_data_ad_client\5d {
@@ -600,7 +600,8 @@ li.quads-tabs {
 
 .quads-ad-toggle-container label {
     display: inline-block;
-    margin-right:10px;
+    margin-right:2px;
+    margin-top:-3px;
 }
 
 /*.quads-adsense-code > label:nth-child(1){
@@ -752,4 +753,8 @@ li.quads-tabs {
     clear: both;
     float:left;
     margin-top:10px;
+}
+
+#quads_settingsadsense_header input[type="number"].small-text{
+    width: 55px;
 }

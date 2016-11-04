@@ -129,6 +129,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* New: Support for multiple margin values: top, right, bottom, left (Needs WP QUADS PRO)
+* Fix: Undefined adalign notice
+* Fix: WP QUADS meta settings are not stored under some circumstances due to some changes in 1.3.2
 * Fix: Meta Box Settings "Hide ads" are ignored. Error caused by code changes in 1.3.2
 
 

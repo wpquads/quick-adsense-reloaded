@@ -386,7 +386,7 @@ function quads_get_registered_settings() {
             'help_header' => array(
                 'id' => 'help_header',
                 'name' => '<strong>' . __( 'Help', 'quick-adsense-reloaded' ) . '</strong>',
-                'desc' => sprintf( __( 'Something not working as expected? Visit the WP<strong>QUADS</strong> <a href="%1s" target="_blank">Support Forum</a>', 'quick-adsense-reloaded' ), 'https://wordpress.org/support/plugin/quick-adsense-reloaded' ),
+                'desc' => quads_is_advanced() ? sprintf( __( 'Something not working as expected? Open a <a href="%1s" target="_blank">support ticket</a>', 'quick-adsense-reloaded' ), 'http://wpquads.com/support/' ) : sprintf( __( 'Something not working as expected? Visit the WP<strong>QUADS</strong> <a href="%1s" target="_blank">Support Forum</a>', 'quick-adsense-reloaded' ), 'https://wordpress.org/support/plugin/quick-adsense-reloaded' ),
                 'type' => 'header'
             ),
             'systeminfo' => array(
@@ -1691,10 +1691,13 @@ function quads_adsense_code_callback( $args ) {
                 )
             );
             echo quads_adposition_callback($id, $args_ad_position);
+            if (  !quads_is_advanced() ){
             ?> 
+            
             <br />
             <label class="quads-label-left" for="quads_settings[<?php echo $id; ?>][margin]"><?php _e( 'Margin', 'quick-adsense-reloaded' );?></label>
             <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[<?php echo $id; ?>][margin]" name="quads_settings[<?php echo $id; ?>][margin]" value="<?php echo esc_attr( stripslashes( $margin ) ); ?>"/>px
+            <?php } echo apply_filters('quads_render_margin', '', $id); ?>
         </div>
         <?php 
         echo apply_filters( 'quads_advanced_settings', '', $id ); 
@@ -1703,6 +1706,7 @@ function quads_adsense_code_callback( $args ) {
     </div>
 <?php
 }
+
 
 
 /**
