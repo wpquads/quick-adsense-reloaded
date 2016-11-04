@@ -128,7 +128,7 @@ Alternative Installation:
 
 == Changelog == 
 
-{{ version }}
+= {{ version }} =
 * Fix: Meta Box Settings "Hide ads" are ignored. Error caused by code changes in 1.3.2
 
 
