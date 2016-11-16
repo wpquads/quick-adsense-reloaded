@@ -129,6 +129,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: Do not show ads on search pages
+
+= 1.3.5 =
 * New: Support for multiple margin values: top, right, bottom, left (Needs WP QUADS PRO min. version 1.2.7)
 * Fix: Undefined adalign notice
 

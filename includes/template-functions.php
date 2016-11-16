@@ -633,6 +633,7 @@ function quads_ad_is_allowed( $content = null ) {
 
     if(
             (is_feed()) ||
+            (is_search()) ||
             (strpos( $content, '<!--NoAds-->' ) !== false) ||
             (strpos( $content, '<!--OffAds-->' ) !== false) ||
             (is_front_page() && !( isset( $quads_options['visibility']['AppHome'] ) ) ) ||
