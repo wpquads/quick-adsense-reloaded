@@ -105,10 +105,10 @@ function quads_render_media_query($key, $value){
         $html .= '@media only screen and (min-width:1140px){.quads-'.$key.' {display:none;}}'. "\n";
     }
     if (isset($value['tablet_landscape']) ){
-        $html .= '@media only screen and (min-width:1019px) and (max:width:1140px) {.quads-'.$key.' {display:none;}}' . "\n";
+        $html .= '@media only screen and (min-width:1024px) and (max:width:1140px) {.quads-'.$key.' {display:none;}}' . "\n";
     }
     if (isset($value['tablet_portrait']) ){
-        $html .= '@media only screen and (min-width:768px) and (max-width:1019px){.quads-'.$key.' {display:none;}}' . "\n";
+        $html .= '@media only screen and (min-width:768px) and (max-width:1024px){.quads-'.$key.' {display:none;}}' . "\n";
     }
     if (isset($value['phone']) ){
         $html .= '@media only screen and (max-width:768px){.quads-'.$key.' {display:none;}}' . "\n";

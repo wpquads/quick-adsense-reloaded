@@ -224,7 +224,7 @@ function quads_render_tablet_landscape_js( $id, $default_ad_sizes ) {
     $html .= ' data-ad-slot="' . $quads_options[$id]['g_data_ad_slot'] . '" ' . $ad_format . '></ins>';
 
     if( !isset( $quads_options[$id]['tablet_landscape'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
-        $js = 'if ( quads_screen_width >= 1019  && quads_screen_width < 1140 ) {
+        $js = 'if ( quads_screen_width >= 1024  && quads_screen_width < 1140 ) {
 /* tablet landscape */
 document.write(\'' . $html . '\');
 (adsbygoogle = window.adsbygoogle || []).push({});
@@ -277,7 +277,7 @@ function quads_render_tablet_portrait_js( $id, $default_ad_sizes ) {
     $html .= ' data-ad-slot="' . $quads_options[$id]['g_data_ad_slot'] . '" ' . $ad_format . '></ins>';
 
     if( !isset( $quads_options[$id]['tablet_portrait'] ) and !empty( $default_ad_sizes[$id]['tbl_portrait_width'] ) and !empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
-        $js = 'if ( quads_screen_width >= 768  && quads_screen_width < 1019 ) {
+        $js = 'if ( quads_screen_width >= 768  && quads_screen_width < 1024 ) {
 /* tablet portrait */
 document.write(\'' . $html . '\');
 (adsbygoogle = window.adsbygoogle || []).push({});
