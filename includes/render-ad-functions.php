@@ -35,7 +35,7 @@ function quads_render_ad( $id, $string, $widget = false ) {
         return quads_render_amp($id);
     }
     
-    $string = apply_filters( 'quads_render_ad', $string );
+    //$string = apply_filters( 'quads_render_ad', $string );
 
     // Return the original ad code if it's no adsense code
     if( false === quads_is_adsense( $id, $string ) && !empty( $string ) ) {
