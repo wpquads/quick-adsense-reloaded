@@ -87,3 +87,23 @@ function quads_check_meta_setting($key){
     return false;
 }
 
+/* 
+ * Return string through shortcode function and strip out specific shortcode from it to 
+ * prevents infinte loops if shortcode contains same shortcode
+ * 
+ * @since 1.3.6
+ * @param1 string shortcode e.g. quads
+ * @param1 string content to return via shortcode
+ * @return string / shortcodes parsed
+ */
+
+function quadsCleanShortcode( $code, $content ) {
+    global $shortcode_tags;
+    $stack = $shortcode_tags;
+    $shortcode_tags = array($code => 1);
+    $content = strip_shortcodes( $content );
+    $shortcode_tags = $stack;
+
+    return do_shortcode( $content );
+}
+

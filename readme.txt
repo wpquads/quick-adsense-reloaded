@@ -131,6 +131,7 @@ Alternative Installation:
 = {{ version }} =
 * Fix: Do not show ads on search pages
 * Fix: Change ad condition for Tablet viewport to 1024px
+* New: Allow recursive use of shortcodes in ad codes
 
 = 1.3.5 =
 * New: Support for multiple margin values: top, right, bottom, left (Needs WP QUADS PRO min. version 1.2.7)

@@ -39,6 +39,8 @@ function quads_render_ad( $id, $string, $widget = false ) {
 
     // Return the original ad code if it's no adsense code
     if( false === quads_is_adsense( $id, $string ) && !empty( $string ) ) {
+        // allow use of shortcodes in ad plain text content
+        $string = quadsCleanShortcode('quads', $string);
         return apply_filters( 'quads_render_ad', $string );
     }
 
