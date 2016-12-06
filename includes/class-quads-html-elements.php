@@ -233,7 +233,9 @@ class QUADS_HTML_Elements {
 			'label'       => null,
 			'desc'        => null,
 			'class'       => 'large-text',
-			'disabled'    => false
+			'disabled'    => false,
+			'placeholder' => '',
+                    
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -247,7 +249,7 @@ class QUADS_HTML_Elements {
 
 			$output .= '<label class="quads-label" for="quads-' . sanitize_key( $args['name'] ) . '">' . esc_html( $args['label'] ) . '</label>';
 
-			$output .= '<textarea name="' . esc_attr( $args['name'] ) . '" id="' . esc_attr( $args['id'] ) . '" class="' . $args['class'] . '"' . $disabled . '>' . esc_attr( $args['value'] ) . '</textarea>';
+			$output .= '<textarea placeholder="' . esc_attr( $args['placeholder'] ) . '" name="' . esc_attr( $args['name'] ) . '" id="' . esc_attr( $args['id'] ) . '" class="' . $args['class'] . '"' . $disabled . '>' . esc_attr( $args['value'] ) . '</textarea>';
 
 			if ( ! empty( $args['desc'] ) ) {
 				$output .= '<span class="quads-description">' . esc_html( $args['desc'] ) . '</span>';
