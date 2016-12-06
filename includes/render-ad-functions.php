@@ -349,43 +349,35 @@ document.write(\'' . $html . '\');
 function quads_is_adsense( $id, $string ) {
     global $quads_options;
 
-//    if( strpos( $string, 'googlesyndication.com' ) !== false ||
-//            (isset( $quads_options[$id]['ad_type'] ) && $quads_options[$id]['ad_type'] === 'adsense') ) {
-//        return true;
-//    }
     if( isset($quads_options[$id]['ad_type']) && $quads_options[$id]['ad_type'] === 'adsense') {
         return true;
     }
     return false;
 }
 
+
 /**
- * Check if ad code is valid or empty
+ * Render advert on amp pages
  * 
- * @param string $string ad code
- * @return boolean
+ * @global array $quads_options
+ * @param int $id
+ * @return string
  */
-//function quads_is_valid_content( $id, $string ) {
-//    global $quads_options;
-//
-//    if( quads_is_adsense( $id, $string ) || !empty( $string ) ) {
-//        return true;
-//    }
-//    return false;
-//}
-
-
 function quads_render_amp($id){
     global $quads_options;
 
+    // if amp is not activated return empty
     if (!isset($quads_options[$id]['amp'])){
         return '';
     }
     
-    //$html = '<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="'. $quads_options[$id]['g_data_ad_client'] . '" data-ad-slot="'.$quads_options[$id]['g_data_ad_slot'].'"></amp-ad>';
-    $html = '<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="'. $quads_options[$id]['g_data_ad_client'] . '" data-ad-slot="'.$quads_options[$id]['g_data_ad_slot'].'"></amp-ad>';
-    //$html = '<amp-ad layout="fixed-height" height=100 type="adsense" data-ad-client="'. $quads_options[$id]['g_data_ad_client'] . '" data-ad-slot="'.$quads_options[$id]['g_data_ad_slot'].'"></amp-ad>';
-    
+    if (!empty($quads_options[$id]['amp_code'])){
+        $html = $quads_options[$id]['amp_code'];
+    } else {
+        // Return default adsense code
+        $html = '<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="'. $quads_options[$id]['g_data_ad_client'] . '" data-ad-slot="'.$quads_options[$id]['g_data_ad_slot'].'"></amp-ad>';
+    }
+
     return $html;
 }
 

@@ -625,7 +625,7 @@ function quads_set_ad_count_widget(){
  */
 function quads_ad_is_allowed( $content = null ) {
     global $quads_options;
-    
+
     // Only show ads in main query
     if( !is_main_query() ) {
         return false;
@@ -634,6 +634,7 @@ function quads_ad_is_allowed( $content = null ) {
     if(
             (is_feed()) ||
             (is_search()) ||
+            (is_404() ) ||
             (strpos( $content, '<!--NoAds-->' ) !== false) ||
             (strpos( $content, '<!--OffAds-->' ) !== false) ||
             (is_front_page() && !( isset( $quads_options['visibility']['AppHome'] ) ) ) ||

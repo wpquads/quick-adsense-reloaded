@@ -1650,11 +1650,11 @@ function quads_adsense_code_callback( $args ) {
             <textarea style="vertical-align:top;margin-right:20px;" class="large-text quads-textarea" cols="50" rows="10" id="quads_settings[<?php echo $id; ?>][code]" name="quads_settings[<?php echo $id; ?>][code]"><?php echo esc_textarea( stripslashes( $code ) ); ?></textarea><label for="quads_settings[ <?php echo $id; ?> ][code]"> <?php echo $args['desc']; ?></label>
             <br>
         <div class="quads_adsense_code">
-            <input type="button" class="button button-primary quads-add-adsense" value="Copy / Paste AdSense Code">
+            <input type="button" style="vertical-align:inherit;" class="button button-primary quads-add-adsense" value="Copy / Paste AdSense Code"> <span>or add Ad Slot ID & Publisher ID manually below</span>
             <br />
              <?php //echo __('Generate Ad Slot & Publisher ID automatically from your adsense code', 'quick-adsense-reloaded')?>
-            <label class="quads-label-left" for="quads_settings[<?php echo $id; ?>][g_data_ad_slot]">Ad Slot ID </label><input type="text" class="quads-medium-size" id="quads_settings[<?php echo $id; ?>][g_data_ad_slot]" name="quads_settings[<?php echo $id; ?>][g_data_ad_slot]" value="<?php echo $g_data_ad_slot; ?>">
-            <label for="quads_settings[<?php echo $id; ?>][g_data_ad_client]">Publisher ID</label><input type="text" id="quads_settings[<?php echo $id; ?>][g_data_ad_client]" class="medium-text" name="quads_settings[<?php echo $id; ?>][g_data_ad_client]" value="<?php echo $g_data_ad_client; ?>">
+            <label class="quads-label-left" for="quads_settings[<?php echo $id; ?>][g_data_ad_slot]">Ad Slot ID </label><input type="text" class="quads-medium-size quads-bggrey" id="quads_settings[<?php echo $id; ?>][g_data_ad_slot]" name="quads_settings[<?php echo $id; ?>][g_data_ad_slot]" value="<?php echo $g_data_ad_slot; ?>">
+            <label for="quads_settings[<?php echo $id; ?>][g_data_ad_client]">Publisher ID</label><input type="text" id="quads_settings[<?php echo $id; ?>][g_data_ad_client]" class="medium-text quads-bggrey" name="quads_settings[<?php echo $id; ?>][g_data_ad_client]" value="<?php echo $g_data_ad_client; ?>">
             <br />
             <?php
             $args_adsense_type = array(
@@ -1691,6 +1691,7 @@ function quads_adsense_code_callback( $args ) {
                 )
             );
             echo quads_adposition_callback($id, $args_ad_position);
+            // if WP QUADS PRO is installed and version number is higher or equal 1.2.7 show the new margin settings
             if (  !quads_is_advanced_1_2_7() ){
             ?> 
             

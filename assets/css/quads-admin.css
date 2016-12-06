@@ -611,6 +611,7 @@ li.quads-tabs {
 .quads_adsense_code .quads-add-adsense {
     margin:20px;
     margin-left:0px;
+    margin-right:5px;
 }
 
 .quads-label-left {
@@ -757,4 +758,14 @@ li.quads-tabs {
 
 #quads_settingsadsense_header input[type="number"].small-text{
     width: 55px;
+}
+
+.quads_adsense_code input.quads-bggrey {
+    background-color: whitesmoke;
+    color: #939393;
+}
+
+.quads-amp-code{
+    color: #939393;
+    height: 130px;
 }

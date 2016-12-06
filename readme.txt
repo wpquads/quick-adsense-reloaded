@@ -129,6 +129,10 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: Do not show ads on 404 error pages
+* New: Allow use of other amp vendor codes with use of wp quads pro
+
+= 1.3.6 =
 * Fix: Do not show ads on search pages
 * Fix: Change ad condition for Tablet viewport to 1024px
 * New: Allow recursive use of shortcodes in ad codes
