@@ -82,13 +82,13 @@ function quads_get_visibility_quicktags_str ( $post_id = null ) {
  * Main processing for the_content filter
  * 
  * @global arr $quads_options all plugin settings
- * @global int $ShownAds number of active content ads (reseted internally so we have to use a similar global below for external purposes: $ad_count_content)
+ * @global int $visibleContentAds number of active content ads (reseted internally so we have to use a similar global below for external purposes: $visibleContentAdsGlobal)
  * @global arr $AdsId Whitespace trimmed array of ad codes
  * @global int $numberWidgets number of ad widgets
- * @global int $numberAds number of ads
+ * @global int $numberAds number of maximum available ads
  * @global string $AdsWidName name of widget
- * @global int $ad_count_content   number of active content ads
- * @global int $ad_count_shortcode number of active shortcode ads
+ * @global int $visibleContentAdsGlobal   number of active content ads
+ * @global int $visibleShortcodeAds number of active shortcode ads
  * @param string $content
  * 
  * @return string
@@ -97,40 +97,40 @@ function quads_get_visibility_quicktags_str ( $post_id = null ) {
  */
 
 function quads_process_content($content){
-    global $quads_options, $ShownAds, $AdsId, $numberWidgets, $numberAds, $AdsWidName, $ad_count_content, $ad_count_shortcode;
+    global $quads_options, $visibleContentAds, $AdsId, $numberWidgets, $numberAds, $AdsWidName, $visibleContentAdsGlobal, $visibleShortcodeAds;
         
         // Return original content if QUADS is not allowed
         if ( !quads_ad_is_allowed($content) ) {
             $content = quads_clean_tags($content); 
             return $content;
         }
-         
-        $AdsToShow = isset($quads_options['maxads']) ? $quads_options['maxads'] : 10;
+        // Maximum allowed ads 
+        $maxAds = isset($quads_options['maxads']) ? $quads_options['maxads'] : 10;
 
 	if (strpos($content,'<!--OffWidget-->')===false) {
 		for($i=1;$i<=$numberWidgets;$i++) {
 			$wadsid = sanitize_title(str_replace(array('(',')'),'',sprintf($AdsWidName,$i))); 
-                        $AdsToShow -= (is_active_widget('', '',  $wadsid)) ? 1 : 0 ; 
+                        $maxAds -= (is_active_widget('', '',  $wadsid)) ? 1 : 0 ; 
 		}
 	}
 
-        
-	if( $ShownAds+$ad_count_shortcode >= $AdsToShow ) { // ShownAds === 0 or larger/equal than $AdsToShow
+        // Return here if max visible ads are exceeded
+	if( $visibleContentAds+$visibleShortcodeAds >= $maxAds ) { // ShownAds === 0 or larger/equal than $maxAds
             $content = quads_clean_tags($content); 
             return $content; 
         };
 
-        // Create array of valid ids and 
-        // remove whitespaces at beginning and end of all ad codes
-	if( count($AdsId) === 0 ) { //   
-		for($i=1;$i<=$numberAds;$i++) { 
-                        $tmp = trim($quads_options['ad' . $i]['code']);
-
-			if( !empty($tmp) ) {
-                                $AdsId[] = $i;   
-			}
-		}
-	}
+        // Create array of valid id's
+        if( count( $AdsId ) === 0 ) { //   
+            for ( $i = 1; $i <= $numberAds; $i++ ) {
+                $tmp = trim( $quads_options['ad' . $i]['code'] );
+                // id is valid if there is either the plain text field populated or the adsense ad slot and the ad client id
+                if( !empty( $tmp ) || (!empty($quads_options['ad' . $i]['g_data_ad_slot']) && !empty($quads_options['ad' . $i]['g_data_ad_client'] ) ) ) {
+                    $AdsId[] = $i;
+                }
+            }
+            //wp_die(var_dump($AdsId));
+        }
 
         // Ad code array is empty so break here
 	if( count($AdsId) === 0 ) { 
@@ -139,7 +139,9 @@ function quads_process_content($content){
         };
 
 	/* ... Tidy up content ... */
+        // Replace all <p></p> tags with placeholder ##QA-TP1##
 	$content = str_replace("<p></p>", "##QA-TP1##", $content);
+        // Replace all <p>&nbsp;</p> tags with placeholder ##QA-TP2##
 	$content = str_replace("<p>&nbsp;</p>", "##QA-TP2##", $content);	
 	$offdef = (strpos($content,'<!--OffDef-->')!==false);
         
@@ -314,7 +316,7 @@ function quads_process_content($content){
 
                             $content = quads_replace_ads( $content, $cusads.$AdsIdCus[$i-1], $AdsIdCus[$i-1] ); 
                             $AdsId = quads_del_element($AdsId, array_search($AdsIdCus[$i-1], $AdsId)) ;
-                            $ShownAds += 1;
+                            $visibleContentAds += 1;
 
                             quads_set_ad_count_content();
                             if ( quads_ad_reach_max_count() ){
@@ -333,7 +335,7 @@ function quads_process_content($content){
 			if( strpos($content, '<!--Ads'.$AdsId[$tt].'-->')!==false ) {
 				$content = quads_replace_ads( $content, 'Ads'.$AdsId[$tt], $AdsId[$tt] ); 
                                 $AdsId = quads_del_element($AdsId, $tt) ;
-				$ShownAds += 1; 
+				$visibleContentAds += 1; 
                             quads_set_ad_count_content();
                             if (quads_ad_reach_max_count()){
                                 $content = quads_clean_tags($content); 
@@ -360,16 +362,12 @@ function quads_process_content($content){
 		for( $i=1; $i<=$tcy; $i++ ) {
 			$content = quads_replace_ads( $content, $cusrnd, $AdsId[0] ); 
                         $AdsId = quads_del_element($AdsId, 0) ;
-			$ShownAds += 1; 
+			$visibleContentAds += 1; 
                         quads_set_ad_count_content();
                             if (quads_ad_reach_max_count()){
                                 $content = quads_clean_tags($content); 
                                 return $content;
                             }
-                        /*if( ($ShownAds+$ad_count_shortcode) >= $AdsToShow || !count($AdsId) ){ 
-                            $content = quads_clean_tags($content); 
-                            return $content; 
-                        };*/
 		}
 	}
     }
@@ -380,7 +378,7 @@ function quads_process_content($content){
 	if( strpos($content, '<!--RndAds-->')!==false && is_singular() ) {
 		$AdsIdTmp = array();
 		shuffle($AdsId);
-		for( $i=1; $i<=$AdsToShow-$ShownAds; $i++ ) {
+		for( $i=1; $i<=$maxAds-$visibleContentAds; $i++ ) {
 			if( $i <= count($AdsId) ) {
 				array_push($AdsIdTmp, $AdsId[$i-1]);
 			}
@@ -396,30 +394,36 @@ function quads_process_content($content){
 			$content = quads_replace_ads( $content, 'RndAds', $AdsIdTmp[0] ); 
                         $AdsIdTmp = quads_del_element($AdsIdTmp, 0) ;
 			if($tmp != -1){
-                            $ShownAds += 1;
+                            $visibleContentAds += 1;
                         }; 
                         quads_set_ad_count_content();
                             if (quads_ad_reach_max_count()){
                                 $content = quads_clean_tags($content); 
                                 return $content;
                             }
-                        /*if( $ShownAds >= $AdsToShow || !count($AdsIdTmp) ){ 
-                            $content = clean_tags($content); 
-                            return $content; 
-                        };*/
 		}
 	}	       
 
         /* ... That's it. DONE :) ... */
 	$content = quads_clean_tags($content); 
         // Reset ad_count - Important!!!
-        $ad_count_content = 0; 
+        $visibleContentAdsGlobal = 0; 
         return do_shortcode($content);
     }
-
+/**
+ * Revert content into original content without any ad code
+ * 
+ * @global int $visibleContentAds
+ * @global array $AdsId
+ * @global array $quads_options
+ * @global int $ad_count
+ * @param string $content
+ * @param boolean $trimonly
+ * 
+ * @return string content
+ */
 function quads_clean_tags($content, $trimonly = false) {
-	global $QData;
-	global $ShownAds;
+	global $visibleContentAds;
 	global $AdsId;
         global $quads_options;
         global $ad_count;
@@ -444,7 +448,7 @@ function quads_clean_tags($content, $trimonly = false) {
 		}
 	}
 	if(!$trimonly && (is_single() || is_page()) ) {
-		$ShownAds = 0;
+		$visibleContentAds = 0;
 		$AdsId = array();
 	}	
 	return $content;
@@ -516,17 +520,17 @@ function quads_del_element($array, $idx) {
 /**
  * Get the total number of active ads
  * 
- * @global int $ad_count_shortcode
- * @global int $ad_count_content
+ * @global int $visibleShortcodeAds
+ * @global int $visibleContentAdsGlobal
  * @global int $ad_count_custom
  * @global int $ad_count_widget
  * @return int number of active ads
  */
 function quads_get_total_ad_count(){
-    global $ad_count_shortcode, $ad_count_content, $ad_count_custom, $ad_count_widget;
+    global $visibleShortcodeAds, $visibleContentAdsGlobal, $ad_count_custom, $ad_count_widget;
     
-    $shortcode = isset($ad_count_shortcode) ? (int)$ad_count_shortcode : 0;
-    $content = isset($ad_count_content) ? (int)$ad_count_content : 0;
+    $shortcode = isset($visibleShortcodeAds) ? (int)$visibleShortcodeAds : 0;
+    $content = isset($visibleContentAdsGlobal) ? (int)$visibleContentAdsGlobal : 0;
     $custom = isset($ad_count_custom) ? (int)$ad_count_custom : 0;
     $widget = isset($ad_count_widget) ? (int)$ad_count_widget : 0;
  
@@ -536,15 +540,15 @@ function quads_get_total_ad_count(){
 /**
  * Get the total number of active ads (test)
  * 
- * @global int $ad_count_shortcode
- * @global int $ad_count_content
+ * @global int $visibleShortcodeAds
+ * @global int $visibleContentAdsGlobal
  * @return int number of active ads
  * 
  * @deprecated since 1.0.0
  */
 /*function test(){
-    global $ad_count_shortcode, $ad_count_content, $ad_count_custom, $ad_count_widget;
-        return array('ad_count_shortcode' => $ad_count_shortcode, 'ad_count_content' => $ad_count_content , 'ad_count_custom'=>$ad_count_custom, 'ad_count_widget' => $ad_count_widget );
+    global $visibleShortcodeAds, $visibleContentAdsGlobal, $ad_count_custom, $ad_count_widget;
+        return array('ad_count_shortcode' => $visibleShortcodeAds, 'ad_count_content' => $visibleContentAdsGlobal , 'ad_count_custom'=>$ad_count_custom, 'ad_count_widget' => $ad_count_widget );
 }*/
 
 /**
@@ -573,10 +577,10 @@ function quads_ad_reach_max_count(){
  * @return int amount of active ads in the_content
  */
 function quads_set_ad_count_content(){
-    global $ad_count_content;
+    global $visibleContentAdsGlobal;
        
-    $ad_count_content++;
-    return $ad_count_content;
+    $visibleContentAdsGlobal++;
+    return $visibleContentAdsGlobal;
 }
 
 /**
@@ -585,10 +589,10 @@ function quads_set_ad_count_content(){
  * @return int amount of active shortcode ads in the_content
  */
 function quads_set_ad_count_shortcode(){
-    global $ad_count_shortcode;
+    global $visibleShortcodeAds;
        
-    $ad_count_shortcode++;
-    return $ad_count_shortcode;
+    $visibleShortcodeAds++;
+    return $visibleShortcodeAds;
 }
 
 /**

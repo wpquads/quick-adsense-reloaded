@@ -23,10 +23,10 @@ jQuery(document).ready(function ($) {
         }
     });
     
-    // remove content of amp code form if its clicked in
-    $('.quads-amp-code').click(function(){
-        $(this).val('');
-    });
+//    // remove content of amp code form if its clicked in
+//    $('.quads-amp-code').click(function(){
+//        $(this).val('');
+//    });
     
     /**
      * Toggle Button Open All Tabs

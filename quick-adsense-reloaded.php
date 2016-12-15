@@ -54,9 +54,9 @@ if( !class_exists( 'QUADS_Utils' ) ) {
 }
 
 // Define some globals
-$ShownAds = 0; // Amount of ads which are shown
-$ad_count_shortcode = 0; // Number of active ads which are shown via shortcodes
-$ad_count_content = 0; // Number of active ads which are shown in the_content
+$visibleContentAds = 0; // Amount of ads which are shown
+$visibleShortcodeAds = 0; // Number of active ads which are shown via shortcodes
+$visibleContentAdsGlobal = 0; // Number of active ads which are shown in the_content
 $ad_count_custom = 0; // Number of active custom ads which are shown on the site
 $ad_count_widget = 0; // Number of active ads in widgets
 $AdsId = array(); // Array of active ad id's

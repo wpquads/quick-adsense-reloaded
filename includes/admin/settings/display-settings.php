@@ -236,20 +236,31 @@ function quads_options_page() {
                         );
                         ?>
                     </div> <!-- new //-->
-                    <?php quads_return_ad(); ?>
+                    <?php quads_get_advertising(); ?>
 		</div><!-- #tab_container-->
                 <div id="quads-save-result"></div>
+                <div class="quads-admin-debug"><?php echo quads_get_debug_messages(); ?></div>
                 <?php echo quads_render_adsense_form(); ?>
 	</div><!-- .wrap -->
 	<?php
 	echo ob_get_clean();
 }
 
+function quads_get_debug_messages(){
+    global $quads_options;
+    
+    if (isset($quads_options['debug_mode'])){
+        echo '<pre style="clear:both;">';
+        var_dump($quads_options);
+        echo '</pre>';
+    }
+}
+
 /**
  * Render ad and return it when plugin is not pro version
  * @return string
  */
-function quads_return_ad() {
+function quads_get_advertising() {
     
     if (  quads_is_advanced() ){
         return '';

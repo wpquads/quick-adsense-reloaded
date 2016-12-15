@@ -97,7 +97,7 @@ function quads_register_settings() {
     // Store adsense values 
     quads_store_adsense_args();
     // Store AdSense value
-    quads_fix_ad_not_shown();
+    //quads_fix_ad_not_shown();
 
     // Creates our settings in the options table
     register_setting( 'quads_settings', 'quads_settings', 'quads_settings_sanitize' );
@@ -1886,19 +1886,21 @@ function quads_store_adsense_args() {
 
 
 /**
- * Populate AdSense Code field otherwise ads are not shown on frontpage (Bug). @todo
+ * Populate AdSense Code field otherwise ads are not shown on frontpage (Bug). 
+ * @todo
  * 
  * @global $quads_options $quads_options
+ * @deprecated since 1.3.8
  */
-function quads_fix_ad_not_shown(){
-    global $quads_options;
-    
-    foreach ( $quads_options as $id => $values ) {
-        if( is_array( $values ) && array_key_exists( 'code', $values ) && array_key_exists( 'ad_type', $values ) && empty($values['code']) ) {
-            $quads_options[$id]['code'] = '...';
-        }
-    }
-}
+//function quads_fix_ad_not_shown(){
+//    global $quads_options;
+//    
+//    foreach ( $quads_options as $id => $values ) {
+//        if( is_array( $values ) && array_key_exists( 'code', $values ) && array_key_exists( 'ad_type', $values ) && empty($values['code']) ) {
+//            $quads_options[$id]['code'] = '...';
+//        }
+//    }
+//}
 
 /**
  * Sanitizes a string key for QUADS Settings
