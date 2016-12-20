@@ -129,7 +129,8 @@ function quads_process_content($content){
                     $AdsId[] = $i;
                 }
             }
-            //wp_die(var_dump($AdsId));
+//            echo '<pre>';
+//            wp_die(var_dump($AdsId));
         }
 
         // Ad code array is empty so break here
@@ -642,15 +643,60 @@ function quads_ad_is_allowed( $content = null ) {
             (strpos( $content, '<!--NoAds-->' ) !== false) ||
             (strpos( $content, '<!--OffAds-->' ) !== false) ||
             (is_front_page() && !( isset( $quads_options['visibility']['AppHome'] ) ) ) ||
-            (is_single() && !( isset( $quads_options['visibility']['AppPost'] ) ) ) ||
-            (is_page() && !( isset( $quads_options['visibility']['AppPage'] ) ) ) ||
+            //(is_single() && !( isset( $quads_options['visibility']['AppPost'] ) ) ) ||
+            //(is_page() && !( isset( $quads_options['visibility']['AppPage'] ) ) ) ||
             (is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
             (is_archive() && !( isset( $quads_options['visibility']['AppArch'] ) ) ) ||
             (is_tag() && !( isset( $quads_options['visibility']['AppTags'] ) ) ) ||
+            (!quads_user_roles_permission()) ||
+            (!quads_post_type_allowed()) ||
             (is_user_logged_in() && ( isset( $quads_options['visibility']['AppLogg'] ) ) )
     ) {
         return false;
     }
     // else
     return true;
+}
+/**
+ * 
+ * @global arr $quads_options
+ * @return boolean false if the current user role is not allowed to see ads
+ */
+function quads_user_roles_permission(){
+    global $quads_options;
+    
+    if (!isset($quads_options['user_roles'])){
+        return true;
+    }
+    $roles = wp_get_current_user()->roles;
+    if ( isset ($quads_options['user_roles']) && count(array_intersect( $quads_options['user_roles'], $roles )) === 0){
+        return false;
+    }
+    
+    return true;
+}
+
+/**
+ * Check if ad is allowed on specific post_type
+ * 
+ * @global array $quads_options
+ * @global array $post
+ * @return boolean true if post_type is allowed
+ */
+function quads_post_type_allowed(){
+    global $quads_options, $post;
+    
+    if (!isset($post)){
+        return false;
+    }
+    
+    if (!isset($quads_options['post_types']) || empty($quads_options['post_types'])){
+        return false;
+    }
+    //wp_die($quads_options['post_types']);
+    $current_post_type = get_post_type($post->ID);
+    if ( in_array( $current_post_type, $quads_options['post_types'] )){
+        return true;
+    }
+    return false;
 }

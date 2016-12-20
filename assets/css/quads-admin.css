@@ -245,24 +245,20 @@ li.quads-tabs {
     }
 }
 
-#quads_tab_container ul li {
+#quads_tab_container ul li.quads-tabs {
     margin-bottom:0px;
 }
 
-#quads_tab_container ul li a {
+#quads_tab_container ul li.quads-tabs a {
     display: block;
     padding:10px 10px 10px 10px;
-    /*    border-width: 1px 0;
-        border-style: solid;
-        border-top-color:white;
-        border-bottom-color:#e7e7e7;*/
     text-decoration: none;
     font-weight: bold;
 }
-#quads_tab_container ul li a:hover {
+#quads_tab_container ul li.quads-tabs a:hover {
     color:#383838;
 }
-#quads_tab_container ul li a.active {
+#quads_tab_container ul li.quads-tabs a.active {
     text-decoration: underline;
 }
 
@@ -716,6 +712,31 @@ li.quads-tabs {
     left: 4px;
     position: absolute;
     margin-top: -10px;
+}
+
+.quads-general-helper:after {
+    height: 20px;
+    font-family: sans-serif;
+    content: "?";
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    left: 4px;
+    position: absolute;
+    margin-top: -2px;
+}
+.quads-general-helper {
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background-color: #83c11f;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    position: relative;
+    top: 4px;
+    margin-top: -4px;
+    cursor: pointer;
+    margin-left: 2px;
 }
 
 .quads-message{

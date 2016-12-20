@@ -249,13 +249,9 @@ li.quads-tabs {
     margin-bottom:0px;
 }
 
-#quads_tab_container ul li a {
+#quads_tab_container ul li.quads-tabs a {
     display: block;
     padding:10px 10px 10px 10px;
-    /*    border-width: 1px 0;
-        border-style: solid;
-        border-top-color:white;
-        border-bottom-color:#e7e7e7;*/
     text-decoration: none;
     font-weight: bold;
 }
@@ -760,7 +756,6 @@ li.quads-tabs {
     width: 55px;
 }
 
-
 .quads_adsense_code input.quads-bggrey {
     background-color: whitesmoke;
     color: #939393;
@@ -769,4 +764,16 @@ li.quads-tabs {
 .quads-amp-code{
     color: #939393;
     height: 130px;
+}
+
+.quads-general-helper:after {
+    height: 20px;
+    font-family: sans-serif;
+    content: "?";
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    left: 4px;
+    position: absolute;
+    margin-top: -2px;
 }

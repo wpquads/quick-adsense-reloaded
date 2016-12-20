@@ -5,7 +5,7 @@
  *
  * @package     QUADS
  * @subpackage  Admin/Upgrades
- * @copyright   Copyright (c) 2016, Ren´é Hermenau
+ * @copyright   Copyright (c) 2016, René Hermenau
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.2.3
  */
@@ -22,6 +22,7 @@ if( !defined( 'ABSPATH' ) )
 function quads_do_automatic_upgrades() {
 
     $did_upgrade = false;
+    // Get current installed version
     $quads_version = preg_replace( '/[^0-9.].*/', '', get_option( 'quads_version' ) );
 
     if( version_compare( $quads_version, '1.2.5', '<' ) ) {
@@ -31,10 +32,12 @@ function quads_do_automatic_upgrades() {
     if( version_compare( $quads_version, '1.2.7', '<' ) ) {
         quads_change_widget_values();
     }
+    if( version_compare( $quads_version, '1.3.8', '<' ) ) {
+        quads_import_post_type_settings();
+    }
 
     // Check if version number in DB is lower than version number in current plugin
     if( version_compare( $quads_version, QUADS_VERSION, '<' ) ) {
-        //wp_die( 'upgrade' );
         // Let us know that an upgrade has happened
         $did_upgrade = true;
     }
@@ -44,7 +47,6 @@ function quads_do_automatic_upgrades() {
         update_option( 'quads_version', preg_replace( '/[^0-9.].*/', '', QUADS_VERSION ) );
     }
 }
-
 add_action( 'admin_init', 'quads_do_automatic_upgrades' );
 
 /**
@@ -133,4 +135,29 @@ function quads_is_advanced_1_2_7() {
         return true;
     }
     return false;
+}
+
+/**
+ * Convert all post/page setting to new post_type global options array
+ * @global array $quads_options
+ * @return true if success
+ */
+function quads_import_post_type_settings(){
+    global $quads_options;
+    
+    // Get previous settings
+    $post_setting_old = isset($quads_options['visibility']['AppPost']) ? true : false;
+    $page_setting_old = isset($quads_options['visibility']['AppPage']) ? true : false;
+    
+    // Store them in new array post_types
+    if (true === $post_setting_old && true === $page_setting_old) {
+        $quads_options['post_types'] = array('post', 'page');
+    } else if (true === $post_setting_old && false === $page_setting_old) {
+        $quads_options['post_types'] = array('post');
+    } else if (false === $post_setting_old && true === $page_setting_old) {
+        $quads_options['post_types'] = array('page');
+    } else {
+        // do nothing
+    }
+    update_option('quads_settings', $quads_options);
 }

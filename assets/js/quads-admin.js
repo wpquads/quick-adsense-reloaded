@@ -2,7 +2,10 @@ var strict;
 
 jQuery(document).ready(function ($) {
     
-        // Hid or show AMP code form on click on amp checkbox
+    // Activate chosen select boxes
+    $(".quads-chosen-select").chosen();
+    
+    // Hid or show AMP code form on click on amp checkbox
     $('.quads-activate-amp').click(function(){
     var parent = $(this).parents('.quads-ad-toggle-container').attr('id');
         if ($(this).attr('checked') === 'checked') {
@@ -43,6 +46,30 @@ jQuery(document).ready(function ($) {
     
     // show / hide helper description
     $('.quads-helper').click(function (e) {
+        e.preventDefault();
+        var icon = $(this),
+                bubble = $(this).next();
+
+        // Close any that are already open
+        $('.quads-message').not(bubble).hide();
+
+        var position = icon.position();
+        if (bubble.hasClass('bottom')) {
+            bubble.css({
+                'left': (position.left - bubble.width() / 2) + 'px',
+                'top': (position.top + icon.height() + 9) + 'px'
+            });
+        } else {
+            bubble.css({
+                'left': (position.left + icon.width() + 9) + 'px',
+                'top': (position.top + icon.height() / 2 - 18) + 'px'
+            });
+        }
+
+        bubble.toggle();
+        e.stopPropagation();
+    });
+    $('.quads-general-helper').click(function (e) {
         e.preventDefault();
         var icon = $(this),
                 bubble = $(this).next();
