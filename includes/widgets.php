@@ -18,6 +18,8 @@
 add_action( 'widgets_init', 'quads_register_widgets', 1 );
 
 function quads_register_widgets() {
+
+    
     global $quads_options;
     $amountWidgets = 10;
     for ( $i = 1; $i <= $amountWidgets; $i++ ) {
@@ -32,17 +34,18 @@ function quads_register_widgets() {
  * 
  * @since 0.9.7
  * return true when ad widgets are not visible on frontpage else false
+ * @deprecated since version 1.3.8
  */
-function quads_hide_adwidget_on_homepage() {
-    global $quads_options;
-
-    $is_active = isset( $quads_options["visibility"]["AppSide"] ) ? $quads_options["visibility"]["AppSide"] : null;
-
-    if( is_front_page() && $is_active )
-        return true;
-
-    return false;
-}
+//function quads_hide_adwidget_on_homepage() {
+//    global $quads_options;
+//
+//    $is_active = isset( $quads_options["visibility"]["AppSide"] ) ? $quads_options["visibility"]["AppSide"] : null;
+//
+//    if( is_front_page() && $is_active )
+//        return true;
+//
+//    return false;
+//}
 
 class quads_widgets_1 extends WP_Widget {
 
@@ -78,7 +81,7 @@ class quads_widgets_1 extends WP_Widget {
 
 
         $cont = quads_post_settings_to_quicktags( get_the_content() );
-        if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && !quads_hide_adwidget_on_homepage() && !quads_ad_reach_max_count() ) {
+        if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_ad_is_allowed() && !quads_ad_reach_max_count() ) {
 
             quads_set_ad_count_widget();
             //$codetxt = $quads_options['ad' . $this->adsID . '_widget'];

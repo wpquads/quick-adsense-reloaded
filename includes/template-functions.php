@@ -660,16 +660,17 @@ function quads_ad_is_allowed( $content = null ) {
 /**
  * 
  * @global arr $quads_options
- * @return boolean false if the current user role is not allowed to see ads
+ * @return boolean true if the current user role is allowed to see ads
  */
 function quads_user_roles_permission(){
     global $quads_options;
     
+    // No restriction. Show ads to all user_roles including public visitors without user role
     if (!isset($quads_options['user_roles'])){
         return true;
     }
     $roles = wp_get_current_user()->roles;
-    if ( isset ($quads_options['user_roles']) && count(array_intersect( $quads_options['user_roles'], $roles )) === 0){
+    if ( isset ($quads_options['user_roles']) && count(array_intersect( $quads_options['user_roles'], $roles )) >= 1){
         return false;
     }
     

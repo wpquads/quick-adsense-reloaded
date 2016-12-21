@@ -131,8 +131,8 @@ Alternative Installation:
 = {{ version }} =
 * Fix: Remove three dots on unused ads
 * Fix: All ads are taken into account for random ads
-* New: Support for all custom post_types with WP QUADS PRO
-* New: Support for custom user roles with WP QUADS PRO
+* New: Show/Hide ads on custom post types with WP QUADS PRO
+* New: Hide adverts for specific custom user role with WP QUADS PRO
 * Tweak: Do not show menu link to WP QUADS PRO plugin if its already installed
 
 = 1.3.7 =
