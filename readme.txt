@@ -129,8 +129,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: Redirect after first time installation not working
 
-= 1.3.9 =
+= 1.3.8 =
 * Fix: Remove "three dots" content on unused adverts spots
 * Fix: Even empty ads are taken into account for random ads
 * Fix: Visibility conditionals for widget ads are not used

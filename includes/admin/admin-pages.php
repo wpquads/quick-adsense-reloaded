@@ -34,9 +34,7 @@ function quads_add_options_link() {
             //if (quads_is_installed_clickfraud() ){
             //$quads_add_ons_page   = add_submenu_page('quads-settings', __('Click Fraud Monitor'), __('Click Fraud Monitor'), 'manage_options', 'cfmonitor-config', 'cfmonitor_conf');
             //} else {
-            if (!quads_is_advanced()){
                 $quads_add_ons_page   = add_submenu_page( 'quads-settings', __( 'Get Add-On', 'quick-adsense-reloaded' ), 'Get WP QUADS PRO', 'manage_options', 'quads-addons', 'quads_add_ons_page' );
-            }
         }
 }
 add_action( 'admin_menu', 'quads_add_options_link', 10 );
