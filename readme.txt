@@ -129,6 +129,8 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+
+= 1.3.9 =
 * Fix: Remove "three dots" content on unused adverts spots
 * Fix: Even empty ads are taken into account for random ads
 * Fix: Visibility conditionals for widget ads are not used
