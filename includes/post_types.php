@@ -10,6 +10,15 @@
  * @since       1.2.8
  */
 
+/**
+ * Get list of available post_types
+ * 
+ * @return array list of post_types
+ */
+function quads_get_post_types(){    
+    $post_types = array('post'=>'post', 'page'=>'page');
+    return apply_filters('quads_post_types',$post_types);
+}
 
 /**
  * Check if ad is allowed on specific post_type
@@ -28,7 +37,7 @@ function quads_post_type_allowed(){
     if (!isset($quads_options['post_types']) || empty($quads_options['post_types'])){
         return false;
     }
-    //wp_die($quads_options['post_types']);
+
     $current_post_type = get_post_type($post->ID);
     if ( in_array( $current_post_type, $quads_options['post_types'] )){
         return true;

@@ -563,68 +563,93 @@ function quads_check_quick_adsense_version(){
 }
 
 /**
- * Get all Quick AdSense settings and convert the to a Quick AdSense reloaded compatible array
+ * Get all Quick AdSense settings and convert them to a Quick AdSense reloaded compatible array
  * 
  * @since 0.9.0
  * @return array
  */
-function get_quick_adsense_setting(){
+function get_quick_adsense_setting() {
     $amountAds = 10;
     $amountWidgets = 10;
     $settings = array();
-    
-    
-    for ($i=1;$i<=$amountAds;$i++) { 
-        if( get_option('AdsCode'.$i) != '' ){
-            $settings['ad' . $i]['code'] = get_option('AdsCode'.$i);
-            $settings['ad' . $i]['align'] = get_option('AdsAlign'.$i);
-            $settings['ad' . $i]['margin'] = get_option('AdsMargin'.$i);
+    $new_align = '';
+
+
+    for ( $i = 1; $i <= $amountAds; $i++ ) {
+        if( get_option( 'AdsCode' . $i ) != '' ) {
+            $settings['ad' . $i]['code'] = get_option( 'AdsCode' . $i );
+            $settings['ad' . $i]['margin'] = get_option( 'AdsMargin' . $i );
+            //$settings['ad' . $i]['align'] = get_option( 'AdsAlign' . $i );
+            // convert the old margin values into the new ones
+            $old_align = get_option( 'AdsAlign' . $i );
+            if (isset($old_align) && $old_align === '1'){ // right
+                $new_align = '0';
+            } else if(isset($old_align) && $old_align === '2'){ // center
+                $new_align = '1';
+            } else if(isset($old_align) &&$old_align === '3'){ // right
+                $new_align = '2';
+            } else if(isset($old_align) &&$old_align === '4'){ // none
+                $new_align = '3';
+            }
+            $settings['ad' . $i]['align'] = $new_align;
         }
     }
-    for ($i=1;$i<=$amountWidgets;$i++) { 
-        if( get_option('WidCode'.$i) != '' ){
-            $settings['ad' . $i . '_widget'] = get_option('WidCode'.$i);
+    for ( $i = 1; $i <= $amountWidgets; $i++ ) {
+        if( get_option( 'WidCode' . $i ) != '' ) {
+            $settings['ad' . $i . '_widget'] = get_option( 'WidCode' . $i );
         }
     }
-    $settings['maxads'] = get_option('AdsDisp');
-    $settings['pos1']['BegnAds'] = get_option('BegnAds');
-    $settings['pos1']['BegnRnd'] = get_option('BegnRnd');
-    $settings['pos2']['MiddAds'] = get_option('MiddAds');
-    $settings['pos2']['MiddRnd'] = get_option('MiddRnd');	
-    $settings['pos3']['EndiAds'] = get_option('EndiAds');
-    $settings['pos3']['EndiRnd'] = get_option('EndiRnd');	
-    $settings['pos4']['MoreAds'] = get_option('MoreAds');
-    $settings['pos4']['MoreRnd'] = get_option('MoreRnd');	
-    $settings['pos5']['LapaAds'] = get_option('LapaAds');
-    $settings['pos5']['LapaRnd'] = get_option('LapaRnd');		
+    $settings['maxads'] = get_option( 'AdsDisp' );
+    $settings['pos1']['BegnAds'] = get_option( 'BegnAds' );
+    $settings['pos1']['BegnRnd'] = get_option( 'BegnRnd' );
+    $settings['pos2']['MiddAds'] = get_option( 'MiddAds' );
+    $settings['pos2']['MiddRnd'] = get_option( 'MiddRnd' );
+    $settings['pos3']['EndiAds'] = get_option( 'EndiAds' );
+    $settings['pos3']['EndiRnd'] = get_option( 'EndiRnd' );
+    $settings['pos4']['MoreAds'] = get_option( 'MoreAds' );
+    $settings['pos4']['MoreRnd'] = get_option( 'MoreRnd' );
+    $settings['pos5']['LapaAds'] = get_option( 'LapaAds' );
+    $settings['pos5']['LapaRnd'] = get_option( 'LapaRnd' );
     $rc = 3;
     $value = 5;
-    for ($j=1;$j<=$rc;$j++) {
-            $key = $value + $j;
-            $settings['pos' . $key]['Par' . $j . 'Ads'] = get_option('Par'.$j.'Ads');	
-            $settings['pos' . $key]['Par' . $j . 'Rnd'] = get_option('Par'.$j.'Rnd');		
-            $settings['pos' . $key]['Par' . $j . 'Nup'] = get_option('Par'.$j.'Nup');			
-            $settings['pos' . $key]['Par' . $j . 'Con'] = get_option('Par'.$j.'Con');			
-    }	
-    $settings['pos9']['Img1Ads'] = get_option('Img1Ads');	
-    $settings['pos9']['Img1Rnd'] = get_option('Img1Rnd');		
-    $settings['pos9']['Img1Nup'] = get_option('Img1Nup');		
-    $settings['pos9']['Img1Con'] = get_option('Img1Con');			
-    $settings['visibility']['AppPost'] = get_option('AppPost');
-    $settings['visibility']['AppPage'] = get_option('AppPage');
-    $settings['visibility']['AppHome'] = get_option('AppHome');	
-    $settings['visibility']['AppCate'] = get_option('AppCate');
-    $settings['visibility']['AppArch'] = get_option('AppArch');
-    $settings['visibility']['AppTags'] = get_option('AppTags');
-    $settings['visibility']['AppMaxA'] = get_option('AppMaxA');	
-    $settings['visibility']['AppSide'] = get_option('AppSide');	
-    $settings['visibility']['AppLogg'] = get_option('AppLogg');		
-    $settings['quicktags']['QckTags'] = get_option('QckTags');
-    $settings['quicktags']['QckRnds'] = get_option('QckRnds');
-    $settings['quicktags']['QckOffs'] = get_option('QckOffs');
-    $settings['quicktags']['QckOfPs'] = get_option('QckOfPs');
+    for ( $j = 1; $j <= $rc; $j++ ) {
+        $key = $value + $j;
+        $settings['pos' . $key]['Par' . $j . 'Ads'] = get_option( 'Par' . $j . 'Ads' );
+        $settings['pos' . $key]['Par' . $j . 'Rnd'] = get_option( 'Par' . $j . 'Rnd' );
+        $settings['pos' . $key]['Par' . $j . 'Nup'] = get_option( 'Par' . $j . 'Nup' );
+        $settings['pos' . $key]['Par' . $j . 'Con'] = get_option( 'Par' . $j . 'Con' );
+    }
+    $settings['pos9']['Img1Ads'] = get_option( 'Img1Ads' );
+    $settings['pos9']['Img1Rnd'] = get_option( 'Img1Rnd' );
+    $settings['pos9']['Img1Nup'] = get_option( 'Img1Nup' );
+    $settings['pos9']['Img1Con'] = get_option( 'Img1Con' );
+    //$settings['visibility']['AppPost'] = get_option( 'AppPost' );
+    //$settings['visibility']['AppPage'] = get_option( 'AppPage' );
+    $settings['visibility']['AppHome'] = get_option( 'AppHome' );
+    $settings['visibility']['AppCate'] = get_option( 'AppCate' );
+    $settings['visibility']['AppArch'] = get_option( 'AppArch' );
+    $settings['visibility']['AppTags'] = get_option( 'AppTags' );
+    $settings['visibility']['AppMaxA'] = get_option( 'AppMaxA' );
+    $settings['visibility']['AppSide'] = get_option( 'AppSide' );
+    $settings['visibility']['AppLogg'] = get_option( 'AppLogg' );
+    $settings['quicktags']['QckTags'] = get_option( 'QckTags' );
+    $settings['quicktags']['QckRnds'] = get_option( 'QckRnds' );
+    $settings['quicktags']['QckOffs'] = get_option( 'QckOffs' );
+    $settings['quicktags']['QckOfPs'] = get_option( 'QckOfPs' );
     
-    $settings1 = quads_str_replace_json("true", "1", $settings);
+    // Get previous settings for AppPost and AppPage
+    $post_setting_old = (false !== get_option( 'AppPost' )) ? true : false;
+    $page_setting_old = (false !== get_option( 'AppPage' )) ? true : false;
+    // Store them in new array post_types
+    if (true === $post_setting_old && true === $page_setting_old) {
+        $settings['post_types'] = array('post', 'page');
+    } else if (true === $post_setting_old && false === $page_setting_old) {
+        $settings['post_types'] = array('post');
+    } else if (false === $post_setting_old && true === $page_setting_old) {
+        $settings['post_types'] = array('page');
+    }
+
+    $settings1 = quads_str_replace_json( "true", "1", $settings );
     return $settings1;
 }
 

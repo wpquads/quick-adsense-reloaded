@@ -1268,23 +1268,23 @@ function quads_upload_image_callback( $args ) {
  *
  */
 
-function quads_posttypes_callback( $args ) {
-    global $quads_options;
-    $posttypes = get_post_types();
-
-    if( !empty( $posttypes ) ) {
-        foreach ( $posttypes as $key => $option ):
-            if( isset( $quads_options[$args['id']][$key] ) ) {
-                $enabled = $option;
-            } else {
-                $enabled = NULL;
-            }
-            echo '<input name="quads_settings[' . $args['id'] . '][' . $key . ']" id="quads_settings[' . $args['id'] . '][' . $key . ']" type="checkbox" value="' . $option . '" ' . checked( $option, $enabled, false ) . '/>&nbsp;';
-            echo '<label for="quads_settings[' . $args['id'] . '][' . $key . ']">' . $option . '</label><br/>';
-        endforeach;
-        echo '<p class="description quads_hidden">' . $args['desc'] . '</p>';
-    }
-}
+//function quads_posttypes_callback( $args ) {
+//    global $quads_options;
+//    $posttypes = get_post_types();
+//
+//    if( !empty( $posttypes ) ) {
+//        foreach ( $posttypes as $key => $option ):
+//            if( isset( $quads_options[$args['id']][$key] ) ) {
+//                $enabled = $option;
+//            } else {
+//                $enabled = NULL;
+//            }
+//            echo '<input name="quads_settings[' . $args['id'] . '][' . $key . ']" id="quads_settings[' . $args['id'] . '][' . $key . ']" type="checkbox" value="' . $option . '" ' . checked( $option, $enabled, false ) . '/>&nbsp;';
+//            echo '<label for="quads_settings[' . $args['id'] . '][' . $key . ']">' . $option . '</label><br/>';
+//        endforeach;
+//        echo '<p class="description quads_hidden">' . $args['desc'] . '</p>';
+//    }
+//}
 
 /*
  * Note Callback
@@ -1961,14 +1961,3 @@ function quads_multiselect_callback( $args = array() ) {
     $html .= '</select>';
     echo $html;
 }
-
-/**
- * Get list of available post_types
- * @return array list of post_types
- */
-function quads_get_post_types(){    
-    $post_types = array('post'=>'post', 'page'=>'page');
-    return apply_filters('quads_post_types',$post_types);
-}
-
-
