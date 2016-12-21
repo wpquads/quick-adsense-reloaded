@@ -131,8 +131,9 @@ Alternative Installation:
 = {{ version }} =
 * Fix: Remove three dots on unused ads
 * Fix: All ads are taken into account for random ads
-* New: Support for all available post_types with WP QUADS PRO
-* New: Support for user roles with WP QUADS PRO
+* New: Support for all custom post_types with WP QUADS PRO
+* New: Support for custom user roles with WP QUADS PRO
+* Tweak: Do not show menu link to WP QUADS PRO plugin if its already installed
 
 = 1.3.7 =
 * Fix: Do not show ads on 404 error pages

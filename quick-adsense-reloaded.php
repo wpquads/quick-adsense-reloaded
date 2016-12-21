@@ -291,7 +291,8 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             }
 
             // Update the current version
-            update_option( 'quads_version', QUADS_VERSION );
+            // Its done from the upgrade-functions.php routine
+            //update_option( 'quads_version', QUADS_VERSION );
 
             // Add plugin installation date and variable for rating div
             add_option( 'quads_install_date', date( 'Y-m-d h:i:s' ) );

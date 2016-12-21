@@ -36,7 +36,7 @@ function quads_do_automatic_upgrades() {
         quads_import_post_type_settings();
     }
 
-    // Check if version number in DB is lower than version number in current plugin
+    // Check if version number in DB is lower than version number of plugin
     if( version_compare( $quads_version, QUADS_VERSION, '<' ) ) {
         // Let us know that an upgrade has happened
         $did_upgrade = true;
