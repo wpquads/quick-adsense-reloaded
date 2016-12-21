@@ -129,8 +129,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
-* Fix: Remove three dots on unused ads
-* Fix: All ads are taken into account for random ads
+* Fix: Remove "three dots" content on unused adverts spots
+* Fix: Even empty ads are taken into account for random ads
+* Fix: Visibility conditionals for widget ads are not used
 * New: Show/Hide ads on custom post types with WP QUADS PRO
 * New: Hide adverts for specific custom user role with WP QUADS PRO
 * Tweak: Do not show menu link to WP QUADS PRO plugin if its already installed
