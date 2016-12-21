@@ -48,12 +48,13 @@ We are an active and engaged member of the WordPress community and we are follow
 = Main Features =
 
 * Import all ads settings from Quick AdSense v. 1.9.2 and convert them into serialized options.
+* Visibility conditions, show / hide ads based on post type and user roles (needs WP QUADS PRO)
 * Quicktags of Quick Adsense are 100% compatible to Quick AdSense Reloaded
 * No external script dependencies. All plugin code reside on your site. 
-* Dynamic AdSense positioning: Assign Google AdSense ads to the beginning, middle and end of post, assign dds after 'more' tag, before last paragraph, after certain paragraphs & assign Ads after certain images.
+* Dynamic AdSense positioning: Assign Google AdSense ads to the beginning, middle and end of post, assign ads after 'more' tag, before last paragraph, after certain paragraphs & assign Ads after certain images.
 * Insert Google AdSense ads specifically or randomly anywhere within a post.
-* Support any Ads code, not limited to Google Adsense dds only.
-* Display up to a maximum of 10 Ads on a page. Google TOS allows publishers to place up to 3 Google Adsense for Content on a page. If you are using other dds, you may display up to 10 Ads.
+* Support any Ads code, not limited to Google Adsense ads only.
+* Display up to a maximum of 10 Ads on a page. Google TOS allows publishers to place up to 3 Google Adsense for Content on a page. If you are using other ads, you may display up to 10 Ads.
 * Support up to a maximum of 10 Ads codes on Sidebar Widgets.
 * Support up to a maximum of 10 Ads codes for specific placement & randomization within a post.
 * Insert Google AdSense ads on-the-fly, insert &lt;!--Ads1--&gt;, &lt;!--Ads2--&gt; ... , &lt;!--RndAds--&gt; to a post to accomplish this.
@@ -67,7 +68,7 @@ We are an active and engaged member of the WordPress community and we are follow
 * Serialized storing of Ad options instead storing every single option as separate table entry all over
 * Multi language support
 * Remove of small coding issues like "unexpected output" message when plugin is activated on several sites
-* Import / Export function makes plugin migrating to other sites easier. Copy your dds code to other sites.
+* Import / Export function makes plugin migrating to other sites easier. Copy your ads code to other sites.
 
 = Safety improvements = 
 
