@@ -186,6 +186,9 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
 
             require_once QUADS_PLUGIN_DIR . 'includes/admin/settings/register-settings.php';
             $quads_options = quads_get_settings();
+            require_once QUADS_PLUGIN_DIR . 'includes/conditionals.php';
+            require_once QUADS_PLUGIN_DIR . 'includes/post_types.php';
+            require_once QUADS_PLUGIN_DIR . 'includes/user_roles.php';
             require_once QUADS_PLUGIN_DIR . 'includes/template-functions.php';
             require_once QUADS_PLUGIN_DIR . 'includes/class-quads-license-handler.php';
             require_once QUADS_PLUGIN_DIR . 'includes/logger.php';
@@ -212,7 +215,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
                 require_once QUADS_PLUGIN_DIR . 'includes/quicktags.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/admin-notices.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/upgrades/upgrade-functions.php';
-                            require_once QUADS_PLUGIN_DIR . 'includes/user_roles.php';
             }
         }
 
