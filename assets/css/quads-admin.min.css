@@ -245,7 +245,7 @@ li.quads-tabs {
     }
 }
 
-#quads_tab_container ul li {
+#quads_tab_container ul li.quads-tabs {
     margin-bottom:0px;
 }
 
@@ -255,10 +255,10 @@ li.quads-tabs {
     text-decoration: none;
     font-weight: bold;
 }
-#quads_tab_container ul li a:hover {
+#quads_tab_container ul li.quads-tabs a:hover {
     color:#383838;
 }
-#quads_tab_container ul li a.active {
+#quads_tab_container ul li.quads-tabs a.active {
     text-decoration: underline;
 }
 
@@ -714,6 +714,31 @@ li.quads-tabs {
     margin-top: -10px;
 }
 
+.quads-general-helper:after {
+    height: 20px;
+    font-family: sans-serif;
+    content: "?";
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    left: 4px;
+    position: absolute;
+    margin-top: -2px;
+}
+.quads-general-helper {
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background-color: #83c11f;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    position: relative;
+    top: 4px;
+    margin-top: -4px;
+    cursor: pointer;
+    margin-left: 2px;
+}
+
 .quads-message{
     display:block;
     padding: 10px;
@@ -764,16 +789,4 @@ li.quads-tabs {
 .quads-amp-code{
     color: #939393;
     height: 130px;
-}
-
-.quads-general-helper:after {
-    height: 20px;
-    font-family: sans-serif;
-    content: "?";
-    color: #fff;
-    font-size: 11px;
-    font-weight: bold;
-    left: 4px;
-    position: absolute;
-    margin-top: -2px;
 }
