@@ -130,6 +130,10 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* New: Add three more paragraph options with WP QUADS PRO
+* New: New filter to show ads above or below specific header tags like h1 or h2 (needs WP QUADS PRO)
+
+= 1.3.9 =
 * Fix: Redirect after first time installation not working
 
 = 1.3.8 =

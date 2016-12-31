@@ -141,6 +141,7 @@ function quads_process_content($content){
 
 	/* ... Tidy up content ... */
         // Replace all <p></p> tags with placeholder ##QA-TP1##
+        // Replace all 
 	$content = str_replace("<p></p>", "##QA-TP1##", $content);
         // Replace all <p>&nbsp;</p> tags with placeholder ##QA-TP2##
 	$content = str_replace("<p>&nbsp;</p>", "##QA-TP2##", $content);	

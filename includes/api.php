@@ -39,7 +39,7 @@
  * @param array $args   Location settings
  */
 function quads_register_ad( $args ) {
-    global $_quads_registered_ad_locations;;
+    global $_quads_registered_ad_locations;
     $defaults = array(
         'location'      => '',
         'description'   => ''
