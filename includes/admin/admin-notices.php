@@ -27,6 +27,8 @@ function quads_admin_messages() {
     }
     
     quads_theme_notice();
+    
+    quads_update_notice();
 
     //quads_plugin_deactivated_notice();
     
@@ -35,7 +37,9 @@ function quads_admin_messages() {
     $datetime1 = new DateTime( $install_date );
     $datetime2 = new DateTime( $display_date );
     $diff_intrval = round( ($datetime2->format( 'U' ) - $datetime1->format( 'U' )) / (60 * 60 * 24) );
-    if( $diff_intrval >= 7 && get_option( 'quads_rating_div' ) == "no" ) {
+    
+    
+    if( $diff_intrval >= 7 && get_option( 'quads_rating_div' ) == "no" || quads_rate_again() ) {
         echo '<div class="quads_fivestar updated" style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;">
     	<p>Awesome, you\'ve been using <strong>WP QUADS</strong> for more than 1 week. <br> May i ask you to give it a <strong>5-star rating</strong> on Wordpress? </br>
         This will help to spread its popularity and to make this plugin a better one.
@@ -43,7 +47,9 @@ function quads_admin_messages() {
         <ul>
             <li><a href="https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/?filter=5#new-post" class="thankyou" target="_new" title="Ok, you deserved it" style="font-weight:bold;">Ok, you deserved it</a></li>
             <li><a href="javascript:void(0);" class="quadsHideRating" title="I already did" style="font-weight:bold;">I already did</a></li>
-            <li><a href="javascript:void(0);" class="quadsHideRating" title="No, not good enough" style="font-weight:bold;">No, not good enough, i do not like to rate it!</a></li>
+            <li><a href="javascript:void(0);" class="quadsHideRating" title="No, not good enough" style="font-weight:bold;">No, not good enough</a></li>
+            <br>
+            <li><a href="javascript:void(0);" class="quadsHideRatingWeek" title="No, not good enough" style="font-weight:bold;">I want to rate it later. Ask me again in a week!</a></li>
         </ul>
     </div>
     <script>
@@ -51,6 +57,24 @@ function quads_admin_messages() {
 
     jQuery(\'.quadsHideRating\').click(function(){
         var data={\'action\':\'quads_hide_rating\'}
+             jQuery.ajax({
+        
+        url: "' . admin_url( 'admin-ajax.php' ) . '",
+        type: "post",
+        data: data,
+        dataType: "json",
+        async: !0,
+        success: function(e) {
+            if (e=="success") {
+               jQuery(\'.quads_fivestar\').slideUp(\'fast\');
+			   
+            }
+        }
+         });
+        })
+    
+        jQuery(\'.quadsHideRatingWeek\').click(function(){
+        var data={\'action\':\'quads_hide_rating_week\'}
              jQuery.ajax({
         
         url: "' . admin_url( 'admin-ajax.php' ) . '",
@@ -94,9 +118,43 @@ function quads_hide_rating_div() {
 }
 add_action( 'wp_ajax_quads_hide_rating', 'quads_hide_rating_div' );
 
+/**
+ * Write the timestamp when rating notice will be opened again
+ */
+function quads_hide_rating_notice_week() {
+    $nextweek = time() + (7 * 24 * 60 * 60);
+    $human_date = date( 'Y-m-d h:i:s', $nextweek );
+    update_option( 'quads_rating_div', $human_date  );
+    echo json_encode( array("success") );
+    exit;
+}
+add_action( 'wp_ajax_quads_hide_rating_week', 'quads_hide_rating_notice_week' );
 
 /**
- * Show a message when pro or free plugin become disabled
+ * Check if admin notice will open again after one week of closing
+ * @return boolean
+ */
+function quads_rate_again(){
+        
+    $rate_again_date = get_option( 'quads_rating_div' );
+    
+    if (false === $rate_again_date || $rate_again_date === 'no'){
+        return true;
+    }
+    
+    $current_date = date( 'Y-m-d h:i:s' );
+    $datetime1 = new DateTime( $rate_again_date );
+    $datetime2 = new DateTime( $current_date );
+    $diff_intrval = round( ($datetime2->format( 'U' ) - $datetime1->format( 'U' )) / (60 * 60 * 24) );
+    
+    if ($diff_intrval >= 7){
+        return true;
+    }
+}
+
+
+/**
+ * Show a message when pro or free plugin gets disabled
  * 
  * @return void
  * @not used
@@ -134,3 +192,42 @@ function quads_theme_notice(){
         update_option ('quads_show_theme_notice', 'no');
     }
 }
+
+/**
+ * This notice is shown after updating to 1.3.9
+ * 
+ * Not used at the moment
+ */
+function quads_update_notice(){
+    
+    $show_notice = get_option('quads_show_update_notice');
+    
+    // do not do anything
+    if (false !== $show_notice){
+        return false;
+    }
+    
+        if( (version_compare( QUADS_VERSION, '1.3.9', '>=' ) ) && quads_is_advanced() && (version_compare( QUADS_PRO_VERSION, '1.3.0', '<' ) )  )  {
+            $message = sprintf(__( '<strong>WP QUADS '.QUADS_VERSION.': <strong> Update WP QUADS PRO to get custom post type support from <a href="%s">General Settings</a>.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings');
+            $message .= '<br><br><a href="'.admin_url() . 'admin.php?page=quads-settings&quads-action=hide_update_notice" class="button-primary thankyou" target="_new" title="Close Notice" style="font-weight:bold;">Close Notice</a>';
+
+        ?>
+        <div class="updated notice" style="border-left: 4px solid #ffba00;">
+            <p><?php echo $message; ?></p>
+        </div> <?php
+        //update_option ('quads_show_update_notice', 'no');
+    } else {
+        $message = sprintf(__( '<strong>WP QUADS '.QUADS_VERSION.': <strong> Install <a href="%1s" target="_blank">WP QUADS PRO</a> to get custom post type support from <a href="%2s">General Settings</a>.', 'quick-adsense-reloaded' ), 'http://wpquads.com?utm_campaign=admin_notice&utm_source=admin_notice&utm_medium=admin&utm_content=custom_post_type', admin_url() . 'admin.php?page=quads-settings');
+        $message .= '<br><br><a href="'.admin_url() . 'admin.php?page=quads-settings&quads-action=hide_update_notice" class="button-primary thankyou" target="_new" title="Close Notice" style="font-weight:bold;">Close Notice</a>';
+        ?>
+        <div class="updated notice" style="border-left: 4px solid #ffba00;">
+            <p><?php echo $message; ?></p>
+        </div>
+       <?php
+    }
+}
+
+function quads_hide_notice(){
+    update_option ('quads_show_update_notice', 'no');
+}
+add_action('quads_hide_update_notice', 'quads_hide_notice', 10);

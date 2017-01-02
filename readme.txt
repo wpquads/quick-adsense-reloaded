@@ -19,7 +19,7 @@ Quick Adsense Reloaded! Quickest way to insert Google AdSense & other ads into y
 > This free Google AdSense plugin is a fork of the discontinued Quick AdSense ads 
 > plugin with more than 100k installations. Its rewritten from scratch with a solid code
 > base and will be maintained and updated to be compatible with all future WordPress versions<br />
-> Find a bug? Open a ticket in the [support request](https://wordpress.org/support/plugin/quick-adsense-reloaded/ "support forum").
+> Found a issue? Open a ticket in the [support forum](https://wordpress.org/support/plugin/quick-adsense-reloaded/ "support forum").
 > 
 > Support of the popular Click Fraud Monitor plugin <br /> 
 > Visit the site: [clickfraud-monitoring.com](http://demo.clickfraud-monitoring.com/) <br /> 
@@ -130,6 +130,7 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* New: Support for tag visibility condition with WP QUADS 1.3.1
 * Fix: Redirect after first time installation not working
 
 = 1.3.8 =

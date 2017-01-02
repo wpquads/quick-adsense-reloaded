@@ -790,3 +790,7 @@ li.quads-tabs {
     color: #939393;
     height: 130px;
 }
+
+.quads-chosen-select .chosen-choices li.search-field input{
+    min-height: 25px;
+}

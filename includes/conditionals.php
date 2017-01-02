@@ -27,6 +27,8 @@ function quads_ad_is_allowed( $content = null ) {
     if( !is_main_query() ) {
         return false;
     }
+    
+    $hide_ads = apply_filters('quads_hide_ads', false);
 
     if(
             (is_feed()) ||
@@ -42,13 +44,15 @@ function quads_ad_is_allowed( $content = null ) {
             (is_tag() && !( isset( $quads_options['visibility']['AppTags'] ) ) ) ||
             (!quads_user_roles_permission()) ||
             (!quads_post_type_allowed()) ||
-            (is_user_logged_in() && ( isset( $quads_options['visibility']['AppLogg'] ) ) )
+            (is_user_logged_in() && ( isset( $quads_options['visibility']['AppLogg'] ) ) ) ||
+            true === $hide_ads
     ) {
         return false;
     }
     // else
     return true;
 }
+
 
 
 /**
