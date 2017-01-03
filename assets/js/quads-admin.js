@@ -34,15 +34,15 @@ jQuery(document).ready(function ($) {
 //    });
     
     /**
-     * Toggle Button Open All Tabs
+     * Toggle Button Open All Ads
      */
     $('#quads-open-toggle').click(function(){
-            if ($('#quads-open-toggle').html() == 'Open All Tabs' ){
+            if ($('#quads-open-toggle').html() == 'Open All Ads' ){
                 $('.quads-ad-toggle-container').show();
                 $('#quads-open-toggle').html('Close Tabs');
             }else{
                 $('.quads-ad-toggle-container').hide();
-                $('#quads-open-toggle').html('Open All Tabs');
+                $('#quads-open-toggle').html('Open All Ads');
             }
     });
     

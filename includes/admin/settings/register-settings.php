@@ -189,7 +189,7 @@ function quads_get_registered_settings() {
                             . '<li> Use option <i>AdSense</i> for unmodified AdSense code</li>'
                             . '<li> Use <i>Plain Text / HTML / JS</i> for modified AdSense code with custom css or for none AdSense ads</li></ul>', 'quick-adsense-reloaded' ), 'http://wpquads.com/effective-adsense-banner-size-formats/?utm_campaign=plugin&utm_source=general_tab&utm_medium=admin&utm_content=best_banner_sizes' ) 
                         . '</ul>'
-                        . '<div id="quads-open-toggle" class="button">'.__('Open All Tabs','quick-adsense-reloaded').'</div>',
+                        . '<div id="quads-open-toggle" class="button">'.__('Open All Ads','quick-adsense-reloaded').'</div>',
                 'type' => 'header'
             ),
             array(
