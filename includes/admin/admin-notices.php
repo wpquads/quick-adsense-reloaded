@@ -39,8 +39,8 @@ function quads_admin_messages() {
     $diff_intrval = round( ($datetime2->format( 'U' ) - $datetime1->format( 'U' )) / (60 * 60 * 24) );
     
     
-    if( $diff_intrval >= 7 && get_option( 'quads_rating_div' ) == "no" || quads_rate_again() ) {
-        echo '<div class="quads_fivestar updated" style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;">
+    if( $diff_intrval >= 7 && get_option( 'quads_rating_div' ) == "no" || false === get_option( 'quads_rating_div' ) || quads_rate_again() ) {
+        echo '<div class="quads_fivestar updated " style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;">
     	<p>Awesome, you\'ve been using <strong>WP QUADS</strong> for more than 1 week. <br> May i ask you to give it a <strong>5-star rating</strong> on Wordpress? </br>
         This will help to spread its popularity and to make this plugin a better one.
         <br><br>Your help is much appreciated. Thank you very much,<br> ~René Hermenau
@@ -50,12 +50,15 @@ function quads_admin_messages() {
             <li><a href="javascript:void(0);" class="quadsHideRating" title="No, not good enough" style="font-weight:bold;">No, not good enough</a></li>
             <br>
             <li><a href="javascript:void(0);" class="quadsHideRatingWeek" title="No, not good enough" style="font-weight:bold;">I want to rate it later. Ask me again in a week!</a></li>
-        </ul>
+            <li class="spinner" style="float:none;display:list-item;margin:0px;"></li>        
+</ul>
+
     </div>
     <script>
     jQuery( document ).ready(function( $ ) {
 
     jQuery(\'.quadsHideRating\').click(function(){
+    jQuery(".spinner").addClass("is-active");
         var data={\'action\':\'quads_hide_rating\'}
              jQuery.ajax({
         
@@ -66,6 +69,7 @@ function quads_admin_messages() {
         async: !0,
         success: function(e) {
             if (e=="success") {
+               jQuery(".spinner").removeClass("is-active");
                jQuery(\'.quads_fivestar\').slideUp(\'fast\');
 			   
             }
@@ -74,6 +78,7 @@ function quads_admin_messages() {
         })
     
         jQuery(\'.quadsHideRatingWeek\').click(function(){
+        jQuery(".spinner").addClass("is-active");
         var data={\'action\':\'quads_hide_rating_week\'}
              jQuery.ajax({
         
@@ -84,6 +89,7 @@ function quads_admin_messages() {
         async: !0,
         success: function(e) {
             if (e=="success") {
+               jQuery(".spinner").removeClass("is-active");
                jQuery(\'.quads_fivestar\').slideUp(\'fast\');
 			   
             }
@@ -113,6 +119,7 @@ add_action( 'admin_notices', 'quads_admin_messages' );
 
 function quads_hide_rating_div() {
     update_option( 'quads_rating_div', 'yes' );
+    delete_option( 'quads_date_next_notice' );
     echo json_encode( array("success") );
     exit;
 }
@@ -125,6 +132,7 @@ function quads_hide_rating_notice_week() {
     $nextweek = time() + (7 * 24 * 60 * 60);
     $human_date = date( 'Y-m-d h:i:s', $nextweek );
     update_option( 'quads_date_next_notice', $human_date  );
+    update_option( 'quads_rating_div', 'yes'  );
     echo json_encode( array("success") );
     exit;
 }
@@ -139,15 +147,15 @@ function quads_rate_again(){
     $rate_again_date = get_option( 'quads_date_next_notice' );
 
     if (false === $rate_again_date){
-        return true;
+        return false;
     }
-    
+
     $current_date = date( 'Y-m-d h:i:s' );
     $datetime1 = new DateTime( $rate_again_date );
     $datetime2 = new DateTime( $current_date );
     $diff_intrval = round( ($datetime2->format( 'U' ) - $datetime1->format( 'U' )) / (60 * 60 * 24) );
-    
-    if ($diff_intrval >= 7){
+
+    if ($diff_intrval >= 0){
         return true;
     }
 }

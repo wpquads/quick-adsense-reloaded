@@ -131,6 +131,7 @@ Alternative Installation:
 
 = {{ version }} =
 * New: Support for tag visibility condition with WP QUADS 1.3.1
+* New: Add a "Rate Later" option to the rating container
 * Fix: Redirect after first time installation not working
 
 = 1.3.8 =
