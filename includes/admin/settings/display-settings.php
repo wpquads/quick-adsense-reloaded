@@ -238,8 +238,9 @@ function quads_options_page() {
                                 ?>
 			</form>
                         <?php
-                        echo sprintf( __( 'if you like this plugin please do us a BIG favor and give us a 5 star rating <a href="%1$s" target="_blank">here</a> . If you`re not happy, please get in touch with us at <strong><a href="mailto:support@wpquads.com" target="_blank">support@wpquads.com</a></strong>, so that we can sort it out. Thank you!', 'quick-adsense-reloaded' ),
-			'https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/#new-post'
+                        echo sprintf( __( '<strong>If you like this plugin please do us a BIG favor and give us a 5 star rating <a href="%s" target="_blank">here</a> . If you`re not happy, please open a <a href="%2s" target="_blank">support ticket</a>, so that we can sort it out. Thank you!</strong>', 'quick-adsense-reloaded' ),
+			'https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/#new-post',
+                        'http://wpquads.com/support/'
                         );
                         ?>
                     </div> <!-- new //-->

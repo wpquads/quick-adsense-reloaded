@@ -16,7 +16,7 @@ if( !defined( 'ABSPATH' ) )
 /**
  * Render the adsense code
  * 
- * @param1 int the ad id 
+ * @param1 string the ad id  => ad1, ad2, ad3 etc
  * @param2 string $string The adsense code
  * @param3 bool True when function is called from widget
  * 
@@ -35,21 +35,23 @@ function quads_render_ad( $id, $string, $widget = false ) {
         return quads_render_amp($id);
     }
     
-    //$string = apply_filters( 'quads_render_ad', $string );
 
     // Return the original ad code if it's no adsense code
     if( false === quads_is_adsense( $id, $string ) && !empty( $string ) ) {
         // allow use of shortcodes in ad plain text content
         $string = quadsCleanShortcode('quads', $string);
+        //wp_die('t1');
         return apply_filters( 'quads_render_ad', $string );
     }
 
     // Return the adsense ad code
     if( true === quads_is_adsense( $id, $string ) ) {
+        //wp_die('t2');
         return apply_filters( 'quads_render_ad', quads_render_google_async( $id ) );
     }
 
     // Return empty string
+    //wp_die('t3');
     return '';
 }
 
@@ -343,6 +345,7 @@ document.write(\'' . $html . '\');
 /**
  * Check if ad code is adsense or other ad code
  * 
+ * @param1 id int id of the ad
  * @param string $string ad code
  * @return boolean
  */
