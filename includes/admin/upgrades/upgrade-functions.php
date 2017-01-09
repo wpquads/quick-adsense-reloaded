@@ -32,7 +32,7 @@ function quads_do_automatic_upgrades() {
     if( version_compare( $quads_version, '1.2.7', '<' ) ) {
         quads_change_widget_values();
     }
-    if( version_compare( $quads_version, '1.3.8', '<' ) ) {
+    if( version_compare( $quads_version, '1.4.0', '<' ) ) {
         quads_import_post_type_settings();
     }
 

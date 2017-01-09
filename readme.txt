@@ -129,13 +129,12 @@ Alternative Installation:
 
 == Changelog == 
 
-= {{ version }} =
 
 = {{ version }} =
 * Fix: Responsive AdSense ads are not working if shortcode [quads] is used
 * Tweak: Remove mail address for support and link to support ticket page
-* New: Add three more paragraph options with WP QUADS PRO
-* New: New filter to show ads above or below specific header tags like h1 or h2 (needs WP QUADS PRO)
+* Fix: On first time installation make sure that post types post and blog are activated
+* Fix: On update installation make sure that post types post and blog are activated
 
 = 1.3.9 =
 * Fix: Redirect after first time installation not working

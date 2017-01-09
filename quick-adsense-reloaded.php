@@ -290,6 +290,15 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             $current_version = get_option( 'quads_version' );
             if( $current_version ) {
                 update_option( 'quads_version_upgraded_from', $current_version );
+            } else {
+                // First time installation
+                $quads_options['post_types'] = array('post', 'page');
+                $quads_options['visibility']['AppHome'] = "1";
+                $quads_options['visibility']['AppCate'] = "1";
+                $quads_options['visibility']['AppArch'] = "1";
+                $quads_options['visibility']['AppTags'] = "1";
+                
+                update_option('quads_settings', $quads_options);
             }
 
             // Update the current version
