@@ -35,8 +35,7 @@ if( !defined( 'ABSPATH' ) )
 
 // Plugin version
 if( !defined( 'QUADS_VERSION' ) ) {
-    //define( 'QUADS_VERSION', '{{ version }}' );
-    define( 'QUADS_VERSION', '1.3.9' );
+    define( 'QUADS_VERSION', '{{ version }}' );
 }
 
 // Plugin name
@@ -116,6 +115,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
                 self::$instance->setup_constants();
                 self::$instance->includes();
                 self::$instance->load_textdomain();
+                self::$instance->load_hooks();
                 self::$instance->logger = new quadsLogger( "quick_adsense_log_" . date( "Y-m-d" ) . ".log", quadsLogger::INFO );
                 self::$instance->html = new QUADS_HTML_Elements();
             }
@@ -175,6 +175,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             }
         }
 
+        
         /**
          * Include required files
          *
@@ -200,6 +201,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             require_once QUADS_PLUGIN_DIR . 'includes/render-ad-functions.php';
             require_once QUADS_PLUGIN_DIR . 'includes/scripts.php';
             require_once QUADS_PLUGIN_DIR . 'includes/automattic-amp-ad.php';
+            require_once QUADS_PLUGIN_DIR . 'includes/helper-functions.php';
 
             if( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/add-ons.php';
@@ -216,6 +218,12 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
                 require_once QUADS_PLUGIN_DIR . 'includes/quicktags.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/admin-notices.php';
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/upgrades/upgrade-functions.php';
+            }
+        }
+        
+        public function load_hooks() {
+            if( is_admin() && quads_is_plugins_page() ) {
+                add_filter( 'admin_footer', 'quads_add_deactivation_feedback_modal' );
             }
         }
 
@@ -251,7 +259,8 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             }
         }
 
-        /* Activation function fires when the plugin is activated.  
+        /* 
+         * Activation function fires when the plugin is activated.  
          * Checks first if multisite is enabled
          * @since 1.0.0
          * 
@@ -275,6 +284,14 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
                 }
             }
             QuickAdsenseReloaded::during_activation();
+        }
+        /**
+         * Deactivation function fires when the plugin is deactivated.
+         */
+        public static function deactivation() {
+            // Hook to plugin uninstall.
+            //register_uninstall_hook( $this, array('Freemius', '_uninstall_plugin_hook') );
+            wp_die('uninstall');
         }
 
         /**
@@ -364,6 +381,15 @@ add_action( 'plugins_loaded', 'quads_loaded' );
  * function also needs to be static.
  */
 register_activation_hook( __FILE__, array('QuickAdsenseReloaded', 'activation') );
+
+
+/**
+ * The deactivation hook is called outside of the singleton because WordPress doesn't
+ * register the call from within the class hence, needs to be called outside and the
+ * function also needs to be static.
+ */
+//register_deactivation_hook( __FILE__, array('QuickAdsenseReloaded', 'deactivation') );
+
 
 /**
  * Check if advanced settings are available

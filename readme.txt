@@ -131,11 +131,12 @@ Alternative Installation:
 
 
 = {{ version }} =
+* New: Add poll when AdSense plugin is deactivated
 * Fix: Responsive AdSense ads are not working if shortcode [quads] is used
-* Fix: On first time installation make sure that post types post and blog are activated
+* Fix: On first time WP QUADS AdSense plugin installation make sure that post types post and blog are activated
 * Fix: On update installation make sure that post types post and blog are activated
 * Fix: Notice Undefined index on first time installation
-* Tweak: Remove mail address for support and link to support ticket page
+* Tweak: Remove mail address for support and link to our Google AdSense support ticket page
 
 
 = 1.3.9 =
