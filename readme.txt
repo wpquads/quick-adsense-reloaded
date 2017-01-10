@@ -132,9 +132,11 @@ Alternative Installation:
 
 = {{ version }} =
 * Fix: Responsive AdSense ads are not working if shortcode [quads] is used
-* Tweak: Remove mail address for support and link to support ticket page
 * Fix: On first time installation make sure that post types post and blog are activated
 * Fix: On update installation make sure that post types post and blog are activated
+* Fix: Notice Undefined index on first time installation
+* Tweak: Remove mail address for support and link to support ticket page
+
 
 = 1.3.9 =
 * Fix: Redirect after first time installation not working

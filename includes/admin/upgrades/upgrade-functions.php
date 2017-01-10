@@ -27,13 +27,13 @@ function quads_do_automatic_upgrades() {
 
     if( version_compare( $quads_version, '1.2.5', '<' ) ) {
         quads_store_adsense_args();
-        quads_check_theme();
     }
     if( version_compare( $quads_version, '1.2.7', '<' ) ) {
         quads_change_widget_values();
     }
     if( version_compare( $quads_version, '1.4.0', '<' ) ) {
         quads_import_post_type_settings();
+        quads_is_commercial_theme();
     }
 
     // Check if version number in DB is lower than version number of plugin
@@ -100,13 +100,6 @@ function quads_change_widget_values() {
 }
 
 /**
- * Check if theme is a commercial one. Than write the option
- */
-function quads_check_theme() {
-    update_option( 'quads_show_theme_notice', quads_is_commercial_theme() );
-}
-
-/**
  * 
  * @return mixed string | bool false name of the theme if theme is a known commercial theme
  */
@@ -119,7 +112,8 @@ function quads_is_commercial_theme() {
     $themes = array('Bunchy', 'Bimber', 'boombox', 'Boombox');
 
     if( is_object( $my_theme ) && in_array( $my_theme->get( 'Name' ), $themes ) ) {
-        return $my_theme->get( 'Name' );
+        update_option( 'quads_show_theme_notice', $my_theme->get( 'Name' ) );
+        return true;
     }
 
     return false;

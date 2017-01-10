@@ -123,7 +123,7 @@ function quads_process_content($content){
         // Create array of valid id's
         if( count( $AdsId ) === 0 ) { //   
             for ( $i = 1; $i <= $numberAds; $i++ ) {
-                $tmp = trim( $quads_options['ad' . $i]['code'] );
+                $tmp = isset($quads_options['ad' . $i]['code']) ? trim( $quads_options['ad' . $i]['code'] ) : '';
                 // id is valid if there is either the plain text field populated or the adsense ad slot and the ad client id
                 if( !empty( $tmp ) || (!empty($quads_options['ad' . $i]['g_data_ad_slot']) && !empty($quads_options['ad' . $i]['g_data_ad_client'] ) ) ) {
                     $AdsId[] = $i;
