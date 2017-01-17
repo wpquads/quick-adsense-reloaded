@@ -128,13 +128,13 @@ input.medium-text, textarea.medium-text {
 
 
 
-#quads_tab_container .row{ 
+#quads_tab_container .quads-row{ 
     padding-top:12px;
     padding-bottom:12px;
 }
 
 
-#quads_tab_container .row label strong, #tab_container .row strong {
+#quads_tab_container .quads-row label strong, #tab_container .quads-row strong {
     font-weight: bold;
 }
 
@@ -463,7 +463,7 @@ li.quads-tabs {
     max-width:640px;
 }
 
-#quads_settingslicenses_header .row.th{
+#quads_settingslicenses_header .quads-row.th{
     min-width:250px;
 }
 

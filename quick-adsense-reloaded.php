@@ -285,14 +285,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             }
             QuickAdsenseReloaded::during_activation();
         }
-        /**
-         * Deactivation function fires when the plugin is deactivated.
-         */
-        public static function deactivation() {
-            // Hook to plugin uninstall.
-            //register_uninstall_hook( $this, array('Freemius', '_uninstall_plugin_hook') );
-            wp_die('uninstall');
-        }
+
 
         /**
          * This function is fired from the activation method.
@@ -348,12 +341,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
  * @since 2.0.0
  * @return object The one true QuickAdsenseReloaded Instance
  */
-//function QUADS() {
-//    return QuickAdsenseReloaded::instance();
-//}
-//
-//// Get QUADS Running
-//QUADS();
 
 /**
  * Populate the $quads global with an instance of the QuickAdsenseReloaded class and return it.
@@ -384,30 +371,11 @@ register_activation_hook( __FILE__, array('QuickAdsenseReloaded', 'activation') 
 
 
 /**
- * The deactivation hook is called outside of the singleton because WordPress doesn't
- * register the call from within the class hence, needs to be called outside and the
- * function also needs to be static.
- */
-//register_deactivation_hook( __FILE__, array('QuickAdsenseReloaded', 'deactivation') );
-
-
-/**
  * Check if advanced settings are available
  * 
  * @return boolean
  */
-//function quads_is_advanced() {
-//    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-//    //$plugin = 'wp-quads-pro/wp-quads-pro.php';
-//    $plugin = 'wp-quads-pro.php';
-//    //$plugin = plugin_dir_path( __FILE__ ) . basename( __FILE__ );
-//
-//    if( is_plugin_active( $plugin ) ) {
-//        return true;
-//    }
-//
-//    return false;
-//}
+
 
 function quads_is_advanced(){
     if (  function_exists( 'quads_is_active_pro' )){

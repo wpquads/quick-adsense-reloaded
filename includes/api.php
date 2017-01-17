@@ -34,6 +34,47 @@
 
 
 /**
+ * Return ad locations HTML based on new API.
+ *
+ * @param $html
+ * @return string   Locations HTML
+ */
+function quads_render_ad_locations( $html ) {
+    global $quads_options, $_quads_registered_ad_locations, $quads;
+
+    if( isset( $_quads_registered_ad_locations ) && is_array( $_quads_registered_ad_locations ) ) {
+        foreach ( $_quads_registered_ad_locations as $location => $location_args ) {
+
+            $location_settings = quads_get_ad_location_settings( $location );
+
+            $html .= $quads->html->checkbox( array(
+                'name' => 'quads_settings[location_settings][' . $location . '][status]',
+                'current' => !empty( $location_settings['status'] ) ? $location_settings['status'] : null,
+                'class' => 'quads-checkbox'
+                    ) );
+            $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
+
+            $html .= $quads->html->select( array(
+                'options' => quads_get_ads(),
+                'name' => 'quads_settings[location_settings][' . $location . '][ad]',
+                'selected' => !empty( $location_settings['ad'] ) ? $location_settings['ad'] : null,
+                'show_option_all' => false,
+                'show_option_none' => false
+                    ) );
+            $html .= ' ' . $location_args['description'] . '</br>';
+        }
+    }
+
+    return $html;
+}
+
+/**
+ * This hook should be removed and the hook function should replace entire "quads_ad_position_callback" function.
+ */
+add_filter( 'quads_ad_position_callback', 'quads_render_ad_locations' );
+
+
+/**
  * Register an ad position.
  *
  * @param array $args   Location settings

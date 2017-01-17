@@ -1568,46 +1568,6 @@ function quads_quicktags_callback( $args ) {
 }
 
 /**
- * This hook should be removed and the hook function should replace entire "quads_ad_position_callback" function.
- */
-add_filter( 'quads_ad_position_callback', 'quads_render_ad_locations' );
-
-/**
- * Return ad locations HTML based on new API.
- *
- * @param $html
- * @return string   Locations HTML
- */
-function quads_render_ad_locations( $html ) {
-    global $quads_options, $_quads_registered_ad_locations, $quads;
-
-    if( isset( $_quads_registered_ad_locations ) && is_array( $_quads_registered_ad_locations ) ) {
-        foreach ( $_quads_registered_ad_locations as $location => $location_args ) {
-
-            $location_settings = quads_get_ad_location_settings( $location );
-
-            $html .= $quads->html->checkbox( array(
-                'name' => 'quads_settings[location_settings][' . $location . '][status]',
-                'current' => !empty( $location_settings['status'] ) ? $location_settings['status'] : null,
-                'class' => 'quads-checkbox'
-                    ) );
-            $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-
-            $html .= $quads->html->select( array(
-                'options' => quads_get_ads(),
-                'name' => 'quads_settings[location_settings][' . $location . '][ad]',
-                'selected' => !empty( $location_settings['ad'] ) ? $location_settings['ad'] : null,
-                'show_option_all' => false,
-                'show_option_none' => false
-                    ) );
-            $html .= ' ' . $location_args['description'] . '</br>';
-        }
-    }
-
-    return $html;
-}
-
-/**
  * AdSense Code Callback
  *
  * Renders adsense code fields
@@ -1661,7 +1621,7 @@ function quads_adsense_code_callback( $args ) {
             <textarea style="vertical-align:top;margin-right:20px;" class="large-text quads-textarea" cols="50" rows="10" id="quads_settings[<?php echo $id; ?>][code]" name="quads_settings[<?php echo $id; ?>][code]"><?php echo esc_textarea( stripslashes( $code ) ); ?></textarea><label for="quads_settings[ <?php echo $id; ?> ][code]"> <?php echo $args['desc']; ?></label>
             <br>
         <div class="quads_adsense_code">
-            <input type="button" style="vertical-align:inherit;" class="button button-primary quads-add-adsense" value="Copy / Paste AdSense Code"> <span>or add Ad Slot ID & Publisher ID manually below</span>
+            <input type="button" style="vertical-align:inherit;" class="button button-primary quads-add-adsense" value="Copy / Paste AdSense Code"> <span>or add Ad Slot ID & Publisher ID manually below:</span>
             <br />
              <?php //echo __('Generate Ad Slot & Publisher ID automatically from your adsense code', 'quick-adsense-reloaded')?>
             <label class="quads-label-left" for="quads_settings[<?php echo $id; ?>][g_data_ad_slot]">Ad Slot ID </label><input type="text" class="quads-medium-size quads-bggrey" id="quads_settings[<?php echo $id; ?>][g_data_ad_slot]" name="quads_settings[<?php echo $id; ?>][g_data_ad_slot]" value="<?php echo $g_data_ad_slot; ?>">
