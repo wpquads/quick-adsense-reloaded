@@ -24,20 +24,41 @@ add_shortcode( 'quads', 'quads_shortcode_display_ad', 1); // Important use a ver
  * @since 0.9.4
  * @param array $atts
  */
-function quads_shortcode_display_ad($atts) {
-    if ( !quads_ad_is_allowed() )
-        return;
+function quads_shortcode_display_ad( $atts ) {
+    global $quads_options;
     
+    if( !quads_ad_is_allowed() )
+        return;
+
 
     //return quads_check_meta_setting('NoAds');
-    if ( quads_check_meta_setting('NoAds') === '1')
+    if( quads_check_meta_setting( 'NoAds' ) === '1' )
         return;
     
-    $id = isset($atts['id']) ? (int) $atts['id'] : 0;
-    return do_shortcode(quads_get_ad($id));
+    // The ad id
+    $id = isset( $atts['id'] ) ? ( int ) $atts['id'] : 0;
+    
+    $arr = array(
+        'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
+        'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
+        'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
+        'float:none;margin:0px;');
+    
+    $adsalign = $quads_options['ad' . $id]['align'];
+    $adsmargin = isset( $quads_options['ad' . $id]['margin'] ) ? $quads_options['ad' . $id]['margin'] : '3'; // default
+    $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
+
+    
+    // Do not create any inline style on AMP site
+    $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
+
+    $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
+            '<div class="quads-location quads-ad' . $id . '" id="quads-ad' . $id . '" style="' . $style . '">' . "\n";
+    $code .= do_shortcode( quads_get_ad( $id ) );
+    $code .= '</div>' . "\n";
+
+    return $code;
 }
-
-
 
 /**
  * return ad content
@@ -56,7 +77,7 @@ function quads_get_ad($id = 0) {
     if ( isset($quads_options['ad' . $id]['code']) ){
         // Count how often the shortcode is used - Important
         quads_set_ad_count_shortcode();
-        $code = "\n".'<!-- WP QUADS Shortcode Ad v. ' . QUADS_VERSION .' -->'."\n";
+        //$code = "\n".'<!-- WP QUADS Shortcode Ad v. ' . QUADS_VERSION .' -->'."\n";
         //return $code . $quads_options['ad' . $id]['code'];
         return quads_render_ad('ad' . $id, $quads_options['ad' . $id]['code']);
     }

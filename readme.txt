@@ -131,6 +131,9 @@ Alternative Installation:
 
 
 = {{ version }} =
+* Fix: AdSense option Hide on device X condition not working width shortcode [quads]
+
+= 1.4.0 =
 * New: Add poll when AdSense plugin is deactivated
 * Fix: Responsive AdSense ads are not working if shortcode [quads] is used
 * Fix: On first time WP QUADS AdSense plugin installation make sure that post types post and blog are activated
