@@ -132,6 +132,11 @@ Alternative Installation:
 
 = {{ version }} =
 * Fix: AdSense option Hide on device X condition not working width shortcode [quads]
+* Fix: Rewrite admin html and css for a more robust structure to prevent to be overwritten by other plugin devs who think its cool to load their css stuff all over the admin area
+* Fix: Allow the use of the same ad on several different positions
+* Tweak: remove deprecated code and move relevant functons to api.php
+
+
 
 = 1.4.0 =
 * New: Add poll when AdSense plugin is deactivated
