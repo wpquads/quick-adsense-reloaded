@@ -147,11 +147,12 @@ function quads_process_content($content){
 	$content = str_replace("<p>&nbsp;</p>", "##QA-TP2##", $content);	
 	$offdef = (strpos($content,'<!--OffDef-->')!==false);
         
-	if( !$offdef ) {
+	if( !$offdef ) { // disabled default positioned ads
 
-		$AdsIdCus = array();
-		$cusads = 'CusAds'; 
-                $cusrnd = 'CusRnd';
+		$AdsIdCus = array(); // ids of used ads
+                
+                $cusrnd = 'CusRnd'; // placeholder string for random ad
+                $cusads = 'CusAds';  // placeholder string for custom ad spots
                 
                 $begn1 = isset($quads_options['pos1']['BegnAds']) ? true : false; 
                 $begn2 = isset($quads_options['pos1']['BegnRnd']) ? $quads_options['pos1']['BegnRnd'] : 0;
@@ -169,19 +170,20 @@ function quads_process_content($content){
                 $lapa2 = isset($quads_options['pos5']['LapaRnd'])? $quads_options['pos5']['LapaRnd'] : 0 ;	
                 
                
-		$rc=3;
-                $default = 5;
-		for($i=1;$i<=$rc;$i++) { 
 
-                        $key = $default +$i; // 6;7;8
+		$number = 3; // number of paragraph ads | default value 3. 
+                $default = 5; // Position. Let's start with id 5
+		for($i=1;$i<=$number;$i++) { 
+
+                        $key = $default +$i; // 6,7,8
                         
-                        $para1[$i] = isset($quads_options['pos' . $key]['Par'.$i .'Ads']) ? $quads_options['pos' . $key]['Par'.$i .'Ads'] : 0;
-                        $para2[$i] = isset($quads_options['pos' . $key]['Par'.$i .'Rnd']) ? $quads_options['pos' . $key]['Par'.$i .'Rnd'] : 0;	
-                        $para3[$i] = isset($quads_options['pos' . $key]['Par'.$i .'Nup']) ? $quads_options['pos' . $key]['Par'.$i .'Nup'] : 0;	
-                        $para4[$i] = isset($quads_options['pos' . $key]['Par'.$i .'Con']) ? $quads_options['pos' . $key]['Par'.$i .'Con'] : 0;
+                        $paragraph['status'][$i] = isset($quads_options['pos' . $key]['Par'.$i .'Ads']) ? $quads_options['pos' . $key]['Par'.$i .'Ads'] : 0; // Status - active | inactive
+                        $paragraph['id'][$i] = isset($quads_options['pos' . $key]['Par'.$i .'Rnd']) ? $quads_options['pos' . $key]['Par'.$i .'Rnd'] : 0; // Ad id	
+                        $paragraph['position'][$i] = isset($quads_options['pos' . $key]['Par'.$i .'Nup']) ? $quads_options['pos' . $key]['Par'.$i .'Nup'] : 0; // Paragraph No	
+                        $paragraph['end_post'][$i] = isset($quads_options['pos' . $key]['Par'.$i .'Con']) ? $quads_options['pos' . $key]['Par'.$i .'Con'] : 0; // End of post - yes | no
                         
 		}              
-                
+                // Position 9 Ad after Image
 		$imageActive    = isset($quads_options['pos9']['Img1Ads']) ? $quads_options['pos9']['Img1Ads'] : false;	
                 $imageAdNo      = isset($quads_options['pos9']['Img1Rnd']) ? $quads_options['pos9']['Img1Rnd'] : false;	
                 $imageNo        = isset($quads_options['pos9']['Img1Nup']) ? $quads_options['pos9']['Img1Nup'] : false; 
@@ -194,22 +196,79 @@ function quads_process_content($content){
 		if ( $lapa2 == 0 ) { $g1 = $cusrnd; } else { $g1 = $cusads.$lapa2; array_push($AdsIdCus, $lapa2); };
 		if ( $endi2 == 0 ) { $b2 = $cusrnd; } else { $b2 = $cusads.$endi2; array_push($AdsIdCus, $endi2); };
  
-		for($i=1;$i<=$rc;$i++) { 
-			if ( $para2[$i] == 0 ) { $b3[$i] = $cusrnd; 
-                        
+		for($i=1;$i<=$number;$i++) { 
+			if ( $paragraph['id'][$i] == 0 ) { 
+                            $paragraph[$i] = $cusrnd; 
                         } else { 
-                            $b3[$i] = $cusads.$para2[$i]; 
-                            array_push($AdsIdCus, $para2[$i]); 
+                            $paragraph[$i] = $cusads.$paragraph['id'][$i]; 
+                            array_push($AdsIdCus, $paragraph['id'][$i]); 
                             
                         };	
 		}
                 
-                // Check if image ad is random one
+                // Create the arguments for filter quads_filter_paragraphs
+                $quads_args = array (
+                                        'paragraph' => $paragraph,
+                                        'cusads' => $cusads,
+                                        'cusrnd' => $cusrnd,
+                                        'AdsIdCus' => $AdsIdCus,
+
+                        );
+
+                // Execute filter to add more paragraph ad spots
+                $quads_filtered = apply_filters('quads_filter_paragraphs', $quads_args);
+                
+                // The filtered arguments
+                $paragraph = $quads_filtered['paragraph'];
+                
+                // filtered list of ad spots
+                $AdsIdCus = $quads_filtered['AdsIdCus'];
+                
+                // Create paragraph ads
+                $number = 6;
+                //$number = 3;
+		for($i=$number;$i>=1;$i--) { 
+			if ( !empty($paragraph['status'][$i]) ){
+                            
+				$sch = "</p>";
+				$content = str_replace("</P>", $sch, $content);
+				$arr = explode($sch, $content);
+				if ( (int)$paragraph['position'][$i] < count($arr) ) {
+					$content = implode($sch, array_slice($arr, 0, $paragraph['position'][$i])).$sch .'<!--'.$paragraph[$i].'-->'. implode($sch, array_slice($arr, $paragraph['position'][$i]));
+				}	elseif ($paragraph['end_post'][$i]) {
+					$content = implode($sch, $arr).'<!--'.$paragraph[$i].'-->';
+				}
+			}
+		}
+
+                   //Add some extra paragraph positions
+//        $number = 6; // number of paragraph ads | default value 3.
+//        for ( $i = 4; $i <= $number; $i++ ) {
+//
+//            $key = ($i - 4) + 1; // 1,2,3
+//
+//            $paragraph['status'][$i] = isset( $quads_options['extra' . $key]['ParAds'] ) ? $quads_options['extra' . $key]['ParAds'] : 0; // Status - active | inactive
+//            $paragraph['id'][$i] = isset( $quads_options['extra' . $key]['ParRnd'] ) ? $quads_options['extra' . $key]['ParRnd'] : 0; // Ad id	
+//            $paragraph['position'][$i] = isset( $quads_options['extra' . $key]['ParNup'] ) ? $quads_options['extra' . $key]['ParNup'] : 0; // Paragraph No	
+//            $paragraph['end_post'][$i] = isset( $quads_options['extra' . $key]['ParCon'] ) ? $quads_options['extra' . $key]['ParCon'] : 0; // End of post - yes | no                        
+//        }
+//
+//        for ( $i = 1; $i <= $number; $i++ ) {
+//            if( $paragraph['id'][$i] == 0 ) {
+//                $paragraph[$i] = $cusrnd;
+//            } else {
+//                $paragraph[$i] = $cusads . $paragraph['id'][$i];
+//                array_push( $AdsIdCus, $paragraph['id'][$i] );
+//            };
+//        }
+        //End extra paragraph options
+        //
+        // Check if image ad is random one
 		if ( $imageAdNo == 0 ) { 
-                    $b4 = $cusrnd;
+                    $imageAd = $cusrnd;
                     } else { 
-                        $b4 = $cusads.$imageAdNo; 
-                        array_push($AdsIdCus, $imageAdNo); 
+                        $imageAd = $cusads.$imageAdNo; 
+                        array_push($AdsIdCus, $imageAdNo);
                 };
                 
                 // Check if image ad is middle one
@@ -255,18 +314,6 @@ function quads_process_content($content){
 				$content = implode($sch, array_slice($arr, 0, count($arr)-1)) .'<!--'.$g1.'-->'. $sch. $arr[count($arr)-1];
 			}
 		}
-		for($i=$rc;$i>=1;$i--) { 
-			if ( $para1[$i] ){
-				$sch = "</p>";
-				$content = str_replace("</P>", $sch, $content);
-				$arr = explode($sch, $content);
-				if ( (int)$para3[$i] < count($arr) ) {
-					$content = implode($sch, array_slice($arr, 0, $para3[$i])).$sch .'<!--'.$b3[$i].'-->'. implode($sch, array_slice($arr, $para3[$i]));
-				}	elseif ($para4[$i]) {
-					$content = implode($sch, $arr).'<!--'.$b3[$i].'-->';
-				}
-			}
-		}	
 
 		if ( $imageActive ){
 
@@ -288,17 +335,17 @@ function quads_process_content($content){
 					$arrAtag = explode($atag, $arr[$imageNo]);
 					$cdu = ( count($arrAtag) > 1 ) ? strpos(strtolower($arrAtag[0]),'<a href')===false : false ;					
 					if ( $imageCaption && $ccp ) {
-						$arr[$imageNo] = implode($caption, array_slice($tss, 0, 1)).$caption. "\r\n".'<!--'.$b4.'-->'."\r\n". implode($caption, array_slice($tss, 1));
+						$arr[$imageNo] = implode($caption, array_slice($tss, 0, 1)).$caption. "\r\n".'<!--'.$imageAd.'-->'."\r\n". implode($caption, array_slice($tss, 1));
 					}else if ( $cdu ) {
-						$arr[$imageNo] = implode($atag, array_slice($arrAtag, 0, 1)).$atag. "\r\n".'<!--'.$b4.'-->'."\r\n". implode($atag, array_slice($arrAtag, 1));
+						$arr[$imageNo] = implode($atag, array_slice($arrAtag, 0, 1)).$atag. "\r\n".'<!--'.$imageAd.'-->'."\r\n". implode($atag, array_slice($arrAtag, 1));
 					}else{
-						$arr[$imageNo] = implode($delimiter, array_slice($arrImages, 0, 1)).$delimiter. "\r\n".'<!--'.$b4.'-->'."\r\n". implode($delimiter, array_slice($arrImages, 1));
+						$arr[$imageNo] = implode($delimiter, array_slice($arrImages, 0, 1)).$delimiter. "\r\n".'<!--'.$imageAd.'-->'."\r\n". implode($delimiter, array_slice($arrImages, 1));
 					}
 				}
 				$content = implode($imgtag, $arr);
 			}	
 		}		
-	}
+	} // end disabled default positioned ads
 	
 	/* 
          * Tidy up content
@@ -311,7 +358,7 @@ function quads_process_content($content){
          * Replace Beginning/Middle/End Ads1-10
          */
 
-            if( !$offdef ) {
+            if( !$offdef ) { // disabled default ads
 		for( $i=1; $i<=count($AdsIdCus); $i++ ) {
 
                     if( strpos($content,'<!--'.$cusads.$AdsIdCus[$i-1].'-->')!==false && in_array($AdsIdCus[$i-1], $AdsId)) {

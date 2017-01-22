@@ -1,6 +1,40 @@
 var strict;
 
+
 jQuery(document).ready(function ($) {
+    
+    // Inactive select fields are greyed out
+    $('.quads-assign').each(function(e){
+        console.log(this);
+        if (!$(this).prop('checked')){
+            $(this).next('select').css('background-color', 'whitesmoke').css('color', '#939393');
+        }else {
+            $(this).next('select').css('background-color', 'white').css('color', 'black');
+        }
+    });
+    
+    $('.quads-assign').click(function(){
+        if (!$(this).prop('checked')){
+            $(this).next('select').css('background-color', 'whitesmoke').css('color', '#939393');
+        } else {
+            $(this).next('select').css('background-color', 'white').css('color', 'black');
+        }
+    });      
+    
+    // Check if submit button is visible than stick it to the bottom of the page
+    $(window).scroll(function() {
+        var elem = '#quads_tab_container .submit';
+        var top_of_element = $(elem).offset().top;
+        var bottom_of_element = $(elem).offset().top + $(elem).outerHeight(false);
+        var bottom_of_screen = $(window).scrollTop() + $(window).height();
+        if (bottom_of_screen > top_of_element){
+            // The element is visible, do something
+            $('#quads-submit-button').css('position', 'relative').css('bottom', '20px');
+        } else {
+            // The element is NOT visible, do something else
+            $('#quads-submit-button').css('position', 'fixed').css('bottom', '20px');
+            }
+    });
     
     // Activate chosen select boxes
     $(".quads-chosen-select").chosen({

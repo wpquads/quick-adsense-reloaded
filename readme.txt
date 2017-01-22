@@ -8,7 +8,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: adsense, ads, ad, google adsense, advertising, amp, ad injection, ad inserter, ad manager
 Requires at least: 3.6+
-Tested up to: 4.7
+Tested up to: 4.7.1
 Stable tag: {{ version }}
 
 Quick Adsense Reloaded! Quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support
@@ -131,10 +131,18 @@ Alternative Installation:
 
 
 = {{ version }} =
+* New: Add filter to add 3 more paragraph options with WP QUADS PRO
+* New: Support link to troubleshooting guide if AdSense ads are not shown
+* New: Add floating Save Settings button
+* New: Grey out unused ad spots in general settings
+* New: Tested up to Wordpress 4.7.1
+
+* Fix: Check if WP QUADS PRO is installed was very slow
 * Fix: AdSense option Hide on device X condition not working width shortcode [quads]
 * Fix: Rewrite admin html and css for a more robust structure to prevent to be overwritten by other plugin devs who think its cool to load their css stuff all over the admin area
 * Fix: Allow the use of the same ad on several different positions
-* Tweak: remove deprecated code and move relevant functons to api.php
+
+* Tweak: Remove deprecated code and move relevant functons to api.php
 
 
 

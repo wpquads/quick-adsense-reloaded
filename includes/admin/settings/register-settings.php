@@ -184,11 +184,12 @@ function quads_get_registered_settings() {
             'adsense_header' => array(
                 'id' => 'adsense_header',
                 'name' => '<strong>' . __( 'AdSense Code', 'quick-adsense-reloaded' ) . '</strong>',
-                'desc' => '<div class="adsense_admin_header">' . sprintf( __( 'Paste up to 10 Ad codes on post body and up to 10 Ad codes on sidebar widget. <a href="%s" target="_blank">Read here</a> to find out the most effective AdSense banner sizes. </div>'
+                'desc' => '<div class="adsense_admin_header">' . sprintf( __( 'Paste up to 10 Ad codes on post body and up to 10 Ad codes on sidebar widget.<br><a href="%s" target="_blank">Read here</a> to find out the most effective AdSense banner sizes. </div>'
                         . '<ul style="margin-top:10px;">'
-                            . '<li> Use option <i>AdSense</i> for unmodified AdSense code</li>'
-                            . '<li> Use <i>Plain Text / HTML / JS</i> for modified AdSense code with custom css or for none AdSense ads</li></ul>', 'quick-adsense-reloaded' ), 'http://wpquads.com/effective-adsense-banner-size-formats/?utm_campaign=plugin&utm_source=general_tab&utm_medium=admin&utm_content=best_banner_sizes' ) 
+                            . '<li>- Use option <i>AdSense</i> for unmodified AdSense code</li>'
+                            . '<li>- Use <i>Plain Text / HTML / JS</i> for modified AdSense code with custom css or for none AdSense ads</li></ul>', 'quick-adsense-reloaded' ), 'http://wpquads.com/effective-adsense-banner-size-formats/?utm_campaign=plugin&utm_source=general_tab&utm_medium=admin&utm_content=best_banner_sizes' ) 
                         . '</ul>'
+                        . '<div style="clear:both;">' . sprintf( __( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve this issue.', 'quick-adsense-reloaded' ),'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink') . '</div>'
                         . '<div id="quads-open-toggle" class="button">'.__('Open All Ads','quick-adsense-reloaded').'</div>',
                 'type' => 'header'
             ),
@@ -1469,73 +1470,75 @@ function quads_ad_position_callback( $args ) {
 
 
     // Pos 1
-    $html = $quads->html->checkbox( array('name' => 'quads_settings[pos1][BegnAds]', 'current' => !empty( $quads_options['pos1']['BegnAds'] ) ? $quads_options['pos1']['BegnAds'] : null, 'class' => 'quads-checkbox') );
+    $html = $quads->html->checkbox( array('name' => 'quads_settings[pos1][BegnAds]','current' => !empty( $quads_options['pos1']['BegnAds'] ) ? $quads_options['pos1']['BegnAds'] : null, 'class' => 'quads-checkbox quads-assign') );
     $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->select( array('options' => quads_get_ads(), 'name' => 'quads_settings[pos1][BegnRnd]', 'selected' => !empty( $quads_options['pos1']['BegnRnd'] ) ? $quads_options['pos1']['BegnRnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+    $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos1][BegnRnd]', 'name' => 'quads_settings[pos1][BegnRnd]', 'selected' => !empty( $quads_options['pos1']['BegnRnd'] ) ? $quads_options['pos1']['BegnRnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
     $html .= ' ' . __( 'to <strong>Beginning of Post</strong>', 'quick-adsense-reloaded' ) . '</br>';
 
     // Pos 2
-    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos2][MiddAds]', 'current' => !empty( $quads_options['pos2']['MiddAds'] ) ? $quads_options['pos2']['MiddAds'] : null, 'class' => 'quads-checkbox') );
+    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos2][MiddAds]', 'current' => !empty( $quads_options['pos2']['MiddAds'] ) ? $quads_options['pos2']['MiddAds'] : null, 'class' => 'quads-checkbox quads-assign') );
     $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->select( array('options' => quads_get_ads(), 'name' => 'quads_settings[pos2][MiddRnd]', 'selected' => !empty( $quads_options['pos2']['MiddRnd'] ) ? $quads_options['pos2']['MiddRnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+    $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos2][MiddRnd]', 'name' => 'quads_settings[pos2][MiddRnd]', 'selected' => !empty( $quads_options['pos2']['MiddRnd'] ) ? $quads_options['pos2']['MiddRnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
     $html .= ' ' . __( 'to <strong>Middle of Post</strong>', 'quick-adsense-reloaded' ) . '</br>';
 
     // Pos 3
-    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos3][EndiAds]', 'current' => !empty( $quads_options['pos3']['EndiAds'] ) ? $quads_options['pos3']['EndiAds'] : null, 'class' => 'quads-checkbox') );
+    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos3][EndiAds]', 'current' => !empty( $quads_options['pos3']['EndiAds'] ) ? $quads_options['pos3']['EndiAds'] : null, 'class' => 'quads-checkbox quads-assign') );
     $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->select( array('options' => quads_get_ads(), 'name' => 'quads_settings[pos3][EndiRnd]', 'selected' => !empty( $quads_options['pos3']['EndiRnd'] ) ? $quads_options['pos3']['EndiRnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+    $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos3][EndiRnd]', 'name' => 'quads_settings[pos3][EndiRnd]', 'selected' => !empty( $quads_options['pos3']['EndiRnd'] ) ? $quads_options['pos3']['EndiRnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
     $html .= ' ' . __( 'to <strong>End of Post</strong>', 'quick-adsense-reloaded' ) . '</br>';
 
     // Pos 4
-    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos4][MoreAds]', 'current' => !empty( $quads_options['pos4']['MoreAds'] ) ? $quads_options['pos4']['MoreAds'] : null, 'class' => 'quads-checkbox') );
+    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos4][MoreAds]', 'current' => !empty( $quads_options['pos4']['MoreAds'] ) ? $quads_options['pos4']['MoreAds'] : null, 'class' => 'quads-checkbox quads-assign') );
     $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->select( array('options' => quads_get_ads(), 'name' => 'quads_settings[pos4][MoreRnd]', 'selected' => !empty( $quads_options['pos4']['MoreRnd'] ) ? $quads_options['pos4']['MoreRnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+    $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos4][MoreRnd]', 'name' => 'quads_settings[pos4][MoreRnd]', 'selected' => !empty( $quads_options['pos4']['MoreRnd'] ) ? $quads_options['pos4']['MoreRnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
     $html .= ' ' . __( 'right after <strong>the <span style="font-family:Courier New,Courier,Fixed;">&lt;!--more--&gt;</span> tag</strong>', 'quick-adsense-reloaded' ) . '</br>';
 
     // Pos 5
-    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos5][LapaAds]', 'current' => !empty( $quads_options['pos5']['LapaAds'] ) ? $quads_options['pos5']['LapaAds'] : null, 'class' => 'quads-checkbox') );
+    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos5][LapaAds]', 'current' => !empty( $quads_options['pos5']['LapaAds'] ) ? $quads_options['pos5']['LapaAds'] : null, 'class' => 'quads-checkbox quads-assign') );
     $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->select( array('options' => quads_get_ads(), 'name' => 'quads_settings[pos5][LapaRnd]', 'selected' => !empty( $quads_options['pos5']['LapaRnd'] ) ? $quads_options['pos5']['LapaRnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+    $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos5][LapaRnd]', 'name' => 'quads_settings[pos5][LapaRnd]', 'selected' => !empty( $quads_options['pos5']['LapaRnd'] ) ? $quads_options['pos5']['LapaRnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
     $html .= ' ' . __( 'right before <strong>the last Paragraph</strong>', 'quick-adsense-reloaded' ) . ' </br>';
 
     // Pos 6
-    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos6][Par1Ads]', 'current' => !empty( $quads_options['pos6']['Par1Ads'] ) ? $quads_options['pos6']['Par1Ads'] : null, 'class' => 'quads-checkbox') );
+    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos6][Par1Ads]', 'current' => !empty( $quads_options['pos6']['Par1Ads'] ) ? $quads_options['pos6']['Par1Ads'] : null, 'class' => 'quads-checkbox quads-assign') );
     $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->select( array('options' => quads_get_ads(), 'name' => 'quads_settings[pos6][Par1Rnd]', 'selected' => !empty( $quads_options['pos6']['Par1Rnd'] ) ? $quads_options['pos6']['Par1Rnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+    $html .= $quads->html->select( array('options' => quads_get_ads(),'id' => 'quads_settings[pos6][Par1Rnd]', 'name' => 'quads_settings[pos6][Par1Rnd]', 'selected' => !empty( $quads_options['pos6']['Par1Rnd'] ) ? $quads_options['pos6']['Par1Rnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
     $html .= ' ' . __( '<strong>After Paragraph</strong>', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->select( array('options' => quads_get_values(), 'name' => 'quads_settings[pos6][Par1Nup]', 'selected' => !empty( $quads_options['pos6']['Par1Nup'] ) ? $quads_options['pos6']['Par1Nup'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+    $html .= $quads->html->select( array('options' => quads_get_values(), 'class' => 'quads-paragraph', 'id' => 'quads_settings[pos6][Par1Nup]', 'name' => 'quads_settings[pos6][Par1Nup]', 'selected' => !empty( $quads_options['pos6']['Par1Nup'] ) ? $quads_options['pos6']['Par1Nup'] : null, 'show_option_all' => false, 'show_option_none' => false) );
     $html .= ' ' . __( '→', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos6][Par1Con]', 'current' => !empty( $quads_options['pos6']['Par1Con'] ) ? $quads_options['pos6']['Par1Con'] : null, 'class' => 'quads-checkbox') );
+    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos6][Par1Con]', 'current' => !empty( $quads_options['pos6']['Par1Con'] ) ? $quads_options['pos6']['Par1Con'] : null, 'class' => 'quads-checkbox quads-assign') );
     $html .= ' ' . __( 'to <strong>End of Post</strong> if fewer paragraphs are found.', 'quick-adsense-reloaded' ) . ' </br>';
 
     // Pos 7
-    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos7][Par2Ads]', 'current' => !empty( $quads_options['pos7']['Par2Ads'] ) ? $quads_options['pos7']['Par2Ads'] : null, 'class' => 'quads-checkbox') );
+    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos7][Par2Ads]', 'current' => !empty( $quads_options['pos7']['Par2Ads'] ) ? $quads_options['pos7']['Par2Ads'] : null, 'class' => 'quads-checkbox quads-assign') );
     $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->select( array('options' => quads_get_ads(), 'name' => 'quads_settings[pos7][Par2Rnd]', 'selected' => !empty( $quads_options['pos7']['Par2Rnd'] ) ? $quads_options['pos7']['Par2Rnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+    $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos7][Par2Rnd]', 'name' => 'quads_settings[pos7][Par2Rnd]', 'selected' => !empty( $quads_options['pos7']['Par2Rnd'] ) ? $quads_options['pos7']['Par2Rnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
     $html .= ' ' . __( '<strong>After Paragraph</strong>', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->select( array('options' => quads_get_values(), 'name' => 'quads_settings[pos7][Par2Nup]', 'selected' => !empty( $quads_options['pos7']['Par2Nup'] ) ? $quads_options['pos7']['Par2Nup'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+    $html .= $quads->html->select( array('options' => quads_get_values(), 'id' => 'quads_settings[pos7][Par2Nup]', 'name' => 'quads_settings[pos7][Par2Nup]', 'selected' => !empty( $quads_options['pos7']['Par2Nup'] ) ? $quads_options['pos7']['Par2Nup'] : null, 'show_option_all' => false, 'show_option_none' => false) );
     $html .= ' ' . __( '→', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos7][Par2Con]', 'current' => !empty( $quads_options['pos7']['Par2Con'] ) ? $quads_options['pos7']['Par2Con'] : null, 'class' => 'quads-checkbox') );
+    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos7][Par2Con]', 'current' => !empty( $quads_options['pos7']['Par2Con'] ) ? $quads_options['pos7']['Par2Con'] : null, 'class' => 'quads-checkbox quads-assign') );
     $html .= ' ' . __( 'to <strong>End of Post</strong> if fewer paragraphs are found.', 'quick-adsense-reloaded' ) . ' </br>';
 
     // Pos 8
-    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos8][Par3Ads]', 'current' => !empty( $quads_options['pos8']['Par3Ads'] ) ? $quads_options['pos8']['Par3Ads'] : null, 'class' => 'quads-checkbox') );
+    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos8][Par3Ads]', 'current' => !empty( $quads_options['pos8']['Par3Ads'] ) ? $quads_options['pos8']['Par3Ads'] : null, 'class' => 'quads-checkbox quads-assign') );
     $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->select( array('options' => quads_get_ads(), 'name' => 'quads_settings[pos8][Par3Rnd]', 'selected' => !empty( $quads_options['pos8']['Par3Rnd'] ) ? $quads_options['pos8']['Par3Rnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+    $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos8][Par3Rnd]', 'name' => 'quads_settings[pos8][Par3Rnd]', 'selected' => !empty( $quads_options['pos8']['Par3Rnd'] ) ? $quads_options['pos8']['Par3Rnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
     $html .= ' ' . __( '<strong>After Paragraph</strong>', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->select( array('options' => quads_get_values(), 'name' => 'quads_settings[pos8][Par3Nup]', 'selected' => !empty( $quads_options['pos8']['Par3Nup'] ) ? $quads_options['pos8']['Par3Nup'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+    $html .= $quads->html->select( array('options' => quads_get_values(), 'id' => 'quads_settings[pos8][Par3Nup]', 'name' => 'quads_settings[pos8][Par3Nup]', 'selected' => !empty( $quads_options['pos8']['Par3Nup'] ) ? $quads_options['pos8']['Par3Nup'] : null, 'show_option_all' => false, 'show_option_none' => false) );
     $html .= ' ' . __( '→', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos8][Par3Con]', 'current' => !empty( $quads_options['pos8']['Par3Con'] ) ? $quads_options['pos8']['Par3Con'] : null, 'class' => 'quads-checkbox') );
+    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos8][Par3Con]', 'current' => !empty( $quads_options['pos8']['Par3Con'] ) ? $quads_options['pos8']['Par3Con'] : null, 'class' => 'quads-checkbox quads-assign') );
     $html .= ' ' . __( 'to <strong>End of Post</strong> if fewer paragraphs are found.', 'quick-adsense-reloaded' ) . ' </br>';
 
+    $html .= apply_filters('quads_extra_paragraph', '');
+    
     // Pos 9
-    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos9][Img1Ads]', 'current' => !empty( $quads_options['pos9']['Img1Ads'] ) ? $quads_options['pos9']['Img1Ads'] : null, 'class' => 'quads-checkbox') );
+    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos9][Img1Ads]', 'current' => !empty( $quads_options['pos9']['Img1Ads'] ) ? $quads_options['pos9']['Img1Ads'] : null, 'class' => 'quads-checkbox quads-assign') );
     $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
     $html .= $quads->html->select( array('options' => quads_get_ads(), 'name' => 'quads_settings[pos9][Img1Rnd]', 'selected' => !empty( $quads_options['pos9']['Img1Rnd'] ) ? $quads_options['pos9']['Img1Rnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
     $html .= ' ' . __( '<strong>After Image</strong>', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->select( array('options' => quads_get_values(), 'name' => 'quads_settings[pos9][Img1Nup]', 'selected' => !empty( $quads_options['pos9']['Img1Nup'] ) ? $quads_options['pos9']['Img1Nup'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+    $html .= $quads->html->select( array('options' => quads_get_values(), 'id' => 'quads_settings[pos9][Img1Nup]', 'name' => 'quads_settings[pos9][Img1Nup]', 'selected' => !empty( $quads_options['pos9']['Img1Nup'] ) ? $quads_options['pos9']['Img1Nup'] : null, 'show_option_all' => false, 'show_option_none' => false) );
     $html .= ' ' . __( '→', 'quick-adsense-reloaded' ) . ' ';
-    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos9][Img1Con]', 'current' => !empty( $quads_options['pos9']['Img1Con'] ) ? $quads_options['pos9']['Img1Con'] : null, 'class' => 'quads-checkbox') );
+    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos9][Img1Con]', 'current' => !empty( $quads_options['pos9']['Img1Con'] ) ? $quads_options['pos9']['Img1Con'] : null, 'class' => 'quads-checkbox quads-assign') );
     $html .= ' ' . __( 'after <b>Image\'s outer</b><b><span style="font-family:Courier New,Courier,Fixed;"> &lt;div&gt; wp-caption</span></b> if any.', 'quick-adsense-reloaded' ) . ' </br>';
 
     echo apply_filters( 'quads_ad_position_callback', $html );

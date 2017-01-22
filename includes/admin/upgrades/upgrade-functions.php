@@ -112,8 +112,8 @@ function quads_is_commercial_theme() {
     $themes = array('Bunchy', 'Bimber', 'boombox', 'Boombox');
 
     if( is_object( $my_theme ) && in_array( $my_theme->get( 'Name' ), $themes ) ) {
-        update_option( 'quads_show_theme_notice', $my_theme->get( 'Name' ) );
-        return true;
+        //update_option( 'quads_show_theme_notice', $my_theme->get( 'Name' ) );
+        return $my_theme->get( 'Name' );
     }
 
     return false;

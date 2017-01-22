@@ -50,7 +50,7 @@ function quads_render_ad_locations( $html ) {
             $html .= $quads->html->checkbox( array(
                 'name' => 'quads_settings[location_settings][' . $location . '][status]',
                 'current' => !empty( $location_settings['status'] ) ? $location_settings['status'] : null,
-                'class' => 'quads-checkbox'
+                'class' => 'quads-checkbox quads-assign'
                     ) );
             $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
 

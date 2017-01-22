@@ -30,3 +30,12 @@ function quads_process_actions() {
 }
 add_action( 'admin_init', 'quads_process_actions' );
 
+/**
+ * Update option quads_show_theme_notice
+ * "no" means no further upgrade notices are shown
+ */
+function quads_close_upgrade_notice(){
+    update_option ('quads_show_theme_notice', 'no');
+}
+add_action('quads_close_upgrade_notice', 'quads_close_upgrade_notice');
+

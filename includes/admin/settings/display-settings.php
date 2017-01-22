@@ -223,6 +223,7 @@ function quads_options_page() {
                         <?php quads_get_tab_header( 'quads_settings_' . $active_tab, 'quads_settings_' . $active_tab ); ?>   
                     <div class="quads-panel-container"> <!-- new //-->
 			<form method="post" action="options.php" id="quads_settings">
+                            
 				<?php
 				settings_fields( 'quads_settings' );
 				quads_do_settings_fields( 'quads_settings_' . $active_tab, 'quads_settings_' . $active_tab );
@@ -233,7 +234,8 @@ function quads_options_page() {
 				<?php 
                                 // do not show save button on add-on page
                                 if ($active_tab !== 'addons'){
-                                    submit_button(); 
+                                    $other_attributes = array( 'id' => 'quads-submit-button' );
+                                    submit_button(null, 'primary', 'quads-save-settings' , true, $other_attributes ); 
                                 }
                                 ?>
 			</form>
@@ -241,6 +243,9 @@ function quads_options_page() {
                         echo sprintf( __( '<strong>If you like this plugin please do us a BIG favor and give us a 5 star rating <a href="%s" target="_blank">here</a> . If you`re not happy, please open a <a href="%2s" target="_blank">support ticket</a>, so that we can sort it out. Thank you!</strong>', 'quick-adsense-reloaded' ),
 			'https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/#new-post',
                         'http://wpquads.com/support/'
+                        );
+                        echo '<p>' . sprintf( __( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve this issue.', 'quick-adsense-reloaded' ),
+			'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=bottomlink'
                         );
                         ?>
                     </div> <!-- new //-->
