@@ -60,9 +60,10 @@ $visibleContentAdsGlobal = 0; // Number of active ads which are shown in the_con
 $ad_count_custom = 0; // Number of active custom ads which are shown on the site
 $ad_count_widget = 0; // Number of active ads in widgets
 $AdsId = array(); // Array of active ad id's
-$adWidgets = 10; // number of widgets
-$numberAds = 10; // number of regular ads
-$AdsWidName = 'AdsWidget%d (WP QUADS)';
+$maxWidgets = 10; // number of widgets
+$maxAds = 10; // number of regular ads
+//$AdsWidName = 'AdsWidget%d (WP QUADS)';
+$AdsWidName = 'AdsWidget%d (Quick Adsense Reloaded)';
 
 
 if( !class_exists( 'QuickAdsenseReloaded' ) ) :
@@ -188,20 +189,20 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
 
             require_once QUADS_PLUGIN_DIR . 'includes/admin/settings/register-settings.php';
             $quads_options = quads_get_settings();
-            require_once QUADS_PLUGIN_DIR . 'includes/conditionals.php';
             require_once QUADS_PLUGIN_DIR . 'includes/post_types.php';
             require_once QUADS_PLUGIN_DIR . 'includes/user_roles.php';
+            require_once QUADS_PLUGIN_DIR . 'includes/widgets.php';
             require_once QUADS_PLUGIN_DIR . 'includes/template-functions.php';
             require_once QUADS_PLUGIN_DIR . 'includes/class-quads-license-handler.php';
             require_once QUADS_PLUGIN_DIR . 'includes/logger.php';
             require_once QUADS_PLUGIN_DIR . 'includes/class-quads-html-elements.php';
-            require_once QUADS_PLUGIN_DIR . 'includes/widgets.php';
             require_once QUADS_PLUGIN_DIR . 'includes/shortcodes.php';
             require_once QUADS_PLUGIN_DIR . 'includes/api.php';
             require_once QUADS_PLUGIN_DIR . 'includes/render-ad-functions.php';
             require_once QUADS_PLUGIN_DIR . 'includes/scripts.php';
             require_once QUADS_PLUGIN_DIR . 'includes/automattic-amp-ad.php';
             require_once QUADS_PLUGIN_DIR . 'includes/helper-functions.php';
+            require_once QUADS_PLUGIN_DIR . 'includes/conditionals.php'; // load it at the end to make sure all ads are counted
 
             if( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/add-ons.php';

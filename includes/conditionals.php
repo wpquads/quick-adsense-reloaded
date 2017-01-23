@@ -72,6 +72,7 @@ function quads_get_total_ad_count(){
     $custom = isset($ad_count_custom) ? (int)$ad_count_custom : 0;
     $widget = isset($ad_count_widget) ? (int)$ad_count_widget : 0;
  
+    //wp_die($ad_count_widget);
     return $shortcode + $content + $custom + $widget;
 }
 
@@ -135,6 +136,7 @@ function quads_set_ad_count_custom(){
  * Increment count of active ads generated on widgets
  * 
  * @return int amount of active widget ads 
+ * @deprecated since 1.4.1
  */
 function quads_set_ad_count_widget(){
     global $ad_count_widget;

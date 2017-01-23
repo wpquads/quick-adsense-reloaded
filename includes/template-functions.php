@@ -84,11 +84,12 @@ function quads_get_visibility_quicktags_str ( $post_id = null ) {
  * @global arr $quads_options all plugin settings
  * @global int $visibleContentAds number of active content ads (reseted internally so we have to use a similar global below for external purposes: $visibleContentAdsGlobal)
  * @global arr $AdsId Whitespace trimmed array of ad codes
- * @global int $numberWidgets number of ad widgets
- * @global int $numberAds number of maximum available ads
+ * @global int $maxWidgets maximum number of ad widgets
+ * @global int $maxAds number of maximum available ads
  * @global string $AdsWidName name of widget
- * @global int $visibleContentAdsGlobal   number of active content ads
+ * @global int $visibleContentAdsGlobal  number of active content ads
  * @global int $visibleShortcodeAds number of active shortcode ads
+ * @global int $ad_count_widget number of active widget ads
  * @param string $content
  * 
  * @return string
@@ -97,7 +98,7 @@ function quads_get_visibility_quicktags_str ( $post_id = null ) {
  */
 
 function quads_process_content($content){
-    global $quads_options, $visibleContentAds, $AdsId, $numberWidgets, $numberAds, $AdsWidName, $visibleContentAdsGlobal, $visibleShortcodeAds;
+    global $quads_options, $visibleContentAds, $AdsId, $maxWidgets, $maxAds, $AdsWidName, $visibleContentAdsGlobal, $visibleShortcodeAds, $ad_count_widget;
         
         // Return original content if QUADS is not allowed
         if ( !quads_ad_is_allowed($content) ) {
@@ -107,22 +108,25 @@ function quads_process_content($content){
         // Maximum allowed ads 
         $maxAds = isset($quads_options['maxads']) ? $quads_options['maxads'] : 10;
 
+        // count active widget ads
 	if (strpos($content,'<!--OffWidget-->')===false) {
-		for($i=1;$i<=$numberWidgets;$i++) {
+		for($i=1;$i<=$maxWidgets;$i++) {
 			$wadsid = sanitize_title(str_replace(array('(',')'),'',sprintf($AdsWidName,$i))); 
-                        $maxAds -= (is_active_widget('', '',  $wadsid)) ? 1 : 0 ; 
+                        //$maxAds -= (is_active_widget('', '',  $wadsid)) ? 1 : 0 ;
+                        $ad_count_widget += (is_active_widget('', '',  $wadsid)) ? 1 : 0 ;
 		}
 	}
 
+
         // Return here if max visible ads are exceeded
-	if( $visibleContentAds+$visibleShortcodeAds >= $maxAds ) { // ShownAds === 0 or larger/equal than $maxAds
+	if( $visibleContentAds+$visibleShortcodeAds+$ad_count_widget >= $maxAds ) { // ShownAds === 0 or larger/equal than $maxAds
             $content = quads_clean_tags($content); 
             return $content; 
         };
 
         // Create array of valid id's
         if( count( $AdsId ) === 0 ) { //   
-            for ( $i = 1; $i <= $numberAds; $i++ ) {
+            for ( $i = 1; $i <= $maxAds; $i++ ) {
                 $tmp = isset($quads_options['ad' . $i]['code']) ? trim( $quads_options['ad' . $i]['code'] ) : '';
                 // id is valid if there is either the plain text field populated or the adsense ad slot and the ad client id
                 if( !empty( $tmp ) || (!empty($quads_options['ad' . $i]['g_data_ad_slot']) && !empty($quads_options['ad' . $i]['g_data_ad_client'] ) ) ) {
