@@ -242,28 +242,6 @@ function quads_process_content($content){
 			}
 		}
 
-                   //Add some extra paragraph positions
-//        $number = 6; // number of paragraph ads | default value 3.
-//        for ( $i = 4; $i <= $number; $i++ ) {
-//
-//            $key = ($i - 4) + 1; // 1,2,3
-//
-//            $paragraph['status'][$i] = isset( $quads_options['extra' . $key]['ParAds'] ) ? $quads_options['extra' . $key]['ParAds'] : 0; // Status - active | inactive
-//            $paragraph['id'][$i] = isset( $quads_options['extra' . $key]['ParRnd'] ) ? $quads_options['extra' . $key]['ParRnd'] : 0; // Ad id	
-//            $paragraph['position'][$i] = isset( $quads_options['extra' . $key]['ParNup'] ) ? $quads_options['extra' . $key]['ParNup'] : 0; // Paragraph No	
-//            $paragraph['end_post'][$i] = isset( $quads_options['extra' . $key]['ParCon'] ) ? $quads_options['extra' . $key]['ParCon'] : 0; // End of post - yes | no                        
-//        }
-//
-//        for ( $i = 1; $i <= $number; $i++ ) {
-//            if( $paragraph['id'][$i] == 0 ) {
-//                $paragraph[$i] = $cusrnd;
-//            } else {
-//                $paragraph[$i] = $cusads . $paragraph['id'][$i];
-//                array_push( $AdsIdCus, $paragraph['id'][$i] );
-//            };
-//        }
-        //End extra paragraph options
-        //
         // Check if image ad is random one
 		if ( $imageAdNo == 0 ) { 
                     $imageAd = $cusrnd;
@@ -356,7 +334,7 @@ function quads_process_content($content){
 
 	
 	/* 
-         * Replace Beginning/Middle/End Ads1-10
+         * Replace Beginning/Middle/End/Paragraph Ads1-10
          */
 
             if( !$off_default_ads ) { // disabled default ads
@@ -365,7 +343,8 @@ function quads_process_content($content){
                     if( strpos($content,'<!--'.$cusads.$AdsIdCus[$i-1].'-->')!==false && in_array($AdsIdCus[$i-1], $AdsId)) {
 
                             $content = quads_replace_ads( $content, $cusads.$AdsIdCus[$i-1], $AdsIdCus[$i-1] ); 
-                            $AdsId = quads_del_element($AdsId, array_search($AdsIdCus[$i-1], $AdsId)) ;
+                            // Comment this to allow the use of the same ad on several ad spots
+                            //$AdsId = quads_del_element($AdsId, array_search($AdsIdCus[$i-1], $AdsId)) ;
                             $visibleContentAds += 1;
 
                             quads_set_ad_count_content();
@@ -399,7 +378,7 @@ function quads_process_content($content){
 	
        
 
-	/* ... Replace Beginning/Middle/End random Ads ... */
+    /* ... Replace Beginning/Middle/End random Ads ... */
     if( !$off_default_ads ) {
         if( strpos($content, '<!--'.$cusrnd.'-->')!==false && is_singular() ) {
 		$tcx = count($AdsId);
@@ -509,15 +488,15 @@ function quads_clean_tags($content, $trimonly = false) {
  * 
  * @global type $quads_options
  * @param string $content
- * @param string $nme Quicktag
+ * @param string $quicktag Quicktag
  * @param string $id id of the ad
  * @return type
  */
-function quads_replace_ads($content, $nme, $id) {
+function quads_replace_ads($content, $quicktag, $id) {
     	global $quads_options;
    
 
-	if( strpos($content,'<!--'.$nme.'-->')===false ) { 
+	if( strpos($content,'<!--'.$quicktag.'-->')===false ) { 
             return $content; 
         }	
 	if ($id != -1) {
@@ -544,7 +523,7 @@ function quads_replace_ads($content, $nme, $id) {
 	} else {
 		$adscode ='';
 	}	
-	$cont = explode('<!--'.$nme.'-->', $content, 2);
+	$cont = explode('<!--'.$quicktag.'-->', $content, 2);
         
 	return $cont[0].$adscode.$cont[1];
 }

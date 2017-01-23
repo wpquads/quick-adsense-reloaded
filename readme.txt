@@ -136,13 +136,14 @@ Alternative Installation:
 * New: Add floating Save Settings button
 * New: Grey out unused ad spots in general settings
 * New: Tested up to Wordpress 4.7.1
+* New: Use up to 20 maximum ads on one page
+* Fix: Allow the use of the same ad on several different ad positions at the same time
 
 * Fix: Check if WP QUADS PRO is installed was very slow
 * Fix: AdSense option Hide on device X condition not working width shortcode [quads]
 * Fix: Rewrite admin html and css for a more robust structure to prevent to be overwritten by other plugin devs who think its cool to load their css stuff all over the admin area
 * Fix: Button Open All Ads only works on second click
 * Fix: Hide Sizing Options when ad type is not responsive
-* Fix: Allow the use of the same ad on several different positions
 
 * Tweak: Remove deprecated code and move relevant functons to api.php
 
