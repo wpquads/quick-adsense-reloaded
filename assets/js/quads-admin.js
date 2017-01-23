@@ -422,7 +422,7 @@ jQuery(document).ready(function ($) {
     });
 
 
-    // Toggle between AdSense or Plain Text
+    // Toggle between AdSense or Plain Text option
     $(document).on('click', '.quads_adsense_type', function () {
 
         var parentContainerID = $(this).parents('.quads-ad-toggle-container').attr('id');
@@ -430,11 +430,15 @@ jQuery(document).ready(function ($) {
         if ($(this).val() === 'adsense') {
             $('#' + parentContainerID).children('textarea').hide();
             $('#' + parentContainerID).find('div.quads_adsense_code').show();
+            $('#' + parentContainerID).find('.quads-sizes').show();
+            $('#' + parentContainerID).find('.quads-sizes-container').css('clear',''); 
 
         }
         if ($(this).val() === 'plain_text') {
             $('#' + parentContainerID).children('textarea').show();
             $('#' + parentContainerID).children('div.quads_adsense_code').hide();
+            $('#' + parentContainerID).find('.quads-sizes').hide();
+            $('#' + parentContainerID).find('.quads-sizes-container').css('clear','both'); 
         }
     });
 

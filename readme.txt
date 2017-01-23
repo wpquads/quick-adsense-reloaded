@@ -131,7 +131,7 @@ Alternative Installation:
 
 
 = {{ version }} =
-* New: Add filter to add 3 more paragraph options with WP QUADS PRO
+* New: Add filter to add 3 more paragraph places with WP QUADS PRO
 * New: Support link to troubleshooting guide if AdSense ads are not shown
 * New: Add floating Save Settings button
 * New: Grey out unused ad spots in general settings
@@ -140,8 +140,9 @@ Alternative Installation:
 * Fix: Check if WP QUADS PRO is installed was very slow
 * Fix: AdSense option Hide on device X condition not working width shortcode [quads]
 * Fix: Rewrite admin html and css for a more robust structure to prevent to be overwritten by other plugin devs who think its cool to load their css stuff all over the admin area
-* Fix: Allow the use of the same ad on several different positions
 * Fix: Button Open All Ads only works on second click
+* Fix: Hide Sizing Options when ad type is not responsive
+* Fix: Allow the use of the same ad on several different positions
 
 * Tweak: Remove deprecated code and move relevant functons to api.php
 
