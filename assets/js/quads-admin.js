@@ -5,7 +5,6 @@ jQuery(document).ready(function ($) {
     
     // Inactive select fields are greyed out
     $('.quads-assign').each(function(e){
-        console.log(this);
         if (!$(this).prop('checked')){
             $(this).next('select').css('background-color', 'whitesmoke').css('color', '#939393');
         }else {
@@ -68,12 +67,15 @@ jQuery(document).ready(function ($) {
 //    });
     
     /**
-     * Toggle Button Open All Ads
+     * Toggle Button | Open All Ads
      */
     $('#quads-open-toggle').click(function(){
-            if ($('#quads-open-toggle').html() == 'Open All Ads' ){
+        console.log($('#quads-open-toggle').html());
+
+        
+            if ($('#quads-open-toggle').text() === 'Open All Ads' ){
                 $('.quads-ad-toggle-container').show();
-                $('#quads-open-toggle').html('Close Tabs');
+                $('#quads-open-toggle').html('Close Ads');
             }else{
                 $('.quads-ad-toggle-container').hide();
                 $('#quads-open-toggle').html('Open All Ads');

@@ -145,9 +145,9 @@ function quads_process_content($content){
 	$content = str_replace("<p></p>", "##QA-TP1##", $content);
         // Replace all <p>&nbsp;</p> tags with placeholder ##QA-TP2##
 	$content = str_replace("<p>&nbsp;</p>", "##QA-TP2##", $content);	
-	$offdef = (strpos($content,'<!--OffDef-->')!==false);
+	$off_default_ads = (strpos($content,'<!--OffDef-->')!==false);
         
-	if( !$offdef ) { // disabled default positioned ads
+	if( !$off_default_ads ) { // disabled default positioned ads
 
 		$AdsIdCus = array(); // ids of used ads
                 
@@ -232,11 +232,12 @@ function quads_process_content($content){
                             
 				$sch = "</p>";
 				$content = str_replace("</P>", $sch, $content);
-				$arr = explode($sch, $content);
-				if ( (int)$paragraph['position'][$i] < count($arr) ) {
-					$content = implode($sch, array_slice($arr, 0, $paragraph['position'][$i])).$sch .'<!--'.$paragraph[$i].'-->'. implode($sch, array_slice($arr, $paragraph['position'][$i]));
+                                // paragraphs in content
+				$paragraphsArray = explode($sch, $content);
+				if ( (int)$paragraph['position'][$i] < count($paragraphsArray) ) {
+					$content = implode($sch, array_slice($paragraphsArray, 0, $paragraph['position'][$i])).$sch .'<!--'.$paragraph[$i].'-->'. implode($sch, array_slice($paragraphsArray, $paragraph['position'][$i]));
 				}	elseif ($paragraph['end_post'][$i]) {
-					$content = implode($sch, $arr).'<!--'.$paragraph[$i].'-->';
+					$content = implode($sch, $paragraphsArray).'<!--'.$paragraph[$i].'-->';
 				}
 			}
 		}
@@ -276,20 +277,20 @@ function quads_process_content($content){
 			if( substr_count(strtolower($content), '</p>')>=2 ) {
 				$sch = "</p>";
 				$content = str_replace("</P>", $sch, $content);
-				$arr = explode($sch, $content);			
+				$paragraphsArray = explode($sch, $content);			
 				$nn = 0; $mm = strlen($content)/2;
-				for($i=0;$i<count($arr);$i++) {
-					$nn += strlen($arr[$i]) + 4;
+				for($i=0;$i<count($paragraphsArray);$i++) {
+					$nn += strlen($paragraphsArray[$i]) + 4;
 					if($nn>$mm) {
-						if( ($mm - ($nn - strlen($arr[$i]))) > ($nn - $mm) && $i+1<count($arr) ) {
-							$arr[$i+1] = '<!--'.$m1.'-->'.$arr[$i+1];							
+						if( ($mm - ($nn - strlen($paragraphsArray[$i]))) > ($nn - $mm) && $i+1<count($paragraphsArray) ) {
+							$paragraphsArray[$i+1] = '<!--'.$m1.'-->'.$paragraphsArray[$i+1];							
 						} else {
-							$arr[$i] = '<!--'.$m1.'-->'.$arr[$i];
+							$paragraphsArray[$i] = '<!--'.$m1.'-->'.$paragraphsArray[$i];
 						}
 						break;
 					}
 				}
-				$content = implode($sch, $arr);
+				$content = implode($sch, $paragraphsArray);
 			}	
 		}
                 
@@ -309,9 +310,9 @@ function quads_process_content($content){
 		if( $lapa1 && strpos($content,'<!--OffBfLastPara-->')===false){
 			$sch = "<p>";
 			$content = str_replace("<P>", $sch, $content);
-			$arr = explode($sch, $content);
-			if ( count($arr) > 2 ) {
-				$content = implode($sch, array_slice($arr, 0, count($arr)-1)) .'<!--'.$g1.'-->'. $sch. $arr[count($arr)-1];
+			$paragraphsArray = explode($sch, $content);
+			if ( count($paragraphsArray) > 2 ) {
+				$content = implode($sch, array_slice($paragraphsArray, 0, count($paragraphsArray)-1)) .'<!--'.$g1.'-->'. $sch. $paragraphsArray[count($paragraphsArray)-1];
 			}
 		}
 
@@ -326,23 +327,23 @@ function quads_process_content($content){
 			$content = str_replace("</A>", $atag, $content);
                         
                         // Start
-			$arr = explode($imgtag, $content);
-			if ( (int)$imageNo < count($arr) ) {
-				$arrImages = explode($delimiter, $arr[$imageNo]);
-				if ( count($arrImages) > 1 ) {
-					$tss = explode($caption, $arr[$imageNo]);
+			$paragraphsArray = explode($imgtag, $content);
+			if ( (int)$imageNo < count($paragraphsArray) ) {
+				$paragraphsArrayImages = explode($delimiter, $paragraphsArray[$imageNo]);
+				if ( count($paragraphsArrayImages) > 1 ) {
+					$tss = explode($caption, $paragraphsArray[$imageNo]);
 					$ccp = ( count($tss) > 1 ) ? strpos(strtolower($tss[0]),'[caption ')===false : false ;
-					$arrAtag = explode($atag, $arr[$imageNo]);
-					$cdu = ( count($arrAtag) > 1 ) ? strpos(strtolower($arrAtag[0]),'<a href')===false : false ;					
+					$paragraphsArrayAtag = explode($atag, $paragraphsArray[$imageNo]);
+					$cdu = ( count($paragraphsArrayAtag) > 1 ) ? strpos(strtolower($paragraphsArrayAtag[0]),'<a href')===false : false ;					
 					if ( $imageCaption && $ccp ) {
-						$arr[$imageNo] = implode($caption, array_slice($tss, 0, 1)).$caption. "\r\n".'<!--'.$imageAd.'-->'."\r\n". implode($caption, array_slice($tss, 1));
+						$paragraphsArray[$imageNo] = implode($caption, array_slice($tss, 0, 1)).$caption. "\r\n".'<!--'.$imageAd.'-->'."\r\n". implode($caption, array_slice($tss, 1));
 					}else if ( $cdu ) {
-						$arr[$imageNo] = implode($atag, array_slice($arrAtag, 0, 1)).$atag. "\r\n".'<!--'.$imageAd.'-->'."\r\n". implode($atag, array_slice($arrAtag, 1));
+						$paragraphsArray[$imageNo] = implode($atag, array_slice($paragraphsArrayAtag, 0, 1)).$atag. "\r\n".'<!--'.$imageAd.'-->'."\r\n". implode($atag, array_slice($paragraphsArrayAtag, 1));
 					}else{
-						$arr[$imageNo] = implode($delimiter, array_slice($arrImages, 0, 1)).$delimiter. "\r\n".'<!--'.$imageAd.'-->'."\r\n". implode($delimiter, array_slice($arrImages, 1));
+						$paragraphsArray[$imageNo] = implode($delimiter, array_slice($paragraphsArrayImages, 0, 1)).$delimiter. "\r\n".'<!--'.$imageAd.'-->'."\r\n". implode($delimiter, array_slice($paragraphsArrayImages, 1));
 					}
 				}
-				$content = implode($imgtag, $arr);
+				$content = implode($imgtag, $paragraphsArray);
 			}	
 		}		
 	} // end disabled default positioned ads
@@ -358,7 +359,7 @@ function quads_process_content($content){
          * Replace Beginning/Middle/End Ads1-10
          */
 
-            if( !$offdef ) { // disabled default ads
+            if( !$off_default_ads ) { // disabled default ads
 		for( $i=1; $i<=count($AdsIdCus); $i++ ) {
 
                     if( strpos($content,'<!--'.$cusads.$AdsIdCus[$i-1].'-->')!==false && in_array($AdsIdCus[$i-1], $AdsId)) {
@@ -399,7 +400,7 @@ function quads_process_content($content){
        
 
 	/* ... Replace Beginning/Middle/End random Ads ... */
-    if( !$offdef ) {
+    if( !$off_default_ads ) {
         if( strpos($content, '<!--'.$cusrnd.'-->')!==false && is_singular() ) {
 		$tcx = count($AdsId);
 		$tcy = substr_count($content, '<!--'.$cusrnd.'-->');
@@ -520,7 +521,7 @@ function quads_replace_ads($content, $nme, $id) {
             return $content; 
         }	
 	if ($id != -1) {
-		$arr = array(
+		$paragraphsArray = array(
 			'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
 			'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
 			'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
@@ -528,7 +529,7 @@ function quads_replace_ads($content, $nme, $id) {
                 
 		$adsalign = $quads_options['ad' . $id]['align'];
 		$adsmargin = isset($quads_options['ad' . $id]['margin']) ? $quads_options['ad' . $id]['margin'] : '3'; // default
-                $margin = sprintf($arr[(int)$adsalign], $adsmargin);
+                $margin = sprintf($paragraphsArray[(int)$adsalign], $adsmargin);
                 
                 // Do not create any inline style on AMP site
 		$style = !quads_is_amp_endpoint() ? apply_filters ('quads_filter_margins', $margin, 'ad'.$id ) : '';
@@ -551,15 +552,15 @@ function quads_replace_ads($content, $nme, $id) {
 /**
  * Remove element from array
  * 
- * @param array $array
+ * @param array $paragraphsArrayay
  * @param int $idx key to remove from array
  * @return array
  */
-function quads_del_element($array, $idx) {
+function quads_del_element($paragraphsArrayay, $idx) {
   $copy = array();
-	for( $i=0; $i<count($array) ;$i++) {
+	for( $i=0; $i<count($paragraphsArrayay) ;$i++) {
 		if ( $idx != $i ) {
-			array_push($copy, $array[$i]);
+			array_push($copy, $paragraphsArrayay[$i]);
 		}
 	}	
   return $copy;
