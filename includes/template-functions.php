@@ -16,20 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 add_filter('the_content', 'quads_post_settings_to_quicktags', 5);
 add_filter('the_content', 'quads_process_content', quads_get_load_priority());
 
-/**
- * Get load priority
- * 
- * @global arr $quads_options
- * @return int
- */
-function quads_get_load_priority(){
-    global $quads_options;
-    
-    if (!empty($quads_options['priority'])){
-        return intval($quads_options['priority']);
-    }
-    return 20;
-}
+
 
 /**
  * Adds quicktags, defined via post meta options, to content.
@@ -77,21 +64,95 @@ function quads_get_visibility_quicktags_str ( $post_id = null ) {
         
 	return $str;
 }
+
+/**
+ * Get load priority
+ * 
+ * @global arr $quads_options
+ * @return int
+ */
+function quads_get_load_priority(){
+    global $quads_options;
+    
+    if (!empty($quads_options['priority'])){
+        return intval($quads_options['priority']);
+    }
+    return 20;
+}
+
+/**
+ * 
+ * @global arr $quads_options
+ * @global type $adsArray
+ * @param type $content
+ * @return type
+ */
+function quads_process_content( $content ) {
+    global $quads_options, $adsArray, $adsArrayCus, $visibleContentAds, $ad_count_widget, $visibleShortcodeAds;
+
+    // Do not do anything if ads are not allowed
+    if( !quads_ad_is_allowed( $content ) ) {
+        $content = quads_clean_tags( $content );
+        return $content;
+    }
+    
+    // Do nothing if maximum ads are reached in post content
+    if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
+        $content = quads_clean_tags( $content );
+        return $content;
+    }
+
+    // placeholder string for random ad
+    $cusrnd = 'CusRnd';
+
+    // placeholder string for custom ad spots
+    $cusads = 'CusAds';
+
+    // Array of ad codes ids
+    $adsArray = quads_get_active_ads();
+
+    $content = quads_sanitize_content( $content );
+
+    $content = quads_filter_default_ads( $content );
+
+    //wp_die($content);
+    /*
+     * Tidy up content
+     */
+    $content = '<!--EmptyClear-->' . $content . "\n" . '<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div>';
+    $content = quads_clean_tags( $content, true );
+    
+    $content = quads_parse_default_ads($content);
+        
+    $content = quads_parse_quicktags( $content );
+        
+    $content = quads_parse_random_quicktag_ads($content);
+    
+    $content = quads_parse_random_ads( $content );
+
+    /* ... That's it. DONE :) ... */
+    $content = quads_clean_tags( $content );
+    // Reset ad_count - Important!!!
+    $visibleContentAdsGlobal = 0;
+    return do_shortcode( $content );
+}
+
+
 /**
  * Return number of active widget ads
  * @param string the_content
  * @return int amount of widget ads
  */
-function quads_get_number_widget_ads($content) {
+function quads_get_number_widget_ads() {
     $number_widgets = 0;
+    $maxWidgets = 10;
     // count active widget ads
-    if( strpos( $content, '<!--OffWidget-->' ) === false ) {
         for ( $i = 1; $i <= $maxWidgets; $i++ ) {
             $AdsWidName = 'AdsWidget%d (Quick Adsense Reloaded)';
             $wadsid = sanitize_title( str_replace( array('(', ')'), '', sprintf( $AdsWidName, $i ) ) );
             $number_widgets += (is_active_widget( '', '', $wadsid )) ? 1 : 0;
         }
-    }
+    
     return $number_widgets;
 }
 
@@ -106,6 +167,7 @@ function quads_get_active_ads() {
     $numberAds = 10;
     
     $adsArray = array();
+   
 
     // Array of ad codes  
     for ( $i = 1; $i <= $numberAds; $i++ ) {
@@ -143,15 +205,33 @@ function quads_get_ad_content() {
     return count($adsArray) ? $adsArray : 0;
 }
 
+
 /**
- * Get max amount of allowed ads
- * @return integer
+ * Get max allowed numbers of ads
+ * 
+ * @param string $content
+ * @return int maximum number of ads
  */
-function quads_get_max_allowed_ads(){
+function quads_get_max_allowed_post_ads( $content ) {
     global $quads_options;
-    $int = isset( $quads_options['maxads'] ) ? $quads_options['maxads'] : 10;
-    return $int;
+
+    // Maximum allowed general number of ads 
+    $maxAds = isset( $quads_options['maxads'] ) ? $quads_options['maxads'] : 10;
+    
+    $numberWidgets = 10;
+    
+    $AdsWidName = 'AdsWidget%d (Quick Adsense Reloaded)';
+    
+    // count number of active widgets and subtract them 
+    if( strpos( $content, '<!--OffWidget-->' ) === false ) {
+        for ( $i = 1; $i <= $numberWidgets; $i++ ) {
+            $wadsid = sanitize_title( str_replace( array('(', ')'), '', sprintf( $AdsWidName, $i ) ) );
+            $maxAds -= (is_active_widget( '', '', $wadsid )) ? 1 : 0;
+        }
+    }
+    return $maxAds;
 }
+
 
 /**
  * Filter default ads
@@ -407,58 +487,6 @@ function quads_sanitize_content($content){
 }
 
 
-/**
- * 
- * @global arr $quads_options
- * @global type $adsArray
- * @param type $content
- * @return type
- */
-function quads_process_content( $content ) {
-    global $quads_options, $adsArray, $adsArrayCus, $visibleContentAds;
-
-    // Do not do anything if ads are not allowed
-    if( !quads_ad_is_allowed( $content ) ) {
-        $content = quads_clean_tags( $content );
-        return $content;
-    }
-
-    // placeholder string for random ad
-    $cusrnd = 'CusRnd';
-
-    // placeholder string for custom ad spots
-    $cusads = 'CusAds';
-
-    // Array of ad codes ids
-    $adsArray = quads_get_active_ads();
-
-    $content = quads_sanitize_content( $content );
-
-    $content = quads_filter_default_ads( $content );
-
-    //wp_die($content);
-    /*
-     * Tidy up content
-     */
-    $content = '<!--EmptyClear-->' . $content . "\n" . '<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div>';
-    $content = quads_clean_tags( $content, true );
-    
-    $content = quads_parse_default_ads($content);
-        
-    $content = quads_parse_quicktags( $content );
-        
-    $content = quads_parse_random_quicktag_ads($content);
-    
-    $content = quads_parse_random_ads( $content );
-
-    //wp_die($content);
-
-    /* ... That's it. DONE :) ... */
-    $content = quads_clean_tags( $content );
-    // Reset ad_count - Important!!!
-    $visibleContentAdsGlobal = 0;
-    return do_shortcode( $content );
-}
 
 /**
  * Parse random ads which are created from quicktag <!--RndAds-->
@@ -495,8 +523,9 @@ function quads_parse_random_quicktag_ads($content){
             if( $tmp != -1 ) {
                 $visibleContentAds += 1;
             };
-            quads_set_ad_count_content();
-            if( quads_ad_reach_max_count() ) {
+            //quads_set_ad_count_content();
+            //if( quads_ad_reach_max_count() ) {
+            if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
                 $content = quads_clean_tags( $content );
                 return $content;
             }
@@ -522,7 +551,6 @@ function quads_parse_random_ads($content) {
     }
 
     if( strpos( $content, '<!--CusRnd-->' ) !== false && is_singular() ) {
-        //wp_die($visibleContentAds + ' ' + $visibleShortcodeAds + $ad_count_widget + ' ');
 
         $tcx = count( $adsRandom );
         $tcy = substr_count( $content, '<!--CusRnd-->' );
@@ -535,8 +563,9 @@ function quads_parse_random_ads($content) {
             $content = quads_replace_ads( $content, 'CusRnd', $adsRandom[0] );
             $adsRandom = quads_del_element( $adsRandom, 0 );
             $visibleContentAds += 1;
-            quads_set_ad_count_content();
-            if( quads_ad_reach_max_count() ) {
+            //quads_set_ad_count_content();
+            //if( quads_ad_reach_max_count() ) {
+            if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
                 $content = quads_clean_tags( $content );
                 return $content;
             }
@@ -562,8 +591,9 @@ function quads_parse_quicktags($content){
             $content = quads_replace_ads( $content, 'Ads' . $adsArray[$idx], $adsArray[$idx] );
             $adsArray = quads_del_element( $adsArray, $idx );
             $visibleContentAds += 1;
-            quads_set_ad_count_content();
-            if( quads_ad_reach_max_count() ) {
+            //quads_set_ad_count_content();
+            //if( quads_ad_reach_max_count() ) {
+            if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
                 $content = quads_clean_tags( $content );
                 return $content;
             }
@@ -597,7 +627,6 @@ function quads_parse_default_ads( $content ) {
 //        print_r($adsArrayCus);
 //        echo 'adsArray';
 //        print_r( $adsArray );
-//        
 //        echo '</pre>';
 
     for ( $i = 0; $i <= count( $adsArrayCus ); $i++ ) {
@@ -612,9 +641,10 @@ function quads_parse_default_ads( $content ) {
             }
             
             $visibleContentAds += 1;
-
-            quads_set_ad_count_content();
-            if( quads_ad_reach_max_count() ) {
+            //quads_set_ad_count_content();
+            //if( quads_ad_reach_max_count() || $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
+            //wp_die(quads_get_max_allowed_post_ads( $content ));
+            if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
                 $content = quads_clean_tags( $content );
             }
         }

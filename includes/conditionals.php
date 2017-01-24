@@ -70,9 +70,11 @@ function quads_get_total_ad_count(){
     $shortcode = isset($visibleShortcodeAds) ? (int)$visibleShortcodeAds : 0;
     $content = isset($visibleContentAdsGlobal) ? (int)$visibleContentAdsGlobal : 0;
     $custom = isset($ad_count_custom) ? (int)$ad_count_custom : 0;
-    $widget = isset($ad_count_widget) ? (int)$ad_count_widget : 0;
- 
-    //wp_die($ad_count_widget);
+    //$widget = isset($ad_count_widget) ? (int)$ad_count_widget : 0;
+    $widget = quads_get_number_widget_ads();
+    
+    //wp_die($widget);
+    //wp_die( $shortcode + $content + $custom + $widget);
     return $shortcode + $content + $custom + $widget;
 }
 
@@ -89,6 +91,10 @@ function quads_ad_reach_max_count(){
     global $quads_options;
     
     $maxads = isset($quads_options['maxads']) ? $quads_options['maxads'] : 10;
+    $maxads = $maxads - quads_get_number_widget_ads();
+    
+    echo 'Total ads: '.  quads_get_total_ad_count() . ' maxads: '. $maxads . '<br>';
+        
     if ( quads_get_total_ad_count() >= $maxads ){
         return true;
     }

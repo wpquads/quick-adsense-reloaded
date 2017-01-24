@@ -43,6 +43,8 @@ function quads_get_quicktags_from_content ( $content ) {
 	}
 	return $found;
 }
+
+
 /**
  * Removes all quicktags from content
  *
