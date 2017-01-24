@@ -136,7 +136,7 @@ Alternative Installation:
 * New: Add floating Save Settings button
 * New: Grey out unused AdSense ad spots in general settings
 * New: Tested up to Wordpress 4.7.1
-* New: Use up to 20 maximum AdSense ads on one page
+* New: Use up to 20 maximum AdSense ads on one page from a collection of 10 different ads
 * New: Allow the use of the same ad on several different ad positions at the same time
 
 * Fix: Check if WP QUADS PRO is installed was very slow
