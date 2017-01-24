@@ -93,7 +93,7 @@ function quads_ad_reach_max_count(){
     $maxads = isset($quads_options['maxads']) ? $quads_options['maxads'] : 10;
     $maxads = $maxads - quads_get_number_widget_ads();
     
-    echo 'Total ads: '.  quads_get_total_ad_count() . ' maxads: '. $maxads . '<br>';
+    //echo 'Total ads: '.  quads_get_total_ad_count() . ' maxads: '. $maxads . '<br>';
         
     if ( quads_get_total_ad_count() >= $maxads ){
         return true;
