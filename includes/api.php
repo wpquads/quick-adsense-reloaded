@@ -136,7 +136,7 @@ function quads_ad( $args ) {
     if ( quads_has_ad( $args['location'] ) ) {
         global $quads_options;
         
-        quads_set_ad_count_custom(); // increase amount of shortcode ads
+        quads_set_ad_count_custom(); // increase amount of Custom ads
         
         $location_settings = quads_get_ad_location_settings( $args['location'] ); 
         $code .= "\n".'<!-- WP QUADS Custom Ad v. ' . QUADS_VERSION .' -->'."\n";

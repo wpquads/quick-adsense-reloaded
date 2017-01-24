@@ -129,7 +129,6 @@ Alternative Installation:
 
 == Changelog == 
 
-
 = {{ version }} =
 * New: Add filter to add 3 more paragraph AdSense ads placed with WP QUADS PRO
 * New: Support link to troubleshooting guide if AdSense ads are not shown
@@ -138,6 +137,7 @@ Alternative Installation:
 * New: Tested up to Wordpress 4.7.1
 * New: Use up to 20 maximum AdSense ads on one page from a collection of 10 different ads
 * New: Allow the use of the same ad on several different ad positions at the same time
+* New: Complete rewrite of the main processing function for easier maintanance
 
 * Fix: Check if WP QUADS PRO is installed was very slow
 * Fix: AdSense option Hide on device X condition not working width shortcode [quads]
@@ -146,9 +146,13 @@ Alternative Installation:
 * Fix: Hide Sizing Options when ad type is not AdSense
 
 * Tweak: Remove deprecated code lines and move relevant functons to api.php
+* Tweak: Enable quicktags button per default on first time installation
+
+= 1.4.2 =
+* Skiped internally
 
 = 1.4.1 = 
-* Skip internally
+* Skiped internally
 
 = 1.4.0 =
 * New: Add poll when AdSense plugin is deactivated

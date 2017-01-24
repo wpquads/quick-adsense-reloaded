@@ -61,9 +61,9 @@ $ad_count_custom = 0; // Number of active custom ads which are shown on the site
 $ad_count_widget = 0; // Number of active ads in widgets
 $AdsId = array(); // Array of active ad id's
 $maxWidgets = 10; // number of widgets
-$maxAds = 10; // number of regular ads
+//$maxAds = 10; // number of regular ads
 //$AdsWidName = 'AdsWidget%d (WP QUADS)';
-$AdsWidName = 'AdsWidget%d (Quick Adsense Reloaded)';
+//$AdsWidName = 'AdsWidget%d (Quick Adsense Reloaded)';
 
 
 if( !class_exists( 'QuickAdsenseReloaded' ) ) :
@@ -309,6 +309,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
                 $quads_options['visibility']['AppCate'] = "1";
                 $quads_options['visibility']['AppArch'] = "1";
                 $quads_options['visibility']['AppTags'] = "1";
+                $quads_options['quicktags']['QckTags'] = "1";
                 
                 update_option('quads_settings', $quads_options);
             }
