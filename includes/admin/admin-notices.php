@@ -38,7 +38,7 @@ function quads_admin_messages() {
         echo '<div class="notice notice-warning">'.sprintf(__('<strong>No ads are shown - No post types selected</strong> You need to select at least 1 post type like <i>blog</i> or <i>page</i>. Fix this in <a href="%s">General Settings</a> or no ads are shown at all.', 'quick-adsense-reloaded'), admin_url().'admin.php?page=quads-settings&quads-message=settings-imported&tab=general#quads_settingsgeneral_header').'</div>';
     }
     
-    if (isset($_GET['quads-action']) && $_GET['quads-action'] === 'validate' && quads_is_admin_page() ){
+    if (isset($_GET['quads-action']) && $_GET['quads-action'] === 'validate' && quads_is_admin_page() && quads_is_any_ad_activated() && quads_is_post_type_activated() ){
         echo '<div class="notice notice-success">' . sprintf(__('<strong>No errors detected in WP QUADS settings.</strong> If ads are still not shown read the <a href="%s" target="_blank">troubleshooting guide</a>'), 'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink') . '</div>';
     }
 
