@@ -131,6 +131,7 @@ Alternative Installation:
 
 = {{ version }} =
 * New: Add filter to add 3 more paragraph AdSense ads placed with WP QUADS PRO
+* New: Add Verification function to detect if there are error in adsense settings
 * New: Support link to troubleshooting guide if AdSense ads are not shown
 * New: Add floating Save Settings button
 * New: Grey out unused AdSense ad spots in general settings

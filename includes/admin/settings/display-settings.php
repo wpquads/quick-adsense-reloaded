@@ -236,7 +236,10 @@ function quads_options_page() {
                                 if ($active_tab !== 'addons'){
                                     $other_attributes = array( 'id' => 'quads-submit-button' );
                                     submit_button(null, 'primary', 'quads-save-settings' , true, $other_attributes ); 
-                                }
+                                    ?>
+                                    <a href="<?php echo admin_url() . '/admin.php?page=quads-settings&quads-action=validate'; ?> " id="quads-validate"><?php _e('Validate Settings','quick-adsense-reloaded')?></a>
+                                <?php
+                                    }
                                 ?>
 			</form>
                         <?php

@@ -29,6 +29,18 @@ function quads_admin_messages() {
     quads_theme_notice();
     
     quads_update_notice();
+    
+    if (!quads_is_any_ad_activated() && quads_is_admin_page() ){
+        echo '<div class="notice notice-warning">'.sprintf(__('<strong>No ads are activated!</strong> You need to assign at least 1 ad to an ad spot. Fix this in <a href="%s">General Settings</a>! Alternatively you need to use a shortcode in your posts or no ads are shown at all.', 'quick-adsense-reloaded'), admin_url().'admin.php?page=quads-settings&quads-message=settings-imported&tab=general#quads_settingsgeneral_header').'</div>';
+    }
+    
+    if (!quads_is_post_type_activated() && quads_is_admin_page() ){
+        echo '<div class="notice notice-warning">'.sprintf(__('<strong>No ads are shown - No post types selected</strong> You need to select at least 1 post type like <i>blog</i> or <i>page</i>. Fix this in <a href="%s">General Settings</a> or no ads are shown at all.', 'quick-adsense-reloaded'), admin_url().'admin.php?page=quads-settings&quads-message=settings-imported&tab=general#quads_settingsgeneral_header').'</div>';
+    }
+    
+    if (isset($_GET['quads-action']) && $_GET['quads-action'] === 'validate' && quads_is_admin_page() ){
+        echo '<div class="notice notice-success">' . sprintf(__('<strong>No errors detected in WP QUADS settings.</strong> If ads are still not shown read the <a href="%s" target="_blank">troubleshooting guide</a>'), 'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink') . '</div>';
+    }
 
     //quads_plugin_deactivated_notice();
     
@@ -233,8 +245,59 @@ function quads_update_notice() {
         <?php
     }
 }
-
+/**
+ * Hide Notice and update db option quads_hide_notice
+ */
 function quads_hide_notice(){
     update_option ('quads_show_update_notice', 'no');
 }
 add_action('quads_hide_update_notice', 'quads_hide_notice', 10);
+
+/**
+ * Check if any ad is activated and assigned in general settings
+ * 
+ * @global array $quads_options
+ * @return boolean
+ */
+function quads_is_any_ad_activated() {
+    global $quads_options;
+
+    // Check if custom positions location_settings is empty or does not exists
+    $check = array();
+    foreach ( $quads_options['location_settings'] as $location_array ) {
+        //print_r( $location_array);
+        if( isset( $location_array['status'] ) ) {
+            $check[] = $location_array['status'];
+        }
+    }
+    //wp_die(print_r($check));
+
+    if( count( $check ) === 0 &&
+            !isset( $quads_options['pos1']['BegnAds'] ) &&
+            !isset( $quads_options['pos2']['MiddAds'] ) &&
+            !isset( $quads_options['pos3']['EndiAds'] ) &&
+            !isset( $quads_options['pos4']['MoreAds'] ) &&
+            !isset( $quads_options['pos5']['LapaAds'] ) &&
+            !isset( $quads_options['pos6']['Para1Ads'] ) &&
+            !isset( $quads_options['pos7']['Para2Ads'] ) &&
+            !isset( $quads_options['pos8']['Para3Ads'] ) &&
+            !isset( $quads_options['pos9']['Img1Ads'] ) ) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Check if any post type is enabled
+ * 
+ * @global array $quads_options
+ * @return boolean
+ */
+function quads_is_post_type_activated(){
+        global $quads_options;
+
+        if (empty($quads_options['post_types'])){
+            return false;
+        }
+        return true;
+}

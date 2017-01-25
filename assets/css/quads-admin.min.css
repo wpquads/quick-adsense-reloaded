@@ -794,3 +794,12 @@ li.quads-tabs {
 .quads-chosen-select .chosen-choices li.search-field input{
     min-height: 25px;
 }
+
+
+#quads-validate{
+    margin-top: -20px;
+    display: block;
+    margin-left: 2px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
