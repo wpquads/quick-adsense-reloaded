@@ -263,15 +263,13 @@ function quads_is_any_ad_activated() {
     global $quads_options;
 
     // Check if custom positions location_settings is empty or does not exists
+    $check = array();
     if( isset( $quads_options['location_settings'] ) ) {
-        $check = array();
         foreach ( $quads_options['location_settings'] as $location_array ) {
             if( isset( $location_array['status'] ) ) {
                 $check[] = $location_array['status'];
             }
         }
-    } else {
-        $check = array('true');
     }
 
     //wp_die(print_r($check));
