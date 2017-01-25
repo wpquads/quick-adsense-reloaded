@@ -147,7 +147,7 @@ Alternative Installation:
 * Fix: Hide Sizing Options when ad type is not AdSense
 * Fix: Meta Box option "Hide all ads" is not hiding custom created ads with commercial themes like bimber.
 
-* Tweak: Remove deprecated code lines and move relevant functons to api.php
+* Tweak: Remove deprecated code
 * Tweak: Enable quicktags button per default on first time installation
 
 = 1.4.2 =
@@ -380,5 +380,5 @@ Alternative Installation:
 
 == Upgrade Notice ==
 
-= 1.3.1 =
-1.3.1 Smaller, Faster, Quicker, Better - WP QUADS<a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">Complete changelog! </a>
+= 1.4.3 =
+1.4.3 This new version brings a ton of improvements and small fixes - WP QUADS<a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">Complete changelog! </a>
