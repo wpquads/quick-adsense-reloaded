@@ -140,15 +140,16 @@ Alternative Installation:
 * New: Allow the use of the same ad on several different ad positions at the same time
 * New: Complete rewrite of the main processing function for easier maintanance
 
-* Fix: Checking for WP QUADS PRO is very slow
+* Fix: Settings are lost after updating when db option quads_version is empty
 * Fix: AdSense option Hide on device X condition not working width shortcode [quads]
 * Fix: Rewrite admin html and css for a more robust structure to prevent to be overwritten by other plugin devs who think its cool to load their css stuff all over the admin area
 * Fix: Button Open All Ads only works on second click
 * Fix: Hide Sizing Options when ad type is not AdSense
 * Fix: Meta Box option "Hide all ads" is not hiding custom created ads with commercial themes like bimber.
 
-* Tweak: Remove deprecated code
 * Tweak: Enable quicktags button per default on first time installation
+* Tweak: Performance update. Uses less ressources
+
 
 = 1.4.2 =
 * Skiped internally

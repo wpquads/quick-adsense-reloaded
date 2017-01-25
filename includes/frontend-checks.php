@@ -170,7 +170,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
         $wp_admin_bar->add_node( array(
             'parent' => 'quads_ad_check',
             'id' => 'quads_ad_check_fine',
-            'title' => __( 'Everything is fine', 'quick-adsense-reloaded' ),
+            'title' => __( 'WP QUADS is working fine', 'quick-adsense-reloaded' ),
             'href' => false,
             'meta' => array(
                 'target' => '_blank',

@@ -303,8 +303,11 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             $current_version = get_option( 'quads_version' );
             if( $current_version ) {
                 update_option( 'quads_version_upgraded_from', $current_version );
-            } else {
-                // First time installation
+            } 
+            // First time installation
+            // Get all settings and update them only if they are empty
+            $quads_options = get_option('quads_settings');
+            if(!$quads_options) {
                 $quads_options['post_types'] = array('post', 'page');
                 $quads_options['visibility']['AppHome'] = "1";
                 $quads_options['visibility']['AppCate'] = "1";
@@ -316,7 +319,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             }
 
             // Update the current version
-            // Its done from the upgrade-functions.php routine
             //update_option( 'quads_version', QUADS_VERSION );
 
             // Add plugin installation date and variable for rating div
