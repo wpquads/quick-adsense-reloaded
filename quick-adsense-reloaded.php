@@ -202,7 +202,8 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             require_once QUADS_PLUGIN_DIR . 'includes/scripts.php';
             require_once QUADS_PLUGIN_DIR . 'includes/automattic-amp-ad.php';
             require_once QUADS_PLUGIN_DIR . 'includes/helper-functions.php';
-            require_once QUADS_PLUGIN_DIR . 'includes/conditionals.php'; // load it at the end to make sure all ads are counted
+            require_once QUADS_PLUGIN_DIR . 'includes/conditionals.php';
+            require_once QUADS_PLUGIN_DIR . 'includes/frontend-checks.php';
 
             if( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
                 require_once QUADS_PLUGIN_DIR . 'includes/admin/add-ons.php';
