@@ -34,7 +34,7 @@
 
 
 /**
- * Return ad locations HTML based on new API.
+ * Return ad locations HTML based on new API in general settings
  *
  * @param $html
  * @return string   Locations HTML
@@ -120,18 +120,25 @@ function quads_has_ad( $location ) {
     return apply_filters( 'quads_has_ad', $result, $location );
 }
 /**
- * Display an ad
+ * Display a custom ad
  *
  * @param array $args       Displaying options
  * @return string|void      Ad code or none if echo set to true
  */
 function quads_ad( $args ) {
+    global $post;
+    
     $defaults = array(
         'location'  => '',
         'echo'      => true,
     );
     $args = wp_parse_args( $args, $defaults );
     $code = '';
+    
+    // All ads are deactivated via post meta settings
+    if( quads_check_meta_setting( 'NoAds' ) === '1' ){
+        return false;
+    }
     
     if ( quads_has_ad( $args['location'] ) ) {
         global $quads_options;
@@ -140,7 +147,6 @@ function quads_ad( $args ) {
         
         $location_settings = quads_get_ad_location_settings( $args['location'] ); 
         $code .= "\n".'<!-- WP QUADS Custom Ad v. ' . QUADS_VERSION .' -->'."\n";
-        //$code .= $quads_options[ 'ad' . $location_settings['ad'] ]['code'];
         $code .= '<div class="quads-location quads-ad' .$location_settings['ad']. '" id="quads-ad' .$location_settings['ad']. '">'."\n";
         $code .= quads_render_ad( 'ad' . $location_settings['ad'], $quads_options[ 'ad' . $location_settings['ad'] ]['code'] );
         $code .= '</div>';

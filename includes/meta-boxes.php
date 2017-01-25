@@ -8,11 +8,12 @@
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       0.9.6
  */
-function quads_load_meta_box () {
+//function quads_load_meta_box () {
 	new Quads_Meta_Box();
-}
-add_action( 'load-post.php', 		'quads_load_meta_box' );
-add_action( 'load-post-new.php', 	'quads_load_meta_box' );
+//}
+//add_action( 'load-post.php', 		'quads_load_meta_box' );
+//add_action( 'load-post-new.php', 	'quads_load_meta_box' );
+//add_action( 'add_meta_boxes', 'quads_load_meta_box' );
 /**
  * Ads options for a single post
  */
@@ -40,7 +41,7 @@ class Quads_Meta_Box {
                 __('WP QUADS - Hide Ads', 'quick-adsense-reloaded'),     // title
                 array($this, 'render_meta_box'),        // render function callback
                 $post_type,                             // post_type
-                'normal',                               // context
+                'advanced',                               // context
                 'default'                               // priority
         );
     }

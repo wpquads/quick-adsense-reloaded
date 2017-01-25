@@ -131,7 +131,7 @@ Alternative Installation:
 
 = {{ version }} =
 * New: Add filter to add 3 more paragraph AdSense ads placed with WP QUADS PRO
-* New: Add Verification function to detect if there are error in adsense settings
+* New: Add ad health and checking function to detect if there are error in adsense settings
 * New: Support link to troubleshooting guide if AdSense ads are not shown
 * New: Add floating Save Settings button
 * New: Grey out unused AdSense ad spots in general settings
@@ -140,11 +140,12 @@ Alternative Installation:
 * New: Allow the use of the same ad on several different ad positions at the same time
 * New: Complete rewrite of the main processing function for easier maintanance
 
-* Fix: Check if WP QUADS PRO is installed was very slow
+* Fix: Checking for WP QUADS PRO is very slow
 * Fix: AdSense option Hide on device X condition not working width shortcode [quads]
 * Fix: Rewrite admin html and css for a more robust structure to prevent to be overwritten by other plugin devs who think its cool to load their css stuff all over the admin area
 * Fix: Button Open All Ads only works on second click
 * Fix: Hide Sizing Options when ad type is not AdSense
+* Fix: Meta Box option "Hide all ads" is not hiding custom created ads with commercial themes like bimber.
 
 * Tweak: Remove deprecated code lines and move relevant functons to api.php
 * Tweak: Enable quicktags button per default on first time installation

@@ -60,6 +60,11 @@ class quads_widgets_1 extends WP_Widget {
     public function widget( $args, $instance ) {
         global $quads_options, $ad_count_widget;
         
+        // All widget ads are deactivated via post meta settings
+        if( quads_check_meta_setting( 'NoAds' ) === '1' ){
+            return false;
+        }
+        
         extract( $args );
 
         $cont = quads_post_settings_to_quicktags( get_the_content() );
@@ -106,6 +111,11 @@ class quads_widgets_2 extends WP_Widget {
 
     public function widget( $args, $instance ) {
         global $quads_options;
+        
+        // All widget ads are deactivated via post meta settings
+        if( quads_check_meta_setting( 'NoAds' ) === '1' ){
+            return false;
+        }
         extract( $args );
 
         $cont = quads_post_settings_to_quicktags( get_the_content() );
@@ -151,6 +161,11 @@ class quads_widgets_3 extends WP_Widget {
 
     public function widget( $args, $instance ) {
         global $quads_options;
+        
+        // All widget ads are deactivated via post meta settings
+        if( quads_check_meta_setting( 'NoAds' ) === '1' ){
+            return false;
+        }
         extract( $args );
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_ad_is_allowed() && !quads_ad_reach_max_count() ) {
@@ -194,7 +209,12 @@ class quads_widgets_4 extends WP_Widget {
 
     public function widget( $args, $instance ) {
         global $quads_options;
-
+        
+        // All widget ads are deactivated via post meta settings
+        if( quads_check_meta_setting( 'NoAds' ) === '1' ){
+            return false;
+        }
+        
         extract( $args );
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_ad_is_allowed() && !quads_ad_reach_max_count() ) {
@@ -239,6 +259,10 @@ class quads_widgets_5 extends WP_Widget {
     public function widget( $args, $instance ) {
         global $quads_options;
 
+        // All widget ads are deactivated via post meta settings
+        if( quads_check_meta_setting( 'NoAds' ) === '1' ){
+            return false;
+        }
         extract( $args );
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_ad_is_allowed() && !quads_ad_reach_max_count() ) {
@@ -283,6 +307,11 @@ class quads_widgets_6 extends WP_Widget {
     public function widget( $args, $instance ) {
         global $quads_options;
 
+        // All widget ads are deactivated via post meta settings
+        if( quads_check_meta_setting( 'NoAds' ) === '1' ){
+            return false;
+        }
+        
         extract( $args );
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_ad_is_allowed() && !quads_ad_reach_max_count() ) {
@@ -327,6 +356,11 @@ class quads_widgets_7 extends WP_Widget {
     public function widget( $args, $instance ) {
         global $quads_options;
 
+        // All widget ads are deactivated via post meta settings
+        if( quads_check_meta_setting( 'NoAds' ) === '1' ){
+            return false;
+        }
+        
         extract( $args );
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_ad_is_allowed() && !quads_ad_reach_max_count() ) {
@@ -370,7 +404,12 @@ class quads_widgets_8 extends WP_Widget {
 
     public function widget( $args, $instance ) {
         global $quads_options;
-
+        
+        // All widget ads are deactivated via post meta settings
+        if( quads_check_meta_setting( 'NoAds' ) === '1' ){
+            return false;
+        }
+        
         extract( $args );
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_ad_is_allowed() && !quads_ad_reach_max_count() ) {
@@ -414,7 +453,12 @@ class quads_widgets_9 extends WP_Widget {
 
     public function widget( $args, $instance ) {
         global $quads_options;
-
+        
+        // All widget ads are deactivated via post meta settings
+        if( quads_check_meta_setting( 'NoAds' ) === '1' ){
+            return false;
+        }
+        
         extract( $args );
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_ad_is_allowed() && !quads_ad_reach_max_count() ) {
@@ -458,7 +502,12 @@ class quads_widgets_10 extends WP_Widget {
 
     public function widget( $args, $instance ) {
         global $quads_options;
-
+        
+        // All widget ads are deactivated via post meta settings
+        if( quads_check_meta_setting( 'NoAds' ) === '1' ){
+            return false;
+        }
+        
         extract( $args );
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_ad_is_allowed() && !quads_ad_reach_max_count() ) {

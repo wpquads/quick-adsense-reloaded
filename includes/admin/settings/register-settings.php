@@ -124,7 +124,7 @@ function quads_get_registered_settings() {
         'general' => apply_filters( 'quads_settings_general', array(
             array(
                 'id' => 'general_header',
-                'name' => '<strong>' . __( 'General Settings', 'quick-adsense-reloaded' ) . '</strong>',
+                'name' => '<strong>' . __( 'General & Position', 'quick-adsense-reloaded' ) . '</strong>',
                 'desc' => __( '', 'quick-adsense-reloaded' ),
                 'type' => 'header'
             ),
@@ -160,7 +160,7 @@ function quads_get_registered_settings() {
             ),
             array(
                 'id' => 'ad_position',
-                'name' => __( 'Position', 'quick-adsense-reloaded' ),
+                'name' => __( 'Position - Default Ads', 'quick-adsense-reloaded' ),
                 'desc' => __( 'Assign and activate ads on specific ad places', 'quick-adsense-reloaded' ),
                 'type' => 'ad_position'
             ),

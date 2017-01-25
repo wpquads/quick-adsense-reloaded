@@ -32,8 +32,9 @@ function quads_shortcode_display_ad( $atts ) {
 
 
     //return quads_check_meta_setting('NoAds');
-    if( quads_check_meta_setting( 'NoAds' ) === '1' )
+    if( quads_check_meta_setting( 'NoAds' ) === '1' ){
         return;
+    }
     
     // The ad id
     $id = isset( $atts['id'] ) ? ( int ) $atts['id'] : 0;
@@ -94,8 +95,9 @@ function quads_get_ad($id = 0) {
 function quads_check_meta_setting($key){
     global $post;
     
-    if ( !isset($post->ID ) )
-    return false;
+    if ( !isset($post->ID ) ){
+        return false;
+    }
     
     $meta_key = '_quads_config_visibility';
 

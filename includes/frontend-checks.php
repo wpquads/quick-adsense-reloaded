@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Helper Functions
  *
@@ -24,6 +23,7 @@ function quads_frontend_checks_init() {
         add_filter( 'quads-ad-output', 'after_ad_output', 10, 2 );
     }
 }
+
 add_action( 'init', 'quads_frontend_checks_init' );
 
 /**
@@ -41,7 +41,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
         'title' => __( 'Ad Check', 'quick-adsense-reloaded' ),
     ) );
 
-    // Hidden, will be shown using js.
+    // Hidden by default
     $wp_admin_bar->add_node( array(
         'parent' => 'quads_ad_check',
         'id' => 'quads_ad_check_jquery',
@@ -53,7 +53,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
         )
     ) );
 
-    // Hidden, will be shown using js.
+    // Hidden by default
     $wp_admin_bar->add_node( array(
         'parent' => 'quads_ad_check',
         'id' => 'quads_ad_check_adblocker_enabled',
@@ -63,7 +63,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
             'target' => '_blank'
         )
     ) );
-
+    // Hidden by default
     if( $wp_the_query->is_singular() ) {
         // Check if the_content filter is available
         if( !$the_content ) {
@@ -79,15 +79,15 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
             ) );
             $error = true;
         }
-
+        // Hidden by default
         if( !empty( $post->ID ) ) {
-            $ad_settings = get_post_meta( $post->ID, '_quads_ad_settings', true );
+            $ad_settings = get_post_meta( $post->ID, '_quads_config_visibility', true );
 
-            if( !empty( $ad_settings['disable_ads'] ) ) {
+            if( !empty( $ad_settings['NoAds'] ) ) {
                 $wp_admin_bar->add_node( array(
                     'parent' => 'quads_ad_check',
                     'id' => 'quads_ad_check_disabled_on_page',
-                    'title' => __( '- Ads are disabled on this page', 'quick-adsense-reloaded' ),
+                    'title' => __( '- All Ads are disabled on this page', 'quick-adsense-reloaded' ),
                     'href' => get_edit_post_link( $post->ID ) . '#quads-ad-settings',
                     'meta' => array(
                         'class' => 'quads_ad_check_warning',
@@ -96,12 +96,11 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
                 ) );
                 $error = true;
             }
-
-            if( !empty( $ad_settings['disable_the_content'] ) ) {
+            if( !empty( $ad_settings['OffDef'] ) ) {
                 $wp_admin_bar->add_node( array(
                     'parent' => 'quads_ad_check',
                     'id' => 'quads_ad_check_disabled_in_content',
-                    'title' => __( '- Ads are disabled in the content of this page', 'quick-adsense-reloaded' ),
+                    'title' => __( '- Default Ads disabled in content of this page', 'quick-adsense-reloaded' ),
                     'href' => get_edit_post_link( $post->ID ) . '#quads-ad-settings',
                     'meta' => array(
                         'class' => 'quads_ad_check_warning',
@@ -207,87 +206,93 @@ function quads_check_the_content_filter( $content ) {
     global $the_content;
 
     $the_content = true;
-    
+
     return $content;
 }
 
-	/**
-	 * Check conditions and display warning. Conditions: AdBlocker enabled, jQuery is included in header
-	 */
-	function quads_check_adblocker() { ?>
-		<!--noptimize--><style>.quads-hidden { display: none; } .quads-adminbar-is-warnings { background: #ef4000 ! important; color: #fff !important; }
-		.quads-highlight-ads { outline:6px solid #83c11f !important; }</style>
-		<script type="text/javascript" src="<?php echo QUADS_PLUGIN_URL . 'assets/js/ads.js' ?>"></script>
-		<script>
-		(function(d, w) {
-				var jquery_not_detected = typeof jQuery === 'undefined';
+/**
+ * Check conditions and display warning. Conditions: AdBlocker enabled, jQuery is included in header
+ */
+function quads_check_adblocker() {
+    ?>
+    <!--noptimize--><style>.quads-hidden { display: none; } .quads-adminbar-is-warnings { background: #ef4000 ! important; color: #fff !important; }
+        .quads-highlight-ads { outline:6px solid #83c11f !important; }</style>
+    <script type="text/javascript" src="<?php echo QUADS_PLUGIN_URL . 'assets/js/ads.js' ?>"></script>
+    <script>
+        (function (d, w) {
+            var jquery_not_detected = typeof jQuery === 'undefined';
 
-				var addEvent = function( obj, type, fn ) {
-					if ( obj.addEventListener )
-						obj.addEventListener( type, fn, false );
-					else if ( obj.attachEvent )
-						obj.attachEvent( 'on' + type, function() { return fn.call( obj, window.event ); } );
-				};
+            var addEvent = function (obj, type, fn) {
+                if (obj.addEventListener)
+                    obj.addEventListener(type, fn, false);
+                else if (obj.attachEvent)
+                    obj.attachEvent('on' + type, function () {
+                        return fn.call(obj, window.event);
+                    });
+            };
 
-				function highlight_ads() {
-					try {
-					    var ad_wrappers = document.querySelectorAll('div[id^="quads-ad"]')
-					} catch ( e ) { return; }
-				    for ( i = 0; i < ad_wrappers.length; i++ ) {
-				        if ( this.checked ) {
-				            ad_wrappers[i].className += ' quads-highlight-ads';
-				        } else {
-				            ad_wrappers[i].className = ad_wrappers[i].className.replace( 'quads-highlight-ads', '' );
-				        }
-				    }
-				}
-                                
-				addEvent( w, 'load', function() {
-					var adblock_item = d.getElementById( 'wp-admin-bar-quads_ad_check_adblocker_enabled' ),
-						jQuery_item = d.getElementById( 'wp-admin-bar-quads_ad_check_jquery' ),
-						fine_item = d.getElementById( 'wp-admin-bar-quads_ad_check_fine' ),
-						hide_fine = false;
+            function highlight_ads() {
+                try {
+                    var ad_wrappers = document.querySelectorAll('div[id^="quads-ad"]')
+                } catch (e) {
+                    return;
+                }
+                for (i = 0; i < ad_wrappers.length; i++) {
+                    if (this.checked) {
+                        ad_wrappers[i].className += ' quads-highlight-ads';
+                    } else {
+                        ad_wrappers[i].className = ad_wrappers[i].className.replace('quads-highlight-ads', '');
+                    }
+                }
+            }
 
-					var highlight_checkbox = d.getElementById( 'quads_highlight_ads_checkbox' );
-					if ( highlight_checkbox ) {
-						addEvent( highlight_checkbox, 'change', highlight_ads );
-					}
+            addEvent(w, 'load', function () {
+                var adblock_item = d.getElementById('wp-admin-bar-quads_ad_check_adblocker_enabled'),
+                        jQuery_item = d.getElementById('wp-admin-bar-quads_ad_check_jquery'),
+                        fine_item = d.getElementById('wp-admin-bar-quads_ad_check_fine'),
+                        hide_fine = false;
 
-					if ( adblock_item && typeof wpquads_adblocker_check === 'undefined' ) {
-						// show quads-hidden item
-						adblock_item.className = adblock_item.className.replace( /quads-hidden/, '' );
-						hide_fine = true;
-					}
+                var highlight_checkbox = d.getElementById('quads_highlight_ads_checkbox');
+                if (highlight_checkbox) {
+                    addEvent(highlight_checkbox, 'change', highlight_ads);
+                }
+                if (adblock_item && typeof wpquads_adblocker_check === 'undefined' || false === wpquads_adblocker_check) {
+                    // show quads-hidden item
+                    adblock_item.className = adblock_item.className.replace(/quads-hidden/, '');
+                    hide_fine = true;
+                }
 
-					if ( jQuery_item && jquery_not_detected ) {
-						// show quads-hidden item
-						jQuery_item.className = jQuery_item.className.replace( /quads-hidden/, '' );
-						hide_fine = true;
-					}
+                if (jQuery_item && jquery_not_detected) {
+                    // show quads-hidden item
+                    jQuery_item.className = jQuery_item.className.replace(/quads-hidden/, '');
+                    hide_fine = true;
+                }
 
-					if ( hide_fine && fine_item ) {
-						fine_item.className += ' quads-hidden';
-					}
+                if (hide_fine && fine_item) {
+                    fine_item.className += ' quads-hidden';
+                }
 
-					showCount();
-				});
+                showCount();
+            });
 
-				var showCount = function() {
-					try {
-						// select not quads-hidden warning items, exclude the 'fine_item'
-						var warning_count = document.querySelectorAll( '.quads_ad_check_warning:not(.quads-hidden)' ).length;
-					} catch ( e ) { return; }
+            var showCount = function () {
+                try {
+                    // select not quads-hidden warning items, exclude the 'fine_item'
+                    var warning_count = document.querySelectorAll('.quads_ad_check_warning:not(.quads-hidden)').length;
+                } catch (e) {
+                    return;
+                }
 
-					if ( warning_count ) {
-						var header = document.querySelector( '#wp-admin-bar-quads_ad_check > div' );
+                if (warning_count) {
+                    var header = document.querySelector('#wp-admin-bar-quads_ad_check > div');
 
-						if ( header ) {
-							header.innerHTML += ' <i>(' + warning_count + ')</i>';
-							header.className += ' quads-adminbar-is-warnings';
-						}
-					}
-				};
-		})(document, window);
-		</script><!--/noptimize-->
-		<?php
-	}
+                    if (header) {
+                        header.innerHTML += ' <i>(' + warning_count + ')</i>';
+                        header.className += ' quads-adminbar-is-warnings';
+                    }
+                }
+            };
+        })(document, window);
+    </script><!--/noptimize-->
+    <?php
+}
