@@ -130,6 +130,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: Undefined variable if WP QUADS PRO beta version is used with more than 3 paragraph option
+
+= 1.4.3 =
 * New: Add filter to add 3 more paragraph AdSense ads placed with WP QUADS PRO
 * New: Add ad health and checking function to detect if there are error in adsense settings
 * New: Support link to troubleshooting guide if AdSense ads are not shown

@@ -543,7 +543,7 @@ function quads_parse_random_quicktag_ads($content){
  * @return string
  */
 function quads_parse_random_ads($content) {
-    global $adsArray, $adsRandom, $visibleContentAds;
+    global $adsRandom, $visibleContentAds;
     
     $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
     if( $off_default_ads ) { // disabled default ads
@@ -553,13 +553,16 @@ function quads_parse_random_ads($content) {
     if( strpos( $content, '<!--CusRnd-->' ) !== false && is_singular() ) {
 
         $tcx = count( $adsRandom );
-        $tcy = substr_count( $content, '<!--CusRnd-->' );
+        // How often is a random ad appearing in content
+        $number_rand_ads = substr_count( $content, '<!--CusRnd-->' );
 
-        for ( $i = $tcx; $i <= $tcy - 1; $i++ ) {
-            array_push( $adsArray, -1 );
+        for ( $i = $tcx; $i <= $number_rand_ads - 1; $i++ ) {
+            array_push( $adsRandom, -1 );
         }
         shuffle( $adsRandom );
-        for ( $i = 1; $i <= $tcy; $i++ ) {
+        //wp_die(print_r($adsRandom));
+        //wp_die($adsRandom[0]);
+        for ( $i = 1; $i <= $number_rand_ads; $i++ ) {
             $content = quads_replace_ads( $content, 'CusRnd', $adsRandom[0] );
             $adsRandom = quads_del_element( $adsRandom, 0 );
             $visibleContentAds += 1;
