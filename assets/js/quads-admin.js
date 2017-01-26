@@ -145,7 +145,8 @@ jQuery(document).ready(function ($) {
         
         // Check current url / settings page
         var url = window.location.search;
-        var search = url.search("page=quads-settings&tab=imexport");
+        var tab_imexport = url.search("page=quads-settings&tab=imexport");
+        var tab_licenses = url.search("page=quads-settings&tab=licenses");
         
         jQuery('#quads-save-result').html("<div id='quads-loader' class='quads-loader'></div>");
         jQuery('#quads-loader').append('<p><img src="'+quads.path+'/wp-content/plugins/quick-adsense-reloaded/assets/images/loader1.gif"></p>').show();
@@ -166,8 +167,8 @@ jQuery(document).ready(function ($) {
                     jQuery('#quads-save-result').hide('fast');
             }
         });
-        // Do not preventDefault on import/export tab
-        if ( search === -1 ){
+        // Do not use ajax saving on import/export and licenses tab
+        if ( tab_imexport === -1 && tab_licenses ===-1 ){
             return false;
         }
     });
