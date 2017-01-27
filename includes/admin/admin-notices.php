@@ -275,7 +275,6 @@ function quads_is_any_ad_activated() {
             }
         }
     }
-
     //wp_die(print_r($check));
 
     if( count( $check ) === 0 &&
@@ -284,9 +283,9 @@ function quads_is_any_ad_activated() {
             !isset( $quads_options['pos3']['EndiAds'] ) &&
             !isset( $quads_options['pos4']['MoreAds'] ) &&
             !isset( $quads_options['pos5']['LapaAds'] ) &&
-            !isset( $quads_options['pos6']['Para1Ads'] ) &&
-            !isset( $quads_options['pos7']['Para2Ads'] ) &&
-            !isset( $quads_options['pos8']['Para3Ads'] ) &&
+            !isset( $quads_options['pos6']['Par1Ads'] ) &&
+            !isset( $quads_options['pos7']['Par2Ads'] ) &&
+            !isset( $quads_options['pos8']['Par3Ads'] ) &&
             !isset( $quads_options['pos9']['Img1Ads'] ) ) {
         return false;
     }
