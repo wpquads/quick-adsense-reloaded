@@ -89,6 +89,7 @@ function quads_get_load_priority(){
  */
 function quads_process_content( $content ) {
     global $quads_options, $adsArray, $adsArrayCus, $visibleContentAds, $ad_count_widget, $visibleShortcodeAds;
+    
 
     // Do not do anything if ads are not allowed
     if( !quads_ad_is_allowed( $content ) ) {
@@ -110,6 +111,10 @@ function quads_process_content( $content ) {
 
     // Array of ad codes ids
     $adsArray = quads_get_active_ads();
+    
+    if ($adsArray === 0){
+        return $content;
+    }
 
     $content = quads_sanitize_content( $content );
 
@@ -168,7 +173,6 @@ function quads_get_active_ads() {
     
     $adsArray = array();
    
-
     // Array of ad codes  
     for ( $i = 1; $i <= $numberAds; $i++ ) {
         $tmp = isset( $quads_options['ad' . $i]['code'] ) ? trim( $quads_options['ad' . $i]['code'] ) : '';

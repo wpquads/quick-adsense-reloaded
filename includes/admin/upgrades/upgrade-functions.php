@@ -132,7 +132,8 @@ function quads_is_advanced_1_2_7() {
 }
 
 /**
- * Convert all post/page setting to new post_type global options array
+ * Convert all previous post/page settings to the new post_type global options array which has been introduced in 1.4.0
+ * 
  * @global array $quads_options
  * @return true if success
  */

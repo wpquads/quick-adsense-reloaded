@@ -132,6 +132,8 @@ Alternative Installation:
 = {{ version }} =
 * Fix: Undefined variable if WP QUADS PRO beta version is used with more than 3 paragraph ad spots
 * Fix: Deactivate License button not working
+* Fix: Admin notice if ad codes are empty
+* Fix: PHP Warning when ad codes are empty
 
 = 1.4.3 =
 * New: Add filter to add 3 more paragraph AdSense ads placed with WP QUADS PRO

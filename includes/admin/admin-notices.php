@@ -31,14 +31,18 @@ function quads_admin_messages() {
     quads_update_notice();
     
     if (!quads_is_any_ad_activated() && quads_is_admin_page() ){
-        echo '<div class="notice notice-warning">'.sprintf(__('<strong>No ads are activated!</strong> You need to assign at least 1 ad to an ad spot. Fix this in <a href="%s">General Settings</a>! Alternatively you need to use a shortcode in your posts or no ads are shown at all.', 'quick-adsense-reloaded'), admin_url().'admin.php?page=quads-settings&quads-message=settings-imported&tab=general#quads_settingsgeneral_header').'</div>';
+        echo '<div class="notice notice-warning">'.sprintf(__('<strong>No ads are activated!</strong> You need to assign at least 1 ad to an ad spot. Fix this in <a href="%s">General Settings</a>! Alternatively you need to use a shortcode in your posts or no ads are shown at all.', 'quick-adsense-reloaded'), admin_url().'admin.php?page=quads-settings#quads_settingsgeneral_header').'</div>';
+    }
+    
+    if (quads_get_active_ads() === 0 && quads_is_admin_page() ){
+        echo '<div class="notice notice-warning">'.sprintf(__('<strong>No ads defined!</strong> You need to create at least one ad code. Fix this in <a href="%s">ADSENSE CODE</a>.', 'quick-adsense-reloaded'), admin_url().'admin.php?page=quads-settings#quads_settingsadsense_header').'</div>';
     }
     
     if (!quads_is_post_type_activated() && quads_is_admin_page() ){
-        echo '<div class="notice notice-warning">'.sprintf(__('<strong>No ads are shown - No post types selected</strong> You need to select at least 1 post type like <i>blog</i> or <i>page</i>. Fix this in <a href="%s">General Settings</a> or no ads are shown at all.', 'quick-adsense-reloaded'), admin_url().'admin.php?page=quads-settings&quads-message=settings-imported&tab=general#quads_settingsgeneral_header').'</div>';
+        echo '<div class="notice notice-warning">'.sprintf(__('<strong>No ads are shown - No post types selected</strong> You need to select at least 1 post type like <i>blog</i> or <i>page</i>. Fix this in <a href="%s">General Settings</a> or no ads are shown at all.', 'quick-adsense-reloaded'), admin_url().'admin.php?page=quads-settings#quads_settingsgeneral_header').'</div>';
     }
     
-    if (isset($_GET['quads-action']) && $_GET['quads-action'] === 'validate' && quads_is_admin_page() && quads_is_any_ad_activated() && quads_is_post_type_activated() ){
+    if (isset($_GET['quads-action']) && $_GET['quads-action'] === 'validate' && quads_is_admin_page() && quads_is_any_ad_activated() && quads_is_post_type_activated() && quads_get_active_ads() > 0 ){
         echo '<div class="notice notice-success">' . sprintf(__('<strong>No errors detected in WP QUADS settings.</strong> If ads are still not shown read the <a href="%s" target="_blank">troubleshooting guide</a>'), 'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink') . '</div>';
     }
 
@@ -302,4 +306,26 @@ function quads_is_post_type_activated(){
             return false;
         }
         return true;
+}
+
+/**
+ * Check if ad codes are populated
+ * 
+ * @global array $quads_options
+ * @return booleantrue if ads are empty
+ */
+function quads_ads_empty() {
+    global $quads_options;
+
+    $check = array();
+
+    for ( $i = 1; $i <= 10; $i++ ) {
+        if( !empty( $quads_options['ad' . $i]['code'] ) ) {
+            $check[] = 'true';
+        }
+    }
+    if( count( $check ) === 0 ) {
+        return true;
+    }
+    return false;
 }
