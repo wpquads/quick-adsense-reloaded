@@ -358,21 +358,26 @@ function quads_get_registered_settings() {
             'priority' => array(
                 'id' => 'priority',
                 'name' => __( 'Load Priority', 'quick-adsense-reloaded' ),
-                'desc' => __( 'Do not change this if everything is working fine. It could result in non showing ads! A lower value loads WP QUADS earlier than other Plugins. Use a higher value for loading WP QUADS later. Try to lower the value to a value less than 10 if not all ads are shown. <strong>Default:</strong> 20', 'quick-adsense-reloaded' ),
+                //'desc' => __( 'Do not change this until you know what you are doing. Usually the default value 20 is working fine. Changing this value can lead to unexpected results like ads not showing or loaded on wrong order. <strong>Default:</strong> 20', 'quick-adsense-reloaded' ),
+                'helper-desc' => __( 'Do not change this until you know what you are doing. Usually the default value 20 is working fine. Changing this value can lead to unexpected results like ads not showing or loaded on wrong order. <strong>Default:</strong> 20', 'quick-adsense-reloaded' ),
                 'type' => 'number',
                 'size' => 'small',
                 'std' => 20
             ),
             'create_settings' => array(
                 'id' => 'create_settings',
-                'name' => __( 'Settings link', 'quick-adsense-reloaded' ),
-                'desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong> This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
+                'name' => __( 'Remove Menue Button', 'quick-adsense-reloaded' ),
+                //'desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
+                'desc' => __('Remove'),
+                'helper-desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
                 'type' => 'checkbox',
             ),
             'uninstall_on_delete' => array(
                 'id' => 'uninstall_on_delete',
-                'name' => __( 'Remove Data on Uninstall?', 'quick-adsense-reloaded' ),
-                'desc' => __( 'Check this box if you would like <strong>Settings->WPQUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
+                'name' => __( 'Delete Data on Uninstall?', 'quick-adsense-reloaded' ),
+                //'desc' => __( 'Check this box if you would like <strong>Settings->WPQUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
+                'helper-desc' => __( 'Check this box if you would like <strong>Settings->WPQUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
+                'desc' => 'Delete',
                 'type' => 'checkbox'
             ),
                 )
