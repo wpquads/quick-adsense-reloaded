@@ -130,6 +130,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: Save Changes button is behind admin footer on plugin settings tab
+
+= 1.4.4 =
 * Fix: Undefined variable if WP QUADS PRO beta version is used with more than 3 paragraph ad spots
 * Fix: Deactivate License button not working
 * Fix: Admin notice if ad codes are empty

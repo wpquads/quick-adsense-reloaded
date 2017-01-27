@@ -803,3 +803,7 @@ li.quads-tabs {
     margin-bottom: 20px;
     font-weight: bold;
 }
+
+#quads-submit-button{
+    z-index: 999999;
+}
