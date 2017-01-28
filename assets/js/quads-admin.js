@@ -161,7 +161,7 @@ jQuery(document).ready(function ($) {
             
             error: function(){
                 //Do not show alert on import/export tab
-                if ( search === -1 ){
+                if ( tab_imexport === -1 && tab_licenses === -1  ){
                     alert ('Error: Can not save settings. Try again'); 
                 }
                     jQuery('#quads-save-result').hide('fast');

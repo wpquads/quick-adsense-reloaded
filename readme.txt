@@ -132,13 +132,14 @@ Alternative Installation:
 = {{ version }} =
 * Fix: Save Changes button is behind admin footer on plugin settings tab
 * Fix: Ad Check "Highlight ads" button dark colored and unreadable with some themes
+* Fix: Do not use ajax saving on license and import/export tab
 
 = 1.4.4 =
-* Fix: Undefined variable if WP QUADS PRO beta version is used with more than 3 paragraph ad spots
+* Fix: Undefined variable if WP QUADS PRO beta version is used with more than 3 AdSebse paragraph AdSense spots
 * Fix: Deactivate License button not working
-* Fix: Admin notice if ad codes are empty
-* Fix: PHP Warning when adsense ad codes are empty
-* Fix: Not more than 3 adsense widgets are shown at the same time
+* Fix: Admin notice if AdSense codes are empty
+* Fix: PHP Warning when AdSense ad codes are empty
+* Fix: Not more than 3 AdSense widgets are shown at the same time
 
 = 1.4.3 =
 * New: Add filter to add 3 more paragraph AdSense ads placed with WP QUADS PRO
