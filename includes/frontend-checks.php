@@ -192,7 +192,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
     $wp_admin_bar->add_node( array(
         'parent' => 'quads_ad_check',
         'id' => 'quads_ad_check_highlight_ads',
-        'title' => sprintf( '<label><input id="quads_highlight_ads_checkbox" type="checkbox"> %s</label>', __( 'highlight ads', 'quick-adsense-reloaded' ) )
+        'title' => sprintf( '<label><input id="quads_highlight_ads_checkbox" type="checkbox"> %s</label>', __( 'Show Adverts', 'quick-adsense-reloaded' ) )
     ) );
 }
 
