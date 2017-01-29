@@ -8,8 +8,13 @@
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       0.9.6
  */
+
+// Exit if accessed directly
+if( !defined( 'ABSPATH' ) )
+    exit;
+
 //function quads_load_meta_box () {
-	new Quads_Meta_Box();
+new Quads_Meta_Box();
 //}
 //add_action( 'load-post.php', 		'quads_load_meta_box' );
 //add_action( 'load-post-new.php', 	'quads_load_meta_box' );
