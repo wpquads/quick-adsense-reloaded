@@ -151,3 +151,23 @@ function quads_set_ad_count_widget(){
     return $ad_count_widget;
 }
 
+/**
+ * Check if AMP ads are disabled on a post via the post meta box settings
+ * 
+ * @global obj $post
+ * @return boolean true if its disabled
+ */
+function quads_is_disabled_post_amp() {
+    global $post;
+    
+    if(!is_singular()){
+        return true;
+    }
+    
+    $ad_settings = get_post_meta( $post->ID, '_quads_config_visibility', true );
+
+    if( !empty( $ad_settings['OffAMP'] ) ) {
+        return true;
+    }
+    return false;
+}

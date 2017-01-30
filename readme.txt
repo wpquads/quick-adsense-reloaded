@@ -130,9 +130,12 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* New: Add new option to hide AMP ads on certain posts with WP QUADS PRO
+
 * Fix: Save Changes button is behind admin footer on plugin settings tab
 * Fix: Ad Check "Highlight ads" button dark colored and unreadable with some themes
 * Fix: Do not use ajax saving on license and import/export tab
+
 
 = 1.4.4 =
 * Fix: Undefined variable if WP QUADS PRO beta version is used with more than 3 AdSebse paragraph AdSense spots

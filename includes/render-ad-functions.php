@@ -370,7 +370,7 @@ function quads_render_amp($id){
     global $quads_options;
 
     // if amp is not activated return empty
-    if (!isset($quads_options[$id]['amp'])){
+    if (!isset($quads_options[$id]['amp']) || quads_is_disabled_post_amp() ){
         return '';
     }
     
