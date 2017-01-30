@@ -30,7 +30,7 @@ function quads_is_plugins_page() {
 /**
  * display deactivation logic on plugins page
  * 
- * @since 1.7.14
+ * @since 1.4.0
  */
 function quads_add_deactivation_feedback_modal() {
 
