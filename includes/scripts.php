@@ -39,9 +39,9 @@ function quads_load_admin_scripts( $hook ) {
     // Use minified libraries if SCRIPT_DEBUG is turned off
     $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
     
-    if ( quads_is_plugins_page() ){
-        wp_enqueue_script( 'quads-global-admin-scripts', $js_dir . 'quads-global-admin' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
-    }
+//    if ( quads_is_plugins_page() ){
+//        wp_enqueue_script( 'quads-global-admin-scripts', $js_dir . 'quads-global-admin' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+//    }
 
     // These have to be global
     wp_enqueue_script( 'quads-admin-scripts', $js_dir . 'quads-admin' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
@@ -80,9 +80,7 @@ function quads_load_plugins_admin_scripts( $hook ) {
     $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
     wp_enqueue_script( 'quads-plugins-admin-scripts', $js_dir . 'quads-plugins-admin' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
-    wp_enqueue_style( 'quads-plugins-admin', $css_dir . 'quads-plugins-admin' . $suffix . '.css', QUADS_VERSION );
-
-    
+    wp_enqueue_style( 'quads-plugins-admin', $css_dir . 'quads-plugins-admin' . $suffix . '.css', QUADS_VERSION );   
 }
 
 /**
