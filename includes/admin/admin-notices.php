@@ -208,7 +208,7 @@ function quads_theme_notice(){
     $show_notice = get_option('quads_show_theme_notice');
     
         if( false !== $show_notice && 'no' !== $show_notice && quads_is_commercial_theme() )  {
-            $message = __( '<strong>Extend the <strong>' . quads_is_commercial_theme(). '</strong> theme with <strong>WP QUADS PRO!</strong><br>Save time and earn more - Bring your AdSense earnings to next level. <a href="http://wpquads.com?utm_campaign=adminnotice&utm_source=admin_notice&utm_medium=admin&utm_content=bimber_upgrade_notice" target="_blank"> Purchase Now</a> or <a href="http://wpquads.com?utm_campaign=free_plugin&utm_source=admin_notice&utm_medium=admin&utm_content=bimber_upgrade_notice" target="_blank">Get Details</a></strong> <p> <a href="'.admin_url().'admin.php?page=quads-settings&quads-action=close_upgrade_notice" class="button">Close Notice</a>', 'quick-adsense-reloaded' );
+            $message = __( '<strong>Extend the' . quads_is_commercial_theme(). '</strong> theme with <strong>WP QUADS PRO!</strong><br>Save time and earn more - Bring your AdSense earnings to next level. <a href="http://wpquads.com?utm_campaign=adminnotice&utm_source=admin_notice&utm_medium=admin&utm_content=bimber_upgrade_notice" target="_blank"> Purchase Now</a> or <a href="http://wpquads.com?utm_campaign=free_plugin&utm_source=admin_notice&utm_medium=admin&utm_content=bimber_upgrade_notice" target="_blank">Get Details</a> <p> <a href="'.admin_url().'admin.php?page=quads-settings&quads-action=close_upgrade_notice" class="button">Close Notice</a>', 'quick-adsense-reloaded' );
         ?>
         <div class="updated notice" style="border-left: 4px solid #ffba00;">
             <p><?php echo $message; ?></p>
@@ -231,7 +231,7 @@ function quads_update_notice() {
     }
 
     if( (version_compare( QUADS_VERSION, '1.3.9', '>=' ) ) && quads_is_advanced() && (version_compare( QUADS_PRO_VERSION, '1.3.0', '<' ) ) ) {
-        $message = sprintf( __( '<strong>WP QUADS ' . QUADS_VERSION . ': <strong> Update WP QUADS PRO to get custom post type support from <a href="%s">General Settings</a>.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings' );
+        $message = sprintf( __( '<strong>WP QUADS ' . QUADS_VERSION . ': </strong> Update WP QUADS PRO to get custom post type support from <a href="%s">General Settings</a>.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings' );
         $message .= '<br><br><a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_update_notice" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Close Notice</a>';
 ?>
                         <div class="updated notice" style="border-left: 4px solid #ffba00;">
@@ -240,7 +240,7 @@ function quads_update_notice() {
         //update_option ('quads_show_update_notice', 'no');
     } else
         if( !quads_is_advanced() ) {
-        $message = sprintf( __( '<strong>WP QUADS ' . QUADS_VERSION . ': <strong> Install <a href="%1s" target="_blank">WP QUADS PRO</a> to get custom post type support in <a href="%2s">General Settings</a>.', 'quick-adsense-reloaded' ), 'http://wpquads.com?utm_campaign=admin_notice&utm_source=admin_notice&utm_medium=admin&utm_content=custom_post_type', admin_url() . 'admin.php?page=quads-settings' );
+        $message = sprintf( __( '<strong>WP QUADS ' . QUADS_VERSION . ': </strong> Install <a href="%1s" target="_blank">WP QUADS PRO</a> to get custom post type support in <a href="%2s">General Settings</a>.', 'quick-adsense-reloaded' ), 'http://wpquads.com?utm_campaign=admin_notice&utm_source=admin_notice&utm_medium=admin&utm_content=custom_post_type', admin_url() . 'admin.php?page=quads-settings' );
         $message .= '<br><br><a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_update_notice" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Close Notice</a>';
 ?>
                         <div class="updated notice" style="border-left: 4px solid #ffba00;">
