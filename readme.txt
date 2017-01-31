@@ -135,6 +135,7 @@ Alternative Installation:
 * Fix: Save Changes button is behind admin footer on plugin settings tab
 * Fix: Ad Check "Highlight ads" button dark colored and unreadable with some themes
 * Fix: Do not use ajax saving on license and import/export tab
+* Fix: Fix css issue on admin notice
 
 
 = 1.4.4 =
