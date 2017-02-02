@@ -28,7 +28,7 @@ add_filter('the_content', 'quads_process_content', quads_get_load_priority());
 function quads_post_settings_to_quicktags ( $content ) {
     
         // Return original content if QUADS is not allowed
-        if ( !quads_ad_is_allowed($content) )
+        if ( !quads_ad_is_allowed($content))
             return $content;
     
 	$quicktags_str = quads_get_visibility_quicktags_str();
@@ -91,8 +91,8 @@ function quads_process_content( $content ) {
     global $quads_options, $adsArray, $adsArrayCus, $visibleContentAds, $ad_count_widget, $visibleShortcodeAds;
     
 
-    // Do not do anything if ads are not allowed
-    if( !quads_ad_is_allowed( $content ) ) {
+    // Do not do anything if ads are not allowed or process is not in the main query
+    if( !quads_ad_is_allowed( $content ) || !is_main_query()) {
         $content = quads_clean_tags( $content );
         return $content;
     }

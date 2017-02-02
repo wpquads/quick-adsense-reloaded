@@ -138,6 +138,8 @@ Alternative Installation:
 * Fix: Fix css issue on admin notice
 * Fix: Ad Check Highlight button color not readable - css fix
 * Fix: wrong amount of max ads limit when AMP ads are used
+* Fix: Make sure AdSense ads are injected only in the main query
+
 
 
 = 1.4.4 =

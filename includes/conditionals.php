@@ -22,11 +22,6 @@
  */
 function quads_ad_is_allowed( $content = null ) {
     global $quads_options;
-
-    // Only show ads in main query
-    if( !is_main_query() ) {
-        return false;
-    }
     
     $hide_ads = apply_filters('quads_hide_ads', false);
 
