@@ -136,6 +136,8 @@ Alternative Installation:
 * Fix: Ad Check "Highlight ads" button dark colored and unreadable with some themes
 * Fix: Do not use ajax saving on license and import/export tab
 * Fix: Fix css issue on admin notice
+* Fix: Ad Check Highlight button color not readable - css fix
+* Fix: wrong amount of max ads limit when AMP ads are used
 
 
 = 1.4.4 =
