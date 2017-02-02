@@ -216,7 +216,7 @@ function quads_check_the_content_filter( $content ) {
 function quads_check_adblocker() {
     ?>
     <!--noptimize--><style>.quads-hidden { display: none; } .quads-adminbar-is-warnings { background: #ef4000 ! important; color: #fff !important; }
-        .quads-highlight-ads { outline:6px solid #83c11f !important; }#wp-admin-bar-quads_ad_check_highlight_ads label {color:#b4b9be;}</style>
+        .quads-highlight-ads { outline:6px solid #83c11f !important; }#wp-admin-bar-quads_ad_check_highlight_ads label {color:#b4b9be !important;}</style>
     <script type="text/javascript" src="<?php echo QUADS_PLUGIN_URL . 'assets/js/ads.js' ?>"></script>
     <script>
         (function (d, w) {
