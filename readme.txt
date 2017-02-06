@@ -130,6 +130,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+NOT released, yet
+
+= 1.4.5 =
 * New: Add new option to hide AMP ads on certain posts with WP QUADS PRO
 
 * Fix: Save Changes button is behind admin footer on plugin settings tab
