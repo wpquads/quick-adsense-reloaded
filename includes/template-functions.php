@@ -677,26 +677,28 @@ function quads_replace_ads($content, $quicktag, $id) {
 	if( strpos($content,'<!--'.$quicktag.'-->')===false ) { 
             return $content; 
         }
+
         
 	if ($id != -1) {
-		$paragraphsArray = array(
-			'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
-			'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
-			'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
-			'float:none;margin:0px;');
+//		$styleArray = array(
+//			'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
+//			'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
+//			'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
+//			'float:none;margin:0px;');
+//                
+//		$adsalign = $quads_options['ad' . $id]['align'];
+//		$adsmargin = isset($quads_options['ad' . $id]['margin']) ? $quads_options['ad' . $id]['margin'] : '3'; // default
+//                $margin = sprintf($styleArray[(int)$adsalign], $adsmargin);
+//                
+//                // Do not create any inline style on AMP site
+//		$style = !quads_is_amp_endpoint() ? apply_filters ('quads_filter_margins', $margin, 'ad'.$id ) : '';
                 
-		$adsalign = $quads_options['ad' . $id]['align'];
-		$adsmargin = isset($quads_options['ad' . $id]['margin']) ? $quads_options['ad' . $id]['margin'] : '3'; // default
-                $margin = sprintf($paragraphsArray[(int)$adsalign], $adsmargin);
-                
-                // Do not create any inline style on AMP site
-		$style = !quads_is_amp_endpoint() ? apply_filters ('quads_filter_margins', $margin, 'ad'.$id ) : '';
-                $adscode = $quads_options['ad' . $id ]['code'];
-                
+                $code = !empty($quads_options['ad' . $id ]['code']) ? $quads_options['ad' . $id ]['code'] : '';
+                $style = quads_get_inline_ad_style($id);
                 $adscode =
 			"\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
 			'<div class="quads-location quads-ad' .$id. '" id="quads-ad' .$id. '" style="'.$style.'">'."\n".
-			quads_render_ad('ad'.$id, $adscode)."\n".
+			quads_render_ad('ad'.$id, $code)."\n".
 			'</div>'. "\n";
               
 	} else {
@@ -705,6 +707,40 @@ function quads_replace_ads($content, $quicktag, $id) {
 	$cont = explode('<!--'.$quicktag.'-->', $content, 2);
         
 	return $cont[0].$adscode.$cont[1];
+}
+
+/**
+ * Get ad inline style
+ * 
+ * @global arr $quads_options
+ * @param int $id id of the ad
+ * @return string
+ */
+function quads_get_inline_ad_style( $id ) {
+    global $quads_options;
+
+    if( empty($id) ) {
+        return '';
+    }
+
+    // Basic style
+    $styleArray = array(
+        'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
+        'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
+        'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
+        'float:none;margin:0px;');
+    
+    // Alignment
+    $adsalign = $quads_options['ad' . $id]['align'];
+    
+    // Margin
+    $adsmargin = isset( $quads_options['ad' . $id]['margin'] ) ? $quads_options['ad' . $id]['margin'] : '3'; // default optin = 3
+    $margin = sprintf( $styleArray[( int ) $adsalign], $adsmargin );
+
+    // Do not create any inline style on AMP site
+    $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
+    
+    return $style;
 }
 
 /**

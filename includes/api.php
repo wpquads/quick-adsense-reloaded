@@ -147,7 +147,7 @@ function quads_ad( $args ) {
         
         $location_settings = quads_get_ad_location_settings( $args['location'] ); 
         $code .= "\n".'<!-- WP QUADS Custom Ad v. ' . QUADS_VERSION .' -->'."\n";
-        $code .= '<div class="quads-location quads-ad' .$location_settings['ad']. '" id="quads-ad' .$location_settings['ad']. '">'."\n";
+        $code .= '<div class="quads-location quads-ad' .$location_settings['ad']. '" id="quads-ad' .$location_settings['ad']. '" style="'.  quads_get_inline_ad_style( $location_settings['ad'] ).'">'."\n";
         $code .= quads_render_ad( 'ad' . $location_settings['ad'], $quads_options[ 'ad' . $location_settings['ad'] ]['code'] );
         $code .= '</div>';
     }
