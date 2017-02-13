@@ -278,27 +278,26 @@ function quads_is_any_ad_activated() {
             }
         }
     }
-    //wp_die(print_r($check));
-    // custom position empty
-    if( count( $check ) === 0 ) {
-        return false;
+    
+    // ad activated with api (custom position)
+    if( count( $check ) > 0 ) {
+        return true;
     }
-
-    // check if any ad is assigned
-    if( !isset( $quads_options['pos1']['BegnAds'] ) &&
-        !isset( $quads_options['pos2']['MiddAds'] ) &&
-        !isset( $quads_options['pos3']['EndiAds'] ) &&
-        !isset( $quads_options['pos4']['MoreAds'] ) &&
-        !isset( $quads_options['pos5']['LapaAds'] ) &&
-        !isset( $quads_options['pos6']['Par1Ads'] ) &&
-        !isset( $quads_options['pos7']['Par2Ads'] ) &&
-        !isset( $quads_options['pos8']['Par3Ads'] ) &&
-        !isset( $quads_options['pos9']['Img1Ads'] )
+    // check if any other ad is assigned and activated
+    if( isset( $quads_options['pos1']['BegnAds'] ) ||
+        isset( $quads_options['pos2']['MiddAds'] ) ||
+        isset( $quads_options['pos3']['EndiAds'] ) ||
+        isset( $quads_options['pos4']['MoreAds'] ) ||
+        isset( $quads_options['pos5']['LapaAds'] ) ||
+        isset( $quads_options['pos6']['Par1Ads'] ) ||
+        isset( $quads_options['pos7']['Par2Ads'] ) ||
+        isset( $quads_options['pos8']['Par3Ads'] ) ||
+        isset( $quads_options['pos9']['Img1Ads'] )
     ) {
-        return false;
+        return true;
     }
-    // any ad is activated
-    return true;
+    // no ad is activated
+    return false;
 }
 
 /**
