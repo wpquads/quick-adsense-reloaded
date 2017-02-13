@@ -130,7 +130,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
-NOT released, yet
+* New: Theme API for custom theme integration of AdSense ads supports margin and alignment options now
+* New: Create WP QUADS admin menue logo
+* Fix: Admin warning if no adsense spots are activated is not working properly
 
 = 1.4.5 =
 * New: Add new option to hide AMP ads on certain posts with WP QUADS PRO
