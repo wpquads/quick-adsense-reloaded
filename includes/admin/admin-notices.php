@@ -281,6 +281,7 @@ function quads_is_any_ad_activated() {
     
     // ad activated with api (custom position)
     if( count( $check ) > 0 ) {
+        //wp_die(print_r($check));
         return true;
     }
     // check if any other ad is assigned and activated
@@ -294,8 +295,10 @@ function quads_is_any_ad_activated() {
         isset( $quads_options['pos8']['Par3Ads'] ) ||
         isset( $quads_options['pos9']['Img1Ads'] )
     ) {
+        //wp_die('test');
         return true;
     }
+     //wp_die('test1');
     // no ad is activated
     return false;
 }
