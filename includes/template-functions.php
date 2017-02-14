@@ -593,15 +593,16 @@ function quads_parse_random_ads($content) {
  */
 function quads_parse_quicktags($content){
     global $adsArray, $visibleContentAds;
-
+    //print_r(count($adsArray));
+    
     $idx = 0;
     for ( $i = 1; $i <= count( $adsArray ); $i++ ) {
         if( strpos( $content, '<!--Ads' . $adsArray[$idx] . '-->' ) !== false ) {
             $content = quads_replace_ads( $content, 'Ads' . $adsArray[$idx], $adsArray[$idx] );
-            $adsArray = quads_del_element( $adsArray, $idx );
+            //$adsArray = quads_del_element( $adsArray, $idx );
             $visibleContentAds += 1;
+            $idx +=1;
             //quads_set_ad_count_content();
-            //if( quads_ad_reach_max_count() ) {
             if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
                 $content = quads_clean_tags( $content );
                 return $content;
@@ -796,11 +797,11 @@ function quads_clean_tags($content, $trimonly = false) {
  * @param int $idx key to remove from array
  * @return array
  */
-function quads_del_element($paragraphsArrayay, $idx) {
+function quads_del_element($array, $idx) {
   $copy = array();
-	for( $i=0; $i<count($paragraphsArrayay) ;$i++) {
+	for( $i=0; $i<count($array) ;$i++) {
 		if ( $idx != $i ) {
-			array_push($copy, $paragraphsArrayay[$i]);
+			array_push($copy, $array[$i]);
 		}
 	}	
   return $copy;
