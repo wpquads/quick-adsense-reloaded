@@ -130,8 +130,7 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
-NOT released
-* Fix: Not all quicktags adsense ads are shown if no default ads are used
+* Fix: Not all quicktag generated adsense ads are shown if no default ads are used
 
 = 1.4.6 =
 * New: Theme API for custom theme integration of AdSense ads supports margin and alignment options now
