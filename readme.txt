@@ -130,6 +130,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* New: Allow unlimited number of ads on a single page
+
+= 1.4.7 =
 * Fix: Not all quicktag generated adsense ads are shown if no default ads are used
 
 = 1.4.6 =

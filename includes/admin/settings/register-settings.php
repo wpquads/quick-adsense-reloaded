@@ -156,6 +156,7 @@ function quads_get_registered_settings() {
                     18 => '18',
                     19 => '19',
                     20 => '20',
+                    100 => 'Unlimited',
                 ),
             ),
             array(

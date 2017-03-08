@@ -85,11 +85,11 @@ function quads_get_total_ad_count(){
 function quads_ad_reach_max_count(){
     global $quads_options;
     
-    $maxads = isset($quads_options['maxads']) ? $quads_options['maxads'] : 10;
+    $maxads = isset($quads_options['maxads']) ? $quads_options['maxads'] : 100;
     $maxads = $maxads - quads_get_number_widget_ads();
     
     //echo 'Total ads: '.  quads_get_total_ad_count() . ' maxads: '. $maxads . '<br>';
-        
+    //wp_die('Total ads: '.  quads_get_total_ad_count() . ' maxads: '. $maxads . '<br>');  
     if ( quads_get_total_ad_count() >= $maxads ){
         return true;
     }
