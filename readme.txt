@@ -130,9 +130,11 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
-* New: Rename ads to better identify them
-* New: Allow unlimited number of ads on a single page
+* New: Ability to rename adsense ads to better identify them
+* New: Allow unlimited number of adsense ads on a single page
 * New: Tested up to WP 4.7.3
+* Tweak: Rename adsense widgets
+
 
 = 1.4.7 =
 * Fix: Not all quicktag generated adsense ads are shown if no default ads are used

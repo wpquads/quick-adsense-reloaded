@@ -9,6 +9,8 @@
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       0.9.1
  */
+
+
 /**
  * Register Widgets
  * 
@@ -42,7 +44,7 @@ class quads_widgets_1 extends WP_Widget {
         
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                $this->AdsWidName, // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.$this->adsID.'_widget'
@@ -101,7 +103,7 @@ class quads_widgets_2 extends WP_Widget {
         $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                $this->AdsWidName, // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.$this->adsID.'_widget'
@@ -151,7 +153,7 @@ class quads_widgets_3 extends WP_Widget {
         $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                $this->AdsWidName, // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.$this->adsID.'_widget'
@@ -199,7 +201,7 @@ class quads_widgets_4 extends WP_Widget {
         $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                $this->AdsWidName, // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.$this->adsID.'_widget'
@@ -248,7 +250,7 @@ class quads_widgets_5 extends WP_Widget {
         $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                $this->AdsWidName, // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.$this->adsID.'_widget'
@@ -296,7 +298,7 @@ class quads_widgets_6 extends WP_Widget {
         $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                $this->AdsWidName, // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.$this->adsID.'_widget'
@@ -345,7 +347,7 @@ class quads_widgets_7 extends WP_Widget {
         $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                $this->AdsWidName, // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.$this->adsID.'_widget'
@@ -394,7 +396,7 @@ class quads_widgets_8 extends WP_Widget {
         $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                $this->AdsWidName, // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.$this->adsID.'_widget'
@@ -443,7 +445,7 @@ class quads_widgets_9 extends WP_Widget {
         $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                $this->AdsWidName, // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.$this->adsID.'_widget'
@@ -492,7 +494,7 @@ class quads_widgets_10 extends WP_Widget {
         $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                $this->AdsWidName, // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.$this->adsID.'_widget'

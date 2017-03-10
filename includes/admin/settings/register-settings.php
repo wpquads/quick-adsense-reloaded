@@ -284,70 +284,70 @@ function quads_get_registered_settings() {
                 'id' => 'ad1_widget',
                 'name' => __( 'Ad widget 1', 'quick-adsense-reloaded' ),
                 'desc' => __( '', 'quick-adsense-reloaded' ),
-                'type' => 'adsense_code',
+                'type' => 'adsense_widget',
                 'size' => 4
             ),
             'ad2_widget' => array(
                 'id' => 'ad2_widget',
                 'name' => __( 'Ad widget 2', 'quick-adsense-reloaded' ),
                 'desc' => __( '', 'quick-adsense-reloaded' ),
-                'type' => 'adsense_code',
+                'type' => 'adsense_widget',
                 'size' => 4
             ),
             'ad3_widget' => array(
                 'id' => 'ad3_widget',
                 'name' => __( 'Ad widget 3', 'quick-adsense-reloaded' ),
                 'desc' => __( '', 'quick-adsense-reloaded' ),
-                'type' => 'adsense_code',
+                'type' => 'adsense_widget',
                 'size' => 4
             ),
             'ad4_widget' => array(
                 'id' => 'ad4_widget',
                 'name' => __( 'Ad widget 4', 'quick-adsense-reloaded' ),
                 'desc' => __( '', 'quick-adsense-reloaded' ),
-                'type' => 'adsense_code',
+                'type' => 'adsense_widget',
                 'size' => 4
             ),
             'ad5_widget' => array(
                 'id' => 'ad5_widget',
                 'name' => __( 'Ad widget 5', 'quick-adsense-reloaded' ),
                 'desc' => __( '', 'quick-adsense-reloaded' ),
-                'type' => 'adsense_code',
+                'type' => 'adsense_widget',
                 'size' => 4
             ),
             'ad6_widget' => array(
                 'id' => 'ad6_widget',
                 'name' => __( 'Ad widget 6', 'quick-adsense-reloaded' ),
                 'desc' => __( '', 'quick-adsense-reloaded' ),
-                'type' => 'adsense_code',
+                'type' => 'adsense_widget',
                 'size' => 4
             ),
             'ad7_widget' => array(
                 'id' => 'ad7_widget',
                 'name' => __( 'Ad widget 7', 'quick-adsense-reloaded' ),
                 'desc' => __( '', 'quick-adsense-reloaded' ),
-                'type' => 'adsense_code',
+                'type' => 'adsense_widget',
                 'size' => 4
             ),
             'ad8_widget' => array(
                 'id' => 'ad8_widget',
                 'name' => __( 'Ad widget 8', 'quick-adsense-reloaded' ),
                 'desc' => __( '', 'quick-adsense-reloaded' ),
-                'type' => 'adsense_code',
+                'type' => 'adsense_widget',
                 'size' => 4
             ),
             'ad9_widget' => array(
                 'id' => 'ad9_widget',
                 'name' => __( 'Ad widget 9', 'quick-adsense-reloaded' ),
                 'desc' => __( '', 'quick-adsense-reloaded' ),
-                'type' => 'adsense_code',
+                'type' => 'adsense_widget',
                 'size' => 4
             ),
             'ad10_widget' => array(
                 'id' => 'ad10_widget',
                 'name' => __( 'Ad widget 10', 'quick-adsense-reloaded' ),
                 'desc' => __( '', 'quick-adsense-reloaded' ),
-                'type' => 'adsense_code',
+                'type' => 'adsense_widget',
                 'size' => 4
             ),
             array(
@@ -1624,6 +1624,117 @@ function quads_adsense_code_callback( $args ) {
     ?>
     <div class="quads-ad-toggle-header quads-box-close" data-box-id="quads-toggle<?php echo $id; ?>">
         <div class="quads-toogle-title"><span contenteditable="true" id="quads-ad-label-<?php echo $id; ?>"><?php echo $label; ?></span><input type="hidden" class="quads-input-label" id="" name="quads_settings[<?php echo $id; ?>][label]" value="<?php echo $new_label;?>"></div>
+        <a class="quads-toggle" data-box-id="quads-toggle<?php echo $id; ?>" href="#"><div class="quads-close-open-icon"></div></a>
+    </div>
+    <div class="quads-ad-toggle-container" id="quads-toggle<?php echo $id; ?>" style="display:none;">
+        <div>
+            <?php
+            $args_ad_type = array(
+                'id' => 'ad_type',
+                'name' => 'Type',
+                'desc' => '',
+                'std' => 'plain_text',
+                'options' => array(
+                    'adsense' => 'AdSense',
+                    'plain_text' => 'Plain Text / HTML / JS'
+                )
+            );
+            echo quads_adtype_callback($id, $args_ad_type);
+            ?>
+        </div>
+            <textarea style="vertical-align:top;margin-right:20px;" class="large-text quads-textarea" cols="50" rows="10" id="quads_settings[<?php echo $id; ?>][code]" name="quads_settings[<?php echo $id; ?>][code]"><?php echo esc_textarea( stripslashes( $code ) ); ?></textarea><label for="quads_settings[ <?php echo $id; ?> ][code]"> <?php echo $args['desc']; ?></label>
+            <br>
+        <div class="quads_adsense_code">
+            <input type="button" style="vertical-align:inherit;" class="button button-primary quads-add-adsense" value="Copy / Paste AdSense Code"> <span>or add Ad Slot ID & Publisher ID manually below:</span>
+            <br />
+             <?php //echo __('Generate Ad Slot & Publisher ID automatically from your adsense code', 'quick-adsense-reloaded')?>
+            <label class="quads-label-left" for="quads_settings[<?php echo $id; ?>][g_data_ad_slot]">Ad Slot ID </label><input type="text" class="quads-medium-size quads-bggrey" id="quads_settings[<?php echo $id; ?>][g_data_ad_slot]" name="quads_settings[<?php echo $id; ?>][g_data_ad_slot]" value="<?php echo $g_data_ad_slot; ?>">
+            <label for="quads_settings[<?php echo $id; ?>][g_data_ad_client]">Publisher ID</label><input type="text" id="quads_settings[<?php echo $id; ?>][g_data_ad_client]" class="medium-text quads-bggrey" name="quads_settings[<?php echo $id; ?>][g_data_ad_client]" value="<?php echo $g_data_ad_client; ?>">
+            <br />
+            <?php
+            $args_adsense_type = array(
+                'id' => 'adsense_type',
+                'name' => 'Type',
+                'desc' => 'Type',
+                'options' => array(
+                    'normal' => 'Fixed Size',
+                    'responsive' => 'Responsive'
+                )
+            );
+            echo quads_adense_select_callback($id, $args_adsense_type);
+            ?>
+            <?php if ( !quads_is_advanced()) {?>
+            <span class="quads-pro-notice" style="display:block;margin-top:20px;"><?php echo sprintf(__('Install <a href="%s" target="_blank">WP QUADS PRO</a> to fully support AdSense Responsive ads.', 'quick-adsense-reloaded'),'http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin')?></span>
+            <?php } ?>
+            <br />
+            <label class="quads-label-left quads-type-normal" for="quads_settings[<?php echo $id; ?>][g_data_ad_width]">Width </label><input type="number" step="1" id="quads_settings[<?php echo $id; ?>][g_data_ad_width]" name="quads_settings[<?php echo $id; ?>][g_data_ad_width]" class="small-text quads-type-normal" value="<?php echo $g_data_ad_width; ?>">
+            <label class="quads-type-normal" for="quads_settings[<?php echo $id; ?>][g_data_ad_height]">Height </label><input type="number" step="1" id="quads_settings[<?php echo $id; ?>][g_data_ad_height]" name="quads_settings[<?php echo $id; ?>][g_data_ad_height]" class="small-text quads-type-normal" value="<?php echo $g_data_ad_height; ?>">
+        </div>
+        <div class="quads-style">
+            <h3>Layout</h3>
+            <?php
+            $args_ad_position = array(
+                'id' => 'align',
+                'name' => 'align',
+                'desc' => 'align',
+                'std' => '3',
+                'options' => array(
+                    '3' => 'Default',
+                    '0' => 'Left',
+                    '1' => 'Center',
+                    '2' => 'Right'
+                )
+            );
+            echo quads_adposition_callback($id, $args_ad_position);
+            // if WP QUADS PRO is installed and version number is higher or equal 1.2.7 show the new margin settings
+            if (  !quads_is_advanced_1_2_7() ){
+            ?> 
+            
+            <br />
+            <label class="quads-label-left" for="quads_settings[<?php echo $id; ?>][margin]"><?php _e( 'Margin', 'quick-adsense-reloaded' );?></label>
+            <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[<?php echo $id; ?>][margin]" name="quads_settings[<?php echo $id; ?>][margin]" value="<?php echo esc_attr( stripslashes( $margin ) ); ?>"/>px
+            <?php } echo apply_filters('quads_render_margin', '', $id); ?>
+        </div>
+        <?php 
+        echo apply_filters( 'quads_advanced_settings', '', $id ); 
+        echo quads_pro_overlay();
+        ?>
+    </div>
+<?php
+}
+/**
+ * AdSense Code Widget Callback
+ *
+ * Renders adsense code fields
+ *
+ * @since 0.9.0
+ * @param array $args Arguments passed by the setting
+ * @global $quads_options Array of all the QUADS Options
+ * @return void
+ */
+
+function quads_adsense_widget_callback( $args ) {
+    global $quads_options;
+        
+    $label = !empty($args['name']) ? $args['name'] : '';
+
+    $code = isset( $quads_options[$args['id']]['code'] ) ? $quads_options[$args['id']]['code'] : '';
+
+    $margin = isset( $quads_options[$args['id']]['margin'] ) ? esc_attr( stripslashes( $quads_options[$args['id']]['margin'] ) ) : 0;
+
+    $g_data_ad_client = isset( $quads_options[$args['id']]['g_data_ad_client'] ) ? $quads_options[$args['id']]['g_data_ad_client'] : '';
+
+    $g_data_ad_slot = isset( $quads_options[$args['id']]['g_data_ad_slot'] ) ? $quads_options[$args['id']]['g_data_ad_slot'] : '';
+    
+    $g_data_ad_width = isset( $quads_options[$args['id']]['g_data_ad_width'] ) ? $quads_options[$args['id']]['g_data_ad_width'] : '';
+    
+    $g_data_ad_height = isset( $quads_options[$args['id']]['g_data_ad_height'] ) ? $quads_options[$args['id']]['g_data_ad_height'] : '';
+            
+    // Create a shorter var to make HTML cleaner
+    $id = $args['id'];
+    ?>
+    <div class="quads-ad-toggle-header quads-box-close" data-box-id="quads-toggle<?php echo $id; ?>">
+        <div class="quads-toogle-title"><?php echo $label; ?></div>
         <a class="quads-toggle" data-box-id="quads-toggle<?php echo $id; ?>" href="#"><div class="quads-close-open-icon"></div></a>
     </div>
     <div class="quads-ad-toggle-container" id="quads-toggle<?php echo $id; ?>" style="display:none;">
