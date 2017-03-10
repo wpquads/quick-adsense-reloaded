@@ -28,8 +28,9 @@ add_filter('the_content', 'quads_process_content', quads_get_load_priority());
 function quads_post_settings_to_quicktags ( $content ) {
     
         // Return original content if QUADS is not allowed
-        if ( !quads_ad_is_allowed($content))
+        if ( !quads_ad_is_allowed($content)){
             return $content;
+        }
     
 	$quicktags_str = quads_get_visibility_quicktags_str();
 
@@ -60,6 +61,7 @@ function quads_get_visibility_quicktags_str ( $post_id = null ) {
         if ( !empty($config))
 	foreach ( $config as $qtag_id => $qtag_label ) {
 		$str .= '<!--' . $qtag_id . '-->';
+		//$str .= $qtag_id;
 	}
         
 	return $str;
@@ -104,14 +106,15 @@ function quads_process_content( $content ) {
     }
 
     // placeholder string for random ad
-    $cusrnd = 'CusRnd';
+    //$cusrnd = 'CusRnd';
 
     // placeholder string for custom ad spots
-    $cusads = 'CusAds';
+    //$cusads = 'CusAds';
 
     // Array of ad codes ids
     $adsArray = quads_get_active_ads();
     
+    // Return is no ads are defined
     if ($adsArray === 0){
         return $content;
     }
@@ -120,7 +123,6 @@ function quads_process_content( $content ) {
 
     $content = quads_filter_default_ads( $content );
 
-    //wp_die($content);
     /*
      * Tidy up content
      */
@@ -138,7 +140,7 @@ function quads_process_content( $content ) {
     /* ... That's it. DONE :) ... */
     $content = quads_clean_tags( $content );
     // Reset ad_count - Important!!!
-    $visibleContentAdsGlobal = 0;
+    //$visibleContentAdsGlobal = 0;
     return do_shortcode( $content );
 }
 

@@ -206,70 +206,70 @@ function quads_get_registered_settings() {
             ),
             array(
                 'id' => 'ad1',
-                'name' => __( 'AD 1', 'quick-adsense-reloaded' ),
+                'name' => __( 'Ad 1', 'quick-adsense-reloaded' ),
                 'desc' => __( 'Shortcode: <strong>[quads id="1"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="1"]\');</strong>', 'quick-adsense-reloaded' ),
                 'type' => 'adsense_code',
                 'options' => quads_get_alignment(),
             ),
             array(
                 'id' => 'ad2',
-                'name' => __( 'AD 2', 'quick-adsense-reloaded' ),
+                'name' => __( 'Ad 2', 'quick-adsense-reloaded' ),
                 'desc' => __( 'Shortcode: <strong>[quads id="2"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="2"]\');</strong>', 'quick-adsense-reloaded' ),
                 'type' => 'adsense_code',
                 'options' => quads_get_alignment(),
             ),
             array(
                 'id' => 'ad3',
-                'name' => __( 'AD 3', 'quick-adsense-reloaded' ),
+                'name' => __( 'Ad 3', 'quick-adsense-reloaded' ),
                 'desc' => __( 'Shortcode: <strong>[quads id="3"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="3"]\');</strong>', 'quick-adsense-reloaded' ),
                 'type' => 'adsense_code',
                 'options' => quads_get_alignment(),
             ),
             array(
                 'id' => 'ad4',
-                'name' => __( 'AD 4', 'quick-adsense-reloaded' ),
+                'name' => __( 'Ad 4', 'quick-adsense-reloaded' ),
                 'desc' => __( 'Shortcode: <strong>[quads id="4"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="4"]\');</strong>', 'quick-adsense-reloaded' ),
                 'type' => 'adsense_code',
                 'options' => quads_get_alignment(),
             ),
             array(
                 'id' => 'ad5',
-                'name' => __( 'AD 5', 'quick-adsense-reloaded' ),
+                'name' => __( 'Ad 5', 'quick-adsense-reloaded' ),
                 'desc' => __( 'Shortcode: <strong>[quads id="5"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="5"]\');</strong>', 'quick-adsense-reloaded' ),
                 'type' => 'adsense_code',
                 'options' => quads_get_alignment(),
             ),
             array(
                 'id' => 'ad6',
-                'name' => __( 'AD 6', 'quick-adsense-reloaded' ),
+                'name' => __( 'Ad 6', 'quick-adsense-reloaded' ),
                 'desc' => __( 'Shortcode: <strong>[quads id="6"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="6"]\');</strong>', 'quick-adsense-reloaded' ),
                 'type' => 'adsense_code',
                 'options' => quads_get_alignment(),
             ),
             array(
                 'id' => 'ad7',
-                'name' => __( 'AD 7', 'quick-adsense-reloaded' ),
+                'name' => __( 'Ad 7', 'quick-adsense-reloaded' ),
                 'desc' => __( 'Shortcode: <strong>[quads id="7"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="7"]\');</strong>', 'quick-adsense-reloaded' ),
                 'type' => 'adsense_code',
                 'options' => quads_get_alignment(),
             ),
             array(
                 'id' => 'ad8',
-                'name' => __( 'AD 8', 'quick-adsense-reloaded' ),
+                'name' => __( 'Ad 8', 'quick-adsense-reloaded' ),
                 'desc' => __( 'Shortcode: <strong>[quads id="8"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="8"]\');</strong>', 'quick-adsense-reloaded' ),
                 'type' => 'adsense_code',
                 'options' => quads_get_alignment(),
             ),
             array(
                 'id' => 'ad9',
-                'name' => __( 'AD 9', 'quick-adsense-reloaded' ),
+                'name' => __( 'Ad 9', 'quick-adsense-reloaded' ),
                 'desc' => __( 'Shortcode: <strong>[quads id="9"] </strong></br>Function: <strong>echo do_shortcode(\'[quads id="9"]\');</strong>', 'quick-adsense-reloaded' ),
                 'type' => 'adsense_code',
                 'options' => quads_get_alignment(),
             ),
             array(
                 'id' => 'ad10',
-                'name' => __( 'AD 10', 'quick-adsense-reloaded' ),
+                'name' => __( 'Ad 10', 'quick-adsense-reloaded' ),
                 'desc' => __( 'Shortcode: <strong>[quads id="10"] </strong></br>PHP <strong>echo do_shortcode(\'[quads id="10"]\');</strong>', 'quick-adsense-reloaded' ),
                 'type' => 'adsense_code',
                 'options' => quads_get_alignment(),
@@ -1410,19 +1410,20 @@ function quads_log_permissions() {
  */
 function quads_get_ads() {
     global $quads_options;
+    
 
     $ads = array(
         0 => __( 'Random Ads', 'quick-adsense-reloaded' ),
-        1 => 'ad1',
-        2 => 'ad2',
-        3 => 'ad3',
-        4 => 'ad4',
-        5 => 'ad5',
-        6 => 'ad6',
-        7 => 'ad7',
-        8 => 'ad8',
-        9 => 'ad9',
-        10 => 'ad10'
+        1 => isset( $quads_options['ad1']['label'] ) ? $quads_options['ad1']['label'] : 'ad1',
+        2 => isset( $quads_options['ad2']['label'] ) ? $quads_options['ad2']['label'] : 'ad2',
+        3 => isset( $quads_options['ad3']['label'] ) ? $quads_options['ad3']['label'] : 'ad3',
+        4 => isset( $quads_options['ad4']['label'] ) ? $quads_options['ad4']['label'] : 'ad4',
+        5 => isset( $quads_options['ad5']['label'] ) ? $quads_options['ad5']['label'] : 'ad5',
+        6 => isset( $quads_options['ad6']['label'] ) ? $quads_options['ad6']['label'] : 'ad6',
+        7 => isset( $quads_options['ad7']['label'] ) ? $quads_options['ad7']['label'] : 'ad7',
+        8 => isset( $quads_options['ad8']['label'] ) ? $quads_options['ad8']['label'] : 'ad8',
+        9 => isset( $quads_options['ad9']['label'] ) ? $quads_options['ad9']['label'] : 'ad9',
+        10 => isset( $quads_options['ad10']['label'] ) ? $quads_options['ad10']['label'] : 'ad10',
     );
     return $ads;
 }
@@ -1600,7 +1601,9 @@ function quads_quicktags_callback( $args ) {
 function quads_adsense_code_callback( $args ) {
     global $quads_options;
     
-    $name = empty($args['name']) ? '' : $args['name'];
+    $new_label = isset( $quads_options[$args['id']]['label'] ) ? $quads_options[$args['id']]['label'] : '';
+    
+    $label = !empty($new_label) ? $new_label : $args['name'];
 
     $code = isset( $quads_options[$args['id']]['code'] ) ? $quads_options[$args['id']]['code'] : '';
 
@@ -1613,12 +1616,14 @@ function quads_adsense_code_callback( $args ) {
     $g_data_ad_width = isset( $quads_options[$args['id']]['g_data_ad_width'] ) ? $quads_options[$args['id']]['g_data_ad_width'] : '';
     
     $g_data_ad_height = isset( $quads_options[$args['id']]['g_data_ad_height'] ) ? $quads_options[$args['id']]['g_data_ad_height'] : '';
+        
+    //$label = !empty($new_label) ? $new_label : 
     
     // Create a shorter var to make HTML cleaner
     $id = $args['id'];
     ?>
     <div class="quads-ad-toggle-header quads-box-close" data-box-id="quads-toggle<?php echo $id; ?>">
-        <div class="quads-toogle-title"><?php echo $name; ?></div>
+        <div class="quads-toogle-title"><span contenteditable="true" id="quads-ad-label-<?php echo $id; ?>"><?php echo $label; ?></span><input type="hidden" class="quads-input-label" id="" name="quads_settings[<?php echo $id; ?>][label]" value="<?php echo $new_label;?>"></div>
         <a class="quads-toggle" data-box-id="quads-toggle<?php echo $id; ?>" href="#"><div class="quads-close-open-icon"></div></a>
     </div>
     <div class="quads-ad-toggle-container" id="quads-toggle<?php echo $id; ?>" style="display:none;">

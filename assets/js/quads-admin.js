@@ -2,6 +2,7 @@ var strict;
 
 
 jQuery(document).ready(function ($) {
+     
     
     // Inactive select fields are greyed out
     $('.quads-assign').each(function(e){
@@ -69,10 +70,7 @@ jQuery(document).ready(function ($) {
     /**
      * Toggle Button | Open All Ads
      */
-    $('#quads-open-toggle').click(function(){
-        console.log($('#quads-open-toggle').html());
-
-        
+    $('#quads-open-toggle').click(function(){        
             if ($('#quads-open-toggle').text() === 'Open All Ads' ){
                 $('.quads-ad-toggle-container').show();
                 $('#quads-open-toggle').html('Close Ads');
@@ -142,6 +140,12 @@ jQuery(document).ready(function ($) {
 
     // Save settings via ajax
     jQuery('#quads_settings').submit(function() {
+        
+        // Check if ad name has been changed and prepare new data for saving
+        $('.quads-toogle-title').each(function(){
+            $(this).children('input').val($(this).text());
+        });
+        
         
         // Check current url / settings page
         var url = window.location.search;

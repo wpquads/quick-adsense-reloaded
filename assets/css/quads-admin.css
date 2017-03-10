@@ -412,6 +412,10 @@ li.quads-tabs {
     width:150px;
 }
 
+.quads-select{
+    max-width:100px;
+}
+
 .quads-size-input {
     position: relative;
     top: -1px;
