@@ -130,6 +130,8 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+
+= 1.4.8 =
 * New: Ability to rename adsense ads to better identify them
 * New: Allow unlimited number of adsense ads on a single page
 * New: Tested up to WP 4.7.3
