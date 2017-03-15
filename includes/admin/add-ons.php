@@ -12,6 +12,73 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+add_action('admin_head', 'quads_admin_inline_css');
+
+/**
+ * Create admin inline css to bypass adblock plugin which is blocking wp quads css ressources
+ */
+function quads_admin_inline_css() {
+    if (!quads_is_addon_page()){
+        return false;
+    }
+  echo '<style>
+.quads-button.green {
+    display: inline-block;
+    background-color: #83c11f;
+    padding: 10px;
+    min-width: 170px;
+    color: white;
+    font-size: 16px;
+    text-decoration: none;
+    text-align: center;
+    margin-top: 20px;
+}
+#quads-add-ons li {
+    font-size: 18px;
+    line-height: 29px;
+    position: relative;
+    padding-left: 23px;
+    list-style: none!important;
+}
+.quads-heading-pro {
+    color: #83c11f;
+    font-weight: bold;
+}
+.quads-h2 {
+    margin-top: 0px;
+    margin-bottom: 1.2rem;
+    font-size: 30px;
+    line-height: 2.5rem;
+}
+#quads-add-ons li:before {
+    width: 1em;
+    height: 100%;
+    background: url(data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww%2Ew3%2Eorg%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%2377B227%22%20d%3D%22M1671%20566q0%2040%2D28%2068l%2D724%20724%2D136%20136q%2D28%2028%2D68%2028t%2D68%2D28l%2D136%2D136%2D362%2D362q%2D28%2D28%2D28%2D68t28%2D68l136%2D136q28%2D28%2068%2D28t68%2028l294%20295%20656%2D657q28%2D28%2068%2D28t68%2028l136%20136q28%2028%2028%2068z%22%2F%3E%3C%2Fsvg%3E) left .4em no-repeat;
+    background-size: contain;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #77b227;
+}
+.quads-h1 {
+    font-size: 2.75em;
+    margin-bottom: 1.35rem;
+    font-size: 2.5em;
+    line-height: 3.68rem;
+    letter-spacing: normal;
+}
+#quads-add-ons h2 {
+    margin: 0 0 15px;
+}
+#quads-add-ons .quads-footer {
+    clear: both;
+    margin-top: 20px;
+    font-style: italic;
+}
+  </style>';
+}
+
 /**
  * Add-ons
  *
@@ -30,7 +97,7 @@ function quads_add_ons_page() {
 		</h2>
 		<h2 style="display:none;"><?php _e( 'Mobile and Responsive AdSense Support ', 'quick-adsense-reloaded' ); ?></h2>  
                 <li><strong>Responsive Ads</strong> - <?php _e('individual AdSense sizes for Desktop, Phone and Tablet devices.','quick-adsense-reloaded' ); ?></li>
-                <li><strong>Visibility Conditionals</strong> - <?php _e('select if AdSense is visible on mobile, tablet or desktop', 'quick-adsense-reloaded' ); ?></li>
+                <li><strong>Visibility Conditions</strong> - <?php _e('decide if AdSense is visible on mobile, tablet or desktop', 'quick-adsense-reloaded' ); ?></li>
                 <li><strong>Automatic Mode</strong> - <?php _e('let the plugin detect optimal ad size on all devices.', 'quick-adsense-reloaded' ); ?></li>
                 <li><strong>High Performance</strong> - <?php _e('this plugin keeps the speed of your site', 'quick-adsense-reloaded' ); ?></li>
                 <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=addon_page&utm_term=click-quads-pro&utm_campaign=wpquads" target="_blank" class="quads-button green">Buy WP QUADS Pro</a>
