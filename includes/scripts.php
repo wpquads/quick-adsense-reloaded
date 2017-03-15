@@ -16,6 +16,23 @@ add_action( 'wp_enqueue_scripts', 'quads_register_styles', 10 );
 add_action( 'wp_print_styles', 'quads_inline_styles', 9999 );
 add_action( 'admin_enqueue_scripts', 'quads_load_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_plugins_admin_scripts', 100 );
+add_action('admin_print_footer_scripts', 'quads_check_ad_blocker');
+
+/**
+ * Create ad blocker admin script
+ */
+function quads_check_ad_blocker(){
+    ?>
+<script type="text/javascript">
+    window.onload = function(){
+                if (typeof wpquads_adblocker_check === 'undefined' || false === wpquads_adblocker_check) {
+                    document.getElementById('wpquads-adblock-notice').style.display = 'block';
+                    console.log('ad blocker active');
+                }        
+            }
+</script>
+<?php
+}
 
 /**
  * Load Admin Scripts
@@ -44,6 +61,7 @@ function quads_load_admin_scripts( $hook ) {
 //    }
 
     // These have to be global
+    wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
     wp_enqueue_script( 'quads-admin-scripts', $js_dir . 'quads-admin' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
     wp_enqueue_script( 'jquery-chosen', $js_dir . 'chosen.jquery' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
     wp_enqueue_script( 'jquery-form' );
@@ -200,35 +218,7 @@ function quads_ads_head_script() {
         <?php } ?>
                                 edButtons[edButtons.length]=new edButton("no_ads","NoAds","\n<!--NoAds-->\n","","",-1);
 				edaddID[edaddID.length] = "no_ads";
-                                                edaddNm[edaddNm.length] = "NoAds";
-			<?php //if( !isset( $quads_options['quicktags']['QckOffs'] ) ){ ?>
-                                        //edButtons[edButtons.length]=new edButton("no_ads","NoAds","\n<!--NoAds-->\n","","",-1);
-                                //edaddID[edaddID.length] = "no_ads";
-                                //edaddNm[edaddNm.length] = "NoAds";
-                                //edButtons[edButtons.length]=new edButton("off_def","OffDef","\n<!--OffDef-->\n","","",-1);	
-                                //edaddID[edaddID.length] = "off_def";
-                                //edaddNm[edaddNm.length] = "OffDef";
-                                //edButtons[edButtons.length]=new edButton("off_wid","OffWidget","\n<!--OffWidget-->\n","","",-1);	
-                                //edaddID[edaddID.length] = "off_wid";
-                                //edaddNm[edaddNm.length] = "OffWidget";				
-			<?php //} ?>
-			<?php //if( !isset( $quads_options['quicktags']['QckOfPs'] ) ){ ?>
-                                //edButtons[edButtons.length]=new edButton("off_bgn","OffBegin","\n<!--OffBegin-->\n","","",-1);
-                                //edaddID[edaddID.length] = "off_bgn";
-                                //edaddNm[edaddNm.length] = "OffBegin";
-                                //edButtons[edButtons.length]=new edButton("off_mid","OffMiddle","\n<!--OffMiddle-->\n","","",-1);
-                                //edaddID[edaddID.length] = "off_mid";
-                                //edaddNm[edaddNm.length] = "OffMiddle";
-                                //edButtons[edButtons.length]=new edButton("off_end","OffEnd","\n<!--OffEnd-->\n","","",-1);
-                                //edaddID[edaddID.length] = "off_end";
-                                //edaddNm[edaddNm.length] = "OffEnd";				
-                                //edButtons[edButtons.length]=new edButton("off_more","OffAfMore","\n<!--OffAfMore-->\n","","",-1);
-                                //edaddID[edaddID.length] = "off_more";
-                                //edaddNm[edaddNm.length] = "OffAfMore";				
-                                //edButtons[edButtons.length]=new edButton("off_last","OffBfLastPara","\n<!--OffBfLastPara-->\n","","",-1);
-                                //edaddID[edaddID.length] = "off_last";
-                                //edaddNm[edaddNm.length] = "OffBfLastPara";								
-			<?php //} ?>			
+                                                edaddNm[edaddNm.length] = "NoAds";			
                 };
                 (function(){
                         if(typeof(edButtons)!='undefined' && typeof(jQuery)!='undefined' && wpvcomp){

@@ -130,6 +130,7 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: Adblock plugin is breaking wp quads admin settings. Create a admin notice to deactivate ad blocker browser extension
 
 = 1.4.8 =
 * New: Ability to rename adsense ads to better identify them
