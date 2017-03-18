@@ -131,6 +131,7 @@ Alternative Installation:
 
 = {{ version }} =
 * Fix: PHP7 compatibility fixes
+* Fix: Check if element wpquads-adblock-notice exists before accessing it
 
 = 1.4.9 =
 * Fix: Adblock plugin is breaking wp quads admin settings. Create a admin notice to deactivate ad blocker browser extension
