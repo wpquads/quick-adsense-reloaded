@@ -130,6 +130,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: PHP7 compatibility fixes
+
+= 1.4.9 =
 * Fix: Adblock plugin is breaking wp quads admin settings. Create a admin notice to deactivate ad blocker browser extension
 * Tweak: Remove 'Get WP QUADS Pro' button if wp quads pro is already installed
 

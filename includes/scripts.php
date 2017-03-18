@@ -22,12 +22,16 @@ add_action('admin_print_footer_scripts', 'quads_check_ad_blocker');
  * Create ad blocker admin script
  */
 function quads_check_ad_blocker(){
+    if (!quads_is_admin_page()){
+        return false;
+    }
     ?>
 <script type="text/javascript">
     window.onload = function(){
                 if (typeof wpquads_adblocker_check === 'undefined' || false === wpquads_adblocker_check) {
+                    if (document.getElementById('wpquads-adblock-notice')){
                     document.getElementById('wpquads-adblock-notice').style.display = 'block';
-                    console.log('ad blocker active');
+                    }
                 }        
             }
 </script>
