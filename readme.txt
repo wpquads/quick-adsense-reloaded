@@ -130,6 +130,8 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+
+= 1.5.0 =
 * Fix: PHP7 compatibility fixes
 * Fix: Check if element wpquads-adblock-notice exists before accessing it
 * Fix: Remove deprecated functions
