@@ -120,27 +120,3 @@ function quads_add_ons_page() {
 	<?php
 	echo ob_get_clean();
 }
-
-/**
- * Add-ons Get Feed
- *
- * Gets the add-ons page feed.
- *
- * @since 0.9.0
- * @return void
- */
-function quads_add_ons_get_feed() {
-	if ( false === ( $cache = get_transient( 'quadsshare_add_ons_feed' ) ) ) {
-		$feed = wp_remote_get( 'https://www.quadsshare.net/?feed=addons', array( 'sslverify' => false ) );
-		if ( ! is_wp_error( $feed ) ) {
-			if ( isset( $feed['body'] ) && strlen( $feed['body'] ) > 0 ) {
-				$cache = wp_remote_retrieve_body( $feed );
-				set_transient( 'quadsshare_add_ons_feed', $cache, 3600 );
-			}
-		} else {
-			$cache = '<div class="error"><p>' . __( 'There was an error retrieving the Quick AdSense Reloaded addon list from the server. Please try again later.', 'quick-adsense-reloaded' ) . '
-                                   <br>Visit instead the Quick AdSense Reloaded Addon Website <a href="https://www.quadsshare.net" class="button-primary" title="Quick AdSense Reloaded Add ons" target="_blank"> Get Add-Ons  </a></div>';
-		}
-	}
-	return $cache;
-}

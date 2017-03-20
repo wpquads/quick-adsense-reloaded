@@ -20,6 +20,8 @@ add_action('admin_print_footer_scripts', 'quads_check_ad_blocker');
 
 /**
  * Create ad blocker admin script
+ * 
+ * @return mixed boolean | string
  */
 function quads_check_ad_blocker(){
     if (!quads_is_admin_page()){
