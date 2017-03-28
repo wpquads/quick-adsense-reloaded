@@ -3,7 +3,7 @@
 Author URL: https://profiles.wordpress.org/renehermi/
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
 Contributors: ReneHermi, WP-Staging
-Donate link: 
+Donate link: https://wpquads.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: adsense, ads, ad, google adsense, advertising, amp, ad injection, ad inserter, ad manager
@@ -16,22 +16,22 @@ Quick Adsense Reloaded! Quickest way to insert Google AdSense & other ads into y
 == Description == 
 
 > #### WPQUADS - Quick AdSense Reloaded 
-> This free Google AdSense plugin is a fork of the discontinued Quick AdSense ads 
-> plugin with more than 100k installations. Its rewritten from scratch with a solid code
-> base and will be maintained and updated to be compatible with all future WordPress versions<br />
-> Found a issue? Open a ticket in the [support forum](https://wordpress.org/support/plugin/quick-adsense-reloaded/ "support forum").
-> 
-> Support of the popular Click Fraud Monitor plugin <br /> 
-> Visit the site: [clickfraud-monitoring.com](http://demo.clickfraud-monitoring.com/) <br /> 
->
-> <strong>NEW: AMP SUPPORT WITH WP QUADS PRO </strong><br>
-> - AMP support! Add AMP ads automatically to your site<br /> 
-> - Use mobile optimized and responsive AdSense ads<br /> 
-> - Disable AdSense ads on phone, tablet or desktop devices<br /> 
-> - Define AdSense size for different devices<br />
->
-> AMP feature requires [Automattic AMP plugin](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) installed <br />
-> Get WP QUADS PRO: [wpquads.com](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) <br /> 
+This free Google AdSense inserting plugin is an improvement of the successfull but discontinued plugin Quick AdSense which is used on more than 100.000 websites.
+WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
+<br />
+[See all features](https://wpquads.com/)
+<br /> 
+* AMP support! Add AMP ads automatically to your site (WP QUADS PRO needed)<br /> 
+* Use mobile optimized and responsive AdSense ads<br /> 
+* Disable AdSense ads on phone, tablet or desktop devices<br /> 
+* Define AdSense sizes for different devices<br />
+
+AMP feature requires [Automattic AMP plugin](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) installed <br />
+Get WP QUADS PRO: [wpquads.com](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) <br /> 
+
+This AdSense plugin is rewritten from scratch with a solid code
+base and will be maintained and updated to be compatible with all future WordPress versions<br />
+Found a issue? Open a ticket in the [support forum](https://wordpress.org/support/plugin/quick-adsense-reloaded/ "support forum").
 
 = Why a Quick AdSense fork? =
 
@@ -130,6 +130,8 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+
+* Tweak: Change description in readme.txt
 
 = 1.5.0 =
 * Fix: PHP7 compatibility fixes
