@@ -1,7 +1,7 @@
 === AdSense Plugin WP QUADS === 
 
 Author URL: https://profiles.wordpress.org/renehermi/
-Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
+Plugin URL: https://wpquads.com
 Contributors: ReneHermi, WP-Staging
 Donate link: https://wpquads.com
 License: GPLv2 or later
@@ -15,7 +15,7 @@ Quick Adsense Reloaded! Quickest way to insert Google AdSense & other ads into y
 
 == Description == 
 
-> #### WPQUADS - Quick AdSense Reloaded 
+#### WPQUADS - Quick AdSense Reloaded 
 This free Google AdSense inserting plugin is an improvement of the successfull but discontinued plugin Quick AdSense which is used on more than 100.000 websites.
 WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
 <br />
@@ -132,6 +132,7 @@ Alternative Installation:
 = {{ version }} =
 
 * Tweak: Change description in readme.txt
+* Fix: Show only active and not empty widgets in widget admin section of wordpress
 
 = 1.5.0 =
 * Fix: PHP7 compatibility fixes
