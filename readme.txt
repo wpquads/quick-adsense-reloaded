@@ -8,7 +8,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: adsense, ads, ad, google adsense, advertising, amp, ad injection, ad inserter, ad manager
 Requires at least: 3.6+
-Tested up to: 4.7.3
+Tested up to: 4.7
 Stable tag: {{ version }}
 
 Quick Adsense Reloaded! Quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support
@@ -130,7 +130,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: Spelling issue
 
+= 1.5.2 =
 * Tweak: Change description in readme.txt
 * Fix: Show only active and not empty widgets in widget admin section of wordpress
 
@@ -155,7 +157,7 @@ Alternative Installation:
 
 = 1.4.6 =
 * New: Theme API for custom theme integration of AdSense ads supports margin and alignment options now
-* New: Create WP QUADS admin menue logo
+* New: Create WP QUADS admin menu logo
 * Fix: Admin warning if no adsense spots are activated is not working properly
 
 = 1.4.5 =

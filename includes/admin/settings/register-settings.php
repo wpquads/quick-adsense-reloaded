@@ -367,7 +367,7 @@ function quads_get_registered_settings() {
             ),
             'create_settings' => array(
                 'id' => 'create_settings',
-                'name' => __( 'Remove Menue Button', 'quick-adsense-reloaded' ),
+                'name' => __( 'Remove menu button', 'quick-adsense-reloaded' ),
                 //'desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
                 'desc' => __('Remove'),
                 'helper-desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
