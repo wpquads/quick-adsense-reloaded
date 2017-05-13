@@ -195,12 +195,13 @@ function quads_get_registered_settings() {
             'adsense_header' => array(
                 'id' => 'adsense_header',
                 'name' => '<strong>' . __( 'AdSense Code', 'quick-adsense-reloaded' ) . '</strong>',
-                'desc' => '<div class="adsense_admin_header">' . sprintf( __( 'Paste up to 10 Ad codes on post body and up to 10 Ad codes on sidebar widget.<br><a href="%s" target="_blank">Read here</a> to find out the most effective AdSense banner sizes. </div>'
+                'desc' => '<div class="adsense_admin_header">' . sprintf( __( 'Enter your ad codes below:</div>'
                         . '<ul style="margin-top:10px;">'
-                            . '<li>- Use option <i>AdSense</i> for unmodified AdSense code</li>'
-                            . '<li>- Use <i>Plain Text / HTML / JS</i> for modified AdSense code with custom css or for none AdSense ads</li></ul>', 'quick-adsense-reloaded' ), 'http://wpquads.com/effective-adsense-banner-size-formats/?utm_campaign=plugin&utm_source=general_tab&utm_medium=admin&utm_content=best_banner_sizes' ) 
+                            . '<li style="font-weight:600;">Select <i>AdSense</i> if you are using AdSense!</li>'
+                            . '<li style="font-weight:600;">Use <i>Plain Text / HTML / JS</i> for all other ads! Putting AdSense into Plain text field can result in non visible ads.</li></ul>', 'quick-adsense-reloaded' ), 'http://wpquads.com/effective-adsense-banner-size-formats/?utm_campaign=plugin&utm_source=general_tab&utm_medium=admin&utm_content=best_banner_sizes' ) 
                         . '</ul>'
-                        . '<div style="clear:both;">' . sprintf( __( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve this issue.', 'quick-adsense-reloaded' ),'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink') . '</div>'
+                        . '<div style="clear:both;">' . sprintf( __( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve this issue.', 'quick-adsense-reloaded' ),'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink') . ''
+                . '<br><a href="%s" target="_blank">Read here</a> to find out the most effective AdSense banner sizes. </div>'
                         . '<div id="quads-open-toggle" class="button">'.__('Open All Ads','quick-adsense-reloaded').'</div>',
                 'type' => 'header'
             ),
