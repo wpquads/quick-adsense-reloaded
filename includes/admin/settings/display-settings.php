@@ -280,7 +280,7 @@ function quads_get_debug_messages(){
  */
 function quads_get_advertising() {
     
-    if (  quads_is_advanced() ){
+    if (  quads_is_extra() ){
         return '';
     }
     ob_start();

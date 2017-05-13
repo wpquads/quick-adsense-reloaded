@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function quads_add_options_link() {
 	global $quads_options, $quads_parent_page, $quads_add_ons_page, $quads_add_ons_page2, $quads_settings_page;
 
-        $label = quads_is_advanced() ? 'WP QUADS PRO' : 'WP QUADS';
+        $label = quads_is_extra() ? 'WP QUADS PRO' : 'WP QUADS';
         
         $create_settings = isset($quads_options['create_settings']) ? true : false;
         if ($create_settings){
@@ -35,7 +35,7 @@ $wpquads_logo ="PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjxzdmcgdmVy
             $quads_parent_page   = add_menu_page( 'Quick AdSense Reloaded Settings', $label, 'manage_options', 'quads-settings', 'quads_options_page', 'data:image/svg+xml;base64,' . $wpquads_logo );
             $quads_settings_page   = add_submenu_page( 'quads-settings', __( 'Ad Settings', 'quick-adsense-reloaded' ), 'Ad Settings', 'manage_options', 'quads-settings', 'quads_options_page' );
 
-            if (!quads_is_advanced()){
+            if (!quads_is_extra()){
             $quads_add_ons_page   = add_submenu_page( 'quads-settings', __( 'Get Add-On', 'quick-adsense-reloaded' ), 'Get WP QUADS PRO', 'manage_options', 'quads-addons', 'quads_add_ons_page' );
             }
         }

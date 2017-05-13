@@ -122,6 +122,7 @@ function quads_is_commercial_theme() {
 
 /**
  * Check if WP QUADS PRO is installed and version number is higher or equal 1.2.7
+ * @deprecated since version 1.5.6
  * @return boolean
  */
 function quads_is_advanced_1_2_7() {

@@ -29,6 +29,8 @@ function quads_admin_messages() {
     quads_theme_notice();
 
     quads_update_notice();
+    
+    quads_update_notice_v2();
 
     if( quads_is_admin_page() ) {
         echo '<div class="notice notice-error" id="wpquads-adblock-notice" style="display:none;">' . sprintf( __( '<strong><p>Your ad blocker browser extension is removing WP QUADS ressources and is breaking this settings screen! Deactivate adblock for this website and you are good! WP QUADS is used on 40.000 websites and is into focus of the big adblocking companies. That\'s the downside of our success but nothing you need to worry about. </strong></p>', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
@@ -50,7 +52,6 @@ function quads_admin_messages() {
         echo '<div class="notice notice-success">' . sprintf( __( '<strong>No errors detected in WP QUADS settings.</strong> If ads are still not shown read the <a href="%s" target="_blank">troubleshooting guide</a>' ), 'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink' ) . '</div>';
     }
 
-    //quads_plugin_deactivated_notice();
 
     $install_date = get_option( 'quads_install_date' );
     $display_date = date( 'Y-m-d h:i:s' );
@@ -235,7 +236,7 @@ function quads_update_notice() {
         return false;
     }
 
-    if( (version_compare( QUADS_VERSION, '1.3.9', '>=' ) ) && quads_is_advanced() && (version_compare( QUADS_PRO_VERSION, '1.3.0', '<' ) ) ) {
+    if( (version_compare( QUADS_VERSION, '1.3.9', '>=' ) ) && quads_is_pro_active() && (version_compare( QUADS_PRO_VERSION, '1.3.0', '<' ) ) ) {
         $message = sprintf( __( '<strong>WP QUADS ' . QUADS_VERSION . ': </strong> Update WP QUADS PRO to get custom post type support from <a href="%s">General Settings</a>.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings' );
         $message .= '<br><br><a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_update_notice" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Close Notice</a>';
         ?>
@@ -244,7 +245,7 @@ function quads_update_notice() {
         </div> <?php
         //update_option ('quads_show_update_notice', 'no');
     } else
-    if( !quads_is_advanced() ) {
+    if( !quads_is_extra() ) {
         $message = sprintf( __( '<strong>WP QUADS ' . QUADS_VERSION . ': </strong> Install <a href="%1s" target="_blank">WP QUADS PRO</a> to get custom post type support in <a href="%2s">General Settings</a>.', 'quick-adsense-reloaded' ), 'http://wpquads.com?utm_campaign=admin_notice&utm_source=admin_notice&utm_medium=admin&utm_content=custom_post_type', admin_url() . 'admin.php?page=quads-settings' );
         $message .= '<br><br><a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_update_notice" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Close Notice</a>';
         ?>
@@ -252,6 +253,25 @@ function quads_update_notice() {
             <p><?php echo $message; ?></p>
         </div>
         <?php
+    }
+}
+
+/**
+ * Show upgrade notice if wp quads pro is lower than 1.3.6
+ * @return boolean
+ */
+function quads_update_notice_v2(){
+    // do not do anything
+    if( false !== get_option( 'quads_show_update_notice_v2' )) {
+        return false;
+    }
+
+    if( quads_is_pro_active() && (version_compare( QUADS_PRO_VERSION, '1.3.6', '<' ) ) ) {
+        $message = sprintf( __( 'Please update to <strong>WP QUADS PRO 1.3.6</strong> or higher. This version of WP QUADS Pro is not longer working with WP QUADS ' . QUADS_VERSION . '.<br>WP QUADS Pro contains an important security fix. Updating requires a valid <a href="%s" target="_new">license key</a>.', 'quick-adsense-reloaded' ), 'https://wpquads.com/?utm_source=plugin_notice&utm_medium=admin&utm_campaign=activate_license' );
+        ?>
+        <div class="notice notice-error">
+            <p><?php echo $message; ?></p>
+        </div> <?php
     }
 }
 

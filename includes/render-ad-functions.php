@@ -149,7 +149,7 @@ function quads_render_desktop_js( $id, $default_ad_sizes ) {
 
     $responsive_style = 'display:block;' . $backgroundcolor;
 
-    if( quads_is_advanced() && isset( $quads_options[$id]['adsense_type'] ) && $quads_options[$id]['adsense_type'] === 'responsive' ) {
+    if( quads_is_extra() && isset( $quads_options[$id]['adsense_type'] ) && $quads_options[$id]['adsense_type'] === 'responsive' ) {
         $width = $default_ad_sizes[$id][$adtype.'_width'];
 
         $height = $default_ad_sizes[$id][$adtype.'_height'];
@@ -202,7 +202,7 @@ function quads_render_tablet_landscape_js( $id, $default_ad_sizes ) {
 
     $responsive_style = 'display:block;' . $backgroundcolor;
 
-    if( quads_is_advanced() && isset( $quads_options[$id]['adsense_type'] ) && $quads_options[$id]['adsense_type'] === 'responsive' ) {
+    if( quads_is_extra() && isset( $quads_options[$id]['adsense_type'] ) && $quads_options[$id]['adsense_type'] === 'responsive' ) {
         $width = $default_ad_sizes[$id][$adtype.'_width'];
 
         $height = $default_ad_sizes[$id][$adtype.'_height'];
@@ -256,7 +256,7 @@ function quads_render_tablet_portrait_js( $id, $default_ad_sizes ) {
 
     $responsive_style = 'display:block;' . $backgroundcolor;
 
-    if( quads_is_advanced() && isset( $quads_options[$id]['adsense_type'] ) && $quads_options[$id]['adsense_type'] === 'responsive' ) {
+    if( quads_is_extra() && isset( $quads_options[$id]['adsense_type'] ) && $quads_options[$id]['adsense_type'] === 'responsive' ) {
         $width = $default_ad_sizes[$id][$adtype.'_width'];
 
         $height = $default_ad_sizes[$id][$adtype.'_height'];
@@ -307,7 +307,7 @@ function quads_render_phone_js( $id, $default_ad_sizes ) {
 
     $responsive_style = 'display:block;' . $backgroundcolor;
 
-    if( quads_is_advanced() && isset( $quads_options[$id]['adsense_type'] ) && $quads_options[$id]['adsense_type'] === 'responsive' ) {
+    if( quads_is_extra() && isset( $quads_options[$id]['adsense_type'] ) && $quads_options[$id]['adsense_type'] === 'responsive' ) {
         $width = $default_ad_sizes[$id][$adtype.'_width'];
 
         $height = $default_ad_sizes[$id][$adtype.'_height'];
