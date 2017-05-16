@@ -1707,7 +1707,9 @@ function quads_adsense_code_callback( $args ) {
    <?php } echo apply_filters( 'quads_render_margin', '', $id ); ?>
        </div>
            <?php
+           if (quads_is_extra()){
            echo apply_filters( 'quads_advanced_settings', '', $id );
+           }
            echo quads_pro_overlay();
            ?>
    </div>
@@ -1817,7 +1819,9 @@ function quads_adsense_code_callback( $args ) {
    <?php } echo apply_filters( 'quads_render_margin', '', $id ); ?>
        </div>
            <?php
+           if (quads_is_extra()){
            echo apply_filters( 'quads_advanced_settings', '', $id );
+           }
            echo quads_pro_overlay();
            ?>
    </div>
