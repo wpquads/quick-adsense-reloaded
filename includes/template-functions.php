@@ -44,27 +44,28 @@ function quads_post_settings_to_quicktags ( $content ) {
  *
  * @return string
  */
-function quads_get_visibility_quicktags_str ( $post_id = null ) {
-    
-	if ( ! $post_id ) {
-		$post_id = get_the_ID();
-	}
+function quads_get_visibility_quicktags_str( $post_id = null ) {
 
-        $str = '';
-        if (false === $post_id){        
-            return $str;
-        }
-        
-	$config = get_post_meta( $post_id, '_quads_config_visibility', true );
-        
-        
-        if ( !empty($config))
-	foreach ( $config as $qtag_id => $qtag_label ) {
-		$str .= '<!--' . $qtag_id . '-->';
-		//$str .= $qtag_id;
-	}
-        
-	return $str;
+   if( !$post_id ) {
+      $post_id = get_the_ID();
+   }
+
+   $str = '';
+   if( false === $post_id ) {
+      return $str;
+   }
+
+   $config = get_post_meta( $post_id, '_quads_config_visibility', true );
+
+   var_dump($config);
+
+   if( !empty( $config ) && is_array($config) ) {
+      foreach ( $config as $qtag_id => $qtag_label ) {
+         $str .= '<!--' . $qtag_id . '-->';
+      }
+   }
+
+   return $str;
 }
 
 /**
