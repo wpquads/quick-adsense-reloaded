@@ -684,18 +684,6 @@ function quads_replace_ads($content, $quicktag, $id) {
 
         
 	if ($id != -1) {
-//		$styleArray = array(
-//			'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
-//			'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
-//			'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
-//			'float:none;margin:0px;');
-//                
-//		$adsalign = $quads_options['ad' . $id]['align'];
-//		$adsmargin = isset($quads_options['ad' . $id]['margin']) ? $quads_options['ad' . $id]['margin'] : '3'; // default
-//                $margin = sprintf($styleArray[(int)$adsalign], $adsmargin);
-//                
-//                // Do not create any inline style on AMP site
-//		$style = !quads_is_amp_endpoint() ? apply_filters ('quads_filter_margins', $margin, 'ad'.$id ) : '';
                 
                 $code = !empty($quads_options['ad' . $id ]['code']) ? $quads_options['ad' . $id ]['code'] : '';
                 $style = quads_get_inline_ad_style($id);
