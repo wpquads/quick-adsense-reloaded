@@ -24,7 +24,7 @@ function quads_register_widgets() {
     
     $amountWidgets = 10;
     for ( $i = 1; $i <= $amountWidgets; $i++ ) {
-        if( !empty( $quads_options['ad' . $i . '_widget']['code'] ) ) {
+        if( !empty( $quads_options['ad' . $i . '_widget']['code'] || !empty( $quads_options['ad' . $i . '_widget']['g_data_ad_slot']) ) ) {
             register_widget( 'quads_widgets_' . $i );
         }
     }
