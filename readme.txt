@@ -131,6 +131,7 @@ Alternative Installation:
 
 = 1.5.3 =
 * Fix: Security Update! If you are using WP QUADS Pro you need to update both plugins. WP QUADS Pro 1.3.6 is required for this version. Updating is highly recommended.
+* Fix: If page or post is used as frontpage the home page condition is ignored
 
 = 1.5.2 =
 * Tweak: Make sure that for AdSense ads only the AdSense ad option is used and not the plain text one
