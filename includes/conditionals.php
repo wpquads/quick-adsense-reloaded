@@ -25,6 +25,11 @@ function quads_ad_is_allowed( $content = null ) {
     
     $hide_ads = apply_filters('quads_hide_ads', false);
     
+    // User Roles check
+    if(!quads_user_roles_permission()){
+       return false;
+    }
+    
     // Frontpage check
     if (is_front_page() &&  isset( $quads_options['visibility']['AppHome'] ) ){
        return true;
@@ -39,7 +44,6 @@ function quads_ad_is_allowed( $content = null ) {
             (is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
             (is_archive() && !( isset( $quads_options['visibility']['AppArch'] ) ) ) ||
             (is_tag() && !( isset( $quads_options['visibility']['AppTags'] ) ) ) ||
-            (!quads_user_roles_permission()) ||
             (!quads_post_type_allowed()) ||
             (is_user_logged_in() && ( isset( $quads_options['visibility']['AppLogg'] ) ) ) ||
             true === $hide_ads
