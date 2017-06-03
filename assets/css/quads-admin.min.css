@@ -801,13 +801,24 @@ li.quads-tabs {
 
 
 #quads-validate{
-    margin-top: -20px;
     display: block;
     margin-left: 2px;
     margin-bottom: 20px;
     font-weight: bold;
+    clear: both;
+}
+#quads-add-new-ad{
+    margin-left: 130px;
+    margin-top: 5px;
+    display: block;
 }
 
 #quads-submit-button{
     z-index: 999999;
+}
+
+p.submit{
+    float:left;
+    padding-top:0px;
+    padding-bottom:0px;
 }

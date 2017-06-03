@@ -176,9 +176,9 @@ function quads_get_active_ads() {
    
     // Array of ad codes  
     for ( $i = 1; $i <= $numberAds; $i++ ) {
-        $tmp = isset( $quads_options['ad' . $i]['code'] ) ? trim( $quads_options['ad' . $i]['code'] ) : '';
+        $tmp = isset( $quads_options['ads']['ad' . $i]['code'] ) ? trim( $quads_options['ads']['ad' . $i]['code'] ) : '';
         // id is valid if there is either the plain text field populated or the adsense ad slot and the ad client id
-        if( !empty( $tmp ) || (!empty( $quads_options['ad' . $i]['g_data_ad_slot'] ) && !empty( $quads_options['ad' . $i]['g_data_ad_client'] ) ) ) {
+        if( !empty( $tmp ) || (!empty( $quads_options['ads']['ad' . $i]['g_data_ad_slot'] ) && !empty( $quads_options['ads']['ad' . $i]['g_data_ad_client'] ) ) ) {
             $adsArray[] = $i;
         }
     }
@@ -190,25 +190,25 @@ function quads_get_active_ads() {
  * Get complete array of valid ads
  * @global arr $quads_options
  */
-function quads_get_ad_content() {
-    global $quads_options;
-
-    // Max amount of different content ads we can have 
-    $numberAds = 10;
-    
-    $adsArray = array();
-
-    // Array of ad codes  
-    for ( $i = 1; $i <= $numberAds; $i++ ) {
-        $tmp = isset( $quads_options['ad' . $i]['code'] ) ? trim( $quads_options['ad' . $i]['code'] ) : '';
-        // id is valid if there is either the plain text field populated or the adsense ad slot and the ad client id
-        if( !empty( $tmp ) || (!empty( $quads_options['ad' . $i]['g_data_ad_slot'] ) && !empty( $quads_options['ad' . $i]['g_data_ad_client'] ) ) ) {
-            $adsArray[] = $quads_options['ad' . $i];
-        }
-    }
-    
-    return count($adsArray) ? $adsArray : 0;
-}
+//function quads_get_ad_content() {
+//    global $quads_options;
+//
+//    // Max amount of different content ads we can have 
+//    $numberAds = 10;
+//    
+//    $adsArray = array();
+//
+//    // Array of ad codes  
+//    for ( $i = 1; $i <= $numberAds; $i++ ) {
+//        $tmp = isset( $quads_options['ads']['ad' . $i]['code'] ) ? trim( $quads_options['ads']['ad' . $i]['code'] ) : '';
+//        // id is valid if there is either the plain text field populated or the adsense ad slot and the ad client id
+//        if( !empty( $tmp ) || (!empty( $quads_options['ads']['ad' . $i]['g_data_ad_slot'] ) && !empty( $quads_options['ads']['ad' . $i]['g_data_ad_client'] ) ) ) {
+//            $adsArray[] = $quads_options['ads']['ad' . $i];
+//        }
+//    }
+//    
+//    return count($adsArray) ? $adsArray : 0;
+//}
 
 
 /**
@@ -721,10 +721,10 @@ function quads_get_inline_ad_style( $id ) {
         'float:none;margin:0px;');
     
     // Alignment
-    $adsalign = $quads_options['ad' . $id]['align'];
+    $adsalign = $quads_options['ads']['ad' . $id]['align'];
     
     // Margin
-    $adsmargin = isset( $quads_options['ad' . $id]['margin'] ) ? $quads_options['ad' . $id]['margin'] : '3'; // default optin = 3
+    $adsmargin = isset( $quads_options['ads']['ad' . $id]['margin'] ) ? $quads_options['ads']['ad' . $id]['margin'] : '3'; // default optin = 3
     $margin = sprintf( $styleArray[( int ) $adsalign], $adsmargin );
 
     // Do not create any inline style on AMP site

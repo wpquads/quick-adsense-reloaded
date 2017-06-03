@@ -210,18 +210,19 @@ jQuery(document).ready(function ($) {
 
         var id = containerID.replace("quads-toggle", "");
 
-        $('#quads_settings\\[' + id + '\\]\\[g_data_ad_slot\\]').val(GoogleAd.slotId);
-        $('#quads_settings\\[' + id + '\\]\\[g_data_ad_client\\]').val(GoogleAd.pubId);
+        $('#quads_settings\\[ads\\][' + id + '\\]\\[g_data_ad_slot\\]').val(GoogleAd.slotId);
+        $('#quads_settings\\[ads\\][' + id + '\\]\\[g_data_ad_client\\]').val(GoogleAd.pubId);
         if ('normal' == GoogleAd.type) {
-            $('#quads_settings\\[' + id + '\\]\\[adsense_type\\]').val('normal');
-            $('#quads_settings\\[' + id + '\\]\\[g_data_ad_width\\]').val(GoogleAd.width);
-            $('#quads_settings\\[' + id + '\\]\\[g_data_ad_height\\]').val(GoogleAd.height);
+            console.log($('#quads_settings\\[ads\\]\\[' + id + '\\]\\[adsense_type\\]'));
+            $('#quads_settings\\[ads\\]\\[' + id + '\\]\\[adsense_type\\]').val('normal');
+            $('#quads_settings\\[ads\\]\\[' + id + '\\]\\[g_data_ad_width\\]').val(GoogleAd.width);
+            $('#quads_settings\\[ads\\]\\[' + id + '\\]\\[g_data_ad_height\\]').val(GoogleAd.height);
         }
         if ('responsive' == GoogleAd.type) {
-            $('#quads_settings\\[' + id + '\\]\\[adsense_type\\]').val('responsive');
+            $('#quads_settings\\[ads\\]\\[' + id + '\\]\\[adsense_type\\]').val('responsive');
             //$('#ad-resize-type').val('auto');
-            $('#quads_settings\\[' + id + '\\]\\[g_data_ad_width\\]').val('');
-            $('#quads_settings\\[' + id + '\\]\\[g_data_ad_height\\]').val('');
+            $('#quads_settings\\[ads\\]\\[' + id + '\\]\\[g_data_ad_width\\]').val('');
+            $('#quads_settings\\[ads\\]\\[' + id + '\\]\\[g_data_ad_height\\]').val('');
         }
         // Trigger the ad type select
         $('.quads-select-Type').trigger('change');
@@ -510,7 +511,7 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
 
         var container = $('#' + $(this).data('box-id'));
-
+console.log(container);
         container.toggle(0, function () {
             if (container.parents('.quads-ad-toggle-header').hasClass('quads-box-close')) {
                 // open the box
@@ -572,7 +573,9 @@ jQuery(document).ready(function ($) {
     }
 
 
-// Start easytabs()
+    /**
+     * Start easytabs()
+     */
     if ($(".quads-tabs").length) {
         $('#quads_tab_container').easytabs({
             animate: true,
@@ -580,6 +583,46 @@ jQuery(document).ready(function ($) {
             animationSpeed: 'fast'
         });
     }
+    
+    /**
+     * Add new ads
+     */
+                var newAddCount = 1;
+                        jQuery('#quads-add-new-ad').click(function (e) {
+                e.preventDefault();
+                        var data = {
+                        action: 'quads_ajax_add_ads',
+                                nonce: quads.nonce,
+                                count: newAddCount++
+
+                        };
+                        $.post(ajaxurl, data, function (resp, status, xhr) {
+                        jQuery('#quads_settingsadsense_header table tbody tr').last().after(resp);
+                                //console.log('success:' + resp + status + xhr);
+                        }).fail(function (xhr) { // Will be executed when $.post() fails
+                console.log('error: ' + xhr.statusText);
+                });
+                });
+    /**
+     * Remove ad
+     */
+            jQuery('.quads-delete-ad').click(function (e) {
+                e.preventDefault();
+console.log('remove');
+        
+            var parentContainerID = $(this).parents('.quads-ad-toggle-container').attr('id');
+
+
+            $('#' + parentContainerID).remove();
+            //$('#' + parentContainerID).find()remove();
+            
+            $(".quads-ad-toggle-header[data-box-id=" + parentContainerID + "]").remove();
+            
+            var container = $('#' + $(this).data('box-id'));
+            
+            //$(this).parent('.quads-ad-toggle-container').remove();
+            });
+    
 
 }); // document ready
 

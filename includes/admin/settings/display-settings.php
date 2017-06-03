@@ -132,10 +132,7 @@ function quads_do_settings_fields($page, $section) {
         
         echo '<tr><td>';
             call_user_func($field['callback'], $field['args']);
-        echo '<tr><td>';
-        
-        
-        
+        echo '</td></tr>';  
     }
     echo '</tbody></table>';
     if ($header === true){
@@ -237,6 +234,7 @@ function quads_options_page() {
                                     $other_attributes = array( 'id' => 'quads-submit-button' );
                                     submit_button(null, 'primary', 'quads-save-settings' , true, $other_attributes ); 
                                     ?>
+                                    <a href="#" id="quads-add-new-ad"><?php _e('Add New Ad','quick-adsense-reloaded')?></a><br>
                                     <a href="<?php echo admin_url() . '/admin.php?page=quads-settings&quads-action=validate'; ?> " id="quads-validate"><?php _e('Validate Settings','quick-adsense-reloaded')?></a>
                                 <?php
                                     }

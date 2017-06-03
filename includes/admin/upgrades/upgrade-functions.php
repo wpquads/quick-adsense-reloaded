@@ -25,9 +25,9 @@ function quads_do_automatic_upgrades() {
     // Get current installed version
     $quads_version = preg_replace( '/[^0-9.].*/', '', get_option( 'quads_version' ) );
 
-    if( version_compare( $quads_version, '1.2.5', '<' ) ) {
-        quads_store_adsense_args();
-    }
+//    if( version_compare( $quads_version, '1.2.5', '<' ) ) {
+//        quads_store_adsense_args();
+//    }
     if( version_compare( $quads_version, '1.2.7', '<' ) ) {
         quads_change_widget_values();
     }
@@ -35,6 +35,13 @@ function quads_do_automatic_upgrades() {
         quads_import_post_type_settings();
         quads_is_commercial_theme();
     }
+    
+    if( version_compare( $quads_version, '1.5.3', '<' ) ) {
+        quads_update_settings();
+        //quads_store_adsense_args();
+        quads_is_commercial_theme();
+    }
+    
 
     // Check if version number in DB is lower than version number of plugin
     if( version_compare( $quads_version, QUADS_VERSION, '<' ) ) {
@@ -48,6 +55,88 @@ function quads_do_automatic_upgrades() {
     }
 }
 add_action( 'admin_init', 'quads_do_automatic_upgrades' );
+
+/**
+ * Update Settings for version 1.5.3
+ */
+function quads_update_settings(){
+   $settings = get_option( 'quads_settings' );
+   
+   foreach ( $settings as $key => $value ) {
+      
+      // Do not update - already done
+      if (!empty($settings['ads'][$key])){
+         continue;
+      }
+      
+      if( $key === 'ad1_widget'){
+            $new['ads']['ad1_widget'] = $value;
+      }else if( $key === 'ad2_widget' )
+            $new['ads']['ad2_widget'] = $value;
+        else if( $key === 'ad3_widget' )
+            $new['ads']['ad3_widget'] = $value;
+
+        else if( $key === 'ad4_widget' )
+            $new['ads']['ad4_widget'] = $value;
+
+        else if( $key === 'ad5_widget' )
+            $new['ads']['ad5_widget'] = $value;
+
+        else if( $key === 'ad6_widget' )
+            $new['ads']['ad6_widget'] = $value;
+
+        else if( $key === 'ad7_widget' )
+            $new['ads']['ad7_widget'] = $value;
+
+        else if( $key === 'ad8_widget' )
+            $new['ads']['ad8_widget'] = $value;
+
+        else if( $key === 'ad9_widget' )
+            $new['ads']['ad9_widget'] = $value;
+
+        else if( $key === 'ad10_widget' )
+            $new['ads']['ad10_widget'] = $value;
+        
+        else if ( $key === 'ad1' )
+            $new['ads']['ad1'] = $value;
+
+        else if( $key === 'ad2' )
+            $new['ads']['ad2'] = $value;
+
+        else if( $key === 'ad3' )
+            $new['ads']['ad3'] = $value;
+
+        else if( $key === 'ad4' )
+            $new['ads']['ad4'] = $value;
+
+        else if( $key === 'ad5' )
+            $new['ads']['ad5'] = $value;
+
+        else if( $key === 'ad6' )
+            $new['ads']['ad6'] = $value;
+
+        else if( $key === 'ad7' )
+            $new['ads']['ad7'] = $value;
+
+        else if( $key === 'ad8' )
+            $new['ads']['ad8'] = $value;
+
+        else if( $key === 'ad9' )
+            $new['ads']['ad9'] = $value;
+
+        else if( $key === 'ad10' )
+            $new['ads']['ad10'] = $value;
+        else
+            $new[$key] = $value;
+   }
+   // Backup old settings just in case. Do this only one time!
+   if (false === get_option('quads_settings_backup')){
+      update_option('quads_settings_backup', $settings);
+   }
+   update_option('quads_settings', $new);
+   //wp_die(var_dump($new));
+   //wp_die(var_dump($settings));
+}
 
 /**
  * Change array quads_settings['ad1_widget'] to quads_settings[ad1_widget][code]

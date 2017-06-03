@@ -203,75 +203,82 @@ function quads_get_registered_settings() {
                . '<div id="quads-open-toggle" class="button">' . __( 'Open All Ads', 'quick-adsense-reloaded' ) . '</div>',
                'type' => 'header'
            ),
+//           array(
+//               'id' => 'ad1',
+//               'name' => __( 'Ad 1', 'quick-adsense-reloaded' ),
+//               'desc' => __( 'Shortcode: <strong>[quads id="1"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="1"]\');</strong>', 'quick-adsense-reloaded' ),
+//               'type' => 'adsense_code',
+//               'options' => quads_get_alignment(),
+//           ),
+//           array(
+//               'id' => 'ad2',
+//               'name' => __( 'Ad 2', 'quick-adsense-reloaded' ),
+//               'desc' => __( 'Shortcode: <strong>[quads id="2"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="2"]\');</strong>', 'quick-adsense-reloaded' ),
+//               'type' => 'adsense_code',
+//               'options' => quads_get_alignment(),
+//           ),
+//           array(
+//               'id' => 'ad3',
+//               'name' => __( 'Ad 3', 'quick-adsense-reloaded' ),
+//               'desc' => __( 'Shortcode: <strong>[quads id="3"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="3"]\');</strong>', 'quick-adsense-reloaded' ),
+//               'type' => 'adsense_code',
+//               'options' => quads_get_alignment(),
+//           ),
+//           array(
+//               'id' => 'ad4',
+//               'name' => __( 'Ad 4', 'quick-adsense-reloaded' ),
+//               'desc' => __( 'Shortcode: <strong>[quads id="4"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="4"]\');</strong>', 'quick-adsense-reloaded' ),
+//               'type' => 'adsense_code',
+//               'options' => quads_get_alignment(),
+//           ),
+//           array(
+//               'id' => 'ad5',
+//               'name' => __( 'Ad 5', 'quick-adsense-reloaded' ),
+//               'desc' => __( 'Shortcode: <strong>[quads id="5"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="5"]\');</strong>', 'quick-adsense-reloaded' ),
+//               'type' => 'adsense_code',
+//               'options' => quads_get_alignment(),
+//           ),
+//           array(
+//               'id' => 'ad6',
+//               'name' => __( 'Ad 6', 'quick-adsense-reloaded' ),
+//               'desc' => __( 'Shortcode: <strong>[quads id="6"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="6"]\');</strong>', 'quick-adsense-reloaded' ),
+//               'type' => 'adsense_code',
+//               'options' => quads_get_alignment(),
+//           ),
+//           array(
+//               'id' => 'ad7',
+//               'name' => __( 'Ad 7', 'quick-adsense-reloaded' ),
+//               'desc' => __( 'Shortcode: <strong>[quads id="7"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="7"]\');</strong>', 'quick-adsense-reloaded' ),
+//               'type' => 'adsense_code',
+//               'options' => quads_get_alignment(),
+//           ),
+//           array(
+//               'id' => 'ad8',
+//               'name' => __( 'Ad 8', 'quick-adsense-reloaded' ),
+//               'desc' => __( 'Shortcode: <strong>[quads id="8"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="8"]\');</strong>', 'quick-adsense-reloaded' ),
+//               'type' => 'adsense_code',
+//               'options' => quads_get_alignment(),
+//           ),
+//           array(
+//               'id' => 'ad9',
+//               'name' => __( 'Ad 9', 'quick-adsense-reloaded' ),
+//               'desc' => __( 'Shortcode: <strong>[quads id="9"] </strong></br>Function: <strong>echo do_shortcode(\'[quads id="9"]\');</strong>', 'quick-adsense-reloaded' ),
+//               'type' => 'adsense_code',
+//               'options' => quads_get_alignment(),
+//           ),
+//           array(
+//               'id' => 'ad10',
+//               'name' => __( 'Ad 10', 'quick-adsense-reloaded' ),
+//               'desc' => __( 'Shortcode: <strong>[quads id="10"] </strong></br>PHP <strong>echo do_shortcode(\'[quads id="10"]\');</strong>', 'quick-adsense-reloaded' ),
+//               'type' => 'adsense_code',
+//               'options' => quads_get_alignment(),
+//           ),
            array(
-               'id' => 'ad1',
-               'name' => __( 'Ad 1', 'quick-adsense-reloaded' ),
-               'desc' => __( 'Shortcode: <strong>[quads id="1"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="1"]\');</strong>', 'quick-adsense-reloaded' ),
-               'type' => 'adsense_code',
-               'options' => quads_get_alignment(),
-           ),
-           array(
-               'id' => 'ad2',
-               'name' => __( 'Ad 2', 'quick-adsense-reloaded' ),
-               'desc' => __( 'Shortcode: <strong>[quads id="2"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="2"]\');</strong>', 'quick-adsense-reloaded' ),
-               'type' => 'adsense_code',
-               'options' => quads_get_alignment(),
-           ),
-           array(
-               'id' => 'ad3',
-               'name' => __( 'Ad 3', 'quick-adsense-reloaded' ),
-               'desc' => __( 'Shortcode: <strong>[quads id="3"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="3"]\');</strong>', 'quick-adsense-reloaded' ),
-               'type' => 'adsense_code',
-               'options' => quads_get_alignment(),
-           ),
-           array(
-               'id' => 'ad4',
-               'name' => __( 'Ad 4', 'quick-adsense-reloaded' ),
-               'desc' => __( 'Shortcode: <strong>[quads id="4"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="4"]\');</strong>', 'quick-adsense-reloaded' ),
-               'type' => 'adsense_code',
-               'options' => quads_get_alignment(),
-           ),
-           array(
-               'id' => 'ad5',
-               'name' => __( 'Ad 5', 'quick-adsense-reloaded' ),
-               'desc' => __( 'Shortcode: <strong>[quads id="5"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="5"]\');</strong>', 'quick-adsense-reloaded' ),
-               'type' => 'adsense_code',
-               'options' => quads_get_alignment(),
-           ),
-           array(
-               'id' => 'ad6',
-               'name' => __( 'Ad 6', 'quick-adsense-reloaded' ),
-               'desc' => __( 'Shortcode: <strong>[quads id="6"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="6"]\');</strong>', 'quick-adsense-reloaded' ),
-               'type' => 'adsense_code',
-               'options' => quads_get_alignment(),
-           ),
-           array(
-               'id' => 'ad7',
-               'name' => __( 'Ad 7', 'quick-adsense-reloaded' ),
-               'desc' => __( 'Shortcode: <strong>[quads id="7"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="7"]\');</strong>', 'quick-adsense-reloaded' ),
-               'type' => 'adsense_code',
-               'options' => quads_get_alignment(),
-           ),
-           array(
-               'id' => 'ad8',
-               'name' => __( 'Ad 8', 'quick-adsense-reloaded' ),
-               'desc' => __( 'Shortcode: <strong>[quads id="8"] </strong></br>PHP: <strong>echo do_shortcode(\'[quads id="8"]\');</strong>', 'quick-adsense-reloaded' ),
-               'type' => 'adsense_code',
-               'options' => quads_get_alignment(),
-           ),
-           array(
-               'id' => 'ad9',
-               'name' => __( 'Ad 9', 'quick-adsense-reloaded' ),
-               'desc' => __( 'Shortcode: <strong>[quads id="9"] </strong></br>Function: <strong>echo do_shortcode(\'[quads id="9"]\');</strong>', 'quick-adsense-reloaded' ),
-               'type' => 'adsense_code',
-               'options' => quads_get_alignment(),
-           ),
-           array(
-               'id' => 'ad10',
-               'name' => __( 'Ad 10', 'quick-adsense-reloaded' ),
-               'desc' => __( 'Shortcode: <strong>[quads id="10"] </strong></br>PHP <strong>echo do_shortcode(\'[quads id="10"]\');</strong>', 'quick-adsense-reloaded' ),
-               'type' => 'adsense_code',
-               'options' => quads_get_alignment(),
+               'id' => 'quads_ads',
+               'name' => __( '', 'quick-adsense-reloaded' ),
+               //'desc' => __( 'Shortcode: <strong>[quads id="10"] </strong></br>PHP <strong>echo do_shortcode(\'[quads id="10"]\');</strong>', 'quick-adsense-reloaded' ),
+               'type' => 'adsense_code_new',
+               //'options' => quads_get_alignment(),
            ),
            'widget_header' => array(
                'id' => 'widget_header',
@@ -696,13 +703,13 @@ function quads_adtype_callback( $id, $args ) {
    foreach ( $args['options'] as $key => $option ) :
       $checked = false;
 
-      if( isset( $quads_options[$id]['ad_type'] ) && $quads_options[$id]['ad_type'] == $key )
+      if( isset( $quads_options['ads'][$id]['ad_type'] ) && $quads_options['ads'][$id]['ad_type'] == $key )
          $checked = true;
-      elseif( isset( $args['std'] ) && $args['std'] == $key && !isset( $quads_options[$id]['ad_type'] ) )
+      elseif( isset( $args['std'] ) && $args['std'] == $key && !isset( $quads_options['ads'][$id]['ad_type'] ) )
          $checked = true;
 
-      echo '<input name="quads_settings[' . $id . '][ad_type]" class="quads_adsense_type" id="quads_settings[' . $id . '][ad_type_' . $key . ']" type="radio" value="' . $key . '" ' . checked( true, $checked, false ) . '/>&nbsp;';
-      echo '<label for="quads_settings[' . $id . '][ad_type_' . $key . ']">' . $option . '</label>&nbsp;';
+      echo '<input name="quads_settings[ads][' . $id . '][ad_type]" class="quads_adsense_type" id="quads_settings[ads][' . $id . '][ad_type_' . $key . ']" type="radio" value="' . $key . '" ' . checked( true, $checked, false ) . '/>&nbsp;';
+      echo '<label for="quads_settings[ads][' . $id . '][ad_type_' . $key . ']">' . $option . '</label>&nbsp;';
    endforeach;
 
    echo '<p class="description quads_hidden">' . $args['desc'] . '</p>';
@@ -726,17 +733,17 @@ function quads_adposition_callback( $id, $args ) {
    foreach ( $args['options'] as $key => $option ) :
       $checked = false;
 
-      if( isset( $quads_options[$id]['align'] ) && $quads_options[$id]['align'] == $key )
+      if( isset( $quads_options['ads'][$id]['align'] ) && $quads_options['ads'][$id]['align'] == $key )
          $checked = true;
-      elseif( isset( $args['std'] ) && $args['std'] == $key && !isset( $quads_options[$id]['align'] ) )
+      elseif( isset( $args['std'] ) && $args['std'] == $key && !isset( $quads_options['ads'][$id]['align'] ) )
          $checked = true;
 
       if( $key == '3' ) {
-         echo '<input name="quads_settings[' . $id . '][align]" class="quads_adsense_align" id="quads_settings[' . $id . '][align_' . $key . ']" type="radio" value="' . $key . '" ' . checked( true, $checked, false ) . '/>&nbsp;';
-         echo '<label for="quads_settings[' . $id . '][align_' . $key . ']">Default</label>&nbsp;';
+         echo '<input name="quads_settings[ads][' . $id . '][align]" class="quads_adsense_align" id="quads_settings[ads][' . $id . '][align_' . $key . ']" type="radio" value="' . $key . '" ' . checked( true, $checked, false ) . '/>&nbsp;';
+         echo '<label for="quads_settings[ads][' . $id . '][align_' . $key . ']">Default</label>&nbsp;';
       } else {
-         echo '<input name="quads_settings[' . $id . '][align]" class="quads_adsense_positon" id="quads_settings[' . $id . '][align_' . $key . ']" type="radio" value="' . $key . '" ' . checked( true, $checked, false ) . '/>&nbsp;';
-         echo '<label for="quads_settings[' . $id . '][align_' . $key . ']"><img src="' . QUADS_PLUGIN_URL . 'assets/images/align_' . $key . '.png" width="75" height="56"></label>&nbsp;';
+         echo '<input name="quads_settings[ads][' . $id . '][align]" class="quads_adsense_positon" id="quads_settings[ads][' . $id . '][align_' . $key . ']" type="radio" value="' . $key . '" ' . checked( true, $checked, false ) . '/>&nbsp;';
+         echo '<label for="quads_settings[ads][' . $id . '][align_' . $key . ']"><img src="' . QUADS_PLUGIN_URL . 'assets/images/align_' . $key . '.png" width="75" height="56"></label>&nbsp;';
       }
 
    endforeach;
@@ -929,15 +936,15 @@ function quads_select_callback( $args ) {
 function quads_adense_select_callback( $id, $args ) {
    global $quads_options;
 
-   if( isset( $quads_options[$id][$args['id']] ) )
-      $value = $quads_options[$id][$args['id']];
+   if( isset( $quads_options['ads'][$id][$args['id']] ) )
+      $value = $quads_options['ads'][$id][$args['id']];
    else
       $value = isset( $args['std'] ) ? $args['std'] : '';
 
    $size = !empty( $args['size'] ) ? $args['size'] : 'quads-medium-size';
 
-   $html = '<label class="quads_hidden" id="quads-label-' . $args['desc'] . '" for="quads_settings[' . $id . '][' . $args['id'] . ']"> ' . $args['desc'] . ' </label>';
-   $html .= ' <select class="quads-select-' . $args['desc'] . ' ' . $size . '" id="quads_settings[' . $id . '][' . $args['id'] . ']" name="quads_settings[' . $id . '][' . $args['id'] . ']"/>';
+   $html = '<label class="quads_hidden" id="quads-label-' . $args['desc'] . '" for="quads_settings[ads][' . $id . '][' . $args['id'] . ']"> ' . $args['desc'] . ' </label>';
+   $html .= ' <select class="quads-select-' . $args['desc'] . ' ' . $size . '" id="quads_settings[ads][' . $id . '][' . $args['id'] . ']" name="quads_settings[ads][' . $id . '][' . $args['id'] . ']"/>';
 
    foreach ( $args['options'] as $option => $name ) :
       $selected = selected( $option, $value, false );
@@ -1287,36 +1294,6 @@ function quads_upload_image_callback( $args ) {
 }
 
 /*
- * Post Types Callback
- *
- * Adds a multiple choice drop box
- * for selecting where WPQUADS should be enabled
- *
- * @since 2.0.9
- * @param array $args Arguments passed by the setting
- * @return void
- *
- */
-
-//function quads_posttypes_callback( $args ) {
-//    global $quads_options;
-//    $posttypes = get_post_types();
-//
-//    if( !empty( $posttypes ) ) {
-//        foreach ( $posttypes as $key => $option ):
-//            if( isset( $quads_options[$args['id']][$key] ) ) {
-//                $enabled = $option;
-//            } else {
-//                $enabled = NULL;
-//            }
-//            echo '<input name="quads_settings[' . $args['id'] . '][' . $key . ']" id="quads_settings[' . $args['id'] . '][' . $key . ']" type="checkbox" value="' . $option . '" ' . checked( $option, $enabled, false ) . '/>&nbsp;';
-//            echo '<label for="quads_settings[' . $args['id'] . '][' . $key . ']">' . $option . '</label><br/>';
-//        endforeach;
-//        echo '<p class="description quads_hidden">' . $args['desc'] . '</p>';
-//    }
-//}
-
-/*
  * Note Callback
  *
  * Show a note
@@ -1329,7 +1306,6 @@ function quads_upload_image_callback( $args ) {
 
 function quads_note_callback( $args ) {
    global $quads_options;
-   //$html = !empty($args['desc']) ? $args['desc'] : '';
    $html = '';
    echo $html;
 }
@@ -1427,16 +1403,16 @@ function quads_get_ads() {
 
    $ads = array(
        0 => __( 'Random Ads', 'quick-adsense-reloaded' ),
-       1 => isset( $quads_options['ad1']['label'] ) ? $quads_options['ad1']['label'] : 'ad1',
-       2 => isset( $quads_options['ad2']['label'] ) ? $quads_options['ad2']['label'] : 'ad2',
-       3 => isset( $quads_options['ad3']['label'] ) ? $quads_options['ad3']['label'] : 'ad3',
-       4 => isset( $quads_options['ad4']['label'] ) ? $quads_options['ad4']['label'] : 'ad4',
-       5 => isset( $quads_options['ad5']['label'] ) ? $quads_options['ad5']['label'] : 'ad5',
-       6 => isset( $quads_options['ad6']['label'] ) ? $quads_options['ad6']['label'] : 'ad6',
-       7 => isset( $quads_options['ad7']['label'] ) ? $quads_options['ad7']['label'] : 'ad7',
-       8 => isset( $quads_options['ad8']['label'] ) ? $quads_options['ad8']['label'] : 'ad8',
-       9 => isset( $quads_options['ad9']['label'] ) ? $quads_options['ad9']['label'] : 'ad9',
-       10 => isset( $quads_options['ad10']['label'] ) ? $quads_options['ad10']['label'] : 'ad10',
+       1 => isset( $quads_options['ads']['ad1']['label'] ) ? $quads_options['ads']['ad1']['label'] : 'ad1',
+       2 => isset( $quads_options['ads']['ad2']['label'] ) ? $quads_options['ads']['ad2']['label'] : 'ad2',
+       3 => isset( $quads_options['ads']['ad3']['label'] ) ? $quads_options['ads']['ad3']['label'] : 'ad3',
+       4 => isset( $quads_options['ads']['ad4']['label'] ) ? $quads_options['ads']['ad4']['label'] : 'ad4',
+       5 => isset( $quads_options['ads']['ad5']['label'] ) ? $quads_options['ads']['ad5']['label'] : 'ad5',
+       6 => isset( $quads_options['ads']['ad6']['label'] ) ? $quads_options['ads']['ad6']['label'] : 'ad6',
+       7 => isset( $quads_options['ads']['ad7']['label'] ) ? $quads_options['ads']['ad7']['label'] : 'ad7',
+       8 => isset( $quads_options['ads']['ad8']['label'] ) ? $quads_options['ads']['ad8']['label'] : 'ad8',
+       9 => isset( $quads_options['ads']['ad9']['label'] ) ? $quads_options['ads']['ad9']['label'] : 'ad9',
+       10 => isset( $quads_option['ads']['ad10']['label'] ) ? $quads_options['ads']['ad10']['label'] : 'ad10',
    );
    return $ads;
 }
@@ -1470,11 +1446,6 @@ function quads_get_values() {
 function quads_visibility_callback( $args ) {
    global $quads_options, $quads;
 
-   // Posts & Pages
-   //$html = $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppPost]', 'current' => !empty( $quads_options['visibility']['AppPost'] ) ? $quads_options['visibility']['AppPost'] : null, 'class' => 'quads-checkbox') );
-   //$html .= __( 'Posts ', 'quick-adsense-reloaded' );
-   //$html .= $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppPage]', 'current' => !empty( $quads_options['visibility']['AppPage'] ) ? $quads_options['visibility']['AppPage'] : null, 'class' => 'quads-checkbox') );
-   //$html .= ' ' . __( 'Pages', 'quick-adsense-reloaded' ) . '<br>';
    $html = $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppHome]', 'current' => !empty( $quads_options['visibility']['AppHome'] ) ? $quads_options['visibility']['AppHome'] : null, 'class' => 'quads-checkbox') ) . __( 'Homepage ', 'quick-adsense-reloaded' );
    $html .= $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppCate]', 'current' => !empty( $quads_options['visibility']['AppCate'] ) ? $quads_options['visibility']['AppCate'] : null, 'class' => 'quads-checkbox') ) . __( 'Categories ', 'quick-adsense-reloaded' );
    $html .= $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppArch]', 'current' => !empty( $quads_options['visibility']['AppArch'] ) ? $quads_options['visibility']['AppArch'] : null, 'class' => 'quads-checkbox') ) . __( 'Archives ', 'quick-adsense-reloaded' );
@@ -1600,6 +1571,70 @@ function quads_quicktags_callback( $args ) {
    echo $html;
 }
 
+
+function quads_ajax_add_ads(){
+   global $quads_options;
+   
+   $postCount = !empty($_POST['count']) ? $_POST['count'] : 1;
+   //wp_die($postCount);
+   
+   $count = isset($quads_options['ads']) ? count ($quads_options['ads']) + $postCount : 10 + $postCount;
+   
+   $args = array();
+   // subtract 10 widget ads
+   $args['id'] = $count-10;
+   $args['name'] = 'Ad ' . $args['id'];
+   
+   ob_start();
+   // ... die Inhalte der Website ...
+   quads_adsense_code_callback( $args );
+   $content = ob_get_contents();
+   ob_end_clean();
+   
+   $html = '<tr><td>';
+   $html.= $content;
+   $html.= '</td></tr>';
+   echo $html;
+   die();
+}
+add_action( 'wp_ajax_quads_ajax_add_ads', 'quads_ajax_add_ads' );
+
+/**
+ * Render all ad relevant settings
+ * 
+ * @global $quads_options $quads_options
+ */
+function quads_adsense_code_new_callback(){
+   global $quads_options;
+   
+   //echo count ($quads_options['ads']);
+
+   $countAds = isset($quads_options['ads']) ? count ($quads_options['ads']) : 10;
+
+   $args = array();
+   
+   $i = 1;
+  
+   foreach ($quads_options['ads'] as $ads => $value ){
+            
+      $id = $i++;
+      
+      $args['id'] = $id;
+      
+      $args['desc'] = '';
+   
+      $args['name'] = !empty($quads_options['ads']['ad' . $id]['label']) ? $quads_options['ads']['ad' . $id]['label'] : 'Ad ' . $id;
+
+      // Skip if its a widget ad
+      if ( (strpos($ads, 'ad' . $id) === 0) && (false === strpos($ads, 'ad' . $id . '_widget') ) ){            
+      echo '<tr><td>';
+      echo quads_adsense_code_callback( $args );
+      echo '</td></tr>';
+      }
+
+   }
+}
+
 /**
  * AdSense Code Callback
  *
@@ -1613,28 +1648,28 @@ function quads_quicktags_callback( $args ) {
 function quads_adsense_code_callback( $args ) {
    global $quads_options;
 
-   $new_label = isset( $quads_options[$args['id']]['label'] ) ? $quads_options[$args['id']]['label'] : '';
+   $new_label = isset( $quads_options['ads']['ad'.$args['id']]['label'] ) ? $quads_options['ads']['ad'.$args['id']]['label'] : '';
 
    $label = !empty( $new_label ) ? $new_label : $args['name'];
 
-   $code = isset( $quads_options[$args['id']]['code'] ) ? $quads_options[$args['id']]['code'] : '';
+   $code = isset( $quads_options['ads']['ad'.$args['id']]['code'] ) ? $quads_options['ads']['ad'.$args['id']]['code'] : '';
 
-   $margin = isset( $quads_options[$args['id']]['margin'] ) ? esc_attr( stripslashes( $quads_options[$args['id']]['margin'] ) ) : 0;
+   $margin = isset( $quads_options['ads']['ad'.$args['id']]['margin'] ) ? esc_attr( stripslashes( $quads_options['ads']['ad'.$args['id']]['margin'] ) ) : 0;
 
-   $g_data_ad_client = isset( $quads_options[$args['id']]['g_data_ad_client'] ) ? $quads_options[$args['id']]['g_data_ad_client'] : '';
+   $g_data_ad_client = isset( $quads_options['ads']['ad'. $args['id']]['g_data_ad_client'] ) ? $quads_options['ads']['ad'. $args['id']]['g_data_ad_client'] : '';
 
-   $g_data_ad_slot = isset( $quads_options[$args['id']]['g_data_ad_slot'] ) ? $quads_options[$args['id']]['g_data_ad_slot'] : '';
+   $g_data_ad_slot = isset( $quads_options['ads']['ad'. $args['id']]['g_data_ad_slot'] ) ? $quads_options['ads']['ad'. $args['id']]['g_data_ad_slot'] : '';
 
-   $g_data_ad_width = isset( $quads_options[$args['id']]['g_data_ad_width'] ) ? $quads_options[$args['id']]['g_data_ad_width'] : '';
+   $g_data_ad_width = isset( $quads_options['ads']['ad'. $args['id']]['g_data_ad_width'] ) ? $quads_options['ads']['ad'. $args['id']]['g_data_ad_width'] : '';
 
-   $g_data_ad_height = isset( $quads_options[$args['id']]['g_data_ad_height'] ) ? $quads_options[$args['id']]['g_data_ad_height'] : '';
+   $g_data_ad_height = isset( $quads_options['ads']['ad'. $args['id']]['g_data_ad_height'] ) ? $quads_options['ads']['ad'. $args['id']]['g_data_ad_height'] : '';
 
    //$label = !empty($new_label) ? $new_label : 
    // Create a shorter var to make HTML cleaner
-   $id = $args['id'];
+   $id = 'ad' . $args['id'];
    ?>
    <div class="quads-ad-toggle-header quads-box-close" data-box-id="quads-toggle<?php echo $id; ?>">
-       <div class="quads-toogle-title"><span contenteditable="true" id="quads-ad-label-<?php echo $id; ?>"><?php echo $label; ?></span><input type="hidden" class="quads-input-label" id="" name="quads_settings[<?php echo $id; ?>][label]" value="<?php echo $new_label; ?>"></div>
+       <div class="quads-toogle-title"><span contenteditable="true" id="quads-ad-label-<?php echo $id; ?>"><?php echo $label; ?></span><input type="hidden" class="quads-input-label" id="" name="quads_settings[ads][<?php echo $id; ?>][label]" value="<?php echo $new_label; ?>"></div>
        <a class="quads-toggle" data-box-id="quads-toggle<?php echo $id; ?>" href="#"><div class="quads-close-open-icon"></div></a>
    </div>
    <div class="quads-ad-toggle-container" id="quads-toggle<?php echo $id; ?>" style="display:none;">
@@ -1653,14 +1688,14 @@ function quads_adsense_code_callback( $args ) {
    echo quads_adtype_callback( $id, $args_ad_type );
    ?>
        </div>
-       <textarea style="vertical-align:top;margin-right:20px;" class="large-text quads-textarea" cols="50" rows="10" id="quads_settings[<?php echo $id; ?>][code]" name="quads_settings[<?php echo $id; ?>][code]"><?php echo esc_textarea( stripslashes( $code ) ); ?></textarea><label for="quads_settings[ <?php echo $id; ?> ][code]"> <?php echo $args['desc']; ?></label>
+       <textarea style="vertical-align:top;margin-right:20px;" class="large-text quads-textarea" cols="50" rows="10" id="quads_settings[ads][<?php echo $id; ?>][code]" name="quads_settings[ads][<?php echo $id; ?>][code]"><?php echo esc_textarea( stripslashes( $code ) ); ?></textarea><label for="quads_settings[ads][ <?php echo $id; ?> ][code]"> <?php echo $args['desc']; ?></label>
        <br>
        <div class="quads_adsense_code">
            <input type="button" style="vertical-align:inherit;" class="button button-primary quads-add-adsense" value="Copy / Paste AdSense Code"> <span>or add Ad Slot ID & Publisher ID manually below:</span>
            <br />
    <?php //echo __('Generate Ad Slot & Publisher ID automatically from your adsense code', 'quick-adsense-reloaded') ?>
-           <label class="quads-label-left" for="quads_settings[<?php echo $id; ?>][g_data_ad_slot]">Ad Slot ID </label><input type="text" class="quads-medium-size quads-bggrey" id="quads_settings[<?php echo $id; ?>][g_data_ad_slot]" name="quads_settings[<?php echo $id; ?>][g_data_ad_slot]" value="<?php echo $g_data_ad_slot; ?>">
-           <label for="quads_settings[<?php echo $id; ?>][g_data_ad_client]">Publisher ID</label><input type="text" id="quads_settings[<?php echo $id; ?>][g_data_ad_client]" class="medium-text quads-bggrey" name="quads_settings[<?php echo $id; ?>][g_data_ad_client]" value="<?php echo $g_data_ad_client; ?>">
+           <label class="quads-label-left" for="quads_settings[ads][<?php echo $id; ?>][g_data_ad_slot]">Ad Slot ID </label><input type="text" class="quads-medium-size quads-bggrey" id="quads_settings[ads][<?php echo $id; ?>][g_data_ad_slot]" name="quads_settings[ads][<?php echo $id; ?>][g_data_ad_slot]" value="<?php echo $g_data_ad_slot; ?>">
+           <label for="quads_settings[ads][<?php echo $id; ?>][g_data_ad_client]">Publisher ID</label><input type="text" id="quads_settings[ads][<?php echo $id; ?>][g_data_ad_client]" class="medium-text quads-bggrey" name="quads_settings[ads][<?php echo $id; ?>][g_data_ad_client]" value="<?php echo $g_data_ad_client; ?>">
            <br />
    <?php
    $args_adsense_type = array(
@@ -1678,8 +1713,8 @@ function quads_adsense_code_callback( $args ) {
               <span class="quads-pro-notice" style="display:block;margin-top:20px;"><?php echo sprintf( __( 'Install <a href="%s" target="_blank">WP QUADS PRO</a> to fully support AdSense Responsive ads.', 'quick-adsense-reloaded' ), 'http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin' ) ?></span>
            <?php } ?>
            <br />
-           <label class="quads-label-left quads-type-normal" for="quads_settings[<?php echo $id; ?>][g_data_ad_width]">Width </label><input type="number" step="1" id="quads_settings[<?php echo $id; ?>][g_data_ad_width]" name="quads_settings[<?php echo $id; ?>][g_data_ad_width]" class="small-text quads-type-normal" value="<?php echo $g_data_ad_width; ?>">
-           <label class="quads-type-normal" for="quads_settings[<?php echo $id; ?>][g_data_ad_height]">Height </label><input type="number" step="1" id="quads_settings[<?php echo $id; ?>][g_data_ad_height]" name="quads_settings[<?php echo $id; ?>][g_data_ad_height]" class="small-text quads-type-normal" value="<?php echo $g_data_ad_height; ?>">
+           <label class="quads-label-left quads-type-normal" for="quads_settings[ads][<?php echo $id; ?>][g_data_ad_width]">Width </label><input type="number" step="1" id="quads_settings[ads][<?php echo $id; ?>][g_data_ad_width]" name="quads_settings[ads][<?php echo $id; ?>][g_data_ad_width]" class="small-text quads-type-normal" value="<?php echo $g_data_ad_width; ?>">
+           <label class="quads-type-normal" for="quads_settings[ads][<?php echo $id; ?>][g_data_ad_height]">Height </label><input type="number" step="1" id="quads_settings[ads][<?php echo $id; ?>][g_data_ad_height]" name="quads_settings[ads][<?php echo $id; ?>][g_data_ad_height]" class="small-text quads-type-normal" value="<?php echo $g_data_ad_height; ?>">
        </div>
        <div class="quads-style">
            <h3>Layout</h3>
@@ -1702,8 +1737,8 @@ function quads_adsense_code_callback( $args ) {
       ?> 
 
               <br />
-              <label class="quads-label-left" for="quads_settings[<?php echo $id; ?>][margin]"><?php _e( 'Margin', 'quick-adsense-reloaded' ); ?></label>
-              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[<?php echo $id; ?>][margin]" name="quads_settings[<?php echo $id; ?>][margin]" value="<?php echo esc_attr( stripslashes( $margin ) ); ?>"/>px
+              <label class="quads-label-left" for="quads_settings[ads][<?php echo $id; ?>][margin]"><?php _e( 'Margin', 'quick-adsense-reloaded' ); ?></label>
+              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][margin]" name="quads_settings[ads][<?php echo $id; ?>][margin]" value="<?php echo esc_attr( stripslashes( $margin ) ); ?>"/>px
    <?php } echo apply_filters( 'quads_render_margin', '', $id ); ?>
        </div>
            <?php
@@ -1731,17 +1766,17 @@ function quads_adsense_code_callback( $args ) {
 
        $label = !empty( $args['name'] ) ? $args['name'] : '';
 
-       $code = isset( $quads_options[$args['id']]['code'] ) ? $quads_options[$args['id']]['code'] : '';
+       $code = isset( $quads_options['ads'][$args['id']]['code'] ) ? $quads_options['ads'][$args['id']]['code'] : '';
 
-       $margin = isset( $quads_options[$args['id']]['margin'] ) ? esc_attr( stripslashes( $quads_options[$args['id']]['margin'] ) ) : 0;
+       $margin = isset( $quads_options['ads'][$args['id']]['margin'] ) ? esc_attr( stripslashes( $quads_options['ads'][$args['id']]['margin'] ) ) : 0;
 
-       $g_data_ad_client = isset( $quads_options[$args['id']]['g_data_ad_client'] ) ? $quads_options[$args['id']]['g_data_ad_client'] : '';
+       $g_data_ad_client = isset( $quads_options['ads'][$args['id']]['g_data_ad_client'] ) ? $quads_options['ads'][$args['id']]['g_data_ad_client'] : '';
 
-       $g_data_ad_slot = isset( $quads_options[$args['id']]['g_data_ad_slot'] ) ? $quads_options[$args['id']]['g_data_ad_slot'] : '';
+       $g_data_ad_slot = isset( $quads_options['ads'][$args['id']]['g_data_ad_slot'] ) ? $quads_options['ads'][$args['id']]['g_data_ad_slot'] : '';
 
-       $g_data_ad_width = isset( $quads_options[$args['id']]['g_data_ad_width'] ) ? $quads_options[$args['id']]['g_data_ad_width'] : '';
+       $g_data_ad_width = isset( $quads_options['ads'][$args['id']]['g_data_ad_width'] ) ? $quads_options['ads'][$args['id']]['g_data_ad_width'] : '';
 
-       $g_data_ad_height = isset( $quads_options[$args['id']]['g_data_ad_height'] ) ? $quads_options[$args['id']]['g_data_ad_height'] : '';
+       $g_data_ad_height = isset( $quads_options['ads'][$args['id']]['g_data_ad_height'] ) ? $quads_options['ads'][$args['id']]['g_data_ad_height'] : '';
 
        // Create a shorter var to make HTML cleaner
        $id = $args['id'];
@@ -1766,14 +1801,14 @@ function quads_adsense_code_callback( $args ) {
    echo quads_adtype_callback( $id, $args_ad_type );
    ?>
        </div>
-       <textarea style="vertical-align:top;margin-right:20px;" class="large-text quads-textarea" cols="50" rows="10" id="quads_settings[<?php echo $id; ?>][code]" name="quads_settings[<?php echo $id; ?>][code]"><?php echo esc_textarea( stripslashes( $code ) ); ?></textarea><label for="quads_settings[ <?php echo $id; ?> ][code]"> <?php echo $args['desc']; ?></label>
+       <textarea style="vertical-align:top;margin-right:20px;" class="large-text quads-textarea" cols="50" rows="10" id="quads_settings[ads][<?php echo $id; ?>][code]" name="quads_settings[ads][<?php echo $id; ?>][code]"><?php echo esc_textarea( stripslashes( $code ) ); ?></textarea><label for="quads_settings[ads][ <?php echo $id; ?> ][code]"> <?php echo $args['desc']; ?></label>
        <br>
        <div class="quads_adsense_code">
            <input type="button" style="vertical-align:inherit;" class="button button-primary quads-add-adsense" value="Copy / Paste AdSense Code"> <span>or add Ad Slot ID & Publisher ID manually below:</span>
            <br />
    <?php //echo __('Generate Ad Slot & Publisher ID automatically from your adsense code', 'quick-adsense-reloaded') ?>
-           <label class="quads-label-left" for="quads_settings[<?php echo $id; ?>][g_data_ad_slot]">Ad Slot ID </label><input type="text" class="quads-medium-size quads-bggrey" id="quads_settings[<?php echo $id; ?>][g_data_ad_slot]" name="quads_settings[<?php echo $id; ?>][g_data_ad_slot]" value="<?php echo $g_data_ad_slot; ?>">
-           <label for="quads_settings[<?php echo $id; ?>][g_data_ad_client]">Publisher ID</label><input type="text" id="quads_settings[<?php echo $id; ?>][g_data_ad_client]" class="medium-text quads-bggrey" name="quads_settings[<?php echo $id; ?>][g_data_ad_client]" value="<?php echo $g_data_ad_client; ?>">
+           <label class="quads-label-left" for="quads_settings[ads][<?php echo $id; ?>][g_data_ad_slot]">Ad Slot ID </label><input type="text" class="quads-medium-size quads-bggrey" id="quads_settings[ads][<?php echo $id; ?>][g_data_ad_slot]" name="quads_settings[ads][<?php echo $id; ?>][g_data_ad_slot]" value="<?php echo $g_data_ad_slot; ?>">
+           <label for="quads_settings[ads][<?php echo $id; ?>][g_data_ad_client]">Publisher ID</label><input type="text" id="quads_settings[ads][<?php echo $id; ?>][g_data_ad_client]" class="medium-text quads-bggrey" name="quads_settings[ads][<?php echo $id; ?>][g_data_ad_client]" value="<?php echo $g_data_ad_client; ?>">
            <br />
    <?php
    $args_adsense_type = array(
@@ -1791,8 +1826,8 @@ function quads_adsense_code_callback( $args ) {
               <span class="quads-pro-notice" style="display:block;margin-top:20px;"><?php echo sprintf( __( 'Install <a href="%s" target="_blank">WP QUADS PRO</a> to fully support AdSense Responsive ads.', 'quick-adsense-reloaded' ), 'http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin' ) ?></span>
            <?php } ?>
            <br />
-           <label class="quads-label-left quads-type-normal" for="quads_settings[<?php echo $id; ?>][g_data_ad_width]">Width </label><input type="number" step="1" id="quads_settings[<?php echo $id; ?>][g_data_ad_width]" name="quads_settings[<?php echo $id; ?>][g_data_ad_width]" class="small-text quads-type-normal" value="<?php echo $g_data_ad_width; ?>">
-           <label class="quads-type-normal" for="quads_settings[<?php echo $id; ?>][g_data_ad_height]">Height </label><input type="number" step="1" id="quads_settings[<?php echo $id; ?>][g_data_ad_height]" name="quads_settings[<?php echo $id; ?>][g_data_ad_height]" class="small-text quads-type-normal" value="<?php echo $g_data_ad_height; ?>">
+           <label class="quads-label-left quads-type-normal" for="quads_settings[ads][<?php echo $id; ?>][g_data_ad_width]">Width </label><input type="number" step="1" id="quads_settings[ads][<?php echo $id; ?>][g_data_ad_width]" name="quads_settings[ads][<?php echo $id; ?>][g_data_ad_width]" class="small-text quads-type-normal" value="<?php echo $g_data_ad_width; ?>">
+           <label class="quads-type-normal" for="quads_settings[ads][<?php echo $id; ?>][g_data_ad_height]">Height </label><input type="number" step="1" id="quads_settings[ads][<?php echo $id; ?>][g_data_ad_height]" name="quads_settings[ads][<?php echo $id; ?>][g_data_ad_height]" class="small-text quads-type-normal" value="<?php echo $g_data_ad_height; ?>">
        </div>
        <div class="quads-style">
            <h3>Layout</h3>
@@ -1814,8 +1849,8 @@ function quads_adsense_code_callback( $args ) {
    if( !quads_is_extra() ) {
       ?> 
               <br />
-              <label class="quads-label-left" for="quads_settings[<?php echo $id; ?>][margin]"><?php _e( 'Margin', 'quick-adsense-reloaded' ); ?></label>
-              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[<?php echo $id; ?>][margin]" name="quads_settings[<?php echo $id; ?>][margin]" value="<?php echo esc_attr( stripslashes( $margin ) ); ?>"/>px
+              <label class="quads-label-left" for="quads_settings[ads][<?php echo $id; ?>][margin]"><?php _e( 'Margin', 'quick-adsense-reloaded' ); ?></label>
+              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][margin]" name="quads_settings[ads][<?php echo $id; ?>][margin]" value="<?php echo esc_attr( stripslashes( $margin ) ); ?>"/>px
    <?php } echo apply_filters( 'quads_render_margin', '', $id ); ?>
        </div>
            <?php
@@ -1890,7 +1925,7 @@ function quads_adsense_code_callback( $args ) {
 
        $checked = isset( $quads_options[$args['id']][$args['type']] ) ? $quads_options[$args['id']][$args['type']] : '';
        $html = '<div class="quads-select-style-overwrite">';
-       $html .= '<select class="quads-size-input" id="quads_settings[' . $args['id'] . '][' . $args['type'] . ']" name="quads_settings[' . $args['id'] . '][' . $args['type'] . ']"/>';
+       $html .= '<select class="quads-size-input" id="quads_settings[ads][' . $args['id'] . '][' . $args['type'] . ']" name="quads_settings[ads][' . $args['id'] . '][' . $args['type'] . ']"/>';
        foreach ( quads_get_adsense_sizes() as $key => $value ) :
           $selected = selected( $key, $checked, false );
           $html .= '<option value="' . $key . '" ' . $selected . '>' . $value . '</option>';
@@ -1955,54 +1990,57 @@ function quads_adsense_code_callback( $args ) {
      * 
      * @return boolean
      */
-    function quads_store_adsense_args() {
-       global $quads_options;
+   function quads_store_adsense_args() {
+   global $quads_options;
 
-       foreach ( $quads_options as $id => $values ) {
+   foreach ( $quads_options as $id => $ads ) {
+      //$quads_options['ads'][$key]['code'];
+      //echo 'id:' . $id . ' - ' . $ads['ads'];
+      if (!is_array($ads)){
+         continue;
+      }
+      foreach ($ads as $key => $value) {
+         //echo $key . $value['code'] . '<br>';
+         if( is_array( $value ) && array_key_exists( 'code', $value ) && !empty( $value['code'] ) ) {
 
-          if( is_array( $values ) && array_key_exists( 'code', $values ) && !empty( $values['code'] ) ) {
+            //check to see if it is google ad
+            if( preg_match( '/googlesyndication.com/', $value['code'] ) ) {
 
-             //check to see if it is google ad
-             if( preg_match( '/googlesyndication.com/', $values['code'] ) ) {
+               // Test if its google asyncron ad
+               if( preg_match( '/data-ad-client=/', $value['code'] ) ) {
+                  //*** GOOGLE ASYNCRON *************
+                  $quads_options['ads'][$key]['current_ad_type'] = 'google_async';
+                  //get g_data_ad_client
+                  $explode_ad_code = explode( 'data-ad-client', $value['code'] );
+                  preg_match( '#"([a-zA-Z0-9-\s]+)"#', $explode_ad_code[1], $matches_add_client );
+                  $quads_options['ads'][$key]['g_data_ad_client'] = str_replace( array('"', ' '), array(''), $matches_add_client[1] );
 
-                // Test if its google asyncron ad
-                if( preg_match( '/data-ad-client=/', $values['code'] ) ) {
-                   //*** GOOGLE ASYNCRON *************
-                   $quads_options[$id]['current_ad_type'] = 'google_async';
-                   //get g_data_ad_client
-                   $explode_ad_code = explode( 'data-ad-client', $values['code'] );
-                   preg_match( '#"([a-zA-Z0-9-\s]+)"#', $explode_ad_code[1], $matches_add_client );
-                   $quads_options[$id]['g_data_ad_client'] = str_replace( array('"', ' '), array(''), $matches_add_client[1] );
+                  //get g_data_ad_slot
+                  $explode_ad_code = explode( 'data-ad-slot', $value['code'] );
+                  preg_match( '#"([a-zA-Z0-9/\s]+)"#', $explode_ad_code[1], $matches_add_slot );
+                  $quads_options['ads'][$key]['g_data_ad_slot'] = str_replace( array('"', ' '), array(''), $matches_add_slot[1] );
+               } else {
+                  //*** GOOGLE SYNCRON *************
+                  $quads_options['ads'][$key]['current_ad_type'] = 'google_sync';
+                  //get g_data_ad_client
+                  $explode_ad_code = explode( 'google_ad_client', $value['code'] );
+                  preg_match( '#"([a-zA-Z0-9-\s]+)"#', $explode_ad_code[1], $matches_add_client );
+                  $quads_options['ads'][$key]['g_data_ad_client'] = str_replace( array('"', ' '), array(''), $matches_add_client[1] );
 
-                   //get g_data_ad_slot
-                   $explode_ad_code = explode( 'data-ad-slot', $values['code'] );
-                   preg_match( '#"([a-zA-Z0-9/\s]+)"#', $explode_ad_code[1], $matches_add_slot );
-                   $quads_options[$id]['g_data_ad_slot'] = str_replace( array('"', ' '), array(''), $matches_add_slot[1] );
-                } else {
-                   //*** GOOGLE SYNCRON *************
-                   $quads_options[$id]['current_ad_type'] = 'google_sync';
-                   //get g_data_ad_client
-                   $explode_ad_code = explode( 'google_ad_client', $values['code'] );
-                   preg_match( '#"([a-zA-Z0-9-\s]+)"#', $explode_ad_code[1], $matches_add_client );
-                   $quads_options[$id]['g_data_ad_client'] = str_replace( array('"', ' '), array(''), $matches_add_client[1] );
+                  //get g_data_ad_slot
+                  $explode_ad_code = explode( 'google_ad_slot', $value['code'] );
+                  preg_match( '#"([a-zA-Z0-9/\s]+)"#', $explode_ad_code[1], $matches_add_slot );
+                  $quads_options['ads'][$key]['g_data_ad_slot'] = str_replace( array('"', ' '), array(''), $matches_add_slot[1] );
+               }
+            }
+         }
+      }
+   }
+   //wp_die( var_dump( $quads_options ) );
+   update_option( 'quads_settings', $quads_options );
+}
 
-                   //get g_data_ad_slot
-                   $explode_ad_code = explode( 'google_ad_slot', $values['code'] );
-                   preg_match( '#"([a-zA-Z0-9/\s]+)"#', $explode_ad_code[1], $matches_add_slot );
-                   $quads_options[$id]['g_data_ad_slot'] = str_replace( array('"', ' '), array(''), $matches_add_slot[1] );
-                }
-             } else {
-                //$quads_options[$id]['current_ad_type'] = 'other';
-                //$quads_options[$id]['g_data_ad_client'] = '';
-                //$quads_options[$id]['g_data_ad_slot'] = '';
-             }
-          }
-       }
-       //var_dump($quads_options);
-       update_option( 'quads_settings', $quads_options );
-    }
-
-    /**
+/**
      * Populate AdSense Code field otherwise ads are not shown on frontpage (Bug). 
      * @todo
      * 
