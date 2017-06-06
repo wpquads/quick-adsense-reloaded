@@ -45,8 +45,8 @@ function quads_shortcode_display_ad( $atts ) {
         'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
         'float:none;margin:0px;');
     
-    $adsalign = $quads_options['ad' . $id]['align'];
-    $adsmargin = isset( $quads_options['ad' . $id]['margin'] ) ? $quads_options['ad' . $id]['margin'] : '3'; // default
+    $adsalign = $quads_options['ads']['ad' . $id]['align'];
+    $adsmargin = isset( $quads_options['ads']['ad' . $id]['margin'] ) ? $quads_options['ads']['ad' . $id]['margin'] : '3'; // default
     $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
 
     
@@ -75,12 +75,12 @@ function quads_get_ad($id = 0) {
         return;
     }
     
-    if ( isset($quads_options['ad' . $id]['code']) ){
+    if ( isset($quads_options['ads']['ad' . $id]['code']) ){
         // Count how often the shortcode is used - Important
         quads_set_ad_count_shortcode();
         //$code = "\n".'<!-- WP QUADS Shortcode Ad v. ' . QUADS_VERSION .' -->'."\n";
         //return $code . $quads_options['ad' . $id]['code'];
-        return quads_render_ad('ad' . $id, $quads_options['ad' . $id]['code']);
+        return quads_render_ad('ad' . $id, $quads_options['ads']['ad' . $id]['code']);
     }
 }
 

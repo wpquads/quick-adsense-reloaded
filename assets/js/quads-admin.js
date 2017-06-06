@@ -3,7 +3,9 @@ var strict;
 
 jQuery(document).ready(function ($) {
      
-    
+    /**
+     * General Tab
+     */
     // Inactive select fields are greyed out
     $('.quads-assign').each(function(e){
         if (!$(this).prop('checked')){
@@ -21,6 +23,9 @@ jQuery(document).ready(function ($) {
         }
     });      
     
+    /**
+     * AdSense Code Tab
+     */
     // Check if submit button is visible than stick it to the bottom of the page
     $(window).scroll(function() {
         var elem = '#quads_tab_container .submit';
@@ -62,10 +67,7 @@ jQuery(document).ready(function ($) {
         }
     });
     
-//    // remove content of amp code form if its clicked in
-//    $('.quads-amp-code').click(function(){
-//        $(this).val('');
-//    });
+
     
     /**
      * Toggle Button | Open All Ads
@@ -138,7 +140,10 @@ jQuery(document).ready(function ($) {
         e.stopPropagation();
     });
 
-    // Save settings via ajax
+/**
+ * Save settings via ajax
+ */
+ 
     jQuery('#quads_settings').submit(function() {
         
         // Check if ad name has been changed and prepare new data for saving
@@ -182,7 +187,9 @@ jQuery(document).ready(function ($) {
     }
     
     
-    // Paste AdSense Code form
+    /**
+     * Paste AdSense Code form
+     */ 
     $(document).on('click', '#quads-paste-button', function () {
 
         var content = $('#quads-adsense-form').val();
@@ -210,8 +217,8 @@ jQuery(document).ready(function ($) {
 
         var id = containerID.replace("quads-toggle", "");
 
-        $('#quads_settings\\[ads\\][' + id + '\\]\\[g_data_ad_slot\\]').val(GoogleAd.slotId);
-        $('#quads_settings\\[ads\\][' + id + '\\]\\[g_data_ad_client\\]').val(GoogleAd.pubId);
+        $('#quads_settings\\[ads\\]\\[' + id + '\\]\\[g_data_ad_slot\\]').val(GoogleAd.slotId);
+        $('#quads_settings\\[ads\\]\\[' + id + '\\]\\[g_data_ad_client\\]').val(GoogleAd.pubId);
         if ('normal' == GoogleAd.type) {
             console.log($('#quads_settings\\[ads\\]\\[' + id + '\\]\\[adsense_type\\]'));
             $('#quads_settings\\[ads\\]\\[' + id + '\\]\\[adsense_type\\]').val('normal');
@@ -507,11 +514,12 @@ jQuery(document).ready(function ($) {
     /**
      * Toggle the adsense container
      */
-    $('.quads-ad-toggle-header').click(function (e) {
+    //$('.quads-ad-toggle-header').click(function (e) {
+    $('.quads-form-table').on('click', '.quads-ad-toggle-header', function(e) {
         e.preventDefault();
 
         var container = $('#' + $(this).data('box-id'));
-console.log(container);
+        //console.log(container);
         container.toggle(0, function () {
             if (container.parents('.quads-ad-toggle-header').hasClass('quads-box-close')) {
                 // open the box
@@ -584,45 +592,8 @@ console.log(container);
         });
     }
     
-    /**
-     * Add new ads
-     */
-                var newAddCount = 1;
-                        jQuery('#quads-add-new-ad').click(function (e) {
-                e.preventDefault();
-                        var data = {
-                        action: 'quads_ajax_add_ads',
-                                nonce: quads.nonce,
-                                count: newAddCount++
-
-                        };
-                        $.post(ajaxurl, data, function (resp, status, xhr) {
-                        jQuery('#quads_settingsadsense_header table tbody tr').last().after(resp);
-                                //console.log('success:' + resp + status + xhr);
-                        }).fail(function (xhr) { // Will be executed when $.post() fails
-                console.log('error: ' + xhr.statusText);
-                });
-                });
-    /**
-     * Remove ad
-     */
-            jQuery('.quads-delete-ad').click(function (e) {
-                e.preventDefault();
-console.log('remove');
-        
-            var parentContainerID = $(this).parents('.quads-ad-toggle-container').attr('id');
 
 
-            $('#' + parentContainerID).remove();
-            //$('#' + parentContainerID).find()remove();
-            
-            $(".quads-ad-toggle-header[data-box-id=" + parentContainerID + "]").remove();
-            
-            var container = $('#' + $(this).data('box-id'));
-            
-            //$(this).parent('.quads-ad-toggle-container').remove();
-            });
-    
 
 }); // document ready
 

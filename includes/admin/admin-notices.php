@@ -354,7 +354,7 @@ function quads_ads_empty() {
     $check = array();
 
     for ( $i = 1; $i <= 10; $i++ ) {
-        if( !empty( $quads_options['ad' . $i]['code'] ) ) {
+        if( !empty( $quads_options['ads']['ad' . $i]['code'] ) ) {
             $check[] = 'true';
         }
     }

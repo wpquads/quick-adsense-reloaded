@@ -362,6 +362,7 @@ li.quads-tabs {
     -o-user-select: none;
     user-select: none;
     cursor: pointer !important;
+    min-height: 20px;
 }
 
 .quads-ad-toggle-container{
@@ -385,7 +386,7 @@ li.quads-tabs {
 .quads-advanced-ad-box{
     clear: both;
     margin-top:20px;
-    margin-bottom:20px;
+    margin-bottom:5px;
 }
 
 
@@ -821,4 +822,14 @@ p.submit{
     float:left;
     padding-top:0px;
     padding-bottom:0px;
+}
+
+.quads-delete-ad{
+    clear:both;
+    display:block;
+    background: url('../images/remove-icon.png');
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    height: 20px;
+    padding-left:30px;
 }
