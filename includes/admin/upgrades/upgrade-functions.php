@@ -58,6 +58,7 @@ add_action( 'admin_init', 'quads_do_automatic_upgrades' );
 
 /**
  * Update Settings for version 1.5.3
+ * Add new index $settings['ads']
  */
 function quads_update_settings(){
    $settings = get_option( 'quads_settings' );

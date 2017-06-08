@@ -451,25 +451,27 @@ function quads_filter_default_ads( $content ) {
         $content = str_replace( "<IMG", $imgtag, $content );
         $content = str_replace( "</A>", $atag, $content );
 
-        // Start
-        $paragraphsArray = explode( $imgtag, $content );
-        if( ( int ) $imageNo < count( $paragraphsArray ) ) {
-            $paragraphsArrayImages = explode( $delimiter, $paragraphsArray[$imageNo] );
-            if( count( $paragraphsArrayImages ) > 1 ) {
-                $tss = explode( $caption, $paragraphsArray[$imageNo] );
-                $ccp = ( count( $tss ) > 1 ) ? strpos( strtolower( $tss[0] ), '[caption ' ) === false : false;
-                $paragraphsArrayAtag = explode( $atag, $paragraphsArray[$imageNo] );
-                $cdu = ( count( $paragraphsArrayAtag ) > 1 ) ? strpos( strtolower( $paragraphsArrayAtag[0] ), '<a href' ) === false : false;
+        // Get all images in content
+        $imagesArray = explode( $imgtag, $content );
+        // Modify Image ad
+        if( ( int ) $imageNo < count( $imagesArray ) ) {
+            //Get all tags
+            $tagsArray = explode( $delimiter, $imagesArray[$imageNo] );
+            if( count( $tagsArray ) > 1 ) {
+                $captionArray = explode( $caption, $imagesArray[$imageNo] );
+                $ccp = ( count( $captionArray ) > 1 ) ? strpos( strtolower( $captionArray[0] ), '[caption ' ) === false : false;
+                $imagesArrayAtag = explode( $atag, $imagesArray[$imageNo] );
+                $cdu = ( count( $imagesArrayAtag ) > 1 ) ? strpos( strtolower( $imagesArrayAtag[0] ), '<a href' ) === false : false;
+                // Show ad after caption
                 if( $imageCaption && $ccp ) {
-                    $paragraphsArray[$imageNo] = implode( $caption, array_slice( $tss, 0, 1 ) ) . $caption . "\r\n" . '<!--' . $imageAd . '-->' . "\r\n" . implode( $caption, array_slice( $tss, 1 ) );
+                    $imagesArray[$imageNo] = implode( $caption, array_slice( $captionArray, 0, 1 ) ) . $caption . "\r\n" . '<!--' . $imageAd . '-->' . "\r\n" . implode( $caption, array_slice( $captionArray, 1 ) );
                 } else if( $cdu ) {
-                    $paragraphsArray[$imageNo] = implode( $atag, array_slice( $paragraphsArrayAtag, 0, 1 ) ) . $atag . "\r\n" . '<!--' . $imageAd . '-->' . "\r\n" . implode( $atag, array_slice( $paragraphsArrayAtag, 1 ) );
+                    $imagesArray[$imageNo] = implode( $atag, array_slice( $imagesArrayAtag, 0, 1 ) ) . $atag . "\r\n" . '<!--' . $imageAd . '-->' . "\r\n" . implode( $atag, array_slice( $imagesArrayAtag, 1 ) );
                 } else {
-
-                    $paragraphsArray[$imageNo] = implode( $delimiter, array_slice( $paragraphsArrayImages, 0, 1 ) ) . $delimiter . "\r\n" . '<!--' . $imageAd . '-->' . "\r\n" . implode( $delimiter, array_slice( $paragraphsArrayImages, 1 ) );
+                    $imagesArray[$imageNo] = implode( $delimiter, array_slice( $tagsArray, 0, 1 ) ) . $delimiter . "\r\n" . '<!--' . $imageAd . '-->' . "\r\n" . implode( $delimiter, array_slice( $tagsArray, 1 ) );
                 }
             }
-            $content = implode( $imgtag, $paragraphsArray );
+            $content = implode( $imgtag, $imagesArray );
         }
     }
 
@@ -683,7 +685,7 @@ function quads_replace_ads($content, $quicktag, $id) {
         
 	if ($id != -1) {
                 
-                $code = !empty($quads_options['ad' . $id ]['code']) ? $quads_options['ad' . $id ]['code'] : '';
+                $code = !empty($quads_options['ads']['ad' . $id ]['code']) ? $quads_options['ads']['ad' . $id ]['code'] : '';
                 $style = quads_get_inline_ad_style($id);
                 $adscode =
 			"\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".

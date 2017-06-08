@@ -267,7 +267,7 @@ function quads_update_notice_v2(){
     }
 
     if( quads_is_pro_active() && (version_compare( QUADS_PRO_VERSION, '1.3.6', '<' ) ) ) {
-        $message = sprintf( __( 'Please update to <strong>WP QUADS PRO 1.3.6</strong> or higher. This version of WP QUADS Pro is not longer working with WP QUADS ' . QUADS_VERSION . '.<br>WP QUADS Pro contains an important security fix. Updating requires a valid <a href="%s" target="_new">license key</a>.', 'quick-adsense-reloaded' ), 'https://wpquads.com/?utm_source=plugin_notice&utm_medium=admin&utm_campaign=activate_license' );
+        $message = sprintf( __( 'Please update to <strong>WP QUADS PRO 1.3.6</strong> or higher. This version of <strong>WP QUADS Pro</strong> is not working with WP QUADS ' . QUADS_VERSION . '.<br>WP QUADS Pro contains an important security fix. Updating requires a valid <a href="%s" target="_new">license key</a>.', 'quick-adsense-reloaded' ), 'https://wpquads.com/?utm_source=plugin_notice&utm_medium=admin&utm_campaign=activate_license' );
         ?>
         <div class="notice notice-error">
             <p><?php echo $message; ?></p>
