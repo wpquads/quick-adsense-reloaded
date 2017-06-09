@@ -833,3 +833,13 @@ p.submit{
     height: 20px;
     padding-left:30px;
 }
+
+#backup-settings-textarea{
+    width: 580px;
+    height: 400px;
+    font-family: Menlo, Monaco, monospace;
+    background: none;
+    white-space: normal;
+    overflow: auto;
+    display: block;
+}

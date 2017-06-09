@@ -8,7 +8,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: adsense, ads, ad, google adsense, advertising, amp, ad injection, ad inserter, ad manager
 Requires at least: 3.6+
-Tested up to: 4.7
+Tested up to: 4.8
 Stable tag: {{ version }}
 
 Quick Adsense Reloaded! Quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support
@@ -130,7 +130,9 @@ Alternative Installation:
 == Changelog == 
 
 = 1.5.3 =
-* Fix: Security Update! If you are using WP QUADS Pro you need to update both plugins. WP QUADS Pro 1.3.6 is required for this version. Updating is highly recommended.
+* New: Unlimited amount of ads can be used with WP QUADS PRO
+* Tweak: Move debug setting to tab plugin settings
+* Fix: Security Update! If you are using WP QUADS Pro you need to update WP QUADS Pro to version 1.3.6.
 * Fix: If page or post is used as frontpage the home page condition is ignored
 
 = 1.5.2 =
@@ -160,5 +162,5 @@ Complete changelog: https://wpquads.com/changelog
 
 == Upgrade Notice ==
 
-= 1.4.3 =
+= 1.5.3 =
 1.4.3 This new version brings a ton of improvements and small fixes - WP QUADS<a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">Complete changelog! </a>

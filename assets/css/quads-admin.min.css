@@ -362,6 +362,7 @@ li.quads-tabs {
     -o-user-select: none;
     user-select: none;
     cursor: pointer !important;
+    min-height: 20px;
 }
 
 .quads-ad-toggle-container{
@@ -821,4 +822,24 @@ p.submit{
     float:left;
     padding-top:0px;
     padding-bottom:0px;
+}
+
+.quads-delete-ad{
+    clear:both;
+    display:block;
+    background: url('../images/remove-icon.png');
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    height: 20px;
+    padding-left:30px;
+}
+
+#backup-settings-textarea{
+    width: 580px;
+    height: 400px;
+    font-family: Menlo, Monaco, monospace;
+    background: none;
+    white-space: normal;
+    overflow: auto;
+    display: block;
 }

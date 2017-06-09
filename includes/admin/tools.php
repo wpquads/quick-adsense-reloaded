@@ -66,7 +66,7 @@ function quads_get_tools_tabs() {
 
 	$tabs                  = array();
 	$tabs['import_export'] = __( 'Import/Export', 'quick-adsense-reloaded' );
-        $tabs['system_info'] = __( 'System Info', 'quick-adsense-reloaded' );
+       $tabs['system_info'] = __( 'System Info', 'quick-adsense-reloaded' );
 
 	return apply_filters( 'quads_tools_tabs', $tabs );
 }
@@ -123,6 +123,8 @@ function quads_tools_import_export_display() {
 	do_action( 'quads_tools_import_export_after' );
 }
 add_action( 'quads_tools_tab_import_export', 'quads_tools_import_export_display' );
+
+
 
 /* check if function is disabled or not
  * 
@@ -250,7 +252,7 @@ function quads_tools_sysinfo_display() {
 	}
         
 ?>
-	<!--<form action="<?php echo esc_url( admin_url( 'admin.php?page=quads-settings&tab=system_info' ) ); ?>" method="post" dir="ltr">//-->
+	<!--<form action="<?php //echo esc_url( admin_url( 'admin.php?page=quads-settings&tab=system_info' ) ); ?>" method="post" dir="ltr">//-->
 		<textarea readonly="readonly" onclick="this.focus(); this.select()" id="system-info-textarea" name="quads-sysinfo" title="To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac)."><?php echo quads_tools_sysinfo_get(); ?></textarea>
 		<!--
                 <p class="submit">
@@ -259,8 +261,27 @@ function quads_tools_sysinfo_display() {
 		<!--</p>//-->
 	<!--</form>//-->
 <?php
+       echo '<br>' . quads_render_backup_settings(); 
+
 }
 add_action( 'quads_tools_tab_system_info', 'quads_tools_sysinfo_display' );
+
+/**
+ * Render textarea with backup settings from previous version 1.5.2
+ * @return string
+ */
+function quads_render_backup_settings(){
+       if( ! current_user_can( 'update_plugins' ) ) {
+		return;
+	}
+       
+       $settings = json_encode(get_option('quads_settings_1_5_2'));
+       echo '<h3>' . __('Backup data from WP QUADS 1.5.2', 'quick-adsense-reloaded') .  '</h3>' . __('Copy and paste this data into a text file with extension *.json');       
+       ?>
+
+       <textarea readonly="readonly" onclick="this.focus(); this.select()" id="backup-settings-textarea" name="quads-backupsettings" title="To copy the backup settings info, click below then press Ctrl + C (PC) or Cmd + C (Mac)."><?php echo $settings; ?></textarea>
+<?php
+}
 
 
 /**

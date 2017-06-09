@@ -39,3 +39,5 @@ function quads_close_upgrade_notice(){
 }
 add_action('quads_close_upgrade_notice', 'quads_close_upgrade_notice');
 
+
+

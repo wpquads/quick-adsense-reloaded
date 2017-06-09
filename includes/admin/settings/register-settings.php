@@ -375,7 +375,7 @@ function quads_get_registered_settings() {
                'id' => 'create_settings',
                'name' => __( 'Remove menu button', 'quick-adsense-reloaded' ),
                //'desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
-               'desc' => __( 'Remove' ),
+               'desc' => __( 'Remove it' ),
                'helper-desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
                'type' => 'checkbox',
            ),
@@ -384,9 +384,15 @@ function quads_get_registered_settings() {
                'name' => __( 'Delete Data on Uninstall?', 'quick-adsense-reloaded' ),
                //'desc' => __( 'Check this box if you would like <strong>Settings->WPQUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
                'helper-desc' => __( 'Check this box if you would like <strong>Settings->WPQUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
-               'desc' => 'Delete',
+               'desc' => 'Delete data',
                'type' => 'checkbox'
            ),
+           'debug_mode' => array(
+               'id' => 'debug_mode',
+               'name' => __( 'Debug mode', 'quick-adsense-reloaded' ),
+               'desc' => __( 'Check this to not minify JavaScript and CSS files. This makes debugging much easier and is recommended setting for inspecting issues on your site', 'quick-adsense-reloaded' ),
+               'type' => 'checkbox'
+           )
                )
        ),
        'licenses' => apply_filters( 'quads_settings_licenses', array('licenses_header' => array(
@@ -428,12 +434,6 @@ function quads_get_registered_settings() {
                'name' => __( 'Systeminfo', 'quick-adsense-reloaded' ),
                'desc' => __( '', 'quick-adsense-reloaded' ),
                'type' => 'systeminfo'
-           ),
-           'debug_mode' => array(
-               'id' => 'debug_mode',
-               'name' => __( 'Debug mode', 'quick-adsense-reloaded' ),
-               'desc' => __( 'This does not minify javascript and css files. This makes debugging much easier and is recommended setting for inspecting issues on your site', 'quick-adsense-reloaded' ),
-               'type' => 'checkbox'
            )
                )
        )

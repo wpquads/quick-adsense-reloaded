@@ -235,6 +235,7 @@ function quads_get_max_allowed_post_ads( $content ) {
         }
     }
     //echo 'test' . $maxAds . quads_is_amp_endpoint();
+    //wp_die($maxAds);
     return $maxAds;
 }
 

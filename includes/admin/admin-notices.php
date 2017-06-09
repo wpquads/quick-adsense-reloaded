@@ -31,6 +31,8 @@ function quads_admin_messages() {
     quads_update_notice();
     
     quads_update_notice_v2();
+    
+    quads_update_notice_1_5_3();
 
     if( quads_is_admin_page() ) {
         echo '<div class="notice notice-error" id="wpquads-adblock-notice" style="display:none;">' . sprintf( __( '<strong><p>Your ad blocker browser extension is removing WP QUADS ressources and is breaking this settings screen! Deactivate adblock for this website and you are good! WP QUADS is used on 40.000 websites and is into focus of the big adblocking companies. That\'s the downside of our success but nothing you need to worry about. </strong></p>', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
@@ -261,19 +263,45 @@ function quads_update_notice() {
  * @return boolean
  */
 function quads_update_notice_v2(){
-    // do not do anything
-    if( false !== get_option( 'quads_show_update_notice_v2' )) {
-        return false;
-    }
 
     if( quads_is_pro_active() && (version_compare( QUADS_PRO_VERSION, '1.3.6', '<' ) ) ) {
-        $message = sprintf( __( 'Please update to <strong>WP QUADS PRO 1.3.6</strong> or higher. This version of <strong>WP QUADS Pro</strong> is not working with WP QUADS ' . QUADS_VERSION . '.<br>WP QUADS Pro contains an important security fix. Updating requires a valid <a href="%s" target="_new">license key</a>.', 'quick-adsense-reloaded' ), 'https://wpquads.com/?utm_source=plugin_notice&utm_medium=admin&utm_campaign=activate_license' );
+        $message = sprintf( __( 'You need to update <strong>WP QUADS PRO to version 1.3.6</strong> or higher. Your version of <strong>WP QUADS Pro</strong> is not working with this version of WP QUADS ' . QUADS_VERSION . '.<br>New version of WP QUADS Pro allows unlimited amount of ads. Updating requires a valid <a href="%s" target="_new">license key</a>.', 'quick-adsense-reloaded' ), 'https://wpquads.com/?utm_source=plugin_notice&utm_medium=admin&utm_campaign=activate_license' );
         ?>
         <div class="notice notice-error">
             <p><?php echo $message; ?></p>
         </div> <?php
     }
 }
+
+/**
+ * Show upgrade notice after updating from 1.5.2 to 1.5.3
+ * @return boolean
+ */
+function quads_update_notice_1_5_3(){
+
+    // do not show anything
+    if( false !== get_option( 'quads_hide_update_notice_1_5_3' )) {
+        return false;
+    }
+    
+    $previous_version = get_option('quads_version_upgraded_from');
+    
+    //wp_die(QUADS_VERSION);
+
+    
+    if( !empty($previous_version) && QUADS_VERSION == '1.5.3' ) {
+
+        $message = sprintf( __( 'This is a huge update! The data structure of WP QUADS has been modified and improved for better performance and great new features. <br> For the case you\'d experience any issues, we made a <a href="%1s" target="_self">backup of previous WP QUADS data</a>. So you can <a href="%2s" target="_new">switch back to the previous version.</a> anytime. <br><br>Please <a href="%3s" target="_new">open first a support ticket</a> if you feel you need to go back.', 'quick-adsense-reloaded' ), admin_url() . '?page=quads-settings&tab=help', 'https://wpquads.com/docs/install-older-plugin-version/?utm_source=plugin_notice&utm_medium=admin&utm_campaign=install_older_version', 'https://wordpress.org/support/plugin/quick-adsense-reloaded' );
+        ?>
+        <div class="notice notice-error">
+            <p><?php echo $message; ?></p>
+            <?php
+            echo '<p><a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_update_notice_1_5_3" class="button-primary" target="_self" title="Close Notice" style="font-weight:bold;">' . __('Close Notice','quick-adsense-reloaded') . '</a>';
+            ?>
+        </div> <?php
+    }
+}
+
 
 /**
  * Hide Notice and update db option quads_hide_notice
@@ -283,6 +311,15 @@ function quads_hide_notice() {
 }
 
 add_action( 'quads_hide_update_notice', 'quads_hide_notice', 10 );
+
+/**
+ * Set option to hide admin notice 1.5.3
+ * @return boolean
+ */
+function quads_hide_notice_1_5_3(){
+      update_option('quads_hide_update_notice_1_5_3', '1');
+}
+add_action('quads_hide_update_notice_1_5_3', 'quads_hide_notice_1_5_3');
 
 /**
  * Check if any ad is activated and assigned in general settings
