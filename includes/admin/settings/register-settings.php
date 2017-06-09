@@ -277,7 +277,7 @@ function quads_get_registered_settings() {
                'id' => 'quads_ads',
                'name' => __( '', 'quick-adsense-reloaded' ),
                //'desc' => __( 'Shortcode: <strong>[quads id="10"] </strong></br>PHP <strong>echo do_shortcode(\'[quads id="10"]\');</strong>', 'quick-adsense-reloaded' ),
-               'type' => 'adsense_code_new',
+               'type' => 'ad_code',
                //'options' => quads_get_alignment(),
            ),
            'widget_header' => array(
@@ -1628,21 +1628,66 @@ function quads_ajax_add_ads(){
 add_action( 'wp_ajax_quads_ajax_add_ads', 'quads_ajax_add_ads' );
 
 /**
- * Render all ad relevant settings
+ * Count normal ads. Do not count widget ads
  * 
- * @global $quads_options $quads_options
+ * @global array $quads_options
+ * @return int
  */
-function quads_adsense_code_new_callback(){
+function quads_count_normal_ads() {
    global $quads_options;
    
-   //echo count ($quads_options['ads']);
+   if(!isset($quads_options['ads'])){
+      return 0;
+   }
+   
+   // Count normal ads - not widget ads
+   $adsCount = 0;
+   $id = 1;
+   foreach ( $quads_options['ads'] as $ads => $value ) {
+      // Skip if its a widget ad
+      if( strpos( $ads, 'ad' . $id ) === 0 && false === strpos( $ads, 'ad' . $id . '_widget' ) ) {
+         $adsCount++;
+      }
+      $id++;
+   }
+   return $adsCount;
+}
 
-   $countAds = isset($quads_options['ads']) ? count ($quads_options['ads']) : 10;
-
+/**
+ * Render all ad relevant settings (ADSENSE CODE tab)
+ * No widget ads
+ * @global $quads_options $quads_options
+ */
+function quads_ad_code_callback(){
+   global $quads_options;
+   
    $args = array();
    
    $i = 1;
-  
+   // Render 10 default ads if there are less than 10 ads stored or none at all
+   if( quads_count_normal_ads() < 10 ) {
+      //wp_die('t2');
+      while ( $i <= 10 ) {
+
+         $id = $i++;
+
+         $args['id'] = $id;
+
+         $args['desc'] = '';
+
+         $args['name'] = !empty( $quads_options['ads']['ad' . $id]['label'] ) ? $quads_options['ads']['ad' . $id]['label'] : 'Ad ' . $id;
+
+         echo '<tr><td>';
+         echo quads_adsense_code_callback( $args );
+         echo '</td></tr>';
+         
+      }
+      // Stop here early
+      return true;
+   }
+
+   // Else render 10 + n ads
+   $i = 1;
    foreach ($quads_options['ads'] as $ads => $value ){
             
       $id = $i++;

@@ -63,11 +63,13 @@ add_action( 'admin_init', 'quads_do_automatic_upgrades' );
 function quads_update_settings(){
    $settings = get_option( 'quads_settings' );
 
-      // Do not update - we already did it
-      if (isset($settings['ads'])){
-         return false;
-      }
-   
+   // Do not update - we already did it
+   if (isset($settings['ads'])){
+      //wp_die('already updated');
+      return false;
+   }
+   //wp_die('update it');
+
    foreach ( $settings as $key => $value ) {
       
       if( $key === 'ad1_widget'){

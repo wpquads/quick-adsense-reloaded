@@ -45,7 +45,7 @@ function quads_admin_messages() {
     }
 
     if( !quads_is_post_type_activated() && quads_is_admin_page() ) {
-        echo '<div class="notice notice-warning">' . sprintf( __( '<strong>No ads are shown - No post types selected</strong> You need to select at least 1 post type like <i>blog</i> or <i>page</i>. Fix this in <a href="%s">General Settings</a> or no ads are shown at all.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
+        echo '<div class="notice notice-warning">' . sprintf( __( '<strong>No ads are shown - No post type chosen!</strong> You need to select at least 1 post type like <i>blog</i> or <i>page</i>. Fix this in <a href="%s">General Settings</a> or no ads are shown at all.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
     }
 
     if( isset( $_GET['quads-action'] ) && $_GET['quads-action'] === 'validate' && quads_is_admin_page() && quads_is_any_ad_activated() && quads_is_post_type_activated() && quads_get_active_ads() > 0 ) {
