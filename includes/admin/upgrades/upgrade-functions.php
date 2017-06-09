@@ -62,13 +62,13 @@ add_action( 'admin_init', 'quads_do_automatic_upgrades' );
  */
 function quads_update_settings(){
    $settings = get_option( 'quads_settings' );
+
+      // Do not update - we already did it
+      if (isset($settings['ads'])){
+         return false;
+      }
    
    foreach ( $settings as $key => $value ) {
-      
-      // Do not update - already done
-      if (!empty($settings['ads'][$key])){
-         continue;
-      }
       
       if( $key === 'ad1_widget'){
             $new['ads']['ad1_widget'] = $value;
@@ -131,8 +131,8 @@ function quads_update_settings(){
             $new[$key] = $value;
    }
    // Backup old settings just in case. Do this only one time!
-   if (false === get_option('quads_settings_backup')){
-      update_option('quads_settings_backup', $settings);
+   if (false === get_option('quads_settings_1_5_2')){
+      update_option('quads_settings_1_5_2', $settings);
    }
    update_option('quads_settings', $new);
    //wp_die(var_dump($new));
