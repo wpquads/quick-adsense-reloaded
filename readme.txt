@@ -134,6 +134,7 @@ Alternative Installation:
 * Tweak: Move debug setting to tab plugin settings
 * Fix: Security Update! If you are using WP QUADS Pro you need to update WP QUADS Pro to version 1.3.6.
 * Fix: If page or post is used as frontpage the home page condition is ignored
+* Fix: Better sanitization - remove all whitespaces in settings
 
 = 1.5.2 =
 * Tweak: Make sure that for AdSense ads only the AdSense ad option is used and not the plain text one
