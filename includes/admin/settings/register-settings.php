@@ -1665,7 +1665,7 @@ function quads_ad_code_callback(){
    
    $i = 1;
    // Render 10 default ads if there are less than 10 ads stored or none at all
-   if( quads_count_normal_ads() < 10 ) {
+   if( quads_count_normal_ads() < 10 || !quads_is_extra()) {
       //wp_die('t2');
       while ( $i <= 10 ) {
 

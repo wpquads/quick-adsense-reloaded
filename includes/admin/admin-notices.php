@@ -265,7 +265,7 @@ function quads_update_notice() {
 function quads_update_notice_v2(){
 
     if( quads_is_pro_active() && (version_compare( QUADS_PRO_VERSION, '1.3.6', '<' ) ) ) {
-        $message = sprintf( __( 'You need to update <strong>WP QUADS PRO to version 1.3.6</strong> or higher. Your version of <strong>WP QUADS Pro</strong> is not working with this version of WP QUADS ' . QUADS_VERSION . '.<br>New version of WP QUADS Pro allows unlimited amount of ads. Updating requires a valid <a href="%s" target="_new">license key</a>.', 'quick-adsense-reloaded' ), 'https://wpquads.com/?utm_source=plugin_notice&utm_medium=admin&utm_campaign=activate_license' );
+        $message = sprintf( __( 'You need to update <strong>WP QUADS PRO to version 1.3.6</strong> or higher. Your version of <strong>WP QUADS Pro</strong> is '.QUADS_PRO_VERSION. '.<br>WP QUADS Pro '.QUADS_PRO_VERSION.' allows unlimited amount of ads. <br>Updating requires a valid <a href="%s" target="_new">license key</a>.', 'quick-adsense-reloaded' ), 'https://wpquads.com/#buy-wpquads?utm_source=plugin_notice&utm_medium=admin&utm_campaign=activate_license' );
         ?>
         <div class="notice notice-error">
             <p><?php echo $message; ?></p>
