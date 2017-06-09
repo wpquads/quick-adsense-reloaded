@@ -466,7 +466,7 @@ function quads_empty_callback() {
  * @return string $input Sanitized value
  */
 function quads_settings_sanitize( $input = array() ) {
-
+   
    global $quads_options;
 
 
@@ -479,23 +479,24 @@ function quads_settings_sanitize( $input = array() ) {
    $settings = quads_get_registered_settings();
    $tab = isset( $referrer['tab'] ) ? $referrer['tab'] : 'general';
 
+   
    $input = $input ? $input : array();
    $input = apply_filters( 'quads_settings_' . $tab . '_sanitize', $input );
-
    // Loop through each setting being saved and pass it through a sanitization filter
    foreach ( $input as $key => $value ) {
 
       // Get the setting type (checkbox, select, etc)
       $type = isset( $settings[$tab][$key]['type'] ) ? $settings[$tab][$key]['type'] : false;
-
       if( $type ) {
          // Field type specific filter
          $input[$key] = apply_filters( 'quads_settings_sanitize_' . $type, $value, $key );
       }
 
       // General filter
-      $input[$key] = apply_filters( 'quads_settings_sanitize', $value, $key );
+      $input[$key] = apply_filters( 'quads_settings_sanitize', $value, $key );      
    }
+   //wp_die(var_dump($input));
+   
 
    // Loop through the whitelist and unset any that are empty for the tab being saved
    if( !empty( $settings[$tab] ) ) {
@@ -522,6 +523,21 @@ function quads_settings_sanitize( $input = array() ) {
 }
 
 /**
+ * Sanitize all fields and remove whitespaces
+ *
+ * @since 1.5.3
+ * @param array $input The field value
+ * @return string $input Sanitizied value
+ */
+function quads_sanitize_general_field( $input ){
+   if (!is_array( $input )){
+      return trim($input);
+   }
+   return array_map('quads_sanitize_general_field', $input);
+}
+add_filter( 'quads_settings_sanitize', 'quads_sanitize_general_field' );
+
+/**
  * Sanitize text fields
  *
  * @since 1.8
@@ -531,7 +547,6 @@ function quads_settings_sanitize( $input = array() ) {
 function quads_sanitize_text_field( $input ) {
    return trim( $input );
 }
-
 add_filter( 'quads_settings_sanitize_text', 'quads_sanitize_text_field' );
 
 /**
