@@ -276,9 +276,12 @@ function quads_get_registered_settings() {
            array(
                'id' => 'quads_ads',
                'name' => __( '', 'quick-adsense-reloaded' ),
-               //'desc' => __( 'Shortcode: <strong>[quads id="10"] </strong></br>PHP <strong>echo do_shortcode(\'[quads id="10"]\');</strong>', 'quick-adsense-reloaded' ),
-               'type' => 'ad_code',
-               //'options' => quads_get_alignment(),
+               'type' => 'ad_code'
+           ),
+           array(
+               'id' => 'new_ad',
+               'name' => __( '', 'quick-adsense-reloaded' ),
+               'type' => 'new_ad',
            ),
            'widget_header' => array(
                'id' => 'widget_header',
@@ -1653,6 +1656,10 @@ function quads_count_normal_ads() {
    return $adsCount;
 }
 
+function quads_new_ad_callback(){
+       echo '<a href="#" id="quads-add-new-ad">' . __('Add New Ad','quick-adsense-reloaded') . '</a>';
+}
+
 /**
  * Render all ad relevant settings (ADSENSE CODE tab)
  * No widget ads
@@ -1682,6 +1689,7 @@ function quads_ad_code_callback(){
          echo '</td></tr>';
          
       }
+     
       // Stop here early
       return true;
    }
@@ -1816,7 +1824,7 @@ function quads_adsense_code_callback( $args ) {
        </div>
            <?php
            if (quads_is_extra()){
-           echo apply_filters( 'quads_advanced_settings', '', $id );
+               echo apply_filters( 'quads_advanced_settings', '', $id );
            }
            echo quads_pro_overlay();
            ?>

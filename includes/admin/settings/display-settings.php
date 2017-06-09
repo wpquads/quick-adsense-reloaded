@@ -234,9 +234,6 @@ function quads_options_page() {
                                     $other_attributes = array( 'id' => 'quads-submit-button' );
                                     submit_button(null, 'primary', 'quads-save-settings' , true, $other_attributes ); 
                                     ?>
-                                    <?php if (  quads_is_extra() ){ ?>
-                                       <a href="#" id="quads-add-new-ad"><?php _e('Add New Ad','quick-adsense-reloaded')?></a><br>
-                                    <?php } ?>
                                     <a href="<?php echo admin_url() . '/admin.php?page=quads-settings&quads-action=validate'; ?> " id="quads-validate"><?php _e('Validate Settings','quick-adsense-reloaded')?></a>
                                 <?php
                                     }
@@ -245,8 +242,8 @@ function quads_options_page() {
                         <?php
                         if ($active_tab !== 'addons' && $active_tab !== 'licenses'){
                         echo sprintf( __( '<strong>If you like this plugin please do us a BIG favor and give us a 5 star rating <a href="%s" target="_blank">here</a> . If you`re not happy, please open a <a href="%2s" target="_blank">support ticket</a>, so that we can sort it out. Thank you!</strong>', 'quick-adsense-reloaded' ),
-			'https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/#new-post',
-                        'http://wpquads.com/support/'
+                           'https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/#new-post',
+                           'http://wpquads.com/support/'
                         );
                         echo '<p>' . sprintf( __( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve this issue.', 'quick-adsense-reloaded' ),
 			'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=bottomlink'

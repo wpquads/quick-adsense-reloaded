@@ -276,7 +276,7 @@ function quads_render_backup_settings(){
 	}
        
        $settings = json_encode(get_option('quads_settings_1_5_2'));
-       echo '<h3>' . __('Backup data from WP QUADS 1.5.2', 'quick-adsense-reloaded') .  '</h3>' . __('Copy and paste this data into a text file with extension *.json');       
+       echo '<h3>' . __('Backup data from WP QUADS 1.5.2', 'quick-adsense-reloaded') .  '</h3>' . __('Copy and paste this data into an empty text file with extension *.json');       
        ?>
 
        <textarea readonly="readonly" onclick="this.focus(); this.select()" id="backup-settings-textarea" name="quads-backupsettings" title="To copy the backup settings info, click below then press Ctrl + C (PC) or Cmd + C (Mac)."><?php echo $settings; ?></textarea>
