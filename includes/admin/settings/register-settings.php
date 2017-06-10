@@ -1759,6 +1759,8 @@ function quads_adsense_code_callback( $args ) {
    $g_data_ad_width = isset( $quads_options['ads']['ad'. $args['id']]['g_data_ad_width'] ) ? $quads_options['ads']['ad'. $args['id']]['g_data_ad_width'] : '';
 
    $g_data_ad_height = isset( $quads_options['ads']['ad'. $args['id']]['g_data_ad_height'] ) ? $quads_options['ads']['ad'. $args['id']]['g_data_ad_height'] : '';
+   
+   $args['desc'] = __( '<strong>Shortcode:</strong> [quads id="'.$args['id'].'"] | <strong>PHP:</strong> echo do_shortcode(\'[quads id="'.$args['id'].'"]\');', 'quick-adsense-reloaded' );
 
    //$label = !empty($new_label) ? $new_label : 
    // Create a shorter var to make HTML cleaner
@@ -1784,7 +1786,10 @@ function quads_adsense_code_callback( $args ) {
    echo quads_adtype_callback( $id, $args_ad_type );
    ?>
        </div>
-       <textarea style="vertical-align:top;margin-right:20px;" class="large-text quads-textarea" cols="50" rows="10" id="quads_settings[ads][<?php echo $id; ?>][code]" name="quads_settings[ads][<?php echo $id; ?>][code]"><?php echo esc_textarea( stripslashes( $code ) ); ?></textarea><label for="quads_settings[ads][ <?php echo $id; ?> ][code]"> <?php echo $args['desc']; ?></label>
+       <textarea style="vertical-align:top;margin-right:20px;" class="large-text quads-textarea" cols="50" rows="10" id="quads_settings[ads][<?php echo $id; ?>][code]" name="quads_settings[ads][<?php echo $id; ?>][code]"><?php echo esc_textarea( stripslashes( $code ) ); ?></textarea>
+       <!--<label for="quads_settings[ads][ <?php //echo $id; ?> ][code]"> <?php //echo $args['desc']; ?></label><br>//-->
+       <label for="quads_shortcode_<?php echo $args['id'];?>">Post Shortcode:</label><input id="quads_shortcode_<?php echo $args['id'];?>" type="text" onclick="this.focus(); this.select()" value='[quads id=<?php echo $args['id'];?>]' title="Copy and paste the shortcode into the post editor, click below then press Ctrl + C (PC) or Cmd + C (Mac).">
+       <label for="quads_php_shortcode_<?php echo $args['id'];?>">PHP:</label><input id="quads_php_shortcode_<?php echo $args['id'];?>" type="text" onclick="this.focus(); this.select()" style="width:290px;" value="&lt;?php echo do_shortcode('[quads id=<?php echo $args['id']; ?>]'); ?&gt;" title="Copy and paste the PHP code into your theme files, click below then press Ctrl + C (PC) or Cmd + C (Mac).">
        <br>
        <div class="quads_adsense_code">
            <input type="button" style="vertical-align:inherit;" class="button button-primary quads-add-adsense" value="Copy / Paste AdSense Code"> <span>or add Ad Slot ID & Publisher ID manually below:</span>

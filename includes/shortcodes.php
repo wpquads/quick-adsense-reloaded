@@ -38,6 +38,7 @@ function quads_shortcode_display_ad( $atts ) {
     
     // The ad id
     $id = isset( $atts['id'] ) ? ( int ) $atts['id'] : 0;
+//wp_die($id);
     
     $arr = array(
         'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
@@ -45,7 +46,7 @@ function quads_shortcode_display_ad( $atts ) {
         'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
         'float:none;margin:0px;');
     
-    $adsalign = $quads_options['ads']['ad' . $id]['align'];
+    $adsalign = isset($quads_options['ads']['ad' . $id]['align']) ? $quads_options['ads']['ad' . $id]['align'] : 3; // default
     $adsmargin = isset( $quads_options['ads']['ad' . $id]['margin'] ) ? $quads_options['ads']['ad' . $id]['margin'] : '3'; // default
     $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
 
