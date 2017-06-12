@@ -46,12 +46,10 @@ function quads_render_ad( $id, $string, $widget = false ) {
 
     // Return the adsense ad code
     if( true === quads_is_adsense( $id, $string ) ) {
-        //wp_die('t2');
         return apply_filters( 'quads_render_ad', quads_render_google_async( $id ) );
     }
 
     // Return empty string
-    //wp_die('t3');
     return '';
 }
 

@@ -62,9 +62,6 @@ function quads_load_admin_scripts( $hook ) {
     // Use minified libraries if SCRIPT_DEBUG is turned off
     $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
     
-//    if ( quads_is_plugins_page() ){
-//        wp_enqueue_script( 'quads-global-admin-scripts', $js_dir . 'quads-global-admin' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
-//    }
 
     // These have to be global
     wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
@@ -127,7 +124,7 @@ function quads_register_styles( $hook ) {
 
 /**
  * Add dynamic CSS to write media queries for removing unwanted ads without the need to use any cache busting method
- * that could affect performance and lead to lot of support tickets
+ * (Cache busting could affect performance and lead to lot of support tickets so lets follow the css approach)
  *
  * @since 1.0
  * @global1 array options
@@ -140,11 +137,14 @@ function quads_inline_styles() {
     
     $css = '';
     
-    foreach ($quads_options as $key => $value){
-        $css .= quads_render_media_query($key, $value);
-    }
-    
-    wp_add_inline_style( 'quads-styles', $css );
+    if( isset( $quads_options['ads'] ) ) {
+      foreach ( $quads_options['ads'] as $key => $value ) {
+         $css .= quads_render_media_query( $key, $value );
+      }
+   }
+
+
+   wp_add_inline_style( 'quads-styles', $css );
 }
 
 /**
@@ -159,16 +159,17 @@ function quads_render_media_query($key, $value){
         $html = '';
         
     if (isset($value['desktop']) ){
-        $html .= '@media only screen and (min-width:1140px){.quads-'.$key.' {display:none;}}'. "\n";
+        //$html .= '@media only screen and (min-width:1140px){.quads-'.$key.' {display:none;}}'. "\n";
+        $html .= '@media only screen and (min-width:1140px){#quads-'.$key.', .quads-' . $key . ' {display:none;}}'. "\n";
     }
     if (isset($value['tablet_landscape']) ){
-        $html .= '@media only screen and (min-width:1024px) and (max:width:1140px) {.quads-'.$key.' {display:none;}}' . "\n";
+        $html .= '@media only screen and (min-width:1024px) and (max:width:1140px) {#quads-'.$key.', .quads-'.$key.' {display:none;}}' . "\n";
     }
     if (isset($value['tablet_portrait']) ){
-        $html .= '@media only screen and (min-width:768px) and (max-width:1024px){.quads-'.$key.' {display:none;}}' . "\n";
+        $html .= '@media only screen and (min-width:768px) and (max-width:1024px){#quads-'.$key.', .quads-'.$key.' {display:none;}}' . "\n";
     }
     if (isset($value['phone']) ){
-        $html .= '@media only screen and (max-width:768px){.quads-'.$key.' {display:none;}}' . "\n";
+        $html .= '@media only screen and (max-width:768px){#quads-'.$key.', .quads-'.$key.' {display:none;}}' . "\n";
     }
     
     return $html;
