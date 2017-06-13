@@ -165,11 +165,11 @@ function quads_render_media_query($key, $value){
     }
     if (isset($value['tablet_landscape']) ){
         //$html .= '/* Hide on tablet landscape */'; 
-        $html .= '@media only screen and (min-width:1024px) and (max:width:1140px) {#quads-'.$key.', .quads-'.$key.' {display:none;}}' . "\n";
+        $html .= '@media only screen and (min-width:1024px) and (max-width:1140px) {#quads-'.$key.', .quads-'.$key.' {display:none;}}' . "\n";
     }
     if (isset($value['tablet_portrait']) ){
         //$html .= '/* Hide on tablet portrait */'; 
-        $html .= '@media only screen and (min-width:768px) and (max-width:1024px){#quads-'.$key.', .quads-'.$key.' {display:none;}}' . "\n";
+        $html .= '@media only screen and (min-width:768px) and (max-width:1023px){#quads-'.$key.', .quads-'.$key.' {display:none;}}' . "\n";
     }
     if (isset($value['phone']) ){
         //$html .= '/* Hide on mobile device */'; 
