@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Conditionals
+ * Conditions
  *
  * @package     QUADS
- * @subpackage  Functions/conditionals
+ * @subpackage  Functions/conditions
  * @copyright   Copyright (c) 2016, René Hermenau
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.2.8
@@ -54,6 +54,25 @@ function quads_ad_is_allowed( $content = null ) {
     return true;
 }
 
+
+/**
+ * Check if Ad widgets are visible on homepage
+ * 
+ * @since 0.9.7
+ * return true when ad widgets are not visible on frontpage else false
+ */
+function quads_hide_ad_widget_on_homepage(){
+ global $quads_options;
+ 
+ $is_active = isset($quads_options["visibility"]["AppSide"]) ? true : false;
+ 
+ if( is_front_page() && $is_active ){
+     return true;
+ }
+ 
+ return false;
+ 
+}
 
 
 /**

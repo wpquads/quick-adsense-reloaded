@@ -129,6 +129,10 @@ Alternative Installation:
 
 == Changelog == 
 
+= {{ version }} =
+* Fix: Hide widget on homepage option not working
+* Tweak: Clean up code
+
 = 1.5.3 =
 * New: Unlimited amount of ads can be used with WP QUADS PRO
 * Tweak: Move debug setting to tab plugin settings
