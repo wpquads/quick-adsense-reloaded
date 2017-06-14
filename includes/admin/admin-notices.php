@@ -274,7 +274,7 @@ function quads_update_notice_v2(){
 }
 
 /**
- * Show upgrade notice after updating from 1.5.2 to 1.5.3
+ * Show upgrade notice after updating from 1.5.2 to 1.5.3 and higher
  * @return boolean
  */
 function quads_update_notice_1_5_3(){
@@ -288,10 +288,10 @@ function quads_update_notice_1_5_3(){
     
     //wp_die(QUADS_VERSION);
 
-    
-    if( !empty($previous_version) && QUADS_VERSION == '1.5.3' ) {
+    // Show update message if previous version was lower than 1.7 - This makes sure that the message is shown for future updates without complicated version number conditions
+    if( !empty($previous_version) && version_compare( QUADS_VERSION, '1.7.0', '<=' ) ) {
 
-        $message = sprintf( __( 'This is a huge update! The data structure of WP QUADS has been modified and improved for better performance and great new features. <br> For the case you\'d experience any issues, we made a <a href="%1s" target="_self">backup of previous WP QUADS data</a>. So you can <a href="%2s" target="_new">switch back to the previous version</a> anytime. <br><br>Please <a href="%3s" target="_new">open first a support ticket</a> if you experience any issue.', 'quick-adsense-reloaded' ), admin_url() . '?page=quads-settings&tab=help', 'https://wpquads.com/docs/install-older-plugin-version/?utm_source=plugin_notice&utm_medium=admin&utm_campaign=install_older_version', 'https://wordpress.org/support/plugin/quick-adsense-reloaded' );
+        $message = sprintf( __( 'This is a huge update! The data structure of WP QUADS has been modified and improved for better performance and great new features. <br> For the case you\'d experience issues, we made a <a href="%1s" target="_self">backup of previous WP QUADS data</a>. So you can <a href="%2s" target="_new">switch back to the previous version</a> anytime. <br><br>Please <a href="%3s" target="_new">open first a support ticket</a> if you experience any issue.', 'quick-adsense-reloaded' ), admin_url() . '?page=quads-settings&tab=help', 'https://wpquads.com/docs/install-older-plugin-version/?utm_source=plugin_notice&utm_medium=admin&utm_campaign=install_older_version', 'https://wordpress.org/support/plugin/quick-adsense-reloaded' );
         ?>
         <div class="notice notice-error">
             <p><?php echo $message; ?></p>
