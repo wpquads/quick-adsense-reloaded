@@ -146,7 +146,7 @@ function quads_render_desktop_js( $id, $default_ad_sizes ) {
     $backgroundcolor = '';
 
     $responsive_style = 'display:block;' . $backgroundcolor;
-
+    
     if( quads_is_extra() && isset( $quads_options['ads'][$id]['adsense_type'] ) && $quads_options['ads'][$id]['adsense_type'] === 'responsive' ) {
         $width = $default_ad_sizes[$id][$adtype.'_width'];
 
