@@ -131,6 +131,7 @@ Alternative Installation:
 
 = {{ version }} =
 * Fix: Hide widget on homepage option not working
+* Tweak: Change default value of ad limitation to unlimited ads
 * Tweak: Clean up code
 
 = 1.5.3 =

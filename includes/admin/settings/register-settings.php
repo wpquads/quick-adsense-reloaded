@@ -130,9 +130,9 @@ function quads_get_registered_settings() {
                'id' => 'maxads',
                'name' => __( 'Limit Amount of ads:', 'quick-adsense-reloaded' ),
                'desc' => __( ' ads on a page.', 'quick-adsense-reloaded' ),
-               'desc2' => sprintf( __( '<a href="%s" target="_blank">Read here</a> to learn how many AdSense ads are allowed. If you are unsure select 3 ads.', 'quick-adsense-reloaded' ), 'http://wpquads.com/google-adsense-allowed-number-ads/' ),
+               'desc2' => sprintf( __( '<a href="%s" target="_blank">Read here</a> to learn how many AdSense ads are allowed. If you are unsure set the value to unlimited.', 'quick-adsense-reloaded' ), 'http://wpquads.com/google-adsense-allowed-number-ads/' ),
                'type' => 'select',
-               'std' => 3,
+               'std' => 100,
                'options' => array(
                    1 => '1',
                    2 => '2',
