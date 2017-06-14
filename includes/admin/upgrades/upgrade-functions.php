@@ -24,6 +24,9 @@ function quads_do_automatic_upgrades() {
     $did_upgrade = false;
     // Get current installed version
     $quads_version = preg_replace( '/[^0-9.].*/', '', get_option( 'quads_version' ) );
+    
+    // Get previous version
+    $previous_version = get_option('quads_version_upgraded_from');
 
 //    if( version_compare( $quads_version, '1.2.5', '<' ) ) {
 //        quads_store_adsense_args();
@@ -36,7 +39,7 @@ function quads_do_automatic_upgrades() {
         quads_is_commercial_theme();
     }
     
-    if( version_compare( $quads_version, '1.5.3', '<' ) ) {
+    if( $previous_version && version_compare( $previous_version, '1.5.3', '<' ) ) {
         quads_update_settings();
         //quads_store_adsense_args();
         quads_is_commercial_theme();
