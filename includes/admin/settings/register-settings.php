@@ -1419,8 +1419,21 @@ function quads_log_permissions() {
 function quads_get_ads() {
    global $quads_options;
    
-   if (!isset($quads_options['ads']) && 0 === count( $quads_options['ads'] ) ) {
-      return array();
+   if (!isset($quads_options['ads']) || ( isset($quads_options['ads']) && count( $quads_options['ads'] ) === 0) ) {
+            $ads = array(
+          0 => __( 'Random Ads', 'quick-adsense-reloaded' ),
+          1 => isset( $quads_options['ads']['ad1']['label'] ) ? $quads_options['ads']['ad1']['label'] : 'ad1',
+          2 => isset( $quads_options['ads']['ad2']['label'] ) ? $quads_options['ads']['ad2']['label'] : 'ad2',
+          3 => isset( $quads_options['ads']['ad3']['label'] ) ? $quads_options['ads']['ad3']['label'] : 'ad3',
+          4 => isset( $quads_options['ads']['ad4']['label'] ) ? $quads_options['ads']['ad4']['label'] : 'ad4',
+          5 => isset( $quads_options['ads']['ad5']['label'] ) ? $quads_options['ads']['ad5']['label'] : 'ad5',
+          6 => isset( $quads_options['ads']['ad6']['label'] ) ? $quads_options['ads']['ad6']['label'] : 'ad6',
+          7 => isset( $quads_options['ads']['ad7']['label'] ) ? $quads_options['ads']['ad7']['label'] : 'ad7',
+          8 => isset( $quads_options['ads']['ad8']['label'] ) ? $quads_options['ads']['ad8']['label'] : 'ad8',
+          9 => isset( $quads_options['ads']['ad9']['label'] ) ? $quads_options['ads']['ad9']['label'] : 'ad9',
+          10 => isset( $quads_option['ads']['ad10']['label'] ) ? $quads_options['ads']['ad10']['label'] : 'ad10',
+      );
+      return $ads;
    }
    
    // Start array with
@@ -1672,7 +1685,9 @@ function quads_count_normal_ads() {
 }
 
 function quads_new_ad_callback(){
+      if (quads_is_extra()) {
        echo '<a href="#" id="quads-add-new-ad">' . __('Add New Ad','quick-adsense-reloaded') . '</a>';
+      }
 }
 
 /**

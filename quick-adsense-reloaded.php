@@ -36,7 +36,6 @@ if( !defined( 'ABSPATH' ) )
 // Plugin version
 if( !defined( 'QUADS_VERSION' ) ) {
    define( 'QUADS_VERSION', '{{ version }}' );
-   //define( 'QUADS_VERSION', '1.5.4' );
 }
 
 // Plugin name

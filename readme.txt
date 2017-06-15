@@ -130,6 +130,10 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: No ad position visible after new installation
+* Fix: Show Add new Ad button only when wp quads pro is installed
+
+= 1.5.4 =
 * Fix: Hide widget on homepage option not working
 * Tweak: Change default value of ad limitation to unlimited ads
 * Tweak: Clean up code
