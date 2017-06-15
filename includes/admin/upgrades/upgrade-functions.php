@@ -25,8 +25,9 @@ function quads_do_automatic_upgrades() {
     // Get current installed version
     $quads_version = preg_replace( '/[^0-9.].*/', '', get_option( 'quads_version' ) );
     
-    // Get previous version
-    $previous_version = get_option('quads_version_upgraded_from');
+    // Previous version
+    $previous_version = get_option( 'quads_version_upgraded_from' );
+    
 
 //    if( version_compare( $quads_version, '1.2.5', '<' ) ) {
 //        quads_store_adsense_args();
@@ -39,10 +40,10 @@ function quads_do_automatic_upgrades() {
         quads_is_commercial_theme();
     }
     
-    if( $previous_version && version_compare( $previous_version, '1.5.3', '<' ) ) {
-        quads_update_settings();
-        //quads_store_adsense_args();
-        quads_is_commercial_theme();
+    // Update settings - Try to do this after any update
+    if( version_compare( $quads_version, QUADS_VERSION, '<=' )) {
+       quads_update_settings_1_5_3();
+       quads_is_commercial_theme();
     }
     
 
@@ -52,26 +53,25 @@ function quads_do_automatic_upgrades() {
         $did_upgrade = true;
     }
 
-    // Update Version number
-    if( $did_upgrade ) {
-        update_option( 'quads_version', preg_replace( '/[^0-9.].*/', '', QUADS_VERSION ) );
+      // Update Current Version number
+    if( $did_upgrade ) {    
+      update_option( 'quads_version', preg_replace( '/[^0-9.].*/', '', QUADS_VERSION ) );
     }
 }
 add_action( 'admin_init', 'quads_do_automatic_upgrades' );
 
 /**
- * Update Settings for version 1.5.3
+ * Update Settings for version 1.5.3 and higher
  * Add new index $settings['ads']
  */
-function quads_update_settings(){
+function quads_update_settings_1_5_3(){
    $settings = get_option( 'quads_settings' );
 
    // Do not update - we already did it
    if (isset($settings['ads'])){
-      //wp_die('already updated');
+      //wp_die('test');
       return false;
    }
-   //wp_die('update it');
 
    foreach ( $settings as $key => $value ) {
       

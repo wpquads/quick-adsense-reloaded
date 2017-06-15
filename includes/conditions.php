@@ -31,7 +31,7 @@ function quads_ad_is_allowed( $content = null ) {
     }
     
     // Frontpage check
-    if (is_front_page() &&  isset( $quads_options['visibility']['AppHome'] ) ){
+    if (is_front_page() && isset( $quads_options['visibility']['AppHome'] ) ){
        return true;
     }
 
@@ -41,6 +41,7 @@ function quads_ad_is_allowed( $content = null ) {
             (is_404() ) ||
             (strpos( $content, '<!--NoAds-->' ) !== false) ||
             (strpos( $content, '<!--OffAds-->' ) !== false) ||
+            (is_front_page() && !isset( $quads_options['visibility']['AppHome'] ) ) ||
             (is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
             (is_archive() && !( isset( $quads_options['visibility']['AppArch'] ) ) ) ||
             (is_tag() && !( isset( $quads_options['visibility']['AppTags'] ) ) ) ||
