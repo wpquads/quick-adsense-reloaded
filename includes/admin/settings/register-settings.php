@@ -576,7 +576,7 @@ function quads_get_settings_tabs() {
    }
 
 
-   if( !empty( $settings['licenses'] ) && quads_is_extra() ) {
+   if( !empty( $settings['licenses'] ) && quads_is_extra() || quads_is_advanced() ) {
       $tabs['licenses'] = __( 'Licenses', 'quick-adsense-reloaded' );
    }
 

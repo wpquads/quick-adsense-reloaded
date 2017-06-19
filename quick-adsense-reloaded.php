@@ -6,7 +6,7 @@
  * Description: Insert Google AdSense or any Ads code into your website. A fork of Quick AdSense
  * Author: Rene Hermenau, WP-Staging
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
- * Version: {{ version }}
+ * Version: 1.5.6
  * Text Domain: quick-adsense-reloaded
  * Domain Path: languages
  * Credits: WP QUADS - Quick AdSense Reloaded is a fork of Quick AdSense
@@ -35,7 +35,7 @@ if( !defined( 'ABSPATH' ) )
 
 // Plugin version
 if( !defined( 'QUADS_VERSION' ) ) {
-   define( 'QUADS_VERSION', '{{ version }}' );
+   define( 'QUADS_VERSION', '1.5.6' );
 }
 
 // Plugin name
@@ -61,9 +61,6 @@ $ad_count_custom = 0; // Number of active custom ads which are shown on the site
 $ad_count_widget = 0; // Number of active ads in widgets
 $AdsId = array(); // Array of active ad id's
 $maxWidgets = 10; // number of widgets
-//$maxAds = 10; // number of regular ads
-//$AdsWidName = 'AdsWidget%d (WP QUADS)';
-//$AdsWidName = 'AdsWidget%d (Quick Adsense Reloaded)';
 
 
 if( !class_exists( 'QuickAdsenseReloaded' ) ) :
