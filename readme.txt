@@ -9,7 +9,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: adsense, ads, ad, google adsense, advertising, amp, ad injection, ad inserter, ad manager
 Requires at least: 3.6+
 Tested up to: 4.8
-Stable tag: 1.5.6
+Stable tag: {{ version }}
 
 Quick Adsense Reloaded! Quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support
 
@@ -129,8 +129,10 @@ Alternative Installation:
 
 == Changelog == 
 
-= 1.5.6 =
+= {{ version }} =
 * Fix: License tab not shown after update of WP QUADS to version 1.5.5 and WP QUADS PRO is lower than version 1.3.3 
+* Fix: Quicktags button in editor not shown
+* Fix: Margin option not working when ad layout floating option is default
 
 = 1.5.5 =
 * Fix: No ad position visible after new installation

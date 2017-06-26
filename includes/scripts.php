@@ -213,7 +213,7 @@ function quads_ads_head_script() {
 		if(typeof(edButtons)!='undefined') {
             edadd = edButtons.length;
 			var dynads={"all":[
-				<?php for ($i=1;$i<=count( quads_get_ads() )-1;$i++) { if( isset($quads_options['ad'.$i]['code']) && $quads_options['ad'.$i]['code'] !='' ){echo('"1",');}else{echo('"0",');}; } ?>
+				<?php for ($i=1;$i<=count( quads_get_ads() )-1;$i++) { if( isset($quads_options['ads']['ad'.$i]['code']) && $quads_options['ads']['ad'.$i]['code'] !='' ){echo('"1",');}else{echo('"0",');}; } ?>
                     "0"]};
 			for(i=1;i<=<?php echo count( quads_get_ads() ) -1; ?>;i++) {
 				if(dynads.all[i-1]=="1") {

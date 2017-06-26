@@ -44,7 +44,7 @@ function quads_shortcode_display_ad( $atts ) {
         'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
         'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
         'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
-        'float:none;margin:0px;');
+        'float:none;margin:%1$dpx;');
     
     $adsalign = isset($quads_options['ads']['ad' . $id]['align']) ? $quads_options['ads']['ad' . $id]['align'] : 3; // default
     $adsmargin = isset( $quads_options['ads']['ad' . $id]['margin'] ) ? $quads_options['ads']['ad' . $id]['margin'] : '3'; // default

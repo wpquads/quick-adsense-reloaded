@@ -721,14 +721,17 @@ function quads_get_inline_ad_style( $id ) {
         'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
         'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
         'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
-        'float:none;margin:0px;');
+        'float:none;margin:%1$dpx;');
     
     // Alignment
-    $adsalign = $quads_options['ads']['ad' . $id]['align'];
+    $adsalign = ( int )$quads_options['ads']['ad' . $id]['align'];
     
     // Margin
-    $adsmargin = isset( $quads_options['ads']['ad' . $id]['margin'] ) ? $quads_options['ads']['ad' . $id]['margin'] : '3'; // default optin = 3
-    $margin = sprintf( $styleArray[( int ) $adsalign], $adsmargin );
+    $adsmargin = isset( $quads_options['ads']['ad' . $id]['margin'] ) ? $quads_options['ads']['ad' . $id]['margin'] : '3'; // default option = 3
+    $margin = sprintf( $styleArray[$adsalign], $adsmargin );
+    
+    //wp_die($quads_options['ads']['ad' . $id]['margin']);
+    //wp_die('ad'.$id);
 
     // Do not create any inline style on AMP site
     $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
