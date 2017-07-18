@@ -12,8 +12,9 @@
 if( !defined( 'ABSPATH' ) )
     exit;
 
-add_action( 'wp_enqueue_scripts', 'quads_register_styles', 10 );
+//add_action( 'wp_enqueue_scripts', 'quads_register_styles', 10 );
 add_action( 'wp_print_styles', 'quads_inline_styles', 9999 );
+
 add_action( 'admin_enqueue_scripts', 'quads_load_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_plugins_admin_scripts', 100 );
 add_action('admin_print_footer_scripts', 'quads_check_ad_blocker');
@@ -113,14 +114,15 @@ function quads_load_plugins_admin_scripts( $hook ) {
  * @global $mashsb_options
  * @return void
  */
-function quads_register_styles( $hook ) {
-    global $quads_options;
-
-    // Register empty quads.css to be able to register quads_inline_styles()
-    $url = QUADS_PLUGIN_URL . 'assets/css/quads.css';
-
-    wp_enqueue_style( 'quads-styles', $url, array(), QUADS_VERSION );
-}
+//function quads_register_styles( $hook ) {
+//    global $quads_options;
+//
+//    // Register empty quads.css to be able to register quads_inline_styles()
+//    //$url = QUADS_PLUGIN_URL . 'assets/css/quads.css';
+//
+//    //wp_enqueue_style( 'quads-styles', $url, array(), QUADS_VERSION );
+//    wp_enqueue_style( 'quads-styles', false );
+//}
 
 /**
  * Add dynamic CSS to write media queries for removing unwanted ads without the need to use any cache busting method
@@ -142,8 +144,11 @@ function quads_inline_styles() {
          $css .= quads_render_media_query( $key, $value );
       }
    }
-
-
+   // Register empty style so we do not need an external css file
+   wp_register_style( 'quads-styles', false );
+   // Enque empty style
+   wp_enqueue_style( 'quads-styles' );
+   // Add inline css to that style
    wp_add_inline_style( 'quads-styles', $css );
 }
 
