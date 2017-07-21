@@ -131,6 +131,7 @@ Alternative Installation:
 
 = {{ version }} =
 * Tweak: Remove external empty quads.css file
+* Tweak: Better wordings for ad blocker notice
 
 = 1.5.6 =
 * Fix: License tab not shown after update of WP QUADS to version 1.5.5 and WP QUADS PRO is lower than version 1.3.3 
