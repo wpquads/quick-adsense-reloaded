@@ -158,7 +158,7 @@ function quads_tools_import_export_process_export() {
 	ignore_user_abort( true );
 
 	if ( ! quads_is_func_disabled( 'set_time_limit' ) )
-		set_time_limit( 0 );
+		@set_time_limit( 0 );
 
 	nocache_headers();
 	header( 'Content-Type: application/json; charset=utf-8' );
