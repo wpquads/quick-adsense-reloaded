@@ -215,12 +215,12 @@ function quads_check_the_content_filter( $content ) {
  */
 function quads_check_adblocker() {
     ?>
-    <!--noptimize--><style>.quads-hidden { display: none; } .quads-adminbar-is-warnings { background: #ef4000 ! important; color: #fff !important; }
+    <!--noptimize--><style>.quads-hidden { display: none; } .quads-adminbar-is-warnings { background: #abc116 ! important; color: #fff !important; }
         .quads-highlight-ads { outline:6px solid #83c11f !important; }#wp-admin-bar-quads_ad_check_highlight_ads label {color:#b4b9be !important;}</style>
     <script type="text/javascript" src="<?php echo QUADS_PLUGIN_URL . 'assets/js/ads.js' ?>"></script>
     <script>
         (function (d, w) {
-            var jquery_not_detected = typeof jQuery === 'undefined';
+            //var jquery_not_detected = typeof jQuery === 'undefined';
 
             var addEvent = function (obj, type, fn) {
                 if (obj.addEventListener)
@@ -262,11 +262,11 @@ function quads_check_adblocker() {
                     hide_fine = true;
                 }
 
-                if (jQuery_item && jquery_not_detected) {
-                    // show quads-hidden item
-                    jQuery_item.className = jQuery_item.className.replace(/quads-hidden/, '');
-                    hide_fine = true;
-                }
+//                if (jQuery_item && jquery_not_detected) {
+//                    // show quads-hidden item
+//                    jQuery_item.className = jQuery_item.className.replace(/quads-hidden/, '');
+//                    hide_fine = true;
+//                }
 
                 if (hide_fine && fine_item) {
                     fine_item.className += ' quads-hidden';

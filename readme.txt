@@ -134,6 +134,8 @@ Alternative Installation:
 * Tweak: Better wordings for ad blocker notice
 * Tweak: Make code more robust
 * Tweak: Simpler notice for renewing license keys
+* Tweak: Change admin bar warning color from red to a more suitable orange
+* Fix: Remove jQuery frontpage check
 
 = 1.5.6 =
 * Fix: License tab not shown after update of WP QUADS to version 1.5.5 and WP QUADS PRO is lower than version 1.3.3 
