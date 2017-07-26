@@ -61,8 +61,8 @@ function quads_admin_messages() {
     $datetime2 = new DateTime( $display_date );
     $diff_intrval = round( ($datetime2->format( 'U' ) - $datetime1->format( 'U' )) / (60 * 60 * 24) );
 
-
-    if( $diff_intrval >= 7 && get_option( 'quads_rating_div' ) == "no" || false === get_option( 'quads_rating_div' ) || quads_rate_again() ) {
+   $rate = get_option( 'quads_rating_div', false);
+    if( $diff_intrval >= 7 && ($rate === "no" || false === $rate || quads_rate_again() ) ) {
         echo '<div class="quads_fivestar updated " style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;">
     	<p>Awesome, you\'ve been using <strong>WP QUADS</strong> for more than 1 week. <br> May i ask you to give it a <strong>5-star rating</strong> on Wordpress? </br>
         This will help to spread its popularity and to make this plugin a better one.
@@ -146,7 +146,6 @@ function quads_hide_rating_div() {
     echo json_encode( array("success") );
     exit;
 }
-
 add_action( 'wp_ajax_quads_hide_rating', 'quads_hide_rating_div' );
 
 /**
