@@ -24,8 +24,7 @@ class QUADS_License {
 	private $version;
 	private $author;
 	private $api_url = 'http://wpquads.com/edd-sl-api/'; // production
-	//private $api_url = 'https://www.mashshare.net/edd-sl-api/'; // production
-        private $api_url_debug = 'http://src.wordpress-develop.dev/edd-sl-api/'; // development
+       private $api_url_debug = 'http://src.wordpress-develop.dev/edd-sl-api/'; // development
 	/**
 	 * Class constructor
 	 *
@@ -107,7 +106,7 @@ class QUADS_License {
 		add_action( 'admin_init', array( $this, 'deactivate_license' ) );
 
 		// Check that license is valid once per week
-		add_action( 'quads_weekly_scheduled_events', array( $this, 'weekly_license_check' ) );
+		add_action( 'quads_weekly_event', array( $this, 'weekly_license_check' ) );
 
 		// For testing license notices, uncomment this line to force checks on every page load
 		//add_action( 'admin_init', array( $this, 'weekly_license_check' ) );
@@ -411,14 +410,19 @@ class QUADS_License {
 		$messages = array();
 
 		$license = get_option( $this->item_shortname . '_license_active' );
+              
+              $licensekey = empty( $quads_options['quads_wp_quads_pro_license_key'] ) ? '' : $quads_options['quads_wp_quads_pro_license_key'];
+
 
 		if( is_object( $license ) && 'valid' !== $license->license && empty( $showed_invalid_message ) ) {
 
 			if( empty( $_GET['tab'] ) || 'licenses' !== $_GET['tab'] ) {
 
 				$messages[] = sprintf(
-					__( 'You have invalid or expired license keys for WPQUADS PRO. Please go to the <a href="%s" title="Go to Licenses page">Licenses page</a> to correct this issue.', 'quick-adsense-reloaded' ),
-					admin_url( 'admin.php?page=quads-settings&tab=licenses' )
+					__( 'You have invalid or expired license keys for WPQUADS PRO. Go to the <a href="%s" title="Go to Licenses page">Licenses page</a> to correct this issue or <a href="%1s" target="_new">Renew your license key</a>.', 'quick-adsense-reloaded' ),
+					admin_url( 'admin.php?page=quads-settings&tab=licenses' ),
+					'https://wpquads.com/checkout/?edd_license_key=' . $licensekey . '&download_id=11'
+                                    
 				);
 
 				$showed_invalid_message = true;

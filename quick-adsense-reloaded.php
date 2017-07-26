@@ -200,6 +200,8 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/helper-functions.php';
          require_once QUADS_PLUGIN_DIR . 'includes/conditions.php';
          require_once QUADS_PLUGIN_DIR . 'includes/frontend-checks.php';
+         require_once QUADS_PLUGIN_DIR . 'includes/Cron/Cron.php';
+
 
          if( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
             require_once QUADS_PLUGIN_DIR . 'includes/admin/add-ons.php';
@@ -293,6 +295,11 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
        * @return void
        */
       public static function during_activation() {
+         
+         // Add cron event   
+         require_once plugin_dir_path( __FILE__ ) . 'includes/Cron/Cron.php';
+         $cron = new quadsCron();
+         $cron->schedule_event();
 
          // Add Upgraded From Option
          $current_version = get_option( 'quads_version' );

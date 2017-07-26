@@ -160,11 +160,14 @@ function quads_inline_styles() {
  * @return string
  */
 function quads_render_media_query($key, $value){
+   $lic = get_option( 'quads_wp_quads_pro_license_active' );
+   if( !$lic || (is_object( $lic ) && $lic->success !== true) ) {
+      return '';
+      }
  
         $html = '';
         
     if (isset($value['desktop']) ){
-        //$html .= '@media only screen and (min-width:1140px){.quads-'.$key.' {display:none;}}'. "\n";
         //$html .= '/* Hide on desktop */'; 
         $html .= '@media only screen and (min-width:1140px){#quads-'.$key.', .quads-' . $key . ' {display:none;}}'. "\n";
     }

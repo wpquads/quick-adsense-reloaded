@@ -170,9 +170,18 @@ function quads_render_desktop_js( $id, $default_ad_sizes ) {
     $html = '<ins class="adsbygoogle" style="' . $style . '"';
     $html .= ' data-ad-client="' . $quads_options['ads'][$id]['g_data_ad_client'] . '"';
     $html .= ' data-ad-slot="' . $quads_options['ads'][$id]['g_data_ad_slot'] . '" ' . $ad_format . '></ins>';
-
+    
+    if (!quads_is_extra() && !empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'])){
+$js = 'if ( quads_screen_width >= 1140 ) {
+/* desktop monitors */
+document.write(\'' . $html . '\');
+(adsbygoogle = window.adsbygoogle || []).push({});
+}';
+        return $js;   
+    }
+    
     if( !isset( $quads_options['ads'][$id][$adtype] ) and !empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
-        $js = 'if ( quads_screen_width >= 1140 ) {
+$js = 'if ( quads_screen_width >= 1140 ) {
 /* desktop monitors */
 document.write(\'' . $html . '\');
 (adsbygoogle = window.adsbygoogle || []).push({});
@@ -225,6 +234,15 @@ function quads_render_tablet_landscape_js( $id, $default_ad_sizes ) {
     $html .= ' data-ad-client="' . $quads_options['ads'][$id]['g_data_ad_client'] . '"';
     $html .= ' data-ad-slot="' . $quads_options['ads'][$id]['g_data_ad_slot'] . '" ' . $ad_format . '></ins>';
 
+        if( !quads_is_extra() && ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
+$js = 'if ( quads_screen_width >= 1024  && quads_screen_width < 1140 ) {
+/* tablet landscape */
+document.write(\'' . $html . '\');
+(adsbygoogle = window.adsbygoogle || []).push({});
+}';
+        return $js;
+    }
+    
     if( !isset( $quads_options['ads'][$id]['tablet_landscape'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
         $js = 'if ( quads_screen_width >= 1024  && quads_screen_width < 1140 ) {
 /* tablet landscape */
@@ -278,13 +296,22 @@ function quads_render_tablet_portrait_js( $id, $default_ad_sizes ) {
     $html .= ' data-ad-client="' . $quads_options['ads'][$id]['g_data_ad_client'] . '"';
     $html .= ' data-ad-slot="' . $quads_options['ads'][$id]['g_data_ad_slot'] . '" ' . $ad_format . '></ins>';
 
-    if( !isset( $quads_options['ads'][$id]['tablet_portrait'] ) and !empty( $default_ad_sizes[$id]['tbl_portrait_width'] ) and !empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
-        $js = 'if ( quads_screen_width >= 768  && quads_screen_width < 1024 ) {
+        if( !quads_is_extra() and !empty( $default_ad_sizes[$id]['tbl_portrait_width'] ) and !empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
+$js = 'if ( quads_screen_width >= 768  && quads_screen_width < 1024 ) {
 /* tablet portrait */
 document.write(\'' . $html . '\');
 (adsbygoogle = window.adsbygoogle || []).push({});
 }';
-        return $js;
+return $js;
+        }
+    
+    if( !isset( $quads_options['ads'][$id]['tablet_portrait'] ) and !empty( $default_ad_sizes[$id]['tbl_portrait_width'] ) and !empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
+$js = 'if ( quads_screen_width >= 768  && quads_screen_width < 1024 ) {
+/* tablet portrait */
+document.write(\'' . $html . '\');
+(adsbygoogle = window.adsbygoogle || []).push({});
+}';
+return $js;
     }
 }
 
@@ -329,6 +356,16 @@ function quads_render_phone_js( $id, $default_ad_sizes ) {
     $html .= ' data-ad-client="' . $quads_options['ads'][$id]['g_data_ad_client'] . '"';
     $html .= ' data-ad-slot="' . $quads_options['ads'][$id]['g_data_ad_slot'] . '" ' . $ad_format . '></ins>';
 
+        if( !quads_is_extra() and ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
+        $js = 'if ( quads_screen_width < 768 ) {
+/* phone */
+document.write(\'' . $html . '\');
+(adsbygoogle = window.adsbygoogle || []).push({});
+}';
+        return $js;
+    }
+    
+    
     if( !isset( $quads_options['ads'][$id][$adtype] ) and ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
         $js = 'if ( quads_screen_width < 768 ) {
 /* phone */

@@ -198,7 +198,7 @@ function quads_get_registered_settings() {
                                . '<li style="font-weight:600;">Select <i>AdSense</i> if you are using AdSense!</li>'
                                . '<li style="font-weight:600;">Use <i>Plain Text / HTML / JS</i> for all other ads! <br><strong>Caution:</strong> Adding AdSense code into <i>Plain Text</i> option can result in non-displayed ads!</li></ul>', 'quick-adsense-reloaded' ), 'http://wpquads.com/effective-adsense-banner-size-formats/?utm_campaign=plugin&utm_source=general_tab&utm_medium=admin&utm_content=best_banner_sizes' )
                . '</ul>'
-               . '<div style="clear:both;">' . sprintf( __( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve this issue.', 'quick-adsense-reloaded' ), 'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink' ) . ''
+               . '<div style="clear:both;">' . sprintf( __( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve it.', 'quick-adsense-reloaded' ), 'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink' ) . ''
                . '<br><a href="%s" target="_blank">Read here</a> to find out the most effective AdSense banner sizes. </div>'
                . '<div id="quads-open-toggle" class="button">' . __( 'Open All Ads', 'quick-adsense-reloaded' ) . '</div>',
                'type' => 'header'
@@ -1058,13 +1058,19 @@ function quads_upload_callback( $args ) {
 
 
 /**
- * Check if extra settings are available
+ * Check if extra settings are available and activated
  * 
  * @return boolean
  */
 function quads_is_extra() {
+   
+   $lic = get_option( 'quads_wp_quads_pro_license_active' );
+   if( !$lic || (is_object( $lic ) && $lic->success !== true) ) {
+      return false;
+   }
+   
    if( function_exists( 'quads_extra' ) ) {
-      return quads_extra();
+      return true;
    }
    return false;
 }
