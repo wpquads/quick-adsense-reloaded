@@ -228,14 +228,13 @@ function quads_get_max_allowed_post_ads( $content ) {
     $AdsWidName = 'AdsWidget%d (Quick Adsense Reloaded)';
     
     // count number of active widgets and subtract them 
-    if( strpos( $content, '<!--OffWidget-->' ) === false && !quads_is_amp_endpoint() ) {
+    if( strpos( $content, '<!--OffWidget-->' ) === false &&  !quads_is_amp_endpoint() ) {
         for ( $i = 1; $i <= $numberWidgets; $i++ ) {
             $wadsid = sanitize_title( str_replace( array('(', ')'), '', sprintf( $AdsWidName, $i ) ) );
             $maxAds -= (is_active_widget( '', '', $wadsid )) ? 1 : 0;
         }
     }
-    //echo 'test' . $maxAds . quads_is_amp_endpoint();
-    //wp_die($maxAds);
+
     return $maxAds;
 }
 
@@ -734,7 +733,7 @@ function quads_get_inline_ad_style( $id ) {
     //wp_die('ad'.$id);
 
     // Do not create any inline style on AMP site
-    $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
+    $style =  !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
     
     return $style;
 }

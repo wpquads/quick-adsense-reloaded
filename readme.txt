@@ -26,7 +26,7 @@ WP QUADS is coded well with no overhead and is used on huge websites with millio
 * Disable AdSense ads on phone, tablet or desktop devices<br /> 
 * Define AdSense sizes for different devices<br />
 
-AMP feature requires [Automattic AMP plugin](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) installed <br />
+AMP feature requires [Automattic AMP plugin](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) or any other AMP plugin installed <br />
 Get WP QUADS PRO: [wpquads.com](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) <br /> 
 
 This AdSense plugin is rewritten from scratch with a solid code
@@ -130,6 +130,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* New: Compatible to all AMP plugin, not limited only to automattics AMP plugin
+
+= 1.5.7 =
 * Tweak: Remove external empty quads.css file
 * Tweak: Better wordings for ad blocker notice
 * Tweak: Make code more robust

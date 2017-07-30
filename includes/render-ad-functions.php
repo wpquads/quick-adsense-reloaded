@@ -403,6 +403,11 @@ function quads_is_adsense( $id, $string ) {
  */
 function quads_render_amp($id){
     global $quads_options;
+    
+    // quads pro not installed and activated
+    if ( !quads_is_extra() ){
+       return '';
+    }
 
     // if amp is not activated return empty
     if (!isset($quads_options['ads'][$id]['amp']) || quads_is_disabled_post_amp() ){
@@ -425,6 +430,12 @@ function quads_render_amp($id){
  * @return boolean
  */
 function quads_is_amp_endpoint(){
+   
+   // General AMP query
+   if (false !== get_query_var( 'amp', false )){
+      return true;
+   }
+   
     // Automattic AMP plugin
     if (  function_exists( 'is_amp_endpoint' )){
         if ( is_amp_endpoint()){
