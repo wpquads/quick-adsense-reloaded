@@ -104,12 +104,6 @@ function quads_process_content( $content ) {
         return $content;
     }
 
-    // placeholder string for random ad
-    //$cusrnd = 'CusRnd';
-
-    // placeholder string for custom ad spots
-    //$cusads = 'CusAds';
-
     // Array of ad codes ids
     $adsArray = quads_get_active_ads();
     
@@ -170,17 +164,32 @@ function quads_get_active_ads() {
     global $quads_options;
 
     // Max amount of different content ads we can have 
-    $numberAds = 10;
+    //$numberAds = 20;
     
-    $adsArray = array();
+    //$adsArray = array();
+    
+    // Return early
+    if (empty($quads_options['ads'])){
+       return 0;
+    }
    
     // Array of ad codes  
-    for ( $i = 1; $i <= $numberAds; $i++ ) {
+//    for ( $i = 1; $i <= $numberAds; $i++ ) {
+//        $tmp = isset( $quads_options['ads']['ad' . $i]['code'] ) ? trim( $quads_options['ads']['ad' . $i]['code'] ) : '';
+//        // id is valid if there is either the plain text field populated or the adsense ad slot and the ad client id
+//        if( !empty( $tmp ) || (!empty( $quads_options['ads']['ad' . $i]['g_data_ad_slot'] ) && !empty( $quads_options['ads']['ad' . $i]['g_data_ad_client'] ) ) ) {
+//            $adsArray[] = $i;
+//        }
+//    }
+    // count valid ads
+    $i = 0;
+    foreach ( $quads_options['ads'] as $ads) {
         $tmp = isset( $quads_options['ads']['ad' . $i]['code'] ) ? trim( $quads_options['ads']['ad' . $i]['code'] ) : '';
         // id is valid if there is either the plain text field populated or the adsense ad slot and the ad client id
         if( !empty( $tmp ) || (!empty( $quads_options['ads']['ad' . $i]['g_data_ad_slot'] ) && !empty( $quads_options['ads']['ad' . $i]['g_data_ad_client'] ) ) ) {
             $adsArray[] = $i;
         }
+        $i++;
     }
     //wp_die(count($adsArray));
     return (count($adsArray) > 0) ? $adsArray : 0;
@@ -636,9 +645,9 @@ function quads_parse_default_ads( $content ) {
     $adsRandom = $adsArray;
 
 //        echo '<pre>';
-//        echo 'adsArrayCus';
+//        echo 'adsArrayCus: ';
 //        print_r($adsArrayCus);
-//        echo 'adsArray';
+//        echo 'adsArray: ';
 //        print_r( $adsArray );
 //        echo '</pre>';
 

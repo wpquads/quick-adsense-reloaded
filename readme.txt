@@ -130,7 +130,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
-* New: Compatible to all AMP plugin, not limited only to automattics AMP plugin
+
+= 1.5.8 =
+* Fix: Not more than 10 ads at the same time possible
 
 = 1.5.7 =
 * Tweak: Remove external empty quads.css file
