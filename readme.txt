@@ -132,7 +132,7 @@ Alternative Installation:
 = {{ version }} =
 
 = 1.5.8 =
-* Fix: Not more than 10 ads at the same time possible
+* Fix: Not more than 10 adsense ads at the same time possible
 
 = 1.5.7 =
 * Tweak: Remove external empty quads.css file
