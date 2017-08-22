@@ -130,8 +130,9 @@ Alternative Installation:
 == Changelog == 
 
 = {{ version }} =
+* Fix: Remove empty div after adsense ads
 
-= 1.5.8 =
+= 1.5.8 / 1.5.9=
 * Fix: Not more than 10 adsense ads at the same time possible
 
 = 1.5.7 =

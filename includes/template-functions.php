@@ -119,7 +119,8 @@ function quads_process_content( $content ) {
     /*
      * Tidy up content
      */
-    $content = '<!--EmptyClear-->' . $content . "\n" . '<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div>';
+    //$content = '<!--EmptyClear-->' . $content . "\n" . '<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div>';
+    $content = '<!--EmptyClear-->' . $content . "\n";
     $content = quads_clean_tags( $content, true );
     
     $content = quads_parse_default_ads($content);
@@ -132,8 +133,7 @@ function quads_process_content( $content ) {
 
     /* ... That's it. DONE :) ... */
     $content = quads_clean_tags( $content );
-    // Reset ad_count - Important!!!
-    //$visibleContentAdsGlobal = 0;
+
     return do_shortcode( $content );
 }
 
