@@ -131,6 +131,8 @@ Alternative Installation:
 
 = {{ version }} =
 * Fix: Remove empty div after adsense ads
+* Fix: Margin and alignment option not working for widget ads
+* New: Add id on select elements
 
 = 1.5.8 / 1.5.9=
 * Fix: Not more than 10 adsense ads at the same time possible

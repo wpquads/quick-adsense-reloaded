@@ -42,9 +42,11 @@ jQuery(document).ready(function ($) {
     });
     
     // Activate chosen select boxes
-    $(".quads-chosen-select").chosen({
-        inherit_select_classes: true
-    });
+//    $(".quads-chosen-select").chosen({
+//        inherit_select_classes: true
+//    });
+    
+
     
     // Hid or show AMP code form on click on amp checkbox
     $('.quads-activate-amp').click(function(){

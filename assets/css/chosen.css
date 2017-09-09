@@ -225,7 +225,7 @@
   height: 15px;
   outline: 0;
   border: 0 !important;
-  background: transparent !important;
+  /*background: transparent !important;*/
   box-shadow: none;
   color: #666;
   font-size: 100%;

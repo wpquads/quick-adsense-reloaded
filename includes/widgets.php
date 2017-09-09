@@ -10,6 +10,32 @@
  * @since       0.9.1
  */
 
+function quads_get_inline_widget_ad_style( $id ) {
+    global $quads_options;
+
+    if( empty($id) ) {
+        return '';
+    }
+
+    // Basic style
+    $styleArray = array(
+        'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
+        'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
+        'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
+        'float:none;margin:%1$dpx;');
+    
+    // Alignment
+    $adsalign = ( int )$quads_options['ads']['ad' . $id . '_widget']['align'];
+    
+    // Margin
+    $adsmargin = isset( $quads_options['ads']['ad' . $id . '_widget']['margin'] ) ? $quads_options['ads']['ad' . $id . '_widget']['margin'] : '0';
+    $margin = sprintf( $styleArray[$adsalign], $adsmargin );
+
+    // Do not create any inline style on AMP site
+    $style =  !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_widget_margins', $margin, 'ad' . $id . '_widget') : '';
+    
+    return $style;
+}
 
 /**
  * Register Widgets
@@ -76,11 +102,12 @@ class quads_widgets_1 extends WP_Widget {
 
             //quads_set_ad_count_widget();
             //$codetxt = $quads_options['ad' . $this->adsID . '_widget'];
+            $style = quads_get_inline_widget_ad_style($this->adsID);
             $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
-            echo '<div id="quads-ad' . $this->adsID . '_widget">';
+            echo '<div id="quads-ad' . $this->adsID . '_widget" style="'.$style.'">';
             echo $code;
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )

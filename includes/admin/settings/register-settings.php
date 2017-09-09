@@ -2217,7 +2217,7 @@ function quads_adsense_code_callback( $args ) {
        $selected = isset( $quads_options[$args['id']] ) ? $quads_options[$args['id']] : '';
        $checked = '';
 
-       $html = '<select name="quads_settings[' . $args['id'] . '][]" data-placeholder="' . $placeholder . '" style="width:550px;" multiple tabindex="4" class="quads-select quads-chosen-select">';
+       $html = '<select id="quads_select_'. $args['id'] .'" name="quads_settings[' . $args['id'] . '][]" data-placeholder="' . $placeholder . '" style="width:550px;" multiple tabindex="4" class="quads-select quads-chosen-select">';
        $i = 0;
        foreach ( $args['options'] as $key => $value ) :
           if( is_array( $selected ) ) {
