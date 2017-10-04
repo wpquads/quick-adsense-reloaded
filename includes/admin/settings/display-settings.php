@@ -338,6 +338,7 @@ function quads_render_adsense_form(){
 <div id="quads-adsense-bg-div" style="display: none;">
     <div id="quads-adsense-container">
         <h3><?php _e( 'Copy ad code from AdSense account and paste it here', 'quick-adsense-reloaded' ); ?></h3>
+        <?php _e('Do not enter code for <a href="https://wpquads.com/docs/integrate-page-level-ads-wordpress/" target="_blank">AdSense page level ads</a> here! <br> <a href="https://wpquads.com/docs/how-to-create-and-where-to-get-adsense-code/" target="_blank">Learn how to create AdSense ad code</a>', 'quick-adsense-reloaded'); ?>
         <textarea rows="15" cols="55" id="quads-adsense-form"></textarea><hr />
         <button class="button button-primary" id="quads-paste-button"><?php _e( 'Get Code', 'quick-adsense-reloaded' ); ?></button>&nbsp;&nbsp;
         <button class="button button-secondary" id="quads-close-button"><?php _e( 'Close', 'quick-adsense-reloaded' ); ?></button>
