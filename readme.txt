@@ -129,7 +129,10 @@ Alternative Installation:
 
 == Changelog == 
 
-= {{ version }} =
+= 1.6.1 =
+* Fix: Never show ads on ajax generated pages
+
+= 1.6.0 =
 * Fix: Remove empty div after adsense ads
 * Fix: Margin and alignment option not working for widget ads
 * New: Add id on select elements
