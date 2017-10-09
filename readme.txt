@@ -131,6 +131,7 @@ Alternative Installation:
 
 = 1.6.1 =
 * Fix: Never show ads on ajax generated pages
+* New: Filter to ignore display conditions for short code generated ads
 
 = 1.6.0 =
 * Fix: Remove empty div after adsense ads
