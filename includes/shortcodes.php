@@ -27,7 +27,8 @@ add_shortcode( 'quads', 'quads_shortcode_display_ad', 1); // Important use a ver
 function quads_shortcode_display_ad( $atts ) {
     global $quads_options;
     
-    if( !quads_ad_is_allowed() )
+    // Display Condition is false and ignoreShortcodeCond is empty or not true
+    if( !quads_ad_is_allowed() && !isset($quads_options['ignoreShortcodeCond']) )
         return;
 
 
@@ -38,7 +39,6 @@ function quads_shortcode_display_ad( $atts ) {
     
     // The ad id
     $id = isset( $atts['id'] ) ? ( int ) $atts['id'] : 0;
-//wp_die($id);
     
     $arr = array(
         'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
