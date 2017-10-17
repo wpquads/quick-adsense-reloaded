@@ -41,13 +41,23 @@ add_action('quads_close_upgrade_notice', 'quads_close_upgrade_notice');
 
 
 /**
- * Update option quads_show_vi_notice
- * "no" means no further vi notice is shown
+ * Close vi notice and do not show again
  */
 function quads_close_vi_notice(){
     update_option ('quads_close_vi_notice', 'yes');
+    delete_option('quads_show_vi_notice_later');
 }
 add_action('quads_close_vi_notice', 'quads_close_vi_notice');
 
-
+/**
+ * Close vi update notice and show it one week later again
+ */
+function quads_show_vi_notice_later(){
+    $nextweek = time() + (7 * 24 * 60 * 60);
+    $human_date = date( 'Y-m-d h:i:s', $nextweek );
+    update_option( 'quads_show_vi_notice_later', $human_date );
+    update_option( 'quads_close_vi_notice', 'yes' );
+    
+}
+add_action('quads_show_vi_notice_later', 'quads_show_vi_notice_later');
 

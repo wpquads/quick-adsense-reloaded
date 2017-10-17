@@ -404,7 +404,7 @@ function quads_ads_empty() {
  * @return string
  */
 function quads_get_vi_notice() {
-    if (false !==  get_option ('quads_close_vi_notice')) {
+    if (false !==  get_option ('quads_close_vi_notice') && false == quads_show_vi_notice_again() ) {
         return false;
     }
 
@@ -414,11 +414,34 @@ function quads_get_vi_notice() {
       <main class="quads-banner-main"><p>' . sprintf(__('Available soon: the upcoming update to <strong>WP QUADS</strong> will feature a native video ad unit powered by video intelligence that will results in up to 10x higher revenue (RPM) </p>'
                             . '<p><a href="%s" target="_blank" rel="external nofollow">https://www.vi.ai/publisher-video-monetization</a>'), 'https://www.vi.ai/publisher-video-monetization') . '</p></main>
       <aside class="quads-banner-sidebar-first"><p><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi_quads_logo.png" width="152" height="70"></p></aside>
-      <aside class="quads-banner-sidebar-second"><p><a href="https://www.vi.ai/publisher-video-monetization" class="quads-button-primary" target="_blank" rel="external nofollow">Learn More</a></p></aside>
+      <aside class="quads-banner-sidebar-second"><p style="text-align:center;"><a href="https://www.vi.ai/publisher-video-monetization" class="quads-button-primary" target="_blank" rel="external nofollow">Learn More</a><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=show_vi_notice_later"><br>Show again later</a></p></aside>
     </div>
           <aside class="quads-banner-close"><div class="quadsCircCont"><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=close_vi_notice" class="quadsCircle"></a></div></aside>
   </section>
 </div>';
 
     return $html;
+}
+
+
+/**
+ * Check if vi admin notice should be opened again again one week after closing
+ * @return boolean
+ */
+function quads_show_vi_notice_again() {
+
+    $show_again_date = get_option( 'quads_show_vi_notice_later' );
+
+    if( false === $show_again_date ) {
+        return false;
+    }
+
+    $current_date = date( 'Y-m-d h:i:s' );
+    $datetime1 = new DateTime( $show_again_date );
+    $datetime2 = new DateTime( $current_date );
+    $diff_intrval = round( ($datetime2->format( 'U' ) - $datetime1->format( 'U' )) / (60 * 60 * 24) );
+
+    if( $diff_intrval >= 0 ) {
+        return true;
+    }
 }
