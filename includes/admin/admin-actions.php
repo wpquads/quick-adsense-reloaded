@@ -40,4 +40,14 @@ function quads_close_upgrade_notice(){
 add_action('quads_close_upgrade_notice', 'quads_close_upgrade_notice');
 
 
+/**
+ * Update option quads_show_vi_notice
+ * "no" means no further vi notice is shown
+ */
+function quads_close_vi_notice(){
+    update_option ('quads_close_vi_notice', 'yes');
+}
+add_action('quads_close_vi_notice', 'quads_close_vi_notice');
+
+
 

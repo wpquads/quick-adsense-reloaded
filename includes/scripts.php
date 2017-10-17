@@ -17,6 +17,7 @@ add_action( 'wp_print_styles', 'quads_inline_styles', 9999 );
 
 add_action( 'admin_enqueue_scripts', 'quads_load_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_plugins_admin_scripts', 100 );
+add_action( 'admin_enqueue_scripts', 'quads_load_all_admin_scripts', 100 );
 add_action('admin_print_footer_scripts', 'quads_check_ad_blocker');
 
 /**
@@ -103,6 +104,25 @@ function quads_load_plugins_admin_scripts( $hook ) {
 
     wp_enqueue_script( 'quads-plugins-admin-scripts', $js_dir . 'quads-plugins-admin' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
     wp_enqueue_style( 'quads-plugins-admin', $css_dir . 'quads-plugins-admin' . $suffix . '.css', QUADS_VERSION );   
+}
+/**
+ * Load Admin Scripts available on all admin pages 
+ *
+ * Enqueues the required admin scripts.
+ *
+ * @since 1.6.1
+ * @global $post
+ * @param string $hook Page hook
+ * @return void
+ */
+function quads_load_all_admin_scripts( $hook ) {
+//    if( !apply_filters( 'quads_load_all_admin_scripts', quads_is_plugins_page(), $hook ) ) {
+//        //return;
+//    }
+
+    $css_dir = QUADS_PLUGIN_URL . 'assets/css/';
+
+    wp_enqueue_style( 'quads-admin-all', $css_dir . 'quads-admin-all.css', QUADS_VERSION );   
 }
 
 /**

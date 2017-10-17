@@ -132,6 +132,7 @@ Alternative Installation:
 = 1.6.1 =
 * Fix: Never show ads on ajax generated pages
 * New: Filter to ignore display conditions for short code generated ads
+* New: Announcement for the integration of the video SSP vi.ai
 
 = 1.6.0 =
 * Fix: Remove empty div after adsense ads

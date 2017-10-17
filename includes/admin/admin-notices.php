@@ -34,6 +34,8 @@ function quads_admin_messages() {
     
     quads_update_notice_1_5_3();
 
+    echo quads_get_vi_notice();
+
     if( quads_is_admin_page() ) {
         echo '<div class="notice notice-error" id="wpquads-adblock-notice" style="display:none;">' . sprintf( __( '<strong><p>You need to deactivate your ad blocker to use WP QUADS settings.</strong> Your ad blocker browser extension is removing WP QUADS css ressources and is breaking the settings screen! Deactivating the ad blocker will resolve it. WP QUADS is used on 60.000 websites and is into focus of the big adblocking companies. That\'s the downside of our success but nothing you need to worry about.</p>', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
     }
@@ -341,7 +343,6 @@ function quads_is_any_ad_activated() {
     
     // ad activated with api (custom position)
     if( count( $check ) > 0 ) {
-        //wp_die(print_r($check));
         return true;
     }
     // check if any other ad is assigned and activated
@@ -355,10 +356,8 @@ function quads_is_any_ad_activated() {
         isset( $quads_options['pos8']['Par3Ads'] ) ||
         isset( $quads_options['pos9']['Img1Ads'] )
     ) {
-        //wp_die('test');
         return true;
     }
-     //wp_die('test1');
     // no ad is activated
     return false;
 }
@@ -398,4 +397,28 @@ function quads_ads_empty() {
         return true;
     }
     return false;
+}
+
+/**
+ * Return VI admin notice
+ * @return string
+ */
+function quads_get_vi_notice() {
+    if (false !==  get_option ('quads_close_vi_notice')) {
+        return false;
+    }
+
+    $html = '<div class="quads-banner-wrapper">
+  <section class="quads-banner-content">
+    <div class="quads-banner-columns">
+      <main class="quads-banner-main"><p>' . sprintf(__('Available soon: the upcoming update to <strong>WP QUADS</strong> will feature a native video ad unit powered by video intelligence that will results in up to 10x higher revenue (RPM) </p>'
+                            . '<p><a href="%s" target="_blank" rel="external nofollow">https://www.vi.ai/publisher-video-monetization</a>'), 'https://www.vi.ai/publisher-video-monetization') . '</p></main>
+      <aside class="quads-banner-sidebar-first"><p><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi_quads_logo.png" width="152" height="70"></p></aside>
+      <aside class="quads-banner-sidebar-second"><p><a href="https://www.vi.ai/publisher-video-monetization" class="quads-button-primary" target="_blank" rel="external nofollow">Learn More</a></p></aside>
+    </div>
+          <aside class="quads-banner-close"><div class="quadsCircCont"><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=close_vi_notice" class="quadsCircle"></a></div></aside>
+  </section>
+</div>';
+
+    return $html;
 }
