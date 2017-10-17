@@ -419,10 +419,6 @@ function quads_get_vi_notice() {
           <aside class="quads-banner-close"><div style="margin-top:5px;"><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=close_vi_notice" class="quads-notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a></div></aside>
   </section>
 </div>';
-    
-    $html.= '<div class="notice notice-success is-dismissible">
-        <p>sample</p>
-    </div>';
 
     return $html;
 }
