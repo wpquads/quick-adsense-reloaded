@@ -412,13 +412,17 @@ function quads_get_vi_notice() {
   <section class="quads-banner-content">
     <div class="quads-banner-columns">
       <main class="quads-banner-main"><p>' . sprintf(__('Available soon: the upcoming update to <strong>WP QUADS</strong> will feature a native video ad unit powered by video intelligence that will results in up to 10x higher revenue (RPM) </p>'
-                            . '<p><a href="%s" target="_blank" rel="external nofollow">https://www.vi.ai/publisher-video-monetization</a>'), 'https://www.vi.ai/publisher-video-monetization') . '</p></main>
+                            . '<p><a href="%s" target="_blank" rel="external nofollow">https://www.vi.ai/publisher-video-monetization</a>'), 'https://www.vi.ai/publisher-video-monetization/?utm_source=WordPress&utm_medium=Plugin%20blurb&utm_campaign=wpquads') . '</p></main>
       <aside class="quads-banner-sidebar-first"><p><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi_quads_logo.png" width="152" height="70"></p></aside>
-      <aside class="quads-banner-sidebar-second"><p style="text-align:center;"><a href="https://www.vi.ai/publisher-video-monetization" class="quads-button-primary" target="_blank" rel="external nofollow">Learn More</a><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=show_vi_notice_later"><br>Show again later</a></p></aside>
+      <aside class="quads-banner-sidebar-second"><p style="text-align:center;"><a href="https://www.vi.ai/publisher-video-monetization/?utm_source=WordPress&utm_medium=Plugin%20blurb&utm_campaign=wpquads" class="quads-button-primary" target="_blank" rel="external nofollow">Learn More</a><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=show_vi_notice_later" style="line-height:25px;"><br>Show again later</a></p></aside>
     </div>
-          <aside class="quads-banner-close"><div class="quadsCircCont"><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=close_vi_notice" class="quadsCircle"></a></div></aside>
+          <aside class="quads-banner-close"><div style="margin-top:5px;"><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=close_vi_notice" class="quads-notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a></div></aside>
   </section>
 </div>';
+    
+    $html.= '<div class="notice notice-success is-dismissible">
+        <p>sample</p>
+    </div>';
 
     return $html;
 }
