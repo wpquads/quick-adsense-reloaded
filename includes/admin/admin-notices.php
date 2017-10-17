@@ -22,7 +22,7 @@ if( !defined( 'ABSPATH' ) )
 function quads_admin_messages() {
     global $quads_options;
 
-    if( !current_user_can( 'update_plugins' ) ) {
+    if( !current_user_can( 'update_plugins' ) || quads_is_addon_page() ) {
         return;
     }
 
@@ -422,7 +422,6 @@ function quads_get_vi_notice() {
 
     return $html;
 }
-
 
 /**
  * Check if vi admin notice should be opened again again one week after closing
