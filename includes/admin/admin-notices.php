@@ -411,7 +411,8 @@ function quads_get_vi_notice() {
     $html = '<div class="quads-banner-wrapper">
   <section class="quads-banner-content">
     <div class="quads-banner-columns">
-      <main class="quads-banner-main"><p>' . sprintf(__('Available soon: the upcoming update to <strong>WP QUADS</strong> will feature a native video ad unit powered by video intelligence that will results in up to 10x higher revenue (RPM) </p>'
+      <main class="quads-banner-main"><p>' . sprintf(__('Coming soon: the next update to <strong>WP QUADS</strong> – vi stories from video intelligence.
+A video player that will supply both video content and video advertising. It will increase your revenue by up to 10x. <a href="https://goo.gl/BnhKLt" target="_blank" rel="external nofollow">[FAQ]</a> </p>'
                             . '<p><a href="%s" target="_blank" rel="external nofollow">https://www.vi.ai/publisher-video-monetization</a>'), 'https://www.vi.ai/publisher-video-monetization/?utm_source=WordPress&utm_medium=Plugin%20blurb&utm_campaign=wpquads') . '</p></main>
       <aside class="quads-banner-sidebar-first"><p><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi_quads_logo.png" width="152" height="70"></p></aside>
       <aside class="quads-banner-sidebar-second"><p style="text-align:center;"><a href="https://www.vi.ai/publisher-video-monetization/?utm_source=WordPress&utm_medium=Plugin%20blurb&utm_campaign=wpquads" class="quads-button-primary" target="_blank" rel="external nofollow">Learn More</a><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=show_vi_notice_later" style="line-height:25px;"><br>Show again later</a></p></aside>
