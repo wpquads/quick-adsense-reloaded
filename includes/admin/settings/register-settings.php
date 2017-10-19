@@ -184,6 +184,17 @@ function quads_get_registered_settings() {
                'desc' => __( '', 'quick-adsense-reloaded' ),
                'type' => 'quicktags'
            ),
+           array(
+               'id' => 'vi_header',
+               'name' => '<strong>' . __( 'New: vi', 'quick-adsense-reloaded' ) . '</strong>',
+               'desc' => 'native',
+               'type' => 'header'
+           ),
+           array(
+               'id' => 'vi_signup',
+               'name' =>__( 'vi signup', 'quick-adsense-reloaded' ) . '</strong>',
+               'type' => 'vi_signup'
+           ),
            /* 'load_scripts_footer' => array(
              'id' => 'load_scripts_footer',
              'name' => __( 'JS Load Order', 'quick-adsense-reloaded' ),
@@ -2157,5 +2168,12 @@ function quads_adsense_code_callback( $args ) {
        endforeach;
        $html .= '</select>';
        echo $html;
+    }
+    
+    
+    function quads_vi_signup_callback(){
+        $vi = new \wpquads\vi();
+        echo $vi->login('info@mashshare.net', 'l(!E84WO7J');
+
     }
     

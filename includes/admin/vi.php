@@ -58,11 +58,18 @@ class vi {
      * @return string json
      */
     public function login($email, $password) {
-        $response = wp_remote_get($this->urlAuthenticate);
+        $args = array(
+            'method'      => 'POST',
+            'headers' => array(),
+            'timeout' => 45,
+            'body' => array( 'email' => $email, 'password' => $password )
+        );
+        
+        $response = wp_remote_post($this->urlAuthenticate, $args);
         if (is_array($response)) {
             return $response['body'];
         }
-        return '';
+        return json_encode('Unknown error: Can not retrive vi login information');
     }
 
     public function getApi() {

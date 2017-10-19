@@ -218,6 +218,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             require_once QUADS_PLUGIN_DIR . 'includes/quicktags.php';
             require_once QUADS_PLUGIN_DIR . 'includes/admin/admin-notices.php';
             require_once QUADS_PLUGIN_DIR . 'includes/admin/upgrades/upgrade-functions.php';
+            require_once QUADS_PLUGIN_DIR . 'includes/admin/vi.php';
          }
       }
 

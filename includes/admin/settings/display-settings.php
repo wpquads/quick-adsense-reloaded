@@ -154,7 +154,8 @@ function quads_is_excluded_title($string){
         'ad7_widget',
         'ad8_widget',
         'ad9_widget',
-        'ad10_widget'
+        'ad10_widget',
+        'vi_header'
         );
 
     if (in_array($string, $haystack)){
