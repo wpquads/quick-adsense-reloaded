@@ -410,7 +410,7 @@ function quads_get_vi_notice() {
     
     $content = __("Coming soon: the next update to <strong>WP QUADS</strong> – vi stories from video intelligence.
 A video player that will supply both video content and video advertising. It will increase your revenue by up to 10x. 
-<a href='https://www.vi.ai/frequently-asked-questions-vi-stories-for-wordpress/?utm_source=WordPress&utm_medium=Plugin%20FAQ&utm_campaign=WP%20QUADS' target='_blank' rel='external nofollow'>[FAQ]</a>");
+<a href='https://www.vi.ai/frequently-asked-questions-vi-stories-for-wordpress/?utm_source=WordPress&utm_medium=Plugin%20FAQ&utm_campaign=WP%20QUADS' target='_blank' rel='external nofollow'> FAQ</a>");
 
     $html = '<div class="quads-banner-wrapper">
   <section class="quads-banner-content">
