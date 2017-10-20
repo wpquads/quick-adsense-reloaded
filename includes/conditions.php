@@ -31,7 +31,7 @@ function quads_ad_is_allowed( $content = null ) {
         /* it's an AJAX call */ 
         return false;
     }
-    
+        
     $hide_ads = apply_filters('quads_hide_ads', false);
     
     // User Roles check
@@ -58,7 +58,8 @@ function quads_ad_is_allowed( $content = null ) {
             (is_user_logged_in() && ( isset( $quads_options['visibility']['AppLogg'] ) ) ) ||
             true === $hide_ads
     ) {
-        return false;
+        return apply_filters('quads_show_ads', false);
+        //return false;
     }
     // else
     return true;
