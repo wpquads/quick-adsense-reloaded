@@ -2,6 +2,48 @@ var strict;
 
 
 jQuery(document).ready(function ($) {
+    
+    // Remove elements from vi page
+    if (document.location.href.indexOf('vi_header') > - 1) {
+            $('#quads-submit-button').hide();
+            $('#quads-validate').hide();
+            $('#quads-footer').hide();
+    } else {
+            $('#quads-submit-button').show();
+            $('#quads-validate').show();
+            $('#quads-footer').show();
+    }
+    $(window).bind('easytabs:after', function(){
+    console.log('tester');
+            if (document.location.href.indexOf('vi_header') > - 1) {
+            $('#quads-submit-button').hide();
+            $('#quads-validate').hide();
+            $('#quads-footer').hide();
+            } else {
+
+            $('#quads-submit-button').show();
+            $('#quads-validate').show();
+            $('#quads-footer').show();
+            }
+    });
+
+
+
+    
+    
+    // VI signup form
+    $('#quads-vi-signup').click(function(e){
+        e.preventDefault();
+        // scroll to top
+        $(window).scrollTop(0);
+        // hide save button
+        $('#quads-submit-button').hide();
+        $('#quads-vi-signup-fullscreen').fadeIn();
+    });
+    $('#quads-vi-close').click(function(e){
+        e.preventDefault();
+        $('#quads-vi-signup-fullscreen').fadeOut();
+    });
      
     /**
      * General Tab

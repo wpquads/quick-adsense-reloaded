@@ -212,13 +212,13 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             require_once QUADS_PLUGIN_DIR . 'includes/admin/welcome.php';
             require_once QUADS_PLUGIN_DIR . 'includes/admin/settings/display-settings.php';
             require_once QUADS_PLUGIN_DIR . 'includes/admin/settings/contextual-help.php';
-            //require_once QUADS_PLUGIN_DIR . 'includes/install.php';
             require_once QUADS_PLUGIN_DIR . 'includes/admin/tools.php';
             require_once QUADS_PLUGIN_DIR . 'includes/meta-boxes.php';
             require_once QUADS_PLUGIN_DIR . 'includes/quicktags.php';
             require_once QUADS_PLUGIN_DIR . 'includes/admin/admin-notices.php';
             require_once QUADS_PLUGIN_DIR . 'includes/admin/upgrades/upgrade-functions.php';
-            require_once QUADS_PLUGIN_DIR . 'includes/admin/vi.php';
+            require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/vi.php';
+            require_once QUADS_PLUGIN_DIR . 'includes/class-template.php';
          }
       }
 

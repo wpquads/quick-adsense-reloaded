@@ -129,8 +129,8 @@ Alternative Installation:
 
 == Changelog == 
 
-= 1.6.2 =
-* vi integration
+= 1.7.0 =
+* New: VI Integration
 
 = 1.6.1 =
 * Fix: Never show ads on ajax generated pages

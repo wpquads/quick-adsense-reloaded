@@ -187,12 +187,12 @@ function quads_get_registered_settings() {
            array(
                'id' => 'vi_header',
                'name' => '<strong>' . __( 'New: vi', 'quick-adsense-reloaded' ) . '</strong>',
-               'desc' => 'native',
+               'desc' => '<strong>Native video ad units powered by video intelligence</strong>',
                'type' => 'header'
            ),
            array(
                'id' => 'vi_signup',
-               'name' =>__( 'vi signup', 'quick-adsense-reloaded' ) . '</strong>',
+               'name' =>__( '', 'quick-adsense-reloaded' ) . '</strong>',
                'type' => 'vi_signup'
            ),
            /* 'load_scripts_footer' => array(
@@ -2173,7 +2173,10 @@ function quads_adsense_code_callback( $args ) {
     
     function quads_vi_signup_callback(){
         $vi = new \wpquads\vi();
-        echo $vi->login('info@mashshare.net', 'l(!E84WO7J');
-
+        $data = (array)$vi->getSettings()->data;
+        //$data['demoPageURL'] = 
+        
+        $signup = new \wpquads\template('/includes/vendor/vi/views/widget', $data);
+        echo $signup->render();
     }
     

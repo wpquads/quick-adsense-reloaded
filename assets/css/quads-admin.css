@@ -985,3 +985,91 @@ p.submit{
     width: 20px;
     -webkit-font-smoothing: antialiased;
 }
+
+.quads-widget-buttons {
+    float:right;
+}
+.quads-widget-buttons a{
+    min-width: 80px;text-align: center;font-weight: 600;
+}
+
+#quads-vi-widget ul {
+    margin: 0;
+    margin-left:25px;
+    padding: 0;
+    background: #fff;
+    float: none;
+    padding-top: 0px;
+    list-style-type: square;
+}
+
+#quads-vi-signup-fullscreen{
+    display:none;
+    z-index: 999999;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color:#f0f0f0;
+
+}
+
+#quads-vi-signup-container {
+    width:99%;
+    height:99%;
+    max-width:868px;
+    max-height:552px;
+}
+
+#quads-vi-close{
+    cursor:pointer;
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    float: right;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+#quads-vi-close::before, #quads-vi-close::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    margin-top: -1px;
+    background: #7d7d7d;
+}
+
+#quads-vi-close::before  {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+#quads-vi-close::after  {
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+
+#quads-vi-signup-fullscreen iframe{
+    width:100%;
+    height:100%;
+    z-index: 999999;
+    display: block;
+    background:#FFF;
+    border:none;
+}

@@ -985,3 +985,20 @@ p.submit{
     width: 20px;
     -webkit-font-smoothing: antialiased;
 }
+
+.quads-widget-buttons {
+    float:right;
+}
+.quads-widget-buttons a{
+    min-width: 80px;text-align: center;font-weight: 600;
+}
+
+#quads-vi-widget ul {
+    margin: 0;
+    margin-left:25px;
+    padding: 0;
+    background: #fff;
+    float: none;
+    padding-top: 0px;
+    list-style-type: square;
+}

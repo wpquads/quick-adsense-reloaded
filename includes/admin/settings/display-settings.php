@@ -155,7 +155,8 @@ function quads_is_excluded_title($string){
         'ad8_widget',
         'ad9_widget',
         'ad10_widget',
-        'vi_header'
+        'vi_header',
+        'vi_signup'
         );
 
     if (in_array($string, $haystack)){
@@ -243,7 +244,9 @@ function quads_options_page() {
                                     }
                                 ?>
 			</form>
+                        <div id="quads-footer">
                         <?php
+                        
                         if ($active_tab !== 'addons' && $active_tab !== 'licenses'){
                         echo sprintf( __( '<strong>If you like this plugin please do us a BIG favor and give us a 5 star rating <a href="%s" target="_blank">here</a> . If you have issues, open a <a href="%2s" target="_blank">support ticket</a>, so that we can sort it out. Thank you!</strong>', 'quick-adsense-reloaded' ),
                            'https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/#new-post',
@@ -254,6 +257,7 @@ function quads_options_page() {
                         );
                         }
                         ?>
+                        </div>
                     </div> <!-- new //-->
                     <?php quads_get_advertising(); ?>
 		</div><!-- #tab_container-->

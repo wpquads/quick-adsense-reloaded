@@ -23,6 +23,7 @@
 function quads_ad_is_allowed( $content = null ) {
     global $quads_options;
     
+        
     // Never show ads in ajax calls
     if ( defined('DOING_AJAX') && DOING_AJAX || 
             (! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) == 'xmlhttprequest' )
