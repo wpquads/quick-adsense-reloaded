@@ -179,21 +179,16 @@ function quads_get_registered_settings() {
                "placeholder" => __( "Select Post Type", "quick-adsense-reloaded" )
            ),
            array(
+               'id' => 'hide_ajax',
+               'name' => __( 'Hide Ads From Ajax Requests', 'quick-adsense-reloaded' ),
+               'desc' => __( 'If your site is using ajax based infinite loading it might happen that ads are loaded only without post content. Disable this here.', 'quick-adsense-reloaded' ),
+               'type' => 'checkbox'
+           ),
+           array(
                'id' => 'quicktags',
                'name' => __( 'Quicktags', 'quick-adsense-reloaded' ),
                'desc' => __( '', 'quick-adsense-reloaded' ),
                'type' => 'quicktags'
-           ),
-           array(
-               'id' => 'vi_header',
-               'name' => '<strong>' . __( 'New: vi', 'quick-adsense-reloaded' ) . '</strong>',
-               'desc' => 'native',
-               'type' => 'header'
-           ),
-           array(
-               'id' => 'vi_signup',
-               'name' =>__( 'vi signup', 'quick-adsense-reloaded' ) . '</strong>',
-               'type' => 'vi_signup'
            ),
            /* 'load_scripts_footer' => array(
              'id' => 'load_scripts_footer',
