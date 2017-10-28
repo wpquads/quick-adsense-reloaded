@@ -181,7 +181,7 @@ function quads_get_registered_settings() {
            array(
                'id' => 'hide_ajax',
                'name' => __( 'Hide Ads From Ajax Requests', 'quick-adsense-reloaded' ),
-               'desc' => __( 'If your site is using ajax based infinite loading it might happen that ads are loaded only without post content. Disable this here.', 'quick-adsense-reloaded' ),
+               'desc' => __( 'If your site is using ajax based infinite loading it might happen that ads are loaded without any further post content. Disable this here.', 'quick-adsense-reloaded' ),
                'type' => 'checkbox'
            ),
            array(
