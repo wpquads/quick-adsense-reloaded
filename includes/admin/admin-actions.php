@@ -61,3 +61,15 @@ function quads_show_vi_notice_later(){
 }
 add_action('quads_show_vi_notice_later', 'quads_show_vi_notice_later');
 
+
+function quads_save_vi_token(){
+    $token = !empty($_POST['token']) ? $_POST['token'] : '';
+    if (false !== update_option('quads_vi_token', $token)){
+        $return = json_encode( array("success") );
+    } else {
+        $return = json_encode( array("failed") );
+    }
+    echo $return;
+    exit;
+}
+add_action( 'wp_ajax_quads_save_vi_token', 'quads_save_vi_token' );
