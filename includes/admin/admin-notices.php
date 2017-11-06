@@ -451,11 +451,38 @@ function quads_show_vi_notice_again() {
  * Show all vi notices
  */
 function quads_show_vi_notices(){
-    $notice = new wpquads\vi();
-    $notices = $notice->getNotices();
+    global $quads;
+    if (!quads_is_admin_page())
+        return false;
     
-    foreach ($notices as $notice){
-        $html = new wpquads\template('/includes/vendor/vi/views/notices', $notice);
-        echo $html->render();
+    // show ad.txt update notice
+    if (get_transient('quads_vi_ads_txt_notice')) {
+        $notice['message'] = '<strong>ADS.TXT has been added</strong><br><br><strong>WP QUADS</strong> has updated your ads.txt '
+        . 'file with lines that declare video inteligence as a legitmate seller of your inventory and enables you to make more money through video inteligence. <a href="https://www.vi.ai/publisher-video-monetization/?utm_source=WordPress&utm_medium=Plugin%20blurb&utm_campaign=wpquads" target="blank" rel="external nofollow">FAQ</a>';
+        $notice['type'] = 'update-nag';
+        $adsUpdated = new wpquads\template('/includes/vendor/vi/views/notices', $notice);
+        echo $adsUpdated->render();
     }
+    
+    // show ad.txt update notice
+    if (get_transient('quads_vi_ads_txt_error')) {
+        $notice['message'] = "<strong>ADS.TXT couldn't be added</strong><br><br>Important note: WP QUADS hasn't been able to update your ads.txt file automatically. Please make sure to enter the following line manually into <br>" . get_home_path() . "ads.txt:"
+                        . "</p><pre>vi.ai " . $quads->vi->getPublisherId() . " DIRECT </pre><p>"
+                        . "Only by doing so you are able to make more money through video inteligence";
+        $notice['type'] = 'error';
+        $adsTxtError = new wpquads\template('/includes/vendor/vi/views/notices', $notice);
+        echo $adsTxtError->render();
+    }
+
+
+
+    // show ads.txt error notice
+    
+    //$notice = new wpquads\vi();
+    //$notices = $notice->getNotices();
+    
+//    foreach ($notices as $notice){
+//            $html = new wpquads\template('/includes/vendor/vi/views/notices', $notice);
+//            echo $html->render();
+//    }
 }

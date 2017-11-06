@@ -38,11 +38,10 @@ class vi {
      * vi notices
      * @var array
      */
-    private $notices = array();
-    
+    //private $notices = array();
 
     public function __construct() {
-        
+
         if ($this->debug) {
             // Test endpoints
             $this->urlSettings = 'https://dashboard-api-test.vidint.net/v1/api/widget/settings';
@@ -50,22 +49,22 @@ class vi {
             // Production endpoints
             $this->urlSettings = 'https://dashboard-api-test.vidint.net/v1/api/widget/settings';
         }
-        
+
         $this->hooks();
-        
-        //$this->setSettings();
-        
+
         $this->settings = get_option('quads_vi_settings');
 
         $this->getToken();
 
-        $this->createAdsTxt();
-        //wp_die(print_r($this->token));
+        //some methods used in wp-admin only: Mainly for performance reasons
+//        if (is_admin()){
+//            $this->createAdsTxt();
+//        }
     }
-    
-    private function hooks(){
+
+    private function hooks() {
         // Check that license is valid once per week
-	add_action( 'quads_daily_event', array( $this, 'setSettings' ) );
+        add_action('quads_daily_event', array($this, 'setSettings'));
     }
 
     /**
@@ -98,14 +97,13 @@ class vi {
         );
         $response = wp_remote_post($this->urlSettings, $args);
         //wp_die(isset($response['body']));
-        if (isset($response['body']) ) { 
+        if (isset($response['body'])) {
             update_option('quads_vi_settings', json_decode($response['body']));
             return true;
         }
         update_option('quads_vi_settings', '');
         return false;
     }
-
 
     /**
      * Get vi settings
@@ -114,7 +112,6 @@ class vi {
     public function getSettings() {
         return get_option('quads_vi_settings');
     }
-    
 
     /**
      * Login to vi account
@@ -161,11 +158,15 @@ class vi {
     }
 
     /**
-     * 
+     * Create ads.txt
+     * @return boolean
      */
     public function createAdsTxt() {
-        $file = ABSPATH . 'ads.txt';
+        
+        if (!isset($this->token->publisherId))
+            return false;
 
+        $file = ABSPATH . 'ads.txt';
         // Default ads.txt content
         $vi = "vi.ai " . $this->token->publisherId . " DIRECT # 41b5eef6" . "\r\n";
         $vi .= "spotxchange.com, 74964, RESELLER, 7842df1d2fe2db34 # 41b5eef6" . "\r\n";
@@ -177,11 +178,10 @@ class vi {
         $vi .= "freewheel.tv, 440657, RESELLER # 41b5eef6" . "\r\n";
         $vi .= "freewheel.tv, 440673, RESELLER # 41b5eef6" . "\r\n";
 
+        // ads.txt does not exists
         if (!is_file($file)) {
             if (!file_put_contents($file, $vi))
-                $this->setNotices("error", "<strong>ADS.TXT couldn't be added</strong><br><br>Important note: WP QUADS hasn't been able to update your ads.txt file. Please make sure to enter the following line manually into <br>" . get_home_path() . "ads.txt:"
-                        . "</p><pre>vi.ai " . $this->token->publisherId . " DIRECT </pre> <p>"
-                        . "Only by doing so you are able to make more money through video inteligence");
+                return false;
         } else {
             // Remove all vi related entries
             // get everything from ads.txt which already exists
@@ -197,13 +197,10 @@ class vi {
             sleep(1);
             // Append the vi related content again
             if (!file_put_contents($file, $vi . PHP_EOL, FILE_APPEND))
-                $this->setNotices("error", "<strong>ADS.TXT couldn't be added</strong><br><br>Important note: WP QUADS hasn't been able to update your ads.txt file. Please make sure to enter the following line manually into <br>" . get_home_path() . "ads.txt:"
-                        . "</p><pre>vi.ai " . $this->token->publisherId . " DIRECT </pre><p>"
-                        . "Only by doing so you are able to make more money through video inteligence");
+                return false;
         }
 
-        $this->setNotices('update-nag', '<strong>ADS.TXT has been added</strong><br><br><strong>WP QUADS</strong> has updated your ads.txt '
-                . 'file with lines that declare video inteligence as a legitmate seller of your inventory and enables you to make more money through video inteligence. <a href="https://www.vi.ai/publisher-video-monetization/?utm_source=WordPress&utm_medium=Plugin%20blurb&utm_campaign=wpquads" target="blank" rel="external nofollow">FAQ</a>');
+        return true;
     }
 
     /**
@@ -214,6 +211,7 @@ class vi {
 
         if (empty($token)) {
             $this->token = '';
+            return;
         }
 
         preg_match("/(\w*).(\w*)/", $token, $output);
@@ -226,22 +224,27 @@ class vi {
      * @param string $type updated | error | update-nag
      * @param string $message
      */
-    private function setNotices($type, $message) {
-        $this->notices[] = array('type' => $type, 'message' => $message);
-    }
+//    private function setNotices($type, $message, $dismiss = false) {
+//        $this->notices[] = array('type' => $type, 'message' => $message, 'dismiss' => $dismiss);
+//    }
+//
+//    public function getNotices() {
+//        return $this->notices;
+//    }
 
-    public function getNotices() {
-        return $this->notices;
-    }
-    
     /**
      * Get total revenue
      * @return mixed string | bool 
      */
     public function getRevenue() {
+        $vi_token = get_option('quads_vi_token');
+        if (!$vi_token)
+            return false;
+        
+        
         $args = array(
             'headers' => array(
-            'Authorization' => get_option('quads_vi_token')
+                'Authorization' => $vi_token
             )
         );
         $response = wp_remote_request('https://dashboard-api-test.vidint.net/v1/api/publishers/report/revenue', $args);
@@ -253,6 +256,15 @@ class vi {
 
         // else
         return json_encode($response);
+    }
+
+    /**
+     * Get Publisher ID
+     * @return string
+     */
+    public function getPublisherId() {
+        
+        return isset($this->token->publisherId) ? $this->token->publisherId : '';
     }
 
 }
