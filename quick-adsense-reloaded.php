@@ -91,6 +91,11 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
        * 
        */
       public $logger;
+      
+      /**
+       * Public vi class
+       */
+      public $vi;
 
       /**
        * Main QuickAdsenseReloaded Instance
@@ -116,6 +121,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             self::$instance->load_hooks();
             self::$instance->logger = new quadsLogger( "quick_adsense_log_" . date( "Y-m-d" ) . ".log", quadsLogger::INFO );
             self::$instance->html = new QUADS_HTML_Elements();
+            self::$instance->vi = new wpquads\vi();
          }
          return self::$instance;
       }
@@ -201,7 +207,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/conditions.php';
          require_once QUADS_PLUGIN_DIR . 'includes/frontend-checks.php';
          require_once QUADS_PLUGIN_DIR . 'includes/Cron/Cron.php';
-
+         require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/vi.php';
 
          if( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
             require_once QUADS_PLUGIN_DIR . 'includes/admin/add-ons.php';
@@ -217,10 +223,10 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             require_once QUADS_PLUGIN_DIR . 'includes/quicktags.php';
             require_once QUADS_PLUGIN_DIR . 'includes/admin/admin-notices.php';
             require_once QUADS_PLUGIN_DIR . 'includes/admin/upgrades/upgrade-functions.php';
-            require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/vi.php';
             require_once QUADS_PLUGIN_DIR . 'includes/class-template.php';
          }
       }
+      
 
       public function load_hooks() {
          if( is_admin() && quads_is_plugins_page() ) {
@@ -301,6 +307,9 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once plugin_dir_path( __FILE__ ) . 'includes/Cron/Cron.php';
          $cron = new quadsCron();
          $cron->schedule_event();
+         
+         // Create vi api endpints and settings
+         self::instance()->vi->setSettings();
 
          // Add Upgraded From Option
          $current_version = get_option( 'quads_version' );

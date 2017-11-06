@@ -2178,11 +2178,32 @@ function quads_adsense_code_callback( $args ) {
     
     
     function quads_vi_signup_callback(){
-        $vi = new \wpquads\vi();
-        $data = (array)$vi->getSettings()->data;
-        //$data['demoPageURL'] = 
+        global $quads;
         
-        $signup = new \wpquads\template('/includes/vendor/vi/views/widget', $data);
-        echo $signup->render();
+        $data = isset($quads->vi->getSettings()->data) ? (array)$quads->vi->getSettings()->data : array();
+        
+        $header = new \wpquads\template('/includes/vendor/vi/views/partials/header', $data);
+        $logged_in = new \wpquads\template('/includes/vendor/vi/views/logged_in', $data);
+        $not_logged_in = new \wpquads\template('/includes/vendor/vi/views/not_logged_in', $data);
+        $revenue = new \wpquads\template('/includes/vendor/vi/views/revenue', $data);
+        $footer = new \wpquads\template('/includes/vendor/vi/views/partials/footer', $data);
+        
+        // header
+        echo $header->render();
+
+        // Not logged in
+        if (empty($data) || false === $quads->vi->getRevenue()){
+            echo $not_logged_in->render();   
+        }
+        
+        // Is logged in
+        if ($quads->vi->getRevenue()){
+            echo $revenue->render();
+            echo $logged_in->render();
+        }
+        
+        // footer
+        echo $footer->render();
+
     }
     

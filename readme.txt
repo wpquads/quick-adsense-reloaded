@@ -132,6 +132,9 @@ Alternative Installation:
 = 1.7.0 =
 * New: VI Integration
 
+= 1.6.2 =
+* New: Make ajax condition activateable
+
 = 1.6.1 =
 * Fix: Never show ads on ajax generated pages
 * New: Filter to ignore display conditions for short code generated ads

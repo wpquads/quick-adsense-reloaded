@@ -35,6 +35,8 @@ function quads_admin_messages() {
     quads_update_notice_1_5_3();
 
     echo quads_get_vi_notice();
+    
+    echo quads_show_vi_notices();
 
     if( quads_is_admin_page() ) {
         echo '<div class="notice notice-error" id="wpquads-adblock-notice" style="display:none;">' . sprintf( __( '<strong><p>You need to deactivate your ad blocker to use WP QUADS settings.</strong> Your ad blocker browser extension is removing WP QUADS css ressources and is breaking the settings screen! Deactivating the ad blocker will resolve it. WP QUADS is used on 60.000 websites and is into focus of the big adblocking companies. That\'s the downside of our success but nothing you need to worry about.</p>', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
@@ -442,5 +444,18 @@ function quads_show_vi_notice_again() {
 
     if( $diff_intrval >= 0 ) {
         return true;
+    }
+}
+
+/**
+ * Show all vi notices
+ */
+function quads_show_vi_notices(){
+    $notice = new wpquads\vi();
+    $notices = $notice->getNotices();
+    
+    foreach ($notices as $notice){
+        $html = new wpquads\template('/includes/vendor/vi/views/notices', $notice);
+        echo $html->render();
     }
 }

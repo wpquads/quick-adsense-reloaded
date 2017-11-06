@@ -34,12 +34,18 @@ class quadsCron {
 
       return $schedules;
    }
+   
+   
+   
 
    public function schedule_event() {
       if( !wp_next_scheduled( 'quads_weekly_event' ) ) {
          wp_schedule_event( time(), 'weekly', 'quads_weekly_event' );
       }
-   }
+      if( !wp_next_scheduled( 'quads_daily_event' ) ) {
+         wp_schedule_event( time(), 'daily', 'quads_daily_event' );
+      }
+    }
 }
 
 $quadsCron = new quadsCron(); 

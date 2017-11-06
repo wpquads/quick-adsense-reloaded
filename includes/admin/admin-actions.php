@@ -61,15 +61,26 @@ function quads_show_vi_notice_later(){
 }
 add_action('quads_show_vi_notice_later', 'quads_show_vi_notice_later');
 
-
-function quads_save_vi_token(){
-    $token = !empty($_POST['token']) ? $_POST['token'] : '';
-    if (false !== update_option('quads_vi_token', $token)){
-        $return = json_encode( array("success") );
-    } else {
-        $return = json_encode( array("failed") );
+/**
+ * Save vi token
+ */
+function quads_save_vi_token(){  
+    if (empty($_POST['token'])){
+        echo json_encode( array("status" => "failed") );
+        exit;
     }
-    echo $return;
+    
+    update_option('quads_vi_token', $_POST['token']);
+    echo json_encode( array("status" => "success") );
     exit;
 }
 add_action( 'wp_ajax_quads_save_vi_token', 'quads_save_vi_token' );
+
+/**
+ * Logout of vi
+ */
+function quads_logout_vi(){
+    delete_option('quads_vi_token');
+}
+add_action('quads_logout_vi', 'quads_logout_vi');
+

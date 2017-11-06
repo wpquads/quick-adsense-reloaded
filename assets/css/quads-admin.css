@@ -1073,3 +1073,32 @@ p.submit{
     background:#FFF;
     border:none;
 }
+
+.quads-spinner {
+background: url('/wp-admin/images/spinner.gif') no-repeat;
+background-size: 16px 16px;
+display: none;
+float: left;
+opacity: .7;
+filter: alpha(opacity=70);
+width: 160px;
+height: 16px;
+margin: 5px 5px 0;
+clear:both;
+}
+
+#quads-vi-revenue-wrapper{
+    margin-top: 10px;
+    min-width: 565px;
+    min-height: 350px;
+}
+
+#quads-vi-revenue-sum {
+    font-weight: bold;
+    font-size: 36px;
+}
+
+#quads-vi-revenue-sum-wrapper{
+    margin-top: 20px;
+    line-height: 26px;
+}

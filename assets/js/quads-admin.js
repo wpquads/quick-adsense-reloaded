@@ -3,7 +3,101 @@ var strict;
 
 jQuery(document).ready(function ($) {
     
-    // Remove elements from vi page
+    
+// vi login process
+$("#quads_vi_login_submit").click(function(e){
+e.preventDefault();
+        username = $("#email").val();
+        password = $("#password").val();
+
+        var data = '{"email":"' + username + '", "password":"' + password + '"}';
+
+        $.ajax({
+        type: "POST",
+                url: "https://dashboard-api-test.vidint.net/v1/api/authenticate",
+                contentType: 'application/json',
+                data: data,
+                success: function(response){
+                        $("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
+                        $("#quads_add_err").hide();
+                        if (typeof response.data !== 'undefined')    {
+                            $("#quads_add_err").html("we are logging you in");
+                            console.log('we are logging you in' + response);
+                            saveViToken(response.data);
+                }
+                else    {
+                        $("#quads_add_err").html("No valid API response. Can not log you in. Contact support[at]vi.ai");
+                        console.log('no valid api response' + response);
+                }
+                },
+                error: function(response){
+                    var result = JSON.parse(response.responseText);
+                    $("#quads_add_err").html(result.error.message + ' ' + result.error.description);
+                    $("#quads_add_err").css('display', 'inline', 'important').css('visibility', 'visible');
+                    $("#quads_add_err").show();
+                    $("#quads_add_err").removeClass('quads-spinner');
+                    console.log(result);
+                    //exit;
+                },
+                beforeSend:function()
+                {
+                $("#quads_vi_loading").css('display', 'inline', 'important').css('visibility', 'visible');
+                $("#quads_add_err").show();
+                },
+
+                complete:function()
+                {
+                //saveViToken('test');
+                        $("#quads_vi_loading").css('display', 'none', 'important').css('visibility', 'hidden');
+                        //$("#quads_add_err").hide();
+                }
+
+        });
+        return false;
+        });
+    
+        /**
+         * Save vi token
+         */
+                function saveViToken(token){
+                var data = {
+                        'action': 'quads_save_vi_token',
+                        'token': token
+                };
+                        $.ajax({
+                        type: "POST",
+                                url: ajaxurl,
+                                data: data,
+                                //contentType: 'application/json',
+                                success: function(response){
+                                console.log(response);
+                                        $("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
+                                        $("#quads_add_err").hide();
+                                        if (response == 'success')    {
+                                            console.log('Success, login succesfull, token stored' + response);
+                                            window.location.href = quads.path + '/wp-admin/?page=quads-settings&tab=general#quads_settingsvi_header';                                  
+                                }
+                                else    {
+                                console.log("Can not store token");
+                                window.location.href = quads.path + '/wp-admin/?page=quads-settings&tab=general#quads_settingsvi_header';
+                                }
+                                },
+                                beforeSend:function()
+                                {
+                                $("#quads_add_err").css('display', 'inline', 'important').css('visibility', 'visible');
+                                        $("#quads_add_err").show();
+                                },
+                                complete:function()
+                                {
+                                $("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
+                                        $("#quads_add_err").hide();
+                                }
+
+                        });
+                        }
+
+    
+    // Remove several unused elements from vi page
     if (document.location.href.indexOf('vi_header') > - 1) {
             $('#quads-submit-button').hide();
             $('#quads-validate').hide();
@@ -14,7 +108,6 @@ jQuery(document).ready(function ($) {
             $('#quads-footer').show();
     }
     $(window).bind('easytabs:after', function(){
-    console.log('tester');
             if (document.location.href.indexOf('vi_header') > - 1) {
             $('#quads-submit-button').hide();
             $('#quads-validate').hide();
@@ -44,6 +137,19 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
         $('#quads-vi-signup-fullscreen').fadeOut();
     });
+//    // VI login form
+//    $('#quads-vi-login').click(function(e){
+//        e.preventDefault();
+//        // scroll to top
+//        $(window).scrollTop(0);
+//        // hide save button
+//        $('#quads-submit-button').hide();
+//        $('#quads-vi-login').fadeIn();
+//    });
+//    $('#quads-vi-close').click(function(e){
+//        e.preventDefault();
+//        $('#quads-vi-login').fadeOut();
+//    });
      
     /**
      * General Tab
@@ -70,7 +176,13 @@ jQuery(document).ready(function ($) {
      */
     // Check if submit button is visible than stick it to the bottom of the page
     $(window).scroll(function() {
+        
         var elem = '#quads_tab_container .submit';
+        
+        if ($(elem).length < 1){
+            return;
+        }
+        
         var top_of_element = $(elem).offset().top;
         var bottom_of_element = $(elem).offset().top + $(elem).outerHeight(false);
         var bottom_of_screen = $(window).scrollTop() + $(window).height();
