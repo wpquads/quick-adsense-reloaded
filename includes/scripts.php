@@ -56,7 +56,7 @@ function quads_load_admin_scripts( $hook ) {
     if( !apply_filters( 'quads_load_admin_scripts', quads_is_admin_page(), $hook ) ) {
         return;
     }
-    global $wp_version;
+    global $wp_version, $quads;
     
     $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
     $css_dir = QUADS_PLUGIN_URL . 'assets/css/';
@@ -77,11 +77,12 @@ function quads_load_admin_scripts( $hook ) {
     
     wp_enqueue_style( 'quads-admin', $css_dir . 'quads-admin' . $suffix . '.css', QUADS_VERSION );
     wp_enqueue_style( 'jquery-chosen', $css_dir . 'chosen' . $suffix . '.css', QUADS_VERSION );
-
+    
     wp_localize_script( 'quads-admin-scripts', 'quads', array(
         'nonce' => wp_create_nonce( 'quads_ajax_nonce' ),
         'error' => __( "error", 'quick-adsense-reloaded' ),
         'path' => get_option( 'siteurl' ),
+        'vi_revenue' => $quads->vi->getRevenue()->mtdReport 
     ) );
 }
 

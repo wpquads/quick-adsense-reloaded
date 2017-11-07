@@ -35,6 +35,18 @@ class vi {
     public $token;
 
     /**
+     * Available ads
+     * @var obj 
+     */
+    public $ads;
+
+    /**
+     * Ad Settings
+     * @var obj 
+     */
+    public $adsSettings;
+
+    /**
      * vi notices
      * @var array
      */
@@ -53,6 +65,7 @@ class vi {
         $this->hooks();
 
         $this->settings = get_option('quads_vi_settings');
+        $this->ads = get_option('quads_vi_ads');
 
         $this->getToken();
 
@@ -62,9 +75,72 @@ class vi {
 //        }
     }
 
-    private function hooks() {
-        // Check that license is valid once per week
+    public function hooks() {
+        // Check vi api settings daily
         add_action('quads_daily_event', array($this, 'setSettings'));
+        add_shortcode('quadsvi', array($this, 'getShortcode'));
+    }
+    
+    
+    private function parse($text) {
+    // Damn pesky carriage returns...
+    $text = str_replace("\r\n", "\n", $text);
+    $text = str_replace("\r", "\n", $text);
+
+    // JSON requires new line characters be escaped
+    $text = str_replace("\n", "\\n", $text);
+    return $text;
+}
+
+    /**
+     * shortcode to include ads in frontend
+     *
+     * @param array $atts
+     */
+    public function getShortcode($atts) {
+        global $quads_options;
+
+        if (quads_check_meta_setting('NoAds') === '1') {
+            return;
+        }
+
+        if (quads_is_amp_endpoint()) {
+            return;
+        }
+
+
+        // The ad id
+        $id = isset($atts['id']) ? (int) $atts['id'] : 1;
+
+
+//        $arr = array(
+//            'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
+//            'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
+//            'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
+//            'float:none;margin:%1$dpx;');
+//
+//        $adsalign = isset($quads_options['ads']['ad' . $id]['align']) ? $quads_options['ads']['ad' . $id]['align'] : 3; // default
+//        $adsmargin = isset($quads_options['ads']['ad' . $id]['margin']) ? $quads_options['ads']['ad' . $id]['margin'] : '3'; // default
+//        $margin = sprintf($arr[(int) $adsalign], $adsmargin);
+//
+//
+//        // Do not create any inline style on AMP site
+//        $style = !quads_is_amp_endpoint() ? apply_filters('quads_filter_margins', $margin, 'ad' . $id) : '';
+
+        //$viad = preg_replace('/\s+/', '', $this->getAdCode());
+        //$viad = $this->parse($this->getAdCode());
+        $viad = $this->getAdCode();
+
+        $style = 'min-width:363px;min-height:363px;';
+        
+        $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode vi ad -->' . "\n";
+        $code .= '<div class="quads-location' . $id . '" id="quads-vi-ad' . $id . '" style="' . $style . '">' . "\n";
+        $code .= "<script>";
+        $code .= do_shortcode($viad);
+        $code .= '</script>' . "\n";
+        $code .= '</div>' . "\n";
+
+        return $code;
     }
 
     /**
@@ -162,7 +238,7 @@ class vi {
      * @return boolean
      */
     public function createAdsTxt() {
-        
+
         if (!isset($this->token->publisherId))
             return false;
 
@@ -219,6 +295,14 @@ class vi {
         $this->token = json_decode(base64_decode($output[2]));
     }
 
+    public function getAds() {
+        $this->ads = get_option('quads_vi_ads');
+    }
+
+    public function setAds() {
+        update_option('quads_vi_ads', $this->ads);
+    }
+
     /**
      * Collect all available notices
      * @param string $type updated | error | update-nag
@@ -240,8 +324,8 @@ class vi {
         $vi_token = get_option('quads_vi_token');
         if (!$vi_token)
             return false;
-        
-        
+
+
         $args = array(
             'headers' => array(
                 'Authorization' => $vi_token
@@ -253,9 +337,80 @@ class vi {
             return false;
         if (wp_remote_retrieve_response_code($response) == '404' || wp_remote_retrieve_response_code($response) == '401')
             return false;
+        if (empty($response))
+            return false;
+        
+        // convert into object
+        $response = json_decode($response['body']);
+
+        if ($response->status !== 'ok') {
+            return false;
+        }
+
+        
 
         // else
-        return json_encode($response);
+        return $response->data;
+    }
+
+    /**
+     * Get ad code from api
+     * @return mixed string | bool 
+     */
+    public function getAdCode() {
+        $vi_token = get_option('quads_vi_token');
+
+        if (!$vi_token)
+            return false;
+
+        $viParam = array(
+            'domain' => $this->getDomain(),
+            'adUnitType' => 'FLOATING_OUTSTREAM',
+            'divId' => 'div_id',
+            'language' => 'en-us',
+            'iabCategory' => 'IAB2-16',
+            'font' => 'Courier New',
+            'fontSize' => 12,
+            'keywords' => 'key, words',
+            'textColor' => '#00ff00',
+            'backgroundColor' => '#00ff00',
+            'vioptional1' => 'optional1',
+            'vioptional2' => 'optional1',
+            'vioptional3' => 'optional1',
+            'float' => true,
+            'logoUrl' => 'http://url.com/logo.jpg',
+            'dfpSupport' => true,
+            'sponsoredText' => 'Sponsored text',
+            'poweredByText' => 'Powerd by VI'
+        );
+
+        $args = array(
+            'method' => 'POST',
+            'timeout' => 10,
+            'headers' => array(
+                'Authorization' => $vi_token,
+                'Content-Type' => 'application/json; charset=utf-8'
+            ),
+            'body' => json_encode($viParam)
+        );
+
+        $response = wp_remote_post($this->settings->data->jsTagAPI, $args);
+
+        if (is_wp_error($response))
+            return false;
+        if (wp_remote_retrieve_response_code($response) == '404' || wp_remote_retrieve_response_code($response) == '401')
+            return false;
+        if (empty($response))
+            return false;
+
+        // convert into object
+        $response = json_decode($response['body']);
+
+        if ($response->status !== 'ok') {
+            return false;
+        }
+
+        return $response->data;
     }
 
     /**
@@ -263,8 +418,16 @@ class vi {
      * @return string
      */
     public function getPublisherId() {
-        
+
         return isset($this->token->publisherId) ? $this->token->publisherId : '';
+    }
+
+    private function getDomain() {
+        $domain = str_replace('www.', '', get_home_url());
+        $domain = str_replace('https://', '', $domain);
+        $domain = str_replace('http://', '', $domain);
+
+        return $domain;
     }
 
 }

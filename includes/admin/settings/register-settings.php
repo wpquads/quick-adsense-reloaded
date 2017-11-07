@@ -2182,9 +2182,12 @@ function quads_adsense_code_callback( $args ) {
         
         $data = isset($quads->vi->getSettings()->data) ? (array)$quads->vi->getSettings()->data : array();
         
+        $data['jsTag'] = $quads->vi->getAdCode();
+        
         $header = new \wpquads\template('/includes/vendor/vi/views/partials/header', $data);
         $logged_in = new \wpquads\template('/includes/vendor/vi/views/logged_in', $data);
         $not_logged_in = new \wpquads\template('/includes/vendor/vi/views/not_logged_in', $data);
+        $ad = new \wpquads\template('/includes/vendor/vi/views/ad_integration', $data);
         $revenue = new \wpquads\template('/includes/vendor/vi/views/revenue', $data);
         $footer = new \wpquads\template('/includes/vendor/vi/views/partials/footer', $data);
         
@@ -2199,6 +2202,7 @@ function quads_adsense_code_callback( $args ) {
         // Is logged in
         if ($quads->vi->getRevenue()){
             echo $revenue->render();
+            echo $ad->render();
             echo $logged_in->render();
         }
         
