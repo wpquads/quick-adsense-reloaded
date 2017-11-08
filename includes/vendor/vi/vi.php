@@ -76,9 +76,25 @@ class vi {
     }
 
     public function hooks() {
-        // Check vi api settings daily
+        // Cron Check vi api settings daily
         add_action('quads_daily_event', array($this, 'setSettings'));
+        add_action('quads_daily_event', array($this, 'setRevenue'));
+        
+        // Shhortcodes
         add_shortcode('quadsvi', array($this, 'getShortcode'));
+        
+//        if (is_admin()){
+//        add_action('admin_init', array($this, 'createAdSettings'));
+//        }
+    }
+    
+    public function createAdSettings(){
+        add_settings_section(
+        'vi_ad_settings',         // ID used to identify this section and with which to register options
+        'VI Ad Settings',                  // Title to be displayed on the administration page
+        'vi_options_callback', // Callback used to render the description of the section
+        'general'                           // Page on which to add this section of options
+    );
     }
     
     
@@ -173,11 +189,13 @@ class vi {
         );
         $response = wp_remote_post($this->urlSettings, $args);
         //wp_die(isset($response['body']));
-        if (isset($response['body'])) {
-            update_option('quads_vi_settings', json_decode($response['body']));
+        
+        $response = json_decode($response['body']);
+        
+        if (isset($response->status) && $response->status == 'ok') {
+            update_option('quads_vi_settings', $response);
             return true;
         }
-        update_option('quads_vi_settings', '');
         return false;
     }
 
@@ -317,10 +335,10 @@ class vi {
 //    }
 
     /**
-     * Get total revenue
+     * Get revenue from API and store it in db
      * @return mixed string | bool 
      */
-    public function getRevenue() {
+    public function setRevenue() {
         $vi_token = get_option('quads_vi_token');
         if (!$vi_token)
             return false;
@@ -343,14 +361,21 @@ class vi {
         // convert into object
         $response = json_decode($response['body']);
 
-        if ($response->status !== 'ok') {
+        if (!isset($response->status) || $response->status !== 'ok') {
             return false;
         }
 
-        
-
         // else
-        return $response->data;
+        //return $response->data;
+        update_option('quads_vi_revenue', $response->data);
+    }
+    
+    /**
+     * Get Revenue from db
+     * @return object
+     */
+    public function getRevenue() {
+        return get_option('quads_vi_revenue');
     }
 
     /**

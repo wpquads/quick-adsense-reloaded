@@ -17,6 +17,18 @@ e.preventDefault();
                 url: "https://dashboard-api-test.vidint.net/v1/api/authenticate",
                 contentType: 'application/json',
                 data: data,
+                statusCode: {
+                        502: function () {
+                        $("#quads_add_err").html("502 Bad Gateway. Contact support[at]vi.ai");
+                        console.log('502 Bad Gateway.');
+                        return false;
+                        },
+                        500: function () {
+                        $("#quads_add_err").html("500 Bad Gateway. Contact support[at]vi.ai");
+                        console.log('500 Bad Gateway.');
+                        return false;
+                        }
+                },
                 success: function(response){
                         $("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
                         $("#quads_add_err").hide();
@@ -31,7 +43,13 @@ e.preventDefault();
                 }
                 },
                 error: function(response){
-                    var result = JSON.parse(response.responseText);
+                            // check if xhr.status is defined in $.ajax.statusCode
+                            // if true, return false to stop this function
+                            if (typeof this.statusCode[response.status] != 'undefined') {
+                                return false;
+                            }
+                    
+                    var result = typeof response.responseText !== 'undefined' ? JSON.parse(response.responseText) : '';
                     $("#quads_add_err").html(result.error.message + ' ' + result.error.description);
                     $("#quads_add_err").css('display', 'inline', 'important').css('visibility', 'visible');
                     $("#quads_add_err").show();

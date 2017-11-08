@@ -1102,3 +1102,17 @@ clear:both;
     margin-top: 20px;
     line-height: 26px;
 }
+
+#quads-vi-customize-player label {
+    display:inline-block;
+    width:170px;
+    color:black;
+    font-weight: 500;
+}
+#quads-vi-shortcodes label {
+    display:inline-block;
+    width:170px;
+}
+#quads-vi-save-settings {
+margin-top:20px;
+}

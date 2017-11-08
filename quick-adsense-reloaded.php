@@ -96,6 +96,10 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
        * Public vi class
        */
       public $vi;
+      
+      public function __construct() {
+
+          }
 
       /**
        * Main QuickAdsenseReloaded Instance
@@ -122,6 +126,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             self::$instance->logger = new quadsLogger( "quick_adsense_log_" . date( "Y-m-d" ) . ".log", quadsLogger::INFO );
             self::$instance->html = new QUADS_HTML_Elements();
             self::$instance->vi = new wpquads\vi();
+
          }
          return self::$instance;
       }
@@ -224,8 +229,49 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             require_once QUADS_PLUGIN_DIR . 'includes/admin/admin-notices.php';
             require_once QUADS_PLUGIN_DIR . 'includes/admin/upgrades/upgrade-functions.php';
             require_once QUADS_PLUGIN_DIR . 'includes/class-template.php';
+            //require_once QUADS_PLUGIN_DIR . 'includes/Forms/form.php';
+            //require_once QUADS_PLUGIN_DIR . 'includes/Autoloader.php';
+            //require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/views/Forms/adSettings.php';
+            //$this->registerNamespaces();
+
          }
       }
+      
+   /**
+    * Register used namespaces
+    */
+   private function registerNamespaces() {
+      $autoloader = new wpquads\Autoloader();
+      $this->set( "autoloader", $autoloader );
+
+      // Autoloader
+      $autoloader->registerNamespaces( array(
+          "wpquads" => array( 
+              QUADS_PLUGIN_DIR,
+              QUADS_PLUGIN_DIR . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'Forms',
+              )
+      ) );
+
+      // Register namespaces
+      $autoloader->register();
+   }
+   
+      /**
+    * Set a variable to DI with given name
+    * @param string $name
+    * @param mixed $variable
+    * @return $this
+    */
+   public function set( $name, $variable ) {
+      // It is a function
+      if( is_callable( $variable ) )
+         $variable = $variable();
+
+      // Add it to services
+      $this->services[$name] = $variable;
+
+      return $this;
+   }
       
 
       public function load_hooks() {
