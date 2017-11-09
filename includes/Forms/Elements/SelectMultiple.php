@@ -1,7 +1,6 @@
 <?php
-namespace WPStaging\Forms\Elements;
+namespace wpquads;
 
-use WPStaging\Forms\ElementsWithOptions;
 
 /**
  * Class Select

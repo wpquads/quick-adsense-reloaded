@@ -1,7 +1,7 @@
 <?php
-namespace WPStaging\Forms\Elements;
+namespace wpquads;
 
-use WPStaging\Forms\Elements;
+use wpquads;
 
 /**
  * Class TextArea

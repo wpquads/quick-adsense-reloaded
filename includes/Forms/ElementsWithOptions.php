@@ -1,7 +1,7 @@
 <?php
 namespace wpquads;
 
-use wpquads\InterfaceElementWithOptions;
+//use wpquads\InterfaceElementWithOptions;
 
 /**
  * Class Elements

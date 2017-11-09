@@ -1,7 +1,5 @@
 <?php
-namespace WPStaging\Forms\Elements;
-
-use WPStaging\Forms\Elements;
+namespace wpquads;
 
 /**
  * Class Numerical

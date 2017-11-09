@@ -82,7 +82,7 @@ function quads_load_admin_scripts( $hook ) {
         'nonce' => wp_create_nonce( 'quads_ajax_nonce' ),
         'error' => __( "error", 'quick-adsense-reloaded' ),
         'path' => get_option( 'siteurl' ),
-        'vi_revenue' => $quads->vi->getRevenue()->mtdReport 
+        'vi_revenue' => !empty($quads->vi->getRevenue()->mtdReport) ? $quads->vi->getRevenue()->mtdReport : ''
     ) );
 }
 

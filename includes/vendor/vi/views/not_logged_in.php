@@ -19,7 +19,7 @@
             <li> The video player is customizable to match your site</li>
         </ul>
         <p>
-            Watch a <a href="<?php echo $demoPageURL; ?>" rel="external nofollow" target="_blank">demo</a> of how vi stories works.
+            Watch a <a href="<?php echo isset($demoPageURL) ? $demoPageURL : ''; ?>" rel="external nofollow" target="_blank">demo</a> of how vi stories works.
         <p>
             By clicking sign up you agree to send your current domain, email and affiliate ID to video intelligence & WP QUADS.
         </p>

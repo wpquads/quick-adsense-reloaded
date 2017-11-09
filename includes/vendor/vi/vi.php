@@ -69,47 +69,54 @@ class vi {
 
         $this->getToken();
 
-        //some methods used in wp-admin only: Mainly for performance reasons
-//        if (is_admin()){
-//            $this->createAdsTxt();
-//        }
     }
 
+    /**
+     * Load hooks
+     */
     public function hooks() {
         // Cron Check vi api settings daily
         add_action('quads_daily_event', array($this, 'setSettings'));
         add_action('quads_daily_event', array($this, 'setRevenue'));
         
-        // Shhortcodes
+        // Register the vi ad settings
+        add_action('admin_init', array($this, 'registerSettings'));
+
+        // Shortcodes
         add_shortcode('quadsvi', array($this, 'getShortcode'));
         
-//        if (is_admin()){
-//        add_action('admin_init', array($this, 'createAdSettings'));
-//        }
     }
     
-    public function createAdSettings(){
-        add_settings_section(
-        'vi_ad_settings',         // ID used to identify this section and with which to register options
-        'VI Ad Settings',                  // Title to be displayed on the administration page
-        'vi_options_callback', // Callback used to render the description of the section
-        'general'                           // Page on which to add this section of options
-    );
+    /**
+     * Register the vi ad settings
+     */
+    public function registerSettings(){
+        register_setting( 'quads_vi_ads', 'quads_vi_ads' );
     }
     
     
-    private function parse($text) {
-    // Damn pesky carriage returns...
-    $text = str_replace("\r\n", "\n", $text);
-    $text = str_replace("\r", "\n", $text);
-
-    // JSON requires new line characters be escaped
-    $text = str_replace("\n", "\\n", $text);
-    return $text;
-}
+//    public function createAdSettings(){
+//        add_settings_section(
+//        'vi_ad_settings',         // ID used to identify this section and with which to register options
+//        'VI Ad Settings',                  // Title to be displayed on the administration page
+//        'vi_options_callback', // Callback used to render the description of the section
+//        'general'                           // Page on which to add this section of options
+//    );
+//    }
+    
+    
+//    private function parse($text) {
+//    // Damn pesky carriage returns...
+//    $text = str_replace("\r\n", "\n", $text);
+//    $text = str_replace("\r", "\n", $text);
+//
+//    // JSON requires new line characters be escaped
+//    $text = str_replace("\n", "\\n", $text);
+//    return $text;
+//}
 
     /**
-     * shortcode to include ads in frontend
+     * Shortcode to include vi ad
      *
      * @param array $atts
      */
@@ -124,27 +131,9 @@ class vi {
             return;
         }
 
-
         // The ad id
         $id = isset($atts['id']) ? (int) $atts['id'] : 1;
 
-
-//        $arr = array(
-//            'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
-//            'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
-//            'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
-//            'float:none;margin:%1$dpx;');
-//
-//        $adsalign = isset($quads_options['ads']['ad' . $id]['align']) ? $quads_options['ads']['ad' . $id]['align'] : 3; // default
-//        $adsmargin = isset($quads_options['ads']['ad' . $id]['margin']) ? $quads_options['ads']['ad' . $id]['margin'] : '3'; // default
-//        $margin = sprintf($arr[(int) $adsalign], $adsmargin);
-//
-//
-//        // Do not create any inline style on AMP site
-//        $style = !quads_is_amp_endpoint() ? apply_filters('quads_filter_margins', $margin, 'ad' . $id) : '';
-
-        //$viad = preg_replace('/\s+/', '', $this->getAdCode());
-        //$viad = $this->parse($this->getAdCode());
         $viad = $this->getAdCode();
 
         $style = 'min-width:363px;min-height:363px;';
@@ -152,7 +141,7 @@ class vi {
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode vi ad -->' . "\n";
         $code .= '<div class="quads-location' . $id . '" id="quads-vi-ad' . $id . '" style="' . $style . '">' . "\n";
         $code .= "<script>";
-        $code .= do_shortcode($viad);
+        $code .= do_shortcode($viad['ads'][1]);
         $code .= '</script>' . "\n";
         $code .= '</div>' . "\n";
 
@@ -182,13 +171,13 @@ class vi {
       }
      */
     public function setSettings() {
+        
         $args = array(
             'method' => 'GET',
             'headers' => array(),
             'timeout' => 45
         );
         $response = wp_remote_post($this->urlSettings, $args);
-        //wp_die(isset($response['body']));
         
         $response = json_decode($response['body']);
         
@@ -321,18 +310,7 @@ class vi {
         update_option('quads_vi_ads', $this->ads);
     }
 
-    /**
-     * Collect all available notices
-     * @param string $type updated | error | update-nag
-     * @param string $message
-     */
-//    private function setNotices($type, $message, $dismiss = false) {
-//        $this->notices[] = array('type' => $type, 'message' => $message, 'dismiss' => $dismiss);
-//    }
-//
-//    public function getNotices() {
-//        return $this->notices;
-//    }
+
 
     /**
      * Get revenue from API and store it in db
@@ -368,6 +346,8 @@ class vi {
         // else
         //return $response->data;
         update_option('quads_vi_revenue', $response->data);
+        return true;
+        
     }
     
     /**
@@ -379,11 +359,13 @@ class vi {
     }
 
     /**
-     * Get ad code from api
+     * Get ad code from api and store it in database
      * @return mixed string | bool 
      */
-    public function getAdCode() {
+    public function setAdCode() {
         $vi_token = get_option('quads_vi_token');
+        
+        $ads = get_option('quads_vi_ads');
 
         if (!$vi_token)
             return false;
@@ -392,21 +374,21 @@ class vi {
             'domain' => $this->getDomain(),
             'adUnitType' => 'FLOATING_OUTSTREAM',
             'divId' => 'div_id',
-            'language' => 'en-us',
-            'iabCategory' => 'IAB2-16',
-            'font' => 'Courier New',
-            'fontSize' => 12,
-            'keywords' => 'key, words',
-            'textColor' => '#00ff00',
-            'backgroundColor' => '#00ff00',
-            'vioptional1' => 'optional1',
-            'vioptional2' => 'optional1',
-            'vioptional3' => 'optional1',
+            'language' => isset($ads['ads'][1]['language']) ? $ads['ads'][1]['language'] : 'en-en',
+            'iabCategory' => isset($ads['ads'][1]['iab1']) ? $ads['ads'][1]['iab1'] : 'IAB2-16',
+            'font' => isset($ads['ads'][1]['txt_font_family']) ? $ads['ads'][1]['txt_font_family'] : 'Courier New',
+            'fontSize' => isset($ads['ads'][1]['font_size']) ? $ads['ads'][1]['font_size'] : 12,
+            'keywords' => isset($ads['ads'][1]['keywords']) ? $ads['ads'][1]['keywords'] : 'key,words',
+            'textColor' => isset($ads['ads'][1]['text_color']) ? $ads['ads'][1]['text_color'] : '#00ff00',
+            'backgroundColor' => isset($ads['ads'][1]['bg_color']) ? $ads['ads'][1]['bg_color'] : '#00ff00',
+            'vioptional1' => isset($ads['ads'][1]['optional1']) ? $ads['ads'][1]['optional1'] : 'optional1',
+            'vioptional2' => isset($ads['ads'][1]['optional2']) ? $ads['ads'][1]['optional2'] : 'optional2',
+            'vioptional3' => isset($ads['ads'][1]['optional3']) ? $ads['ads'][1]['optional3'] : 'optional3',
             'float' => true,
             'logoUrl' => 'http://url.com/logo.jpg',
             'dfpSupport' => true,
             'sponsoredText' => 'Sponsored text',
-            'poweredByText' => 'Powerd by VI'
+            'poweredByText' => 'Powered by VI'
         );
 
         $args = array(
@@ -430,12 +412,25 @@ class vi {
 
         // convert into object
         $response = json_decode($response['body']);
+        
 
-        if ($response->status !== 'ok') {
+        // Die()
+        if ($response->status !== 'ok' || empty($response->data)) {
             return false;
         }
+        
+        // Add ad code to key 1 as long as there are no more vi ad codes
+        // Later we need to loop through the $ads array to store values
+        $ads[1]['code'] = $response->data;
 
+        //return $response->data;
+        update_option('quads_vi_ads', $ads);
+        
         return $response->data;
+    }
+    
+    public function getAdCode(){
+        return get_option('quads_vi_ads');
     }
 
     /**

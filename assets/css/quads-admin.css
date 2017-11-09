@@ -1116,3 +1116,9 @@ clear:both;
 #quads-vi-save-settings {
 margin-top:20px;
 }
+
+#quads-vi-welcome ul {
+    float:none;
+    list-style: square;
+    margin-left:25px;
+}

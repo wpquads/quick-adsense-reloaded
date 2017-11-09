@@ -65,7 +65,7 @@ add_action('quads_show_vi_notice_later', 'quads_show_vi_notice_later');
  * Save vi token
  */
 function quads_save_vi_token(){  
-    global $quads;
+
     if (empty($_POST['token'])){
         echo json_encode( array("status" => "failed") );
         exit;
@@ -89,6 +89,21 @@ function quads_save_vi_token(){
     exit;
 }
 add_action( 'wp_ajax_quads_save_vi_token', 'quads_save_vi_token' );
+
+/**
+ * Save vi token
+ */
+function quads_save_vi_ads(){  
+    global $quads;
+    
+    if ($quads->vi->setAdCode()) {
+        wp_die(json_encode(array('status' => 'success', 'data' => $quads->vi->getAdCode())));
+    }else {
+        wp_die(json_encode(array('status' => 'error')));
+    }
+
+}
+add_action( 'wp_ajax_quads_save_vi_ads', 'quads_save_vi_ads' );
 
 
 

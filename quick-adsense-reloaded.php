@@ -229,10 +229,10 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             require_once QUADS_PLUGIN_DIR . 'includes/admin/admin-notices.php';
             require_once QUADS_PLUGIN_DIR . 'includes/admin/upgrades/upgrade-functions.php';
             require_once QUADS_PLUGIN_DIR . 'includes/class-template.php';
-            //require_once QUADS_PLUGIN_DIR . 'includes/Forms/form.php';
-            //require_once QUADS_PLUGIN_DIR . 'includes/Autoloader.php';
-            //require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/views/Forms/adSettings.php';
-            //$this->registerNamespaces();
+            require_once QUADS_PLUGIN_DIR . 'includes/Forms/Form.php';
+            require_once QUADS_PLUGIN_DIR . 'includes/Autoloader.php';
+            require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/views/Forms/adSettings.php';
+            $this->registerNamespaces();
 
          }
       }
@@ -242,15 +242,18 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
     */
    private function registerNamespaces() {
       $autoloader = new wpquads\Autoloader();
-      $this->set( "autoloader", $autoloader );
+      //$this->set( "autoloader", $autoloader );
 
       // Autoloader
       $autoloader->registerNamespaces( array(
           "wpquads" => array( 
               QUADS_PLUGIN_DIR,
-              QUADS_PLUGIN_DIR . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'Forms',
+              QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms',
+              QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms' . DIRECTORY_SEPARATOR . 'Elements',
+              QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms' . DIRECTORY_SEPARATOR . 'Elements' . DIRECTORY_SEPARATOR . 'interfaces',
               )
       ) );
+
 
       // Register namespaces
       $autoloader->register();
@@ -262,16 +265,16 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
     * @param mixed $variable
     * @return $this
     */
-   public function set( $name, $variable ) {
-      // It is a function
-      if( is_callable( $variable ) )
-         $variable = $variable();
-
-      // Add it to services
-      $this->services[$name] = $variable;
-
-      return $this;
-   }
+//   public function set( $name, $variable ) {
+//      // It is a function
+//      if( is_callable( $variable ) )
+//         $variable = $variable();
+//
+//      // Add it to services
+//      $this->services[$name] = $variable;
+//
+//      return $this;
+//   }
       
 
       public function load_hooks() {

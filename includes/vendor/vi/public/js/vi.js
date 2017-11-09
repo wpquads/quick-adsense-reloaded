@@ -19,33 +19,65 @@ jQuery(document).ready(function () {
             var y = [];
             // Get array of x values
             jQuery.each(quads.vi_revenue, function(index, value){
-            x.push(value['date']);
-                    //console.log(value['date']);
+                x.push(value['date']);
             });
             // Get array of y values
             jQuery.each(quads.vi_revenue, function(index, value){
-            y.push(value['revenue']);
-                    //console.log(value['date']);
+                y.push(value['revenue']);
             });
-            console.log(x + ':' + y);
             quadsViRevenueInit(x, y);
     }
+    
+    // Create vi ad
+    jQuery('#quads_vi_save_settings_submit').click(function(){
+        setTimeout(function(){
+            console.log('saved vi ad settings');
+            save_quads_vi_ad_settings();
+        },3000);
+    });
+    
+/**
+* Save vi token
+*/
+var save_quads_vi_ad_settings = function (){
+    var data = {
+            'action': 'quads_save_vi_ads',
+    };
+        jQuery.ajax({
+        type: "POST",
+                url: ajaxurl,
+                data: data,
+                //contentType: 'application/json',
+                success: function(response){
+                    console.log('success' + response);
+                },
+                beforeSend:function()
+                {
+                jQuery("#quads_add_err").css('display', 'inline', 'important').css('visibility', 'visible');
+                jQuery("#quads_add_err").show();
+                },
+                complete:function()
+                {
+                jQuery("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
+                jQuery("#quads_add_err").hide();
+                }
+        });
+}
+
+    
+    
 });
 
-
-        var quadsViRevenueInit = function(x,y){
+        /**
+         * Create vi Revenue Chart
+         */
+        var quadsViRevenueInit = function(x, y){
         var ctx = document.getElementById('quads-vi-revenue').getContext('2d');
-        
-                //console.log(quads.vi_revenue[0]['date']);
-                //console.log(quads.vi_revenue);
-                
-
                 var chart = new Chart(ctx, {
                 // The type of chart we want to create
                 type: 'line',
                         // The data for our dataset
                         data: {
-                        //labels: ["January", "February", "March", "April", "May", "June", "July"],
                         labels: x,
                                 datasets: [{
                                 label: "VI Revenue",
@@ -57,4 +89,4 @@ jQuery(document).ready(function () {
                         // Configuration options go here
                         options: {}
                 });
-                } 
+        } 

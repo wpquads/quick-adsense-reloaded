@@ -2176,38 +2176,52 @@ function quads_adsense_code_callback( $args ) {
        echo $html;
     }
     
-    
-    function quads_vi_signup_callback(){
-        global $quads;
-        
-        $data = isset($quads->vi->getSettings()->data) ? (array)$quads->vi->getSettings()->data : array();
-        
-        $data['jsTag'] = $quads->vi->getAdCode();
-        
-        $header = new \wpquads\template('/includes/vendor/vi/views/partials/header', $data);
-        $logged_in = new \wpquads\template('/includes/vendor/vi/views/logged_in', $data);
-        $not_logged_in = new \wpquads\template('/includes/vendor/vi/views/not_logged_in', $data);
-        $ad = new \wpquads\template('/includes/vendor/vi/views/ad_integration', $data);
-        $revenue = new \wpquads\template('/includes/vendor/vi/views/revenue', $data);
-        $footer = new \wpquads\template('/includes/vendor/vi/views/partials/footer', $data);
-        
-        // header
-        echo $header->render();
+    /**
+     * VI Integration
+     * @global type $quads
+     * 
+     */
+    function quads_vi_signup_callback() {
+    global $quads;
 
-        // Not logged in
-        if (empty($data) || false === $quads->vi->getRevenue()){
-            echo $not_logged_in->render();   
-        }
-        
-        // Is logged in
-        if ($quads->vi->getRevenue()){
-            echo $revenue->render();
-            echo $ad->render();
-            echo $logged_in->render();
-        }
-        
-        // footer
-        echo $footer->render();
+    $header = new \wpquads\template('/includes/vendor/vi/views/partials/header', array());
+    $footer = new \wpquads\template('/includes/vendor/vi/views/partials/footer', array());
+    $error = new \wpquads\template('/includes/vendor/vi/views/error', array());
 
+    // Try to initially load vi settings
+    if ( empty( $quads->vi->getSettings() )){
+        if (!$quads->vi->setSettings()) {
+            echo $header->render();
+            echo $error->render();
+            echo $footer->render();
+        return true; 
+        }
     }
-    
+
+
+
+    $data = !empty($quads->vi->getSettings()->data) ? (array) $quads->vi->getSettings()->data : array();
+
+    $data['jsTag'] = $quads->vi->getAdCode();
+
+    $logged_in = new \wpquads\template('/includes/vendor/vi/views/logged_in', $data);
+    $not_logged_in = new \wpquads\template('/includes/vendor/vi/views/not_logged_in', $data);
+    $ad = new \wpquads\template('/includes/vendor/vi/views/ad_integration', $data);
+    $revenue = new \wpquads\template('/includes/vendor/vi/views/revenue', $data);
+
+
+    // Not logged in
+    if (empty($data) || false === $quads->vi->getRevenue()) {
+        echo $not_logged_in->render();
+    }
+
+    // Is logged in
+    if ($quads->vi->setRevenue()) {
+        echo $revenue->render();
+        echo $ad->render();
+        echo $logged_in->render();
+    }
+
+    // footer
+    echo $footer->render();
+}
