@@ -103,11 +103,13 @@
                 When:-->
         <!--        <label></label>-->
         <p>
-            vi Ad Changes might take some time to take into effect.
+<!--            vi Ad Changes might take some time to take into effect.-->
         </p>
+        <div id="quads-vi-save-notice"><span class="quads-spinner" style="float:none;"></span></div>
         <div id="quads-vi-save-settings">
             <input type="submit" id="quads_vi_save_settings_submit" style="" class='button button-primary' value="Save Video Settings">
         </div>
+        
     </div>
     <div id="quads-vi-shortcodes">
         <h4 style="font-weight: 500;font-size:18px;color:black;">Manual Integration</h4>
@@ -118,7 +120,7 @@
         <br>
         <label>PHP Shortcode: </label>
         <input readonly="" id="quads_php_shortcode_1" type="text" onclick="this.focus();
-                this.select()" style="width:290px;" value="&lt;?php echo do_shortcode('[quadsvi id=1]'); ?&gt;" title="Optional: Copy and paste the PHP code into your theme files, click below then press Ctrl + C (PC) or Cmd + C (Mac).">        
+                this.select()" style="width:310px;" value="&lt;?php echo do_shortcode('[quadsvi id=1]'); ?&gt;" title="Optional: Copy and paste the PHP code into your theme files, click below then press Ctrl + C (PC) or Cmd + C (Mac).">        
         <p></p>
     </div>
 </div>

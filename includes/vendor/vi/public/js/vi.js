@@ -30,7 +30,10 @@ jQuery(document).ready(function () {
     
     // Create vi ad
     jQuery('#quads_vi_save_settings_submit').click(function(){
+        jQuery("#quads-vi-save-notice").css('display','block');
+        jQuery("#quads-vi-save-notice").html('Saving settings...');
         setTimeout(function(){
+            jQuery("#quads-vi-save-notice").html('Building ad code ...');
             console.log('saved vi ad settings');
             save_quads_vi_ad_settings();
         },3000);
@@ -49,17 +52,26 @@ var save_quads_vi_ad_settings = function (){
                 data: data,
                 //contentType: 'application/json',
                 success: function(response){
-                    console.log('success' + response);
+                    if(response.error){
+                        var resp = 'Error:' + response
+                    } else {
+                        var resp = 'Success: vi Ad Changes might take some time to take into effect.';
+                    }
+                    //console.log('success' + response);
+                    jQuery("#quads-vi-save-notice").html(resp);
                 },
+                error: function(response){
+                    console.log(response);
+                    jQuery("#quads-vi-save-notice").html(response);
+                },
+                
                 beforeSend:function()
                 {
-                jQuery("#quads_add_err").css('display', 'inline', 'important').css('visibility', 'visible');
-                jQuery("#quads_add_err").show();
+                    jQuery("#quads-vi-save-notice quads-spinner").css('display','block');
                 },
                 complete:function()
                 {
-                jQuery("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
-                jQuery("#quads_add_err").hide();
+                jQuery("#quads-vi-save-notice quads-spinner").css('display','none');
                 }
         });
 }

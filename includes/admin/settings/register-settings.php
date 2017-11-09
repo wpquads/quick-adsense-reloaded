@@ -2194,10 +2194,9 @@ function quads_adsense_code_callback( $args ) {
             echo $header->render();
             echo $error->render();
             echo $footer->render();
-        return true; 
+            return true; 
         }
     }
-
 
 
     $data = !empty($quads->vi->getSettings()->data) ? (array) $quads->vi->getSettings()->data : array();
@@ -2209,9 +2208,12 @@ function quads_adsense_code_callback( $args ) {
     $ad = new \wpquads\template('/includes/vendor/vi/views/ad_integration', $data);
     $revenue = new \wpquads\template('/includes/vendor/vi/views/revenue', $data);
 
+    // header
+    echo $header->render();
+
 
     // Not logged in
-    if (empty($data) || false === $quads->vi->getRevenue()) {
+    if (empty($data) || false === $quads->vi->setRevenue()) {
         echo $not_logged_in->render();
     }
 

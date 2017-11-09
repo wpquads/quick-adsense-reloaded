@@ -141,7 +141,7 @@ class vi {
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode vi ad -->' . "\n";
         $code .= '<div class="quads-location' . $id . '" id="quads-vi-ad' . $id . '" style="' . $style . '">' . "\n";
         $code .= "<script>";
-        $code .= do_shortcode($viad['ads'][1]);
+        $code .= do_shortcode($viad['ads'][1]['code']);
         $code .= '</script>' . "\n";
         $code .= '</div>' . "\n";
 
@@ -393,7 +393,7 @@ class vi {
 
         $args = array(
             'method' => 'POST',
-            'timeout' => 10,
+            'timeout' => 15,
             'headers' => array(
                 'Authorization' => $vi_token,
                 'Content-Type' => 'application/json; charset=utf-8'
@@ -402,7 +402,7 @@ class vi {
         );
 
         $response = wp_remote_post($this->settings->data->jsTagAPI, $args);
-
+                
         if (is_wp_error($response))
             return false;
         if (wp_remote_retrieve_response_code($response) == '404' || wp_remote_retrieve_response_code($response) == '401')
@@ -416,12 +416,13 @@ class vi {
 
         // Die()
         if ($response->status !== 'ok' || empty($response->data)) {
-            return false;
+            return json_encode($response);
+            //return false;
         }
         
         // Add ad code to key 1 as long as there are no more vi ad codes
         // Later we need to loop through the $ads array to store values
-        $ads[1]['code'] = $response->data;
+        $ads['ads'][1]['code'] = $response->data;
 
         //return $response->data;
         update_option('quads_vi_ads', $ads);
