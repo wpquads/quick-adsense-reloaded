@@ -46,11 +46,6 @@ class vi {
      */
     public $adsSettings;
 
-    /**
-     * vi notices
-     * @var array
-     */
-    //private $notices = array();
 
     public function __construct() {
 
@@ -65,6 +60,7 @@ class vi {
         $this->hooks();
 
         $this->settings = get_option('quads_vi_settings');
+        
         $this->ads = get_option('quads_vi_ads');
 
         $this->getToken();
@@ -76,7 +72,7 @@ class vi {
      */
     public function hooks() {
         // Cron Check vi api settings daily
-        add_action('quads_daily_event', array($this, 'setSettings'));
+        add_action('quads_weekly_event', array($this, 'setSettings'));
         add_action('quads_daily_event', array($this, 'setRevenue'));
         
         // Register the vi ad settings
@@ -91,8 +87,9 @@ class vi {
      * Register the vi ad settings
      */
     public function registerSettings(){
-        register_setting( 'quads_vi_ads', 'quads_vi_ads' );
+	register_setting( 'quads_settings', 'quads_vi_ads');
     }
+    
     
     
 //    public function createAdSettings(){
@@ -104,16 +101,6 @@ class vi {
 //    );
 //    }
     
-    
-//    private function parse($text) {
-//    // Damn pesky carriage returns...
-//    $text = str_replace("\r\n", "\n", $text);
-//    $text = str_replace("\r", "\n", $text);
-//
-//    // JSON requires new line characters be escaped
-//    $text = str_replace("\n", "\\n", $text);
-//    return $text;
-//}
 
     /**
      * Shortcode to include vi ad
@@ -195,7 +182,38 @@ class vi {
     public function getSettings() {
         return get_option('quads_vi_settings');
     }
+    
+    /**
+     * Get languges
+     * @return array
+     */
+    public function getLanguages() {
 
+        if (!isset($this->settings->data->languages)) {
+            return array();
+        }
+
+        $languages = array();
+        foreach ($this->settings->data->languages as $language) {
+            foreach ($language as $key => $value) {
+                $languages[$key] = $value;
+            }
+        }
+        if (count($languages) > 0) {
+            return $languages;
+        } else {
+            return array();
+        }
+
+        return array();
+    }
+    /**
+     * Get font family
+     * @return array
+     */
+    public function getFontFamily() {
+        return array('Arial' => 'Arial', 'Times New Roman' => 'Times New Roman', 'Courier New' => 'Courier New');
+    }
     /**
      * Login to vi account
      * @param string $email
@@ -443,6 +461,7 @@ class vi {
         return isset($this->token->publisherId) ? $this->token->publisherId : '';
     }
 
+    
     private function getDomain() {
         $domain = str_replace('www.', '', get_home_url());
         $domain = str_replace('https://', '', $domain);

@@ -24,6 +24,8 @@ class adSettings {
 
     private function general() {
         $this->form = new Form();
+        
+        $this->vi = new vi();
 
         $settings = json_decode(json_encode(get_option("quads_vi_ads", array())));
         // Get the key width value 1 only as long as we do not have more than one (1) different vi ad
@@ -44,10 +46,11 @@ class adSettings {
                 $element->setLabel("Ad Unit*")->setDefault(isset($settings->type) ? $settings->type : 'vi_stories')
         );
 
+
         // Keywords
         $element = new Text('quads_vi_ads[ads][1][keywords]', array());
         $this->form->add(
-                $element->setLabel("Keywords")->setDefault(isset($settings->keywords) ? $settings->keywords : '')
+                $element->setLabel("Keywords")->setTooltip("Comma separated values describing the content of the page e.g. 'cooking, grilling, pulled pork")->setDefault(isset($settings->keywords) ? $settings->keywords : '')
         );
 
         // iAB tier 1/2 category
@@ -467,34 +470,35 @@ class adSettings {
 
         $element = new Select(
                 "quads_vi_ads[ads][1][iab2]", $optionsNew, array(
-            "class" => "large-text",
-            "step" => 1,
-            "max" => 999999,
-            "min" => 0
+            "class" => "large-text"
                 )
         );
 
         $this->form->add(
                 $element->setLabel("IAB Category Tier2 *")->setDefault(isset($settings->iab2) ? $settings->iab2 : '')
         );
+        
+        $options = $this->vi->getLanguages();
 
         // language
-        $element = new Text('quads_vi_ads[ads][1][language]', array());
+        $element = new Select('quads_vi_ads[ads][1][language]', $options);
         $this->form->add(
                 $element->setLabel("Language")->setDefault(isset($settings->language) ? $settings->language : '')
         );
+
+        
         // bg_color
-        $element = new Text('quads_vi_ads[ads][1][bg_color]', array());
+        $element = new Text('quads_vi_ads[ads][1][bg_color]', array("class" => "jscolor"), array());
         $this->form->add(
                 $element->setLabel("Background Color")->setDefault(isset($settings->bg_color) ? $settings->bg_color : '')
         );
         // text_color
-        $element = new Text('quads_vi_ads[ads][1][text_color]', array());
+        $element = new Text('quads_vi_ads[ads][1][text_color]', array("class" => "jscolor"), array());
         $this->form->add(
                 $element->setLabel("Text Color")->setDefault(isset($settings->text_color) ? $settings->text_color : '')
         );
         // txt_font_family
-        $element = new Text('quads_vi_ads[ads][1][txt_font_family]', array());
+        $element = new Select('quads_vi_ads[ads][1][txt_font_family]', $this->vi->getFontFamily(), array() );
         $this->form->add(
                 $element->setLabel("Text Font Family")->setDefault(isset($settings->txt_font_family) ? $settings->txt_font_family : '')
         );
@@ -518,9 +522,7 @@ class adSettings {
         $this->form->add(
                 $element->setLabel("Optional 3")->setDefault(isset($settings->optional3) ? $settings->optional3 : '')
         );
-        
-        // bg_color text_color txt_font_family optional1
-        
+                
     }
 
     /**

@@ -102,7 +102,6 @@ function quads_register_settings() {
    // Creates our settings in the options table
    register_setting( 'quads_settings', 'quads_settings', 'quads_settings_sanitize' );
 }
-
 add_action( 'admin_init', 'quads_register_settings' );
 
 /**
@@ -2205,7 +2204,7 @@ function quads_adsense_code_callback( $args ) {
 
     $logged_in = new \wpquads\template('/includes/vendor/vi/views/logged_in', $data);
     $not_logged_in = new \wpquads\template('/includes/vendor/vi/views/not_logged_in', $data);
-    $ad = new \wpquads\template('/includes/vendor/vi/views/ad_integration', $data);
+    $ad = new \wpquads\template('/includes/vendor/vi/views/ad_settings', $data);
     $revenue = new \wpquads\template('/includes/vendor/vi/views/revenue', $data);
 
     // header

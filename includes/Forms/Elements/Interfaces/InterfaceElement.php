@@ -52,11 +52,26 @@ interface InterfaceElement
      * @return null|string
      */
     public function getLabel();
+    /**
+     * @param string $label
+     * return $this
+     */
+    public function setTooltip($tooltip);
+
+    /**
+     * @return null|string
+     */
+    public function getTooltip();
 
     /**
      * @return string
      */
     public function prepareLabel();
+    
+    /**
+     * @return string
+     */
+    public function prepareTooltip();
 
     /**
      * @param array|string $filters

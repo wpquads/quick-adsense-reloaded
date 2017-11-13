@@ -19,7 +19,6 @@ class Select extends ElementsWithOptions
             {
                 $selected = ($this->isSelected($id)) ? " selected=''" : '';
 
-                //$output .= "<option value='{$id}'{$selected}>{$value}</option>";
                 $output .= "<option value='{$id}'{$selected}>{$value}</option>";
             }
 

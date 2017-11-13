@@ -147,6 +147,32 @@ abstract class Elements implements InterfaceElement
     {
         return "<label for='{$this->getId()}'>{$this->label}</label>";
     }
+    /**
+     * @param string $label
+     * @return $this
+     */
+    public function setTooltip($tooltip)
+    {
+        $this->tooltip = $tooltip;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getTooltip()
+    {
+        return $this->tooltip;
+    }
+
+    /**
+     * @return string
+     */
+    public function prepareTooltip()
+    {
+        return "<a class='quads-tooltip' href='#'></a><div class='quads-tooltip-message'>{$this->tooltip}</div>";
+    }
 
     /**
      * @param array|string $filters

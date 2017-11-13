@@ -225,11 +225,8 @@ function quads_options_page() {
                             
 				<?php
 				settings_fields( 'quads_settings' );
-				//settings_fields( 'quads_vi_ads' );
 				quads_do_settings_fields( 'quads_settings_' . $active_tab, 'quads_settings_' . $active_tab );
-				?>
-				<!--</table>-->
-                                
+				?>                                
                                 <?php  settings_errors(); ?>
 				<?php 
                                 // do not show save button on add-on page

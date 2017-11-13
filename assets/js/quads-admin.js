@@ -3,6 +3,40 @@ var strict;
 
 jQuery(document).ready(function ($) {
     
+    // show / hide helper description
+    $('.quads-tooltip').click(function (e) {
+        e.preventDefault();
+        var icon = $(this),
+                bubble = $(this).next();
+
+        // Close any that are already open
+        $('.quads-tooltip-message').not(bubble).hide();
+
+        var position = icon.position();
+        if (bubble.hasClass('bottom')) {
+            bubble.css({
+                'left': (position.left - bubble.width() / 2) + 'px',
+                'top': (position.top + icon.height() + 9) + 'px'
+            });
+        } else {
+            bubble.css({
+                'left': (position.left + icon.width() + 9) + 'px',
+                'top': (position.top + icon.height() / 2 - 18) + 'px'
+            });
+        }
+
+        bubble.toggle();
+        e.stopPropagation();
+    });
+
+    $('body').click(function () {
+        $('.quads-tooltip-message').hide();
+    });
+
+    $('.quads-tooltip-message').click(function (e) {
+        e.stopPropagation();
+    });
+    
     
 // vi login process
 $("#quads_vi_login_submit").click(function(e){

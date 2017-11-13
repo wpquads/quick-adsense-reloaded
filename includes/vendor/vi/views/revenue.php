@@ -15,13 +15,7 @@
             <span id="quads-vi-revenue-sum">
             <?php 
             global $quads;
-            //$revenue = json_decode($quads->vi->getRevenue()); 
-            //$body = json_decode($revenue->body);
             echo $quads->vi->getRevenue()->netRevenue;
-            //echo isset($body->data->netRevenue) ? '$' . $body->data->netRevenue : 'Can not retrive data';
-            
-            //var_dump($revenue);
-            //echo $revenue['body'];
             ?>
             </span>
         </div>

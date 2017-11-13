@@ -47,4 +47,14 @@ class Form
 
         return $this->elements[$name]->prepareLabel();
     }
+    
+    public function tooltip($name)
+    {
+        if (!isset($this->elements[$name]))
+        {
+            return false;
+        }
+
+        return $this->elements[$name]->prepareTooltip();
+    }
 }

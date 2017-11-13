@@ -16,6 +16,7 @@ class Text extends Elements
     {
         return "<input id='{$this->getId()}' name='{$this->getName()}' type='text' {$this->prepareAttributes()} value='{$this->default}' />";
     }
+    
 
     /**
      * @return string
