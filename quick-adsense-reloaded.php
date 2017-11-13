@@ -99,7 +99,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
       
       public function __construct() {
 
-          }
+      }
 
       /**
        * Main QuickAdsenseReloaded Instance
@@ -126,7 +126,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             self::$instance->logger = new quadsLogger( "quick_adsense_log_" . date( "Y-m-d" ) . ".log", quadsLogger::INFO );
             self::$instance->html = new QUADS_HTML_Elements();
             self::$instance->vi = new wpquads\vi();
-
+            self::$instance->adsense = new wpquads\adsense(get_option('quads_settings'));
          }
          return self::$instance;
       }
@@ -213,6 +213,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/frontend-checks.php';
          require_once QUADS_PLUGIN_DIR . 'includes/Cron/Cron.php';
          require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/vi.php';
+         require_once QUADS_PLUGIN_DIR . 'includes/vendor/google/adsense.php';
 
          if( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
             require_once QUADS_PLUGIN_DIR . 'includes/admin/add-ons.php';
@@ -388,6 +389,14 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
 
          // Add the transient to redirect (not for multisites)
          set_transient( 'quads_activation_redirect', true, 3600 );
+      }
+      
+      /**
+       * Get all wp quads settings
+       * @return array
+       */
+      private function startAdsense(){
+          new wpquads\adsense(get_option( 'quads_settings' ));
       }
 
    }

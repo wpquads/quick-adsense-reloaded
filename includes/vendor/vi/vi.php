@@ -90,17 +90,6 @@ class vi {
 	register_setting( 'quads_settings', 'quads_vi_ads');
     }
     
-    
-    
-//    public function createAdSettings(){
-//        add_settings_section(
-//        'vi_ad_settings',         // ID used to identify this section and with which to register options
-//        'VI Ad Settings',                  // Title to be displayed on the administration page
-//        'vi_options_callback', // Callback used to render the description of the section
-//        'general'                           // Page on which to add this section of options
-//    );
-//    }
-    
 
     /**
      * Shortcode to include vi ad
@@ -151,7 +140,7 @@ class vi {
       "dashboardURL": [string],
       "IABcategoriesUrl": [string],
       "revenueAPI": [string],
-      "adstxtAPI": [string],
+      "adsTxtAPI": [string],
       “languages”: [ {“string” : “string”}, ... ]
       "jsTagAPI": [string]
       }
@@ -268,6 +257,7 @@ class vi {
             return false;
 
         $file = ABSPATH . 'ads.txt';
+        
         // Default ads.txt content
         $vi = "vi.ai " . $this->token->publisherId . " DIRECT # 41b5eef6" . "\r\n";
         $vi .= "spotxchange.com, 74964, RESELLER, 7842df1d2fe2db34 # 41b5eef6" . "\r\n";
@@ -278,6 +268,11 @@ class vi {
         $vi .= "freewheel.tv, 369249, RESELLER # 41b5eef6" . "\r\n";
         $vi .= "freewheel.tv, 440657, RESELLER # 41b5eef6" . "\r\n";
         $vi .= "freewheel.tv, 440673, RESELLER # 41b5eef6" . "\r\n";
+        
+        // Try to get ads.txt content from vi api
+        if (false !== ( $adcode = $this->getAdsTxtContent() )){
+            $vi = $adcode;
+        }
 
         // ads.txt does not exists
         if (!is_file($file)) {
@@ -303,6 +298,44 @@ class vi {
 
         return true;
     }
+    
+    /**
+     * Get ads.txt from vi api
+     * @return mixed string | bool 
+     */
+    public function getAdsTxtContent() {
+        $vi_token = get_option('quads_vi_token');
+        if (!$vi_token)
+            return false;
+
+
+        $args = array(
+            'headers' => array(
+                'Authorization' => $vi_token
+            )
+        );
+        $response = wp_remote_request($this->settings->data->adsTxtAPI, $args);
+        
+        if (is_wp_error($response))
+            return false;
+        if (wp_remote_retrieve_response_code($response) == '404' || wp_remote_retrieve_response_code($response) == '401')
+            return false;
+        if (empty($response))
+            return false;
+        
+        // convert into object
+        $response = json_decode($response['body']);
+
+        if (!isset($response->status) || $response->status !== 'ok') {
+            return false;
+        }
+
+        // else
+        return $response->data;
+        
+    }
+    
+    
 
     /**
      * Get the access token
@@ -435,7 +468,6 @@ class vi {
         // Die()
         if ($response->status !== 'ok' || empty($response->data)) {
             return json_encode($response);
-            //return false;
         }
         
         // Add ad code to key 1 as long as there are no more vi ad codes

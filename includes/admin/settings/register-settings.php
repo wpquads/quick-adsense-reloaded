@@ -2197,6 +2197,7 @@ function quads_adsense_code_callback( $args ) {
         }
     }
 
+    //wp_die($quads->vi->getAdsTxtContent()->data);
 
     $data = !empty($quads->vi->getSettings()->data) ? (array) $quads->vi->getSettings()->data : array();
 

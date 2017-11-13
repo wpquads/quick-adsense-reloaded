@@ -99,9 +99,7 @@ e.preventDefault();
 
                 complete:function()
                 {
-                //saveViToken('test');
-                        $("#quads_vi_loading").css('display', 'none', 'important').css('visibility', 'hidden');
-                        //$("#quads_add_err").hide();
+                    $("#quads_vi_loading").css('display', 'none', 'important').css('visibility', 'hidden');
                 }
 
         });
