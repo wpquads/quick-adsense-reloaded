@@ -1122,3 +1122,42 @@ margin-top:20px;
     list-style: square;
     margin-left:25px;
 }
+
+.quads-tooltip {
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background-color: #e7db00;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    position: relative;
+    top: 4px;
+    margin-top: -4px;
+    cursor: pointer;
+    margin-left: 2px;
+}
+
+.quads-tooltip:after {
+    height: 20px;
+    font-family: sans-serif;
+    content: "?";
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    left: 4px;
+    top:-2px;
+    position: absolute;
+}
+
+.quads-tooltip-message {
+    padding: 10px;
+    border: 1px solid #FBFBFB;
+    border-radius: 2px;
+    background-color: #F8F8F8;
+    position: absolute;
+    max-width: 500px;
+    z-index: 9999;
+    display: none;
+    box-shadow: 0 0 5px rgba(0,0,0,.2);
+    font-weight: 400;
+}

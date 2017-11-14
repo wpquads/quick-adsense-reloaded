@@ -233,6 +233,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             require_once QUADS_PLUGIN_DIR . 'includes/Forms/Form.php';
             require_once QUADS_PLUGIN_DIR . 'includes/Autoloader.php';
             require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/views/Forms/adSettings.php';
+            require_once QUADS_PLUGIN_DIR . 'includes/admin/adsTxt.php';
             $this->registerNamespaces();
 
          }

@@ -65,6 +65,7 @@ add_action('quads_show_vi_notice_later', 'quads_show_vi_notice_later');
  * Save vi token
  */
 function quads_save_vi_token(){  
+global $quads_options;
 
     if (empty($_POST['token'])){
         echo json_encode( array("status" => "failed") );
@@ -85,6 +86,11 @@ function quads_save_vi_token(){
        set_transient('quads_vi_ads_txt_error', true, 300);
        delete_transient('quads_vi_ads_txt_notice');
     }
+    
+    // Create AdSense ads.txt entries
+    $adsense = new \wpquads\adsense($quads_options);
+    $adsense->writeAdsTxt();
+    
 
     exit;
 }

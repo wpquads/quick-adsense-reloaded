@@ -24,12 +24,10 @@ class adsense {
 
     public function __construct($settings) {
         $this->settings = $settings;
-        
-        wp_die($this->getPublisherID());
     }
 
     /**
-     * 
+     * Get AdSense Publisher ID
      * @return boolean
      */
     private function getPublisherID() {
@@ -40,6 +38,12 @@ class adsense {
             }
         }
         return false;
+    }
+    
+    public function writeAdsTxt(){
+        $content = 'google.com, ' . $this->getPublisherID() . ', DIRECT f08c47fec0942fa0';       
+        $adsTxt = new adsTxt($content, 'f08c47fec0942fa0');
+        return $adsTxt->writeAdsTxt();
     }
 
 }
