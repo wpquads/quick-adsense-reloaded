@@ -10,7 +10,7 @@ namespace wpquads;
  */
 
 /**
- * Main class for wp quads vi integration
+ * Main class for wp quads vi integration used in wp-admin section
  *
  * @author René Hermenau
  */
@@ -46,7 +46,6 @@ class vi {
      */
     public $adsSettings;
 
-
     public function __construct() {
 
         if ($this->debug) {
@@ -60,11 +59,10 @@ class vi {
         $this->hooks();
 
         $this->settings = get_option('quads_vi_settings');
-        
+
         $this->ads = get_option('quads_vi_ads');
 
         $this->getToken();
-
     }
 
     /**
@@ -74,22 +72,20 @@ class vi {
         // Cron Check vi api settings daily
         add_action('quads_weekly_event', array($this, 'setSettings'));
         add_action('quads_daily_event', array($this, 'setRevenue'));
-        
+
         // Register the vi ad settings
         add_action('admin_init', array($this, 'registerSettings'));
 
         // Shortcodes
         add_shortcode('quadsvi', array($this, 'getShortcode'));
-        
     }
-    
+
     /**
      * Register the vi ad settings
      */
-    public function registerSettings(){
-	register_setting( 'quads_settings', 'quads_vi_ads');
+    public function registerSettings() {
+        register_setting('quads_settings', 'quads_vi_ads');
     }
-    
 
     /**
      * Shortcode to include vi ad
@@ -113,7 +109,7 @@ class vi {
         $viad = $this->getAdCode();
 
         $style = 'min-width:363px;min-height:363px;';
-        
+
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode vi ad -->' . "\n";
         $code .= '<div class="quads-location' . $id . '" id="quads-vi-ad' . $id . '" style="' . $style . '">' . "\n";
         $code .= "<script>";
@@ -147,16 +143,16 @@ class vi {
       }
      */
     public function setSettings() {
-        
+
         $args = array(
             'method' => 'GET',
             'headers' => array(),
             'timeout' => 45
         );
         $response = wp_remote_post($this->urlSettings, $args);
-        
+
         $response = json_decode($response['body']);
-        
+
         if (isset($response->status) && $response->status == 'ok') {
             update_option('quads_vi_settings', $response);
             return true;
@@ -171,7 +167,7 @@ class vi {
     public function getSettings() {
         return get_option('quads_vi_settings');
     }
-    
+
     /**
      * Get languges
      * @return array
@@ -196,6 +192,7 @@ class vi {
 
         return array();
     }
+
     /**
      * Get font family
      * @return array
@@ -203,6 +200,7 @@ class vi {
     public function getFontFamily() {
         return array('Arial' => 'Arial', 'Times New Roman' => 'Times New Roman', 'Courier New' => 'Courier New');
     }
+
     /**
      * Login to vi account
      * @param string $email
@@ -257,7 +255,7 @@ class vi {
             return false;
 
         $file = ABSPATH . 'ads.txt';
-        
+
         // Default ads.txt content used when api is not returning anything
         $vi = "vi.ai " . $this->token->publisherId . " DIRECT # 41b5eef6" . "\r\n";
         $vi .= "spotxchange.com, 74964, RESELLER, 7842df1d2fe2db34 # 41b5eef6" . "\r\n";
@@ -268,16 +266,16 @@ class vi {
         $vi .= "freewheel.tv, 369249, RESELLER # 41b5eef6" . "\r\n";
         $vi .= "freewheel.tv, 440657, RESELLER # 41b5eef6" . "\r\n";
         $vi .= "freewheel.tv, 440673, RESELLER # 41b5eef6" . "\r\n";
-        
+
         // Try to get ads.txt content from vi api
-        if (false !== ( $adcode = $this->getAdsTxtContent() )){
+        if (false !== ( $adcode = $this->getAdsTxtContent() )) {
             $vi = $adcode;
         }
 
         $adsTxt = new \wpquads\adsTxt($vi, '41b5eef6');
         return $adsTxt->writeAdsTxt();
-
     }
+
 //    public function createAdsTxt() {
 //
 //        if (!isset($this->token->publisherId))
@@ -325,7 +323,7 @@ class vi {
 //
 //        return true;
 //    }
-    
+
     /**
      * Get ads.txt from vi api
      * @return mixed string | bool 
@@ -342,14 +340,14 @@ class vi {
             )
         );
         $response = wp_remote_request($this->settings->data->adsTxtAPI, $args);
-        
+
         if (is_wp_error($response))
             return false;
         if (wp_remote_retrieve_response_code($response) == '404' || wp_remote_retrieve_response_code($response) == '401')
             return false;
         if (empty($response))
             return false;
-        
+
         // convert into object
         $response = json_decode($response['body']);
 
@@ -359,10 +357,7 @@ class vi {
 
         // else
         return $response->data;
-        
     }
-    
-    
 
     /**
      * Get the access token
@@ -388,8 +383,6 @@ class vi {
         update_option('quads_vi_ads', $this->ads);
     }
 
-
-
     /**
      * Get revenue from API and store it in db
      * @return mixed string | bool 
@@ -413,7 +406,7 @@ class vi {
             return false;
         if (empty($response))
             return false;
-        
+
         // convert into object
         $response = json_decode($response['body']);
 
@@ -425,9 +418,8 @@ class vi {
         //return $response->data;
         update_option('quads_vi_revenue', $response->data);
         return true;
-        
     }
-    
+
     /**
      * Get Revenue from db
      * @return object
@@ -442,7 +434,7 @@ class vi {
      */
     public function setAdCode() {
         $vi_token = get_option('quads_vi_token');
-        
+
         $ads = get_option('quads_vi_ads');
 
         if (!$vi_token)
@@ -480,7 +472,7 @@ class vi {
         );
 
         $response = wp_remote_post($this->settings->data->jsTagAPI, $args);
-                
+
         if (is_wp_error($response))
             return false;
         if (wp_remote_retrieve_response_code($response) == '404' || wp_remote_retrieve_response_code($response) == '401')
@@ -490,24 +482,24 @@ class vi {
 
         // convert into object
         $response = json_decode($response['body']);
-        
+
 
         // Die()
         if ($response->status !== 'ok' || empty($response->data)) {
             return json_encode($response);
         }
-        
+
         // Add ad code to key 1 as long as there are no more vi ad codes
         // Later we need to loop through the $ads array to store values
         $ads['ads'][1]['code'] = $response->data;
 
         //return $response->data;
         update_option('quads_vi_ads', $ads);
-        
+
         return $response->data;
     }
-    
-    public function getAdCode(){
+
+    public function getAdCode() {
         return get_option('quads_vi_ads');
     }
 
@@ -520,7 +512,6 @@ class vi {
         return isset($this->token->publisherId) ? $this->token->publisherId : '';
     }
 
-    
     private function getDomain() {
         $domain = str_replace('www.', '', get_home_url());
         $domain = str_replace('https://', '', $domain);

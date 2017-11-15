@@ -166,7 +166,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
        * @return void
        */
       private function setup_constants() {
-         global $wpdb;
+         //global $wpdb;
 
          // Plugin Folder Path
          if( !defined( 'QUADS_PLUGIN_DIR' ) ) {
@@ -196,6 +196,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
 
          require_once QUADS_PLUGIN_DIR . 'includes/admin/settings/register-settings.php';
          $quads_options = quads_get_settings();
+         
          require_once QUADS_PLUGIN_DIR . 'includes/post_types.php';
          require_once QUADS_PLUGIN_DIR . 'includes/user_roles.php';
          require_once QUADS_PLUGIN_DIR . 'includes/widgets.php';
@@ -213,7 +214,10 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/frontend-checks.php';
          require_once QUADS_PLUGIN_DIR . 'includes/Cron/Cron.php';
          require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/vi.php';
+         require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/render.php';
          require_once QUADS_PLUGIN_DIR . 'includes/vendor/google/adsense.php';
+         require_once QUADS_PLUGIN_DIR . 'includes/class-template.php';
+
 
          if( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
             require_once QUADS_PLUGIN_DIR . 'includes/admin/add-ons.php';
@@ -229,7 +233,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             require_once QUADS_PLUGIN_DIR . 'includes/quicktags.php';
             require_once QUADS_PLUGIN_DIR . 'includes/admin/admin-notices.php';
             require_once QUADS_PLUGIN_DIR . 'includes/admin/upgrades/upgrade-functions.php';
-            require_once QUADS_PLUGIN_DIR . 'includes/class-template.php';
             require_once QUADS_PLUGIN_DIR . 'includes/Forms/Form.php';
             require_once QUADS_PLUGIN_DIR . 'includes/Autoloader.php';
             require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/views/Forms/adSettings.php';
