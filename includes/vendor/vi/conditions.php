@@ -12,4 +12,14 @@ namespace wpquads\conditions;
 
 class conditions {
 
+    
+        public function __construct() {
+            
+        }
+        
+        
+        protected function isExcluded(){
+            //wp_die( $this->ads);
+            return false;
+        }
 }

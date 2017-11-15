@@ -522,6 +522,20 @@ class adSettings {
         $this->form->add(
                 $element->setLabel("Optional 3")->setDefault(isset($settings->optional3) ? $settings->optional3 : '')
         );
+        
+        // Position
+        $options = array(
+            'abovePost' => 'Above Content',
+            'middlePost' => 'Middle of Content',
+            'belowPost' => 'Below of Content'
+            );
+                
+        $element = new Select('quads_vi_ads[ads][1][position]', $options);
+        $this->form->add(
+                $element->setLabel("Position")->setDefault(isset($settings->position) ? $settings->position : '')
+        );
+        
+        
                 
     }
 

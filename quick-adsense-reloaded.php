@@ -213,6 +213,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/conditions.php';
          require_once QUADS_PLUGIN_DIR . 'includes/frontend-checks.php';
          require_once QUADS_PLUGIN_DIR . 'includes/Cron/Cron.php';
+                  require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/conditions.php';
          require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/vi.php';
          require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/render.php';
          require_once QUADS_PLUGIN_DIR . 'includes/vendor/google/adsense.php';

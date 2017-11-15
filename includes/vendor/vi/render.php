@@ -1,8 +1,6 @@
 <?php
 
-namespace wpquads\render;
-
-//use wpquads;
+namespace wpquads;
 
 /*
  * vi ad render for WP QUADS used on front page
@@ -12,31 +10,42 @@ namespace wpquads\render;
  * 
  */
 
-class render {
+class render extends conditions\conditions {
 
     /**
      * All Ad Settings
      * @var array 
      */
-    private $ads;
-    
+    protected $ads;
+
     /**
      * Curent ad id
      * @var int
      */
-    private $id;
+    protected $id;
 
     /**
      * Filtered Content
      * @var string 
      */
-    private $content;
+    protected $content;
 
     public function __construct() {
+
+        if (is_admin()) {
+            return false;
+        }
+
         $this->ads = get_option('quads_vi_ads');
+
         add_filter('the_content', array($this, 'prepareOutput'));
     }
 
+    /**
+     * Loop through all ads
+     * @param string $content
+     * @return string
+     */
     public function prepareOutput($content) {
 
         if (empty($this->ads['ads'])) {
@@ -49,17 +58,16 @@ class render {
 
         // Loop through all available ads and use the return value as new $content
         foreach ($this->ads['ads'] as $key => $value) {
-            //echo 'testerdfdf' . $key;
             $this->id = $key;
             $this->content = $this->filterContent();
         }
-        
+
         return $this->content;
     }
 
     /**
-     * Filter the content for available ad positions
-     * and prepare for embeding specific ad
+     * Loop through all available filter methods
+     * New filter can be added by adding methods with prefix 'filter'
      * @param string $content
      * @param int $id
      */
@@ -85,7 +93,8 @@ class render {
     }
 
     private function filterAbovePost() {
-        if (!isset($this->ads['ads'][$this->id]['abovePost'])) {
+        if (isset($this->ads['ads'][$this->id]['position']) &&
+                $this->ads['ads'][$this->id]['position'] === 'abovePost') {
             $this->content = $this->render($this->id) . $this->content;
             return true;
         }
@@ -93,12 +102,48 @@ class render {
     }
 
     private function filterBelowPost() {
-        if (isset($this->ads['ads'][$this->id]['abovePost'])) {
+        if (isset($this->ads['ads'][$this->id]['position']) &&
+                $this->ads['ads'][$this->id]['position'] === 'belowPost') {
+
             $this->content = $this->content . $this->render();
             return true;
         }
         return false;
-        ;
+    }
+
+    private function filterMiddlePost() {
+        if (isset($this->ads['ads'][$this->id]['position']) &&
+                $this->ads['ads'][$this->id]['position'] === 'middlePost') {
+
+            $paragraphCount = $this->get_paragraph_count();
+            $middle = round($paragraphCount / 2);
+            if ($paragraphCount > 1) {
+                $content = explode("</p>", $this->content);
+                array_splice($content, $middle, 0, $this->render()); // splice in at middle position
+                $this->content = implode($content, "</p>");
+            }
+
+            $this->content = $this->content . $this->render();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Count paragraphs
+     * @return int
+     */
+    private function get_paragraph_count() {
+        $paragraphs = explode('/p>', $this->content);
+        $paragraphCount = 0;
+        if (is_array($paragraphs)) {
+            foreach ($paragraphs as $paragraph) {
+                if (strlen($paragraph) > 1) {
+                    $paragraphCount++;
+                }
+            }
+        }
+        return $paragraphCount;
     }
 
     /**
@@ -106,15 +151,19 @@ class render {
      * @return string
      */
     public function render() {
+        if ($this->isExcluded()) {
+            return '';
+        }
+
+
         if (!isset($this->ads['ads'][$this->id]['code'])) {
             return '';
         }
-        
+
         $html = '';
         $args = array('adId' => $this->id, 'adCode' => $this->ads['ads'][$this->id]['code']);
         $output = new \wpquads\template('/includes/vendor/vi/templates/ad', $args);
         $html .= $output->render();
-        //$html .= 'test ad' . $this->id;
 
         return $html;
     }

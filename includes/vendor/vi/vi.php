@@ -276,54 +276,6 @@ class vi {
         return $adsTxt->writeAdsTxt();
     }
 
-//    public function createAdsTxt() {
-//
-//        if (!isset($this->token->publisherId))
-//            return false;
-//
-//        $file = ABSPATH . 'ads.txt';
-//        
-//        // Default ads.txt content
-//        $vi = "vi.ai " . $this->token->publisherId . " DIRECT # 41b5eef6" . "\r\n";
-//        $vi .= "spotxchange.com, 74964, RESELLER, 7842df1d2fe2db34 # 41b5eef6" . "\r\n";
-//        $vi .= "spotx.tv, 74964, RESELLER, 7842df1d2fe2db34 # 41b5eef6" . "\r\n";
-//        $vi .= "spotx.tv, 104684, RESELLER, 7842df1d2fe2db34 # 41b5eef6" . "\r\n";
-//        $vi .= "spotx.tv, 122515, RESELLER, 7842df1d2fe2db34 # 41b5eef6" . "\r\n";
-//        $vi .= "freewheel.tv, 364193, RESELLER # 41b5eef6" . "\r\n";
-//        $vi .= "freewheel.tv, 369249, RESELLER # 41b5eef6" . "\r\n";
-//        $vi .= "freewheel.tv, 440657, RESELLER # 41b5eef6" . "\r\n";
-//        $vi .= "freewheel.tv, 440673, RESELLER # 41b5eef6" . "\r\n";
-//        
-//        // Try to get ads.txt content from vi api
-//        if (false !== ( $adcode = $this->getAdsTxtContent() )){
-//            $vi = $adcode;
-//        }
-//
-//        // ads.txt does not exists
-//        if (!is_file($file)) {
-//            if (!file_put_contents($file, $vi))
-//                return false;
-//        } else {
-//            // Remove all vi related entries
-//            // get everything from ads.txt which already exists
-//            $content = file($file);
-//
-//            // Remove any line that contains string # 41b5eef6 mark
-//            $pattern = "/41b5eef6/i";
-//            $remove = preg_grep($pattern, $content);
-//            $content = array_diff($content, $remove);
-//
-//            // Add the cleaned content
-//            file_put_contents($file, $content);
-//            sleep(1);
-//            // Append the vi related content again
-//            if (!file_put_contents($file, $vi . PHP_EOL, FILE_APPEND))
-//                return false;
-//        }
-//
-//        return true;
-//    }
-
     /**
      * Get ads.txt from vi api
      * @return mixed string | bool 
