@@ -63,7 +63,7 @@
         echo $form->get()->render("quads_vi_ads[ads][1][position]");
         ?>
         <br>
-        <h3>When:</h3>
+        <h3>Exclude Ad From:</h3>
         <?php
         echo $form->get()->label("quads_vi_ads[ads][1][postTypes]");
         echo $form->get()->render("quads_vi_ads[ads][1][postTypes]");
