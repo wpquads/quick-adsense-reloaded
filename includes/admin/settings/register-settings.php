@@ -2236,7 +2236,7 @@ function quads_adsense_code_callback( $args ) {
     if ($quads->vi->setRevenue()) {
         echo $revenue->render();
         echo $ad->render();
-        echo $logged_in->render();
+        //echo $logged_in->render();
     }
 
     // footer

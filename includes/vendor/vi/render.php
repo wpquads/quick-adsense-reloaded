@@ -146,12 +146,34 @@ class render extends conditions\conditions {
         return $paragraphCount;
     }
 
+    private function getInlineStyle() {
+        // Layout Alignment
+        if (isset($this->ads['ads'][$this->id]['align']) &&
+                $this->ads['ads'][$this->id]['align'] !== 'default') {
+
+            $style = '';
+            switch ($this->ads['ads'][$this->id]['align']) {
+                case 'left':
+                    $style .= "float:left;";
+                    break;
+                case 'right':
+                    $style .= "float:right;";
+                    break;
+                case 'middle':
+                    $style .="text-align:center;";
+                    break;
+                
+            }
+        }
+        return $style;
+    }
+
     /**
      * Render ads
      * @return string
      */
     public function render() {
-        
+
         if ($this->isExcluded()) {
             return '';
         }
@@ -162,7 +184,11 @@ class render extends conditions\conditions {
         }
 
         $html = '';
-        $args = array('adId' => $this->id, 'adCode' => $this->ads['ads'][$this->id]['code']);
+        $args = array(
+            'adId' => $this->id,
+            'adCode' => $this->ads['ads'][$this->id]['code'],
+            'style' => $this->getInlineStyle()
+        );
         $output = new \wpquads\template('/includes/vendor/vi/templates/ad', $args);
         $html .= $output->render();
 

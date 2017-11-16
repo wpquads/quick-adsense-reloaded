@@ -19,7 +19,11 @@ class conditions {
         
         
         protected function isExcluded(){
-            return $this->ads;
+
+//            if (quads_ad_is_allowed()){
+//                return false;
+//            }
+            
             return false;
         }
 }

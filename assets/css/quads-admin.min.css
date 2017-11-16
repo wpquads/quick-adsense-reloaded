@@ -1165,9 +1165,7 @@ margin-top:20px;
 #quads-vi-layout label{
     width: 100px;
 }
-/*#quads-vi-layout label:after{
-    content: '';
-}*/
+
 #quads_vi_ads-ads-1-align-left-label{
     content: url('../images/align_left.png');
 }

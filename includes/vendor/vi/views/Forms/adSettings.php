@@ -522,27 +522,12 @@ class adSettings {
         $this->form->add(
                 $element->setLabel("Optional 3")->setDefault(isset($settings->optional3) ? $settings->optional3 : '')
         );
-        // Layout align default
+        // Layout
         $element = new Radio('quads_vi_ads[ads][1][align]', array('default' => 'default', 'left' => 'left', 'middle' => 'middle', 'right' => 'right'));
         $this->form->add(
                 $element->setLabel("align")->setDefault(isset($settings->align) ? $settings->align : '')
         );
-        // Layout align left
-        $element = new Radio('quads_vi_ads[ads][1][align_left]', array('align_left' => 'left'));
-        $this->form->add(
-                $element->setLabel("align_left")->setDefault(isset($settings->align_left) ? $settings->align_left : '')
-        );
-        // Layout align middle
-        $element = new Radio('quads_vi_ads[ads][1][align_middle]', array());
-        $this->form->add(
-                $element->setLabel("align_middle")->setDefault(isset($settings->align_middle) ? $settings->align_middle : '')
-        );
-        // Layout align right
-        $element = new Radio('quads_vi_ads[ads][1][align_right]', array());
-        $this->form->add(
-                $element->setLabel("align_right")->setDefault(isset($settings->align_right) ? $settings->align_right : '')
-        );
-        
+      
         
         
         // Position

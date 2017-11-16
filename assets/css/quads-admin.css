@@ -1165,3 +1165,13 @@ margin-top:20px;
 #quads-vi-layout label{
     width: 100px;
 }
+
+#quads_vi_ads-ads-1-align-left-label{
+    content: url('../images/align_left.png');
+}
+#quads_vi_ads-ads-1-align-right-label{
+    content: url('../images/align_right.png');
+}
+#quads_vi_ads-ads-1-align-middle-label{
+    content: url('../images/align_middle.png');
+}
