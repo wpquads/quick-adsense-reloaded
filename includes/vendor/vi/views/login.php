@@ -23,7 +23,8 @@
             By clicking sign up you agree to send your current domain, email and affiliate ID to video intelligence & WP QUADS.
         </p>
         <div class="quads-widget-buttons">
-            <a href="<?php echo $loginAPI; ?>" class="button button-secondary" id="quads_vi_login_submit"> Login </a> <a href="<?php echo $signupURL; ?>" class="button button-primary" id="quads-vi-signup"> Signup </a> 
+            <a href="<?php echo $loginAPI; ?>" class="button button-secondary" id="quads_vi_login_submit"> Login </a> 
+            <a href="<?php echo $signupURL; ?>?email=<?php echo bloginfo('admin_email'); ?>&domain=<?php echo get_site_url(); ?>" class="button button-primary" id="quads-vi-signup"> Signup </a> 
         </div>
     </div>
 
