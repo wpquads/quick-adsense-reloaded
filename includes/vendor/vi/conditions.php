@@ -11,8 +11,6 @@ namespace wpquads\conditions;
 
 class conditions {
 
-    
-
     protected function isExcluded() {
         global $quads_options;
 
@@ -23,6 +21,18 @@ class conditions {
             return true;
 
         if (is_user_logged_in() && ( isset($quads_options['visibility']['AppLogg'])))
+            return true;
+        
+        if (is_front_page() && !isset( $quads_options['visibility']['AppHome'] ) )
+            return true;
+
+        if (is_category() && !(isset($quads_options['visibility']['AppCate']) ))
+            return true;
+
+        if (is_archive() && !( isset($quads_options['visibility']['AppArch']) ))
+            return true;
+
+        if (is_tag() && !( isset($quads_options['visibility']['AppTags']) ))
             return true;
 
         if (quads_is_amp_endpoint())
