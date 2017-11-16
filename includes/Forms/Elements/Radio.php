@@ -1,13 +1,14 @@
 <?php
-namespace WPStaging\Forms\Elements;
+namespace wpquads;
 
 
-use WPStaging\Forms\ElementsWithOptions;
+use wpquads\ElementsWithOptions;
 
 /**
  * Class Radio
  * @package WPStaging\Forms\Elements
  */
+//class Radio extends Elements
 class Radio extends ElementsWithOptions
 {
 
@@ -23,9 +24,11 @@ class Radio extends ElementsWithOptions
             $checked = ($this->default && $this->default === $value) ? " checked=''" : '';
 
             $attributeId = $this->getId($id);
+            
+            $sanitize = str_replace (array('][', '[', ']'), '-', $this->getId()) ;
 
-            $output .= "<input type='radio' name='{$this->getId()}' id='{$attributeId}' value='{$id}' {$checked}/>";
-            $output .= "<label for='{$attributeId}'>{$value}</label>";
+            $output .= "<input type='radio' name='{$this->getId()}' id='{$sanitize}{$attributeId}' value='{$id}' {$checked}/>";
+            $output .= "<label for='{$sanitize}{$attributeId}' id='{$sanitize}{$attributeId}-label'>{$value}</label>";
         }
 
         return $output;

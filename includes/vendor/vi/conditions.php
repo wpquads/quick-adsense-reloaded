@@ -19,7 +19,7 @@ class conditions {
         
         
         protected function isExcluded(){
-            //wp_die( $this->ads);
+            return $this->ads;
             return false;
         }
 }

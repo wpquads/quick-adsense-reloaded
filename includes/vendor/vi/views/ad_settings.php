@@ -48,11 +48,17 @@
         echo $form->get()->label("quads_vi_ads[ads][1][optional3]");
         echo $form->get()->render("quads_vi_ads[ads][1][optional3]");
         ?>
-
-        <h4>Automatic Integration</h4>
+        <div id="quads-vi-layout">
+            <h3 style="margin-bottom:8px;">Layout</h3>
+            <br>
+            <?php echo $form->get()->render("quads_vi_ads[ads][1][align]"); ?>
+            <br>
+        </div>
+        <h3 style="margin-bottom:8px;">Automatic Integration</h3>
+        <div style="border-top: 1px solid #c3c3c3;"></div>
         <h3>Where:</h3>
 
-        <?php 
+        <?php
         echo $form->get()->label("quads_vi_ads[ads][1][position]");
         echo $form->get()->render("quads_vi_ads[ads][1][position]");
         ?>

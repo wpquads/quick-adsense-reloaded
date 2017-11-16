@@ -151,6 +151,7 @@ class render extends conditions\conditions {
      * @return string
      */
     public function render() {
+        
         if ($this->isExcluded()) {
             return '';
         }

@@ -2219,7 +2219,7 @@ function quads_adsense_code_callback( $args ) {
     $data['jsTag'] = $quads->vi->getAdCode();
 
     $logged_in = new \wpquads\template('/includes/vendor/vi/views/logged_in', $data);
-    $not_logged_in = new \wpquads\template('/includes/vendor/vi/views/not_logged_in', $data);
+    //$not_logged_in = new \wpquads\template('/includes/vendor/vi/views/not_logged_in', $data);
     $ad = new \wpquads\template('/includes/vendor/vi/views/ad_settings', $data);
     $revenue = new \wpquads\template('/includes/vendor/vi/views/revenue', $data);
 
@@ -2228,9 +2228,9 @@ function quads_adsense_code_callback( $args ) {
 
 
     // Not logged in
-    if (empty($data) || false === $quads->vi->setRevenue()) {
-        echo $not_logged_in->render();
-    }
+//    if (empty($data) || false === $quads->vi->setRevenue()) {
+//        echo $not_logged_in->render();
+//    }
 
     // Is logged in
     if ($quads->vi->setRevenue()) {
