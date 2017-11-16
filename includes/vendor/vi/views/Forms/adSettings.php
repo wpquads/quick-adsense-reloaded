@@ -542,6 +542,33 @@ class adSettings {
                 $element->setLabel("Position")->setDefault(isset($settings->position) ? $settings->position : '')
         );
         
+        // Condition Post Types
+        $options = array_merge (array('noPostTypes' => 'Exclude nothing'), get_post_types());
+                            
+        $element = new SelectMultiple('quads_vi_ads[ads][1][excludedPostTypes]', $options);
+        $this->form->add(
+                $element->setLabel("Exclude Post Types")->
+                setTooltip("Exclude ads from beeing shown on specific post types by selecting post type user_roles. Select multiple values by holding down ctrl key.")->
+                setDefault(isset($settings->excludedPostTypes) ? $settings->excludedPostTypes : 'noPostTypes')
+        );
+        
+        // Hide Ads On Posts
+        $element = new Text('quads_vi_ads[ads][1][excludedPostIds]', array());
+        $this->form->add(
+                $element->setLabel("Exclude Posts")->
+                setTooltip("Exclude ads from beeing shown on specific pages by adding comma separated post ids here.")->
+                setDefault(isset($settings->excludedPostIds) ? $settings->excludedPostIds : '')
+        );
+        
+         // Condition User Roles
+        $options = array_merge (array('noUserRoles' => 'Exclude nothing'), $this->quads_get_user_roles());                  
+        $element = new SelectMultiple('quads_vi_ads[ads][1][excludedUserRoles]', $options);
+        $this->form->add(
+                $element->setLabel("Exclude User Roles ")->
+                setTooltip("Show ads on specific user_roles only by selecting coresponding user_roles. Select multiple values by holding down ctrl key.")->
+                setDefault(isset($settings->excludedUserRoles) ? $settings->excludedUserRoles : 'allUserRoles')
+        );
+        
         
                 
     }
@@ -552,6 +579,27 @@ class adSettings {
      */
     public function get($name = null) {
         return (null === $name) ? $this->form : $this->form;
+    }
+    
+    
+    /**
+     * 
+     * Get all user roles
+     * 
+     * @global array $wp_roles
+     * @return array
+     */
+    private function quads_get_user_roles() {
+        global $wp_roles;
+        $roles = array();
+
+        foreach ($wp_roles->roles as $role) {
+            //if( isset( $role["capabilities"]["edit_posts"] ) && $role["capabilities"]["edit_posts"] === true ) {
+            $value = str_replace(' ', null, strtolower($role["name"]));
+            $roles[$value] = $role["name"];
+            //}
+        }
+        return $roles;
     }
 
 }

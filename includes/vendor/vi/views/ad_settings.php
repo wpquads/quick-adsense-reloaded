@@ -64,6 +64,25 @@
         ?>
         <br>
         <h3>When:</h3>
+        <?php
+        echo $form->get()->label("quads_vi_ads[ads][1][postTypes]");
+        echo $form->get()->render("quads_vi_ads[ads][1][postTypes]");
+        echo $form->get()->tooltip("quads_vi_ads[ads][1][postTypes]");
+        ?>
+        <br>
+        <?php
+        echo $form->get()->label("quads_vi_ads[ads][1][excludedUserRoles]");
+        echo $form->get()->render("quads_vi_ads[ads][1][excludedUserRoles]");
+        echo $form->get()->tooltip("quads_vi_ads[ads][1][excludedUserRoles]");
+        ?>
+        <br>
+        <?php
+        echo $form->get()->label("quads_vi_ads[ads][1][excludedPostIds]");
+        echo $form->get()->render("quads_vi_ads[ads][1][excludedPostIds]");
+        echo $form->get()->tooltip("quads_vi_ads[ads][1][excludedPostIds]");
+        ?>
+        <br>
+        <br>
         <div id="quads-vi-save-notice"><span class="quads-spinner" style="float:none;"></span></div>
         <div id="quads-vi-save-settings">
             <input type="submit" id="quads_vi_save_settings_submit" style="" class='button button-primary' value="Save Video Settings">

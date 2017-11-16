@@ -30,6 +30,7 @@ class render extends conditions\conditions {
      */
     protected $content;
 
+
     public function __construct() {
 
         if (is_admin()) {
@@ -162,7 +163,6 @@ class render extends conditions\conditions {
                 case 'middle':
                     $style .="text-align:center;";
                     break;
-                
             }
         }
         return $style;

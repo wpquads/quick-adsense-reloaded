@@ -14,13 +14,12 @@ class SelectMultiple extends ElementsWithOptions
      */
     protected function prepareOutput()
     {
-        $output = "<select multiple id='{$this->getId()}' name='{$this->name}' {$this->prepareAttributes()}>";
+        $output = "<select multiple id='{$this->getId()}' name='{$this->name}[]' {$this->prepareAttributes()}>";
 
             foreach ($this->options as $id => $value)
             {
                 $selected = ($this->isSelected($id)) ? " selected=''" : '';
 
-                //$output .= "<option value='{$id}'{$selected}>{$value}</option>";
                 $output .= "<option value='{$id}'{$selected}>{$value}</option>";
             }
 
