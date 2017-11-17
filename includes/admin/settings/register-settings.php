@@ -2203,7 +2203,7 @@ function quads_adsense_code_callback( $args ) {
     $error = new \wpquads\template('/includes/vendor/vi/views/error', array());
 
     // Try to initially load vi settings
-    if ( empty( $quads->vi->getSettings() )){
+    if ( false === $quads->vi->getSettings()){
         if (!$quads->vi->setSettings()) {
             echo $header->render();
             echo $error->render();
@@ -2219,7 +2219,7 @@ function quads_adsense_code_callback( $args ) {
 
     $logged_in = new \wpquads\template('/includes/vendor/vi/views/logged_in', $data);
     $not_logged_in = new \wpquads\template('/includes/vendor/vi/views/not_logged_in', $data);
-    $ad = new \wpquads\template('/includes/vendor/vi/views/ad_settings', $data);
+    $adform = new \wpquads\template('/includes/vendor/vi/views/ad_settings', $data);
     $revenue = new \wpquads\template('/includes/vendor/vi/views/revenue', $data);
 
     // header
@@ -2234,7 +2234,7 @@ function quads_adsense_code_callback( $args ) {
     // Is logged in
     if ($quads->vi->setRevenue()) {
         echo $revenue->render();
-        echo $ad->render();
+        echo $adform->render();
     }
 
     // footer

@@ -9,11 +9,12 @@
 
         <h4 style="font-weight: 500;font-size:18px;color:black;">vi stories: customize your video player</h4>
         <?php
-        $form = new wpquads\adSettings();
+        $form = new \wpquads\adSettings();
 
-        echo $form->get()->label("quads_vi_ads[ads][1][type]");
-        echo $form->get()->render("quads_vi_ads[ads][1][type]");
-        echo '<br>';
+        
+        //echo $form->get()->label("quads_vi_ads[ads][1][type]");
+        //echo $form->get()->render("quads_vi_ads[ads][1][type]");
+        //echo '<br>';
         echo $form->get()->label("quads_vi_ads[ads][1][keywords]");
         echo $form->get()->render("quads_vi_ads[ads][1][keywords]");
         echo $form->get()->tooltip("quads_vi_ads[ads][1][keywords]");
@@ -65,9 +66,9 @@
         <br>
         <h3>Exclude Ad From:</h3>
         <?php
-        echo $form->get()->label("quads_vi_ads[ads][1][postTypes]");
-        echo $form->get()->render("quads_vi_ads[ads][1][postTypes]");
-        echo $form->get()->tooltip("quads_vi_ads[ads][1][postTypes]");
+        echo $form->get()->label("quads_vi_ads[ads][1][excludedPostTypes]");
+        echo $form->get()->render("quads_vi_ads[ads][1][excludedPostTypes]");
+        echo $form->get()->tooltip("quads_vi_ads[ads][1][excludedPostTypes]");
         ?>
         <br>
         <?php

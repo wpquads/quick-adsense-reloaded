@@ -394,7 +394,8 @@ class vi {
 
         $viParam = array(
             'domain' => $this->getDomain(),
-            'adUnitType' => 'FLOATING_OUTSTREAM',
+            //'adUnitType' => 'FLOATING_OUTSTREAM',
+            'adUnitType' => 'NATIVE_VIDEO_UNIT',
             'divId' => 'div_id',
             'language' => isset($ads['ads'][1]['language']) ? $ads['ads'][1]['language'] : 'en-en',
             'iabCategory' => isset($ads['ads'][1]['iab1']) ? $ads['ads'][1]['iab1'] : 'IAB2-16',

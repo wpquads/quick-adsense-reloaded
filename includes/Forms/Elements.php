@@ -1,6 +1,7 @@
 <?php
 namespace wpquads;
 
+
 /**
  * Class Elements
  * @package WPStaging\Forms

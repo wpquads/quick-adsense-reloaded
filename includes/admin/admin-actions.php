@@ -87,6 +87,9 @@ global $quads_options;
        delete_transient('quads_vi_ads_txt_notice');
     }
     
+    // create default ad code
+    //$vi->setAdCode();
+    
     // Create AdSense ads.txt entries
     $adsense = new \wpquads\adsense($quads_options);
     $adsense->writeAdsTxt();

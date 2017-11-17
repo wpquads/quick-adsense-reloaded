@@ -248,7 +248,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
     */
    private function registerNamespaces() {
       $autoloader = new wpquads\Autoloader();
-      //$this->set( "autoloader", $autoloader );
 
       // Autoloader
       $autoloader->registerNamespaces( array(
@@ -256,7 +255,9 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
               QUADS_PLUGIN_DIR,
               QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms',
               QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms' . DIRECTORY_SEPARATOR . 'Elements',
-              QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms' . DIRECTORY_SEPARATOR . 'Elements' . DIRECTORY_SEPARATOR . 'interfaces',
+              QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms' . DIRECTORY_SEPARATOR . 'Elements' . DIRECTORY_SEPARATOR . 'Interfaces',
+              QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'vi',
+              QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'vi' . DIRECTORY_SEPARATOR . 'views',
               )
       ) );
 

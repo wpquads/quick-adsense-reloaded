@@ -19,17 +19,21 @@ class adSettings {
      */
     public function __construct() {
 
-        $this->general();
+        $this->setAdForm(); 
     }
 
-    private function general() {
-        $this->form = new Form();
+    /**
+     * 
+     */
+    public function setAdForm() {
         
+        $this->form = new Form();
+                
         $this->vi = new vi();
-
+        
         $settings = json_decode(json_encode(get_option("quads_vi_ads", array())));
         // Get the key width value 1 only as long as we do not have more than one (1) different vi ad
-        $settings = $settings->ads->{'1'};
+        $settings = isset($settings->ads->{'1'}) ? $settings->ads->{'1'} : new \stdClass();
 
         // Ad type
         $options = array('vi_stories' => 'vi_stories', 'outstream' => 'Outstream');
