@@ -30,7 +30,7 @@ class adsense {
      * Get AdSense Publisher ID
      * @return boolean
      */
-    private function getPublisherID() {
+    public function getPublisherID() {
         // loop through all ad fields and check if there is any adsense publisher id
         foreach ($this->settings['ads'] as $key => $value) {
             if (!empty($this->settings['ads'][$key]['g_data_ad_client'])){

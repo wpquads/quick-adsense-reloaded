@@ -451,7 +451,8 @@ function quads_show_vi_notice_again() {
  * Show all vi notices
  */
 function quads_show_vi_notices(){
-    global $quads;
+    global $quads, $quads_options;
+    
     if (!quads_is_admin_page())
         return false;
     
@@ -466,9 +467,21 @@ function quads_show_vi_notices(){
     
     // show ad.txt update notice
     if (get_transient('quads_vi_ads_txt_error')) {
-        $notice['message'] = "<strong>ADS.TXT couldn't be added</strong><br><br>Important note: WP QUADS hasn't been able to update your ads.txt file automatically. Please make sure to enter the following line manually into <br>" . get_home_path() . "ads.txt:"
-                        . "</p><pre>vi.ai " . $quads->vi->getPublisherId() . " DIRECT </pre><p>"
-                        . "Only by doing so you are able to make more money through video inteligence";
+        
+        $adsense = new wpquads\adsense($quads_options);
+        $adsensePublisherId = $adsense->getPublisherID();
+        
+        $adsenseAdsTxtText = '';
+        if ($adsensePublisherId){
+            $adsenseAdsTxtText = "google.com " . $adsensePublisherId . " DIRECT, f08c47fec0942fa0";
+        }
+        
+        $notice['message'] = "<p><strong>ADS.TXT couldn't be added</strong><br><br>Important note: WP QUADS hasn't been able to update your ads.txt file automatically. Please make sure to enter the following line manually into <br><strong>" . get_home_path() . "ads.txt</strong>:"
+                        . "<p>"
+                        . "<pre>vi.ai " . $quads->vi->getPublisherId() . " DIRECT # 41b5eef6<br>"
+                        . $adsenseAdsTxtText
+                        . "</pre></p>"
+                        . "Only by doing so you are able to make more money through video inteligence.</p>";
         $notice['type'] = 'error';
         $adsTxtError = new wpquads\template('/includes/vendor/vi/views/notices', $notice);
         echo $adsTxtError->render();
