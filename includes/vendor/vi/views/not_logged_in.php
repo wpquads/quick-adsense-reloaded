@@ -32,7 +32,7 @@
     <div id="quads-vi-signup-fullscreen">
         <div id="quads-vi-signup-container">
             <div id="quads-vi-close"></div>
-            <iframe src="<?php echo $signupURL; ?>"></iframe>
+            <iframe src="<?php echo $signupURL; ?>" scrolling="no"></iframe>
         </div>
 
     </div>
