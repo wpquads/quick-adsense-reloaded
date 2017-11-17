@@ -2181,22 +2181,7 @@ function quads_adsense_code_callback( $args ) {
      * 
      */
     function quads_vi_signup_callback() {
-    global $quads;
-    global $quads_options;
-    
-    /**
-     * TESTING
-     */
-    //wp_die(var_dump($quads->vi->getAdsTxtContent()));
-    
-    //$adsTxt = new \wpquads\adsTxt($quads->vi->getAdsTxtContent(), '41b5eef6');
-    
-    //$adsTxt->writeAdsTxt();
-    
-    //var_dump($adsTxt->getContent());
-    
-    //$adsense = new \wpquads\adsense($quads_options);
-    //$adsense->writeAdsTxt();
+    global $quads, $quads_options;
 
     $header = new \wpquads\template('/includes/vendor/vi/views/partials/header', array());
     $footer = new \wpquads\template('/includes/vendor/vi/views/partials/footer', array());

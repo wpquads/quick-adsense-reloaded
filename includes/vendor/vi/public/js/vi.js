@@ -78,8 +78,14 @@ var save_quads_vi_ad_settings = function (){
                 data: data,
                 //contentType: 'application/json',
                 success: function(response){
-                    if(response.error){
-                        var resp = 'Error:' + response
+
+                    response = JSON.parse(response);
+                    
+//                    console.log(response);
+//                    console.log(response.status);
+//                    console.log(response.error.message);
+                    if(response.status && response.status === 'error'){
+                        var resp = 'Error:' + response.error.message + ' ' + (response.error.description ? response.error.description : '');
                     } else {
                         var resp = 'Success: vi Ad Changes might take some time to take into effect.';
                     }
