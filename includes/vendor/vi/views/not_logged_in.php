@@ -25,7 +25,7 @@
         </p>
         <div class="quads-widget-buttons">
             <a href="<?php echo $loginAPI; ?>" class="button button-secondary" id="quads_vi_login_submit"> Login </a> 
-            <a href="<?php echo $signupURL; ?>?email=<?php echo bloginfo('admin_email'); ?>&domain=<?php echo get_site_url(); ?>" class="button button-primary" id="quads-vi-signup"> Signup </a> 
+            <a href="<?php echo $signupURL; ?>?email=<?php echo bloginfo('admin_email'); ?>&domain=<?php echo get_site_url(); ?>&aid=12345" class="button button-primary" id="quads-vi-signup"> Signup </a> 
         </div>
     </div>
     
@@ -41,10 +41,10 @@
         <form action="<?php echo admin_url() . '?quads_action=vi_login' ?>">
             <div class="quads-container">
                 <label><b>E-Mail</b></label>
-                <input type="email" placeholder="Enter Mail Address" name="email" id="email" required>
+                <input type="text" placeholder="Enter Mail Address" name="email" id="email" novalidate>
 
                 <label><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="password" id="password" required>
+                <input type="password" placeholder="Enter Password" name="password" id="password" novalidate>
 
                 <button type="submit" id="quads_vi_login_submit" style="display:none;">Login</button>
             </div>
