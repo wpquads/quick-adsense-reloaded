@@ -39,17 +39,17 @@
     
     <div id="quads-vi-login">
         <form action="<?php echo admin_url() . '?quads_action=vi_login' ?>">
-            <div class="quads-spinner" id="quads_vi_loading"></div>
-            <div id="quads_add_err"></div>
-            <div class="container">
+            <div class="quads-container">
                 <label><b>E-Mail</b></label>
-                <input type="text" placeholder="Enter Username" name="email" id="email" required>
+                <input type="email" placeholder="Enter Mail Address" name="email" id="email" required>
 
                 <label><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="password" id="password" required>
 
                 <button type="submit" id="quads_vi_login_submit" style="display:none;">Login</button>
             </div>
+            <div class="quads-spinner" id="quads_vi_loading"></div>
+            <div id="quads_add_err" style="min-height: 40px;"></div>
         </form>
     </div>
 

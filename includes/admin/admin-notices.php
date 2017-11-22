@@ -486,6 +486,7 @@ function quads_show_vi_notices(){
                         . "</pre></p>"
                         . "Only by doing so you are able to make more money through video inteligence.</p>";
         $notice['type'] = 'error';
+        
         // render blurb
         $adsTxtError = new wpquads\template('/includes/vendor/vi/views/notices', $notice);
         echo $adsTxtError->render();

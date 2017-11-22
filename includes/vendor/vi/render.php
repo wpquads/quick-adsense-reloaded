@@ -148,11 +148,11 @@ class render extends conditions\conditions {
     }
 
     private function getInlineStyle() {
+        $style = '';
         // Layout Alignment
         if (isset($this->ads['ads'][$this->id]['align']) &&
                 $this->ads['ads'][$this->id]['align'] !== 'default') {
 
-            $style = '';
             switch ($this->ads['ads'][$this->id]['align']) {
                 case 'left':
                     $style .= "float:left;";
