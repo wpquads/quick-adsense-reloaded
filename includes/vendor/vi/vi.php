@@ -45,6 +45,7 @@ class vi {
      * @var obj 
      */
     public $adsSettings;
+    
 
     public function __construct() {
 

@@ -57,9 +57,59 @@ class adSettings {
                 $element->setLabel("Keywords")->setTooltip("Comma separated values describing the content of the page e.g. 'cooking, grilling, pulled pork")->setDefault(isset($settings->keywords) ? $settings->keywords : '')
         );
 
-        // iAB tier 1/2 category
+        // iAB tier 1 category
         $iab_options = array(
+            array("val0" => "select", "val1" => "Select tier 1 category"),
             array("val0" => "IAB1", "val1" => "Arts & Entertainment"),
+            array("val0" => "IAB2", "val1" => "Automotive"),
+            array("val0" => "IAB3", "val1" => "Business"),          
+            array("val0" => "IAB4", "val1" => "Careers"),      
+            array("val0" => "IAB5", "val1" => "Education"),
+            array("val0" => "IAB6", "val1" => "Family & Parenting"),     
+            array("val0" => "IAB7", "val1" => "Health & Fitness"),         
+            array("val0" => "IAB8", "val1" => "Food & Drink"),           
+            array("val0" => "IAB9", "val1" => "Hobbies & Interests"),         
+            array("val0" => "IAB10", "val1" => "Home & Garden"),           
+            array("val0" => "IAB11", "val1" => "Law, Gov’t & Politics"),           
+            array("val0" => "IAB12", "val1" => "News"),           
+            array("val0" => "IAB13", "val1" => "Personal Finance"),           
+            array("val0" => "IAB14", "val1" => "Society"),           
+            array("val0" => "IAB15", "val1" => "Science"),           
+            array("val0" => "IAB16", "val1" => "Pets"),          
+            array("val0" => "IAB17", "val1" => "Sports"),           
+            array("val0" => "IAB18", "val1" => "Style & Fashion"),          
+            array("val0" => "IAB19", "val1" => "Technology & Computing"),           
+            array("val0" => "IAB20", "val1" => "Travel"),          
+            array("val0" => "IAB21", "val1" => "Real Estate"),           
+            array("val0" => "IAB22", "val1" => "Shopping"),          
+            array("val0" => "IAB23", "val1" => "Religion & Spirituality"),          
+            array("val0" => "IAB24", "val1" => "Uncategorized"),           
+            array("val0" => "IAB26", "val1" => "Illegal Content"),
+            
+        );
+
+        // Change the array to one nested level 
+        $optionsNew = array();
+        foreach ($iab_options as $key => $value) {
+            $optionsNew[$value['val0']] = $value['val1'];
+        }
+
+        $element = new Select(
+                "quads_vi_ads[ads][1][iab1]", $optionsNew, array(
+            "class" => "large-text",
+            "step" => 1,
+            "max" => 999999,
+            "min" => 0
+                )
+        );
+
+        $this->form->add(
+                $element->setLabel("IAB Category*")->setDefault(isset($settings->iab1) ? $settings->iab1 : 'select')
+        );
+        
+        // iAB tier 2 category
+        $iab2_options = array(
+            array("val0" => "select", "val1" => "Select tier 2 category"),
             array("val0" => "IAB1-1", "val1" => "Books & Literature"),
             array("val0" => "IAB1-2", "val1" => "Celebrity Fan/Gossip"),
             array("val0" => "IAB1-3", "val1" => "Fine Art"),
@@ -67,7 +117,6 @@ class adSettings {
             array("val0" => "IAB1-5", "val1" => "Movies"),
             array("val0" => "IAB1-6", "val1" => "Music"),
             array("val0" => "IAB1-7", "val1" => "Television"),
-            array("val0" => "IAB2", "val1" => "Automotive"),
             array("val0" => "IAB2-1", "val1" => "Auto Parts"),
             array("val0" => "IAB2-2", "val1" => "Auto Repair"),
             array("val0" => "IAB2-3", "val1" => "Buying/Selling Cars"),
@@ -91,7 +140,6 @@ class adSettings {
             array("val0" => "IAB2-21", "val1" => "Trucks & Accessories"),
             array("val0" => "IAB2-22", "val1" => "Vintage Cars"),
             array("val0" => "IAB2-23", "val1" => "Wagon"),
-            array("val0" => "IAB3", "val1" => "Business"),
             array("val0" => "IAB3-1", "val1" => "Advertising"),
             array("val0" => "IAB3-2", "val1" => "Agriculture"),
             array("val0" => "IAB3-3", "val1" => "Biotech/Biomedical"),
@@ -104,7 +152,6 @@ class adSettings {
             array("val0" => "IAB3-10", "val1" => "Logistics"),
             array("val0" => "IAB3-11", "val1" => "Marketing"),
             array("val0" => "IAB3-12", "val1" => "Metals"),
-            array("val0" => "IAB4", "val1" => "Careers"),
             array("val0" => "IAB4-1", "val1" => "Career Planning"),
             array("val0" => "IAB4-2", "val1" => "College"),
             array("val0" => "IAB4-3", "val1" => "Financial Aid"),
@@ -116,7 +163,6 @@ class adSettings {
             array("val0" => "IAB4-9", "val1" => "Telecommuting"),
             array("val0" => "IAB4-10", "val1" => "U.S. Military"),
             array("val0" => "IAB4-11", "val1" => "Career Advice"),
-            array("val0" => "IAB5", "val1" => "Education"),
             array("val0" => "IAB5-1", "val1" => "7-12 Education"),
             array("val0" => "IAB5-2", "val1" => "Adult Education"),
             array("val0" => "IAB5-3", "val1" => "Art History"),
@@ -132,7 +178,6 @@ class adSettings {
             array("val0" => "IAB5-13", "val1" => "Private School"),
             array("val0" => "IAB5-14", "val1" => "Special Education"),
             array("val0" => "IAB5-15", "val1" => "Studying Business"),
-            array("val0" => "IAB6", "val1" => "Family & Parenting"),
             array("val0" => "IAB6-1", "val1" => "Adoption"),
             array("val0" => "IAB6-2", "val1" => "Babies & Toddlers"),
             array("val0" => "IAB6-3", "val1" => "Daycare/Pre School"),
@@ -142,7 +187,6 @@ class adSettings {
             array("val0" => "IAB6-7", "val1" => "Pregnancy"),
             array("val0" => "IAB6-8", "val1" => "Special Needs Kids"),
             array("val0" => "IAB6-9", "val1" => "Eldercare"),
-            array("val0" => "IAB7", "val1" => "Health & Fitness"),
             array("val0" => "IAB7-1", "val1" => "Exercise"),
             array("val0" => "IAB7-2", "val1" => "A.D.D."),
             array("val0" => "IAB7-3", "val1" => "AIDS/HIV"),
@@ -188,7 +232,6 @@ class adSettings {
             array("val0" => "IAB7-43", "val1" => "Thyroid Disease"),
             array("val0" => "IAB7-44", "val1" => "Weight Loss"),
             array("val0" => "IAB7-45", "val1" => "Women’s Health"),
-            array("val0" => "IAB8", "val1" => "Food & Drink"),
             array("val0" => "IAB8-1", "val1" => "American Cuisine"),
             array("val0" => "IAB8-2", "val1" => "Barbecues & Grilling"),
             array("val0" => "IAB8-3", "val1" => "Cajun/Creole"),
@@ -207,7 +250,6 @@ class adSettings {
             array("val0" => "IAB8-16", "val1" => "Vegan"),
             array("val0" => "IAB8-17", "val1" => "Vegetarian"),
             array("val0" => "IAB8-18", "val1" => "Wine"),
-            array("val0" => "IAB9", "val1" => "Hobbies & Interests"),
             array("val0" => "IAB9-1", "val1" => "Art/Technology"),
             array("val0" => "IAB9-2", "val1" => "Arts & Crafts"),
             array("val0" => "IAB9-3", "val1" => "Beadwork"),
@@ -239,7 +281,6 @@ class adSettings {
             array("val0" => "IAB9-29", "val1" => "Stamps & Coins"),
             array("val0" => "IAB9-30", "val1" => "Video & Computer Games"),
             array("val0" => "IAB9-31", "val1" => "Woodworking"),
-            array("val0" => "IAB10", "val1" => "Home & Garden"),
             array("val0" => "IAB10-1", "val1" => "Appliances"),
             array("val0" => "IAB10-2", "val1" => "Entertaining"),
             array("val0" => "IAB10-3", "val1" => "Environmental Safety"),
@@ -249,17 +290,14 @@ class adSettings {
             array("val0" => "IAB10-7", "val1" => "Interior Decorating"),
             array("val0" => "IAB10-8", "val1" => "Landscaping"),
             array("val0" => "IAB10-9", "val1" => "Remodeling & Construction"),
-            array("val0" => "IAB11", "val1" => "Law, Gov’t & Politics"),
             array("val0" => "IAB11-1", "val1" => "Immigration"),
             array("val0" => "IAB11-2", "val1" => "Legal Issues"),
             array("val0" => "IAB11-3", "val1" => "U.S. Government Resources"),
             array("val0" => "IAB11-4", "val1" => "Politics"),
             array("val0" => "IAB11-5", "val1" => "Commentary"),
-            array("val0" => "IAB12", "val1" => "News"),
             array("val0" => "IAB12-1", "val1" => "International News"),
             array("val0" => "IAB12-2", "val1" => "National News"),
             array("val0" => "IAB12-3", "val1" => "Local News"),
-            array("val0" => "IAB13", "val1" => "Personal Finance"),
             array("val0" => "IAB13-1", "val1" => "Beginning Investing"),
             array("val0" => "IAB13-2", "val1" => "Credit/Debt & Loans"),
             array("val0" => "IAB13-3", "val1" => "Financial News"),
@@ -272,7 +310,6 @@ class adSettings {
             array("val0" => "IAB13-10", "val1" => "Retirement Planning"),
             array("val0" => "IAB13-11", "val1" => "Stocks"),
             array("val0" => "IAB13-12", "val1" => "Tax Planning"),
-            array("val0" => "IAB14", "val1" => "Society"),
             array("val0" => "IAB14-1", "val1" => "Dating"),
             array("val0" => "IAB14-2", "val1" => "Divorce Support"),
             array("val0" => "IAB14-3", "val1" => "Gay Life"),
@@ -281,7 +318,6 @@ class adSettings {
             array("val0" => "IAB14-6", "val1" => "Teens"),
             array("val0" => "IAB14-7", "val1" => "Weddings"),
             array("val0" => "IAB14-8", "val1" => "Ethnic Specific"),
-            array("val0" => "IAB15", "val1" => "Science"),
             array("val0" => "IAB15-1", "val1" => "Astrology"),
             array("val0" => "IAB15-2", "val1" => "Biology"),
             array("val0" => "IAB15-3", "val1" => "Chemistry"),
@@ -292,7 +328,6 @@ class adSettings {
             array("val0" => "IAB15-8", "val1" => "Geography"),
             array("val0" => "IAB15-9", "val1" => "Botany"),
             array("val0" => "IAB15-10", "val1" => "Weather"),
-            array("val0" => "IAB16", "val1" => "Pets"),
             array("val0" => "IAB16-1", "val1" => "Aquariums"),
             array("val0" => "IAB16-2", "val1" => "Birds"),
             array("val0" => "IAB16-3", "val1" => "Cats"),
@@ -300,7 +335,6 @@ class adSettings {
             array("val0" => "IAB16-5", "val1" => "Large Animals"),
             array("val0" => "IAB16-6", "val1" => "Reptiles"),
             array("val0" => "IAB16-7", "val1" => "Veterinary Medicine"),
-            array("val0" => "IAB17", "val1" => "Sports"),
             array("val0" => "IAB17-1", "val1" => "Auto Racing"),
             array("val0" => "IAB17-2", "val1" => "Baseball"),
             array("val0" => "IAB17-3", "val1" => "Bicycling"),
@@ -345,14 +379,12 @@ class adSettings {
             array("val0" => "IAB17-42", "val1" => "Walking"),
             array("val0" => "IAB17-43", "val1" => "Waterski/Wakeboard"),
             array("val0" => "IAB17-44", "val1" => "World Soccer"),
-            array("val0" => "IAB18", "val1" => "Style & Fashion"),
             array("val0" => "IAB18-1", "val1" => "Beauty"),
             array("val0" => "IAB18-2", "val1" => "Body Art"),
             array("val0" => "IAB18-3", "val1" => "Fashion"),
             array("val0" => "IAB18-4", "val1" => "Jewelry"),
             array("val0" => "IAB18-5", "val1" => "Clothing"),
             array("val0" => "IAB18-6", "val1" => "Accessories"),
-            array("val0" => "IAB19", "val1" => "Technology & Computing"),
             array("val0" => "IAB19-1", "val1" => "3-D Graphics"),
             array("val0" => "IAB19-2", "val1" => "Animation"),
             array("val0" => "IAB19-3", "val1" => "Antivirus Software"),
@@ -389,7 +421,6 @@ class adSettings {
             array("val0" => "IAB19-34", "val1" => "Web Design/HTML"),
             array("val0" => "IAB19-35", "val1" => "Web Search"),
             array("val0" => "IAB19-36", "val1" => "Windows"),
-            array("val0" => "IAB20", "val1" => "Travel"),
             array("val0" => "IAB20-1", "val1" => "Adventure Travel"),
             array("val0" => "IAB20-2", "val1" => "Africa"),
             array("val0" => "IAB20-3", "val1" => "Air Travel"),
@@ -417,16 +448,13 @@ class adSettings {
             array("val0" => "IAB20-25", "val1" => "Theme Parks"),
             array("val0" => "IAB20-26", "val1" => "Traveling with Kids"),
             array("val0" => "IAB20-27", "val1" => "United Kingdom"),
-            array("val0" => "IAB21", "val1" => "Real Estate"),
             array("val0" => "IAB21-1", "val1" => "Apartments"),
             array("val0" => "IAB21-2", "val1" => "Architects"),
             array("val0" => "IAB21-3", "val1" => "Buying/Selling Homes"),
-            array("val0" => "IAB22", "val1" => "Shopping"),
             array("val0" => "IAB22-1", "val1" => "Contests & Freebies"),
             array("val0" => "IAB22-2", "val1" => "Couponing"),
             array("val0" => "IAB22-3", "val1" => "Comparison"),
             array("val0" => "IAB22-4", "val1" => "Engines"),
-            array("val0" => "IAB23", "val1" => "Religion & Spirituality"),
             array("val0" => "IAB23-1", "val1" => "Alternative Religions"),
             array("val0" => "IAB23-2", "val1" => "Atheism/Agnosticism"),
             array("val0" => "IAB23-3", "val1" => "Buddhism"),
@@ -437,7 +465,6 @@ class adSettings {
             array("val0" => "IAB23-8", "val1" => "Judaism"),
             array("val0" => "IAB23-9", "val1" => "Latter-Day Saints"),
             array("val0" => "IAB23-10", "val1" => "Pagan/Wiccan"),
-            array("val0" => "IAB24", "val1" => "Uncategorized"),
             array("val0" => "IAB25", "val1" => "Non-Standard Content"),
             array("val0" => "IAB25-1", "val1" => "Unmoderated UGC"),
             array("val0" => "IAB25-2", "val1" => "Extreme Graphic/Explicit Violence"),
@@ -446,7 +473,6 @@ class adSettings {
             array("val0" => "IAB25-5", "val1" => "Hate Content"),
             array("val0" => "IAB25-6", "val1" => "Under Construction"),
             array("val0" => "IAB25-7", "val1" => "Incentivized"),
-            array("val0" => "IAB26", "val1" => "Illegal Content"),
             array("val0" => "IAB26-1", "val1" => "Illegal Content"),
             array("val0" => "IAB26-2", "val1" => "Warez"),
             array("val0" => "IAB26-3", "val1" => "Spyware/Malware"),
@@ -454,32 +480,19 @@ class adSettings {
         );
 
         // Change the array to one nested level 
-        $optionsNew = array();
-        foreach ($iab_options as $key => $value) {
-            $optionsNew[$value['val0']] = $value['val1'];
+        $iab2New = array();
+        foreach ($iab2_options as $key => $value) {
+            $iab2New[$value['val0']] = $value['val1'];
         }
 
         $element = new Select(
-                "quads_vi_ads[ads][1][iab1]", $optionsNew, array(
-            "class" => "large-text",
-            "step" => 1,
-            "max" => 999999,
-            "min" => 0
-                )
-        );
-
-        $this->form->add(
-                $element->setLabel("IAB Category*")->setDefault(isset($settings->iab1) ? $settings->iab1 : '')
-        );
-
-        $element = new Select(
-                "quads_vi_ads[ads][1][iab2]", $optionsNew, array(
+                "quads_vi_ads[ads][1][iab2]", $iab2New, array(
             "class" => "large-text"
                 )
         );
 
         $this->form->add(
-                $element->setLabel("IAB Category Tier2 *")->setDefault(isset($settings->iab2) ? $settings->iab2 : '')
+                $element->setLabel("IAB Category Tier2 *")->setDefault(isset($settings->iab2) ? $settings->iab2 : 'select')
         );
         
         $options = $this->vi->getLanguages();
