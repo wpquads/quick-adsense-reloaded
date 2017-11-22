@@ -199,7 +199,21 @@ class vi {
      * @return array
      */
     public function getFontFamily() {
-        return array('Arial' => 'Arial', 'Times New Roman' => 'Times New Roman', 'Courier New' => 'Courier New');
+        return array('Arial' => 'Arial', 
+            'Times New Roman' => 'Times New Roman', 
+            'Georgia' => 'Georgia', 
+            'Palatino Linotype' => 'Palatino Linotype',
+            'Arial' => 'Arial',
+            'Arial Black' => 'Arial Black',
+            'Comic Sans MS' => 'Comic Sans MS',
+            'Impact' => 'Impact',
+            'Lucida Sans Unicode' => 'Lucida Sans Unicode',
+            'Tahoma' => 'Tahoma',
+            'Trebuchet MS' => 'Trebuchet MS',
+            'Verdana' => 'Verdana',
+            'Courier New' => 'Courier New',
+            'Lucida Console' => 'Lucida Console',
+            );
     }
 
     /**
