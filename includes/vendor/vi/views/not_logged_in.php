@@ -25,14 +25,14 @@
         </p>
         <div class="quads-widget-buttons">
             <a href="<?php echo $loginAPI; ?>" class="button button-secondary" id="quads_vi_login_submit"> Login </a> 
-            <a href="<?php echo $signupURL; ?>?email=<?php echo bloginfo('admin_email'); ?>&domain=<?php echo get_site_url(); ?>&aid=12345" class="button button-primary" id="quads-vi-signup"> Signup </a> 
+            <a href="<?php echo $signupURL; ?>" class="button button-primary" id="quads-vi-signup"> Signup </a> 
         </div>
     </div>
     
     <div id="quads-vi-signup-fullscreen">
         <div id="quads-vi-signup-container">
             <div id="quads-vi-close"></div>
-            <iframe src="<?php echo $signupURL; ?>" scrolling="no"></iframe>
+            <iframe src="<?php echo $signupURL; ?>?email=<?php echo bloginfo('admin_email'); ?>&domain=<?php echo get_site_url(); ?>&aid=wpquads" scrolling="no"></iframe>
         </div>
 
     </div>
