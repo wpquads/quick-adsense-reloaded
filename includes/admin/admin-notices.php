@@ -446,8 +446,8 @@ admin_url() . 'admin.php?page=quads-settings#quads_settingsvi_header',
 'https://www.vi.ai/publisherfaq/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white'
 )       
             . '</p></main>
-      <!--<aside class="quads-banner-sidebar-first"><p><a href="https://www.vi.ai/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white"><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi_quads_logo.png" width="152" height="70"></a></p></aside>//-->
-      <aside class="quads-banner-sidebar-second"><p style="text-align:center;"><a href="https://www.vi.ai/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white"><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi_quads_logo.png" width="152" height="70"></a></p></aside>
+      <!--<aside class="quads-banner-sidebar-first"><p><a href="https://www.vi.ai/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white"><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi_quads_logo.png" width="168" height="72"></a></p></aside>//-->
+      <aside class="quads-banner-sidebar-second"><p style="text-align:center;"><a href="https://www.vi.ai/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white"><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi-logo-white.png" width="168" height="72"></a></p></aside>
     </div>
           <aside class="quads-banner-close"><div style="margin-top:5px;"><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=close_vi_welcome_notice" class="quads-notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a></div></aside>
   </section>
@@ -467,8 +467,8 @@ admin_url() . 'admin.php?page=quads-settings#quads_settingsvi_header',
 'https://www.vi.ai/publisherfaq/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white'
 )       
             . '</p></main>
-      <!--<aside class="quads-banner-sidebar-first"><p><a href="https://www.vi.ai/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white"><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi_quads_logo.png" width="152" height="70"></a></p></aside>//-->
-      <aside class="quads-banner-sidebar-second"><p style="text-align:center;"><a href="https://www.vi.ai/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white"><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi_quads_logo.png" width="152" height="70"></a></p></aside>
+      <!--<aside class="quads-banner-sidebar-first"><p><a href="https://www.vi.ai/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white"><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi_quads_logo.png" width="168" height="72"></a></p></aside>//-->
+      <aside class="quads-banner-sidebar-second"><p style="text-align:center;"><a href="https://www.vi.ai/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white"><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi-logo-black.png" width="168" height="72"></a></p></aside>
     </div>
           <aside class="quads-banner-close"><div style="margin-top:5px;"><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=close_vi_welcome_notice" class="quads-notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a></div></aside>
   </section>

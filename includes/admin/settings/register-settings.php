@@ -2197,9 +2197,7 @@ function quads_adsense_code_callback( $args ) {
         }
     }
     
-    $quads->vi->setActive();
-    
-
+    //$quads->vi->setActive();
 
     $data = !empty($quads->vi->getSettings()->data) ? (array) $quads->vi->getSettings()->data : array();
 
