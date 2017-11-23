@@ -413,7 +413,7 @@ class vi {
             'adUnitType' => 'NATIVE_VIDEO_UNIT',
             'divId' => 'div_id',
             'language' => isset($ads['ads'][1]['language']) ? $ads['ads'][1]['language'] : 'en-en',
-            'iabCategory' => isset($ads['ads'][1]['iab1']) ? $ads['ads'][1]['iab1'] : 'IAB2-16',
+            'iabCategory' => isset($ads['ads'][1]['iab2']) && 'select' != $ads['ads'][1]['iab2'] ? $ads['ads'][1]['iab2'] : 'IAB2-16',
             'font' => isset($ads['ads'][1]['txt_font_family']) ? $ads['ads'][1]['txt_font_family'] : 'Courier New',
             'fontSize' => isset($ads['ads'][1]['font_size']) ? $ads['ads'][1]['font_size'] : 12,
             'keywords' => isset($ads['ads'][1]['keywords']) ? $ads['ads'][1]['keywords'] : 'key,words',
@@ -464,7 +464,8 @@ class vi {
         //return $response->data;
         update_option('quads_vi_ads', $ads);
 
-        return $response->data;
+        //return $response->data;
+        return json_encode($response);
     }
 
     public function getAdCode() {

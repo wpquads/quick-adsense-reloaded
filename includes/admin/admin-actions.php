@@ -105,14 +105,20 @@ add_action( 'wp_ajax_quads_save_vi_token', 'quads_save_vi_token' );
 function quads_save_vi_ads(){  
     global $quads;
     
-    //wp_die('tester' . $quads->vi->setAdCode());
+    $return = $quads->vi->setAdCode();
     
-    if ($quads->vi->setAdCode()) {
-        //wp_die(json_encode(array('status' => 'success', 'data' => $quads->vi->getAdCode())));
-        wp_die($quads->vi->setAdCode());
+    if ($return){
+        wp_die($return);
     } else {
         wp_die(array('status' => 'error', 'message' => 'Unknown API Error. Can not get vi ad code'));
     }
+    
+//    if ($quads->vi->setAdCode()) {
+//        //wp_die(json_encode(array('status' => 'success', 'data' => $quads->vi->getAdCode())));
+//        wp_die($quads->vi->setAdCode());
+//    } else {
+//        wp_die(array('status' => 'error', 'message' => 'Unknown API Error. Can not get vi ad code'));
+//    }
 }
 add_action( 'wp_ajax_quads_save_vi_ads', 'quads_save_vi_ads' );
 

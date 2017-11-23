@@ -87,13 +87,16 @@ if (document.getElementById('quads_vi_ads[ads][1][iab1]')){
     // Create vi ad and save it via ajax
     jQuery('#quads_vi_save_settings_submit').click(function(){
         
-        if ($('#quads_vi_ads\\[ads\\]\\[1\\]\\[iab1\\] option:selected').val() == 'select' ||
-            $('#quads_vi_ads\\[ads\\]\\[1\\]\\[iab2\\] option:selected').val() == 'select' ){
-         
-            $('#quads-save-message').hide();
-            $("#quads-vi-save-notice").html('<span style="color:red;">You need to select a tier 1 and tier 2 iAB category</span>');
-            return false;
-        }
+        /**
+         * Check if iAB category is selected
+         */
+//        if ($('#quads_vi_ads\\[ads\\]\\[1\\]\\[iab1\\] option:selected').val() == 'select' ||
+//            $('#quads_vi_ads\\[ads\\]\\[1\\]\\[iab2\\] option:selected').val() == 'select' ){
+//         
+//            $('#quads-save-message').hide();
+//            $("#quads-vi-save-notice").html('<span style="color:red;">You need to select a tier 1 and tier 2 iAB category</span>');
+//            return false;
+//        }
         
         jQuery("#quads-vi-save-notice").css('display','block');
         jQuery("#quads-vi-save-notice").html('Saving settings...');
@@ -119,8 +122,8 @@ var save_quads_vi_ad_settings = function (){
                 data: data,
                 //contentType: 'application/json',
                 success: function(response){
-
-                    response = JSON.parse(response);
+                console.log(response);
+                    //response = JSON.parse(response);
                     
                     if(response.status && response.status === 'error'){
                         var resp = 'Error:' + response.error.message + ' ' + (response.error.description ? response.error.description : '');

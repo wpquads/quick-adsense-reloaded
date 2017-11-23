@@ -48,6 +48,8 @@
         echo '<br>';
         echo $form->get()->label("quads_vi_ads[ads][1][optional3]");
         echo $form->get()->render("quads_vi_ads[ads][1][optional3]");
+        echo '<br>';
+        echo $form->get()->render("quads_vi_ads[ads][1][code]");
         ?>
         <div id="quads-vi-layout">
             <h3 style="margin-bottom:8px;">Layout</h3>

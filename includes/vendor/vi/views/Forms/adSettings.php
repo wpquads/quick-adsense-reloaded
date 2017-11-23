@@ -539,6 +539,15 @@ class adSettings {
         $this->form->add(
                 $element->setLabel("Optional 3")->setDefault(isset($settings->optional3) ? $settings->optional3 : '')
         );
+        
+        // ad code
+        $element = new TextAreaHidden('quads_vi_ads[ads][1][code]', array());
+        $this->form->add(
+                $element->setLabel("Ad Code")->setDefault(isset($settings->code) ? $settings->code : '')
+        );
+        
+        
+        
         // Layout
         $element = new Radio('quads_vi_ads[ads][1][align]', array('default' => 'default', 'left' => 'left', 'middle' => 'middle', 'right' => 'right'));
         $this->form->add(

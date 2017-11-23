@@ -187,19 +187,6 @@ e.preventDefault();
         e.preventDefault();
         $('#quads-vi-signup-fullscreen').fadeOut();
     });
-//    // VI login form
-//    $('#quads-vi-login').click(function(e){
-//        e.preventDefault();
-//        // scroll to top
-//        $(window).scrollTop(0);
-//        // hide save button
-//        $('#quads-submit-button').hide();
-//        $('#quads-vi-login').fadeIn();
-//    });
-//    $('#quads-vi-close').click(function(e){
-//        e.preventDefault();
-//        $('#quads-vi-login').fadeOut();
-//    });
      
     /**
      * General Tab
