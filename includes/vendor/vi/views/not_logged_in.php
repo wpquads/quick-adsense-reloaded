@@ -32,7 +32,7 @@
     <div id="quads-vi-signup-fullscreen">
         <div id="quads-vi-signup-container">
             <div id="quads-vi-close"></div>
-            <iframe src="<?php echo $signupURL; ?>?email=<?php echo bloginfo('admin_email'); ?>&domain=<?php echo get_site_url(); ?>&aid=wpquads" scrolling="no"></iframe>
+            <iframe src="<?php echo $signupURL; ?>?email=<?php echo bloginfo('admin_email'); ?>&domain=<?php echo get_site_url(); ?>&aid=WP_Quads" scrolling="no"></iframe>
         </div>
 
     </div>

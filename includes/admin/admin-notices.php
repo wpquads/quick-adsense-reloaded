@@ -405,24 +405,88 @@ function quads_ads_empty() {
  * Return VI admin notice
  * @return string
  */
+//function quads_get_vi_notice() {
+//    if (false !==  get_option ('quads_close_vi_notice') && false == quads_show_vi_notice_again() ) {
+//        return false;
+//    }
+//
+//    $html = '<div class="quads-banner-wrapper">
+//  <section class="quads-banner-content">
+//    <div class="quads-banner-columns">
+//      <main class="quads-banner-main"><p>' . sprintf(__('Available soon: the upcoming update to <strong>WP QUADS</strong> will feature a native video ad unit powered by video intelligence that will results in up to 10x higher revenue (RPM) </p>'
+//                            . '<p><a href="%s" target="_blank" rel="external nofollow">https://www.vi.ai/publisher-video-monetization</a>'), 'https://www.vi.ai/publisher-video-monetization/?utm_source=WordPress&utm_medium=Plugin%20blurb&utm_campaign=wpquads') . '</p></main>
+//      <aside class="quads-banner-sidebar-first"><p><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi_quads_logo.png" width="152" height="70"></p></aside>
+//      <aside class="quads-banner-sidebar-second"><p style="text-align:center;"><a href="https://www.vi.ai/publisher-video-monetization/?utm_source=WordPress&utm_medium=Plugin%20blurb&utm_campaign=wpquads" class="quads-button-primary" target="_blank" rel="external nofollow">Learn More</a><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=show_vi_notice_later" style="line-height:25px;"><br>Show again later</a></p></aside>
+//    </div>
+//          <aside class="quads-banner-close"><div style="margin-top:5px;"><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=close_vi_notice" class="quads-notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a></div></aside>
+//  </section>
+//</div>';
+//
+//    return $html;
+//}
+/**
+ * Return VI admin notice
+ * @return string
+ */
 function quads_get_vi_notice() {
-    if (false !==  get_option ('quads_close_vi_notice') && false == quads_show_vi_notice_again() ) {
+    if (false !==  get_option ('quads_close_vi_welcome_notice') ) {
         return false;
     }
 
-    $html = '<div class="quads-banner-wrapper">
+    $white = '<div class="quads-banner-wrapper">
   <section class="quads-banner-content">
     <div class="quads-banner-columns">
-      <main class="quads-banner-main"><p>' . sprintf(__('Available soon: the upcoming update to <strong>WP QUADS</strong> will feature a native video ad unit powered by video intelligence that will results in up to 10x higher revenue (RPM) </p>'
-                            . '<p><a href="%s" target="_blank" rel="external nofollow">https://www.vi.ai/publisher-video-monetization</a>'), 'https://www.vi.ai/publisher-video-monetization/?utm_source=WordPress&utm_medium=Plugin%20blurb&utm_campaign=wpquads') . '</p></main>
-      <aside class="quads-banner-sidebar-first"><p><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi_quads_logo.png" width="152" height="70"></p></aside>
-      <aside class="quads-banner-sidebar-second"><p style="text-align:center;"><a href="https://www.vi.ai/publisher-video-monetization/?utm_source=WordPress&utm_medium=Plugin%20blurb&utm_campaign=wpquads" class="quads-button-primary" target="_blank" rel="external nofollow">Learn More</a><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=show_vi_notice_later" style="line-height:25px;"><br>Show again later</a></p></aside>
+      <main class="quads-banner-main"><p>' .       
+            sprintf(
+__('This update features vi stories from <strong>video intelligence</strong>. This video player will supply you with both video 
+content and video advertising.<br>
+To begin earning, visit the WP QUADS plugin page, <a href="%1$s" target="_blank">sign up</a> to vi stories and <a href="%2$s">place the ad live now!</a> Read the <a href="%3$s" target="_blank">FAQ</a>.', 'quick-adsense-reloaed'),
+'https://www.vi.ai/publisher-registration/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white',
+admin_url() . 'admin.php?page=quads-settings#quads_settingsvi_header',
+'https://www.vi.ai/publisherfaq/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white'
+)       
+            . '</p></main>
+      <aside class="quads-banner-sidebar-first"><p><a href="https://www.vi.ai/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white"><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi_quads_logo.png" width="152" height="70"></a></p></aside>
+      <aside class="quads-banner-sidebar-second"><p style="text-align:center;"></aside>
     </div>
-          <aside class="quads-banner-close"><div style="margin-top:5px;"><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=close_vi_notice" class="quads-notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a></div></aside>
+          <aside class="quads-banner-close"><div style="margin-top:5px;"><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=close_vi_welcome_notice" class="quads-notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a></div></aside>
+  </section>
+</div>';
+    
+    
+    $black = '<div class="quads-banner-wrapper" style="background-color:black;">
+  <section class="quads-banner-content">
+    <div class="quads-banner-columns">
+      <main class="quads-banner-main" style="color:white;"><p>' .       
+            sprintf(
+__('This update features vi stories from <strong>video intelligence</strong>. This video player will supply you with both video 
+content and video advertising.<br>
+To begin earning, visit the WP QUADS plugin page, <a href="%1$s" target="_blank">sign up</a> to vi stories and <a href="%2$s">place the ad live now!</a> Read the <a href="%3$s" target="_blank">FAQ</a>.', 'quick-adsense-reloaed'),
+'https://www.vi.ai/publisher-registration/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white',
+admin_url() . 'admin.php?page=quads-settings#quads_settingsvi_header',
+'https://www.vi.ai/publisherfaq/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white'
+)       
+            . '</p></main>
+      <aside class="quads-banner-sidebar-first"><p><a href="https://www.vi.ai/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white"><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi_quads_logo.png" width="152" height="70"></a></p></aside>
+      <aside class="quads-banner-sidebar-second"><p style="text-align:center;"></aside>
+    </div>
+          <aside class="quads-banner-close"><div style="margin-top:5px;"><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=close_vi_welcome_notice" class="quads-notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a></div></aside>
   </section>
 </div>';
 
-    return $html;
+$variant = get_option('quads_vi_variant');
+
+    switch ($variant) {
+        case 'a':
+            return $white;
+            break;
+        case 'b':
+            return $black;
+            break;
+        default:
+            return $white;
+            break;
+    }
 }
 
 /**

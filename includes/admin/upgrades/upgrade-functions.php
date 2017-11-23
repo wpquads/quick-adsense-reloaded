@@ -28,6 +28,8 @@ function quads_do_automatic_upgrades() {
     // Previous version
     $previous_version = get_option( 'quads_version_upgraded_from' );
     
+    quads_set_vi_ab_variant();
+    
 
 //    if( version_compare( $quads_version, '1.2.5', '<' ) ) {
 //        quads_store_adsense_args();
@@ -251,4 +253,26 @@ function quads_import_post_type_settings(){
         // do nothing
     }
     update_option('quads_settings', $quads_options);
+}
+
+
+/**
+ * Store randomly a value which is used for simple 50/50 A/B Testing of different things
+ * @return string
+ */
+function quads_set_vi_ab_variant() {
+    $quads_vi_variant = get_option('quads_vi_variant');
+        
+    if ($quads_vi_variant && !empty($quads_vi_variant)) {
+        return $quads_vi_variant;
+    }
+
+    $strings = array(
+        'a',
+        'b',
+    );
+    $key = array_rand($strings);
+    
+    update_option('quads_vi_variant', $strings[$key]);
+    return $strings[$key];
 }
