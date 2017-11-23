@@ -15,11 +15,28 @@ n.left+Math.round(u)}var c=n.height-(n.paddingTop+n.paddingBottom),h=c/o,f=h*(e-
 
 jQuery(document).ready(function ($) {
     
+    
+/**
+ * Load iAB categories in correct tier 1 and tier 2 hirachy
+ */    
 if (document.getElementById('quads_vi_ads[ads][1][iab1]')){
 
 /**
  * Change iab2 tier 2 category by iab tier 1 selection
  */
+
+    var iab1Val = jQuery('#quads_vi_ads\\[ads\\]\\[1\\]\\[iab1\\]').val();
+    replace_iab2_options(iab1Val);
+
+
+    jQuery('#quads_vi_ads\\[ads\\]\\[1\\]\\[iab1\\]').load(function(){
+        var $this = $(this);
+        console.log($this.val());
+
+        replace_iab2_options($this.val());
+    })
+
+
     jQuery('#quads_vi_ads\\[ads\\]\\[1\\]\\[iab1\\]').change(function(){
         var $this = $(this);
         replace_iab2_options($this.val());
