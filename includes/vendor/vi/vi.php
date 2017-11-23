@@ -548,7 +548,7 @@ class vi {
      */
     public function verifyViAdCode() {
         
-        $url = 'https://wpquads.com/wpquads-api/signup/create.php?hash=' . $this->getHash();
+        $url = 'https://wpquads.com/wpquads-api/signup/create.php?domain='.$this->getDomain().'?hash=' . $this->getHash();
         $args = array(
             'method' => 'POST',
             'timeout' => 15,
