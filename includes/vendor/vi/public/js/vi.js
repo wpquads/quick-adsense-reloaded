@@ -31,8 +31,7 @@ if (document.getElementById('quads_vi_ads[ads][1][iab1]')){
 
     jQuery('#quads_vi_ads\\[ads\\]\\[1\\]\\[iab1\\]').load(function(){
         var $this = $(this);
-        console.log($this.val());
-
+        //console.log($this.val());
         replace_iab2_options($this.val());
     })
 
@@ -44,8 +43,6 @@ if (document.getElementById('quads_vi_ads[ads][1][iab1]')){
         
         function replace_iab2_options(element){
             jQuery('#quads_vi_ads\\[ads\\]\\[1\\]\\[iab2\\] option').each(function(i){
-                //if ($(this).val().substring(0, 5) != element ){
-                //var changing_value = "put";
                 var re = new RegExp("\\" + element, "ig");
                 if ($(this).val().match(re) ){
                     //console.log('match');
