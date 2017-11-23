@@ -440,7 +440,7 @@ function quads_get_vi_notice() {
             sprintf(
 __('This update features vi stories from <strong>video intelligence</strong>. This video player will supply you with both video 
 content and video advertising.<br>
-To begin earning, visit the WP QUADS plugin page, <a href="%1$s" target="_blank">sign up</a> to vi stories and <a href="%2$s">place the ad live now!</a> Read the <a href="%3$s" target="_blank">FAQ</a>.', 'quick-adsense-reloaed'),
+To begin earning, visit the WP QUADS plugin page, <a href="%1$s" target="_blank" class="quads-vi-welcome">sign up</a> to vi stories and <a href="%2$s" class="quads-vi-welcome">place the ad live now!</a> Read the <a href="%3$s" target="_blank">FAQ</a>.', 'quick-adsense-reloaed'),
 'https://www.vi.ai/publisher-registration/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white',
 admin_url() . 'admin.php?page=quads-settings#quads_settingsvi_header',
 'https://www.vi.ai/publisherfaq/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white'
@@ -461,7 +461,7 @@ admin_url() . 'admin.php?page=quads-settings#quads_settingsvi_header',
             sprintf(
 __('This update features vi stories from <strong>video intelligence</strong>. This video player will supply you with both video 
 content and video advertising.<br>
-To begin earning, visit the WP QUADS plugin page, <a href="%1$s" target="_blank">sign up</a> to vi stories and <a href="%2$s">place the ad live now!</a> Read the <a href="%3$s" target="_blank">FAQ</a>.', 'quick-adsense-reloaed'),
+To begin earning, visit the WP QUADS plugin page, <a href="%1$s" target="_blank" class="quads-vi-welcome">sign up</a> to vi stories and <a href="%2$s" class="quads-vi-welcome">place the ad live now!</a> Read the <a href="%3$s" target="_blank">FAQ</a>.', 'quick-adsense-reloaed'),
 'https://www.vi.ai/publisher-registration/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white',
 admin_url() . 'admin.php?page=quads-settings#quads_settingsvi_header',
 'https://www.vi.ai/publisherfaq/?utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white'

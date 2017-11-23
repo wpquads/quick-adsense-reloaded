@@ -54,7 +54,7 @@ class vi {
             $this->urlSettings = 'https://dashboard-api-test.vidint.net/v1/api/widget/settings';
         } else {
             // Production endpoints
-            $this->urlSettings = 'https://dashboard-api-test.vidint.net/v1/api/widget/settings';
+            $this->urlSettings = 'https://dashboard-api.vidint.net/v1/api/widget/settings';
         }
 
         $this->hooks();
@@ -365,7 +365,8 @@ class vi {
                 'Authorization' => $vi_token
             )
         );
-        $response = wp_remote_request('https://dashboard-api-test.vidint.net/v1/api/publishers/report/revenue', $args);
+        //$response = wp_remote_request('https://dashboard-api-test.vidint.net/v1/api/publishers/report/revenue', $args);
+        $response = wp_remote_request($this->settings->data->revenueAPI, $args);
 
         if (is_wp_error($response))
             return false;
@@ -426,7 +427,8 @@ class vi {
             'logoUrl' => 'http://url.com/logo.jpg',
             'dfpSupport' => true,
             'sponsoredText' => 'Sponsored text',
-            'poweredByText' => 'Powered by VI'
+            'poweredByText' => 'Powered by VI',
+            'affiliateID' => 'WP_Quads'
         );
 
         $args = array(

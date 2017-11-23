@@ -39,6 +39,17 @@ if( quads_get_option_uninstall( 'uninstall_on_delete' ) ) {
    delete_option( 'quads_show_update_notice' );
    delete_option( 'quads_settings_1_5_2' );
    delete_option( 'quads_show_update_notice_1_5_2' );
+   
+   /**
+    * Delete all vi settings
+    */
+    delete_option( 'quads_close_vi_welcome_notice' );
+    delete_option( 'quads_close_vi_notice' );
+    delete_option( 'quads_vi_ads' );
+    delete_option( 'quads_vi_settings' );
+    delete_option( 'quads_vi_revenue' );
+    delete_option( 'quads_vi_variant' );
+    delete_option( 'quads_vi_token' );
 
    /* Delete all post meta options */
    delete_post_meta_by_key( 'quads_timestamp' );

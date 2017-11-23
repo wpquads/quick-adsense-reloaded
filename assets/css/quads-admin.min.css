@@ -1175,3 +1175,11 @@ margin-top:20px;
 #quads_vi_ads-ads-1-align-middle-label{
     content: url('../images/align_middle.png');
 }
+
+.quads-vi-welcome {
+    text-decoration: underline;
+    border-bottom:3px solid yellow;
+    /*text-decoration-color:yellow;*/
+    font-weight: bold;
+    color:black;
+}
