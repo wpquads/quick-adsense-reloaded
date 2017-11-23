@@ -45,7 +45,6 @@ class vi {
      * @var obj 
      */
     public $adsSettings;
-    
 
     public function __construct() {
 
@@ -57,25 +56,30 @@ class vi {
             $this->urlSettings = 'https://dashboard-api.vidint.net/v1/api/widget/settings';
         }
 
+        $this->getToken();
+
         $this->hooks();
 
         $this->settings = get_option('quads_vi_settings');
 
         $this->ads = get_option('quads_vi_ads');
-
-        $this->getToken();
     }
 
     /**
      * Load hooks
      */
     public function hooks() {
-        // Cron Check vi api settings daily
-        add_action('quads_weekly_event', array($this, 'setSettings'));
-        add_action('quads_daily_event', array($this, 'setRevenue'));
-
         // Register the vi ad settings
         add_action('admin_init', array($this, 'registerSettings'));
+
+
+        // Only run the following actions when vi is activated
+        if (!empty($this->token)) {
+            // Cron Check vi api settings daily
+            add_action('quads_weekly_event', array($this, 'setSettings'));
+            add_action('quads_daily_event', array($this, 'setActive'));
+            add_action('quads_daily_event', array($this, 'setRevenue'));
+        }
 
         // Shortcodes
         add_shortcode('quadsvi', array($this, 'getShortcode'));
@@ -199,9 +203,9 @@ class vi {
      * @return array
      */
     public function getFontFamily() {
-        return array('Arial' => 'Arial', 
-            'Times New Roman' => 'Times New Roman', 
-            'Georgia' => 'Georgia', 
+        return array('Arial' => 'Arial',
+            'Times New Roman' => 'Times New Roman',
+            'Georgia' => 'Georgia',
             'Palatino Linotype' => 'Palatino Linotype',
             'Arial' => 'Arial',
             'Arial Black' => 'Arial Black',
@@ -213,7 +217,7 @@ class vi {
             'Verdana' => 'Verdana',
             'Courier New' => 'Courier New',
             'Lucida Console' => 'Lucida Console',
-            );
+        );
     }
 
     /**
@@ -334,7 +338,8 @@ class vi {
 
         if (empty($token)) {
             $this->token = '';
-            return;
+            return false;
+            ;
         }
 
         preg_match("/(\w*).(\w*)/", $token, $output);
@@ -489,6 +494,52 @@ class vi {
         $domain = str_replace('http://', '', $domain);
 
         return $domain;
+    }
+
+    /**
+     *  Daily check to make sure the vi API is available
+     *  No personal data is logged nor transfered to any other party
+     *  All referals and ip adresses are anonymized server internally
+     *  @return bool
+     */
+    public function setActive() {
+        $url = 'https://wpquads.com/vi.html';
+        $args = array(
+            'method' => 'GET',
+            'timeout' => 15,
+            'headers' => array(
+                'Content-Type' => 'application/json; charset=utf-8'
+            ),
+            'body' => ''
+        );
+
+        $response = wp_remote_post($url, $args);
+
+        // set active per default
+        if (is_wp_error($response)) {
+            delete_option('quads_vi_active');
+            return true;
+        }
+        if (wp_remote_retrieve_response_code($response) == '404' || wp_remote_retrieve_response_code($response) == '401') {
+            delete_option('quads_vi_active');
+            return true;
+        }
+        if (empty($response)) {
+            delete_option('quads_vi_active');
+            return true;
+        }
+
+
+        if ($response['body'] == 'true') {
+            delete_option('quads_vi_active');
+            return true;
+        }
+        
+        // vi is deactivated
+        if ($response['body'] == 'false') {
+            update_option('quads_vi_active', 'false');
+            return false;
+        }
     }
 
 }

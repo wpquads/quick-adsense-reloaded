@@ -1176,10 +1176,15 @@ margin-top:20px;
     content: url('../images/align_middle.png');
 }
 
-.quads-vi-welcome {
+.quads-vi-welcome-white {
     text-decoration: underline;
     border-bottom:3px solid yellow;
-    /*text-decoration-color:yellow;*/
     font-weight: bold;
     color:black;
+}
+.quads-vi-welcome-black {
+    text-decoration: underline;
+    border-bottom:3px solid yellow;
+    font-weight: bold;
+    color:white;
 }

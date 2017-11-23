@@ -167,6 +167,19 @@ class render extends conditions\conditions {
         }
         return $style;
     }
+    
+        
+    /**
+     * Check if vi api is active
+     * @return boolean
+     */
+    private function isActive(){
+        $isActive = get_option('quads_vi_active');
+        if($isActive && $isActive == 'false') {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Render ads
@@ -174,7 +187,7 @@ class render extends conditions\conditions {
      */
     public function render() {
 
-        if ($this->isExcluded()) {
+        if ($this->isExcluded() || !$this->isActive()) {
             return '';
         }
 
