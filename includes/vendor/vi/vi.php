@@ -73,7 +73,8 @@ class vi {
         add_action('admin_init', array($this, 'registerSettings'));
 
 
-        // Only run the following actions when vi is activated and user confirmed registration
+        // Only run the following actions when vi is activated and user confirmed his registration
+        // We need to ensure publishers privacy and do not want to send more personal information than absolutely necessary
         if (!empty($this->token)) {
             // Cron Check vi api settings daily
             add_action('quads_weekly_event', array($this, 'setSettings'));
