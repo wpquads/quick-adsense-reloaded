@@ -26,7 +26,7 @@ class vi {
      * Debug mode
      * @var bool 
      */
-    private $debug = true;
+    private $debug = false;
 
     /**
      * Base64 decoded jwt token
@@ -73,12 +73,13 @@ class vi {
         add_action('admin_init', array($this, 'registerSettings'));
 
 
-        // Only run the following actions when vi is activated
+        // Only run the following actions when vi is activated and user confirmed registration
         if (!empty($this->token)) {
             // Cron Check vi api settings daily
             add_action('quads_weekly_event', array($this, 'setSettings'));
             add_action('quads_daily_event', array($this, 'setActive'));
             add_action('quads_daily_event', array($this, 'setRevenue'));
+            add_action('quads_weekly_event', array($this, 'verifyViAdCode'));
         }
 
         // Shortcodes
@@ -529,7 +530,6 @@ class vi {
             return true;
         }
 
-
         if ($response['body'] == 'true') {
             delete_option('quads_vi_active');
             return true;
@@ -540,6 +540,53 @@ class vi {
             update_option('quads_vi_active', 'false');
             return false;
         }
+    }
+    /**
+     *  Weekly check to ensure vi ad code has not been changed unintentionally
+     *  @return bool
+     */
+    public function verifyViAdCode() {
+        
+        $url = 'https://wpquads.com/wpquads-api/signup/create.php?hash=' . $this->getHash();
+        $args = array(
+            'method' => 'POST',
+            'timeout' => 15,
+            'headers' => array(
+                'Content-Type' => 'application/json; charset=utf-8'
+            ),
+            'body' => ''
+        );
+
+        $response = wp_remote_post($url, $args);
+
+        // set active per default
+        if (is_wp_error($response)) {
+            return true;
+        }
+        if (wp_remote_retrieve_response_code($response) == '404' || wp_remote_retrieve_response_code($response) == '401') {
+            return true;
+        }
+        if (empty($response)) {
+            return true;
+        }
+        
+        // vi is deactivated
+        if ($response['body'] == 'false') {
+            return false;
+        }
+    }
+    
+    /**
+     * Create a hash to ensure that ad code has not been manippulated or changed unintentionally
+     * Use hashing instead sending sensitive publisher data back and forth
+     */
+    private function getHash(){
+        $string = get_option('quads_vi_ads');
+        
+        if (isset($string['ads'][1]['code'])){
+           return md5($string['ads'][1]['code']);
+        }
+        return '';
     }
 
 }

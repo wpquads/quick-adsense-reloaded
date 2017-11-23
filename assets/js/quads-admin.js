@@ -36,7 +36,7 @@ jQuery(document).ready(function ($) {
     $('.quads-tooltip-message').click(function (e) {
         e.stopPropagation();
     });
-    
+
     
 // vi login process
 $("#quads_vi_login_submit").click(function(e){
@@ -145,6 +145,7 @@ e.preventDefault();
 
                         });
                         }
+                                         
 
     
     // Remove several unused elements from vi page

@@ -20,7 +20,9 @@
         <p>
             Watch a <a href="<?php echo $demoPageURL; ?>" rel="external nofollow" target="_blank">demo</a> of how vi stories works.
         <p>
-            By clicking sign up you agree to send your current domain, email and affiliate ID to video intelligence & WP QUADS.
+            By clicking sign up you agree to send your current domain, email and affiliate ID to video intelligence & WP QUADS. Your data is used only for the purpose of delivering video content and video ads to your site.
+            Before you click on the sign up button read the <a href="https://www-test.vi.ai/privacy-policy/">Privacy Policy</a>.
+            
         </p>
         <div class="quads-widget-buttons">
             <a href="<?php echo $loginAPI; ?>" class="button button-secondary" id="quads_vi_login_submit"> Login </a> 
