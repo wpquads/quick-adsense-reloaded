@@ -558,6 +558,7 @@ class adSettings {
         
         // Position
         $options = array(
+            'notShown' => 'Do not show vi ad',
             'abovePost' => 'Above Content',
             'middlePost' => 'Middle of Content',
             'belowPost' => 'Below of Content'
@@ -565,7 +566,7 @@ class adSettings {
                 
         $element = new Select('quads_vi_ads[ads][1][position]', $options);
         $this->form->add(
-                $element->setLabel("Position")->setDefault(isset($settings->position) ? $settings->position : '')
+                $element->setLabel("Position")->setDefault(isset($settings->position) ? $settings->position : 'abovePost')
         );
         
         // Condition Post Types

@@ -93,6 +93,15 @@ class render extends conditions\conditions {
         return do_shortcode($this->content);
     }
 
+    private function filterNoPost() {
+        if (isset($this->ads['ads'][$this->id]['position']) &&
+                $this->ads['ads'][$this->id]['position'] === 'notShown') {
+            $this->content = $this->content;
+            return true;
+        }
+        return false;
+    }
+    
     private function filterAbovePost() {
         if (isset($this->ads['ads'][$this->id]['position']) &&
                 $this->ads['ads'][$this->id]['position'] === 'abovePost') {
