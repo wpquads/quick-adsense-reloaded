@@ -53,7 +53,7 @@ if (document.getElementById('quads_vi_ads[ads][1][iab1]')){
 		if(jQuery('#quads_vi_ads\\[ads\\]\\[1\\]\\[iab2\\] option:selected').prop('disabled') != false) {
 			jQuery('#quads_vi_ads\\[ads\\]\\[1\\]\\[iab2\\]').val('select');
 		}
-                console.log(element);
+                //console.log(element);
             });
         };
         

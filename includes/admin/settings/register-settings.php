@@ -2215,10 +2215,9 @@ function quads_adsense_code_callback( $args ) {
     // Not logged in
     if (empty($data) || false === $quads->vi->setRevenue()) {
         echo $not_logged_in->render();
-    }
-
+    } else {
     // Is logged in
-    if ($quads->vi->setRevenue()) {
+    //if ($quads->vi->setRevenue()) {
         echo $revenue->render();
         echo $adform->render();
     }

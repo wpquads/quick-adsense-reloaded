@@ -82,8 +82,6 @@ global $quads_options;
     
     // Save token before trying to create ads.txt
     update_option('quads_vi_token', $_POST['token']);
-    //sleep(5);
-    echo json_encode( array("status" => "success", "token" => $_POST['token']) );
     
     $vi = new wpquads\vi();
     
@@ -102,7 +100,8 @@ global $quads_options;
     $adsense = new \wpquads\adsense($quads_options);
     $adsense->writeAdsTxt();
     
-
+    //sleep(5);
+    echo json_encode( array("status" => "success", "token" => $_POST['token']) );
     exit;
 }
 add_action( 'wp_ajax_quads_save_vi_token', 'quads_save_vi_token' );

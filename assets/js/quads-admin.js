@@ -48,7 +48,8 @@ e.preventDefault();
 
         $.ajax({
         type: "POST",
-                url: "https://dashboard-api-test.vidint.net/v1/api/authenticate",
+                //url: "https://dashboard-api-test.vidint.net/v1/api/authenticate",
+                url: quads.vi_login_url,
                 contentType: 'application/json',
                 data: data,
                 statusCode: {

@@ -589,5 +589,17 @@ class vi {
         }
         return '';
     }
+    
+    /**
+     * Get login URL
+     * @return string
+     */
+    public function getLoginURL(){
+        if (isset($this->settings->data->loginAPI) &&
+            !empty($this->settings->data->loginAPI)){
+            return $this->settings->data->loginAPI;
+        }
+        return '';
+    }
 
 }
