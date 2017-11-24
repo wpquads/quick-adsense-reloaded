@@ -80,7 +80,9 @@ class adsense {
      */
     public function writeAdsTxt(){
         
-        if (empty($this->getPublisherID())){
+        $publisherId = $this->getPublisherID();
+        
+        if (empty($publisherId)){
             return false;
         }
         
