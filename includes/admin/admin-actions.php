@@ -93,14 +93,10 @@ global $quads_options;
        delete_transient('quads_vi_ads_txt_notice');
     }
     
-    // create default ad code
-    //$vi->setAdCode();
-    
     
     // Create AdSense ads.txt entries
     $adsense = new \wpquads\adsense($quads_options);
     $adsense->writeAdsTxt();
-    //$adsense->getPublisherID();
     
     //sleep(5);
     echo json_encode( array("status" => "success", "token" => $_POST['token']) );
@@ -125,6 +121,14 @@ function quads_save_vi_ads(){
 add_action( 'wp_ajax_quads_save_vi_ads', 'quads_save_vi_ads' );
 
 
+
+/**
+ * Logout of vi
+ */
+function quads_logout_vi(){
+    delete_option('quads_vi_token');
+}
+add_action('quads_logout_vi', 'quads_logout_vi');
 
 /**
  * Hide ads txt information notice
