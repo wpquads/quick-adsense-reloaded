@@ -53,7 +53,8 @@ class adsTxt {
         // get everything from ads.txt and convert to array
         $contentText = file_get_contents($this->filename);
 
-        $content = array_filter(explode("\n", trim($contentText)), 'trim');
+        //$content = array_filter(explode("\n", trim($contentText)), 'trim');
+        $content = explode("\n", $contentText);
         
         // Pattern not find so append new content to ads.txt existing content  
         if (strpos($contentText, $this->pattern) === false) {

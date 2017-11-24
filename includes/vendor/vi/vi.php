@@ -26,7 +26,7 @@ class vi {
      * Debug mode
      * @var bool 
      */
-    private $debug = false;
+    private $debug = true;
 
     /**
      * Base64 decoded jwt token
@@ -282,15 +282,15 @@ class vi {
         $file = ABSPATH . 'ads.txt';
 
         // Default ads.txt content used when api is not returning anything
-        $vi = "vi.ai " . $this->token->publisherId . " DIRECT # 41b5eef6" . "\r\n";
-        $vi .= "spotxchange.com, 74964, RESELLER, 7842df1d2fe2db34 # 41b5eef6" . "\r\n";
-        $vi .= "spotx.tv, 74964, RESELLER, 7842df1d2fe2db34 # 41b5eef6" . "\r\n";
-        $vi .= "spotx.tv, 104684, RESELLER, 7842df1d2fe2db34 # 41b5eef6" . "\r\n";
-        $vi .= "spotx.tv, 122515, RESELLER, 7842df1d2fe2db34 # 41b5eef6" . "\r\n";
-        $vi .= "freewheel.tv, 364193, RESELLER # 41b5eef6" . "\r\n";
-        $vi .= "freewheel.tv, 369249, RESELLER # 41b5eef6" . "\r\n";
-        $vi .= "freewheel.tv, 440657, RESELLER # 41b5eef6" . "\r\n";
-        $vi .= "freewheel.tv, 440673, RESELLER # 41b5eef6" . "\r\n";
+        $vi = "vi.ai " . $this->token->publisherId . " DIRECT #41b5eef6" . "\r\n";
+        $vi .= "spotxchange.com, 74964, RESELLER, 7842df1d2fe2db34 #41b5eef6" . "\r\n";
+        $vi .= "spotx.tv, 74964, RESELLER, 7842df1d2fe2db34 #41b5eef6" . "\r\n";
+        $vi .= "spotx.tv, 104684, RESELLER, 7842df1d2fe2db34 #41b5eef6" . "\r\n";
+        $vi .= "spotx.tv, 122515, RESELLER, 7842df1d2fe2db34 #41b5eef6" . "\r\n";
+        $vi .= "freewheel.tv, 364193, RESELLER #41b5eef6" . "\r\n";
+        $vi .= "freewheel.tv, 369249, RESELLER #41b5eef6" . "\r\n";
+        $vi .= "freewheel.tv, 440657, RESELLER #41b5eef6" . "\r\n";
+        $vi .= "freewheel.tv, 440673, RESELLER #41b5eef6" . "\r\n";
 
         // Try to get ads.txt content from vi api
         if (false !== ( $adcode = $this->getAdsTxtContent() )) {

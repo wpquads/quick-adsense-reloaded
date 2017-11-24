@@ -40,7 +40,14 @@ class adsense {
         return false;
     }
     
+    
+    
     public function writeAdsTxt(){
+        
+        if (!$this->getPublisherID()){
+            return false;
+        }
+        
         $content = 'google.com, ' . $this->getPublisherID() . ', DIRECT f08c47fec0942fa0';       
         $adsTxt = new adsTxt($content, 'f08c47fec0942fa0');
         return $adsTxt->writeAdsTxt();
