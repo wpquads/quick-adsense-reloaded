@@ -37,6 +37,8 @@ function quads_admin_messages() {
     echo quads_get_vi_notice();
     
     echo quads_show_vi_notices();
+    
+    quads_show_ads_txt_notice();
 
     if( quads_is_admin_page() ) {
         echo '<div class="notice notice-error" id="wpquads-adblock-notice" style="display:none;">' . sprintf( __( '<strong><p>You need to deactivate your ad blocker to use WP QUADS settings.</strong> Your ad blocker browser extension is removing WP QUADS css ressources and is breaking the settings screen! Deactivating the ad blocker will resolve it. WP QUADS is used on 60.000 websites and is into focus of the big adblocking companies. That\'s the downside of our success but nothing you need to worry about.</p>', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
@@ -553,6 +555,59 @@ function quads_show_vi_notices(){
         
         // render blurb
         $adsTxtError = new wpquads\template('/includes/vendor/vi/views/notices', $notice);
+        echo $adsTxtError->render();
+    }
+
+}
+
+/**
+ * Show a ads.txt notices
+ */
+function quads_show_ads_txt_notice(){
+    global $quads, $quads_options;
+    
+    if (!quads_is_admin_page())
+        return false;
+    
+    // show ad.txt update notice
+    if (get_transient('quads_ads_txt_notice')) {
+        $notice['message'] = '<strong>ADS.TXT has been added</strong><br><br><strong>WP QUADS</strong> has updated the file '.ABSPATH .'ads.txt '
+        . 'file with lines that declare Google.com as a legitmate seller of your inventory and is recommended setting by AdSense.<br><a href="https://wpquads.com/make-more-revenue-by-using-an-ads-txt-in-your-website-root-domain/" target="blank" rel="external nofollow">What is ads.txt?</a>';
+        $notice['type'] = 'update-nag';
+        $notice['action'] = 'close_ads_txt_notice';
+        $adsUpdated = new wpquads\template('/includes/admin/views/notices', $notice);
+        echo $adsUpdated->render();
+    }
+    
+    // show ads.txt error notice
+    if (get_transient('close_ads_txt_error')) {
+        
+        // Check if adsense is used and add the adsense publisherId to ads.txt blurb as well
+        $adsense = new wpquads\adsense($quads_options);
+        $adsensePublisherId = $adsense->getPublisherID();
+        
+        $adsenseAdsTxtText = '';
+        if ($adsensePublisherId){
+            $adsenseAdsTxtText = "google.com " . $adsensePublisherId . " DIRECT, f08c47fec0942fa0";
+        }
+        
+        $viAdsTxtText = '';
+        if ($quads->vi->getPublisherId()) {
+            $viAdsTxtText = $quads->vi->getAdsTxtContent();
+        }
+
+        // ads.txt content
+        $notice['message'] = "<p><strong>ADS.TXT couldn't be updated</strong><br><br>Important note: WP QUADS hasn't been able to update your ads.txt file automatically. Please make sure to enter the following line manually into <strong>" . get_home_path() . "ads.txt</strong>:"
+                        . "<p>"
+                        . "<pre>".$viAdsTxtText."<br>"
+                        . $adsenseAdsTxtText
+                        . "</pre></p>"
+                        . "Only by doing so AdSense ads are shown on your site.</p>";
+        $notice['type'] = 'error';
+        $notice['action'] = 'quads_ads_txt_error';
+        
+        // render blurb
+        $adsTxtError = new wpquads\template('/includes/admin/views/notices', $notice);
         echo $adsTxtError->render();
     }
 

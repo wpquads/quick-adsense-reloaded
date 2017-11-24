@@ -51,6 +51,8 @@ function quads_get_settings() {
       $settings = array_merge( $general_settings, $ext_settings, $imexport_settings, $help_settings );
 
       update_option( 'quads_settings', $settings );
+      
+
    }
    return apply_filters( 'quads_get_settings', $settings );
 }
@@ -97,6 +99,7 @@ function quads_register_settings() {
 
    // Store adsense values 
    quads_store_adsense_args();
+
    // Store AdSense value
    //quads_fix_ad_not_shown();
    // Creates our settings in the options table
@@ -2063,13 +2066,10 @@ function quads_adsense_code_callback( $args ) {
    global $quads_options;
 
    foreach ( $quads_options as $id => $ads ) {
-      //$quads_options['ads'][$key]['code'];
-      //echo 'id:' . $id . ' - ' . $ads['ads'];
       if (!is_array($ads)){
          continue;
       }
       foreach ($ads as $key => $value) {
-         //echo $key . $value['code'] . '<br>';
          if( is_array( $value ) && array_key_exists( 'code', $value ) && !empty( $value['code'] ) ) {
 
             //check to see if it is google ad
@@ -2198,6 +2198,10 @@ function quads_adsense_code_callback( $args ) {
         }
     }
     
+    //$adsense = new \wpquads\adsense($quads_options);
+    //$adsense->writeAdsTxt();
+    //var_dump($adsense->getPublisherID());
+    
     //$quads->vi->verifyViAdCode();
 
     $data = !empty($quads->vi->getSettings()->data) ? (array) $quads->vi->getSettings()->data : array();
@@ -2225,4 +2229,28 @@ function quads_adsense_code_callback( $args ) {
 
     // footer
     echo $footer->render();
+
+
 }
+
+/**
+ * Create ads.txt for Google AdSense
+ * @return boolean
+ */
+    function quads_write_adsense_ads_txt() {
+        global $quads_options;
+        // Create AdSense ads.txt entries
+        $adsense = new \wpquads\adsense($quads_options);
+        if ($adsense->writeAdsTxt()){
+            set_transient('quads_ads_txt_notice', 'true', 3000);
+            return true;
+        } else {
+            // Make sure an error message is shown when ads.txt is available but can not be modified
+            // Otherwise google adsense ads are not shown
+            if (is_file(ABSPATH . 'ads.txt')) {
+                set_transient('quads_ads_txt_error', 'true', 3000);
+            }
+            return false;
+        }
+    }
+    add_action('update_option_quads_settings', 'quads_write_adsense_ads_txt');

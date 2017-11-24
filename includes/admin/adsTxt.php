@@ -52,6 +52,9 @@ class adsTxt {
 
         // get everything from ads.txt and convert to array
         $contentText = file_get_contents($this->filename);
+        
+        // Change all \r\n to \n
+        //$contentText = str_replace(array("\r\n", "\n"), '', $contentText);
 
         //$content = array_filter(explode("\n", trim($contentText)), 'trim');
         $content = explode("\n", $contentText);
@@ -67,7 +70,7 @@ class adsTxt {
             if (strpos($entry, $this->pattern) !== false) {
                continue; 
             }
-                $newContent .= str_replace(array("\r", "\n", " "), '', $entry) . "\r\n";
+                $newContent .= str_replace(array("\r", "\n"), '', $entry) . "\r\n";
             
         }
         return $newContent . $this->content;

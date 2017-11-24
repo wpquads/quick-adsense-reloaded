@@ -100,6 +100,7 @@ global $quads_options;
     // Create AdSense ads.txt entries
     $adsense = new \wpquads\adsense($quads_options);
     $adsense->writeAdsTxt();
+    //$adsense->getPublisherID();
     
     //sleep(5);
     echo json_encode( array("status" => "success", "token" => $_POST['token']) );
@@ -120,23 +121,25 @@ function quads_save_vi_ads(){
     } else {
         wp_die(array('status' => 'error', 'message' => 'Unknown API Error. Can not get vi ad code'));
     }
-    
-//    if ($quads->vi->setAdCode()) {
-//        //wp_die(json_encode(array('status' => 'success', 'data' => $quads->vi->getAdCode())));
-//        wp_die($quads->vi->setAdCode());
-//    } else {
-//        wp_die(array('status' => 'error', 'message' => 'Unknown API Error. Can not get vi ad code'));
-//    }
 }
 add_action( 'wp_ajax_quads_save_vi_ads', 'quads_save_vi_ads' );
 
 
 
 /**
- * Logout of vi
+ * Hide ads txt information notice
  */
-function quads_logout_vi(){
-    delete_option('quads_vi_token');
+function quads_close_ads_txt_notice(){
+    delete_transient('quads_ads_txt_notice');
 }
-add_action('quads_logout_vi', 'quads_logout_vi');
+add_action('quads_close_ads_txt_notice', 'quads_close_ads_txt_notice');
+
+/**
+ * Hide ads txt error notice
+ */
+function quads_close_ads_txt_error(){
+    delete_transient('quads_ads_txt_error');
+}
+add_action('quads_close_ads_txt_error', 'quads_close_ads_txt_error');
+
 
