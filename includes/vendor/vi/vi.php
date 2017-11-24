@@ -64,6 +64,10 @@ class vi {
 
         $this->ads = get_option('quads_vi_ads');
     }
+    
+    private function getAPIEndpoints(){
+        
+    }
 
     /**
      * Load hooks
@@ -366,6 +370,9 @@ class vi {
         if (!$vi_token)
             return false;
 
+        if (!isset($this->settings->data->revenueAPI))
+            return false;
+        
 
         $args = array(
             'headers' => array(

@@ -68,8 +68,8 @@ e.preventDefault();
                         $("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
                         $("#quads_add_err").hide();
                         if (typeof response.data !== 'undefined')    {
-                            $("#quads_add_err").html("we are logging you in");
-                            console.log('we are logging you in' + response);
+                            $("#quads_add_err").html("We are logging you in");
+                            console.log('We are logging you in' + response);
                             saveViToken(response.data);
                 }
                 else    {
@@ -121,26 +121,25 @@ e.preventDefault();
                                 data: data,
                                 //contentType: 'application/json',
                                 success: function(response){
-                                console.log(response);
+                                console.log(response.error);
                                         $("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
                                         $("#quads_add_err").hide();
-                                        if (response == 'success')    {
+                                        if (response.status == 'success')    {
                                             console.log('Success, login succesfull, token stored' + response);
                                             window.location.href = quads.path + '/wp-admin/?page=quads-settings&tab=general#quads_settingsvi_header';                                  
-                                }
-                                else    {
-                                console.log("Can not store token");
-                                window.location.href = quads.path + '/wp-admin/?page=quads-settings&tab=general#quads_settingsvi_header';
-                                }
+                                        } else {
+                                            console.log("Can not store token");
+                                            window.location.href = quads.path + '/wp-admin/?page=quads-settings&tab=general#quads_settingsvi_header';
+                                        }
                                 },
                                 beforeSend:function()
                                 {
-                                $("#quads_add_err").css('display', 'inline', 'important').css('visibility', 'visible');
+                                        $("#quads_add_err").css('display', 'inline', 'important').css('visibility', 'visible');
                                         $("#quads_add_err").show();
                                 },
                                 complete:function()
                                 {
-                                $("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
+                                        $("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
                                         $("#quads_add_err").hide();
                                 }
 
