@@ -26,7 +26,7 @@ class vi {
      * Debug mode
      * @var bool 
      */
-    private $debug = false;
+    private $debug = true;
 
     /**
      * Base64 decoded jwt token
