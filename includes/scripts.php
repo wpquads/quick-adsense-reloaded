@@ -84,7 +84,7 @@ function quads_load_admin_scripts( $hook ) {
         'error' => __( "error", 'quick-adsense-reloaded' ),
         'path' => get_option( 'siteurl' ),
         'vi_revenue' => !empty($quads->vi->getRevenue()->mtdReport) ? $quads->vi->getRevenue()->mtdReport : '',
-        'vi_login_url' => !empty($quads->vi->getLoginURL()) ? $quads->vi->getLoginURL() : ''
+        'vi_login_url' => $quads->vi->getLoginURL()
     ) );
 }
 

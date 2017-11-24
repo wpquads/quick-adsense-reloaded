@@ -2188,7 +2188,8 @@ function quads_adsense_code_callback( $args ) {
     $error = new \wpquads\template('/includes/vendor/vi/views/error', array());
 
     // Try to initially load vi settings
-    if ( false === $quads->vi->getSettings() || empty( $quads->vi->getSettings())){
+    $settings = $quads->vi->getSettings();
+    if ( false === $settings || empty($settings)){
         if (!$quads->vi->setSettings()) {
             echo $header->render();
             echo $error->render();
