@@ -59,6 +59,13 @@ function quads_do_automatic_upgrades() {
     if( $did_upgrade ) {    
       update_option( 'quads_version', preg_replace( '/[^0-9.].*/', '', QUADS_VERSION ) );
     }
+    
+    // Install vi api settings
+    if (false === get_option('quads_vi_settings')){
+        global $quads;
+        $quads->vi->setSettings();
+    }
+    
 }
 add_action( 'admin_init', 'quads_do_automatic_upgrades' );
 
