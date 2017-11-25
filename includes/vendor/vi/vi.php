@@ -441,9 +441,8 @@ class vi {
             'logoUrl' => 'http://url.com/logo.jpg',
             'dfpSupport' => true,
             'sponsoredText' => 'Sponsored text',
-            'poweredByText' => 'Powered by VI',
-            'affiliateID' => 'WP_Quads'
-        );
+            'poweredByText' => 'Powered by VI'
+            );
 
         $args = array(
             'method' => 'POST',
