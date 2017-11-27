@@ -2197,12 +2197,6 @@ function quads_adsense_code_callback( $args ) {
             return true; 
         }
     }
-    
-    //$adsense = new \wpquads\adsense($quads_options);
-    //$adsense->writeAdsTxt();
-    //var_dump($adsense->getPublisherID());
-    
-    //$quads->vi->verifyViAdCode();
 
     $data = !empty($quads->vi->getSettings()->data) ? (array) $quads->vi->getSettings()->data : array();
 
