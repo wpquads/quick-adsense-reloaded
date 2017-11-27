@@ -218,6 +218,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/render.php';
          require_once QUADS_PLUGIN_DIR . 'includes/vendor/google/adsense.php';
          require_once QUADS_PLUGIN_DIR . 'includes/class-template.php';
+         require_once QUADS_PLUGIN_DIR . 'includes/admin/adsTxt.php';
 
 
          if( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
@@ -237,7 +238,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             require_once QUADS_PLUGIN_DIR . 'includes/Forms/Form.php';
             require_once QUADS_PLUGIN_DIR . 'includes/Autoloader.php';
             require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/views/Forms/adSettings.php';
-            require_once QUADS_PLUGIN_DIR . 'includes/admin/adsTxt.php';
             $this->registerNamespaces();
 
          }

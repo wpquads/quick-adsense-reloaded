@@ -28,6 +28,27 @@ class adsTxt {
 
         $this->filename = ABSPATH . 'ads.txt';
     }
+    
+    /**
+     * Check if we need to create an ads.txt
+     * @return boolean
+     */
+    public function needsAdsTxt(){
+        if (!is_file($this->filename)){
+            return true;
+        }
+        
+        // get everything from ads.txt and convert to array
+        $contentText = file_get_contents($this->filename);
+        
+        // Pattern not find 
+        if (strpos($contentText, $this->pattern) === false) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
 
     /**
      * Write ads.txt
@@ -37,8 +58,12 @@ class adsTxt {
         if (false !== file_put_contents($this->filename, $this->getContent())) {
             return true;
         }
+        // show error admin notice
+        set_transient('quads_vi_ads_txt_error', true, 300);
         return false;
     }
+    
+    
 
     /**
      * Create and return the content

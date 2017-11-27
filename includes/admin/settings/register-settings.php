@@ -2254,3 +2254,20 @@ function quads_adsense_code_callback( $args ) {
         }
     }
     add_action('update_option_quads_settings', 'quads_write_adsense_ads_txt');
+    
+    
+    /**
+     * Periodically update ads.txt once a day for vi and adsense
+     * This is to ensure that the file is recreated in case it was deleted
+     * @return boolean
+     */
+   function updateAdsTxt(){
+       global $quads, $quads_options;
+        if(is_file('ads.txt')){
+            return false;
+        }
+        $quads->vi->createAdsTxt();
+        $adsense = new wpquads\adsense($quads_options);
+        $adsense->writeAdsTxt();
+    }
+ add_action('quads_daily_event', 'updateAdsTxt');

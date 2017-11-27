@@ -276,8 +276,9 @@ class vi {
      */
     public function createAdsTxt() {
 
-        if (!isset($this->token->publisherId))
+        if (!isset($this->token->publisherId)){
             return false;
+        }
 
         $file = ABSPATH . 'ads.txt';
 
@@ -300,6 +301,9 @@ class vi {
         $adsTxt = new \wpquads\adsTxt($vi, '41b5eef6');
         return $adsTxt->writeAdsTxt();
     }
+    
+        
+
 
     /**
      * Get ads.txt from vi api
@@ -607,5 +611,6 @@ class vi {
         }
         return '';
     }
+
 
 }
