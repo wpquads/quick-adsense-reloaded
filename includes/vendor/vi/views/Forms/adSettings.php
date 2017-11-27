@@ -595,9 +595,7 @@ class adSettings {
                 setTooltip("Show ads on specific user_roles only by selecting coresponding user_roles. Select multiple values by holding down ctrl key.")->
                 setDefault(isset($settings->excludedUserRoles) ? $settings->excludedUserRoles : 'allUserRoles')
         );
-        
-        
-                
+           
     }
 
     /**

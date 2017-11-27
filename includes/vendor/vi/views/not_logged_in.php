@@ -20,7 +20,8 @@
         </ul>
         <p>
             Watch a <a href="<?php echo isset($demoPageURL) ? $demoPageURL : ''; ?>" rel="external nofollow" target="_blank">demo</a> of how vi stories works.
-        <p>
+        <p> 
+                
             <i>By clicking signup you agree to send your current domain, email and affiliate ID to video intelligence & WP QUADS.  Your data is used only for the purpose of delivering video content and video ads to your site.</i>
         </p>
         <div class="quads-widget-buttons">

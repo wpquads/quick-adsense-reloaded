@@ -88,7 +88,9 @@ function quads_load_admin_scripts( $hook ) {
         'vi_revenue' => !empty($quads->vi->getRevenue()->mtdReport) ? $quads->vi->getRevenue()->mtdReport : '',
         'vi_login_url' => $quads->vi->getLoginURL(),
         'vi_signup_url' => !empty($signupURL) ? $signupURL : '',
-        'params' => '?domain='.$quads->vi->getDomain().'&email=' . get_option('admin_email') . '&aid=WP_Quads'
+        'domain' => $quads->vi->getDomain(),
+        'email' => get_option('admin_email'),
+        'aid' => 'WP_Quads'
     ) );
 }
 

@@ -65,9 +65,7 @@ class vi {
         $this->ads = get_option('quads_vi_ads');
     }
     
-    private function getAPIEndpoints(){
-        
-    }
+
 
     /**
      * Load hooks
@@ -558,14 +556,18 @@ class vi {
      */
     public function verifyViAdCode() {
         
-        $url = 'https://wpquads.com/wpquads-api/signup/create.php?domain='.$this->getDomain().'?hash=' . $this->getHash();
+        //$url = 'https://wpquads.com/wpquads-api/signup/create.php?domain='.$this->getDomain().'&hash=' . $this->getHash();
+        $url = 'https://wpquads.com/wpquads-api/signup/create.php';
         $args = array(
             'method' => 'POST',
             'timeout' => 15,
             'headers' => array(
                 'Content-Type' => 'application/json; charset=utf-8'
             ),
-            'body' => ''
+            'body' => json_encode(array(
+                    'domain' => $this->getDomain(),
+                    'hash' => $this->getHash(),
+                ))
         );
 
         $response = wp_remote_post($url, $args);

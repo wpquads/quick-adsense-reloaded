@@ -19,6 +19,7 @@ jQuery(document).ready(function ($) {
 $("#quads-vi-signup").click(function () { 
     console.log(quads.vi_signup_url + '?email='+quads.email + '&domain'+quads.domain + '&aid=WP_Quads')
       $("#quads_vi_signup_iframe").attr("src", quads.vi_signup_url + '?email='+quads.email + '&domain='+quads.domain + '&aid=WP_Quads');
+      quads_verify_vi_signup();
 });  
     
     
@@ -163,22 +164,22 @@ var save_quads_vi_ad_settings = function (){
 * This is done once after sign up to the vi api and creating a new user account
 * Data is used only for matching of wp quads and vi customer databases and is send only after confirmation of the user
 */
-var save_quads_vi_ad_settings = function (){
+var quads_verify_vi_signup = function (){
     
     var data = {
             'domain': quads.domain,
-            'email': quads.email,
+            'mail': quads.email,
     };
         jQuery.ajax({
         type: "POST",
                 url: 'https://wpquads.com/wpquads-api/signup/create.php',
-                data: data,
+                data: JSON.stringify(data),
                 contentType: 'application/json',
                 success: function(response){
                 console.log(response);
-                    response = JSON.parse(response);
+                    //response = JSON.parse(response);
 
-                    if(response.status && response.status == 'error'){
+                    if(response){
                         console.log('Send sign up data to wp quads');
                     }
                 },
