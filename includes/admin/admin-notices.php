@@ -450,7 +450,7 @@ __('This update features vi stories from <strong>video intelligence</strong>. Th
 content and video advertising.<br>
 To begin earning, visit the WP QUADS plugin page, <a href="%1$s" target="_blank" class="quads-vi-welcome-white" style="text-decoration: none;border-bottom:3px solid yellow;font-weight: bold;color:black;">sign up</a> to vi stories and <a href="%2$s" class="quads-vi-welcome-white" style="text-decoration: none;border-bottom:3px solid yellow;font-weight: bold;color:black;">place the ad live now!</a> Read the <a href="%3$s" target="_blank">FAQ</a>.
 <p style="font-size:10px;">By clicking <strong>sign up</strong> you agree to send your current domain, email and affiliate ID to video intelligence & WP QUADS</p>', 'quick-adsense-reloaed'),
-'https://www.vi.ai/publisher-registration/?aid=WP_Quads&domain='.$domain.'&email='.$email.'&utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white',
+'https://www.vi.ai/publisher-registration/?aid=WP_Quads&domain='.$domain.'&email='.$mail.'&utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white',
 admin_url() . 'admin.php?page=quads-settings#quads_settingsvi_header',
 'https://www.vi.ai/publisherfaq/?aid=WP_Quads&utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white'
 )       
@@ -472,7 +472,7 @@ __('This update features vi stories from <strong>video intelligence</strong>. Th
 content and video advertising.<br>
 To begin earning, visit the WP QUADS plugin page, <a href="%1$s" target="_blank" class="quads-vi-welcome-black" style="text-decoration: none;border-bottom:3px solid yellow;font-weight: bold;color:white;">sign up</a> to vi stories and <a href="%2$s" class="quads-vi-welcome-black" style="text-decoration: none;border-bottom:3px solid yellow;font-weight: bold;color:white;">place the ad live now!</a> Read the <a href="%3$s" target="_blank">FAQ</a>.
 <p style="font-size:10px;">By clicking <strong>sign up</strong> you agree to send your current domain, email and affiliate ID to video intelligence & WP QUADS</p>', 'quick-adsense-reloaded'),
-'https://www.vi.ai/publisher-registration/?aid=WP_Quads&domain='.$domain.'&email='.$email.'&utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white',
+'https://www.vi.ai/publisher-registration/?aid=WP_Quads&domain='.$domain.'&email='.$mail.'&utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white',
 admin_url() . 'admin.php?page=quads-settings#quads_settingsvi_header',
 'https://www.vi.ai/publisherfaq/?aid=WP_Quads&utm_source=Wordpress&utm_medium=wp%20quads&utm_campaign=white'
 )       
