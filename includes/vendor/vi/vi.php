@@ -500,7 +500,7 @@ class vi {
         return isset($this->token->publisherId) ? $this->token->publisherId : '';
     }
 
-    private function getDomain() {
+    public function getDomain() {
         $domain = str_replace('www.', '', get_home_url());
         $domain = str_replace('https://', '', $domain);
         $domain = str_replace('http://', '', $domain);

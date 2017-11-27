@@ -32,7 +32,8 @@
     <div id="quads-vi-signup-fullscreen">
         <div id="quads-vi-signup-container">
             <div id="quads-vi-close"></div>
-            <iframe src="<?php echo $signupURL; ?>?email=<?php echo bloginfo('admin_email'); ?>&domain=<?php echo get_site_url(); ?>&aid=WP_Quads" scrolling="no"></iframe>
+            <!--<iframe id="quads_vi_signup_iframe" src="<?php //echo $signupURL; ?>?email=<?php //echo bloginfo('admin_email'); ?>&domain=<?php //echo get_site_url(); ?>&aid=WP_Quads" scrolling="no"></iframe>//-->
+            <iframe id="quads_vi_signup_iframe" src="" scrolling="no"></iframe>
         </div>
 
     </div>

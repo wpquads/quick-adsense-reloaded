@@ -15,6 +15,12 @@ n.left+Math.round(u)}var c=n.height-(n.paddingTop+n.paddingBottom),h=c/o,f=h*(e-
 
 jQuery(document).ready(function ($) {
     
+// Load
+$("#quads-vi-signup").click(function () { 
+    console.log(quads.vi_signup_url + quads.params)
+      $("#quads_vi_signup_iframe").attr("src", quads.vi_signup_url + quads.params + 'tester');
+});  
+    
     
 /**
  * Load iAB categories in correct tier 1 and tier 2 hirachy

@@ -79,12 +79,16 @@ function quads_load_admin_scripts( $hook ) {
     wp_enqueue_style( 'quads-admin', $css_dir . 'quads-admin' . $suffix . '.css', QUADS_VERSION );
     wp_enqueue_style( 'jquery-chosen', $css_dir . 'chosen' . $suffix . '.css', QUADS_VERSION );
     
+    $signupURL = $quads->vi->getSettings()->data->signupURL;
+    
     wp_localize_script( 'quads-admin-scripts', 'quads', array(
         'nonce' => wp_create_nonce( 'quads_ajax_nonce' ),
         'error' => __( "error", 'quick-adsense-reloaded' ),
         'path' => get_option( 'siteurl' ),
         'vi_revenue' => !empty($quads->vi->getRevenue()->mtdReport) ? $quads->vi->getRevenue()->mtdReport : '',
-        'vi_login_url' => $quads->vi->getLoginURL()
+        'vi_login_url' => $quads->vi->getLoginURL(),
+        'vi_signup_url' => !empty($signupURL) ? $signupURL : '',
+        'params' => '?domain='.$quads->vi->getDomain().'&email=' . get_option('admin_email') . '&aid=WP_Quads'
     ) );
 }
 
