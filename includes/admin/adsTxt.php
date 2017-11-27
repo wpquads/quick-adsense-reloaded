@@ -56,6 +56,8 @@ class adsTxt {
      */
     public function writeAdsTxt() {
         if (false !== file_put_contents($this->filename, $this->getContent())) {
+            // show notice that ads.txt has been created
+            set_transient('quads_vi_ads_txt_notice', true, 300);
             return true;
         }
         // show error admin notice
