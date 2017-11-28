@@ -129,6 +129,9 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.7.1 =
+* Fix: adsense ads are not shown after activation of vi because of incomplete ads.txt
+
 = 1.7.0 =
 * New: VI Integration
 * New: Compatible up to WP 4.9
@@ -207,5 +210,5 @@ Complete changelog: https://wpquads.com/changelog
 
 == Upgrade Notice ==
 
-= 1.5.3 =
-1.4.3 This new version brings a ton of improvements and small fixes - WP QUADS<a href="https://wordpress.org/plugins/quick-adsense-reloaded/changelog/" style="color:white;text-decoration: underline;">Complete changelog! </a>
+= 1.7.1 =
+1.7.1 New: Implementation of video ads by the SSP vi - video intelligence.
