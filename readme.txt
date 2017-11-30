@@ -139,6 +139,7 @@ Alternative Installation:
 * Fix: missing comma in ads.txt google adsense entry
 * Fix: Do not show vi ad on feed, 404, category, archive and search pages
 * Fix: Missing excerpt and content on category and archiv pages
+* Fix: vi font Size default value can be empty
 * Tweak: Remove validate ad settings button
 * Tweak: Remove not necessary admin notices
 

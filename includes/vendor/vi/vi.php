@@ -26,7 +26,7 @@ class vi {
      * Debug mode
      * @var bool 
      */
-    private $debug = false;
+    private $debug = true;
 
     /**
      * Base64 decoded jwt token
@@ -64,8 +64,6 @@ class vi {
 
         $this->ads = get_option('quads_vi_ads');
     }
-    
-
 
     /**
      * Load hooks
@@ -276,7 +274,7 @@ class vi {
      */
     public function createAdsTxt() {
 
-        if (!isset($this->token->publisherId)){
+        if (!isset($this->token->publisherId)) {
             return false;
         }
 
@@ -301,9 +299,6 @@ class vi {
         $adsTxt = new \wpquads\adsTxt($vi, '41b5eef6');
         return $adsTxt->writeAdsTxt();
     }
-    
-        
-
 
     /**
      * Get ads.txt from vi api
@@ -376,7 +371,7 @@ class vi {
 
         if (!isset($this->settings->data->revenueAPI))
             return false;
-        
+
 
         $args = array(
             'headers' => array(
@@ -426,27 +421,29 @@ class vi {
         if (!$vi_token)
             return false;
 
-        $viParam = array(
-            'domain' => $this->getDomain(),
-            //'adUnitType' => 'FLOATING_OUTSTREAM',
-            'adUnitType' => 'NATIVE_VIDEO_UNIT',
-            'divId' => 'div_id',
-            'language' => isset($ads['ads'][1]['language']) ? $ads['ads'][1]['language'] : 'en-en',
-            'iabCategory' => isset($ads['ads'][1]['iab2']) && 'select' != $ads['ads'][1]['iab2'] ? $ads['ads'][1]['iab2'] : 'IAB2-16',
-            'font' => !empty($ads['ads'][1]['txt_font_family']) && $ads['ads'][1]['txt_font_family'] != 'select' ? $ads['ads'][1]['txt_font_family'] : 'Verdana',
-            'fontSize' => !empty($ads['ads'][1]['font_size']) ? $ads['ads'][1]['font_size'] : '12',
-            'keywords' => !empty($ads['ads'][1]['keywords']) ? $ads['ads'][1]['keywords'] : 'key,words',
-            'textColor' => !empty($ads['ads'][1]['text_color']) ? '#'.$ads['ads'][1]['text_color'] : '#00ff00',
-            'backgroundColor' => !empty($ads['ads'][1]['bg_color']) ? '#'.$ads['ads'][1]['bg_color'] : '#00ff00',
-            'vioptional1' => isset($ads['ads'][1]['optional1']) ? $ads['ads'][1]['optional1'] : 'optional1',
-            'vioptional2' => isset($ads['ads'][1]['optional2']) ? $ads['ads'][1]['optional2'] : 'optional2',
-            'vioptional3' => isset($ads['ads'][1]['optional3']) ? $ads['ads'][1]['optional3'] : 'optional3',
-            'float' => true,
-            'logoUrl' => 'http://url.com/logo.jpg',
-            'dfpSupport' => true,
-            'sponsoredText' => 'Sponsored text',
-            'poweredByText' => 'Powered by VI'
-            );
+
+        $viParam = $this->getViAdParams($ads);
+//        $viParam = array(
+//                'domain' => $this->getDomain(),
+//                //'adUnitType' => 'FLOATING_OUTSTREAM',
+//                'adUnitType' => 'NATIVE_VIDEO_UNIT',
+//                'divId' => 'div_id',
+//                'language' => isset($ads['ads'][1]['language']) ? $ads['ads'][1]['language'] : 'en-en',
+//                'iabCategory' => isset($ads['ads'][1]['iab2']) && 'select' != $ads['ads'][1]['iab2'] ? $ads['ads'][1]['iab2'] : 'IAB2-16',
+//                'font' => !empty($ads['ads'][1]['txt_font_family']) && $ads['ads'][1]['txt_font_family'] != 'select' ? $ads['ads'][1]['txt_font_family'] : 'Verdana',
+//                'fontSize' => !empty($ads['ads'][1]['font_size']) ? $ads['ads'][1]['font_size'] : '12',
+//                'keywords' => !empty($ads['ads'][1]['keywords']) ? $ads['ads'][1]['keywords'] : 'key,words',
+//                'textColor' => !empty($ads['ads'][1]['text_color']) ? '#' . $ads['ads'][1]['text_color'] : '#00ff00',
+//                'backgroundColor' => !empty($ads['ads'][1]['bg_color']) ? '#' . $ads['ads'][1]['bg_color'] : '#00ff00',
+//                'vioptional1' => isset($ads['ads'][1]['optional1']) ? $ads['ads'][1]['optional1'] : 'optional1',
+//                'vioptional2' => isset($ads['ads'][1]['optional2']) ? $ads['ads'][1]['optional2'] : 'optional2',
+//                'vioptional3' => isset($ads['ads'][1]['optional3']) ? $ads['ads'][1]['optional3'] : 'optional3',
+//                'float' => true,
+//                'logoUrl' => 'http://url.com/logo.jpg',
+//                'dfpSupport' => true,
+//                'sponsoredText' => 'Sponsored text',
+//                'poweredByText' => 'Powered by VI'
+//            );
 
         $args = array(
             'method' => 'POST',
@@ -485,6 +482,58 @@ class vi {
 
         //return $response->data;
         return json_encode($response);
+    }
+
+    /**
+     * Build ad parameter dynamically
+     * @return array
+     */
+    private function getViAdParams($ads) {
+
+        if (!empty($ads['ads'][1]['font_size'])) {
+            return array(
+                'domain' => $this->getDomain(),
+                //'adUnitType' => 'FLOATING_OUTSTREAM',
+                'adUnitType' => 'NATIVE_VIDEO_UNIT',
+                'divId' => 'div_id',
+                'language' => isset($ads['ads'][1]['language']) ? $ads['ads'][1]['language'] : 'en-en',
+                'iabCategory' => isset($ads['ads'][1]['iab2']) && 'select' != $ads['ads'][1]['iab2'] ? $ads['ads'][1]['iab2'] : 'IAB2-16',
+                'font' => !empty($ads['ads'][1]['txt_font_family']) && $ads['ads'][1]['txt_font_family'] != 'select' ? $ads['ads'][1]['txt_font_family'] : 'Verdana',
+                'fontSize' => !empty($ads['ads'][1]['font_size']) ? $ads['ads'][1]['font_size'] : '12',
+                'keywords' => !empty($ads['ads'][1]['keywords']) ? $ads['ads'][1]['keywords'] : 'key,words',
+                'textColor' => !empty($ads['ads'][1]['text_color']) ? '#' . $ads['ads'][1]['text_color'] : '#00ff00',
+                'backgroundColor' => !empty($ads['ads'][1]['bg_color']) ? '#' . $ads['ads'][1]['bg_color'] : '#00ff00',
+                'vioptional1' => isset($ads['ads'][1]['optional1']) ? $ads['ads'][1]['optional1'] : 'optional1',
+                'vioptional2' => isset($ads['ads'][1]['optional2']) ? $ads['ads'][1]['optional2'] : 'optional2',
+                'vioptional3' => isset($ads['ads'][1]['optional3']) ? $ads['ads'][1]['optional3'] : 'optional3',
+                'float' => true,
+                'logoUrl' => 'http://url.com/logo.jpg',
+                'dfpSupport' => true,
+                'sponsoredText' => 'Sponsored text',
+                'poweredByText' => 'Powered by VI'
+            );
+        } else {
+            return array(
+                'domain' => $this->getDomain(),
+                //'adUnitType' => 'FLOATING_OUTSTREAM',
+                'adUnitType' => 'NATIVE_VIDEO_UNIT',
+                'divId' => 'div_id',
+                'language' => isset($ads['ads'][1]['language']) ? $ads['ads'][1]['language'] : 'en-en',
+                'iabCategory' => isset($ads['ads'][1]['iab2']) && 'select' != $ads['ads'][1]['iab2'] ? $ads['ads'][1]['iab2'] : 'IAB2-16',
+                'font' => !empty($ads['ads'][1]['txt_font_family']) && $ads['ads'][1]['txt_font_family'] != 'select' ? $ads['ads'][1]['txt_font_family'] : 'Verdana',
+                'keywords' => !empty($ads['ads'][1]['keywords']) ? $ads['ads'][1]['keywords'] : 'key,words',
+                'textColor' => !empty($ads['ads'][1]['text_color']) ? '#' . $ads['ads'][1]['text_color'] : '#00ff00',
+                'backgroundColor' => !empty($ads['ads'][1]['bg_color']) ? '#' . $ads['ads'][1]['bg_color'] : '#00ff00',
+                'vioptional1' => isset($ads['ads'][1]['optional1']) ? $ads['ads'][1]['optional1'] : 'optional1',
+                'vioptional2' => isset($ads['ads'][1]['optional2']) ? $ads['ads'][1]['optional2'] : 'optional2',
+                'vioptional3' => isset($ads['ads'][1]['optional3']) ? $ads['ads'][1]['optional3'] : 'optional3',
+                'float' => true,
+                'logoUrl' => 'http://url.com/logo.jpg',
+                'dfpSupport' => true,
+                'sponsoredText' => 'Sponsored text',
+                'poweredByText' => 'Powered by VI'
+            );
+        }
     }
 
     public function getAdCode() {
@@ -545,19 +594,20 @@ class vi {
             delete_option('quads_vi_active');
             return true;
         }
-        
+
         // vi is deactivated
         if ($response['body'] == 'false') {
             update_option('quads_vi_active', 'false');
             return false;
         }
     }
+
     /**
      *  Weekly check to ensure vi ad code has not been changed unintentionally
      *  @return bool
      */
     public function verifyViAdCode() {
-        
+
         //$url = 'https://wpquads.com/wpquads-api/signup/create.php?domain='.$this->getDomain().'&hash=' . $this->getHash();
         $url = 'https://wpquads.com/wpquads-api/signup/create.php';
         $args = array(
@@ -567,9 +617,9 @@ class vi {
                 'Content-Type' => 'application/json; charset=utf-8'
             ),
             'body' => json_encode(array(
-                    'domain' => $this->getDomain(),
-                    'hash' => $this->getHash(),
-                ))
+                'domain' => $this->getDomain(),
+                'hash' => $this->getHash(),
+            ))
         );
 
         $response = wp_remote_post($url, $args);
@@ -584,37 +634,36 @@ class vi {
         if (empty($response)) {
             return true;
         }
-        
+
         // vi is deactivated
         if ($response['body'] == 'false') {
             return false;
         }
     }
-    
+
     /**
      * Create a hash to ensure that ad code has not been manippulated or changed unintentionally
      * Use hashing instead sending sensitive publisher data back and forth
      */
-    private function getHash(){
+    private function getHash() {
         $string = get_option('quads_vi_ads');
-        
-        if (isset($string['ads'][1]['code'])){
-           return md5($string['ads'][1]['code']);
-        }
-        return '';
-    }
-    
-    /**
-     * Get login URL
-     * @return string
-     */
-    public function getLoginURL(){
-        if (isset($this->settings->data->loginAPI) &&
-            !empty($this->settings->data->loginAPI)){
-            return $this->settings->data->loginAPI;
+
+        if (isset($string['ads'][1]['code'])) {
+            return md5($string['ads'][1]['code']);
         }
         return '';
     }
 
+    /**
+     * Get login URL
+     * @return string
+     */
+    public function getLoginURL() {
+        if (isset($this->settings->data->loginAPI) &&
+                !empty($this->settings->data->loginAPI)) {
+            return $this->settings->data->loginAPI;
+        }
+        return '';
+    }
 
 }

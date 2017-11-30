@@ -522,7 +522,7 @@ class adSettings {
         // font_size
         $element = new Numerical('quads_vi_ads[ads][1][font_size]', array());
         $this->form->add(
-                $element->setLabel("Text Font Size")->setDefault(!empty($settings->font_size) ? $settings->font_size : '12')
+                $element->setLabel("Text Font Size")->setDefault(!empty($settings->font_size) ? $settings->font_size : '')
         );
         // optional1
         $element = new Text('quads_vi_ads[ads][1][optional1]', array());
