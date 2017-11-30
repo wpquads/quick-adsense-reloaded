@@ -135,6 +135,7 @@ Alternative Installation:
 * Fix: vi login sometimes not automatically redirect
 * Fix: use correct default values for vi settings if they are empty
 * Fix: Use correct tier2 iab category depending on tier1 selection
+* Fix: missing comma in ads.txt google adsense entry
 
 = 1.7.1 =
 * Fix: adsense ads are not shown after activation of vi because of incomplete ads.txt

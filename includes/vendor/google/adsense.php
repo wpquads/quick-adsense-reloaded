@@ -86,7 +86,7 @@ class adsense {
             return false;
         }
         
-        $content = 'google.com, ' . str_replace('ca-', '', $this->getPublisherID()) . ', DIRECT f08c47fec0942fa0';       
+        $content = 'google.com, ' . str_replace('ca-', '', $this->getPublisherID()) . ', DIRECT, f08c47fec0942fa0';       
         $adsTxt = new adsTxt($content, 'f08c47fec0942fa0');
         return $adsTxt->writeAdsTxt();
     }
