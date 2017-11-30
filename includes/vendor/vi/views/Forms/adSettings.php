@@ -572,7 +572,7 @@ class adSettings {
         // Margin Left
         $element = new Numerical('quads_vi_ads[ads][1][marginLeft]', array());
         $this->form->add(
-                $element->setLabel("Top")->setTooltip('Create some distance between the video content and text elements on your page. Values around 10 and more are looking nice but this also depends on your theme and what you personally pprefer;)')->setDefault(isset($settings->marginLeft) ? $settings->marginLeft : '0')
+                $element->setLabel("Top")->setTooltip('Create some distance between the video content and text elements on your page. Values around 10 and more are looking nice but this also depends on your theme and what you personally prefer;)')->setDefault(isset($settings->marginLeft) ? $settings->marginLeft : '0')
         );
         
         // Position
