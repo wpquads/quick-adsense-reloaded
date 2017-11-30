@@ -139,7 +139,7 @@ var save_quads_vi_ad_settings = function (){
 
                     if(typeof response.status != 'undefined' && response.status == 'error'){
                         
-                        var resp = 'Error:' + response.error.message + ' ' + (response.error.description ? response.error.description : '');
+                        var resp = '<span style="color:red;">Error: </span>' + response.error.message + ' ' + (response.error.description ? response.error.description : '');
                     } else {
                         var resp = 'Success: vi Ad Changes might take some time to take into effect.';
                     }
@@ -188,7 +188,7 @@ var quads_verify_vi_signup = function (){
                 },
                 error: function(response){
                     console.log(response);
-                        console.log('Error: Can not send sign up data to wp quads');
+                        console.log('<span style="color:red;">Error: Can not send sign up data to wp quads</span>');
                 },
                 complete:function()
                 {

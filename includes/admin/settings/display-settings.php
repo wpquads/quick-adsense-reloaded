@@ -235,7 +235,7 @@ function quads_options_page() {
                                     submit_button(null, 'primary', 'quads-save-settings' , true, $other_attributes ); 
                                     if ($active_tab !== 'licenses'){
                                     ?>
-                                    <a href="<?php echo admin_url() . '/admin.php?page=quads-settings&quads-action=validate'; ?> " id="quads-validate"><?php _e('Validate Ad Settings','quick-adsense-reloaded')?></a>
+                                    <!--<a href="<?php //echo admin_url() . '/admin.php?page=quads-settings&quads-action=validate'; ?> " id="quads-validate"><?php //_e('Validate Ad Settings','quick-adsense-reloaded')?></a>//-->
                                 <?php
                                 }
                                 

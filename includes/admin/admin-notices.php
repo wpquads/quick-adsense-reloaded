@@ -44,13 +44,13 @@ function quads_admin_messages() {
         echo '<div class="notice notice-error" id="wpquads-adblock-notice" style="display:none;">' . sprintf( __( '<strong><p>You need to deactivate your ad blocker to use WP QUADS settings.</strong> Your ad blocker browser extension is removing WP QUADS css ressources and is breaking the settings screen! Deactivating the ad blocker will resolve it. WP QUADS is used on 60.000 websites and is into focus of the big adblocking companies. That\'s the downside of our success but nothing you need to worry about.</p>', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
     }
     
-    if( !quads_is_any_ad_activated() && quads_is_admin_page() ) {
-        echo '<div class="notice notice-warning">' . sprintf( __( '<strong>No ads are activated!</strong> You need to assign at least 1 ad to an ad spot. Fix this in <a href="%s">General Settings</a>! Alternatively you need to use a shortcode in your posts or no ads are shown at all.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
-    }
+//    if( !quads_is_any_ad_activated() && quads_is_admin_page() ) {
+//        echo '<div class="notice notice-warning">' . sprintf( __( '<strong>No ads are activated!</strong> You need to assign at least 1 ad to an ad spot. Fix this in <a href="%s">General Settings</a>! Alternatively you need to use a shortcode in your posts or no ads are shown at all.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
+//    }
 
-    if( quads_get_active_ads() === 0 && quads_is_admin_page() ) {
-        echo '<div class="notice notice-warning">' . sprintf( __( '<strong>No ads defined!</strong> You need to create at least one ad code. Fix this in <a href="%s">ADSENSE CODE</a>.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsadsense_header' ) . '</div>';
-    }
+//    if( quads_get_active_ads() === 0 && quads_is_admin_page() ) {
+//        echo '<div class="notice notice-warning">' . sprintf( __( '<strong>No ads defined!</strong> You need to create at least one ad code. Fix this in <a href="%s">ADSENSE CODE</a>.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsadsense_header' ) . '</div>';
+//    }
 
     if( !quads_is_post_type_activated() && quads_is_admin_page() ) {
         echo '<div class="notice notice-warning">' . sprintf( __( '<strong>No ads are shown - No post type chosen!</strong> You need to select at least 1 post type like <i>blog</i> or <i>page</i>. Fix this in <a href="%s">General Settings</a> or no ads are shown at all.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';

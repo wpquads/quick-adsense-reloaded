@@ -58,7 +58,7 @@
             <br>
         </div>
         <div id="quads_vi_automatic_integration">
-        <h3 style="margin-bottom:8px;">Automatic Integration</h3>
+        <h3 style="margin-bottom:8px;">Automatic Placement</h3>
         <div style="border-top: 1px solid #c3c3c3;"></div>
         <h3>Where:</h3>
 
@@ -101,7 +101,7 @@
 
     </div>
     <div id="quads-vi-shortcodes">
-        <h4 style="font-weight: 500;font-size:18px;color:black;">Manual Integration</h4>
+        <h4 style="font-weight: 500;font-size:18px;color:black;">Manual Placement</h4>
         <label>Shortcode:</label>
         <input readonly="" id="quads_shortcode_1" type="text" onclick="this.focus();
                 this.select()" value="[quadsvi id=1]" title="Optional: Copy and paste the shortcode into the post editor, click below then press Ctrl + C (PC) or Cmd + C (Mac).">
