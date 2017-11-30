@@ -26,7 +26,7 @@ class vi {
      * Debug mode
      * @var bool 
      */
-    private $debug = true;
+    private $debug = false;
 
     /**
      * Base64 decoded jwt token
@@ -69,9 +69,11 @@ class vi {
      * Load hooks
      */
     public function hooks() {
-        // Register the vi ad settings
-        add_action('admin_init', array($this, 'registerSettings'));
-
+        if (is_admin()) {
+            // Register the vi ad settings
+            add_action('admin_init', array($this, 'registerSettings'));
+            add_action('admin_notices', array($this, 'getDebugNotice'));
+        }
 
         // Only run the following actions when vi is activated and user confirmed his registration
         // We need to ensure publishers privacy and do not want to send more personal information than absolutely necessary
@@ -85,6 +87,16 @@ class vi {
 
         // Shortcodes
         add_shortcode('quadsvi', array($this, 'getShortcode'));
+    }
+    
+    /**
+     * Write a warning notice when debug mode is on
+     */
+    public function getDebugNotice(){
+        if ($this->debug){
+            echo '<div class="notice notice-error" id="wpquads-adblock-notice" style="">ATTENTION: WP QUADS vi debug mode is activated</div>';
+        }
+        return false;
     }
 
     /**
