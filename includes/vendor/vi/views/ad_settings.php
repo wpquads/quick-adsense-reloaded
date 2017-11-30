@@ -61,6 +61,8 @@
             Right: <?php echo $form->get()->render("quads_vi_ads[ads][1][marginRight]");  ?>px &nbsp;
             Bottom: <?php echo $form->get()->render("quads_vi_ads[ads][1][marginBottom]");  ?> px &nbsp;
             Left: <?php echo $form->get()->render("quads_vi_ads[ads][1][marginLeft]");   ?> px
+            <?php echo $form->get()->tooltip("quads_vi_ads[ads][1][marginLeft]"); ?>
+
 
             <br>
         </div>
