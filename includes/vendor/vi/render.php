@@ -169,6 +169,14 @@ class render extends conditions\conditions {
      * @return string
      */
     private function getInlineStyle() {
+        
+        // Create margin
+        $marginTop = !empty($this->ads['ads'][$this->id]['marginTop']) ? $this->ads['ads'][$this->id]['marginTop'] : '0';
+        $marginRight = !empty($this->ads['ads'][$this->id]['marginRight']) ? $this->ads['ads'][$this->id]['marginRight'] : '0';
+        $marginBottom = !empty($this->ads['ads'][$this->id]['marginBottom']) ? $this->ads['ads'][$this->id]['marginBottom'] : '0';
+        $marginLeft = !empty($this->ads['ads'][$this->id]['marginLeft']) ? $this->ads['ads'][$this->id]['marginLeft'] : '0';
+        $margin = 'margin-top:' . $marginTop .'px;margin-right:' . $marginRight .'px;margin-bottom:' . $marginBottom.  'px;margin-left:' . $marginLeft .'px;';
+        
         $style = '';
         // Layout Alignment
         if (isset($this->ads['ads'][$this->id]['align']) &&
@@ -186,7 +194,7 @@ class render extends conditions\conditions {
                     break;
             }
         }
-        return $style;
+        return $style . $margin;
     }
     
         

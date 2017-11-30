@@ -554,7 +554,26 @@ class adSettings {
                 $element->setLabel("align")->setDefault(isset($settings->align) ? $settings->align : '')
         );
       
-        
+        // Margin Top
+        $element = new Numerical('quads_vi_ads[ads][1][marginTop]', array());
+        $this->form->add(
+                $element->setLabel("Top")->setDefault(isset($settings->marginTop) ? $settings->marginTop : '0')
+        );
+        // Margin Right
+        $element = new Numerical('quads_vi_ads[ads][1][marginRight]', array());
+        $this->form->add(
+                $element->setLabel("Top")->setDefault(isset($settings->marginRight) ? $settings->marginRight : '0')
+        );
+        // Margin Bottom
+        $element = new Numerical('quads_vi_ads[ads][1][marginBottom]', array());
+        $this->form->add(
+                $element->setLabel("Top")->setDefault(isset($settings->marginBottom) ? $settings->marginBottom : '0')
+        );
+        // Margin Left
+        $element = new Numerical('quads_vi_ads[ads][1][marginLeft]', array());
+        $this->form->add(
+                $element->setLabel("Top")->setDefault(isset($settings->marginLeft) ? $settings->marginLeft : '0')
+        );
         
         // Position
         $options = array(

@@ -131,6 +131,7 @@ Alternative Installation:
 
 = 1.7.2 =
 * New: Add Home Page condition for vi
+* New: Add margin option for vi video ad
 * Fix: Remove undefined var notice
 * Fix: Remove debugging output
 * Fix: vi login sometimes not automatically redirect

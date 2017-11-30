@@ -56,6 +56,13 @@
             <br>
             <?php echo $form->get()->render("quads_vi_ads[ads][1][align]"); ?>
             <br>
+            <br>
+            Margin Top: <?php echo $form->get()->render("quads_vi_ads[ads][1][marginTop]");             ?>px &nbsp;
+            Right: <?php echo $form->get()->render("quads_vi_ads[ads][1][marginRight]");  ?>px &nbsp;
+            Bottom: <?php echo $form->get()->render("quads_vi_ads[ads][1][marginBottom]");  ?> px &nbsp;
+            Left: <?php echo $form->get()->render("quads_vi_ads[ads][1][marginLeft]");   ?> px
+
+            <br>
         </div>
         <div id="quads_vi_automatic_integration">
         <h3 style="margin-bottom:8px;">Automatic Placement</h3>

@@ -1192,3 +1192,10 @@ margin-top:20px;
 #quads_vi_automatic_integration select{
     min-width: 180px;
 }
+
+#quads_vi_ads\[ads\]\[1\]\[marginLeft\], 
+#quads_vi_ads\[ads\]\[1\]\[marginTop\],
+#quads_vi_ads\[ads\]\[1\]\[marginRight\],
+#quads_vi_ads\[ads\]\[1\]\[marginBottom\]{
+    width: 60px;
+}
