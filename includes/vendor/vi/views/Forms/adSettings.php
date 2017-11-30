@@ -579,6 +579,16 @@ class adSettings {
                 setDefault(isset($settings->excludedPostTypes) ? $settings->excludedPostTypes : 'noPostTypes')
         );
         
+        // Condition Extra Pages
+        $options = array_merge (array('noExtraPages' => 'Exclude nothing'), array('homePage' => 'Home Page'));
+                            
+        $element = new SelectMultiple('quads_vi_ads[ads][1][excludedExtraPages]', $options);
+        $this->form->add(
+                $element->setLabel("Exclude Extra Pages")->
+                setTooltip("Never show vi video ad on these extra pages. Select multiple values by holding down ctrl key.")->
+                setDefault(isset($settings->excludedExtraPages) ? $settings->excludedExtraPages : 'noExtraPages')
+        );
+        
         // Hide Ads On Posts
         $element = new Text('quads_vi_ads[ads][1][excludedPostIds]', array());
         $this->form->add(
@@ -586,6 +596,7 @@ class adSettings {
                 setTooltip("Exclude ads from beeing shown on specific pages by adding comma separated post ids here.")->
                 setDefault(isset($settings->excludedPostIds) ? $settings->excludedPostIds : '')
         );
+
         
          // Condition User Roles
         $options = array_merge (array('noUserRoles' => 'Exclude nothing'), $this->quads_get_user_roles());                  

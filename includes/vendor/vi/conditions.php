@@ -11,29 +11,28 @@ namespace wpquads\conditions;
 
 class conditions {
 
+    /**
+     * global options
+     * @global array $quads_options
+     * @return boolean
+     */
     protected function isExcluded() {
         global $quads_options;
 
-        if (is_feed())
-            return true;
+        /**
+         *  Ad specific options
+         */
 
-        if (is_404())
-            return true;
-
+        // User logged in
         if (is_user_logged_in() && ( isset($quads_options['visibility']['AppLogg'])))
             return true;
+
+        // Is frontpage
+        if (is_front_page() &&
+                isset($this->ads['ads'][$this->id]['excludedExtraPages']) &&
+                in_array('homePage', $this->ads['ads'][$this->id]['excludedExtraPages']))
+            return true;
         
-        if (is_front_page() && !isset( $quads_options['visibility']['AppHome'] ) )
-            return true;
-
-        if (is_category() && !(isset($quads_options['visibility']['AppCate']) ))
-            return true;
-
-        if (is_archive() && !( isset($quads_options['visibility']['AppArch']) ))
-            return true;
-
-        if (is_tag() && !( isset($quads_options['visibility']['AppTags']) ))
-            return true;
 
         if (quads_is_amp_endpoint())
             return true;
@@ -50,6 +49,33 @@ class conditions {
         if ($this->isExcludedByMetaKey())
             return true;
 
+        /**
+         *  Global options
+         */
+
+        // Is feed
+        if (is_feed()) {
+            return true;
+        }
+        
+        // Is search
+        if (is_search()) {
+            return true;
+        }
+        
+        // Is 404
+        if (is_404()) {
+            return true;
+        }
+        
+        // Is category
+        if (is_category()) {
+            return true;
+        }
+        // Is archive page
+        if (is_archive()) {
+            return true;
+        }
 
         // Default
         return false;

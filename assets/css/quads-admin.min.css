@@ -1188,3 +1188,7 @@ margin-top:20px;
     font-weight: bold;
     color:white;
 }*/
+
+#quads_vi_automatic_integration select{
+    min-width: 180px;
+}

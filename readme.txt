@@ -130,12 +130,15 @@ Alternative Installation:
 == Changelog == 
 
 = 1.7.2 =
+* New: Add Home Page option to vi
 * Fix: Remove undefined var notice
 * Fix: Remove debugging output
 * Fix: vi login sometimes not automatically redirect
 * Fix: use correct default values for vi settings if they are empty
 * Fix: Use correct tier2 iab category depending on tier1 selection
 * Fix: missing comma in ads.txt google adsense entry
+* Fix: Do not show vi ad on feed, 404, category, archive and search pages
+* Fix: Missing excerpt and content on category and archiv pages
 
 = 1.7.1 =
 * Fix: adsense ads are not shown after activation of vi because of incomplete ads.txt
@@ -218,5 +221,5 @@ Complete changelog: https://wpquads.com/changelog
 
 == Upgrade Notice ==
 
-= 1.7.1 =
-1.7.1 New: Implementation of video ads by the SSP vi - video intelligence.
+= 1.7.2 =
+1.7.2 New: This update is highly recommended. It fixes serious issues which led to missing content elements.

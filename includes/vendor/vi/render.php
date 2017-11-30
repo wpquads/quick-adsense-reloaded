@@ -3,7 +3,7 @@
 namespace wpquads;
 
 /*
- * vi ad render for WP QUADS used on front page
+ * vi ad render for WP QUADS used on frontend
  * 
  * @author René Hermenau
  * @email info@mashshare.net
@@ -17,6 +17,15 @@ class render extends conditions\conditions {
      * @var array 
      */
     protected $ads;
+    
+    /**
+     * Array of already populated ads
+     * This is to make sure that never 
+     * one ad is injected multiple times into page
+     * @var array 
+     */
+    protected $adsInjected = array();
+    
 
     /**
      * Curent ad id
@@ -28,7 +37,7 @@ class render extends conditions\conditions {
      * Filtered Content
      * @var string 
      */
-    protected $content;
+    //protected $content;
 
 
     public function __construct() {
@@ -43,27 +52,28 @@ class render extends conditions\conditions {
     }
 
     /**
-     * Loop through all ads
+     * Loop through all ads and determine the location of the outputed ads
      * @param string $content
      * @return string
      */
     public function prepareOutput($content) {
-
+        // vi ads are empty
         if (empty($this->ads['ads'])) {
             return $content;
         }
 
-        If (empty($this->content)) {
-            $this->content = $content;
-        }
 
         // Loop through all available ads and use the return value as new $content
         foreach ($this->ads['ads'] as $key => $value) {
             $this->id = $key;
-            $this->content = $this->filterContent();
+                if(in_array($this->id, $this->adsInjected)){
+                    // skip. We already injected this ad into site
+                    continue;
+                }
+            $content = $this->filterContent($content);
         }
 
-        return $this->content;
+        return $content;
     }
 
     /**
@@ -72,69 +82,67 @@ class render extends conditions\conditions {
      * @param string $content
      * @param int $id
      */
-    public function filterContent() {
+    public function filterContent($content) {
 
         // Loop through all available filter methods and run them until one of the filters returns sucessfully
         $methods = get_class_methods(get_class());
-        $loop = true;
+        //$loop = true;
         foreach ($methods as $method) {
 
-            if ($loop == false) {
-                break;
-            }
+//            if ($loop == false) {
+//                break;
+//            }
             // Do not use method filterContent()
             if (strpos($method, 'filter') !== false && $method != 'filterContent') {
                 // Set content to filtered content
-                if (true == $this->$method()) {
-                    $loop = false;
+                if (true == ($newContent = $this->$method($content))) {
+                    //$loop = false;
+                    $this->adsInjected[] = $this->id;
+                    return do_shortcode($newContent);
                 }
             }
         }
-        return do_shortcode($this->content);
+        return do_shortcode($content);
     }
 
-    private function filterNoPost() {
+    private function filterNoPost($content) {
         if (isset($this->ads['ads'][$this->id]['position']) &&
                 $this->ads['ads'][$this->id]['position'] === 'notShown') {
-            $this->content = $this->content;
-            return true;
+            return $content;
         }
         return false;
     }
     
-    private function filterAbovePost() {
+    private function filterAbovePost($content) {
         if (isset($this->ads['ads'][$this->id]['position']) &&
                 $this->ads['ads'][$this->id]['position'] === 'abovePost') {
-            $this->content = $this->render($this->id) . $this->content;
-            return true;
+            return $this->render($this->id) . $content;
         }
         return false;
     }
 
-    private function filterBelowPost() {
+    private function filterBelowPost($content) {
         if (isset($this->ads['ads'][$this->id]['position']) &&
                 $this->ads['ads'][$this->id]['position'] === 'belowPost') {
 
-            $this->content = $this->content . $this->render();
-            return true;
+            return $content . $this->render();
         }
         return false;
     }
 
-    private function filterMiddlePost() {
+    private function filterMiddlePost($content) {
         if (isset($this->ads['ads'][$this->id]['position']) &&
                 $this->ads['ads'][$this->id]['position'] === 'middlePost') {
 
-            $paragraphCount = $this->get_paragraph_count();
+            $paragraphCount = $this->get_paragraph_count($content);
             $middle = round($paragraphCount / 2);
             if ($paragraphCount > 1) {
-                $content = explode("</p>", $this->content);
+                $content = explode("</p>", $content);
                 array_splice($content, $middle, 0, $this->render()); // splice in at middle position
-                $this->content = implode($content, "</p>");
+                $content = implode($content, "</p>");
             }
 
-            $this->content = $this->content . $this->render();
-            return true;
+            return $content . $this->render();
         }
         return false;
     }
@@ -143,8 +151,8 @@ class render extends conditions\conditions {
      * Count paragraphs
      * @return int
      */
-    private function get_paragraph_count() {
-        $paragraphs = explode('/p>', $this->content);
+    private function get_paragraph_count($content) {
+        $paragraphs = explode('/p>', $content);
         $paragraphCount = 0;
         if (is_array($paragraphs)) {
             foreach ($paragraphs as $paragraph) {
@@ -156,6 +164,10 @@ class render extends conditions\conditions {
         return $paragraphCount;
     }
 
+    /**
+     * Get the inline style
+     * @return string
+     */
     private function getInlineStyle() {
         $style = '';
         // Layout Alignment

@@ -57,6 +57,7 @@
             <?php echo $form->get()->render("quads_vi_ads[ads][1][align]"); ?>
             <br>
         </div>
+        <div id="quads_vi_automatic_integration">
         <h3 style="margin-bottom:8px;">Automatic Integration</h3>
         <div style="border-top: 1px solid #c3c3c3;"></div>
         <h3>Where:</h3>
@@ -74,6 +75,12 @@
         ?>
         <br>
         <?php
+        echo $form->get()->label("quads_vi_ads[ads][1][excludedExtraPages]");
+        echo $form->get()->render("quads_vi_ads[ads][1][excludedExtraPages]");
+        echo $form->get()->tooltip("quads_vi_ads[ads][1][excludedExtraPages]");
+        ?>
+        <br>
+        <?php
         echo $form->get()->label("quads_vi_ads[ads][1][excludedUserRoles]");
         echo $form->get()->render("quads_vi_ads[ads][1][excludedUserRoles]");
         echo $form->get()->tooltip("quads_vi_ads[ads][1][excludedUserRoles]");
@@ -86,6 +93,7 @@
         ?>
         <br>
         <br>
+    </div>
         <div id="quads-vi-save-notice"><span class="quads-spinner" style="float:none;"></span></div>
         <div id="quads-vi-save-settings">
             <input type="submit" id="quads_vi_save_settings_submit" style="" class='button button-primary' value="Save Video Settings">

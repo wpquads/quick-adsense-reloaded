@@ -130,11 +130,13 @@ e.preventDefault();
                                 if (typeof response.status != 'undefined' && response.status == 'success')    {
                                             console.log('Success, login succesfull, token stored' + response);
                                             window.location.href = quads.path + '/wp-admin/?page=quads-settings&tab=general#quads_settingsvi_header';                                  
-                                }
+                                            return false;
+                                    }
                                 else    {
                                             console.log("Can not store token");
                                             window.location.href = quads.path + '/wp-admin/?page=quads-settings&tab=general#quads_settingsvi_header';
-                                }
+                                            return false;
+                                    }
                                 },
                                 beforeSend:function()
                                 {
