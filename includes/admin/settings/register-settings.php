@@ -2198,8 +2198,6 @@ function quads_adsense_code_callback( $args ) {
         }
     }
     
-    $ad = new wpquads\adsense($quads_options);
-    echo $ad->getPublisherID();
 
     $data = !empty($quads->vi->getSettings()->data) ? (array) $quads->vi->getSettings()->data : array();
 

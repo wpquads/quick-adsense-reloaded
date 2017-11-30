@@ -77,7 +77,7 @@ global $quads_options;
 
     if (empty($_POST['token'])){
         echo json_encode( array("status" => "failed") );
-        exit;
+        wp_die();
     }
     
     // Save token before trying to create ads.txt
@@ -100,7 +100,7 @@ global $quads_options;
     
     //sleep(5);
     echo json_encode( array("status" => "success", "token" => $_POST['token']) );
-    exit;
+    wp_die();
 }
 add_action( 'wp_ajax_quads_save_vi_token', 'quads_save_vi_token' );
 

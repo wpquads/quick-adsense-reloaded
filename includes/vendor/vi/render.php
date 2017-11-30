@@ -39,7 +39,7 @@ class render extends conditions\conditions {
 
         $this->ads = get_option('quads_vi_ads');
 
-        add_filter('the_content', array($this, 'prepareOutput'));
+        add_filter('the_content', array($this, 'prepareOutput'), quads_get_load_priority());
     }
 
     /**

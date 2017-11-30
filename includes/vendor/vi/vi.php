@@ -26,7 +26,7 @@ class vi {
      * Debug mode
      * @var bool 
      */
-    private $debug = false;
+    private $debug = true;
 
     /**
      * Base64 decoded jwt token
@@ -207,7 +207,9 @@ class vi {
      * @return array
      */
     public function getFontFamily() {
-        return array('Arial' => 'Arial',
+        return array(
+            'select' => 'Select Font Family',
+            'Arial' => 'Arial',
             'Times New Roman' => 'Times New Roman',
             'Georgia' => 'Georgia',
             'Palatino Linotype' => 'Palatino Linotype',
@@ -431,11 +433,11 @@ class vi {
             'divId' => 'div_id',
             'language' => isset($ads['ads'][1]['language']) ? $ads['ads'][1]['language'] : 'en-en',
             'iabCategory' => isset($ads['ads'][1]['iab2']) && 'select' != $ads['ads'][1]['iab2'] ? $ads['ads'][1]['iab2'] : 'IAB2-16',
-            'font' => isset($ads['ads'][1]['txt_font_family']) ? $ads['ads'][1]['txt_font_family'] : 'Courier New',
-            'fontSize' => isset($ads['ads'][1]['font_size']) ? $ads['ads'][1]['font_size'] : 12,
-            'keywords' => isset($ads['ads'][1]['keywords']) ? $ads['ads'][1]['keywords'] : 'key,words',
-            'textColor' => isset($ads['ads'][1]['text_color']) ? '#'.$ads['ads'][1]['text_color'] : '#00ff00',
-            'backgroundColor' => isset($ads['ads'][1]['bg_color']) ? '#'.$ads['ads'][1]['bg_color'] : '#00ff00',
+            'font' => !empty($ads['ads'][1]['txt_font_family']) && $ads['ads'][1]['txt_font_family'] != 'select' ? $ads['ads'][1]['txt_font_family'] : 'Verdana',
+            'fontSize' => !empty($ads['ads'][1]['font_size']) ? $ads['ads'][1]['font_size'] : '12',
+            'keywords' => !empty($ads['ads'][1]['keywords']) ? $ads['ads'][1]['keywords'] : 'key,words',
+            'textColor' => !empty($ads['ads'][1]['text_color']) ? '#'.$ads['ads'][1]['text_color'] : '#00ff00',
+            'backgroundColor' => !empty($ads['ads'][1]['bg_color']) ? '#'.$ads['ads'][1]['bg_color'] : '#00ff00',
             'vioptional1' => isset($ads['ads'][1]['optional1']) ? $ads['ads'][1]['optional1'] : 'optional1',
             'vioptional2' => isset($ads['ads'][1]['optional2']) ? $ads['ads'][1]['optional2'] : 'optional2',
             'vioptional3' => isset($ads['ads'][1]['optional3']) ? $ads['ads'][1]['optional3'] : 'optional3',

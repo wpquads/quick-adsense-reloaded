@@ -118,34 +118,39 @@ e.preventDefault();
                         $.ajax({
                         type: "POST",
                                 url: ajaxurl,
+                                dataType: "json",
                                 data: data,
-                                //contentType: 'application/json',
+                                //contentType: 'application/json;charset=utf-8',
                                 success: function(response){
-                                console.log(response.error);
+                                //response = JSON.stringify(response);
+                                console.log(response.status);
+
                                         $("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
                                         $("#quads_add_err").hide();
-                                        if (response.status == 'success')    {
+                                if (typeof response.status != 'undefined' && response.status == 'success')    {
                                             console.log('Success, login succesfull, token stored' + response);
                                             window.location.href = quads.path + '/wp-admin/?page=quads-settings&tab=general#quads_settingsvi_header';                                  
-                                        } else {
+                                }
+                                else    {
                                             console.log("Can not store token");
                                             window.location.href = quads.path + '/wp-admin/?page=quads-settings&tab=general#quads_settingsvi_header';
-                                        }
+                                }
                                 },
                                 beforeSend:function()
                                 {
-                                        $("#quads_add_err").css('display', 'inline', 'important').css('visibility', 'visible');
+                                $("#quads_add_err").css('display', 'inline', 'important').css('visibility', 'visible');
                                         $("#quads_add_err").show();
                                 },
                                 complete:function()
                                 {
-                                        $("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
+                                $("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
                                         $("#quads_add_err").hide();
                                 }
 
                         });
                         }
-                                         
+                        
+                            
 
     
     // Remove several unused elements from vi page

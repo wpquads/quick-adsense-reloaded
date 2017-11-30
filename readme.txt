@@ -129,6 +129,13 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.7.2 =
+* Fix: Remove undefined var notice
+* Fix: Remove debugging output
+* Fix: vi login sometimes not automatically redirect
+* Fix: use correct default values for vi settings if they are empty
+* Fix: Use correct tier2 iab category depending on tier1 selection
+
 = 1.7.1 =
 * Fix: adsense ads are not shown after activation of vi because of incomplete ads.txt
 

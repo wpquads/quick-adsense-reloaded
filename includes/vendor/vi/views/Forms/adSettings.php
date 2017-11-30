@@ -507,22 +507,22 @@ class adSettings {
         // bg_color
         $element = new Text('quads_vi_ads[ads][1][bg_color]', array("class" => "jscolor"), array());
         $this->form->add(
-                $element->setLabel("Background Color")->setDefault(isset($settings->bg_color) ? $settings->bg_color : '')
+                $element->setLabel("Background Color")->setDefault(isset($settings->bg_color) ? $settings->bg_color : 'fafafa')
         );
         // text_color
         $element = new Text('quads_vi_ads[ads][1][text_color]', array("class" => "jscolor"), array());
         $this->form->add(
-                $element->setLabel("Text Color")->setDefault(isset($settings->text_color) ? $settings->text_color : '')
+                $element->setLabel("Text Color")->setDefault(isset($settings->text_color) ? $settings->text_color : '000000')
         );
         // txt_font_family
         $element = new Select('quads_vi_ads[ads][1][txt_font_family]', $this->vi->getFontFamily(), array() );
         $this->form->add(
-                $element->setLabel("Text Font Family")->setDefault(isset($settings->txt_font_family) ? $settings->txt_font_family : '')
+                $element->setLabel("Text Font Family")->setDefault(isset($settings->txt_font_family) ? $settings->txt_font_family : 'Verdana')
         );
         // font_size
         $element = new Numerical('quads_vi_ads[ads][1][font_size]', array());
         $this->form->add(
-                $element->setLabel("Text Font Size")->setDefault(isset($settings->font_size) ? $settings->font_size : 12)
+                $element->setLabel("Text Font Size")->setDefault(!empty($settings->font_size) ? $settings->font_size : '12')
         );
         // optional1
         $element = new Text('quads_vi_ads[ads][1][optional1]', array());

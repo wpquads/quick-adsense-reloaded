@@ -47,10 +47,11 @@ if (document.getElementById('quads_vi_ads[ads][1][iab1]')){
         var $this = $(this);
         replace_iab2_options($this.val());
     })
-        
+
         function replace_iab2_options(element){
             jQuery('#quads_vi_ads\\[ads\\]\\[1\\]\\[iab2\\] option').each(function(i){
-                var re = new RegExp("\\" + element, "ig");
+                var re = new RegExp("\\" + element + '-', "ig");
+                //console.log(re);
                 if ($(this).val().match(re) ){
                     //console.log('match');
                     $(this).prop('disabled', false).show();
@@ -129,13 +130,15 @@ var save_quads_vi_ad_settings = function (){
         jQuery.ajax({
         type: "POST",
                 url: ajaxurl,
+                dataType: "json",
                 data: data,
                 //contentType: 'application/json',
                 success: function(response){
                 console.log(response);
-                    response = JSON.parse(response);
+                    //response = JSON.parse(response);
 
-                    if(response.status && response.status == 'error'){
+                    if(typeof response.status != 'undefined' && response.status == 'error'){
+                        
                         var resp = 'Error:' + response.error.message + ' ' + (response.error.description ? response.error.description : '');
                     } else {
                         var resp = 'Success: vi Ad Changes might take some time to take into effect.';
