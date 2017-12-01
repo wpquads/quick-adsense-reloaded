@@ -141,6 +141,7 @@ Alternative Installation:
 * Fix: Do not show vi ad on feed, 404, category, archive and search pages
 * Fix: Missing excerpt and content on category and archiv pages
 * Fix: vi font Size default value can be empty
+* Fix: Do not show vi ads when user is logged out of vi
 * Tweak: Remove validate ad settings button
 * Tweak: Remove not necessary admin notices
 
