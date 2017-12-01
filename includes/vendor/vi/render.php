@@ -71,6 +71,7 @@ class render extends conditions\conditions {
         foreach ($this->ads['ads'] as $key => $value) {
             $this->id = $key;
                 if(in_array($this->id, $this->adsInjected)){
+                    //echo 'skip';
                     // skip. We already injected this ad into site
                     continue;
                 }
@@ -111,7 +112,7 @@ class render extends conditions\conditions {
 
     private function filterNoPost($content) {
         if (isset($this->ads['ads'][$this->id]['position']) &&
-                $this->ads['ads'][$this->id]['position'] === 'notShown') {
+                $this->ads['ads'][$this->id]['position'] == 'notShown') {
             return $content;
         }
         return false;

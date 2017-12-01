@@ -612,7 +612,7 @@ class adSettings {
         
         // Position
         $options = array(
-            'notShown' => 'Do not show vi ad',
+            'notShown' => 'No Automatic',
             'abovePost' => 'Above Content',
             'middlePost' => 'Middle of Content',
             'belowPost' => 'Below of Content'

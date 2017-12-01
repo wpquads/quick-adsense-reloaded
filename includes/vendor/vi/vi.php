@@ -26,7 +26,14 @@ class vi {
      * Debug mode
      * @var bool 
      */
-    private $debug = false;
+    private $debug = true;
+    
+    /**
+     * Use this to force reload of the settings
+     * Used after switching to debug and vice versa
+     * @var type 
+     */
+    private $forceReload = true;
 
     /**
      * Base64 decoded jwt token
@@ -54,6 +61,10 @@ class vi {
         } else {
             // Production endpoints
             $this->urlSettings = 'https://dashboard-api.vidint.net/v1/api/widget/settings';
+        }
+        
+        if ($this->forceReload){
+            $this->setSettings();
         }
 
         $this->getToken();
@@ -114,7 +125,7 @@ class vi {
     public function getShortcode($atts) {
         global $quads_options;
         
-        if (!$this->getToken()){
+        if (!$this->token){
             return;
         }
 
