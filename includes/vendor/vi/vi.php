@@ -113,6 +113,10 @@ class vi {
      */
     public function getShortcode($atts) {
         global $quads_options;
+        
+        if (!$this->getToken()){
+            return;
+        }
 
         if (quads_check_meta_setting('NoAds') === '1') {
             return;
@@ -356,7 +360,6 @@ class vi {
         if (empty($token)) {
             $this->token = '';
             return false;
-            ;
         }
 
         preg_match("/(\w*).(\w*)/", $token, $output);

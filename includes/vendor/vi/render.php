@@ -45,6 +45,10 @@ class render extends conditions\conditions {
         if (is_admin()) {
             return false;
         }
+        
+        if (!$this->getToken()) {
+            return false;
+        }
 
         $this->ads = get_option('quads_vi_ads');
 
@@ -208,6 +212,18 @@ class render extends conditions\conditions {
             return false;
         }
         return true;
+    }
+    
+    private function getToken() {
+        $token = get_option('quads_vi_token', '');
+
+        if (empty($token)) {
+            return false;
+        }
+
+        preg_match("/(\w*).(\w*)/", $token, $output);
+
+        return json_decode(base64_decode($output[2]));
     }
 
     /**
