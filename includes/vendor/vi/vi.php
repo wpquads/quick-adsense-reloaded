@@ -26,14 +26,14 @@ class vi {
      * Debug mode
      * @var bool 
      */
-    private $debug = true;
+    private $debug = false;
     
     /**
      * Use this to force reload of the settings
      * Used after switching to debug and vice versa
      * @var type 
      */
-    private $forceReload = true;
+    private $forceReload = false;
 
     /**
      * Base64 decoded jwt token
@@ -62,6 +62,7 @@ class vi {
             // Production endpoints
             $this->urlSettings = 'https://dashboard-api.vidint.net/v1/api/widget/settings';
         }
+        
         
         if ($this->forceReload){
             $this->setSettings();
