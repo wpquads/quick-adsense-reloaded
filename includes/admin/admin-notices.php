@@ -33,6 +33,9 @@ function quads_admin_messages() {
     quads_update_notice_v2();
     
     quads_update_notice_1_5_3();
+    
+    quads_show_vi_api_error();
+
 
     echo quads_get_vi_notice();
     
@@ -40,7 +43,6 @@ function quads_admin_messages() {
     
     quads_show_ads_txt_notice();
     
-    quads_show_vi_api_error();
 
     if( quads_is_admin_page() ) {
         echo '<div class="notice notice-error" id="wpquads-adblock-notice" style="display:none;">' . sprintf( __( '<strong><p>You need to deactivate your ad blocker to use WP QUADS settings.</strong> Your ad blocker browser extension is removing WP QUADS css ressources and is breaking the settings screen! Deactivating the ad blocker will resolve it. WP QUADS is used on 60.000 websites and is into focus of the big adblocking companies. That\'s the downside of our success but nothing you need to worry about.</p>', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
@@ -625,23 +627,23 @@ function quads_show_ads_txt_notice(){
         $adsTxtError = new wpquads\template('/includes/admin/views/notices', $notice);
         echo $adsTxtError->render();
     }
-    
+
+}
+
     /**
      * Show api errors
      */
-    function quads_show_vi_api_error(){
-        if (!quads_is_admin_page())
+    function quads_show_vi_api_error() {
+        if (!quads_is_admin_page()){
             return false;
-        
-     if (false !== get_option('quads_vi_api_error') ) {
-         $notice['message'] = 'WP QUADS - Can not retrive ad settings from vi API. Error: ' . get_option('quads_vi_api_error');
-         $notice['type'] = 'error';
-         $notice['action'] = '';
-        // render blurb
-        $blurb = new wpquads\template('/includes/admin/views/notices', $notice);
-        echo $blurb->render();
-     }
-             
-    }
+        }
 
-}
+        if (false !== get_option('quads_vi_api_error')) {
+            $notice['message'] = 'WP QUADS - Can not retrive ad settings from vi API. Error: ' . get_option('quads_vi_api_error');
+            $notice['type'] = 'error';
+            $notice['action'] = '';
+            // render blurb
+            $blurb = new wpquads\template('/includes/admin/views/notices', $notice);
+            echo $blurb->render();
+        }
+    }
