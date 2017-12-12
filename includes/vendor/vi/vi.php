@@ -187,7 +187,7 @@ class vi {
         $response = wp_remote_post($this->urlSettings, $args);
 
 
-        if (!is_wp_error($response)) {
+        if (is_wp_error($response)) {
             update_option('quads_vi_api_error', $response->get_error_message() );
             return false;
         } else {
