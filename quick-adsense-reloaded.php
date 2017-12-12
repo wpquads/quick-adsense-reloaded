@@ -29,9 +29,12 @@
  * @author René Hermenau
  * @version 0.9.0
  */
+
+
 // Exit if accessed directly
 if( !defined( 'ABSPATH' ) )
    exit;
+
 
 // Plugin version
 if( !defined( 'QUADS_VERSION' ) ) {

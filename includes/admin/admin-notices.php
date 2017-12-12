@@ -545,11 +545,13 @@ function quads_show_vi_notices(){
         
         // Check if adsense is used and add the adsense publisherId to ads.txt blurb as well
         $adsense = new wpquads\adsense($quads_options);
-        $adsensePublisherId = $adsense->getPublisherID();
+        $adsensePublisherIds = $adsense->getPublisherIds();
         
         $adsenseAdsTxtText = '';
-        if ($adsensePublisherId){
-            $adsenseAdsTxtText = "google.com " . $adsensePublisherId . " DIRECT, f08c47fec0942fa0";
+        if (!empty($adsensePublisherIds)){
+            foreach ($adsensePublisherIds as $adsensePublisherId){
+            $adsenseAdsTxtText .= "google.com " . $adsensePublisherId . " DIRECT, f08c47fec0942fa0\r\n";
+            }
         }
         
         // ads.txt content
@@ -592,11 +594,14 @@ function quads_show_ads_txt_notice(){
         
         // Check if adsense is used and add the adsense publisherId to ads.txt blurb as well
         $adsense = new wpquads\adsense($quads_options);
-        $adsensePublisherId = $adsense->getPublisherID();
+        $adsensePublisherIds = $adsense->getPublisherIds();
+        
         
         $adsenseAdsTxtText = '';
-        if ($adsensePublisherId){
-            $adsenseAdsTxtText = "google.com " . $adsensePublisherId . " DIRECT, f08c47fec0942fa0";
+        if (!empty($adsensePublisherIds)){
+            foreach ($adsensePublisherIds as $adsensePublisherId){
+            $adsenseAdsTxtText .= "google.com " . $adsensePublisherId . " DIRECT, f08c47fec0942fa0\n\r";
+            }
         }
         
         $viAdsTxtText = '';

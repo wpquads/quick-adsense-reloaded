@@ -9,6 +9,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: adsense, ads, ad, google adsense, advertising, amp, ad injection, ad inserter, ad manager
 Requires at least: 3.6+
 Tested up to: 4.9
+Requires PHP: 5.3
 Stable tag: {{ version }}
 
 Quick Adsense Reloaded! Quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support
@@ -128,6 +129,10 @@ Alternative Installation:
 
 
 == Changelog == 
+
+= 1.7.3 =
+* New: Support for multiple google AdSense publisher accounts in ads.txt
+* Fix: Remove duplicate html id elements
 
 = 1.7.2 =
 * New: Add Home Page condition for vi

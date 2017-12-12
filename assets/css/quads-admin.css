@@ -530,6 +530,10 @@ li.quads-tabs {
     font-style: italic;
 }
 
+#quads-footer {
+    clear:both;
+}
+
 #quads-add-ons li {
     font-size:18px;
     line-height: 29px;

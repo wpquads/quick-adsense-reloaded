@@ -1737,7 +1737,7 @@ function quads_adsense_code_callback( $args ) {
    $id = 'ad' . $args['id'];
    ?>
    <div class="quads-ad-toggle-header quads-box-close" data-box-id="quads-toggle<?php echo $id; ?>">
-       <div class="quads-toogle-title"><span contenteditable="true" id="quads-ad-label-<?php echo $id; ?>"><?php echo $label; ?></span><input type="hidden" class="quads-input-label" id="" name="quads_settings[ads][<?php echo $id; ?>][label]" value="<?php echo $new_label; ?>"></div>
+       <div class="quads-toogle-title"><span contenteditable="true" id="quads-ad-label-<?php echo $id; ?>"><?php echo $label; ?></span><input type="hidden" class="quads-input-label" name="quads_settings[ads][<?php echo $id; ?>][label]" value="<?php echo $new_label; ?>"></div>
        <a class="quads-toggle" data-box-id="quads-toggle<?php echo $id; ?>" href="#"><div class="quads-close-open-icon"></div></a>
    </div>
    <div class="quads-ad-toggle-container" id="quads-toggle<?php echo $id; ?>" style="display:none;">
@@ -2182,6 +2182,10 @@ function quads_adsense_code_callback( $args ) {
      */
     function quads_vi_signup_callback() {
     global $quads, $quads_options;
+    
+            //$adsense = new \wpquads\adsense($quads_options);
+            //var_dump($adsense->getPublisherIds());
+            //echo 'test' . $adsense->getPublisherIds() . $adsense->writeAdsTxt();
 
     $header = new \wpquads\template('/includes/vendor/vi/views/partials/header', array());
     $footer = new \wpquads\template('/includes/vendor/vi/views/partials/footer', array());
@@ -2233,7 +2237,9 @@ function quads_adsense_code_callback( $args ) {
  * @return boolean
  */
     function quads_write_adsense_ads_txt() {
-        global $quads_options;
+        //global $quads_options;
+        // Get the current recently updated settings
+        $quads_options = get_option('quads_settings');
         // Create AdSense ads.txt entries
         $adsense = new \wpquads\adsense($quads_options);
         if ($adsense->writeAdsTxt()){
