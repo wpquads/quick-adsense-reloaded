@@ -630,7 +630,7 @@ function quads_show_ads_txt_notice(){
      * Show api errors
      */
     function quads_show_vi_api_error(){
-        if (!quads_is_admin_page)
+        if (!quads_is_admin_page())
             return false;
         
      if (false !== get_option('quads_vi_api_error') ) {
