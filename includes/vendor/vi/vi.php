@@ -27,7 +27,7 @@ class vi {
      * @var bool 
      */
     private $debug = false;
-    
+
     /**
      * Use this to force reload of the settings
      * Used after switching to debug and vice versa
@@ -62,9 +62,9 @@ class vi {
             // Production endpoints
             $this->urlSettings = 'https://dashboard-api.vidint.net/v1/api/widget/settings';
         }
-        
-        
-        if ($this->forceReload){
+
+
+        if ($this->forceReload) {
             $this->setSettings();
         }
 
@@ -100,12 +100,12 @@ class vi {
         // Shortcodes
         add_shortcode('quadsvi', array($this, 'getShortcode'));
     }
-    
+
     /**
      * Write a warning notice when debug mode is on
      */
-    public function getDebugNotice(){
-        if ($this->debug){
+    public function getDebugNotice() {
+        if ($this->debug) {
             echo '<div class="notice notice-error" id="wpquads-adblock-notice" style="">ATTENTION: WP QUADS vi debug mode is activated</div>';
         }
         return false;
@@ -125,8 +125,8 @@ class vi {
      */
     public function getShortcode($atts) {
         global $quads_options;
-        
-        if (!$this->token){
+
+        if (!$this->token) {
             return;
         }
 
@@ -186,7 +186,15 @@ class vi {
         );
         $response = wp_remote_post($this->urlSettings, $args);
 
-        $response = json_decode($response['body']);
+
+        if (!is_wp_error($response)) {
+            update_option('quads_vi_api_error', $response->get_error_message() );
+            return false;
+        } else {
+            delete_option('quads_vi_api_error' );
+            $response = json_decode($response['body']);
+        }
+
 
         if (isset($response->status) && $response->status == 'ok') {
             update_option('quads_vi_settings', $response);

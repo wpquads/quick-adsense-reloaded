@@ -133,6 +133,7 @@ Alternative Installation:
 = 1.7.3 =
 * New: Support for multiple google AdSense publisher accounts in ads.txt
 * Fix: Remove duplicate html id elements
+* Fix: Add error handler for vi api
 
 = 1.7.2 =
 * New: Add Home Page condition for vi
