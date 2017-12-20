@@ -78,9 +78,14 @@ function quads_update_settings_1_5_3(){
 
    // Do not update - we already did it
    if (isset($settings['ads'])){
-      //wp_die('test');
       return false;
    }
+   // Do not update - no data available
+   if (false == $settings){
+      return false;
+   }
+   
+   
 
    foreach ( $settings as $key => $value ) {
       

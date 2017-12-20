@@ -193,6 +193,23 @@ function quads_get_registered_settings() {
                'type' => 'quicktags'
            ),
            array(
+               'id' => 'adsTxtEnabled',
+               'name' => __( 'ads.txt - Automatic Creation', 'quick-adsense-reloaded' ),
+               'desc' => __( 'Create an ads.txt file', 'quick-adsense-reloaded' ),
+               "helper-desc" => sprintf(__( 'Allow WP QUADS to generate automatically the ads.txt file in root of your website domain. After enabling and saving settings,'
+                       . ' check if your ads.txt is correct by opening: <a href="%1$s" target="_blank">%1$s</a> <br><a href="%2$s" target="_blank">Read here</a> to learn more about ads.txt', 'quick-adsense-reloaded' ), 
+                        get_site_url() . '/ads.txt',
+                       'https://wpquads.com/make-more-revenue-by-using-an-ads-txt-in-your-website-root-domain/'
+                       ),
+               'type' => 'checkbox'
+           ),
+           array(
+               'id' => 'quicktags',
+               'name' => __( 'Quicktags', 'quick-adsense-reloaded' ),
+               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'type' => 'quicktags'
+           ),
+           array(
                'id' => 'vi_header',
                'name' => '<strong>' . __( 'New: vi', 'quick-adsense-reloaded' ) . '</strong>',
                'desc' => '<strong>Native video ad units powered by video intelligence</strong>',
@@ -1653,6 +1670,10 @@ function quads_new_ad_callback(){
 function quads_ad_code_callback(){
    global $quads_options;
    
+//   echo '<tr><td>';
+//   echo 'test2';
+//   echo '</td></tr>';
+   
    $args = array();
    
    $i = 1;
@@ -2233,13 +2254,21 @@ function quads_adsense_code_callback( $args ) {
 }
 
 /**
- * Create ads.txt for Google AdSense
+ * Create ads.txt for Google AdSense when saving settings
  * @return boolean
  */
     function quads_write_adsense_ads_txt() {
-        //global $quads_options;
         // Get the current recently updated settings
         $quads_options = get_option('quads_settings');
+        
+        // ads.txt is disabled
+        if (!isset($quads_options['adsTxtEnabled'])) {
+            set_transient('quads_ads_txt_disabled', true, 100);
+            delete_transient('quads_ads_txt_error');
+            delete_transient('quads_ads_txt_notice');
+            return false;
+        }
+
         // Create AdSense ads.txt entries
         $adsense = new \wpquads\adsense($quads_options);
         if ($adsense->writeAdsTxt()){
@@ -2264,7 +2293,7 @@ function quads_adsense_code_callback( $args ) {
      */
    function updateAdsTxt(){
        global $quads, $quads_options;
-        if(is_file('ads.txt')){
+        if(is_file('ads.txt') || !isset($quads_options['adsTxtEnabled'])){
             return false;
         }
         $quads->vi->createAdsTxt();

@@ -130,6 +130,10 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.7.4 =
+* New: Option to explicetely allow wp quads to create the ads.txt
+* Fix: Invalid arguments and several thrown errors when no ads are defined
+
 = 1.7.3 =
 * New: Support for multiple google AdSense publisher accounts in ads.txt
 * Fix: Remove duplicate html id elements

@@ -34,6 +34,13 @@ class adsense {
      * @return string
      */
     public function setPublisherID() {
+        
+        if (!isset($this->settings['ads'])){
+            $this->publisherIds[] = '';
+            return $this->publisherIds;
+            
+        }
+        
         // loop through all adsense g_data_ad_client fields and check if there is any adsense publisher id
         foreach ($this->settings['ads'] as $key => $value) {
             if (!empty($value['g_data_ad_client'])){
@@ -129,6 +136,10 @@ class adsense {
      * @return boolean
      */
     public function writeAdsTxt(){
+        
+//        if (!isset($this->settings['adsTxtEnabled'])){
+//            return false;
+//        }
         
         $publisherIds = $this->getPublisherIds();
         
