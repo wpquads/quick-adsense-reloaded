@@ -133,6 +133,7 @@ Alternative Installation:
 = 1.7.4 =
 * New: Option to explicetely allow wp quads to create the ads.txt
 * Fix: Invalid arguments and several thrown errors when no ads are defined
+* Fix: Can not use vi if wordpress is installed in sub directory
 
 = 1.7.3 =
 * New: Support for multiple google AdSense publisher accounts in ads.txt

@@ -584,12 +584,20 @@ class vi {
         return isset($this->token->publisherId) ? $this->token->publisherId : '';
     }
 
+    // Domain
     public function getDomain() {
-        $domain = str_replace('www.', '', get_home_url());
-        $domain = str_replace('https://', '', $domain);
-        $domain = str_replace('http://', '', $domain);
 
-        return $domain;
+//        $domain = str_replace('www.', '', get_home_url());
+//        $domain = str_replace('https://', '', $domain);
+//        $domain = str_replace('http://', '', $domain);
+
+        $url = parse_url(get_bloginfo('url'));
+        $domain = isset($url['host']) ? $url['host'] : '';
+        if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $result)) {
+            return $result['domain'];
+        }
+        // Else
+        return '';
     }
 
     /**
