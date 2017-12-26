@@ -25,9 +25,9 @@ function quads_ad_is_allowed( $content = null ) {
     
         
     // Never show ads in ajax calls
-    if ( isset($quads_options['is_ajax']) && (defined('DOING_AJAX') && DOING_AJAX || 
+    if ( isset($quads_options['is_ajax']) && (defined('DOING_AJAX') && DOING_AJAX) || 
          (! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) == 'xmlhttprequest' )
-        ))
+        )
         { 
         /* it's an AJAX call */ 
         return false;
