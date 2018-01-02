@@ -404,8 +404,8 @@ function quads_filter_default_ads( $content ) {
     
     // Right after last paragraph ad
     if( $last_paragraph_position_status && strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
-        $sch = "<p>";
-        $content = str_replace( "<P>", $sch, $content );
+        $sch = "</p>";
+        $content = str_replace( "</P>", $sch, $content );
         $paragraphsArray = explode( $sch, $content );
         if( count( $paragraphsArray ) > 2 ) {
             $content = implode( $sch, array_slice( $paragraphsArray, 0, count( $paragraphsArray ) - 1 ) ) . '<!--' . $g1 . '-->' . $sch . $paragraphsArray[count( $paragraphsArray ) - 1];
@@ -434,7 +434,9 @@ function quads_filter_default_ads( $content ) {
                 $ccp = ( count( $captionArray ) > 1 ) ? strpos( strtolower( $captionArray[0] ), '[caption ' ) === false : false;
                 $imagesArrayAtag = explode( $atag, $imagesArray[$imageNo] );
                 $cdu = ( count( $imagesArrayAtag ) > 1 ) ? strpos( strtolower( $imagesArrayAtag[0] ), '<a href' ) === false : false;
-                // Show ad after caption
+                xdebug_break();
+                
+// Show ad after caption
                 if( $imageCaption && $ccp ) {
                     $imagesArray[$imageNo] = implode( $caption, array_slice( $captionArray, 0, 1 ) ) . $caption . "\r\n" . '<!--' . $imageAd . '-->' . "\r\n" . implode( $caption, array_slice( $captionArray, 1 ) );
                 } else if( $cdu ) {

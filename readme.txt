@@ -132,6 +132,7 @@ Alternative Installation:
 
 = 1.7.5 =
 * Fix: Disable ads on infinite scrolling pages
+* Fix: Condition ad before last paragraph is not working
 
 = 1.7.4 =
 * New: Option to explicetely allow wp quads to create the ads.txt
