@@ -228,7 +228,7 @@ function quads_get_registered_settings() {
              ), */
            'adsense_header' => array(
                'id' => 'adsense_header',
-               'name' => '<strong>' . __( 'AdSense Code', 'quick-adsense-reloaded' ) . '</strong>',
+               'name' => '<strong>' . __( 'Ad Code', 'quick-adsense-reloaded' ) . '</strong>',
                'desc' => '<div class="adsense_admin_header">' . sprintf( __( 'Enter your ads below:</div>'
                                . '<ul style="margin-top:10px;">'
                                . '<li style="font-weight:600;">Select <i>AdSense</i> for using <span style="font-weight:600;">AdSense Text & display Ads</span>!</li>'
@@ -338,7 +338,7 @@ function quads_get_registered_settings() {
                'helper-desc' => __( 'Do not change this until you know what you are doing. Usually the default value 20 is working fine. Changing this value can lead to unexpected results like ads not showing or loaded on wrong order. <strong>Default:</strong> 20', 'quick-adsense-reloaded' ),
                'type' => 'number',
                'size' => 'small',
-               'std' => 20
+               'std' => 10
            ),
            'create_settings' => array(
                'id' => 'create_settings',

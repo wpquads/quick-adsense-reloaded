@@ -133,6 +133,9 @@ Alternative Installation:
 = 1.7.5 =
 * Fix: Disable ads on infinite scrolling pages
 * Fix: Condition ad before last paragraph is not working
+* Fix: Do not inject ads into blockquote elements
+* Tweak: Rename ADSENSE CODE to Ad Code
+* Tweak: default load priority is 10
 
 = 1.7.4 =
 * New: Option to explicetely allow wp quads to create the ads.txt

@@ -336,18 +336,33 @@ function quads_filter_default_ads( $content ) {
 
     // Create paragraph ads
     $number = 6;
-    //$number = 3;
+
     for ( $i = $number; $i >= 1; $i-- ) {
         if( !empty( $paragraph['status'][$i] ) ) {
             $sch = "</p>";
             $content = str_replace( "</P>", $sch, $content );
+                            //xdebug_break();
+
             // paragraphs in content
             $paragraphsArray = explode( $sch, $content );
+            
+            
             if( ( int ) $paragraph['position'][$i] < count( $paragraphsArray ) ) {
-                $content = implode( $sch, array_slice( $paragraphsArray, 0, $paragraph['position'][$i] ) ) . $sch . '<!--' . $paragraph[$i] . '-->' . implode( $sch, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
+                $test = strpos( $paragraphsArray[$paragraph['position'][$i]], '</blockquote>');
+                // Check if a blockquote element is used
+                if (false === strpos( $paragraphsArray[$paragraph['position'][$i]], '</blockquote>')){
+                    $content = implode( $sch, array_slice( $paragraphsArray, 0, $paragraph['position'][$i] ) ) . $sch . '<!--' . $paragraph[$i] . '-->' . implode( $sch, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
+                    } else {
+                    // Skip the p tag with blockquote element. Otherwise it would inject the ad into blockquote
+                    $content = implode( $sch, array_slice( $paragraphsArray, 0, $paragraph['position'][$i]+1 ) ) . $sch . '<!--' . $paragraph[$i] . '-->' . implode( $sch, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
+                }
+                
+                
             } elseif( $paragraph['end_post'][$i] ) {
                 $content = implode( $sch, $paragraphsArray ) . '<!--' . $paragraph[$i] . '-->';
             }
+            xdebug_break();
+
         }
     }
 
@@ -402,14 +417,17 @@ function quads_filter_default_ads( $content ) {
         $content = str_replace( '<span id="more-' . $postid . '"></span>', $mmr, $content );
     }
     
-    // Right after last paragraph ad
+    // Right before last paragraph ad
     if( $last_paragraph_position_status && strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
         $sch = "</p>";
         $content = str_replace( "</P>", $sch, $content );
         $paragraphsArray = explode( $sch, $content );
-        if( count( $paragraphsArray ) > 2 ) {
+        //if( count( $paragraphsArray ) > 2 && !strpos($paragraphsArray[count( $paragraphsArray ) - 1], '</blockquote>')) {
+        if( count( $paragraphsArray ) > 2) {
             $content = implode( $sch, array_slice( $paragraphsArray, 0, count( $paragraphsArray ) - 1 ) ) . '<!--' . $g1 . '-->' . $sch . $paragraphsArray[count( $paragraphsArray ) - 1];
         }
+                xdebug_break();
+
     }
 
     // After Image ad
