@@ -536,7 +536,7 @@ function quads_show_vi_notices() {
     $adsenseAdsTxtText = '';
     if (!empty($adsensePublisherIds)) {
         foreach ($adsensePublisherIds as $adsensePublisherId) {
-            $adsenseAdsTxtText .= "google.com, " . $adsensePublisherId . ", DIRECT, f08c47fec0942fa0\r\n";
+            $adsenseAdsTxtText .= "google.com, " . str_replace('ca-', '', $adsensePublisherId) . ", DIRECT, f08c47fec0942fa0\r\n";
         }
     }
 
@@ -623,7 +623,7 @@ function quads_show_ads_txt_notice() {
         $adsenseAdsTxtText = '';
         if (!empty($adsensePublisherIds)) {
             foreach ($adsensePublisherIds as $adsensePublisherId) {
-                $adsenseAdsTxtText .= "google.com, " . $adsensePublisherId . ", DIRECT, f08c47fec0942fa0\n\r";
+                $adsenseAdsTxtText .= "google.com, " . str_replace('ca-', '', $adsensePublisherId)  . ", DIRECT, f08c47fec0942fa0\n\r";
             }
         }
 

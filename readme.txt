@@ -134,6 +134,7 @@ Alternative Installation:
 * Fix: Disable ads on infinite scrolling pages
 * Fix: Condition ad before last paragraph is not working
 * Fix: Do not inject ads into blockquote elements
+* Fix: ads.txt not writeable admin notice is showing incorrect google adsense publisherId
 * Tweak: Rename ADSENSE CODE to Ad Code
 * Tweak: default load priority is 10
 
