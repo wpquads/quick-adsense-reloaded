@@ -132,7 +132,7 @@ Alternative Installation:
 
 = 1.7.5 =
 * Fix: Disable ads on infinite scrolling pages
-* Fix: Condition ad before last paragraph is not working
+* Fix: Condition ad before last paragraph is not workingFix: Disable ads on infinite scrolling pages
 * Fix: Do not inject ads into blockquote elements
 * Fix: ads.txt not writeable admin notice is showing incorrect google adsense publisherId
 * Fix: WP QUADS Pro not working if valid license key expired
