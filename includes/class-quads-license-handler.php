@@ -419,7 +419,7 @@ class QUADS_License {
 			if( empty( $_GET['tab'] ) || 'licenses' !== $_GET['tab'] ) {
 
 				$messages[] = sprintf(
-					__( 'You have invalid or expired license keys for WPQUADS PRO. Go to the <a href="%s" title="Go to Licenses page">Licenses page</a> to correct this issue or <a href="%1s" target="_new">Renew your license key</a>.', 'quick-adsense-reloaded' ),
+					__( 'You have invalid or expired license keys for WPQUADS PRO. WP QUADS Pro will not work properly until you have resolved this. Go to the <a href="%s" title="Go to Licenses page">Licenses page</a> to correct this issue or <a href="%1s" target="_new">Renew your license key</a>.', 'quick-adsense-reloaded' ),
 					admin_url( 'admin.php?page=quads-settings&tab=licenses' ),
 					'https://wpquads.com/checkout/?edd_license_key=' . $licensekey . '&download_id=11'
                                     

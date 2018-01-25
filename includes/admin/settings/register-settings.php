@@ -733,29 +733,6 @@ function quads_adposition_callback( $id, $args ) {
    endforeach;
 }
 
-/**
- * Gateways Callback
- *
- * Renders gateways fields.
- *
- * @since 1.0
- * @param array $args Arguments passed by the setting
- * @global $quads_options Array of all the QUADS Options
- * @return void
- */
-//function quads_gateways_callback( $args ) {
-//   global $quads_options;
-//
-//   foreach ( $args['options'] as $key => $option ) :
-//      if( isset( $quads_options['gateways'][$key] ) )
-//         $enabled = '1';
-//      else
-//         $enabled = null;
-//
-//      echo '<input name="quads_settings[' . $args['id'] . '][' . $key . ']"" id="quads_settings[' . $args['id'] . '][' . $key . ']" type="checkbox" value="1" ' . checked( '1', $enabled, false ) . '/>&nbsp;';
-//      echo '<label for="quads_settings[' . $args['id'] . '][' . $key . ']">' . $option['admin_label'] . '</label><br/>';
-//   endforeach;
-//}
 
 /**
  * Text Callback
@@ -1029,15 +1006,34 @@ function quads_upload_callback( $args ) {
  * @return boolean
  */
 function quads_is_extra() {
-   
-   $lic = get_option( 'quads_wp_quads_pro_license_active' );
-   if( !$lic || (is_object( $lic ) && $lic->success !== true) ) {
+       
+   if( !function_exists( 'quads_extra' ) ) {
       return false;
    }
    
-   if( function_exists( 'quads_extra' ) ) {
-      return true;
+   $lic = get_option( 'quads_wp_quads_pro_license_active' );
+   
+   if (!$lic){
+     return false;  
    }
+   
+   if (isset($lic->error) && $lic->error === 'expired'){
+       return true;
+   }
+   
+   if (isset($lic->license) && $lic->license === 'valid'){
+       return true;
+   }
+   
+   if (isset($lic->license) && $lic->license === 'inactive'){
+       return false;
+   }
+     
+   
+//   if( !$lic || (is_object( $lic ) && $lic->success !== true) ) {
+//      return false;
+//   }
+
    return false;
 }
 
@@ -1094,6 +1090,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
       }
 
       if( !empty( $license ) && is_object( $license ) ) {
+          
 
          // activate_license 'invalid' on anything other than valid, so if there was an error capture it
          if( false === $license->success ) {
@@ -1152,6 +1149,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 
                   break;
             }
+
          } else {
 
             switch ( $license->license ) {
@@ -1184,12 +1182,28 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 
                      $license_status = 'quads-license-expiration-date-notice';
                   }
-
-                  break;
+               break; 
+                  
+               case 'inactive' : 
+                    $messages[] = sprintf(
+                             __( 'Your license key has been disabled! <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), 'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
+                     );
+                     $license_status = 'quads-license-error-notice';
+                break;
             }
          }
+
+         switch ( $license->license ) {
+             case 'invalid' :
+                    $messages[] = sprintf(
+                             __( 'Your license key has been disabled! <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), 'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
+                     );        
+             break;
+         } 
+         
       } else {
          $license_status = null;
+
       }
 
       $size = ( isset( $args['size'] ) && !is_null( $args['size'] ) ) ? $args['size'] : 'regular';

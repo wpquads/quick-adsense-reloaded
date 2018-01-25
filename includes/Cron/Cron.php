@@ -12,7 +12,8 @@ if( !defined( "WPINC" ) ) {
 class quadsCron {
 
    public function __construct() {
-      add_filter( 'cron_schedules', array($this, 'add_new_intervals') );
+      add_filter( 'cron_schedules', array($this, 'add_new_intervals'), 100 );
+
    }
 
    /**
@@ -39,13 +40,15 @@ class quadsCron {
    
 
    public function schedule_event() {
+
       if( !wp_next_scheduled( 'quads_weekly_event' ) ) {
          wp_schedule_event( time(), 'weekly', 'quads_weekly_event' );
+
       }
       if( !wp_next_scheduled( 'quads_daily_event' ) ) {
          wp_schedule_event( time(), 'daily', 'quads_daily_event' );
+
       }
     }
 }
-
 $quadsCron = new quadsCron(); 

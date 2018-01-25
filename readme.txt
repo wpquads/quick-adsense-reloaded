@@ -135,6 +135,7 @@ Alternative Installation:
 * Fix: Condition ad before last paragraph is not working
 * Fix: Do not inject ads into blockquote elements
 * Fix: ads.txt not writeable admin notice is showing incorrect google adsense publisherId
+* Fix: WP QUADS Pro not working if valid license key expired
 * Tweak: Rename ADSENSE CODE to Ad Code
 * Tweak: default load priority is 10
 
