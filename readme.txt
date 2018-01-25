@@ -130,6 +130,9 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.7.6 =
+* Fix: remove debug vars
+
 = 1.7.5 =
 * Fix: Disable ads on infinite scrolling pages
 * Fix: Condition ad before last paragraph is not workingFix: Disable ads on infinite scrolling pages
