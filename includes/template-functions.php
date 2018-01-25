@@ -341,7 +341,6 @@ function quads_filter_default_ads( $content ) {
         if( !empty( $paragraph['status'][$i] ) ) {
             $sch = "</p>";
             $content = str_replace( "</P>", $sch, $content );
-                            //xdebug_break();
 
             // paragraphs in content
             $paragraphsArray = explode( $sch, $content );
@@ -361,7 +360,6 @@ function quads_filter_default_ads( $content ) {
             } elseif( $paragraph['end_post'][$i] ) {
                 $content = implode( $sch, $paragraphsArray ) . '<!--' . $paragraph[$i] . '-->';
             }
-            xdebug_break();
 
         }
     }
@@ -426,7 +424,6 @@ function quads_filter_default_ads( $content ) {
         if( count( $paragraphsArray ) > 2) {
             $content = implode( $sch, array_slice( $paragraphsArray, 0, count( $paragraphsArray ) - 1 ) ) . '<!--' . $g1 . '-->' . $sch . $paragraphsArray[count( $paragraphsArray ) - 1];
         }
-                xdebug_break();
 
     }
 
