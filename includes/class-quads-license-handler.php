@@ -24,7 +24,7 @@ class QUADS_License {
 	private $version;
 	private $author;
 	private $api_url = 'http://wpquads.com/edd-sl-api/'; // production
-       private $api_url_debug = 'http://src.wordpress-develop.dev/edd-sl-api/'; // development
+        private $api_url_debug = 'http://src.wordpress-develop.dev/edd-sl-api/'; // development
 	/**
 	 * Class constructor
 	 *
@@ -115,7 +115,7 @@ class QUADS_License {
 		add_action( 'admin_init', array( $this, 'auto_updater' ), 0 );
 
 		// Display notices to admins
-		add_action( 'admin_notices', array( $this, 'notices' ) );
+		//add_action( 'admin_notices', array( $this, 'notices' ) );
 
 		add_action( 'in_plugin_update_message-' . plugin_basename( $this->file ), array( $this, 'plugin_row_license_missing' ), 10, 2 );
 
@@ -395,55 +395,55 @@ class QUADS_License {
 	 * @access  public
 	 * @return  void
 	 */
-	public function notices() {
-
-		static $showed_invalid_message;
-
-		if( empty( $this->license ) ) {
-			return;
-		}
-
-                if( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		$messages = array();
-
-		$license = get_option( $this->item_shortname . '_license_active' );
-              
-              $licensekey = empty( $quads_options['quads_wp_quads_pro_license_key'] ) ? '' : $quads_options['quads_wp_quads_pro_license_key'];
-
-
-		if( is_object( $license ) && 'valid' !== $license->license && empty( $showed_invalid_message ) ) {
-
-			if( empty( $_GET['tab'] ) || 'licenses' !== $_GET['tab'] ) {
-
-				$messages[] = sprintf(
-					__( 'You have invalid or expired license keys for WPQUADS PRO. WP QUADS Pro will not work properly until you have resolved this. Go to the <a href="%s" title="Go to Licenses page">Licenses page</a> to correct this issue or <a href="%1s" target="_new">Renew your license key</a>.', 'quick-adsense-reloaded' ),
-					admin_url( 'admin.php?page=quads-settings&tab=licenses' ),
-					'https://wpquads.com/checkout/?edd_license_key=' . $licensekey . '&download_id=11'
-                                    
-				);
-
-				$showed_invalid_message = true;
-
-			}
-
-		}
-
-		if( ! empty( $messages ) ) {
-
-			foreach( $messages as $message ) {
-
-			echo '<div class="error">';
-				echo '<p>' . $message . '</p>';
-			echo '</div>';
-
-		}
-
-		}
-
-	}
+//	public function notices() {
+//
+//		static $showed_invalid_message;
+//
+//		if( empty( $this->license ) ) {
+//			return;
+//		}
+//
+//                if( ! current_user_can( 'manage_options' ) ) {
+//			return;
+//		}
+//
+//		$messages = array();
+//
+//		$license = get_option( $this->item_shortname . '_license_active' );
+//              
+//              $licensekey = empty( $quads_options['quads_wp_quads_pro_license_key'] ) ? '' : $quads_options['quads_wp_quads_pro_license_key'];
+//
+//
+//		if( is_object( $license ) && 'valid' !== $license->license && empty( $showed_invalid_message ) ) {
+//
+//			if( empty( $_GET['tab'] ) || 'licenses' !== $_GET['tab'] ) {
+//
+//				$messages[] = sprintf(
+//					__( 'You have invalid or expired license keys for WPQUADS PRO. WP QUADS Pro will not work properly until you have resolved this. Go to the <a href="%s" title="Go to Licenses page">Licenses page</a> to correct this issue or <a href="%1s" target="_new">Renew your license key</a>.', 'quick-adsense-reloaded' ),
+//					admin_url( 'admin.php?page=quads-settings&tab=licenses' ),
+//					'https://wpquads.com/checkout/?edd_license_key=' . $licensekey . '&download_id=11'
+//                                    
+//				);
+//
+//				$showed_invalid_message = true;
+//
+//			}
+//
+//		}
+//
+//		if( ! empty( $messages ) ) {
+//
+//			foreach( $messages as $message ) {
+//
+//			echo '<div class="error">';
+//				echo '<p>' . $message . '</p>';
+//			echo '</div>';
+//
+//		}
+//
+//		}
+//
+//	}
         
        /**
 	 * Displays message inline on plugin row that the license key is missing

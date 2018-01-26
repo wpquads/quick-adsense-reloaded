@@ -130,6 +130,9 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.7.7 =
+* Show notice if WP QUADS Pro license has been expired but make sure that the pro plugin does not stop working
+
 = 1.7.6 =
 * Fix: remove debug vars
 
@@ -249,5 +252,5 @@ Complete changelog: https://wpquads.com/changelog
 
 == Upgrade Notice ==
 
-= 1.7.2 =
-1.7.2 New: This update is highly recommended. It fixes serious issues which led to missing content elements.
+= 1.7.6 =
+1.7.6 If you are using WP QUADS PRO this update is highly recommended!

@@ -42,6 +42,8 @@ function quads_admin_messages() {
     echo quads_show_vi_notices();
 
     quads_show_ads_txt_notice();
+    
+    quads_show_license_expired();
 
 
     if (quads_is_admin_page()) {
@@ -406,29 +408,7 @@ function quads_ads_empty() {
     return false;
 }
 
-/**
- * Return VI admin notice
- * @return string
- */
-//function quads_get_vi_notice() {
-//    if (false !==  get_option ('quads_close_vi_notice') && false == quads_show_vi_notice_again() ) {
-//        return false;
-//    }
-//
-//    $html = '<div class="quads-banner-wrapper">
-//  <section class="quads-banner-content">
-//    <div class="quads-banner-columns">
-//      <main class="quads-banner-main"><p>' . sprintf(__('Available soon: the upcoming update to <strong>WP QUADS</strong> will feature a native video ad unit powered by video intelligence that will results in up to 10x higher revenue (RPM) </p>'
-//                            . '<p><a href="%s" target="_blank" rel="external nofollow">https://www.vi.ai/publisher-video-monetization</a>'), 'https://www.vi.ai/publisher-video-monetization/?utm_source=WordPress&utm_medium=Plugin%20blurb&utm_campaign=wpquads') . '</p></main>
-//      <aside class="quads-banner-sidebar-first"><p><img src="' . QUADS_PLUGIN_URL . 'assets/images/vi_quads_logo.png" width="152" height="70"></p></aside>
-//      <aside class="quads-banner-sidebar-second"><p style="text-align:center;"><a href="https://www.vi.ai/publisher-video-monetization/?utm_source=WordPress&utm_medium=Plugin%20blurb&utm_campaign=wpquads" class="quads-button-primary" target="_blank" rel="external nofollow">Learn More</a><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=show_vi_notice_later" style="line-height:25px;"><br>Show again later</a></p></aside>
-//    </div>
-//          <aside class="quads-banner-close"><div style="margin-top:5px;"><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=close_vi_notice" class="quads-notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a></div></aside>
-//  </section>
-//</div>';
-//
-//    return $html;
-//}
+
 /**
  * Return VI admin notice
  * @return string
@@ -665,3 +645,43 @@ function quads_show_vi_api_error() {
         echo $blurb->render();
     }
 }
+
+/**
+ * Show global notice WP QUADS Pro license expired
+ * @return mixed boolean | string
+ */
+function quads_show_license_expired() {
+global $quads_options, $wp_version;
+
+    $licKey = isset($quads_options['quads_wp_quads_pro_license_key']) ? $quads_options['quads_wp_quads_pro_license_key'] : '';
+
+    $lic = get_option('quads_wp_quads_pro_license_active');
+
+    if (!$lic) {
+        return false;
+    }
+    
+    if (get_transient('quads_notice_lic_expired')) {
+        return false;
+    }
+    echo '<div class="notice notice-error">';
+    echo sprintf(
+        __( '<p>Oh No! <strong>WP Quads Pro</strong> expired on %s. Renew your license key to make sure that your (AdSense) ads are shown properly with your WordPress, version ' . $wp_version . '<br>'
+            . '<a href="%s" target="_blank" title="Renew your license key" class="button"><strong>Renew Your License Key Now</strong></a> | <a href="%s" title="Renew your license key">I am aware of possible issues and want to hide this reminder</a>'
+                , 'quick-adsense-reloaded' ), date_i18n( get_option( 'date_format' ), strtotime( $lic->expires, current_time( 'timestamp' ) ) ), 
+            'http://wpquads.com/checkout/?edd_license_key=' . $licKey . '&utm_campaign=adminnotic123e&utm_source=adminnotice123&utm_medium=admin&utm_content=license-expired',
+            admin_url() . 'admin.php?page=quads-settings&tab=licenses&quads-action=hide_license_expired_notice'
+
+        );
+    echo '</p></div>';
+}
+
+/**
+ * Store the transient for 30 days
+ */
+function quads_hide_license_expired_notice(){
+   set_transient('quads_notice_lic_expired', 'hide', 60 * 60 * 24 * 30);
+}
+
+
+add_action('quads_hide_license_expired_notice', 'quads_hide_license_expired_notice');

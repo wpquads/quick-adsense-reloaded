@@ -1193,13 +1193,13 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
             }
          }
 
-         switch ( $license->license ) {
-             case 'invalid' :
-                    $messages[] = sprintf(
-                             __( 'Your license key has been disabled! <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), 'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
-                     );        
-             break;
-         } 
+//         switch ( $license->license ) {
+//             case 'invalid' :
+//                    $messages[] = sprintf(
+//                             __( 'Your license key has been disabled! <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), 'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
+//                     );        
+//             break;
+//         } 
          
       } else {
          $license_status = null;

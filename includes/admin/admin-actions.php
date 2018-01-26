@@ -42,16 +42,6 @@ function quads_close_upgrade_notice() {
 
 add_action('quads_close_upgrade_notice', 'quads_close_upgrade_notice');
 
-
-/**
- * Close vi notice and do not show again
- */
-//function quads_close_vi_notice(){
-//    update_option ('quads_close_vi_notice', 'yes');
-//    delete_option('quads_show_vi_notice_later');
-//}
-//add_action('quads_close_vi_notice', 'quads_close_vi_notice');
-
 /**
  * Close vi welcome notice and do not show again
  */
