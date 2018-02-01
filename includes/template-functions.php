@@ -344,6 +344,11 @@ function quads_filter_default_ads( $content ) {
 
             // paragraphs in content
             $paragraphsArray = explode( $sch, $content );
+
+            /**
+            * Check if last element is empty and remove it
+            */
+            if(trim($paragraphsArray[count($paragraphsArray)-1]) == "") array_pop($paragraphsArray);
             
             
             if( ( int ) $paragraph['position'][$i] < count( $paragraphsArray ) ) {
@@ -384,6 +389,12 @@ function quads_filter_default_ads( $content ) {
             $sch = "</p>";
             $content = str_replace( "</P>", $sch, $content );
             $paragraphsArray = explode( $sch, $content );
+
+            /**
+            * Check if last element is empty and remove it
+            */
+            if(trim($paragraphsArray[count($paragraphsArray)-1]) == "") array_pop($paragraphsArray);
+
             $nn = 0;
             $mm = strlen( $content ) / 2;
             for ( $i = 0; $i < count( $paragraphsArray ); $i++ ) {
@@ -420,6 +431,12 @@ function quads_filter_default_ads( $content ) {
         $sch = "</p>";
         $content = str_replace( "</P>", $sch, $content );
         $paragraphsArray = explode( $sch, $content );
+
+        /**
+        * Check if last element is empty and remove it
+        */
+        if(trim($paragraphsArray[count($paragraphsArray)-1]) == "") array_pop($paragraphsArray);
+
         //if( count( $paragraphsArray ) > 2 && !strpos($paragraphsArray[count( $paragraphsArray ) - 1], '</blockquote>')) {
         if( count( $paragraphsArray ) > 2) {
             $content = implode( $sch, array_slice( $paragraphsArray, 0, count( $paragraphsArray ) - 1 ) ) . '<!--' . $g1 . '-->' . $sch . $paragraphsArray[count( $paragraphsArray ) - 1];
