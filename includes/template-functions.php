@@ -336,29 +336,59 @@ function quads_filter_default_ads( $content ) {
 
     // Create paragraph ads
     $number = 6;
-
+    
+//    global $isBlockquoteOpen;
+//    global $isBlockquoteClosed;
+    
+    $isBlockquoteOpen = false;
+    $isBlockquoteClosed = false;
+    
     for ( $i = $number; $i >= 1; $i-- ) {
         if( !empty( $paragraph['status'][$i] ) ) {
-            $sch = "</p>";
-            $content = str_replace( "</P>", $sch, $content );
-
-            // paragraphs in content
-            $paragraphsArray = explode( $sch, $content );
             
+//            if($isBlockquoteOpen && !$isBlockquoteClosed){
+//                echo 'skip';
+//                continue;
+//            }
+            
+            $closingTagP = "</p>";
+            $content = str_replace( "</P>", $closingTagP, $content );
+
+            // Any blockquotes there?
+            $blockquoteArray = explode( '<blockquote>', $content ); 
+            
+            // paragraphs in content
+            $paragraphsArray = explode( $closingTagP, $content );
+            
+            if ($paragraphsArray > 1){
+                
+            }
             
             if( ( int ) $paragraph['position'][$i] < count( $paragraphsArray ) ) {
-                $test = strpos( $paragraphsArray[$paragraph['position'][$i]], '</blockquote>');
-                // Check if a blockquote element is used
-                if (false === strpos( $paragraphsArray[$paragraph['position'][$i]], '</blockquote>')){
-                    $content = implode( $sch, array_slice( $paragraphsArray, 0, $paragraph['position'][$i] ) ) . $sch . '<!--' . $paragraph[$i] . '-->' . implode( $sch, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
-                    } else {
+                //$test = strpos( $paragraphsArray[$paragraph['position'][$i]], '<blockquote>');
+                //var_dump($test);
+                //var_dump($paragraphsArray);
+                //var_dump($blockquoteArray);
+                //
+                // No blockquote element is used at all or not opened yet
+                if ( false !== strpos( $paragraphsArray[$paragraph['position'][$i]], '<blockquote>') ){
+                    $content = implode( $closingTagP, array_slice( $paragraphsArray, 0, $paragraph['position'][$i] ) ) . 
+                            $closingTagP . '<!--' . $paragraph[$i] . '-->' . 
+                            implode( $closingTagP, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
+                    } 
+                   
+
+                    else {
+                        $isBlockquoteOpen = true;
                     // Skip the p tag with blockquote element. Otherwise it would inject the ad into blockquote
-                    $content = implode( $sch, array_slice( $paragraphsArray, 0, $paragraph['position'][$i]+1 ) ) . $sch . '<!--' . $paragraph[$i] . '-->' . implode( $sch, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
+                    $content = implode( $closingTagP, array_slice( $paragraphsArray, 0, $paragraph['position'][$i]+1 ) ) . 
+                            $closingTagP . '<!--' . $paragraph[$i] . '-->' . 
+                            implode( $closingTagP, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
                 }
                 
                 
             } elseif( $paragraph['end_post'][$i] ) {
-                $content = implode( $sch, $paragraphsArray ) . '<!--' . $paragraph[$i] . '-->';
+                $content = implode( $closingTagP, $paragraphsArray ) . '<!--' . $paragraph[$i] . '-->';
             }
 
         }
@@ -381,9 +411,9 @@ function quads_filter_default_ads( $content ) {
         // Check if ad is middle one
     if( $middle_position_status && strpos( $content, '<!--OffMiddle-->' ) === false ) {
         if( substr_count( strtolower( $content ), '</p>' ) >= 2 ) {
-            $sch = "</p>";
-            $content = str_replace( "</P>", $sch, $content );
-            $paragraphsArray = explode( $sch, $content );
+            $closingTagP = "</p>";
+            $content = str_replace( "</P>", $closingTagP, $content );
+            $paragraphsArray = explode( $closingTagP, $content );
             $nn = 0;
             $mm = strlen( $content ) / 2;
             for ( $i = 0; $i < count( $paragraphsArray ); $i++ ) {
@@ -397,7 +427,7 @@ function quads_filter_default_ads( $content ) {
                     break;
                 }
             }
-            $content = implode( $sch, $paragraphsArray );
+            $content = implode( $closingTagP, $paragraphsArray );
         }
     }
     
@@ -417,12 +447,12 @@ function quads_filter_default_ads( $content ) {
     
     // Right before last paragraph ad
     if( $last_paragraph_position_status && strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
-        $sch = "</p>";
-        $content = str_replace( "</P>", $sch, $content );
-        $paragraphsArray = explode( $sch, $content );
+        $closingTagP = "</p>";
+        $content = str_replace( "</P>", $closingTagP, $content );
+        $paragraphsArray = explode( $closingTagP, $content );
         //if( count( $paragraphsArray ) > 2 && !strpos($paragraphsArray[count( $paragraphsArray ) - 1], '</blockquote>')) {
         if( count( $paragraphsArray ) > 2) {
-            $content = implode( $sch, array_slice( $paragraphsArray, 0, count( $paragraphsArray ) - 1 ) ) . '<!--' . $g1 . '-->' . $sch . $paragraphsArray[count( $paragraphsArray ) - 1];
+            $content = implode( $closingTagP, array_slice( $paragraphsArray, 0, count( $paragraphsArray ) - 1 ) ) . '<!--' . $g1 . '-->' . $closingTagP . $paragraphsArray[count( $paragraphsArray ) - 1];
         }
 
     }

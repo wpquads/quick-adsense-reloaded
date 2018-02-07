@@ -131,7 +131,10 @@ Alternative Installation:
 == Changelog == 
 
 = 1.7.7 =
-* Show notice if WP QUADS Pro license has been expired but make sure that the pro plugin does not stop working
+* Tweak: Show notice if WP QUADS Pro license has been expired but make sure that the pro plugin does not stop working
+* Fix: Revert load priority to 20
+* Fix: Change vi default background and text color
+
 
 = 1.7.6 =
 * Fix: remove debug vars
