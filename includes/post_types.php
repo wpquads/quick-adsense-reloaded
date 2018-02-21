@@ -36,10 +36,12 @@ function quads_post_type_allowed(){
     
     if (!isset($post)){
         $return = false;
+        return apply_filters('quads_post_type_allowed',$return);
     }
     
-    if (!isset($quads_options['post_types']) || empty($quads_options['post_types'])){
+    if (!isset($quads_options['post_types']) || !is_array($quads_options['post_types']) || empty($quads_options['post_types'])){
         $return = false;
+        return apply_filters('quads_post_type_allowed',$return);
     }
 
     $current_post_type = get_post_type($post->ID);
