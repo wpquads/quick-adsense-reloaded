@@ -135,7 +135,7 @@ Alternative Installation:
 * Fix: Revert load priority to 20
 * Fix: Change vi default background and text color
 * Fix: Error in_arry() if post_type condition is empty
-
+* Fix: If last counted paragraph is empty, ad is injected in wrong position
 
 = 1.7.6 =
 * Fix: remove debug vars
