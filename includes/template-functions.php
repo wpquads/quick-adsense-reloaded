@@ -336,61 +336,29 @@ function quads_filter_default_ads( $content ) {
 
     // Create paragraph ads
     $number = 6;
-    
-//    global $isBlockquoteOpen;
-//    global $isBlockquoteClosed;
-    
-    $isBlockquoteOpen = false;
-    $isBlockquoteClosed = false;
-    
+
     for ( $i = $number; $i >= 1; $i-- ) {
         if( !empty( $paragraph['status'][$i] ) ) {
-            
-//            if($isBlockquoteOpen && !$isBlockquoteClosed){
-//                echo 'skip';
-//                continue;
-//            }
-            
-            $closingTagP = "</p>";
-            $content = str_replace( "</P>", $closingTagP, $content );
-
-            // Any blockquotes there?
-            $blockquoteArray = explode( '<blockquote>', $content ); 
-            
+            $sch = "</p>";
+            $content = str_replace( "</P>", $sch, $content );
             // paragraphs in content
-            $paragraphsArray = explode( $closingTagP, $content );
+            $paragraphsArray = explode( $sch, $content );
             
-            if ($paragraphsArray > 1){
-                
-            }
             
             if( ( int ) $paragraph['position'][$i] < count( $paragraphsArray ) ) {
-                //$test = strpos( $paragraphsArray[$paragraph['position'][$i]], '<blockquote>');
-                //var_dump($test);
-                //var_dump($paragraphsArray);
-                //var_dump($blockquoteArray);
-                //
-                // No blockquote element is used at all or not opened yet
-                if ( false !== strpos( $paragraphsArray[$paragraph['position'][$i]], '<blockquote>') ){
-                    $content = implode( $closingTagP, array_slice( $paragraphsArray, 0, $paragraph['position'][$i] ) ) . 
-                            $closingTagP . '<!--' . $paragraph[$i] . '-->' . 
-                            implode( $closingTagP, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
-                    } 
-                   
-
-                    else {
-                        $isBlockquoteOpen = true;
+                //$test = strpos( $paragraphsArray[$paragraph['position'][$i]], '</blockquote>');
+                // Check if a blockquote element is used
+                if (false === strpos( $paragraphsArray[$paragraph['position'][$i]], '</blockquote>')){
+                    $content = implode( $sch, array_slice( $paragraphsArray, 0, $paragraph['position'][$i] ) ) . $sch . '<!--' . $paragraph[$i] . '-->' . implode( $sch, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
+                    } else {
                     // Skip the p tag with blockquote element. Otherwise it would inject the ad into blockquote
-                    $content = implode( $closingTagP, array_slice( $paragraphsArray, 0, $paragraph['position'][$i]+1 ) ) . 
-                            $closingTagP . '<!--' . $paragraph[$i] . '-->' . 
-                            implode( $closingTagP, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
+                    $content = implode( $sch, array_slice( $paragraphsArray, 0, $paragraph['position'][$i]+1 ) ) . $sch . '<!--' . $paragraph[$i] . '-->' . implode( $sch, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
                 }
                 
                 
             } elseif( $paragraph['end_post'][$i] ) {
-                $content = implode( $closingTagP, $paragraphsArray ) . '<!--' . $paragraph[$i] . '-->';
+                $content = implode( $sch, $paragraphsArray ) . '<!--' . $paragraph[$i] . '-->';
             }
-
         }
     }
 
