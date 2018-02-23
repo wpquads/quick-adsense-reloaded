@@ -360,7 +360,7 @@ function quads_filter_default_ads( $content ) {
                }
             }
             
-            // paragraphs in content
+            // Get paragraph tags
             $paragraphsArray = explode( $sch, $content );
             
            /**
@@ -368,18 +368,8 @@ function quads_filter_default_ads( $content ) {
             */
             if(trim($paragraphsArray[count($paragraphsArray)-1]) == "") array_pop($paragraphsArray);
             
-
-            
             if( ( int ) $paragraph['position'][$i] <= count( $paragraphsArray ) ) {
-                // Check if a blockquote element is used
-                //if (false === strpos( $paragraphsArray[$paragraph['position'][$i]], '</blockquote>')){
                   $content = implode( $sch, array_slice( $paragraphsArray, 0, $paragraph['position'][$i] ) ) . $sch . '<!--' . $paragraph[$i] . '-->' . implode( $sch, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
-                    //} else {
-                    // Skip the p tag with blockquote element. Otherwise it would inject the ad into blockquote
-                  //$content = implode( $sch, array_slice( $paragraphsArray, 0, $paragraph['position'][$i]+1 ) ) . $sch . '<!--' . $paragraph[$i] . '-->' . implode( $sch, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
-                //}
-                
-                
             } elseif( $paragraph['end_post'][$i] ) {
                 $content = implode( $sch, $paragraphsArray ) . '<!--' . $paragraph[$i] . '-->';
             }
