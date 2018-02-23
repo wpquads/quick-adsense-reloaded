@@ -341,6 +341,25 @@ function quads_filter_default_ads( $content ) {
         if( !empty( $paragraph['status'][$i] ) ) {
             $sch = "</p>";
             $content = str_replace( "</P>", $sch, $content );
+            
+                        
+            /**
+             * Get all blockquote if there are any
+             */
+            
+            preg_match_all("/<blockquote>(.*?)<\/blockquote>/s", $content, $blockquotes);
+            
+            /**
+             * Replace blockquotes with placeholder
+             */
+            if(!empty($blockquotes)){
+               $bId = 0;
+               foreach($blockquotes[0] as $blockquote){
+                  $content = str_replace(trim($blockquote), "#QUADSBLOCKQUOTE#" . $bId, $content);
+                  $bId++;
+               }
+            }
+            
             // paragraphs in content
             $paragraphsArray = explode( $sch, $content );
             
@@ -349,20 +368,32 @@ function quads_filter_default_ads( $content ) {
             */
             if(trim($paragraphsArray[count($paragraphsArray)-1]) == "") array_pop($paragraphsArray);
             
+
             
-            if( ( int ) $paragraph['position'][$i] < count( $paragraphsArray ) ) {
-                //$test = strpos( $paragraphsArray[$paragraph['position'][$i]], '</blockquote>');
+            if( ( int ) $paragraph['position'][$i] <= count( $paragraphsArray ) ) {
                 // Check if a blockquote element is used
-                if (false === strpos( $paragraphsArray[$paragraph['position'][$i]], '</blockquote>')){
-                    $content = implode( $sch, array_slice( $paragraphsArray, 0, $paragraph['position'][$i] ) ) . $sch . '<!--' . $paragraph[$i] . '-->' . implode( $sch, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
-                    } else {
+                //if (false === strpos( $paragraphsArray[$paragraph['position'][$i]], '</blockquote>')){
+                  $content = implode( $sch, array_slice( $paragraphsArray, 0, $paragraph['position'][$i] ) ) . $sch . '<!--' . $paragraph[$i] . '-->' . implode( $sch, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
+                    //} else {
                     // Skip the p tag with blockquote element. Otherwise it would inject the ad into blockquote
-                    $content = implode( $sch, array_slice( $paragraphsArray, 0, $paragraph['position'][$i]+1 ) ) . $sch . '<!--' . $paragraph[$i] . '-->' . implode( $sch, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
-                }
+                  //$content = implode( $sch, array_slice( $paragraphsArray, 0, $paragraph['position'][$i]+1 ) ) . $sch . '<!--' . $paragraph[$i] . '-->' . implode( $sch, array_slice( $paragraphsArray, $paragraph['position'][$i] ) );
+                //}
                 
                 
             } elseif( $paragraph['end_post'][$i] ) {
                 $content = implode( $sch, $paragraphsArray ) . '<!--' . $paragraph[$i] . '-->';
+            }
+            
+            /**
+             * Put back blockquotes into content
+             */
+            
+            if(!empty($blockquotes)){
+               $bId = 0;
+               foreach($blockquotes[0] as $blockquote){
+                  $content = str_replace('#QUADSBLOCKQUOTE#' . $bId, trim($blockquote), $content);
+                  $bId++;
+               }
             }
         }
     }

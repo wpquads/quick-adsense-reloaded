@@ -136,6 +136,7 @@ Alternative Installation:
 * Fix: Change vi default background and text color
 * Fix: Error in_arry() if post_type condition is empty
 * Fix: If last counted paragraph is empty, ad is injected in wrong position
+* Fix: Ads are injected into blockquote elements
 
 = 1.7.6 =
 * Fix: remove debug vars
