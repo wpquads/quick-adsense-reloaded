@@ -134,6 +134,7 @@ Alternative Installation:
 * Tweak: Show notice if WP QUADS Pro license has been expired but make sure that the pro plugin does not stop working
 * Fix: Revert load priority to 20
 * Fix: Change vi default background and text color
+* Fix: vi password field too large - css issue
 * Fix: Error in_arry() if post_type condition is empty
 * Fix: If last counted paragraph is empty, ad is injected in wrong position
 * Fix: Ads are injected into blockquote elements

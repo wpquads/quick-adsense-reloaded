@@ -43,10 +43,10 @@
         <form action="<?php echo admin_url() . '?quads_action=vi_login' ?>">
             <div class="quads-container">
                 <label><b>E-Mail</b></label>
-                <input type="text" placeholder="Enter Mail Address" name="email" id="email" novalidate>
+                <input type="text" placeholder="Enter Mail Address" name="email" id="quads-vi-email" novalidate>
 
                 <label><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="password" id="password" novalidate>
+                <input type="password" placeholder="Enter Password" name="password" id="quads-vi-password" novalidate>
 
                 <button type="submit" id="quads_vi_login_submit" style="display:none;">Login</button>
             </div>

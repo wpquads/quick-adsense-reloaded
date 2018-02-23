@@ -41,8 +41,8 @@ jQuery(document).ready(function ($) {
 // vi login process
 $("#quads_vi_login_submit").click(function(e){
 e.preventDefault();
-        username = $("#email").val();
-        password = $("#password").val();
+        username = $("#quads-vi-email").val();
+        password = $("#quads-vi-password").val();
 
         var data = '{"email":"' + username + '", "password":"' + password + '"}';
 
