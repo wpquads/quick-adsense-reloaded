@@ -250,8 +250,9 @@ function quads_options_page() {
                            'https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/#new-post',
                            'http://wpquads.com/support/'
                         );
-                        echo '<p>' . sprintf( __( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve it.', 'quick-adsense-reloaded' ),
-			'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=bottomlink'
+                        echo '<br/>' . sprintf( __( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve it.<p> Looking for a quick way to clone your WordPress? Try the free plugin <a href="%s" target="_blank">WP Staging</a>.', 'quick-adsense-reloaded' ),
+			'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=bottomlink',
+                     'https://wp-staging.com/?utm_source=wpquads_plugin&utm_campaign=footer&utm_medium=website&utm_term=bottomlink'
                         );
                         }
                         ?>
