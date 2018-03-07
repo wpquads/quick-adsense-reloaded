@@ -43,8 +43,8 @@ So i decided to continue the project to make sure the plugin will also work in f
 Deprecated functions removed, bugs fixed and new filters and hooks created to make this plugin extensible by third party developers!
 
 <strong>We Guarantee: </strong><br>
-No revenue sharing from your Google AdSense advertising income. We never show our ads on your website.<br>
-We are an active and engaged member of the WordPress community and we are following strongly the WordPress Codex in terms of code quality and good behave.
+This plugin does not do any revenue sharing with your Google AdSense ads. We never show our on ads ads on your website.<br>
+We are an active and dedicated member of the WordPress community and we are following strictly the WordPress Codex in terms of code quality and good behave.
 
 = Main Features =
 
@@ -131,13 +131,15 @@ Alternative Installation:
 == Changelog == 
 
 = 1.7.7 =
-* Tweak: Show notice if WP QUADS Pro license has been expired but make sure that the pro plugin does not stop working
 * Fix: Revert load priority to 20
 * Fix: Change vi default background and text color
 * Fix: vi password field too large - css issue
-* Fix: Error in_arry() if post_type condition is empty
+* Fix: Error in_array() if post_type condition is empty
 * Fix: If last counted paragraph is empty, ad is injected in wrong position
 * Fix: Ads are injected into blockquote elements
+* Fix: Do not show vi notice on all admin pages. If ad blocker is enabled it can not be closed
+* Tweak: Show notice if WP QUADS Pro license has been expired but make sure that the pro plugin does not stop working
+* Tweak: Better ad blocker notice
 
 = 1.7.6 =
 * Fix: remove debug vars
