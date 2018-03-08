@@ -47,7 +47,7 @@ function quads_admin_messages() {
 
 
     if (quads_is_admin_page()) {
-        echo '<div class="notice notice-error" id="wpquads-adblock-notice" style="display:none;">' . sprintf(__('<strong><p>WP QUADS: Disable your browser ad blocker!</strong> Your ad blocker browser extension is blocking WP QUADS css and js files and is<strong> breaking this settings screen!</strong><br>Deactivating your ad blocker will resolve it. WP QUADS is used on 90.000 websites and is into focus of the big adblocking companies. That\'s the downside of our success but nothing you need to worry about.</p>', 'quick-adsense-reloaded'), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header') . '</div>';
+        echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="wpquads-adblock-notice">' . sprintf(__('<strong><p>Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup</strong></p>', 'quick-adsense-reloaded'), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header') . '</div>';
     }
 
 //    if( !quads_is_any_ad_activated() && quads_is_admin_page() ) {

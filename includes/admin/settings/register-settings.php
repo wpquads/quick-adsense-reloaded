@@ -211,7 +211,7 @@ function quads_get_registered_settings() {
            ),
            array(
                'id' => 'vi_header',
-               'name' => '<strong>' . __( 'New: vi', 'quick-adsense-reloaded' ) . '</strong>',
+               'name' => '<strong>' . __( 'vi', 'quick-adsense-reloaded' ) . '</strong>',
                'desc' => '<strong>Native video ad units powered by video intelligence</strong>',
                'type' => 'header'
            ),
