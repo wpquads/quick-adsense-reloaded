@@ -211,7 +211,7 @@ function quads_get_registered_settings() {
            ),
            array(
                'id' => 'vi_header',
-               'name' => '<strong>' . __( 'vi', 'quick-adsense-reloaded' ) . '</strong>',
+               'name' => '<strong>' . __( 'vi ads', 'quick-adsense-reloaded' ) . '</strong>',
                'desc' => '<strong>Native video ad units powered by video intelligence</strong>',
                'type' => 'header'
            ),
@@ -229,13 +229,13 @@ function quads_get_registered_settings() {
            'adsense_header' => array(
                'id' => 'adsense_header',
                'name' => '<strong>' . __( 'Ad Code', 'quick-adsense-reloaded' ) . '</strong>',
-               'desc' => '<div class="adsense_admin_header">' . sprintf( __( 'Enter your ads below:</div>'
+               'desc' => '<div class="adsense_admin_header">' . __( 'Enter your ads below:</div>'
                                . '<ul style="margin-top:10px;">'
-                               . '<li style="font-weight:600;">Select <i>AdSense</i> for using <span style="font-weight:600;">AdSense Text & display Ads</span>!</li>'
-                               . '<li style="font-weight:600;">Use <i>Plain Text / HTML / JS</i> for all other ads! <br><strong>Caution:</strong> Adding AdSense code into <i>Plain Text</i> option can result in non-displayed ads!</li></ul>', 'quick-adsense-reloaded' ), 'http://wpquads.com/effective-adsense-banner-size-formats/?utm_campaign=plugin&utm_source=general_tab&utm_medium=admin&utm_content=best_banner_sizes' )
+                               . '<li style="font-weight:600;">- <i>AdSense</i> for using <span style="font-weight:600;">AdSense Text & display Ads</span>!</li>'
+                               . '<li style="font-weight:600;">- <i>Plain Text / HTML / JS</i> for all other ads! <br><strong>Caution:</strong> Adding AdSense code into <i>Plain Text</i> option can result in non-displayed ads!</li></ul>', 'quick-adsense-reloaded' )
                . '</ul>'
                . '<div style="clear:both;">' . sprintf( __( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve it.', 'quick-adsense-reloaded' ), 'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink' ) . ''
-               . '<br><a href="%s" target="_blank">Read here</a> to find out the most effective AdSense banner sizes. </div>'
+               . '<br><a href="http://wpquads.com/effective-adsense-banner-size-formats/?utm_campaign=plugin&utm_source=general_tab&utm_medium=admin&utm_content=best_banner_sizes" target="_blank">Read this</a> to find out the most effective AdSense banner sizes. </div>'
                . '<div id="quads-open-toggle" class="button">' . __( 'Open All Ads', 'quick-adsense-reloaded' ) . '</div>',
                'type' => 'header'
            ),
@@ -346,6 +346,14 @@ function quads_get_registered_settings() {
                //'desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
                'desc' => __( 'Remove it' ),
                'helper-desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
+               'type' => 'checkbox',
+           ),
+           'disableAmpScript' => array(
+               'id' => 'disableAmpScript',
+               'name' => __( 'Disable AMP script', 'quick-adsense-reloaded' ),
+               //'desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
+               'desc' => __( 'Disable AMP Scripts' ),
+               'helper-desc' => __( 'Disable duplicate AMP ad script integration if your AMP plugin is already loading the script https://cdn.ampproject.org/v0/amp-ad-0.1.js into your site', 'quick-adsense-reloaded' ),
                'type' => 'checkbox',
            ),
            'uninstall_on_delete' => array(
