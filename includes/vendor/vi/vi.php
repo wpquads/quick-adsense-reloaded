@@ -196,7 +196,7 @@ class vi {
         }
 
 
-        if (isset($response->status) && $response->status == 'ok') {
+        if (isset($response->status) && $response->status == 'ok' && !empty($response)) {
             update_option('quads_vi_settings', $response);
             return true;
         }
@@ -453,8 +453,10 @@ class vi {
 
         $ads = get_option('quads_vi_ads');
 
-        if (!$vi_token)
+        if (!$vi_token){
+            error_log('vi token is empty');
             return false;
+        }
 
 
         $viParam = $this->getViAdParams($ads);
@@ -491,13 +493,25 @@ class vi {
         );
 
         $response = wp_remote_post($this->settings->data->jsTagAPI, $args);
+        
+        //wp_die(json_encode($response));
 
-        if (is_wp_error($response))
+
+        if (is_wp_error($response)){
+            error_log('is wp error: ' . $response);
             return false;
-        if (wp_remote_retrieve_response_code($response) == '404' || wp_remote_retrieve_response_code($response) == '401')
+        }
+        if (wp_remote_retrieve_response_code($response) == '404' || wp_remote_retrieve_response_code($response) == '401'){
+            error_log('is 404 or 401! Endpoint: ' . $this->settings->data->jsTagAPI . ' Token: '. $vi_token . ' Response: ' . print_r($response, true) . ' Params: ' . print_r($viParam, true));
+            // convert into object
+            $response = json_decode($response['body']);
+            return json_encode($response);
+            //return false;
+        }
+        if (empty($response)){
+            error_log('is empty');
             return false;
-        if (empty($response))
-            return false;
+        }
 
         // convert into object
         $response = json_decode($response['body']);
@@ -505,7 +519,8 @@ class vi {
 
         // Die()
         if ($response->status !== 'ok' || empty($response->data)) {
-            return json_encode($response);
+         error_log( 'is ok ' . $response );
+         return json_encode($response);
         }
 
         // Add ad code to key 1 as long as there are no more vi ad codes
