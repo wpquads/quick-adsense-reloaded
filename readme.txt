@@ -131,6 +131,7 @@ Alternative Installation:
 == Changelog == 
 
 = 1.7.7 =
+* New: Option to prevent multiple injection of https://cdn.ampproject.org/v0/amp-ad-0.1.js into AMP pages
 * Fix: Revert load priority to 20
 * Fix: Change vi default background and text color
 * Fix: vi password field too large - css issue
@@ -138,6 +139,8 @@ Alternative Installation:
 * Fix: If last counted paragraph is empty, ad is injected in wrong position
 * Fix: Ads are injected into blockquote elements
 * Fix: Do not show vi notice on all admin pages. If ad blocker is enabled it can not be closed
+* Fix: Do not update vi ad code when vi api returns null
+* Tweak: Show error message when vi ad can not be created
 * Tweak: Show notice if WP QUADS Pro license has been expired but make sure that the pro plugin does not stop working
 * Tweak: Better ad blocker notice
 
@@ -260,5 +263,5 @@ Complete changelog: https://wpquads.com/changelog
 
 == Upgrade Notice ==
 
-= 1.7.6 =
-1.7.6 If you are using WP QUADS PRO this update is highly recommended!
+= 1.7.7 =
+1.7.7 Lots of small improvements and tweaks
