@@ -127,17 +127,22 @@ var save_quads_vi_ad_settings = function (){
     var data = {
             'action': 'quads_save_vi_ads',
     };
+    
         jQuery.ajax({
         type: "POST",
                 url: ajaxurl,
                 dataType: "json",
                 data: data,
+                //data: JSON.stringify(data),
                 //contentType: 'application/json',
                 success: function(response){
                 console.log(response);
                     //response = JSON.parse(response);
+                    
+                    if(response === null){
+                       var resp = '<span style="color:red;">Fatal Error: vi API is not returning anything </span>';
 
-                    if(typeof response.status != 'undefined' && response.status == 'error'){
+                    } else if(typeof response.status != 'undefined' && response.status == 'error'){
                         
                         var resp = '<span style="color:red;">Error: </span>' + response.error.message + ' ' + (response.error.description ? response.error.description : '');
                     } else {
