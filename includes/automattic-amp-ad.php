@@ -12,6 +12,11 @@
 
 add_action( 'amp_post_template_head', 'quads_amp_add_amp_ad_js' );
 function quads_amp_add_amp_ad_js( $amp_template ) {
+   global $quads_options;
+   
+   if (isset($quads_options['disableAmpScript'])){
+      return false;
+   }
     ?>
     <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
     <?php
