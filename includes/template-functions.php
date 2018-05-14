@@ -16,7 +16,36 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 add_filter('the_content', 'quads_post_settings_to_quicktags', 5);
 add_filter('the_content', 'quads_process_content', quads_get_load_priority());
 
+/**
+ * Show ads before posts
+ */
+add_action('loop_start', 'quads_inject_ad');
 
+function quads_inject_ad() {
+   global $quads_options, $post;
+   
+   // Ads are deactivated via post meta settings
+    if( quads_check_meta_setting( 'NoAds' ) === '1' || quads_check_meta_setting( 'OffBegin' ) === '1'){
+        return false;
+    }
+   
+   if( !quads_ad_is_allowed( '' ) || !is_main_query() ) {
+      return false;
+   }
+   // Array of ad codes ids
+   $adsArray = quads_get_active_ads();
+
+   // Return no ads are defined
+   if( count($adsArray) === 0 ) {
+      return false;
+   }
+   
+   $id = 1;
+   
+   $code = !empty($quads_options['ads']['ad' . $id ]['code']) ? $quads_options['ads']['ad' . $id ]['code'] : '';
+   echo quads_render_ad(1, $code, false);
+   
+}
 
 /**
  * Adds quicktags, defined via post meta options, to content.
