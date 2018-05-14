@@ -130,6 +130,10 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.7.8 =
+* Fix: License notice shown even though license is not expired
+* Fix: Ads are injected into blog loop because of forgotten development code
+
 = 1.7.7 =
 * New: Option to prevent multiple injection of https://cdn.ampproject.org/v0/amp-ad-0.1.js into AMP pages
 * Fix: Revert load priority to 20
@@ -263,5 +267,5 @@ Complete changelog: https://wpquads.com/changelog
 
 == Upgrade Notice ==
 
-= 1.7.7 =
-1.7.7 Lots of small improvements and tweaks
+= 1.7.8 =
+1.7.8 Lots of small improvements and tweaks

@@ -656,8 +656,10 @@ global $quads_options, $wp_version;
     $licKey = isset($quads_options['quads_wp_quads_pro_license_key']) ? $quads_options['quads_wp_quads_pro_license_key'] : '';
 
     $lic = get_option('quads_wp_quads_pro_license_active');
+    
+    //var_dump($lic);
 
-    if (!$lic) {
+    if (!$lic ||(isset($lic->license) && $lic->license !== 'invalid')) {
         return false;
     }
     
