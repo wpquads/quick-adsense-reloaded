@@ -228,7 +228,7 @@ function quads_get_registered_settings() {
              ), */
            'adsense_header' => array(
                'id' => 'adsense_header',
-               'name' => '<strong>' . __( 'Ad Code', 'quick-adsense-reloaded' ) . '</strong>',
+               'name' => '<strong>' . __( 'Ads', 'quick-adsense-reloaded' ) . '</strong>',
                'desc' => '<div class="adsense_admin_header">' . __( 'Enter your ads below:</div>'
                                . '<ul style="margin-top:10px;">'
                                . '<li style="font-weight:600;">- <i>AdSense</i> for using <span style="font-weight:600;">AdSense Text & display Ads</span>!</li>'
@@ -251,7 +251,7 @@ function quads_get_registered_settings() {
            ),
            'widget_header' => array(
                'id' => 'widget_header',
-               'name' => '<strong>' . __( 'Widgets Ad Code', 'quick-adsense-reloaded' ) . '</strong>',
+               'name' => '<strong>' . __( 'Widget Ads', 'quick-adsense-reloaded' ) . '</strong>',
                'desc' => sprintf( __( 'After creating your ads here go to <a href="%s" target="_self">Appearance->Widgets</a> and drag the WP QUADS widget into place.', 'quick-adsense-reloaded' ), admin_url() . 'widgets.php' ),
                'type' => 'header'
            ),
@@ -2214,6 +2214,37 @@ function quads_adsense_code_callback( $args ) {
           }
           $html .= '<option value="' . $key . '" ' . $checked . '>' . $value . '</option>';
        endforeach;
+       $html .= '</select>';
+       echo $html;
+    }
+    /**
+     * Multi Select Ajax Callback
+     * This adds only active elements to the array. Useful if there are a lot of elements like tags to increase performance
+     *
+     * @since 1.3.8
+     * @param array $args Arguments passed by the settings
+     * @global $quads_options Array of all the QUADS Options
+     * @return string $output dropdown
+     */
+    function quads_multiselect_ajax_callback( $args = array() ) {
+       global $quads_options;
+
+       $placeholder = !empty( $args['placeholder'] ) ? $args['placeholder'] : '';
+       $selected = isset( $quads_options[$args['id']] ) ? $quads_options[$args['id']] : '';
+       $checked = '';
+
+       $html = '<select id="quads_select_'. $args['id'] .'" name="quads_settings[' . $args['id'] . '][]" data-placeholder="' . $placeholder . '" style="width:550px;" multiple tabindex="4" class="quads-select quads-chosen-select">';
+       $i = 0;
+       
+       if (!isset($quads_options[$args['id']]) || !is_array( $quads_options[$args['id']] ) || count($quads_options[$args['id']]) == 0){
+            $html .= '</select>';
+            echo $html;
+            return;
+       }
+       
+       foreach ( $quads_options[$args['id']] as $key => $value ) {
+          $html .= '<option value="' . $key . '" selected="selected">' . $value . '</option>';
+       };
        $html .= '</select>';
        echo $html;
     }

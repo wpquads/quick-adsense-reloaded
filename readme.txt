@@ -17,7 +17,7 @@ Quick Adsense Reloaded! Quickest way to insert Google AdSense & other ads into y
 == Description == 
 
 #### WPQUADS - Quick AdSense Reloaded 
-This free Google AdSense inserting plugin is an improvement of the successfull but discontinued plugin Quick AdSense which is used on more than 100.000 websites.
+This free Google AdSense advanced inserting plugin is an improvement of the successfull but discontinued plugin Quick AdSense which is used on more than 100.000 websites.
 WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
 <br />
 [See all features](https://wpquads.com/)
@@ -129,6 +129,11 @@ Alternative Installation:
 
 
 == Changelog == 
+
+= 1.7.9 =
+* New: Add up to 11 paragraph ads with WP QUADS PRO
+* New: Fix tag condition in wp quads pro
+* Tweak: Rename ad tabs
 
 = 1.7.8 =
 * Fix: License notice shown even though license is not expired

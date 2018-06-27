@@ -365,7 +365,7 @@ function quads_filter_default_ads( $content ) {
     $adsArrayCus = $quads_filtered['AdsIdCus'];
 
     // Create paragraph ads
-    $number = 6;
+    $number = 11;
 
     for ( $i = $number; $i >= 1; $i-- ) {
         if( !empty( $paragraph['status'][$i] ) ) {
