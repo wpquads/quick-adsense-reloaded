@@ -25,6 +25,8 @@ function quads_admin_messages() {
     if (!current_user_can('update_plugins') || quads_is_addon_page()) {
         return;
     }
+    
+    quads_show_update_auto_ads();
 
     quads_theme_notice();
 
@@ -687,3 +689,42 @@ function quads_hide_license_expired_notice(){
 
 
 add_action('quads_hide_license_expired_notice', 'quads_hide_license_expired_notice');
+
+
+
+/**
+ * Return update notice for Google Auto Ads
+ * @since 3.5.3.0
+ */
+function quads_show_update_auto_ads() {
+    
+    
+    $message = sprintf(__( '<h2 style="color:white;">WP QUADS & Google Auto Ads</h2>'
+            . 'WP QUADS Pro adds support for Google Auto Ads<br><br> Get the Pro plugin from <a href="https://wpquads.com/?utm_source=wp-admin&utm_medium=autoads-notice&utm_campaign=autoads-notice" target="_blank" style="color:#87c131;">wpquads.com</a>'
+            , 'mashsb' ), 
+            admin_url() . 'admin.php?page=quads-settings'
+            );
+      
+        if( get_option( 'quads_hide_notice_auto_ads' ) === 'no' ) {
+           return false;
+        }
+  
+        // admin notice after updating wp quads
+        echo '<div class="quads-notice-gdpr update-nag" style="background-color: black;color: #87c131;padding: 20px;margin-top: 20px;border: 3px solid #87c131;">' . $message . 
+        '<p><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=hide_auto_ads_notice" class="quads_hide_gdpr" title="I got it" style="text-decoration:none;color:white;">- I Understand! Do Not Show This Message Again -</a></a>'.
+            '</div>';
+       
+    
+}
+
+/**
+ * Hide GDPR notice
+ * 
+ * @global array $mashsb_options
+ */
+function mashsb_hide_auto_ads_notice(){
+        global $quads_options;
+        // Get all settings
+        update_option( 'quads_hide_notice_auto_ads', 'no' );
+}
+add_action ('quads_hide_auto_ads_notice', 'mashsb_hide_auto_ads_notice');
