@@ -385,7 +385,8 @@ function quads_filter_default_ads( $content ) {
             if(!empty($blockquotes)){
                $bId = 0;
                foreach($blockquotes[0] as $blockquote){
-                  $content = str_replace(trim($blockquote), "#QUADSBLOCKQUOTE#" . $bId, $content);
+                  $replace = "#QUADSBLOCKQUOTE" . $bId . '#';
+                  $content = str_replace(trim($blockquote), $replace, $content);
                   $bId++;
                }
             }
@@ -411,7 +412,8 @@ function quads_filter_default_ads( $content ) {
             if(!empty($blockquotes)){
                $bId = 0;
                foreach($blockquotes[0] as $blockquote){
-                  $content = str_replace('#QUADSBLOCKQUOTE#' . $bId, trim($blockquote), $content);
+                  $search = '#QUADSBLOCKQUOTE' . $bId . '#'; 
+                  $content = str_replace($search, trim($blockquote), $content);
                   $bId++;
                }
             }

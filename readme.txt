@@ -130,6 +130,9 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.8.0 =
+* Fix: If post has more than 10 blockquotes the resulting blockquote order will be wrong
+
 = 1.7.9 =
 * New: Add up to 11 paragraph ads with WP QUADS PRO
 * New: Fix tag condition in wp quads pro
