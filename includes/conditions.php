@@ -13,7 +13,7 @@
 
 
 /**
- * Determine if ads are visible
+ * Global! Determine if ads are visible
  * 
  * @global arr $quads_options
  * @param string $content 
@@ -52,6 +52,57 @@ function quads_ad_is_allowed( $content = null ) {
             (strpos( $content, '<!--NoAds-->' ) !== false) ||
             (strpos( $content, '<!--OffAds-->' ) !== false) ||
             (is_front_page() && !isset( $quads_options['visibility']['AppHome'] ) ) ||
+            (is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
+            (is_archive() && !( isset( $quads_options['visibility']['AppArch'] ) ) ) ||
+            (is_tag() && !( isset( $quads_options['visibility']['AppTags'] ) ) ) ||
+            (!quads_post_type_allowed()) ||
+            (is_user_logged_in() && ( isset( $quads_options['visibility']['AppLogg'] ) ) ) ||
+            true === $hide_ads
+    ) {
+        return false;
+    }
+    // else
+    return true;
+}
+/**
+ * Global! Determine if widget ads are visible
+ * 
+ * @global arr $quads_options
+ * @param string $content 
+ * @since 0.9.4
+ * @return boolean true when ads are shown
+ */
+function quads_widget_ad_is_allowed( $content = null ) {
+    global $quads_options;
+    
+        
+    // Never show ads in ajax calls
+    if ( isset($quads_options['is_ajax']) && (defined('DOING_AJAX') && DOING_AJAX) || 
+         (! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) == 'xmlhttprequest' )
+        )
+        { 
+        /* it's an AJAX call */ 
+        return false;
+    }
+    
+    $hide_ads = apply_filters('quads_hide_ads', false);
+    
+    // User Roles check
+    if(!quads_user_roles_permission()){
+       return false;
+    }
+    
+    // Frontpage check
+    if (is_front_page() && isset( $quads_options['visibility']['AppHome'] ) ){
+       return true;
+    }
+
+    if(
+            (is_feed()) ||
+            (is_search()) ||
+            (is_404() ) ||
+            (strpos( $content, '<!--NoAds-->' ) !== false) ||
+            (strpos( $content, '<!--OffAds-->' ) !== false) ||
             (is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
             (is_archive() && !( isset( $quads_options['visibility']['AppArch'] ) ) ) ||
             (is_tag() && !( isset( $quads_options['visibility']['AppTags'] ) ) ) ||

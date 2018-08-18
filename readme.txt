@@ -130,6 +130,9 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.8.1 =
+* New: Allow to show widget ads on homepage but disable all content ads
+
 = 1.8.0 =
 * Fix: If post has more than 10 blockquotes the resulting blockquote order will be wrong
 
