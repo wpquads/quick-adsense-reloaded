@@ -10,7 +10,7 @@ Tags: adsense, ads, ad, google adsense, advertising, amp, ad injection, ad inser
 Requires at least: 3.6+
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: {{ version }}
+Stable tag: {{ version }} 
 
 Quick Adsense Reloaded! Quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support
 
