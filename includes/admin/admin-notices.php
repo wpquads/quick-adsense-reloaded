@@ -16,7 +16,7 @@ if (!defined('ABSPATH'))
  * Admin Messages
  *
  * @since 2.2.3
- * @global $mashsb_options Array of all the MASHSB Options
+ * @global $mashsb_options Array of all the WP QUADS Options
  * @return void
  */
 function quads_admin_messages() {
@@ -710,7 +710,7 @@ function quads_show_update_auto_ads() {
         }
   
         // admin notice after updating wp quads
-        echo '<div class="quads-notice-gdpr update-nag" style="background-color: black;color: #87c131;padding: 20px;margin-top: 20px;border: 3px solid #87c131;">' . $message . 
+        echo '<div class="quads-notice-gdpr update-nag" style="background-color: black;color: #87c131;padding: 20px;margin-top: 20px;border: 3px solid #87c131;display:block;">' . $message . 
         '<p><a href="'.admin_url().'admin.php?page=quads-settings&quads-action=hide_auto_ads_notice" class="quads_hide_gdpr" title="I got it" style="text-decoration:none;color:white;">- I Understand! Do Not Show This Hint Again -</a></a>'.
             '</div>';
        
