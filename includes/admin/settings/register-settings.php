@@ -1632,10 +1632,12 @@ function quads_ajax_add_ads(){
    //wp_die($postCount);
    
    $count = isset($quads_options['ads']) ? count ($quads_options['ads']) + $postCount : 10 + $postCount;
+     
    
    $args = array();
    // subtract 10 widget ads
-   $args['id'] = $count-10;
+   //$args['id'] = $count-10;
+   $args['id'] = $count-getTotalWidgets();
    $args['name'] = 'Ad ' . $args['id'];
    
    ob_start();
@@ -1651,6 +1653,24 @@ function quads_ajax_add_ads(){
    die();
 }
 add_action( 'wp_ajax_quads_ajax_add_ads', 'quads_ajax_add_ads' );
+
+/**
+ * Get the total amount of widget ads
+ * @global $quads_options $quads_options
+ * @return int
+ */
+function getTotalWidgets(){
+      global $quads_options;
+
+      $i = 0;
+      
+      foreach ($quads_options['ads'] as $key => $value){
+         if (false !== strpos($key, 'widget')){
+            $i++;
+         }
+      }
+      return $i;
+}
 
 /**
  * Count normal ads. Do not count widget ads
