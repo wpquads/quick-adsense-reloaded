@@ -130,6 +130,9 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.8.2 =
+* Fix: Gutenberg breaks traditional admin notices so we remove our admin notices from the edit screen
+
 = 1.8.1 =
 * New: Allow to show widget ads on homepage but disable all content ads
 * Fix: Widget ads are not counted correctly if the settings were saved incomplete
