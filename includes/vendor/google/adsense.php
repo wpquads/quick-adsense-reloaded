@@ -67,7 +67,9 @@ class adsense {
                             //get g_data_ad_client
                             $explode_ad_code = explode('data-ad-client', $value['code']);
                             preg_match('#"([a-zA-Z0-9-\s]+)"#', $explode_ad_code[1], $matches_add_client);
-                            $this->publisherIds[] = str_replace(array('"', ' '), array(''), $matches_add_client[1]);
+                            if(isset($matches_add_client[1])){
+                                $this->publisherIds[] = str_replace(array('"', ' '), array(''), $matches_add_client[1]);
+                            }
                         } else {
                             //*** GOOGLE SYNCRON *************
                             //get g_data_ad_client
