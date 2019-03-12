@@ -8,7 +8,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: adsense, ads, ad, google adsense, advertising, amp, ad injection, ad inserter, ad manager
 Requires at least: 3.6+
-Tested up to: 4.9
+Tested up to: 5.0
 Requires PHP: 5.3
 Stable tag: {{ version }} 
 
@@ -130,6 +130,10 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.8.3 =
+* New: WordPress 5.0 Gutenberg support
+* New: WordPress 5.1 support
+
 = 1.8.2 =
 * Fix: Gutenberg breaks traditional admin notices so we remove our admin notices from the edit screen
 
@@ -168,5 +172,5 @@ Complete changelog: https://wpquads.com/changelog
 
 == Upgrade Notice ==
 
-= 1.7.8 =
-1.7.8 Lots of small improvements and tweaks
+= 1.8.3 =
+1.8.3 Gutenberg Support

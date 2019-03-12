@@ -2150,7 +2150,9 @@ function quads_adsense_code_callback( $args ) {
                   //get g_data_ad_slot
                   $explode_ad_code = explode( 'data-ad-slot', $value['code'] );
                   preg_match( '#"([a-zA-Z0-9/\s]+)"#', $explode_ad_code[1], $matches_add_slot );
+                  if (isset($matches_add_slot[1])){
                   $quads_options['ads'][$key]['g_data_ad_slot'] = str_replace( array('"', ' '), array(''), $matches_add_slot[1] );
+                  }
                } else {
                   //*** GOOGLE SYNCRON *************
                   $quads_options['ads'][$key]['current_ad_type'] = 'google_sync';
