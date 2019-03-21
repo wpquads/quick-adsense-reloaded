@@ -269,22 +269,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
       $autoloader->register();
    }
    
-      /**
-    * Set a variable to DI with given name
-    * @param string $name
-    * @param mixed $variable
-    * @return $this
-    */
-//   public function set( $name, $variable ) {
-//      // It is a function
-//      if( is_callable( $variable ) )
-//         $variable = $variable();
-//
-//      // Add it to services
-//      $this->services[$name] = $variable;
-//
-//      return $this;
-//   }
       
 
       public function load_hooks() {
