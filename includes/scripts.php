@@ -141,17 +141,17 @@ function quads_load_all_admin_scripts( $hook ) {
 /**
  * Create Gutenberg block
  */
-function quads_load_blocks() {
-    $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
-
-    wp_register_script( 'wpquads', $js_dir . 'blocks.js', array('wp-blocks', 'wp-element', 'wp-editor') );
-
-    register_block_type( 'wpquads/blocks', array(
-        'editor_script' => 'wpquads',
-    ) );
-}
-
-add_action( 'init', 'quads_load_blocks' );
+//function quads_load_blocks() {
+//    $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
+//
+//    wp_register_script( 'wpquads', $js_dir . 'blocks.js', array('wp-blocks', 'wp-element', 'wp-editor') );
+//
+//    register_block_type( 'wpquads/blocks', array(
+//        'editor_script' => 'wpquads',
+//    ) );
+//}
+//
+//add_action( 'init', 'quads_load_blocks' );
 
 
 /**

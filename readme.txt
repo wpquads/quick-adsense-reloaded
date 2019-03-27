@@ -130,6 +130,9 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.8.4 =
+* Fix: Fatal error if Gutenberg is disabled
+
 = 1.8.3 =
 * New: WordPress 5.0 Gutenberg support
 * New: WordPress 5.1 support
