@@ -130,6 +130,9 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.8.5 =
+* Fix: Quicktags in editor not working any longer
+
 = 1.8.4 =
 * Fix: Fatal error if Gutenberg is disabled
 
@@ -138,7 +141,6 @@ Alternative Installation:
 * New: WordPress 5.1 support
 * New: WordPress 5.1.1 support
 * Fix: Undefined offset in wpquads\adsense
-
 
 = 1.8.2 =
 * Fix: Gutenberg breaks traditional admin notices so we remove our admin notices from the edit screen
@@ -160,23 +162,9 @@ Alternative Installation:
 * Fix: License notice shown even though license is not expired
 * Fix: Ads are injected into blog loop because of forgotten development code
 
-= 1.7.7 =
-* New: Option to prevent multiple injection of https://cdn.ampproject.org/v0/amp-ad-0.1.js into AMP pages
-* Fix: Revert load priority to 20
-* Fix: Change vi default background and text color
-* Fix: vi password field too large - css issue
-* Fix: Error in_array() if post_type condition is empty
-* Fix: If last counted paragraph is empty, ad is injected in wrong position
-* Fix: Ads are injected into blockquote elements
-* Fix: Do not show vi notice on all admin pages. If ad blocker is enabled it can not be closed
-* Fix: Do not update vi ad code when vi api returns null
-* Tweak: Show error message when vi ad can not be created
-* Tweak: Show notice if WP QUADS Pro license has been expired but make sure that the pro plugin does not stop working
-* Tweak: Better ad blocker notice
-
 Complete changelog: https://wpquads.com/changelog
 
 == Upgrade Notice ==
 
-= 1.8.3 =
-1.8.3 Gutenberg Support
+= 1.8.5 =
+* Fix: Quicktags in editor not working any longer
