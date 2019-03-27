@@ -264,45 +264,45 @@ function quads_ads_head_script() {
     if( isset( $quads_options['quicktags']['QckTags'] ) ) {
         ?>
         <script type="text/javascript">
-            wpvcomp = <?php echo (($wpvcomp == 1) ? "true " : "false"); ?>;
-                    edaddID = new Array();
-                    edaddNm = new Array();
-                    if (typeof (edButtons) != 'undefined') {
-                    edadd = edButtons.length;
-                    var dynads = {"all":[
+        wpvcomp = <?php echo (($wpvcomp == 1) ? "true " : "false"); ?>;
+        edaddID = new Array();
+        edaddNm = new Array();
+        if (typeof (edButtons) != 'undefined') {         edadd = edButtons.length;
+        var dynads = {"all":[
         <?php
         for ( $i = 1; $i <= count( quads_get_ads() ) - 1; $i++ ) {
             if( isset( $quads_options['ads']['ad' . $i]['code'] ) && $quads_options['ads']['ad' . $i]['code'] != '' ) {
-                echo('" 1",');
+                echo('"1",');
             } else {
                 echo('"0",');
             };
         }
         ?>
-                    " 0 "] };
-                    for (i = 1; i <=<?php echo count( quads_get_ads() ) - 1; ?>; i++) {    i f  (dynads.all[ i - 1 ] == "1") {
-            edButtons [ edButtons.le n gth] = n ew  edB u tton("ads" + i.toString(), "Ads" + i.toString(), "\n<!--Ads"+i.toSt r ing()+"-->\n", "", "", - 1);
-                    edaddID[eda d dID.length] =  " ads" + i.t oString();
-                    edaddNm[edaddNm.length] ="Ads" + i.toString();
-                    }
-            }
+        "0"] };
+        for (i = 1; i <=<?php echo count( quads_get_ads() ) - 1; ?>; i++) {
+        if (dynads.all[ i - 1 ] == "1") {
+        edButtons [edButtons.length] = new edButton("ads" + i.toString(), " Ads" + i.toString(), "\n<!--Ads"+i.toString()+"-->\n", "", "", - 1);
+        edaddID[edaddID.length] = " ads" + i.toString();
+        edaddNm[edaddNm.length] = "Ads" + i.toString();
+        }
+        }
         <?php if( !isset( $quads_options['quicktags']['QckRnds'] ) ) { ?>
-                edButtons[edButtons.length] = n e w edButton("random_ads", " RndAds", "\n<!--RndAds-->\n", "", "", - 1);
-                        edaddID[edaddID.length] = "random_ads";
-                        edaddNm[edaddNm.length] = "RndAds";
+            edButtons[edButtons.length] = new edButton("random_ads", " RndAds", "\n<!--RndAds-->\n", "", "", - 1);
+            edaddID[edaddID.length] = "random_ads";
+            edaddNm[edaddNm.length] = "RndAds";
         <?php } ?>
-            edButtons[edButtons.length] = new edButton("no_ads", "NoAds", "\n<!--NoAds-->\n","","",-1);
-                    edaddID[edaddID.length] = "no_ads";
-                                    edaddNm[edaddNm.length] = "NoAds";			
+        edButtons[edButtons.length] = new edButton("no_ads", "NoAds", "\n<!--NoAds-->\n","","",-1);
+            edaddID[edaddID.length] = "no_ads";
+                            edaddNm[edaddNm.length] = "NoAds";			
         };
         (function(){
-            if(typeof(edButtons)!='undefined' && typeof(jQuery)!='undefined' && wpvcomp){
-                    jQuery(document).ready(function(){
-                            for(i=0;i<edaddID.length;i++) {
-                                    jQuery("#ed_toolbar").append('<input type="button" value="' + edaddNm[i] +'" id="' + edaddID[i] +'" class="ed_button" onclick="edInsertTag(edCanvas, ' + (edadd+i) + ');" title="' + edaddNm[i] +'" />');
-                            }
-                    });
-            }
+        if(typeof(edButtons)!='undefined' && typeof(jQuery)!='undefined' && wpvcomp){
+            jQuery(document).ready(function(){
+                    for(i=0;i<edaddID.length;i++) {
+                            jQuery("#ed_toolbar").append('<input type="button" value="' + edaddNm[i] +'" id="' + edaddID[i] +'" class="ed_button" onclick="edInsertTag(edCanvas, ' + (edadd+i) + ');" title="' + edaddNm[i] +'" />');
+                    }
+            });
+        }
         }());	
         </script> 
         <?php
