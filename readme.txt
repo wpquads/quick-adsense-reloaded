@@ -8,7 +8,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: adsense, ads, ad, google adsense, advertising, amp, ad injection, ad inserter, ad manager
 Requires at least: 3.6+
-Tested up to: 5.1
+Tested up to: 5.2
 Requires PHP: 5.3
 Stable tag: {{ version }} 
 
@@ -130,6 +130,9 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.8.6 =
+* Fix: Updated for WordPress 5.2.x
+
 = 1.8.5 =
 * Fix: Quicktags in editor not working any longer
 
@@ -166,5 +169,5 @@ Complete changelog: https://wpquads.com/changelog
 
 == Upgrade Notice ==
 
-= 1.8.5 =
-* Fix: Quicktags in editor not working any longer
+= 1.8.6 =
+* Fix: Updated for WordPress 5.2.x
