@@ -102,7 +102,7 @@ function quads_add_ons_page() {
                 <li><strong>High Performance</strong> - <?php _e('this plugin keeps the speed of your site', 'quick-adsense-reloaded' ); ?></li>
                 <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=addon_page&utm_term=click-quads-pro&utm_campaign=wpquads" target="_blank" class="quads-button green">Buy WP QUADS Pro</a>
                 <a href="<?php echo admin_url(); ?>admin.php?page=quads-settings" target="_self" style="margin-left:30px;">Skip - Go to Settings</a>
-                <div class="quads-footer"> <?php _e('Comes with our 30-day no questions asked money back guarantee','quick-adsense-reloaded'); ?></div>
+                <div class="quads-footer" style="display:none;"> <?php _e('Comes with our 30-day no questions asked money back guarantee','quick-adsense-reloaded'); ?></div>
             </div>
             <div style="float:left;width:50%;border: 2px solid white;padding: 20px;display:none;">
 		<h2>

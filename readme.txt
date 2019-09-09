@@ -130,6 +130,9 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.8.7 =
+* New: Compatible up to WordPress 5.2.3
+
 = 1.8.6 =
 * Fix: Updated for WordPress 5.2.x
 
@@ -169,5 +172,5 @@ Complete changelog: https://wpquads.com/changelog
 
 == Upgrade Notice ==
 
-= 1.8.6 =
-* Fix: Updated for WordPress 5.2.x
+= 1.8.7 =
+* New: Compatible up to WordPress 5.2.3
