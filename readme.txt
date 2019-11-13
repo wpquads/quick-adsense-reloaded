@@ -130,6 +130,9 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.8.8 =
+* New: Compatible up to WordPress 5.3.0
+
 = 1.8.7 =
 * New: Compatible up to WordPress 5.2.3
 
