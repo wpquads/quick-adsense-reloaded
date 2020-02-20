@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 // we need to hook into the_content on lower than default priority (that's why we use separate hook)
 add_filter('the_content', 'quads_post_settings_to_quicktags', 5);
 add_filter('the_content', 'quads_process_content', quads_get_load_priority());
-
+add_filter('rest_prepare_post', 'quads_classic_to_gutenberg', 10, 1);
 /**
  * Show ads before posts
  * @not used at the moment
@@ -47,6 +47,17 @@ add_filter('the_content', 'quads_process_content', quads_get_load_priority());
 //   echo quads_render_ad(1, $code, false);
 //   
 //}
+
+function quads_classic_to_gutenberg($data)
+{
+    if (isset($data->data['content']['raw'])) {
+        for ($i = 1; $i <= 10; $i++) {
+            $data->data['content']['raw'] =  str_replace('<!--Ads' . $i . '-->', '<!-- wp:shortcode --><!--Ads' . $i . '--><!-- /wp:shortcode -->', $data->data['content']['raw']);
+        }
+        $data->data['content']['raw'] =  str_replace('<!--RndAds-->', '<!-- wp:shortcode --><!--RndAds--><!-- /wp:shortcode -->', $data->data['content']['raw']);
+    }
+    return $data;
+}
 
 /**
  * Adds quicktags, defined via post meta options, to content.
