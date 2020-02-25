@@ -52,6 +52,7 @@ function quads_classic_to_gutenberg($data)
 {
     if (isset($data->data['content']['raw'])) {
         $data->data['content']['raw'] =  preg_replace('/<!--Ads(\d+)-->/','[quads id=$1]', $data->data['content']['raw']);  
+        $data->data['content']['raw'] =  str_replace('<!--RndAds-->', '[quads id=RndAds]', $data->data['content']['raw']);
     }
     return $data;
 }
