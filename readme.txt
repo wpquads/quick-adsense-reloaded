@@ -164,19 +164,9 @@ Alternative Installation:
 = 1.8.0 =
 * Fix: If post has more than 10 blockquotes the resulting blockquote order will be wrong
 
-= 1.7.9 =
-* New: Add up to 11 paragraph ads with WP QUADS PRO
-* New: Fix tag condition in wp quads pro
-* New: Support for Google Auto Ads with WP QUADS PRO
-* Tweak: Rename ad tabs
-
-= 1.7.8 =
-* Fix: License notice shown even though license is not expired
-* Fix: Ads are injected into blog loop because of forgotten development code
-
 Complete changelog: https://wpquads.com/changelog
 
 == Upgrade Notice ==
 
-= 1.8.7 =
-* New: Compatible up to WordPress 5.2.3
+= 1.8.9 =
+* Fix: Quicktag buttons are not shown with Gutenberg editor #50
