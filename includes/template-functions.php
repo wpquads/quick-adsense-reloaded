@@ -51,10 +51,7 @@ add_filter('rest_prepare_post', 'quads_classic_to_gutenberg', 10, 1);
 function quads_classic_to_gutenberg($data)
 {
     if (isset($data->data['content']['raw'])) {
-        for ($i = 1; $i <= 10; $i++) {
-            $data->data['content']['raw'] =  str_replace('<!--Ads' . $i . '-->', '<!-- wp:shortcode --><!--Ads' . $i . '--><!-- /wp:shortcode -->', $data->data['content']['raw']);
-        }
-        $data->data['content']['raw'] =  str_replace('<!--RndAds-->', '<!-- wp:shortcode --><!--RndAds--><!-- /wp:shortcode -->', $data->data['content']['raw']);
+        $data->data['content']['raw'] =  preg_replace('/<!--Ads(\d+)-->/','[quads id=$1]', $data->data['content']['raw']);  
     }
     return $data;
 }
@@ -579,6 +576,7 @@ function quads_parse_random_quicktag_ads($content){
     /*
      * Replace RndAds Random Ads
      */
+    $content=  str_replace('[quads id=RndAds]', '<!--RndAds-->', $content);
     if( strpos( $content, '<!--RndAds-->' ) !== false && is_singular() ) {
         $adsArrayTmp = array();
         shuffle( $adsArray );
