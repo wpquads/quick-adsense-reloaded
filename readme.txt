@@ -130,6 +130,9 @@ Alternative Installation:
 
 == Changelog == 
 
+= 1.8.9 =
+* Fix: Quicktag buttons are not shown with Gutenberg editor #50
+
 = 1.8.8 =
 * New: Compatible up to WordPress 5.3.0
 
