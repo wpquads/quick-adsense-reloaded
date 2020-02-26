@@ -65,6 +65,10 @@ $ad_count_widget = 0; // Number of active ads in widgets
 $AdsId = array(); // Array of active ad id's
 $maxWidgets = 10; // number of widgets
 
+/**
+ * Block Initializer.
+ */
+require_once plugin_dir_path( __FILE__ ) . 'src/init.php';
 
 if( !class_exists( 'QuickAdsenseReloaded' ) ) :
 
