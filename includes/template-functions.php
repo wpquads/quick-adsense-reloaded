@@ -454,20 +454,8 @@ function quads_filter_default_ads( $content ) {
             * Check if last element is empty and remove it
             */
             if(trim($paragraphsArray[count($paragraphsArray)-1]) == "") array_pop($paragraphsArray);
-            
-            $nn = 0;
-            $mm = strlen( $content ) / 2;
-            for ( $i = 0; $i < count( $paragraphsArray ); $i++ ) {
-                $nn += strlen( $paragraphsArray[$i] ) + 4;
-                if( $nn > $mm ) {
-                    if( ($mm - ($nn - strlen( $paragraphsArray[$i] ))) > ($nn - $mm) && $i + 1 < count( $paragraphsArray ) ) {
-                        $paragraphsArray[$i + 1] = '<!--' . $m1 . '-->' . $paragraphsArray[$i + 1];
-                    } else {
-                        $paragraphsArray[$i] = '<!--' . $m1 . '-->' . $paragraphsArray[$i];
-                    }
-                    break;
-                }
-            }
+            $checkcenter =intval(count( $paragraphsArray )/2);
+            $paragraphsArray[$checkcenter] = '<!--' . $m1 . '-->' . $paragraphsArray[$checkcenter];
             $content = implode( $closingTagP, $paragraphsArray );
         }
     }
