@@ -65,11 +65,6 @@ $ad_count_widget = 0; // Number of active ads in widgets
 $AdsId = array(); // Array of active ad id's
 $maxWidgets = 10; // number of widgets
 
-/**
- * Block Initializer.
- */
-require_once plugin_dir_path( __FILE__ ) . 'src/init.php';
-
 if( !class_exists( 'QuickAdsenseReloaded' ) ) :
 
    /**
@@ -226,6 +221,11 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/vendor/google/adsense.php';
          require_once QUADS_PLUGIN_DIR . 'includes/class-template.php';
          require_once QUADS_PLUGIN_DIR . 'includes/admin/adsTxt.php';
+        /**
+         * GB Ads Block
+         */
+        require_once QUADS_PLUGIN_DIR . 'src/init.php';
+
 
 
          if( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
