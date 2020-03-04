@@ -4,7 +4,7 @@
  * Plugin Name: AdSense Integration WP QUADS
  * Plugin URI: https://wordpress.org/plugins/quick-adsense-reloaded/
  * Description: Insert Google AdSense and other ad formats fully automatic into your website
- * Author: Rene Hermenau, WP-Staging
+ * Author: WP Quads
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
  * Version: {{ version }}
  * Text Domain: quick-adsense-reloaded

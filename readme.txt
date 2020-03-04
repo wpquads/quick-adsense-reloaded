@@ -2,7 +2,7 @@
 
 Author URL: https://profiles.wordpress.org/renehermi/
 Plugin URL: https://wpquads.com
-Contributors: ReneHermi, WP-Staging
+Contributors: wpquads
 Donate link: https://wpquads.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
