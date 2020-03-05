@@ -226,6 +226,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/vendor/google/adsense.php';
          require_once QUADS_PLUGIN_DIR . 'includes/class-template.php';
          require_once QUADS_PLUGIN_DIR . 'includes/admin/adsTxt.php';
+         require_once QUADS_PLUGIN_DIR . 'includes/elementor/widget.php';
 
 
          if( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
