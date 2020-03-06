@@ -8,7 +8,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: adsense, ads, ad, google adsense, advertising, amp, ad injection, ad inserter, ad manager
 Requires at least: 3.6+
-Tested up to: 5.3
+Tested up to: 5.3.2
 Requires PHP: 5.3
 Stable tag: {{ version }} 
 
@@ -129,6 +129,10 @@ Alternative Installation:
 
 
 == Changelog == 
+
+= 1.8.10 =
+* Feature: Gutenberg module for ads #60
+* Fix: Ads in middle of the post not working properly when custom HTML markup was added in the post #57
 
 = 1.8.9 =
 * Fix: Quicktag buttons are not shown with Gutenberg editor #50
