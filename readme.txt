@@ -1,7 +1,7 @@
-=== AdSense Plugin WP QUADS === 
+=== Ads & AdSense Plugin WP QUADS === 
 
-Author URL: https://profiles.wordpress.org/renehermi/
-Plugin URL: https://wpquads.com
+Author URL: https://wpquads.com
+Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
 Contributors: wpquads
 Donate link: https://wpquads.com
 License: GPLv2 or later
@@ -12,7 +12,7 @@ Tested up to: 5.3.2
 Requires PHP: 5.3
 Stable tag: {{ version }} 
 
-Quick Adsense Reloaded! Quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support
+Ads & AdSense Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
 == Description == 
 
@@ -129,6 +129,8 @@ Alternative Installation:
 
 
 == Changelog == 
+= 1.8.11 =
+* Feature: Elementor module for ads #60
 
 = 1.8.10 =
 * Feature: Gutenberg module for ads #60

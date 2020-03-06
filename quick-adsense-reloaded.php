@@ -222,10 +222,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/class-template.php';
          require_once QUADS_PLUGIN_DIR . 'includes/admin/adsTxt.php';
          require_once QUADS_PLUGIN_DIR . 'includes/elementor/widget.php';
-        /**
-         * GB Ads Block
-         */
-        require_once QUADS_PLUGIN_DIR . 'src/init.php';
+         require_once QUADS_PLUGIN_DIR . 'includes/gutenberg/src/init.php';
 
 
 
