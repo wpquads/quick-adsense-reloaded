@@ -437,6 +437,17 @@ add_action( 'plugins_loaded', 'quads_loaded' );
  * function also needs to be static.
  */
 register_activation_hook( __FILE__, array('QuickAdsenseReloaded', 'activation') );
+register_deactivation_hook(__FILE__, 'on_plugin_deactivate');
+function on_plugin_deactivate(){
+  $content_url =WPMU_PLUGIN_DIR.'/remove_quads_short_code.php';
+  if (!file_exists(WPMU_PLUGIN_DIR)) {
+    mkdir(WPMU_PLUGIN_DIR, 0777, true);
+}
+  $sourc =plugin_dir_path( __FILE__ ) . 'includes/mu-plugin/remove_quads_short_code.php';
+    if (!file_exists($content_url)) {
+    copy($sourc,$content_url);
+  }
+}
 
 /**
  * Check if pro version is installed and active
