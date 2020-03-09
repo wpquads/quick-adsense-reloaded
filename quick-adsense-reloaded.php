@@ -491,7 +491,7 @@ function quads_is_active_deprecated() {
       if(isset($new_value['hide_add_on_disableplugin'])){
         $content_url =WPMU_PLUGIN_DIR.'/remove_quads_short_code.php';
         if (!file_exists(WPMU_PLUGIN_DIR)) {
-          mkdir(WPMU_PLUGIN_DIR, 0777, true);
+          mkdir(WPMU_PLUGIN_DIR, 755, true);
       }
         $sourc =plugin_dir_path( __FILE__ ) . 'includes/mu-plugin/remove_quads_short_code.php';
           if (!file_exists($content_url)) {
