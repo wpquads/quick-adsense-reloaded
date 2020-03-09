@@ -487,8 +487,13 @@ function quads_is_active_deprecated() {
 return false;
 }
 
-add_action('update_option_quads_settings', 'wpquads_remove_shortcode',10,3);
 
+/**
+ * Create a MU plugin to remove unused shortcode when plugin is removed.
+ * 
+ * @since 1.8.12
+ */
+add_action('update_option_quads_settings', 'wpquads_remove_shortcode',10,3);
 function wpquads_remove_shortcode($old_value,$new_value,$option){
   $content_url =WPMU_PLUGIN_DIR.'/wpquads_remove_shortcode.php';
   if(isset($new_value['hide_add_on_disableplugin'])){
