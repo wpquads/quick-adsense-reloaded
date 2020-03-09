@@ -366,10 +366,10 @@ function quads_get_registered_settings() {
            ),
            'hide_add_on_disableplugin' => array(
                'id' => 'hide_add_on_disableplugin',
-               'name' => __( 'Hide Adds on disable plugin', 'quick-adsense-reloaded' ),
+               'name' => __( 'Hide Shortcode after Deactivate', 'quick-adsense-reloaded' ),
                //'desc' => __( 'Check this box if you would like <strong>Settings->WPQUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
-               'helper-desc' => __( 'Check this box if you would like <strong>Settings->WPQUADS</strong> to hide adds using mu plugin when the plugin is disable.', 'quick-adsense-reloaded' ),
-               'desc' => 'Hide add on disable plugin',
+               'helper-desc' => __( 'Check this box if you would like to Hide [quads] shortcode from the content after deactivating the plugin.', 'quick-adsense-reloaded' ),
+               'desc' => 'Hides [quads] shortcode from the content',
                'type' => 'checkbox'
            ),
            'debug_mode' => array(
