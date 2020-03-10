@@ -2,7 +2,6 @@ var strict;
 
 
 jQuery(document).ready(function ($) {
-    
     // show / hide helper description
     $('.quads-tooltip').click(function (e) {
         e.preventDefault();
