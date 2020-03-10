@@ -10,7 +10,7 @@ Tags: adsense, ads, ad, google adsense, advertising, amp, ad injection, ad inser
 Requires at least: 3.6+
 Tested up to: 5.3.2
 Requires PHP: 5.3
-Stable tag: 1.8.12
+Stable tag: 1.8.13
 
 Ads & AdSense Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
@@ -129,8 +129,12 @@ Alternative Installation:
 
 
 == Changelog == 
-= 1.8.12 =
+= 1.8.13 =
 * Feature: Created new mu-plugin for removing the WP QUADS shortcode when the plugin deactive/uninstall.
+* Fix: Assigned version number of Gutenberg module js and css files.
+
+= 1.8.12 =
+* Fix: Fatal error for wordpress version below 5.0 
 
 = 1.8.11 =
 * Feature: Elementor module for ads #60
