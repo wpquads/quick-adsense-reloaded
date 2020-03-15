@@ -2094,11 +2094,17 @@ function quads_adsense_code_callback( $args ) {
    if( !quads_is_extra() ) {
       ?> 
               <br />
-              <label class="quads-label-left" for="quads_settings[ads][<?php echo $id; ?>][margin]"><?php _e( 'Margin', 'quick-adsense-reloaded' ); ?></label>
+              <label class="quads-label-left" ><?php _e( 'Margin', 'quick-adsense-reloaded' ); ?></label>
               <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][margintop]" name="quads_settings[ads][<?php echo $id; ?>][margintop]" value="<?php echo esc_attr( stripslashes( $margintop ) ); ?>"/>
               <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][marginright]" name="quads_settings[ads][<?php echo $id; ?>][marginright]" value="<?php echo esc_attr( stripslashes( $marginright ) ); ?>"/>
               <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][marginbottom]" name="quads_settings[ads][<?php echo $id; ?>][marginbottom]" value="<?php echo esc_attr( stripslashes( $marginbottom ) ); ?>"/>
               <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][marginleft]" name="quads_settings[ads][<?php echo $id; ?>][marginleft]" value="<?php echo esc_attr( stripslashes( $marginleft ) ); ?>"/>px
+              <br />
+              <label class="quads-label-left" ><?php _e( 'Padding', 'quick-adsense-reloaded' ); ?></label>
+              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][paddingtop]" name="quads_settings[ads][<?php echo $id; ?>][paddingtop]" value="<?php echo esc_attr( stripslashes( $paddingtop ) ); ?>"/>
+              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][paddingright]" name="quads_settings[ads][<?php echo $id; ?>][paddingright]" value="<?php echo esc_attr( stripslashes( $paddingright ) ); ?>"/>
+              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][paddingbottom]" name="quads_settings[ads][<?php echo $id; ?>][paddingbottom]" value="<?php echo esc_attr( stripslashes( $paddingbottom ) ); ?>"/>
+              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][paddingleft]" name="quads_settings[ads][<?php echo $id; ?>][paddingleft]" value="<?php echo esc_attr( stripslashes( $paddingleft ) ); ?>"/>px
 
    <?php } echo apply_filters( 'quads_render_margin', '', $id ); ?>
        </div>

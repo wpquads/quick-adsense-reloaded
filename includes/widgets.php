@@ -28,36 +28,58 @@ function quads_get_inline_widget_ad_style( $id ) {
     $adsalign = ( int )$quads_options['ads']['ad' . $id . '_widget']['align'];
     // Margin
     $adsmargin = '0';
-    $newmagin = 'margin:';
+    $padding = 'padding:';
      if(isset( $quads_options['ads']['ad' . $id . '_widget']['margin'] )){ 
        $adsmargin = $quads_options['ads']['ad' . $id . '_widget']['margin'] ;
         $margin = sprintf( $styleArray[$adsalign], $adsmargin );
      }else{
+          $margin = 'margin:';
           if(isset( $quads_options['ads']['ad' . $id . '_widget']['margintop'] )){ 
-           $newmagin .=$quads_options['ads']['ad' . $id . '_widget']['margintop'] ."px " ;
+           $margin .=$quads_options['ads']['ad' . $id . '_widget']['margintop'] ."px " ;
          }else{
-            $newmagin .= "0px ";
+            $margin .= "0px ";
          }
           if(isset( $quads_options['ads']['ad' . $id . '_widget']['marginright'] )){ 
-           $newmagin .=$quads_options['ads']['ad' . $id . '_widget']['marginright'] ."px " ;
+           $margin .=$quads_options['ads']['ad' . $id . '_widget']['marginright'] ."px " ;
          }else{
-            $newmagin .= "0px ";
+            $margin .= "0px ";
          }
           if(isset( $quads_options['ads']['ad' . $id . '_widget']['marginbottom'] )){ 
-          $newmagin .=$quads_options['ads']['ad' . $id . '_widget']['marginbottom'] ."px " ;
+          $margin .=$quads_options['ads']['ad' . $id . '_widget']['marginbottom'] ."px " ;
          }else{
-            $newmagin .= "0px ";
+            $margin .= "0px ";
          }
           if(isset( $quads_options['ads']['ad' . $id . '_widget']['marginleft'] )){ 
-          $newmagin .=$quads_options['ads']['ad' . $id . '_widget']['marginleft'] ."px" ;
+          $margin .=$quads_options['ads']['ad' . $id . '_widget']['marginleft'] ."px" ;
          }else{
-            $newmagin .= "0px ";
+            $margin .= "0px ";
          }
-         $margin =$newmagin;
      }
+        if(isset( $quads_options['ads']['ad' . $id . '_widget']['paddingtop'] )){ 
+           $padding .=$quads_options['ads']['ad' . $id . '_widget']['paddingtop'] ."px " ;
+         }else{
+            $padding .= "0px ";
+         }
+          if(isset( $quads_options['ads']['ad' . $id . '_widget']['paddingright'] )){ 
+           $padding .=$quads_options['ads']['ad' . $id . '_widget']['paddingright'] ."px " ;
+         }else{
+            $padding .= "0px ";
+         }
+          if(isset( $quads_options['ads']['ad' . $id . '_widget']['paddingbottom'] )){ 
+          $padding .=$quads_options['ads']['ad' . $id . '_widget']['paddingbottom'] ."px " ;
+         }else{
+            $padding .= "0px ";
+         }
+          if(isset( $quads_options['ads']['ad' . $id . '_widget']['paddingleft'] )){ 
+          $padding .=$quads_options['ads']['ad' . $id . '_widget']['paddingleft'] ."px" ;
+         }else{
+            $padding .= "0px ";
+         }
+
+        $css =$margin.'; '.$padding .'; ';
 
     // Do not create any inline style on AMP site
-    $style =  !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_widget_margins', $margin, 'ad' . $id . '_widget') : '';
+    $style =  !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_widget_margins', $css, 'ad' . $id . '_widget') : '';
     
     return $style;
 }
