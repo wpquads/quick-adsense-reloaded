@@ -119,3 +119,11 @@
     width: 20px;
     -webkit-font-smoothing: antialiased;
 }
+.wpquads_hide{
+    display: none;
+}
+#systeminfo{
+  display: inline-block;
+    width: 100%;
+    margin: 20px 0px 10px;
+}
