@@ -107,7 +107,7 @@ function quads_register_settings() {
         if($tab=='help' && $option['id'] == 'wpquads_support'){
 
          add_settings_field(
-                     'quads_settings[' . $option['id'] . ']', $name, 'wpquads_support_page_callback', 'quads_settings_' . $tab, 'quads_settings_' . $tab,
+                     'quads_settings[' . $option['id'] . ']', $name, 'wpquads_support_page_callback', 'quads_settings_' . $tab, 'quads_settings_' . $tab
              );
         }else{
              add_settings_field(
