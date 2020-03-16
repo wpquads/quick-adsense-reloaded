@@ -60,25 +60,25 @@ function quads_get_settings() {
 function wpquads_support_page_callback(){         
     ?>
      <div class="wpquads_support_div">
-            <strong><?php echo esc_html__('If you have any query, please write the query in below box or email us at', 'schema-and-structured-data-for-wp') ?> <a href="mailto:team@ampforwp.com">team@ampforwp.com</a>. <?php echo esc_html__('We will reply to your email address shortly', 'schema-and-structured-data-for-wp') ?></strong>
+            <strong><?php echo esc_html__('If you have any query, please write the query in below box or email us at', 'quick-adsense-reloaded') ?> <a href="mailto:team@wpquads.com">team@wpquads.com</a>. <?php echo esc_html__('We will reply to your email address shortly', 'quick-adsense-reloaded') ?></strong><br><br>
             <ul>
                 <li>
                    <input type="text" id="wpquads_query_email" name="wpquads_query_email" placeholder="email">
                 </li>
                 <li>                    
                     <div><textarea rows="5" cols="60" id="wpquads_query_message" name="wpquads_query_message" placeholder="Write your query"></textarea></div>
-                    <span class="wpquads-query-success wpquads_hide"><?php echo esc_html__('Message sent successfully, Please wait we will get back to you shortly', 'schema-and-structured-data-for-wp'); ?></span>
-                    <span class="wpquads-query-error wpquads_hide"><?php echo esc_html__('Message not sent. please check your network connection', 'schema-and-structured-data-for-wp'); ?></span>
+                    <span class="wpquads-query-success wpquads_hide"><?php echo esc_html__('Message sent successfully, Please wait we will get back to you shortly', 'quick-adsense-reloaded'); ?></span>
+                    <span class="wpquads-query-error wpquads_hide"><?php echo esc_html__('Message not sent. please check your network connection', 'quick-adsense-reloaded'); ?></span>
                 </li>
                 <li>
-                    <strong><?php echo esc_html__('Are you a premium customer ?', 'schema-and-structured-data-for-wp'); ?></strong>  
+                    <strong><?php echo esc_html__('Are you a premium customer ?', 'quick-adsense-reloaded'); ?></strong>  
                     <select id="wpquads_query_premium_cus" name="wpquads_query_premium_cus">                       
-                        <option value=""><?php echo esc_html__('Select', 'schema-and-structured-data-for-wp'); ?></option>
-                        <option value="yes"><?php echo esc_html__('Yes', 'schema-and-structured-data-for-wp'); ?></option>
-                        <option value="no"><?php echo esc_html__('No', 'schema-and-structured-data-for-wp'); ?></option>
+                        <option value=""><?php echo esc_html__('Select', 'quick-adsense-reloaded'); ?></option>
+                        <option value="yes"><?php echo esc_html__('Yes', 'quick-adsense-reloaded'); ?></option>
+                        <option value="no"><?php echo esc_html__('No', 'quick-adsense-reloaded'); ?></option>
                     </select>                      
                 </li>
-                <li><button class="button wpquads-send-query"><?php echo esc_html__('Send Message', 'schema-and-structured-data-for-wp'); ?></button></li>
+                <li><button class="button wpquads-send-query"><?php echo esc_html__('Send Message', 'quick-adsense-reloaded'); ?></button></li>
             </ul>   
         </div>
     <?php
@@ -440,15 +440,10 @@ function quads_get_registered_settings() {
                )
        ),
        'help' => apply_filters( 'quads_settings_help', array(
-           'help_header' => array(
-               'id' => 'help_header',
-               'name' => '<strong>' . __( 'Help', 'quick-adsense-reloaded' ) . '</strong>',
-               'desc' => quads_is_extra() ? sprintf( __( 'Something not working as expected? Open a <a href="%1s" target="_blank">support ticket</a>', 'quick-adsense-reloaded' ), 'http://wpquads.com/support/' ) : sprintf( __( 'Something not working as expected? Visit the WP<strong>QUADS</strong> <a href="%1s" target="_blank">Support Forum</a>', 'quick-adsense-reloaded' ), 'https://wordpress.org/support/plugin/quick-adsense-reloaded' ),
-               'type' => 'header'
-           ), 
+         
             'support' => array(
                'id' => 'wpquads_support',
-               'name' => __( 'Support', 'quick-adsense-reloaded' ),
+               'name' => __( 'Help', 'quick-adsense-reloaded' ),
                 'desc' => __( '', 'quick-adsense-reloaded' ),
                'type' => 'header'  
            ),
@@ -2013,6 +2008,24 @@ function quads_adsense_code_callback( $args ) {
        }
        if(isset( $quads_options['ads'][$args['id']]['marginleft'] )){ 
          $marginleft = esc_attr( stripslashes($quads_options['ads'][$args['id']]['marginleft']));
+       }
+       // padding 
+      $paddingtop   = 0;
+      $paddingright  = 0;
+      $paddingbottom = 0;
+      $paddingleft   = 0;
+
+       if(isset( $quads_options['ads'][$args['id']]['paddingtop'] )){ 
+         $paddingtop = esc_attr( stripslashes($quads_options['ads'][$args['id']]['paddingtop']));
+       }
+       if(isset( $quads_options['ads'][$args['id']]['paddingright'] )){ 
+         $paddingright = esc_attr( stripslashes($quads_options['ads'][$args['id']]['paddingright']));
+       }
+       if(isset( $quads_options['ads'][$args['id']]['paddingbottom'] )){ 
+         $paddingbottom = esc_attr( stripslashes($quads_options['ads'][$args['id']]['paddingbottom']));
+       }
+       if(isset( $quads_options['ads'][$args['id']]['paddingleft'] )){ 
+         $paddingleft = esc_attr( stripslashes($quads_options['ads'][$args['id']]['paddingleft']));
        }
 
        $g_data_ad_client = isset( $quads_options['ads'][$args['id']]['g_data_ad_client'] ) ? $quads_options['ads'][$args['id']]['g_data_ad_client'] : '';
