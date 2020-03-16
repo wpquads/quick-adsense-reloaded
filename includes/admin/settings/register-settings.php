@@ -60,10 +60,10 @@ function quads_get_settings() {
 function wpquads_support_page_callback(){         
     ?>
      <div class="wpquads_support_div">
-            <strong><?php echo esc_html__('If you have any query, please write the query in below box or email us at', 'quick-adsense-reloaded') ?> <a href="mailto:team@wpquads.com">team@wpquads.com</a>. <?php echo esc_html__('We will reply to your email address shortly', 'quick-adsense-reloaded') ?></strong><br><br>
+          <?php echo esc_html__('If you have any query, please write the query in below box or email us at', 'quick-adsense-reloaded') ?> <a href="mailto:team@wpquads.com">team@wpquads.com</a>. <?php echo esc_html__('We will reply to your email address shortly', 'quick-adsense-reloaded') ?><br><br>
             <ul>
                 <li>
-                   <input type="text" id="wpquads_query_email" name="wpquads_query_email" placeholder="email">
+                   <input type="text" id="wpquads_query_email" name="wpquads_query_email" placeholder="Your Email">
                 </li>
                 <li>                    
                     <div><textarea rows="5" cols="60" id="wpquads_query_message" name="wpquads_query_message" placeholder="Write your query"></textarea></div>

@@ -122,8 +122,22 @@
 .wpquads_hide{
     display: none;
 }
+#quads_settings .col-title{
+margin: 5px 0px 5px 0px;
+}
 #systeminfo{
   display: inline-block;
     width: 100%;
     margin: 20px 0px 10px;
+}
+
+.wpquads-query-error {
+    background: red;
+    padding: 3px;
+    border-radius: 50px;
+}
+.wpquads-query-success {
+    background: green;
+    padding: 3px;
+    border-radius: 50px;
 }
