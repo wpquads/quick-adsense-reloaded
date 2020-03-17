@@ -108,6 +108,8 @@ input.medium-text, textarea.medium-text {
 
 #quads_tab_container ul {
     /*height: 200px;*/
+    
+   width: 680px;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -144,7 +146,7 @@ input.medium-text, textarea.medium-text {
     text-transform: uppercase;
 }
 .quads-tabs a strong {
-    font-weight: 700;
+    font-weight: 600;
 }
 
 li.quads-tabs {
@@ -250,10 +252,7 @@ li.quads-tabs {
 }
 
 #quads_tab_container ul li.quads-tabs a {
-    display: block;
-    padding:10px 10px 10px 10px;
-    text-decoration: none;
-    font-weight: bold;
+display: block; padding: 15px 17px 12px 17px; text-decoration: none; font-weight: 600; text-transform: capitalize;
 }
 #quads_tab_container ul li.quads-tabs a:hover {
     color:#383838;
@@ -488,7 +487,7 @@ li.quads-tabs {
 .quads_admin .nav-tab{
     border:0px;
     text-transform: uppercase;
-    color: #a1a1a1;
+    color: #555;
     font-weight: 700;
 }
 

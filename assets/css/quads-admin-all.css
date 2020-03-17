@@ -141,7 +141,7 @@
     background-color: white;
 }
 .quads_admin .nav-tab{
-        color: #000;
+    color: #555;
 }
 .quads-tabs a {
   color: #000;
@@ -150,7 +150,4 @@
 .nav-tab {
     padding: 10px 15px !important;
 }
-
-#quads_tab_container ul li.quads-tabs a {
-    padding: 15px 15px;
-}
+ 
