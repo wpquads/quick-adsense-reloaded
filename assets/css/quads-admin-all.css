@@ -122,9 +122,6 @@
 .wpquads_hide{
     display: none;
 }
-#quads_settings .col-title{
-margin: 5px 0px 5px 0px;
-}
 #systeminfo{
   display: inline-block;
     width: 100%;
@@ -132,12 +129,28 @@ margin: 5px 0px 5px 0px;
 }
 
 .wpquads-query-error {
-    background: red;
-    padding: 3px;
-    border-radius: 50px;
+    color: red;
+    font-weight: 700;
 }
 .wpquads-query-success {
-    background: green;
-    padding: 3px;
-    border-radius: 50px;
+    color: green;
+    font-weight: 700;
+}
+
+#quads_tab_container li.quads-tabs {
+    background-color: white;
+}
+.quads_admin .nav-tab{
+        color: #000;
+}
+.quads-tabs a {
+  color: #000;
+  text-transform: capitalize;
+}
+.nav-tab {
+    padding: 10px 15px !important;
+}
+
+#quads_tab_container ul li.quads-tabs a {
+    padding: 15px 15px;
 }

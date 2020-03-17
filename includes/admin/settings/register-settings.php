@@ -61,14 +61,14 @@ function wpquads_support_page_callback(){
     ?>
      <div class="wpquads_support_div">
           <?php echo esc_html__('If you have any query, please write the query in below box or email us at', 'quick-adsense-reloaded') ?> <a href="mailto:team@wpquads.com">team@wpquads.com</a>. <?php echo esc_html__('We will reply to your email address shortly', 'quick-adsense-reloaded') ?><br><br>
+            <span class="wpquads-query-success wpquads_hide"><?php echo esc_html__('Message sent successfully, Please wait we will get back to you shortly', 'quick-adsense-reloaded'); ?></span>
+                    <span class="wpquads-query-error wpquads_hide"><?php echo esc_html__('Message not sent. please check your network connection', 'quick-adsense-reloaded'); ?></span>
             <ul>
                 <li>
                    <input type="text" id="wpquads_query_email" name="wpquads_query_email" placeholder="Your Email">
                 </li>
                 <li>                    
                     <div><textarea rows="5" cols="60" id="wpquads_query_message" name="wpquads_query_message" placeholder="Write your query"></textarea></div>
-                    <span class="wpquads-query-success wpquads_hide"><?php echo esc_html__('Message sent successfully, Please wait we will get back to you shortly', 'quick-adsense-reloaded'); ?></span>
-                    <span class="wpquads-query-error wpquads_hide"><?php echo esc_html__('Message not sent. please check your network connection', 'quick-adsense-reloaded'); ?></span>
                 </li>
                 <li>
                     <strong><?php echo esc_html__('Are you a premium customer ?', 'quick-adsense-reloaded'); ?></strong>  
@@ -443,7 +443,7 @@ function quads_get_registered_settings() {
          
             'support' => array(
                'id' => 'wpquads_support',
-               'name' => __( 'Help', 'quick-adsense-reloaded' ),
+               'name' => __( 'Get help from our development team', 'quick-adsense-reloaded' ),
                 'desc' => __( '', 'quick-adsense-reloaded' ),
                'type' => 'header'  
            ),
