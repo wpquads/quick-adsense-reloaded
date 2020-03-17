@@ -109,7 +109,7 @@ input.medium-text, textarea.medium-text {
 #quads_tab_container ul {
     /*height: 200px;*/
     
-   width: 680px;
+   max-width: 680px;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -182,8 +182,10 @@ li.quads-tabs {
     text-align:left;
     margin-bottom:10px;
     max-width: 640px;
+    width: 640px;
     float: left;
     clear:both;
+
 }
 
 .form-table{
