@@ -1254,7 +1254,7 @@ e.preventDefault();
         var n = function () {
             if (typeof a(window).hashchange === "function") {
                 a(window).hashchange(function () {
-                    // f.selectTabFromHashChange()
+                    f.selectTabFromHashChange()
                 })
             } else {
                 if (a.address && typeof a.address.change === "function") {
