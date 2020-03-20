@@ -54,6 +54,23 @@ function quads_check_ad_blocker() {
  * @return void
  */
 function quads_load_admin_scripts( $hook ) {
+    global $current_user;
+    $dismissed = explode (',', get_user_meta (wp_get_current_user ()->ID, 'dismissed_wp_pointers', true));                            
+    $do_tour   = !in_array ('wpquads_subscribe_pointer', $dismissed);
+
+    if ($do_tour) {
+        wp_enqueue_style ('wp-pointer');
+        wp_enqueue_script ('wp-pointer');                       
+        $js_dir  = QUADS_PLUGIN_URL . 'assets/js/';
+        wp_register_script( 'quads-newsletter', $js_dir . 'quads-newsletter.js', array('jquery'), QUADS_VERSION, false );
+        wp_localize_script( 'quads-newsletter', 'quadsnewsletter', array(
+        'current_user_email' => $current_user->user_email,
+        'current_user_name' => $current_user->display_name,
+        'do_tour'           => $do_tour
+        ) );
+        wp_enqueue_script('quads-newsletter');
+    }
+
     if( !apply_filters( 'quads_load_admin_scripts', quads_is_admin_page(), $hook ) ) {
         return;
     }
@@ -137,21 +154,6 @@ function quads_load_all_admin_scripts( $hook ) {
 
     wp_enqueue_style( 'quads-admin-all', $css_dir . 'quads-admin-all.css', QUADS_VERSION );
 }
-
-/**
- * Create Gutenberg block
- */
-//function quads_load_blocks() {
-//    $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
-//
-//    wp_register_script( 'wpquads', $js_dir . 'blocks.js', array('wp-blocks', 'wp-element', 'wp-editor') );
-//
-//    register_block_type( 'wpquads/blocks', array(
-//        'editor_script' => 'wpquads',
-//    ) );
-//}
-//
-//add_action( 'init', 'quads_load_blocks' );
 
 
 /**

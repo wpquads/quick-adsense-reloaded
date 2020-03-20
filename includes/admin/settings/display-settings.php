@@ -121,7 +121,7 @@ function quads_do_settings_fields($page, $section) {
         }else if (!empty($field['title']) && !quads_is_excluded_title( $field['args']['id'] ) ){
             echo '<tr class="quads-row">';
             echo '<td class="quads-row th">';
-            echo '<div class="col-title">' . $field['title'] . '</div>';
+            echo '<div class="col-title" id="'.$field['args']['id'].'">' . $field['title'] . '</div>';
             echo '</td></tr>';
         }
         
