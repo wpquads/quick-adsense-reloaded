@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 add_filter('the_content', 'quads_post_settings_to_quicktags', 5);
 add_filter('the_content', 'quads_process_content', quads_get_load_priority());
 add_filter('rest_prepare_post', 'quads_classic_to_gutenberg', 10, 1);
+add_filter('the_content', 'quads_change_adsbygoogle_to_amp',11);
+
 /**
  * Show ads before posts
  * @not used at the moment
@@ -55,6 +57,41 @@ function quads_classic_to_gutenberg($data)
         $data->data['content']['raw'] =  str_replace('<!--RndAds-->', '[quads id=RndAds]', $data->data['content']['raw']);
     }
     return $data;
+}
+function quads_change_adsbygoogle_to_amp($content){
+    if (quads_is_amp_endpoint()){
+        $dom = new DOMDocument();
+        $dom->loadHTML($content);
+        $nodes = $dom->getElementsByTagName( 'ins' );
+
+        $num_nodes  = $nodes->length;
+        for ( $i = $num_nodes - 1; $i >= 0; $i-- ) {
+            $url = $width = $height = '';
+            $node   = $nodes->item( $i );
+            if($node->getAttribute('class') == 'adsbygoogle'){
+                $adclient= $node->getAttribute('data-ad-client');
+                $adslot= $node->getAttribute('data-ad-slot');
+                $adformat= $node->getAttribute('data-ad-format');
+                $adfullwidth= $node->getAttribute('data-full-width-responsive');
+    
+                $new_node= $dom->createElement('amp-ad');
+                $new_node->setAttribute('type', 'adsense');
+                $new_node->setAttribute('data-ad-client', $adclient);
+                $new_node->setAttribute('data-ad-slot', $adslot);
+                if($node->getAttribute('data-full-width-responsive')){
+                            $new_node->setAttribute('data-ad-format', $adformat);
+                            $new_node->setAttribute('data-full-width-responsive', $adfullwidth);
+                }
+                $child_element= $dom->createElement('div');
+                $child_element->setAttribute('overflow', '');
+                $new_node->appendChild( $child_element );
+    
+                $node->parentNode->replaceChild($new_node, $node);
+            }
+        }
+        $content = $dom->saveHTML();
+    }
+    return $content;
 }
 
 /**
