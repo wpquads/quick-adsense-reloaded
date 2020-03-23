@@ -57,6 +57,32 @@ function quads_get_settings() {
    return apply_filters( 'quads_get_settings', $settings );
 }
 
+function wpquads_support_page_callback(){         
+    ?>
+     <div class="wpquads_support_div">
+          <?php echo esc_html__('If you have any query, please write the query in below box or email us at', 'quick-adsense-reloaded') ?> <a href="mailto:team@wpquads.com">team@wpquads.com</a>. <?php echo esc_html__('We will reply to your email address shortly', 'quick-adsense-reloaded') ?><br><br>
+            <span class="wpquads-query-success wpquads_hide"><?php echo esc_html__('Message sent successfully, Please wait we will get back to you shortly', 'quick-adsense-reloaded'); ?></span>
+                    <span class="wpquads-query-error wpquads_hide"><?php echo esc_html__('Message not sent. please check your network connection', 'quick-adsense-reloaded'); ?></span>
+            <ul>
+                <li>
+                   <input type="text" id="wpquads_query_email" name="wpquads_query_email" placeholder="Your Email">
+                </li>
+                <li>                    
+                    <div><textarea rows="5" cols="60" id="wpquads_query_message" name="wpquads_query_message" placeholder="Write your query"></textarea></div>
+                </li>
+                <li>
+                    <strong><?php echo esc_html__('Are you a premium customer ?', 'quick-adsense-reloaded'); ?></strong>  
+                    <select id="wpquads_query_premium_cus" name="wpquads_query_premium_cus">                       
+                        <option value=""><?php echo esc_html__('Select', 'quick-adsense-reloaded'); ?></option>
+                        <option value="yes"><?php echo esc_html__('Yes', 'quick-adsense-reloaded'); ?></option>
+                        <option value="no"><?php echo esc_html__('No', 'quick-adsense-reloaded'); ?></option>
+                    </select>                      
+                </li>
+                <li><button class="button wpquads-send-query"><?php echo esc_html__('Send Message', 'quick-adsense-reloaded'); ?></button></li>
+            </ul>   
+        </div>
+    <?php
+}
 /**
  * Add all settings sections and fields
  *
@@ -78,22 +104,28 @@ function quads_register_settings() {
       foreach ( $settings as $option ) {
 
          $name = isset( $option['name'] ) ? $option['name'] : '';
+        if($tab=='help' && $option['id'] == 'wpquads_support'){
 
          add_settings_field(
-                 'quads_settings[' . $option['id'] . ']', $name, function_exists( 'quads_' . $option['type'] . '_callback' ) ? 'quads_' . $option['type'] . '_callback' : 'quads_missing_callback', 'quads_settings_' . $tab, 'quads_settings_' . $tab, array(
-             'id' => isset( $option['id'] ) ? $option['id'] : null,
-             'desc' => !empty( $option['desc'] ) ? $option['desc'] : '',
-             'desc2' => !empty( $option['desc2'] ) ? $option['desc2'] : '',
-             'helper-desc' => !empty( $option['helper-desc'] ) ? $option['helper-desc'] : '',
-             'name' => isset( $option['name'] ) ? $option['name'] : null,
-             'section' => $tab,
-             'size' => isset( $option['size'] ) ? $option['size'] : null,
-             'options' => isset( $option['options'] ) ? $option['options'] : '',
-             'std' => isset( $option['std'] ) ? $option['std'] : '',
-             'placeholder' => isset( $option['placeholder'] ) ? $option['placeholder'] : '',
-             'textarea_rows' => isset( $option['textarea_rows'] ) ? $option['textarea_rows'] : ''
-                 )
-         );
+                     'quads_settings[' . $option['id'] . ']', $name, 'wpquads_support_page_callback', 'quads_settings_' . $tab, 'quads_settings_' . $tab
+             );
+        }else{
+             add_settings_field(
+                     'quads_settings[' . $option['id'] . ']', $name, function_exists( 'quads_' . $option['type'] . '_callback' ) ? 'quads_' . $option['type'] . '_callback' : 'quads_missing_callback', 'quads_settings_' . $tab, 'quads_settings_' . $tab, array(
+                 'id' => isset( $option['id'] ) ? $option['id'] : null,
+                 'desc' => !empty( $option['desc'] ) ? $option['desc'] : '',
+                 'desc2' => !empty( $option['desc2'] ) ? $option['desc2'] : '',
+                 'helper-desc' => !empty( $option['helper-desc'] ) ? $option['helper-desc'] : '',
+                 'name' => isset( $option['name'] ) ? $option['name'] : null,
+                 'section' => $tab,
+                 'size' => isset( $option['size'] ) ? $option['size'] : null,
+                 'options' => isset( $option['options'] ) ? $option['options'] : '',
+                 'std' => isset( $option['std'] ) ? $option['std'] : '',
+                 'placeholder' => isset( $option['placeholder'] ) ? $option['placeholder'] : '',
+                 'textarea_rows' => isset( $option['textarea_rows'] ) ? $option['textarea_rows'] : ''
+                     )
+             );
+        }
       }
    }
 
@@ -408,11 +440,12 @@ function quads_get_registered_settings() {
                )
        ),
        'help' => apply_filters( 'quads_settings_help', array(
-           'help_header' => array(
-               'id' => 'help_header',
-               'name' => '<strong>' . __( 'Help', 'quick-adsense-reloaded' ) . '</strong>',
-               'desc' => quads_is_extra() ? sprintf( __( 'Something not working as expected? Open a <a href="%1s" target="_blank">support ticket</a>', 'quick-adsense-reloaded' ), 'http://wpquads.com/support/' ) : sprintf( __( 'Something not working as expected? Visit the WP<strong>QUADS</strong> <a href="%1s" target="_blank">Support Forum</a>', 'quick-adsense-reloaded' ), 'https://wordpress.org/support/plugin/quick-adsense-reloaded' ),
-               'type' => 'header'
+         
+            'support' => array(
+               'id' => 'wpquads_support',
+               'name' => __( 'Get help from our development team', 'quick-adsense-reloaded' ),
+                'desc' => __( '', 'quick-adsense-reloaded' ),
+               'type' => 'header'  
            ),
            'systeminfo' => array(
                'id' => 'systeminfo',
@@ -425,6 +458,49 @@ function quads_get_registered_settings() {
    );
 
    return $quads_settings;
+}
+add_action('wp_ajax_wpquads_send_query_message', 'wpquads_send_query_message');
+function wpquads_send_query_message(){
+
+    if ( ! isset( $_POST['wpquads_security_nonce'] ) ){
+        return; 
+    } 
+    if ( !wp_verify_nonce( $_POST['wpquads_security_nonce'], 'quads_ajax_nonce' ) ){
+        return;  
+    }   
+    $customer_type  = 'Are you a premium customer ? No';
+    $message        = sanitize_textarea_field($_POST['message']); 
+    $email          = sanitize_textarea_field($_POST['email']); 
+    $premium_cus    = sanitize_textarea_field($_POST['premium_cus']);   
+    $user           = wp_get_current_user();
+
+    if($premium_cus == 'yes'){
+        $customer_type  = 'Are you a premium customer ? Yes';
+    }
+
+    $message = '<p>'.$message.'</p><br><br>'. $customer_type. '<br><br> Query from plugin support tab';
+
+    if($user){
+        $user_data  = $user->data;        
+        $user_email = $user_data->user_email;     
+        if($email){
+            $user_email = $email;
+        }            
+        //php mailer variables        
+        $sendto    = 'team@magazine3.com';
+        $subject   = "WP QUADS";
+        $headers[] = 'Content-Type: text/html; charset=UTF-8';
+        $headers[] = 'From: '. esc_attr($user_email);            
+        $headers[] = 'Reply-To: ' . esc_attr($user_email);
+        // Load WP components, no themes.                      
+        $sent = wp_mail($sendto, $subject, $message, $headers); 
+        if($sent){
+            echo json_encode(array('status'=>'t'));  
+        }else{
+            echo json_encode(array('status'=>'f'));            
+        }
+    }
+    wp_die();   
 }
 
 /**
@@ -1911,6 +1987,46 @@ function quads_adsense_code_callback( $args ) {
        $code = isset( $quads_options['ads'][$args['id']]['code'] ) ? $quads_options['ads'][$args['id']]['code'] : '';
 
        $margin = isset( $quads_options['ads'][$args['id']]['margin'] ) ? esc_attr( stripslashes( $quads_options['ads'][$args['id']]['margin'] ) ) : 0;
+       $margintop   = 0;
+      $marginright  = 0;
+      $marginbottom = 0;
+      $marginleft   = 0;
+      if(isset( $quads_options['ads'][$args['id']]['margin'] )){ 
+         $margintop     = esc_attr( stripslashes($quads_options['ads'][$args['id']]['margin']));
+         $marginright   = esc_attr( stripslashes($quads_options['ads'][$args['id']]['margin']));
+         $marginbottom  = esc_attr( stripslashes($quads_options['ads'][$args['id']]['margin']));
+         $marginleft    = esc_attr( stripslashes($quads_options['ads'][$args['id']]['margin']));
+       }
+       if(isset( $quads_options['ads'][$args['id']]['margintop'] )){ 
+         $margintop = esc_attr( stripslashes($quads_options['ads'][$args['id']]['margintop']));
+       }
+       if(isset( $quads_options['ads'][$args['id']]['marginright'] )){ 
+         $marginright = esc_attr( stripslashes($quads_options['ads'][$args['id']]['marginright']));
+       }
+       if(isset( $quads_options['ads'][$args['id']]['marginbottom'] )){ 
+         $marginbottom = esc_attr( stripslashes($quads_options['ads'][$args['id']]['marginbottom']));
+       }
+       if(isset( $quads_options['ads'][$args['id']]['marginleft'] )){ 
+         $marginleft = esc_attr( stripslashes($quads_options['ads'][$args['id']]['marginleft']));
+       }
+       // padding 
+      $paddingtop   = 0;
+      $paddingright  = 0;
+      $paddingbottom = 0;
+      $paddingleft   = 0;
+
+       if(isset( $quads_options['ads'][$args['id']]['paddingtop'] )){ 
+         $paddingtop = esc_attr( stripslashes($quads_options['ads'][$args['id']]['paddingtop']));
+       }
+       if(isset( $quads_options['ads'][$args['id']]['paddingright'] )){ 
+         $paddingright = esc_attr( stripslashes($quads_options['ads'][$args['id']]['paddingright']));
+       }
+       if(isset( $quads_options['ads'][$args['id']]['paddingbottom'] )){ 
+         $paddingbottom = esc_attr( stripslashes($quads_options['ads'][$args['id']]['paddingbottom']));
+       }
+       if(isset( $quads_options['ads'][$args['id']]['paddingleft'] )){ 
+         $paddingleft = esc_attr( stripslashes($quads_options['ads'][$args['id']]['paddingleft']));
+       }
 
        $g_data_ad_client = isset( $quads_options['ads'][$args['id']]['g_data_ad_client'] ) ? $quads_options['ads'][$args['id']]['g_data_ad_client'] : '';
 
@@ -1991,8 +2107,18 @@ function quads_adsense_code_callback( $args ) {
    if( !quads_is_extra() ) {
       ?> 
               <br />
-              <label class="quads-label-left" for="quads_settings[ads][<?php echo $id; ?>][margin]"><?php _e( 'Margin', 'quick-adsense-reloaded' ); ?></label>
-              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][margin]" name="quads_settings[ads][<?php echo $id; ?>][margin]" value="<?php echo esc_attr( stripslashes( $margin ) ); ?>"/>px
+              <label class="quads-label-left" ><?php _e( 'Margin', 'quick-adsense-reloaded' ); ?></label>
+              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][margintop]" name="quads_settings[ads][<?php echo $id; ?>][margintop]" value="<?php echo esc_attr( stripslashes( $margintop ) ); ?>"/>
+              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][marginright]" name="quads_settings[ads][<?php echo $id; ?>][marginright]" value="<?php echo esc_attr( stripslashes( $marginright ) ); ?>"/>
+              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][marginbottom]" name="quads_settings[ads][<?php echo $id; ?>][marginbottom]" value="<?php echo esc_attr( stripslashes( $marginbottom ) ); ?>"/>
+              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][marginleft]" name="quads_settings[ads][<?php echo $id; ?>][marginleft]" value="<?php echo esc_attr( stripslashes( $marginleft ) ); ?>"/>px
+              <br />
+              <label class="quads-label-left" ><?php _e( 'Padding', 'quick-adsense-reloaded' ); ?></label>
+              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][paddingtop]" name="quads_settings[ads][<?php echo $id; ?>][paddingtop]" value="<?php echo esc_attr( stripslashes( $paddingtop ) ); ?>"/>
+              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][paddingright]" name="quads_settings[ads][<?php echo $id; ?>][paddingright]" value="<?php echo esc_attr( stripslashes( $paddingright ) ); ?>"/>
+              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][paddingbottom]" name="quads_settings[ads][<?php echo $id; ?>][paddingbottom]" value="<?php echo esc_attr( stripslashes( $paddingbottom ) ); ?>"/>
+              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][paddingleft]" name="quads_settings[ads][<?php echo $id; ?>][paddingleft]" value="<?php echo esc_attr( stripslashes( $paddingleft ) ); ?>"/>px
+
    <?php } echo apply_filters( 'quads_render_margin', '', $id ); ?>
        </div>
            <?php
