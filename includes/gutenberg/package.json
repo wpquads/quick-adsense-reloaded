@@ -1,6 +1,6 @@
 {
   "name": "quick-adsense-reloaded",
-  "version": "1.8.9",
+  "version": "1.8.16",
   "scripts": {
     "start": "cgb-scripts start",
     "build": "cgb-scripts build",

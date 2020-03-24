@@ -61,7 +61,13 @@ function quads_classic_to_gutenberg($data)
 function quads_change_adsbygoogle_to_amp($content){
     if (quads_is_amp_endpoint()){
         $dom = new DOMDocument();
-        $dom->loadHTML($content);
+         if( function_exists( 'mb_convert_encoding' ) ){
+          $content = mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8');     
+        }
+        else{
+          $content =  preg_replace( '/&.*?;/', 'x', $content ); // multi-byte characters converted to X
+        }
+        @$dom->loadHTML($content);
         $nodes = $dom->getElementsByTagName( 'ins' );
 
         $num_nodes  = $nodes->length;
