@@ -115,12 +115,12 @@ function quads_do_settings_fields($page, $section) {
             echo '</td></tr>';
         }else if (!empty($field['title']) && !quads_is_excluded_title( $field['args']['id'] ) && !empty($field['args']['helper-desc'])){
             echo '<tr class="quads-row">';
-            echo '<td class="quads-row th">';
+            echo '<td class="quads-row th">';//xss ok
             echo '<div class="col-title">' . $field['title'] . '<a class="quads-general-helper" href="#"></a><div class="quads-message">' . $field['args']['helper-desc']. '</div></div>';
             echo '</td></tr>';
         }else if (!empty($field['title']) && !quads_is_excluded_title( $field['args']['id'] ) ){
             echo '<tr class="quads-row">';
-            echo '<td class="quads-row th">';
+            echo '<td class="quads-row th">'; //xss ok
             echo '<div class="col-title" id="'.$field['args']['id'].'">' . $field['title'] . '</div>';
             echo '</td></tr>';
         }
