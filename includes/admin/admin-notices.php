@@ -555,6 +555,7 @@ function quads_show_vi_notices() {
         $notice['message'] = '<strong>ADS.TXT has been added</strong><br><br><strong>WP QUADS</strong> has updated your ads.txt '
                 . 'file with lines that declare video inteligence as a legitmate seller of your inventory and enables you to make more money through video inteligence. <a href="https://www.vi.ai/publisher-video-monetization/?utm_source=WordPress&utm_medium=Plugin%20blurb&utm_campaign=wpquads" target="blank" rel="external nofollow">FAQ</a>';
         $notice['type']    = 'update-nag';
+        $notice['transient']    = 'quads_vi_ads_txt_notice';
         $adsUpdated        = new wpquads\template( '/includes/vendor/vi/views/notices', $notice );
         echo $adsUpdated->render();
     }

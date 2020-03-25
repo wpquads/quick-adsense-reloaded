@@ -52,6 +52,16 @@ function quads_close_vi_welcome_notice() {
 add_action('quads_close_vi_welcome_notice', 'quads_close_vi_welcome_notice');
 
 /**
+ * Close vi ads txt notice and do not show again
+ */
+function quads_close_quads_vi_ads_txt_notice() {
+    
+    delete_transient('quads_vi_ads_txt_notice');
+}
+add_action('quads_close_quads_vi_ads_txt_notice', 'quads_close_quads_vi_ads_txt_notice');
+
+
+/**
  * Close vi update notice and show it one week later again
  */
 function quads_show_vi_notice_later() {
