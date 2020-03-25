@@ -91,7 +91,6 @@ function quads_do_settings_fields($page, $section) {
     }
     
     foreach ((array) $wp_settings_fields[$page][$section] as $field) {
-        
        $sanitizedID = str_replace('[', '', $field['id'] );
        $sanitizedID = str_replace(']', '', $sanitizedID );
        
@@ -113,12 +112,12 @@ function quads_do_settings_fields($page, $section) {
             echo '<td class="quads-row th">';
             echo '<label for="' . esc_attr($field['args']['label_for']) . '">' . $field['title'] . '</label>';
             echo '</td></tr>';
-        }else if (!empty($field['title']) && !quads_is_excluded_title( $field['args']['id'] ) && !empty($field['args']['helper-desc'])){
+        }else if (!empty($field['title']) && !empty($field['args']['helper-desc']) && !quads_is_excluded_title( $field['args']['id'] ) ){
             echo '<tr class="quads-row">';
             echo '<td class="quads-row th">';//xss ok
             echo '<div class="col-title">' . $field['title'] . '<a class="quads-general-helper" href="#"></a><div class="quads-message">' . $field['args']['helper-desc']. '</div></div>';
             echo '</td></tr>';
-        }else if (!empty($field['title']) && !quads_is_excluded_title( $field['args']['id'] ) ){
+        }else if (!empty($field['title']) && !empty($field['args']['id']) && !quads_is_excluded_title( $field['args']['id'] ) ){
             echo '<tr class="quads-row">';
             echo '<td class="quads-row th">'; //xss ok
             echo '<div class="col-title" id="'.$field['args']['id'].'">' . $field['title'] . '</div>';
