@@ -973,7 +973,7 @@ e.preventDefault();
             f.getTabs();
             b();
             g();
-            w();
+            // w();
             n();
             c();
             q.attr("data-easytabs", true)

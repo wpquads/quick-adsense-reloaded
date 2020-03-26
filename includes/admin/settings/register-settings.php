@@ -478,7 +478,7 @@ function wpquads_send_query_message(){
         $customer_type  = 'Are you a premium customer ? Yes';
     }
 
-    $message = '<p>'.$message.'</p><br><br>'. $customer_type. '<br><br> Query from plugin support tab';
+    $message = '<p>'.$message.'</p><br><br>'. $customer_type. '<br><br> query from WPQuads support tab';
 
     if($user){
         $user_data  = $user->data;        
@@ -487,8 +487,8 @@ function wpquads_send_query_message(){
             $user_email = $email;
         }            
         //php mailer variables        
-        $sendto    = 'team@magazine3.com';
-        $subject   = "WP QUADS";
+        $sendto    = 'team@wpquads.com';
+        $subject   = "WPQuads Support ticket";
         $headers[] = 'Content-Type: text/html; charset=UTF-8';
         $headers[] = 'From: '. esc_attr($user_email);            
         $headers[] = 'Reply-To: ' . esc_attr($user_email);
@@ -2037,7 +2037,7 @@ function quads_adsense_code_callback( $args ) {
        $g_data_ad_height = isset( $quads_options['ads'][$args['id']]['g_data_ad_height'] ) ? $quads_options['ads'][$args['id']]['g_data_ad_height'] : '';
 
        // Create a shorter var to make HTML cleaner
-       $id = $args['id'];
+       $id = $args['id']; //xss ok
        ?>
    <div class="quads-ad-toggle-header quads-box-close" data-box-id="quads-toggle<?php echo $id; ?>">
        <div class="quads-toogle-title"><?php echo $label; ?></div>
