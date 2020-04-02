@@ -88,6 +88,21 @@ function quads_change_adsbygoogle_to_amp($content){
                             $new_node->setAttribute('data-ad-format', $adformat);
                             $new_node->setAttribute('data-full-width-responsive', $adfullwidth);
                 }
+                $styletag= $node->getAttribute('style');
+                $widthreg = "/width:(?<width>\\d+)/";
+                $heightreg = "/height:(?<height>\\d+)/";
+                preg_match($widthreg, $styletag, $width);
+                preg_match($heightreg, $styletag, $height);
+                if(isset($width['width'])){
+                    $new_node->setAttribute('width', $width['width']);
+                }else{
+                    $new_node->setAttribute('width', '100vw');
+                }
+                if(isset($height['height'])){
+                    $new_node->setAttribute('height', $height['height']);
+                }else{
+                    $new_node->setAttribute('height', '320');
+                }
                 $child_element= $dom->createElement('div');
                 $child_element->setAttribute('overflow', '');
                 $new_node->appendChild( $child_element );
