@@ -1,0 +1,1388 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+.quads-ad-config-header {
+  margin-top: 5px; }
+
+.quads-ad-config-tab ul {
+  display: flex;
+  border: 1px solid #e7e7e7;
+  margin: 0;
+  overflow: hidden; }
+
+.quads-ad-config-tab ul li {
+  padding: 12px;
+  font-size: 14px;
+  width: 30.7%;
+  background: #F3F3F3;
+  color: #333;
+  text-align: center;
+  margin-bottom: 0px;
+  position: relative; }
+
+.quads-ad-config-tab ul li:after {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  width: 44px;
+  height: 44px;
+  top: -1px;
+  right: -20px;
+  background-color: #f3f3f3;
+  border-top-right-radius: 0px;
+  -webkit-transform: scale(0.707) rotate(45deg);
+  transform: scale(0.7) rotate(45deg);
+  box-shadow: 3px -3px #e7e7e7;
+  z-index: 1; }
+
+.quads-ad-config-tab ul li.quads-selected, .quads-ad-config-tab ul li.quads-selected:after {
+  background-color: #fff; }
+
+#quads-ad-form {
+  background: #fff; }
+
+.quads-close-create-page {
+  font-size: 34px !important;
+  text-align: right;
+  cursor: pointer;
+  float: right;
+  position: relative;
+  top: 15px;
+  right: 25px; }
+
+.quads-close-create-page a {
+  color: #333; }
+
+.quads-gree-notice-box {
+  height: 10px;
+  width: 607px;
+  padding: 15px;
+  margin: 20px;
+  background: #aeccae;
+  color: white; }
+
+.quads-gree-notice-box span {
+  float: right;
+  cursor: pointer;
+  font-size: 20px;
+  color: white; }
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+.quads-modal-popup-content {
+  max-width: 40% !important; }
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+.quads-form-field {
+  padding: 5px; }
+
+.quads-auto-fill-textarea {
+  width: 100%; }
+
+.quads-autofill {
+  cursor: pointer;
+  background: #6DA2E8;
+  color: #fff;
+  padding: 3px 9px;
+  font-size: 13px;
+  border-radius: 4px; }
+
+.quads-autofill:hover {
+  color: #fff;
+  background: #005aef; }
+
+.quads-autofill-div {
+  display: inline;
+  margin-left: 5px; }
+
+.quads-adsense-width-heigth {
+  display: inline-flex;
+  margin-left: 30px;
+  top: -17px;
+  position: relative; }
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+/* The Modal (background) */
+.quads-modal-popup {
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  left: 75px;
+  height: 100%;
+  overflow: auto;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.4); }
+
+/* Modal Content */
+.quads-modal-popup-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  max-width: 100%; }
+
+/* The Close Button */
+.quads-modal-close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold; }
+
+.quads-modal-close:hover,
+.quads-modal-close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer; }
+
+.quads-modal-error {
+  color: red; }
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+h1 {
+  color: red; }
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+.quads-include {
+  background-color: yellowgreen;
+  padding: 5px;
+  border-radius: 4px;
+  cursor: pointer; }
+
+.quads-exclude {
+  background-color: yellow;
+  padding: 5px;
+  border-radius: 4px;
+  cursor: pointer; }
+.quads-user-targeting table td {
+  width: 25%; }
+.quads-user-targeting table td {
+  width: 25%; }
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+.quads-position-dropdown {
+  display: inline-flex; }
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+.quads_form_msg {
+  font-size: 12px;
+  color: red;
+  font-weight: 500; }
+
+.quads_form_msg .material-icons {
+  font-size: 12px;
+  font-weight: 500; }
+
+.quads_form_error {
+  border: 2px solid red !important; }
+
+.quads-error {
+  color: red; }
+
+.quads-next {
+  font-weight: 400;
+  font-size: 20px;
+  float: right;
+  cursor: pointer; }
+
+.quads-prev {
+  font-weight: 400;
+  font-size: 20px;
+  float: right;
+  margin-right: 20px;
+  cursor: pointer; }
+
+#quads-ad-content {
+  width: 100%; }
+
+.quads-cover-spin {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 9999; }
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(360deg); } }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
+
+.quads-cover-spin::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 48%;
+  top: 40%;
+  width: 40px;
+  height: 40px;
+  border-style: solid;
+  border-color: #005af0;
+  border-top-color: transparent;
+  border-width: 4px;
+  border-radius: 50%;
+  -webkit-animation: spin .8s linear infinite;
+  animation: spin .8s linear infinite; }
+
+.quads-small-spinner {
+  border: 5px solid #f3f3f3;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+  border-top: 5px solid #555;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px; }
+
+.quads-panel {
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 0px;
+  box-shadow: 0 0px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 15px; }
+
+.quads-panel-body {
+  padding: 40px; }
+
+.quads-panel-body .quads-adsense-width-heigth label {
+  font-size: 12px;
+  DISPLAY: block;
+  WIDTH: 52PX;
+  margin-right: 10px; }
+
+.quads-panel-body .quads-adsense-width-heigth input {
+  width: 52PX;
+  font-size: 16px;
+  padding: 0; }
+
+.quads-panel-body td:nth-child(1) {
+  width: 240px; }
+
+.quads-panel-body label {
+  color: #000000;
+  font-size: 18px; }
+
+.quads-panel-body tr {
+  margin-bottom: 35px;
+  display: inline-block;
+  width: 100%; }
+
+.quads-panel-body tr:last-child {
+  margin-bottom: 0; }
+
+.quads-panel-body input {
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 18px;
+  width: 238px; }
+
+.quads-panel-body input[type="checkbox"] {
+  position: relative;
+  width: 1.2em;
+  height: 1.2em;
+  color: #363839;
+  border: 1px solid #bdc1c6;
+  border-radius: 4px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  cursor: pointer; }
+
+.quads-panel-body input[type="checkbox"]::before {
+  position: absolute;
+  content: '';
+  display: block;
+  top: 6px;
+  left: 11px;
+  width: 4px;
+  height: 10px;
+  border-style: solid;
+  border-color: #fff;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  opacity: 0; }
+
+.quads-panel-body input[type="checkbox"]:checked, .quads-panel-body input[type="checkbox"]:focus {
+  color: #fff;
+  border-color: #005aef;
+  background: #005aef; }
+
+.quads-panel-body input[type="checkbox"]:checked::before {
+  opacity: 1; }
+
+.quads-panel-body input[type="checkbox"]:checked ~ label::before {
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+
+.quads-panel-body input:focus {
+  box-shadow: none; }
+
+.quads-panel-body select {
+  position: relative;
+  width: 220px; }
+
+.quads-panel-body select {
+  position: relative;
+  font-family: inherit;
+  background-color: transparent;
+  width: 225px;
+  height: 44px;
+  padding: 7px 10px 7px 20px;
+  font-size: 18px;
+  border-radius: 0;
+  border: none;
+  border: 1px solid #F3F3F3;
+  box-shadow: 0px 1px 0px #CFCFCF;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #999 50%), linear-gradient(135deg, #999 50%, transparent 50%);
+  background-position: calc(100% - 25px) calc(1em + 6px), calc(100% - 19px) calc(1em + 6px), calc(100% - 2.5em) 0.5em;
+  background-size: 6px 6px, 6px 6px, 1px 1.5em;
+  background-repeat: no-repeat; }
+
+/* Remove focus */
+.quads-panel-body select:focus {
+  outline: none; }
+
+/* Use custom arrow */
+.quads-panel-body select {
+  appearance: none;
+  -webkit-appearance: none; }
+
+.quads-panel-body select:after {
+  position: absolute;
+  top: 18px;
+  right: 10px;
+  /* Styling the down arrow */
+  width: 0;
+  height: 0;
+  padding: 0;
+  content: '';
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-top: 6px solid rgba(0, 0, 0, 0.12);
+  pointer-events: none; }
+
+/* active state */
+.quads-panel-body select:focus, .quads-panel-body select:valid {
+  transition: 0.2s ease all; }
+
+/* BOTTOM BARS ================================= */
+.select-bar {
+  position: relative;
+  display: block;
+  width: 350px; }
+
+.select-bar:before, .select-bar:after {
+  content: '';
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: #2F80ED;
+  transition: 0.2s ease all; }
+
+.select-bar:before {
+  left: 50%; }
+
+.select-bar:after {
+  right: 50%; }
+
+/* active state */
+.select-text:focus ~ .select-bar:before, .select-text:focus ~ .select-bar:after {
+  width: 50%; }
+
+.quads-btn {
+  border: none;
+  color: white;
+  padding: 9px 18px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer; }
+
+.quads-btn:hover {
+  color: #fff; }
+
+.quads-btn-primary {
+  background-color: #005aef;
+  font-size: 16px;
+  border-radius: 4px;
+  padding: 10px 20px; }
+
+.quads-btn-default {
+  background-color: #e7e7e7;
+  color: black; }
+
+.quads-generic-icon {
+  cursor: pointer;
+  position: relative;
+  left: 8px;
+  top: -1px; }
+
+.quads-modal-popup {
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  left: 75px;
+  height: 100%;
+  overflow: auto;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.4); }
+
+.quads-full-page-modal {
+  position: fixed;
+  z-index: 10000;
+  height: 500px;
+  left: 160px;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.4); }
+
+/* Modal Content */
+.quads-modal-popup-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  max-width: 100%; }
+
+.quads-modal-popup-content h3 {
+  margin: 0; }
+
+.quads-modal-content {
+  display: inline-block;
+  width: 100%;
+  margin-top: 30px; }
+
+.quads-modal-content th {
+  font-weight: normal; }
+
+.quads-full-page-modal-content {
+  background-color: #fff;
+  position: relative;
+  max-width: 93%;
+  height: 100vh; }
+
+.quads-full-page-modal-content h3 {
+  position: relative;
+  top: 40px;
+  left: 52px;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 15px; }
+
+.quads-full-page-modal-close {
+  float: right;
+  cursor: pointer; }
+
+.quads-full-page-modal .quads-close-create-page {
+  position: absolute;
+  top: 40px;
+  right: 50px;
+  z-index: 100000001; }
+
+/* The Close Button */
+.quads-modal-close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold; }
+
+.quads-modal-close:hover,
+.quads-modal-close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer; }
+
+.quads-modal-error {
+  color: red; }
+
+.quads-switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 16px;
+  border: 20px; }
+
+.quads-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #b5b5b5;
+  transition: .4s;
+  border-radius: 20px; }
+
+.quads-slider:before {
+  position: absolute;
+  content: "";
+  height: 10px;
+  width: 10px;
+  left: 2px;
+  bottom: 3px;
+  background-color: #fff;
+  transition: .4s;
+  border-radius: 20px; }
+
+input:checked + .quads-slider {
+  background-color: #005af0;
+  border-radius: 30px; }
+
+input:focus + .quads-slider {
+  box-shadow: 0 0 1px #2196F3; }
+
+input:checked + .quads-slider:before {
+  transform: translateX(15px); }
+
+.quads-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0; }
+
+.quads-message {
+  display: block;
+  padding: 10px;
+  border: 1px solid #FBFBFB;
+  border-radius: 2px;
+  background-color: #000;
+  position: absolute;
+  max-width: 500px;
+  z-index: 9999;
+  display: none;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  font-weight: normal;
+  line-height: 20px;
+  text-transform: none;
+  font-size: 14px; }
+
+.quads-target-item {
+  background-color: rgba(0, 126, 255, 0.08);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 126, 255, 0.24);
+  color: #002638;
+  float: left;
+  font-size: 14px;
+  line-height: 1.4;
+  position: relative;
+  margin-bottom: 0;
+  margin-right: 10px;
+  margin-top: 10px;
+  vertical-align: top;
+  padding: 5px 25px 5px 10px; }
+
+.quads-user-targeting {
+  margin: 5px 0 0 0; }
+
+.quads-user-targeting-label {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 25px; }
+
+.quads-user-targeting h2 {
+  font-weight: normal;
+  font-size: 18px;
+  color: #333;
+  margin: 0px; }
+
+.quads-user-targeting a .material-icons {
+  color: #005aef;
+  cursor: pointer; }
+
+.quads-user-targeting a span {
+  top: 5px;
+  position: relative;
+  left: 5px; }
+
+a.quads-nav-link-active {
+  border-bottom: 3px solid #005af0;
+  position: relative;
+  padding: 19px 20px;
+  color: #005af0 !important; }
+
+.quads-ad-tab ul li .quads-nav-link-active {
+  color: #1A73E8;
+  border-bottom: 3px solid #1A73E8; }
+
+.quads-target-item-list {
+  width: 100%;
+  display: inline-block; }
+
+.quads-target-icon {
+  cursor: pointer;
+  float: right;
+  position: absolute;
+  right: 5px; }
+
+.quads-target-icon .material-icons {
+  font-size: 18px; }
+
+.quads-targeting-selection tr {
+  margin-bottom: 5px; }
+
+.quads-targeting-selection table td {
+  width: 270px !important;
+  padding: 15px 15px 0px 0; }
+
+.quads-target-label {
+  border-bottom-right-radius: 2px;
+  border-top-right-radius: 2px;
+  cursor: default;
+  padding: 2px 5px; }
+
+.quads-targeting-selection {
+  margin-top: 10px;
+  margin-bottom: 20px; }
+
+.quads-btn-spinner {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite; }
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg); } }
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg); } }
+
+/* Progress Bar */
+.progress {
+  position: relative;
+  height: 4px;
+  display: block;
+  width: 100%;
+  background-color: #acece6;
+  border-radius: 2px;
+  background-clip: padding-box;
+  margin: 0.5rem 0 1rem 0;
+  overflow: hidden; }
+
+.progress .determinate {
+  position: absolute;
+  background-color: inherit;
+  top: 0;
+  bottom: 0;
+  background-color: #26a69a;
+  transition: width .3s linear; }
+
+.progress .indeterminate {
+  background-color: #26a69a; }
+
+.progress .indeterminate:before {
+  content: '';
+  position: absolute;
+  background-color: inherit;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  will-change: left, right;
+  -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+  animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite; }
+
+.progress .indeterminate:after {
+  content: '';
+  position: absolute;
+  background-color: inherit;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  will-change: left, right;
+  -webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+  animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+  -webkit-animation-delay: 1.15s;
+  animation-delay: 1.15s; }
+
+@-webkit-keyframes indeterminate {
+  0% {
+    left: -35%;
+    right: 100%; }
+  60% {
+    left: 100%;
+    right: -90%; }
+  100% {
+    left: 100%;
+    right: -90%; } }
+
+@keyframes indeterminate {
+  0% {
+    left: -35%;
+    right: 100%; }
+  60% {
+    left: 100%;
+    right: -90%; }
+  100% {
+    left: 100%;
+    right: -90%; } }
+
+@-webkit-keyframes indeterminate-short {
+  0% {
+    left: -200%;
+    right: 100%; }
+  60% {
+    left: 107%;
+    right: -8%; }
+  100% {
+    left: 107%;
+    right: -8%; } }
+
+@keyframes indeterminate-short {
+  0% {
+    left: -200%;
+    right: 100%; }
+  60% {
+    left: 107%;
+    right: -8%; }
+  100% {
+    left: 107%;
+    right: -8%; } }
+
+.quads-ad-create {
+  background-color: #005af0;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer; }
+
+.quads-logo {
+  height: 42px; }
+
+.quads-ad-header {
+  display: flex;
+  padding: 17px 20px;
+  align-items: center;
+  height: 35px;
+  background: #fff;
+  width: 98.8%;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #D8D8D8;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 6px 0px; }
+
+.quads-ad-menu {
+  display: flex; }
+
+.quads-ad-tab ul li h2, .quads-ad-tab ul li {
+  font-size: 22px;
+  font-weight: 400; }
+
+.quads-ad-tab ul {
+  margin: 0; }
+
+.quads-ad-tab ul li a {
+  color: #111111;
+  text-decoration: none;
+  padding: 20px 30px; }
+
+.quads-ad-tab ul li a:focus {
+  box-shadow: none; }
+
+.quads-segment .quads-segment {
+  padding: 14px 40px 20px 40px; }
+
+.quads-ad-tab ul li {
+  display: inline-block;
+  margin-bottom: 0; }
+
+.quads-ad-tab ul li a.quads-btn {
+  border: 1px solid #1A73E8;
+  background: none;
+  padding: 11px 16px 11px 43px;
+  border-radius: 50px;
+  font-size: 18px;
+  position: relative;
+  margin: 0px 30px 0px 15px;
+  position: relative;
+  top: 0px; }
+
+.quads-ad-tab ul li a.quads-btn span {
+  font-size: 32px;
+  color: #1A73E8;
+  position: absolute;
+  top: 4px;
+  left: 5px; }
+
+.quads-ad-tab ul li a.quads-btn:hover {
+  background: #1873e8;
+  color: #fff; }
+
+.quads-ad-tab ul li a.quads-btn:hover span {
+  color: #fff; }
+
+.toplevel_page_quads-settings {
+  background: #F9F9F9; }
+
+.quads_editpage {
+  background: #fff; }
+
+.toplevel_page_quads-settings #wpcontent {
+  padding-left: 0; }
+
+.quads-settings-group {
+  padding: 30px 60px;
+  font-size: 15px;
+  color: #666;
+  text-transform: capitalize; }
+
+.quads-btn-navigate {
+  padding: 0px 60px; }
+
+.quads-btn-navigate .quads-btn-primary {
+  padding: 15px 25px; }
+
+.quads-ad-input input {
+  border: 0;
+  width: 350px;
+  border-bottom: 1px solid #ddd;
+  border-radius: 0;
+  font-size: 22px;
+  padding: 0; }
+
+.quads-ad-input {
+  padding: 12px 52px; }
+
+.quads-ad-input input:focus {
+  outline: 0;
+  box-shadow: none; }
+
+.quads-live-wrapper {
+  text-align: center; }
+
+.quads_live p {
+  font-size: 28px;
+  color: #333; }
+
+.quads_live span {
+  font-weight: bold; }
+
+.live-two {
+  max-width: 320px;
+  margin: 0 auto;
+  padding: 15px 0; }
+
+.live-two-left {
+  float: left; }
+
+.live-two-right a {
+  float: left;
+  color: #333;
+  margin-top: 30px;
+  margin-left: 25px;
+  font-size: 15px;
+  text-decoration: none;
+  line-height: 1.6; }
+
+.live-two-right span {
+  display: block;
+  font-style: italic; }
+
+.live-three-one, .live-three-one:hover {
+  background: none;
+  color: #333;
+  font-size: 14px; }
+
+.live-three-two {
+  font-size: 16px;
+  padding: 14px 26px 14px 50px;
+  position: relative; }
+
+.live-three-two-dashboard {
+  position: absolute;
+  left: 19px;
+  top: 11px;
+  font-size: 26px; }
+
+.nodatatable a.quads-btn {
+  padding: 11px 16px 11px 43px;
+  position: relative; }
+
+.nodatatable a.quads-btn span {
+  position: absolute;
+  top: 12px;
+  left: 13px;
+  color: rgba(255, 255, 255, 0.9); }
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+.quads-settings-saved-msg {
+  background: blue;
+  color: #fff;
+  display: block;
+  width: 100%;
+  background: greee;
+  padding: 10px;
+  margin: 0 0 5px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: arial,sans-serif;
+  line-height: 17px;
+  position: relative;
+  pointer-events: all !important;
+  display: block;
+  position: fixed;
+  width: 200px;
+  pointer-events: none !important;
+  letter-spacing: normal;
+  z-index: 9999999;
+  bottom: 20px;
+  right: 20px;
+  box-shadow: 5px 5px 5px grey; }
+
+.quads-settings-tab ul {
+  margin: 0;
+  background-color: #fff;
+  margin-top: 20px;
+  padding: 20px 0px;
+  border-bottom: 1px solid #E1E1E1; }
+
+.quads-settings-tab ul li a {
+  padding: 20px;
+  font-size: 16px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500; }
+
+.quads-settings-tab ul li a:focus {
+  outline: 0;
+  box-shadow: none; }
+
+.quads-settings-tab ul h2 {
+  margin: 0; }
+
+a.quads-nav-link-active {
+  border-bottom: 3px solid #005af0;
+  position: relative;
+  padding: 19px 20px;
+  color: #005af0 !important; }
+
+.quads-settings-tab ul li {
+  display: inline-block;
+  line-height: 22px;
+  margin-bottom: 0; }
+
+.quads-settings-content {
+  background-color: #fff;
+  min-height: 500px; }
+
+.quads-settings-tab-container {
+  padding: 15px 25px 25px 30px; }
+
+.quads-settings-tab-container .form-table {
+  margin-top: 0; }
+
+.quads-settings-tab-container label {
+  font-size: 16px;
+  font-weight: normal;
+  color: #333; }
+
+.quads-settings-tab-container th {
+  width: 280px; }
+
+#quads-submit-button {
+  margin: 15px; }
+
+.quads-premium-cus {
+  margin-top: 5px; }
+
+.quads-help-support {
+  width: 40%; }
+
+.quads-help-support input, textarea, select {
+  width: 100%; }
+
+.quads-help-support select {
+  max-width: 100%; }
+
+.quads-system-info {
+  width: 580px;
+  height: 400px;
+  font-family: Menlo, Monaco, monospace;
+  background: none;
+  white-space: pre;
+  overflow: auto;
+  display: block; }
+
+.quads-save-settings {
+  padding: 25px; }
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+.quads-ad-search-box input {
+  width: 100%;
+  max-width: 100%;
+  height: 60px;
+  vertical-align: top;
+  border: 1px solid #E1E1E1;
+  border-radius: 0px;
+  margin: 0 0px !important;
+  font-size: 16px;
+  color: #666666;
+  padding-left: 60px;
+  background-size: 22px;
+  background-position: 20px; }
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+.quads-ad-list-table-div {
+  background-color: #fff; }
+
+.quads-ad-table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+  background-color: transparent;
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+.quads-ad-table tr {
+  border-bottom: 1px solid #E1E1E1; }
+
+.quads-ad-table tbody tr:hover {
+  background: #f1f3f4; }
+
+.quads-ad-table td {
+  padding: 12px 25px;
+  line-height: 1.5;
+  color: #333;
+  font-size: 15px;
+  text-transform: capitalize; }
+
+.quads-ad-table td:nth-child(2) img {
+  position: relative;
+  top: 2px;
+  margin-right: 3px; }
+
+.quads-ad-table td:nth-child(3) {
+  color: #666; }
+
+.quads-ad-table td:nth-child(4) {
+  padding: 0; }
+
+.quads-ad-table th {
+  padding: 14px 10px 14px 25px;
+  line-height: 2;
+  text-align: left;
+  font-size: 13px;
+  color: #5f6368;
+  font-weight: 600; }
+
+.quads-ad-label-draft {
+  color: #5f6368;
+  font-family: Roboto,Arial,sans-serif;
+  font-size: .75rem;
+  font-weight: 400;
+  letter-spacing: .025em;
+  line-height: 1rem;
+  background-color: #f1f3f4;
+  border-radius: 4px;
+  padding: 2px 4px; }
+
+.quads-ad-table th:nth-child(4) {
+  color: transparent; }
+
+.quads-action-div a.quads-edit-btn, .quads-action-div a.quads-more-btn {
+  cursor: pointer;
+  color: #555;
+  display: inline-block;
+  height: 48px;
+  width: 48px;
+  border-radius: 50px;
+  text-align: center;
+  margin: 0 0px;
+  line-height: 60px; }
+
+.quads-action-div a:hover {
+  background: rgba(0, 0, 0, 0.04); }
+
+.quads-action-div a .material-icons {
+  width: 24px;
+  height: 24px; }
+
+.quads-action-div a .material-icons:focus, .quads-action-div a:focus {
+  outline: 0;
+  box-shadow: none; }
+
+.quads-ad-table th:nth-child(4) {
+  color: transparent; }
+
+.quads-edit-btn {
+  text-decoration: none; }
+
+.quads-action-div {
+  position: relative; }
+
+.quads-action-div a {
+  cursor: pointer; }
+
+.quads-more-icon-box {
+  position: absolute;
+  top: 0px;
+  left: -100px;
+  z-index: 100000;
+  float: left;
+  min-width: 125px;
+  padding: 20px 10px 10px 10px;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175); }
+
+.quads-more-icon-box ul {
+  margin: 0; }
+
+.quads-more-icon-box li {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 6px 5px;
+  margin: 0; }
+
+.quads-more-icon-box li a {
+  font-size: 13px;
+  color: #666; }
+
+.quads-action-div .quads-more-icon-box .material-icons {
+  font-size: 16px;
+  color: #666;
+  margin-right: 2px;
+  width: auto;
+  height: auto;
+  position: relative;
+  top: 3px; }
+
+.quads-more-icon-box li:last-child {
+  border-bottom: 0; }
+
+.quads-action-div .quads-more-icon-box a:hover {
+  background: none; }
+
+.quads-more-icon-box-close {
+  float: right;
+  cursor: pointer;
+  position: relative;
+  top: -18px;
+  right: -7px; }
+
+.quads-action-div .quads-more-icon-box-close .material-icons {
+  font-size: 16px; }
+
+.nodatatable td {
+  text-align: center;
+  height: 250px; }
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+.quads-ads-pagination {
+  display: inline-block;
+  margin-top: 0px;
+  font-size: 15px;
+  font-weight: 500; }
+
+.quads-ads-pagination a {
+  color: black;
+  float: left;
+  padding: 9px 16px;
+  text-decoration: none;
+  border-radius: 3px; }
+
+.quads-ads-pagination .material-icons {
+  font-size: 18px;
+  padding: 9px 10px; }
+
+.quads-ads-pagination a.quads-page-active {
+  background-color: #005af0;
+  color: white; }
+
+.quads-ads-pagination a:hover:not(.quads-page-active) {
+  background-color: #ddd; }
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+.quads-search-box-panel {
+  display: flex;
+  width: 100%;
+  margin-top: 20px; }
+
+.quads-search-box {
+  display: inline-block;
+  width: 100%; }
+.quads-ad-networks {
+  padding: 50px;
+  max-width: 900px; }
+
+.quads-ad-networks li {
+  width: 180px;
+  text-align: center;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 10px;
+  height: 200px;
+  border: 1px solid #e2e2e2;
+  margin-bottom: 0;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+  transition: 0.3s; }
+
+.quads-ad-networks li:hover {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 15px; }
+
+.quads-ad-networks ul {
+  padding: 0px;
+  list-style-type: none;
+  display: grid;
+  width: 180px;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 15px 50px;
+  margin: 0; }
+
+.quads-side-part {
+  width: 10%; }
+
+.quads-ad-type-link img {
+  max-width: 150px;
+  width: auto;
+  padding: 15px 0; }
+
+a.quads-nav-link:focus {
+  box-shadow: none; }

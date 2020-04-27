@@ -18,7 +18,15 @@ function quads_frontend_checks_init() {
     if( !is_admin() && is_admin_bar_showing() && current_user_can( 'update_plugins' )
     ) {
         add_action( 'admin_bar_menu', 'quads_add_admin_bar_menu', 1000 );
-        add_filter( 'the_content', 'quads_check_the_content_filter' );
+        global $wp_version;
+        if (version_compare( $wp_version, '5.4', '>=') ){
+             if( array_key_exists( 'the_content' , $GLOBALS['wp_filter']) ) {
+                global $the_content;
+                $the_content = true;
+            }
+        }else {
+           add_filter( 'the_content', 'quads_check_the_content_filter' );
+        }
         add_filter( 'wp_footer', 'quads_check_adblocker', -101 );
         add_filter( 'quads-ad-output', 'after_ad_output', 10, 2 );
     }

@@ -54,6 +54,12 @@ function quads_check_ad_blocker() {
  * @return void
  */
 function quads_load_admin_scripts( $hook ) {
+        remove_all_actions('admin_notices');
+       $quads_mode = get_option('quads-mode');
+          if($quads_mode != 'new'){
+    add_action( 'admin_notices', 'quads_admin_messages' );
+          }   
+
     global $current_user;
     $dismissed = explode (',', get_user_meta (wp_get_current_user ()->ID, 'dismissed_wp_pointers', true));                            
     $do_tour   = !in_array ('wpquads_subscribe_pointer', $dismissed);

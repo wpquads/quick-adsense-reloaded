@@ -181,8 +181,8 @@ li.quads-tabs {
     overflow:auto;
     text-align:left;
     margin-bottom:10px;
-    max-width: 640px;
-    width: 640px;
+    max-width: 700px;
+    width: 700px;
     float: left;
     clear:both;
 }
@@ -533,7 +533,61 @@ display: block; padding: 15px 15px 10px 17px; text-decoration: none; font-weight
 #quads-footer {
     clear:both;
 }
+.switch_to_v2{
 
+    background: #ffffff;
+    max-width: 242px;
+    border: 1px solid #5aa997;
+    float: left;
+    border-radius: 10px;
+    margin-left: 12px;
+    position: relative;
+    top: -40px;
+    padding: 26px 14px 26px 14px;
+    margin-bottom: -25px;
+    text-align: center;
+}
+
+.switch_to_v2 h3{
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 0;
+    color: #009688;
+}
+.switch_to_v2 p{
+    font-size: 12px;
+    font-weight: normal;
+    color: #333;
+}
+.switch_to_v2_btn {
+    background: #007bba;
+    text-align: center;
+    border-color: #007cba;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 2;
+    min-height: 36px;
+    margin: 0;
+    padding: 8px 10px 8px 10px;
+    cursor: pointer;
+    border-width: 1px;
+    border-style: solid;
+    -webkit-appearance: none;
+    border-radius: 3px;
+    font-weight: 500;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+.switch_to_v2_btn a{
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+}
+.switch_to_v2:hover .switch_to_v2_btn {
+    background: #009689;
+    border-color: #009689;
+}
 #quads-add-ons li {
     font-size:18px;
     line-height: 29px;
@@ -734,6 +788,9 @@ display: block; padding: 15px 15px 10px 17px; text-decoration: none; font-weight
     position: absolute;
     margin-top: -2px;
 }
+#quads-ad-content .quads-general-helper:after {
+    margin-top: 0px;
+}
 .quads-general-helper {
     border-radius: 50%;
     border: 2px solid #fff;
@@ -746,6 +803,7 @@ display: block; padding: 15px 15px 10px 17px; text-decoration: none; font-weight
     margin-top: -4px;
     cursor: pointer;
     margin-left: 2px;
+    float: right;
 }
 
 .quads-message{
@@ -1203,3 +1261,52 @@ margin-top:20px;
 #quads_vi_ads\[ads\]\[1\]\[marginBottom\]{
     width: 60px;
 }
+/* //Switch checkbox css starts here */
+
+.quads-switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 16px;
+    border: 20px;
+}
+.quads-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #b5b5b5;
+    transition: .4s;
+    border-radius: 20px;
+}
+.quads-slider:before {
+    position: absolute;
+    content: "";
+    height: 10px;
+    width: 10px;
+    left: 2px;
+    bottom: 3px;
+    background-color: #fff;
+    transition: .4s;
+    border-radius: 20px;
+}
+input:checked + .quads-slider {
+    background-color: #005af0;
+    border-radius: 30px;
+  }
+  input:focus + .quads-slider {
+    box-shadow: 0 0 1px #005af0;
+  }
+  input:checked + .quads-slider:before {
+  
+    transform: translateX(15px);
+  }
+  .quads-switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+/* //Switch checkbox css ends here */

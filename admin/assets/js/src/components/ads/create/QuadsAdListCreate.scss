@@ -1,0 +1,48 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+
+.quads-ad-networks li{
+    width: 180px;
+    text-align: center;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 10px;
+    height: 200px;
+    border: 1px solid #e2e2e2;
+    margin-bottom: 0;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+    transition: 0.3s;
+}
+.quads-ad-networks ul{    
+    padding: 0px;
+    list-style-type: none;
+    display: grid;
+    width: 180px;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 15px 50px;
+    margin: 0;
+}
+
+.quads-ad-networks{
+    padding: 50px;
+    max-width: 900px;
+}
+.quads-side-part{
+    width:10%;
+}
+.quads-modal-part{
+    width: 70%;
+}
+.quads-close-ad-modal{
+    float: right;
+    font-size: 25px;
+    cursor: pointer;
+    padding: 10px;
+}

@@ -26,6 +26,7 @@ function quads_get_inline_widget_ad_style( $id ) {
     
     // Alignment
     $adsalign = ( int )$quads_options['ads']['ad' . $id . '_widget']['align'];
+    
     // Margin
     $adsmargin = '0';
     $padding = 'padding:';

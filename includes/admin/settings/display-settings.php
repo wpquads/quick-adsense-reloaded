@@ -164,6 +164,63 @@ function quads_is_excluded_title($string){
     return false;
 }
 
+
+
+/**
+ * Options Page New
+ *
+ * Renders the options page contents.
+ *
+ * @since 2.0
+ * @global $quads_options Array of all the QUADS Options
+ * @return void
+ */
+function quads_options_page_new() {
+
+        global $quads_options;    
+    
+        wp_enqueue_style('quads-admin-ad-style', QUADS_PLUGIN_URL.'admin/assets/js/dist/style.css');
+        
+        wp_enqueue_style('quads-material-ui-font', 'https://fonts.googleapis.com/icon?family=Material+Icons');
+        
+        $data = array(
+            'quads_plugin_url'     => QUADS_PLUGIN_URL,
+            'rest_url'             => esc_url_raw( rest_url() ),
+            'nonce'                => wp_create_nonce( 'wp_rest' ),
+            'licenses'             => get_option( 'quads_wp_quads_pro_license_active' )                
+        );
+        $data = apply_filters('quads_localize_filter',$data,'quads_localize_data');
+        wp_register_script( 'quads-admin-ad-script', QUADS_PLUGIN_URL . 'admin/assets/js/dist/adminscript.js', array( 'wp-i18n' ), QUADS_VERSION );
+
+        wp_localize_script( 'quads-admin-ad-script', 'quads_localize_data', $data );
+        wp_enqueue_script( 'quads-admin-ad-script-child', QUADS_PLUGIN_URL . 'admin/react/sample.js', array( 'wp-i18n' ), QUADS_VERSION );
+        wp_enqueue_script('quads-admin-ad-script');
+                    
+        echo '<div id="quads-ad-content"></div>';
+
+        echo '<div class="quads-admin-debug">'.quads_get_debug_messages().'</div>';
+            	
+}
+
+/**
+ * Options Page
+ *
+ * Renders the options page contents.
+ *
+ * @since 1.0
+ * @return void
+ */
+function quads_version_switch(){
+    $quads_mode = get_option('quads-mode');
+    if($quads_mode == 'new'){
+        update_option('quads-mode','old');
+    }else{
+         update_option('quads-mode','new');
+    }
+    echo '<script>window.location="'.admin_url("admin.php?page=quads-settings").'";</script>';
+  
+}
+
 /**
  * Options Page
  *
@@ -198,6 +255,7 @@ function quads_options_page() {
                             </a>
                         </div>
                     </div>
+                    
                 </div>
             </div>
 		<h2 class="nav-tab-wrapper">
@@ -256,21 +314,29 @@ function quads_options_page() {
                         }
                         ?>
                         </div>
-                    </div> <!-- new //-->
+                    </div> 
+                    <div style="display: inline-block;width: 242px;">
+                    <div class="switch_to_v2">
+                    <h3>WPQuads 2.0 has the better User interface</h3> 
+                    <p>We have improved the WPQuads and made it better than ever! Step into the future with one-click!</p>
+                    <div onclick="quads_switch_version('new');" class="switch_to_v2_btn"><a onclick="quads_switch_version('new');"  href="#">Switch to New Panel</a></div>
+                    </div>
                     <?php quads_get_advertising(); ?>
+                </div>
 		</div><!-- #tab_container-->
                 <div id="quads-save-result"></div>
                 <div class="quads-admin-debug"><?php echo quads_get_debug_messages(); ?></div>
                 <?php echo quads_render_adsense_form(); ?>
 	</div><!-- .wrap -->
 	<?php
-	echo ob_get_clean();
+    echo ob_get_clean();
+	
 }
 
 function quads_get_debug_messages(){
     global $quads_options;
     
-    if (isset($quads_options['debug_mode'])){
+    if (isset($quads_options['debug_mode']) && $quads_options['debug_mode'] == 1){        
         echo '<pre style="clear:both;">';
         var_dump($quads_options);
         echo '</pre>';

@@ -30,8 +30,13 @@ function quads_admin_messages() {
     if( $screen->parent_base == 'edit' ) {
         return;
     }
-
-    quads_show_update_auto_ads();
+    if (!quads_is_advanced()) {
+        quads_show_update_auto_ads();
+    }else{
+        if(!quads_is_extra())
+        quads_licene_acivation_notice();
+    }
+    
 
     quads_theme_notice();
 
@@ -144,7 +149,7 @@ function quads_admin_messages() {
     }
 }
 
-add_action( 'admin_notices', 'quads_admin_messages' );
+// add_action( 'admin_notices', 'quads_admin_messages' );
 
 
 /* Hide the rating div
@@ -265,7 +270,7 @@ function quads_update_notice() {
         </div> <?php
         //update_option ('quads_show_update_notice', 'no');
     } else
-    if( !quads_is_extra() ) {
+    if( !quads_is_advanced() ) {
         $message = sprintf( __( '<strong>WP QUADS ' . QUADS_VERSION . ': </strong> Install <a href="%1s" target="_blank">WP QUADS PRO</a> to get custom post type support in <a href="%2s">General Settings</a>.', 'quick-adsense-reloaded' ), 'http://wpquads.com?utm_campaign=admin_notice&utm_source=admin_notice&utm_medium=admin&utm_content=custom_post_type', admin_url() . 'admin.php?page=quads-settings' );
         $message .= '<br><br><a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_update_notice" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Close Notice</a>';
         ?>
@@ -589,16 +594,6 @@ function quads_show_ads_txt_notice() {
         return false;
 
 
-    // show ad.txt update notice
-    if( get_transient( 'quads_ads_txt_notice' ) && isset( $quads_options['adsTxtEnabled'] ) ) {
-        $notice['message'] = '<strong>ADS.TXT has been added</strong><br><br><strong>WP QUADS</strong> has updated the file ' . ABSPATH . 'ads.txt '
-                . 'file with lines that declare Google.com as a legitmate seller of your inventory and is recommended setting by AdSense.<br><a href="https://wpquads.com/make-more-revenue-by-using-an-ads-txt-in-your-website-root-domain/" target="blank" rel="external nofollow">What is ads.txt?</a>';
-        $notice['type']    = 'update-nag';
-        $notice['action']  = 'close_ads_txt_notice';
-        $adsUpdated        = new wpquads\template( '/includes/admin/views/notices', $notice );
-        echo $adsUpdated->render();
-    }
-
     // show ads.txt error notice
     if( get_transient( 'close_ads_txt_error' ) && isset( $quads_options['adsTxtEnabled'] ) ) {
 
@@ -713,6 +708,18 @@ function quads_show_update_auto_ads() {
     echo '<div class="quads-notice-gdpr update-nag" style="background-color: black;color: #87c131;padding: 20px;margin-top: 20px;border: 3px solid #87c131;display:block;">' . $message .
     '<p><a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_auto_ads_notice" class="quads_hide_gdpr" title="I got it" style="text-decoration:none;color:white;">- I Understand! Do Not Show This Hint Again -</a></a>' .
     '</div>';
+}
+function quads_licene_acivation_notice(){
+    $quads_mode = get_option('quads-mode');
+    if($quads_mode == 'new'){
+        $message = __( 'Activate Liencese the <a href="'.admin_url('admin.php?page=quads-settings&path=settings_licenses').'" target="_blank"> <strong>WP QUADS PRO!</strong></a><br><p>', 'quick-adsense-reloaded' );
+    }else{
+        $message = __( 'Activate Liencese the <a href="'.admin_url('admin.php?page=quads-settings&tab=licenses').'" target="_blank"> <strong>WP QUADS PRO!</strong></a><br><p>', 'quick-adsense-reloaded' );
+    }
+        ?>
+        <div class="updated notice" style="border-left: 4px solid #ffba00;">
+            <p><?php echo $message; ?></p>
+        </div><?php
 }
 
 /**
