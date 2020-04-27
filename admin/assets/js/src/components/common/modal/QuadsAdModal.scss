@@ -1,0 +1,50 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+/* The Modal (background) */
+.quads-modal-popup {  
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  left: 75px;
+  height: 100%;
+  overflow: auto;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Content */
+.quads-modal-popup-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  max-width: 100%;
+}
+
+/* The Close Button */
+.quads-modal-close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.quads-modal-close:hover,
+.quads-modal-close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+.quads-modal-error{
+  color: red;
+}

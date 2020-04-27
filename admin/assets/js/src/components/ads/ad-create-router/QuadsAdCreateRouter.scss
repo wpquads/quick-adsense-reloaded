@@ -1,0 +1,76 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+
+.quads-ad-config-header{
+    margin-top: 5px;    
+}
+.quads-ad-config-tab ul{
+    display: flex;   
+    border: 1px solid#e7e7e7;
+    margin: 0;
+    overflow: hidden;
+}
+.quads-ad-config-tab ul li{
+    padding: 12px;
+    font-size: 14px;
+    width: 30.7%;
+    background: #F3F3F3;
+    color: #333;
+    text-align: center;
+    margin-bottom: 0px;
+    position: relative
+}
+.quads-ad-config-tab ul li:after{
+    content: "";
+    position: absolute;
+    display: inline-block;
+    width: 44px;
+    height: 44px;
+    top: -1px;
+    right: -20px;
+    background-color: #f3f3f3;
+    border-top-right-radius: 0px;
+    -webkit-transform: scale(0.707) rotate(45deg);
+    transform: scale(0.7) rotate(45deg);
+    box-shadow: 3px -3px rgb(231, 231, 231);
+    z-index: 1;
+}
+.quads-ad-config-tab ul li.quads-selected,.quads-ad-config-tab ul li.quads-selected:after {
+    background-color: #fff; 
+}
+#quads-ad-form {
+    background: #fff;
+}
+.quads-close-create-page{
+    font-size: 34px !important;
+    text-align: right;
+    cursor: pointer;
+    float: right;
+    position: relative;
+    top: 15px;
+    right: 25px;
+}
+.quads-close-create-page a{
+    color: #333;
+}
+.quads-gree-notice-box{
+    height: 10px;
+    width: 607px;
+    padding: 15px;
+    margin: 20px;
+    background: #aeccae;
+    color: white;
+}
+.quads-gree-notice-box span{
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
+    color: white;
+}

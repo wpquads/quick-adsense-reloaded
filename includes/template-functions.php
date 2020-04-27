@@ -88,6 +88,21 @@ function quads_change_adsbygoogle_to_amp($content){
                             $new_node->setAttribute('data-ad-format', $adformat);
                             $new_node->setAttribute('data-full-width-responsive', $adfullwidth);
                 }
+                $styletag= $node->getAttribute('style');
+                $widthreg = "/width:(?<width>\\d+)/";
+                $heightreg = "/height:(?<height>\\d+)/";
+                preg_match($widthreg, $styletag, $width);
+                preg_match($heightreg, $styletag, $height);
+                if(isset($width['width'])){
+                    $new_node->setAttribute('width', $width['width']);
+                }else{
+                    $new_node->setAttribute('width', '100vw');
+                }
+                if(isset($height['height'])){
+                    $new_node->setAttribute('height', $height['height']);
+                }else{
+                    $new_node->setAttribute('height', '320');
+                }
                 $child_element= $dom->createElement('div');
                 $child_element->setAttribute('overflow', '');
                 $new_node->appendChild( $child_element );
@@ -171,21 +186,8 @@ function quads_get_load_priority(){
  * @return type
  */
 function quads_process_content( $content ) {
-    global $quads_options, $adsArray, $adsArrayCus, $visibleContentAds, $ad_count_widget, $visibleShortcodeAds;
+    global $quads_mode, $quads_options, $adsArray, $adsArrayCus, $visibleContentAds, $ad_count_widget, $visibleShortcodeAds;        
     
-
-    // Do not do anything if ads are not allowed or process is not in the main query
-    if( !quads_ad_is_allowed( $content ) || !is_main_query()) {
-        $content = quads_clean_tags( $content );
-        return $content;
-    }
-    
-    // Do nothing if maximum ads are reached in post content
-    if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
-        $content = quads_clean_tags( $content );
-        return $content;
-    }
-
     // Array of ad codes ids
     $adsArray = quads_get_active_ads();
     
@@ -194,10 +196,25 @@ function quads_process_content( $content ) {
         return $content;
     }
 
+    // Do nothing if maximum ads are reached in post content
+    if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
+        $content = quads_clean_tags( $content );
+        return $content;
+    }
+
+    // Do not do anything if ads are not allowed or process is not in the main query
+    if( !quads_ad_is_allowed( $content ) || !is_main_query()) {
+        $content = quads_clean_tags( $content );
+        return $content;
+    }
+
     $content = quads_sanitize_content( $content );
-
-    $content = quads_filter_default_ads( $content );
-
+    
+    if($quads_mode == 'new'){
+        $content = quads_filter_default_ads_new( $content );    
+    }else{
+        $content = quads_filter_default_ads( $content );    
+    }    
     /*
      * Tidy up content
      */
@@ -252,7 +269,7 @@ function quads_get_active_ads() {
     }
    
     // count valid ads
-    $i = 0;
+    $i = 1;
     foreach ( $quads_options['ads'] as $ads) {
         $tmp = isset( $quads_options['ads']['ad' . $i]['code'] ) ? trim( $quads_options['ads']['ad' . $i]['code'] ) : '';
         // id is valid if there is either the plain text field populated or the adsense ad slot and the ad client id
@@ -301,15 +318,223 @@ function quads_get_max_allowed_post_ads( $content ) {
  * @param string $content
  * @return string content
  */
+function quads_filter_default_ads_new( $content ) {
+
+    global $quads_options, $adsArrayCus;   
+    $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
+
+    if( $off_default_ads ) { // If default ads are disabled 
+        return $content;
+    }    
+    // Default Ads
+    $adsArrayCus = array();
+
+    if(isset($quads_options['ads'])){        
+
+        $i = 1;
+        foreach($quads_options['ads'] as $key => $ads){
+
+            $is_on         = quads_is_visibility_on($ads);
+            $is_visitor_on = quads_is_visitor_on($ads);
+            if(isset($ads['ad_id']))
+            $post_status = get_post_status($ads['ad_id']); 
+            else
+              $post_status =  'publish';
+            if(!isset($ads['position'])){
+
+                $ad_id = quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $key);
+
+                if($ad_id){
+
+                    $ad_meta = get_post_meta($ad_id, '',true);
+
+                    if(isset($ad_meta['position'][0])){
+
+                        $ads['position']               = isset($ad_meta['position'][0]) ? $ad_meta['position'][0] : '';;
+                        $ads['paragraph_number']       = isset($ad_meta['paragraph_number'][0]) ? $ad_meta['paragraph_number'][0] : '';
+                        $ads['image_number']           = isset($ad_meta['image_number'][0]) ? $ad_meta['image_number'][0] : '';
+                        $ads['image_caption']          = isset($ad_meta['image_caption'][0]) ? $ad_meta['image_caption'][0] : '';
+                        $ads['enable_on_end_of_post']  = isset($ad_meta['enable_on_end_of_post'][0]) ? $ad_meta['enable_on_end_of_post'][0] : '';
+
+                        $quads_options[$key]['position']              = isset($ad_meta['position'][0]) ? $ad_meta['position'][0] : '';
+                        $quads_options[$key]['paragraph_number']      = isset($ad_meta['paragraph_number'][0]) ? $ad_meta['paragraph_number'][0] : '';
+                        $quads_options[$key]['image_number']          = isset($ad_meta['image_number'][0]) ? $ad_meta['image_number'][0] : '';
+                        $quads_options[$key]['image_caption']         = isset($ad_meta['image_caption'][0]) ? $ad_meta['image_caption'][0] : '';
+                        $quads_options[$key]['enable_on_end_of_post'] = isset($ad_meta['enable_on_end_of_post'][0]) ? $ad_meta['enable_on_end_of_post'][0] : '';
+                    }
+
+                }
+                
+                $is_on = true;
+            }           
+            
+            if($is_on && $is_visitor_on && $post_status=='publish'){
+                    
+                $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
+                $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;
+                $imageNo      = (isset($ads['image_number']) && $ads['image_number'] !='') ? $ads['image_number'] : 1;
+                $imageCaption = isset($ads['image_caption']) ? $ads['image_caption'] : false;
+                $end_of_post  = isset($ads['enable_on_end_of_post']) ? $ads['enable_on_end_of_post'] : false;
+                                    
+                // placeholder string for custom ad spots
+                $cusads = '<!--CusAds'.$i.'-->';
+                
+                switch ($position) {
+
+                    case 'beginning_of_post':                          
+                        if(strpos( $content, '<!--OffBegin-->' ) === false ) {
+                           $content = $cusads.$content;   
+                        }                    
+                        break;
+
+                    case 'middle_of_post':
+                        
+                            // Check if ad is middle one
+                        if(strpos( $content, '<!--OffMiddle-->' ) === false ) {
+                            $closing_p        = '</p>';
+                            $paragraphs       = explode( $closing_p, $content );       
+                            $total_paragraphs = count($paragraphs);                          
+                            $paragraph_id     = floor($total_paragraphs /2);                              
+                            foreach ($paragraphs as $index => $paragraph) {
+                                if ( trim( $paragraph ) ) {
+                                    $paragraphs[$index] .= $closing_p;
+                                }
+                                if ( $paragraph_id == $index + 1 ) {
+                                    $paragraphs[$index] .= $cusads;
+                                }
+                            }
+                            $content = implode('', $paragraphs ); 
+                        }
+
+                        break;                            
+                    case 'end_of_post':           
+                        if(strpos( $content, '<!--OffEnd-->' ) === false ) {
+                           $content = $content.$cusads;   
+                        }                     
+                        # code...
+                        break;                                
+                    case 'after_more_tag':
+                        // Check if ad is after "More Tag"
+                        if(strpos( $content, '<!--OffAfMore-->' ) === false ) {                           
+                            $postid  = get_the_ID();
+                            $content = str_replace( '<span id="more-' . $postid . '"></span>', $cusads, $content );
+                        }
+                        break;
+                    case 'before_last_paragraph':
+
+                        if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
+                            $closing_p        = '</p>';
+                            $paragraphs       = explode( $closing_p, $content );
+                            $p_count          = count($paragraphs);                                                             
+                            $paragraph_no     = ($p_count - 2);
+                            if($paragraph_no <= $p_count){
+
+                                foreach ($paragraphs as $index => $paragraph) {
+                                    if ( trim( $paragraph ) ) {
+                                        $paragraphs[$index] .= $closing_p;
+                                    }
+                                    if ( $paragraph_no == $index + 1 ) {
+                                        $paragraphs[$index] .= $cusads;
+                                    }
+                                }
+                                $content = implode( '', $paragraphs ); 
+                            }                                                        
+                        }                                                
+
+                        break;
+                    case 'after_paragraph':
+                        
+                        if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
+                            $closing_p        = '</p>';
+                            $paragraphs       = explode( $closing_p, $content );
+                            $p_count          = count($paragraphs);                                                             
+                            
+                            if($paragraph_no <= $p_count){
+
+                                foreach ($paragraphs as $index => $paragraph) {
+                                    if ( trim( $paragraph ) ) {
+                                        $paragraphs[$index] .= $closing_p;
+                                    }
+                                    if ( $paragraph_no == $index + 1 ) {
+                                        $paragraphs[$index] .= $cusads;
+                                    }
+                                }
+                                $content = implode( '', $paragraphs ); 
+                            }else{
+                                if($end_of_post){
+                                    $content = $content.$cusads;   
+                                }                                
+                            }                                                        
+                        }
+
+                        break;
+                    
+                    case 'after_image':
+
+                        // Sanitation
+                        $imgtag = "<img";
+                        $delimiter = ">";
+                        $caption = "[/caption]";
+                        $atag = "</a>";
+                        $content = str_replace( "<IMG", $imgtag, $content );
+                        $content = str_replace( "</A>", $atag, $content );
+
+                        // Get all images in content
+                        $imagesArray = explode( $imgtag, $content );
+                        // Modify Image ad
+                        if( ( int ) $imageNo < count( $imagesArray ) ) {
+                            //Get all tags
+                            $tagsArray = explode( $delimiter, $imagesArray[$imageNo] );
+                            if( count( $tagsArray ) > 1 ) {
+                                $captionArray = explode( $caption, $imagesArray[$imageNo] );
+                                $ccp = ( count( $captionArray ) > 1 ) ? strpos( strtolower( $captionArray[0] ), '[caption ' ) === false : false;
+                                $imagesArrayAtag = explode( $atag, $imagesArray[$imageNo] );
+                                $cdu = ( count( $imagesArrayAtag ) > 1 ) ? strpos( strtolower( $imagesArrayAtag[0] ), '<a href' ) === false : false;
+                                // Show ad after caption
+                                if( $imageCaption && $ccp ) {
+                                    $imagesArray[$imageNo] = implode( $caption, array_slice( $captionArray, 0, 1 ) ) . $caption . "\r\n" .$cusads. "\r\n" . implode( $caption, array_slice( $captionArray, 1 ) );
+                                } else if( $cdu ) {
+                                    $imagesArray[$imageNo] = implode( $atag, array_slice( $imagesArrayAtag, 0, 1 ) ) . $atag . "\r\n" . $cusads . "\r\n" . implode( $atag, array_slice( $imagesArrayAtag, 1 ) );
+                                } else {
+                                    $imagesArray[$imageNo] = implode( $delimiter, array_slice( $tagsArray, 0, 1 ) ) . $delimiter . "\r\n" .$cusads . "\r\n" . implode( $delimiter, array_slice( $tagsArray, 1 ) );
+                                }
+                            }
+                            $content = implode( $imgtag, $imagesArray );
+                        }
+
+                    break;    
+                    default:
+                        # code...
+                        break;
+                }
+
+                $adsArrayCus[] = $i;   
+            }
+            $i++;
+        }
+        
+    }
+    
+    return $content;
+}
+
+/**
+ * Filter default ads
+ * 
+ * @global array $quads_options global settings
+ * @global array $adsArrayCus List of ad id'S
+ * @param string $content
+ * @return string content
+ */
 function quads_filter_default_ads( $content ) {
+
     global $quads_options, $adsArrayCus;
     
     $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
 
     if( $off_default_ads ) { // If default ads are disabled 
         return $content;
-    }
-    
+    }    
     // Default Ads
     $adsArrayCus = array();
 
@@ -445,7 +670,7 @@ function quads_filter_default_ads( $content ) {
             
             // Get paragraph tags
             $paragraphsArray = explode( $sch, $content );
-            
+          
            /**
             * Check if last element is empty and remove it
             */
@@ -497,8 +722,21 @@ function quads_filter_default_ads( $content ) {
             * Check if last element is empty and remove it
             */
             if(trim($paragraphsArray[count($paragraphsArray)-1]) == "") array_pop($paragraphsArray);
-            $checkcenter =intval(count( $paragraphsArray )/2);
-            $paragraphsArray[$checkcenter] = '<!--' . $m1 . '-->' . $paragraphsArray[$checkcenter];
+            
+            $nn = 0;
+            $mm = strlen( $content ) / 2;
+            for ( $i = 0; $i < count( $paragraphsArray ); $i++ ) {
+                $nn += strlen( $paragraphsArray[$i] ) + 4;
+                if( $nn > $mm ) {
+                    if( ($mm - ($nn - strlen( $paragraphsArray[$i] ))) > ($nn - $mm) && $i + 1 < count( $paragraphsArray ) ) {
+                        $paragraphsArray[$i + 1] = '<!--' . $m1 . '-->' . $paragraphsArray[$i + 1];
+                    } else {
+                        $paragraphsArray[$i] = '<!--' . $m1 . '-->' . $paragraphsArray[$i];
+                    }
+                    break;
+                }
+            }
+           
             $content = implode( $closingTagP, $paragraphsArray );
         }
     }
@@ -724,7 +962,7 @@ function quads_parse_quicktags($content){
  */
 function quads_parse_default_ads( $content ) {
     global $adsArrayCus, $adsRandom, $adsArray, $visibleContentAds;
-
+     
     $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
 
     if( $off_default_ads ) { // disabled default ads
@@ -741,7 +979,9 @@ function quads_parse_default_ads( $content ) {
 //        echo '</pre>';
 
     for ( $i = 0; $i <= count( $adsArrayCus ); $i++ ) {
+        
         if( isset( $adsArrayCus[$i] ) && strpos( $content, '<!--CusAds' . $adsArrayCus[$i] . '-->' ) !== false && in_array( $adsArrayCus[$i], $adsArray ) ) {
+            
             $content = quads_replace_ads( $content, 'CusAds' . $adsArrayCus[$i], $adsArrayCus[$i] );
             // Create array $adsRandom for quads_parse_random_ads() parsing functions to make sure that the random function 
             // is never using ads that are already used on static ad spots which are generated with quads_parse_default_ads()
@@ -756,6 +996,7 @@ function quads_parse_default_ads( $content ) {
             //if( quads_ad_reach_max_count() || $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
             //wp_die(quads_get_max_allowed_post_ads( $content ));
             if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
+             
                 $content = quads_clean_tags( $content );
             }
         }

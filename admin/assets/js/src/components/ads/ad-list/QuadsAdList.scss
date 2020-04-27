@@ -1,0 +1,159 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+
+.quads-ad-list-table-div{
+    background-color: #fff;    
+}
+.quads-ad-table{
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    background-color: transparent;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.quads-ad-table tr {border-bottom:1px solid #E1E1E1}
+.quads-ad-table tbody tr:hover{
+    background: #f1f3f4
+}
+.quads-ad-table td{
+    padding: 12px 25px;
+    line-height: 1.5;
+    color: #333;
+    font-size: 15px;
+    text-transform: capitalize;
+}
+.quads-ad-table td:nth-child(2) img {
+    position: relative;
+    top: 2px;
+    margin-right:3px;
+}
+.quads-ad-table td:nth-child(3) {
+    color:#666
+}
+.quads-ad-table td:nth-child(4) {
+    padding: 0;
+}
+.quads-ad-table th {
+    padding: 14px 10px 14px 25px;
+    line-height: 2;
+    text-align: left;
+    font-size: 13px;
+    color: #5f6368;
+    font-weight: 600;
+}
+.quads-ad-label-draft{
+    color: #5f6368;
+    font-family: Roboto,Arial,sans-serif;
+    font-size: .75rem;
+    font-weight: 400;
+    letter-spacing: .025em;
+    line-height: 1rem;
+    background-color: #f1f3f4;
+    border-radius: 4px;
+    padding: 2px 4px;
+}
+.quads-ad-table th:nth-child(4) {
+    color: transparent;
+}
+.quads-action-div a.quads-edit-btn, .quads-action-div a.quads-more-btn{
+    cursor: pointer;
+    color: #555;
+    display: inline-block;
+    height: 48px;
+    width: 48px;
+    border-radius: 50px;
+    text-align: center;
+    margin: 0 0px;
+    line-height: 60px;
+}
+.quads-action-div a:hover {
+    background: rgba(0, 0, 0, 0.04);
+}
+.quads-action-div a .material-icons{
+    width: 24px;
+    height: 24px;
+}
+.quads-action-div a .material-icons:focus, .quads-action-div a:focus{
+    outline: 0;
+    box-shadow: none;
+}
+.quads-ad-table th:nth-child(4) {
+    color: transparent;
+}
+.quads-edit-btn{
+    text-decoration: none;
+}
+.quads-action-div{
+    position: relative;
+}
+.quads-action-div a{
+ cursor: pointer;
+}
+.quads-more-icon-box{
+    position: absolute;
+    top: 0px;
+    left: -100px;
+    z-index: 100000;
+    float: left;
+    min-width: 125px;
+    padding: 20px 10px 10px 10px;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+.quads-more-icon-box ul{
+
+    margin: 0;
+}
+.quads-more-icon-box li {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 6px 5px;
+    margin: 0;
+}
+.quads-more-icon-box li a {
+    font-size: 13px;
+    color: #666;
+}
+.quads-action-div .quads-more-icon-box .material-icons {
+    font-size: 16px;
+    color: #666;
+    margin-right: 2px;
+    width: auto;
+    height: auto;
+    position: relative;
+    top: 3px;
+} 
+.quads-more-icon-box li:last-child {
+    border-bottom: 0;
+}
+.quads-action-div .quads-more-icon-box a:hover {
+    background: none;
+}
+.quads-more-icon-box-close {
+    float: right;
+    cursor: pointer;
+    position: relative;
+    top: -18px;
+    right: -7px;
+}
+.quads-action-div .quads-more-icon-box-close .material-icons {
+    font-size: 16px;
+}
+.nodatatable td{
+    text-align: center;height: 250px;
+}

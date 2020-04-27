@@ -118,6 +118,12 @@ class QUADS_License {
 		//add_action( 'admin_notices', array( $this, 'notices' ) );
 
 		add_action( 'in_plugin_update_message-' . plugin_basename( $this->file ), array( $this, 'plugin_row_license_missing' ), 10, 2 );
+		if(isset($_POST['requestfrom']) &&$_POST['requestfrom'] == 'wpquads2'){
+			$this->activate_license2();
+			$this->deactivate_license2();
+			$this->auto_updater();
+
+		}
 
 	}
 
@@ -202,7 +208,79 @@ class QUADS_License {
 
 	}
 
+	/**
+	 * Activate the license key
+	 *
+	 * @access  public
+	 * @return  void
+	 */
+	public function activate_license2() {
+		$post_setting  =json_decode($_POST['settings'], true);
 
+               if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( empty( $post_setting['quads_wp_quads_pro_license_key'] ) ) {
+		
+			delete_option( $this->item_shortname . '_license_active' );
+                
+			return;
+
+		}
+                
+		// foreach ( $_POST as $key => $value ) {
+		// 	if( false !== strpos( $key, 'license_key_deactivate' ) ) {
+		// 		// Don't activate a key when deactivating a different key
+		// 		return;
+		// 	}
+		// }
+
+		$details = get_option( $this->item_shortname . '_license_active' );
+
+		if ( is_object( $details ) && 'valid' === $details->license ) {
+			return;
+		}
+
+		$license = sanitize_text_field( $post_setting['quads_wp_quads_pro_license_key'] );
+
+		if( empty( $license ) ) {
+			return;
+		}
+
+		// Data to send to the API
+		$api_params = array(
+			'edd_action' => 'activate_license',
+			'license'    => $license,
+			'item_name'  => urlencode( $this->item_name ),
+			'url'        => home_url()
+		);
+
+		// Call the API
+		$response = wp_remote_post(
+			$this->api_url,
+			array(
+				'timeout'   => 15,
+				'sslverify' => false,
+				'body'      => $api_params
+			)
+		);
+
+		// Make sure there are no errors
+		if ( is_wp_error( $response ) ) {
+			return;
+		}
+
+		// Tell WordPress to look for updates
+		set_site_transient( 'update_plugins', null );
+
+		// Decode license data
+		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+
+		update_option( $this->item_shortname . '_license_active', $license_data );
+      $response = array('status' => 't','license' => 'actived', 'msg' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' )); 
+      return $response;
+                }
 	/**
 	 * Activate the license key
 	 *
@@ -310,6 +388,60 @@ class QUADS_License {
 		// Run on deactivate button press
 		if ( isset( $_POST[ $this->item_shortname . '_license_key_deactivate'] ) ) {
 
+			// Data to send to the API
+			$api_params = array(
+				'edd_action' => 'deactivate_license',
+				'license'    => $this->license,
+				'item_name'  => urlencode( $this->item_name ),
+				'url'        => home_url()
+			);
+
+			// Call the API
+			$response = wp_remote_post(
+				$this->api_url,
+				array(
+					'timeout'   => 15,
+					'sslverify' => false,
+					'body'      => $api_params
+				)
+			);
+
+			// Make sure there are no errors
+			if ( is_wp_error( $response ) ) {
+				return;
+			}
+
+			// Decode the license data
+			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+
+			delete_option( $this->item_shortname . '_license_active' );
+
+		}
+	}
+
+		/**
+	 * Deactivate the license key
+	 *
+	 * @access  public
+	 * @return  void
+	 */
+	public function deactivate_license2() {
+		$post_setting  =json_decode($_POST['settings'], true);
+
+               if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( empty( $post_setting['quads_wp_quads_pro_license_key'] ) ) {
+			return;
+		}
+                
+                if( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		// Run on deactivate button press
+		if ( isset( $_POST['quads_wp_quads_pro_license_key_deactivate'] ) ) {
 			// Data to send to the API
 			$api_params = array(
 				'edd_action' => 'deactivate_license',

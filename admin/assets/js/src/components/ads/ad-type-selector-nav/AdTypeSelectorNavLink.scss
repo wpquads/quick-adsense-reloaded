@@ -1,0 +1,40 @@
+.quads-ad-networks{
+    padding: 50px;
+    max-width: 900px;
+}
+.quads-ad-networks li{
+    width: 180px;
+    text-align: center;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 10px;
+    height: 200px;
+    border: 1px solid #e2e2e2;
+    margin-bottom: 0;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+    transition: 0.3s;
+}
+.quads-ad-networks li:hover {
+    box-shadow: rgba(0, 0, 0, 0.20) 0px 3px 15px;
+}
+.quads-ad-networks ul{    
+    padding: 0px;
+    list-style-type: none;
+    display: grid;
+    width: 180px;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 15px 50px;
+    margin: 0;
+}
+
+.quads-side-part{
+    width:10%;
+}
+.quads-ad-type-link img {
+    max-width: 150px;
+    width: auto;
+    padding: 15px 0;
+}
+a.quads-nav-link:focus {
+    box-shadow: none;
+}

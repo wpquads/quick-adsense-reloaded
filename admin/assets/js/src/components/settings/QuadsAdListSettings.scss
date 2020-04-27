@@ -1,0 +1,111 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+.quads-settings-saved-msg{
+  background: blue;  
+  color: #fff;  
+  display: block;
+  width: 100%;
+  background: greee;
+  padding: 10px;
+  margin: 0 0 5px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: arial,sans-serif;
+  line-height: 17px;
+  position: relative;
+  pointer-events: all!important;
+  display: block;
+  position: fixed;
+  width: 200px;
+  pointer-events: none!important;
+  letter-spacing: normal;
+  z-index: 9999999;
+  bottom: 20px;
+  right: 20px;
+  box-shadow: 5px 5px 5px grey;
+}
+.quads-settings-tab ul {
+  margin: 0;
+  background-color: #fff;
+  margin-top: 20px;
+  padding: 20px 0px;
+  border-bottom: 1px solid #E1E1E1;
+  
+}
+.quads-settings-tab ul li a {
+    padding: 20px;
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;    
+}
+.quads-settings-tab ul li a:focus{
+  outline: 0;
+  box-shadow: none;
+}
+.quads-settings-tab ul h2{
+  margin: 0;
+}
+a.quads-nav-link-active {
+  border-bottom: 3px solid #005af0;
+  position: relative;
+  padding: 19px 20px;
+  color: #005af0 !important;
+}
+.quads-settings-tab ul li {
+  display: inline-block; 
+  line-height: 22px;
+  margin-bottom: 0;
+}
+.quads-settings-content{
+  background-color: #fff;
+  min-height: 500px;
+}
+.quads-settings-tab-container {
+  padding: 15px 25px 25px 30px;
+}
+.quads-settings-tab-container .form-table{
+    margin-top: 0;
+}
+.quads-settings-tab-container label {
+  font-size: 16px;
+  font-weight: normal;
+  color: #333;
+}
+.quads-settings-tab-container th{
+    width: 280px;
+}
+#quads-submit-button{
+  margin: 15px;
+}
+.quads-premium-cus{
+  margin-top: 5px;  
+}
+.quads-help-support{
+  width: 40%;
+}
+.quads-help-support input,textarea,select{
+  width: 100%;  
+}
+.quads-help-support select{
+  max-width: 100%;  
+}
+.quads-system-info{
+  width: 580px;
+    height: 400px;
+    font-family: Menlo, Monaco, monospace;
+    background: none;
+    white-space: pre;
+    overflow: auto;
+    display: block;
+}
+.quads-save-settings{
+  padding: 25px;
+}

@@ -1,0 +1,39 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+.quads-form-field{
+ padding: 5px;; 
+}
+.quads-auto-fill-textarea{
+    width: 100%;
+}
+.quads-autofill{
+    cursor: pointer;
+    background: #6DA2E8;
+    color: #fff;
+    padding: 3px 9px;
+    font-size: 13px;
+    border-radius: 4px;
+}
+.quads-autofill:hover{
+    color: #fff;
+    background: #005aef;
+
+}
+.quads-autofill-div{
+    display: inline;
+    margin-left: 5px;
+}
+.quads-adsense-width-heigth{
+
+    display: inline-flex;
+    margin-left: 30px;
+    top: -17px;
+    position: relative;
+}

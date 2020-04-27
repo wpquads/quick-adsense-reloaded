@@ -142,14 +142,6 @@ function quads_logout_vi() {
 add_action('quads_logout_vi', 'quads_logout_vi');
 
 /**
- * Hide ads txt information notice
- */
-function quads_close_ads_txt_notice() {
-    delete_transient('quads_ads_txt_notice');
-}
-add_action('quads_close_ads_txt_notice', 'quads_close_ads_txt_notice');
-
-/**
  * Hide ads txt error notice
  */
 function quads_close_ads_txt_error() {

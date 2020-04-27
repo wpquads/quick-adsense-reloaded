@@ -38,7 +38,6 @@ function quads_get_option( $key = '', $default = false ) {
 function quads_get_settings() {
    $settings = get_option( 'quads_settings' );
 
-
    if( empty( $settings ) ) {
       // Update old settings with new single option
       $general_settings = is_array( get_option( 'quads_settings_general' ) ) ? get_option( 'quads_settings_general' ) : array();
@@ -1713,7 +1712,7 @@ function quads_ajax_add_ads(){
    global $quads_options;
    
    $postCount = !empty($_POST['count']) ? $_POST['count'] : 1;
-   //wp_die($postCount);
+   
    
    $count = isset($quads_options['ads']) ? count ($quads_options['ads']) + $postCount : 10 + $postCount;
      
@@ -1724,6 +1723,8 @@ function quads_ajax_add_ads(){
    $args['id'] = $count-getTotalWidgets();
    $args['name'] = 'Ad ' . $args['id'];
    
+   quads_ajax_add_ads_new($args);
+
    ob_start();
    // ... get the content ...
    quads_adsense_code_callback( $args );
@@ -2476,14 +2477,12 @@ function quads_adsense_code_callback( $args ) {
         if (!isset($quads_options['adsTxtEnabled'])) {
             set_transient('quads_ads_txt_disabled', true, 100);
             delete_transient('quads_ads_txt_error');
-            delete_transient('quads_ads_txt_notice');
             return false;
         }
 
         // Create AdSense ads.txt entries
         $adsense = new \wpquads\adsense($quads_options);
         if ($adsense->writeAdsTxt()){
-            set_transient('quads_ads_txt_notice', 'true', 3000);
             return true;
         } else {
             // Make sure an error message is shown when ads.txt is available but can not be modified
@@ -2512,3 +2511,23 @@ function quads_adsense_code_callback( $args ) {
         $adsense->writeAdsTxt();
     }
  add_action('quads_daily_event', 'updateAdsTxt');
+
+ // Start 2.0 code from here //
+
+ function quads_ajax_add_ads_new($args){
+
+   if($args['id']){
+
+      $parameters = array();
+      $parameters['quads_post_meta']['ad_type'] = 'adsense';  
+      $parameters['quads_post_meta']['label']   = $args['name'];        
+      $parameters['quads_post_meta']['quads_ad_old_id'] = 'ad'.$args['id'];  
+
+      $api_service =   new QUADS_Ad_Setup_Api_Service();
+      $api_service->updateAdData($parameters);
+
+   }
+
+ }
+
+ // 2.0 code end here

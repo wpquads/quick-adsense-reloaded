@@ -408,7 +408,9 @@ function quads_render_amp($id){
     if ( !quads_is_extra() ){
        return '';
     }
-
+    if(isset($quads_options['ads'][$id]['enabled_on_amp']) && isset($quads_options['ads'][$id]['code']) && !empty($quads_options['ads'][$id]['code'])){
+            return $quads_options['ads'][$id]['code'];
+        }
     // if amp is not activated return empty
     if (!isset($quads_options['ads'][$id]['amp']) || quads_is_disabled_post_amp() ){
         return '';

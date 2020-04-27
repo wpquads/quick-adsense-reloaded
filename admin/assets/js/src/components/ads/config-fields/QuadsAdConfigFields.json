@@ -1,0 +1,23 @@
+{
+    "adsense": [
+        {
+        "label" :"Adsense Ad Type",
+        "id"  :"adsense-ad-type",        
+        "type": "select",
+            "options":{
+                "auto-ad": "Auto Ads",
+                "normal-ad": "Normal Ad"
+            }
+        },
+        {
+        "label" :"Data Client ID",
+        "id"  :"data-client-id",        
+        "type": "text"
+        },
+        {
+        "label" :"Data Slot ID",
+        "id"  :"data-slot-id",        
+        "type": "text"
+        }        
+    ]                              
+}
