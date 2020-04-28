@@ -28,7 +28,8 @@ class QuadsAdvancePosition extends Component {
           <option value="after_more_tag">{__('Right after the', 'quick-adsense-reloaded')} &lt;!--more--&gt; {__('tag', 'quick-adsense-reloaded')}</option>
           <option value="before_last_paragraph">{__('Right before the last Paragraph', 'quick-adsense-reloaded')}</option>
           <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
-          <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>          
+          <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option> 
+          <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>          
         </select> 
         </div> 
 

@@ -32,7 +32,8 @@ class QuadsVisibility extends Component {
         {label:'Post Format', value:'post_format'},
         {label:'Page', value:'page'},
         {label:'Taxonomy Terms', value:'taxonomy'},
-        {label:'Tags', value:'tags'}        
+        {label:'Tags', value:'tags'},
+        {label:'Rotate Randomly', value:'rotate_random'}           
       ]                      
     };       
   }     
@@ -64,7 +65,6 @@ class QuadsVisibility extends Component {
                            
            if(visibility_type == 'include'){                                         
             this.setState({includedDynamicOptions:result, multiTypeRightIncludedValue:[]});
-            console.log(this.state);
            }
 
            if(visibility_type == 'exclude' || visibility_type){                         
@@ -120,13 +120,18 @@ addIncluded = (e) => {
 
     let type  = this.state.multiTypeLeftIncludedValue;
     let value = this.state.multiTypeRightIncludedValue;
-  
     if( typeof (value.value) !== 'undefined'){
       const {multiTypeIncludedValue} = this.state;
       let data    = multiTypeIncludedValue;
       data.push({type: type, value: value});
       let newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);          
       this.setState({multiTypeIncludedValue: newData,includedToggle : false});       
+    }else if(type.value == 'rotate_random'){
+    const {multiTypeIncludedValue} = this.state;
+      let data    = multiTypeIncludedValue;
+      data.push({type: type, value: ''});
+      let newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);          
+      this.setState({multiTypeIncludedValue: newData,includedToggle : false});
     }        
   
 }
