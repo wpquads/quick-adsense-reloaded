@@ -63014,6 +63014,28 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
       });
     });
 
+    _defineProperty(_assertThisInitialized(_this), "importampforwpdata", function () {
+      var url = quads_localize_data.rest_url + 'quads-route/import-ampforwp-ads';
+      fetch(url, {
+        method: "post",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-WP-Nonce': quads_localize_data.nonce
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (result) {
+        console.log(result);
+
+        if (result.status === 't') {
+          _this.setState({
+            importampforwpmsg: result.data
+          });
+        }
+      }, function (error) {});
+    });
+
     _defineProperty(_assertThisInitialized(_this), "open_global_excluder", function () {
       _this.setState({
         global_excluder_modal: true
@@ -63630,7 +63652,8 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
         multiTagsValue: [],
         multiPluginsValue: []
       },
-      quads_wp_quads_pro_license_key: ''
+      quads_wp_quads_pro_license_key: '',
+      importampforwpmsg: ""
     };
     return _this;
   }
@@ -63886,7 +63909,11 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
               type: "file",
               name: "import_file",
               onChange: _this2.formChangeHandler
-            }), /*#__PURE__*/_react["default"].createElement("p", null, __('Import the Quick AdSense Reloaded settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'quick-adsense-reloaded')))))));
+            }), /*#__PURE__*/_react["default"].createElement("p", null, __('Import the Quick AdSense Reloaded settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'quick-adsense-reloaded')))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Import (AMP for WP)', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+              className: "quads-btn quads-btn-primary",
+              id: "import_amp_for_wp",
+              onClick: _this2.importampforwpdata
+            }, __('Import Ads', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("p", null, __('Import Adds from AMP for WP', 'quick-adsense-reloaded')), _this2.state.importampforwpmsg)))));
 
           case "settings_google_autoads":
             return /*#__PURE__*/_react["default"].createElement("div", {
@@ -103451,7 +103478,7 @@ var QuadsAdList = /*#__PURE__*/function (_Component) {
             className: "quads-ad-label-draft"
           }, "draft") : ''), /*#__PURE__*/_react["default"].createElement("td", null, _this2.getImageByAdType(item.post_meta.ad_type, index), " ", _this2.getAmpLogoByEnabled(item.post_meta.enabled_on_amp, index)), /*#__PURE__*/_react["default"].createElement("td", null, item.post.post_modified), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("div", {
             className: "quads-action-div"
-          }, _this2.props.more_box_id == item.post_meta.ad_id ? /*#__PURE__*/_react["default"].createElement("div", {
+          }, item.post_meta.ad_id && _this2.props.more_box_id == item.post_meta.ad_id ? /*#__PURE__*/_react["default"].createElement("div", {
             className: "quads-more-icon-box"
           }, /*#__PURE__*/_react["default"].createElement("div", {
             className: "quads-more-icon-box-close",

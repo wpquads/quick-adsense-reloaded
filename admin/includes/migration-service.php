@@ -214,6 +214,121 @@ class QUADS_Ad_Migration {
             update_option('quads_settings', $quads_settings);
 
             return $ad_id;
-     }     
-                
+     } 
+    public function quadsImportadsforwp(){
+
+        $export_ad       = array();                 
+            //ads
+        $all_ads_post = get_posts(
+            array(
+                'post_type'        => 'adsforwp',                                                                                   
+                'posts_per_page'   => -1,   
+                'post_status'      => 'any',
+            )
+        );    
+        if($all_ads_post){
+            foreach($all_ads_post as $ads){  
+              $post_title = (isset($ads->post_title) && !empty($ads->post_title))?$ads->post_title: 'ads for wp';
+              $post_data = array(
+                'post_title'   => wp_strip_all_tags( $post_title),                                                            
+                'post_status'  => sanitize_text_field($ads->post_status),
+                'post_type'    => 'quads-ads',
+            );
+                    $post_id = wp_insert_post($post_data); // insert to post and RETURN POST id
+                    $post_meta = get_post_meta($ads->ID, $key='', true );// import meta data from adsforwp  
+                    update_post_meta( $post_id, 'label', $post_title);
+                    update_post_meta( $post_id, 'ad_id', $post_id);
+                    update_post_meta( $post_id, 'importfrom','amp-for-wp');
+                    
+                    foreach ($post_meta as $key => $value) {
+                        if($key == 'custom_code'){
+                            update_post_meta( $post_id, 'code', $value[0]);// need to all speical all
+                        }else if($key == 'select_adtype'){
+                            if($value[0]=='custom'){
+                                update_post_meta( $post_id, 'ad_type', 'plain_text');
+                            }else if($value[0]=='adsense'){
+                                 update_post_meta( $post_id, 'ad_type', 'adsense');
+                            }
+                        }else if($key == 'data_client_id'){
+                            update_post_meta( $post_id, 'g_data_ad_slot', esc_html($value[0]));
+                        }else if($key == 'data_ad_slot'){
+                            update_post_meta( $post_id, 'g_data_ad_client', esc_html($value[0]));
+                        }else if($key == 'wheretodisplay'){
+                            if(is_string($value) && strpos($value, 'adsforwp_') !== false){
+                                update_post_meta( $post_id, 'enabled_on_amp', 1);
+                            }else{
+                                update_post_meta( $post_id, 'enabled_on_amp', 0);
+                            }
+                            if($key == 'after_the_content' || $key = 'adsforwp_above_the_post_content'){
+                                update_post_meta( $post_id, 'position', 'beginning_of_post');
+                            }else if($key == 'between_the_content'){
+                                update_post_meta( $post_id, 'position', 'middle_of_post');
+                            }else if($key == 'adsforwp_below_the_post_content'){
+                                update_post_meta( $post_id, 'position', 'end_of_post');
+                            }else{
+                             update_post_meta( $post_id, 'position', 'beginning_of_post');// need to check it once
+                         }                            
+                        }else if($key == 'adsforwp_ad_align'){
+                            switch ($value[0]) {
+                                case 'left':
+                                $align = 0;
+                                break;
+                                case 'center':
+                                $align = 1;
+                                break;
+                                case 'right':
+                                $align = 2;
+                                break;
+
+                                default:
+                                $align = 3;
+                                break;
+                            }
+                        update_post_meta( $post_id, 'align',$align); //xss ok
+                        }else if($key == 'adsforwp_ad_margin'){
+                            update_post_meta( $post_id, 'margin', esc_html($value[0]));
+                        }if($key == 'data_group_array'){
+                            $visibility_include = array();
+                            $visibility_exclude = array();
+                            $data_group_array = unserialize($value[0]);
+                            $i =0;  $j =0;
+
+                            foreach ($data_group_array as $key => $value) {
+                                $label = '';
+                                switch ($value['data_array'][0]['key_1']) {
+                                    case 'post_type':
+                                    $label = 'Post Type';
+                                    break;
+                                    case 'post_format':
+                                    $label = 'Post Format';
+                                    break;
+                                    case 'page':
+                                    $label = 'Page';
+                                    break;
+                                }
+
+                                if($value['data_array'][0]['key_2'] == 'equal'){
+                                    $visibility_include[$i]['type']['label'] = $label;
+                                    $visibility_include[$i]['type']['value'] = 'post_type';
+                                    $visibility_include[$i]['value']['label'] = $label;
+                                    $visibility_include[$i]['value']['value'] = esc_html($value['data_array'][0]['key_3']);
+                                    $i++;
+                                }else{
+                                    $visibility_exclude[$j]['type']['label'] = $label;
+                                    $visibility_exclude[$j]['type']['value'] = 'post_type';
+                                    $visibility_exclude[$j]['value']['label'] = $label;
+                                    $visibility_exclude[$j]['value']['value'] = esc_html($value['data_array'][0]['key_3']);
+                                    $j++;
+                                }
+                                update_post_meta( $post_id, 'visibility_include', $visibility_include);
+                                update_post_meta( $post_id, 'visibility_exclude', $visibility_exclude);
+                            }
+                        }
+                    }   
+            }  
+           
+        } 
+          return  array('status' => 't', 'data' => 'Data Imported Success');  
+ 
+    }
 }

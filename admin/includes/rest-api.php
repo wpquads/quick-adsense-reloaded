@@ -6,6 +6,7 @@ class QUADS_Ad_Setup_Api {
                 
         private static $instance;   
         private $api_service = null;
+        private $migration_service = null;
 
         private function __construct() {
             
@@ -13,6 +14,10 @@ class QUADS_Ad_Setup_Api {
                 require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
                 $this->api_service = new QUADS_Ad_Setup_Api_Service();
             }
+            if($this->migration_service == null){
+                require_once QUADS_PLUGIN_DIR . '/admin/includes/migration-service.php';
+                $this->migration_service = new QUADS_Ad_Migration();
+            }   
             
             add_action( 'rest_api_init', array($this, 'registerRoute'));
                                  
@@ -133,6 +138,13 @@ class QUADS_Ad_Setup_Api {
              register_rest_route( 'quads-route', 'get-add-next-id', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'getAddNextId'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
+             register_rest_route( 'quads-route', 'import-ampforwp-ads', array(
+                'methods'    => 'POST',
+                'callback'   => array($this, 'importampforwpads'),
                 'permission_callback' => function(){
                     return current_user_can( 'manage_options' );
                 }
@@ -408,6 +420,9 @@ class QUADS_Ad_Setup_Api {
 
         return $args;
 
+        }
+         public function importampforwpads(){
+          return  $this->migration_service->quadsImportadsforwp(); 
         }
         public function getAdList(){
             
