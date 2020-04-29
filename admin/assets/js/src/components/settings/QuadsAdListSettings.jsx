@@ -68,7 +68,9 @@ class QuadsAdListSettings extends Component {
                 },
             quads_wp_quads_pro_license_key : '', 
             importampforwpmsg : "", 
-            importampforwpmsgprocessing : "",  
+            importampforwpmsgprocessing : "",
+            importadsforwpmsg : "", 
+            importadsforwpmsgprocessing : "",  
             importquadsclassicmsgprocessing : "",
             page_redirect_options   : []          
         };     
@@ -158,6 +160,33 @@ if(this.state.importampforwpmsgprocessing !=''){
       (result) => {
             if(result.status === 't'){              
               this.setState({importampforwpmsg: result.data,importampforwpmsgprocessing:''});
+            }                              
+      },        
+      (error) => {
+        
+      }
+    );  
+
+  }
+  importadsforwpdata = () => {
+if(this.state.importadsforwpmsgprocessing !=''){
+  return;
+}
+      this.setState({importadsforwpmsgprocessing: 'Importing Ads'});
+    const url = quads_localize_data.rest_url + 'quads-route/import-adsforwp-ads';    
+    fetch(url,{
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-WP-Nonce': quads_localize_data.nonce,
+      }              
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {
+            if(result.status === 't'){              
+              this.setState({importadsforwpmsg: result.data,importadsforwpmsgprocessing:''});
             }                              
       },        
       (error) => {
@@ -365,7 +394,7 @@ handleMultiPluginsChange = (option) => {
     
   }
   closeQuerySuccess = (e) => {
-    this.setState({customer_querey_success : '',importampforwpmsg : '',importquadsclassicmsg : ''});   
+    this.setState({customer_querey_success : '',importampforwpmsg : '',importadsforwpmsg : '',importquadsclassicmsg : ''});   
   }
   closeQueryError = (e) => {
     this.setState({customer_querey_error: ''});   
@@ -1173,7 +1202,15 @@ handleMultiPluginsChange = (option) => {
                             {this.state.importampforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importampforwpmsg}</Alert> : null}
                             {this.state.importampforwpmsgprocessing ? <div className='updating-message importampforwpmsgprocessing'><p>Importing Ads</p></div>: ''}
                         </td>
-                      </tr>                                     
+                      </tr> 
+                        <tr>
+                        <th><label>{__('ADS for WP Ads', 'quick-adsense-reloaded')}</label></th>
+                        <td>
+                          <a className="quads-btn quads-btn-primary" id="import_ads_for_wp" onClick={this.importadsforwpdata}>{__('Import', 'quick-adsense-reloaded')}</a>
+                            {this.state.importadsforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importadsforwpmsg}</Alert> : null}
+                            {this.state.importadsforwpmsgprocessing ? <div className='updating-message importadsforwpmsgprocessing'><p>Importing Ads</p></div>: ''}
+                        </td>
+                      </tr>                                    
                     </tbody>
                   </table>
 
