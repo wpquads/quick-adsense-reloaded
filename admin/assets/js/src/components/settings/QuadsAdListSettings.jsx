@@ -888,7 +888,7 @@ handleMultiPluginsChange = (option) => {
                );  
               case "settings_support":  return(
                 <div className="quads-settings-tab-container">
-                <div><a target="_blank" href="https://wpquads.com/docs/installation/">{__('Read Documentation', 'quick-adsense-reloaded')}</a></div>
+                <div><a target="_blank" href="https://wpquads.com/documentation/">{__('Read Documentation', 'quick-adsense-reloaded')}</a></div>
                 <div className="quads-help-support">
                     <div>
                       <h3>{__('Ask for technical Support', 'quick-adsense-reloaded')}</h3>
