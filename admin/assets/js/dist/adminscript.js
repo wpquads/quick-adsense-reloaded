@@ -63952,7 +63952,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
               className: "quads-settings-tab-container"
             }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("a", {
               target: "_blank",
-              href: "https://wpquads.com/docs/installation/"
+              href: "https://wpquads.com/documentation/"
             }, __('Read Documentation', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("div", {
               className: "quads-help-support"
             }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("h3", null, __('Ask for technical Support', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("p", null, __('We are always available to help you with anything related to ads', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("div", null, __('Are you existing Premium Customer?', 'quick-adsense-reloaded'), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("select", {
