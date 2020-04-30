@@ -46,6 +46,63 @@ class QUADS_Ad_Setup {
                 return;
 
                 $quads_settings = get_option('quads_settings');
+                $randomaddcheck =false;
+                if(isset($quads_settings['pos1'])){ 
+                    if($quads_settings['pos1']['BegnAds'] == 1){
+                        if(isset($quads_settings['pos1']['BegnRnd']) && $quads_settings['pos1']['BegnRnd']== 0){ 
+                           $randomaddcheck =true;
+                        }
+                    }
+                } 
+                if(isset($quads_settings['pos2'])){ 
+                    if($quads_settings['pos2']['MiddAds'] == 1){
+                        if(isset($quads_settings['pos2']['MiddRnd']) && $quads_settings['pos2']['MiddRnd']== 0){ 
+                            $randomaddcheck =true;
+                        }
+                    }
+                }
+                 if(isset($quads_settings['pos3'])){ 
+                    if($quads_settings['pos3']['EndiRnd'] == 1){
+                        if(isset($quads_settings['pos3']['EndiRnd']) && $quads_settings['pos3']['EndiRnd']== 0){ 
+                            $randomaddcheck =true;
+                        }
+                    }
+                }
+                 if(isset($quads_settings['pos4'])){ 
+                    if($quads_settings['pos4']['MoreRnd'] == 1){
+                        if(isset($quads_settings['pos4']['MoreRnd']) && $quads_settings['pos4']['MoreRnd']== 0){ 
+                            $randomaddcheck =true; 
+                        }
+                    }
+                }
+                 if(isset($quads_settings['pos5'])){ 
+                    if($quads_settings['pos5']['LapaRnd'] == 1){
+                        if(isset($quads_settings['pos5']['LapaRnd']) && $quads_settings['pos5']['LapaRnd']== 0){ 
+                          $randomaddcheck =true;
+                        }
+                    }
+                }
+                 if(isset($quads_settings['pos6'])){ 
+                    if($quads_settings['pos6']['Par1Ads'] == 1){
+                        if(isset($quads_settings['pos6']['Par1Rnd']) && $quads_settings['pos6']['Par1Rnd']== 0){ 
+                            $randomaddcheck =true;
+                        }
+                    }
+                }
+                if(isset($quads_settings['pos7'])){ 
+                    if($quads_settings['pos7']['Par2Ads'] == 1){
+                        if(isset($quads_settings['pos7']['Par2Rnd']) && $quads_settings['pos7']['Par2Rnd']== 0){ 
+                            $randomaddcheck =true;
+                        }
+                    }
+                }
+                if(isset($quads_settings['pos8'])){ 
+                    if($quads_settings['pos8']['Par3Rnd'] == 1){
+                        if(isset($quads_settings['pos8']['Par3Rnd']) && $quads_settings['pos8']['Par3Rnd']== 0){ 
+                            $randomaddcheck =true;
+                        }
+                    }
+                }
 
                 if(isset($quads_settings['ads'])){               
                     
@@ -95,7 +152,7 @@ class QUADS_Ad_Setup {
                                 if(isset($quads_settings['pos6']['Par1Rnd']) && $quads_settings['pos6']['Par1Rnd']== $i){ 
                                     $value['position']                      = 'after_paragraph';  
                                     $value['paragraph_number']              = $quads_settings['pos6']['Par1Nup'];
-                                    $value['enable_on_end_of_post']              = $quads_settings['pos6']['Par1Con'];
+                                    $value['enable_on_end_of_post']         = $quads_settings['pos6']['Par1Con'];
                                 }
                             }
                         }
@@ -104,7 +161,7 @@ class QUADS_Ad_Setup {
                                 if(isset($quads_settings['pos7']['Par2Rnd']) && $quads_settings['pos7']['Par2Rnd']== $i){ 
                                     $value['position']                      = 'after_paragraph';  
                                     $value['paragraph_number']              = $quads_settings['pos7']['Par2Nup'];
-                                    $value['enable_on_end_of_post']              = $quads_settings['pos7']['Par2Con'];
+                                    $value['enable_on_end_of_post']         = $quads_settings['pos7']['Par2Con'];
                                 }
                             }
                         }
@@ -113,7 +170,7 @@ class QUADS_Ad_Setup {
                                 if(isset($quads_settings['pos8']['Par3Rnd']) && $quads_settings['pos8']['Par3Rnd']== $i){ 
                                     $value['position']                      = 'after_paragraph';  
                                     $value['paragraph_number']              = $quads_settings['pos8']['Par3Nup'];
-                                    $value['enable_on_end_of_post']              = $quads_settings['pos8']['Par3Con'];
+                                    $value['enable_on_end_of_post']         = $quads_settings['pos8']['Par3Con'];
                                 }
                             }
                         }
@@ -125,7 +182,14 @@ class QUADS_Ad_Setup {
                                 $value['quads_ad_old_id']            = $key;                                  
                             }    
                             
-                             $parameters['quads_post_meta']       = $value;                                                                                            
+                             
+                             if($randomaddcheck){
+                                    $visibility_include[0]['type']['label'] = 'Rotate Randomly';
+                                    $visibility_include[0]['type']['value'] = 'rotate_random';
+                                    $visibility_include[0]['value'] = '';
+                                    $value['visibility_include'] = $visibility_include;
+                             }
+                             $parameters['quads_post_meta']       = $value;
                              $this->api_service->updateAdData($parameters, 'old_mode');                            
 
                         } 

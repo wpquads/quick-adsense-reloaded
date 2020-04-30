@@ -131,6 +131,7 @@ Alternative Installation:
 == Changelog == 
 = 2.0.1 =
 * Fix: "Switch to new interface" is broke.
+* Fix: Random Ads feature.
 = 2.0 =
 * New interface added
 == Changelog == 

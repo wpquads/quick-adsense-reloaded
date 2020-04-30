@@ -62136,8 +62136,6 @@ var QuadsVisibility = /*#__PURE__*/function (_Component) {
             includedDynamicOptions: result,
             multiTypeRightIncludedValue: []
           });
-
-          console.log(_this.state);
         }
 
         if (visibility_type == 'exclude' || visibility_type) {
@@ -62217,6 +62215,21 @@ var QuadsVisibility = /*#__PURE__*/function (_Component) {
 
         _this.setState({
           multiTypeIncludedValue: newData,
+          includedToggle: false
+        });
+      } else if (type.value == 'rotate_random') {
+        var _multiTypeIncludedValue = _this.state.multiTypeIncludedValue;
+        var _data = _multiTypeIncludedValue;
+
+        _data.push({
+          type: type,
+          value: ''
+        });
+
+        var _newData = Array.from(new Set(_data.map(JSON.stringify))).map(JSON.parse);
+
+        _this.setState({
+          multiTypeIncludedValue: _newData,
           includedToggle: false
         });
       }
@@ -62319,6 +62332,9 @@ var QuadsVisibility = /*#__PURE__*/function (_Component) {
       }, {
         label: 'Tags',
         value: 'tags'
+      }, {
+        label: 'Rotate Randomly',
+        value: 'rotate_random'
       }]
     };
     return _this;
