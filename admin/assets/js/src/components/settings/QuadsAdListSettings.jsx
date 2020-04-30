@@ -49,39 +49,14 @@ class QuadsAdListSettings extends Component {
                 multiTagsValue     : [],
                 multiPluginsValue  : []                                                                    
                 },
-            quads_wp_quads_pro_license_key : '', 
-            importampforwpmsg : "",          
+            quads_wp_quads_pro_license_key : '',           
         };     
   }   
   handleCopy = () => {
     copy(this.state.textToCopy);
     this.setState({ copied: true });
   }
-importampforwpdata = () => {
-      
-    const url = quads_localize_data.rest_url + 'quads-route/import-ampforwp-ads';    
-    fetch(url,{
-      method: "post",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-WP-Nonce': quads_localize_data.nonce,
-      }              
-    })
-    .then(res => res.json())
-    .then(
-      (result) => {
-      console.log(result);
-            if(result.status === 't'){              
-              this.setState({importampforwpmsg: result.data});
-            }                              
-      },        
-      (error) => {
-        
-      }
-    );  
 
-  }
   open_global_excluder = () => {
     this.setState({global_excluder_modal:true});
   }
@@ -825,16 +800,7 @@ handleMultiPluginsChange = (option) => {
                           <input type="file" name="import_file" onChange={this.formChangeHandler}/>
                           <p>{__('Import the Quick AdSense Reloaded settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'quick-adsense-reloaded')}</p>
                         </td>
-                      </tr> 
-                       <tr>
-                        <th><label>{__('Import (AMP for WP)', 'quick-adsense-reloaded')}</label></th>
-                        <td>
-                          <a className="quads-btn quads-btn-primary" id="import_amp_for_wp" onClick={this.importampforwpdata}>{__('Import Ads', 'quick-adsense-reloaded')}</a>
-                          <p>{__('Import Adds from AMP for WP', 'quick-adsense-reloaded')}</p>
-
-                          {this.state.importampforwpmsg}
-                        </td>
-                      </tr>                                   
+                      </tr>                                  
                     </tbody>
                   </table>
 
