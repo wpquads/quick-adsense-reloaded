@@ -11,16 +11,15 @@ class QuadsAdTargeting extends Component {
 
   constructor(props) {
     super(props);    
-    this.state = {  
+    this.state = {               
     };       
-  }         
-
+  } 
+ 
   render() {
 
     const {__} = wp.i18n;    
-    const page = queryString.parse(window.location.search); 
-        const post_meta = this.props.parentState.quads_post_meta;
 
+    const page = queryString.parse(window.location.search);            
           return (
                 <div>
                 <div className="quads-settings-group">
@@ -31,19 +30,17 @@ class QuadsAdTargeting extends Component {
                   <tbody>
                     <tr>
                     <td><label>{__('Where will the AD appear?', 'quick-adsense-reloaded')}</label></td>
-                    <td><QuadsAdvancePosition parentState={this.props.parentState} adFormChangeHandler = {this.props.adFormChangeHandler} hideVisibilityoptions ={this.hideVisibilityoptions} /></td>  
+                    <td><QuadsAdvancePosition parentState={this.props.parentState} adFormChangeHandler = {this.props.adFormChangeHandler}/></td>  
                     </tr>
                   </tbody>
                 </table>                                 
                 </div>  
                 </div> 
-                </div> 
-                {post_meta.position != 'ad_shortcode' ?               
+                </div>                
                 <QuadsVisibility 
                   parentState                  ={this.props.parentState} 
                   updateVisibility             ={this.props.updateVisibility}
                 />
-                : ''}
                 {quads_localize_data.is_pro ? <QuadsUserTargeting 
                   parentState                  ={this.props.parentState} 
                   updateVisitorTarget          ={this.props.updateVisitorTarget}
