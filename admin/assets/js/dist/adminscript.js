@@ -62565,17 +62565,7 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         name: "image_caption",
         onChange: this.props.adFormChangeHandler,
         type: "checkbox"
-      }), __('after', 'quick-adsense-reloaded'), " ", /*#__PURE__*/_react["default"].createElement("strong", null, __('Image\'s outer', 'quick-adsense-reloaded'), " <div> wp-caption"), " ", __('if any.', 'quick-adsense-reloaded')) : '', post_meta.position == 'ad_shortcode' && post_meta.quads_ad_old_id ? /*#__PURE__*/_react["default"].createElement("label", null, "Post Shortcode: ", /*#__PURE__*/_react["default"].createElement("input", {
-        name: "post_shortcode",
-        type: "text",
-        value: '[quads id=' + post_meta.quads_ad_old_id + ']',
-        readonly: ""
-      }), "PHP:", /*#__PURE__*/_react["default"].createElement("input", {
-        name: "php_shortcode",
-        type: "text",
-        value: "<?php echo do_shortcode('[quads id=" + post_meta.quads_ad_old_id + "]'); ?>;",
-        readonly: ""
-      })) : '')));
+      }), __('after', 'quick-adsense-reloaded'), " ", /*#__PURE__*/_react["default"].createElement("strong", null, __('Image\'s outer', 'quick-adsense-reloaded'), " <div> wp-caption"), " ", __('if any.', 'quick-adsense-reloaded')) : '')));
     }
   }]);
 

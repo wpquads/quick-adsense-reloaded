@@ -49,13 +49,6 @@ class QuadsAdvancePosition extends Component {
           <input checked={post_meta.image_caption} name="image_caption" onChange={this.props.adFormChangeHandler} type="checkbox"/>
           {__('after', 'quick-adsense-reloaded')} <strong>{__('Image\'s outer', 'quick-adsense-reloaded')} &lt;div&gt; wp-caption</strong> {__('if any.', 'quick-adsense-reloaded')}
           </label> : ''}
-
-          {post_meta.position == 'ad_shortcode' &&  post_meta.quads_ad_old_id ? 
-      
-          <label>  
-          Post Shortcode: <input name="post_shortcode"  type="text" value={'[quads id='+post_meta.quads_ad_old_id+']'} readonly=""/>
-          PHP:<input name="php_shortcode"  type="text" value={"<?php echo do_shortcode('[quads id="+post_meta.quads_ad_old_id+"]'); ?>;"} readonly=""/>
-          </label> : ''}
            
           </div>      
       </div>  
