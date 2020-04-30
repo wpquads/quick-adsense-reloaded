@@ -653,9 +653,8 @@ return $result;
 function quads_comparison_logic_checker($visibility){
   
     global $post;             
-    
     $v_type       = $visibility['type']['value'];
-    $v_id         = $visibility['value']['value'];  
+    $v_id         = isset($visibility['value']['value']) ? $visibility['value']['value'] :'';  
     $result       = false; 
    
     // Get all the users registered
@@ -779,6 +778,9 @@ function quads_comparison_logic_checker($visibility){
               $result = true;
           }        
       }
+    break;
+    case 'rotate_random':
+    $result = true;
     break;
   
   default:
