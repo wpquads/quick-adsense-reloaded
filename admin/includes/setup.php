@@ -50,56 +50,121 @@ class QUADS_Ad_Setup {
                 if(isset($quads_settings['pos1'])){ 
                     if($quads_settings['pos1']['BegnAds'] == 1){
                         if(isset($quads_settings['pos1']['BegnRnd']) && $quads_settings['pos1']['BegnRnd']== 0){ 
-                           $randomaddcheck =true;
+
+                            $visibility_include[0]['type']['label'] = 'Rotate Randomly';
+                            $visibility_include[0]['type']['value'] = 'rotate_random';
+                            $visibility_include[0]['value'] = '';
+                            $value['visibility_include'] = $visibility_include;
+                            $value['ad_type']       = 'plain_text';
+                            $value['position']      = 'beginning_of_post';  
+                            $value['label']         = 'Random ads beginng';  
+                            $parameters['quads_post_meta']  = $value;
+                             $this->api_service->updateAdData($parameters);  
                         }
                     }
                 } 
                 if(isset($quads_settings['pos2'])){ 
                     if($quads_settings['pos2']['MiddAds'] == 1){
                         if(isset($quads_settings['pos2']['MiddRnd']) && $quads_settings['pos2']['MiddRnd']== 0){ 
-                            $randomaddcheck =true;
+                            $visibility_include[0]['type']['label'] = 'Rotate Randomly';
+                            $visibility_include[0]['type']['value'] = 'rotate_random';
+                            $visibility_include[0]['value'] = '';
+                            $value['visibility_include'] = $visibility_include;
+                            $value['ad_type']       = 'plain_text';
+                            $value['position']      = 'middle_of_post';  
+                            $value['label']         = 'Random ads middle';  
+                            $parameters['quads_post_meta']  = $value;
+                             $this->api_service->updateAdData($parameters); 
                         }
                     }
                 }
                  if(isset($quads_settings['pos3'])){ 
                     if($quads_settings['pos3']['EndiRnd'] == 1){
                         if(isset($quads_settings['pos3']['EndiRnd']) && $quads_settings['pos3']['EndiRnd']== 0){ 
-                            $randomaddcheck =true;
+                            $visibility_include[0]['type']['label'] = 'Rotate Randomly';
+                            $visibility_include[0]['type']['value'] = 'rotate_random';
+                            $visibility_include[0]['value'] = '';
+                            $value['visibility_include'] = $visibility_include;
+                            $value['ad_type']       = 'plain_text';
+                            $value['position']      = 'end_of_post';  
+                            $value['label']         = 'Random ads end';  
+                            $parameters['quads_post_meta']  = $value;
+                             $this->api_service->updateAdData($parameters); 
                         }
                     }
                 }
                  if(isset($quads_settings['pos4'])){ 
                     if($quads_settings['pos4']['MoreRnd'] == 1){
                         if(isset($quads_settings['pos4']['MoreRnd']) && $quads_settings['pos4']['MoreRnd']== 0){ 
-                            $randomaddcheck =true; 
+                            $visibility_include[0]['type']['label'] = 'Rotate Randomly';
+                            $visibility_include[0]['type']['value'] = 'rotate_random';
+                            $visibility_include[0]['value'] = '';
+                            $value['visibility_include'] = $visibility_include;
+                            $value['ad_type']       = 'plain_text';
+                            $value['position']      = 'after_more_tag';  
+                            $value['label']         = 'Random add after more';  
+                            $parameters['quads_post_meta']  = $value;
+                             $this->api_service->updateAdData($parameters); 
                         }
                     }
                 }
                  if(isset($quads_settings['pos5'])){ 
                     if($quads_settings['pos5']['LapaRnd'] == 1){
                         if(isset($quads_settings['pos5']['LapaRnd']) && $quads_settings['pos5']['LapaRnd']== 0){ 
-                          $randomaddcheck =true;
+                          $visibility_include[0]['type']['label'] = 'Rotate Randomly';
+                            $visibility_include[0]['type']['value'] = 'rotate_random';
+                            $visibility_include[0]['value'] = '';
+                            $value['visibility_include'] = $visibility_include;
+                            $value['ad_type']       = 'plain_text';
+                            $value['position']      = 'before_last_paragraph';  
+                            $value['label']         = 'Random ads before last paragraph';  
+                            $parameters['quads_post_meta']  = $value;
+                             $this->api_service->updateAdData($parameters); 
                         }
                     }
                 }
                  if(isset($quads_settings['pos6'])){ 
                     if($quads_settings['pos6']['Par1Ads'] == 1){
                         if(isset($quads_settings['pos6']['Par1Rnd']) && $quads_settings['pos6']['Par1Rnd']== 0){ 
-                            $randomaddcheck =true;
+                            $visibility_include[0]['type']['label'] = 'Rotate Randomly';
+                            $visibility_include[0]['type']['value'] = 'rotate_random';
+                            $visibility_include[0]['value'] = '';
+                            $value['visibility_include'] = $visibility_include;
+                            $value['ad_type']       = 'plain_text';
+                            $value['position']      = 'after_paragraph';  
+                            $value['label']         = 'Random ads after paragraph';  
+                            $parameters['quads_post_meta']  = $value;
+                             $this->api_service->updateAdData($parameters); 
                         }
                     }
                 }
                 if(isset($quads_settings['pos7'])){ 
                     if($quads_settings['pos7']['Par2Ads'] == 1){
                         if(isset($quads_settings['pos7']['Par2Rnd']) && $quads_settings['pos7']['Par2Rnd']== 0){ 
-                            $randomaddcheck =true;
+                            $visibility_include[0]['type']['label'] = 'Rotate Randomly';
+                            $visibility_include[0]['type']['value'] = 'rotate_random';
+                            $visibility_include[0]['value'] = '';
+                            $value['visibility_include'] = $visibility_include;
+                            $value['ad_type']       = 'plain_text';
+                            $value['position']      = 'after_paragraph';  
+                            $value['label']         = 'Random ads after paragraph';  
+                            $parameters['quads_post_meta']  = $value;
+                             $this->api_service->updateAdData($parameters); 
                         }
                     }
                 }
                 if(isset($quads_settings['pos8'])){ 
                     if($quads_settings['pos8']['Par3Rnd'] == 1){
                         if(isset($quads_settings['pos8']['Par3Rnd']) && $quads_settings['pos8']['Par3Rnd']== 0){ 
-                            $randomaddcheck =true;
+                            $visibility_include[0]['type']['label'] = 'Rotate Randomly';
+                            $visibility_include[0]['type']['value'] = 'rotate_random';
+                            $visibility_include[0]['value'] = '';
+                            $value['visibility_include'] = $visibility_include;
+                            $value['ad_type']       = 'plain_text';
+                            $value['position']      = 'after_paragraph';  
+                            $value['label']         = 'Random ads after paragraph';  
+                            $parameters['quads_post_meta']  = $value;
+                             $this->api_service->updateAdData($parameters); 
                         }
                     }
                 }
@@ -181,14 +246,6 @@ class QUADS_Ad_Setup {
                             }else{
                                 $value['quads_ad_old_id']            = $key;                                  
                             }    
-                            
-                             
-                             if($randomaddcheck){
-                                    $visibility_include[0]['type']['label'] = 'Rotate Randomly';
-                                    $visibility_include[0]['type']['value'] = 'rotate_random';
-                                    $visibility_include[0]['value'] = '';
-                                    $value['visibility_include'] = $visibility_include;
-                             }
                              $parameters['quads_post_meta']       = $value;
                              $this->api_service->updateAdData($parameters, 'old_mode');                            
 
