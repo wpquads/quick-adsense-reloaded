@@ -79,7 +79,7 @@ class QUADS_Ad_Setup {
                     }
                 }
                  if(isset($quads_settings['pos3'])){ 
-                    if($quads_settings['pos3']['EndiRnd'] == 1){
+                    if($quads_settings['pos3']['EndiAds'] == 1){
                         if(isset($quads_settings['pos3']['EndiRnd']) && $quads_settings['pos3']['EndiRnd']== 0){ 
                             $visibility_include[0]['type']['label'] = 'Rotate Randomly';
                             $visibility_include[0]['type']['value'] = 'rotate_random';
@@ -94,7 +94,7 @@ class QUADS_Ad_Setup {
                     }
                 }
                  if(isset($quads_settings['pos4'])){ 
-                    if($quads_settings['pos4']['MoreRnd'] == 1){
+                    if($quads_settings['pos4']['MoreAds'] == 1){
                         if(isset($quads_settings['pos4']['MoreRnd']) && $quads_settings['pos4']['MoreRnd']== 0){ 
                             $visibility_include[0]['type']['label'] = 'Rotate Randomly';
                             $visibility_include[0]['type']['value'] = 'rotate_random';
@@ -109,7 +109,7 @@ class QUADS_Ad_Setup {
                     }
                 }
                  if(isset($quads_settings['pos5'])){ 
-                    if($quads_settings['pos5']['LapaRnd'] == 1){
+                    if($quads_settings['pos5']['LapaAds'] == 1){
                         if(isset($quads_settings['pos5']['LapaRnd']) && $quads_settings['pos5']['LapaRnd']== 0){ 
                           $visibility_include[0]['type']['label'] = 'Rotate Randomly';
                             $visibility_include[0]['type']['value'] = 'rotate_random';
@@ -131,7 +131,9 @@ class QUADS_Ad_Setup {
                             $visibility_include[0]['value'] = '';
                             $value['visibility_include'] = $visibility_include;
                             $value['ad_type']       = 'plain_text';
-                            $value['position']      = 'after_paragraph';  
+                            $value['position']      = 'after_paragraph';
+                            $value['paragraph_number']  = $quads_settings['pos6']['Par1Nup'];
+                            $value['enable_on_end_of_post'] = $quads_settings['pos6']['Par1Con'];  
                             $value['label']         = 'Random ads after paragraph';  
                             $parameters['quads_post_meta']  = $value;
                              $this->api_service->updateAdData($parameters); 
@@ -147,6 +149,8 @@ class QUADS_Ad_Setup {
                             $value['visibility_include'] = $visibility_include;
                             $value['ad_type']       = 'plain_text';
                             $value['position']      = 'after_paragraph';  
+                            $value['paragraph_number']  = $quads_settings['pos7']['Par2Nup'];
+                            $value['enable_on_end_of_post'] = $quads_settings['pos7']['Par2Con'];
                             $value['label']         = 'Random ads after paragraph';  
                             $parameters['quads_post_meta']  = $value;
                              $this->api_service->updateAdData($parameters); 
@@ -154,15 +158,34 @@ class QUADS_Ad_Setup {
                     }
                 }
                 if(isset($quads_settings['pos8'])){ 
-                    if($quads_settings['pos8']['Par3Rnd'] == 1){
+                    if($quads_settings['pos8']['Par3Ads'] == 1){
                         if(isset($quads_settings['pos8']['Par3Rnd']) && $quads_settings['pos8']['Par3Rnd']== 0){ 
                             $visibility_include[0]['type']['label'] = 'Rotate Randomly';
                             $visibility_include[0]['type']['value'] = 'rotate_random';
                             $visibility_include[0]['value'] = '';
                             $value['visibility_include'] = $visibility_include;
                             $value['ad_type']       = 'plain_text';
-                            $value['position']      = 'after_paragraph';  
+                            $value['position']      = 'after_paragraph'; 
+                            $value['paragraph_number']              = $quads_settings['pos8']['Par3Nup'];
+                            $value['enable_on_end_of_post']         = $quads_settings['pos8']['Par3Con']; 
                             $value['label']         = 'Random ads after paragraph';  
+                            $parameters['quads_post_meta']  = $value;
+                             $this->api_service->updateAdData($parameters); 
+                        }
+                    }
+                }
+                if(isset($quads_settings['pos9'])){ 
+                    if($quads_settings['pos9']['Img1Ads'] == 1){
+                        if(isset($quads_settings['pos9']['Img1Rnd']) && $quads_settings['pos9']['Img1Rnd']== 0){ 
+                            $visibility_include[0]['type']['label'] = 'Rotate Randomly';
+                            $visibility_include[0]['type']['value'] = 'rotate_random';
+                            $visibility_include[0]['value'] = '';
+                            $value['visibility_include'] = $visibility_include;
+                            $value['ad_type']       = 'plain_text';
+                            $value['position']      = 'after_image'; 
+                            $value['paragraph_number']  = $quads_settings['pos9']['Img1Nup'];
+                            $value['image_number']   = $quads_settings['pos9']['Img1Con']; 
+                            $value['label']         = 'Random ads after image';  
                             $parameters['quads_post_meta']  = $value;
                              $this->api_service->updateAdData($parameters); 
                         }
@@ -192,21 +215,21 @@ class QUADS_Ad_Setup {
                             }
                         }
                          if(isset($quads_settings['pos3'])){ 
-                            if($quads_settings['pos3']['EndiRnd'] == 1){
+                            if($quads_settings['pos3']['EndiAds'] == 1){
                                 if(isset($quads_settings['pos3']['EndiRnd']) && $quads_settings['pos3']['EndiRnd']== $i){ 
                                     $value['position']                      = 'end_of_post';  
                                 }
                             }
                         }
                          if(isset($quads_settings['pos4'])){ 
-                            if($quads_settings['pos4']['MoreRnd'] == 1){
+                            if($quads_settings['pos4']['MoreAds'] == 1){
                                 if(isset($quads_settings['pos4']['MoreRnd']) && $quads_settings['pos4']['MoreRnd']== $i){ 
                                     $value['position']                      = 'after_more_tag';  
                                 }
                             }
                         }
                          if(isset($quads_settings['pos5'])){ 
-                            if($quads_settings['pos5']['LapaRnd'] == 1){
+                            if($quads_settings['pos5']['LapaAds'] == 1){
                                 if(isset($quads_settings['pos5']['LapaRnd']) && $quads_settings['pos5']['LapaRnd']== $i){ 
                                     $value['position']                      = 'middle_of_post';  
                                 }
@@ -231,11 +254,20 @@ class QUADS_Ad_Setup {
                             }
                         }
                         if(isset($quads_settings['pos8'])){ 
-                            if($quads_settings['pos8']['Par3Rnd'] == 1){
+                            if($quads_settings['pos8']['Par3Ads'] == 1){
                                 if(isset($quads_settings['pos8']['Par3Rnd']) && $quads_settings['pos8']['Par3Rnd']== $i){ 
                                     $value['position']                      = 'after_paragraph';  
                                     $value['paragraph_number']              = $quads_settings['pos8']['Par3Nup'];
                                     $value['enable_on_end_of_post']         = $quads_settings['pos8']['Par3Con'];
+                                }
+                            }
+                        }
+                        if(isset($quads_settings['pos9'])){ 
+                            if($quads_settings['pos9']['Img1Ads'] == 1){
+                                if(isset($quads_settings['pos9']['Img1Rnd']) && $quads_settings['pos9']['Img1Rnd']== $i){ 
+                                    $value['position']                      = 'after_image';  
+                                    $value['paragraph_number']              = $quads_settings['pos9']['Img1Nup'];
+                                    $value['image_number']                  = $quads_settings['pos9']['Img1Con'];
                                 }
                             }
                         }

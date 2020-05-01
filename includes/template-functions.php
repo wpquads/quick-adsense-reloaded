@@ -909,8 +909,14 @@ function quads_parse_random_ads_new($content) {
         return $content;
     }  
   if( strpos( $content, '<!--CusRnd-->' ) !== false && is_singular() ) {
-         shuffle( $adsArray );
+
+        $number_rand_ads = substr_count( $content, '<!--CusRnd-->' );
+
+        for ( $i = 0; $i <= $number_rand_ads - 1; $i++ ) {
+            shuffle( $adsArray );
          $content = quads_replace_ads( $content, 'CusRnd' , $adsArray[0] );
+        }
+         
 
     }
      return $content;
