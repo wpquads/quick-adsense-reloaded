@@ -7,7 +7,7 @@ function quads_switch_version(toversion){
         nonce: quads.nonce,
     };        
     jQuery.post(ajaxurl, data, function (resp, status, xhr) {
-
+        quads_sync_ads_in_new_design();
         window.location.href = quads.path + '/wp-admin/admin.php?page=quads-settings';                      
 
     }).fail(function (xhr) { // Will be executed when $.post() fails

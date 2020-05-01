@@ -547,8 +547,7 @@ class QUADS_Ad_Setup_Api_Service {
         $old_ad_id = str_replace('ad','',$old_ad_id);
       }
       
-      if(is_plugin_active('wp-quads-pro/wp-quads-pro.php')){
-        
+      if( quads_is_active_deprecated() ) {
         unset($quads_settings['ads'][$to_be_rmv]);
         update_option('quads_settings', $quads_settings);	
         
