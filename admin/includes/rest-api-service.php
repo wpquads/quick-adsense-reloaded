@@ -454,7 +454,7 @@ class QUADS_Ad_Setup_Api_Service {
                 @wp_update_post( $arg );                
 
             }else{                
-                $ad_id = wp_insert_post( $arg );                
+                $ad_id = post_exists( $arg['post_title'] ) or  wp_insert_post( $arg );                
             }                        
 
             if($post_meta){

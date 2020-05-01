@@ -1,4 +1,38 @@
 var strict;
+/**
+ * Save settings via ajax
+ */
+
+function quads_sync_ads_in_new_design(){
+
+    var data = {
+        action: 'quads_sync_ads_in_new_design',
+        nonce: quads.nonce,
+    };
+    jQuery.post(ajaxurl, data, function (resp, status, xhr) {
+
+        //console.log('success:' + resp + status + xhr);
+        quads_show_message(resp);
+
+    }).fail(function (xhr) { // Will be executed when $.post() fails
+        quads_show_message('Ajax Error: ' + xhr.status + ' ' + xhr.statusText);
+        //console.log('error: ' + xhr.statusText);
+    });
+
+}
+
+    /**
+     * Show error message and die()
+     * Writes error message into log file
+     * 
+     * @param {string} $error notice
+     * @returns void
+     */
+    function quads_show_message(error) {
+        $('#quads-error-details').show();
+        $('#quads-error-details').html(error);
+        console.log(error);
+    }
 function quads_switch_version(toversion){
 
     var data = {
@@ -14,7 +48,6 @@ function quads_switch_version(toversion){
         quads_show_message('Ajax Error: ' + xhr.status + ' ' + xhr.statusText);            
     });
 }
-
 jQuery(document).ready(function ($) {
 
 $('a[href$="quads_switch_to_new"]').removeAttr("href").attr('onClick', "quads_switch_version('new');");
@@ -422,27 +455,7 @@ e.preventDefault();
         e.stopPropagation();
     });
 
-/**
- * Save settings via ajax
- */
 
-function quads_sync_ads_in_new_design(){
-
-    var data = {
-        action: 'quads_sync_ads_in_new_design',
-        nonce: quads.nonce,
-    };
-    jQuery.post(ajaxurl, data, function (resp, status, xhr) {
-
-        //console.log('success:' + resp + status + xhr);
-        quads_show_message(resp);
-
-    }).fail(function (xhr) { // Will be executed when $.post() fails
-        quads_show_message('Ajax Error: ' + xhr.status + ' ' + xhr.statusText);
-        //console.log('error: ' + xhr.statusText);
-    });
-
-}
  
     jQuery('#quads_settings').submit(function() {
         
@@ -868,18 +881,6 @@ function quads_sync_ads_in_new_design(){
     });
 
 
-    /**
-     * Show error message and die()
-     * Writes error message into log file
-     * 
-     * @param {string} $error notice
-     * @returns void
-     */
-    function quads_show_message(error) {
-        $('#quads-error-details').show();
-        $('#quads-error-details').html(error);
-        console.log(error);
-    }
 
 
     /**
