@@ -183,7 +183,8 @@ class QUADS_Ad_Setup {
                             $value['visibility_include'] = $visibility_include;
                             $value['ad_type']       = 'plain_text';
                             $value['position']      = 'beginning_of_post';  
-                            $value['label']         = 'Random ads beginng';  
+                            $value['label']         = 'Random ads beginng'; 
+                            $value['random']        = true; 
                             $parameters['quads_post_meta']  = $value;
                              $this->api_service->updateAdData($parameters);  
                         }
@@ -198,7 +199,8 @@ class QUADS_Ad_Setup {
                             $value['visibility_include'] = $visibility_include;
                             $value['ad_type']       = 'plain_text';
                             $value['position']      = 'middle_of_post';  
-                            $value['label']         = 'Random ads middle';  
+                            $value['label']         = 'Random ads middle'; 
+                            $value['random']        = true;  
                             $parameters['quads_post_meta']  = $value;
                              $this->api_service->updateAdData($parameters); 
                         }
@@ -214,6 +216,7 @@ class QUADS_Ad_Setup {
                             $value['ad_type']       = 'plain_text';
                             $value['position']      = 'end_of_post';  
                             $value['label']         = 'Random ads end';  
+                            $value['random']        = true; 
                             $parameters['quads_post_meta']  = $value;
                              $this->api_service->updateAdData($parameters); 
                         }
@@ -228,7 +231,8 @@ class QUADS_Ad_Setup {
                             $value['visibility_include'] = $visibility_include;
                             $value['ad_type']       = 'plain_text';
                             $value['position']      = 'after_more_tag';  
-                            $value['label']         = 'Random add after more';  
+                            $value['label']         = 'Random add after more';
+                            $value['random']        = true;   
                             $parameters['quads_post_meta']  = $value;
                              $this->api_service->updateAdData($parameters); 
                         }
@@ -243,7 +247,8 @@ class QUADS_Ad_Setup {
                             $value['visibility_include'] = $visibility_include;
                             $value['ad_type']       = 'plain_text';
                             $value['position']      = 'before_last_paragraph';  
-                            $value['label']         = 'Random ads before last paragraph';  
+                            $value['label']         = 'Random ads before last paragraph'; 
+                            $value['random']        = true;  
                             $parameters['quads_post_meta']  = $value;
                              $this->api_service->updateAdData($parameters); 
                         }
@@ -261,6 +266,7 @@ class QUADS_Ad_Setup {
                             $value['paragraph_number']  = $quads_settings['pos6']['Par1Nup'];
                             $value['enable_on_end_of_post'] = $quads_settings['pos6']['Par1Con'];  
                             $value['label']         = 'Random ads after paragraph';  
+                            $value['random']        = true; 
                             $parameters['quads_post_meta']  = $value;
                              $this->api_service->updateAdData($parameters); 
                         }
@@ -277,7 +283,8 @@ class QUADS_Ad_Setup {
                             $value['position']      = 'after_paragraph';  
                             $value['paragraph_number']  = $quads_settings['pos7']['Par2Nup'];
                             $value['enable_on_end_of_post'] = $quads_settings['pos7']['Par2Con'];
-                            $value['label']         = 'Random ads after paragraph';  
+                            $value['label']         = 'Random ads after paragraph'; 
+                            $value['random']        = true;  
                             $parameters['quads_post_meta']  = $value;
                              $this->api_service->updateAdData($parameters); 
                         }
@@ -295,6 +302,7 @@ class QUADS_Ad_Setup {
                             $value['paragraph_number']              = $quads_settings['pos8']['Par3Nup'];
                             $value['enable_on_end_of_post']         = $quads_settings['pos8']['Par3Con']; 
                             $value['label']         = 'Random ads after paragraph';  
+                            $value['random']        = true; 
                             $parameters['quads_post_meta']  = $value;
                              $this->api_service->updateAdData($parameters); 
                         }
@@ -312,6 +320,7 @@ class QUADS_Ad_Setup {
                             $value['paragraph_number']  = $quads_settings['pos9']['Img1Nup'];
                             $value['image_number']   = $quads_settings['pos9']['Img1Con']; 
                             $value['label']         = 'Random ads after image';  
+                            $value['random']        = true; 
                             $parameters['quads_post_meta']  = $value;
                              $this->api_service->updateAdData($parameters); 
                         }

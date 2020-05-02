@@ -29,10 +29,11 @@ function quads_sync_ads_in_new_design(){
      * @returns void
      */
     function quads_show_message(error) {
-        $('#quads-error-details').show();
-        $('#quads-error-details').html(error);
+        jQuery('#quads-error-details').show();
+        jQuery('#quads-error-details').html(error);
         console.log(error);
     }
+
 function quads_switch_version(toversion){
 
     var data = {
@@ -48,6 +49,7 @@ function quads_switch_version(toversion){
         quads_show_message('Ajax Error: ' + xhr.status + ' ' + xhr.statusText);            
     });
 }
+
 jQuery(document).ready(function ($) {
 
 $('a[href$="quads_switch_to_new"]').removeAttr("href").attr('onClick', "quads_switch_version('new');");
@@ -455,8 +457,6 @@ e.preventDefault();
         e.stopPropagation();
     });
 
-
- 
     jQuery('#quads_settings').submit(function() {
         
         // Check if ad name has been changed and prepare new data for saving
@@ -879,7 +879,6 @@ e.preventDefault();
         e.preventDefault();
         jQuery('#quads_disable_ads_box').toggle();
     });
-
 
 
 

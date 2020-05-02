@@ -12,7 +12,7 @@ class QUADS_Ad_Migration {
             $upgrade_option = get_option('quads_ad_migrated_to_new_desing_70');
 
             if(!$upgrade_option && ! isset( $quads_migration_flag )){
-              
+                 update_option('quads_ad_migrated_to_new_desing_70', date("Y-m-d"));  
                 $ads = array();
 
                 $quads_settings = get_option( 'quads_settings' );   
@@ -45,8 +45,14 @@ class QUADS_Ad_Migration {
                                 $old_post_id = quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $key);
 
                                 if(!$old_post_id){
-                                    
-                                    $ad_id = wp_insert_post( $args );
+                                    if ( ! function_exists( 'post_exists' ) ) {
+                                        require_once( ABSPATH . 'wp-admin/includes/post.php' );
+                                    }
+                                     if(!post_exists( $arg['post_title'] )){
+                                        $ad_id =   wp_insert_post( $arg ); 
+                                    }else{
+                                        $ad_id = post_exists( $arg['post_title'] );
+                                    }
 
                                     if($ad_id){
                                                                          
@@ -175,8 +181,6 @@ class QUADS_Ad_Migration {
                 }
 
                 $quads_migration_flag = true;
-                update_option('quads_ad_migrated_to_new_desing_70', date("Y-m-d"));  
-
             }
          
      }
