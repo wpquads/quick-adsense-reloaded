@@ -74,7 +74,8 @@ class QuadsAdCreateRouter extends Component {
             enable_on_end_of_post : false,
             image_caption : false,
             include_dropdown           : false,
-            exclude_dropdown           : false,                                  
+            exclude_dropdown           : false,  
+            random_ads_list            : []                                
             },
             quads_form_errors : {
               g_data_ad_slot       : '',
@@ -82,7 +83,8 @@ class QuadsAdCreateRouter extends Component {
               code                 : '',
               label                : '',
               position             : '',
-              visibility_include   : []
+              visibility_include   : [],
+              random_ads_list      : []  
             }                    
         };       
      this.include_timer = null;      
@@ -101,6 +103,9 @@ class QuadsAdCreateRouter extends Component {
     updateVisibility = (include, exclude) => {            
       this.includedVisibilityVal = include;
       this.excludedVisibilityVal = exclude;
+    }
+      updateRandomAds = (random_ads_list) => {            
+      this.random_ads_list = random_ads_list;
     }
 
     getAdDataById =  (ad_id) => {
@@ -298,7 +303,7 @@ class QuadsAdCreateRouter extends Component {
 
       body_json.quads_post_meta.visibility_include = this.includedVisibilityVal; 
       body_json.quads_post_meta.visibility_exclude = this.excludedVisibilityVal; 
-      
+      body_json.quads_post_meta.random_ads_list = this.random_ads_list; 
       let url = quads_localize_data.rest_url + 'quads-route/update-ad';
       fetch(url,{
         method: "post",
@@ -387,6 +392,14 @@ class QuadsAdCreateRouter extends Component {
             }
             
           break;
+          case 'random_ads':
+            if( quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+            
+          break;
       
         default:
           break;
@@ -457,7 +470,7 @@ class QuadsAdCreateRouter extends Component {
 
     }
     moveNext =(e) => { 
-            
+
       let page    = queryString.parse(window.location.search);          
       let new_url = this.props.location.pathname + this.removePartofQueryString(this.props.location.search, 'path=wizard');      
       const {quads_post_meta} = this.state;
@@ -486,7 +499,10 @@ class QuadsAdCreateRouter extends Component {
               }
               
             break;
-        
+         case 'random_ads':
+                this.props.history.push(new_url); 
+              
+            break;
           default:
             break;
         }
@@ -588,6 +604,7 @@ class QuadsAdCreateRouter extends Component {
                               getAdsenseCode={this.getAdsenseCode} 
                               openModal     = {this.openModal}
                               closeModal    = {this.closeModal}
+                              updateRandomAds    = {this.updateRandomAds}  
                               />;
                           case "wizard_target":
                               return <QuadsAdTargeting  

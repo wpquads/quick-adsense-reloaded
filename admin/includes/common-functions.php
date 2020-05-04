@@ -20,7 +20,9 @@ function sanitize_post_meta($key, $meta){
 		case 'code':
 			$response = wp_unslash($meta);          
 		break;
-      
+      case 'random_ads_list':
+			$response = wp_unslash($meta);          
+		break;
       default:
         $response = sanitize_text_field(wp_unslash($meta));
         break;
