@@ -129,6 +129,10 @@ Alternative Installation:
 
 
 == Changelog == 
+= 2.0.1 =
+* New Random add module
+= 2.0 =
+* New interface added
 = 2.0 =
 * New interface added
 == Changelog == 
