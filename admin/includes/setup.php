@@ -30,10 +30,10 @@ class QUADS_Ad_Setup {
         }
                 
         public static function getInstance() {
-		if ( null == self::$instance ) {
-			self::$instance = new self;
-		}
-		    return self::$instance;
+        if ( null == self::$instance ) {
+            self::$instance = new self;
+        }
+            return self::$instance;
         }
         public function quadsAdminInit(){            
             $this->migration_service->quadsSaveAllAdToNewDesign();           
@@ -100,10 +100,8 @@ public function quadsSyncRandomAdsInNewDesign(){
             // break;
             continue;
             }
-
-            $post_id = quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $key);    
              if($value['post_meta']['code']  || $value['post_meta']['g_data_ad_slot']){
-                $random_ads_list[] = array('value'=>$post_id,'label'=>$key);
+                $random_ads_list[] = array('value'=>$value['post_meta']['ad_id'],'label'=>$value['post_meta']['quads_ad_old_id']);
             }
 
             if($value['post_meta']['position'] == 'beginning_of_post' && $value['post_meta']['ad_type'] == 'random_ads'){

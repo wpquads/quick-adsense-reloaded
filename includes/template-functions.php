@@ -913,8 +913,8 @@ function quads_parse_random_quicktag_ads($content){
     for ( $i = 0; $i <= $number_rand_ads - 1; $i++ ) {
      
          preg_match("#<!--CusRnd(.+?)-->#si", $content, $match);
-         $ad_id = $match['1'];
-
+         $id = $match['1'];
+         $ad_id = !empty($quads_options['ads']['ad' . $id ]['ad_id']) ? $quads_options['ads']['ad' . $id ]['ad_id'] : '';
          if(!empty($ad_id)){
 
             $ad_meta = get_post_meta($ad_id, '',true);
@@ -933,7 +933,7 @@ function quads_parse_random_quicktag_ads($content){
        if(isset($ad_meta['quads_ad_old_id']['0'])){
            preg_match("#ad(.+?)#si", $ad_meta['quads_ad_old_id']['0'], $match);
            
-           $content = quads_replace_ads( $content, 'CusRnd' . $ad_id, $match[1]);}
+           $content = quads_replace_ads( $content, 'CusRnd' . $id, $match[1]);}
      } 
 
 
