@@ -7,8 +7,18 @@ function quads_switch_version(toversion){
         nonce: quads.nonce,
     };        
     jQuery.post(ajaxurl, data, function (resp, status, xhr) {
+var data = {
+        action: 'quads_sync_random_ads_in_new_design',
+        nonce: quads.nonce,
+    };
+    jQuery.post(ajaxurl, data, function (resp, status, xhr) {
 
-        window.location.href = quads.path + '/wp-admin/admin.php?page=quads-settings';                      
+        window.location.href = quads.path + '/wp-admin/admin.php?page=quads-settings';  
+
+    }).fail(function (xhr) { // Will be executed when $.post() fails
+        window.location.href = quads.path + '/wp-admin/admin.php?page=quads-settings';  
+    });
+                           
 
     }).fail(function (xhr) { // Will be executed when $.post() fails
         quads_show_message('Ajax Error: ' + xhr.status + ' ' + xhr.statusText);            

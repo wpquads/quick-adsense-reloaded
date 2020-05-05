@@ -454,7 +454,11 @@ class QUADS_Ad_Setup_Api_Service {
                 @wp_update_post( $arg );                
 
             }else{                
-                $ad_id = wp_insert_post( $arg );                
+                 if(!post_exists( $arg['post_title'] )){
+                    $ad_id =   wp_insert_post( $arg ); 
+                  }else{
+                      $ad_id = post_exists( $arg['post_title'] );
+                  }                
             }                        
 
             if($post_meta){
@@ -547,7 +551,7 @@ class QUADS_Ad_Setup_Api_Service {
         $old_ad_id = str_replace('ad','',$old_ad_id);
       }
       
-      if(is_plugin_active('wp-quads-pro/wp-quads-pro.php')){
+      if(quads_is_active_deprecated()){
         
         unset($quads_settings['ads'][$to_be_rmv]);
         update_option('quads_settings', $quads_settings);	

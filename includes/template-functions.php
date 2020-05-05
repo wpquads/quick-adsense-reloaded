@@ -385,7 +385,7 @@ function quads_filter_default_ads_new( $content ) {
                 $end_of_post  = isset($ads['enable_on_end_of_post']) ? $ads['enable_on_end_of_post'] : false;
                                     
                 // placeholder string for custom ad spots
-                if(isset($ad_meta['random_ads_list'][0])){
+                if(isset($ad_meta['random_ads_list'][0]) && !empty($ad_meta['random_ads_list'][0])){
                        $cusads = '<!--CusRnd'.$i.'-->'; 
                 }else{
                     $cusads = '<!--CusAds'.$i.'-->';
@@ -902,10 +902,9 @@ function quads_parse_random_quicktag_ads($content){
  function quads_parse_random_ads_new($content) {
 
  global $quads_options;
- 
  $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
 
- if( $off_default_ads ) { // disabled default ads
+ if( $off_default_ads ) {
  return $content;
 }
 
@@ -914,9 +913,8 @@ function quads_parse_random_quicktag_ads($content){
     for ( $i = 0; $i <= $number_rand_ads - 1; $i++ ) {
      
          preg_match("#<!--CusRnd(.+?)-->#si", $content, $match);
-         $id = $match['1'];
+         $ad_id = $match['1'];
 
-         $ad_id = !empty($quads_options['ads']['ad' . $id ]['ad_id']) ? $quads_options['ads']['ad' . $id ]['ad_id']: '';
          if(!empty($ad_id)){
 
             $ad_meta = get_post_meta($ad_id, '',true);
@@ -935,7 +933,7 @@ function quads_parse_random_quicktag_ads($content){
        if(isset($ad_meta['quads_ad_old_id']['0'])){
            preg_match("#ad(.+?)#si", $ad_meta['quads_ad_old_id']['0'], $match);
            
-           $content = quads_replace_ads( $content, 'CusRnd' . $id, $match[1]);}
+           $content = quads_replace_ads( $content, 'CusRnd' . $ad_id, $match[1]);}
      } 
 
 
