@@ -211,25 +211,31 @@ function quads_process_content( $content ) {
     $content = quads_sanitize_content( $content );
     
     if($quads_mode == 'new'){
-        $content = quads_filter_default_ads_new( $content );    
+        $content = quads_filter_default_ads_new( $content );
+    
+
     }else{
         $content = quads_filter_default_ads( $content );    
     }    
+
     /*
      * Tidy up content
      */
     //$content = '<!--EmptyClear-->' . $content . "\n" . '<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div>';
     $content = '<!--EmptyClear-->' . $content . "\n";
     $content = quads_clean_tags( $content, true );
-    
+     
     $content = quads_parse_default_ads($content);
-        
+    
     $content = quads_parse_quicktags( $content );
         
     $content = quads_parse_random_quicktag_ads($content);
-    
-    $content = quads_parse_random_ads( $content );
 
+    if($quads_mode == 'new'){
+        $content = quads_parse_random_ads_new( $content );    
+    }else{
+        $content = quads_parse_random_ads( $content );    
+    }  
     /* ... That's it. DONE :) ... */
     $content = quads_clean_tags( $content );
 
@@ -332,6 +338,7 @@ function quads_filter_default_ads_new( $content ) {
     if(isset($quads_options['ads'])){        
 
         $i = 1;
+
         foreach($quads_options['ads'] as $key => $ads){
 
             $is_on         = quads_is_visibility_on($ads);
@@ -340,7 +347,8 @@ function quads_filter_default_ads_new( $content ) {
             $post_status = get_post_status($ads['ad_id']); 
             else
               $post_status =  'publish';
-            if(!isset($ads['position'])){
+
+            if(!isset($ads['position']) || isset($ads['ad_type']) && $ads['ad_type']== 'random_ads'){
 
                 $ad_id = quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $key);
 
@@ -377,7 +385,11 @@ function quads_filter_default_ads_new( $content ) {
                 $end_of_post  = isset($ads['enable_on_end_of_post']) ? $ads['enable_on_end_of_post'] : false;
                                     
                 // placeholder string for custom ad spots
-                $cusads = '<!--CusAds'.$i.'-->';
+                if(isset($ad_meta['random_ads_list'][0])){
+                       $cusads = '<!--CusRnd'.$i.'-->'; 
+                }else{
+                    $cusads = '<!--CusAds'.$i.'-->';
+                }
                 
                 switch ($position) {
 
@@ -887,6 +899,57 @@ function quads_parse_random_quicktag_ads($content){
  * @global int $visibleContentAds
  * @return string
  */
+ function quads_parse_random_ads_new($content) {
+
+ global $quads_options;
+ 
+ $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
+
+ if( $off_default_ads ) { // disabled default ads
+ return $content;
+}
+
+
+    $number_rand_ads = substr_count( $content, '<!--CusRnd' );
+    for ( $i = 0; $i <= $number_rand_ads - 1; $i++ ) {
+     
+         preg_match("#<!--CusRnd(.+?)-->#si", $content, $match);
+         $id = $match['1'];
+
+         $ad_id = !empty($quads_options['ads']['ad' . $id ]['ad_id']) ? $quads_options['ads']['ad' . $id ]['ad_id']: '';
+         if(!empty($ad_id)){
+
+            $ad_meta = get_post_meta($ad_id, '',true);
+         }
+       
+       $random_ads_list = unserialize($ad_meta['random_ads_list']['0']);
+
+       if (!is_array($random_ads_list)) return $content; 
+
+       $keys = array_keys($random_ads_list); 
+       shuffle($keys); 
+
+       $randomid = $random_ads_list[$keys[0]]; 
+
+       $ad_meta = get_post_meta($randomid['value'], '',true);
+       if(isset($ad_meta['quads_ad_old_id']['0'])){
+           preg_match("#ad(.+?)#si", $ad_meta['quads_ad_old_id']['0'], $match);
+           
+           $content = quads_replace_ads( $content, 'CusRnd' . $id, $match[1]);}
+     } 
+
+
+     return $content;
+
+   }
+
+/**
+ * Parse random default ads which can be enabled from general settings
+ * 
+ * @global array $adsArray
+ * @global int $visibleContentAds
+ * @return string
+ */
 function quads_parse_random_ads($content) {
     global $adsRandom, $visibleContentAds;
     
@@ -983,6 +1046,7 @@ function quads_parse_default_ads( $content ) {
         if( isset( $adsArrayCus[$i] ) && strpos( $content, '<!--CusAds' . $adsArrayCus[$i] . '-->' ) !== false && in_array( $adsArrayCus[$i], $adsArray ) ) {
             
             $content = quads_replace_ads( $content, 'CusAds' . $adsArrayCus[$i], $adsArrayCus[$i] );
+
             // Create array $adsRandom for quads_parse_random_ads() parsing functions to make sure that the random function 
             // is never using ads that are already used on static ad spots which are generated with quads_parse_default_ads()
             if ($i == 0){
@@ -995,6 +1059,7 @@ function quads_parse_default_ads( $content ) {
             //quads_set_ad_count_content();
             //if( quads_ad_reach_max_count() || $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
             //wp_die(quads_get_max_allowed_post_ads( $content ));
+
             if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
              
                 $content = quads_clean_tags( $content );
