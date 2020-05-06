@@ -55700,9 +55700,11 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
       var post_meta = this.props.parentState.quads_post_meta;
       var show_form_error = this.props.parentState.show_form_error;
       var comp_html = [];
+      var ad_type_name = '';
 
       switch (this.props.ad_type) {
         case 'adsense':
+          ad_type_name = 'AdSense';
           comp_html.push( /*#__PURE__*/_react["default"].createElement("div", {
             key: "adsense"
           }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Data Client ID', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
@@ -55758,6 +55760,7 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
           break;
 
         case 'plain_text':
+          ad_type_name = 'Plain Text / HTML / JS';
           comp_html.push( /*#__PURE__*/_react["default"].createElement("div", {
             key: "plain_text"
           }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Plain Text / HTML / JS', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("textarea", {
@@ -55776,6 +55779,7 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
           break;
 
         case 'random_ads':
+          ad_type_name = 'Random Ads';
           comp_html.push( /*#__PURE__*/_react["default"].createElement("div", {
             className: "quads-user-targeting"
           }, /*#__PURE__*/_react["default"].createElement("h2", null, "Select Ads", /*#__PURE__*/_react["default"].createElement("a", {
@@ -55816,7 +55820,7 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
           break;
       }
 
-      return /*#__PURE__*/_react["default"].createElement("div", null, this.props.ad_type, " ", __('Ad Configuration', 'quick-adsense-reloaded'), this.props.ad_type == 'adsense' ? /*#__PURE__*/_react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement("div", null, ad_type_name, " ", __('Ad Configuration', 'quick-adsense-reloaded'), this.props.ad_type == 'adsense' ? /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-autofill-div"
       }, /*#__PURE__*/_react["default"].createElement("a", {
         className: "quads-autofill",
@@ -103589,7 +103593,7 @@ var QuadsAdList = /*#__PURE__*/function (_Component) {
           break;
 
         case 'random_ads':
-          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/random_ads.png';
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/random_ad_icon.png';
           type = "random ads";
           break;
 

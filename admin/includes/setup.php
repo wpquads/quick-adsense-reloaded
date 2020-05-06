@@ -85,11 +85,15 @@ public function quadsSyncRandomAdsInNewDesign(){
         return;
 
     $quads_settings = get_option('quads_settings');
+
     $random_beginning_of_post = true;
     $random_middle_of_post = true;
     $random_end_of_post = true;
     $random_after_more_tag = true;
     $random_before_last_paragraph = true;
+    $random_after_paragraph1 = true;
+    $random_after_paragraph2 = true;
+    $random_after_paragraph3 = true;
     $random_after_image = true;  
     $quads_ads = $this->api_service->getAdDataByParam('quads-ads');
    if(isset($quads_ads['posts_data'])){
@@ -116,17 +120,17 @@ public function quadsSyncRandomAdsInNewDesign(){
             if($value['post_meta']['position'] == 'after_more_tag' && $value['post_meta']['ad_type'] == 'random_ads'){
                 $random_after_more_tag = false;
             }
-            if($value['post_meta']['position'] == 'before_last_paragraph' && $value['post_meta']['ad_type'] == 'random_ads' && $value['post_meta']['label'] =='Random ads after paragraph 1'){
-                $random_before_last_paragraph1 = false;
+             if($value['post_meta']['position'] == 'before_last_paragraph' && $value['post_meta']['ad_type'] == 'random_ads'){
+                $random_before_last_paragraph = false;
             }
-            if($value['post_meta']['position'] == 'before_last_paragraph' && $value['post_meta']['ad_type'] == 'random_ads' && $value['post_meta']['label'] =='Random ads after paragraph 2'){
-                $random_before_last_paragraph2 = false;
+            if($value['post_meta']['position'] == 'after_paragraph' && $value['post_meta']['ad_type'] == 'random_ads' && $value['post_meta']['label'] =='Random ads after paragraph 1'){
+                $random_after_paragraph1 = false;
             }
-            if($value['post_meta']['position'] == 'before_last_paragraph' && $value['post_meta']['ad_type'] == 'random_ads' && $value['post_meta']['label'] =='Random ads after paragraph 3'){
-                $random_before_last_paragraph3 = false;
+            if($value['post_meta']['position'] == 'after_paragraph' && $value['post_meta']['ad_type'] == 'random_ads' && $value['post_meta']['label'] =='Random ads after paragraph 2'){
+                $random_after_paragraph2 = false;
             }
-            if($value['post_meta']['position'] == 'after_paragraph' && $value['post_meta']['ad_type'] == 'random_ads'){
-                $random_end_of_post = false;
+            if($value['post_meta']['position'] == 'after_paragraph' && $value['post_meta']['ad_type'] == 'random_ads' && $value['post_meta']['label'] =='Random ads after paragraph 3'){
+                $random_after_paragraph3 = false;
             }
             if($value['post_meta']['position'] == 'after_image' && $value['post_meta']['ad_type'] == 'random_ads'){
                 $random_after_image = false;
@@ -209,7 +213,7 @@ public function quadsSyncRandomAdsInNewDesign(){
             }
         }
         if(isset($quads_settings['pos5'])){ 
-            if(isset($quads_settings['pos5']['Par1Ads']) &&  $quads_settings['pos5']['Par1Ads'] == 1 && $random_before_last_paragraph1){
+            if(isset($quads_settings['pos5']['LapaAds']) &&  $quads_settings['pos5']['LapaAds'] == 1 && $random_before_last_paragraph){
                 if(isset($quads_settings['pos5']['LapaRnd']) && $quads_settings['pos5']['LapaRnd']== 0){ 
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';
@@ -227,7 +231,7 @@ public function quadsSyncRandomAdsInNewDesign(){
             }
         }
         if(isset($quads_settings['pos6'])){ 
-            if(isset($quads_settings['pos6']['Par1Ads']) &&  $quads_settings['pos6']['Par1Ads'] && $random_before_last_paragraph2){
+            if(isset($quads_settings['pos6']['Par1Ads']) &&  $quads_settings['pos6']['Par1Ads'] && $random_after_paragraph1){
                 if(isset($quads_settings['pos6']['Par1Rnd']) && $quads_settings['pos6']['Par1Rnd']== 0){ 
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';
@@ -247,7 +251,7 @@ public function quadsSyncRandomAdsInNewDesign(){
             }
         }
         if(isset($quads_settings['pos7'])){ 
-            if(isset($quads_settings['pos7']['Par2Ads']) &&  $quads_settings['pos7']['Par2Ads'] && $random_before_last_paragraph3){
+            if(isset($quads_settings['pos7']['Par2Ads']) &&  $quads_settings['pos7']['Par2Ads'] && $random_after_paragraph2){
                 if(isset($quads_settings['pos7']['Par2Rnd']) && $quads_settings['pos7']['Par2Rnd']== 0){ 
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';
@@ -267,7 +271,7 @@ public function quadsSyncRandomAdsInNewDesign(){
             }
         }
         if(isset($quads_settings['pos8'])){ 
-            if(isset($quads_settings['pos8']['Par3Ads']) &&  $quads_settings['pos8']['Par3Ads'] && $random_before_last_paragraph){
+            if(isset($quads_settings['pos8']['Par3Ads']) &&  $quads_settings['pos8']['Par3Ads'] && $random_after_paragraph3){
                 if(isset($quads_settings['pos8']['Par3Rnd']) && $quads_settings['pos8']['Par3Rnd']== 0){ 
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';

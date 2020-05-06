@@ -121,12 +121,13 @@ removeSeleted = (e) => {
           const {__} = wp.i18n;
           const post_meta = this.props.parentState.quads_post_meta;
           const show_form_error = this.props.parentState.show_form_error;
-          const comp_html = [];        
+          const comp_html = [];   
+          let ad_type_name = '';     
 
           switch (this.props.ad_type) {
 
             case 'adsense':
-
+             ad_type_name = 'AdSense';  
               comp_html.push(<div key="adsense">
                 <table>
                   <tbody>
@@ -169,7 +170,7 @@ error_outline
               break;
           
               case 'plain_text':                
-                
+                ad_type_name = 'Plain Text / HTML / JS';
                 comp_html.push(<div key="plain_text">
                   <table><tbody>
                   <tr>
@@ -181,7 +182,7 @@ error_outline
                   </div>);      
               break; 
                case 'random_ads':                
-                
+                 ad_type_name = 'Random Ads';
                 comp_html.push(       <div className="quads-user-targeting"> 
        <h2>Select Ads<a onClick={this.adsToggle}><Icon>add_circle</Icon></a>  </h2>
 
@@ -228,7 +229,7 @@ error_outline
               break;
           }
               return(
-                <div>{this.props.ad_type} {__('Ad Configuration', 'quick-adsense-reloaded')}
+                <div>{ad_type_name} {__('Ad Configuration', 'quick-adsense-reloaded')}
                 {this.props.ad_type == 'adsense' ? 
                 <div className="quads-autofill-div"><a className="quads-autofill" onClick={this.props.openModal}>{__('Autofill', 'quick-adsense-reloaded')}</a>
                 <QuadsAdModal 
