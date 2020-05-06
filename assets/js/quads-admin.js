@@ -1,6 +1,7 @@
 var strict;
-function quads_switch_version(toversion){
-
+function quads_switch_version(toversion,selector){
+jQuery(selector).attr('onClick', "");
+return true;
     var data = {
         action: 'quads_change_mode',
         mode: toversion,
@@ -27,8 +28,8 @@ var data = {
 
 jQuery(document).ready(function ($) {
 
-$('a[href$="quads_switch_to_new"]').removeAttr("href").attr('onClick', "quads_switch_version('new');");
-$('a[href$="quads_switch_to_old"]').removeAttr("href").attr('onClick', "quads_switch_version('old');");
+$('a[href$="quads_switch_to_new"]').removeAttr("href").attr('onClick', "quads_switch_version('new',this);");
+$('a[href$="quads_switch_to_old"]').removeAttr("href").attr('onClick', "quads_switch_version('old',this);");
 
     $(".wpquads-send-query").on("click", function(e){
         e.preventDefault();   
