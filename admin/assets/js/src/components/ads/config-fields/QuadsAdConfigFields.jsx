@@ -62,7 +62,7 @@ removeSeleted = (e) => {
 
 }
   getallads = (search_text = '',page = '') => {
-   let url = quads_localize_data.rest_url + "quads-route/get-ads-list?search_param="+search_text+"&page="+page;
+   let url = quads_localize_data.rest_url + "quads-route/get-ads-list?posts_per_page=30&page="+page;
       
       fetch(url, {
         headers: {                    
@@ -74,6 +74,7 @@ removeSeleted = (e) => {
         (result) => {      
           let getallads_data =[];
           Object.entries(result.posts_data).map(([key, value]) => {
+          if(value.post_meta['ad_type'] != "random_ads" && value.post['post_status'] != "draft")
             getallads_data.push({label: value.post['post_title'], value: value.post['post_id']});
           })      
             this.setState({
@@ -195,6 +196,7 @@ error_outline
                 </div>
                ) )
               :''}
+              <div>{ (this.state.random_ads_list.length <= 0 && show_form_error) ? <span className="quads-error">Select at least one Ad</span> : ''}</div>
              </div>             
         
 

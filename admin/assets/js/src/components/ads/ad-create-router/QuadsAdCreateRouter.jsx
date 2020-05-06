@@ -393,7 +393,7 @@ class QuadsAdCreateRouter extends Component {
             
           break;
           case 'random_ads':
-            if( quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(quads_post_meta.random_ads_list.length > 0 && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
@@ -500,7 +500,12 @@ class QuadsAdCreateRouter extends Component {
               
             break;
          case 'random_ads':
-                this.props.history.push(new_url); 
+          if(quads_post_meta.random_ads_list.length > 0 ){
+             this.props.history.push(new_url); 
+            }else{
+              this.setState({show_form_error:true});
+            }
+               
               
             break;
           default:

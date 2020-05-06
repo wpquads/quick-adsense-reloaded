@@ -116,8 +116,14 @@ public function quadsSyncRandomAdsInNewDesign(){
             if($value['post_meta']['position'] == 'after_more_tag' && $value['post_meta']['ad_type'] == 'random_ads'){
                 $random_after_more_tag = false;
             }
-            if($value['post_meta']['position'] == 'before_last_paragraph' && $value['post_meta']['ad_type'] == 'random_ads'){
-                $random_before_last_paragraph = false;
+            if($value['post_meta']['position'] == 'before_last_paragraph' && $value['post_meta']['ad_type'] == 'random_ads' && $value['post_meta']['label'] =='Random ads after paragraph 1'){
+                $random_before_last_paragraph1 = false;
+            }
+            if($value['post_meta']['position'] == 'before_last_paragraph' && $value['post_meta']['ad_type'] == 'random_ads' && $value['post_meta']['label'] =='Random ads after paragraph 2'){
+                $random_before_last_paragraph2 = false;
+            }
+            if($value['post_meta']['position'] == 'before_last_paragraph' && $value['post_meta']['ad_type'] == 'random_ads' && $value['post_meta']['label'] =='Random ads after paragraph 3'){
+                $random_before_last_paragraph3 = false;
             }
             if($value['post_meta']['position'] == 'after_paragraph' && $value['post_meta']['ad_type'] == 'random_ads'){
                 $random_end_of_post = false;
@@ -139,7 +145,7 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['ad_type']       = 'random_ads';
                     $value['random_ads_list']   = $random_ads_list;
                     $value['position']      = 'beginning_of_post';  
-                    $value['label']         = 'Random ads beginng';
+                    $value['label']         = 'Random ads beginning';
                     $parameters['quads_post_meta']  = $value;
                     $this->api_service->updateAdData($parameters);  
                 }
@@ -203,7 +209,7 @@ public function quadsSyncRandomAdsInNewDesign(){
             }
         }
         if(isset($quads_settings['pos5'])){ 
-            if(isset($quads_settings['pos5']['Par1Ads']) &&  $quads_settings['pos5']['Par1Ads'] == 1 && $random_before_last_paragraph){
+            if(isset($quads_settings['pos5']['Par1Ads']) &&  $quads_settings['pos5']['Par1Ads'] == 1 && $random_before_last_paragraph1){
                 if(isset($quads_settings['pos5']['LapaRnd']) && $quads_settings['pos5']['LapaRnd']== 0){ 
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';
@@ -221,7 +227,7 @@ public function quadsSyncRandomAdsInNewDesign(){
             }
         }
         if(isset($quads_settings['pos6'])){ 
-            if(isset($quads_settings['pos6']['Par1Ads']) &&  $quads_settings['pos6']['Par1Ads'] && $random_before_last_paragraph){
+            if(isset($quads_settings['pos6']['Par1Ads']) &&  $quads_settings['pos6']['Par1Ads'] && $random_before_last_paragraph2){
                 if(isset($quads_settings['pos6']['Par1Rnd']) && $quads_settings['pos6']['Par1Rnd']== 0){ 
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';
@@ -233,7 +239,7 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['position']      = 'after_paragraph';
                     $value['paragraph_number']  = $quads_settings['pos6']['Par1Nup'];
                     $value['enable_on_end_of_post'] = $quads_settings['pos6']['Par1Con'];  
-                    $value['label']         = 'Random ads after paragraph';  
+                    $value['label']         = 'Random ads after paragraph 1';  
                     $value['random']        = true; 
                     $parameters['quads_post_meta']  = $value;
                     $this->api_service->updateAdData($parameters); 
@@ -241,7 +247,7 @@ public function quadsSyncRandomAdsInNewDesign(){
             }
         }
         if(isset($quads_settings['pos7'])){ 
-            if(isset($quads_settings['pos7']['Par2Ads']) &&  $quads_settings['pos7']['Par2Ads'] && $random_before_last_paragraph){
+            if(isset($quads_settings['pos7']['Par2Ads']) &&  $quads_settings['pos7']['Par2Ads'] && $random_before_last_paragraph3){
                 if(isset($quads_settings['pos7']['Par2Rnd']) && $quads_settings['pos7']['Par2Rnd']== 0){ 
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';
@@ -253,7 +259,7 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['position']      = 'after_paragraph';  
                     $value['paragraph_number']  = $quads_settings['pos7']['Par2Nup'];
                     $value['enable_on_end_of_post'] = $quads_settings['pos7']['Par2Con'];
-                    $value['label']         = 'Random ads after paragraph'; 
+                    $value['label']         = 'Random ads after paragraph 2'; 
                     $value['random']        = true;  
                     $parameters['quads_post_meta']  = $value;
                     $this->api_service->updateAdData($parameters); 
@@ -273,7 +279,7 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['position']      = 'after_paragraph'; 
                     $value['paragraph_number']              = $quads_settings['pos8']['Par3Nup'];
                     $value['enable_on_end_of_post']         = $quads_settings['pos8']['Par3Con']; 
-                    $value['label']         = 'Random ads after paragraph';  
+                    $value['label']         = 'Random ads after paragraph 3';  
                     $value['random']        = true; 
                     $parameters['quads_post_meta']  = $value;
                     $this->api_service->updateAdData($parameters); 
