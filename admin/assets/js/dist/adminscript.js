@@ -10505,8 +10505,14 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
         }).then(function (res) {
           return res.json();
         }).then(function (result) {
+          var titleName = result.name;
+
+          if (page.ad_type == 'random_ads') {
+            titleName = result.name + " (Random)";
+          }
+
           _this2.setState(Object.assign(_this2.state.quads_post_meta, {
-            label: result.name
+            label: titleName
           }));
         }, function (error) {});
       }

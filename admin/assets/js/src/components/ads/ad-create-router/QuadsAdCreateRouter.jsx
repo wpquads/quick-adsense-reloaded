@@ -567,7 +567,11 @@ class QuadsAdCreateRouter extends Component {
     .then(res => res.json())
     .then(
       (result) => {   
-          this.setState(Object.assign(this.state.quads_post_meta,{label:result.name}));
+      let titleName =result.name;
+      if(page.ad_type == 'random_ads'){
+          titleName =result.name +" (Random)";
+      }
+          this.setState(Object.assign(this.state.quads_post_meta,{label:titleName}));
       },        
       (error) => {
         
