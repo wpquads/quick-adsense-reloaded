@@ -319,7 +319,7 @@ function quads_options_page() {
                     <div class="switch_to_v2">
                     <h3>WPQuads 2.0 has the better User interface</h3> 
                     <p>We have improved the WPQuads and made it better than ever! Step into the future with one-click!</p>
-                    <div onclick="quads_switch_version('new');" class="switch_to_v2_btn"><a onclick="quads_switch_version('new');"  href="#">Switch to New Panel</a></div>
+                    <div onclick="quads_switch_version('new',this);" class="switch_to_v2_btn"><a  href="#">Switch to New Panel</a></div>
                     </div>
                     <?php quads_get_advertising(); ?>
                 </div>

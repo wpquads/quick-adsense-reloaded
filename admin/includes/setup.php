@@ -205,7 +205,7 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['ad_type']       = 'random_ads';
                     $value['random_ads_list']   = $random_ads_list;
                     $value['position']      = 'after_more_tag';  
-                    $value['label']         = 'Random add after more';
+                    $value['label']         = 'Random ads after more';
                     $value['random']        = true;   
                     $parameters['quads_post_meta']  = $value;
                     $this->api_service->updateAdData($parameters); 

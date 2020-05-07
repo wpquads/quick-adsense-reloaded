@@ -16,9 +16,9 @@ class QuadsAdListPagination extends Component {
   static getDerivedStateFromProps(props, state) { 
         
         let page_count = 0;        
-        if(props.ad_list.posts_found > 10){
+        if(props.ad_list.posts_found > 20){
             
-            page_count = Math.ceil(props.ad_list.posts_found / 10);
+            page_count = Math.ceil(props.ad_list.posts_found / 20);
         }
               
         return {
@@ -29,7 +29,7 @@ class QuadsAdListPagination extends Component {
 
   render() {
     
-    if(this.state.ad_count > 10){   
+    if(this.state.ad_count > 20){   
         
         const paginate = [];
 

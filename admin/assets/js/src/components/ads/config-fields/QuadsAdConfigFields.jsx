@@ -17,7 +17,7 @@ class QuadsAdConfigFields extends Component {
   }   
   adsToggle = () => {
   
-  this.setState({adsToggle:!this.state.adsToggle});
+  this.setState({adsToggle:!this.state.adsToggle,currentselectedvalue : ''});
 }
 addIncluded = (e) => {
 
@@ -62,7 +62,7 @@ removeSeleted = (e) => {
 
 }
   getallads = (search_text = '',page = '') => {
-   let url = quads_localize_data.rest_url + "quads-route/get-ads-list?posts_per_page=30&page="+page;
+   let url = quads_localize_data.rest_url + "quads-route/get-ads-list?posts_per_page=100&page="+page;
       
       fetch(url, {
         headers: {                    
@@ -98,7 +98,7 @@ removeSeleted = (e) => {
     let value  = this.state.currentselectedvalue;  
     let label  = this.state.currentselectedlabel;  
   
-    if( typeof (value) !== 'undefined'){
+    if( typeof (value) !== 'undefined' && value != ''){
       const {random_ads_list} = this.state;
       let data    = random_ads_list;
       data.push({ value: value,label: label});
@@ -197,7 +197,7 @@ error_outline
                 </div>
                ) )
               :''}
-              <div>{ (this.state.random_ads_list.length <= 0 && show_form_error) ? <span className="quads-error">Select at least one Ad</span> : ''}</div>
+              <div>{ (this.state.random_ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div class="quads_form_msg"><span class="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
              </div>             
         
 
