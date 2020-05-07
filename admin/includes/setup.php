@@ -151,7 +151,7 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['position']      = 'beginning_of_post';  
                     $value['label']         = 'Random ads beginning';
                     $parameters['quads_post_meta']  = $value;
-                    $this->api_service->updateAdData($parameters);  
+                    $this->api_service->updateAdData($parameters, 'old_mode');   
                 }
             }
         } 
@@ -169,7 +169,7 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['label']         = 'Random ads middle'; 
                     $value['random']        = true;  
                     $parameters['quads_post_meta']  = $value;
-                    $this->api_service->updateAdData($parameters); 
+                    $this->api_service->updateAdData($parameters, 'old_mode');  
                 }
             }
         }
@@ -189,7 +189,7 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['label']         = 'Random ads end';  
                     $value['random']        = true; 
                     $parameters['quads_post_meta']  = $value;
-                    $this->api_service->updateAdData($parameters); 
+                    $this->api_service->updateAdData($parameters, 'old_mode');  
                 }
             }
         }
@@ -208,7 +208,7 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['label']         = 'Random ads after more';
                     $value['random']        = true;   
                     $parameters['quads_post_meta']  = $value;
-                    $this->api_service->updateAdData($parameters); 
+                    $this->api_service->updateAdData($parameters, 'old_mode');  
                 }
             }
         }
@@ -226,7 +226,7 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['label']         = 'Random ads before last paragraph'; 
                     $value['random']        = true;  
                     $parameters['quads_post_meta']  = $value;
-                    $this->api_service->updateAdData($parameters); 
+                    $this->api_service->updateAdData($parameters, 'old_mode');  
                 }
             }
         }
@@ -246,7 +246,7 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['label']         = 'Random ads after paragraph 1';  
                     $value['random']        = true; 
                     $parameters['quads_post_meta']  = $value;
-                    $this->api_service->updateAdData($parameters); 
+                    $this->api_service->updateAdData($parameters, 'old_mode');  
                 }
             }
         }
@@ -266,7 +266,7 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['label']         = 'Random ads after paragraph 2'; 
                     $value['random']        = true;  
                     $parameters['quads_post_meta']  = $value;
-                    $this->api_service->updateAdData($parameters); 
+                    $this->api_service->updateAdData($parameters, 'old_mode');  
                 }
             }
         }
@@ -286,7 +286,7 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['label']         = 'Random ads after paragraph 3';  
                     $value['random']        = true; 
                     $parameters['quads_post_meta']  = $value;
-                    $this->api_service->updateAdData($parameters); 
+                    $this->api_service->updateAdData($parameters, 'old_mode');  
                 }
             }
         }
@@ -306,7 +306,7 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['label']         = 'Random ads after image';  
                     $value['random']        = true; 
                     $parameters['quads_post_meta']  = $value;
-                    $this->api_service->updateAdData($parameters); 
+                    $this->api_service->updateAdData($parameters, 'old_mode');  
                 }
             }
         }
