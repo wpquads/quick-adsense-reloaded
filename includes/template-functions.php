@@ -928,12 +928,9 @@ $selected_ads =array();
            $temp_array[] = $radom_ad['value'];
         }
         $random_ads_list_after =  array_diff($temp_array, $selected_ads);
-        if(empty($random_ads_list_after)){
-            $random_ads_list_after = $temp_array;
-        }
        $keys = array_keys($random_ads_list_after); 
        shuffle($keys); 
-       $randomid = $random_ads_list[$keys[0]]; 
+       $randomid = $random_ads_list_after[$keys[0]]; 
        $selected_ads[] = $randomid;
 
        $ad_meta = get_post_meta($randomid, '',true);
