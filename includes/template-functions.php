@@ -1097,10 +1097,10 @@ function quads_parse_default_ads_new( $content ) {
     for ( $i = 0; $i <= $number_rand_ads - 1; $i++ ) {
 
          preg_match("#<!--CusAds(.+?)-->#si", $content, $match);
-         $ad_id = $match['1'];
+         $ad_id = isset($match['1'])?$match['1']:'';
 
         if( strpos( $content, '<!--CusAds' . $ad_id . '-->' ) !== false )  {
-            $content = quads_replace_ads( $content, 'CusAds' . $ad_id, $ad_id );
+            $content = quads_replace_ads_new( $content, 'CusAds' . $ad_id, $ad_id );
 
 
             $visibleContentAds += 1;
