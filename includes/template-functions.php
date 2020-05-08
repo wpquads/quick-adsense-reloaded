@@ -338,9 +338,8 @@ function quads_filter_default_ads_new( $content ) {
     if(isset($quads_options['ads'])){        
 
         $i = 1;
-
         foreach($quads_options['ads'] as $key => $ads){
-
+      
             $is_on         = quads_is_visibility_on($ads);
             $is_visitor_on = quads_is_visitor_on($ads);
             if(isset($ads['ad_id']))
@@ -349,8 +348,13 @@ function quads_filter_default_ads_new( $content ) {
               $post_status =  'publish';
 
             if(!isset($ads['position']) || isset($ads['ad_type']) && $ads['ad_type']== 'random_ads'){
-
-                $ad_id = quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $key);
+                if(isset($ads['post_meta']['quads_ad_old_id'])){
+                    $ad_id = quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $ads['post_meta']['quads_ad_old_id']);  
+                    $add_sl = (int) filter_var($key, FILTER_SANITIZE_NUMBER_INT);
+                    // $key =  $ads['post_meta']['quads_ad_old_id'];
+                }else{
+                    $ad_id = quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $key);
+                }
 
                 if($ad_id){
 
@@ -383,10 +387,10 @@ function quads_filter_default_ads_new( $content ) {
                 $imageNo      = (isset($ads['image_number']) && $ads['image_number'] !='') ? $ads['image_number'] : 1;
                 $imageCaption = isset($ads['image_caption']) ? $ads['image_caption'] : false;
                 $end_of_post  = isset($ads['enable_on_end_of_post']) ? $ads['enable_on_end_of_post'] : false;
-                                    
+ 
                 // placeholder string for custom ad spots
-                if(isset($ad_meta['random_ads_list'][0]) && !empty($ad_meta['random_ads_list'][0])){
-                       $cusads = '<!--CusRnd'.$i.'-->'; 
+                if((isset($ad_meta['random_ads_list'][0]) && !empty($ad_meta['random_ads_list'][0])) ||(isset($ads['post_meta']['quads_ad_old_id']) && !empty($ads['random_ads_list'][0]))){
+                       $cusads = '<!--CusRnd'.$add_sl.'-->'; 
                 }else{
                     $cusads = '<!--CusAds'.$i.'-->';
                 }
@@ -924,7 +928,9 @@ $selected_ads =array();
 
        if (!is_array($random_ads_list)) return $content; 
         $temp_array =array();
+        // echo "<pre>";exit(print_r($random_ads_list)); 
         foreach ($random_ads_list as $radom_ad ) {
+            if (isset($radom_ad['value']))
            $temp_array[] = $radom_ad['value'];
         }
         $random_ads_list_after =  array_diff($temp_array, $selected_ads);

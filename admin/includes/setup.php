@@ -97,9 +97,42 @@ public function quadsSyncRandomAdsInNewDesign(){
     $random_after_image = true;  
     $quads_ads = $this->api_service->getAdDataByParam('quads-ads');
    if(isset($quads_ads['posts_data'])){
+   $random_ads_list =array();
+   $random_ads_slno =array();
+   $ad_count =1;
+foreach($quads_settings['ads'] as $key2 => $value2){  
+    if($key2 === 'ad'.$ad_count){
+        $post_id = quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $key2); 
+        if($post_id){       
+                      
+            array_push($random_ads_slno, $post_id);                                                
+       }
+    } 
+    $ad_count++;
+} 
 
-        $random_ads_list =array();
-        foreach($quads_ads['posts_data'] as $key => $value){                            
+        foreach($quads_ads['posts_data'] as $key => $value){   
+
+            if(!in_array($value['post_meta']['ad_id'], $random_ads_slno)){
+                $missing_data =array();
+                    $missing_data['post']  = $value['post'];
+                     $missing_data['post_meta']  = $value['post_meta'];
+                    $missing_data['visibility_include'] = unserialize($value['post_meta']['visibility_include']);
+                    $missing_data['ad_type']       =  $value['post_meta']['ad_type'];
+                    $missing_data['random_ads_list']   = unserialize($value['post_meta']['random_ads_list']);
+                    $missing_data['position']      =  $value['post_meta']['position'];
+                    $missing_data['label']         = $value['post_meta']['label'];
+                    $missing_data['ad_id']         = $value['post_meta']['ad_id'];
+                      $quads_optionsadd = get_option( 'quads_settings' );
+                      if(!isset($quads_optionsadd['ads'][$value['post_meta']['quads_ad_old_id']])){
+                        $quads_optionsadd['ads'][$value['post_meta']['quads_ad_old_id']] = $missing_data;
+
+                         update_option( 'quads_settings', $quads_optionsadd );
+                      }
+
+            }
+                  
+       
             if($value['post']['post_status']=='draft'){
             // break;
             continue;
@@ -138,6 +171,8 @@ public function quadsSyncRandomAdsInNewDesign(){
 
         }
 
+
+
         if(isset($quads_settings['pos1'])){ 
             if(isset($quads_settings['pos1']['BegnAds']) && $quads_settings['pos1']['BegnAds'] && $random_beginning_of_post){
                 if(isset($quads_settings['pos1']['BegnRnd']) && $quads_settings['pos1']['BegnRnd']== 0){ 
@@ -149,7 +184,9 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['ad_type']       = 'random_ads';
                     $value['random_ads_list']   = $random_ads_list;
                     $value['position']      = 'beginning_of_post';  
-                    $value['label']         = 'Random ads beginning';
+                    $value['label']         = 'Random ads beginning';         
+                    $value['quads_ad_old_id']         = 'ad'.$ad_count;
+                     $ad_count++;
                     $parameters['quads_post_meta']  = $value;
                     $this->api_service->updateAdData($parameters);   
                 }
@@ -168,6 +205,8 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['position']      = 'middle_of_post';  
                     $value['label']         = 'Random ads middle'; 
                     $value['random']        = true;  
+                      $value['quads_ad_old_id']         = 'ad'.$ad_count;
+                     $ad_count++;
                     $parameters['quads_post_meta']  = $value;
                     $this->api_service->updateAdData($parameters);  
                 }
@@ -188,6 +227,8 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['position']      = 'end_of_post';  
                     $value['label']         = 'Random ads end';  
                     $value['random']        = true; 
+                      $value['quads_ad_old_id']         = 'ad'.$ad_count;
+                     $ad_count++;
                     $parameters['quads_post_meta']  = $value;
                     $this->api_service->updateAdData($parameters);  
                 }
@@ -207,6 +248,8 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['position']      = 'after_more_tag';  
                     $value['label']         = 'Random ads after more';
                     $value['random']        = true;   
+                      $value['quads_ad_old_id']         = 'ad'.$ad_count;
+                     $ad_count++;
                     $parameters['quads_post_meta']  = $value;
                     $this->api_service->updateAdData($parameters);  
                 }
@@ -225,6 +268,8 @@ public function quadsSyncRandomAdsInNewDesign(){
                     $value['position']      = 'before_last_paragraph';  
                     $value['label']         = 'Random ads before last paragraph'; 
                     $value['random']        = true;  
+                      $value['quads_ad_old_id']         = 'ad'.$ad_count;
+                     $ad_count++;
                     $parameters['quads_post_meta']  = $value;
                     $this->api_service->updateAdData($parameters);  
                 }
