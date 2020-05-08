@@ -224,9 +224,15 @@ function quads_process_content( $content ) {
     //$content = '<!--EmptyClear-->' . $content . "\n" . '<div style="font-size:0px;height:0px;line-height:0px;margin:0;padding:0;clear:both"></div>';
     $content = '<!--EmptyClear-->' . $content . "\n";
     $content = quads_clean_tags( $content, true );
-     
-    $content = quads_parse_default_ads($content);
+         if($quads_mode == 'new'){
+        $content = quads_parse_default_ads_new( $content );
     
+
+    }else{
+        $content = quads_parse_default_ads( $content );    
+    }    
+
+
     $content = quads_parse_quicktags( $content );
         
     $content = quads_parse_random_quicktag_ads($content);
@@ -332,47 +338,59 @@ function quads_filter_default_ads_new( $content ) {
     if( $off_default_ads ) { // If default ads are disabled 
         return $content;
     }    
+     require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+                $api_service = new QUADS_Ad_Setup_Api_Service();
+                    $quads_ads = $api_service->getAdDataByParam('quads-ads');
     // Default Ads
     $adsArrayCus = array();
-
-    if(isset($quads_options['ads'])){        
+    if(isset($quads_ads['posts_data'])){        
 
         $i = 1;
-        foreach($quads_options['ads'] as $key => $ads){
-      
+        foreach($quads_ads['posts_data'] as $key => $value){
+            $ads =$value['post_meta'];
+            if($value['post']['post_status']== 'draft'){
+                continue;
+            }
+            if(isset($ads['random_ads_list']))
+            $ads['random_ads_list'] = unserialize($ads['random_ads_list']);
+         if(isset($ads['visibility_include']))
+             $ads['visibility_include'] = unserialize($ads['visibility_include']);
+         if(isset($ads['visibility_exclude']))
+             $ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);
+
+         if(isset($ads['targeting_include']))
+             $ads['targeting_include'] = unserialize($ads['targeting_include']);
+
+         if(isset($ads['targeting_exclude']))
+             $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
             $is_on         = quads_is_visibility_on($ads);
             $is_visitor_on = quads_is_visitor_on($ads);
             if(isset($ads['ad_id']))
             $post_status = get_post_status($ads['ad_id']); 
             else
               $post_status =  'publish';
+      //     var_dump($is_on);
+      //     var_dump($is_visitor_on);
+      // echo "<pre>"; exit(print_r($ads));
 
             if(!isset($ads['position']) || isset($ads['ad_type']) && $ads['ad_type']== 'random_ads'){
-                if(isset($ads['post_meta']['quads_ad_old_id'])){
-                    $ad_id = quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $ads['post_meta']['quads_ad_old_id']);  
-                    $add_sl = (int) filter_var($key, FILTER_SANITIZE_NUMBER_INT);
-                    // $key =  $ads['post_meta']['quads_ad_old_id'];
-                }else{
-                    $ad_id = quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $key);
-                }
+                if($ads['ad_id']){
 
-                if($ad_id){
 
-                    $ad_meta = get_post_meta($ad_id, '',true);
+                  
+                    if(isset($ads['position'])){
 
-                    if(isset($ad_meta['position'][0])){
+                        $ads['position']               = isset($ads['position']) ? $ads['position'] : '';;
+                        $ads['paragraph_number']       = isset($ads['paragraph_number']) ? $ads['paragraph_number'] : '';
+                        $ads['image_number']           = isset($ads['image_number']) ? $ads['image_number'] : '';
+                        $ads['image_caption']          = isset($ads['image_caption']) ? $ads['image_caption'] : '';
+                        $ads['enable_on_end_of_post']  = isset($ads['enable_on_end_of_post']) ? $ads['enable_on_end_of_post'] : '';
 
-                        $ads['position']               = isset($ad_meta['position'][0]) ? $ad_meta['position'][0] : '';;
-                        $ads['paragraph_number']       = isset($ad_meta['paragraph_number'][0]) ? $ad_meta['paragraph_number'][0] : '';
-                        $ads['image_number']           = isset($ad_meta['image_number'][0]) ? $ad_meta['image_number'][0] : '';
-                        $ads['image_caption']          = isset($ad_meta['image_caption'][0]) ? $ad_meta['image_caption'][0] : '';
-                        $ads['enable_on_end_of_post']  = isset($ad_meta['enable_on_end_of_post'][0]) ? $ad_meta['enable_on_end_of_post'][0] : '';
-
-                        $quads_options[$key]['position']              = isset($ad_meta['position'][0]) ? $ad_meta['position'][0] : '';
-                        $quads_options[$key]['paragraph_number']      = isset($ad_meta['paragraph_number'][0]) ? $ad_meta['paragraph_number'][0] : '';
-                        $quads_options[$key]['image_number']          = isset($ad_meta['image_number'][0]) ? $ad_meta['image_number'][0] : '';
-                        $quads_options[$key]['image_caption']         = isset($ad_meta['image_caption'][0]) ? $ad_meta['image_caption'][0] : '';
-                        $quads_options[$key]['enable_on_end_of_post'] = isset($ad_meta['enable_on_end_of_post'][0]) ? $ad_meta['enable_on_end_of_post'][0] : '';
+                        $quads_options[$key]['position']              = isset($ads['position']) ? $ads['position'] : '';
+                        $quads_options[$key]['paragraph_number']      = isset($ads['paragraph_number']) ? $ads['paragraph_number'] : '';
+                        $quads_options[$key]['image_number']          = isset($ads['image_number']) ? $ads['image_number'] : '';
+                        $quads_options[$key]['image_caption']         = isset($ads['image_caption']) ? $ads['image_caption'] : '';
+                        $quads_options[$key]['enable_on_end_of_post'] = isset($ads['enable_on_end_of_post']) ? $ads['enable_on_end_of_post'] : '';
                     }
 
                 }
@@ -389,12 +407,11 @@ function quads_filter_default_ads_new( $content ) {
                 $end_of_post  = isset($ads['enable_on_end_of_post']) ? $ads['enable_on_end_of_post'] : false;
  
                 // placeholder string for custom ad spots
-                if((isset($ad_meta['random_ads_list'][0]) && !empty($ad_meta['random_ads_list'][0])) ||(isset($ads['post_meta']['quads_ad_old_id']) && !empty($ads['random_ads_list'][0]))){
-                       $cusads = '<!--CusRnd'.$add_sl.'-->'; 
+                if(isset($ads['random_ads_list']) && !empty($ads['random_ads_list'])){
+                       $cusads = '<!--CusRnd'.$ads['ad_id'].'-->'; 
                 }else{
-                    $cusads = '<!--CusAds'.$i.'-->';
+                    $cusads = '<!--CusAds'.$ads['ad_id'].'-->';
                 }
-                
                 switch ($position) {
 
                     case 'beginning_of_post':                          
@@ -905,30 +922,27 @@ function quads_parse_random_quicktag_ads($content){
  */
  function quads_parse_random_ads_new($content) {
 
- global $quads_options;
  $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
 
  if( $off_default_ads ) {
  return $content;
 }
 $selected_ads =array();
+$random_ads_list_after =array();
 
     $number_rand_ads = substr_count( $content, '<!--CusRnd' );
     for ( $i = 0; $i <= $number_rand_ads - 1; $i++ ) {
      
          preg_match("#<!--CusRnd(.+?)-->#si", $content, $match);
-         $id = $match['1'];
-         $ad_id = !empty($quads_options['ads']['ad' . $id ]['ad_id']) ? $quads_options['ads']['ad' . $id ]['ad_id'] : '';
+         $ad_id = $match['1'];
          if(!empty($ad_id)){
-
             $ad_meta = get_post_meta($ad_id, '',true);
          }
-       
+      
        $random_ads_list = unserialize($ad_meta['random_ads_list']['0']);
 
        if (!is_array($random_ads_list)) return $content; 
         $temp_array =array();
-        // echo "<pre>";exit(print_r($random_ads_list)); 
         foreach ($random_ads_list as $radom_ad ) {
             if (isset($radom_ad['value']))
            $temp_array[] = $radom_ad['value'];
@@ -938,16 +952,8 @@ $selected_ads =array();
        shuffle($keys); 
        $randomid = $random_ads_list_after[$keys[0]]; 
        $selected_ads[] = $randomid;
-
-       $ad_meta = get_post_meta($randomid, '',true);
-       if(isset($ad_meta['quads_ad_old_id']['0'])){
-
-           $ad_name = (int) filter_var($ad_meta['quads_ad_old_id']['0'], FILTER_SANITIZE_NUMBER_INT);
-
-           $content = quads_replace_ads( $content, 'CusRnd' . $id, $ad_name);}
-     } 
-
-
+           $content = quads_replace_ads_new( $content, 'CusRnd' . $ad_id, $randomid);
+}
      return $content;
 
    }
@@ -1053,7 +1059,7 @@ function quads_parse_default_ads( $content ) {
     for ( $i = 0; $i <= count( $adsArrayCus ); $i++ ) {
         
         if( isset( $adsArrayCus[$i] ) && strpos( $content, '<!--CusAds' . $adsArrayCus[$i] . '-->' ) !== false && in_array( $adsArrayCus[$i], $adsArray ) ) {
-            
+             
             $content = quads_replace_ads( $content, 'CusAds' . $adsArrayCus[$i], $adsArrayCus[$i] );
 
             // Create array $adsRandom for quads_parse_random_ads() parsing functions to make sure that the random function 
@@ -1064,6 +1070,39 @@ function quads_parse_default_ads( $content ) {
                 $adsRandom = quads_del_element($adsRandom, array_search($adsArrayCus[$i-1], $adsRandom));
             }
             
+            $visibleContentAds += 1;
+            //quads_set_ad_count_content();
+            //if( quads_ad_reach_max_count() || $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
+            //wp_die(quads_get_max_allowed_post_ads( $content ));
+
+            if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
+             
+                $content = quads_clean_tags( $content );
+            }
+        }
+    }
+    return $content;
+}
+function quads_parse_default_ads_new( $content ) {
+    global $adsArrayCus, $adsRandom, $adsArray, $visibleContentAds;
+     
+    $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
+
+    if( $off_default_ads ) { // disabled default ads
+        return $content;
+    }
+
+
+    $number_rand_ads = substr_count( $content, '<!--CusRnd' );
+    for ( $i = 0; $i <= $number_rand_ads - 1; $i++ ) {
+
+         preg_match("#<!--CusAds(.+?)-->#si", $content, $match);
+         $ad_id = $match['1'];
+
+        if( strpos( $content, '<!--CusAds' . $ad_id . '-->' ) !== false )  {
+            $content = quads_replace_ads( $content, 'CusAds' . $ad_id, $ad_id );
+
+
             $visibleContentAds += 1;
             //quads_set_ad_count_content();
             //if( quads_ad_reach_max_count() || $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
@@ -1115,6 +1154,41 @@ function quads_replace_ads($content, $quicktag, $id) {
 }
 
 /**
+ * Replace ad code in content
+ * 
+ * @global type $quads_options
+ * @param string $content
+ * @param string $quicktag Quicktag
+ * @param string $id id of the ad
+ * @return type
+ */
+function quads_replace_ads_new($content, $quicktag, $id) {
+        global $quads_options;
+
+    if( strpos($content,'<!--'.$quicktag.'-->')===false ) { 
+            return $content; 
+        }
+
+           $ad_meta = get_post_meta($id, '',true);
+    if (isset($ad_meta['code'][0])) {
+                
+                $code = !empty($ad_meta['code'][0]) ? $ad_meta['code'][0] : '';
+                $style = quads_get_inline_ad_style_new($id);
+                $adscode =
+            "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
+            '<div class="quads-location quads-ad' .$id. '" id="quads-ad' .$id. '" style="'.$style.'">'."\n".
+            quads_render_ad('ad'.$id, $code)."\n".
+            '</div>'. "\n";
+              
+    } else {
+        $adscode ='';
+    }   
+    $cont = explode('<!--'.$quicktag.'-->', $content, 2);
+        
+    return $cont[0].$adscode.$cont[1];
+}
+
+/**
  * Get ad inline style
  * 
  * @global arr $quads_options
@@ -1140,6 +1214,37 @@ function quads_get_inline_ad_style( $id ) {
     
     // Margin
     $adsmargin = isset( $quads_options['ads']['ad' . $id]['margin'] ) ? $quads_options['ads']['ad' . $id]['margin'] : '3'; // default option = 3
+    $margin = sprintf( $styleArray[$adsalign], $adsmargin );
+    
+    //wp_die($quads_options['ads']['ad' . $id]['margin']);
+    //wp_die('ad'.$id);
+
+    // Do not create any inline style on AMP site
+    $style =  !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
+    
+    return $style;
+}
+
+function quads_get_inline_ad_style_new( $id ) {
+    global $quads_options;
+
+    if( empty($id) ) {
+        return '';
+    }
+ $ad_meta = get_post_meta($id, '',true);
+
+    // Basic style
+    $styleArray = array(
+        'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
+        'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
+        'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
+        'float:none;margin:%1$dpx;');
+    
+    // Alignment
+    $adsalign = ( int )$ad_meta['align'][0];
+    
+    // Margin
+    $adsmargin = isset( $ad_meta['margin'][0] ) ? $ad_meta['margin'][0] : '3'; // default option = 3
     $margin = sprintf( $styleArray[$adsalign], $adsmargin );
     
     //wp_die($quads_options['ads']['ad' . $id]['margin']);

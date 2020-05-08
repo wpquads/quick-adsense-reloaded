@@ -179,7 +179,7 @@ foreach($quads_settings['ads'] as $key2 => $value2){
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';
                     $visibility_include[0]['value']['label'] = 'post';
-                    $visibility_include[0]['type']['value'] = 'post';
+                    $visibility_include[0]['value']['value'] = 'post';
                     $value['visibility_include'] = $visibility_include;
                     $value['ad_type']       = 'random_ads';
                     $value['random_ads_list']   = $random_ads_list;
@@ -198,7 +198,7 @@ foreach($quads_settings['ads'] as $key2 => $value2){
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';
                     $visibility_include[0]['value']['label'] = 'post';
-                    $visibility_include[0]['type']['value'] = 'post';
+                    $visibility_include[0]['value']['value'] = 'post';
                     $value['visibility_include'] = $visibility_include;
                     $value['ad_type']       = 'random_ads';
                     $value['random_ads_list']   = $random_ads_list;
@@ -220,7 +220,7 @@ foreach($quads_settings['ads'] as $key2 => $value2){
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';
                     $visibility_include[0]['value']['label'] = 'post';
-                    $visibility_include[0]['type']['value'] = 'post';
+                    $visibility_include[0]['value']['value'] = 'post';
                     $value['visibility_include'] = $visibility_include;
                     $value['ad_type']       = 'random_ads';
                     $value['random_ads_list']   = $random_ads_list;
@@ -241,7 +241,7 @@ foreach($quads_settings['ads'] as $key2 => $value2){
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';
                     $visibility_include[0]['value']['label'] = 'post';
-                    $visibility_include[0]['type']['value'] = 'post';
+                    $visibility_include[0]['value']['value'] = 'post';
                     $value['visibility_include'] = $visibility_include;
                     $value['ad_type']       = 'random_ads';
                     $value['random_ads_list']   = $random_ads_list;
@@ -261,7 +261,7 @@ foreach($quads_settings['ads'] as $key2 => $value2){
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';
                     $visibility_include[0]['value']['label'] = 'post';
-                    $visibility_include[0]['type']['value'] = 'post';
+                    $visibility_include[0]['value']['value'] = 'post';
                     $value['visibility_include'] = $visibility_include;
                     $value['ad_type']       = 'random_ads';
                     $value['random_ads_list']   = $random_ads_list;
@@ -281,7 +281,7 @@ foreach($quads_settings['ads'] as $key2 => $value2){
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';
                     $visibility_include[0]['value']['label'] = 'post';
-                    $visibility_include[0]['type']['value'] = 'post';
+                    $visibility_include[0]['value']['value'] = 'post';
                     $value['visibility_include'] = $visibility_include;
                     $value['ad_type']       = 'random_ads';
                     $value['random_ads_list']   = $random_ads_list;
@@ -290,6 +290,8 @@ foreach($quads_settings['ads'] as $key2 => $value2){
                     $value['enable_on_end_of_post'] = $quads_settings['pos6']['Par1Con'];  
                     $value['label']         = 'Random ads after paragraph 1';  
                     $value['random']        = true; 
+                    $value['quads_ad_old_id']         = 'ad'.$ad_count;
+                     $ad_count++;
                     $parameters['quads_post_meta']  = $value;
                     $this->api_service->updateAdData($parameters);  
                 }
@@ -301,7 +303,7 @@ foreach($quads_settings['ads'] as $key2 => $value2){
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';
                     $visibility_include[0]['value']['label'] = 'post';
-                    $visibility_include[0]['type']['value'] = 'post';
+                    $visibility_include[0]['value']['value'] = 'post';
                     $value['visibility_include'] = $visibility_include;
                     $value['ad_type']       = 'random_ads';
                     $value['random_ads_list']   = $random_ads_list;
@@ -309,7 +311,9 @@ foreach($quads_settings['ads'] as $key2 => $value2){
                     $value['paragraph_number']  = $quads_settings['pos7']['Par2Nup'];
                     $value['enable_on_end_of_post'] = $quads_settings['pos7']['Par2Con'];
                     $value['label']         = 'Random ads after paragraph 2'; 
-                    $value['random']        = true;  
+                    $value['random']        = true; 
+                    $value['quads_ad_old_id']         = 'ad'.$ad_count;
+                     $ad_count++; 
                     $parameters['quads_post_meta']  = $value;
                     $this->api_service->updateAdData($parameters);  
                 }
@@ -321,7 +325,7 @@ foreach($quads_settings['ads'] as $key2 => $value2){
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';
                     $visibility_include[0]['value']['label'] = 'post';
-                    $visibility_include[0]['type']['value'] = 'post';
+                    $visibility_include[0]['value']['value'] = 'post';
                     $value['visibility_include'] = $visibility_include;
                     $value['ad_type']       = 'random_ads';
                     $value['random_ads_list']   = $random_ads_list;
@@ -330,6 +334,8 @@ foreach($quads_settings['ads'] as $key2 => $value2){
                     $value['enable_on_end_of_post']         = $quads_settings['pos8']['Par3Con']; 
                     $value['label']         = 'Random ads after paragraph 3';  
                     $value['random']        = true; 
+                    $value['quads_ad_old_id']         = 'ad'.$ad_count;
+                     $ad_count++;
                     $parameters['quads_post_meta']  = $value;
                     $this->api_service->updateAdData($parameters);  
                 }
@@ -341,7 +347,7 @@ foreach($quads_settings['ads'] as $key2 => $value2){
                     $visibility_include[0]['type']['label'] = 'Post Type';
                     $visibility_include[0]['type']['value'] = 'post_type';
                     $visibility_include[0]['value']['label'] = 'post';
-                    $visibility_include[0]['type']['value'] = 'post';
+                    $visibility_include[0]['value']['value'] = 'post';
                     $value['visibility_include'] = $visibility_include;
                     $value['ad_type']       = 'random_ads';
                     $value['random_ads_list']   = $random_ads_list;
@@ -350,6 +356,8 @@ foreach($quads_settings['ads'] as $key2 => $value2){
                     $value['image_number']   = $quads_settings['pos9']['Img1Con']; 
                     $value['label']         = 'Random ads after image';  
                     $value['random']        = true; 
+                    $value['quads_ad_old_id']         = 'ad'.$ad_count;
+                     $ad_count++;
                     $parameters['quads_post_meta']  = $value;
                     $this->api_service->updateAdData($parameters);  
                 }
