@@ -12,7 +12,7 @@ class QUADS_Ad_Migration {
             $upgrade_option = get_option('quads_ad_migrated_to_new_desing_70');
 
             if(!$upgrade_option && ! isset( $quads_migration_flag )){
-              
+              update_option('quads_ad_migrated_to_new_desing_70', date("Y-m-d")); 
                 $ads = array();
 
                 $quads_settings = get_option( 'quads_settings' );   
@@ -175,7 +175,7 @@ class QUADS_Ad_Migration {
                 }
 
                 $quads_migration_flag = true;
-                update_option('quads_ad_migrated_to_new_desing_70', date("Y-m-d"));  
+                 
 
             }
          
