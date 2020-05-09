@@ -1,14 +1,25 @@
 var strict;
-function quads_switch_version(toversion){
-
+function quads_switch_version(toversion,selector){
+jQuery(selector).attr('onClick', "");
+return true;
     var data = {
         action: 'quads_change_mode',
         mode: toversion,
         nonce: quads.nonce,
     };        
     jQuery.post(ajaxurl, data, function (resp, status, xhr) {
+var data = {
+        action: 'quads_sync_random_ads_in_new_design',
+        nonce: quads.nonce,
+    };
+    jQuery.post(ajaxurl, data, function (resp, status, xhr) {
 
-        window.location.href = quads.path + '/wp-admin/admin.php?page=quads-settings';                      
+        window.location.href = quads.path + '/wp-admin/admin.php?page=quads-settings';  
+
+    }).fail(function (xhr) { // Will be executed when $.post() fails
+        window.location.href = quads.path + '/wp-admin/admin.php?page=quads-settings';  
+    });
+                           
 
     }).fail(function (xhr) { // Will be executed when $.post() fails
         quads_show_message('Ajax Error: ' + xhr.status + ' ' + xhr.statusText);            
@@ -17,8 +28,8 @@ function quads_switch_version(toversion){
 
 jQuery(document).ready(function ($) {
 
-$('a[href$="quads_switch_to_new"]').removeAttr("href").attr('onClick', "quads_switch_version('new');");
-$('a[href$="quads_switch_to_old"]').removeAttr("href").attr('onClick', "quads_switch_version('old');");
+$('a[href$="quads_switch_to_new"]').removeAttr("href").attr('onClick', "quads_switch_version('new',this);");
+$('a[href$="quads_switch_to_old"]').removeAttr("href").attr('onClick', "quads_switch_version('old',this);");
 
     $(".wpquads-send-query").on("click", function(e){
         e.preventDefault();   

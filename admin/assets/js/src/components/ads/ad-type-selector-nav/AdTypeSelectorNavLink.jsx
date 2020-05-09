@@ -15,7 +15,8 @@ class AdTypeSelectorNavLink extends Component {
                     ],
            All_ad_network: [
                     {ad_type:'adsense',ad_type_name:'AdSense'},
-                    {ad_type:'plain_text',ad_type_name:'Plain Text / HTML / JS'},               
+                    {ad_type:'plain_text',ad_type_name:'Plain Text / HTML / JS'}, 
+                    {ad_type:'random_ads',ad_type_name:'Random Ads'},              
                     ]          
        };       
       } 
@@ -30,6 +31,9 @@ class AdTypeSelectorNavLink extends Component {
     
             case 'plain_text':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/custom_code.png';
+              break;
+              case 'random_ads':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/random_ads.png';
               break;
           
             default:

@@ -30,6 +30,7 @@ class QuadsAdvancePosition extends Component {
           <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
           <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>          
         </select> 
+           <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div class="quads_form_msg"><span class="material-icons">error_outline</span>Select Where Will The AD Appear</div></span> : ''}</div>
         </div> 
 
           <div>

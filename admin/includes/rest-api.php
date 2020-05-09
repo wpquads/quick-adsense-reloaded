@@ -421,9 +421,8 @@ class QUADS_Ad_Setup_Api {
             if(isset($_GET['page'])){
                 $paged    = sanitize_text_field($_GET['page']);
             }
-            
-            if(isset($_GET['search_param'])){
-                $search_param = sanitize_text_field($_GET['search_param']);
+            if(isset($_GET['posts_per_page'])){
+                $rvcount = sanitize_text_field($_GET['posts_per_page']);
             }            
             $result = $this->api_service->getAdDataByParam($post_type, $attr, $rvcount, $paged, $offset, $search_param);                       
             return $result;
