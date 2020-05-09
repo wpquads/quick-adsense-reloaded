@@ -26,15 +26,15 @@ class QuadsUserTargeting extends Component {
 
       multiTypeOptions : [
         {label:'Device Type', value:'device_type'},
-        // {label:'Browser Language', value:'browser_language'},
-        // // {label:' Logged In', value:'logged_in'},
-        // {label:'User Agent', value:'user_agent'},
-        // {label:'User Type', value:'user_type'},                
-        // {label:'Geo Location', value:'geo_location'},
+        {label:'Browser Language', value:'browser_language'},
+        {label:' Logged In', value:'logged_in'},
+        {label:'User Agent', value:'user_agent'},
+        {label:'User Type', value:'user_type'},                
+        //{label:'Geo Location', value:'geo_location'},
 
-        // {label:' Cookie', value:'cookie'},
-        // {label:' URL Parameter ', value:'url_parameter'},
-        // {label:' Referring URL ', value:'referrer_url'},        
+        {label:' Cookie', value:'cookie'},
+        {label:' URL Parameter ', value:'url_parameter'},
+        {label:' Referring URL ', value:'referrer_url'},        
       ],
       multiTypeTargetOption : {
         device_type:[

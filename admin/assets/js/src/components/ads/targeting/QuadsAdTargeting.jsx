@@ -41,10 +41,10 @@ class QuadsAdTargeting extends Component {
                   parentState                  ={this.props.parentState} 
                   updateVisibility             ={this.props.updateVisibility}
                 />
-                {quads_localize_data.is_pro ? <QuadsUserTargeting 
+                <QuadsUserTargeting 
                   parentState                  ={this.props.parentState} 
                   updateVisitorTarget          ={this.props.updateVisitorTarget}
-                />:''}                
+                />          
               <div class="quads-btn-navigate">
                 <div className="quads-next"><a onClick={this.props.publish} className="quads-btn quads-btn-primary">{page.action == 'edit' ? 'Update' : 'Publish'}</a></div>
                 <div className=""><a onClick={this.props.movePrev} className="quads-btn quads-btn-primary">{__('Prev', 'quick-adsense-reloaded')}</a></div>

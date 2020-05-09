@@ -282,7 +282,6 @@ function quads_is_visitor_on($ads){
       }else{
           $response = true;
       }
-
       if($visibility_exclude){ 
         
         foreach ($visibility_exclude as $visibility){
@@ -296,9 +295,7 @@ function quads_is_visitor_on($ads){
       }
       
       if(!empty($include)){
-
         $include =   array_filter(array_unique($include));
-
         if(isset($include[0])){
             $response = true;
         }
@@ -376,10 +373,8 @@ function quads_visitor_comparison_logic_checker($visibility){
     $v_type       = $visibility['type']['value'];
     $v_id         = $visibility['value']['value'];    
     $result       = false; 
-    
     // Get all the users registered
     $user       = wp_get_current_user();
-
     switch ($v_type) {
                    
         case 'device_type':
@@ -396,99 +391,70 @@ function quads_visitor_comparison_logic_checker($visibility){
             }else if($isMobile && !$isTablet){ // Only for mobile
               $device_name  = 'mobile';
             }
-            
              if($v_id == $device_name){
                 $result     = true; 
              }             
         break;
-        case 'referrer_url3':    
-                                      
-                  $referrer_url  = esc_url($_SERVER['HTTP_REFERER']);                      
-                  if(isset($input['key_4']) && $input['key_3']=='url_custom'){
-                  $data = $input['key_4'];   
-                  }
-                  
-                  if ( $comparison == 'equal' ) {
-                      if ( $referrer_url == $data ) {
-                        $result = true;
-                      }
-                  }
-                  if ( $comparison == 'not_equal') {              
-                      if ( $referrer_url != $data ) {
-                        $result = true;
-                      }
-                  }    
-                  
-                  
-                            
+        case 'referrer_url':                   
+            $referrer_url  = esc_url($_SERVER['HTTP_REFERER']);                      
+         
+            if ( $referrer_url == $v_id ) {
+              $result = true;
+            }
+                             
+        break;        
+        case 'browser_language':                      
+          $browser_language = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);                                                     
+          if ( $browser_language == $v_id ) {
+            $result = true;
+          }       
         break;
-        case 'browser_width3':
-          $result = true;
-        break;         
-        case 'browser_language3':                      
-                 $browser_language = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);                                                                     
-                if ( $comparison == 'equal' ) {
-                      if ( $browser_language == $data ) {
-                        $result = true;
-                      }
+        
+        case 'geo_location':     
+           $country_code =  ''; 
+           $saved_ip     =  '';
+           $user_ip      =  quads_get_client_ip();    
+           var_dump($user_ip);
+           $saved_ip_list = array();
+           
+            if(isset($_COOKIE['adsforwp-user-info'])){
+                
+                 $saved_ip_list = $_COOKIE['adsforwp-user-info']; 
+                 $saved_ip = trim(base64_decode($saved_ip_list[0]));	
+                 
+            }						
+           
+           if(!empty($saved_ip_list) && $saved_ip == $user_ip){  
+        
+            if(isset($saved_ip_list[1])){
+                
+                $country_code = trim(base64_decode($saved_ip_list[1])); 
+                
+            }   
+                                
+           }                                                                                             
+            if ( $comparison == 'equal' ) {
+                  if ( $country_code == $data ) {
+                    $result = true;
+                  }
+            }
+            if ( $comparison == 'not_equal') {              
+                if ( $country_code != $data ) {
+                  $result = true;
                 }
-                  if ( $comparison == 'not_equal') {              
-                      if ( $browser_language != $data ) {
-                        $result = true;
-                      }
-                  }            
+            }            
         break;
         
-        case 'geo_locationd':     
-                 $country_code =  ''; 
-                 $saved_ip     =  '';
-                 $user_ip      =  $this->adsforwp_get_client_ip();    
-                 
-                 $saved_ip_list = array();
-                 
-                  if(isset($_COOKIE['adsforwp-user-info'])){
-                      
-                       $saved_ip_list = $_COOKIE['adsforwp-user-info']; 
-                       $saved_ip = trim(base64_decode($saved_ip_list[0]));	
-                       
-                  }						
-                 
-                 if(!empty($saved_ip_list) && $saved_ip == $user_ip){  
-              
-                  if(isset($saved_ip_list[1])){
-                      
-                      $country_code = trim(base64_decode($saved_ip_list[1])); 
-                      
-                  }   
-                                      
-                 }                                                                                             
-                  if ( $comparison == 'equal' ) {
-                        if ( $country_code == $data ) {
-                          $result = true;
-                        }
-                  }
-                  if ( $comparison == 'not_equal') {              
-                      if ( $country_code != $data ) {
-                        $result = true;
-                      }
-                  }            
-        break;
-        
-        case 'url_parameter3':                      
+        case 'url_parameter':                      
                  $url = esc_url($_SERVER['REQUEST_URI']);                       
-                if ( $comparison == 'equal' ) {                                            
-                      if ( strpos($url,$data) !== false ) {                           
-                        $result = true;
-                      }
-                }
-                  if ( $comparison == 'not_equal') {              
-                      if ( strpos($url,$data) == false ) {
-                        $result = true;
-                      }
-                  }            
+                                                         
+                  if ( strpos($url,$v_id) !== false ) {                           
+                    $result = true;
+                  }
+                    
         break;
         
-        case 'cookie3':          
+        case 'cookie':          
             
             $cookie_arr = $_COOKIE;              
             if($data ==''){
@@ -544,7 +510,7 @@ function quads_visitor_comparison_logic_checker($visibility){
             
         break;
         
-         case 'logged_in_visitor3': 
+         case 'logged_in_visitor': 
           
            if ( is_user_logged_in() ) {
               $status = 'true';
@@ -552,95 +518,25 @@ function quads_visitor_comparison_logic_checker($visibility){
               $status = 'false';
            }
                         
-          if ( $comparison == 'equal' ) {
-              if ( $status == $data ) {
-                $result = true;
-              }
+         
+          if ( $status == $v_id ) {
+            $result = true;
           }
-          if ( $comparison == 'not_equal') {              
-              if ( $status != $data ) {
-                $result = true;
-              }
-          }
+        
 
       break;
       
-      case 'user_agent3':     
-          
-              $user_agent_name = $this->adsforwp_detect_user_agent();  
-          
-              if(isset($input['key_5']) && $input['key_3']=='user_agent_custom'){                                        
-                  if(stripos($_SERVER['HTTP_USER_AGENT'], $input['key_5'])){
-                   $user_agent_name = $input['key_5'];   
-                  }
-                  $data = $input['key_5'];
-              }               
-              if ( $comparison == 'equal' ) {
-              if ( $user_agent_name == $data ) {
-                $result = true;
-              }
-             }
-              if ( $comparison == 'not_equal') {              
-              if ( $user_agent_name != $data ) {
-                $result = true;
-              }
-             }                         
+      case 'user_agent':     
+            $user_agent_name =quads_detect_user_agent();   
+            if ( $user_agent_name == $v_id ) {
+              $result = true;
+            }                 
       break;
-      
-      case 'user_typed':            
-          if ( $comparison == 'equal') {
-              if ( in_array( $data, (array) $user->roles ) ) {
-                  $result = true;
-              }
-          }
-
-          if ( $comparison == 'not_equal') {
-              require_once ABSPATH . 'wp-admin/includes/user.php';
-              // Get all the registered user roles
-              $roles = get_editable_roles();                
-              $all_user_types = array();
-              foreach ($roles as $key => $value) {
-                $all_user_types[] = $key;
-              }
-              // Flip the array so we can remove the user that is selected from the dropdown
-              $all_user_types = array_flip( $all_user_types );
-              // User Removed
-              unset( $all_user_types[$data] );
-              // Check and make the result true that user is not found 
-              if ( in_array( $data, (array) $all_user_types ) ) {
-                  $result = true;
-              }
-          }
-          
-         break;
-      case 'membership_leveld':
-        if( $comparison == 'equal') {
-          if(isset($user->membership_level) && function_exists('pmpro_getAllLevels')){
-            if ( in_array( $data, (array) $user->membership_level->id ) ) {
-                  $result = true;
-            }
-          }
+      case 'user_type':  
+        if ( in_array( $v_id, (array) $user->roles ) ) {
+            $result = true;
         }
-        if ( $comparison == 'not_equal') {
-            require_once ABSPATH . 'wp-admin/includes/user.php';
-            // Get all the registered user roles
-            if(function_exists('pmpro_getAllLevels')){
-              $all_pmpro_levels = pmpro_getAllLevels(false, true);
-              $all_level_types = array();
-              foreach ($all_pmpro_levels as $key => $value) {
-                $all_level_types[] = $value->id;
-              }
-              // Flip the array so we can remove the user that is selected from the dropdown
-              $all_level_types = array_flip( $all_level_types );
-              // User Removed
-              unset( $all_level_types[$data] );
-              // Check and make the result true that user is not found
-              if ( in_array( $data, (array) $all_level_types ) ) {
-                  $result = true;
-              }  
-            }
-        } 
-      break;
+        break;
     default:
       $result = false;
       break;
@@ -648,7 +544,40 @@ function quads_visitor_comparison_logic_checker($visibility){
 
 return $result;
 }
-
+ function quads_get_client_ip() {
+    $ipaddress = '';
+    if (isset($_SERVER['HTTP_CLIENT_IP']))
+        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+    else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    else if(isset($_SERVER['HTTP_X_FORWARDED']))
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+    else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+    else if(isset($_SERVER['HTTP_FORWARDED']))
+        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+    else if(isset($_SERVER['REMOTE_ADDR']))
+        $ipaddress = $_SERVER['REMOTE_ADDR'];
+    else
+        $ipaddress = 'UNKNOWN';
+    return $ipaddress;
+}
+function quads_detect_user_agent( ){
+        $user_agent_name ='others';           
+        if     (strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') || strpos($user_agent, 'OPR/')) $user_agent_name = 'opera';
+        elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Edge'))    $user_agent_name = 'edge';            
+        elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Firefox')) $user_agent_name ='firefox';
+        elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') || strpos($user_agent, 'Trident/7')) $user_agent_name = 'internet_explorer';                        
+        elseif (stripos($_SERVER['HTTP_USER_AGENT'], 'iPod')) $user_agent_name = 'ipod';
+        elseif (stripos($_SERVER['HTTP_USER_AGENT'], 'iPhone')) $user_agent_name = 'iphone';
+        elseif (stripos($_SERVER['HTTP_USER_AGENT'], 'iPad')) $user_agent_name = 'ipad';
+        elseif (stripos($_SERVER['HTTP_USER_AGENT'], 'Android')) $user_agent_name = 'android';
+        elseif (stripos($_SERVER['HTTP_USER_AGENT'], 'webOS')) $user_agent_name = 'webos';
+        elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome'))  $user_agent_name = 'chrome';
+        elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Safari'))  $user_agent_name = 'safari';
+        
+        return $user_agent_name;
+}
 
 function quads_comparison_logic_checker($visibility){
   
