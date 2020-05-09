@@ -54,7 +54,15 @@ function quads_check_ad_blocker() {
  * @return void
  */
 function quads_load_admin_scripts( $hook ) {
+$screens = get_current_screen();
+$currentScreen = '';
+if(is_object($screens)){
+    $currentScreen = $screens->base;
+    if($currentScreen == 'toplevel_page_quads-settings'){
         remove_all_actions('admin_notices');
+    }
+}
+      
        $quads_mode = get_option('quads-mode');
           if($quads_mode != 'new'){
     add_action( 'admin_notices', 'quads_admin_messages' );
