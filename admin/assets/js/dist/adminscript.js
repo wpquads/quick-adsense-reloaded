@@ -55460,20 +55460,20 @@ var QuadsAdConfig = /*#__PURE__*/function (_Component) {
           getAdsenseCode: this.props.getAdsenseCode,
           openModal: this.props.openModal,
           closeModal: this.props.closeModal
-        }))), quads_localize_data.is_pro ? /*#__PURE__*/_react["default"].createElement("div", {
+        }))), /*#__PURE__*/_react["default"].createElement("div", {
           className: "quads-settings-group"
         }, /*#__PURE__*/_react["default"].createElement(_QuadsAMPCompatibility["default"], {
           ad_type: page.ad_type,
           parentState: this.props.parentState,
           adFormChangeHandler: this.props.adFormChangeHandler
-        })) : "", this.props.parentState.ad_type != "random_ads" ? /*#__PURE__*/_react["default"].createElement("div", {
+        })), this.props.parentState.ad_type != "random_ads" ? /*#__PURE__*/_react["default"].createElement("div", {
           className: "quads-settings-group"
         }, /*#__PURE__*/_react["default"].createElement(_QuadsLayout["default"], {
           ad_type: page.ad_type,
           parentState: this.props.parentState,
           adFormChangeHandler: this.props.adFormChangeHandler
         })) : "", /*#__PURE__*/_react["default"].createElement("div", {
-          "class": "quads-btn-navigate"
+          className: "quads-btn-navigate"
         }, /*#__PURE__*/_react["default"].createElement("div", {
           className: "quads-next",
           onClick: this.props.moveNext
@@ -55691,7 +55691,7 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
     value: function componentDidUpdate() {
       var random_ads_list = this.state.random_ads_list;
 
-      if (random_ads_list.length > 0) {
+      if (random_ads_list && random_ads_list.length > 0) {
         this.props.updateRandomAds(random_ads_list);
       }
     }

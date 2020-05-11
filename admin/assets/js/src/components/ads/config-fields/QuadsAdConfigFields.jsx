@@ -49,7 +49,7 @@ addIncluded = (e) => {
     componentDidUpdate (){
     
     const random_ads_list = this.state.random_ads_list; 
-    if(random_ads_list.length > 0 ){
+    if(random_ads_list &&random_ads_list.length > 0 ){
       this.props.updateRandomAds(random_ads_list);
     }
     
