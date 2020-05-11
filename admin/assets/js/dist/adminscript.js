@@ -64062,7 +64062,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
               className: "quads-general-helper",
               href: "#"
             }), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "quads-message"
+              className: "quads-message bottom"
             }, "Check how many visitors are using ad blockers in your Google Analytics account from the event tracking in ", /*#__PURE__*/_react["default"].createElement("i", null, "Google Analytics->Behavior->Events"), ". This only works if your visitors are using regular ad blockers like 'adBlock'. There are browser plugins which block all external requests like the  software uBlock origin. This also block google analytics and as a result you do get any analytics data at all."))) : '', quads_localize_data.is_pro ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", {
               htmlFor: "ad_blocker_message"
             }, __('Ask user to deactivate ad blocker', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
@@ -64075,7 +64075,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
               className: "quads-general-helper",
               href: "#"
             }), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "quads-message"
+              className: "quads-message bottom"
             }, "If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker. ", /*#__PURE__*/_react["default"].createElement("a", {
               href: "http://wpquads.com/docs/customize-ad-blocker-notice/",
               target: "_blank"
@@ -64091,7 +64091,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
               className: "quads-general-helper",
               href: "#"
             }), /*#__PURE__*/_react["default"].createElement("div", {
-              className: "quads-message"
+              className: "quads-message bottom"
             }, "Check this box if you would like ", /*#__PURE__*/_react["default"].createElement("strong", null, "Settings->WPQUADS"), " to completely remove all of its data when the plugin is deleted."))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", {
               htmlFor: "debug_mode"
             }, __('Debug Mode', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {

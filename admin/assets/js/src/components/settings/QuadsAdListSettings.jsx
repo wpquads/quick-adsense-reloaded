@@ -759,7 +759,7 @@ handleMultiPluginsChange = (option) => {
                         <tr>
                        <th><label   htmlFor="analytics">{__('Google Analytics Integration', 'quick-adsense-reloaded')}</label></th>
                         <td><input  id="analytics" type="checkbox" onChange={this.formChangeHandler} name="analytics" checked={settings.analytics} />
-                        <a className="quads-general-helper" href="#"></a><div className="quads-message" >Check how many visitors are using ad blockers in your Google Analytics account from the event tracking in <i>Google Analytics-&gt;Behavior-&gt;Events</i>. This only works if your visitors are using regular ad blockers like 'adBlock'. There are browser plugins which block all external requests like the  software uBlock origin. This also block google analytics and as a result you do get any analytics data at all.</div></td>
+                        <a className="quads-general-helper" href="#"></a><div className="quads-message bottom" >Check how many visitors are using ad blockers in your Google Analytics account from the event tracking in <i>Google Analytics-&gt;Behavior-&gt;Events</i>. This only works if your visitors are using regular ad blockers like 'adBlock'. There are browser plugins which block all external requests like the  software uBlock origin. This also block google analytics and as a result you do get any analytics data at all.</div></td>
                       </tr>
 
                        :''}
@@ -767,13 +767,13 @@ handleMultiPluginsChange = (option) => {
                       <tr>
                       <th><label htmlFor="ad_blocker_message">{__('Ask user to deactivate ad blocker', 'quick-adsense-reloaded')}</label></th>
                        <td><input id="ad_blocker_message" type="checkbox" onChange={this.formChangeHandler} name="ad_blocker_message" checked={settings.ad_blocker_message} />
-                       <a className="quads-general-helper" href="#"></a><div className="quads-message">If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker. <a href="http://wpquads.com/docs/customize-ad-blocker-notice/" target="_blank">Read here</a> how to customize colors and text.</div></td>
+                       <a className="quads-general-helper" href="#"></a><div className="quads-message bottom">If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker. <a href="http://wpquads.com/docs/customize-ad-blocker-notice/" target="_blank">Read here</a> how to customize colors and text.</div></td>
                      </tr>
                      :''}                      
                       <tr>
                        <th><label htmlFor="uninstall_on_delete">{__('Delete Data on Uninstall?', 'quick-adsense-reloaded')}</label></th>
                         <td><input id="uninstall_on_delete" type="checkbox" onChange={this.formChangeHandler} name="uninstall_on_delete" checked={settings.uninstall_on_delete} />
-                        <a className="quads-general-helper" href="#"></a><div className="quads-message" >Check this box if you would like <strong>Settings-&gt;WPQUADS</strong> to completely remove all of its data when the plugin is deleted.</div>
+                        <a className="quads-general-helper" href="#"></a><div className="quads-message bottom" >Check this box if you would like <strong>Settings-&gt;WPQUADS</strong> to completely remove all of its data when the plugin is deleted.</div>
                         </td>
                       </tr>
                       <tr>
