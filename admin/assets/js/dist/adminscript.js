@@ -60803,7 +60803,17 @@ var QuadsLayout = /*#__PURE__*/function (_Component) {
         className: "quads-panel"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-panel-body"
-      }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Align', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
+      }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, quads_localize_data.is_pro ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
+        name: "adlabel",
+        value: post_meta.adlabel,
+        onChange: this.props.adFormChangeHandler
+      }, /*#__PURE__*/_react["default"].createElement("option", {
+        value: "none"
+      }, __('No Label', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "above"
+      }, __('Above Ads', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "below"
+      }, __('Below Ads', 'quick-adsense-reloaded'))))) : null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Align', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
         name: "align",
         value: post_meta.align,
         onChange: this.props.adFormChangeHandler
@@ -63941,7 +63951,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
         return /*#__PURE__*/_react["default"].createElement("li", {
           key: key
         }, error.line, " : ", _this2.getErrorMessage(error.type));
-      }))) : '', /*#__PURE__*/_react["default"].createElement("div", {
+      }))) : null, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-modal-content"
       }, /*#__PURE__*/_react["default"].createElement("textarea", {
         cols: "80",
@@ -63952,7 +63962,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
       }), /*#__PURE__*/_react["default"].createElement("a", {
         className: "button",
         onClick: this.validateAdstxt
-      }, __('OK', 'quick-adsense-reloaded'))))) : '', this.state.global_excluder_modal ? /*#__PURE__*/_react["default"].createElement("div", {
+      }, __('OK', 'quick-adsense-reloaded'))))) : null, this.state.global_excluder_modal ? /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-modal-popup"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-modal-popup-content"
@@ -63992,7 +64002,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
       }))))), /*#__PURE__*/_react["default"].createElement("a", {
         className: "quads-btn quads-btn-primary",
         onClick: this.saveGlobalExcluder
-      }, "OK")))) : ''), /*#__PURE__*/_react["default"].createElement("div", {
+      }, "OK")))) : null), /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-settings-main"
       }, /*#__PURE__*/_react["default"].createElement(_QuadsAdSettingsNavLink["default"], null), /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-settings-content"
@@ -64035,7 +64045,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
             })), _this2.state.global_excluder_enabled ? /*#__PURE__*/_react["default"].createElement("span", {
               onClick: _this2.open_global_excluder,
               className: "quads-generic-icon dashicons dashicons-admin-generic"
-            }) : '')) : '')));
+            }) : null)) : null)));
 
           case "settings_tools":
             return /*#__PURE__*/_react["default"].createElement("div", {
@@ -64056,7 +64066,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
               href: "#"
             }), /*#__PURE__*/_react["default"].createElement("div", {
               className: "quads-message bottom"
-            }, "Check how many visitors are using ad blockers in your Google Analytics account from the event tracking in ", /*#__PURE__*/_react["default"].createElement("i", null, "Google Analytics->Behavior->Events"), ". This only works if your visitors are using regular ad blockers like 'adBlock'. There are browser plugins which block all external requests like the  software uBlock origin. This also block google analytics and as a result you do get any analytics data at all."))) : '', quads_localize_data.is_pro ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", {
+            }, "Check how many visitors are using ad blockers in your Google Analytics account from the event tracking in ", /*#__PURE__*/_react["default"].createElement("i", null, "Google Analytics->Behavior->Events"), ". This only works if your visitors are using regular ad blockers like 'adBlock'. There are browser plugins which block all external requests like the  software uBlock origin. This also block google analytics and as a result you do get any analytics data at all."))) : null, quads_localize_data.is_pro ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", {
               htmlFor: "ad_blocker_message"
             }, __('Ask user to deactivate ad blocker', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
               id: "ad_blocker_message",
@@ -64072,7 +64082,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
             }, "If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker. ", /*#__PURE__*/_react["default"].createElement("a", {
               href: "http://wpquads.com/docs/customize-ad-blocker-notice/",
               target: "_blank"
-            }, "Read here"), " how to customize colors and text."))) : '', /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", {
+            }, "Read here"), " how to customize colors and text."))) : null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", {
               htmlFor: "uninstall_on_delete"
             }, __('Delete Data on Uninstall?', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
               id: "uninstall_on_delete",
@@ -64099,7 +64109,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
               className: "quads-btn quads-btn-primary",
               id: "copy_system_info",
               onClick: _this2.handleCopy
-            }, __('Copy System Info', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("div", null, _this2.state.copied ? /*#__PURE__*/_react["default"].createElement("span", null, __('System info copied to clipboard', 'quick-adsense-reloaded')) : ''))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Export', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+            }, __('Copy System Info', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("div", null, _this2.state.copied ? /*#__PURE__*/_react["default"].createElement("span", null, __('System info copied to clipboard', 'quick-adsense-reloaded')) : null))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Export', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
               href: "".concat(quads_localize_data.rest_url, "quads-route/export-settings"),
               className: "quads-btn quads-btn-primary"
             }, "Export"), /*#__PURE__*/_react["default"].createElement("p", null, __('Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded')))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Import', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
@@ -64237,12 +64247,12 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
               action: /*#__PURE__*/_react["default"].createElement(_Icon["default"], {
                 onClick: _this2.closeQueryError
               }, "close")
-            }, _this2.state.customer_querey_error) : '', _this2.state.customer_querey_success ? /*#__PURE__*/_react["default"].createElement(_lab.Alert, {
+            }, _this2.state.customer_querey_error) : null, _this2.state.customer_querey_success ? /*#__PURE__*/_react["default"].createElement(_lab.Alert, {
               severity: "success",
               action: /*#__PURE__*/_react["default"].createElement(_Icon["default"], {
                 onClick: _this2.closeQuerySuccess
               }, "close")
-            }, _this2.state.customer_querey_success) : ''));
+            }, _this2.state.customer_querey_success) : null));
 
           case "settings_licenses":
             return /*#__PURE__*/_react["default"].createElement("div", {
@@ -64259,9 +64269,9 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
             }), quads_localize_data.licenses.license == "valid" ? /*#__PURE__*/_react["default"].createElement("a", {
               onClick: _this2.pro_license_key_deactivate,
               className: "quads-btn quads-btn-primary"
-            }, "Deactivate License") : "", "    "), _this2.state.licensemsg ? /*#__PURE__*/_react["default"].createElement("div", {
+            }, "Deactivate License") : null, "    "), _this2.state.licensemsg ? /*#__PURE__*/_react["default"].createElement("div", {
               id: "quads_licensemsg"
-            }, _this2.state.licensemsg) : ""));
+            }, _this2.state.licensemsg) : null));
         }
       }(), /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-save-settings"

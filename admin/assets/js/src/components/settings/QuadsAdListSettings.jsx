@@ -642,13 +642,13 @@ handleMultiPluginsChange = (option) => {
               ))} 
               </ul> 
              </div> 
-            :''}
+            :null}
              <div className="quads-modal-content">
                <textarea cols="80" rows="15" name="adsTxtText" onChange={this.formChangeHandler} value={settings.adsTxtText} />
               <a className="button" onClick={this.validateAdstxt}>{__('OK', 'quick-adsense-reloaded')}</a>
              </div>             
              </div>        
-            </div> : ''
+            </div> : null
             } 
 
             {/* global excluder modal */}
@@ -709,7 +709,7 @@ handleMultiPluginsChange = (option) => {
                             <a className="quads-btn quads-btn-primary" onClick={this.saveGlobalExcluder}>OK</a>
              </div>             
              </div>        
-            </div> : ''
+            </div> : null
             } 
           </div>            
           <div className="quads-settings-main">  
@@ -742,10 +742,10 @@ handleMultiPluginsChange = (option) => {
                          <input id="global_excluder_enabled" type="checkbox" name="global_excluder_enabled" onChange={this.formChangeHandler} checked={settings.global_excluder_enabled} />
                          <span className="quads-slider"></span>
                        </label>                       
-                       {this.state.global_excluder_enabled ? <span onClick={this.open_global_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''}
+                       {this.state.global_excluder_enabled ? <span onClick={this.open_global_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                      </td>
                      </tr>
-                      : ''
+                      : null
                     }                     
                    </tbody>
                  </table>  
@@ -762,14 +762,14 @@ handleMultiPluginsChange = (option) => {
                         <a className="quads-general-helper" href="#"></a><div className="quads-message bottom" >Check how many visitors are using ad blockers in your Google Analytics account from the event tracking in <i>Google Analytics-&gt;Behavior-&gt;Events</i>. This only works if your visitors are using regular ad blockers like 'adBlock'. There are browser plugins which block all external requests like the  software uBlock origin. This also block google analytics and as a result you do get any analytics data at all.</div></td>
                       </tr>
 
-                       :''}
+                       :null}
                       {quads_localize_data.is_pro ? 
                       <tr>
                       <th><label htmlFor="ad_blocker_message">{__('Ask user to deactivate ad blocker', 'quick-adsense-reloaded')}</label></th>
                        <td><input id="ad_blocker_message" type="checkbox" onChange={this.formChangeHandler} name="ad_blocker_message" checked={settings.ad_blocker_message} />
                        <a className="quads-general-helper" href="#"></a><div className="quads-message bottom">If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker. <a href="http://wpquads.com/docs/customize-ad-blocker-notice/" target="_blank">Read here</a> how to customize colors and text.</div></td>
                      </tr>
-                     :''}                      
+                     :null}                      
                       <tr>
                        <th><label htmlFor="uninstall_on_delete">{__('Delete Data on Uninstall?', 'quick-adsense-reloaded')}</label></th>
                         <td><input id="uninstall_on_delete" type="checkbox" onChange={this.formChangeHandler} name="uninstall_on_delete" checked={settings.uninstall_on_delete} />
@@ -784,7 +784,7 @@ handleMultiPluginsChange = (option) => {
                        <th><label htmlFor="copy_system_info">{__('Copy System info', 'quick-adsense-reloaded')}</label></th>
                        <td>
                          <a className="quads-btn quads-btn-primary" id="copy_system_info" onClick={this.handleCopy}>{__('Copy System Info', 'quick-adsense-reloaded')}</a>
-                         <div>{this.state.copied ? <span>{__('System info copied to clipboard', 'quick-adsense-reloaded')}</span> : ''}</div>
+                         <div>{this.state.copied ? <span>{__('System info copied to clipboard', 'quick-adsense-reloaded')}</span> : null}</div>
                        </td>
                       </tr>
                       <tr>
@@ -911,8 +911,8 @@ handleMultiPluginsChange = (option) => {
                     <div>
                       <a className="button quads-premium-cus" onClick={this.sendCustomerQuery}>{__('Send', 'quick-adsense-reloaded')}</a>
                     </div>
-                    {this.state.customer_querey_error ? <Alert severity="error" action={<Icon onClick={this.closeQueryError}>close</Icon>}>{this.state.customer_querey_error}</Alert> : ''}
-                    {this.state.customer_querey_success ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.customer_querey_success}</Alert> : ''}
+                    {this.state.customer_querey_error ? <Alert severity="error" action={<Icon onClick={this.closeQueryError}>close</Icon>}>{this.state.customer_querey_error}</Alert> : null}
+                    {this.state.customer_querey_success ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.customer_querey_success}</Alert> : null}
                   {/* <div>
                     <h3>System Info</h3>
                     <textarea className="quads-system-info" readOnly={true} value={this.state.textToCopy}/>
@@ -932,9 +932,9 @@ handleMultiPluginsChange = (option) => {
                     </div>
                    <div><input value={this.state.quads_wp_quads_pro_license_key} onChange={this.add_license_key} name="quads_wp_quads_pro_license_key" type="text" placeholder="License Key" className="quads-premium-cus" />
                       {quads_localize_data.licenses.license == "valid" ? <a onClick={this.pro_license_key_deactivate} className="quads-btn quads-btn-primary">
-            Deactivate License</a>: ""}    </div> 
+            Deactivate License</a>: null}    </div> 
             {this.state.licensemsg ?
-            <div id="quads_licensemsg">{this.state.licensemsg}</div> : ""}
+            <div id="quads_licensemsg">{this.state.licensemsg}</div> : null}
                     
                   {/* <div>
                     <h3>System Info</h3>
