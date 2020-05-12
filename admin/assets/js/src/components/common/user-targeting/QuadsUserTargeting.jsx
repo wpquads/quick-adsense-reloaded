@@ -407,7 +407,7 @@ class QuadsUserTargeting extends Component {
       var placeholder = 'Search for ' + option.label;
     
       if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url'){
-        placeholder = 'Enter your ' + option.label +' here';
+        placeholder = 'Enter your ' + option.label;
         this.setState({includedTextToggle:false});
         this.setState({multiTypeLeftIncludedValue:option, includedDynamicOptions:type, textTypeRightIncludedValue:'', includedRightPlaceholder:placeholder});
       }else{
@@ -419,7 +419,7 @@ class QuadsUserTargeting extends Component {
     let type = this.state.multiTypeTargetOption[option.value];         
      var placeholder = 'Search for ' + option.label;
       if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url'){
-         placeholder = 'Enter your ' + option.label +' here';
+         placeholder = 'Enter your ' + option.label;
          this.setState({excludedTextToggle:false});
          this.setState({multiTypeLeftExcludedValue:option, excludedDynamicOptions:type, textTypeRightExcludedValue:'', excludedRightPlaceholder:placeholder});
       }else{
