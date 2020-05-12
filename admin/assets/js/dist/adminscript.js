@@ -62797,7 +62797,9 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         className: "quads_form_msg"
       }, /*#__PURE__*/_react["default"].createElement("span", {
         className: "material-icons"
-      }, "error_outline"), "Select Where Will The AD Appear")) : '')), /*#__PURE__*/_react["default"].createElement("div", null, post_meta.position == 'after_paragraph' ? /*#__PURE__*/_react["default"].createElement("input", {
+      }, "error_outline"), "Select Where Will The AD Appear")) : '')), /*#__PURE__*/_react["default"].createElement("div", {
+        className: "position_content"
+      }, /*#__PURE__*/_react["default"].createElement("div", null, post_meta.position == 'after_paragraph' ? /*#__PURE__*/_react["default"].createElement("input", {
         min: "1",
         onChange: this.props.adFormChangeHandler,
         name: "paragraph_number",
@@ -62809,33 +62811,29 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         name: "image_number",
         value: post_meta.image_number,
         type: "number"
-      }) : ''), /*#__PURE__*/_react["default"].createElement("div", null, post_meta.position == 'after_paragraph' ? /*#__PURE__*/_react["default"].createElement("div", {
-        className: "position_content"
-      }, /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
+      }) : ''), /*#__PURE__*/_react["default"].createElement("div", null, post_meta.position == 'after_paragraph' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
         checked: post_meta.enable_on_end_of_post,
         name: "enable_on_end_of_post",
         onChange: this.props.adFormChangeHandler,
         type: "checkbox"
-      }), __('to', 'quick-adsense-reloaded'), " ", /*#__PURE__*/_react["default"].createElement("strong", null, __('End of Post', 'quick-adsense-reloaded')), " ", __('if fewer paragraphs', 'quick-adsense-reloaded'))) : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("div", {
-        className: "position_content"
-      }, /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
+      }), __('to', 'quick-adsense-reloaded'), " ", /*#__PURE__*/_react["default"].createElement("strong", null, __('End of Post', 'quick-adsense-reloaded')), " ", __('if fewer paragraphs', 'quick-adsense-reloaded')) : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
         checked: post_meta.image_caption,
         name: "image_caption",
         onChange: this.props.adFormChangeHandler,
         type: "checkbox"
-      }), __('after', 'quick-adsense-reloaded'), " ", /*#__PURE__*/_react["default"].createElement("strong", null, __('Image\'s outer', 'quick-adsense-reloaded'), " <div> wp-caption"), " ", __('if any.', 'quick-adsense-reloaded')), " ") : '', post_meta.position == 'ad_shortcode' && post_meta.quads_ad_old_id ? /*#__PURE__*/_react["default"].createElement("div", {
-        className: "position_content"
-      }, /*#__PURE__*/_react["default"].createElement("label", null, "Post Shortcode: ", /*#__PURE__*/_react["default"].createElement("input", {
+      }), __('after', 'quick-adsense-reloaded'), " ", /*#__PURE__*/_react["default"].createElement("strong", null, __('Image\'s outer', 'quick-adsense-reloaded'), " <div> wp-caption"), " ", __('if any.', 'quick-adsense-reloaded')) : '', post_meta.position == 'ad_shortcode' && post_meta.quads_ad_old_id ? /*#__PURE__*/_react["default"].createElement("label", null, "Post Shortcode: ", /*#__PURE__*/_react["default"].createElement("input", {
         name: "post_shortcode",
+        id: "post_shortcode",
         type: "text",
         value: '[quads id=' + post_meta.quads_ad_old_id.match(/\d+/) + ']',
         readonly: ""
       }), "PHP:", /*#__PURE__*/_react["default"].createElement("input", {
         name: "php_shortcode",
+        id: "post_shortcode_php",
         type: "text",
-        value: "<?php echo do_shortcode('[quads id=" + post_meta.quads_ad_old_id.match(/\d+/) + "]'); ?>;",
+        value: "<?php echo do_shortcode('[quads id=" + post_meta.quads_ad_old_id.match(/\d+/) + "]'); ?>",
         readonly: ""
-      })), " ") : '')));
+      })) : ''))));
     }
   }]);
 
