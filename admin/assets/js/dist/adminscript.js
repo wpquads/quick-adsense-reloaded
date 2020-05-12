@@ -55726,7 +55726,7 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
           }), show_form_error && post_meta.g_data_ad_client == '' ? /*#__PURE__*/_react["default"].createElement("div", {
             className: "quads_form_msg"
           }, /*#__PURE__*/_react["default"].createElement("span", {
-            "class": "material-icons"
+            className: "material-icons"
           }, "error_outline"), "Enter Data Client ID") : '', " ")), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Data Slot ID', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
             className: show_form_error && post_meta.g_data_ad_slot == '' ? 'quads_form_error' : '',
             value: post_meta.g_data_ad_slot,
@@ -55737,7 +55737,7 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
           }), show_form_error && post_meta.g_data_ad_slot == '' ? /*#__PURE__*/_react["default"].createElement("div", {
             className: "quads_form_msg"
           }, /*#__PURE__*/_react["default"].createElement("span", {
-            "class": "material-icons"
+            className: "material-icons"
           }, "error_outline"), "Enter Data Slot ID") : '')), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Size', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("select", {
             value: post_meta.adsense_type,
             onChange: this.props.adFormChangeHandler,
@@ -55781,9 +55781,9 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
             id: "code",
             name: "code"
           }), show_form_error && post_meta.code == '' ? /*#__PURE__*/_react["default"].createElement("div", {
-            "class": "quads_form_msg"
+            className: "quads_form_msg"
           }, /*#__PURE__*/_react["default"].createElement("span", {
-            "class": "material-icons"
+            className: "material-icons"
           }, "error_outline"), "Enter Plain Text / HTML / JS") : ''))))));
           break;
 
@@ -55809,9 +55809,9 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
           }) : '', /*#__PURE__*/_react["default"].createElement("div", null, this.state.random_ads_list.length <= 0 && show_form_error ? /*#__PURE__*/_react["default"].createElement("span", {
             className: "quads-error"
           }, /*#__PURE__*/_react["default"].createElement("div", {
-            "class": "quads_form_msg"
+            className: "quads_form_msg"
           }, /*#__PURE__*/_react["default"].createElement("span", {
-            "class": "material-icons"
+            className: "material-icons"
           }, "error_outline"), "Select at least one Ad")) : '')), this.state.adsToggle ? /*#__PURE__*/_react["default"].createElement("div", {
             className: "quads-targeting-selection"
           }, /*#__PURE__*/_react["default"].createElement("table", {
@@ -60939,7 +60939,7 @@ var QuadsAdTargeting = /*#__PURE__*/function (_Component) {
         parentState: this.props.parentState,
         updateVisitorTarget: this.props.updateVisitorTarget
       }) : '', /*#__PURE__*/_react["default"].createElement("div", {
-        "class": "quads-btn-navigate"
+        className: "quads-btn-navigate"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-next"
       }, /*#__PURE__*/_react["default"].createElement("a", {
@@ -62191,7 +62191,7 @@ var QuadsUserTargeting = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-panel-body"
       }, /*#__PURE__*/_react["default"].createElement("div", {
-        "class": "quads-user-targeting-label"
+        className: "quads-user-targeting-label"
       }, __('When should the ad display?', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-user-targeting"
       }, /*#__PURE__*/_react["default"].createElement("h2", null, "Included On ", /*#__PURE__*/_react["default"].createElement("a", {
@@ -62587,7 +62587,7 @@ var QuadsVisibility = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-panel-body"
       }, /*#__PURE__*/_react["default"].createElement("div", {
-        "class": "quads-user-targeting-label"
+        className: "quads-user-targeting-label"
       }, __('Which pages would you like to display?', 'quick-adsense-reloaded'), /*#__PURE__*/_react["default"].createElement("div", null, this.state.multiTypeIncludedValue.length <= 0 && show_form_error ? /*#__PURE__*/_react["default"].createElement("span", {
         className: "quads-error"
       }, "Select at least one visibility condition") : '')), /*#__PURE__*/_react["default"].createElement("div", {
@@ -62785,9 +62785,9 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
       }, __('Shortcode (Manual)', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("div", null, show_form_error && post_meta.position == '' ? /*#__PURE__*/_react["default"].createElement("span", {
         className: "quads-error"
       }, /*#__PURE__*/_react["default"].createElement("div", {
-        "class": "quads_form_msg"
+        className: "quads_form_msg"
       }, /*#__PURE__*/_react["default"].createElement("span", {
-        "class": "material-icons"
+        className: "material-icons"
       }, "error_outline"), "Select Where Will The AD Appear")) : '')), /*#__PURE__*/_react["default"].createElement("div", null, post_meta.position == 'after_paragraph' ? /*#__PURE__*/_react["default"].createElement("input", {
         min: "1",
         onChange: this.props.adFormChangeHandler,
@@ -62935,7 +62935,7 @@ var QuadsAdPublish = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-panel-body quads-live-wrapper"
       }, /*#__PURE__*/_react["default"].createElement("div", {
-        "class": "quads_live"
+        className: "quads_live"
       }, /*#__PURE__*/_react["default"].createElement("p", null, __('Your ad is now ' + this.state.title, 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("div", {
         className: "live-one"
       }, /*#__PURE__*/_react["default"].createElement("img", {
@@ -62957,7 +62957,7 @@ var QuadsAdPublish = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react["default"].createElement("span", null, "Share Your"), " Precious Feedback!")), /*#__PURE__*/_react["default"].createElement("div", {
         className: "clear"
       })), /*#__PURE__*/_react["default"].createElement("div", {
-        "class": "live-three"
+        className: "live-three"
       }, /*#__PURE__*/_react["default"].createElement("a", {
         onClick: this.props.movePrev,
         className: "quads-btn live-three-one quads-btn-primary"
@@ -62965,7 +62965,7 @@ var QuadsAdPublish = /*#__PURE__*/function (_Component) {
         to: "".concat(this.props.location.pathname, "?page=quads-settings"),
         className: "quads-btn live-three-two quads-btn-primary"
       }, /*#__PURE__*/_react["default"].createElement("span", {
-        "class": "material-icons live-three-two-dashboard"
+        className: "material-icons live-three-two-dashboard"
       }, "speed"), __('Return to Dashboard', 'quick-adsense-reloaded'))))));
     }
   }]);

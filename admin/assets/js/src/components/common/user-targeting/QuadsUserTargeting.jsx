@@ -489,7 +489,7 @@ excludedToggle = () => {
       <div>{__('Targeting', 'quick-adsense-reloaded')}</div>  
       <div className="quads-panel">
       <div className="quads-panel-body">                 
-      <div class="quads-user-targeting-label">
+      <div className="quads-user-targeting-label">
           {__('When should the ad display?', 'quick-adsense-reloaded')}                     
       </div>
 

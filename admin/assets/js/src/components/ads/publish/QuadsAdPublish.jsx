@@ -42,7 +42,7 @@ class QuadsAdPublish extends Component {
             <div className="quads-settings-group">            
             <div className="quads-panel">
             <div className="quads-panel-body quads-live-wrapper">
-              <div class="quads_live"><p>{__('Your ad is now '+this.state.title, 'quick-adsense-reloaded')}</p></div>
+              <div className="quads_live"><p>{__('Your ad is now '+this.state.title, 'quick-adsense-reloaded')}</p></div>
               <div className="live-one"><img src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/billboardicon.png'} /></div>
               <div className="live-two">
                 <div className="live-two-left">
@@ -57,10 +57,10 @@ class QuadsAdPublish extends Component {
                 </div>
                 <div className="clear"></div>
               </div>
-              <div class="live-three">
+              <div className="live-three">
                 <a onClick={this.props.movePrev} className="quads-btn live-three-one quads-btn-primary">{__('Prev', 'quick-adsense-reloaded')}</a>
                 <Link to={`${this.props.location.pathname}?page=quads-settings`} className="quads-btn live-three-two quads-btn-primary">
-                <span class="material-icons live-three-two-dashboard">speed</span>
+                <span className="material-icons live-three-two-dashboard">speed</span>
                   {__('Return to Dashboard', 'quick-adsense-reloaded')}</Link>
               </div>
             </div>

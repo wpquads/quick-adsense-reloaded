@@ -132,10 +132,10 @@ removeSeleted = (e) => {
                 <table>
                   <tbody>
                     <tr><td><label>{__('Data Client ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.g_data_ad_client == '') ? 'quads_form_error' : ''} value={post_meta.g_data_ad_client} onChange={this.props.adFormChangeHandler} type="text" id="g_data_ad_client" name="g_data_ad_client" />
-                    {(show_form_error && post_meta.g_data_ad_client == '') ? <div className="quads_form_msg"><span class="material-icons">
+                    {(show_form_error && post_meta.g_data_ad_client == '') ? <div className="quads_form_msg"><span className="material-icons">
 error_outline</span>Enter Data Client ID</div> :''} </td></tr>
                     <tr><td><label>{__('Data Slot ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.g_data_ad_slot == '') ? 'quads_form_error' : ''}  value={post_meta.g_data_ad_slot} onChange={this.props.adFormChangeHandler} type="text" id="g_data_ad_slot" name="g_data_ad_slot" />
-                    {(show_form_error && post_meta.g_data_ad_slot == '') ? <div className="quads_form_msg"><span class="material-icons">
+                    {(show_form_error && post_meta.g_data_ad_slot == '') ? <div className="quads_form_msg"><span className="material-icons">
 error_outline
 </span>Enter Data Slot ID</div> :''}</td></tr>
                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
@@ -176,7 +176,7 @@ error_outline
                   <tr>
                   <td><label>{__('Plain Text / HTML / JS', 'quick-adsense-reloaded')}</label></td> 
                   <td><textarea className={(show_form_error && post_meta.code == '') ? 'quads_form_error' : ''}  cols="50" rows="5" value={post_meta.code} onChange={this.props.adFormChangeHandler} id="code" name="code" />
-                  {(show_form_error && post_meta.code == '') ? <div class="quads_form_msg"><span class="material-icons">error_outline</span>Enter Plain Text / HTML / JS</div> : ''}</td>
+                  {(show_form_error && post_meta.code == '') ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>Enter Plain Text / HTML / JS</div> : ''}</td>
                   </tr>
                   </tbody></table>
                   </div>);      
@@ -197,7 +197,7 @@ error_outline
                 </div>
                ) )
               :''}
-              <div>{ (this.state.random_ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div class="quads_form_msg"><span class="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+              <div>{ (this.state.random_ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
              </div>             
         
 
