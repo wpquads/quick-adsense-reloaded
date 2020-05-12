@@ -55790,6 +55790,7 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
         case 'random_ads':
           ad_type_name = 'Random Ads';
           comp_html.push( /*#__PURE__*/_react["default"].createElement("div", {
+            key: "random_ads",
             className: "quads-user-targeting"
           }, /*#__PURE__*/_react["default"].createElement("h2", null, "Select Ads", /*#__PURE__*/_react["default"].createElement("a", {
             onClick: this.adsToggle
@@ -55829,7 +55830,9 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
           break;
 
         default:
-          comp_html.push( /*#__PURE__*/_react["default"].createElement("div", null, __('Ad not found', 'quick-adsense-reloaded')));
+          comp_html.push( /*#__PURE__*/_react["default"].createElement("div", {
+            key: "noads"
+          }, __('Ad not found', 'quick-adsense-reloaded')));
           break;
       }
 
@@ -60800,17 +60803,7 @@ var QuadsLayout = /*#__PURE__*/function (_Component) {
         className: "quads-panel"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-panel-body"
-      }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, quads_localize_data.is_pro ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
-        name: "adlabel",
-        value: post_meta.adlabel,
-        onChange: this.props.adFormChangeHandler
-      }, /*#__PURE__*/_react["default"].createElement("option", {
-        value: "none"
-      }, __('No Label', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
-        value: "above"
-      }, __('Above Ads', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
-        value: "below"
-      }, __('Below Ads', 'quick-adsense-reloaded'))))) : '', /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Align', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
+      }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Align', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
         name: "align",
         value: post_meta.align,
         onChange: this.props.adFormChangeHandler

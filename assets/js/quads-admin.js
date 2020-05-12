@@ -1,7 +1,6 @@
 var strict;
 function quads_switch_version(toversion,selector){
 jQuery(selector).attr('onClick', "");
-return true;
     var data = {
         action: 'quads_change_mode',
         mode: toversion,

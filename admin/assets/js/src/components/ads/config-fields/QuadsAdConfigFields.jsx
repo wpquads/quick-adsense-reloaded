@@ -183,7 +183,7 @@ error_outline
               break; 
                case 'random_ads':                
                  ad_type_name = 'Random Ads';
-                comp_html.push(       <div className="quads-user-targeting"> 
+                comp_html.push(<div key="random_ads" className="quads-user-targeting"> 
        <h2>Select Ads<a onClick={this.adsToggle}><Icon>add_circle</Icon></a>  </h2>
 
                 
@@ -225,7 +225,7 @@ error_outline
               break; 
 
             default:
-              comp_html.push(<div>{__('Ad not found', 'quick-adsense-reloaded')}</div>);
+              comp_html.push(<div key="noads" >{__('Ad not found', 'quick-adsense-reloaded')}</div>);
               break;
           }
               return(
