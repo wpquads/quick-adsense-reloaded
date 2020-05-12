@@ -219,7 +219,7 @@ and open the template in the editor.
     Author     : Magazine3
 */
 .quads-position-dropdown {
-  display: inline-flex; }
+  /*display: inline-flex;*/ }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -1012,6 +1012,12 @@ a.quads-nav-link-active {
   top: 12px;
   left: 13px;
   color: rgba(255, 255, 255, 0.9); }
+
+.amp_configuration {
+  display: inline-block; }
+
+.amp_configuration img {
+  opacity: 50%; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
