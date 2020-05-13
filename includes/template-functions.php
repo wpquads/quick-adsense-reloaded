@@ -926,7 +926,7 @@ function quads_parse_random_quicktag_ads($content){
         shuffle($keys); 
         $randomid = $random_ads_list_after[$keys[0]]; 
         $selected_ads[] = $randomid;
-        $content = quads_replace_ads_new( $content, 'CusRnd' . $ad_id, $randomid);
+        $content = quads_replace_ads_new( $content, 'CusRnd' . $ad_id, $randomid,$ad_meta['enabled_on_amp'][0]);
     }
     return $content;
 
@@ -1122,22 +1122,20 @@ function quads_replace_ads($content, $quicktag, $id) {
  * @param string $id id of the ad
  * @return type
  */
-function quads_replace_ads_new($content, $quicktag, $id) {
+function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
         global $quads_options;
 
     if( strpos($content,'<!--'.$quicktag.'-->')===false ) { 
         return $content; 
     }
-
     $ad_meta = get_post_meta($id, '',true);
     if (isset($ad_meta['code'][0])) {
-                
                 $code = !empty($ad_meta['code'][0]) ? $ad_meta['code'][0] : '';
                 $style = quads_get_inline_ad_style_new($id);
                 $adscode =
             "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
             '<div class="quads-location quads-ad' .$id. '" id="quads-ad' .$id. '" style="'.$style.'">'."\n".
-            quads_render_ad('ad'.$id, $code)."\n".
+            quads_render_ad($ad_meta['quads_ad_old_id'][0], $code,'',$ampsupport)."\n".
             '</div>'. "\n";
               
     } else {

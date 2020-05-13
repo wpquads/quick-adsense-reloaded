@@ -31,7 +31,7 @@ class QuadsLayout extends Component {
                       <option value="below">{__('Below Ads', 'quick-adsense-reloaded')}</option>                        
                     </select>  
                     </td>
-                    </tr> : ''
+                    </tr> : null 
                     }                    
                     <tr><td><label>{__('Align', 'quick-adsense-reloaded')}</label></td>
                       <td>

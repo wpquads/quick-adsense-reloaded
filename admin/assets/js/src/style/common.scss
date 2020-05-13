@@ -203,6 +203,10 @@ and open the template in the editor.
    background-repeat: no-repeat;
 }
 
+.quads-panel-body .quads-position-dropdown  select {
+   width: auto;
+}
+
 /* Remove focus */
 .quads-panel-body select:focus {
  outline: none;
@@ -442,7 +446,7 @@ input:checked + .quads-slider {
     padding: 10px;
     border: 1px solid #FBFBFB;
     border-radius: 2px;
-    background-color: #000;
+    background-color: #F8F8F7;
     position: absolute;
     max-width: 500px;
     z-index: 9999;
@@ -816,5 +820,11 @@ padding: 20px 30px; }
     top: 12px;
     left: 13px;
     color: rgba(255, 255, 255, 0.90);
+}
+.amp_configuration{
+ display: inline-block;
+}
+.amp_configuration img{
+opacity: 50%;
 }
 // css ends ux changes latest

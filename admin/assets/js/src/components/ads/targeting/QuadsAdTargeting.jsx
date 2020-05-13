@@ -18,8 +18,9 @@ class QuadsAdTargeting extends Component {
   render() {
 
     const {__} = wp.i18n;    
-
-    const page = queryString.parse(window.location.search);            
+    const page = queryString.parse(window.location.search); 
+    const post_meta = this.props.parentState.quads_post_meta;
+           
           return (
                 <div>
                 <div className="quads-settings-group">
@@ -36,16 +37,18 @@ class QuadsAdTargeting extends Component {
                 </table>                                 
                 </div>  
                 </div> 
-                </div>                
-                <QuadsVisibility 
-                  parentState                  ={this.props.parentState} 
-                  updateVisibility             ={this.props.updateVisibility}
-                />
+                </div> 
+                {post_meta.position != 'ad_shortcode' ?                   
+                  <QuadsVisibility 
+                    parentState                  ={this.props.parentState} 
+                    updateVisibility             ={this.props.updateVisibility}
+                  />
+                 : ''}
                 {quads_localize_data.is_pro ? <QuadsUserTargeting 
                   parentState                  ={this.props.parentState} 
                   updateVisitorTarget          ={this.props.updateVisitorTarget}
                 />:''}                
-              <div class="quads-btn-navigate">
+              <div className="quads-btn-navigate">
                 <div className="quads-next"><a onClick={this.props.publish} className="quads-btn quads-btn-primary">{page.action == 'edit' ? 'Update' : 'Publish'}</a></div>
                 <div className=""><a onClick={this.props.movePrev} className="quads-btn quads-btn-primary">{__('Prev', 'quick-adsense-reloaded')}</a></div>
                 </div>

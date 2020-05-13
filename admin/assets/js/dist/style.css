@@ -219,7 +219,17 @@ and open the template in the editor.
     Author     : Magazine3
 */
 .quads-position-dropdown {
-  display: inline-flex; }
+  /*display: inline-flex;*/ }
+
+.position_content {
+  display: inline-flex;
+  padding-top: 20px; }
+
+#post_shortcode {
+  width: 132px; }
+
+#post_shortcode_php {
+  width: 380px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -423,6 +433,9 @@ and open the template in the editor.
   background-position: calc(100% - 25px) calc(1em + 6px), calc(100% - 19px) calc(1em + 6px), calc(100% - 2.5em) 0.5em;
   background-size: 6px 6px, 6px 6px, 1px 1.5em;
   background-repeat: no-repeat; }
+
+.quads-panel-body .quads-position-dropdown select {
+  width: auto; }
 
 /* Remove focus */
 .quads-panel-body select:focus {
@@ -641,7 +654,7 @@ input:checked + .quads-slider:before {
   padding: 10px;
   border: 1px solid #FBFBFB;
   border-radius: 2px;
-  background-color: #000;
+  background-color: #F8F8F7;
   position: absolute;
   max-width: 500px;
   z-index: 9999;
@@ -1009,6 +1022,12 @@ a.quads-nav-link-active {
   top: 12px;
   left: 13px;
   color: rgba(255, 255, 255, 0.9); }
+
+.amp_configuration {
+  display: inline-block; }
+
+.amp_configuration img {
+  opacity: 50%; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

@@ -10,11 +10,10 @@ class QuadsAMPCompatibility extends Component {
   } 
   render() {     
     const {__} = wp.i18n;
-
     const {quads_post_meta} = this.props.parentState;      
      return (
        <div>
-      <div>{__('AMP Configuration', 'quick-adsense-reloaded')}</div>
+      <div className='amp_configuration'><img height="20" width="20" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/amp_logo.png'}/> {__('AMP Configuration', 'quick-adsense-reloaded')}</div>
        <div className="quads-panel">
          <div className="quads-panel-body">
           <table>

@@ -23,7 +23,7 @@ if( !defined( 'ABSPATH' ) )
  * @todo create support for widgets
  * @return string HTML js adsense code
  */
-function quads_render_ad( $id, $string, $widget = false ) {
+function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     
     // Return empty string
     if( empty( $id ) ) {
@@ -32,7 +32,7 @@ function quads_render_ad( $id, $string, $widget = false ) {
     
     
     if (quads_is_amp_endpoint()){
-        return quads_render_amp($id);
+        return quads_render_amp($id,$ampsupport);
     }
     
 
@@ -401,21 +401,41 @@ function quads_is_adsense( $id, $string ) {
  * @param int $id
  * @return string
  */
-function quads_render_amp($id){
-    global $quads_options;
-    
-    // quads pro not installed and activated
-    if ( !quads_is_extra() ){
-       return '';
-    }
-    if(isset($quads_options['ads'][$id]['enabled_on_amp']) && isset($quads_options['ads'][$id]['code']) && !empty($quads_options['ads'][$id]['code'])){
-            return $quads_options['ads'][$id]['code'];
+function quads_render_amp($id,$ampsupport=''){
+    global $quads_options,$quads_mode;
+
+    if($quads_mode == 'old'){
+        // quads pro not installed and activated
+        if ( !quads_is_extra() ){
+           return '';
         }
-    // if amp is not activated return empty
-    if (!isset($quads_options['ads'][$id]['amp']) || quads_is_disabled_post_amp() ){
-        return '';
+        if(isset($quads_options['ads'][$id]['amp']) && isset($quads_options['ads'][$id]['code']) && !empty($quads_options['ads'][$id]['code'])){
+                return $quads_options['ads'][$id]['code'];
+            }
+        // if amp is not activated return empty
+        if (!isset($quads_options['ads'][$id]['amp']) || quads_is_disabled_post_amp() ){
+            return '';
+        }
+    }else{
+
+         if((isset($quads_options['ads'][$id]['enabled_on_amp']) && isset($quads_options['ads'][$id]['code']) && !empty($quads_options['ads'][$id]['code']))|| (!empty($ampsupport) && $ampsupport)){
+                if((isset($quads_options['ads'][$id]['enabled_on_amp']) && $quads_options['ads'][$id]['enabled_on_amp']) || (!empty($ampsupport) && $ampsupport)){
+                    if(isset($quads_options['ads'][$id]['code'])){
+                      return  $quads_options['ads'][$id]['code'];
+                    }else if(isset($quads_options['ads'][$id]['post_meta'])){
+                      return $quads_options['ads'][$id]['post_meta']['code'];
+                    }else{
+                       return '';
+                    }
+                }else{
+                    return '';
+                }
+            }
+        // if amp is not activated return empty
+        if (!isset($quads_options['ads'][$id]['enabled_on_amp']) || quads_is_disabled_post_amp() ){
+            return '';
+        }
     }
-    
     if (!empty($quads_options['ads'][$id]['amp_code'])){
         $html = $quads_options['ads'][$id]['amp_code'];
     } else {

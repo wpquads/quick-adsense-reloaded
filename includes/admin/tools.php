@@ -381,7 +381,9 @@ function quads_tools_sysinfo_get() {
 
 	// WordPress active plugins
 	$return .= "\n" . '-- WordPress Active Plugins' . "\n\n";
-	
+	 if ( ! function_exists( 'get_plugins' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
 	$plugins = get_plugins();
 	$active_plugins = get_option( 'active_plugins', array() );
 

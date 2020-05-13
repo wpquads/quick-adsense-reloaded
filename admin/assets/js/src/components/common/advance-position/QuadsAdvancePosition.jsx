@@ -28,11 +28,12 @@ class QuadsAdvancePosition extends Component {
           <option value="after_more_tag">{__('Right after the', 'quick-adsense-reloaded')} &lt;!--more--&gt; {__('tag', 'quick-adsense-reloaded')}</option>
           <option value="before_last_paragraph">{__('Right before the last Paragraph', 'quick-adsense-reloaded')}</option>
           <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
-          <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>          
+          <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>    
+          <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>      
         </select> 
-           <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div class="quads_form_msg"><span class="material-icons">error_outline</span>Select Where Will The AD Appear</div></span> : ''}</div>
+           <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select Where Will The AD Appear</div></span> : ''}</div>
         </div> 
-
+<div className='position_content'>
           <div>
           {post_meta.position == 'after_paragraph' ? <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_number" value={post_meta.paragraph_number}  type="number" /> : ''}         
           {post_meta.position == 'after_image' ? <input min="1" onChange={this.props.adFormChangeHandler} name="image_number" value={post_meta.image_number}  type="number" /> : ''}         
@@ -50,7 +51,14 @@ class QuadsAdvancePosition extends Component {
           <input checked={post_meta.image_caption} name="image_caption" onChange={this.props.adFormChangeHandler} type="checkbox"/>
           {__('after', 'quick-adsense-reloaded')} <strong>{__('Image\'s outer', 'quick-adsense-reloaded')} &lt;div&gt; wp-caption</strong> {__('if any.', 'quick-adsense-reloaded')}
           </label> : ''}
-           
+          {post_meta.position == 'ad_shortcode' &&  post_meta.quads_ad_old_id ?   
+
+          <label>   
+
+          Post Shortcode: <input name="post_shortcode" id="post_shortcode" type="text" value={'[quads id='+(post_meta.quads_ad_old_id).match(/\d+/)+']'} readonly=""/>  
+          PHP:<input name="php_shortcode" id="post_shortcode_php"  type="text" value={"<?php echo do_shortcode('[quads id="+(post_meta.quads_ad_old_id).match(/\d+/)+"]'); ?>"} readonly=""/> 
+          </label> : ''}
+            </div> 
           </div>      
       </div>  
     </div> 
