@@ -60637,7 +60637,7 @@ var QuadsAMPCompatibility = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react["default"].createElement("img", {
         height: "20",
         width: "20",
-        src: "http://localhost/wordpress/wp-content/plugins/quick-adsense-reloaded/admin/assets/js/src/images/amp_logo.png"
+        src: quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/amp_logo.png'
       }), " ", __('AMP Configuration', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-panel"
       }, /*#__PURE__*/_react["default"].createElement("div", {
