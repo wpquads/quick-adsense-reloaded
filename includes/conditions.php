@@ -480,6 +480,13 @@ function quads_visitor_comparison_logic_checker($visibility){
             $result = true;
         }
         break;
+      case 'browser_width':  
+        echo "<script type='text/javascript'>document.cookie = 'quads_browser_width='+screen.width;</script>";
+        $browser_width = $_COOKIE['quads_browser_width']; 
+        if($browser_width==$v_id){
+          $result = true;
+        }
+        break;
     default:
       $result = false;
       break;
