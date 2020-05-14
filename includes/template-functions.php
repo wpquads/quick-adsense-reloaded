@@ -926,7 +926,8 @@ function quads_parse_random_quicktag_ads($content){
         shuffle($keys); 
         $randomid = $random_ads_list_after[$keys[0]]; 
         $selected_ads[] = $randomid;
-        $content = quads_replace_ads_new( $content, 'CusRnd' . $ad_id, $randomid,$ad_meta['enabled_on_amp'][0]);
+        $enabled_on_amp = (isset($ad_meta['enabled_on_amp'][0]))? $ad_meta['enabled_on_amp'][0]: '';
+        $content = quads_replace_ads_new( $content, 'CusRnd' . $ad_id, $randomid,$enabled_on_amp);
     }
     return $content;
 
