@@ -80,7 +80,9 @@ if(is_object($screens)){
         wp_localize_script( 'quads-newsletter', 'quadsnewsletter', array(
         'current_user_email' => $current_user->user_email,
         'current_user_name' => $current_user->display_name,
-        'do_tour'           => $do_tour
+        'do_tour'           => $do_tour,
+        'path'           => get_site_url()
+
         ) );
         wp_enqueue_script('quads-newsletter');
     }
