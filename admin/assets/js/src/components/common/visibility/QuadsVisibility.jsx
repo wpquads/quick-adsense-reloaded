@@ -187,7 +187,7 @@ excludedToggle = () => {
       <div>{__('Visibility', 'quick-adsense-reloaded')}</div>  
       <div className="quads-panel">
       <div className="quads-panel-body">                 
-      <div class="quads-user-targeting-label">
+      <div className="quads-user-targeting-label">
           {__('Which pages would you like to display?', 'quick-adsense-reloaded')}                     
           <div>{ (this.state.multiTypeIncludedValue.length <= 0 && show_form_error) ? <span className="quads-error">Select at least one visibility condition</span> : ''}</div>
       </div>
