@@ -207,6 +207,10 @@ and open the template in the editor.
   cursor: pointer; }
 .quads-user-targeting table td {
   width: 25%; }
+
+.quads-user-targeting table td .amp-support {
+  font-size: 11px;
+  color: red; }
 .quads-user-targeting table td {
   width: 25%; }
 /*
