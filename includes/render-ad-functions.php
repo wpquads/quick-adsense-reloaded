@@ -48,10 +48,80 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_adsense( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_google_async( $id ) );
     }
+    if( true === quads_is_double_click( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_double_click_async( $id ) );
+    }
 
     // Return empty string
     return '';
 }
+function quads_doubleclick_head_code(){
+
+    $data_slot  = '';    
+    require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+    $api_service = new QUADS_Ad_Setup_Api_Service();
+    $quads_ads = $api_service->getAdDataByParam('quads-ads');               
+
+    if(isset($quads_ads['posts_data'])){  
+
+        foreach($quads_ads['posts_data'] as $key => $value){
+            if($value['post']['post_status']== 'draft'){
+                continue;
+            }
+            $ads =$value['post_meta'];
+
+            if($ads['ad_type']== 'double_click'){
+                $ad_slot_id  = $ads['g_data_ad_slot'];                          
+                $ad_div_gpt  = $ads['div_gpt_ad'];
+
+                $width        = isset($ads['g_data_ad_width'])? $ads['g_data_ad_width'] : '300';            
+                $height       =isset($ads['g_data_ad_height'])? $ads['g_data_ad_height'] : '200';                                                                                                          
+                $data_slot .="googletag.defineSlot('".esc_attr($ad_slot_id)."', [".esc_attr($width).", ".esc_attr($height)."], '".esc_attr($ad_div_gpt)."').addService(googletag.pubads());";
+            }   
+
+        }
+        if( $data_slot !=''){
+
+            echo "<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+                    <script>
+                        var googletag = googletag || {};
+                        googletag.cmd = googletag.cmd || [];
+                    </script>
+
+                    <script>
+                        googletag.cmd.push(function() {                                                   
+                            ".$data_slot."  
+                            googletag.pubads().enableSingleRequest();
+                            googletag.enableServices();
+                        });
+                </script>";   
+
+        }                            
+
+    }                                                    
+
+}  
+/**
+ * Render Google async ad
+ * 
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_double_click_async( $id ) {
+    global $quads_options;
+
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Doubleclick async --> \n\n";
+
+    $html .= '<div id=" '. $quads_options['ads'][$id]['g_data_ad_slot'] .'" style="height:200px; width:200px;">
+                        <script>
+                        googletag.cmd.push(function() { googletag.display("'. $quads_options['ads'][$id]['g_data_ad_slot'] .'"); });
+                        </script>
+                        </div>';
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_double_click_async', $html );
+}
+
 
 /**
  * Render Google async ad
@@ -388,6 +458,21 @@ function quads_is_adsense( $id, $string ) {
     global $quads_options;
 
     if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'adsense') {
+        return true;
+    }
+    return false;
+}
+/**
+ * Check if ad code is double click or other ad code
+ * 
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_double_click( $id, $string ) {
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'double_click') {
         return true;
     }
     return false;

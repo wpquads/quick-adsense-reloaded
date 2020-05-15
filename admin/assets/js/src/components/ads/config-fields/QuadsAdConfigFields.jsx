@@ -223,6 +223,50 @@ error_outline
         : ''}
        </div>);      
               break; 
+            case 'double_click':
+             ad_type_name = 'Double Click';  
+              comp_html.push(<div key="double_click">
+                <table>
+                  <tbody>
+                    <tr><td>
+                    <label>{__('Div Gpt Ad', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.div_gpt_ad == '') ? 'quads_form_error' : ''} value={post_meta.div_gpt_ad} onChange={this.props.adFormChangeHandler} type="text" id="div_gpt_ad" name="div_gpt_ad" placeholder="div-gpt-ad-*************-*" />
+                    {(show_form_error && post_meta.div_gpt_ad == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Div Gpt Ad</div> :''}
+                     </td></tr>
+                    <tr><td><label>{__('Data Slot ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.g_data_ad_slot == '') ? 'quads_form_error' : ''}  value={post_meta.g_data_ad_slot} onChange={this.props.adFormChangeHandler} type="text" placeholder="/41****9/mobile_ad_banner" id="g_data_ad_slot" name="g_data_ad_slot" />
+                    {(show_form_error && post_meta.g_data_ad_slot == '') ? <div className="quads_form_msg"><span className="material-icons">
+error_outline
+</span>Enter Data Slot ID</div> :''}</td></tr>
+                    <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
+                      <div>
+                        <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
+                        <option value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</option>
+                        <option value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</option> 
+                      </select>
+                      {
+                        post_meta.adsense_type !== 'responsive' ?                        
+                      <div className="quads-adsense-width-heigth">
+                        
+                        <div className="quads-adsense-width">
+                          <label>{__('Width', 'quick-adsense-reloaded')}
+                          <input value={post_meta.g_data_ad_width ? post_meta.g_data_ad_width:'300'} onChange={this.props.adFormChangeHandler} type="number" id="g_data_ad_width" name="g_data_ad_width" /> 
+                          </label>
+                        </div>
+                        <div className="quads-adsense-height">
+                          <label>{__('Height', 'quick-adsense-reloaded')}
+                          <input value={post_meta.g_data_ad_height  ? post_meta.g_data_ad_height:'250'} onChange={this.props.adFormChangeHandler} type="number" id="g_data_ad_height" name="g_data_ad_height" />  
+                          </label>
+                        </div>
+                      </div>
+                      : ''
+                      }
+                      </div>
+                      </td></tr>
+                  </tbody>
+                </table>
+                </div>);
+
+              break;
 
             default:
               comp_html.push(<div key="noads" >{__('Ad not found', 'quick-adsense-reloaded')}</div>);
