@@ -137,8 +137,29 @@ class QUADS_Ad_Setup_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+             register_rest_route( 'quads-route', 'quads_subscribe_newsletter', array(
+                'methods'    => 'POST',
+                'callback'   => array($this, 'quadsSubscribeNewsletter'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
                       
         }  
+        public function quadsSubscribeNewsletter($request){
+            $parameters = $request->get_params();
+            $api_url = 'http://magazine3.company/wp-json/api/central/email/subscribe';
+            $api_params = array(
+            'name' => sanitize_text_field($parameters['name']),
+            'email'=> sanitize_text_field($parameters['email']),
+            'website'=> sanitize_text_field($parameters['website']),
+            'type'=> 'quads'
+            );
+            $response = wp_remote_post( $api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+            $response = wp_remote_retrieve_body( $response );
+            echo $response;
+            die;
+        }
 
         public function changeMode($request){
             

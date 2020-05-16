@@ -19,6 +19,22 @@ add_action( 'admin_enqueue_scripts', 'quads_load_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_plugins_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_all_admin_scripts', 100 );
 add_action( 'admin_print_footer_scripts', 'quads_check_ad_blocker' );
+add_action( 'admin_footer', 'quads_add_Beacon' );
+function quads_add_Beacon(){
+    $screens = get_current_screen();
+    $currentScreen = '';
+    if(is_object($screens)){
+        $currentScreen = $screens->base;
+        if($currentScreen == 'toplevel_page_quads-settings'){
+                echo ' <div class="quads-help-container">
+                         <script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script>
+<script type="text/javascript">window.Beacon("init", "200a7490-396b-4e3a-a28c-98d577fdf2f7")</script>
+                            </div>';
+        }
+    }
+     
+
+}
 
 /**
  * Create ad blocker admin script
@@ -80,7 +96,9 @@ if(is_object($screens)){
         wp_localize_script( 'quads-newsletter', 'quadsnewsletter', array(
         'current_user_email' => $current_user->user_email,
         'current_user_name' => $current_user->display_name,
-        'do_tour'           => $do_tour
+        'do_tour'           => $do_tour,
+        'path'           => get_site_url()
+
         ) );
         wp_enqueue_script('quads-newsletter');
     }
