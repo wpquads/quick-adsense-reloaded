@@ -73,10 +73,9 @@ function quads_doubleclick_head_code(){
                 $network_code  = $ads['network_code'];                          
                 $ad_unit_name  = $ads['ad_unit_name'];
 
-                $width        = isset($ads['g_data_ad_width'])? $ads['g_data_ad_width'] : '300';            
-                $height       =isset($ads['g_data_ad_height'])? $ads['g_data_ad_height'] : '250';                                                                                                          
-                $data_slot .="googletag.defineSlot('/".esc_attr($network_code)."/".esc_attr($ad_unit_name)."/', [".esc_attr($width).", ".esc_attr($height)."], 'wp_quads_dfp_
-".esc_attr($ads['ad_id'])."')
+                $width        = (isset($ads['g_data_ad_width']) && !empty($ads['g_data_ad_width'])) ? $ads['g_data_ad_width'] : '300';  
+                 $height        = (isset($ads['g_data_ad_height']) && !empty($ads['g_data_ad_height'])) ? $ads['g_data_ad_width'] : '250';                                                                                                            
+                $data_slot .="googletag.defineSlot('/".esc_attr($network_code)."/".esc_attr($ad_unit_name)."/', [".esc_attr($width).", ".esc_attr($height)."], 'wp_quads_dfp_".esc_attr($ads['ad_id'])."')
              .defineSizeMapping(mapping1)
              .addService(googletag.pubads());";
             }   
@@ -114,9 +113,11 @@ function quads_doubleclick_head_code(){
  */
 function quads_render_double_click_async( $id ) {
     global $quads_options;
+      $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';  
+        $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';  
 
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Doubleclick async --> \n\n";
-    $html .= '<div id="wp_quads_dfp_'.esc_attr($quads_options['ads'][$id]['ad_id']). '" style="height:'.esc_attr($quads_options['ads'][$id]['g_data_ad_height']). 'px; width:'.esc_attr($quads_options['ads'][$id]['g_data_ad_width']). 'px;">
+    $html .= '<div id="wp_quads_dfp_'.esc_attr($quads_options['ads'][$id]['ad_id']). '" style="height:'.esc_attr($height). 'px; width:'.esc_attr($width). 'px;">
                         <script>
                         googletag.cmd.push(function() { googletag.display("wp_quads_dfp_'.esc_attr($quads_options['ads'][$id]['ad_id']).'"); });
                         </script>
