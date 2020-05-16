@@ -40,8 +40,8 @@ class QuadsUserTargeting extends Component {
         {label:'Browser Language', value:'browser_language'},
         {label:'Logged In', value:'logged_in'},
         {label:'User Agent', value:'user_agent'},
-        {label:'User Type', value:'user_type'},                
-        {label:'Geo Location', value:'geo_location'},
+        {label:'User Role', value:'user_type'},                
+        //{label:'Geo Location', value:'geo_location'},
         {label:'Cookie', value:'cookie'},
         {label:'URL Parameter ', value:'url_parameter'},
         {label:'Referring URL ', value:'referrer_url'},        
@@ -497,7 +497,7 @@ addIncluded = (e) => {
     e.preventDefault();  
     let type  = this.state.multiTypeLeftIncludedValue;
     var value = this.state.multiTypeRightIncludedValue;
-    if(value=='' || (typeof (value.value) !== 'undefined' && value.value=="browser_width_custom")){
+    if((type.value==='cookie' || type.value==='url_parameter' || type.value==='referrer_url') ||(value=='' || (typeof (value.value) !== 'undefined' && value.value=="browser_width_custom"))){
        var text_data = this.state.textTypeRightIncludedValue;
        value = {value:text_data,label:text_data};
     }
@@ -506,7 +506,7 @@ addIncluded = (e) => {
       let data    = multiTypeIncludedValue;
       data.push({type: type, value: value});
       let newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);          
-      this.setState({multiTypeIncludedValue: newData});       
+      this.setState({multiTypeIncludedValue: newData,includedToggle : false,textTypeRightIncludedValue:'',multiTypeRightIncludedValue:[],includedCustomTextToggle:false,includedTextToggle:true, includedRightPlaceholder: 'Select Targeting Data',is_amp_endpoint_inc:false});       
     }        
   
 }
@@ -516,7 +516,7 @@ addExcluded = (e) => {
 
   let type  = this.state.multiTypeLeftExcludedValue;
   var value = this.state.multiTypeRightExcludedValue;
-  if(value=='' || (typeof (value.value) !== 'undefined' && value.value=="browser_width_custom")){
+   if((type.value==='cookie' || type.value==='url_parameter' || type.value==='referrer_url') ||(value=='' || (typeof (value.value) !== 'undefined' && value.value=="browser_width_custom"))){
      var text_data = this.state.textTypeRightExcludedValue;
      value = {value:text_data,label:text_data};
   } 
@@ -525,7 +525,7 @@ addExcluded = (e) => {
     let data    = multiTypeExcludedValue;
     data.push({type: type, value: value});
     let newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);    
-    this.setState({multiTypeExcludedValue: newData});       
+    this.setState({multiTypeExcludedValue: newData,excludedToggle : false,textTypeRightExcludedValue:'',multiTypeRightExcludedValue:[],excludedCustomTextToggle:false,excludedTextToggle:true,excludedRightPlaceholder: 'Select Targeting Data',is_amp_endpoint_inc:false});       
   }        
 
 }

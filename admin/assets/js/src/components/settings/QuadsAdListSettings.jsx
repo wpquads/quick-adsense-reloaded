@@ -751,14 +751,7 @@ handleMultiPluginsChange = (option) => {
                      </td>
                      </tr>
                       : ''
-                    }  
-                    <tr>
-                     <th><label htmlFor="ip_geolocation_api">{__('IP Geolocation API', 'quick-adsense-reloaded')}</label></th> 
-                     <td>
-                       <div><input id="ip_geolocation_api" value={this.state.ip_geolocation_api} onChange={this.formChangeHandler} name="ip_geolocation_api" type="text" placeholder="IP Geolocation API" className="quads-premium-cus" /></div> 
-                       <p>Note : They have free plan which gives you 50K requests per month. For all that you need to singup <a href="https://ipgeolocation.io" target="_blank">Link</a></p>
-                     </td>
-                     </tr>                   
+                    }                     
                    </tbody>
                  </table>  
                 </div>
