@@ -224,7 +224,7 @@ error_outline
        </div>);      
               break; 
             case 'double_click':
-             ad_type_name = 'Double Click';  
+             ad_type_name = 'Google AD Manager (DFP)';  
               comp_html.push(<div key="double_click">
                 <table>
                   <tbody>

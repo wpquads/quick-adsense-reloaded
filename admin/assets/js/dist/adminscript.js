@@ -55854,7 +55854,7 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
           break;
 
         case 'double_click':
-          ad_type_name = 'Double Click';
+          ad_type_name = 'Google AD Manager (DFP)';
           comp_html.push( /*#__PURE__*/_react["default"].createElement("div", {
             key: "double_click"
           }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Network Code', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {

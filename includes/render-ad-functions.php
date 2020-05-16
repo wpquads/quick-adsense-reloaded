@@ -69,6 +69,22 @@ function quads_doubleclick_head_code(){
                 continue;
             }
             $ads =$value['post_meta'];
+            if(isset($ads['random_ads_list']))
+                $ads['random_ads_list'] = unserialize($ads['random_ads_list']);
+            if(isset($ads['visibility_include']))
+                $ads['visibility_include'] = unserialize($ads['visibility_include']);
+            if(isset($ads['visibility_exclude']))
+                $ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);
+
+            if(isset($ads['targeting_include']))
+                $ads['targeting_include'] = unserialize($ads['targeting_include']);
+
+            if(isset($ads['targeting_exclude']))
+                $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
+            $is_on =quads_is_visibility_on($ads);
+           if(!$is_on){
+             continue;
+           }
             if($ads['ad_type']== 'double_click'){
                 $network_code  = $ads['network_code'];                          
                 $ad_unit_name  = $ads['ad_unit_name'];
@@ -76,23 +92,16 @@ function quads_doubleclick_head_code(){
                 $width        = (isset($ads['g_data_ad_width']) && !empty($ads['g_data_ad_width'])) ? $ads['g_data_ad_width'] : '300';  
                  $height        = (isset($ads['g_data_ad_height']) && !empty($ads['g_data_ad_height'])) ? $ads['g_data_ad_height'] : '250';                                                                                                            
                 $data_slot .="googletag.defineSlot('/".esc_attr($network_code)."/".esc_attr($ad_unit_name)."/', [".esc_attr($width).", ".esc_attr($height)."], 'wp_quads_dfp_".esc_attr($ads['ad_id'])."')
-             .defineSizeMapping(mapping1)
              .addService(googletag.pubads());";
             }   
 
         }
         if( $data_slot !=''){
 
-            echo "<script async='async' src='https://securepubads.g.doubleclick.net/tag/js/gpt.js'></script>
+            echo "<script async src='https://securepubads.g.doubleclick.net/tag/js/gpt.js'></script>
                     <script>
                  window.googletag = window.googletag || {cmd: []};
   googletag.cmd.push(function() {
-    var mapping1 = googletag.sizeMapping()
-                            .addSize([0, 0], [[300, 250]])
-                            .addSize([480, 200], [[468, 60]])
-                            .addSize([748, 200], [[728, 90]])
-                            .build();
-
   ".$data_slot." 
     googletag.pubads().enableSingleRequest();
     googletag.enableServices();
