@@ -153,7 +153,7 @@ class QUADS_Ad_Setup_Api {
             'name' => sanitize_text_field($parameters['name']),
             'email'=> sanitize_text_field($parameters['email']),
             'website'=> sanitize_text_field($parameters['website']),
-            'type'=> 'qauds'
+            'type'=> 'quads'
             );
             $response = wp_remote_post( $api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
             $response = wp_remote_retrieve_body( $response );
