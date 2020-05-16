@@ -69,31 +69,35 @@ function quads_doubleclick_head_code(){
                 continue;
             }
             $ads =$value['post_meta'];
-
             if($ads['ad_type']== 'double_click'){
-                $ad_slot_id  = $ads['g_data_ad_slot'];                          
-                $ad_div_gpt  = $ads['div_gpt_ad'];
+                $network_code  = $ads['network_code'];                          
+                $ad_unit_name  = $ads['ad_unit_name'];
 
                 $width        = isset($ads['g_data_ad_width'])? $ads['g_data_ad_width'] : '300';            
-                $height       =isset($ads['g_data_ad_height'])? $ads['g_data_ad_height'] : '200';                                                                                                          
-                $data_slot .="googletag.defineSlot('".esc_attr($ad_slot_id)."', [".esc_attr($width).", ".esc_attr($height)."], '".esc_attr($ad_div_gpt)."').addService(googletag.pubads());";
+                $height       =isset($ads['g_data_ad_height'])? $ads['g_data_ad_height'] : '250';                                                                                                          
+                $data_slot .="googletag.defineSlot('/".esc_attr($network_code)."/".esc_attr($ad_unit_name)."/', [".esc_attr($width).", ".esc_attr($height)."], 'wp_quads_dfp_
+".esc_attr($ads['ad_id'])."')
+             .defineSizeMapping(mapping1)
+             .addService(googletag.pubads());";
             }   
 
         }
         if( $data_slot !=''){
 
-            echo "<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+            echo "<script async='async' src='https://securepubads.g.doubleclick.net/tag/js/gpt.js'></script>
                     <script>
-                        var googletag = googletag || {};
-                        googletag.cmd = googletag.cmd || [];
-                    </script>
+                 window.googletag = window.googletag || {cmd: []};
+  googletag.cmd.push(function() {
+    var mapping1 = googletag.sizeMapping()
+                            .addSize([0, 0], [[300, 250]])
+                            .addSize([480, 200], [[468, 60]])
+                            .addSize([748, 200], [[728, 90]])
+                            .build();
 
-                    <script>
-                        googletag.cmd.push(function() {                                                   
-                            ".$data_slot."  
-                            googletag.pubads().enableSingleRequest();
-                            googletag.enableServices();
-                        });
+  ".$data_slot." 
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
                 </script>";   
 
         }                            
@@ -112,10 +116,9 @@ function quads_render_double_click_async( $id ) {
     global $quads_options;
 
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Doubleclick async --> \n\n";
-
-    $html .= '<div id=" '. $quads_options['ads'][$id]['g_data_ad_slot'] .'" style="height:200px; width:200px;">
+    $html .= '<div id="wp_quads_dfp_'.esc_attr($quads_options['ads'][$id]['ad_id']). '" style="height:'.esc_attr($quads_options['ads'][$id]['g_data_ad_height']). 'px; width:'.esc_attr($quads_options['ads'][$id]['g_data_ad_width']). 'px;">
                         <script>
-                        googletag.cmd.push(function() { googletag.display("'. $quads_options['ads'][$id]['g_data_ad_slot'] .'"); });
+                        googletag.cmd.push(function() { googletag.display("wp_quads_dfp_'.esc_attr($quads_options['ads'][$id]['ad_id']).'"); });
                         </script>
                         </div>';
     $html .= "\n <!-- end WP QUADS --> \n\n";
@@ -524,8 +527,18 @@ function quads_render_amp($id,$ampsupport=''){
     if (!empty($quads_options['ads'][$id]['amp_code'])){
         $html = $quads_options['ads'][$id]['amp_code'];
     } else {
-        // Return default adsense code
-        $html = '<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="'. $quads_options['ads'][$id]['g_data_ad_client'] . '" data-ad-slot="'.$quads_options['ads'][$id]['g_data_ad_slot'].'"></amp-ad>';
+            if($quads_options['ads'][$id]['ad_type'] == 'double_click'){
+                 $width        = isset($quads_options['ads'][$id]['g_data_ad_width'])? $quads_options['ads'][$id]['g_data_ad_width'] : '300';            
+                $height       =isset($quads_options['ads'][$id]['g_data_ad_height'])? $quads_options['ads'][$id]['g_data_ad_height'] : '250';   
+                $network_code  = $quads_options['ads'][$id]['network_code'];                          
+                $ad_unit_name  = $quads_options['ads'][$id]['ad_unit_name']; 
+               // Return default Double click code
+        $html = '<amp-ad width='.esc_attr($width).' height='.esc_attr($width).' type="doubleclick" data-ad-slot="/'.esc_attr($network_code)."/".esc_attr($ad_unit_name). '/" data-multi-size="468x60,300x250"></amp-ad>';
+            }else{
+                   // Return default adsense code
+             $html = '<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="'. $quads_options['ads'][$id]['g_data_ad_client'] . '" data-ad-slot="'.$quads_options['ads'][$id]['g_data_ad_slot'].'"></amp-ad>';
+            }
+     
     }
 
     return $html;

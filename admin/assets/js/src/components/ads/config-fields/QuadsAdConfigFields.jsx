@@ -229,14 +229,14 @@ error_outline
                 <table>
                   <tbody>
                     <tr><td>
-                    <label>{__('Div Gpt Ad', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.div_gpt_ad == '') ? 'quads_form_error' : ''} value={post_meta.div_gpt_ad} onChange={this.props.adFormChangeHandler} type="text" id="div_gpt_ad" name="div_gpt_ad" placeholder="div-gpt-ad-*************-*" />
-                    {(show_form_error && post_meta.div_gpt_ad == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Div Gpt Ad</div> :''}
+                    <label>{__('Network Code', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.network_code == '') ? 'quads_form_error' : ''} value={post_meta.network_code} onChange={this.props.adFormChangeHandler} type="text" id="network_code" name="network_code" placeholder="Network Code" />
+                    {(show_form_error && post_meta.network_code == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Network Code</div> :''}
                      </td></tr>
-                    <tr><td><label>{__('Data Slot ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.g_data_ad_slot == '') ? 'quads_form_error' : ''}  value={post_meta.g_data_ad_slot} onChange={this.props.adFormChangeHandler} type="text" placeholder="/41****9/mobile_ad_banner" id="g_data_ad_slot" name="g_data_ad_slot" />
-                    {(show_form_error && post_meta.g_data_ad_slot == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    <tr><td><label>{__('AD Unit Name', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.ad_unit_name == '') ? 'quads_form_error' : ''}  value={post_meta.ad_unit_name} onChange={this.props.adFormChangeHandler} type="text" placeholder="AD Unit Name" id="ad_unit_name" name="ad_unit_name" />
+                    {(show_form_error && post_meta.ad_unit_name == '') ? <div className="quads_form_msg"><span className="material-icons">
 error_outline
-</span>Enter Data Slot ID</div> :''}</td></tr>
+</span>Enter AD Unit Name</div> :''}</td></tr>
                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
                         <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">

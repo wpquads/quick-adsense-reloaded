@@ -51,7 +51,7 @@ class QuadsAdList extends Component {
           break;
           case 'double_click':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/double_click_icon.png';
-          type = "random ads";
+          type = "Google Ad Manager";
           break;
       
         default:
