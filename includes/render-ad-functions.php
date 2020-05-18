@@ -601,6 +601,8 @@ function quads_render_amp($id,$ampsupport=''){
                 $ad_unit_name  = $quads_options['ads'][$id]['ad_unit_name']; 
                // Return default Double click code
         $html = '<amp-ad width='.esc_attr($width).' height='.esc_attr($width).' type="doubleclick" data-ad-slot="/'.esc_attr($network_code)."/".esc_attr($ad_unit_name). '/" data-multi-size="468x60,300x250"></amp-ad>';
+            }else if($quads_options['ads'][$id]['ad_type'] == 'yandex'){
+                  $html = '<amp-ad type="yandex" data-block-id="'.$quads_options['ads'][$id]['block_id'].'" data-html-access-allowed="true"></amp-ad>';
             }else{
                    // Return default adsense code
              $html = '<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="'. $quads_options['ads'][$id]['g_data_ad_client'] . '" data-ad-slot="'.$quads_options['ads'][$id]['g_data_ad_slot'].'"></amp-ad>';
