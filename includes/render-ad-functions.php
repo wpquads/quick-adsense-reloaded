@@ -51,6 +51,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_double_click( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_double_click_async( $id ) );
     }
+    if( true === quads_is_yandex( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_yandex_async( $id ) );
+    }
 
     // Return empty string
     return '';
@@ -134,7 +137,39 @@ function quads_render_double_click_async( $id ) {
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_double_click_async', $html );
 }
+/**
+ * Render Google async ad
+ * 
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_yandex_async( $id ) {
+    global $quads_options;
 
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Yandex async --> \n\n";
+    $html .= '<div id="yandex_rtb_'.esc_attr($quads_options['ads'][$id]['block_id']). '" ></div>
+                       <script type="text/javascript">
+    (function(w, d, n, s, t) {
+        w[n] = w[n] || [];
+        w[n].push(function() {
+            Ya.Context.AdvManager.render({
+                blockId: "'.esc_attr($quads_options['ads'][$id]['block_id']). '",
+                renderTo: "yandex_rtb_'.esc_attr($quads_options['ads'][$id]['block_id']). '",
+                async: true
+            });
+        });
+        t = d.getElementsByTagName("script")[0];
+        s = d.createElement("script");
+        s.type = "text/javascript";
+        s.src = "//an.yandex.ru/system/context.js";
+        s.async = true;
+        t.parentNode.insertBefore(s, t);
+    })(this, this.document, "yandexContextAsyncCallbacks");
+</script>';
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_yandex_async', $html );
+}
 
 /**
  * Render Google async ad
@@ -491,7 +526,21 @@ function quads_is_double_click( $id, $string ) {
     return false;
 }
 
+/**
+ * Check if ad code is double click or other ad code
+ * 
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_yandex( $id, $string ) {
+    global $quads_options;
 
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'yandex') {
+        return true;
+    }
+    return false;
+}
 /**
  * Render advert on amp pages
  * 

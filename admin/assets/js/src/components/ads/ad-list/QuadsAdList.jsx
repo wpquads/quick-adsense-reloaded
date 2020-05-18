@@ -53,6 +53,10 @@ class QuadsAdList extends Component {
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/double_click_icon.png';
           type = "Google Ad Manager";
           break;
+          case 'yandex':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/yandex_icon.png';
+          type = "Yandex";
+          break;
       
         default:
           break;

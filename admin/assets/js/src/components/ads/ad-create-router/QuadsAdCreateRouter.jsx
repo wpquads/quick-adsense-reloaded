@@ -400,7 +400,6 @@ class QuadsAdCreateRouter extends Component {
             }else{
               this.setState({show_form_error:true});
             }
-            
           break;
            case 'double_click':
             if(quads_post_meta.ad_unit_name && quads_post_meta.network_code && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
@@ -408,7 +407,13 @@ class QuadsAdCreateRouter extends Component {
             }else{
               this.setState({show_form_error:true});
             }
-            
+          break;
+            case 'yandex':
+            if(quads_post_meta.block_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
           break;
       
         default:
@@ -521,8 +526,14 @@ class QuadsAdCreateRouter extends Component {
             this.props.history.push(new_url); 
           }else{
             this.setState({show_form_error:true});
+          } 
+            break;
+        case 'yandex':
+          if(quads_post_meta.block_id){
+            this.props.history.push(new_url); 
+          }else{
+            this.setState({show_form_error:true});
           }
-              
             break;
           default:
             break;

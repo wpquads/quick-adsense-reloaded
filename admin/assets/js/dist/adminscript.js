@@ -10270,6 +10270,17 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
 
           break;
 
+        case 'yandex':
+          if (quads_post_meta.block_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+            _this.saveAdFormData('publish');
+          } else {
+            _this.setState({
+              show_form_error: true
+            });
+          }
+
+          break;
+
         default:
           break;
       }
@@ -10356,6 +10367,17 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
 
           case 'double_click':
             if (quads_post_meta.ad_unit_name && quads_post_meta.network_code) {
+              _this.props.history.push(new_url);
+            } else {
+              _this.setState({
+                show_form_error: true
+              });
+            }
+
+            break;
+
+          case 'yandex':
+            if (quads_post_meta.block_id) {
               _this.props.history.push(new_url);
             } else {
               _this.setState({
@@ -55909,6 +55931,25 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
             id: "g_data_ad_height",
             name: "g_data_ad_height"
           })))) : '')))))));
+          break;
+
+        case 'yandex':
+          ad_type_name = 'Yandex';
+          comp_html.push( /*#__PURE__*/_react["default"].createElement("div", {
+            key: "yandex"
+          }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Block Id', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+            className: show_form_error && post_meta.block_id == '' ? 'quads_form_error' : '',
+            value: post_meta.block_id,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "block_id",
+            name: "block_id",
+            placeholder: "Block Id"
+          }), show_form_error && post_meta.block_id == '' ? /*#__PURE__*/_react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, /*#__PURE__*/_react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Block Id") : ''))))));
           break;
 
         default:
@@ -103729,6 +103770,11 @@ var QuadsAdList = /*#__PURE__*/function (_Component) {
           type = "Google Ad Manager";
           break;
 
+        case 'yandex':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/yandex_icon.png';
+          type = "Yandex";
+          break;
+
         default:
           break;
       }
@@ -104195,6 +104241,10 @@ var AdTypeSelectorNavLink = /*#__PURE__*/function (_Component) {
           img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/double_click.png';
           break;
 
+        case 'yandex':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/yandex.png';
+          break;
+
         default:
           break;
       }
@@ -104221,6 +104271,9 @@ var AdTypeSelectorNavLink = /*#__PURE__*/function (_Component) {
       }, {
         ad_type: 'double_click',
         ad_type_name: 'Google Ad Manager'
+      }, {
+        ad_type: 'yandex',
+        ad_type_name: 'Yandex'
       }, {
         ad_type: 'plain_text',
         ad_type_name: 'Plain Text / HTML / JS'
