@@ -60,7 +60,8 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
 }
 function quads_doubleclick_head_code(){
 
-    $data_slot  = '';    
+    $data_slot  = '';   
+    $yandex     = false;   
     require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
     $api_service = new QUADS_Ad_Setup_Api_Service();
     $quads_ads = $api_service->getAdDataByParam('quads-ads');               
@@ -96,6 +97,9 @@ function quads_doubleclick_head_code(){
                  $height        = (isset($ads['g_data_ad_height']) && !empty($ads['g_data_ad_height'])) ? $ads['g_data_ad_height'] : '250';                                                                                                            
                 $data_slot .="googletag.defineSlot('/".esc_attr($network_code)."/".esc_attr($ad_unit_name)."/', [".esc_attr($width).", ".esc_attr($height)."], 'wp_quads_dfp_".esc_attr($ads['ad_id'])."')
              .addService(googletag.pubads());";
+            }else if($ads['ad_type'] == 'yandex'){
+                $yandex= true;
+
             }   
 
         }
@@ -111,7 +115,11 @@ function quads_doubleclick_head_code(){
   });
                 </script>";   
 
-        }                            
+        }     
+        if($yandex){
+            echo '<script async data-cfasync="false" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
+
+        }                       
 
     }                                                    
 
@@ -230,7 +238,6 @@ function quads_render_google_async( $id ) {
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
 
     //google async script
-    $html .= '<script async data-cfasync="false" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
 
     $html .= '<script type="text/javascript" data-cfasync="false">' . "\n";
     $html .= 'var quads_screen_width = document.body.clientWidth;' . "\n";
