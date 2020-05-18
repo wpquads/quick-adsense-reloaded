@@ -594,8 +594,9 @@ function quads_render_amp($id,$ampsupport=''){
         $html = $quads_options['ads'][$id]['amp_code'];
     } else {
             if($quads_options['ads'][$id]['ad_type'] == 'double_click'){
-                 $width        = isset($quads_options['ads'][$id]['g_data_ad_width'])? $quads_options['ads'][$id]['g_data_ad_width'] : '300';            
-                $height       =isset($quads_options['ads'][$id]['g_data_ad_height'])? $quads_options['ads'][$id]['g_data_ad_height'] : '250';   
+                $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';  
+                $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';  
+
                 $network_code  = $quads_options['ads'][$id]['network_code'];                          
                 $ad_unit_name  = $quads_options['ads'][$id]['ad_unit_name']; 
                // Return default Double click code
