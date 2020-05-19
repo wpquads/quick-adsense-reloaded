@@ -58334,14 +58334,6 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
       _this.setState(settings);
     });
 
-    _defineProperty(_assertThisInitialized(_this), "lazy_load_global", function (e) {
-      var value = e.target.value;
-      var settings = _this.state.settings;
-      settings.lazy_load_global = value;
-
-      _this.setState(settings);
-    });
-
     _defineProperty(_assertThisInitialized(_this), "addautoads_post_types", function (e) {
       var options = e.target.options;
       var value = [];
@@ -58658,6 +58650,10 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
         _this.saveSettings();
       }
 
+      if (name == 'lazy_load_global') {
+        _this.saveSettings();
+      }
+
       if (name == 'ip_geolocation_api') {
         _this.saveSettings();
       }
@@ -58737,6 +58733,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
         hide_ajax: false,
         QckTags: false,
         adsTxtEnabled: false,
+        lazy_load_global: false,
         global_excluder_enabled: false,
         adsTxtText: '',
         debug_mode: '',
@@ -58934,16 +58931,17 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
               className: "quads-generic-icon dashicons dashicons-admin-generic"
             }) : '')) : '', /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", {
               htmlFor: "lazy_load_global"
-            }, __('Lazy Loading', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("select", {
+            }, __('Lazy Loading', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", {
+              className: "quads-switch"
+            }, /*#__PURE__*/_react["default"].createElement("input", {
+              id: "lazy_load_global",
+              type: "checkbox",
               name: "lazy_load_global",
-              value: _this2.state.lazy_load_global,
-              onChange: _this2.lazy_load_global,
-              id: "lazy_load_global"
-            }, /*#__PURE__*/_react["default"].createElement("option", {
-              value: "enabled"
-            }, __('Lazy Load Enabled', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
-              value: "disabled"
-            }, __('Lazy Load Disabled', 'quick-adsense-reloaded')))))))));
+              onChange: _this2.formChangeHandler,
+              checked: settings.lazy_load_global
+            }), /*#__PURE__*/_react["default"].createElement("span", {
+              className: "quads-slider"
+            })))))));
 
           case "settings_tools":
             return /*#__PURE__*/_react["default"].createElement("div", {
