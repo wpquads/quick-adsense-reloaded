@@ -61,7 +61,7 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
 function quads_doubleclick_head_code(){
 
     $data_slot  = '';   
-    $yandex     = false;   
+    $adsense     = false;   
     require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
     $api_service = new QUADS_Ad_Setup_Api_Service();
     $quads_ads = $api_service->getAdDataByParam('quads-ads');               
@@ -97,8 +97,8 @@ function quads_doubleclick_head_code(){
                  $height        = (isset($ads['g_data_ad_height']) && !empty($ads['g_data_ad_height'])) ? $ads['g_data_ad_height'] : '250';                                                                                                            
                 $data_slot .="googletag.defineSlot('/".esc_attr($network_code)."/".esc_attr($ad_unit_name)."/', [".esc_attr($width).", ".esc_attr($height)."], 'wp_quads_dfp_".esc_attr($ads['ad_id'])."')
              .addService(googletag.pubads());";
-            }else if($ads['ad_type'] == 'yandex'){
-                $yandex= true;
+            }else if($ads['ad_type'] == 'adsense'){
+                $adsense= true;
 
             }   
 
@@ -116,7 +116,7 @@ function quads_doubleclick_head_code(){
                 </script>";   
 
         }     
-        if($yandex){
+        if($adsense){
             echo '<script async data-cfasync="false" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
 
         }                       
@@ -602,10 +602,10 @@ function quads_render_amp($id,$ampsupport=''){
                // Return default Double click code
         $html = '<amp-ad width='.esc_attr($width).' height='.esc_attr($width).' type="doubleclick" data-ad-slot="/'.esc_attr($network_code)."/".esc_attr($ad_unit_name). '/" data-multi-size="468x60,300x250"></amp-ad>';
             }else if($quads_options['ads'][$id]['ad_type'] == 'yandex'){
-                  $html = '<amp-ad type="yandex" data-block-id="'.$quads_options['ads'][$id]['block_id'].'" data-html-access-allowed="true"></amp-ad>';
+                  $html = '<amp-ad type="yandex" data-block-id="'.esc_attr($quads_options['ads'][$id]['block_id']).'" data-html-access-allowed="true"></amp-ad>';
             }else{
                    // Return default adsense code
-             $html = '<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="'. $quads_options['ads'][$id]['g_data_ad_client'] . '" data-ad-slot="'.$quads_options['ads'][$id]['g_data_ad_slot'].'"></amp-ad>';
+             $html = '<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="'. esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '" data-ad-slot="'.esc_attr($quads_options['ads'][$id]['g_data_ad_slot']).'"></amp-ad>';
             }
      
     }
