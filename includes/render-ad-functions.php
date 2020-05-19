@@ -108,10 +108,10 @@ function quads_render_google_async( $id ) {
         $default_ad_sizes[$id]['phone_height'] = $ad_size_parts[1];
     }
 
-    $id_name = "quads-".$id."-place";
+    $id_name = "quads-".esc_attr($id)."-place";
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
     if ( $quads_options['ads'][$id]['lazy_load_ads'] == 'yes' || ($quads_options['ads'][$id]['lazy_load_ads']=='inherit' && $quads_options['lazy_load_global']=='enabled')) {
-        $html .= '<div id="'.$id_name.'"></div>';
+        $html .= '<div id="'.esc_attr($id_name).'"></div>';
     }
     //google async script
     $html .=   "\n".'<script async data-cfasync="false" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
@@ -128,10 +128,10 @@ if ( $quads_options['ads'][$id]['lazy_load_ads'] == 'yes' || ($quads_options['ad
     $html .= quads_render_tablet_portrait_js( $id, $default_ad_sizes,$id_name );
     $html .= quads_render_phone_js( $id, $default_ad_sizes,$id_name );
 
-    $html = str_replace( '<div id="'.$id_name.'">', '<div id="'.$id_name.'" class="quads-ll">', $html );
+    $html = str_replace( '<div id="'.esc_attr($id_name).'">', '<div id="'.esc_attr($id_name).'" class="quads-ll">', $html );
     $html = str_replace( 'class="adsbygoogle"', '', $html );
     $html = str_replace( '></ins>', '><span>Loading...</span></ins>', $html );
-    $code = 'instant= new adsenseLoader( \'#quads-' . $id . '-place\', {
+    $code = 'instant= new adsenseLoader( \'#quads-' . esc_attr($id) . '-place\', {
     onLoad: function( ad ){
         if (ad.classList.contains(\'quads-ll\')) {
             ad.classList.remove(\'quads-ll\');
