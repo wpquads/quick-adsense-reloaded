@@ -50439,7 +50439,18 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
             type: "number",
             id: "g_data_ad_height",
             name: "g_data_ad_height"
-          })))) : '')))))));
+          })))) : ''))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Lazy Loading', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("select", {
+            value: post_meta.lazy_load_ads,
+            onChange: this.props.adFormChangeHandler,
+            name: "lazy_load_ads",
+            id: "lazy_load_ads"
+          }, /*#__PURE__*/_react["default"].createElement("option", {
+            value: "inherit"
+          }, __('Inherit from settings', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+            value: "yes"
+          }, __('Yes, Enable for this ad', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+            value: "no"
+          }, __("No, Disable for this ad", 'quick-adsense-reloaded'))))))))));
           break;
 
         case 'plain_text':
@@ -58323,6 +58334,14 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
       _this.setState(settings);
     });
 
+    _defineProperty(_assertThisInitialized(_this), "lazy_load_global", function (e) {
+      var value = e.target.value;
+      var settings = _this.state.settings;
+      settings.lazy_load_global = value;
+
+      _this.setState(settings);
+    });
+
     _defineProperty(_assertThisInitialized(_this), "addautoads_post_types", function (e) {
       var options = e.target.options;
       var value = [];
@@ -58913,7 +58932,18 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
             })), _this2.state.global_excluder_enabled ? /*#__PURE__*/_react["default"].createElement("span", {
               onClick: _this2.open_global_excluder,
               className: "quads-generic-icon dashicons dashicons-admin-generic"
-            }) : '')) : '')));
+            }) : '')) : '', /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", {
+              htmlFor: "lazy_load_global"
+            }, __('Lazy Loading', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("select", {
+              name: "lazy_load_global",
+              value: _this2.state.lazy_load_global,
+              onChange: _this2.lazy_load_global,
+              id: "lazy_load_global"
+            }, /*#__PURE__*/_react["default"].createElement("option", {
+              value: "enabled"
+            }, __('Lazy Load Enabled', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+              value: "disabled"
+            }, __('Lazy Load Disabled', 'quick-adsense-reloaded')))))))));
 
           case "settings_tools":
             return /*#__PURE__*/_react["default"].createElement("div", {

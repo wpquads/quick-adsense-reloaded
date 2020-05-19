@@ -54,6 +54,15 @@ error_outline
                       }
                       </div>
                       </td></tr>
+                       <tr><td><label>{__('Lazy Loading', 'quick-adsense-reloaded')}</label></td><td>
+                        <div>
+                          <select value={post_meta.lazy_load_ads} onChange={this.props.adFormChangeHandler} name="lazy_load_ads" id="lazy_load_ads">
+                          <option value="inherit">{__('Inherit from settings', 'quick-adsense-reloaded')}</option>
+                          <option value="yes">{__('Yes, Enable for this ad', 'quick-adsense-reloaded')}</option>
+                          <option value="no">{__("No, Disable for this ad", 'quick-adsense-reloaded')}</option> 
+                        </select>
+                        </div>
+                      </td></tr> 
                   </tbody>
                 </table>
                 </div>);

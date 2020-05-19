@@ -273,6 +273,12 @@ handleMultiPluginsChange = (option) => {
     settings.auto_ads_pos = value;     
     this.setState(settings);
   }
+  lazy_load_global = (e) => {
+    let value = e.target.value;
+    const { settings } = this.state;
+    settings.lazy_load_global = value;     
+    this.setState(settings);
+  }
     addautoads_post_types = (e) => {
       var options = e.target.options;
       var value = [];
@@ -751,7 +757,18 @@ handleMultiPluginsChange = (option) => {
                      </td>
                      </tr>
                       : ''
-                    }                     
+                    }     
+                    <tr>
+                   <th><label htmlFor="lazy_load_global">{__('Lazy Loading', 'quick-adsense-reloaded')}</label></th>
+                    <td>
+                        <div>
+                         <select name="lazy_load_global" value={this.state.lazy_load_global} onChange={this.lazy_load_global} id="lazy_load_global">
+                        <option value="enabled">{__('Lazy Load Enabled', 'quick-adsense-reloaded')}</option>
+                        <option value="disabled">{__('Lazy Load Disabled', 'quick-adsense-reloaded')}</option>
+                      </select>
+                        </div>
+                      </td>
+                      </tr>                 
                    </tbody>
                  </table>  
                 </div>
