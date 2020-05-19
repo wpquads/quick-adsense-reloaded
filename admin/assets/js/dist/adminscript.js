@@ -55506,13 +55506,13 @@ var QuadsAdConfig = /*#__PURE__*/function (_Component) {
           getAdsenseCode: this.props.getAdsenseCode,
           openModal: this.props.openModal,
           closeModal: this.props.closeModal
-        }))), /*#__PURE__*/_react["default"].createElement("div", {
+        }))), quads_localize_data.is_amp_enable ? /*#__PURE__*/_react["default"].createElement("div", {
           className: "quads-settings-group"
         }, /*#__PURE__*/_react["default"].createElement(_QuadsAMPCompatibility["default"], {
           ad_type: page.ad_type,
           parentState: this.props.parentState,
           adFormChangeHandler: this.props.adFormChangeHandler
-        })), this.props.parentState.ad_type != "random_ads" ? /*#__PURE__*/_react["default"].createElement("div", {
+        })) : '', this.props.parentState.ad_type != "random_ads" ? /*#__PURE__*/_react["default"].createElement("div", {
           className: "quads-settings-group"
         }, /*#__PURE__*/_react["default"].createElement(_QuadsLayout["default"], {
           ad_type: page.ad_type,
@@ -62896,6 +62896,8 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         value: post_meta.position,
         name: "position",
         onChange: this.props.adFormChangeHandler
+      }, /*#__PURE__*/_react["default"].createElement("optgroup", {
+        label: "Full Support ( AMP & NON AMP )"
       }, /*#__PURE__*/_react["default"].createElement("option", {
         value: ""
       }, __('Select Position', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
@@ -62914,7 +62916,29 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         value: "after_image"
       }, __('After Image', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "ad_shortcode"
-      }, __('Shortcode (Manual)', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("div", null, show_form_error && post_meta.position == '' ? /*#__PURE__*/_react["default"].createElement("span", {
+      }, __('Shortcode (Manual)', 'quick-adsense-reloaded'))), quads_localize_data.is_amp_enable ? /*#__PURE__*/_react["default"].createElement("optgroup", {
+        label: "Partial Support ( AMP Only )"
+      }, /*#__PURE__*/_react["default"].createElement("option", {
+        value: "amp_after_featured_image"
+      }, "Ad after Featured Image"), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "amp_below_the_header"
+      }, "Below the Header (SiteWide)"), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "amp_below_the_footer"
+      }, "Below the Footer (SiteWide)"), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "amp_above_the_footer"
+      }, "Above the Footer (SiteWide)"), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "amp_above_the_post_content"
+      }, "Above the Post Content (Single Post)"), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "amp_below_the_post_content"
+      }, "Below the Post Content (Single Post)"), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "amp_below_the_title"
+      }, "Below the Title (Single Post)"), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "amp_above_related_post"
+      }, "Above Related Posts (Single Post)"), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "amp_below_author_box"
+      }, "Below the Author Box (Single Post)"), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "amp_ads_in_loops"
+      }, "Ads Inbetween Loop")) : null), /*#__PURE__*/_react["default"].createElement("div", null, show_form_error && post_meta.position == '' ? /*#__PURE__*/_react["default"].createElement("span", {
         className: "quads-error"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads_form_msg"
@@ -62922,11 +62946,12 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         className: "material-icons"
       }, "error_outline"), "Select Where Will The AD Appear")) : '')), /*#__PURE__*/_react["default"].createElement("div", {
         className: "position_content"
-      }, /*#__PURE__*/_react["default"].createElement("div", null, post_meta.position == 'after_paragraph' ? /*#__PURE__*/_react["default"].createElement("input", {
+      }, /*#__PURE__*/_react["default"].createElement("div", null, post_meta.position == 'amp_ads_in_loops' ? /*#__PURE__*/_react["default"].createElement("input", {
         min: "1",
-        onChange: this.props.adFormChangeHandler,
+        onChange: this.props.ads_loop_number,
         name: "paragraph_number",
-        value: post_meta.paragraph_number,
+        value: post_meta.ads_loop_number,
+        placeholder: "Position",
         type: "number"
       }) : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("input", {
         min: "1",
