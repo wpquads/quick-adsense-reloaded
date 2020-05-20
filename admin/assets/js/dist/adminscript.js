@@ -60773,7 +60773,25 @@ var QuadsAMPCompatibility = /*#__PURE__*/function (_Component) {
         name: "enabled_on_amp",
         onChange: this.props.adFormChangeHandler,
         type: "checkbox"
-      }))))))));
+      }))), quads_post_meta.enabled_on_amp && quads_post_meta.ad_type == 'yandex' ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Size', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
+        className: "quads-adsense-width-heigth"
+      }, /*#__PURE__*/_react["default"].createElement("div", {
+        className: "quads-adsense-width"
+      }, /*#__PURE__*/_react["default"].createElement("label", null, __('Width', 'quick-adsense-reloaded'), /*#__PURE__*/_react["default"].createElement("input", {
+        value: quads_post_meta.g_data_ad_width ? quads_post_meta.g_data_ad_width : '300',
+        onChange: this.props.adFormChangeHandler,
+        type: "number",
+        id: "g_data_ad_width",
+        name: "g_data_ad_width"
+      }))), /*#__PURE__*/_react["default"].createElement("div", {
+        className: "quads-adsense-height"
+      }, /*#__PURE__*/_react["default"].createElement("label", null, __('Height', 'quick-adsense-reloaded'), /*#__PURE__*/_react["default"].createElement("input", {
+        value: quads_post_meta.g_data_ad_height ? quads_post_meta.g_data_ad_height : '250',
+        onChange: this.props.adFormChangeHandler,
+        type: "number",
+        id: "g_data_ad_height",
+        name: "g_data_ad_height"
+      }))))))) : null)))));
     }
   }]);
 
