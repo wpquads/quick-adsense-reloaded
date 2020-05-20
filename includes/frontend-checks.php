@@ -68,7 +68,6 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
         'title' => __( '- Ad blocker enabled', 'quick-adsense-reloaded' ),
         'meta' => array(
             'class' => 'quads-hidden quads_ad_check_warning',
-            'target' => '_blank'
         )
     ) );
     // Hidden by default
