@@ -20,6 +20,7 @@ class QuadsAdvancePosition extends Component {
     <div>
       <div className="quads-position-dropdown">
         <div>
+         {quads_localize_data.is_amp_enable &&  post_meta.enabled_on_amp ? 
         <select className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
          <optgroup label="Full Support ( AMP &amp; NON AMP )"> 
           <option value="">{__('Select Position', 'quick-adsense-reloaded')}</option>
@@ -32,7 +33,7 @@ class QuadsAdvancePosition extends Component {
           <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>    
           <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>  
           </optgroup>  
-          {quads_localize_data.is_amp_enable &&  post_meta.enabled_on_amp ? 
+         
           <optgroup label="Partial Support ( AMP Only )">
             <option value="amp_after_featured_image">Ad after Featured Image</option>
             <option value="amp_below_the_header">Below the Header (SiteWide)</option>
@@ -45,8 +46,19 @@ class QuadsAdvancePosition extends Component {
             <option value="amp_below_author_box">Below the Author Box (Single Post)</option>
             <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
             </optgroup> 
-            : null }
+           
         </select> 
+         : <select className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
+          <option value="">{__('Select Position', 'quick-adsense-reloaded')}</option>
+          <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>
+          <option value="middle_of_post">{__('Middle of Post', 'quick-adsense-reloaded')}</option>
+          <option value="end_of_post">{__('End of Post', 'quick-adsense-reloaded')}</option>
+          <option value="after_more_tag">{__('Right after the', 'quick-adsense-reloaded')} &lt;!--more--&gt; {__('tag', 'quick-adsense-reloaded')}</option>
+          <option value="before_last_paragraph">{__('Right before the last Paragraph', 'quick-adsense-reloaded')}</option>
+          <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
+          <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>    
+          <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
+          </select>  }
            <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select Where Will The AD Appear</div></span> : ''}</div>
         </div> 
 <div className='position_content'>
