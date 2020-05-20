@@ -32,7 +32,7 @@ class QuadsAdvancePosition extends Component {
           <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>    
           <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>  
           </optgroup>  
-          {quads_localize_data.is_amp_enable ? 
+          {quads_localize_data.is_amp_enable &&  post_meta.enabled_on_amp ? 
           <optgroup label="Partial Support ( AMP Only )">
             <option value="amp_after_featured_image">Ad after Featured Image</option>
             <option value="amp_below_the_header">Below the Header (SiteWide)</option>

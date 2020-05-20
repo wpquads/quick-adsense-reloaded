@@ -62934,7 +62934,7 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         value: "after_image"
       }, __('After Image', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "ad_shortcode"
-      }, __('Shortcode (Manual)', 'quick-adsense-reloaded'))), quads_localize_data.is_amp_enable ? /*#__PURE__*/_react["default"].createElement("optgroup", {
+      }, __('Shortcode (Manual)', 'quick-adsense-reloaded'))), quads_localize_data.is_amp_enable && post_meta.enabled_on_amp ? /*#__PURE__*/_react["default"].createElement("optgroup", {
         label: "Partial Support ( AMP Only )"
       }, /*#__PURE__*/_react["default"].createElement("option", {
         value: "amp_after_featured_image"
