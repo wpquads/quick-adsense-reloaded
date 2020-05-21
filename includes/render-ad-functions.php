@@ -235,7 +235,7 @@ function quads_render_google_async( $id ) {
 
     $id_name = "quads-".esc_attr($id)."-place";
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
-    if ( isset($quads_options['ads'][$id]['lazy_load_ads']) && ($quads_options['ads'][$id]['lazy_load_ads'] == 'yes' || ($quads_options['ads'][$id]['lazy_load_ads']=='inherit' && $quads_options['lazy_load_global']===true))) {
+    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
         $html .= '<div id="'.esc_attr($id_name).'"></div>';
     }
     //google async script
@@ -247,7 +247,8 @@ function quads_render_google_async( $id ) {
     $html .= "\n".'<script type="text/javascript" data-cfasync="false">' . "\n";
     $html .= 'var quads_screen_width = document.body.clientWidth;' . "\n";
     
-if ( isset($quads_options['ads'][$id]['lazy_load_ads']) && ($quads_options['ads'][$id]['lazy_load_ads'] == 'yes' || ($quads_options['ads'][$id]['lazy_load_ads']=='inherit' && $quads_options['lazy_load_global']===true))) {
+    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+
     $html .= quads_render_desktop_js( $id, $default_ad_sizes,$id_name );
     $html .= quads_render_tablet_landscape_js( $id, $default_ad_sizes,$id_name );
     $html .= quads_render_tablet_portrait_js( $id, $default_ad_sizes,$id_name );
@@ -331,8 +332,9 @@ function quads_render_desktop_js( $id, $default_ad_sizes,$id_name='' ) {
     $html .= ' data-ad-slot="' . $quads_options['ads'][$id]['g_data_ad_slot'] . '" ' . $ad_format . '></ins>';
     
     if (!quads_is_extra() && !empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'])){
-$js = 'if ( quads_screen_width >= 1140 ) {';
-        if ( isset($quads_options['ads'][$id]['lazy_load_ads']) && ($quads_options['ads'][$id]['lazy_load_ads'] == 'yes' || ($quads_options['ads'][$id]['lazy_load_ads']=='inherit' && $quads_options['lazy_load_global']===true))) {
+            $js = 'if ( quads_screen_width >= 1140 ) {';
+        if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+
             $js.='document.getElementById("'.$id_name.'").innerHTML='."'".$html."'".';
             (adsbygoogle = window.adsbygoogle || []).push({}); }';
         }else{
@@ -344,8 +346,8 @@ $js = 'if ( quads_screen_width >= 1140 ) {';
     }
     
     if( !isset( $quads_options['ads'][$id][$adtype] ) and !empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
-$js = 'if ( quads_screen_width >= 1140 ) {';
- if ( isset($quads_options['ads'][$id]['lazy_load_ads']) && ($quads_options['ads'][$id]['lazy_load_ads'] == 'yes' || ($quads_options['ads'][$id]['lazy_load_ads']=='inherit' && $quads_options['lazy_load_global']===true))) {
+            $js = 'if ( quads_screen_width >= 1140 ) {';
+        if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
             $js.='document.getElementById("'.$id_name.'").innerHTML='."'".$html."'".';
             (adsbygoogle = window.adsbygoogle || []).push({});}';
         }else{
@@ -402,8 +404,8 @@ function quads_render_tablet_landscape_js( $id, $default_ad_sizes,$id_name='' ) 
     $html .= ' data-ad-slot="' . $quads_options['ads'][$id]['g_data_ad_slot'] . '" ' . $ad_format . '></ins>';
 
         if( !quads_is_extra() && ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
-$js = 'if ( quads_screen_width >= 1024  && quads_screen_width < 1140 ) {';
-        if ( isset($quads_options['ads'][$id]['lazy_load_ads']) && ($quads_options['ads'][$id]['lazy_load_ads'] == 'yes' || ($quads_options['ads'][$id]['lazy_load_ads']=='inherit' && $quads_options['lazy_load_global']===true))) {
+            $js = 'if ( quads_screen_width >= 1024  && quads_screen_width < 1140 ) {';
+        if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
             $js.='document.getElementById("'.$id_name.'").innerHTML='."'".$html."'".';
             (adsbygoogle = window.adsbygoogle || []).push({});}';
         }else{
@@ -416,7 +418,8 @@ $js = 'if ( quads_screen_width >= 1024  && quads_screen_width < 1140 ) {';
     
     if( !isset( $quads_options['ads'][$id]['tablet_landscape'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
         $js = 'if ( quads_screen_width >= 1024  && quads_screen_width < 1140 ) {';
-       if ( isset($quads_options['ads'][$id]['lazy_load_ads']) && ($quads_options['ads'][$id]['lazy_load_ads'] == 'yes' || ($quads_options['ads'][$id]['lazy_load_ads']=='inherit' && $quads_options['lazy_load_global']===true))) {
+        if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+
             $js.='document.getElementById("'.$id_name.'").innerHTML='."'".$html."'".';
             (adsbygoogle = window.adsbygoogle || []).push({}); }';
         }else{
@@ -472,8 +475,9 @@ function quads_render_tablet_portrait_js( $id, $default_ad_sizes,$id_name='' ) {
     $html .= ' data-ad-slot="' . $quads_options['ads'][$id]['g_data_ad_slot'] . '" ' . $ad_format . '></ins>';
 
         if( !quads_is_extra() and !empty( $default_ad_sizes[$id]['tbl_portrait_width'] ) and !empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
-$js = 'if ( quads_screen_width >= 768  && quads_screen_width < 1024 ) {';
-        if ( isset($quads_options['ads'][$id]['lazy_load_ads']) && ($quads_options['ads'][$id]['lazy_load_ads'] == 'yes' || ($quads_options['ads'][$id]['lazy_load_ads']=='inherit' && $quads_options['lazy_load_global']===true))) {
+            $js = 'if ( quads_screen_width >= 768  && quads_screen_width < 1024 ) {';
+        if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+
             $js.='document.getElementById("'.$id_name.'").innerHTML='."'".$html."'".';
             (adsbygoogle = window.adsbygoogle || []).push({}); }';
         }else{
@@ -485,16 +489,16 @@ $js = 'if ( quads_screen_width >= 768  && quads_screen_width < 1024 ) {';
     }
     
     if( !isset( $quads_options['ads'][$id]['tablet_portrait'] ) and !empty( $default_ad_sizes[$id]['tbl_portrait_width'] ) and !empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
-$js = 'if ( quads_screen_width >= 768  && quads_screen_width < 1024 ) {';
- if ( isset($quads_options['ads'][$id]['lazy_load_ads']) && ($quads_options['ads'][$id]['lazy_load_ads'] == 'yes' || ($quads_options['ads'][$id]['lazy_load_ads']=='inherit' && $quads_options['lazy_load_global']===true))) {
-    $js.='document.getElementById("'.$id_name.'").innerHTML='."'".$html."'".';
+        $js = 'if ( quads_screen_width >= 768  && quads_screen_width < 1024 ) {';
+        if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+            $js.='document.getElementById("'.$id_name.'").innerHTML='."'".$html."'".';
             (adsbygoogle = window.adsbygoogle || []).push({}); }';
-}else{
-    $js.= 'document.write(\'' . $html . '\');
-    (adsbygoogle = window.adsbygoogle || []).push({});
-    }';
-}
-return $js;
+        }else{
+            $js.= 'document.write(\'' . $html . '\');
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            }';
+        }
+        return $js;
     }
 }
 
@@ -540,8 +544,8 @@ function quads_render_phone_js( $id, $default_ad_sizes,$id_name='' ) {
     $html .= ' data-ad-slot="' . $quads_options['ads'][$id]['g_data_ad_slot'] . '" ' . $ad_format . '></ins>';
 
         if( !quads_is_extra() and ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
-        $js = 'if ( quads_screen_width < 768 ) {';
- if ( isset($quads_options['ads'][$id]['lazy_load_ads']) && ($quads_options['ads'][$id]['lazy_load_ads'] == 'yes' || ($quads_options['ads'][$id]['lazy_load_ads']=='inherit' && $quads_options['lazy_load_global']===true))) {
+            $js = 'if ( quads_screen_width < 768 ) {';
+        if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
             $js.='document.getElementById("'.$id_name.'").innerHTML='."'".$html."'".';
             (adsbygoogle = window.adsbygoogle || []).push({}); }';
         }else{
@@ -555,7 +559,7 @@ function quads_render_phone_js( $id, $default_ad_sizes,$id_name='' ) {
     
     if( !isset( $quads_options['ads'][$id][$adtype] ) and ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
         $js = 'if ( quads_screen_width < 768 ) {';
- if ( isset($quads_options['ads'][$id]['lazy_load_ads']) && ($quads_options['ads'][$id]['lazy_load_ads'] == 'yes' || ($quads_options['ads'][$id]['lazy_load_ads']=='inherit' && $quads_options['lazy_load_global']===true))) {
+        if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
             $js.='document.getElementById("'.$id_name.'").innerHTML='."'".$html."'".';
             (adsbygoogle = window.adsbygoogle || []).push({}); }';
         }else{
