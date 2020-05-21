@@ -131,7 +131,7 @@ Alternative Installation:
 == Changelog == 
 = 2.0.4 =
 * New: Yandex Integration
-* New: Advance Ads positioning.
+* New: Added move positioning for AMP support.
 * Fix: adsbygoogle.js loading mutiple times.
 
 = 2.0.3 =
