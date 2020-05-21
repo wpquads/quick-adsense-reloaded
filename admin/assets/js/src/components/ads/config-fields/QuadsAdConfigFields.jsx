@@ -267,6 +267,21 @@ error_outline
                 </div>);
 
               break;
+            case 'yandex':
+             ad_type_name = 'Yandex';  
+              comp_html.push(<div key="yandex">
+                <table>
+                  <tbody>
+                    <tr><td>
+                    <label>{__('Block Id', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.block_id == '') ? 'quads_form_error' : ''} value={post_meta.block_id} onChange={this.props.adFormChangeHandler} type="text" id="block_id" name="block_id" placeholder="Block Id" />
+                    {(show_form_error && post_meta.block_id == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Block Id</div> :''}
+                     </td></tr>
+                  </tbody>
+                </table>
+                </div>);
+
+              break;
 
             default:
               comp_html.push(<div key="noads" >{__('Ad not found', 'quick-adsense-reloaded')}</div>);

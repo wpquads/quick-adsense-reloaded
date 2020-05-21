@@ -193,7 +193,7 @@ function quads_process_content( $content ) {
     $adsArray = quads_get_active_ads();
     
     // Return is no ads are defined
-    if ($adsArray === 0){
+    if ($adsArray === 0 && $quads_mode != 'new'){
         return $content;
     }
 
@@ -987,7 +987,9 @@ function quads_parse_random_ads($content) {
 function quads_parse_quicktags($content){
     global $adsArray, $visibleContentAds;
     //print_r(count($adsArray));
-    
+    if (!is_array($adsArray)){
+        return $content;
+    }
     $idx = 0;
     for ( $i = 1; $i <= count( $adsArray ); $i++ ) {
         if( strpos( $content, '<!--Ads' . $adsArray[$idx] . '-->' ) !== false ) {
