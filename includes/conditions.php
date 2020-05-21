@@ -536,7 +536,7 @@ function quads_get_ip_geolocation(){
 } 
 function quads_detect_user_agent( ){
         $user_agent_name ='others';           
-        if     (strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') || strpos($user_agent, 'OPR/')) $user_agent_name = 'opera';
+        if(strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') || strpos($user_agent_name, 'OPR/')) $user_agent_name = 'opera';
         elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Edge'))    $user_agent_name = 'edge';            
         elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Firefox')) $user_agent_name ='firefox';
         elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') || strpos($user_agent, 'Trident/7')) $user_agent_name = 'internet_explorer';                        
