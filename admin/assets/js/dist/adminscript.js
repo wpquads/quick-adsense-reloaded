@@ -62550,14 +62550,16 @@ var QuadsUserTargeting = /*#__PURE__*/function (_Component) {
 
       var __ = wp.i18n.__;
       return /*#__PURE__*/_react["default"].createElement("div", {
-        className: "quads-settings-group"
-      }, /*#__PURE__*/_react["default"].createElement("div", null, __('Targeting', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("div", {
+        className: "quads-settings-group quads-targeting"
+      }, /*#__PURE__*/_react["default"].createElement("div", {
+        className: "quads-title"
+      }, __('Targeting', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-panel"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-panel-body"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-user-targeting-label"
-      }, __('When should the ad display?', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement("b", null, "When"), "  ", __(' should the ad display?', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-user-targeting"
       }, /*#__PURE__*/_react["default"].createElement("h2", null, "Included On ", /*#__PURE__*/_react["default"].createElement("a", {
         onClick: this.includedToggle
@@ -62975,14 +62977,16 @@ var QuadsVisibility = /*#__PURE__*/function (_Component) {
       var __ = wp.i18n.__;
       var show_form_error = this.props.parentState.show_form_error;
       return /*#__PURE__*/_react["default"].createElement("div", {
-        className: "quads-settings-group"
-      }, /*#__PURE__*/_react["default"].createElement("div", null, __('Visibility', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("div", {
+        className: "quads-settings-group quads-visibility"
+      }, /*#__PURE__*/_react["default"].createElement("div", {
+        className: "quads-title"
+      }, __('Visibility', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-panel"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-panel-body"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-user-targeting-label"
-      }, __('Which pages would you like to display?', 'quick-adsense-reloaded'), /*#__PURE__*/_react["default"].createElement("div", null, this.state.multiTypeIncludedValue.length <= 0 && show_form_error ? /*#__PURE__*/_react["default"].createElement("span", {
+      }, /*#__PURE__*/_react["default"].createElement("b", null, "Which"), " ", __(' pages would you like to display?', 'quick-adsense-reloaded'), /*#__PURE__*/_react["default"].createElement("div", null, this.state.multiTypeIncludedValue.length <= 0 && show_form_error ? /*#__PURE__*/_react["default"].createElement("span", {
         className: "quads-error"
       }, "Select at least one visibility condition") : '')), /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-user-targeting"
@@ -64509,7 +64513,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
               className: "quads-generic-icon dashicons dashicons-admin-generic"
             }) : null)) : '', /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", {
               htmlFor: "lazy_load_global"
-            }, __('Lazy Loading', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", {
+            }, __('Lazy Loading for Adsense', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", {
               className: "quads-switch"
             }, /*#__PURE__*/_react["default"].createElement("input", {
               id: "lazy_load_global",

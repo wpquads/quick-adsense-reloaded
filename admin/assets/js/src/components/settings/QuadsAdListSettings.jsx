@@ -756,7 +756,7 @@ handleMultiPluginsChange = (option) => {
                       : ''
                     }     
                     <tr>
-                   <th><label htmlFor="lazy_load_global">{__('Lazy Loading', 'quick-adsense-reloaded')}</label></th>
+                   <th><label htmlFor="lazy_load_global">{__('Lazy Loading for Adsense', 'quick-adsense-reloaded')}</label></th>
                     <td>
                         <label className="quads-switch">
                          <input id="lazy_load_global" type="checkbox" name="lazy_load_global" onChange={this.formChangeHandler} checked={settings.lazy_load_global} />

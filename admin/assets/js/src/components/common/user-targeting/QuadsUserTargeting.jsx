@@ -570,12 +570,12 @@ excludedToggle = () => {
     const {__} = wp.i18n; 
         
     return (
-      <div className="quads-settings-group">
-      <div>{__('Targeting', 'quick-adsense-reloaded')}</div>  
+      <div className="quads-settings-group quads-targeting">
+      <div className="quads-title">{__('Targeting', 'quick-adsense-reloaded')}</div>  
       <div className="quads-panel">
       <div className="quads-panel-body">                 
       <div className="quads-user-targeting-label">
-          {__('When should the ad display?', 'quick-adsense-reloaded')}                     
+        <b>When</b>  {__(' should the ad display?', 'quick-adsense-reloaded')}                     
       </div>
 
        <div className="quads-user-targeting"> 
