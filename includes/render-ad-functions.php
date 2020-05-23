@@ -113,10 +113,12 @@ function quads_render_google_async( $id ) {
         $html .= '<div id="'.esc_attr($id_name).'"></div>';
     }
     //google async script
-    $html .=   "\n".'<script async data-cfasync="false" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
-    if($loaded_lazy_load==''){
-        $loaded_lazy_load = 'yes';
-        $html .= quads_load_loading_script();
+    $html .=   "\n".'<script  data-cfasync="false" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
+    if ( isset($quads_options['ads'][$id]['lazy_load_ads']) && ($quads_options['ads'][$id]['lazy_load_ads'] == 'yes' || ($quads_options['ads'][$id]['lazy_load_ads']=='inherit' && $quads_options['lazy_load_global']===true))) {
+        if($loaded_lazy_load==''){
+            $loaded_lazy_load = 'yes';
+            $html .= quads_load_loading_script();
+        }
     }
     $html .= "\n".'<script type="text/javascript" data-cfasync="false">' . "\n";
     $html .= 'var quads_screen_width = document.body.clientWidth;' . "\n";
@@ -132,8 +134,8 @@ if ( isset($quads_options['ads'][$id]['lazy_load_ads']) && ($quads_options['ads'
     $html = str_replace( '></ins>', '><span>Loading...</span></ins>', $html );
     $code = 'instant= new adsenseLoader( \'#quads-' . esc_attr($id) . '-place\', {
     onLoad: function( ad ){
-        if (ad.classList.contains(\'quads-ll\')) {
-            ad.classList.remove(\'quads-ll\');
+        if (ad.classList.contains("quads-ll")) {
+            ad.classList.remove("quads-ll");
         }
       }   
     });';
@@ -156,12 +158,14 @@ if ( isset($quads_options['ads'][$id]['lazy_load_ads']) && ($quads_options['ads'
 
 function quads_load_loading_script(){
     global $quads_options;
+   
     $script = '';
     if ($quads_options['lazy_load_global']===true) {
-    $script .=  "\n".'<script>!function(e,n){"function"==typeof define&&define.amd?define([],n("adsenseLoader")):"object"==typeof exports?module.exports=n("adsenseLoader"):e.adsenseLoader=n("adsenseLoader")}(this,function(e){"use strict";function n(e,n){"string"==typeof e?e=document.querySelectorAll(e):void 0===e.length&&(e=[e]),n=r(o,n),[].forEach.call(e,function(e){e=h(e,n),d.push(e)}),this.elements=e,l()}var t=250,o={laziness:1,onLoad:!1},r=function(e,n){var t,o={};for(t in e)Object.prototype.hasOwnProperty.call(e,t)&&(o[t]=e[t]);for(t in n)Object.prototype.hasOwnProperty.call(n,t)&&(o[t]=n[t]);return o},a=function(e,n){e.classList?e.classList.add(n):e.className+=" "+n},i=function(e){var n=e.getBoundingClientRect();return{top:n.top+document.body.scrollTop,left:n.left+document.body.scrollLeft}},s=function(e,n){var t,o;return function(){var r=this,a=arguments,i=+new Date;t&&i<t+e?(clearTimeout(o),o=setTimeout(function(){t=i,n.apply(r,a)},e)):(t=i,n.apply(r,a))}},d=[],f=[],u=[],c=function(e){(adsbygoogle=window.adsbygoogle||[]).push({});var n=e._adsenseLoaderData.options.onLoad;"function"==typeof n&&e.querySelector("iframe").addEventListener("load",function(){n(e)})},l=function(){if(!d.length)return!0;var e=window.pageYOffset,n=window.innerHeight;d.forEach(function(t){var o=i(t).top,r=t._adsenseLoaderData.options.laziness+1;if(o-e>n*r||e-o-t.offsetHeight-n*r>0)return!0;d=L(d,t),t._adsenseLoaderData.width=p(t),a(t.children[0],"adsbygoogle"),f.push(t),"undefined"!=typeof adsbygoogle?c(t):u.push(t)})},p=function(e){return parseInt(window.getComputedStyle(e,":before").getPropertyValue("content").slice(1,-1)||9999)},L=function(e,n){return e.filter(function(e){return e!==n})},h=function(e,n){return e._adsenseLoaderData={originalHTML:e.innerHTML,options:n},e.adsenseLoader=function(n){"destroy"==n&&(d=L(d,e),f=L(f,e),u=L(f,e),e.innerHTML=e._adsenseLoaderData.originalHTML)},e};return window.addEventListener("scroll",s(t,l)),window.addEventListener("resize",s(t,l)),window.addEventListener("resize",s(t,function(){if(!f.length)return!0;var e=!1;f.forEach(function(n){n._adsenseLoaderData.width!=p(n)&&(e=!0,f=L(f,n),n.innerHTML=n._adsenseLoaderData.originalHTML,d.push(n))}),e&&l()})),n.prototype={destroy:function(){this.elements.forEach(function(e){e.adsenseLoader("destroy")})}},window.adsenseLoaderConfig=function(e){void 0!==e.throttle&&(t=e.throttle)},n});</script>' . "\n";
-        }
+        $script .=  "\n".'<script>';
+            $script .= file_get_contents(QUADS_PLUGIN_DIR.'assets/js/lazyload.js');
+        $script .= '</script>' . "\n";
+    }
     return $script;
-
 }
 
 /**
