@@ -132,6 +132,7 @@ Alternative Installation:
 = 2.0.5 =
 * New: Lazy Loading ads feature #104
 * Fix: Improved Conditions for user Targeting #99
+* Fix: Ads not working in the AMP, only appears the HTML #121
 
 = 2.0.4 =
 * New: Yandex Integration
