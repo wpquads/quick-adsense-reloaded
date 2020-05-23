@@ -14,6 +14,10 @@ class quads_output_amp_condition_display{
      * List of all hooks which are used in this class
      */
     public function quads_amp_condition_hooks(){
+      global $quads_mode;
+      if($quads_mode != 'new'){
+        return ;
+      }
        // Below the Header 
         //Amp custom theme
         add_action( 'ampforwp_add_loop_class', array($this, 'ampforwp_add_loop_class_above_ad') );

@@ -632,7 +632,7 @@ function quads_is_yandex( $id, $string ) {
 function quads_render_amp($id,$ampsupport=''){
     global $quads_options,$quads_mode;
 
-    if($quads_mode == 'old'){
+    if($quads_mode != 'new'){
         // quads pro not installed and activated
         if ( !quads_is_extra() ){
            return '';
