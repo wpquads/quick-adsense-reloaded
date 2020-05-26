@@ -40,9 +40,11 @@ class QuadsAdListSettings extends Component {
                 hide_ajax          :false,
                 QckTags            :false,
                 adsTxtEnabled      :false,
+                lazy_load_global      :false,
                 global_excluder_enabled: false,  
                 adsTxtText         :'',                
                 debug_mode         : '',
+                ip_geolocation_api : '', 
                 ad_blocker_message : false,
                 analytics          : false,
                 multiUserValue     : [],
@@ -561,6 +563,12 @@ handleMultiPluginsChange = (option) => {
     if(name == 'adsTxtEnabled'){
      this.saveSettings();
     }
+    if(name == 'lazy_load_global'){
+     this.saveSettings();
+    }
+    if(name == 'ip_geolocation_api'){
+     this.saveSettings();
+    }
        
   }
   open_ad_text_modal = () =>{        
@@ -745,8 +753,18 @@ handleMultiPluginsChange = (option) => {
                        {this.state.global_excluder_enabled ? <span onClick={this.open_global_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                      </td>
                      </tr>
-                      : null
-                    }                     
+                      : ''
+                    }     
+                    <tr>
+                   <th><label htmlFor="lazy_load_global">{__('Lazy Loading for Adsense', 'quick-adsense-reloaded')}</label></th>
+                    <td>
+                        <label className="quads-switch">
+                         <input id="lazy_load_global" type="checkbox" name="lazy_load_global" onChange={this.formChangeHandler} checked={settings.lazy_load_global} />
+                         <span className="quads-slider"></span>
+                       </label>
+                      
+                      </td>
+                      </tr>                 
                    </tbody>
                  </table>  
                 </div>

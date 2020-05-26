@@ -207,8 +207,25 @@ and open the template in the editor.
   cursor: pointer; }
 .quads-user-targeting table td {
   width: 25%; }
+
+.quads-user-targeting table td .amp-support {
+  font-size: 11px;
+  color: red; }
+
+.quads-targeting .quads-title {
+  color: #9c27b0; }
+
+.quads-targeting .quads-user-targeting a .material-icons {
+  color: #9c27b0; }
+
+.quads-targeting .quads-target-item {
+  border: 1px solid rgba(156, 39, 176, 0.24);
+  background-color: rgba(156, 39, 176, 0.08); }
 .quads-user-targeting table td {
   width: 25%; }
+
+.quads-visibility .quads-title {
+  color: #005aef; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

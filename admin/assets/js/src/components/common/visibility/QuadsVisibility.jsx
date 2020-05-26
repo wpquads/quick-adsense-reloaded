@@ -183,12 +183,12 @@ excludedToggle = () => {
     const {__} = wp.i18n; 
     const show_form_error = this.props.parentState.show_form_error;
     return (
-      <div className="quads-settings-group">
-      <div>{__('Visibility', 'quick-adsense-reloaded')}</div>  
+      <div className="quads-settings-group quads-visibility">
+      <div className="quads-title">{__('Visibility', 'quick-adsense-reloaded')}</div>  
       <div className="quads-panel">
       <div className="quads-panel-body">                 
       <div className="quads-user-targeting-label">
-          {__('Which pages would you like to display?', 'quick-adsense-reloaded')}                     
+          <b>Which</b> {__(' pages would you like to display?', 'quick-adsense-reloaded')}                     
           <div>{ (this.state.multiTypeIncludedValue.length <= 0 && show_form_error) ? <span className="quads-error">Select at least one visibility condition</span> : ''}</div>
       </div>
 

@@ -8,15 +8,26 @@ class QuadsUserTargeting extends Component {
   constructor(props) {
     super(props);
     this.state = {  
+      is_amp_endpoint_inc : false,
+      is_amp_endpoint_exc : false,
       includedToggle : false,
+      includedTextToggle : true,
+      includedCustomTextToggle : false,
+      excludedCustomTextToggle : false,
+      excludedTextToggle : true,
       excludedToggle  : false,      
       includedRightPlaceholder: 'Select Targeting Data',
       excludedRightPlaceholder: 'Select Targeting Data',
+      includedRightTextPlaceholder: 'Enter Targeting Data',
+      excludedRightTextPlaceholder: 'Enter Targeting Data',
+      
       multiTypeIncludedValue:[],
       multiTypeExcludedValue:[],
 
       multiTypeLeftIncludedValue:[],
       multiTypeRightIncludedValue:[],
+      textTypeRightIncludedValue:'',
+      textTypeRightExcludedValue:'',
 
       multiTypeLeftExcludedValue:[],
       multiTypeRightExcludedValue:[],
@@ -26,21 +37,29 @@ class QuadsUserTargeting extends Component {
 
       multiTypeOptions : [
         {label:'Device Type', value:'device_type'},
-        // {label:'Browser Language', value:'browser_language'},
-        // // {label:' Logged In', value:'logged_in'},
-        // {label:'User Agent', value:'user_agent'},
-        // {label:'User Type', value:'user_type'},                
-        // {label:'Geo Location', value:'geo_location'},
-
-        // {label:' Cookie', value:'cookie'},
-        // {label:' URL Parameter ', value:'url_parameter'},
-        // {label:' Referring URL ', value:'referrer_url'},        
+        {label:'Browser Language', value:'browser_language'},
+        {label:'Logged In', value:'logged_in'},
+        {label:'User Agent', value:'user_agent'},
+        {label:'User Role', value:'user_type'},                
+        //{label:'Geo Location', value:'geo_location'},
+        {label:'Cookie', value:'cookie'},
+        {label:'URL Parameter ', value:'url_parameter'},
+        {label:'Referring URL ', value:'referrer_url'},        
+        {label:'Browser Width', value:'browser_width'},        
       ],
       multiTypeTargetOption : {
         device_type:[
           {label:'Desktop', value:'desktop'},
           {label:'Mobile', value:'mobile'},
           {label:'Tablet', value:'tablet'}
+        ],
+        browser_width:[
+          {label:'Extra Small Devices (320px)', value:'320'},
+          {label:'Small Devices (600px)', value:'600'},
+          {label:'Medium Devices (768px)', value:'768'},
+          {label:'Large Devices (992px)', value:'992'},
+          {label:'Extra Large Devices (1200px)', value:'1200'},
+          {label:'Custom Width', value:'browser_width_custom'},
         ],
         browser_language:[
             { value:'af', label: 'Afrikanns'}  ,
@@ -135,6 +154,10 @@ class QuadsUserTargeting extends Component {
           { value:'contributor', label: 'Contributor'},
           { value:'subscriber', label: 'Subscriber'}
           
+        ], 
+        logged_in:[
+          { value:'true', label: 'True'},
+          { value:'false', label: 'False'},
         ], 
         geo_location:[
           {value :'AFG' , label : 'Afghanistan'},
@@ -396,39 +419,99 @@ class QuadsUserTargeting extends Component {
 
   handleMultiIncludedLeftChange = (option) => {    
       let type = this.state.multiTypeTargetOption[option.value];      
-      let placeholder = 'Search for ' + option.label;
-      this.setState({multiTypeLeftIncludedValue:option, includedDynamicOptions:type, multiTypeRightIncludedValue:[], includedRightPlaceholder:placeholder});
-
+      var placeholder = 'Search for ' + option.label;
+    
+      if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url'){
+        placeholder = 'Enter your ' + option.label;
+        this.setState({includedTextToggle:false});
+        this.setState({multiTypeLeftIncludedValue:option, includedDynamicOptions:type, textTypeRightIncludedValue:'', includedRightPlaceholder:placeholder});
+      }else{
+        if(option.value=='browser_width'){
+          this.setState({is_amp_endpoint_inc:true});
+        }else{
+          this.setState({is_amp_endpoint_inc:false});
+        }
+        this.setState({includedTextToggle:true});
+        this.setState({multiTypeLeftIncludedValue:option, includedDynamicOptions:type, multiTypeRightIncludedValue:[], includedRightPlaceholder:placeholder});
+      }
+     
   }
   handleMultiExcludedLeftChange = (option) => {    
     let type = this.state.multiTypeTargetOption[option.value];         
-    let placeholder = 'Search for ' + option.label;
-    this.setState({multiTypeLeftExcludedValue:option, excludedDynamicOptions:type, multiTypeRightExcludedValue:[], excludedRightPlaceholder:placeholder});
+     var placeholder = 'Search for ' + option.label;
+      if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url'){
+         placeholder = 'Enter your ' + option.label;
+         this.setState({excludedTextToggle:false});
+         this.setState({multiTypeLeftExcludedValue:option, excludedDynamicOptions:type, textTypeRightExcludedValue:'', excludedRightPlaceholder:placeholder});
+      }else{
+        if(option.value=='browser_width'){
+          this.setState({is_amp_endpoint_exc:true});
+        }else{
+          this.setState({is_amp_endpoint_exc:false});
+        }
+        this.setState({excludedTextToggle:true});
+        this.setState({multiTypeLeftExcludedValue:option, excludedDynamicOptions:type, multiTypeRightExcludedValue:[], excludedRightPlaceholder:placeholder});
+      }
+}
 
+handleCustomIncludedRightChange = (option) =>{
+  this.setState({includedCustomTextToggle:true});
+  this.setState({textTypeRightIncludedValue:option.target.value});
+}
+handleCustomExcludedRightChange = (option) =>{
+  this.setState({excludedCustomTextToggle:true});
+  this.setState({textTypeRightExcludedValue:option.target.value});
 }
   handleMultiIncludedRightChange = (option) => {    
       
     this.setState({multiTypeRightIncludedValue:option});
-
+}
+handleMultiIncludedRightChange = (option) => {    
+    let type  = this.state.multiTypeLeftIncludedValue;
+    if(type.value==='cookie' || type.value==='url_parameter' || type.value==='referrer_url'){
+      this.setState({textTypeRightIncludedValue:option.target.value});
+    }else{
+      this.setState({multiTypeRightIncludedValue:option});
+      if(option.value=='browser_width_custom'){
+        let placeholder = 'Enter your ' + option.label;
+        this.setState({includedRightTextPlaceholder:placeholder});
+        this.setState({includedCustomTextToggle:true});
+      }else{
+        this.setState({includedCustomTextToggle:false});
+      }
+    }
 }
 handleMultiExcludedRightChange = (option) => {    
-      
-  this.setState({multiTypeRightExcludedValue:option});
-
+  let type  = this.state.multiTypeLeftExcludedValue;
+  if(type.value=='cookie' || type.value==='url_parameter' || type.value==='referrer_url'){
+    this.setState({textTypeRightExcludedValue:option.target.value});
+  }else{ 
+    this.setState({multiTypeRightExcludedValue:option});
+    if(option.value=='browser_width_custom'){
+      let placeholder = 'Enter your ' + option.label;
+      this.setState({excludedRightTextPlaceholder:placeholder});
+      this.setState({excludedCustomTextToggle:true});
+    }else{
+      this.setState({excludedCustomTextToggle:false});
+    }
+  }
 }
 addIncluded = (e) => {
 
     e.preventDefault();  
 
     let type  = this.state.multiTypeLeftIncludedValue;
-    let value = this.state.multiTypeRightIncludedValue;
-  
+    var value = this.state.multiTypeRightIncludedValue;
+    if((type.value==='cookie' || type.value==='url_parameter' || type.value==='referrer_url') ||(value=='' || (typeof (value.value) !== 'undefined' && value.value=="browser_width_custom"))){
+       var text_data = this.state.textTypeRightIncludedValue;
+       value = {value:text_data,label:text_data};
+    }
     if( typeof (value.value) !== 'undefined'){
       const {multiTypeIncludedValue} = this.state;
       let data    = multiTypeIncludedValue;
       data.push({type: type, value: value});
       let newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);          
-      this.setState({multiTypeIncludedValue: newData});       
+      this.setState({multiTypeIncludedValue: newData,includedToggle : false,textTypeRightIncludedValue:'',multiTypeRightIncludedValue:[],includedCustomTextToggle:false,includedTextToggle:true, includedRightPlaceholder: 'Select Targeting Data',is_amp_endpoint_inc:false});       
     }        
   
 }
@@ -437,14 +520,17 @@ addExcluded = (e) => {
   e.preventDefault();  
 
   let type  = this.state.multiTypeLeftExcludedValue;
-  let value = this.state.multiTypeRightExcludedValue;
-
+  var value = this.state.multiTypeRightExcludedValue;
+   if((type.value==='cookie' || type.value==='url_parameter' || type.value==='referrer_url') ||(value=='' || (typeof (value.value) !== 'undefined' && value.value=="browser_width_custom"))){
+     var text_data = this.state.textTypeRightExcludedValue;
+     value = {value:text_data,label:text_data};
+  } 
   if( typeof (value.value) !== 'undefined'){
     const {multiTypeExcludedValue} = this.state;
     let data    = multiTypeExcludedValue;
     data.push({type: type, value: value});
     let newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);    
-    this.setState({multiTypeExcludedValue: newData});       
+    this.setState({multiTypeExcludedValue: newData,excludedToggle : false,textTypeRightExcludedValue:'',multiTypeRightExcludedValue:[],excludedCustomTextToggle:false,excludedTextToggle:true,excludedRightPlaceholder: 'Select Targeting Data',is_amp_endpoint_inc:false});       
   }        
 
 }
@@ -470,9 +556,8 @@ excludedToggle = () => {
   this.setState({excludedToggle:!this.state.excludedToggle});
 }
   componentDidUpdate (){
-    
     const include = this.state.multiTypeIncludedValue; 
-    const exclude = this.state.multiTypeExcludedValue
+    const exclude = this.state.multiTypeExcludedValue;
     if(include.length > 0 || exclude.length > 0){
       this.props.updateVisitorTarget(include, exclude);
     }
@@ -485,12 +570,12 @@ excludedToggle = () => {
     const {__} = wp.i18n; 
         
     return (
-      <div className="quads-settings-group">
-      <div>{__('Targeting', 'quick-adsense-reloaded')}</div>  
+      <div className="quads-settings-group quads-targeting">
+      <div className="quads-title">{__('Targeting', 'quick-adsense-reloaded')}</div>  
       <div className="quads-panel">
       <div className="quads-panel-body">                 
       <div className="quads-user-targeting-label">
-          {__('When should the ad display?', 'quick-adsense-reloaded')}                     
+        <b>When</b>  {__(' should the ad display?', 'quick-adsense-reloaded')}                     
       </div>
 
        <div className="quads-user-targeting"> 
@@ -521,10 +606,14 @@ excludedToggle = () => {
               placeholder="Select Targeting Type"              
               options= {this.state.multiTypeOptions}
               value  = {this.multiTypeLeftIncludedValue}
-              onChange={this.handleMultiIncludedLeftChange}                                                 
-            />             
+              onChange={this.handleMultiIncludedLeftChange}         
+            /> 
+            {this.state.is_amp_endpoint_inc?
+              <span className="amp-support">AMP does not support Browser Width Targeting</span>
+            :''}             
            </td>
            <td>
+           {this.state.includedTextToggle?
             <Select       
               Clearable ={true}      
               name="userTargetingIncludedData"
@@ -532,7 +621,21 @@ excludedToggle = () => {
               value={this.state.multiTypeRightIncludedValue}
               options={this.state.includedDynamicOptions}
               onChange={this.handleMultiIncludedRightChange}                                    
-            />             
+            /> 
+            :<input type="text"
+              name="userTargetingIncludedData" 
+              placeholder={this.state.includedRightPlaceholder}
+              value={this.state.textTypeRightIncludedValue}
+              onChange={this.handleMultiIncludedRightChange}  />  
+            }
+            {this.state.includedCustomTextToggle?
+            <input type="text"
+              name="userTargetingIncludedData" 
+              placeholder={this.state.includedRightTextPlaceholder}
+              value={this.state.textTypeRightIncludedValue}
+              onChange={this.handleCustomIncludedRightChange}  
+             />    
+            :''}     
            </td>
            <td><a onClick={this.addIncluded} className="quads-btn quads-btn-primary">Add</a></td>
            </tr>
@@ -565,10 +668,14 @@ excludedToggle = () => {
               placeholder="Select Targeting Type"              
               options= {this.state.multiTypeOptions}
               value  = {this.multiTypeLeftExcludedValue}
-              onChange={this.handleMultiExcludedLeftChange}                                                 
-            />             
+              onChange={this.handleMultiExcludedLeftChange}   
+            />  
+            {this.state.is_amp_endpoint_exc?
+              <span className="amp-support">AMP does not support Browser Width Targeting</span>
+            :''}
            </td>
            <td>
+           {this.state.excludedTextToggle?
             <Select       
               Clearable ={true}      
               name="userTargetingExcludedData"
@@ -576,7 +683,22 @@ excludedToggle = () => {
               value={this.state.multiTypeRightExcludedValue}
               options={this.state.excludedDynamicOptions}
               onChange={this.handleMultiExcludedRightChange}                                    
-            />             
+            />   
+            :<input type="text"
+              Clearable ={true}  
+              name="userTargetingExcludedData" 
+              placeholder={this.state.excludedRightPlaceholder}
+              value={this.state.textTypeRightExcludedValue}
+              onChange={this.handleMultiExcludedRightChange}  />  
+            }
+            {this.state.excludedCustomTextToggle?
+            <input type="text"
+              name="userTargetingIncludedData" 
+              placeholder={this.state.excludedRightTextPlaceholder}
+              value={this.state.textTypeRightExcludedValue}
+              onChange={this.handleCustomExcludedRightChange}  
+             />    
+            :''}             
            </td>
            <td><a onClick={this.addExcluded} className="quads-btn quads-btn-primary">Add</a></td>
            </tr>
