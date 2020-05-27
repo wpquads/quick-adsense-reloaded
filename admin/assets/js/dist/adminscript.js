@@ -55966,7 +55966,11 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react["default"].createElement("a", {
         className: "quads-autofill",
         onClick: this.props.openModal
-      }, __('Autofill', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement(_QuadsAdModal["default"], {
+      }, __('Autofill', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("a", {
+        "class": "quads-general-helper",
+        target: "_blank",
+        href: "https://wpquads.com/documentation/how-to-find-data-client-id-data-slot-id-for-adsense-integration/"
+      }), /*#__PURE__*/_react["default"].createElement(_QuadsAdModal["default"], {
         closeModal: this.props.closeModal,
         parentState: this.props.parentState,
         title: __('Enter AdSense text and display ad code here', 'quick-adsense-reloaded'),

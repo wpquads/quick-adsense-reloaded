@@ -119,6 +119,9 @@ and open the template in the editor.
   margin-left: 30px;
   top: -17px;
   position: relative; }
+
+#quads-ad-content .quads-autofill-div .quads-general-helper:after {
+  margin-top: -1px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
