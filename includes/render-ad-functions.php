@@ -721,8 +721,13 @@ function quads_render_ad_label_new( $adcode,$id='') {
          $label = apply_filters( 'quads_ad_label', $ad_label_text );
 
        $html = '<div class="quads-ad-label quads-ad-label-new">' . sanitize_text_field($label) . '</div>';
-       if (defined('QUADS_PRO_VERSION') && QUADS_PRO_VERSION <2.0) {
-        $html .= '<style>.quads-ad-label{display:none}  .quads-ad-label.quads-ad-label-new{display:block}</style>';
+       if (defined('QUADS_PRO_VERSION') && QUADS_PRO_VERSION >= '2.0') {
+            $css = '.quads-ad-label{display:none}  .quads-ad-label.quads-ad-label-new{display:block}';
+            wp_dequeue_style('quads-ad-label');
+            wp_deregister_style('quads-ad-label');
+            wp_register_style( 'quads-ad-label', false );
+            wp_enqueue_style( 'quads-ad-label' );
+            wp_add_inline_style( 'quads-ad-label', $css );
         }
 
        if( $position == 'above' ) {
