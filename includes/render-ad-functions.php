@@ -720,7 +720,10 @@ function quads_render_ad_label_new( $adcode,$id='') {
         $ad_label_text =  (isset($quads_options['ads'][$id]['ad_label_text']) && !empty($quads_options['ads'][$id]['ad_label_text'])) ? $quads_options['ads'][$id]['ad_label_text'] : 'Advertisements';
          $label = apply_filters( 'quads_ad_label', $ad_label_text );
 
-       $html = '<div class="quads-ad-label">' . sanitize_text_field($label) . '</div>';
+       $html = '<div class="quads-ad-label quads-ad-label-new">' . sanitize_text_field($label) . '</div>';
+       if (defined('QUADS_PRO_VERSION') && QUADS_PRO_VERSION <2.0) {
+        $html .= '<style>.quads-ad-label{display:none}  .quads-ad-label.quads-ad-label-new{display:block}</style>';
+        }
 
        if( $position == 'above' ) {
           return $html . $adcode;
