@@ -122,6 +122,9 @@ and open the template in the editor.
 
 #quads-ad-content .quads-autofill-div .quads-general-helper:after {
   margin-top: -1px; }
+
+#quads-ad-content .quads-autofill-div .quads-general-helper {
+  background-color: #005aef; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

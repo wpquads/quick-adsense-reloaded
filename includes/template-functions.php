@@ -393,7 +393,7 @@ function quads_filter_default_ads_new( $content ) {
                         $ad_label_text =  (isset($ads['ad_label_text']) && !empty($ads['ad_label_text'])) ? $ads['ad_label_text'] : 'Advertisements';
                           $label = apply_filters( 'quads_ad_label', $ad_label_text );
                         if($adlabel == 'above'){
-                            $html = '<div class="quads-ad-label">' . $label . '</div> <!--CusRnd'.$ads['ad_id'].'-->'; 
+                            $html = '<div class="quads-ad-label">' . sanitize_text_field($label) . '</div> <!--CusRnd'.$ads['ad_id'].'-->'; 
                         }else{
                             $cusads = '<!--CusRnd'.$ads['ad_id'].'--><div class="quads-ad-label">' . $label . '</div>';
                         }
@@ -407,7 +407,7 @@ function quads_filter_default_ads_new( $content ) {
                         $ad_label_text =  (isset($ads['ad_label_text']) && !empty($ads['ad_label_text'])) ? $ads['ad_label_text'] : 'Advertisements';
                           $label = apply_filters( 'quads_ad_label', $ad_label_text );
                         if($adlabel == 'above'){
-                            $cusads = '<div class="quads-ad-label">' . $label . '</div><!--CusAds'.$ads['ad_id'].'-->'; 
+                            $cusads = '<div class="quads-ad-label">' . sanitize_text_field($label) . '</div><!--CusAds'.$ads['ad_id'].'-->'; 
                         }else{
                             $cusads = '<!--CusAds'.$ads['ad_id'].'--> <div class="quads-ad-label">' . $label . '</div>';
                         }
