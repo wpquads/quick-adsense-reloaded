@@ -41,18 +41,18 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
         // allow use of shortcodes in ad plain text content
         $string = quadsCleanShortcode('quads', $string);
         //wp_die('t1');
-        return apply_filters( 'quads_render_ad', $string );
+        return apply_filters( 'quads_render_ad', $string,$id );
     }
 
     // Return the adsense ad code
     if( true === quads_is_adsense( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_google_async( $id ) );
+        return apply_filters( 'quads_render_ad', quads_render_google_async( $id ),$id );
     }
     if( true === quads_is_double_click( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_double_click_async( $id ) );
+        return apply_filters( 'quads_render_ad', quads_render_double_click_async( $id ),$id );
     }
     if( true === quads_is_yandex( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_yandex_async( $id ) );
+        return apply_filters( 'quads_render_ad', quads_render_yandex_async( $id ),$id );
     }
 
     // Return empty string
@@ -711,3 +711,25 @@ function quads_is_amp_endpoint(){
     }
     return false;
 }
+
+function quads_render_ad_label_new( $adcode,$id='') {
+   global $quads_options,$quads_mode;
+    $ad_label_check  = isset($quads_options['ads'][$id]['ad_label_check']) ? $quads_options['ads'][$id]['ad_label_check'] : false;
+    if($quads_mode =='new' && $ad_label_check){
+        $position =  (isset($quads_options['ads'][$id]['adlabel']) && !empty($quads_options['ads'][$id]['adlabel']) )? $quads_options['ads'][$id]['adlabel'] : 'above';
+        $ad_label_text =  (isset($quads_options['ads'][$id]['ad_label_text']) && !empty($quads_options['ads'][$id]['ad_label_text'])) ? $quads_options['ads'][$id]['ad_label_text'] : 'Advertisements';
+         $label = apply_filters( 'quads_ad_label', $ad_label_text );
+
+       $html = '<div class="quads-ad-label">' . sanitize_text_field($label) . '</div>';
+
+       if( $position == 'above' ) {
+          return $html . $adcode;
+       }
+       if( $position == 'below' ) {
+          return $adcode . $html;
+       }
+    }
+    return $adcode;
+}
+
+add_filter( 'quads_render_ad', 'quads_render_ad_label_new',99,2 );

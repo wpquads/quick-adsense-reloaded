@@ -60952,7 +60952,6 @@ var QuadsLayout = /*#__PURE__*/function (_Component) {
     value: function render() {
       var __ = wp.i18n.__;
       var post_meta = this.props.parentState.quads_post_meta;
-      console.log(post_meta.ad_label_check);
       return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", null, __('Layout', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-panel"
       }, /*#__PURE__*/_react["default"].createElement("div", {

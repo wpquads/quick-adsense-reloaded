@@ -384,37 +384,12 @@ function quads_filter_default_ads_new( $content ) {
                 $imageNo      = (isset($ads['image_number']) && $ads['image_number'] !='') ? $ads['image_number'] : 1;
                 $imageCaption = isset($ads['image_caption']) ? $ads['image_caption'] : false;
                 $end_of_post  = isset($ads['enable_on_end_of_post']) ? $ads['enable_on_end_of_post'] : false;
-                $ad_label_check  = isset($ads['ad_label_check']) ? $ads['ad_label_check'] : false;
  
                 // placeholder string for custom ad spots
                 if(isset($ads['random_ads_list']) && !empty($ads['random_ads_list'])){
-                    if($ad_label_check){
-                        $adlabel =  isset($ads['adlabel']) ? $ads['adlabel'] : 'above';
-                        $ad_label_text =  (isset($ads['ad_label_text']) && !empty($ads['ad_label_text'])) ? $ads['ad_label_text'] : 'Advertisements';
-                          $label = apply_filters( 'quads_ad_label', $ad_label_text );
-                        if($adlabel == 'above'){
-                            $html = '<div class="quads-ad-label">' . sanitize_text_field($label) . '</div> <!--CusRnd'.$ads['ad_id'].'-->'; 
-                        }else{
-                            $cusads = '<!--CusRnd'.$ads['ad_id'].'--><div class="quads-ad-label">' . $label . '</div>';
-                        }
-                       
-                    }else{
-                        $cusads = '<!--CusRnd'.$ads['ad_id'].'-->'; 
-                    }
+                    $cusads = '<!--CusRnd'.$ads['ad_id'].'-->'; 
                 }else{
-                    if($ad_label_check){
-                        $adlabel =  isset($ads['adlabel']) ? $ads['adlabel'] : 'above';
-                        $ad_label_text =  (isset($ads['ad_label_text']) && !empty($ads['ad_label_text'])) ? $ads['ad_label_text'] : 'Advertisements';
-                          $label = apply_filters( 'quads_ad_label', $ad_label_text );
-                        if($adlabel == 'above'){
-                            $cusads = '<div class="quads-ad-label">' . sanitize_text_field($label) . '</div><!--CusAds'.$ads['ad_id'].'-->'; 
-                        }else{
-                            $cusads = '<!--CusAds'.$ads['ad_id'].'--> <div class="quads-ad-label">' . $label . '</div>';
-                        }
-                       
-                    }else{
-                        $cusads = '<!--CusAds'.$ads['ad_id'].'-->'; 
-                    }
+                       $cusads = '<!--CusAds'.$ads['ad_id'].'-->'; 
                 }
                 switch ($position) {
 

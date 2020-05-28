@@ -14,7 +14,6 @@ class QuadsLayout extends Component {
   render() {
     const {__} = wp.i18n;  
     const post_meta = this.props.parentState.quads_post_meta;  
-console.log(post_meta.ad_label_check);
           return (
             <div>
               <div>{__('Layout', 'quick-adsense-reloaded')}</div>
