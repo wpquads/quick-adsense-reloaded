@@ -32,7 +32,7 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     
     
     if (quads_is_amp_endpoint()){
-        return quads_render_amp($id,$ampsupport);
+        return apply_filters( 'quads_render_ad', quads_render_amp($id,$ampsupport),$id );
     }
     
 
@@ -712,12 +712,22 @@ function quads_is_amp_endpoint(){
     return false;
 }
 
+
+
 function quads_render_ad_label_new( $adcode,$id='') {
    global $quads_options,$quads_mode;
-    $ad_label_check  = isset($quads_options['ads'][$id]['ad_label_check']) ? $quads_options['ads'][$id]['ad_label_check'] : false;
+
+   $post_id= quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $id);
+    $ad_meta = get_post_meta($post_id, '',true);
+    if (quads_is_amp_endpoint()){
+        if(!isset($ad_meta['enabled_on_amp'][0]) || (isset($ad_meta['enabled_on_amp'][0]) && (empty($ad_meta['enabled_on_amp'][0])|| !$ad_meta['enabled_on_amp'][0]) )){
+            return $adcode;
+        }
+    }
+    $ad_label_check  = isset($ad_meta['ad_label_check'][0]) ? $ad_meta['ad_label_check'][0] : false;
     if($quads_mode =='new' && $ad_label_check){
-        $position =  (isset($quads_options['ads'][$id]['adlabel']) && !empty($quads_options['ads'][$id]['adlabel']) )? $quads_options['ads'][$id]['adlabel'] : 'above';
-        $ad_label_text =  (isset($quads_options['ads'][$id]['ad_label_text']) && !empty($quads_options['ads'][$id]['ad_label_text'])) ? $quads_options['ads'][$id]['ad_label_text'] : 'Advertisements';
+        $position =  (isset($ad_meta['adlabel'][0]) && !empty($ad_meta['adlabel'][0]) )? $ad_meta['adlabel'][0] : 'above';
+        $ad_label_text =  (isset($ad_meta['ad_label_text'][0]) && !empty($ad_meta['ad_label_text'][0])) ? $ad_meta['ad_label_text'][0] : 'Advertisements';
          $label = apply_filters( 'quads_ad_label', $ad_label_text );
 
        $html = '<div class="quads-ad-label quads-ad-label-new">' . sanitize_text_field($label) . '</div>';
