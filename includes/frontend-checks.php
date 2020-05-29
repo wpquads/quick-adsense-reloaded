@@ -54,7 +54,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
         'parent' => 'quads_ad_check',
         'id' => 'quads_ad_check_jquery',
         'title' => __( '- JavaScript / jQuery error', 'quick-adsense-reloaded' ),
-        'href' => 'http://wpquads.com/docs/javascript-issues-breaking-adsense-ads/',
+        'href' => 'https://wpquads.com/docs/javascript-issues-breaking-adsense-ads/',
         'meta' => array(
             'class' => 'quads-hidden quads_ad_check_warning',
             'target' => '_blank'

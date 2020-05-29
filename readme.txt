@@ -133,6 +133,7 @@ Alternative Installation:
 * New: Added ad label for individual post in new interface #117
 * New: Added a tutorial link in the Adsense #116
 * Fix: Fixed AMP single page data duplication issue. #123
+* Fix: Fixed http link is breaking the Secure protocol #126
 
 = 2.0.5 =
 * New: Lazy Loading ads feature #104
