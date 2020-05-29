@@ -1183,7 +1183,7 @@ function quads_get_inline_ad_style( $id ) {
     //wp_die('ad'.$id);
 
     // Do not create any inline style on AMP site
-    $style =  !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
+    $style =   apply_filters( 'quads_filter_margins', $margin, 'ad' . $id );
     
     return $style;
 }
@@ -1211,7 +1211,7 @@ function quads_get_inline_ad_style_new( $id ) {
     $margin = sprintf( $styleArray[$adsalign], $adsmargin );
     
     // Do not create any inline style on AMP site
-    $style =  !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
+    $style =  apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) ;
     
     return $style;
 }
