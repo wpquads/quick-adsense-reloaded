@@ -317,7 +317,7 @@ class QUADS_Ad_Setup_Api {
              
              $message = '<p>'.$message.'</p><br><br>'
                      . $customer_type
-                     . '<br><br>'.'Query from WP Quads plugin support tab';
+                     . '<br><br>'.'Query from WP Quads plugin support tab <br> User Website URL: '.site_url();
              
              if($email && $message){
                            
