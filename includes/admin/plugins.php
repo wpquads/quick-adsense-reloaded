@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @return array $links
  */
 function quads_plugin_action_links( $links, $file ) {
-	$settings_link = '<a href="' . admin_url( 'options-general.php?page=quads-settings' ) . '">' . esc_html__( 'General Settings', 'quick-adsense-reloaded' ) . '</a>';
+	$settings_link = '<a href="' . admin_url( 'admin.php?page=quads-settings' ) . '">' . esc_html__( 'General Settings', 'quick-adsense-reloaded' ) . '</a>';
         
 	if ( $file == 'quick-adsense-reloaded/quick-adsense-reloaded.php' || $file == 'quads-pro/wpquads-pro.php' ){
 		array_unshift( $links, $settings_link );
