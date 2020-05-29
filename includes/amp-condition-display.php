@@ -134,6 +134,9 @@ class quads_output_amp_condition_display{
           if(isset($ads['enabled_on_amp']) && !$ads['enabled_on_amp']){
             continue;
           }
+          if(!isset($ads['position'])){
+            continue;
+          }
           if($ads['position'] =='amp_after_featured_image' && $condition == 'quads_after_featured_image'){
               $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
               echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );

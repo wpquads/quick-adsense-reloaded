@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class QUADS_Ad_Setup_Api_Service {
 
     private $migration_service = null;
+    private $amp_front_loop = array();
 
     public function __construct() {
         
@@ -341,36 +342,32 @@ class QUADS_Ad_Setup_Api_Service {
     public function getPostsByArg($arg){
       
       $response = array();
-
-      $meta_query = new WP_Query($arg);        
-              
-        if($meta_query->have_posts()) {
-             
-            $data = array();  
-            $post_meta = array();        
-            while($meta_query->have_posts()) {
-                $meta_query->the_post();
-                $data['post_id']       =  get_the_ID();
-                $data['post_title']    =  get_the_title();
-                $data['post_status']   =  get_post_status();
-                $data['post_modified'] =  get_the_date('d M, Y');
-                $post_meta             = get_post_meta(get_the_ID(), '', true);
-                if($post_meta){
-                    foreach($post_meta as $key => $val ){
-                        $post_meta[$key] = $val[0];
-                    }
-                }
-                
-                $posts_data[] = array(
-                'post'        => (array) $data,
-                'post_meta'   => $post_meta                
-                ); 
-
+      if(count($this->amp_front_loop)==0){
+        $query_data =  get_posts($arg);
+        $post_meta = array();        
+        foreach ($query_data as $key => $value) {
+          $data = array();  
+          $data['post_id']       =  $value->ID;
+          $data['post_title']    =  $value->post_title;
+          $data['post_status']   =  $value->post_status;
+          $data['post_modified'] =  $value->post_modified;
+          $post_meta             = get_post_meta($data['post_id'], '', true);
+          if($post_meta){
+            foreach($post_meta as $key => $val ){
+                $post_meta[$key] = $val[0];
             }
-            wp_reset_postdata(); 
-            $response['posts_data']  = $posts_data;
-            $response['posts_found'] = $meta_query->found_posts;
+          }
+          $posts_data[] = array(
+                  'post'        => (array) $data,
+                  'post_meta'   => $post_meta                
+                  ); 
         }
+        $response['posts_data']  = $posts_data;
+        $response['posts_found'] = count($query_data);
+        $this->amp_front_loop = $response;
+      }else{
+        $response = $this->amp_front_loop;
+      }
 
         return $response;
 

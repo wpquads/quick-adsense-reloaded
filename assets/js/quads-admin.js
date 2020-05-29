@@ -81,9 +81,13 @@ $('a[href$="quads_switch_to_old"]').removeAttr("href").attr('onClick', "quads_sw
     }
     // show / hide helper description
     $('.quads-tooltip').click(function (e) {
-        e.preventDefault();
         var icon = $(this),
                 bubble = $(this).next();
+        if(bubble.html() === undefined){
+            return ;
+        }else{
+            e.preventDefault();
+        }
 
         // Close any that are already open
         $('.quads-tooltip-message').not(bubble).hide();

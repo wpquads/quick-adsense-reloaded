@@ -387,9 +387,9 @@ function quads_filter_default_ads_new( $content ) {
  
                 // placeholder string for custom ad spots
                 if(isset($ads['random_ads_list']) && !empty($ads['random_ads_list'])){
-                       $cusads = '<!--CusRnd'.$ads['ad_id'].'-->'; 
+                    $cusads = '<!--CusRnd'.$ads['ad_id'].'-->'; 
                 }else{
-                    $cusads = '<!--CusAds'.$ads['ad_id'].'-->';
+                       $cusads = '<!--CusAds'.$ads['ad_id'].'-->'; 
                 }
                 switch ($position) {
 

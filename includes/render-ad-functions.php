@@ -32,7 +32,7 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     
     
     if (quads_is_amp_endpoint()){
-        return quads_render_amp($id,$ampsupport);
+        return apply_filters( 'quads_render_ad', quads_render_amp($id,$ampsupport),$id );
     }
     
 
@@ -41,18 +41,18 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
         // allow use of shortcodes in ad plain text content
         $string = quadsCleanShortcode('quads', $string);
         //wp_die('t1');
-        return apply_filters( 'quads_render_ad', $string );
+        return apply_filters( 'quads_render_ad', $string,$id );
     }
 
     // Return the adsense ad code
     if( true === quads_is_adsense( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_google_async( $id ) );
+        return apply_filters( 'quads_render_ad', quads_render_google_async( $id ),$id );
     }
     if( true === quads_is_double_click( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_double_click_async( $id ) );
+        return apply_filters( 'quads_render_ad', quads_render_double_click_async( $id ),$id );
     }
     if( true === quads_is_yandex( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_yandex_async( $id ) );
+        return apply_filters( 'quads_render_ad', quads_render_yandex_async( $id ),$id );
     }
 
     // Return empty string
@@ -711,3 +711,43 @@ function quads_is_amp_endpoint(){
     }
     return false;
 }
+
+
+
+function quads_render_ad_label_new( $adcode,$id='') {
+   global $quads_options,$quads_mode;
+
+   $post_id= quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $id);
+    $ad_meta = get_post_meta($post_id, '',true);
+    if (quads_is_amp_endpoint()){
+        if(!isset($ad_meta['enabled_on_amp'][0]) || (isset($ad_meta['enabled_on_amp'][0]) && (empty($ad_meta['enabled_on_amp'][0])|| !$ad_meta['enabled_on_amp'][0]) )){
+            return $adcode;
+        }
+    }
+    $ad_label_check  = isset($ad_meta['ad_label_check'][0]) ? $ad_meta['ad_label_check'][0] : false;
+    if($quads_mode =='new' && $ad_label_check){
+        $position =  (isset($ad_meta['adlabel'][0]) && !empty($ad_meta['adlabel'][0]) )? $ad_meta['adlabel'][0] : 'above';
+        $ad_label_text =  (isset($ad_meta['ad_label_text'][0]) && !empty($ad_meta['ad_label_text'][0])) ? $ad_meta['ad_label_text'][0] : 'Advertisements';
+         $label = apply_filters( 'quads_ad_label', $ad_label_text );
+
+       $html = '<div class="quads-ad-label quads-ad-label-new">' . sanitize_text_field($label) . '</div>';
+       if (defined('QUADS_PRO_VERSION') && QUADS_PRO_VERSION >= '2.0') {
+            $css = '.quads-ad-label{display:none}  .quads-ad-label.quads-ad-label-new{display:block}';
+            wp_dequeue_style('quads-ad-label');
+            wp_deregister_style('quads-ad-label');
+            wp_register_style( 'quads-ad-label', false );
+            wp_enqueue_style( 'quads-ad-label' );
+            wp_add_inline_style( 'quads-ad-label', $css );
+        }
+
+       if( $position == 'above' ) {
+          return $html . $adcode;
+       }
+       if( $position == 'below' ) {
+          return $adcode . $html;
+       }
+    }
+    return $adcode;
+}
+
+add_filter( 'quads_render_ad', 'quads_render_ad_label_new',99,2 );

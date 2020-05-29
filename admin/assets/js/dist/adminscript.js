@@ -10466,7 +10466,9 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
         ad_unit_name: '',
         code: '',
         align: 3,
+        ad_label_check: false,
         adlabel: '',
+        ad_label_text: 'Advertisements',
         margin: 0,
         position: 'beginning_of_post',
         paragraph_number: 1,
@@ -55964,7 +55966,11 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react["default"].createElement("a", {
         className: "quads-autofill",
         onClick: this.props.openModal
-      }, __('Autofill', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement(_QuadsAdModal["default"], {
+      }, __('Autofill', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("a", {
+        "class": "quads-general-helper",
+        target: "_blank",
+        href: "https://wpquads.com/documentation/how-to-find-data-client-id-data-slot-id-for-adsense-integration/"
+      }), /*#__PURE__*/_react["default"].createElement(_QuadsAdModal["default"], {
         closeModal: this.props.closeModal,
         parentState: this.props.parentState,
         title: __('Enter AdSense text and display ad code here', 'quick-adsense-reloaded'),
@@ -60950,17 +60956,7 @@ var QuadsLayout = /*#__PURE__*/function (_Component) {
         className: "quads-panel"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-panel-body"
-      }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, quads_localize_data.is_pro ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
-        name: "adlabel",
-        value: post_meta.adlabel,
-        onChange: this.props.adFormChangeHandler
-      }, /*#__PURE__*/_react["default"].createElement("option", {
-        value: "none"
-      }, __('No Label', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
-        value: "above"
-      }, __('Above Ads', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
-        value: "below"
-      }, __('Below Ads', 'quick-adsense-reloaded'))))) : null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Align', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
+      }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Align', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
         name: "align",
         value: post_meta.align,
         onChange: this.props.adFormChangeHandler
@@ -60982,7 +60978,30 @@ var QuadsLayout = /*#__PURE__*/function (_Component) {
         id: "margin",
         name: "margin",
         value: post_meta.margin
-      }))))))));
+      }))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", {
+        htmlFor: "ad_label_check"
+      }, __('Ad label', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+        id: "ad_label_check",
+        checked: post_meta.ad_label_check,
+        name: "ad_label_check",
+        onChange: this.props.adFormChangeHandler,
+        type: "checkbox"
+      }))), post_meta.ad_label_check ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label Position', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
+        name: "adlabel",
+        value: post_meta.adlabel,
+        onChange: this.props.adFormChangeHandler
+      }, /*#__PURE__*/_react["default"].createElement("option", {
+        value: "above"
+      }, __('Above Ads', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "below"
+      }, __('Below Ads', 'quick-adsense-reloaded'))))) : null, post_meta.ad_label_check ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label Text', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+        onChange: this.props.adFormChangeHandler,
+        type: "text",
+        className: "small-text",
+        id: "ad_label_text",
+        name: "ad_label_text",
+        value: post_meta.ad_label_text
+      }))) : null)))));
     }
   }]);
 
