@@ -60992,9 +60992,9 @@ var QuadsLayout = /*#__PURE__*/function (_Component) {
         onChange: this.props.adFormChangeHandler
       }, /*#__PURE__*/_react["default"].createElement("option", {
         value: "above"
-      }, __('Above Ads', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+      }, __('Above Ad', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "below"
-      }, __('Below Ads', 'quick-adsense-reloaded'))))) : null, post_meta.ad_label_check ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label Text', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+      }, __('Below Ad', 'quick-adsense-reloaded'))))) : null, post_meta.ad_label_check ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label Text', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
         onChange: this.props.adFormChangeHandler,
         type: "text",
         className: "small-text",
