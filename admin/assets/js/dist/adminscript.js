@@ -63267,7 +63267,7 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         name: "image_number",
         value: post_meta.image_number,
         type: "number"
-      }) : ''), /*#__PURE__*/_react["default"].createElement("div", null, post_meta.position == 'after_paragraph' ? /*#__PURE__*/_react["default"].createElement("label", null, post_meta.position == 'after_paragraph' ? /*#__PURE__*/_react["default"].createElement("input", {
+      }) : ''), /*#__PURE__*/_react["default"].createElement("div", null, post_meta.position == 'after_paragraph' ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("label", null, post_meta.position == 'after_paragraph' ? /*#__PURE__*/_react["default"].createElement("input", {
         min: "1",
         onChange: this.props.adFormChangeHandler,
         name: "paragraph_number",
@@ -63279,9 +63279,9 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         name: "enable_on_end_of_post",
         onChange: this.props.adFormChangeHandler,
         type: "checkbox"
-      }), /*#__PURE__*/_react["default"].createElement("label", {
+      })), /*#__PURE__*/_react["default"].createElement("label", {
         "for": "enable_on_end_of_post"
-      }, __('to', 'quick-adsense-reloaded'), " ", /*#__PURE__*/_react["default"].createElement("strong", null, __('End of Post', 'quick-adsense-reloaded')), " ", __('if fewer paragraphs', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("input", {
+      }, __('to', 'quick-adsense-reloaded'), " ", /*#__PURE__*/_react["default"].createElement("strong", null, __('End of Post', 'quick-adsense-reloaded')), " ", __('if fewer paragraphs', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("input", {
         id: "repeat_paragraph",
         checked: post_meta.repeat_paragraph,
         name: "repeat_paragraph",
@@ -63289,7 +63289,7 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         type: "checkbox"
       }), /*#__PURE__*/_react["default"].createElement("label", {
         "for": "repeat_paragraph"
-      }, " ", __('Repeat', 'quick-adsense-reloaded'))) : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
+      }, " ", __('Reapeat after xth paragraph', 'quick-adsense-reloaded')))) : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
         checked: post_meta.image_caption,
         name: "image_caption",
         onChange: this.props.adFormChangeHandler,
