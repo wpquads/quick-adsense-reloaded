@@ -61098,7 +61098,9 @@ var QuadsAdTargeting = /*#__PURE__*/function (_Component) {
         className: "quads-panel"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-panel-body"
-      }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Where will the AD appear?', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_QuadsAdvancePosition["default"], {
+      }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", {
+        className: "quads-tr-position"
+      }, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Where will the AD appear?', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_QuadsAdvancePosition["default"], {
         parentState: this.props.parentState,
         adFormChangeHandler: this.props.adFormChangeHandler
       })))))))), post_meta.position != 'ad_shortcode' ? /*#__PURE__*/_react["default"].createElement(_QuadsVisibility["default"], {
@@ -63273,15 +63275,15 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         name: "paragraph_number",
         value: post_meta.paragraph_number,
         type: "number"
-      }) : '', /*#__PURE__*/_react["default"].createElement("input", {
+      }) : ''), /*#__PURE__*/_react["default"].createElement("label", {
+        "for": "enable_on_end_of_post"
+      }, /*#__PURE__*/_react["default"].createElement("input", {
         id: "enable_on_end_of_post",
         checked: post_meta.enable_on_end_of_post,
         name: "enable_on_end_of_post",
         onChange: this.props.adFormChangeHandler,
         type: "checkbox"
-      })), /*#__PURE__*/_react["default"].createElement("label", {
-        "for": "enable_on_end_of_post"
-      }, __('to', 'quick-adsense-reloaded'), " ", /*#__PURE__*/_react["default"].createElement("strong", null, __('End of Post', 'quick-adsense-reloaded')), " ", __('if fewer paragraphs', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("input", {
+      }), __('to', 'quick-adsense-reloaded'), " ", /*#__PURE__*/_react["default"].createElement("strong", null, __('End of Post', 'quick-adsense-reloaded')), " ", __('if fewer paragraphs', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("input", {
         id: "repeat_paragraph",
         checked: post_meta.repeat_paragraph,
         name: "repeat_paragraph",
@@ -63289,7 +63291,7 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         type: "checkbox"
       }), /*#__PURE__*/_react["default"].createElement("label", {
         "for": "repeat_paragraph"
-      }, " ", __('Reapeat after xth paragraph', 'quick-adsense-reloaded')))) : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
+      }, " ", __('Repeat after nth paragraph', 'quick-adsense-reloaded')))) : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
         checked: post_meta.image_caption,
         name: "image_caption",
         onChange: this.props.adFormChangeHandler,
