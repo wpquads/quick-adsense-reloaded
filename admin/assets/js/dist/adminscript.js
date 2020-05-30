@@ -63291,7 +63291,7 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         type: "checkbox"
       }), /*#__PURE__*/_react["default"].createElement("label", {
         "for": "repeat_paragraph"
-      }, " ", __('Repeat after nth paragraph', 'quick-adsense-reloaded')))) : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
+      }, " ", __('Display After Every ', 'quick-adsense-reloaded'), post_meta.paragraph_number))) : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
         checked: post_meta.image_caption,
         name: "image_caption",
         onChange: this.props.adFormChangeHandler,

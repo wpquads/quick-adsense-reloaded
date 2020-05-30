@@ -80,7 +80,7 @@ class QuadsAdvancePosition extends Component {
            {__('to', 'quick-adsense-reloaded')} <strong>{__('End of Post', 'quick-adsense-reloaded')}</strong> {__('if fewer paragraphs', 'quick-adsense-reloaded')}</label>
 </div><div>
              <input id='repeat_paragraph' checked={post_meta.repeat_paragraph} name="repeat_paragraph" onChange={this.props.adFormChangeHandler} type="checkbox"/>
-              <label for="repeat_paragraph"> {__('Repeat after nth paragraph', 'quick-adsense-reloaded')}</label>
+              <label for="repeat_paragraph"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number}</label>
            
            </div></div> : ''}
 

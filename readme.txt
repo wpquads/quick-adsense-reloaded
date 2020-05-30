@@ -130,7 +130,7 @@ Alternative Installation:
 
 == Changelog == 
 = 2.0.7 =
-* New: Added a new option to Reapeat Ad After Xth Paragraph   #118
+* New: Added a new option to Reapeat Ad After nth Paragraph   #118
 * New: Added a URL of the site so it's easier to help user  #78
 * Fix: Incorrect stying and wrong tab opening #130
 * Fix: WPadmin toolbar has an invalid attribute in the AMP #129
