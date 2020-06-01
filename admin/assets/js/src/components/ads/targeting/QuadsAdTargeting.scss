@@ -20,3 +20,17 @@ and open the template in the editor.
   border-radius: 4px;
   cursor: pointer;
 }
+
+.quads-panel-body tr.quads-tr-position{
+  display: inline-flex;
+}
+
+.quads-panel-body td:nth-child(1) {
+    margin-top: 15px;
+}
+.position_content div label{
+  padding: 10px;
+}
+.position_content div {
+    padding-bottom: 15px !important;
+}

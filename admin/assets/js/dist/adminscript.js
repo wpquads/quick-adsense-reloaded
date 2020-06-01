@@ -60992,9 +60992,9 @@ var QuadsLayout = /*#__PURE__*/function (_Component) {
         onChange: this.props.adFormChangeHandler
       }, /*#__PURE__*/_react["default"].createElement("option", {
         value: "above"
-      }, __('Above Ads', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+      }, __('Above Ad', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "below"
-      }, __('Below Ads', 'quick-adsense-reloaded'))))) : null, post_meta.ad_label_check ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label Text', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+      }, __('Below Ad', 'quick-adsense-reloaded'))))) : null, post_meta.ad_label_check ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label Text', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
         onChange: this.props.adFormChangeHandler,
         type: "text",
         className: "small-text",
@@ -61098,7 +61098,9 @@ var QuadsAdTargeting = /*#__PURE__*/function (_Component) {
         className: "quads-panel"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads-panel-body"
-      }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Where will the AD appear?', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_QuadsAdvancePosition["default"], {
+      }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", {
+        className: "quads-tr-position"
+      }, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Where will the AD appear?', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement(_QuadsAdvancePosition["default"], {
         parentState: this.props.parentState,
         adFormChangeHandler: this.props.adFormChangeHandler
       })))))))), post_meta.position != 'ad_shortcode' ? /*#__PURE__*/_react["default"].createElement(_QuadsVisibility["default"], {
@@ -63267,21 +63269,29 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         name: "image_number",
         value: post_meta.image_number,
         type: "number"
-      }) : ''), /*#__PURE__*/_react["default"].createElement("div", null, post_meta.position == 'after_paragraph' ? /*#__PURE__*/_react["default"].createElement("label", null, post_meta.position == 'after_paragraph' ? /*#__PURE__*/_react["default"].createElement("input", {
+      }) : ''), /*#__PURE__*/_react["default"].createElement("div", null, post_meta.position == 'after_paragraph' ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("label", null, post_meta.position == 'after_paragraph' ? /*#__PURE__*/_react["default"].createElement("input", {
         min: "1",
         onChange: this.props.adFormChangeHandler,
         name: "paragraph_number",
         value: post_meta.paragraph_number,
         type: "number"
-      }) : '', /*#__PURE__*/_react["default"].createElement("input", {
+      }) : ''), /*#__PURE__*/_react["default"].createElement("label", {
+        "for": "enable_on_end_of_post"
+      }, /*#__PURE__*/_react["default"].createElement("input", {
         id: "enable_on_end_of_post",
         checked: post_meta.enable_on_end_of_post,
         name: "enable_on_end_of_post",
         onChange: this.props.adFormChangeHandler,
         type: "checkbox"
+      }), __('to', 'quick-adsense-reloaded'), " ", /*#__PURE__*/_react["default"].createElement("strong", null, __('End of Post', 'quick-adsense-reloaded')), " ", __('if fewer paragraphs', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("input", {
+        id: "repeat_paragraph",
+        checked: post_meta.repeat_paragraph,
+        name: "repeat_paragraph",
+        onChange: this.props.adFormChangeHandler,
+        type: "checkbox"
       }), /*#__PURE__*/_react["default"].createElement("label", {
-        "for": "enable_on_end_of_post"
-      }, __('to', 'quick-adsense-reloaded'), " ", /*#__PURE__*/_react["default"].createElement("strong", null, __('End of Post', 'quick-adsense-reloaded')), " ", __('if fewer paragraphs', 'quick-adsense-reloaded'))) : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
+        "for": "repeat_paragraph"
+      }, " ", __('Display After Every ', 'quick-adsense-reloaded'), post_meta.paragraph_number))) : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
         checked: post_meta.image_caption,
         name: "image_caption",
         onChange: this.props.adFormChangeHandler,

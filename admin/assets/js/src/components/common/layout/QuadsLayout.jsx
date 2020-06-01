@@ -45,8 +45,8 @@ class QuadsLayout extends Component {
                         <td><label>{__('Ad Label Position', 'quick-adsense-reloaded')}</label></td> 
                         <td>
                         <select name="adlabel" value={post_meta.adlabel} onChange={this.props.adFormChangeHandler}>
-                        <option value="above">{__('Above Ads', 'quick-adsense-reloaded')}</option>  
-                        <option value="below">{__('Below Ads', 'quick-adsense-reloaded')}</option>                        
+                        <option value="above">{__('Above Ad', 'quick-adsense-reloaded')}</option>  
+                        <option value="below">{__('Below Ad', 'quick-adsense-reloaded')}</option>                        
                         </select>  
                         </td>
                       </tr> 

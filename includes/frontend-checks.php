@@ -179,9 +179,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
             'id' => 'quads_ad_check_fine',
             'title' => __( 'WP QUADS is working fine', 'quick-adsense-reloaded' ),
             'href' => false,
-            'meta' => array(
-                'target' => '_blank',
-            )
+  
         ) );
     }
 

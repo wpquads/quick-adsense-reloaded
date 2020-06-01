@@ -14,6 +14,7 @@ if( !defined( 'ABSPATH' ) )
 
 //add_action( 'wp_enqueue_scripts', 'quads_register_styles', 10 );
 add_action( 'wp_print_styles', 'quads_inline_styles', 9999 );
+add_action('amp_post_template_css','quads_inline_styles', 11);
 
 add_action( 'admin_enqueue_scripts', 'quads_load_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_plugins_admin_scripts', 100 );
@@ -126,8 +127,8 @@ if(is_object($screens)){
     wp_enqueue_script( 'quads-vi', $vi_dir . 'vi.js', array(), QUADS_VERSION, false );
 
 
-    wp_enqueue_style( 'quads-admin', $css_dir . 'quads-admin' . $suffix . '.css', QUADS_VERSION );
-    wp_enqueue_style( 'jquery-chosen', $css_dir . 'chosen' . $suffix . '.css', QUADS_VERSION );
+    wp_enqueue_style( 'quads-admin', $css_dir . 'quads-admin' . $suffix . '.css',array(), QUADS_VERSION );
+    wp_enqueue_style( 'jquery-chosen', $css_dir . 'chosen' . $suffix . '.css',array(), QUADS_VERSION );
 
     $signupURL = $quads->vi->getSettings()->data->signupURL;
 
@@ -166,7 +167,7 @@ function quads_load_plugins_admin_scripts( $hook ) {
     $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
     wp_enqueue_script( 'quads-plugins-admin-scripts', $js_dir . 'quads-plugins-admin' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
-    wp_enqueue_style( 'quads-plugins-admin', $css_dir . 'quads-plugins-admin' . $suffix . '.css', QUADS_VERSION );
+    wp_enqueue_style( 'quads-plugins-admin', $css_dir . 'quads-plugins-admin' . $suffix . '.css', array(),QUADS_VERSION );
 }
 
 /**
@@ -184,7 +185,7 @@ function quads_load_all_admin_scripts( $hook ) {
 
     $css_dir = QUADS_PLUGIN_URL . 'assets/css/';
 
-    wp_enqueue_style( 'quads-admin-all', $css_dir . 'quads-admin-all.css', QUADS_VERSION );
+    wp_enqueue_style( 'quads-admin-all', $css_dir . 'quads-admin-all.css',array(), QUADS_VERSION );
 }
 
 
@@ -227,12 +228,16 @@ function quads_inline_styles() {
             $css .= quads_render_media_query( $key, $value );
         }
     }
+    $css .=".quads-ad-label { font-size: 12px; text-align: center; color: #333;}";
     // Register empty style so we do not need an external css file
     wp_register_style( 'quads-styles', false );
     // Enque empty style
     wp_enqueue_style( 'quads-styles' );
     // Add inline css to that style
     wp_add_inline_style( 'quads-styles', $css );
+    if (quads_is_amp_endpoint()){
+        echo $css;
+    }
 }
 
 /**

@@ -459,8 +459,9 @@ function quads_filter_default_ads_new( $content ) {
                         if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
                             $closing_p        = '</p>';
                             $paragraphs       = explode( $closing_p, $content );
-                            $p_count          = count($paragraphs);                                                             
-                            
+                            $p_count          = count($paragraphs);
+                            $original_paragraph_no = $paragraph_no;                                                             
+                            $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
                             if($paragraph_no <= $p_count){
 
                                 foreach ($paragraphs as $index => $paragraph) {
@@ -468,7 +469,11 @@ function quads_filter_default_ads_new( $content ) {
                                         $paragraphs[$index] .= $closing_p;
                                     }
                                     if ( $paragraph_no == $index + 1 ) {
+                                        // exit(var_dump($index));
                                         $paragraphs[$index] .= $cusads;
+                                        if($repeat_paragraph){
+                                         $paragraph_no =  $original_paragraph_no+$paragraph_no; 
+                                        }
                                     }
                                 }
                                 $content = implode( '', $paragraphs ); 
@@ -1183,7 +1188,7 @@ function quads_get_inline_ad_style( $id ) {
     //wp_die('ad'.$id);
 
     // Do not create any inline style on AMP site
-    $style =  !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
+    $style =   apply_filters( 'quads_filter_margins', $margin, 'ad' . $id );
     
     return $style;
 }
@@ -1211,7 +1216,7 @@ function quads_get_inline_ad_style_new( $id ) {
     $margin = sprintf( $styleArray[$adsalign], $adsmargin );
     
     // Do not create any inline style on AMP site
-    $style =  !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
+    $style =  apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) ;
     
     return $style;
 }

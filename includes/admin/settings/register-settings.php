@@ -477,7 +477,7 @@ function wpquads_send_query_message(){
         $customer_type  = 'Are you a premium customer ? Yes';
     }
 
-    $message = '<p>'.$message.'</p><br><br>'. $customer_type. '<br><br> query from WPQuads support tab';
+    $message = '<p>'.$message.'</p><br><br>'. $customer_type. '<br><br> query from WPQuads support tab <br> User Website URL: '.site_url();
 
     if($user){
         $user_data  = $user->data;        

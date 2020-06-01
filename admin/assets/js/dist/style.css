@@ -211,6 +211,18 @@ and open the template in the editor.
   padding: 5px;
   border-radius: 4px;
   cursor: pointer; }
+
+.quads-panel-body tr.quads-tr-position {
+  display: inline-flex; }
+
+.quads-panel-body td:nth-child(1) {
+  margin-top: 15px; }
+
+.position_content div label {
+  padding: 10px; }
+
+.position_content div {
+  padding-bottom: 15px !important; }
 .quads-user-targeting table td {
   width: 25%; }
 
@@ -253,6 +265,12 @@ and open the template in the editor.
 
 #post_shortcode_php {
   width: 380px; }
+
+.position_content div {
+  padding-bottom: 5px; }
+
+#repeat_paragraph + label {
+  text-transform: none; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -443,7 +461,7 @@ and open the template in the editor.
   font-family: inherit;
   background-color: transparent;
   width: 225px;
-  height: 44px;
+  height: 50px;
   padding: 7px 10px 7px 20px;
   font-size: 18px;
   border-radius: 0;
