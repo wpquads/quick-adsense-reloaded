@@ -24,7 +24,7 @@ if( !defined( 'ABSPATH' ) )
  * @return string HTML js adsense code
  */
 function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
-    
+    global $quads_mode;
     // Return empty string
     if( empty( $id ) ) {
         return '';
@@ -46,7 +46,13 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
 
     // Return the adsense ad code
     if( true === quads_is_adsense( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_google_async( $id ),$id );
+        if($quads_mode == 'new'){
+
+            return apply_filters( 'quads_render_ad', quads_render_google_async_new( $id ),$id );
+
+        }else{
+            return apply_filters( 'quads_render_ad', quads_render_google_async( $id ),$id );
+          }
     }
     if( true === quads_is_double_click( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_double_click_async( $id ),$id );
@@ -177,6 +183,67 @@ function quads_render_yandex_async( $id ) {
 </script>';
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_yandex_async', $html );
+}
+
+/**
+ * Render Google async ad
+ * 
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+$loaded_lazy_load = '';
+function quads_render_google_async_new( $id ) {
+    global $quads_options,$loaded_lazy_load;
+
+    $id_name = "quads-".esc_attr($id)."-place";
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
+    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+        if($loaded_lazy_load==''){
+            $loaded_lazy_load = 'yes';
+            $html .= quads_load_loading_script();
+        }
+        $html .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
+    }
+
+
+    if (isset($quads_options['ads'][$id]['adsense_type']) && $quads_options['ads'][$id]['adsense_type'] == 'normal') {
+        $width = (isset($quads_options['ads'][$id]['g_data_ad_width']) && (!empty($quads_options['ads'][$id]['g_data_ad_width']))) ? $quads_options['ads'][$id]['g_data_ad_width']:300;
+        $height = (isset($quads_options['ads'][$id]['g_data_ad_height']) && (!empty($quads_options['ads'][$id]['g_data_ad_height']))) ? $quads_options['ads'][$id]['g_data_ad_height']:250;
+        $style = 'display:inline-block;width:' . esc_attr($width) . 'px;height:' . esc_attr($height) . 'px;' ;
+
+        $html .= '<ins class="adsbygoogle" style="' . $style . '"';
+        $html .= ' data-ad-client="' . esc_attr($quads_options['ads'][$id]['g_data_ad_client'] ). '"';
+        $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '"></ins>
+                    <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});</script>';
+    }else{
+        $html .= '
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="'. esc_attr($quads_options['ads'][$id]['g_data_ad_client'] ).'"
+                 data-ad-slot="'. esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) .'"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+                 <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});</script>';
+
+    }
+    
+    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+        $html = str_replace( 'class="adsbygoogle"', '', $html );
+        $html = str_replace( '></ins>', '><span>Loading...</span></ins></div>', $html );
+        $code = 'instant= new adsenseLoader( \'#quads-' . esc_attr($id) . '-place\', {
+        onLoad: function( ad ){
+            if (ad.classList.contains("quads-ll")) {
+                ad.classList.remove("quads-ll");
+            }
+          }   
+        });';
+        $html = str_replace( '(adsbygoogle = window.adsbygoogle || []).push({});', $code, $html );
+    }
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_adsense_async', $html );
 }
 
 /**
@@ -683,7 +750,26 @@ function quads_render_amp($id,$ampsupport=''){
                   $html = '<amp-ad width='.esc_attr($width).' height='.esc_attr($height).' type="yandex" data-block-id="'.esc_attr($quads_options['ads'][$id]['block_id']).'" data-html-access-allowed="true"></amp-ad>';
             }else{
                    // Return default adsense code
-             $html = '<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="'. esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '" data-ad-slot="'.esc_attr($quads_options['ads'][$id]['g_data_ad_slot']).'"></amp-ad>';
+
+                if (isset($quads_options['ads'][$id]['adsense_type']) && $quads_options['ads'][$id]['adsense_type'] == 'normal') {
+                    $width = (isset($quads_options['ads'][$id]['g_data_ad_width']) && (!empty($quads_options['ads'][$id]['g_data_ad_width']))) ? $quads_options['ads'][$id]['g_data_ad_width']:300;
+                    $height = (isset($quads_options['ads'][$id]['g_data_ad_height']) && (!empty($quads_options['ads'][$id]['g_data_ad_height']))) ? $quads_options['ads'][$id]['g_data_ad_height']:250;
+
+                    $html = '<amp-ad layout="responsive" width='.esc_attr($width).' height='.esc_attr($height).' type="adsense" data-ad-client="'. esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '" data-ad-slot="'.esc_attr($quads_options['ads'][$id]['g_data_ad_slot']).'"></amp-ad>';
+                }else{
+                    $html = '<amp-ad
+                                  width="100vw"
+                                  height="320"
+                                  type="adsense"
+                                  data-ad-client="'. esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '"
+                                  data-ad-slot="'. esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '"
+                                  data-auto-format="rspv"
+                                  data-full-width
+                                >
+                                  <div overflow></div>
+                                </amp-ad>';
+                }
+             
             }
      
     }
