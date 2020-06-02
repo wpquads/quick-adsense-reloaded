@@ -104493,7 +104493,14 @@ var QuadsAdListNavLink = /*#__PURE__*/function (_Component) {
       var current = 'ads';
 
       if (typeof page.path != 'undefined') {
-        if (page.path == 'settings' || page.path == 'settings_tools' || page.path == 'settings_legacy' || page.path == 'settings_support' || page.path == 'settings_licenses' || page.path == 'settings_google_autoads') current = 'settings';
+        if (page.path == 'settings' || page.path == 'settings_tools' || page.path == 'settings_legacy' || page.path == 'settings_support' || page.path == 'settings_licenses' || page.path == 'settings_google_autoads') {
+          jQuery('.wp-submenu li').removeClass('current');
+          jQuery('a[href$="quads-settings&path=settings"]').parent().addClass('current');
+          current = 'settings';
+        }
+      } else if (page.page == 'quads-settings') {
+        jQuery('.wp-submenu li').removeClass('current');
+        jQuery('a[href$="quads-settings"]').parent().addClass('current');
       }
 
       return /*#__PURE__*/_react["default"].createElement("div", {
