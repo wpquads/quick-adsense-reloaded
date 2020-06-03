@@ -73,6 +73,7 @@ class QuadsAdCreateRouter extends Component {
             margin            : 0,
             position          : 'beginning_of_post',
             paragraph_number  : 1,
+            word_count_number : 1,
             image_number      : 1,
             enabled_on_amp        : false,
             enable_on_end_of_post : false,

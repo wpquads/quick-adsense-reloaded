@@ -381,6 +381,7 @@ function quads_filter_default_ads_new( $content ) {
                     
                 $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
                 $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;
+                $word_count_number = (isset($ads['word_count_number']) && $ads['word_count_number'] !='') ? $ads['word_count_number'] : 1;
                 $imageNo      = (isset($ads['image_number']) && $ads['image_number'] !='') ? $ads['image_number'] : 1;
                 $imageCaption = isset($ads['image_caption']) ? $ads['image_caption'] : false;
                 $end_of_post  = isset($ads['enable_on_end_of_post']) ? $ads['enable_on_end_of_post'] : false;
@@ -454,7 +455,26 @@ function quads_filter_default_ads_new( $content ) {
                         }                                                
 
                         break;
-                    case 'after_paragraph':
+                    case 'after_word_count':
+                        
+                        if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
+                            $paragraphs       =  explode( ' ', $content );
+                            $p_count          = count($paragraphs);
+                            $original_paragraph_no = $paragraph_no;                                        
+                            if($word_count_number <= $p_count){
+
+                                foreach ($paragraphs as $index => $paragraph) {
+        
+                                    if ( $word_count_number == $index + 1 ) {
+                                        $paragraphs[$index] .= $cusads;
+                                    }
+                                }
+                                $content = implode( ' ', $paragraphs ); 
+                            }                                                       
+                        }
+
+                        break;
+                                        case 'after_paragraph':
                         
                         if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
                             $closing_p        = '</p>';
