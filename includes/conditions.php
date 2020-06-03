@@ -349,7 +349,7 @@ function quads_is_visibility_on($ads){
       
       if(!empty($include)){
 
-        $include =   array_filter(array_unique($include));
+        $include =   array_values(array_filter(array_unique($include)));
 
         if(isset($include[0])){
             $response = true;
