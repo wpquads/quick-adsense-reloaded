@@ -14,7 +14,7 @@ if( !defined( 'ABSPATH' ) )
 
 //add_action( 'wp_enqueue_scripts', 'quads_register_styles', 10 );
 add_action( 'wp_print_styles', 'quads_inline_styles', 9999 );
-add_action('amp_post_template_css','quads_inline_styles', 11);
+add_action('amp_post_template_css','quads_inline_styles_amp', 11);
 
 add_action( 'admin_enqueue_scripts', 'quads_load_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_plugins_admin_scripts', 100 );
@@ -235,10 +235,24 @@ function quads_inline_styles() {
     wp_enqueue_style( 'quads-styles' );
     // Add inline css to that style
     wp_add_inline_style( 'quads-styles', $css );
+}
+function quads_inline_styles_amp() {
+    global $quads_options;
+
+    $css = '';
+
+    if( isset( $quads_options['ads'] ) ) {
+        foreach ( $quads_options['ads'] as $key => $value ) {
+            $css .= quads_render_media_query( $key, $value );
+        }
+    }
+    $css .=".quads-ad-label { font-size: 12px; text-align: center; color: #333;}";
+
     if (quads_is_amp_endpoint()){
         echo $css;
     }
 }
+
 
 /**
  * Render Media Queries
