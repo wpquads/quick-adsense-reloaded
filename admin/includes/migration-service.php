@@ -248,36 +248,32 @@ class QUADS_Ad_Migration {
                                 update_post_meta( $post_id, 'ad_type', 'plain_text');
                             }else if($value[0]=='adsense'){
                                  update_post_meta( $post_id, 'ad_type', 'adsense');
-                            }else if($value[0]=='doubleclick'){
-                                 update_post_meta( $post_id, 'ad_type', 'double_click');
                             }
                         }else if($key == 'data_client_id'){
                             update_post_meta( $post_id, 'g_data_ad_slot', esc_html($value[0]));
                         }else if($key == 'data_ad_slot'){
                             update_post_meta( $post_id, 'g_data_ad_client', esc_html($value[0]));
-                        }else if($key == 'dfp_slot_id'){
-                            update_post_meta( $post_id, 'network_code', esc_html($value[0]));
-                        }else if($key == 'dfp_div_gpt_ad'){
-                            update_post_meta( $post_id, 'ad_unit_name', esc_html($value[0]));
-                        }  else if($key == 'wheretodisplay'){
-                            if(is_string($value[0]) && strpos($value[0], 'adsforwp_') !== false){
+                        }else if($key == 'wheretodisplay'){
+                            if(is_string($value) && strpos($value, 'adsforwp_') !== false){
                                 update_post_meta( $post_id, 'enabled_on_amp', 1);
                             }else{
                                 update_post_meta( $post_id, 'enabled_on_amp', 0);
                             }
-                            if( $value[0] == 'adsforwp_above_the_post_content'){
+                            if( $key = 'adsforwp_above_the_post_content'){
                                 update_post_meta( $post_id, 'position', 'end_of_post');
-                            }else if($value[0] == 'after_the_content' ){
+                            }else if($key == 'after_the_content' ){
                                 update_post_meta( $post_id, 'position', 'beginning_of_post');
-                            }else if($value[0] == 'between_the_content'){
-                                if($post_meta['adposition'][0]=='number_of_paragraph'){
+                            }else if($key == 'between_the_content'){
+                                if($post_meta['adposition']=='number_of_paragraph'){
                                     update_post_meta( $post_id, 'position', 'after_paragraph');
                                     update_post_meta( $post_id, 'number_of_paragraph', 'paragraph_number');
-                                    update_post_meta( $post_id, 'repeat_paragraph', $post_meta['ads_on_every_paragraphs_number'][0]);
+                                    update_post_meta( $post_id, 'ads_on_every_paragraphs_number', 'repeat_paragraph');
                                 }else{
                                     update_post_meta( $post_id, 'position', 'middle_of_post');
                                 }
-                            }else if($value[0] == 'ad_shortcode'){
+                            }else if($key == 'adsforwp_below_the_post_content'){
+                                update_post_meta( $post_id, 'position', 'end_of_post');
+                            }else if($key == 'ad_shortcode'){
                                 update_post_meta( $post_id, 'position', 'ad_shortcode');
                             }else{
                              update_post_meta( $post_id, 'position', 'beginning_of_post');// need to check it once
@@ -313,9 +309,8 @@ class QUADS_Ad_Migration {
                             $i =0;  $j =0;
 
                             foreach ($data_group_array as $key => $value) {
-
                                 $label = '';
-                                switch ($value['data_array'][0]['key_3']) {
+                                switch ($value['data_array'][0]['key_1']) {
                                     case 'post_type':
                                     $label = 'Post Type';
                                     break;
@@ -325,41 +320,17 @@ class QUADS_Ad_Migration {
                                     case 'page':
                                     $label = 'Page';
                                     break;
-                                    case 'post':
-                                    $label = 'Post';
-                                    break;
-                                    default :
-                                    $label = $value['data_array'][0]['key_3'];
-                                    break;
-                                }
-                                $type_label = '';
-                                switch ($value['data_array'][0]['key_1']) {
-                                    case 'post_type':
-                                    $type_label = 'Post Type';
-                                    break;
-                                    case 'post_format':
-                                    $type_label = 'Post Format';
-                                    break;
-                                    case 'page':
-                                    $type_label = 'Page';
-                                    break;
-                                    case 'post':
-                                    $label = 'Post';
-                                    break;
-                                    default :
-                                    $label = $value['data_array'][0]['key_3'];
-                                    break;
                                 }
 
                                 if($value['data_array'][0]['key_2'] == 'equal'){
-                                    $visibility_include[$i]['type']['label'] = $type_label;
-                                    $visibility_include[$i]['type']['value'] = $value['data_array'][0]['key_1'];
+                                    $visibility_include[$i]['type']['label'] = $label;
+                                    $visibility_include[$i]['type']['value'] = 'post_type';
                                     $visibility_include[$i]['value']['label'] = $label;
                                     $visibility_include[$i]['value']['value'] = esc_html($value['data_array'][0]['key_3']);
                                     $i++;
                                 }else{
-                                    $visibility_exclude[$j]['type']['label'] = $type_label;
-                                    $visibility_exclude[$j]['type']['value'] = $value['data_array'][0]['key_1'];
+                                    $visibility_exclude[$j]['type']['label'] = $label;
+                                    $visibility_exclude[$j]['type']['value'] = 'post_type';
                                     $visibility_exclude[$j]['value']['label'] = $label;
                                     $visibility_exclude[$j]['value']['value'] = esc_html($value['data_array'][0]['key_3']);
                                     $j++;
