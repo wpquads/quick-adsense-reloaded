@@ -101,7 +101,7 @@ class QuadsAdList extends Component {
                 <td>
                 <div className="quads-action-div">
 
-                {item.post_meta.ad_id && this.props.more_box_id ==  item.post_meta.ad_id  ?
+                {this.props.more_box_id ==  item.post_meta.ad_id ?
                 <div className="quads-more-icon-box">
                   <div className="quads-more-icon-box-close" onClick={this.props.hideMoreIconBox}><Icon>close</Icon></div>
                   <ul>

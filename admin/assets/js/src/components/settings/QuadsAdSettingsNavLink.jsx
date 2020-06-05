@@ -28,7 +28,6 @@ class QuadsAdSettingsNavLink extends Component {
           <li><h2><Link to={'admin.php?page=quads-settings&path=settings'} className={current == 'settings' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'}>{__('Features', 'quick-adsense-reloaded')}</Link></h2></li>
           {/* <li><h2><Link to={'admin.php?page=quads-settings&path=main_settings_importer'} className="quads-nav-link">{__('Migrator', 'quick-adsense-reloaded')}</Link></h2></li> */}
           <li><h2><Link to={'admin.php?page=quads-settings&path=settings_tools'} className={current == 'settings_tools' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'}>{__('Tools', 'quick-adsense-reloaded')}</Link></h2></li>
-          <li><h2><Link to={'admin.php?page=quads-settings&path=settings_importer'} className={current == 'settings_importer' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'}>{__('Importer', 'quick-adsense-reloaded')}</Link></h2></li>
           <li><h2><Link to={'admin.php?page=quads-settings&path=settings_legacy'} className={current == 'settings_legacy' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'}>{__('Legacy', 'quick-adsense-reloaded')}</Link></h2></li>
           <li><h2><Link to={'admin.php?page=quads-settings&path=settings_support'} className={current == 'settings_support' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'}>{__('Help & Support', 'quick-adsense-reloaded')}</Link></h2></li>    
           {quads_localize_data.is_pro ? 

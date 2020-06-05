@@ -63740,26 +63740,6 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
       });
     });
 
-    _defineProperty(_assertThisInitialized(_this), "importampforwpdata", function () {
-      var url = quads_localize_data.rest_url + 'quads-route/import-ampforwp-ads';
-      fetch(url, {
-        method: "post",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-WP-Nonce': quads_localize_data.nonce
-        }
-      }).then(function (res) {
-        return res.json();
-      }).then(function (result) {
-        if (result.status === 't') {
-          _this.setState({
-            importampforwpmsg: result.data
-          });
-        }
-      }, function (error) {});
-    });
-
     _defineProperty(_assertThisInitialized(_this), "open_global_excluder", function () {
       _this.setState({
         global_excluder_modal: true
@@ -63926,8 +63906,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
 
     _defineProperty(_assertThisInitialized(_this), "closeQuerySuccess", function (e) {
       _this.setState({
-        customer_querey_success: '',
-        importampforwpmsg: ''
+        customer_querey_success: ''
       });
     });
 
@@ -64387,8 +64366,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
         multiTagsValue: [],
         multiPluginsValue: []
       },
-      quads_wp_quads_pro_license_key: '',
-      importampforwpmsg: ""
+      quads_wp_quads_pro_license_key: ''
     };
     return _this;
   }
@@ -64652,24 +64630,11 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
             }, __('Copy System Info', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("div", null, _this2.state.copied ? /*#__PURE__*/_react["default"].createElement("span", null, __('System info copied to clipboard', 'quick-adsense-reloaded')) : null))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Export', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
               href: "".concat(quads_localize_data.rest_url, "quads-route/export-settings"),
               className: "quads-btn quads-btn-primary"
-            }, "Export"), /*#__PURE__*/_react["default"].createElement("p", null, __('Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded')))))));
-
-          case "settings_importer":
-            return /*#__PURE__*/_react["default"].createElement("div", {
-              className: "quads-settings-tab-container"
-            }, /*#__PURE__*/_react["default"].createElement("table", {
-              className: "form-table",
-              role: "presentation"
-            }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ads for WP', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
-              className: "quads-btn quads-btn-primary",
-              id: "import_amp_for_wp",
-              onClick: _this2.importampforwpdata
-            }, __('Import', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("p", null, __('Import Ads from Ads for WP', 'quick-adsense-reloaded')), _this2.state.importampforwpmsg ? /*#__PURE__*/_react["default"].createElement(_lab.Alert, {
-              severity: "success",
-              action: /*#__PURE__*/_react["default"].createElement(_Icon["default"], {
-                onClick: _this2.closeQuerySuccess
-              }, "close")
-            }, _this2.state.importampforwpmsg) : null)))));
+            }, "Export"), /*#__PURE__*/_react["default"].createElement("p", null, __('Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded')))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Import', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+              type: "file",
+              name: "import_file",
+              onChange: _this2.formChangeHandler
+            }), /*#__PURE__*/_react["default"].createElement("p", null, __('Import the Quick AdSense Reloaded settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'quick-adsense-reloaded')))))));
 
           case "settings_google_autoads":
             return /*#__PURE__*/_react["default"].createElement("div", {
@@ -103490,9 +103455,6 @@ var QuadsAdSettingsNavLink = /*#__PURE__*/function (_Component) {
         to: 'admin.php?page=quads-settings&path=settings_tools',
         className: current == 'settings_tools' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'
       }, __('Tools', 'quick-adsense-reloaded')))), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("h2", null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
-        to: 'admin.php?page=quads-settings&path=settings_importer',
-        className: current == 'settings_importer' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'
-      }, __('Importer', 'quick-adsense-reloaded')))), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("h2", null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
         to: 'admin.php?page=quads-settings&path=settings_legacy',
         className: current == 'settings_legacy' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'
       }, __('Legacy', 'quick-adsense-reloaded')))), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("h2", null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
@@ -104252,7 +104214,7 @@ var QuadsAdList = /*#__PURE__*/function (_Component) {
             className: "quads-ad-label-draft"
           }, "draft") : ''), /*#__PURE__*/_react["default"].createElement("td", null, _this2.getImageByAdType(item.post_meta.ad_type, index), " ", _this2.getAmpLogoByEnabled(item.post_meta.enabled_on_amp, index)), /*#__PURE__*/_react["default"].createElement("td", null, item.post.post_modified), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("div", {
             className: "quads-action-div"
-          }, item.post_meta.ad_id && _this2.props.more_box_id == item.post_meta.ad_id ? /*#__PURE__*/_react["default"].createElement("div", {
+          }, _this2.props.more_box_id == item.post_meta.ad_id ? /*#__PURE__*/_react["default"].createElement("div", {
             className: "quads-more-icon-box"
           }, /*#__PURE__*/_react["default"].createElement("div", {
             className: "quads-more-icon-box-close",
@@ -104542,7 +104504,7 @@ var QuadsAdListNavLink = /*#__PURE__*/function (_Component) {
       var current = 'ads';
 
       if (typeof page.path != 'undefined') {
-        if (page.path == 'settings' || page.path == 'settings_tools' || page.path == 'settings_importer' || page.path == 'settings_legacy' || page.path == 'settings_support' || page.path == 'settings_licenses' || page.path == 'settings_google_autoads') {
+        if (page.path == 'settings' || page.path == 'settings_tools' || page.path == 'settings_legacy' || page.path == 'settings_support' || page.path == 'settings_licenses' || page.path == 'settings_google_autoads') {
           jQuery('.wp-submenu li').removeClass('current');
           jQuery('a[href$="quads-settings&path=settings"]').parent().addClass('current');
           current = 'settings';
