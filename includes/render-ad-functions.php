@@ -60,6 +60,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_yandex( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_yandex_async( $id ),$id );
     }
+    if( true === quads_is_mgid( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_mgid_async( $id ),$id );
+    }
 
     // Return empty string
     return '';
@@ -131,7 +134,7 @@ function quads_doubleclick_head_code(){
 
 }  
 /**
- * Render Google async ad
+ * Render Double Click ad
  * 
  * @global array $quads_options
  * @param int $id
@@ -152,7 +155,7 @@ function quads_render_double_click_async( $id ) {
     return apply_filters( 'quads_render_double_click_async', $html );
 }
 /**
- * Render Google async ad
+ * Render Yandex ad
  * 
  * @global array $quads_options
  * @param int $id
@@ -184,6 +187,71 @@ function quads_render_yandex_async( $id ) {
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_yandex_async', $html );
 }
+/**
+ * Render MGID ad
+ * 
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_mgid_async( $id ) {
+    global $quads_options;
+
+    $data_publisher   = esc_attr($quads_options['ads'][$id]['data_publisher']);
+    $data_widget      = esc_attr($quads_options['ads'][$id]['data_widget']);
+    $data_container   = esc_attr($quads_options['ads'][$id]['data_container']);                     
+    $data_js_src      = esc_attr($quads_options['ads'][$id]['data_js_src']);
+    $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';  
+    $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';  
+
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Yandex async --> \n\n";
+    $html = '<div  style="height:'.esc_attr($height). 'px; width:'.esc_attr($width). 'px;" >                             
+                <div id="'. esc_attr($data_container).'"> 
+                <script> 
+                 (function() {
+                    var D = new Date(),
+                        d = document,
+                        b = "body",
+                        ce = "createElement",
+                        ac = "appendChild",
+                        st = "style",
+                        ds = "display",
+                        n = "none",
+                        gi = "getElementById",
+                        lp = d.location.protocol,
+                        wp = lp.indexOf("http") == 0 ? lp : "https:";
+                    var i = d[ce]("iframe");
+                    i[st][ds] = n;
+                    d[gi]("'. esc_attr($data_container).'")[ac](i);
+                    try {
+                        var iw = i.contentWindow.document;
+                        iw.open();
+                        iw.writeln("<ht" + "ml><bo" + "dy></bo" + "dy></ht" + "ml>");
+                        iw.close();
+                        var c = iw;
+                    } catch (e) {
+                        var iw = d;
+                        var c = d[gi]("'. esc_attr($data_container).'");
+                    }
+                    var dv = iw[ce]("div");
+                    dv.id = "MG_ID";
+                    dv[st][ds] = n;
+                    dv.innerHTML = '. esc_attr($data_widget).';
+                    c[ac](dv);
+                    var s = iw[ce]("script");
+                    s.async = "async";
+                    s.defer = "defer";
+                    s.charset = "utf-8";
+                    s.src = wp + "'.esc_url($data_js_src).'?t=" + D.getYear() + D.getMonth() + D.getUTCDate() + D.getUTCHours();
+                    c[ac](s);
+                })();
+               </script> 
+               </div>
+            </div>'; 
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_mgid_async', $html );
+}
+
 
 /**
  * Render Google async ad
@@ -689,6 +757,23 @@ function quads_is_yandex( $id, $string ) {
     }
     return false;
 }
+
+/**
+ * Check if ad code is MGID or other ad code
+ * 
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_mgid( $id, $string ) {
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'mgid') {
+        return true;
+    }
+    return false;
+}
+
 /**
  * Render advert on amp pages
  * 
@@ -748,6 +833,22 @@ function quads_render_amp($id,$ampsupport=''){
                 $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';  
                 
                   $html = '<amp-ad width='.esc_attr($width).' height='.esc_attr($height).' type="yandex" data-block-id="'.esc_attr($quads_options['ads'][$id]['block_id']).'" data-html-access-allowed="true"></amp-ad>';
+            }else if($quads_options['ads'][$id]['ad_type'] == 'mgid'){
+
+                $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';  
+                $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';  
+                
+                $data_publisher   = esc_attr($quads_options['ads'][$id]['data_publisher']);
+                $data_widget      = esc_attr($quads_options['ads'][$id]['data_widget']);
+                $data_container   = esc_attr($quads_options['ads'][$id]['data_container']);                     
+
+                  $html = '<amp-ad width='.esc_attr($width).' height='.esc_attr($height).'
+                                  type="mgid"
+                                  data-publisher="'.$data_publisher.'"
+                                  data-widget="'.$data_widget.'"
+                                  data-container="'.$data_container.'"
+                                >
+                                </amp-ad>';
             }else{
                    // Return default adsense code
 

@@ -10281,6 +10281,17 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
 
           break;
 
+        case 'mgid':
+          if (quads_post_meta.data_publisher && quads_post_meta.data_widget && quads_post_meta.data_container && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+            _this.saveAdFormData('publish');
+          } else {
+            _this.setState({
+              show_form_error: true
+            });
+          }
+
+          break;
+
         default:
           break;
       }
@@ -10378,6 +10389,17 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
 
           case 'yandex':
             if (quads_post_meta.block_id) {
+              _this.props.history.push(new_url);
+            } else {
+              _this.setState({
+                show_form_error: true
+              });
+            }
+
+            break;
+
+          case 'mgid':
+            if (quads_post_meta.data_publisher && quads_post_meta.data_widget && quads_post_meta.data_container) {
               _this.props.history.push(new_url);
             } else {
               _this.setState({
@@ -55953,6 +55975,88 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
           }, /*#__PURE__*/_react["default"].createElement("span", {
             className: "material-icons"
           }, "error_outline"), "Enter Block Id") : ''))))));
+          break;
+
+        case 'mgid':
+          ad_type_name = 'MGID';
+          comp_html.push( /*#__PURE__*/_react["default"].createElement("div", {
+            key: "mgid"
+          }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Data Publisher', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_publisher == '' ? 'quads_form_error' : '',
+            value: post_meta.data_publisher,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_publisher",
+            name: "data_publisher",
+            placeholder: "site.com"
+          }), show_form_error && post_meta.data_publisher == '' ? /*#__PURE__*/_react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, /*#__PURE__*/_react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Data Publisher") : '')), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Data Widget', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_widget == '' ? 'quads_form_error' : '',
+            value: post_meta.data_widget,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_widget",
+            name: "data_widget",
+            placeholder: "123456"
+          }), show_form_error && post_meta.data_widget == '' ? /*#__PURE__*/_react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, /*#__PURE__*/_react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Data Widget") : '')), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Data Container', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_container == '' ? 'quads_form_error' : '',
+            value: post_meta.data_container,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_container",
+            name: "data_container",
+            placeholder: "M87ScriptRootC123645"
+          }), show_form_error && post_meta.data_container == '' ? /*#__PURE__*/_react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, /*#__PURE__*/_react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Data Container") : '')), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Data Js Src', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_js_src == '' ? 'quads_form_error' : '',
+            value: post_meta.data_js_src,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_js_src",
+            name: "data_js_src",
+            placeholder: "//jsc.mgid.com/a/m/quads.com.123645.js"
+          }), show_form_error && post_meta.data_js_src == '' ? /*#__PURE__*/_react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, /*#__PURE__*/_react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Data Js Src") : '')), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Size', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("select", {
+            value: post_meta.adsense_type,
+            onChange: this.props.adFormChangeHandler,
+            name: "adsense_type",
+            id: "adsense_type"
+          }, /*#__PURE__*/_react["default"].createElement("option", {
+            value: "normal"
+          }, __('Fixed Size', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+            value: "responsive"
+          }, __('Responsive', 'quick-adsense-reloaded'))), post_meta.adsense_type !== 'responsive' ? /*#__PURE__*/_react["default"].createElement("div", {
+            className: "quads-adsense-width-heigth"
+          }, /*#__PURE__*/_react["default"].createElement("div", {
+            className: "quads-adsense-width"
+          }, /*#__PURE__*/_react["default"].createElement("label", null, __('Width', 'quick-adsense-reloaded'), /*#__PURE__*/_react["default"].createElement("input", {
+            value: post_meta.g_data_ad_width ? post_meta.g_data_ad_width : '300',
+            onChange: this.props.adFormChangeHandler,
+            type: "number",
+            id: "g_data_ad_width",
+            name: "g_data_ad_width"
+          }))), /*#__PURE__*/_react["default"].createElement("div", {
+            className: "quads-adsense-height"
+          }, /*#__PURE__*/_react["default"].createElement("label", null, __('Height', 'quick-adsense-reloaded'), /*#__PURE__*/_react["default"].createElement("input", {
+            value: post_meta.g_data_ad_height ? post_meta.g_data_ad_height : '250',
+            onChange: this.props.adFormChangeHandler,
+            type: "number",
+            id: "g_data_ad_height",
+            name: "g_data_ad_height"
+          })))) : '')))))));
           break;
 
         default:
@@ -104160,6 +104264,11 @@ var QuadsAdList = /*#__PURE__*/function (_Component) {
           type = "Yandex";
           break;
 
+        case 'mgid':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/mgid_icon.png';
+          type = "MGID";
+          break;
+
         default:
           break;
       }
@@ -104637,6 +104746,10 @@ var AdTypeSelectorNavLink = /*#__PURE__*/function (_Component) {
           img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/yandex.png';
           break;
 
+        case 'mgid':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/mgid.png';
+          break;
+
         default:
           break;
       }
@@ -104666,6 +104779,9 @@ var AdTypeSelectorNavLink = /*#__PURE__*/function (_Component) {
       }, {
         ad_type: 'yandex',
         ad_type_name: 'Yandex'
+      }, {
+        ad_type: 'mgid',
+        ad_type_name: 'MGID'
       }, {
         ad_type: 'plain_text',
         ad_type_name: 'Plain Text / HTML / JS'
