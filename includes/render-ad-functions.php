@@ -204,8 +204,8 @@ function quads_render_mgid_async( $id ) {
     $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';  
     $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';  
 
-    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Yandex async --> \n\n";
-    $html = '<div  style="height:'.esc_attr($height). 'px; width:'.esc_attr($width). 'px;" >                             
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content MGID --> \n\n";
+    $html .= '<div  style="height:'.esc_attr($height). 'px; width:'.esc_attr($width). 'px;" >                             
                 <div id="'. esc_attr($data_container).'"> 
                 <script> 
                  (function() {

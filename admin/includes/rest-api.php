@@ -144,7 +144,139 @@ class QUADS_Ad_Setup_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+               register_rest_route( 'quads-route', 'import-ampforwp-ads', array(
+                'methods'    => 'POST',
+                'callback'   => array($this, 'importampforwpads'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
                       
+        }  
+        public function importampforwpads(){
+            $args = array(
+                      'post_type' => 'quads-ads'
+                    );
+            $the_query = new WP_Query( $args );
+            $ad_count = $the_query->found_posts;
+            $post_status = 'publish';            
+            $amp_options       = get_option('redux_builder_amp');   
+             for($i=1; $i<=6; $i++){ 
+                $ad_count++;
+               if($amp_options['enable-amp-ads-'.$i] != 1){ 
+                    $post_status = 'draft';
+               } 
+               $ad_type    =  $amp_options['enable-amp-ads-type-'.$i]; 
+               if(($ad_type== 'adsense' && (empty($amp_options['enable-amp-ads-text-feild-client-'.$i]) || empty($amp_options['enable-amp-ads-text-feild-slot-'.$i]))) || ($ad_type== 'mgid' && (empty($amp_options['enable-amp-ads-mgid-field-data-pub-'.$i]) || empty($amp_options['enable-amp-ads-mgid-field-data-widget-'.$i])))){
+                continue;
+               }                                 
+                $user_id          = get_current_user_id();
+               switch ($i) {
+                        case 1:
+                                $position   =   'amp_below_the_header'; 
+                                break;
+                        case 2:
+                                $position   =   'amp_below_the_footer'; 
+                                break;
+                        case 3:
+                                $position   =   'amp_above_the_post_content'; 
+                                break;
+                        case 4:
+                                $position   =   'amp_below_the_post_content'; 
+                                break;
+                        case 5:
+                                $position   =   'amp_below_the_title'; 
+                                break;
+                        case 6:
+                                $position   =   'amp_above_related_post'; 
+                                break;
+                    }     
+                switch ($amp_options['enable-amp-ads-select-'.$i]) {
+                    case '1':
+                        $g_data_ad_width    = '300';
+                        $g_data_ad_height   = '250';  
+                        break;
+                    case '2':
+                        $g_data_ad_width    = '336';
+                        $g_data_ad_height   = '280';    
+                        break;
+                    case '3':
+                        $g_data_ad_width    = '728';
+                        $g_data_ad_height   = '90';
+                        break;
+                    case '4':
+                        $g_data_ad_width    = '300';
+                        $g_data_ad_height   = '100';    
+                        break;
+                    case '5':
+                        $g_data_ad_width    = '320';
+                        $g_data_ad_height   = '100';    
+                        break;
+                    case '6':
+                        $g_data_ad_width    = '200';
+                        $g_data_ad_height   = '50';
+                        break;
+                    case '7':
+                        $g_data_ad_width    = '320';
+                        $g_data_ad_height   = '50';
+                        break;
+                    default:
+                        $g_data_ad_width = '300';
+                        $g_data_ad_height= '250'; 
+                        break;
+                }
+                if($ad_type== 'mgid'){
+                    $post_title ='MGID Ad '.$i.' (Migrated from AMP)';
+                }else{
+                    $post_title ='Adsense Ad '.$i.' (Migrated from AMP)';
+                }
+                $ads_post = array(
+                            'post_author' => $user_id,                                                            
+                            'post_title'  => $post_title,                    
+                            'post_status' => $post_status,                                                            
+                            'post_name'   => $post_title,                    
+                            'post_type'   => 'quads-ads',
+                            
+                        );  
+                if($amp_options['enable-amp-ads-resp-'.$i]){
+                    $adsense_type = 'normal';
+                }else{
+                     $adsense_type = 'responsive';
+                }
+                $post_id          = wp_insert_post($ads_post);
+                $visibility_include[0]['type']['label'] = 'General';
+                $visibility_include[0]['type']['value'] = 'general';
+                $visibility_include[0]['value']['label'] = "Show Globally";
+                $visibility_include[0]['value']['value'] = "show_globally";
+                $adforwp_meta_key = array(
+                    'ad_type'                       => $ad_type ,  
+                    'g_data_ad_client'              => $amp_options['enable-amp-ads-text-feild-client-'.$i], 
+                    'g_data_ad_slot'                => $amp_options['enable-amp-ads-text-feild-slot-'.$i],  
+                    'data_publisher'                => $amp_options['enable-amp-ads-mgid-field-data-pub-'.$i], 
+                    'data_widget'                   => $amp_options['enable-amp-ads-mgid-field-data-widget-'.$i],
+                    'data_container'                => $amp_options['enable-amp-ads-mgid-field-data-con-'.$i], 
+                    'g_data_ad_width'               => $g_data_ad_width,  
+                    'g_data_ad_height'              => $g_data_ad_height,                      
+                    'adsense_type'                  => $adsense_type,
+                    'enabled_on_amp'                => 1,
+                    'visibility_include'            => $visibility_include,
+                    'position'                      => $position,    
+                    'imported_from'                 => 'ampforwp_ads',
+                    'label'                         =>  $post_title,
+                    'ad_id'                         => $post_id,
+                    'code'                          => '',
+                    'enable_one_end_of_post' =>'',
+                    'quads_ad_old_id'               => 'ad'.$ad_count,
+                );
+                        
+                foreach ($adforwp_meta_key as $key => $val){    
+                     $result[] =  update_post_meta($post_id, $key, $val);  
+                } 
+                    require_once QUADS_PLUGIN_DIR . '/admin/includes/migration-service.php';
+                    $this->migration_service = new QUADS_Ad_Migration();
+                    $this->migration_service->quadsUpdateOldAd('ad'.$ad_count, $adforwp_meta_key);
+            }
+            die;
         }  
         public function quadsSubscribeNewsletter($request){
             $parameters = $request->get_params();
