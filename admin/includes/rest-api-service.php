@@ -379,19 +379,10 @@ class QUADS_Ad_Setup_Api_Service {
 
         if($parameters){
           $quads_options = get_settings('quads_settings');
-                       
+          
           foreach($parameters as $key => $val){
-            if($key == 'auto_ad_code' ){
-              if($parameters['adsTxtEnabled']){
-                if (false !== file_put_contents(ABSPATH . 'ads.txt', $val)) {
-                    // show notice that ads.txt has been created
-                    set_transient('quads_vi_ads_txt_notice', true, 300);
-                }else{
-                  set_transient('quads_vi_ads_txt_error', true, 300);
-                }
-              }
-                $quads_options[$key] = $val;
-            } else  if($key == 'QckTags'){
+
+             if($key == 'QckTags'){
               $quads_options['quicktags'] = array($key => $val);
              } else{
               $quads_options[$key] = $val;
