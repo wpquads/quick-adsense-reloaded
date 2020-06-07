@@ -10494,7 +10494,7 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
         margin: 0,
         position: 'beginning_of_post',
         paragraph_number: 1,
-        word_count_number: 1,
+        word_count_number: 100,
         image_number: 1,
         enabled_on_amp: false,
         enable_on_end_of_post: false,
@@ -63307,10 +63307,10 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
       }, __('After Paragraph', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "after_image"
       }, __('After Image', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
-        value: "ad_shortcode"
-      }, __('Shortcode (Manual)', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "after_word_count"
-      }, __('After Word Count', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("optgroup", {
+      }, __('By Word Count', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "ad_shortcode"
+      }, __('Shortcode (Manual)', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("optgroup", {
         label: "Partial Support ( AMP Only )"
       }, /*#__PURE__*/_react["default"].createElement("option", {
         value: "amp_after_featured_image"
@@ -63354,10 +63354,10 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
       }, __('After Paragraph', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "after_image"
       }, __('After Image', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
-        value: "ad_shortcode"
-      }, __('Shortcode (Manual)', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "after_word_count"
-      }, __('After Word Count', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("div", null, show_form_error && post_meta.position == '' ? /*#__PURE__*/_react["default"].createElement("span", {
+      }, __('By Word Count', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "ad_shortcode"
+      }, __('Shortcode (Manual)', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("div", null, show_form_error && post_meta.position == '' ? /*#__PURE__*/_react["default"].createElement("span", {
         className: "quads-error"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: "quads_form_msg"
