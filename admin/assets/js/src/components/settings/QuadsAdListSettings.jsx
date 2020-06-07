@@ -762,7 +762,7 @@ handleMultiPluginsChange = (option) => {
                          <span className="quads-slider"></span>
                        </label>
                        
-                       {/* {this.state.adsTxtEnabled ? <span onClick={this.open_ad_text_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''} */}
+                       {this.state.adsTxtEnabled ? <span onClick={this.open_ad_text_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''} 
                      </td>
                      </tr>
                     {

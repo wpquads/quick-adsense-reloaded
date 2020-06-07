@@ -384,7 +384,16 @@ class QUADS_Ad_Setup_Api_Service {
 
              if($key == 'QckTags'){
               $quads_options['quicktags'] = array($key => $val);
-             } else{
+             }else if($key == 'adsTxtText' ){
+              if($parameters['adsTxtEnabled']){
+                if (false !== file_put_contents(ABSPATH . 'ads.txt', $val)) {
+                    // show notice that ads.txt has been created
+                    set_transient('quads_vi_ads_txt_notice', true, 300);
+                }else{
+                  set_transient('quads_vi_ads_txt_error', true, 300);
+                }
+              }
+            } else{
               $quads_options[$key] = $val;
              }
 
