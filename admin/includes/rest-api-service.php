@@ -47,13 +47,13 @@ class QUADS_Ad_Setup_Api_Service {
 
             $choices[] = array('label' => 'Default Template', 'value' => 'default');
 
-            $templates = get_page_templates();
+            $templates = wp_get_theme()->get_page_templates();
             
             if($templates){
                 
                 foreach($templates as $k => $v){
                                  
-                     $choices[] = array('label' => $k, 'value' => $v);
+                     $choices[] = array('label' => $v, 'value' => $k);
               
                 }
                 

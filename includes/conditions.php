@@ -697,6 +697,13 @@ function quads_comparison_logic_checker($visibility){
           }        
       }
     break;
+    case 'page_template':
+          $object = get_queried_object();
+          $template = get_page_template_slug($object);
+          if($v_id == $template){
+            $result = true;
+          }
+      break;
   
   default:
     $result = false;

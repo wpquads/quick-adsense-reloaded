@@ -63080,6 +63080,9 @@ var QuadsVisibility = /*#__PURE__*/function (_Component) {
       }, {
         label: 'Tags',
         value: 'tags'
+      }, {
+        label: 'Page Template',
+        value: 'page_template'
       }]
     };
     return _this;
