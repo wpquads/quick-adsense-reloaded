@@ -1178,6 +1178,11 @@ a.quads-nav-link-active {
 
 .quads-save-settings {
   padding: 25px; }
+
+.importampforwpmsgprocessing {
+  background-color: #edf7ed;
+  padding: 6px 16px;
+  font-size: 0.875rem; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

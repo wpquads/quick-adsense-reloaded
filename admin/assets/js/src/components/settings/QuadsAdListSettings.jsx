@@ -52,7 +52,8 @@ class QuadsAdListSettings extends Component {
                 multiPluginsValue  : []                                                                    
                 },
             quads_wp_quads_pro_license_key : '', 
-            importampforwpmsg : "",          
+            importampforwpmsg : "", 
+            importampforwpmsgprocessing : "",          
         };     
   }   
   handleCopy = () => {
@@ -60,7 +61,10 @@ class QuadsAdListSettings extends Component {
     this.setState({ copied: true });
   }
 importampforwpdata = () => {
-      
+if(this.state.importampforwpmsgprocessing !=''){
+  return;
+}
+      this.setState({importampforwpmsgprocessing: 'Importing Ads'});
     const url = quads_localize_data.rest_url + 'quads-route/import-ampforwp-ads';    
     fetch(url,{
       method: "post",
@@ -74,7 +78,7 @@ importampforwpdata = () => {
     .then(
       (result) => {
             if(result.status === 't'){              
-              this.setState({importampforwpmsg: result.data});
+              this.setState({importampforwpmsg: result.data,importampforwpmsgprocessing:''});
             }                              
       },        
       (error) => {
@@ -850,7 +854,8 @@ handleMultiPluginsChange = (option) => {
                         <td>
                           <a className="quads-btn quads-btn-primary" id="import_amp_for_wp" onClick={this.importampforwpdata}>{__('Import', 'quick-adsense-reloaded')}</a>
                           <p>{__('Import Ampforwp Ads ', 'quick-adsense-reloaded')}</p>
-                            {this.state.importampforwpmsg ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importampforwpmsg}</Alert> : null}
+                            {this.state.importampforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importampforwpmsg}</Alert> : null}
+                            {this.state.importampforwpmsgprocessing ? <div className='updating-message importampforwpmsgprocessing'><p>Importing Ads</p></div>: ''}
                         </td>
                       </tr>                                   
                     </tbody>

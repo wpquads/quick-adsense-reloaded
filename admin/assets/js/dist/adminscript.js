@@ -63848,6 +63848,14 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "importampforwpdata", function () {
+      if (_this.state.importampforwpmsgprocessing != '') {
+        return;
+      }
+
+      _this.setState({
+        importampforwpmsgprocessing: 'Importing Ads'
+      });
+
       var url = quads_localize_data.rest_url + 'quads-route/import-ampforwp-ads';
       fetch(url, {
         method: "post",
@@ -63861,7 +63869,8 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
       }).then(function (result) {
         if (result.status === 't') {
           _this.setState({
-            importampforwpmsg: result.data
+            importampforwpmsg: result.data,
+            importampforwpmsgprocessing: ''
           });
         }
       }, function (error) {});
@@ -64495,7 +64504,8 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
         multiPluginsValue: []
       },
       quads_wp_quads_pro_license_key: '',
-      importampforwpmsg: ""
+      importampforwpmsg: "",
+      importampforwpmsgprocessing: ""
     };
     return _this;
   }
@@ -64779,7 +64789,9 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
               action: /*#__PURE__*/_react["default"].createElement(_Icon["default"], {
                 onClick: _this2.closeQuerySuccess
               }, "close")
-            }, _this2.state.importampforwpmsg) : null)))));
+            }, _this2.state.importampforwpmsg) : null, _this2.state.importampforwpmsgprocessing ? /*#__PURE__*/_react["default"].createElement("div", {
+              className: "updating-message importampforwpmsgprocessing"
+            }, /*#__PURE__*/_react["default"].createElement("p", null, "Importing Ads")) : '')))));
 
           case "settings_google_autoads":
             return /*#__PURE__*/_react["default"].createElement("div", {

@@ -206,7 +206,7 @@ class QUADS_Ad_Setup_Api {
                         break;
                     case '4':
                         $g_data_ad_width    = '300';
-                        $g_data_ad_height   = '100';    
+                        $g_data_ad_height   = '600';    
                         break;
                     case '5':
                         $g_data_ad_width    = '320';
@@ -239,9 +239,9 @@ class QUADS_Ad_Setup_Api {
                             
                         );  
                 if($amp_options['enable-amp-ads-resp-'.$i]){
-                    $adsense_type = 'normal';
+                    $adsense_type = 'responsive';
                 }else{
-                     $adsense_type = 'responsive';
+                     $adsense_type = 'normal';
                 }
                 $post_id          = wp_insert_post($ads_post);
                 $visibility_include[0]['type']['label'] = 'General';
@@ -265,8 +265,10 @@ class QUADS_Ad_Setup_Api {
                     'label'                         =>  $post_title,
                     'ad_id'                         => $post_id,
                     'code'                          => '',
-                    'enable_one_end_of_post' =>'',
+                    'enable_one_end_of_post'        =>'',
                     'quads_ad_old_id'               => 'ad'.$ad_count,
+                    'ad_label_check'                => $amp_options['ampforwp-ads-sponsorship'],
+                    'ad_label_text'                 => $amp_options['ampforwp-ads-sponsorship-label'],
                 );
                         
                 foreach ($adforwp_meta_key as $key => $val){    
@@ -276,7 +278,7 @@ class QUADS_Ad_Setup_Api {
                     $this->migration_service = new QUADS_Ad_Migration();
                     $this->migration_service->quadsUpdateOldAd('ad'.$ad_count, $adforwp_meta_key);
             }
-            die;
+            return  array('status' => 't', 'data' => 'Ads have been successfully imported');  
         }  
         public function quadsSubscribeNewsletter($request){
             $parameters = $request->get_params();
