@@ -226,6 +226,9 @@ class QUADS_Ad_Setup_Api {
                         break;
                 }
                 if($ad_type== 'mgid'){
+                    if($i == 2){
+                        $position   =   'ad_shortcode'; 
+                    }
                     $post_title ='MGID Ad '.$i.' (Migrated from AMP)';
                     $g_data_ad_width = $amp_options['enable-amp-ads-mgid-width-'.$i];
                     $g_data_ad_height= $amp_options['enable-amp-ads-mgid-height-'.$i]; 

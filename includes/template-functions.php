@@ -1160,7 +1160,29 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
     }
     $ad_meta = get_post_meta($id, '',true);
     if (isset($ad_meta['code'][0])) {
-                $code = !empty($ad_meta['code'][0]) ? $ad_meta['code'][0] : '';
+        if(!empty($ad_meta['code'][0])){
+
+            $code = '';
+                if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true && strpos($ad_meta['code'][0], 'class="adsbygoogle"') !== false) {
+                    $id_name = "quads-".esc_attr($id)."-place";
+                    $code .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
+                }
+                $code .=   $ad_meta['code'][0];
+                if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true && strpos($ad_meta['code'][0], 'class="adsbygoogle"') !== false) {
+                    $code = str_replace( 'class="adsbygoogle"', '', $code );
+                    $code = str_replace( '></ins>', '><span>Loading...</span></ins></div>', $code );
+                    $code1 = 'instant= new adsenseLoader( \'#quads-' . esc_attr($id) . '-place\', {
+                    onLoad: function( ad ){
+                        if (ad.classList.contains("quads-ll")) {
+                            ad.classList.remove("quads-ll");
+                        }
+                      }   
+                    });';
+                    $code = str_replace( '(adsbygoogle = window.adsbygoogle || []).push({});', $code1, $code );
+                }
+        }else{
+            $code ='';
+        }
                 $style = quads_get_inline_ad_style_new($id);
                 $adscode =
             "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
