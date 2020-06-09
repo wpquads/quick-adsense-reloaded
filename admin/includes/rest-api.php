@@ -227,6 +227,8 @@ class QUADS_Ad_Setup_Api {
                 }
                 if($ad_type== 'mgid'){
                     $post_title ='MGID Ad '.$i.' (Migrated from AMP)';
+                    $g_data_ad_width = $amp_options['enable-amp-ads-mgid-width-'.$i];
+                    $g_data_ad_height= $amp_options['enable-amp-ads-mgid-height-'.$i]; 
                 }else{
                     $post_title ='Adsense Ad '.$i.' (Migrated from AMP)';
                 }
@@ -244,10 +246,42 @@ class QUADS_Ad_Setup_Api {
                      $adsense_type = 'normal';
                 }
                 $post_id          = wp_insert_post($ads_post);
-                $visibility_include[0]['type']['label'] = 'General';
-                $visibility_include[0]['type']['value'] = 'general';
-                $visibility_include[0]['value']['label'] = "Show Globally";
-                $visibility_include[0]['value']['value'] = "show_globally";
+                $visibility_include =array();
+                if($i == 3){
+                 $display_on =  $amp_options['made-amp-ad-3-global'];
+                 $j =0;
+                 foreach ($display_on as $display_on_data) {
+                    switch ($display_on_data) {
+                        case '1':
+                            $visibility_include[$j]['type']['label'] = 'Post Type';
+                            $visibility_include[$j]['type']['value'] = 'post_type';
+                            $visibility_include[$j]['value']['label'] = "post";
+                            $visibility_include[$j]['value']['value'] = "post"; 
+                            $j++; 
+                            break;
+                        case '2':
+                            $visibility_include[$j]['type']['label'] = 'Post Type';
+                            $visibility_include[$j]['type']['value'] = 'post_type';
+                            $visibility_include[$j]['value']['label'] = "page";
+                            $visibility_include[$j]['value']['value'] = "page";  
+                            $j++;    
+                            break;
+                        case '4':
+                            $visibility_include[$j]['type']['label'] = 'General';
+                            $visibility_include[$j]['type']['value'] = 'general';
+                            $visibility_include[$j]['value']['label'] = "Show Globally";
+                            $visibility_include[$j]['value']['value'] = "show_globally";  
+                            $j++;
+                            break;
+                    }
+                 }
+                }else{
+                        $visibility_include[0]['type']['label'] = 'General';
+                        $visibility_include[0]['type']['value'] = 'general';
+                        $visibility_include[0]['value']['label'] = "Show Globally";
+                        $visibility_include[0]['value']['value'] = "show_globally";
+                }
+
                 $adforwp_meta_key = array(
                     'ad_type'                       => $ad_type ,  
                     'g_data_ad_client'              => $amp_options['enable-amp-ads-text-feild-client-'.$i], 

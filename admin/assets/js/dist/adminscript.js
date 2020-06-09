@@ -55790,6 +55790,7 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
           }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Data Client ID', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
             className: show_form_error && post_meta.g_data_ad_client == '' ? 'quads_form_error' : '',
             value: post_meta.g_data_ad_client,
+            placeholder: "ca-pub-2005XXXXXXXXX342",
             onChange: this.props.adFormChangeHandler,
             type: "text",
             id: "g_data_ad_client",
@@ -55804,7 +55805,8 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
             onChange: this.props.adFormChangeHandler,
             type: "text",
             id: "g_data_ad_slot",
-            name: "g_data_ad_slot"
+            name: "g_data_ad_slot",
+            placeholder: "70XXXXXX12"
           }), show_form_error && post_meta.g_data_ad_slot == '' ? /*#__PURE__*/_react["default"].createElement("div", {
             className: "quads_form_msg"
           }, /*#__PURE__*/_react["default"].createElement("span", {
