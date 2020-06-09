@@ -17,7 +17,7 @@ add_filter('the_content', 'quads_post_settings_to_quicktags', 5);
 add_filter('the_content', 'quads_process_content', quads_get_load_priority());
 add_filter('rest_prepare_post', 'quads_classic_to_gutenberg', 10, 1);
 add_filter('the_content', 'quads_change_adsbygoogle_to_amp',11);
-add_action('wp_head',  'quads_doubleclick_head_code');
+add_action('wp_head',  'quads_common_head_code');
 
 /**
  * Show ads before posts

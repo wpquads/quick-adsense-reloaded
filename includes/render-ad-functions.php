@@ -67,14 +67,16 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     // Return empty string
     return '';
 }
-function quads_doubleclick_head_code(){
-
+function quads_common_head_code(){
+    global $quads_options;
+    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+        echo quads_load_loading_script();
+    }
     $data_slot  = '';   
     $adsense     = false;   
     require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
     $api_service = new QUADS_Ad_Setup_Api_Service();
     $quads_ads = $api_service->getAdDataByParam('quads-ads');               
-
     if(isset($quads_ads['posts_data'])){  
 
         foreach($quads_ads['posts_data'] as $key => $value){
@@ -260,17 +262,13 @@ function quads_render_mgid_async( $id ) {
  * @param int $id
  * @return html
  */
-$loaded_lazy_load = '';
 function quads_render_google_async_new( $id ) {
     global $quads_options,$loaded_lazy_load;
 
     $id_name = "quads-".esc_attr($id)."-place";
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
     if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
-        if($loaded_lazy_load==''){
-            $loaded_lazy_load = 'yes';
-            $html .= quads_load_loading_script();
-        }
+            
         $html .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
     }
 
@@ -801,9 +799,43 @@ function quads_render_amp($id,$ampsupport=''){
          if((isset($quads_options['ads'][$id]['enabled_on_amp']) && isset($quads_options['ads'][$id]['code']) && !empty($quads_options['ads'][$id]['code']))|| (!empty($ampsupport) && $ampsupport)){
                 if((isset($quads_options['ads'][$id]['enabled_on_amp']) && $quads_options['ads'][$id]['enabled_on_amp']) || (!empty($ampsupport) && $ampsupport)){
                     if(isset($quads_options['ads'][$id]['code'])){
-                      return  $quads_options['ads'][$id]['code'];
+                        $html = '';
+                        if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+                            $id_name = "quads-".esc_attr($id)."-place";
+                            $html .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
+                        }
+                        $html .=    $quads_options['ads'][$id]['code'];
+                        if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+                            $html = str_replace( 'class="adsbygoogle"', '', $html );
+                            $html = str_replace( '></ins>', '><span>Loading...</span></ins></div>', $html );
+                            $code = 'instant= new adsenseLoader( \'#quads-' . esc_attr($id) . '-place\', {
+                            onLoad: function( ad ){
+                                if (ad.classList.contains("quads-ll")) {
+                                    ad.classList.remove("quads-ll");
+                                }
+                              }   
+                            });';
+                            $html = str_replace( '(adsbygoogle = window.adsbygoogle || []).push({});', $code, $html );
+                        }
                     }else if(isset($quads_options['ads'][$id]['post_meta'])){
-                      return $quads_options['ads'][$id]['post_meta']['code'];
+                        $html = '';
+                        if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+                            $id_name = "quads-".esc_attr($id)."-place";
+                            $html .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
+                        }
+                        $html .=    $quads_options['ads'][$id]['post_meta']['code'];
+                        if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+                            $html = str_replace( 'class="adsbygoogle"', '', $html );
+                            $html = str_replace( '></ins>', '><span>Loading...</span></ins></div>', $html );
+                            $code = 'instant= new adsenseLoader( \'#quads-' . esc_attr($id) . '-place\', {
+                            onLoad: function( ad ){
+                                if (ad.classList.contains("quads-ll")) {
+                                    ad.classList.remove("quads-ll");
+                                }
+                              }   
+                            });';
+                            $html = str_replace( '(adsbygoogle = window.adsbygoogle || []).push({});', $code, $html );
+                        }
                     }else{
                        return '';
                     }
