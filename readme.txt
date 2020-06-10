@@ -130,10 +130,11 @@ Alternative Installation:
 
 == Changelog == 
 = 2.0.8 =
+* New: MGID Integration #167
 * New: Added a new option to add Ad After word count  #23
 * New: Made Ads.txt modifiedable #162
 * New: Ampforwp & advances amp ads importer #163
-* Fix: Responsive option not working  #114
+* Fix: Published going to auto Draft #169
 * Fix: Settings is opened, but the page is not selected #157
 * Fix: Ads not loading specific "page template" of Page attribute #53
 * Fix: CSS showing in the head of the website in AMP after update #165

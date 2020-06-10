@@ -10318,11 +10318,9 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
       var new_url = _this.props.location.pathname + '?page=quads-settings';
 
       if (_this.state.quads_state_changed && !_this.state.quads_is_saved) {
-        var r = confirm("Do you want to save change?");
+        var r = confirm("Changes you made may not be saved.");
 
         if (r == true) {
-          _this.saveAdFormData(_this.state.quads_ad_status);
-
           _this.props.history.push(new_url);
         } else {
           return false;

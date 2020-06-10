@@ -477,13 +477,10 @@ class QuadsAdCreateRouter extends Component {
       
       if(this.state.quads_state_changed && !this.state.quads_is_saved){
 
-        let r = confirm("Do you want to save change?");
+        let r = confirm("Changes you made may not be saved.");
 
         if (r == true) {
-
-          this.saveAdFormData(this.state.quads_ad_status);  
-
-          this.props.history.push(new_url);   
+           this.props.history.push(new_url);  
 
         } else {
           return false
