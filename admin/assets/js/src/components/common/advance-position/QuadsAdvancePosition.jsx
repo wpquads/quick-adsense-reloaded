@@ -32,6 +32,10 @@ class QuadsAdvancePosition extends Component {
           <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
           <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>    
           <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
+          <option value="20_percent">{__('Show Ad after 20% of content', 'quick-adsense-reloaded')}</option>
+          <option value="40_percent">{__('Show Ad after 40% of content', 'quick-adsense-reloaded')}</option>
+          <option value="60_percent">{__('Show Ad after 60% of content', 'quick-adsense-reloaded')}</option>
+          <option value="80_percent">{__('Show Ad after 80% of content', 'quick-adsense-reloaded')}</option>
           <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option> 
           </optgroup>  
          
@@ -59,6 +63,10 @@ class QuadsAdvancePosition extends Component {
           <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
           <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>    
           <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
+          <option value="20_percent">{__('Show Ad after 20% of content', 'quick-adsense-reloaded')}</option>
+          <option value="40_percent">{__('Show Ad after 40% of content', 'quick-adsense-reloaded')}</option>
+          <option value="60_percent">{__('Show Ad after 60% of content', 'quick-adsense-reloaded')}</option>
+          <option value="80_percent">{__('Show Ad after 80% of content', 'quick-adsense-reloaded')}</option>
           <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
           </select>  }
            <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select Where Will The AD Appear</div></span> : ''}</div>

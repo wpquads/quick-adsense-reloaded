@@ -540,6 +540,74 @@ function quads_filter_default_ads_new( $content ) {
                         }
 
                     break;    
+                    case '20_percent':
+                        if(strpos( $content, '<!--OffMiddle-->' ) === false ) {
+                            $closing_p        = '</p>';
+                            $paragraphs       = explode( $closing_p, $content );       
+                            $total_paragraphs = count($paragraphs);                          
+                            $paragraph_id     = floor($total_paragraphs /5);                              
+                            foreach ($paragraphs as $index => $paragraph) {
+                                if ( trim( $paragraph ) ) {
+                                    $paragraphs[$index] .= $closing_p;
+                                }
+                                if ( $paragraph_id == $index + 1 ) {
+                                    $paragraphs[$index] .= $cusads;
+                                }
+                            }
+                            $content = implode('', $paragraphs ); 
+                        }
+                        break;    
+                     case '40_percent':
+                        if(strpos( $content, '<!--OffMiddle-->' ) === false ) {
+                            $closing_p        = '</p>';
+                            $paragraphs       = explode( $closing_p, $content );       
+                            $total_paragraphs = count($paragraphs);                          
+                            $paragraph_id     = floor($total_paragraphs /2.5);                              
+                            foreach ($paragraphs as $index => $paragraph) {
+                                if ( trim( $paragraph ) ) {
+                                    $paragraphs[$index] .= $closing_p;
+                                }
+                                if ( $paragraph_id == $index + 1 ) {
+                                    $paragraphs[$index] .= $cusads;
+                                }
+                            }
+                            $content = implode('', $paragraphs ); 
+                        }
+                        break;   
+                     case '60_percent':
+                        if(strpos( $content, '<!--OffMiddle-->' ) === false ) {
+                            $closing_p        = '</p>';
+                            $paragraphs       = explode( $closing_p, $content );       
+                            $total_paragraphs = count($paragraphs);                          
+                            $paragraph_id     = floor($total_paragraphs /1.6);                              
+                            foreach ($paragraphs as $index => $paragraph) {
+                                if ( trim( $paragraph ) ) {
+                                    $paragraphs[$index] .= $closing_p;
+                                }
+                                if ( $paragraph_id == $index + 1 ) {
+                                    $paragraphs[$index] .= $cusads;
+                                }
+                            }
+                            $content = implode('', $paragraphs ); 
+                        }
+                        break;  
+                     case '80_percent':
+                        if(strpos( $content, '<!--OffMiddle-->' ) === false ) {
+                            $closing_p        = '</p>';
+                            $paragraphs       = explode( $closing_p, $content );       
+                            $total_paragraphs = count($paragraphs);                          
+                            $paragraph_id     = floor($total_paragraphs /1.25);                            
+                            foreach ($paragraphs as $index => $paragraph) {
+                                if ( trim( $paragraph ) ) {
+                                    $paragraphs[$index] .= $closing_p;
+                                }
+                                if ( $paragraph_id == $index + 1 ) {
+                                    $paragraphs[$index] .= $cusads;
+                                }
+                            }
+                            $content = implode('', $paragraphs ); 
+                        }
+                        break;  
                     default:
                         # code...
                         break;
