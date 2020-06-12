@@ -850,10 +850,9 @@ handleMultiPluginsChange = (option) => {
                   <table className="form-table" role="presentation">
                     <tbody>
                        <tr>
-                        <th><label>{__('Ampforwp Ads', 'quick-adsense-reloaded')}</label></th>
+                        <th><label>{__('AMP for WP Ads', 'quick-adsense-reloaded')}</label></th>
                         <td>
                           <a className="quads-btn quads-btn-primary" id="import_amp_for_wp" onClick={this.importampforwpdata}>{__('Import', 'quick-adsense-reloaded')}</a>
-                          <p>{__('Import Ampforwp Ads ', 'quick-adsense-reloaded')}</p>
                             {this.state.importampforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importampforwpmsg}</Alert> : null}
                             {this.state.importampforwpmsgprocessing ? <div className='updating-message importampforwpmsgprocessing'><p>Importing Ads</p></div>: ''}
                         </td>

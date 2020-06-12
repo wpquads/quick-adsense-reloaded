@@ -333,23 +333,23 @@ class QUADS_Ad_Setup_Api {
                     $g_data_ad_height= ''; 
                     if($ad_type == '1'){
                         $ad_type_label      = 'adsense';
-                        $post_title         = 'Adsense Ad '.$i.' (Migrated from AMP)';
+                        $post_title         = 'Adsense Ad '.$i.' Incontent Ad (Migrated from AMP)';
                         $g_data_ad_width    = $redux_builder_amp['ampforwp-adsense-ad-width-incontent-ad-'.$i];
                         $g_data_ad_height   = $redux_builder_amp['ampforwp-adsense-ad-height-incontent-ad-'.$i];
                         $position = $redux_builder_amp['ampforwp-adsense-ad-position-incontent-ad-'.$i];
                     }else if($ad_type == '2'){
                         $ad_type_label      = 'double_click';
-                        $post_title         = 'DoubleClick Ad '.$i.' (Migrated from AMP)';
+                        $post_title         = 'DoubleClick Ad '.$i.' Incontent Ad (Migrated from AMP)';
                         $g_data_ad_width    = $redux_builder_amp['ampforwp-doubleclick-ad-width-incontent-ad-'.$i];
                         $g_data_ad_height   = $redux_builder_amp['ampforwp-doubleclick-ad-height-incontent-ad-'.$i];
                         $position = $redux_builder_amp['ampforwp-doubleclick-ad-position-incontent-ad-'.$i];
                     }else if($ad_type == '3'){
                         $ad_type_label      = 'plain_text';
-                        $post_title         = 'Adsense Ad '.$i.' (Migrated from AMP)';
+                        $post_title         = 'Plain Text Ad '.$i.' Incontent Ad (Migrated from AMP)';
                         $position = $redux_builder_amp['ampforwp-custom-ads-ad-position-incontent-ad-'.$i];
                     }else if($ad_type == '5'){
                         $ad_type_label      = 'mgid';
-                        $post_title         ='MGID Ad '.$i.' (Migrated from AMP)';
+                        $post_title         ='MGID Ad '.$i.' Incontent Ad (Migrated from AMP)';
                         $g_data_ad_width    = $redux_builder_amp['ampforwp-mgid-ad-width-incontent-ad-'.$i];
                         $g_data_ad_height   = $redux_builder_amp['ampforwp-mgid-ad-height-incontent-ad-'.$i]; 
                         $position = $redux_builder_amp['ampforwp-mgid-ad-position-incontent-ad-'.$i];
@@ -369,10 +369,10 @@ class QUADS_Ad_Setup_Api {
                     $post_id          = wp_insert_post($ads_post);
                     $visibility_include =array();
 
-                    $visibility_include[0]['type']['label'] = 'General';
-                    $visibility_include[0]['type']['value'] = 'general';
-                    $visibility_include[0]['value']['label'] = "Show Globally";
-                    $visibility_include[0]['value']['value'] = "show_globally";
+                    $visibility_include[0]['type']['label'] = 'Post Type';
+                    $visibility_include[0]['type']['value'] = 'post_type';
+                    $visibility_include[0]['value']['label'] = "post";
+                    $visibility_include[0]['value']['value'] = "post"; 
                     $doubleclick_ad_data_slot = explode('/', $redux_builder_amp['ampforwp-doubleclick-ad-data-slot-incontent-ad-'.$i]);
                     $adlabel =  'above';
                     if($redux_builder_amp['ampforwp-ad-sponsorship-location'] == '2'){
@@ -504,7 +504,7 @@ class QUADS_Ad_Setup_Api {
                      $adsense_type = 'normal';
                     if($ad_type == '1'){
                         $ad_type_label      = 'adsense';
-                        $post_title         = 'Adsense Ad '.$i.' (Migrated from AMP)';
+                        $post_title         = 'Adsense Ad '.$i.' General Options (Migrated from AMP)';
                         $g_data_ad_width    = $redux_builder_amp['ampforwp-adsense-ad-width-standard-'.$i];
                         $g_data_ad_height   = $redux_builder_amp['ampforwp-adsense-ad-height-standard-'.$i];
                         if($amp_options['adsense-rspv-ad-type-standard-'.$i]){
@@ -514,16 +514,16 @@ class QUADS_Ad_Setup_Api {
                         }
                     }else if($ad_type == '2'){
                         $ad_type_label      = 'double_click';
-                        $post_title         = 'DoubleClick Ad '.$i.' (Migrated from AMP)';
+                        $post_title         = 'DoubleClick Ad '.$i.' General Options (Migrated from AMP)';
                         $g_data_ad_width    = $redux_builder_amp['ampforwp-doubleclick-ad-width-standard-'.$i];
                         $g_data_ad_height   = $redux_builder_amp['ampforwp-doubleclick-ad-height-standard-'.$i];
                         $adsense_type = 'normal';
                     }else if($ad_type == '3'){
                         $ad_type_label      = 'plain_text';
-                        $post_title         = 'Ad '.$i.' (Migrated from AMP)';
+                        $post_title         = 'Ad '.$i.' General Options (Migrated from AMP)';
                     }else if($ad_type == '5'){
                         $ad_type_label      = 'mgid';
-                        $post_title         ='MGID Ad '.$i.' (Migrated from AMP)';
+                        $post_title         ='MGID Ad '.$i.' General Options (Migrated from AMP)';
                         $g_data_ad_width    = $redux_builder_amp['ampforwp-mgid-ad-width-standard-'.$i];
                         $g_data_ad_height   = $redux_builder_amp['ampforwp-mgid-ad-height-standard-'.$i]; 
                         $adsense_type = 'normal';
@@ -538,10 +538,10 @@ class QUADS_Ad_Setup_Api {
                             );  
                     $post_id          = wp_insert_post($ads_post);
                     $visibility_include =array();
-                    $visibility_include[0]['type']['label'] = 'General';
-                    $visibility_include[0]['type']['value'] = 'general';
-                    $visibility_include[0]['value']['label'] = "Show Globally";
-                    $visibility_include[0]['value']['value'] = "show_globally";
+                    $visibility_include[0]['type']['label'] = 'Post Type';
+                    $visibility_include[0]['type']['value'] = 'post_type';
+                    $visibility_include[0]['value']['label'] = "post";
+                    $visibility_include[0]['value']['value'] = "post"; 
 
                         $network_code = '';
                         $ad_unit_name = '';
@@ -646,10 +646,10 @@ class QUADS_Ad_Setup_Api {
                         }
 
                         $visibility_include =array();
-                        $visibility_include[0]['type']['label'] = 'General';
-                        $visibility_include[0]['type']['value'] = 'general';
-                        $visibility_include[0]['value']['label'] = "Show Globally";
-                        $visibility_include[0]['value']['value'] = "show_globally";
+                        $visibility_include[0]['type']['label'] = 'Post Type';
+                        $visibility_include[0]['type']['value'] = 'post_type';
+                        $visibility_include[0]['value']['label'] = "post";
+                        $visibility_include[0]['value']['value'] = "post"; 
                         $ads_post = array(
                                 'post_author' => $user_id,                                                            
                                 'post_title'  => $post_title,                    

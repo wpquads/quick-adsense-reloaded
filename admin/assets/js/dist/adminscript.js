@@ -61091,7 +61091,14 @@ var QuadsLayout = /*#__PURE__*/function (_Component) {
         name: "ad_label_check",
         onChange: this.props.adFormChangeHandler,
         type: "checkbox"
-      }))), post_meta.ad_label_check ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label Position', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
+      }))), post_meta.ad_label_check ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label Text', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+        onChange: this.props.adFormChangeHandler,
+        type: "text",
+        className: "small-text",
+        id: "ad_label_text",
+        name: "ad_label_text",
+        value: post_meta.ad_label_text
+      }))) : null, post_meta.ad_label_check ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label Position', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
         name: "adlabel",
         value: post_meta.adlabel,
         onChange: this.props.adFormChangeHandler
@@ -61099,14 +61106,7 @@ var QuadsLayout = /*#__PURE__*/function (_Component) {
         value: "above"
       }, __('Above Ad', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "below"
-      }, __('Below Ad', 'quick-adsense-reloaded'))))) : null, post_meta.ad_label_check ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label Text', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
-        onChange: this.props.adFormChangeHandler,
-        type: "text",
-        className: "small-text",
-        id: "ad_label_text",
-        name: "ad_label_text",
-        value: post_meta.ad_label_text
-      }))) : null)))));
+      }, __('Below Ad', 'quick-adsense-reloaded'))))) : null)))));
     }
   }]);
 
@@ -63316,8 +63316,6 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
       }, __('Show Ad after 20% of content', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "40_percent"
       }, __('Show Ad after 40% of content', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
-        value: "50_percent"
-      }, __('Show Ad after 50% of content', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "60_percent"
       }, __('Show Ad after 60% of content', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "80_percent"
@@ -63369,6 +63367,14 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
       }, __('After Image', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "after_word_count"
       }, __('By Word Count', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "20_percent"
+      }, __('Show Ad after 20% of content', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "40_percent"
+      }, __('Show Ad after 40% of content', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "60_percent"
+      }, __('Show Ad after 60% of content', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "80_percent"
+      }, __('Show Ad after 80% of content', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "ad_shortcode"
       }, __('Shortcode (Manual)', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("div", null, show_form_error && post_meta.position == '' ? /*#__PURE__*/_react["default"].createElement("span", {
         className: "quads-error"
@@ -64784,11 +64790,11 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
             }, /*#__PURE__*/_react["default"].createElement("table", {
               className: "form-table",
               role: "presentation"
-            }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ampforwp Ads', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+            }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('AMP for WP Ads', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
               className: "quads-btn quads-btn-primary",
               id: "import_amp_for_wp",
               onClick: _this2.importampforwpdata
-            }, __('Import', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("p", null, __('Import Ampforwp Ads ', 'quick-adsense-reloaded')), _this2.state.importampforwpmsg ? /*#__PURE__*/_react["default"].createElement(_lab.Alert, {
+            }, __('Import', 'quick-adsense-reloaded')), _this2.state.importampforwpmsg ? /*#__PURE__*/_react["default"].createElement(_lab.Alert, {
               severity: "success",
               action: /*#__PURE__*/_react["default"].createElement(_Icon["default"], {
                 onClick: _this2.closeQuerySuccess

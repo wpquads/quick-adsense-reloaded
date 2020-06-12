@@ -129,15 +129,19 @@ Alternative Installation:
 
 
 == Changelog == 
-= 2.0.8 =
+= 2.0.8 (12th June 2020) =
 * New: MGID Integration #167
-* New: Added a new option to add Ad After word count  #23
-* New: Made Ads.txt modifiedable #162
+* New: Added new Position to display Ad After word count  #23
+* New: Added new Position to show Ad After 20,40,60,80 percent of content #175
+* New: Made Ads.txt modifiable #162
+* New: Ads not loading specific "page template" of Page attribute #53
 * New: Ampforwp & advances amp ads importer #163
 * Fix: Published going to auto Draft #169
-* Fix: Settings is opened, but the page is not selected #157
-* Fix: Ads not loading specific "page template" of Page attribute #53
-* Fix: CSS showing in the head of the website in AMP after update #165
+* Fix: Settings are  opened, but the page is not selected #157
+* Fix: CSS shows in the head of the website in AMP after update #165
+* Fix: Responsive option not working #114
+* Fix: positioning bug Ad was displaying when two visibility options are selected #166
+* Fix: LazyLoad does not work in custom code having an Adsense code #170
 
 = 2.0.7 =
 * New: Added a new option to Reapeat Ad After nth Paragraph   #118
