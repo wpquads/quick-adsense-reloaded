@@ -77,6 +77,7 @@ class QuadsAdCreateRouter extends Component {
             image_number      : 1,
             enabled_on_amp        : false,
             enable_on_end_of_post : false,
+            after_the_percentage_value: '50_percent',
             image_caption : false,
             include_dropdown           : false,
             exclude_dropdown           : false,  
