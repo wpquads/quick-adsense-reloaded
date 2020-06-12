@@ -163,6 +163,7 @@ class QUADS_Ad_Setup_Api {
             $post_status = 'publish';            
             $amp_options       = get_option('redux_builder_amp');   
             $user_id          = get_current_user_id();
+            $after_the_percentage_value = '';
 
             for($i=1; $i<=6; $i++){ 
                if($amp_options['enable-amp-ads-'.$i] != 1){ 
@@ -382,19 +383,24 @@ class QUADS_Ad_Setup_Api {
                     
                               switch ($position) {
                             case '20-percent':
-                                    $position   =   '20_percent'; 
+                                    $position                     =   'after_the_percentage'; 
+                                    $after_the_percentage_value   =   '20_percent'; 
                                     break;
                             case '40-percent':
-                                    $position   =   '40_percent'; 
+                                    $position                     =   'after_the_percentage'; 
+                                    $after_the_percentage_value   =   '40_percent'; 
                                     break;
                             case '50-percent':
-                                    $position   =   'middle_of_post'; 
+                                    $position                     =   'after_the_percentage'; 
+                                    $after_the_percentage_value   =   '50_percent';  
                                     break;
                            case '60-percent':
-                                    $position   =   '60_percent'; 
+                                    $position                     =   'after_the_percentage'; 
+                                    $after_the_percentage_value   =   '60_percent'; 
                                     break;
                             case '80-percent':
-                                    $position   =   '80_percent'; 
+                                    $position                     =   'after_the_percentage'; 
+                                    $after_the_percentage_value   =   '80_percent';  
                                     break;
                             case 'custom':
                                     $position   =   'code'; 
@@ -439,6 +445,7 @@ class QUADS_Ad_Setup_Api {
                         'enabled_on_amp'                => 1,
                         'visibility_include'            => $visibility_include,
                         'position'                      => $position, 
+                        'after_the_percentage_value'    => $after_the_percentage_value, 
                         'paragraph_number'              => $paragraph_number,   
                         'imported_from'                 => 'ampforwp_ads',
                         'label'                         =>  $post_title,
