@@ -146,14 +146,15 @@ class QUADS_Ad_Setup_Api {
             ));
                register_rest_route( 'quads-route', 'import-ampforwp-ads', array(
                 'methods'    => 'POST',
-                'callback'   => array($this, 'importampforwpads'),
+                'callback'   => array($this, 'importampforwp_ads'),
                 'permission_callback' => function(){
                     return current_user_can( 'manage_options' );
                 }
             ));
                       
         }  
-        public function importampforwpads(){
+     /** Here we are importing AMP for WP and advance Amp ads to Quads**/
+        public function importampforwp_ads(){
             global $redux_builder_amp;
             $args = array(
                       'post_type' => 'quads-ads'

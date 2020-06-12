@@ -142,6 +142,7 @@ Alternative Installation:
 * Fix: Responsive option not working #114
 * Fix: positioning bug Ad was displaying when two visibility options are selected #166
 * Fix: LazyLoad does not work in custom code having an Adsense code #170
+* Fix: Undefined variable Warning #177
 
 = 2.0.7 =
 * New: Added a new option to Reapeat Ad After nth Paragraph   #118

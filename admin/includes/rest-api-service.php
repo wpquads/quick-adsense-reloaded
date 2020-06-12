@@ -344,7 +344,8 @@ class QUADS_Ad_Setup_Api_Service {
       $response = array();
       if(count($this->amp_front_loop)==0){
         $query_data =  get_posts($arg);
-        $post_meta = array();        
+        $post_meta = array();   
+        $posts_data = array();      
         foreach ($query_data as $key => $value) {
           $data = array();  
           $data['post_id']       =  $value->ID;
