@@ -541,13 +541,12 @@ function quads_filter_default_ads_new( $content ) {
 
                     break;    
                      case 'after_the_percentage':
-                        switch ($ads['after_the_percentage_value']) {
-                            case '20_percent':
-                                if(strpos( $content, '<!--OffMiddle-->' ) === false ) {
+
                                     $closing_p        = '</p>';
                                     $paragraphs       = explode( $closing_p, $content );       
                                     $total_paragraphs = count($paragraphs);                          
-                                    $paragraph_id     = floor($total_paragraphs /5);                              
+                                    $percentage       = intval($ads['after_the_percentage_value']);
+                                    $paragraph_id     = floor(($percentage / 100) * $total_paragraphs);                              
                                     foreach ($paragraphs as $index => $paragraph) {
                                         if ( trim( $paragraph ) ) {
                                             $paragraphs[$index] .= $closing_p;
@@ -557,77 +556,6 @@ function quads_filter_default_ads_new( $content ) {
                                         }
                                     }
                                     $content = implode('', $paragraphs ); 
-                                }
-                                break;    
-                         case '40_percent':
-                            if(strpos( $content, '<!--OffMiddle-->' ) === false ) {
-                                $closing_p        = '</p>';
-                                $paragraphs       = explode( $closing_p, $content );       
-                                $total_paragraphs = count($paragraphs);                          
-                                $paragraph_id     = floor($total_paragraphs /2.5);                              
-                                foreach ($paragraphs as $index => $paragraph) {
-                                    if ( trim( $paragraph ) ) {
-                                        $paragraphs[$index] .= $closing_p;
-                                    }
-                                    if ( $paragraph_id == $index + 1 ) {
-                                        $paragraphs[$index] .= $cusads;
-                                    }
-                                }
-                                $content = implode('', $paragraphs ); 
-                            }
-                            break;   
-                              case '50_percent':
-                                if(strpos( $content, '<!--OffMiddle-->' ) === false ) {
-                                    $closing_p        = '</p>';
-                                    $paragraphs       = explode( $closing_p, $content );       
-                                    $total_paragraphs = count($paragraphs);                          
-                                    $paragraph_id     = floor($total_paragraphs /2);                              
-                                    foreach ($paragraphs as $index => $paragraph) {
-                                        if ( trim( $paragraph ) ) {
-                                            $paragraphs[$index] .= $closing_p;
-                                        }
-                                        if ( $paragraph_id == $index + 1 ) {
-                                            $paragraphs[$index] .= $cusads;
-                                        }
-                                    }
-                                    $content = implode('', $paragraphs ); 
-                                }
-                            break;  
-                         case '60_percent':
-                            if(strpos( $content, '<!--OffMiddle-->' ) === false ) {
-                                $closing_p        = '</p>';
-                                $paragraphs       = explode( $closing_p, $content );       
-                                $total_paragraphs = count($paragraphs);                          
-                                $paragraph_id     = floor($total_paragraphs /1.6);                              
-                                foreach ($paragraphs as $index => $paragraph) {
-                                    if ( trim( $paragraph ) ) {
-                                        $paragraphs[$index] .= $closing_p;
-                                    }
-                                    if ( $paragraph_id == $index + 1 ) {
-                                        $paragraphs[$index] .= $cusads;
-                                    }
-                                }
-                                $content = implode('', $paragraphs ); 
-                            }
-                            break;  
-                         case '80_percent':
-                            if(strpos( $content, '<!--OffMiddle-->' ) === false ) {
-                                $closing_p        = '</p>';
-                                $paragraphs       = explode( $closing_p, $content );       
-                                $total_paragraphs = count($paragraphs);                          
-                                $paragraph_id     = floor($total_paragraphs /1.25);                            
-                                foreach ($paragraphs as $index => $paragraph) {
-                                    if ( trim( $paragraph ) ) {
-                                        $paragraphs[$index] .= $closing_p;
-                                    }
-                                    if ( $paragraph_id == $index + 1 ) {
-                                        $paragraphs[$index] .= $cusads;
-                                    }
-                                }
-                                $content = implode('', $paragraphs ); 
-                            }
-                             break;
-                        }
                      break;
                 }
 

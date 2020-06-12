@@ -97,14 +97,8 @@ class QuadsAdvancePosition extends Component {
            </div> : ''}
            {post_meta.position == 'after_the_percentage' ? 
           <div>
-          <label>  
-           <select value={post_meta.after_the_percentage_value} name="after_the_percentage_value" onChange={this.props.adFormChangeHandler} >
-          <option value="20_percent">{__('Show Ad after 20% of content', 'quick-adsense-reloaded')}</option>
-          <option value="40_percent">{__('Show Ad after 40% of content', 'quick-adsense-reloaded')}</option>
-          <option value="50_percent">{__('Show Ad after 50% of content', 'quick-adsense-reloaded')}</option>
-          <option value="60_percent">{__('Show Ad after 60% of content', 'quick-adsense-reloaded')}</option>
-          <option value="80_percent">{__('Show Ad after 80% of content', 'quick-adsense-reloaded')}</option>
-          </select> 
+          <label> 
+          <input min="1" onChange={this.props.adFormChangeHandler} name="after_the_percentage_value" value={post_meta.after_the_percentage_value}  type="number" /> % 
           </label>
            </div> : ''}
 

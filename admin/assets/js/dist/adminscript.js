@@ -10496,7 +10496,7 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
         image_number: 1,
         enabled_on_amp: false,
         enable_on_end_of_post: false,
-        after_the_percentage_value: '50_percent',
+        after_the_percentage_value: 50,
         image_caption: false,
         include_dropdown: false,
         exclude_dropdown: false,
@@ -63414,21 +63414,13 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         name: "word_count_number",
         value: post_meta.word_count_number,
         type: "number"
-      }))) : '', post_meta.position == 'after_the_percentage' ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("select", {
-        value: post_meta.after_the_percentage_value,
+      }))) : '', post_meta.position == 'after_the_percentage' ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
+        min: "1",
+        onChange: this.props.adFormChangeHandler,
         name: "after_the_percentage_value",
-        onChange: this.props.adFormChangeHandler
-      }, /*#__PURE__*/_react["default"].createElement("option", {
-        value: "20_percent"
-      }, __('Show Ad after 20% of content', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
-        value: "40_percent"
-      }, __('Show Ad after 40% of content', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
-        value: "50_percent"
-      }, __('Show Ad after 50% of content', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
-        value: "60_percent"
-      }, __('Show Ad after 60% of content', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
-        value: "80_percent"
-      }, __('Show Ad after 80% of content', 'quick-adsense-reloaded'))))) : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
+        value: post_meta.after_the_percentage_value,
+        type: "number"
+      }), " %")) : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
         checked: post_meta.image_caption,
         name: "image_caption",
         onChange: this.props.adFormChangeHandler,

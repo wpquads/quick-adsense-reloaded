@@ -385,23 +385,23 @@ class QUADS_Ad_Setup_Api {
                               switch ($position) {
                             case '20-percent':
                                     $position                     =   'after_the_percentage'; 
-                                    $after_the_percentage_value   =   '20_percent'; 
+                                    $after_the_percentage_value   =   '20'; 
                                     break;
                             case '40-percent':
                                     $position                     =   'after_the_percentage'; 
-                                    $after_the_percentage_value   =   '40_percent'; 
+                                    $after_the_percentage_value   =   '40'; 
                                     break;
                             case '50-percent':
                                     $position                     =   'after_the_percentage'; 
-                                    $after_the_percentage_value   =   '50_percent';  
+                                    $after_the_percentage_value   =   '50';  
                                     break;
                            case '60-percent':
                                     $position                     =   'after_the_percentage'; 
-                                    $after_the_percentage_value   =   '60_percent'; 
+                                    $after_the_percentage_value   =   '60'; 
                                     break;
                             case '80-percent':
                                     $position                     =   'after_the_percentage'; 
-                                    $after_the_percentage_value   =   '80_percent';  
+                                    $after_the_percentage_value   =   '80';  
                                     break;
                             case 'custom':
                                     $position   =   'code'; 
