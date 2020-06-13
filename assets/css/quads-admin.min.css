@@ -319,7 +319,7 @@ display: block; padding: 15px 15px 10px 17px; text-decoration: none; font-weight
     margin-bottom:20px;
 }
 
-.nav-tab-active{
+.quads-nav-tab-active{
     background-color: white;
     border-bottom:0px;
 }
@@ -481,11 +481,11 @@ display: block; padding: 15px 15px 10px 17px; text-decoration: none; font-weight
     padding: 1px 12px;
 }
 
-.quads_admin h2.nav-tab-wrapper{
+.quads_admin h2.quads-nav-tab-wrapper{
     border:0px;
 }
 
-.quads_admin .nav-tab{
+.quads_admin .quads-nav-tab{
     border:0px;
     text-transform: uppercase;
     font-weight: 700;

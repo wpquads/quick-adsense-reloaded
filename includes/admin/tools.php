@@ -28,7 +28,7 @@ function quads_tools_page() {
 ?>
 	<div class="wrap">
 		<?php screen_icon(); ?>
-		<h2 class="nav-tab-wrapper">
+		<h2 class="quads-nav-tab-wrapper">
 			<?php
 			foreach( quads_get_tools_tabs() as $tab_id => $tab_name ) {
 
@@ -40,8 +40,8 @@ function quads_tools_page() {
 					'quads-message'
 				), $tab_url );
 
-				$active = $active_tab == $tab_id ? ' nav-tab-active' : '';
-				echo '<a href="' . esc_url( $tab_url ) . '" title="' . esc_attr( $tab_name ) . '" class="nav-tab' . $active . '">' . esc_html( $tab_name ) . '</a>';
+				$active = $active_tab == $tab_id ? ' quads-nav-tab-active' : '';
+				echo '<a href="' . esc_url( $tab_url ) . '" title="' . esc_attr( $tab_name ) . '" class="quads-nav-tab' . $active . '">' . esc_html( $tab_name ) . '</a>';
 
 			}
 			?>

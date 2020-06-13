@@ -260,7 +260,7 @@ function quads_options_page() {
                     
                 </div>
             </div>
-		<h2 class="nav-tab-wrapper">
+		<h2 class="quads-nav-tab-wrapper">
 			<?php
 			foreach( quads_get_settings_tabs() as $tab_id => $tab_name ) {
 
@@ -269,9 +269,9 @@ function quads_options_page() {
 					'tab' => $tab_id
 				) ));
 
-				$active = $active_tab == $tab_id ? ' nav-tab-active' : '';
+				$active = $active_tab == $tab_id ? ' quads-nav-tab-active' : '';
 
-				echo '<a href="' . esc_url( $tab_url ) . '" title="' . esc_attr( $tab_name ) . '" class="nav-tab' . $active . '">';
+				echo '<a href="' . esc_url( $tab_url ) . '" title="' . esc_attr( $tab_name ) . '" class="quads-nav-tab' . $active . '">';
 					echo esc_html( $tab_name );
 				echo '</a>';
 			}
