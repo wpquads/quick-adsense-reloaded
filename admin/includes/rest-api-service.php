@@ -47,13 +47,13 @@ class QUADS_Ad_Setup_Api_Service {
 
             $choices[] = array('label' => 'Default Template', 'value' => 'default');
 
-            $templates = get_page_templates();
+            $templates = wp_get_theme()->get_page_templates();
             
             if($templates){
                 
                 foreach($templates as $k => $v){
                                  
-                     $choices[] = array('label' => $k, 'value' => $v);
+                     $choices[] = array('label' => $v, 'value' => $k);
               
                 }
                 
@@ -344,7 +344,8 @@ class QUADS_Ad_Setup_Api_Service {
       $response = array();
       if(count($this->amp_front_loop)==0){
         $query_data =  get_posts($arg);
-        $post_meta = array();        
+        $post_meta = array();   
+        $posts_data = array();      
         foreach ($query_data as $key => $value) {
           $data = array();  
           $data['post_id']       =  $value->ID;
@@ -384,7 +385,16 @@ class QUADS_Ad_Setup_Api_Service {
 
              if($key == 'QckTags'){
               $quads_options['quicktags'] = array($key => $val);
-             } else{
+             }else if($key == 'adsTxtText' ){
+              if($parameters['adsTxtEnabled']){
+                if (false !== file_put_contents(ABSPATH . 'ads.txt', $val)) {
+                    // show notice that ads.txt has been created
+                    set_transient('quads_vi_ads_txt_notice', true, 300);
+                }else{
+                  set_transient('quads_vi_ads_txt_error', true, 300);
+                }
+              }
+            } else{
               $quads_options[$key] = $val;
              }
 

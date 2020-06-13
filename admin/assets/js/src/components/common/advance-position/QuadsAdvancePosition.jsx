@@ -31,7 +31,9 @@ class QuadsAdvancePosition extends Component {
           <option value="before_last_paragraph">{__('Right before the last Paragraph', 'quick-adsense-reloaded')}</option>
           <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
           <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>    
-          <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>  
+          <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
+          <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
+          <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option> 
           </optgroup>  
          
           <optgroup label="Partial Support ( AMP Only )">
@@ -57,6 +59,9 @@ class QuadsAdvancePosition extends Component {
           <option value="before_last_paragraph">{__('Right before the last Paragraph', 'quick-adsense-reloaded')}</option>
           <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
           <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>    
+          <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
+           <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
+
           <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
           </select>  }
            <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select Where Will The AD Appear</div></span> : ''}</div>
@@ -83,6 +88,22 @@ class QuadsAdvancePosition extends Component {
               <label for="repeat_paragraph"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number}</label>
            
            </div></div> : ''}
+
+          {post_meta.position == 'after_word_count' ? 
+          <div>
+          <label>  
+          <input min="1" onChange={this.props.adFormChangeHandler} name="word_count_number" value={post_meta.word_count_number}  type="number" /> 
+          </label>
+           </div> : ''}
+           {post_meta.position == 'after_the_percentage' ? 
+          <div>
+          <label> 
+          <input min="1" onChange={this.props.adFormChangeHandler} name="after_the_percentage_value" value={post_meta.after_the_percentage_value}  type="number" /> % 
+          </label>
+           </div> : ''}
+            {(show_form_error && post_meta.position == 'after_the_percentage' && (post_meta.g_data_ad_client == '' || parseInt(quads_post_meta.after_the_percentage_value) < 10 || parseInt(quads_post_meta.after_the_percentage_value) > 101)) ? <div className="quads_form_msg"><span className="material-icons">
+error_outline</span>Percentage should be
+ between 10 to 100</div> :''} 
 
           {post_meta.position == 'after_image' ? 
           <label>  

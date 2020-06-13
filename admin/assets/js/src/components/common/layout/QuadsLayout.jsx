@@ -42,6 +42,14 @@ class QuadsLayout extends Component {
                       </tr>
                       {post_meta.ad_label_check ?
                       <tr>
+                        <td><label>{__('Ad Label Text', 'quick-adsense-reloaded')}</label></td> 
+                        <td>
+                        <input onChange={this.props.adFormChangeHandler} type="text" className="small-text" id="ad_label_text" name="ad_label_text" value={post_meta.ad_label_text}/>  
+                        </td>
+                      </tr>
+                      : null }
+                      {post_meta.ad_label_check ?
+                      <tr>
                         <td><label>{__('Ad Label Position', 'quick-adsense-reloaded')}</label></td> 
                         <td>
                         <select name="adlabel" value={post_meta.adlabel} onChange={this.props.adFormChangeHandler}>
@@ -51,14 +59,7 @@ class QuadsLayout extends Component {
                         </td>
                       </tr> 
                         : null }
-                       {post_meta.ad_label_check ?
-                      <tr>
-                        <td><label>{__('Ad Label Text', 'quick-adsense-reloaded')}</label></td> 
-                        <td>
-                        <input onChange={this.props.adFormChangeHandler} type="text" className="small-text" id="ad_label_text" name="ad_label_text" value={post_meta.ad_label_text}/>  
-                        </td>
-                      </tr>
-                      : null }
+                       
                   </tbody>
                 </table>
                </div>              

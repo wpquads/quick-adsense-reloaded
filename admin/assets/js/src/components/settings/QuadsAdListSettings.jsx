@@ -51,14 +51,42 @@ class QuadsAdListSettings extends Component {
                 multiTagsValue     : [],
                 multiPluginsValue  : []                                                                    
                 },
-            quads_wp_quads_pro_license_key : '',           
+            quads_wp_quads_pro_license_key : '', 
+            importampforwpmsg : "", 
+            importampforwpmsgprocessing : "",          
         };     
   }   
   handleCopy = () => {
     copy(this.state.textToCopy);
     this.setState({ copied: true });
   }
+importampforwpdata = () => {
+if(this.state.importampforwpmsgprocessing !=''){
+  return;
+}
+      this.setState({importampforwpmsgprocessing: 'Importing Ads'});
+    const url = quads_localize_data.rest_url + 'quads-route/import-ampforwp-ads';    
+    fetch(url,{
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-WP-Nonce': quads_localize_data.nonce,
+      }              
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {
+            if(result.status === 't'){              
+              this.setState({importampforwpmsg: result.data,importampforwpmsgprocessing:''});
+            }                              
+      },        
+      (error) => {
+        
+      }
+    );  
 
+  }
   open_global_excluder = () => {
     this.setState({global_excluder_modal:true});
   }
@@ -244,7 +272,7 @@ handleMultiPluginsChange = (option) => {
     
   }
   closeQuerySuccess = (e) => {
-    this.setState({customer_querey_success: ''});   
+    this.setState({customer_querey_success: '',importampforwpmsg: ''});   
   }
   closeQueryError = (e) => {
     this.setState({customer_querey_error: ''});   
@@ -738,7 +766,7 @@ handleMultiPluginsChange = (option) => {
                          <span className="quads-slider"></span>
                        </label>
                        
-                       {/* {this.state.adsTxtEnabled ? <span onClick={this.open_ad_text_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''} */}
+                       {this.state.adsTxtEnabled ? <span onClick={this.open_ad_text_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''} 
                      </td>
                      </tr>
                     {
@@ -811,19 +839,30 @@ handleMultiPluginsChange = (option) => {
                           <a href={`${quads_localize_data.rest_url}quads-route/export-settings`} className="quads-btn quads-btn-primary">Export</a>
                           <p>{__('Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded')}</p>
                         </td>
-                      </tr>
-                      <tr>
-                        <th><label>{__('Import', 'quick-adsense-reloaded')}</label></th>
-                        <td>
-                          <input type="file" name="import_file" onChange={this.formChangeHandler}/>
-                          <p>{__('Import the Quick AdSense Reloaded settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'quick-adsense-reloaded')}</p>
-                        </td>
-                      </tr>                                  
+                      </tr>                                 
                     </tbody>
                   </table>
 
                 </div>
                );  
+               case "settings_importer": return(
+                               <div className="quads-settings-tab-container">                  
+                  <table className="form-table" role="presentation">
+                    <tbody>
+                       <tr>
+                        <th><label>{__('AMP for WP Ads', 'quick-adsense-reloaded')}</label></th>
+                        <td>
+                          <a className="quads-btn quads-btn-primary" id="import_amp_for_wp" onClick={this.importampforwpdata}>{__('Import', 'quick-adsense-reloaded')}</a>
+                            {this.state.importampforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importampforwpmsg}</Alert> : null}
+                            {this.state.importampforwpmsgprocessing ? <div className='updating-message importampforwpmsgprocessing'><p>Importing Ads</p></div>: ''}
+                        </td>
+                      </tr>                                   
+                    </tbody>
+                  </table>
+
+                </div>
+
+               );
                 case "settings_google_autoads":  return(
                 <div className="quads-settings-tab-container">
                 <div className="quads-help-support">

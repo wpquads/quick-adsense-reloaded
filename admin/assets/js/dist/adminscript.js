@@ -10224,10 +10224,17 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
     _defineProperty(_assertThisInitialized(_this), "publish", function (event) {
       event.preventDefault();
       var quads_post_meta = _this.state.quads_post_meta;
+      var validation_flag = true;
+
+      if (quads_post_meta.position == 'after_the_percentage') {
+        if (quads_post_meta.after_the_percentage_value == '' || parseInt(quads_post_meta.after_the_percentage_value) < 10 || parseInt(quads_post_meta.after_the_percentage_value) > 101) {
+          validation_flag = false;
+        }
+      }
 
       switch (quads_post_meta.ad_type) {
         case 'plain_text':
-          if (quads_post_meta.code && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+          if (validation_flag && quads_post_meta.code && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
             _this.saveAdFormData('publish');
           } else {
             _this.setState({
@@ -10238,7 +10245,7 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
           break;
 
         case 'adsense':
-          if (quads_post_meta.g_data_ad_slot && quads_post_meta.g_data_ad_client && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+          if (validation_flag && quads_post_meta.g_data_ad_slot && quads_post_meta.g_data_ad_client && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
             _this.saveAdFormData('publish');
           } else {
             _this.setState({
@@ -10249,7 +10256,7 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
           break;
 
         case 'random_ads':
-          if (quads_post_meta.random_ads_list.length > 0 && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+          if (validation_flag && quads_post_meta.random_ads_list.length > 0 && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
             _this.saveAdFormData('publish');
           } else {
             _this.setState({
@@ -10260,7 +10267,7 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
           break;
 
         case 'double_click':
-          if (quads_post_meta.ad_unit_name && quads_post_meta.network_code && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+          if (validation_flag && quads_post_meta.ad_unit_name && quads_post_meta.network_code && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
             _this.saveAdFormData('publish');
           } else {
             _this.setState({
@@ -10271,7 +10278,18 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
           break;
 
         case 'yandex':
-          if (quads_post_meta.block_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+          if (validation_flag && quads_post_meta.block_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+            _this.saveAdFormData('publish');
+          } else {
+            _this.setState({
+              show_form_error: true
+            });
+          }
+
+          break;
+
+        case 'mgid':
+          if (validation_flag && quads_post_meta.data_publisher && quads_post_meta.data_widget && quads_post_meta.data_container && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
             _this.saveAdFormData('publish');
           } else {
             _this.setState({
@@ -10307,11 +10325,9 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
       var new_url = _this.props.location.pathname + '?page=quads-settings';
 
       if (_this.state.quads_state_changed && !_this.state.quads_is_saved) {
-        var r = confirm("Do you want to save change?");
+        var r = confirm("Changes you made may not be saved.");
 
         if (r == true) {
-          _this.saveAdFormData(_this.state.quads_ad_status);
-
           _this.props.history.push(new_url);
         } else {
           return false;
@@ -10378,6 +10394,17 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
 
           case 'yandex':
             if (quads_post_meta.block_id) {
+              _this.props.history.push(new_url);
+            } else {
+              _this.setState({
+                show_form_error: true
+              });
+            }
+
+            break;
+
+          case 'mgid':
+            if (quads_post_meta.data_publisher && quads_post_meta.data_widget && quads_post_meta.data_container) {
               _this.props.history.push(new_url);
             } else {
               _this.setState({
@@ -10472,9 +10499,11 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
         margin: 0,
         position: 'beginning_of_post',
         paragraph_number: 1,
+        word_count_number: 100,
         image_number: 1,
         enabled_on_amp: false,
         enable_on_end_of_post: false,
+        after_the_percentage_value: 50,
         image_caption: false,
         include_dropdown: false,
         exclude_dropdown: false,
@@ -55767,6 +55796,7 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
           }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Data Client ID', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
             className: show_form_error && post_meta.g_data_ad_client == '' ? 'quads_form_error' : '',
             value: post_meta.g_data_ad_client,
+            placeholder: "ca-pub-2005XXXXXXXXX342",
             onChange: this.props.adFormChangeHandler,
             type: "text",
             id: "g_data_ad_client",
@@ -55781,7 +55811,8 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
             onChange: this.props.adFormChangeHandler,
             type: "text",
             id: "g_data_ad_slot",
-            name: "g_data_ad_slot"
+            name: "g_data_ad_slot",
+            placeholder: "70XXXXXX12"
           }), show_form_error && post_meta.g_data_ad_slot == '' ? /*#__PURE__*/_react["default"].createElement("div", {
             className: "quads_form_msg"
           }, /*#__PURE__*/_react["default"].createElement("span", {
@@ -55952,6 +55983,88 @@ var QuadsAdConfigFields = /*#__PURE__*/function (_Component) {
           }, /*#__PURE__*/_react["default"].createElement("span", {
             className: "material-icons"
           }, "error_outline"), "Enter Block Id") : ''))))));
+          break;
+
+        case 'mgid':
+          ad_type_name = 'MGID';
+          comp_html.push( /*#__PURE__*/_react["default"].createElement("div", {
+            key: "mgid"
+          }, /*#__PURE__*/_react["default"].createElement("table", null, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Data Publisher', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_publisher == '' ? 'quads_form_error' : '',
+            value: post_meta.data_publisher,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_publisher",
+            name: "data_publisher",
+            placeholder: "site.com"
+          }), show_form_error && post_meta.data_publisher == '' ? /*#__PURE__*/_react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, /*#__PURE__*/_react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Data Publisher") : '')), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Data Widget', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_widget == '' ? 'quads_form_error' : '',
+            value: post_meta.data_widget,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_widget",
+            name: "data_widget",
+            placeholder: "123456"
+          }), show_form_error && post_meta.data_widget == '' ? /*#__PURE__*/_react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, /*#__PURE__*/_react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Data Widget") : '')), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Data Container', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_container == '' ? 'quads_form_error' : '',
+            value: post_meta.data_container,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_container",
+            name: "data_container",
+            placeholder: "M87ScriptRootC123645"
+          }), show_form_error && post_meta.data_container == '' ? /*#__PURE__*/_react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, /*#__PURE__*/_react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Data Container") : '')), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Data Js Src', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_js_src == '' ? 'quads_form_error' : '',
+            value: post_meta.data_js_src,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_js_src",
+            name: "data_js_src",
+            placeholder: "//jsc.mgid.com/a/m/quads.com.123645.js"
+          }), show_form_error && post_meta.data_js_src == '' ? /*#__PURE__*/_react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, /*#__PURE__*/_react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Data Js Src") : '')), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Size', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("select", {
+            value: post_meta.adsense_type,
+            onChange: this.props.adFormChangeHandler,
+            name: "adsense_type",
+            id: "adsense_type"
+          }, /*#__PURE__*/_react["default"].createElement("option", {
+            value: "normal"
+          }, __('Fixed Size', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+            value: "responsive"
+          }, __('Responsive', 'quick-adsense-reloaded'))), post_meta.adsense_type !== 'responsive' ? /*#__PURE__*/_react["default"].createElement("div", {
+            className: "quads-adsense-width-heigth"
+          }, /*#__PURE__*/_react["default"].createElement("div", {
+            className: "quads-adsense-width"
+          }, /*#__PURE__*/_react["default"].createElement("label", null, __('Width', 'quick-adsense-reloaded'), /*#__PURE__*/_react["default"].createElement("input", {
+            value: post_meta.g_data_ad_width ? post_meta.g_data_ad_width : '300',
+            onChange: this.props.adFormChangeHandler,
+            type: "number",
+            id: "g_data_ad_width",
+            name: "g_data_ad_width"
+          }))), /*#__PURE__*/_react["default"].createElement("div", {
+            className: "quads-adsense-height"
+          }, /*#__PURE__*/_react["default"].createElement("label", null, __('Height', 'quick-adsense-reloaded'), /*#__PURE__*/_react["default"].createElement("input", {
+            value: post_meta.g_data_ad_height ? post_meta.g_data_ad_height : '250',
+            onChange: this.props.adFormChangeHandler,
+            type: "number",
+            id: "g_data_ad_height",
+            name: "g_data_ad_height"
+          })))) : '')))))));
           break;
 
         default:
@@ -60986,7 +61099,14 @@ var QuadsLayout = /*#__PURE__*/function (_Component) {
         name: "ad_label_check",
         onChange: this.props.adFormChangeHandler,
         type: "checkbox"
-      }))), post_meta.ad_label_check ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label Position', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
+      }))), post_meta.ad_label_check ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label Text', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
+        onChange: this.props.adFormChangeHandler,
+        type: "text",
+        className: "small-text",
+        id: "ad_label_text",
+        name: "ad_label_text",
+        value: post_meta.ad_label_text
+      }))) : null, post_meta.ad_label_check ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label Position', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("select", {
         name: "adlabel",
         value: post_meta.adlabel,
         onChange: this.props.adFormChangeHandler
@@ -60994,14 +61114,7 @@ var QuadsLayout = /*#__PURE__*/function (_Component) {
         value: "above"
       }, __('Above Ad', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "below"
-      }, __('Below Ad', 'quick-adsense-reloaded'))))) : null, post_meta.ad_label_check ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Ad Label Text', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
-        onChange: this.props.adFormChangeHandler,
-        type: "text",
-        className: "small-text",
-        id: "ad_label_text",
-        name: "ad_label_text",
-        value: post_meta.ad_label_text
-      }))) : null)))));
+      }, __('Below Ad', 'quick-adsense-reloaded'))))) : null)))));
     }
   }]);
 
@@ -62975,6 +63088,9 @@ var QuadsVisibility = /*#__PURE__*/function (_Component) {
       }, {
         label: 'Tags',
         value: 'tags'
+      }, {
+        label: 'Page Template',
+        value: 'page_template'
       }]
     };
     return _this;
@@ -63202,6 +63318,10 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
       }, __('After Paragraph', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "after_image"
       }, __('After Image', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "after_word_count"
+      }, __('By Word Count', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "after_the_percentage"
+      }, __('After the Percentage', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "ad_shortcode"
       }, __('Shortcode (Manual)', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("optgroup", {
         label: "Partial Support ( AMP Only )"
@@ -63247,6 +63367,10 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
       }, __('After Paragraph', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "after_image"
       }, __('After Image', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "after_word_count"
+      }, __('By Word Count', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
+        value: "after_the_percentage"
+      }, __('After the Percentage', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("option", {
         value: "ad_shortcode"
       }, __('Shortcode (Manual)', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("div", null, show_form_error && post_meta.position == '' ? /*#__PURE__*/_react["default"].createElement("span", {
         className: "quads-error"
@@ -63291,7 +63415,23 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         type: "checkbox"
       }), /*#__PURE__*/_react["default"].createElement("label", {
         "for": "repeat_paragraph"
-      }, " ", __('Display After Every ', 'quick-adsense-reloaded'), post_meta.paragraph_number))) : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
+      }, " ", __('Display After Every ', 'quick-adsense-reloaded'), post_meta.paragraph_number))) : '', post_meta.position == 'after_word_count' ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
+        min: "1",
+        onChange: this.props.adFormChangeHandler,
+        name: "word_count_number",
+        value: post_meta.word_count_number,
+        type: "number"
+      }))) : '', post_meta.position == 'after_the_percentage' ? /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
+        min: "1",
+        onChange: this.props.adFormChangeHandler,
+        name: "after_the_percentage_value",
+        value: post_meta.after_the_percentage_value,
+        type: "number"
+      }), " %")) : '', show_form_error && post_meta.position == 'after_the_percentage' && (post_meta.g_data_ad_client == '' || parseInt(quads_post_meta.after_the_percentage_value) < 10 || parseInt(quads_post_meta.after_the_percentage_value) > 101) ? /*#__PURE__*/_react["default"].createElement("div", {
+        className: "quads_form_msg"
+      }, /*#__PURE__*/_react["default"].createElement("span", {
+        className: "material-icons"
+      }, "error_outline"), "Percentage should be between 10 to 100") : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
         checked: post_meta.image_caption,
         name: "image_caption",
         onChange: this.props.adFormChangeHandler,
@@ -63729,6 +63869,35 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
       });
     });
 
+    _defineProperty(_assertThisInitialized(_this), "importampforwpdata", function () {
+      if (_this.state.importampforwpmsgprocessing != '') {
+        return;
+      }
+
+      _this.setState({
+        importampforwpmsgprocessing: 'Importing Ads'
+      });
+
+      var url = quads_localize_data.rest_url + 'quads-route/import-ampforwp-ads';
+      fetch(url, {
+        method: "post",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-WP-Nonce': quads_localize_data.nonce
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (result) {
+        if (result.status === 't') {
+          _this.setState({
+            importampforwpmsg: result.data,
+            importampforwpmsgprocessing: ''
+          });
+        }
+      }, function (error) {});
+    });
+
     _defineProperty(_assertThisInitialized(_this), "open_global_excluder", function () {
       _this.setState({
         global_excluder_modal: true
@@ -63895,7 +64064,8 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
 
     _defineProperty(_assertThisInitialized(_this), "closeQuerySuccess", function (e) {
       _this.setState({
-        customer_querey_success: ''
+        customer_querey_success: '',
+        importampforwpmsg: ''
       });
     });
 
@@ -64355,7 +64525,9 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
         multiTagsValue: [],
         multiPluginsValue: []
       },
-      quads_wp_quads_pro_license_key: ''
+      quads_wp_quads_pro_license_key: '',
+      importampforwpmsg: "",
+      importampforwpmsgprocessing: ""
     };
     return _this;
   }
@@ -64525,7 +64697,10 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
               checked: settings.adsTxtEnabled
             }), /*#__PURE__*/_react["default"].createElement("span", {
               className: "quads-slider"
-            })))), quads_localize_data.is_pro ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", {
+            })), _this2.state.adsTxtEnabled ? /*#__PURE__*/_react["default"].createElement("span", {
+              onClick: _this2.open_ad_text_modal,
+              className: "quads-generic-icon dashicons dashicons-admin-generic"
+            }) : '')), quads_localize_data.is_pro ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", {
               htmlFor: "global_excluder_enabled"
             }, __('Global Excluder', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("label", {
               className: "quads-switch"
@@ -64619,11 +64794,26 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
             }, __('Copy System Info', 'quick-adsense-reloaded')), /*#__PURE__*/_react["default"].createElement("div", null, _this2.state.copied ? /*#__PURE__*/_react["default"].createElement("span", null, __('System info copied to clipboard', 'quick-adsense-reloaded')) : null))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Export', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
               href: "".concat(quads_localize_data.rest_url, "quads-route/export-settings"),
               className: "quads-btn quads-btn-primary"
-            }, "Export"), /*#__PURE__*/_react["default"].createElement("p", null, __('Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded')))), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Import', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("input", {
-              type: "file",
-              name: "import_file",
-              onChange: _this2.formChangeHandler
-            }), /*#__PURE__*/_react["default"].createElement("p", null, __('Import the Quick AdSense Reloaded settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'quick-adsense-reloaded')))))));
+            }, "Export"), /*#__PURE__*/_react["default"].createElement("p", null, __('Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded')))))));
+
+          case "settings_importer":
+            return /*#__PURE__*/_react["default"].createElement("div", {
+              className: "quads-settings-tab-container"
+            }, /*#__PURE__*/_react["default"].createElement("table", {
+              className: "form-table",
+              role: "presentation"
+            }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('AMP for WP Ads', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+              className: "quads-btn quads-btn-primary",
+              id: "import_amp_for_wp",
+              onClick: _this2.importampforwpdata
+            }, __('Import', 'quick-adsense-reloaded')), _this2.state.importampforwpmsg ? /*#__PURE__*/_react["default"].createElement(_lab.Alert, {
+              severity: "success",
+              action: /*#__PURE__*/_react["default"].createElement(_Icon["default"], {
+                onClick: _this2.closeQuerySuccess
+              }, "close")
+            }, _this2.state.importampforwpmsg) : null, _this2.state.importampforwpmsgprocessing ? /*#__PURE__*/_react["default"].createElement("div", {
+              className: "updating-message importampforwpmsgprocessing"
+            }, /*#__PURE__*/_react["default"].createElement("p", null, "Importing Ads")) : '')))));
 
           case "settings_google_autoads":
             return /*#__PURE__*/_react["default"].createElement("div", {
@@ -103444,6 +103634,9 @@ var QuadsAdSettingsNavLink = /*#__PURE__*/function (_Component) {
         to: 'admin.php?page=quads-settings&path=settings_tools',
         className: current == 'settings_tools' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'
       }, __('Tools', 'quick-adsense-reloaded')))), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("h2", null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
+        to: 'admin.php?page=quads-settings&path=settings_importer',
+        className: current == 'settings_importer' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'
+      }, __('Importer', 'quick-adsense-reloaded')))), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("h2", null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
         to: 'admin.php?page=quads-settings&path=settings_legacy',
         className: current == 'settings_legacy' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'
       }, __('Legacy', 'quick-adsense-reloaded')))), /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement("h2", null, /*#__PURE__*/_react["default"].createElement(_reactRouterDom.Link, {
@@ -104149,6 +104342,11 @@ var QuadsAdList = /*#__PURE__*/function (_Component) {
           type = "Yandex";
           break;
 
+        case 'mgid':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/mgid_icon.png';
+          type = "MGID";
+          break;
+
         default:
           break;
       }
@@ -104493,7 +104691,14 @@ var QuadsAdListNavLink = /*#__PURE__*/function (_Component) {
       var current = 'ads';
 
       if (typeof page.path != 'undefined') {
-        if (page.path == 'settings' || page.path == 'settings_tools' || page.path == 'settings_legacy' || page.path == 'settings_support' || page.path == 'settings_licenses' || page.path == 'settings_google_autoads') current = 'settings';
+        if (page.path == 'settings' || page.path == 'settings_tools' || page.path == 'settings_importer' || page.path == 'settings_legacy' || page.path == 'settings_support' || page.path == 'settings_licenses' || page.path == 'settings_google_autoads') {
+          jQuery('.wp-submenu li').removeClass('current');
+          jQuery('a[href$="quads-settings&path=settings"]').parent().addClass('current');
+          current = 'settings';
+        }
+      } else if (page.page == 'quads-settings') {
+        jQuery('.wp-submenu li').removeClass('current');
+        jQuery('a[href$="quads-settings"]').parent().addClass('current');
       }
 
       return /*#__PURE__*/_react["default"].createElement("div", {
@@ -104619,6 +104824,10 @@ var AdTypeSelectorNavLink = /*#__PURE__*/function (_Component) {
           img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/yandex.png';
           break;
 
+        case 'mgid':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/mgid.png';
+          break;
+
         default:
           break;
       }
@@ -104648,6 +104857,9 @@ var AdTypeSelectorNavLink = /*#__PURE__*/function (_Component) {
       }, {
         ad_type: 'yandex',
         ad_type_name: 'Yandex'
+      }, {
+        ad_type: 'mgid',
+        ad_type_name: 'MGID'
       }, {
         ad_type: 'plain_text',
         ad_type_name: 'Plain Text / HTML / JS'

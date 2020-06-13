@@ -32,7 +32,8 @@ class QuadsVisibility extends Component {
         {label:'Post Format', value:'post_format'},
         {label:'Page', value:'page'},
         {label:'Taxonomy Terms', value:'taxonomy'},
-        {label:'Tags', value:'tags'}        
+        {label:'Tags', value:'tags'},  
+         {label:'Page Template', value:'page_template'}       
       ]                      
     };       
   }     

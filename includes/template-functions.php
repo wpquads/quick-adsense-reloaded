@@ -17,7 +17,7 @@ add_filter('the_content', 'quads_post_settings_to_quicktags', 5);
 add_filter('the_content', 'quads_process_content', quads_get_load_priority());
 add_filter('rest_prepare_post', 'quads_classic_to_gutenberg', 10, 1);
 add_filter('the_content', 'quads_change_adsbygoogle_to_amp',11);
-add_action('wp_head',  'quads_doubleclick_head_code');
+add_action('wp_head',  'quads_common_head_code');
 
 /**
  * Show ads before posts
@@ -381,6 +381,7 @@ function quads_filter_default_ads_new( $content ) {
                     
                 $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
                 $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;
+                $word_count_number = (isset($ads['word_count_number']) && $ads['word_count_number'] !='') ? $ads['word_count_number'] : 1;
                 $imageNo      = (isset($ads['image_number']) && $ads['image_number'] !='') ? $ads['image_number'] : 1;
                 $imageCaption = isset($ads['image_caption']) ? $ads['image_caption'] : false;
                 $end_of_post  = isset($ads['enable_on_end_of_post']) ? $ads['enable_on_end_of_post'] : false;
@@ -454,7 +455,26 @@ function quads_filter_default_ads_new( $content ) {
                         }                                                
 
                         break;
-                    case 'after_paragraph':
+                    case 'after_word_count':
+                        
+                        if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
+                            $paragraphs       =  explode( ' ', $content );
+                            $p_count          = count($paragraphs);
+                            $original_paragraph_no = $paragraph_no;                                        
+                            if($word_count_number <= $p_count){
+
+                                foreach ($paragraphs as $index => $paragraph) {
+        
+                                    if ( $word_count_number == $index + 1 ) {
+                                        $paragraphs[$index] .= $cusads;
+                                    }
+                                }
+                                $content = implode( ' ', $paragraphs ); 
+                            }                                                       
+                        }
+
+                        break;
+                                        case 'after_paragraph':
                         
                         if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
                             $closing_p        = '</p>';
@@ -520,9 +540,23 @@ function quads_filter_default_ads_new( $content ) {
                         }
 
                     break;    
-                    default:
-                        # code...
-                        break;
+                     case 'after_the_percentage':
+
+                                    $closing_p        = '</p>';
+                                    $paragraphs       = explode( $closing_p, $content );       
+                                    $total_paragraphs = count($paragraphs);                          
+                                    $percentage       = intval($ads['after_the_percentage_value']);
+                                    $paragraph_id     = floor(($percentage / 100) * $total_paragraphs);                              
+                                    foreach ($paragraphs as $index => $paragraph) {
+                                        if ( trim( $paragraph ) ) {
+                                            $paragraphs[$index] .= $closing_p;
+                                        }
+                                        if ( $paragraph_id == $index + 1 ) {
+                                            $paragraphs[$index] .= $cusads;
+                                        }
+                                    }
+                                    $content = implode('', $paragraphs ); 
+                     break;
                 }
 
                 $adsArrayCus[] = $i;   
@@ -1140,7 +1174,29 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
     }
     $ad_meta = get_post_meta($id, '',true);
     if (isset($ad_meta['code'][0])) {
-                $code = !empty($ad_meta['code'][0]) ? $ad_meta['code'][0] : '';
+        if(!empty($ad_meta['code'][0])){
+
+            $code = '';
+                if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true && strpos($ad_meta['code'][0], 'class="adsbygoogle"') !== false) {
+                    $id_name = "quads-".esc_attr($id)."-place";
+                    $code .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
+                }
+                $code .=   $ad_meta['code'][0];
+                if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true && strpos($ad_meta['code'][0], 'class="adsbygoogle"') !== false) {
+                    $code = str_replace( 'class="adsbygoogle"', '', $code );
+                    $code = str_replace( '></ins>', '><span>Loading...</span></ins></div>', $code );
+                    $code1 = 'instant= new adsenseLoader( \'#quads-' . esc_attr($id) . '-place\', {
+                    onLoad: function( ad ){
+                        if (ad.classList.contains("quads-ll")) {
+                            ad.classList.remove("quads-ll");
+                        }
+                      }   
+                    });';
+                    $code = str_replace( '(adsbygoogle = window.adsbygoogle || []).push({});', $code1, $code );
+                }
+        }else{
+            $code ='';
+        }
                 $style = quads_get_inline_ad_style_new($id);
                 $adscode =
             "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".

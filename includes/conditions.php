@@ -349,7 +349,7 @@ function quads_is_visibility_on($ads){
       
       if(!empty($include)){
 
-        $include =   array_filter(array_unique($include));
+        $include =   array_values(array_filter(array_unique($include)));
 
         if(isset($include[0])){
             $response = true;
@@ -697,6 +697,13 @@ function quads_comparison_logic_checker($visibility){
           }        
       }
     break;
+    case 'page_template':
+          $object = get_queried_object();
+          $template = get_page_template_slug($object);
+          if($v_id == $template){
+            $result = true;
+          }
+      break;
   
   default:
     $result = false;
