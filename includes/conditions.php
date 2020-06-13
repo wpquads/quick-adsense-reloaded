@@ -574,7 +574,9 @@ function quads_comparison_logic_checker($visibility){
     $v_type       = $visibility['type']['value'];
     $v_id         = isset($visibility['value']['value']) ? $visibility['value']['value'] :''; 
     $result       = false; 
-   
+    if(!is_object($post)){
+      return false;
+    }
     // Get all the users registered
     $user       = wp_get_current_user();
 
