@@ -101,6 +101,9 @@ class QuadsAdvancePosition extends Component {
           <input min="1" onChange={this.props.adFormChangeHandler} name="after_the_percentage_value" value={post_meta.after_the_percentage_value}  type="number" /> % 
           </label>
            </div> : ''}
+            {(show_form_error && post_meta.position == 'after_the_percentage' && (post_meta.g_data_ad_client == '' || parseInt(quads_post_meta.after_the_percentage_value) < 10 || parseInt(quads_post_meta.after_the_percentage_value) > 101)) ? <div className="quads_form_msg"><span className="material-icons">
+error_outline</span>Percentage should be
+ between 10 to 100</div> :''} 
 
           {post_meta.position == 'after_image' ? 
           <label>  

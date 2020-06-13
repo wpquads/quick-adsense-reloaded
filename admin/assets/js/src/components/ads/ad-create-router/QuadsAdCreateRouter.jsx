@@ -377,12 +377,17 @@ class QuadsAdCreateRouter extends Component {
 
       event.preventDefault();     
       const {quads_post_meta} = this.state;
-
+      let validation_flag = true;
+      if(quads_post_meta.position == 'after_the_percentage'){
+        if(quads_post_meta.after_the_percentage_value == '' || parseInt(quads_post_meta.after_the_percentage_value) < 10 || parseInt(quads_post_meta.after_the_percentage_value) > 101){
+          validation_flag = false;
+        }
+      }
       switch (quads_post_meta.ad_type) {
 
         case 'plain_text':
 
-          if(quads_post_meta.code  && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+          if(validation_flag && quads_post_meta.code  && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
             this.saveAdFormData('publish');  
           }else{
             this.setState({show_form_error:true});
@@ -391,7 +396,7 @@ class QuadsAdCreateRouter extends Component {
           break;
 
           case 'adsense':
-            if(quads_post_meta.g_data_ad_slot && quads_post_meta.g_data_ad_client && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.g_data_ad_slot && quads_post_meta.g_data_ad_client && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
@@ -399,28 +404,28 @@ class QuadsAdCreateRouter extends Component {
             
           break;
           case 'random_ads':
-            if(quads_post_meta.random_ads_list.length > 0 && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.random_ads_list.length > 0 && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
            case 'double_click':
-            if(quads_post_meta.ad_unit_name && quads_post_meta.network_code && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.ad_unit_name && quads_post_meta.network_code && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
             case 'yandex':
-            if(quads_post_meta.block_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.block_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
               case 'mgid':
-            if(quads_post_meta.data_publisher && quads_post_meta.data_widget && quads_post_meta.data_container && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.data_publisher && quads_post_meta.data_widget && quads_post_meta.data_container && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});

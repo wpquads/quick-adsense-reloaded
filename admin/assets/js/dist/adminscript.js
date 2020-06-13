@@ -10224,10 +10224,17 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
     _defineProperty(_assertThisInitialized(_this), "publish", function (event) {
       event.preventDefault();
       var quads_post_meta = _this.state.quads_post_meta;
+      var validation_flag = true;
+
+      if (quads_post_meta.position == 'after_the_percentage') {
+        if (quads_post_meta.after_the_percentage_value == '' || parseInt(quads_post_meta.after_the_percentage_value) < 10 || parseInt(quads_post_meta.after_the_percentage_value) > 101) {
+          validation_flag = false;
+        }
+      }
 
       switch (quads_post_meta.ad_type) {
         case 'plain_text':
-          if (quads_post_meta.code && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+          if (validation_flag && quads_post_meta.code && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
             _this.saveAdFormData('publish');
           } else {
             _this.setState({
@@ -10238,7 +10245,7 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
           break;
 
         case 'adsense':
-          if (quads_post_meta.g_data_ad_slot && quads_post_meta.g_data_ad_client && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+          if (validation_flag && quads_post_meta.g_data_ad_slot && quads_post_meta.g_data_ad_client && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
             _this.saveAdFormData('publish');
           } else {
             _this.setState({
@@ -10249,7 +10256,7 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
           break;
 
         case 'random_ads':
-          if (quads_post_meta.random_ads_list.length > 0 && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+          if (validation_flag && quads_post_meta.random_ads_list.length > 0 && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
             _this.saveAdFormData('publish');
           } else {
             _this.setState({
@@ -10260,7 +10267,7 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
           break;
 
         case 'double_click':
-          if (quads_post_meta.ad_unit_name && quads_post_meta.network_code && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+          if (validation_flag && quads_post_meta.ad_unit_name && quads_post_meta.network_code && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
             _this.saveAdFormData('publish');
           } else {
             _this.setState({
@@ -10271,7 +10278,7 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
           break;
 
         case 'yandex':
-          if (quads_post_meta.block_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+          if (validation_flag && quads_post_meta.block_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
             _this.saveAdFormData('publish');
           } else {
             _this.setState({
@@ -10282,7 +10289,7 @@ var QuadsAdCreateRouter = /*#__PURE__*/function (_Component) {
           break;
 
         case 'mgid':
-          if (quads_post_meta.data_publisher && quads_post_meta.data_widget && quads_post_meta.data_container && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+          if (validation_flag && quads_post_meta.data_publisher && quads_post_meta.data_widget && quads_post_meta.data_container && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
             _this.saveAdFormData('publish');
           } else {
             _this.setState({
@@ -63420,7 +63427,11 @@ var QuadsAdvancePosition = /*#__PURE__*/function (_Component) {
         name: "after_the_percentage_value",
         value: post_meta.after_the_percentage_value,
         type: "number"
-      }), " %")) : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
+      }), " %")) : '', show_form_error && post_meta.position == 'after_the_percentage' && (post_meta.g_data_ad_client == '' || parseInt(quads_post_meta.after_the_percentage_value) < 10 || parseInt(quads_post_meta.after_the_percentage_value) > 101) ? /*#__PURE__*/_react["default"].createElement("div", {
+        className: "quads_form_msg"
+      }, /*#__PURE__*/_react["default"].createElement("span", {
+        className: "material-icons"
+      }, "error_outline"), "Percentage should be between 10 to 100") : '', post_meta.position == 'after_image' ? /*#__PURE__*/_react["default"].createElement("label", null, /*#__PURE__*/_react["default"].createElement("input", {
         checked: post_meta.image_caption,
         name: "image_caption",
         onChange: this.props.adFormChangeHandler,
