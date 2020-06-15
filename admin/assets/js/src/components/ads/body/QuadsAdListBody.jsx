@@ -162,11 +162,14 @@ class QuadsAdListBody extends Component {
               <div className="quads-hidden-elements">                            
               {this.state.delete_modal ? 
               <div className="quads-modal-popup">            
-            <div className="quads-modal-popup-content">             
-              <h3>{__('Are you sure? Do you want to delete it?', 'quick-adsense-reloaded')}</h3>             
+            <div className="quads-modal-popup-content">   
+              <div class="quads-modal-popup-txt">          
+              <h3>{__('Are you sure you want to permanently remove this item?', 'quick-adsense-reloaded')}</h3> 
+              <p>{__('All your Photos will be permenently removed and you won\'t be able to see them again, including the ones you\'ve shared with your friends.', 'quick-adsense-reloaded')}</p>
+              </div>           
              <div className="quads-modal-content">
+             <a className="quads-btn quads-btn-cancel" onClick={this.hideDeleteModal}>{__('Cancel', 'quick-adsense-reloaded')}</a>
               <a data-id="delete" data-ad={this.state.delete_modal_id} className="quads-btn quads-btn-primary" onClick={this.processAction}>{__('Delete', 'quick-adsense-reloaded')}</a>
-              <a className="quads-btn quads-btn-primary" onClick={this.hideDeleteModal}>{__('Cancel', 'quick-adsense-reloaded')}</a>
              </div>             
              </div>        
             </div>

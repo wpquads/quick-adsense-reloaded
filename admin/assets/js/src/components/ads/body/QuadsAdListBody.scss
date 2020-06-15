@@ -17,3 +17,52 @@ and open the template in the editor.
     display: inline-block;
     width: 100%;
 }
+.quads-modal-popup-content h3 {
+  	font-size: 20px;
+	line-height: 1.3;
+	font-weight: bold;
+	padding-bottom: 20px;
+}
+.quads-modal-popup-txt p{
+	margin:0px;
+	font-size:16px;
+	line-height:1.5;
+}
+ .quads-modal-popup-content {
+    max-width: 480px !important;
+    border-radius: 8px;
+    padding: 0px !important;
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 30%;
+}
+.quads-modal-popup-txt{
+	padding: 30px 40px;
+}
+.quads-modal-content{
+	text-align: right;
+	margin: 0 !important;
+	padding:15px 20px;
+	background:#eee;
+	box-sizing: border-box;
+	border-radius: 0px 0px 8px 8px;
+}
+.quads-btn.quads-btn-primary, .quads-btn.quads-btn-primary:hover {
+    background-color: #F45545 !important;
+    color: #fff !important;
+    padding: 10px 30px;
+    border-radius: 6px;
+ }
+a.quads-btn{
+	color:#666 !important;
+	padding: 10px 30px;
+    border-radius: 6px;
+    font-size: 18px;
+}
+a.quads-btn:hover{
+	background:#666 !important;
+	color:#fff !important;
+}
