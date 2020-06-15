@@ -18,5 +18,4 @@
     "webpack": "1.x",
     "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#harmony"
   }
-  
 }
