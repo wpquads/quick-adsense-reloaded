@@ -787,16 +787,20 @@ function quads_render_amp($id,$ampsupport=''){
         if ( !quads_is_extra() ){
            return '';
         }
-        if(isset($quads_options['ads'][$id]['amp']) && isset($quads_options['ads'][$id]['code']) && !empty($quads_options['ads'][$id]['code'])){
-                if(!empty($quads_options['ads'][$id]['amp_code'])){
-                  return $quads_options['ads'][$id]['amp_code'];  
-                }
-                return $quads_options['ads'][$id]['code'];
-            }
         // if amp is not activated return empty
         if (!isset($quads_options['ads'][$id]['amp']) || quads_is_disabled_post_amp() ){
             return '';
         }
+        // if having amp code
+        if(!empty($quads_options['ads'][$id]['amp_code'])){
+            return $quads_options['ads'][$id]['amp_code'];  
+        }
+        if($quads_options['ads'][$id]['ad_type']=='plain_text'){
+             return $quads_options['ads'][$id]['code'];
+        }else{
+            return '<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="'. $quads_options['ads'][$id]['g_data_ad_client'] . '" data-ad-slot="'.$quads_options['ads'][$id]['g_data_ad_slot'].'"></amp-ad>';
+        }
+
     }else{
 
          if((isset($quads_options['ads'][$id]['enabled_on_amp']) && isset($quads_options['ads'][$id]['code']) && !empty($quads_options['ads'][$id]['code']))|| (!empty($ampsupport) && $ampsupport)){
@@ -813,13 +817,10 @@ function quads_render_amp($id,$ampsupport=''){
                 }
             }
         // if amp is not activated return empty
-        if (!isset($quads_options['ads'][$id]['enabled_on_amp']) || quads_is_disabled_post_amp() ){
+        if (!isset($quads_options['ads'][$id]['enabled_on_amp']) ){
             return '';
         }
-    }
-    if (!empty($quads_options['ads'][$id]['amp_code'])){
-        $html = $quads_options['ads'][$id]['amp_code'];
-    } else {
+
             if($quads_options['ads'][$id]['ad_type'] == 'double_click'){
                 $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';  
                 $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';  
