@@ -50,19 +50,19 @@ and open the template in the editor.
 	box-sizing: border-box;
 	border-radius: 0px 0px 8px 8px;
 }
-.quads-btn.quads-btn-primary, .quads-btn.quads-btn-primary:hover {
+.quads-btn.quads-btn-delete, .quads-btn.quads-btn-delete:hover {
     background-color: #F45545 !important;
     color: #fff !important;
     padding: 10px 30px;
     border-radius: 6px;
  }
-a.quads-btn{
+a.quads-btn-cancel{
 	color:#666 !important;
 	padding: 10px 30px;
     border-radius: 6px;
     font-size: 18px;
 }
-a.quads-btn:hover{
+a.quads-btn-cancel:hover{
 	background:#666 !important;
 	color:#fff !important;
 }

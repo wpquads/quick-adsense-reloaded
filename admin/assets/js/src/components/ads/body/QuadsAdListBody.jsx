@@ -169,7 +169,7 @@ class QuadsAdListBody extends Component {
               </div>           
              <div className="quads-modal-content">
              <a className="quads-btn quads-btn-cancel" onClick={this.hideDeleteModal}>{__('Cancel', 'quick-adsense-reloaded')}</a>
-              <a data-id="delete" data-ad={this.state.delete_modal_id} className="quads-btn quads-btn-primary" onClick={this.processAction}>{__('Delete', 'quick-adsense-reloaded')}</a>
+              <a data-id="delete" data-ad={this.state.delete_modal_id} className="quads-btn quads-btn-delete" onClick={this.processAction}>{__('Delete', 'quick-adsense-reloaded')}</a>
              </div>             
              </div>        
             </div>

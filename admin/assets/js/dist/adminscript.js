@@ -101865,7 +101865,7 @@ function (_Component) {
       }, __('Cancel', 'quick-adsense-reloaded')), _react["default"].createElement("a", {
         "data-id": "delete",
         "data-ad": this.state.delete_modal_id,
-        className: "quads-btn quads-btn-primary",
+        className: "quads-btn quads-btn-delete",
         onClick: this.processAction
       }, __('Delete', 'quick-adsense-reloaded'))))) : ''), _react["default"].createElement("div", {
         className: "quads-search-box-panel"
