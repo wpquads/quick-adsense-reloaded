@@ -788,6 +788,9 @@ function quads_render_amp($id,$ampsupport=''){
            return '';
         }
         if(isset($quads_options['ads'][$id]['amp']) && isset($quads_options['ads'][$id]['code']) && !empty($quads_options['ads'][$id]['code'])){
+                if(!empty($quads_options['ads'][$id]['amp_code'])){
+                  return $quads_options['ads'][$id]['amp_code'];  
+                }
                 return $quads_options['ads'][$id]['code'];
             }
         // if amp is not activated return empty
