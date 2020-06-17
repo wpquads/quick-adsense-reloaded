@@ -18,6 +18,7 @@ class AdTypeSelectorNavLink extends Component {
                     {ad_type:'double_click',ad_type_name:'Google Ad Manager'},
                     {ad_type:'yandex',ad_type_name:'Yandex'},  
                     {ad_type:'mgid',ad_type_name:'MGID'}, 
+                    {ad_type:'ad_image',ad_type_name:'Banner Ad'},
                     {ad_type:'plain_text',ad_type_name:'Plain Text / HTML / JS'}, 
                     {ad_type:'random_ads',ad_type_name:'Random Ads'},  
                                
@@ -48,7 +49,9 @@ class AdTypeSelectorNavLink extends Component {
               case 'mgid':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/mgid.png';
               break;
-          
+              case 'ad_image':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
+              break;
             default:
               break;
           }

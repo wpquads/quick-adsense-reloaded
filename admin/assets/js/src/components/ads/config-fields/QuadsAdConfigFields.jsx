@@ -35,6 +35,7 @@ addIncluded = (e) => {
     }        
   
 }
+
   static getDerivedStateFromProps(props, state) {    
 
     if(!state.adsToggle){
@@ -54,6 +55,14 @@ addIncluded = (e) => {
     }
     
   }
+  
+  imageUpload = (e) => {
+      let index = e.currentTarget.dataset.index;  
+      const { random_ads_list } = { ...this.state };    
+      random_ads_list.splice(index,1);
+      this.setState(random_ads_list);
+
+}
 removeSeleted = (e) => {
       let index = e.currentTarget.dataset.index;  
       const { random_ads_list } = { ...this.state };    
@@ -288,24 +297,9 @@ error_outline
                 <table>
                   <tbody>
                     <tr><td>
-                    <label>{__('Data Publisher', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_publisher == '') ? 'quads_form_error' : ''} value={post_meta.data_publisher} onChange={this.props.adFormChangeHandler} type="text" id="data_publisher" name="data_publisher" placeholder="site.com" />
-                    {(show_form_error && post_meta.data_publisher == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Data Publisher</div> :''}
-                     </td></tr>
-                           <tr><td>
-                    <label>{__('Data Widget', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_widget == '') ? 'quads_form_error' : ''} value={post_meta.data_widget} onChange={this.props.adFormChangeHandler} type="text" id="data_widget" name="data_widget" placeholder="123456" />
+                    <label>{__('Upload Ad Image', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_widget == '') ? 'quads_form_error' : ''} value={post_meta.data_widget} onChange={this.props.adFormChangeHandler} type="text" id="data_widget" name="data_widget" placeholder="123456" />
                     {(show_form_error && post_meta.data_widget == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>Enter Data Widget</div> :''}
-                     </td></tr>
-                           <tr><td>
-                    <label>{__('Data Container', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_container == '') ? 'quads_form_error' : ''} value={post_meta.data_container} onChange={this.props.adFormChangeHandler} type="text" id="data_container" name="data_container" placeholder="M87ScriptRootC123645" />
-                    {(show_form_error && post_meta.data_container == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Data Container</div> :''}
-                     </td></tr>
-                           <tr><td>
-                    <label>{__('Data Js Src', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_js_src == '') ? 'quads_form_error' : ''} value={post_meta.data_js_src} onChange={this.props.adFormChangeHandler} type="text" id="data_js_src" name="data_js_src" placeholder="//jsc.mgid.com/a/m/quads.com.123645.js" />
-                    {(show_form_error && post_meta.data_js_src == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Data Js Src</div> :''}
                      </td></tr>
                      <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
@@ -337,6 +331,50 @@ error_outline
                 </div>);
 
               break;
+            case 'ad_image':
+             ad_type_name = 'Banner Ad';  
+              comp_html.push(<div key="ad_image">
+                <table>
+                  <tbody>
+                    <tr><td>
+                    <label>{__('Upload Ad Image', 'quick-adsense-reloaded')}</label></td><td>
+                    <input className={(show_form_error && post_meta.data_publisher == '') ? 'quads_form_error' : ''} value={post_meta.data_publisher} onChange={this.props.adFormChangeHandler} type="text" id="data_publisher" name="data_publisher" placeholder="Upload Ad Image" />
+                     
+                      <div><a className="button" onClick={this.props.imageUpload}>{__(' Upload Image', 'quick-adsense-reloaded')}</a></div>
+                    {(show_form_error && post_meta.data_publisher == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Upload Ad Image</div> :''}
+                     </td></tr>
+                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
+                      <div>
+                        <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
+                        <option value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</option>
+                        <option value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</option> 
+                      </select>
+                      {
+                        post_meta.adsense_type !== 'responsive' ?                        
+                      <div className="quads-adsense-width-heigth">
+                        
+                        <div className="quads-adsense-width">
+                          <label>{__('Width', 'quick-adsense-reloaded')}
+                          <input value={post_meta.g_data_ad_width ? post_meta.g_data_ad_width:'300'} onChange={this.props.adFormChangeHandler} type="number" id="g_data_ad_width" name="g_data_ad_width" /> 
+                          </label>
+                        </div>
+                        <div className="quads-adsense-height">
+                          <label>{__('Height', 'quick-adsense-reloaded')}
+                          <input value={post_meta.g_data_ad_height  ? post_meta.g_data_ad_height:'250'} onChange={this.props.adFormChangeHandler} type="number" id="g_data_ad_height" name="g_data_ad_height" />  
+                          </label>
+                        </div>
+                      </div>
+                      : ''
+                      }
+                      </div>
+                      </td></tr>
+                  </tbody>
+                </table>
+                </div>);
+
+              break;
+
 
             default:
               comp_html.push(<div key="noads" >{__('Ad not found', 'quick-adsense-reloaded')}</div>);
