@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: adsense, ads, ad, google adsense, advertising, amp, ad injection, ad inserter, ad manager
 Requires at least: 3.6+
-Tested up to: 5.4
+Tested up to: 5.4.2
 Requires PHP: 5.3
-Stable tag: 2.0.8
+Stable tag: 2.0.8.2
 
 Ads & AdSense Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
@@ -129,6 +129,10 @@ Alternative Installation:
 
 
 == Changelog == 
+= 2.0.8.1 (13th June 2020)=
+* Fix: Fixed debug error for 404 page. #170
+* Fix: Fixed common class is conflicting with other plugins #177
+
 = 2.0.8 (12th June 2020) =
 * New: MGID Integration #167
 * New: Added new Position to display Ad After word count  #23
