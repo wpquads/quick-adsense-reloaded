@@ -1183,6 +1183,7 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
                 }
                 $code .=   $ad_meta['code'][0];
                 if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true && strpos($ad_meta['code'][0], 'class="adsbygoogle"') !== false) {
+                    $code = preg_replace('#<script(.*?)src=(.*?)>(.*?)</script>#is', '', $code);
                     $code = str_replace( 'class="adsbygoogle"', '', $code );
                     $code = str_replace( '></ins>', '><span>Loading...</span></ins></div>', $code );
                     $code1 = 'instant= new adsenseLoader( \'#quads-' . esc_attr($id) . '-place\', {
