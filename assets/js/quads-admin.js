@@ -488,7 +488,9 @@ function quads_sync_ads_in_new_design(){
         jQuery(this).ajaxSubmit({
             
             success: function(){
-                quads_sync_ads_in_new_design();
+                if(!quads.import_quads_classic_ads){
+                    quads_sync_ads_in_new_design();
+                }
                 jQuery('#quads-save-result').html("<div id='quads-save-message' class='quads-success-modal'></div>");
                 jQuery('#quads-save-message').append('<p><img src="'+quads.path+'/wp-content/plugins/quick-adsense-reloaded/assets/images/saved.gif"></p>').show();
                 quads_hide_success_message();

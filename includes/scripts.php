@@ -131,7 +131,18 @@ if(is_object($screens)){
     wp_enqueue_style( 'jquery-chosen', $css_dir . 'chosen' . $suffix . '.css',array(), QUADS_VERSION );
 
     $signupURL = $quads->vi->getSettings()->data->signupURL;
+         $import_quads_classic_ads = false;
+        $classic_ads_status = get_option( 'import_quads_classic_ads' );
+        if(empty($classic_ads_status)){
+            $quads_mode = get_option('quads-mode');
+            if($quads_mode){
+                update_option('import_quads_classic_ads', 'firsttime'); 
+            }
+            $import_quads_classic_ads = true;
 
+        }elseif($classic_ads_status == 'firsttime'){
+            $import_quads_classic_ads = true;
+        }
     wp_localize_script( 'quads-admin-scripts', 'quads', array(
         'nonce'         => wp_create_nonce( 'quads_ajax_nonce' ),
         'error'         => __( "error", 'quick-adsense-reloaded' ),
@@ -141,7 +152,8 @@ if(is_object($screens)){
         'vi_signup_url' => !empty( $signupURL ) ? $signupURL : '',
         'domain'        => $quads->vi->getDomain(),
         'email'         => get_option( 'admin_email' ),
-        'aid'           => 'WP_Quads'
+        'aid'           => 'WP_Quads',
+        'import_quads_classic_ads' => $import_quads_classic_ads
     ) );
 }
 
