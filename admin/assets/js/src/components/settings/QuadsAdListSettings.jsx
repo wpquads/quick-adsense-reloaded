@@ -53,12 +53,38 @@ class QuadsAdListSettings extends Component {
                 },
             quads_wp_quads_pro_license_key : '', 
             importampforwpmsg : "", 
-            importampforwpmsgprocessing : "",          
+            importampforwpmsgprocessing : "",  
+            importquadsclassicmsgprocessing : "",          
         };     
   }   
   handleCopy = () => {
     copy(this.state.textToCopy);
     this.setState({ copied: true });
+  }
+    quads_classic_ads = () => {
+    if(this.state.importquadsclassicmsgprocessing !=''){
+      return;
+    }
+    this.setState({importquadsclassicmsgprocessing: 'Importing Ads'});
+   
+    let formData = new FormData();
+    formData.append('action', 'quads_sync_random_ads_in_new_design');
+    formData.append('nonce', quads.nonce);
+
+    fetch(ajaxurl,{
+      method: "post",
+      body: formData              
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {         
+              this.setState({importquadsclassicmsg: 'Ads have been successfully imported',importquadsclassicmsgprocessing:''});                             
+      },        
+      (error) => {
+        
+      }
+    );  
+
   }
 importampforwpdata = () => {
 if(this.state.importampforwpmsgprocessing !=''){
@@ -850,13 +876,21 @@ handleMultiPluginsChange = (option) => {
                   <table className="form-table" role="presentation">
                     <tbody>
                        <tr>
+                        <th><label>{__('Quads Classic view Ads', 'quick-adsense-reloaded')}</label></th>
+                        <td>
+                          <a className="quads-btn quads-btn-primary" id="import_quads_classic_ads" onClick={this.quads_classic_ads}>{__('Import', 'quick-adsense-reloaded')}</a>
+                            {this.state.importampforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importquadsclassicmsg}</Alert> : null}
+                            {this.state.importquadsclassicmsgprocessing ? <div className='updating-message importquadsclassicmsgprocessing'><p>Importing Ads</p></div>: ''}
+                        </td>
+                      </tr>  
+                        <tr>
                         <th><label>{__('AMP for WP Ads', 'quick-adsense-reloaded')}</label></th>
                         <td>
                           <a className="quads-btn quads-btn-primary" id="import_amp_for_wp" onClick={this.importampforwpdata}>{__('Import', 'quick-adsense-reloaded')}</a>
                             {this.state.importampforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importampforwpmsg}</Alert> : null}
                             {this.state.importampforwpmsgprocessing ? <div className='updating-message importampforwpmsgprocessing'><p>Importing Ads</p></div>: ''}
                         </td>
-                      </tr>                                   
+                      </tr>                                     
                     </tbody>
                   </table>
 

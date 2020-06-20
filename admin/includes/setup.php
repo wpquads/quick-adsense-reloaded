@@ -77,7 +77,7 @@ class QUADS_Ad_Setup {
 
 
 public function quadsSyncRandomAdsInNewDesign(){
-
+    update_option('import_quads_classic_ads', date("Y-m-d")); 
     check_ajax_referer( 'quads_ajax_nonce', 'nonce' );
 
     if( ! current_user_can( 'manage_options' ) )
@@ -364,6 +364,7 @@ foreach($quads_settings['ads'] as $key2 => $value2){
         }
 
     }
+      return  array('status' => 't', 'data' => 'Ads have been successfully imported'); 
     wp_die();         
 }  
 }

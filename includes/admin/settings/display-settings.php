@@ -188,7 +188,8 @@ function quads_options_page_new() {
             'rest_url'             => esc_url_raw( rest_url() ),
             'nonce'                => wp_create_nonce( 'wp_rest' ),
             'licenses'             => get_option( 'quads_wp_quads_pro_license_active' ),
-            'is_amp_enable'        => function_exists('is_amp_endpoint') ? true : false,               
+            'is_amp_enable'        => function_exists('is_amp_endpoint') ? true : false,
+            'import_quads_classic_ads'  => get_option( 'import_quads_classic_ads' ),                  
                 
         );
         $data = apply_filters('quads_localize_filter',$data,'quads_localize_data');

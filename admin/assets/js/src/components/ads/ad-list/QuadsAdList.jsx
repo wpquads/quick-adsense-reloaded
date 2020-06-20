@@ -5,6 +5,7 @@ import queryString from 'query-string'
 import QuadsAdCreateRouter from  '../ad-create-router/QuadsAdCreateRouter'
 import Icon from '@material-ui/core/Icon';
 import Tooltip from '@material-ui/core/Tooltip';
+import { Alert } from '@material-ui/lab';
 
 
 import './QuadsAdList.scss';
@@ -15,7 +16,10 @@ class QuadsAdList extends Component {
         super(props);
         this.state = { 
            redirect:false,
-           ad_id:null 
+           ad_id:null,
+           importquadsclassicmsgprocessing : "",  
+           importquadsclassiccss : false,
+           importquadsclassicalertcss : false,
         };        
   }
   
@@ -31,6 +35,31 @@ class QuadsAdList extends Component {
       type_img.push(<Tooltip title='AMP' placement="right" arrow key={index}><img key={index} height="20" width="20" src={img_url} /></Tooltip>);
     }            
     return type_img;
+  }
+    quads_classic_ads = () => {
+    if(this.state.importquadsclassicmsgprocessing !=''){
+      return;
+    }
+    this.setState({importquadsclassicmsgprocessing: 'Importing Ads', importquadsclassiccss : true});
+   
+    let formData = new FormData();
+    formData.append('action', 'quads_sync_random_ads_in_new_design');
+    formData.append('nonce', quads.nonce);
+
+    fetch(ajaxurl,{
+      method: "post",
+      body: formData              
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {         
+              this.setState({importquadsclassicmsg: 'Ads have been successfully', importquadsclassiccss : false,importquadsclassicalertcss : true});                             
+      },        
+      (error) => {
+        
+      }
+    );  
+
   }
   getImageByAdType = (type, index) =>{
     let type_img = [];
@@ -72,7 +101,7 @@ class QuadsAdList extends Component {
   render() {    
     
     const {__} = wp.i18n;     
-    const { error, isLoaded, items } = this.props.ad_list;             
+    const { error, isLoaded, items } = this.props.ad_list;  
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -82,7 +111,7 @@ class QuadsAdList extends Component {
         <div>         
         <div>  
         <div className="quads-ad-list-table-div">  
-        { items ?      
+        { items && items.length > 0 ?      
         <table className="quads-ad-table">
           <thead>
           <tr>
@@ -123,7 +152,21 @@ class QuadsAdList extends Component {
             </tbody>
         </table> : <table className="quads-ad-table nodatatable">
 <thead>
-         <tr><td> Let's create our First Ad, in 3 simple steps. <div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.props.nodatashowAddTypeSelector}><Icon>add_circle</Icon>Create Ad</a></div></td></tr></thead></table> 
+        {quads_localize_data.import_quads_classic_ads == '' ?
+          <tr><td>Import the quads classic Ads <div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.quads_classic_ads}><Icon>add_circle</Icon>Import</a></div>
+          <div style={{display: this.state.importquadsclassiccss ? 'block' : 'none' }} className='updating-message importquadsclassicmsgprocessing'><p>Importing Ads</p></div>
+           <div style={{display: this.state.importquadsclassicalertcss ? 'block' : 'none' }}><p><Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importquadsclassicmsg}</Alert> </p></div>
+
+          </td></tr>
+        : ''}
+
+      
+
+
+         <tr><td> Let's create our First Ad, in 3 simple steps. <div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.props.nodatashowAddTypeSelector}><Icon>add_circle</Icon>Create Ad</a></div></td></tr>
+
+         
+         </thead></table> 
         }
         </div>                  
           </div>          
