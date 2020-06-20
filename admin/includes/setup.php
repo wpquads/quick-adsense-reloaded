@@ -22,7 +22,6 @@ class QUADS_Ad_Setup {
         }
         public function quadsAdSetupHooks(){
             
-            add_action( 'init', array($this, 'quadsAdminInit'));  
             add_action( 'wp_ajax_quads_sync_ads_in_new_design', array($this, 'quadsSyncAdsInNewDesign') );
              add_action( 'wp_ajax_quads_sync_random_ads_in_new_design', array($this, 'quadsSyncRandomAdsInNewDesign') );
 
@@ -34,9 +33,7 @@ class QUADS_Ad_Setup {
         }
             return self::$instance;
         }
-        public function quadsAdminInit(){            
-            $this->migration_service->quadsSaveAllAdToNewDesign();           
-        }
+
         
         public function quadsSyncAdsInNewDesign(){
                
