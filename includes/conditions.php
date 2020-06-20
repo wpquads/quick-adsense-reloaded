@@ -370,7 +370,7 @@ function quads_is_visibility_on($ads){
 }
 add_action('wp_head', 'quads_set_browser_width_script');
 function quads_set_browser_width_script(){
-  if(!is_admin()){
+  if(!is_admin() && !quads_is_amp_endpoint()){
     echo "<script type='text/javascript'>document.cookie = 'quads_browser_width='+screen.width;</script>";
   }
 }
@@ -498,7 +498,7 @@ function quads_visitor_comparison_logic_checker($visibility){
         }
         break;
       case 'browser_width':  
-        if($browser_width==$v_id){
+       if(isset($_COOKIE['quads_browser_width']) && $_COOKIE['quads_browser_width'] == $v_id){
           $result = true;
         }
         break;
