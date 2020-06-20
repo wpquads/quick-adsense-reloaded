@@ -82,7 +82,11 @@ public function quadsSyncRandomAdsInNewDesign(){
 
     if( ! current_user_can( 'manage_options' ) )
         return;
-
+    
+    update_option('import_quads_classic_ads', date("Y-m-d")); 
+    if(isset($_REQUEST['status']) && $_REQUEST['status'] == 'no'){
+        return;
+    }
     $quads_settings = get_option('quads_settings');
 
     $random_beginning_of_post = true;
