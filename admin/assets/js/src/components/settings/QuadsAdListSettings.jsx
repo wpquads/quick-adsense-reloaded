@@ -875,6 +875,7 @@ handleMultiPluginsChange = (option) => {
                                <div className="quads-settings-tab-container">                  
                   <table className="form-table" role="presentation">
                     <tbody>
+                    {this.state.quads_classic_ads ?
                        <tr>
                         <th><label>{__('Quads Classic view Ads', 'quick-adsense-reloaded')}</label></th>
                         <td>
@@ -883,6 +884,7 @@ handleMultiPluginsChange = (option) => {
                             {this.state.importquadsclassicmsgprocessing ? <div className='updating-message importquadsclassicmsgprocessing'><p>Importing Ads</p></div>: ''}
                         </td>
                       </tr>  
+                      : null }
                         <tr>
                         <th><label>{__('AMP for WP Ads', 'quick-adsense-reloaded')}</label></th>
                         <td>

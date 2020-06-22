@@ -59976,7 +59976,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
             }, /*#__PURE__*/_react["default"].createElement("table", {
               className: "form-table",
               role: "presentation"
-            }, /*#__PURE__*/_react["default"].createElement("tbody", null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Quads Classic view Ads', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+            }, /*#__PURE__*/_react["default"].createElement("tbody", null, _this2.state.quads_classic_ads ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Quads Classic view Ads', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
               className: "quads-btn quads-btn-primary",
               id: "import_quads_classic_ads",
               onClick: _this2.quads_classic_ads
@@ -59987,7 +59987,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
               }, "close")
             }, _this2.state.importquadsclassicmsg) : null, _this2.state.importquadsclassicmsgprocessing ? /*#__PURE__*/_react["default"].createElement("div", {
               className: "updating-message importquadsclassicmsgprocessing"
-            }, /*#__PURE__*/_react["default"].createElement("p", null, "Importing Ads")) : '')), /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('AMP for WP Ads', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+            }, /*#__PURE__*/_react["default"].createElement("p", null, "Importing Ads")) : '')) : null, /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('AMP for WP Ads', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
               className: "quads-btn quads-btn-primary",
               id: "import_amp_for_wp",
               onClick: _this2.importampforwpdata
