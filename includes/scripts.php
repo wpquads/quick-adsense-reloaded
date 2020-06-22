@@ -133,13 +133,9 @@ if(is_object($screens)){
     $signupURL = $quads->vi->getSettings()->data->signupURL;
          $import_quads_classic_ads = false;
         $classic_ads_status = get_option( 'import_quads_classic_ads' );
-        if(empty($classic_ads_status)){
-            $quads_mode = get_option('quads-mode');
-            if($quads_mode){
-                update_option('import_quads_classic_ads', 'firsttime'); 
-            }
+        if($classic_ads_status === false && $quads_mode === false){
+            update_option('import_quads_classic_ads', 'firsttime'); 
             $import_quads_classic_ads = true;
-
         }elseif($classic_ads_status == 'firsttime'){
             $import_quads_classic_ads = true;
         }
