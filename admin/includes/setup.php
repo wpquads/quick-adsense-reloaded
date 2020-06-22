@@ -80,6 +80,7 @@ public function quadsSyncRandomAdsInNewDesign(){
         return;
     
     if(isset($_REQUEST['status']) && $_REQUEST['status'] == 'no'){
+        update_option('quads_import_classic_ads_popup', 'no'); 
         return;
     }
     $quads_settings = get_option('quads_settings');
@@ -363,7 +364,7 @@ foreach($quads_settings['ads'] as $key2 => $value2){
         }
 
     }
-        update_option('import_quads_classic_ads', date("Y-m-d")); 
+        update_option('quads_import_classic_ads_popup', 'no'); 
 
       return  array('status' => 't', 'data' => 'Ads have been successfully imported'); 
     wp_die();         

@@ -875,11 +875,11 @@ handleMultiPluginsChange = (option) => {
                                <div className="quads-settings-tab-container">                  
                   <table className="form-table" role="presentation">
                     <tbody>
-                    {this.state.quads_classic_ads ?
+                    {quads.quads_get_active_ads !== "0" ?
                        <tr>
                         <th><label>{__('Quads Classic view Ads', 'quick-adsense-reloaded')}</label></th>
                         <td>
-                          <a className="quads-btn quads-btn-primary" id="import_quads_classic_ads" onClick={this.quads_classic_ads}>{__('Import', 'quick-adsense-reloaded')}</a>
+                          <a className="quads-btn quads-btn-primary" id="quads_import_classic_ads_popup" onClick={this.quads_classic_ads}>{__('Import', 'quick-adsense-reloaded')}</a>
                             {this.state.importampforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importquadsclassicmsg}</Alert> : null}
                             {this.state.importquadsclassicmsgprocessing ? <div className='updating-message importquadsclassicmsgprocessing'><p>Importing Ads</p></div>: ''}
                         </td>

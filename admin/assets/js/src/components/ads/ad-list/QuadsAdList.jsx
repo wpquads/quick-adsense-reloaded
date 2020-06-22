@@ -38,7 +38,7 @@ class QuadsAdList extends Component {
   }
     quads_classic_ads = (status) => {
     if(status == 'no'){
-    quads.import_quads_classic_ads = false;
+    quads.quads_import_classic_ads_popup = false;
     }
     if(this.state.importquadsclassicmsgprocessing !=''){
       return;
@@ -161,7 +161,7 @@ class QuadsAdList extends Component {
                       <div className="material-icons MuiIcon-root" aria-hidden="true">add_circle</div>
                       Create Ad</a> </div>
                   </div>
-                  {quads.import_quads_classic_ads ?
+                  {quads.quads_import_classic_ads_popup && quads.quads_get_active_ads !=="0" ?
                     <div className="fakebox" >
                     <div className="fakebox_close" onClick={() => this.quads_classic_ads('no')}> </div>
                         <div><h3>This is your first time on New Interface</h3></div>

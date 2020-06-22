@@ -59976,9 +59976,9 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
             }, /*#__PURE__*/_react["default"].createElement("table", {
               className: "form-table",
               role: "presentation"
-            }, /*#__PURE__*/_react["default"].createElement("tbody", null, _this2.state.quads_classic_ads ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Quads Classic view Ads', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
+            }, /*#__PURE__*/_react["default"].createElement("tbody", null, quads.quads_get_active_ads !== "0" ? /*#__PURE__*/_react["default"].createElement("tr", null, /*#__PURE__*/_react["default"].createElement("th", null, /*#__PURE__*/_react["default"].createElement("label", null, __('Quads Classic view Ads', 'quick-adsense-reloaded'))), /*#__PURE__*/_react["default"].createElement("td", null, /*#__PURE__*/_react["default"].createElement("a", {
               className: "quads-btn quads-btn-primary",
-              id: "import_quads_classic_ads",
+              id: "quads_import_classic_ads_popup",
               onClick: _this2.quads_classic_ads
             }, __('Import', 'quick-adsense-reloaded')), _this2.state.importampforwpmsg ? /*#__PURE__*/_react["default"].createElement(_lab.Alert, {
               severity: "success",
@@ -101083,7 +101083,7 @@ var QuadsAdList = /*#__PURE__*/function (_Component) {
 
     _defineProperty(_assertThisInitialized(_this), "quads_classic_ads", function (status) {
       if (status == 'no') {
-        quads.import_quads_classic_ads = false;
+        quads.quads_import_classic_ads_popup = false;
       }
 
       if (_this.state.importquadsclassicmsgprocessing != '') {
@@ -101249,7 +101249,7 @@ var QuadsAdList = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/_react["default"].createElement("div", {
           className: "material-icons MuiIcon-root",
           "aria-hidden": "true"
-        }, "add_circle"), "Create Ad"), " ")), quads.import_quads_classic_ads ? /*#__PURE__*/_react["default"].createElement("div", {
+        }, "add_circle"), "Create Ad"), " ")), quads.quads_import_classic_ads_popup && quads.quads_get_active_ads !== "0" ? /*#__PURE__*/_react["default"].createElement("div", {
           className: "fakebox"
         }, /*#__PURE__*/_react["default"].createElement("div", {
           className: "fakebox_close",

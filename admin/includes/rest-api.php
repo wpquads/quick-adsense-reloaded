@@ -931,7 +931,6 @@ class QUADS_Ad_Setup_Api {
             $quads_settings['auto_ads_get_post_types'] =  $add + $post_types;
             $quads_settings['autoads_excl_user_roles'] =  array_merge(array('none' => 'Exclude nothing'), $this->quads_get_user_roles_api());
             $quads_settings['adsTxtText'] = trim(file_get_contents(ABSPATH . 'ads.txt'));
-            $quads_settings['quads_classic_ads'] =  quads_get_active_ads();
             return $quads_settings;
         }
         public function getConditionList($request_data){

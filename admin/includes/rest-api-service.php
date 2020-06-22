@@ -481,10 +481,7 @@ class QUADS_Ad_Setup_Api_Service {
               $this->migration_service->quadsUpdateOldAd($ad_id, $post_meta);
 
             }
-            $classic_ads_status = get_option( 'import_quads_classic_ads' );
-            if($classic_ads_status === 'firsttime' || $classic_ads_status === false ){
-              update_option('import_quads_classic_ads', 'new_ad_added'); 
-            }
+
             return  $ad_id;
     } 
     
