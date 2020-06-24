@@ -46,7 +46,7 @@ class QuadsAdList extends Component {
     this.setState({importquadsclassicmsgprocessing: 'Importing Ads', importquadsclassiccss : true});
    
     let formData = new FormData();
-    formData.append('action', 'quads_sync_random_ads_in_new_design');
+    formData.append('action', 'quads_sync_ads_in_new_design');
     formData.append('nonce', quads.nonce);
     formData.append('status', status);
 
@@ -157,9 +157,7 @@ class QuadsAdList extends Component {
         </table> : <div className="nodatadiv"><div className="first_ad_main">
                       <h3>Thank you for using WP Quads</h3>
                       <div className="first_ad">Let's <strong>create our First Ad</strong>, in 3 simple steps. </div>
-                      <div className="quads-add-btn"><a className="quads-btn quads-btn-primary">
-                      <div className="material-icons MuiIcon-root" aria-hidden="true">add_circle</div>
-                      Create Ad</a> </div>
+                      <div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.props.nodatashowAddTypeSelector}><Icon>add_circle</Icon>Create Ad</a></div>
                   </div>
                   {quads.quads_import_classic_ads_popup && quads.quads_get_active_ads !=="0" ?
                     <div className="fakebox" >

@@ -68,7 +68,7 @@ class QuadsAdListSettings extends Component {
     this.setState({importquadsclassicmsgprocessing: 'Importing Ads'});
    
     let formData = new FormData();
-    formData.append('action', 'quads_sync_random_ads_in_new_design');
+    formData.append('action', 'quads_sync_ads_in_new_design');
     formData.append('nonce', quads.nonce);
 
     fetch(ajaxurl,{

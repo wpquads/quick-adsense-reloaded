@@ -59027,7 +59027,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
       });
 
       var formData = new FormData();
-      formData.append('action', 'quads_sync_random_ads_in_new_design');
+      formData.append('action', 'quads_sync_ads_in_new_design');
       formData.append('nonce', quads.nonce);
       fetch(ajaxurl, {
         method: "post",
@@ -101096,7 +101096,7 @@ var QuadsAdList = /*#__PURE__*/function (_Component) {
       });
 
       var formData = new FormData();
-      formData.append('action', 'quads_sync_random_ads_in_new_design');
+      formData.append('action', 'quads_sync_ads_in_new_design');
       formData.append('nonce', quads.nonce);
       formData.append('status', status);
       fetch(ajaxurl, {
@@ -101245,11 +101245,9 @@ var QuadsAdList = /*#__PURE__*/function (_Component) {
         }, "Let's ", /*#__PURE__*/_react["default"].createElement("strong", null, "create our First Ad"), ", in 3 simple steps. "), /*#__PURE__*/_react["default"].createElement("div", {
           className: "quads-add-btn"
         }, /*#__PURE__*/_react["default"].createElement("a", {
-          className: "quads-btn quads-btn-primary"
-        }, /*#__PURE__*/_react["default"].createElement("div", {
-          className: "material-icons MuiIcon-root",
-          "aria-hidden": "true"
-        }, "add_circle"), "Create Ad"), " ")), quads.quads_import_classic_ads_popup && quads.quads_get_active_ads !== "0" ? /*#__PURE__*/_react["default"].createElement("div", {
+          className: "quads-btn quads-btn-primary",
+          onClick: this.props.nodatashowAddTypeSelector
+        }, /*#__PURE__*/_react["default"].createElement(_Icon["default"], null, "add_circle"), "Create Ad"))), quads.quads_import_classic_ads_popup && quads.quads_get_active_ads !== "0" ? /*#__PURE__*/_react["default"].createElement("div", {
           className: "fakebox"
         }, /*#__PURE__*/_react["default"].createElement("div", {
           className: "fakebox_close",
