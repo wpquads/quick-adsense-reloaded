@@ -59238,7 +59238,8 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
     _defineProperty(_assertThisInitialized(_this), "closeQuerySuccess", function (e) {
       _this.setState({
         customer_querey_success: '',
-        importampforwpmsg: ''
+        importampforwpmsg: '',
+        importquadsclassicmsg: ''
       });
     });
 
@@ -59980,7 +59981,7 @@ var QuadsAdListSettings = /*#__PURE__*/function (_Component) {
               className: "quads-btn quads-btn-primary",
               id: "quads_import_classic_ads_popup",
               onClick: _this2.quads_classic_ads
-            }, __('Import', 'quick-adsense-reloaded')), _this2.state.importampforwpmsg ? /*#__PURE__*/_react["default"].createElement(_lab.Alert, {
+            }, __('Import', 'quick-adsense-reloaded')), _this2.state.importquadsclassicmsg ? /*#__PURE__*/_react["default"].createElement(_lab.Alert, {
               severity: "success",
               action: /*#__PURE__*/_react["default"].createElement(_Icon["default"], {
                 onClick: _this2.closeQuerySuccess

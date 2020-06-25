@@ -192,14 +192,14 @@ class QUADS_Ad_Setup {
                }
 
                $this->quadsSyncRandomAdsInNewDesign();
+
+               return  array('status' => 't', 'data' => 'Ads have been successfully imported'); 
                    wp_die();         
         }                        
 
 
 public function quadsSyncRandomAdsInNewDesign(){
-   // exit('dssdiuyf');
-    $quads_settings = get_option('quads_settings');
-
+    $quads_settings = get_option('quads_settings_backup');
     $random_beginning_of_post = true;
     $random_middle_of_post = true;
     $random_end_of_post = true;
