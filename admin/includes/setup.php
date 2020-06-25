@@ -45,6 +45,7 @@ class QUADS_Ad_Setup {
                 $quads_settings = get_option('quads_settings_backup');
                 $flag_adddefault = true;
                  $flag_same_key = '';
+                 $ad_count = 1;
                 if(isset($quads_settings['ads'])){   
                   foreach($quads_settings['ads'] as $key2 => $value2){  
                         if($key2 === 'ad'.$ad_count){
@@ -72,6 +73,11 @@ class QUADS_Ad_Setup {
                             }else{
                                 $value['quads_ad_old_id']            = $key;                                  
                             }
+                            $visibility_include[0]['type']['label'] = 'Post Type';
+                            $visibility_include[0]['type']['value'] = 'post_type';
+                            $visibility_include[0]['value']['label'] = 'post';
+                            $visibility_include[0]['value']['value'] = 'post';
+                            $value['visibility_include'] = $visibility_include;
 
                             // add position start
                             $position = '';
@@ -114,9 +120,10 @@ class QUADS_Ad_Setup {
                                     }
                                     $value2['paragraph_number']      = $quads_settings['pos6']['Par1Nup'];
                                     $value2['enable_on_end_of_post'] = $quads_settings['pos6']['Par1Con'];
+                                    $value2['visibility_include'] = $visibility_include;
                                     $value2['position']              = 'after_paragraph';
                                     $parameters['quads_post_meta']   = $value2;                                        
-                                    $this->api_service->updateAdData($parameters, 'old_mode');
+                                    $this->api_service->updateAdData($parameters);
                                 }
                             }
                             if(isset($quads_settings['pos7']['Par2Ads']) && $quads_settings['pos7']['Par2Ads'] ){
@@ -131,9 +138,10 @@ class QUADS_Ad_Setup {
                                     }
                                     $value2['paragraph_number']      = $quads_settings['pos7']['Par2Nup'];
                                     $value2['enable_on_end_of_post'] = $quads_settings['pos7']['Par2Con'];
+                                    $value2['visibility_include'] = $visibility_include;
                                     $value2['position']              = 'after_paragraph';
                                     $parameters['quads_post_meta']   = $value2;                                        
-                                    $this->api_service->updateAdData($parameters, 'old_mode');
+                                    $this->api_service->updateAdData($parameters);
                                 }
                             }
                             if(isset($quads_settings['pos8']['Par3Ads']) && $quads_settings['pos8']['Par3Ads'] ){
@@ -148,9 +156,10 @@ class QUADS_Ad_Setup {
                                     }
                                     $value2['paragraph_number']      = $quads_settings['pos8']['Par3Nup'];
                                     $value2['enable_on_end_of_post'] = $quads_settings['pos8']['Par3Con'];
+                                    $value2['visibility_include'] = $visibility_include;
                                     $value2['position']              = 'after_paragraph';
                                     $parameters['quads_post_meta']   = $value2;                                        
-                                    $this->api_service->updateAdData($parameters, 'old_mode');
+                                    $this->api_service->updateAdData($parameters);
                                 }
                             }
                             // add position end
@@ -158,7 +167,7 @@ class QUADS_Ad_Setup {
                             if(empty($position) && $flag_adddefault){
                                 $value['position']            = 'ad_shortcode';
                                 $parameters['quads_post_meta']       = $value;                                        
-                                $this->api_service->updateAdData($parameters, 'old_mode'); 
+                                $this->api_service->updateAdData($parameters); 
                             }else{
                                 $position_array = explode(',', $position);
                                 foreach ($position_array  as $position) {
@@ -183,7 +192,7 @@ class QUADS_Ad_Setup {
                                      
                                     $value['position']              = $position;
                                     $parameters['quads_post_meta']  = $value;                                        
-                                    $this->api_service->updateAdData($parameters, 'old_mode');
+                                    $this->api_service->updateAdData($parameters);
                                 }
                             }
                         } 
