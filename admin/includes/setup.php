@@ -43,31 +43,149 @@ class QUADS_Ad_Setup {
                 return;
 
                 $quads_settings = get_option('quads_settings');
-
-                if(isset($quads_settings['ads'])){               
+                $flag_adddefault = true;
+                 $flag_same_key = '';
+                if(isset($quads_settings['ads'])){   
+                  foreach($quads_settings['ads'] as $key2 => $value2){  
+                        if($key2 === 'ad'.$ad_count){
+                            $post_id = quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $key2); 
+                            if($post_id){       
+                                          
+                                array_push($random_ads_slno, $post_id);                                                
+                           }
+                           $ad_count++;
+                        } 
+                    }             
                     
                     $i=1;
                     foreach($quads_settings['ads'] as $key => $value){                            
     
                         if($key === 'ad'.$i){
-                            
+                            $flag_same_key = $key ;
                             $post_id = quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $key); 
                             
                             if($post_id){                            
-                                $value['ad_id']                      = $post_id;                                                                                                                                            
+                                $value['ad_id']                      = $post_id;                                                                                                                                    
                             }else{
                                 $value['quads_ad_old_id']            = $key;                                  
-                            }    
-                            
-                             $parameters['quads_post_meta']       = $value;                                                                                            
-                             $this->api_service->updateAdData($parameters, 'old_mode');                            
+                            }
 
+                            // add position start
+                            $position = '';
+                            $paragraph_number  = '';
+                            $enable_on_end_of_post = ''; 
+                            if(isset($quads_settings['pos1']['BegnAds']) && $quads_settings['pos1']['BegnAds'] ){
+                                if(isset($quads_settings['pos1']['BegnRnd']) && $quads_settings['pos1']['BegnRnd']== $i){
+                                    $position           .= ',beginning_of_post';
+                                }
+                            }
+                            if(isset($quads_settings['pos2']['MiddAds']) && $quads_settings['pos2']['MiddAds'] ){
+                                if(isset($quads_settings['pos2']['MiddRnd']) && $quads_settings['pos2']['MiddRnd']== $i){
+                                    $position           .= ',middle_of_post';
+                                }
+                            }
+                            if(isset($quads_settings['pos3']['EndiAds']) && $quads_settings['pos3']['EndiAds'] ){
+                                if(isset($quads_settings['pos3']['EndiRnd']) && $quads_settings['pos3']['EndiRnd']== $i){
+                                    $position           .= ',end_of_post';
+                                }
+                            }
+                            if(isset($quads_settings['pos4']['MoreAds']) && $quads_settings['pos4']['MoreAds'] ){
+                                if(isset($quads_settings['pos4']['MoreRnd']) && $quads_settings['pos4']['MoreRnd']== $i){
+                                    $position           .= ',after_more_tag';
+                                }
+                            }
+                            if(isset($quads_settings['pos5']['LapaAds']) && $quads_settings['pos5']['LapaAds']) {
+                                if(isset($quads_settings['pos5']['LapaRnd']) && $quads_settings['pos5']['LapaRnd']== $i){
+                                    $position           .= ',before_last_paragraph';
+                                }
+                            }
+                            if(isset($quads_settings['pos6']['Par1Ads']) && $quads_settings['pos6']['Par1Ads'] ){
+                                if(isset($quads_settings['pos6']['Par1Rnd']) && $quads_settings['pos6']['Par1Rnd']== $i){
+                                    $value2 =array();
+                                     $flag_adddefault = false;
+                                    if($post_id){                            
+                                        $value2['ad_id']                      = $post_id;                                
+                                    }else{
+                                        $value2['quads_ad_old_id']            =  'ad'.$ad_count;  
+                                        $ad_count++;     
+                                    }
+                                    $value2['paragraph_number']      = $quads_settings['pos6']['Par1Nup'];
+                                    $value2['enable_on_end_of_post'] = $quads_settings['pos6']['Par1Con'];
+                                    $value2['position']              = 'after_paragraph';
+                                    $parameters['quads_post_meta']   = $value2;                                        
+                                    $this->api_service->updateAdData($parameters, 'old_mode');
+                                }
+                            }
+                            if(isset($quads_settings['pos7']['Par2Ads']) && $quads_settings['pos7']['Par2Ads'] ){
+                                if(isset($quads_settings['pos7']['Par2Rnd']) && $quads_settings['pos7']['Par2Rnd']== $i){
+                                    $value2 =array();
+                                    $flag_adddefault = false;
+                                    if($post_id){                            
+                                        $value2['ad_id']                      = $post_id;                                
+                                    }else{
+                                        $value2['quads_ad_old_id']            =  'ad'.$ad_count;  
+                                        $ad_count++;                                 
+                                    }
+                                    $value2['paragraph_number']      = $quads_settings['pos7']['Par2Nup'];
+                                    $value2['enable_on_end_of_post'] = $quads_settings['pos7']['Par2Con'];
+                                    $value2['position']              = 'after_paragraph';
+                                    $parameters['quads_post_meta']   = $value2;                                        
+                                    $this->api_service->updateAdData($parameters, 'old_mode');
+                                }
+                            }
+                            if(isset($quads_settings['pos8']['Par3Ads']) && $quads_settings['pos8']['Par3Ads'] ){
+                                if(isset($quads_settings['pos8']['Par3Rnd']) && $quads_settings['pos8']['Par3Rnd']== $i){
+                                    $value2 =array();
+                                    $flag_adddefault = false;
+                                    if($post_id){                            
+                                        $value2['ad_id']                      = $post_id;                                
+                                    }else{
+                                        $value2['quads_ad_old_id']            =  'ad'.$ad_count;  
+                                        $ad_count++;                                   
+                                    }
+                                    $value2['paragraph_number']      = $quads_settings['pos8']['Par3Nup'];
+                                    $value2['enable_on_end_of_post'] = $quads_settings['pos8']['Par3Con'];
+                                    $value2['position']              = 'after_paragraph';
+                                    $parameters['quads_post_meta']   = $value2;                                        
+                                    $this->api_service->updateAdData($parameters, 'old_mode');
+                                }
+                            }
+                            // add position end
+                            $position =trim($position,',');
+                            if(empty($position) && $flag_adddefault){
+                                $value['position']            = 'ad_shortcode';
+                                $parameters['quads_post_meta']       = $value;                                        
+                                $this->api_service->updateAdData($parameters, 'old_mode'); 
+                            }else{
+                                $position_array = explode(',', $position);
+                                foreach ($position_array  as $position) {
+                                    if(isset($value['quads_ad_old_id'] )){
+                                        if($flag_same_key == $key ){
+                                            $value['quads_ad_old_id']      =  $key; 
+                                            $flag_same_key                 =  'ad'.$ad_count;  
+                                        }else{
+                                            $value['quads_ad_old_id']      =  'ad'.$ad_count; 
+                                            $ad_count++; 
+                                        }
+                                    }
+                                     if(isset($value['ad_id'] )){
+                                        if($flag_same_key == $key ){
+                                            $value['ad_id']                = $post_id;   
+                                            $flag_same_key                 =  'ad'.$ad_count;  
+                                        }else{
+                                            $value['quads_ad_old_id']      =  'ad'.$ad_count; 
+                                            $ad_count++; 
+                                        }
+                                    }
+                                     
+                                    $value['position']              = $position;
+                                    $parameters['quads_post_meta']  = $value;                                        
+                                    $this->api_service->updateAdData($parameters, 'old_mode');
+                                }
+                            }
                         } 
-                        
-                        $i++;                       
-                                            
+                        $i++;               
                     }
-    
                }
                    wp_die();         
         }                        
