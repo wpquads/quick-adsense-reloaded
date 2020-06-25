@@ -279,6 +279,32 @@ function quads_get_active_ads() {
     return (isset($adsArray) && count($adsArray) > 0) ? $adsArray : 0;
 }
 
+/**
+ * Get list of valid ad ids's where either the plain text code field or the adsense ad slot and the ad client id is populated.
+ * @global arr $quads_options
+ */
+function quads_get_active_ads_backup() {
+
+    $quads_settings_backup = get_option( 'quads_settings_backup' );
+
+    
+    // Return early
+    if (empty($quads_settings_backup['ads'])){
+       return 0;
+    }
+   
+    // count valid ads
+    $i = 1;
+    foreach ( $quads_settings_backup['ads'] as $ads) {
+        $tmp = isset( $quads_settings_backup['ads']['ad' . $i]['code'] ) ? trim( $quads_settings_backup['ads']['ad' . $i]['code'] ) : '';
+        // id is valid if there is either the plain text field populated or the adsense ad slot and the ad client id
+        if( !empty( $tmp ) || (!empty( $quads_settings_backup['ads']['ad' . $i]['g_data_ad_slot'] ) && !empty( $quads_settings_backup['ads']['ad' . $i]['g_data_ad_client'] ) ) ) {
+            $adsArray[] = $i;
+        }
+        $i++;
+    }
+    return (isset($adsArray) && count($adsArray) > 0) ? $adsArray : 0;
+}
 
 /**
  * Get max allowed numbers of ads

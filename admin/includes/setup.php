@@ -42,7 +42,7 @@ class QUADS_Ad_Setup {
             if( ! current_user_can( 'manage_options' ) )
                 return;
 
-                $quads_settings = get_option('quads_settings');
+                $quads_settings = get_option('quads_settings_backup');
                 $flag_adddefault = true;
                  $flag_same_key = '';
                 if(isset($quads_settings['ads'])){   
@@ -61,6 +61,9 @@ class QUADS_Ad_Setup {
                     foreach($quads_settings['ads'] as $key => $value){                            
     
                         if($key === 'ad'.$i){
+                              if(empty($value['code']) && empty($value['g_data_ad_slot'])){
+                                    continue;           
+                                  }
                             $flag_same_key = $key ;
                             $post_id = quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $key); 
                             
@@ -187,20 +190,14 @@ class QUADS_Ad_Setup {
                         $i++;               
                     }
                }
+
+               $this->quadsSyncRandomAdsInNewDesign();
                    wp_die();         
         }                        
 
 
 public function quadsSyncRandomAdsInNewDesign(){
-    check_ajax_referer( 'quads_ajax_nonce', 'nonce' );
-
-    if( ! current_user_can( 'manage_options' ) )
-        return;
-    
-    if(isset($_REQUEST['status']) && $_REQUEST['status'] == 'no'){
-        update_option('quads_import_classic_ads_popup', 'no'); 
-        return;
-    }
+   // exit('dssdiuyf');
     $quads_settings = get_option('quads_settings');
 
     $random_beginning_of_post = true;

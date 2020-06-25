@@ -150,7 +150,7 @@ if(is_object($screens)){
         'email'         => get_option( 'admin_email' ),
         'aid'           => 'WP_Quads',
         'quads_import_classic_ads_popup' => $quads_import_classic_ads_popup,
-        'quads_get_active_ads' => quads_get_active_ads()
+        'quads_get_active_ads' => quads_get_active_ads_backup()
     ) );
 }
 
