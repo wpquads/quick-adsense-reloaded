@@ -111,6 +111,7 @@ class QUADS_Ad_Setup {
                             if(isset($quads_settings['pos6']['Par1Ads']) && $quads_settings['pos6']['Par1Ads'] ){
                                 if(isset($quads_settings['pos6']['Par1Rnd']) && $quads_settings['pos6']['Par1Rnd']== $i){
                                     $value2 =array();
+                                    $value2 = $value;
                                      $flag_adddefault = false;
                                     if($post_id){                            
                                         $value2['ad_id']                      = $post_id;                                
@@ -129,6 +130,7 @@ class QUADS_Ad_Setup {
                             if(isset($quads_settings['pos7']['Par2Ads']) && $quads_settings['pos7']['Par2Ads'] ){
                                 if(isset($quads_settings['pos7']['Par2Rnd']) && $quads_settings['pos7']['Par2Rnd']== $i){
                                     $value2 =array();
+                                    $value2 = $value;
                                     $flag_adddefault = false;
                                     if($post_id){                            
                                         $value2['ad_id']                      = $post_id;                                
@@ -147,6 +149,7 @@ class QUADS_Ad_Setup {
                             if(isset($quads_settings['pos8']['Par3Ads']) && $quads_settings['pos8']['Par3Ads'] ){
                                 if(isset($quads_settings['pos8']['Par3Rnd']) && $quads_settings['pos8']['Par3Rnd']== $i){
                                     $value2 =array();
+                                    $value2 = $value;
                                     $flag_adddefault = false;
                                     if($post_id){                            
                                         $value2['ad_id']                      = $post_id;                                
@@ -162,13 +165,36 @@ class QUADS_Ad_Setup {
                                     $this->api_service->updateAdData($parameters);
                                 }
                             }
+
+            if(isset($quads_settings['pos9']['Img1Ads']) &&  $quads_settings['pos9']['Img1Ads']){
+                if(isset($quads_settings['pos9']['Img1Rnd']) && $quads_settings['pos9']['Img1Rnd']== $i){
+
+                        $value2 =array();
+                        $value2 = $value;
+                        $flag_adddefault = false;
+                        if($post_id){                            
+                            $value2['ad_id']                      = $post_id;                             
+                        }else{
+                            $value2['quads_ad_old_id']            =  'ad'.$ad_count;  
+                            $ad_count++;                                   
+                        }
+                        $value2['paragraph_number']      = $quads_settings['pos9']['Img1Nup'];
+                        $value2['enable_on_end_of_post'] = $quads_settings['pos9']['Img1Con'];
+                        $value2['visibility_include'] = $visibility_include;
+                        $value2['position']              = 'after_paragraph';
+                        $parameters['quads_post_meta']   = $value2;                                        
+                        $this->api_service->updateAdData($parameters);
+                }
+
+            }
+    
                             // add position end
                             $position =trim($position,',');
                             if(empty($position) && $flag_adddefault){
                                 $value['position']            = 'ad_shortcode';
                                 $parameters['quads_post_meta']       = $value;                                        
                                 $this->api_service->updateAdData($parameters); 
-                            }else{
+                            }else if(!empty($position)) {
                                 $position_array = explode(',', $position);
                                 foreach ($position_array  as $position) {
                                     if(isset($value['quads_ad_old_id'] )){
