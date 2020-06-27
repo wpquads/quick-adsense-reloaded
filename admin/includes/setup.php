@@ -187,6 +187,29 @@ class QUADS_Ad_Setup {
                 }
 
             }
+                            for ($extra_ads=1; $extra_ads < 9; $extra_ads++) { 
+
+                                if(isset($quads_settings['extra'.$extra_ads]['ParAds']) &&  $quads_settings['extra'.$extra_ads]['ParAds']){
+
+                                    if(isset($quads_settings['extra'.$extra_ads]['ParRnd']) && $quads_settings['extra'.$extra_ads]['ParRnd']== $i){
+                                            $value2 =array();
+                                            $value2 = $value;
+                                            $flag_adddefault = false;
+                                            if($post_id){                            
+                                                $value2['ad_id']             = $post_id;                             
+                                            }else{
+                                                $value2['quads_ad_old_id']   =  'ad'.$ad_count;  
+                                                $ad_count++;                                   
+                                            }
+                                            $value2['paragraph_number']      = $quads_settings['extra'.$extra_ads]['ParNup'];
+                                            $value2['enable_on_end_of_post'] = $quads_settings['extra'.$extra_ads]['ParCon'];
+                                            $value2['visibility_include'] = $visibility_include;
+                                            $value2['position']              = 'after_paragraph';
+                                            $parameters['quads_post_meta']   = $value2;                                        
+                                            $this->api_service->updateAdData($parameters);
+                                    }
+                                }
+                            }
     
                             // add position end
                             $position =trim($position,',');
