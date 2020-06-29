@@ -62748,12 +62748,23 @@ function (_Component) {
           case "settings_support":
             return _react["default"].createElement("div", {
               className: "quads-settings-tab-container"
-            }, _react["default"].createElement("div", null, _react["default"].createElement("a", {
+            }, _react["default"].createElement("div", {
+              "class": "quads-docm"
+            }, _react["default"].createElement("a", {
+              "class": "quads-doc-link",
               target: "_blank",
               href: "https://wpquads.com/documentation/"
-            }, __('Read Documentation', 'quick-adsense-reloaded'))), _react["default"].createElement("div", {
+            }, _react["default"].createElement("img", {
+              height: "121",
+              width: "121",
+              src: quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/docs-img.png'
+            }), _react["default"].createElement("h4", null, "Knowledge Base"), _react["default"].createElement("p", null, "Read our documentation & find what you're looking for"), _react["default"].createElement("span", {
+              "class": "quads-lm"
+            }, "Learn more"))), _react["default"].createElement("div", {
               className: "quads-help-support"
-            }, _react["default"].createElement("div", null, _react["default"].createElement("h3", null, __('Ask for technical Support', 'quick-adsense-reloaded')), _react["default"].createElement("p", null, __('We are always available to help you with anything related to ads', 'quick-adsense-reloaded'))), _react["default"].createElement("div", null, __('Are you existing Premium Customer?', 'quick-adsense-reloaded'), _react["default"].createElement("div", null, _react["default"].createElement("select", {
+            }, _react["default"].createElement("div", null, _react["default"].createElement("h3", null, __('Ask for technical Support', 'quick-adsense-reloaded')), _react["default"].createElement("p", null, __('We are always available to help you with anything related to ads', 'quick-adsense-reloaded'))), _react["default"].createElement("div", {
+              "class": "quads-pre-cu"
+            }, _react["default"].createElement("span", null, __('Are you existing Premium Customer?', 'quick-adsense-reloaded')), _react["default"].createElement("div", null, _react["default"].createElement("select", {
               name: "customer_query_type",
               value: _this2.state.customer_query_type,
               onChange: _this2.addCustomerQueryType,

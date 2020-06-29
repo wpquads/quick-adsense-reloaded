@@ -945,14 +945,23 @@ handleMultiPluginsChange = (option) => {
                );  
               case "settings_support":  return(
                 <div className="quads-settings-tab-container">
-                <div><a target="_blank" href="https://wpquads.com/documentation/">{__('Read Documentation', 'quick-adsense-reloaded')}</a></div>
+                <div class="quads-docm">
+                  <a class="quads-doc-link" target="_blank" href="https://wpquads.com/documentation/">
+                  <img height="121" width="121" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/docs-img.png'} />
+                    <h4>Knowledge Base</h4>
+                    <p>Read our documentation & find what you're looking for</p>
+                    <span class="quads-lm">Learn more</span>
+                  </a>
+                </div>
                 <div className="quads-help-support">
                     <div>
                       <h3>{__('Ask for technical Support', 'quick-adsense-reloaded')}</h3>
                       <p>{__('We are always available to help you with anything related to ads', 'quick-adsense-reloaded')}</p>
                     </div>
-                    <div>
-                      {__('Are you existing Premium Customer?', 'quick-adsense-reloaded')}
+                    <div class="quads-pre-cu">
+                      <span>
+                        {__('Are you existing Premium Customer?', 'quick-adsense-reloaded')}
+                      </span>
                     <div>
                       <select name="customer_query_type" value={this.state.customer_query_type} onChange={this.addCustomerQueryType} className="quads-premium-cus">
                         <option value="">{__('Select', 'quick-adsense-reloaded')}</option>
