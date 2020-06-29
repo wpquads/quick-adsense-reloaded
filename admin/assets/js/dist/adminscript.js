@@ -10187,7 +10187,7 @@ function (_Component) {
           break;
 
         case 'ad_image':
-          if (validation_flag && quads_post_meta.data_publisher && quads_post_meta.data_widget && quads_post_meta.data_container && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+          if (validation_flag && quads_post_meta.image_src && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
             _this.saveAdFormData('publish');
           } else {
             _this.setState({
@@ -10313,7 +10313,7 @@ function (_Component) {
             break;
 
           case 'ad_image':
-            if (quads_post_meta.data_publisher && quads_post_meta.data_widget && quads_post_meta.data_container) {
+            if (quads_post_meta.image_src) {
               _this.props.history.push(new_url);
             } else {
               _this.setState({
@@ -10416,7 +10416,10 @@ function (_Component) {
         image_caption: false,
         include_dropdown: false,
         exclude_dropdown: false,
-        random_ads_list: []
+        random_ads_list: [],
+        image_src: '',
+        image_src_id: '',
+        image_redirect_url: ''
       },
       quads_form_errors: {
         g_data_ad_slot: '',
@@ -53677,22 +53680,58 @@ function (_Component) {
       }
     });
 
-    _defineProperty(_assertThisInitialized(_this), "imageUpload", function (e) {
-      var index = e.currentTarget.dataset.index;
+    _defineProperty(_assertThisInitialized(_this), "selectimages", function (event) {
+      var image_frame;
 
-      var _this$state = _objectSpread({}, _this.state),
-          random_ads_list = _this$state.random_ads_list;
+      var self = _assertThisInitialized(_this);
 
-      random_ads_list.splice(index, 1);
+      if (image_frame) {
+        image_frame.open();
+      } // Define image_frame as wp.media object
 
-      _this.setState(random_ads_list);
+
+      image_frame = wp.media({
+        library: {
+          type: 'image'
+        }
+      });
+      image_frame.on('close', function () {
+        // On close, get selections and save to the hidden input
+        // plus other AJAX stuff to refresh the image preview
+        var selection = image_frame.state().get('selection');
+        var id = '';
+        var src = '';
+        var my_index = 0;
+        selection.each(function (attachment) {
+          id = attachment['id'];
+          src = attachment.attributes.sizes.full.url;
+        });
+        self.props.adFormChangeHandler({
+          target: {
+            name: 'image_src_id',
+            value: id
+          }
+        });
+        self.props.adFormChangeHandler({
+          target: {
+            name: 'image_src',
+            value: src
+          }
+        });
+      });
+      image_frame.on('open', function () {
+        // On open, get the id from the hidden input
+        // and select the appropiate images in the media manager
+        var selection = image_frame.state().get('selection');
+      });
+      image_frame.open();
     });
 
     _defineProperty(_assertThisInitialized(_this), "removeSeleted", function (e) {
       var index = e.currentTarget.dataset.index;
 
-      var _this$state2 = _objectSpread({}, _this.state),
-          random_ads_list = _this$state2.random_ads_list;
+      var _this$state = _objectSpread({}, _this.state),
+          random_ads_list = _this$state.random_ads_list;
 
       random_ads_list.splice(index, 1);
 
@@ -54040,25 +54079,32 @@ function (_Component) {
           break;
 
         case 'ad_image':
-          ad_type_name = 'Banner Ad';
+          ad_type_name = 'Banner';
           comp_html.push(_react["default"].createElement("div", {
             key: "ad_image"
           }, _react["default"].createElement("table", null, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Upload Ad Image', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
-            className: show_form_error && post_meta.data_publisher == '' ? 'quads_form_error' : '',
-            value: post_meta.data_publisher,
+            className: show_form_error && post_meta.image_src == '' ? 'quads_form_error' : '',
+            value: post_meta.image_src,
             onChange: this.props.adFormChangeHandler,
             type: "text",
-            id: "data_publisher",
-            name: "data_publisher",
+            id: "image_src",
+            name: "image_src",
             placeholder: "Upload Ad Image"
           }), _react["default"].createElement("div", null, _react["default"].createElement("a", {
             className: "button",
-            onClick: this.props.imageUpload
-          }, __(' Upload Image', 'quick-adsense-reloaded'))), show_form_error && post_meta.data_publisher == '' ? _react["default"].createElement("div", {
+            onClick: this.selectimages
+          }, __(' Upload Image', 'quick-adsense-reloaded'))), show_form_error && post_meta.image_src == '' ? _react["default"].createElement("div", {
             className: "quads_form_msg"
           }, _react["default"].createElement("span", {
             className: "material-icons"
-          }, "error_outline"), "Upload Ad Image") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Size', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("div", null, _react["default"].createElement("select", {
+          }, "error_outline"), "Upload Ad Image") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Ad Anchor link', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
+            value: post_meta.image_redirect_url,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "image_redirect_url",
+            name: "image_redirect_url",
+            placeholder: "Ad Anchor link"
+          }))), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Size', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("div", null, _react["default"].createElement("select", {
             value: post_meta.adsense_type,
             onChange: this.props.adFormChangeHandler,
             name: "adsense_type",

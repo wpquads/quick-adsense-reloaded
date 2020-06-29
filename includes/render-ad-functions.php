@@ -63,7 +63,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_mgid( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_mgid_async( $id ),$id );
     }
-
+    if( true === quads_is_ad_image( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_ad_image_async( $id ),$id );
+    }
     // Return empty string
     return '';
 }
@@ -189,6 +191,37 @@ function quads_render_yandex_async( $id ) {
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_yandex_async', $html );
 }
+/**
+ * Render ad image
+ * 
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_ad_image_async( $id ) {
+    global $quads_options;
+    $extra_tag = '';
+      if(isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])){
+        $extra_tag .= 'width='.esc_attr($quads_options['ads'][$id]['g_data_ad_width']).'" ';
+      } 
+      if(isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])){
+        $extra_tag .= ' height="'.esc_attr($quads_options['ads'][$id]['g_data_ad_height']).'" ';
+      } 
+
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Yandex async --> \n\n";
+    if(isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
+        $html .= '
+        <a target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
+        <img '.$extra_tag.' src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" > 
+        </a>';
+    }else{
+        $html .= '<img '.$extra_tag.' src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" >';
+    }
+    
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_ad_image_async', $html );
+}
+
 /**
  * Render MGID ad
  * 
@@ -701,6 +734,22 @@ function quads_is_mgid( $id, $string ) {
 }
 
 /**
+ * Check if ad code is Ad Image or Banner ad code
+ * 
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_ad_image( $id, $string ) {
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'ad_image') {
+        return true;
+    }
+    return false;
+}
+
+/**
  * Render advert on amp pages
  * 
  * @global array $quads_options
@@ -775,6 +824,31 @@ function quads_render_amp($id,$ampsupport=''){
                                   data-container="'.esc_attr($quads_options['ads'][$id]['data_container']).'"
                                 >
                                 </amp-ad>';
+            }else if($quads_options['ads'][$id]['ad_type'] == 'ad_image'){
+
+                $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';  
+                $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';  
+                if(isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){   
+                     $html = '
+                        <a target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
+                        <amp-img
+                              src="'.esc_attr($quads_options['ads'][$id]['image_src']).'"
+                              width="'.esc_attr($width).'"
+                              height="'.esc_attr($height).'"
+                              layout="responsive"
+                            >
+                            </amp-img>
+                        </a>    ';
+                   
+                    }else{
+                         $html = '<amp-img
+                              src="'.esc_attr($quads_options['ads'][$id]['image_src']).'"
+                              width="'.esc_attr($width).'"
+                              height="'.esc_attr($height).'"
+                              layout="responsive"
+                            >
+                            </amp-img>';                       
+                    }
             }else{
                    // Return default adsense code
 

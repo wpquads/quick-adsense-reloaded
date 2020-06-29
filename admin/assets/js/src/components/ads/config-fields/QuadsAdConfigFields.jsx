@@ -56,13 +56,43 @@ addIncluded = (e) => {
     
   }
   
-  imageUpload = (e) => {
-      let index = e.currentTarget.dataset.index;  
-      const { random_ads_list } = { ...this.state };    
-      random_ads_list.splice(index,1);
-      this.setState(random_ads_list);
+  selectimages  = (event) => {
+      var image_frame;
 
-}
+      var self =this;
+      if(image_frame){
+       image_frame.open();
+      }
+
+      // Define image_frame as wp.media object
+      image_frame = wp.media({
+                 library : {
+                      type : 'image',
+                  }
+             });
+      image_frame.on('close',function() {
+                  // On close, get selections and save to the hidden input
+                  // plus other AJAX stuff to refresh the image preview
+                  var selection =  image_frame.state().get('selection');
+                  var id = '';
+                  var src = '';
+                  var my_index = 0;
+                  selection.each(function(attachment) {
+                     id = attachment['id'];
+                     src = attachment.attributes.sizes.full.url;
+                  });
+                  self.props.adFormChangeHandler({ target : { name : 'image_src_id' , value : id } });
+                  self.props.adFormChangeHandler({ target : { name : 'image_src' , value : src } });                  
+               });   
+      image_frame.on('open',function() {
+              // On open, get the id from the hidden input
+              // and select the appropiate images in the media manager
+              var selection =  image_frame.state().get('selection');
+
+            });
+          image_frame.open();
+
+    }
 removeSeleted = (e) => {
       let index = e.currentTarget.dataset.index;  
       const { random_ads_list } = { ...this.state };    
@@ -332,17 +362,21 @@ error_outline
 
               break;
             case 'ad_image':
-             ad_type_name = 'Banner Ad';  
+             ad_type_name = 'Banner';  
               comp_html.push(<div key="ad_image">
                 <table>
                   <tbody>
                     <tr><td>
                     <label>{__('Upload Ad Image', 'quick-adsense-reloaded')}</label></td><td>
-                    <input className={(show_form_error && post_meta.data_publisher == '') ? 'quads_form_error' : ''} value={post_meta.data_publisher} onChange={this.props.adFormChangeHandler} type="text" id="data_publisher" name="data_publisher" placeholder="Upload Ad Image" />
+                    <input className={(show_form_error && post_meta.image_src == '') ? 'quads_form_error' : ''} value={post_meta.image_src} onChange={this.props.adFormChangeHandler} type="text" id="image_src" name="image_src" placeholder="Upload Ad Image" />
                      
-                      <div><a className="button" onClick={this.props.imageUpload}>{__(' Upload Image', 'quick-adsense-reloaded')}</a></div>
-                    {(show_form_error && post_meta.data_publisher == '') ? <div className="quads_form_msg"><span className="material-icons">
+                      <div><a className="button" onClick={this.selectimages}>{__(' Upload Image', 'quick-adsense-reloaded')}</a></div>
+                    {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>Upload Ad Image</div> :''}
+                     </td></tr>
+                     <tr><td>
+                    <label>{__('Ad Anchor link', 'quick-adsense-reloaded')}</label></td><td>
+                    <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
                      </td></tr>
                      <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
