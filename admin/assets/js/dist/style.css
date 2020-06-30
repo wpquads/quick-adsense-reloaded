@@ -1565,7 +1565,7 @@ a.quads-btn-cancel:hover {
   list-style-type: none;
   display: grid;
   width: 100%;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-gap: 30px 30px;
   margin: 0; }
 
@@ -1613,11 +1613,7 @@ a.quads-nav-link:focus {
   z-index: 9;
   position: relative; }
 
-@media (max-width: 1200px) {
-  .quads-ad-networks ul {
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr; } }
-
-@media (max-width: 991px) {
+@media (max-width: 1199px) {
   .quads-ad-networks ul {
     grid-template-columns: 1fr 1fr 1fr 1fr; } }
 
