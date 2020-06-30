@@ -54098,15 +54098,16 @@ function (_Component) {
           ad_type_name = 'Banner';
           comp_html.push(_react["default"].createElement("div", {
             key: "ad_image"
-          }, _react["default"].createElement("table", null, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Upload Ad Image', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, post_meta.image_src == '' ? _react["default"].createElement("div", null, _react["default"].createElement("a", {
+          }, _react["default"].createElement("table", null, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Upload Ad Banner', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, post_meta.image_src == '' ? _react["default"].createElement("div", null, _react["default"].createElement("a", {
             className: "button",
             onClick: this.selectimages
-          }, __(' Upload Image', 'quick-adsense-reloaded'))) : _react["default"].createElement("div", null, _react["default"].createElement("img", {
-            src: post_meta.image_src
+          }, __(' Upload Banner', 'quick-adsense-reloaded'))) : _react["default"].createElement("div", null, _react["default"].createElement("img", {
+            src: post_meta.image_src,
+            className: "banner_image"
           }), _react["default"].createElement("a", {
             className: "button",
             onClick: this.remove_image
-          }, __('Remove Image', 'quick-adsense-reloaded'))), show_form_error && post_meta.image_src == '' ? _react["default"].createElement("div", {
+          }, __('Remove Banner', 'quick-adsense-reloaded'))), show_form_error && post_meta.image_src == '' ? _react["default"].createElement("div", {
             className: "quads_form_msg"
           }, _react["default"].createElement("span", {
             className: "material-icons"

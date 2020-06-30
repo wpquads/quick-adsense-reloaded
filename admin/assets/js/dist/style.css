@@ -125,6 +125,9 @@ and open the template in the editor.
 
 #quads-ad-content .quads-autofill-div .quads-general-helper {
   background-color: #005aef; }
+
+.banner_image {
+  display: block; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -189,7 +192,7 @@ and open the template in the editor.
     Created on : Jan 28, 2020, 11:41:08 AM
     Author     : Magazine3
 */
-h1 {
+.quads-ad-content h1 {
   color: red; }
 /*
 To change this license header, choose License Headers in Project Properties.

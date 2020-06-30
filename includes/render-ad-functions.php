@@ -192,7 +192,7 @@ function quads_render_yandex_async( $id ) {
     return apply_filters( 'quads_render_yandex_async', $html );
 }
 /**
- * Render ad image
+ * Render ad banner
  * 
  * @global array $quads_options
  * @param int $id
@@ -727,7 +727,7 @@ function quads_is_mgid( $id, $string ) {
 }
 
 /**
- * Check if ad code is Ad Image or Banner ad code
+ * Check if ad code is Ad Banner
  * 
  * @param1 id int id of the ad
  * @param string $string ad code

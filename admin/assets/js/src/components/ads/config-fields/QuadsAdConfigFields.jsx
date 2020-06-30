@@ -372,11 +372,11 @@ error_outline
                 <table>
                   <tbody>
                     <tr><td>
-                    <label>{__('Upload Ad Image', 'quick-adsense-reloaded')}</label></td><td>
-                   {post_meta.image_src == '' ? <div><a className="button" onClick={this.selectimages}>{__(' Upload Image', 'quick-adsense-reloaded')}</a></div>
+                    <label>{__('Upload Ad Banner', 'quick-adsense-reloaded')}</label></td><td>
+                   {post_meta.image_src == '' ? <div><a className="button" onClick={this.selectimages}>{__(' Upload Banner', 'quick-adsense-reloaded')}</a></div>
                    : <div>
-                   <img src={post_meta.image_src} />
-                   <a className="button" onClick={this.remove_image}>{__('Remove Image', 'quick-adsense-reloaded')}</a></div>}
+                   <img src={post_meta.image_src} className="banner_image" />
+                   <a className="button" onClick={this.remove_image}>{__('Remove Banner', 'quick-adsense-reloaded')}</a></div>}
                      
                       
                     {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
