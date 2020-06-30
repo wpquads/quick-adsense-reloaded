@@ -62795,6 +62795,8 @@ function (_Component) {
             return _react["default"].createElement("div", {
               className: "quads-settings-tab-container"
             }, _react["default"].createElement("div", {
+              "class": "quads-hs"
+            }, _react["default"].createElement("div", {
               "class": "quads-docm"
             }, _react["default"].createElement("a", {
               "class": "quads-doc-link",
@@ -62849,7 +62851,7 @@ function (_Component) {
               action: _react["default"].createElement(_Icon["default"], {
                 onClick: _this2.closeQuerySuccess
               }, "close")
-            }, _this2.state.customer_querey_success) : null));
+            }, _this2.state.customer_querey_success) : null)));
 
           case "settings_licenses":
             return _react["default"].createElement("div", {
@@ -62879,7 +62881,14 @@ function (_Component) {
       }), "Saving...") : _react["default"].createElement("a", {
         onClick: this.saveSettingsHandler,
         className: "quads-btn quads-btn-primary"
-      }, "Save Settings"))))));
+      }, "Save Settings"))), _react["default"].createElement("div", {
+        "class": "quads-bnr"
+      }, _react["default"].createElement("a", {
+        href: "http://wpquads.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-quads&utm_campaign=wpquads",
+        target: "_blank"
+      }, _react["default"].createElement("img", {
+        src: quads_localize_data.quads_plugin_url + 'assets/images/quads_banner_250x521_buy.png'
+      }))))));
     }
   }]);
 

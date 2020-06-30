@@ -67,6 +67,10 @@ a.quads-nav-link-active {
 .quads-settings-content{
   background-color: #fff;
   min-height: 500px;
+  display: inline-grid;
+  grid-template-columns: 1fr 250px;
+  width: 100%;
+  grid-gap: 30px;
 }
 .quads-settings-tab-container {
   padding: 15px 25px 25px 30px;
@@ -113,7 +117,7 @@ a.quads-nav-link-active {
 }
 
 /** New CSS **/
-.quads-settings-tab-container{
+.quads-settings-tab-container .quads-hs{
   display: inline-grid;
   width: 100%;
   box-sizing: border-box;
@@ -134,7 +138,7 @@ a.quads-doc-link{
   box-shadow: 0 0 35px 0 rgba(0, 0, 0, 0.13);
   display: inline-block;
   padding: 35px;
-  width:250px;
+  width:230px;
   text-decoration:none;
   text-align:center;
   transition:all 0.3s ease-in-out 0s;
@@ -157,8 +161,7 @@ a.quads-doc-link:hover{
   margin:0px 0px 15px;
 }
 .quads-doc-link span{
-  color: #db3157;
-  border-color: #db3157;
+  color: #005af0;
   font-size: 14px;
   font-weight: 500;
   border-width: 0;
@@ -171,9 +174,18 @@ a.quads-doc-link:hover{
 .quads-pre-cu span, .quads-pre-cu div{
   width:100%;
 }
+.quads-bnr{
+  margin-top:30px;
+}
 
+
+@media(max-width:980px){
+  .quads-settings-content {
+    grid-template-columns: 1fr;
+  }
+}
 @media(max-width:600px){
-  .quads-settings-tab-container {
+  .quads-settings-tab-container .quads-hs{
     grid-template-columns: 1fr;
     grid-gap: 20px;
   }

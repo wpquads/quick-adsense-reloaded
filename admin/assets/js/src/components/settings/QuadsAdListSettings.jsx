@@ -945,6 +945,7 @@ handleMultiPluginsChange = (option) => {
                );  
               case "settings_support":  return(
                 <div className="quads-settings-tab-container">
+                <div class="quads-hs">
                 <div class="quads-docm">
                   <a class="quads-doc-link" target="_blank" href="https://wpquads.com/documentation/">
                   <img height="121" width="121" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/docs-img.png'} />
@@ -985,6 +986,7 @@ handleMultiPluginsChange = (option) => {
                   </div> */}
                 </div>
                 </div>
+                </div>
                );
                case "settings_licenses":  return(
                 <div className="quads-settings-tab-container">
@@ -1022,6 +1024,12 @@ handleMultiPluginsChange = (option) => {
           }            
           </div>             
           </form>
+          <div class="quads-bnr">
+            <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-quads&utm_campaign=wpquads" target="_blank">
+
+              <img  src={quads_localize_data.quads_plugin_url+'assets/images/quads_banner_250x521_buy.png'} />
+           </a>
+          </div>
           </div>   
           </div>          
           </div>

@@ -309,7 +309,7 @@ function quads_options_page() {
                            'https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/#new-post',
                            'http://wpquads.com/support/'
                         );
-                        echo '<br/><br/>' . sprintf( __( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve it.<p> Looking for a quick way to clone your WordPress? Try the free plugin <a href="%s" target="_blank">WP Staging</a>.', 'quick-adsense-reloaded' ),
+                        echo '<br/><br/>' . sprintf( __( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve it', 'quick-adsense-reloaded' ),
 			'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=bottomlink',
                      'https://wp-staging.com/?utm_source=wpquads_plugin&utm_campaign=footer&utm_medium=website&utm_term=bottomlink'
                         );
@@ -357,13 +357,13 @@ function quads_get_advertising() {
     ob_start();
             ?>
     <div class="quads-panel-sidebar" style="float:left;min-width: 301px;margin-left: 1px;margin-top:0px;">
-        <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-quads&utm_campaign=wpquads" target="_blank">
-            <img src="<?php echo QUADS_PLUGIN_URL . '/assets/images/quads_banner_250x521_buy.png'; ?>">
-        </a>
+        <!-- <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-quads&utm_campaign=wpquads" target="_blank">
+            <img src="<?php //echo QUADS_PLUGIN_URL . '/assets/images/quads_banner_250x521_buy.png'; ?>">
+        </a> -->
         <br>
-        <a style="display:block;" href="http://demo.clickfraud-monitoring.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-cfm&utm_campaign=wpquads" target="_blank">
-            <img src="<?php echo QUADS_PLUGIN_URL . '/assets/images/banner_250x296-cfm.png'; ?>">
-        </a>
+        <!-- <a style="display:block;" href="http://demo.clickfraud-monitoring.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-cfm&utm_campaign=wpquads" target="_blank">
+            <img src="<?php //echo QUADS_PLUGIN_URL . '/assets/images/banner_250x296-cfm.png'; ?>">
+        </a> -->
     </div>
     <?php
     echo ob_get_clean();
