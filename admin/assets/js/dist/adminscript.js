@@ -62858,7 +62858,7 @@ function (_Component) {
               id: "quads_licensemsg"
             }, _this2.state.licensemsg) : null));
         }
-      }(), _react["default"].createElement("div", {
+      }(), page.path == 'settings_support' || page.path == 'settings_importer' ? '' : _react["default"].createElement("div", {
         className: "quads-save-settings"
       }, this.state.button_spinner_toggle ? _react["default"].createElement("a", {
         className: "quads-btn quads-btn-primary"

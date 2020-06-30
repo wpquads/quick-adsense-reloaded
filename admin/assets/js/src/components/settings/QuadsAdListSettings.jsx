@@ -1013,6 +1013,7 @@ handleMultiPluginsChange = (option) => {
                );
             }
           })()}
+          {page.path == 'settings_support' || page.path == 'settings_importer' ? '' : (
             <div className="quads-save-settings">
             {this.state.button_spinner_toggle ?
             <a className="quads-btn quads-btn-primary">
@@ -1022,7 +1023,8 @@ handleMultiPluginsChange = (option) => {
             Save Settings              
             </a>          
           }            
-          </div>             
+          </div>   
+          )           }
           </form>
           <div className="quads-bnr">
             <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-quads&utm_campaign=wpquads" target="_blank">
