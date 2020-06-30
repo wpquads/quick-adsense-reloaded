@@ -1542,11 +1542,6 @@ a.quads-btn-cancel {
 a.quads-btn-cancel:hover {
   background: #666 !important;
   color: #fff !important; }
-.quads-ad-header {
-  width: 100%;
-  box-sizing: border-box;
-  height: auto; }
-
 .quads-ad-networks li {
   text-align: center;
   background: #fff;
