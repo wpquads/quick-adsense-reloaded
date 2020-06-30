@@ -200,22 +200,15 @@ function quads_render_yandex_async( $id ) {
  */
 function quads_render_ad_image_async( $id ) {
     global $quads_options;
-    $extra_tag = '';
-      if(isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])){
-        $extra_tag .= 'width='.esc_attr($quads_options['ads'][$id]['g_data_ad_width']).'" ';
-      } 
-      if(isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])){
-        $extra_tag .= ' height="'.esc_attr($quads_options['ads'][$id]['g_data_ad_height']).'" ';
-      } 
 
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Yandex async --> \n\n";
     if(isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
         $html .= '
         <a target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
-        <img '.$extra_tag.' src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" > 
+        <img  src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" > 
         </a>';
     }else{
-        $html .= '<img '.$extra_tag.' src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" >';
+        $html .= '<img src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" >';
     }
     
     $html .= "\n <!-- end WP QUADS --> \n\n";
@@ -794,7 +787,7 @@ function quads_render_amp($id,$ampsupport=''){
                 }
             }
         // if amp is not activated return empty
-        if (!isset($quads_options['ads'][$id]['enabled_on_amp']) ){
+        if (!isset($quads_options['ads'][$id]['enabled_on_amp']) || (isset($quads_options['ads'][$id]['enabled_on_amp']) && $quads_options['ads'][$id]['enabled_on_amp'] === false) ){
             return '';
         }
 
@@ -826,28 +819,13 @@ function quads_render_amp($id,$ampsupport=''){
                                 </amp-ad>';
             }else if($quads_options['ads'][$id]['ad_type'] == 'ad_image'){
 
-                $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';  
-                $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';  
-                if(isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){   
-                     $html = '
+                if(isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
+                        $html .= '
                         <a target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
-                        <amp-img
-                              src="'.esc_attr($quads_options['ads'][$id]['image_src']).'"
-                              width="'.esc_attr($width).'"
-                              height="'.esc_attr($height).'"
-                              layout="responsive"
-                            >
-                            </amp-img>
-                        </a>    ';
-                   
+                        <img  src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" > 
+                        </a>';
                     }else{
-                         $html = '<amp-img
-                              src="'.esc_attr($quads_options['ads'][$id]['image_src']).'"
-                              width="'.esc_attr($width).'"
-                              height="'.esc_attr($height).'"
-                              layout="responsive"
-                            >
-                            </amp-img>';                       
+                        $html .= '<img src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" >';
                     }
             }else{
                    // Return default adsense code

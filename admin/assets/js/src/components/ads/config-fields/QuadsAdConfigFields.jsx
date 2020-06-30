@@ -93,6 +93,11 @@ addIncluded = (e) => {
           image_frame.open();
 
     }
+    remove_image = (e) => {
+    this.props.adFormChangeHandler({ target : { name : 'image_src_id' , value : '' } });
+    this.props.adFormChangeHandler({ target : { name : 'image_src' , value : '' } });    
+
+}
 removeSeleted = (e) => {
       let index = e.currentTarget.dataset.index;  
       const { random_ads_list } = { ...this.state };    
@@ -368,9 +373,12 @@ error_outline
                   <tbody>
                     <tr><td>
                     <label>{__('Upload Ad Image', 'quick-adsense-reloaded')}</label></td><td>
-                    <input className={(show_form_error && post_meta.image_src == '') ? 'quads_form_error' : ''} value={post_meta.image_src} onChange={this.props.adFormChangeHandler} type="text" id="image_src" name="image_src" placeholder="Upload Ad Image" />
+                   {post_meta.image_src == '' ? <div><a className="button" onClick={this.selectimages}>{__(' Upload Image', 'quick-adsense-reloaded')}</a></div>
+                   : <div>
+                   <img src={post_meta.image_src} />
+                   <a className="button" onClick={this.remove_image}>{__('Remove Image', 'quick-adsense-reloaded')}</a></div>}
                      
-                      <div><a className="button" onClick={this.selectimages}>{__(' Upload Image', 'quick-adsense-reloaded')}</a></div>
+                      
                     {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>Upload Ad Image</div> :''}
                      </td></tr>
@@ -378,31 +386,6 @@ error_outline
                     <label>{__('Ad Anchor link', 'quick-adsense-reloaded')}</label></td><td>
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
                      </td></tr>
-                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
-                      <div>
-                        <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
-                        <option value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</option>
-                        <option value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</option> 
-                      </select>
-                      {
-                        post_meta.adsense_type !== 'responsive' ?                        
-                      <div className="quads-adsense-width-heigth">
-                        
-                        <div className="quads-adsense-width">
-                          <label>{__('Width', 'quick-adsense-reloaded')}
-                          <input value={post_meta.g_data_ad_width ? post_meta.g_data_ad_width:'300'} onChange={this.props.adFormChangeHandler} type="number" id="g_data_ad_width" name="g_data_ad_width" /> 
-                          </label>
-                        </div>
-                        <div className="quads-adsense-height">
-                          <label>{__('Height', 'quick-adsense-reloaded')}
-                          <input value={post_meta.g_data_ad_height  ? post_meta.g_data_ad_height:'250'} onChange={this.props.adFormChangeHandler} type="number" id="g_data_ad_height" name="g_data_ad_height" />  
-                          </label>
-                        </div>
-                      </div>
-                      : ''
-                      }
-                      </div>
-                      </td></tr>
                   </tbody>
                 </table>
                 </div>);
@@ -418,7 +401,7 @@ error_outline
                 <div>{ad_type_name} {__('Ad Configuration', 'quick-adsense-reloaded')}
                 {this.props.ad_type == 'adsense' ? 
                 <div className="quads-autofill-div"><a className="quads-autofill" onClick={this.props.openModal}>{__('Autofill', 'quick-adsense-reloaded')}</a>
-                <a class="quads-general-helper" target="_blank" href="https://wpquads.com/documentation/how-to-find-data-client-id-data-slot-id-for-adsense-integration/"></a>
+                <a className="quads-general-helper" target="_blank" href="https://wpquads.com/documentation/how-to-find-data-client-id-data-slot-id-for-adsense-integration/"></a>
                 <QuadsAdModal 
                  closeModal    = {this.props.closeModal}
                  parentState={this.props.parentState} 

@@ -163,7 +163,7 @@ class QuadsAdListBody extends Component {
               {this.state.delete_modal ? 
               <div className="quads-modal-popup">            
             <div className="quads-modal-popup-content">   
-              <div class="quads-modal-popup-txt">          
+              <div className="quads-modal-popup-txt">          
               <h3>{__('Are you sure you want to', 'quick-adsense-reloaded')}<span> {__(' DELETE  ', 'quick-adsense-reloaded')} </span>{__( 'this ad?', 'quick-adsense-reloaded')}</h3> 
               <p>{__('It will permenently removed and you won\'t be able to see the ad again. You cannot undo this action.', 'quick-adsense-reloaded')}</p>
               </div>           
