@@ -1214,10 +1214,11 @@ a.quads-doc-link {
   box-shadow: 0 0 35px 0 rgba(0, 0, 0, 0.13);
   display: inline-block;
   padding: 35px;
-  width: 230px;
+  width: 100%;
   text-decoration: none;
   text-align: center;
-  transition: all 0.3s ease-in-out 0s; }
+  transition: all 0.3s ease-in-out 0s;
+  box-sizing: border-box; }
 
 a.quads-doc-link:hover {
   box-shadow: 0 7px 35px 0 rgba(0, 0, 0, 0.18); }
@@ -1245,17 +1246,30 @@ a.quads-doc-link:hover {
 .quads-pre-cu {
   display: inline-flex;
   align-items: center;
-  width: 100%; }
-
-.quads-pre-cu span, .quads-pre-cu div {
-  width: 100%; }
+  width: 100%;
+  justify-content: space-between; }
 
 .quads-bnr {
   margin-top: 30px; }
 
-@media (max-width: 980px) {
+@media (min-width: 1280px) {
+  .quads-docm {
+    width: 70%; } }
+
+@media (max-width: 1200px) {
+  .quads-settings-tab-container .quads-hs {
+    grid-gap: 30px; } }
+
+@media (max-width: 1180px) {
   .quads-settings-content {
     grid-template-columns: 1fr; } }
+
+@media (max-width: 980px) {
+  .quads-settings-content {
+    grid-template-columns: 1fr;
+    grid-gap: 10px; }
+  .quads-bnr {
+    margin-top: 0; } }
 
 @media (max-width: 600px) {
   .quads-settings-tab-container .quads-hs {
