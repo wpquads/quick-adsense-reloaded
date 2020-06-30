@@ -10187,7 +10187,7 @@ function (_Component) {
           break;
 
         case 'ad_image':
-          if (validation_flag && quads_post_meta.image_src && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+          if (validation_flag && quads_post_meta.image_src && quads_post_meta.image_redirect_url && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
             _this.saveAdFormData('publish');
           } else {
             _this.setState({
@@ -10313,7 +10313,7 @@ function (_Component) {
             break;
 
           case 'ad_image':
-            if (quads_post_meta.image_src) {
+            if (quads_post_meta.image_src && quads_post_meta.image_redirect_url) {
               _this.props.history.push(new_url);
             } else {
               _this.setState({
@@ -54118,7 +54118,11 @@ function (_Component) {
             id: "image_redirect_url",
             name: "image_redirect_url",
             placeholder: "Ad Anchor link"
-          })))))));
+          }), show_form_error && post_meta.image_redirect_url == '' ? _react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, _react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Ad Anchor link") : ''))))));
           break;
 
         default:
@@ -102212,7 +102216,7 @@ function (_Component) {
           break;
 
         case 'ad_image':
-          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/adsensev3.png';
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/banner_ad_icon.png';
           type = "Banner Ad";
           break;
 
@@ -102686,7 +102690,7 @@ function (_Component) {
           break;
 
         case 'ad_image':
-          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/add_adsense_logo.png';
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/banner_ad.png';
           break;
 
         default:

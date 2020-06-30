@@ -385,6 +385,8 @@ error_outline
                      <tr><td>
                     <label>{__('Ad Anchor link', 'quick-adsense-reloaded')}</label></td><td>
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
+                    {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Ad Anchor link</div> :''}
                      </td></tr>
                   </tbody>
                 </table>

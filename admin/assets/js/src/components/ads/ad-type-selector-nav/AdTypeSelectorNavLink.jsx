@@ -50,7 +50,7 @@ class AdTypeSelectorNavLink extends Component {
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/mgid.png';
               break;
               case 'ad_image':
-              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/banner_ad.png';
               break;
             default:
               break;
