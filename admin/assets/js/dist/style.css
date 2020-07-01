@@ -128,7 +128,8 @@ and open the template in the editor.
 
 .banner_image {
   display: block;
-  padding-bottom: 20px; }
+  padding-bottom: 20px;
+  max-width: 100%; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
