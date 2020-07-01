@@ -951,7 +951,7 @@ handleMultiPluginsChange = (option) => {
                   <img height="121" width="121" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/docs-img.png'} />
                     <h4>Knowledge Base</h4>
                     <p>Read our documentation & find what you're looking for</p>
-                    <span className="quads-lm">View</span>
+                    <span className="quads-lm">View Docs</span>
                   </a>
                 </div>
                 <div className="quads-help-support">

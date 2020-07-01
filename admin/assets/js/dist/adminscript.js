@@ -62799,7 +62799,7 @@ function (_Component) {
               src: quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/docs-img.png'
             }), _react["default"].createElement("h4", null, "Knowledge Base"), _react["default"].createElement("p", null, "Read our documentation & find what you're looking for"), _react["default"].createElement("span", {
               className: "quads-lm"
-            }, "View"))), _react["default"].createElement("div", {
+            }, "View Docs"))), _react["default"].createElement("div", {
               className: "quads-help-support"
             }, _react["default"].createElement("div", null, _react["default"].createElement("h3", null, __('Ask for technical Support', 'quick-adsense-reloaded')), _react["default"].createElement("p", null, __('We are always available to help you with anything related to ads', 'quick-adsense-reloaded'))), _react["default"].createElement("div", {
               className: "quads-pre-cu"
