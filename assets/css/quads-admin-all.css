@@ -140,14 +140,14 @@
 #quads_tab_container li.quads-tabs {
     background-color: white;
 }
-.quads_admin .nav-tab{
+.quads_admin .quads-nav-tab{
     color: #555;
 }
 .quads-tabs a {
   color: #000;
   text-transform: capitalize;
 }
-.nav-tab {
+.quads-nav-tab {
     padding: 10px 15px !important;
 }
  .quads-help-container {
