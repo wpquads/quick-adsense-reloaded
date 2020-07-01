@@ -768,7 +768,7 @@ function quads_render_amp($id,$ampsupport=''){
         if($quads_options['ads'][$id]['ad_type']=='plain_text'){
              return $quads_options['ads'][$id]['code'];
         }else{
-            return '<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="'. $quads_options['ads'][$id]['g_data_ad_client'] . '" data-ad-slot="'.$quads_options['ads'][$id]['g_data_ad_slot'].'"></amp-ad>';
+            return '<amp-ad layout="responsive" width=300 height=250 type="adsense" data-ad-client="'. esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '" data-ad-slot="'.esc_attr($quads_options['ads'][$id]['g_data_ad_slot']).'"></amp-ad>';
         }
 
     }else{
