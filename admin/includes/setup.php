@@ -41,6 +41,10 @@ class QUADS_Ad_Setup {
 
             if( ! current_user_can( 'manage_options' ) )
                 return;
+            if(isset($_REQUEST['status']) && $_REQUEST['status'] == 'no'){
+                update_option('quads_import_classic_ads_popup', 'no'); 
+                return;
+            }
 
                 $quads_settings = get_option('quads_settings_backup');
                 $flag_adddefault = true;

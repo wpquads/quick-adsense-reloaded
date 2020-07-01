@@ -40,10 +40,10 @@ class QuadsAdList extends Component {
     if(status == 'no'){
     quads.quads_import_classic_ads_popup = false;
     }
+        this.setState({importquadsclassicmsgprocessing: 'Importing Ads', importquadsclassiccss : true});
     if(this.state.importquadsclassicmsgprocessing !=''){
       return;
     }
-    this.setState({importquadsclassicmsgprocessing: 'Importing Ads', importquadsclassiccss : true});
    
     let formData = new FormData();
     formData.append('action', 'quads_sync_ads_in_new_design');
@@ -164,9 +164,13 @@ class QuadsAdList extends Component {
                     <div className="fakebox_close" onClick={() => this.quads_classic_ads('no')}> </div>
                         <div><h3>This is your first time on New Interface</h3></div>
                         <div className="text">Would you like to import your ads from the classic view? </div>
+                        {!this.state.importquadsclassicalertcss?
                         <div className="quads-add-btn"><a className="quads-btn quads-btn-primary yes" onClick={() => this.quads_classic_ads('yes')}>Yes, Import</a><a className="quads-btn quads-btn-primary no" onClick={() => this.quads_classic_ads('no')}>No Thanks</a></div>
+                         : ''}
+
                         <div style={{display: this.state.importquadsclassiccss ? 'block' : 'none' }} className='updating-message importquadsclassicmsgprocessing'>Importing Ads</div>
-                        <div style={{display: this.state.importquadsclassicalertcss ? 'block' : 'none' }}><Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importquadsclassicmsg}</Alert> </div>
+
+                        <div style={{display: this.state.importquadsclassicalertcss ? 'block' : 'none' }}><Alert severity="success" action={<Icon onClick={() => this.quads_classic_ads('no')}>close</Icon>}>{this.state.importquadsclassicmsg}</Alert> </div>
                     </div>
                   : ''}
 
