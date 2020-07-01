@@ -67,6 +67,10 @@ a.quads-nav-link-active {
 .quads-settings-content{
   background-color: #fff;
   min-height: 500px;
+  display: inline-grid;
+  grid-template-columns: 1fr 250px;
+  width: 100%;
+  grid-gap: 30px;
 }
 .quads-settings-tab-container {
   padding: 15px 25px 25px 30px;
@@ -87,9 +91,6 @@ a.quads-nav-link-active {
 }
 .quads-premium-cus{
   margin-top: 5px;  
-}
-.quads-help-support{
-  width: 40%;
 }
 .quads-help-support input,textarea,select{
   width: 100%;  
@@ -113,4 +114,101 @@ a.quads-nav-link-active {
       background-color: rgb(237, 247, 237);
       padding: 6px 16px;
     font-size: 0.875rem;
+}
+
+/** New CSS **/
+.quads-settings-tab-container .quads-hs{
+  display: inline-grid;
+  width: 100%;
+  box-sizing: border-box;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 50px;
+}
+.quads-docm{
+  order:1;
+  flex: 1 0 40%;
+  margin-top:20px;
+}
+.quads-help-support{
+  width:100%;
+}
+a.quads-doc-link{
+  background: #fff;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 0 35px 0 rgba(0, 0, 0, 0.13);
+  display: inline-block;
+  padding: 35px;
+  width:100%;
+  text-decoration:none;
+  text-align:center;
+  transition:all 0.3s ease-in-out 0s;
+  box-sizing: border-box;
+}
+a.quads-doc-link:hover{
+  box-shadow: 0 7px 35px 0 rgba(0,0,0,.18);
+}
+.quads-doc-link h4{
+  font-size: 23px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #434264;
+  margin:0px 0px 15px;
+}
+.quads-doc-link p{
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.5em;
+  color: #5c6771;
+  margin:0px 0px 15px;
+}
+.quads-doc-link span{
+  color: #005af0;
+  font-size: 14px;
+  font-weight: 500;
+  border-width: 0;
+}
+.quads-pre-cu{
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+.quads-bnr{
+  margin-top:30px;
+}
+
+@media(min-width:1280px){
+  .quads-docm {
+    width: 300px;
+  }
+
+}
+
+@media(max-width:1200px){
+  .quads-settings-tab-container .quads-hs {
+    grid-gap: 30px;
+  }
+}
+
+@media(max-width:1180px){
+  .quads-settings-content {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+@media(max-width:980px){
+  .quads-settings-content {
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
+  }
+  .quads-bnr {
+    margin-top: 0;
+  }
+}
+@media(max-width:600px){
+  .quads-settings-tab-container .quads-hs{
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+  }
 }

@@ -125,6 +125,11 @@ and open the template in the editor.
 
 #quads-ad-content .quads-autofill-div .quads-general-helper {
   background-color: #005aef; }
+
+.banner_image {
+  display: block;
+  padding-bottom: 20px;
+  max-width: 100%; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -189,7 +194,7 @@ and open the template in the editor.
     Created on : Jan 28, 2020, 11:41:08 AM
     Author     : Magazine3
 */
-h1 {
+.quads-ad-content h1 {
   color: red; }
 /*
 To change this license header, choose License Headers in Project Properties.
@@ -1139,7 +1144,11 @@ a.quads-nav-link-active {
 
 .quads-settings-content {
   background-color: #fff;
-  min-height: 500px; }
+  min-height: 500px;
+  display: inline-grid;
+  grid-template-columns: 1fr 250px;
+  width: 100%;
+  grid-gap: 30px; }
 
 .quads-settings-tab-container {
   padding: 15px 25px 25px 30px; }
@@ -1160,9 +1169,6 @@ a.quads-nav-link-active {
 
 .quads-premium-cus {
   margin-top: 5px; }
-
-.quads-help-support {
-  width: 40%; }
 
 .quads-help-support input, textarea, select {
   width: 100%; }
@@ -1186,6 +1192,90 @@ a.quads-nav-link-active {
   background-color: #edf7ed;
   padding: 6px 16px;
   font-size: 0.875rem; }
+
+/** New CSS **/
+.quads-settings-tab-container .quads-hs {
+  display: inline-grid;
+  width: 100%;
+  box-sizing: border-box;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 50px; }
+
+.quads-docm {
+  order: 1;
+  flex: 1 0 40%;
+  margin-top: 20px; }
+
+.quads-help-support {
+  width: 100%; }
+
+a.quads-doc-link {
+  background: #fff;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 0 35px 0 rgba(0, 0, 0, 0.13);
+  display: inline-block;
+  padding: 35px;
+  width: 100%;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s ease-in-out 0s;
+  box-sizing: border-box; }
+
+a.quads-doc-link:hover {
+  box-shadow: 0 7px 35px 0 rgba(0, 0, 0, 0.18); }
+
+.quads-doc-link h4 {
+  font-size: 23px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #434264;
+  margin: 0px 0px 15px; }
+
+.quads-doc-link p {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.5em;
+  color: #5c6771;
+  margin: 0px 0px 15px; }
+
+.quads-doc-link span {
+  color: #005af0;
+  font-size: 14px;
+  font-weight: 500;
+  border-width: 0; }
+
+.quads-pre-cu {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between; }
+
+.quads-bnr {
+  margin-top: 30px; }
+
+@media (min-width: 1280px) {
+  .quads-docm {
+    width: 300px; } }
+
+@media (max-width: 1200px) {
+  .quads-settings-tab-container .quads-hs {
+    grid-gap: 30px; } }
+
+@media (max-width: 1180px) {
+  .quads-settings-content {
+    grid-template-columns: 1fr; } }
+
+@media (max-width: 980px) {
+  .quads-settings-content {
+    grid-template-columns: 1fr;
+    grid-gap: 10px; }
+  .quads-bnr {
+    margin-top: 0; } }
+
+@media (max-width: 600px) {
+  .quads-settings-tab-container .quads-hs {
+    grid-template-columns: 1fr;
+    grid-gap: 20px; } }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -1416,19 +1506,65 @@ and open the template in the editor.
 .quads-search-box {
   display: inline-block;
   width: 100%; }
-.quads-ad-networks {
-  padding: 50px;
-  max-width: 900px; }
 
+.quads-modal-popup-content h3 {
+  font-size: 20px;
+  line-height: 1.3;
+  font-weight: 600;
+  padding-bottom: 20px; }
+
+.quads-modal-popup-content h3 span {
+  color: red; }
+
+.quads-modal-popup-txt p {
+  margin: 0px;
+  font-size: 16px;
+  line-height: 1.5; }
+
+.quads-modal-popup-content {
+  max-width: 480px !important;
+  border-radius: 8px;
+  padding: 0px !important;
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: 30%; }
+
+.quads-modal-popup-txt {
+  padding: 30px 40px; }
+
+.quads-modal-content {
+  text-align: right;
+  margin: 0 !important;
+  padding: 15px 20px;
+  background: #eee;
+  box-sizing: border-box;
+  border-radius: 0px 0px 8px 8px; }
+
+.quads-btn.quads-btn-delete, .quads-btn.quads-btn-delete:hover {
+  background-color: #1A73E8 !important;
+  color: #fff !important;
+  padding: 10px 30px;
+  border-radius: 6px; }
+
+a.quads-btn-cancel {
+  color: #666 !important;
+  padding: 10px 30px;
+  border-radius: 6px;
+  font-size: 16px; }
+
+a.quads-btn-cancel:hover {
+  background: #666 !important;
+  color: #fff !important; }
 .quads-ad-networks li {
-  width: 180px;
   text-align: center;
   background: #fff;
   cursor: pointer;
   border-radius: 10px;
-  height: 200px;
   border: 1px solid #e2e2e2;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
   transition: 0.3s; }
 
@@ -1439,9 +1575,9 @@ and open the template in the editor.
   padding: 0px;
   list-style-type: none;
   display: grid;
-  width: 180px;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-gap: 15px 50px;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 30px 30px;
   margin: 0; }
 
 .quads-side-part {
@@ -1454,3 +1590,61 @@ and open the template in the editor.
 
 a.quads-nav-link:focus {
   box-shadow: none; }
+
+.quads-full-page-modal {
+  position: absolute;
+  left: 0;
+  top: -18px;
+  right: 0px;
+  z-index: 9;
+  overflow-x: hidden;
+  overflow-y: auto; }
+
+.quads-full-page-modal-content {
+  max-width: 100%;
+  height: 100%; }
+
+.quads-full-page-modal-content h3 {
+  position: relative;
+  top: 42px;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 15px;
+  margin: 0;
+  z-index: 99; }
+
+.quads-full-page-modal .quads-close-create-page {
+  top: 35px; }
+
+.quads-ad-networks {
+  padding: 60px 50px;
+  max-width: 100%;
+  background: #fff;
+  z-index: 9;
+  position: relative; }
+
+@media (max-width: 1199px) {
+  .quads-ad-networks ul {
+    grid-template-columns: 1fr 1fr 1fr 1fr; } }
+
+@media (max-width: 768px) {
+  .quads-ad-networks ul {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px 20px; } }
+
+@media (max-width: 591px) {
+  .quads-ad-networks ul {
+    grid-template-columns: 1fr 1fr; } }
+
+@media (max-width: 450px) {
+  .quads-ad-networks {
+    padding: 60px 20px; }
+  .quads-full-page-modal-content h3 {
+    padding-left: 20px; }
+  .quads-full-page-modal .quads-close-create-page {
+    right: 20px; } }
+
+@media (max-width: 330px) {
+  .quads-ad-networks ul {
+    grid-template-columns: 1fr; } }

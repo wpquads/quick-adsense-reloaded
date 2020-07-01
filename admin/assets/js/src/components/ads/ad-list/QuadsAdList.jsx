@@ -61,6 +61,10 @@ class QuadsAdList extends Component {
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/mgid_icon.png';
           type = "MGID";
           break;
+          case 'ad_image':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/banner_ad_icon.png';
+          type = "Banner Ad";
+          break;
         default:
           break;
       }

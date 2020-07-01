@@ -77,6 +77,11 @@ if(is_object($screens)){
     $currentScreen = $screens->base;
     if($currentScreen == 'toplevel_page_quads-settings'){
         remove_all_actions('admin_notices');
+        wp_enqueue_media();
+        //To add page
+        if ( ! class_exists( '_WP_Editors', false ) ) {
+            require( ABSPATH . WPINC . '/class-wp-editor.php' );
+        }
     }
 }
       

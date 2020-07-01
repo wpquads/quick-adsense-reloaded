@@ -81,7 +81,10 @@ class QuadsAdCreateRouter extends Component {
             image_caption : false,
             include_dropdown           : false,
             exclude_dropdown           : false,  
-            random_ads_list            : []                                
+            random_ads_list            : [], 
+            image_src                  : '',
+            image_src_id               : '' ,     
+            image_redirect_url         : '' ,                           
             },
             quads_form_errors : {
               g_data_ad_slot       : '',
@@ -431,6 +434,14 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             }
           break;
+
+          case 'ad_image':
+            if(validation_flag && quads_post_meta.image_src && quads_post_meta.image_redirect_url && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;
       
         default:
           break;
@@ -550,6 +561,13 @@ class QuadsAdCreateRouter extends Component {
             break;
             case 'mgid':
           if(quads_post_meta.data_publisher && quads_post_meta.data_widget && quads_post_meta.data_container){
+            this.props.history.push(new_url); 
+          }else{
+            this.setState({show_form_error:true});
+          } 
+            break;
+             case 'ad_image':
+          if(quads_post_meta.image_src && quads_post_meta.image_redirect_url){
             this.props.history.push(new_url); 
           }else{
             this.setState({show_form_error:true});
