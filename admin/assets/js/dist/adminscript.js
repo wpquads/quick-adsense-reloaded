@@ -53721,9 +53721,25 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(QuadsAdConfigFields).call(this, props));
 
     _defineProperty(_assertThisInitialized(_this), "adsToggle", function () {
+      var get_all_data = JSON.parse(JSON.stringify(_this.state.getallads_data));
+      var get_all_data_count = get_all_data.length;
+      var getallads_data_temp = [];
+      getallads_data_temp = get_all_data;
+      var random_ads_list = _this.state.random_ads_list;
+      var random_ads_list_count = _this.state.random_ads_list.length;
+
+      for (var i = 0; i < get_all_data_count; i++) {
+        for (var j = 0; j < random_ads_list_count; j++) {
+          if (typeof random_ads_list[j] !== "undefined" && typeof get_all_data[i] !== "undefined" && get_all_data[i].value == random_ads_list[j].value) {
+            getallads_data_temp.splice(i, 1);
+          }
+        }
+      }
+
       _this.setState({
         adsToggle: !_this.state.adsToggle,
-        currentselectedvalue: ''
+        currentselectedvalue: '',
+        getallads_data_temp: getallads_data_temp
       });
     });
 
@@ -53824,6 +53840,7 @@ function (_Component) {
       adsToggle: false,
       random_ads_list: [],
       getallads_data: [],
+      getallads_data_temp: [],
       currentselectedvalue: "",
       currentselectedlabel: ""
     };
@@ -53966,7 +53983,7 @@ function (_Component) {
           }, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement(_reactSelect["default"], {
             name: "userTargetingIncludedType",
             placeholder: "Select Ads",
-            options: this.state.getallads_data,
+            options: this.state.getallads_data_temp,
             value: this.multiTypeLeftIncludedValue,
             onChange: this.selectAdchange
           })), _react["default"].createElement("td", null, _react["default"].createElement("a", {
