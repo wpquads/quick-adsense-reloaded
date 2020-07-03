@@ -48,7 +48,7 @@ class QUADS_Ad_Setup {
 
                 $quads_settings = get_option('quads_settings_backup');
                 $flag_adddefault = true;
-                 $flag_same_key = '';
+                 $flag_key_used = false;
                  $ad_count = 1;
                 if(isset($quads_settings['ads'])){   
                   foreach($quads_settings['ads'] as $key2 => $value2){  
@@ -61,15 +61,16 @@ class QUADS_Ad_Setup {
                            $ad_count++;
                         } 
                     }             
-                    
-                    $i=1;
+                    // exit(print_r($quads_settings['ads']));
+                     $ads_total_count = count($quads_settings['ads']); 
                     foreach($quads_settings['ads'] as $key => $value){                            
-    
-                        if($key === 'ad'.$i){
+                        // $i=1;
+                        for ($i=1; $i < $ads_total_count ; $i++) { 
+                        if($key == 'ad'.$i){
+
                               if(empty($value['code']) && empty($value['g_data_ad_slot'])){
                                     continue;           
                                   }
-                            $flag_same_key = $key ;
                             $post_id = quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $key); 
                             
                             if($post_id){                            
@@ -120,7 +121,8 @@ class QUADS_Ad_Setup {
                                     if($post_id){                            
                                         $value2['ad_id']                      = $post_id;                                
                                     }else{
-                                        $value2['quads_ad_old_id']            =  'ad'.$ad_count;  
+                                        $flag_key_used = true;
+                                        $value2['quads_ad_old_id']            =  $key;  
                                         $ad_count++;     
                                     }
                                     $value2['paragraph_number']      = $quads_settings['pos6']['Par1Nup'];
@@ -139,8 +141,13 @@ class QUADS_Ad_Setup {
                                     if($post_id){                            
                                         $value2['ad_id']                      = $post_id;                                
                                     }else{
-                                        $value2['quads_ad_old_id']            =  'ad'.$ad_count;  
-                                        $ad_count++;                                 
+                                        if($flag_key_used){
+                                            $value2['quads_ad_old_id']            =  'ad'.$ad_count; 
+                                            $ad_count++;  
+                                        }else{
+                                            $flag_key_used = true;
+                                            $value2['quads_ad_old_id']            =  $key;
+                                        }                                    
                                     }
                                     $value2['paragraph_number']      = $quads_settings['pos7']['Par2Nup'];
                                     $value2['enable_on_end_of_post'] = $quads_settings['pos7']['Par2Con'];
@@ -158,8 +165,13 @@ class QUADS_Ad_Setup {
                                     if($post_id){                            
                                         $value2['ad_id']                      = $post_id;                                
                                     }else{
-                                        $value2['quads_ad_old_id']            =  'ad'.$ad_count;  
-                                        $ad_count++;                                   
+                                         if($flag_key_used){
+                                            $value2['quads_ad_old_id']            =  'ad'.$ad_count; 
+                                            $ad_count++;  
+                                        }else{
+                                            $flag_key_used = true;
+                                            $value2['quads_ad_old_id']            =  $key;
+                                        }                                    
                                     }
                                     $value2['paragraph_number']      = $quads_settings['pos8']['Par3Nup'];
                                     $value2['enable_on_end_of_post'] = $quads_settings['pos8']['Par3Con'];
@@ -170,27 +182,32 @@ class QUADS_Ad_Setup {
                                 }
                             }
 
-            if(isset($quads_settings['pos9']['Img1Ads']) &&  $quads_settings['pos9']['Img1Ads']){
-                if(isset($quads_settings['pos9']['Img1Rnd']) && $quads_settings['pos9']['Img1Rnd']== $i){
+                            if(isset($quads_settings['pos9']['Img1Ads']) &&  $quads_settings['pos9']['Img1Ads']){
+                                if(isset($quads_settings['pos9']['Img1Rnd']) && $quads_settings['pos9']['Img1Rnd']== $i){
 
-                        $value2 =array();
-                        $value2 = $value;
-                        $flag_adddefault = false;
-                        if($post_id){                            
-                            $value2['ad_id']                      = $post_id;                             
-                        }else{
-                            $value2['quads_ad_old_id']            =  'ad'.$ad_count;  
-                            $ad_count++;                                   
-                        }
-                        $value2['paragraph_number']      = $quads_settings['pos9']['Img1Nup'];
-                        $value2['enable_on_end_of_post'] = $quads_settings['pos9']['Img1Con'];
-                        $value2['visibility_include'] = $visibility_include;
-                        $value2['position']              = 'after_paragraph';
-                        $parameters['quads_post_meta']   = $value2;                                        
-                        $this->api_service->updateAdData($parameters);
-                }
+                                        $value2 =array();
+                                        $value2 = $value;
+                                        $flag_adddefault = false;
+                                        if($post_id){                            
+                                            $value2['ad_id']                      = $post_id;                             
+                                        }else{
+                                            if($flag_key_used){
+                                                $value2['quads_ad_old_id']            =  'ad'.$ad_count; 
+                                                $ad_count++;  
+                                            }else{
+                                                $flag_key_used = true;
+                                                $value2['quads_ad_old_id']            =  $key;
+                                            }                                   
+                                        }
+                                        $value2['paragraph_number']      = $quads_settings['pos9']['Img1Nup'];
+                                        $value2['enable_on_end_of_post'] = $quads_settings['pos9']['Img1Con'];
+                                        $value2['visibility_include'] = $visibility_include;
+                                        $value2['position']              = 'after_paragraph';
+                                        $parameters['quads_post_meta']   = $value2;                                        
+                                        $this->api_service->updateAdData($parameters);
+                                }
 
-            }
+                            }
                             for ($extra_ads=1; $extra_ads < 9; $extra_ads++) { 
 
                                 if(isset($quads_settings['extra'.$extra_ads]['ParAds']) &&  $quads_settings['extra'.$extra_ads]['ParAds']){
@@ -202,8 +219,13 @@ class QUADS_Ad_Setup {
                                             if($post_id){                            
                                                 $value2['ad_id']             = $post_id;                             
                                             }else{
-                                                $value2['quads_ad_old_id']   =  'ad'.$ad_count;  
-                                                $ad_count++;                                   
+                                                 if($flag_key_used){
+                                                    $value2['quads_ad_old_id']            =  'ad'.$ad_count; 
+                                                    $ad_count++;  
+                                                }else{
+                                                    $flag_key_used = true;
+                                                    $value2['quads_ad_old_id']            =  $key;
+                                                }                                     
                                             }
                                             $value2['paragraph_number']      = $quads_settings['extra'.$extra_ads]['ParNup'];
                                             $value2['enable_on_end_of_post'] = $quads_settings['extra'.$extra_ads]['ParCon'];
@@ -225,31 +247,30 @@ class QUADS_Ad_Setup {
                                 $position_array = explode(',', $position);
                                 foreach ($position_array  as $position) {
                                     if(isset($value['quads_ad_old_id'] )){
-                                        if($flag_same_key == $key ){
-                                            $value['quads_ad_old_id']      =  $key; 
-                                            $flag_same_key                 =  'ad'.$ad_count;  
+                                         if($flag_key_used){
+                                            $value2['quads_ad_old_id']            =  'ad'.$ad_count; 
+                                            $ad_count++;  
                                         }else{
-                                            $value['quads_ad_old_id']      =  'ad'.$ad_count; 
-                                            $ad_count++; 
-                                        }
+                                            $flag_key_used = true;
+                                            $value2['quads_ad_old_id']            =  $key;
+                                        }  
                                     }
                                      if(isset($value['ad_id'] )){
-                                        if($flag_same_key == $key ){
-                                            $value['ad_id']                = $post_id;   
-                                            $flag_same_key                 =  'ad'.$ad_count;  
-                                        }else{
+                                        if($flag_key_used ){
                                             $value['quads_ad_old_id']      =  'ad'.$ad_count; 
                                             $ad_count++; 
+                                        }else{
+                                            $value['ad_id']                = $post_id; 
                                         }
                                     }
                                      
                                     $value['position']              = $position;
-                                    $parameters['quads_post_meta']  = $value;                                        
+                                    $parameters['quads_post_meta']  = $value;     
                                     $this->api_service->updateAdData($parameters);
                                 }
                             }
                         } 
-                        $i++;               
+                       }             
                     }
                }
 
