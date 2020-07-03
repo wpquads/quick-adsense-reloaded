@@ -170,21 +170,11 @@ function quads_change_mode() {
 	if( ! current_user_can( 'manage_options' ) )
 	return;
 
-	 ignore_user_abort( true );
-		if($_REQUEST['mode'] == 'new'){
-		$quads_settings_backup = get_option( 'quads_settings_backup' );
-		$quads_settings = get_option( 'quads_settings' );
-	    update_option('quads_settings', $quads_settings_backup);
-		
-		update_option('quads_settings_backup', $quads_settings);
-	}else{
-		$quads_settings_backup = get_option( 'quads_settings_backup' );
-		$quads_settings = get_option( 'quads_settings' );
-	    update_option('quads_settings', $quads_settings_backup);
-		
-		update_option('quads_settings_backup', $quads_settings);
-		
-	}
+	ignore_user_abort( true );
+	$quads_settings_backup = get_option( 'quads_settings_backup' );
+	$quads_settings = get_option( 'quads_settings' );
+    update_option('quads_settings', $quads_settings_backup);
+	update_option('quads_settings_backup', $quads_settings);
 	update_option('quads-mode',$_REQUEST['mode']);
 	
 	wp_send_json ( array('status' => 't') );
