@@ -59150,7 +59150,51 @@ function (_Component) {
       }, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Where will the AD appear?', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement(_QuadsAdvancePosition["default"], {
         parentState: this.props.parentState,
         adFormChangeHandler: this.props.adFormChangeHandler
-      })))))))), post_meta.position != 'ad_shortcode' ? _react["default"].createElement(_QuadsVisibility["default"], {
+      }))), post_meta.position == 'ad_after_html_tag' ? _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Count As Per The', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("select", {
+        value: post_meta.count_as_per,
+        name: "count_as_per",
+        onChange: this.props.adFormChangeHandler
+      }, _react["default"].createElement("option", {
+        value: "p_tag"
+      }, "p (default)"), _react["default"].createElement("option", {
+        value: "div_tag"
+      }, "div"), _react["default"].createElement("option", {
+        value: "img_tag"
+      }, "img"), _react["default"].createElement("option", {
+        value: "h1"
+      }, "H1"), _react["default"].createElement("option", {
+        value: "h2"
+      }, "H2"), _react["default"].createElement("option", {
+        value: "h3"
+      }, "H3"), _react["default"].createElement("option", {
+        value: "h4"
+      }, "H4"), _react["default"].createElement("option", {
+        value: "h5"
+      }, "H5"), _react["default"].createElement("option", {
+        value: "h6"
+      }, "H6"), _react["default"].createElement("option", {
+        value: "custom_tag"
+      }, __('Custom', 'quick-adsense-reloaded'))))), post_meta.count_as_per == 'custom_tag' ? _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Enter Your Tag', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
+        onChange: this.props.adFormChangeHandler,
+        name: "enter_your_tag",
+        value: post_meta.enter_your_tag,
+        type: "text",
+        placeholder: "\"div\""
+      }))) : '', _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Display After', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
+        min: "1",
+        onChange: this.props.adFormChangeHandler,
+        name: "paragraph_number",
+        value: post_meta.paragraph_number,
+        type: "number"
+      }), _react["default"].createElement("input", {
+        id: "repeat_paragraph",
+        checked: post_meta.repeat_paragraph,
+        name: "repeat_paragraph",
+        onChange: this.props.adFormChangeHandler,
+        type: "checkbox"
+      }), _react["default"].createElement("label", {
+        htmlFor: "repeat_paragraph"
+      }, " ", __('Display After Every ', 'quick-adsense-reloaded'), post_meta.paragraph_number, " ")))) : null))))), post_meta.position != 'ad_shortcode' ? _react["default"].createElement(_QuadsVisibility["default"], {
         parentState: this.props.parentState,
         updateVisibility: this.props.updateVisibility
       }) : '', _react["default"].createElement(_QuadsUserTargeting["default"], {
@@ -61244,6 +61288,8 @@ function (_Component) {
       }, __('By Word Count', 'quick-adsense-reloaded')), _react["default"].createElement("option", {
         value: "after_the_percentage"
       }, __('After the Percentage', 'quick-adsense-reloaded')), _react["default"].createElement("option", {
+        value: "ad_after_html_tag"
+      }, __('Ad After HTML Tag', 'quick-adsense-reloaded')), _react["default"].createElement("option", {
         value: "ad_shortcode"
       }, __('Shortcode (Manual)', 'quick-adsense-reloaded'))), _react["default"].createElement("optgroup", {
         label: "Partial Support ( AMP Only )"
@@ -61293,6 +61339,8 @@ function (_Component) {
       }, __('By Word Count', 'quick-adsense-reloaded')), _react["default"].createElement("option", {
         value: "after_the_percentage"
       }, __('After the Percentage', 'quick-adsense-reloaded')), _react["default"].createElement("option", {
+        value: "ad_after_html_tag"
+      }, __('Ad After HTML Tag', 'quick-adsense-reloaded')), _react["default"].createElement("option", {
         value: "ad_shortcode"
       }, __('Shortcode (Manual)', 'quick-adsense-reloaded'))), _react["default"].createElement("div", null, show_form_error && post_meta.position == '' ? _react["default"].createElement("span", {
         className: "quads-error"
