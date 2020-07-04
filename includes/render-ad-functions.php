@@ -63,7 +63,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_mgid( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_mgid_async( $id ),$id );
     }
-
+    if( true === quads_is_ad_image( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_ad_image_async( $id ),$id );
+    }
     // Return empty string
     return '';
 }
@@ -189,6 +191,30 @@ function quads_render_yandex_async( $id ) {
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_yandex_async', $html );
 }
+/**
+ * Render ad banner
+ * 
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_ad_image_async( $id ) {
+    global $quads_options;
+
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Yandex async --> \n\n";
+    if(isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
+        $html .= '
+        <a target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
+        <img  src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" > 
+        </a>';
+    }else{
+        $html .= '<img src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" >';
+    }
+    
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_ad_image_async', $html );
+}
+
 /**
  * Render MGID ad
  * 
@@ -701,6 +727,22 @@ function quads_is_mgid( $id, $string ) {
 }
 
 /**
+ * Check if ad code is Ad Banner
+ * 
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_ad_image( $id, $string ) {
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'ad_image') {
+        return true;
+    }
+    return false;
+}
+
+/**
  * Render advert on amp pages
  * 
  * @global array $quads_options
@@ -745,7 +787,7 @@ function quads_render_amp($id,$ampsupport=''){
                 }
             }
         // if amp is not activated return empty
-        if (!isset($quads_options['ads'][$id]['enabled_on_amp']) ){
+        if (!isset($quads_options['ads'][$id]['enabled_on_amp']) || (isset($quads_options['ads'][$id]['enabled_on_amp']) && $quads_options['ads'][$id]['enabled_on_amp'] === false) ){
             return '';
         }
 
@@ -775,6 +817,16 @@ function quads_render_amp($id,$ampsupport=''){
                                   data-container="'.esc_attr($quads_options['ads'][$id]['data_container']).'"
                                 >
                                 </amp-ad>';
+            }else if($quads_options['ads'][$id]['ad_type'] == 'ad_image'){
+
+                if(isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
+                        $html .= '
+                        <a target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
+                        <img  src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" > 
+                        </a>';
+                    }else{
+                        $html .= '<img src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" >';
+                    }
             }else{
                    // Return default adsense code
 

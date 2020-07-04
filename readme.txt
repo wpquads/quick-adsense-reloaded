@@ -129,6 +129,7 @@ Alternative Installation:
 
 
 == Changelog == 
+
 = 2.0.9.1 (03rd July 2020)=
 * New: Show ads After HTML Tag #150
 * New: AMP by automattic compatibility #187
@@ -137,11 +138,20 @@ Alternative Installation:
 * Fix: Issue in Random ads selection #197
 * Fix: Change tooltip #192
 
+= 2.0.9 (07th July 2020)=
+* New: Custom banner support Feature #109
+* New: Improve UX for "Create New AD" #159
+* New: Improve UX for Help tab #158
+* New: Delete popup ux improvement #161
+
 = 2.0.8.3 (18th June 2020)=
 * Fix: Fixed Lazy loading issue. #188
 
 = 2.0.8.2 (17th June 2020)=
+
 * Fix: #183 Fixed AMP option is not working in PRO.
+* Fix: Fixed AMP option is not working in PRO. #183
+
 
 = 2.0.8.1 (13th June 2020)=
 * Fix: Fixed debug error for 404 page. #170

@@ -10186,6 +10186,17 @@ function (_Component) {
 
           break;
 
+        case 'ad_image':
+          if (validation_flag && quads_post_meta.image_src && quads_post_meta.image_redirect_url && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+            _this.saveAdFormData('publish');
+          } else {
+            _this.setState({
+              show_form_error: true
+            });
+          }
+
+          break;
+
         default:
           break;
       }
@@ -10301,6 +10312,17 @@ function (_Component) {
 
             break;
 
+          case 'ad_image':
+            if (quads_post_meta.image_src && quads_post_meta.image_redirect_url) {
+              _this.props.history.push(new_url);
+            } else {
+              _this.setState({
+                show_form_error: true
+              });
+            }
+
+            break;
+
           default:
             break;
         }
@@ -10394,7 +10416,10 @@ function (_Component) {
         image_caption: false,
         include_dropdown: false,
         exclude_dropdown: false,
-        random_ads_list: []
+        random_ads_list: [],
+        image_src: '',
+        image_src_id: '',
+        image_redirect_url: ''
       },
       quads_form_errors: {
         g_data_ad_slot: '',
@@ -53763,6 +53788,69 @@ function (_Component) {
       }
     });
 
+    _defineProperty(_assertThisInitialized(_this), "selectimages", function (event) {
+      var image_frame;
+
+      var self = _assertThisInitialized(_this);
+
+      if (image_frame) {
+        image_frame.open();
+      } // Define image_frame as wp.media object
+
+
+      image_frame = wp.media({
+        library: {
+          type: 'image'
+        }
+      });
+      image_frame.on('close', function () {
+        // On close, get selections and save to the hidden input
+        // plus other AJAX stuff to refresh the image preview
+        var selection = image_frame.state().get('selection');
+        var id = '';
+        var src = '';
+        var my_index = 0;
+        selection.each(function (attachment) {
+          id = attachment['id'];
+          src = attachment.attributes.sizes.full.url;
+        });
+        self.props.adFormChangeHandler({
+          target: {
+            name: 'image_src_id',
+            value: id
+          }
+        });
+        self.props.adFormChangeHandler({
+          target: {
+            name: 'image_src',
+            value: src
+          }
+        });
+      });
+      image_frame.on('open', function () {
+        // On open, get the id from the hidden input
+        // and select the appropiate images in the media manager
+        var selection = image_frame.state().get('selection');
+      });
+      image_frame.open();
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "remove_image", function (e) {
+      _this.props.adFormChangeHandler({
+        target: {
+          name: 'image_src_id',
+          value: ''
+        }
+      });
+
+      _this.props.adFormChangeHandler({
+        target: {
+          name: 'image_src',
+          value: ''
+        }
+      });
+    });
+
     _defineProperty(_assertThisInitialized(_this), "removeSeleted", function (e) {
       var index = e.currentTarget.dataset.index;
 
@@ -54073,19 +54161,7 @@ function (_Component) {
           ad_type_name = 'MGID';
           comp_html.push(_react["default"].createElement("div", {
             key: "mgid"
-          }, _react["default"].createElement("table", null, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data Publisher', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
-            className: show_form_error && post_meta.data_publisher == '' ? 'quads_form_error' : '',
-            value: post_meta.data_publisher,
-            onChange: this.props.adFormChangeHandler,
-            type: "text",
-            id: "data_publisher",
-            name: "data_publisher",
-            placeholder: "site.com"
-          }), show_form_error && post_meta.data_publisher == '' ? _react["default"].createElement("div", {
-            className: "quads_form_msg"
-          }, _react["default"].createElement("span", {
-            className: "material-icons"
-          }, "error_outline"), "Data Publisher") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data Widget', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
+          }, _react["default"].createElement("table", null, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Upload Ad Image', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
             className: show_form_error && post_meta.data_widget == '' ? 'quads_form_error' : '',
             value: post_meta.data_widget,
             onChange: this.props.adFormChangeHandler,
@@ -54097,31 +54173,7 @@ function (_Component) {
             className: "quads_form_msg"
           }, _react["default"].createElement("span", {
             className: "material-icons"
-          }, "error_outline"), "Enter Data Widget") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data Container', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
-            className: show_form_error && post_meta.data_container == '' ? 'quads_form_error' : '',
-            value: post_meta.data_container,
-            onChange: this.props.adFormChangeHandler,
-            type: "text",
-            id: "data_container",
-            name: "data_container",
-            placeholder: "M87ScriptRootC123645"
-          }), show_form_error && post_meta.data_container == '' ? _react["default"].createElement("div", {
-            className: "quads_form_msg"
-          }, _react["default"].createElement("span", {
-            className: "material-icons"
-          }, "error_outline"), "Enter Data Container") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data Js Src', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
-            className: show_form_error && post_meta.data_js_src == '' ? 'quads_form_error' : '',
-            value: post_meta.data_js_src,
-            onChange: this.props.adFormChangeHandler,
-            type: "text",
-            id: "data_js_src",
-            name: "data_js_src",
-            placeholder: "//jsc.mgid.com/a/m/quads.com.123645.js"
-          }), show_form_error && post_meta.data_js_src == '' ? _react["default"].createElement("div", {
-            className: "quads_form_msg"
-          }, _react["default"].createElement("span", {
-            className: "material-icons"
-          }, "error_outline"), "Enter Data Js Src") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Size', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("div", null, _react["default"].createElement("select", {
+          }, "error_outline"), "Enter Data Widget") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Size', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("div", null, _react["default"].createElement("select", {
             value: post_meta.adsense_type,
             onChange: this.props.adFormChangeHandler,
             name: "adsense_type",
@@ -54151,6 +54203,37 @@ function (_Component) {
           })))) : '')))))));
           break;
 
+        case 'ad_image':
+          ad_type_name = 'Banner';
+          comp_html.push(_react["default"].createElement("div", {
+            key: "ad_image"
+          }, _react["default"].createElement("table", null, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Upload Ad Banner', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, post_meta.image_src == '' ? _react["default"].createElement("div", null, _react["default"].createElement("a", {
+            className: "button",
+            onClick: this.selectimages
+          }, __(' Upload Banner', 'quick-adsense-reloaded'))) : _react["default"].createElement("div", null, _react["default"].createElement("img", {
+            src: post_meta.image_src,
+            className: "banner_image"
+          }), _react["default"].createElement("a", {
+            className: "button",
+            onClick: this.remove_image
+          }, __('Remove Banner', 'quick-adsense-reloaded'))), show_form_error && post_meta.image_src == '' ? _react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, _react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Upload Ad Image") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Ad Anchor link', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
+            value: post_meta.image_redirect_url,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "image_redirect_url",
+            name: "image_redirect_url",
+            placeholder: "Ad Anchor link"
+          }), show_form_error && post_meta.image_redirect_url == '' ? _react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, _react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Ad Anchor link") : ''))))));
+          break;
+
         default:
           comp_html.push(_react["default"].createElement("div", {
             key: "noads"
@@ -54164,7 +54247,7 @@ function (_Component) {
         className: "quads-autofill",
         onClick: this.props.openModal
       }, __('Autofill', 'quick-adsense-reloaded')), _react["default"].createElement("a", {
-        "class": "quads-general-helper",
+        className: "quads-general-helper",
         target: "_blank",
         href: "https://wpquads.com/documentation/how-to-find-data-client-id-data-slot-id-for-adsense-integration/"
       }), _react["default"].createElement(_QuadsAdModal["default"], {
@@ -62897,12 +62980,25 @@ function (_Component) {
           case "settings_support":
             return _react["default"].createElement("div", {
               className: "quads-settings-tab-container"
-            }, _react["default"].createElement("div", null, _react["default"].createElement("a", {
+            }, _react["default"].createElement("div", {
+              className: "quads-hs"
+            }, _react["default"].createElement("div", {
+              className: "quads-docm"
+            }, _react["default"].createElement("a", {
+              className: "quads-doc-link",
               target: "_blank",
               href: "https://wpquads.com/documentation/"
-            }, __('Read Documentation', 'quick-adsense-reloaded'))), _react["default"].createElement("div", {
+            }, _react["default"].createElement("img", {
+              height: "121",
+              width: "121",
+              src: quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/docs-img.png'
+            }), _react["default"].createElement("h4", null, "Knowledge Base"), _react["default"].createElement("p", null, "Read our documentation & find what you're looking for"), _react["default"].createElement("span", {
+              className: "quads-lm"
+            }, "View Docs"))), _react["default"].createElement("div", {
               className: "quads-help-support"
-            }, _react["default"].createElement("div", null, _react["default"].createElement("h3", null, __('Ask for technical Support', 'quick-adsense-reloaded')), _react["default"].createElement("p", null, __('We are always available to help you with anything related to ads', 'quick-adsense-reloaded'))), _react["default"].createElement("div", null, __('Are you existing Premium Customer?', 'quick-adsense-reloaded'), _react["default"].createElement("div", null, _react["default"].createElement("select", {
+            }, _react["default"].createElement("div", null, _react["default"].createElement("h3", null, __('Ask for technical Support', 'quick-adsense-reloaded')), _react["default"].createElement("p", null, __('We are always available to help you with anything related to ads', 'quick-adsense-reloaded'))), _react["default"].createElement("div", {
+              className: "quads-pre-cu"
+            }, _react["default"].createElement("span", null, __('Are you existing Premium Customer?', 'quick-adsense-reloaded')), _react["default"].createElement("div", null, _react["default"].createElement("select", {
               name: "customer_query_type",
               value: _this2.state.customer_query_type,
               onChange: _this2.addCustomerQueryType,
@@ -62941,7 +63037,7 @@ function (_Component) {
               action: _react["default"].createElement(_Icon["default"], {
                 onClick: _this2.closeQuerySuccess
               }, "close")
-            }, _this2.state.customer_querey_success) : null));
+            }, _this2.state.customer_querey_success) : null)));
 
           case "settings_licenses":
             return _react["default"].createElement("div", {
@@ -62962,7 +63058,7 @@ function (_Component) {
               id: "quads_licensemsg"
             }, _this2.state.licensemsg) : null));
         }
-      }(), _react["default"].createElement("div", {
+      }(), page.path == 'settings_support' || page.path == 'settings_importer' ? '' : _react["default"].createElement("div", {
         className: "quads-save-settings"
       }, this.state.button_spinner_toggle ? _react["default"].createElement("a", {
         className: "quads-btn quads-btn-primary"
@@ -62971,7 +63067,14 @@ function (_Component) {
       }), "Saving...") : _react["default"].createElement("a", {
         onClick: this.saveSettingsHandler,
         className: "quads-btn quads-btn-primary"
-      }, "Save Settings"))))));
+      }, "Save Settings"))), _react["default"].createElement("div", {
+        className: "quads-bnr"
+      }, _react["default"].createElement("a", {
+        href: "http://wpquads.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-quads&utm_campaign=wpquads",
+        target: "_blank"
+      }, _react["default"].createElement("img", {
+        src: quads_localize_data.quads_plugin_url + 'assets/images/quads_banner_250x521_buy.png'
+      }))))));
     }
   }]);
 
@@ -101958,17 +102061,19 @@ function (_Component) {
         className: "quads-modal-popup"
       }, _react["default"].createElement("div", {
         className: "quads-modal-popup-content"
-      }, _react["default"].createElement("h3", null, __('Are you sure? Do you want to delete it?', 'quick-adsense-reloaded')), _react["default"].createElement("div", {
+      }, _react["default"].createElement("div", {
+        className: "quads-modal-popup-txt"
+      }, _react["default"].createElement("h3", null, __('Are you sure you want to', 'quick-adsense-reloaded'), _react["default"].createElement("span", null, " ", __(' DELETE  ', 'quick-adsense-reloaded'), " "), __('this ad?', 'quick-adsense-reloaded')), _react["default"].createElement("p", null, __('It will permenently removed and you won\'t be able to see the ad again. You cannot undo this action.', 'quick-adsense-reloaded'))), _react["default"].createElement("div", {
         className: "quads-modal-content"
       }, _react["default"].createElement("a", {
+        className: "quads-btn quads-btn-cancel",
+        onClick: this.hideDeleteModal
+      }, __('Cancel', 'quick-adsense-reloaded')), _react["default"].createElement("a", {
         "data-id": "delete",
         "data-ad": this.state.delete_modal_id,
-        className: "quads-btn quads-btn-primary",
+        className: "quads-btn quads-btn-delete",
         onClick: this.processAction
-      }, __('Delete', 'quick-adsense-reloaded')), _react["default"].createElement("a", {
-        className: "quads-btn quads-btn-primary",
-        onClick: this.hideDeleteModal
-      }, __('Cancel', 'quick-adsense-reloaded'))))) : ''), _react["default"].createElement("div", {
+      }, __('Delete', 'quick-adsense-reloaded'))))) : ''), _react["default"].createElement("div", {
         className: "quads-search-box-panel"
       }, _react["default"].createElement("div", {
         className: "quads-search-box"
@@ -102245,6 +102350,11 @@ function (_Component) {
         case 'mgid':
           img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/mgid_icon.png';
           type = "MGID";
+          break;
+
+        case 'ad_image':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/banner_ad_icon.png';
+          type = "Banner Ad";
           break;
 
         default:
@@ -102760,6 +102870,10 @@ function (_Component) {
           img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/mgid.png';
           break;
 
+        case 'ad_image':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/banner_ad.png';
+          break;
+
         default:
           break;
       }
@@ -102792,6 +102906,9 @@ function (_Component) {
       }, {
         ad_type: 'mgid',
         ad_type_name: 'MGID'
+      }, {
+        ad_type: 'ad_image',
+        ad_type_name: 'Banner Ad'
       }, {
         ad_type: 'plain_text',
         ad_type_name: 'Plain Text / HTML / JS'

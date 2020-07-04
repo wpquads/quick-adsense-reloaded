@@ -982,14 +982,24 @@ handleMultiPluginsChange = (option) => {
                );  
               case "settings_support":  return(
                 <div className="quads-settings-tab-container">
-                <div><a target="_blank" href="https://wpquads.com/documentation/">{__('Read Documentation', 'quick-adsense-reloaded')}</a></div>
+                <div className="quads-hs">
+                <div className="quads-docm">
+                  <a className="quads-doc-link" target="_blank" href="https://wpquads.com/documentation/">
+                  <img height="121" width="121" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/docs-img.png'} />
+                    <h4>Knowledge Base</h4>
+                    <p>Read our documentation & find what you're looking for</p>
+                    <span className="quads-lm">View Docs</span>
+                  </a>
+                </div>
                 <div className="quads-help-support">
                     <div>
                       <h3>{__('Ask for technical Support', 'quick-adsense-reloaded')}</h3>
                       <p>{__('We are always available to help you with anything related to ads', 'quick-adsense-reloaded')}</p>
                     </div>
-                    <div>
-                      {__('Are you existing Premium Customer?', 'quick-adsense-reloaded')}
+                    <div className="quads-pre-cu">
+                      <span>
+                        {__('Are you existing Premium Customer?', 'quick-adsense-reloaded')}
+                      </span>
                     <div>
                       <select name="customer_query_type" value={this.state.customer_query_type} onChange={this.addCustomerQueryType} className="quads-premium-cus">
                         <option value="">{__('Select', 'quick-adsense-reloaded')}</option>
@@ -1011,6 +1021,7 @@ handleMultiPluginsChange = (option) => {
                     <h3>System Info</h3>
                     <textarea className="quads-system-info" readOnly={true} value={this.state.textToCopy}/>
                   </div> */}
+                </div>
                 </div>
                 </div>
                );
@@ -1039,6 +1050,7 @@ handleMultiPluginsChange = (option) => {
                );
             }
           })()}
+          {page.path == 'settings_support' || page.path == 'settings_importer' ? '' : (
             <div className="quads-save-settings">
             {this.state.button_spinner_toggle ?
             <a className="quads-btn quads-btn-primary">
@@ -1048,8 +1060,15 @@ handleMultiPluginsChange = (option) => {
             Save Settings              
             </a>          
           }            
-          </div>             
+          </div>   
+          )           }
           </form>
+          <div className="quads-bnr">
+            <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-quads&utm_campaign=wpquads" target="_blank">
+
+              <img  src={quads_localize_data.quads_plugin_url+'assets/images/quads_banner_250x521_buy.png'} />
+           </a>
+          </div>
           </div>   
           </div>          
           </div>
