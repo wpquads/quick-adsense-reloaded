@@ -5,6 +5,7 @@ import queryString from 'query-string'
 import QuadsAdCreateRouter from  '../ad-create-router/QuadsAdCreateRouter'
 import Icon from '@material-ui/core/Icon';
 import Tooltip from '@material-ui/core/Tooltip';
+import { Alert } from '@material-ui/lab';
 
 
 import './QuadsAdList.scss';
@@ -15,7 +16,10 @@ class QuadsAdList extends Component {
         super(props);
         this.state = { 
            redirect:false,
-           ad_id:null 
+           ad_id:null,
+           importquadsclassicmsgprocessing : "",  
+           importquadsclassiccss : false,
+           importquadsclassicalertcss : false,
         };        
   }
   
@@ -31,6 +35,35 @@ class QuadsAdList extends Component {
       type_img.push(<Tooltip title='AMP' placement="right" arrow key={index}><img key={index} height="20" width="20" src={img_url} /></Tooltip>);
     }            
     return type_img;
+  }
+    quads_classic_ads = (status) => {
+    if(status == 'no'){
+    quads.quads_import_classic_ads_popup = false;
+    }
+        this.setState({importquadsclassicmsgprocessing: 'Importing Ads', importquadsclassiccss : true});
+    if(this.state.importquadsclassicmsgprocessing !=''){
+      return;
+    }
+   
+    let formData = new FormData();
+    formData.append('action', 'quads_sync_ads_in_new_design');
+    formData.append('nonce', quads.nonce);
+    formData.append('status', status);
+
+    fetch(ajaxurl,{
+      method: "post",
+      body: formData              
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {         
+              this.setState({importquadsclassicmsg: 'Ads have been successfully', importquadsclassiccss : false,importquadsclassicalertcss : true});                             
+      },        
+      (error) => {
+        
+      }
+    );  
+
   }
   getImageByAdType = (type, index) =>{
     let type_img = [];
@@ -76,7 +109,7 @@ class QuadsAdList extends Component {
   render() {    
     
     const {__} = wp.i18n;     
-    const { error, isLoaded, items } = this.props.ad_list;             
+    const { error, isLoaded, items } = this.props.ad_list;  
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -86,7 +119,7 @@ class QuadsAdList extends Component {
         <div>         
         <div>  
         <div className="quads-ad-list-table-div">  
-        { items ?      
+        { items && items.length > 0 ?      
         <table className="quads-ad-table">
           <thead>
           <tr>
@@ -125,9 +158,27 @@ class QuadsAdList extends Component {
             </tr>
           ))} 
             </tbody>
-        </table> : <table className="quads-ad-table nodatatable">
-<thead>
-         <tr><td> Let's create our First Ad, in 3 simple steps. <div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.props.nodatashowAddTypeSelector}><Icon>add_circle</Icon>Create Ad</a></div></td></tr></thead></table> 
+        </table> : <div className="nodatadiv"><div className="first_ad_main">
+                      <h3>Thank you for using WP Quads</h3>
+                      <div className="first_ad">Let's <strong>create our First Ad</strong>, in 3 simple steps. </div>
+                      <div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.props.nodatashowAddTypeSelector}><Icon>add_circle</Icon>Create Ad</a></div>
+                  </div>
+                  {quads.quads_import_classic_ads_popup && quads.quads_get_active_ads !=="0" ?
+                    <div className="fakebox" >
+                    <div className="fakebox_close" onClick={() => this.quads_classic_ads('no')}> </div>
+                        <div><h3>This is your first time on New Interface</h3></div>
+                        <div className="text">Would you like to import your ads from the classic view? </div>
+                        {!this.state.importquadsclassicalertcss?
+                        <div className="quads-add-btn"><a className="quads-btn quads-btn-primary yes" onClick={() => this.quads_classic_ads('yes')}>Yes, Import</a><a className="quads-btn quads-btn-primary no" onClick={() => this.quads_classic_ads('no')}>No Thanks</a></div>
+                         : ''}
+
+                        <div style={{display: this.state.importquadsclassiccss ? 'block' : 'none' }} className='updating-message importquadsclassicmsgprocessing'>Importing Ads</div>
+
+                        <div style={{display: this.state.importquadsclassicalertcss ? 'block' : 'none' }}><Alert severity="success" action={<Icon onClick={() => this.quads_classic_ads('no')}>close</Icon>}>{this.state.importquadsclassicmsg}</Alert> </div>
+                    </div>
+                  : ''}
+
+                </div>
         }
         </div>                  
           </div>          

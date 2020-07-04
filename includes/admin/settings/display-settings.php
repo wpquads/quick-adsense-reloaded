@@ -182,13 +182,13 @@ function quads_options_page_new() {
         wp_enqueue_style('quads-admin-ad-style', QUADS_PLUGIN_URL.'admin/assets/js/dist/style.css');
         
         wp_enqueue_style('quads-material-ui-font', 'https://fonts.googleapis.com/icon?family=Material+Icons');
-        
+
         $data = array(
             'quads_plugin_url'     => QUADS_PLUGIN_URL,
             'rest_url'             => esc_url_raw( rest_url() ),
             'nonce'                => wp_create_nonce( 'wp_rest' ),
             'licenses'             => get_option( 'quads_wp_quads_pro_license_active' ),
-            'is_amp_enable'        => function_exists('is_amp_endpoint') ? true : false,               
+            'is_amp_enable'        => function_exists('is_amp_endpoint') ? true : false,
                 
         );
         $data = apply_filters('quads_localize_filter',$data,'quads_localize_data');

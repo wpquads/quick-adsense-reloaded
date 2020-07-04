@@ -486,12 +486,19 @@ display: block; padding: 15px 15px 10px 17px; text-decoration: none; font-weight
 }
 
 .quads_admin .quads-nav-tab{
-    border:0px;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: #555;
+      color: #555;
+    margin: 0;
+    text-decoration: none;
+    font-size: 14px;
+    margin-right: 10px;
 }
-
+.quads_admin h2.quads-nav-tab-wrapper {
+    border: 0px;
+    margin: 11px 0;
+}
+.quads-nav-tab {
+    padding: 12px 15px ;
+}
 .quads-h1 {
     font-size: 2.75em;
     margin-bottom: 1.35rem;

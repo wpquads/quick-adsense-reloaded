@@ -222,6 +222,7 @@ function quads_check_adblocker() {
     ?>
     <!--noptimize--><style>.quads-hidden { display: none; } .quads-adminbar-is-warnings { background: #abc116 ! important; color: #fff !important; }
         .quads-highlight-ads { outline:6px solid #83c11f !important; }#wp-admin-bar-quads_ad_check_highlight_ads label {color:#b4b9be !important;}</style>
+        <?php if(!quads_is_amp_endpoint()){ ?>
     <script type="text/javascript" src="<?php echo QUADS_PLUGIN_URL . 'assets/js/ads.js' ?>"></script>
     <script>
         (function (d, w) {
@@ -299,5 +300,5 @@ function quads_check_adblocker() {
             };
         })(document, window);
     </script><!--/noptimize-->
-    <?php
+    <?php }
 }

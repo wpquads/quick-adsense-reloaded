@@ -33,6 +33,7 @@ class QuadsAdvancePosition extends Component {
           <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>    
           <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
           <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
+          <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
           <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option> 
           </optgroup>  
          
@@ -61,7 +62,7 @@ class QuadsAdvancePosition extends Component {
           <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>    
           <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
            <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
-
+           <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
           <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
           </select>  }
            <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select Where Will The AD Appear</div></span> : ''}</div>
@@ -73,11 +74,13 @@ class QuadsAdvancePosition extends Component {
           </div>
           <div>
 
+
           {post_meta.position == 'after_paragraph' ? 
           <div>
           <div>
           <label>  
           {post_meta.position == 'after_paragraph' ? <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_number" value={post_meta.paragraph_number}  type="number" /> : ''} 
+
           
           </label>
            <label for="enable_on_end_of_post">
@@ -110,6 +113,7 @@ error_outline</span>Percentage should be
           <input checked={post_meta.image_caption} name="image_caption" onChange={this.props.adFormChangeHandler} type="checkbox"/>
           {__('after', 'quick-adsense-reloaded')} <strong>{__('Image\'s outer', 'quick-adsense-reloaded')} &lt;div&gt; wp-caption</strong> {__('if any.', 'quick-adsense-reloaded')}
           </label> : ''}
+          
           {post_meta.position == 'ad_shortcode' &&  post_meta.quads_ad_old_id ?   
 
           <label>   

@@ -279,6 +279,32 @@ function quads_get_active_ads() {
     return (isset($adsArray) && count($adsArray) > 0) ? $adsArray : 0;
 }
 
+/**
+ * Get list of valid ad ids's where either the plain text code field or the adsense ad slot and the ad client id is populated.
+ * @global arr $quads_options
+ */
+function quads_get_active_ads_backup() {
+
+    $quads_settings_backup = get_option( 'quads_settings_backup' );
+
+    
+    // Return early
+    if (empty($quads_settings_backup['ads'])){
+       return 0;
+    }
+   
+    // count valid ads
+    $i = 1;
+    foreach ( $quads_settings_backup['ads'] as $ads) {
+        $tmp = isset( $quads_settings_backup['ads']['ad' . $i]['code'] ) ? trim( $quads_settings_backup['ads']['ad' . $i]['code'] ) : '';
+        // id is valid if there is either the plain text field populated or the adsense ad slot and the ad client id
+        if( !empty( $tmp ) || (!empty( $quads_settings_backup['ads']['ad' . $i]['g_data_ad_slot'] ) && !empty( $quads_settings_backup['ads']['ad' . $i]['g_data_ad_client'] ) ) ) {
+            $adsArray[] = $i;
+        }
+        $i++;
+    }
+    return (isset($adsArray) && count($adsArray) > 0) ? $adsArray : 0;
+}
 
 /**
  * Get max allowed numbers of ads
@@ -557,6 +583,53 @@ function quads_filter_default_ads_new( $content ) {
                                     }
                                     $content = implode('', $paragraphs ); 
                      break;
+                     case 'ad_after_html_tag':
+                        $tag = 'p';
+                        switch ( $ads['count_as_per']) {
+                            case 'p_tag':
+                                 $tag = 'p';
+                                 break;
+                            case 'div_tag':
+                                 $tag = 'div';
+                                 break;
+                            case 'img_tag':
+                                 $tag = 'img';
+                                 break;
+                            case 'custom_tag':
+                                 $tag = $ads['enter_your_tag'];
+                                 break;
+                             
+                             default:
+                                 $tag = $ads['count_as_per'];
+                                 break;
+                        }
+                            
+                            $closing_p        = '</'.$tag.'>';
+                            $paragraphs       = explode( $closing_p, $content );
+                            $p_count          = count($paragraphs);
+                            $original_paragraph_no = $paragraph_no;                                                             
+                            $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
+                            if($paragraph_no <= $p_count){
+
+                                foreach ($paragraphs as $index => $paragraph) {
+                                    if ( trim( $paragraph ) ) {
+                                        $paragraphs[$index] .= $closing_p;
+                                    }
+                                    if ( $paragraph_no == $index + 1 ) {
+                                        // exit(var_dump($index));
+                                        $paragraphs[$index] .= $cusads;
+                                        if($repeat_paragraph){
+                                         $paragraph_no =  $original_paragraph_no+$paragraph_no; 
+                                        }
+                                    }
+                                }
+                                $content = implode( '', $paragraphs ); 
+                            }else{
+                                if($end_of_post){
+                                    $content = $content.$cusads;   
+                                }                                
+                            }                                                        
+                        break; 
                 }
 
                 $adsArrayCus[] = $i;   
