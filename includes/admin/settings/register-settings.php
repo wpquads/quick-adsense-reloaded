@@ -486,7 +486,7 @@ function wpquads_send_query_message(){
             $user_email = $email;
         }            
         //php mailer variables        
-        $sendto    = 'team@wpquads.com';
+        $sendto    = 'team@ampforwp.com';
         $subject   = "WPQuads Support ticket";
         $headers[] = 'Content-Type: text/html; charset=UTF-8';
         $headers[] = 'From: '. esc_attr($user_email);            

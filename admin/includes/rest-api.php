@@ -881,7 +881,7 @@ class QUADS_Ad_Setup_Api {
              if($email && $message){
                            
                  //php mailer variables        
-                 $sendto    = 'team@magazine3.com';
+                 $sendto    = 'team@ampforwp.com';
                  $subject   = "WP Quads Customer Query";
                  
                  $headers[] = 'Content-Type: text/html; charset=UTF-8';
