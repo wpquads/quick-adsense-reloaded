@@ -66,6 +66,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_ad_image( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_ad_image_async( $id ),$id );
     }
+    if( true === quads_is_taboola( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_taboola_async( $id ),$id );
+    }
     // Return empty string
     return '';
 }
@@ -121,12 +124,12 @@ function quads_common_head_code(){
             echo "<script async src='https://securepubads.g.doubleclick.net/tag/js/gpt.js'></script>
                     <script>
                  window.googletag = window.googletag || {cmd: []};
-  googletag.cmd.push(function() {
-  ".$data_slot." 
-    googletag.pubads().enableSingleRequest();
-    googletag.enableServices();
-  });
-                </script>";   
+                  googletag.cmd.push(function() {
+                  ".$data_slot." 
+                    googletag.pubads().enableSingleRequest();
+                    googletag.enableServices();
+                  });
+             </script>";   
 
         }     
         if($adsense){
@@ -134,6 +137,16 @@ function quads_common_head_code(){
 
         }                       
 
+            if($ads['ad_type']== 'taboola'){
+               echo '<script type="text/javascript">window._taboola = window._taboola || [];
+          _taboola.push({article:"auto"});
+          !function (e, f, u) {
+            e.async = 1;
+            e.src = u;
+            f.parentNode.insertBefore(e, f);
+          }(document.createElement("script"), document.getElementsByTagName("script")[0], "//cdn.taboola.com/libtrc/'.esc_attr($ads['taboola_publisher_id']).'/loader.js");
+          </script>';
+            }
     }                                                    
 
 }  
@@ -213,6 +226,34 @@ function quads_render_ad_image_async( $id ) {
     
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_ad_image_async', $html );
+}
+
+/**
+ * Render Taboola
+ * 
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_taboola_async( $id ) {
+    global $quads_options;
+
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Taboola --> \n\n";
+
+        $html .= '<div id="quads_taboola_'.$id.'"></div>';
+
+          $html .= '<script type="text/javascript">
+                        window._taboola = window._taboola || [];
+                        _taboola.push({
+                            mode:"thumbnails-a", 
+                            container:"quads_taboola_'.$id.'", 
+                            placement:"quads_taboola_'.$id.'", 
+                            target_type: "mix"
+                        });</script>';
+
+    
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_taboola_async', $html );
 }
 
 /**
@@ -741,6 +782,21 @@ function quads_is_ad_image( $id, $string ) {
     }
     return false;
 }
+/**
+ * Check if ad code is Taboola
+ * 
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_taboola( $id, $string ) {
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'taboola') {
+        return true;
+    }
+    return false;
+}
 
 /**
  * Render advert on amp pages
@@ -827,6 +883,20 @@ function quads_render_amp($id,$ampsupport=''){
                     }else{
                         $html .= '<img src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" >';
                     }
+            }else if($quads_options['ads'][$id]['ad_type'] == 'taboola'){
+                        $html = '<div id="quads_taboola_'.$id.'"></div>';
+                          $html .= ' <amp-embed width="100" height="283"
+                                         type=taboola
+                                         layout=responsive
+                                         heights="(min-width:1907px) 39%, (min-width:1200px) 46%, (min-width:780px) 64%, (min-width:480px) 98%, (min-width:460px) 167%, 196%"
+                                         data-publisher="'.esc_attr($quads_options['ads'][$id]['taboola_publisher_id']).'"
+                                         data-mode="thumbnails-a"
+                                         data-placement="quads_taboola_'.$id.'"
+                                         data-article="auto">
+                                    </amp-embed>
+                                  </div>
+                                  </div>';
+
             }else{
                    // Return default adsense code
 

@@ -10197,6 +10197,17 @@ function (_Component) {
 
           break;
 
+        case 'taboola':
+          if (validation_flag && quads_post_meta.taboola_publisher_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+            _this.saveAdFormData('publish');
+          } else {
+            _this.setState({
+              show_form_error: true
+            });
+          }
+
+          break;
+
         default:
           break;
       }
@@ -10321,6 +10332,15 @@ function (_Component) {
               });
             }
 
+          case 'taboola':
+            if (quads_post_meta.taboola_publisher_id) {
+              _this.props.history.push(new_url);
+            } else {
+              _this.setState({
+                show_form_error: true
+              });
+            }
+
             break;
 
           default:
@@ -10419,7 +10439,8 @@ function (_Component) {
         random_ads_list: [],
         image_src: '',
         image_src_id: '',
-        image_redirect_url: ''
+        image_redirect_url: '',
+        taboola_publisher_id: ''
       },
       quads_form_errors: {
         g_data_ad_slot: '',
@@ -54232,6 +54253,24 @@ function (_Component) {
           }, _react["default"].createElement("span", {
             className: "material-icons"
           }, "error_outline"), "Enter Ad Anchor link") : ''))))));
+          break;
+
+        case 'taboola':
+          ad_type_name = 'Taboola';
+          comp_html.push(_react["default"].createElement("div", {
+            key: "taboola"
+          }, _react["default"].createElement("table", null, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data Publisher Id', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("div", null, " ", _react["default"].createElement("input", {
+            value: post_meta.taboola_publisher_id,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "taboola_publisher_id",
+            name: "taboola_publisher_id",
+            placeholder: "123456"
+          })), show_form_error && post_meta.taboola_publisher_id == '' ? _react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, _react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Data Publisher Id") : ''))))));
           break;
 
         default:
@@ -102357,6 +102396,10 @@ function (_Component) {
           type = "Banner Ad";
           break;
 
+        case 'taboola':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/adsensev3.png';
+          break;
+
         default:
           break;
       }
@@ -102874,6 +102917,10 @@ function (_Component) {
           img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/banner_ad.png';
           break;
 
+        case 'taboola':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/add_adsense_logo.png';
+          break;
+
         default:
           break;
       }
@@ -102912,6 +102959,9 @@ function (_Component) {
       }, {
         ad_type: 'plain_text',
         ad_type_name: 'Plain Text / HTML / JS'
+      }, {
+        ad_type: 'taboola',
+        ad_type_name: 'Taboola'
       }, {
         ad_type: 'random_ads',
         ad_type_name: 'Random Ads'

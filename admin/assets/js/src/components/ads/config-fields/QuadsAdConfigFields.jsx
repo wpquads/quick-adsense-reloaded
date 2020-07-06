@@ -408,6 +408,23 @@ error_outline
                 </div>);
 
               break;
+            case 'taboola':
+             ad_type_name = 'Taboola';  
+              comp_html.push(<div key="taboola">
+                <table>
+                  <tbody>
+                    <tr><td>
+                    <label>{__('Data Publisher Id', 'quick-adsense-reloaded')}</label></td><td>
+                   <div> <input value={post_meta.taboola_publisher_id} onChange={this.props.adFormChangeHandler} type="text" id="taboola_publisher_id" name="taboola_publisher_id" placeholder="123456" /></div>
+                                   
+                    {(show_form_error && post_meta.taboola_publisher_id == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Data Publisher Id</div> :''}
+                     </td></tr>
+                  </tbody>
+                </table>
+                </div>);
+
+              break;
 
 
             default:
