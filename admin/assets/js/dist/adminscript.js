@@ -10208,6 +10208,17 @@ function (_Component) {
 
           break;
 
+        case 'media_net':
+          if (validation_flag && quads_post_meta.data_cid && quads_post_meta.data_crid && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+            _this.saveAdFormData('publish');
+          } else {
+            _this.setState({
+              show_form_error: true
+            });
+          }
+
+          break;
+
         default:
           break;
       }
@@ -10343,6 +10354,17 @@ function (_Component) {
 
             break;
 
+          case 'media_net':
+            if (quads_post_meta.data_cid && quads_post_meta.data_crid) {
+              _this.props.history.push(new_url);
+            } else {
+              _this.setState({
+                show_form_error: true
+              });
+            }
+
+            break;
+
           default:
             break;
         }
@@ -10440,7 +10462,9 @@ function (_Component) {
         image_src: '',
         image_src_id: '',
         image_redirect_url: '',
-        taboola_publisher_id: ''
+        taboola_publisher_id: '',
+        data_cid: '',
+        data_crid: ''
       },
       quads_form_errors: {
         g_data_ad_slot: '',
@@ -54182,7 +54206,19 @@ function (_Component) {
           ad_type_name = 'MGID';
           comp_html.push(_react["default"].createElement("div", {
             key: "mgid"
-          }, _react["default"].createElement("table", null, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Upload Ad Image', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
+          }, _react["default"].createElement("table", null, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data Publisher', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_publisher == '' ? 'quads_form_error' : '',
+            value: post_meta.data_publisher,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_publisher",
+            name: "data_publisher",
+            placeholder: "site.com"
+          }), show_form_error && post_meta.data_publisher == '' ? _react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, _react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Data Publisher") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data Widget', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
             className: show_form_error && post_meta.data_widget == '' ? 'quads_form_error' : '',
             value: post_meta.data_widget,
             onChange: this.props.adFormChangeHandler,
@@ -54194,7 +54230,31 @@ function (_Component) {
             className: "quads_form_msg"
           }, _react["default"].createElement("span", {
             className: "material-icons"
-          }, "error_outline"), "Enter Data Widget") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Size', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("div", null, _react["default"].createElement("select", {
+          }, "error_outline"), "Enter Data Widget") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data Container', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_container == '' ? 'quads_form_error' : '',
+            value: post_meta.data_container,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_container",
+            name: "data_container",
+            placeholder: "M87ScriptRootC123645"
+          }), show_form_error && post_meta.data_container == '' ? _react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, _react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Data Container") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data Js Src', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_js_src == '' ? 'quads_form_error' : '',
+            value: post_meta.data_js_src,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_js_src",
+            name: "data_js_src",
+            placeholder: "//jsc.mgid.com/a/m/quads.com.123645.js"
+          }), show_form_error && post_meta.data_js_src == '' ? _react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, _react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Data Js Src") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Size', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("div", null, _react["default"].createElement("select", {
             value: post_meta.adsense_type,
             onChange: this.props.adFormChangeHandler,
             name: "adsense_type",
@@ -54271,6 +54331,64 @@ function (_Component) {
           }, _react["default"].createElement("span", {
             className: "material-icons"
           }, "error_outline"), "Enter Data Publisher Id") : ''))))));
+          break;
+
+        case 'media_net':
+          ad_type_name = 'Media.net';
+          comp_html.push(_react["default"].createElement("div", {
+            key: "media_net"
+          }, _react["default"].createElement("table", null, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data CID', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_cid == '' ? 'quads_form_error' : '',
+            value: post_meta.data_cid,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_cid",
+            name: "data_cid",
+            placeholder: "8XXXXX74"
+          }), show_form_error && post_meta.data_cid == '' ? _react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, _react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Data CID") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data CRID', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_crid == '' ? 'quads_form_error' : '',
+            value: post_meta.data_crid,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_crid",
+            name: "data_crid",
+            placeholder: "1XXXXXX82"
+          }), show_form_error && post_meta.data_crid == '' ? _react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, _react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Data CRID") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Size', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("div", null, _react["default"].createElement("select", {
+            value: post_meta.adsense_type,
+            onChange: this.props.adFormChangeHandler,
+            name: "adsense_type",
+            id: "adsense_type"
+          }, _react["default"].createElement("option", {
+            value: "normal"
+          }, __('Fixed Size', 'quick-adsense-reloaded')), _react["default"].createElement("option", {
+            value: "responsive"
+          }, __('Responsive', 'quick-adsense-reloaded'))), post_meta.adsense_type !== 'responsive' ? _react["default"].createElement("div", {
+            className: "quads-adsense-width-heigth"
+          }, _react["default"].createElement("div", {
+            className: "quads-adsense-width"
+          }, _react["default"].createElement("label", null, __('Width', 'quick-adsense-reloaded'), _react["default"].createElement("input", {
+            value: post_meta.g_data_ad_width ? post_meta.g_data_ad_width : '300',
+            onChange: this.props.adFormChangeHandler,
+            type: "number",
+            id: "g_data_ad_width",
+            name: "g_data_ad_width"
+          }))), _react["default"].createElement("div", {
+            className: "quads-adsense-height"
+          }, _react["default"].createElement("label", null, __('Height', 'quick-adsense-reloaded'), _react["default"].createElement("input", {
+            value: post_meta.g_data_ad_height ? post_meta.g_data_ad_height : '250',
+            onChange: this.props.adFormChangeHandler,
+            type: "number",
+            id: "g_data_ad_height",
+            name: "g_data_ad_height"
+          })))) : '')))))));
           break;
 
         default:
@@ -102400,6 +102518,10 @@ function (_Component) {
           img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/adsensev3.png';
           break;
 
+        case 'media_net':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/adsensev3.png';
+          break;
+
         default:
           break;
       }
@@ -102921,6 +103043,10 @@ function (_Component) {
           img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/add_adsense_logo.png';
           break;
 
+        case 'media_net':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/add_adsense_logo.png';
+          break;
+
         default:
           break;
       }
@@ -102962,6 +103088,9 @@ function (_Component) {
       }, {
         ad_type: 'taboola',
         ad_type_name: 'Taboola'
+      }, {
+        ad_type: 'media_net',
+        ad_type_name: 'Media.net'
       }, {
         ad_type: 'random_ads',
         ad_type_name: 'Random Ads'

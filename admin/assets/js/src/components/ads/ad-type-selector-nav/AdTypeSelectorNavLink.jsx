@@ -20,7 +20,8 @@ class AdTypeSelectorNavLink extends Component {
                     {ad_type:'mgid',ad_type_name:'MGID'}, 
                     {ad_type:'ad_image',ad_type_name:'Banner Ad'},
                     {ad_type:'plain_text',ad_type_name:'Plain Text / HTML / JS'},
-                    {ad_type:'taboola',ad_type_name:'Taboola'},   
+                    {ad_type:'taboola',ad_type_name:'Taboola'}, 
+                    {ad_type:'media_net',ad_type_name:'Media.net'},   
                     {ad_type:'random_ads',ad_type_name:'Random Ads'},  
                                
                     ]          
@@ -54,6 +55,9 @@ class AdTypeSelectorNavLink extends Component {
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/banner_ad.png';
               break;
               case 'taboola':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
+              break;
+              case 'media_net':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
               break;
             default:
