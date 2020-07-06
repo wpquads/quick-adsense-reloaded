@@ -69,6 +69,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_taboola( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_taboola_async( $id ),$id );
     }
+    if( true === quads_is_media_net( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_media_net_async( $id ),$id );
+    }
     // Return empty string
     return '';
 }
@@ -254,6 +257,33 @@ function quads_render_taboola_async( $id ) {
     
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_taboola_async', $html );
+}
+
+/**
+ * Render Media.net
+ * 
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_media_net_async( $id ) {
+    global $quads_options;
+
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Media.net --> \n\n";
+
+    $width = (isset($quads_options['ads'][$id]['g_data_ad_width']) && (!empty($quads_options['ads'][$id]['g_data_ad_width']))) ? $quads_options['ads'][$id]['g_data_ad_width']:300;
+    $height = (isset($quads_options['ads'][$id]['g_data_ad_height']) && (!empty($quads_options['ads'][$id]['g_data_ad_height']))) ? $quads_options['ads'][$id]['g_data_ad_height']:250;
+    $html .= '<script id="mNCC" language="javascript">
+                medianet_width = "'.esc_attr($width).'";
+                medianet_height = "'.esc_attr($height).'";
+                medianet_crid = "'.esc_attr($quads_options['ads'][$id]['data_crid']).'"
+                medianet_versionId ="3111299"
+               </script>
+               <script src="//contextual.media.net/nmedianet.js?cid='.esc_attr($quads_options['ads'][$id]['data_cid']).'"></script>';
+
+    
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_media_net_async', $html );
 }
 
 /**
@@ -797,6 +827,21 @@ function quads_is_taboola( $id, $string ) {
     }
     return false;
 }
+/**
+ * Check if ad code is Media.net
+ * 
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_media_net( $id, $string ) {
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'media_net') {
+        return true;
+    }
+    return false;
+}
 
 /**
  * Render advert on amp pages
@@ -896,6 +941,20 @@ function quads_render_amp($id,$ampsupport=''){
                                     </amp-embed>
                                   </div>
                                   </div>';
+
+            }else if($quads_options['ads'][$id]['ad_type'] == 'media_net'){
+                    $width = (isset($quads_options['ads'][$id]['g_data_ad_width']) && (!empty($quads_options['ads'][$id]['g_data_ad_width']))) ? $quads_options['ads'][$id]['g_data_ad_width']:300;
+                    $height = (isset($quads_options['ads'][$id]['g_data_ad_height']) && (!empty($quads_options['ads'][$id]['g_data_ad_height']))) ? $quads_options['ads'][$id]['g_data_ad_height']:250;
+
+                        $html .= '<amp-ad 
+                                    type="medianet"
+                                    width="'. esc_attr($width) .'"
+                                    height="'. esc_attr($height) .'"
+                                                    data-tagtype="cm"    
+                                    data-cid="'.esc_attr($quads_options['ads'][$id]['data_cid']).'"
+                                    data-crid="'.esc_attr($quads_options['ads'][$id]['data_crid']).'"
+                                    data-enable-refresh="10">
+                                </amp-ad> ';
 
             }else{
                    // Return default adsense code

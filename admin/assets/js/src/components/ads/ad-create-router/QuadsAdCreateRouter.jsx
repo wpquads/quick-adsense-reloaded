@@ -85,7 +85,9 @@ class QuadsAdCreateRouter extends Component {
             image_src                  : '',
             image_src_id               : '' ,     
             image_redirect_url         : '' ,  
-            taboola_publisher_id       : '' ,                        
+            taboola_publisher_id       : '' ,   
+            data_cid                   : '' , 
+            data_crid                  : '' ,                      
             },
             quads_form_errors : {
               g_data_ad_slot       : '',
@@ -450,6 +452,15 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             }
           break;
+        case 'media_net':
+            if(validation_flag && quads_post_meta.data_cid && quads_post_meta.data_crid
+ && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;
+      
       
         default:
           break;
@@ -582,6 +593,13 @@ class QuadsAdCreateRouter extends Component {
           } 
           case 'taboola':
             if(quads_post_meta.taboola_publisher_id){
+              this.props.history.push(new_url); 
+            }else{
+              this.setState({show_form_error:true});
+            }
+            break;
+          case 'media_net':
+            if(quads_post_meta.data_cid && quads_post_meta.data_crid){
               this.props.history.push(new_url); 
             }else{
               this.setState({show_form_error:true});
