@@ -946,7 +946,7 @@ function quads_render_amp($id,$ampsupport=''){
                     $width = (isset($quads_options['ads'][$id]['g_data_ad_width']) && (!empty($quads_options['ads'][$id]['g_data_ad_width']))) ? $quads_options['ads'][$id]['g_data_ad_width']:300;
                     $height = (isset($quads_options['ads'][$id]['g_data_ad_height']) && (!empty($quads_options['ads'][$id]['g_data_ad_height']))) ? $quads_options['ads'][$id]['g_data_ad_height']:250;
 
-                        $html .= '<amp-ad 
+                        $html = '<amp-ad 
                                     type="medianet"
                                     width="'. esc_attr($width) .'"
                                     height="'. esc_attr($height) .'"
