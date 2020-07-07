@@ -61949,7 +61949,13 @@ function (_Component) {
         height: "42",
         width: "175",
         src: quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/quads-v2-logo.png'
-      })), _react["default"].createElement("div", null), _react["default"].createElement("div", {
+      })), !quads_localize_data.is_pro ? _react["default"].createElement("div", {
+        className: "quads-got_pro"
+      }, _react["default"].createElement("a", {
+        "class": "premium_features_btn",
+        href: "https://wpquads.com/#buy-wpquads",
+        target: "_blank"
+      }, "Go PRO")) : '', _react["default"].createElement("div", null), _react["default"].createElement("div", {
         className: "quads-ad-menu"
       }, _react["default"].createElement(_QuadsAdListNavLink["default"], {
         ad_type_toggle: this.state.ad_type_toggle
