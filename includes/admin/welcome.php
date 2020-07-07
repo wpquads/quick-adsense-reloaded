@@ -33,6 +33,9 @@ class quads_Welcome {
 	 */
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'welcome'    ) );
+		add_filter( 'mce_external_plugins', array( $this, 'quads_add_plugin' ) );
+		add_filter( 'mce_buttons', array( $this, 'quads_register_buttons' ) );
+
 	}
 
 	
@@ -67,6 +70,35 @@ class quads_Welcome {
 		} else { // Update
 			wp_safe_redirect( admin_url( 'admin.php?page=quads-addons' ) ); exit;
 		}
+	}
+
+	/**
+	 * Add the plugin to array of external TinyMCE plugins
+	 *
+	 * @param array $plugin_array array with TinyMCE plugins.
+	 *
+	 * @return array
+	 */
+	public function quads_add_plugin( $plugin_array ) {
+		if ( ! is_array( $plugin_array ) ) {
+			$plugin_array = array();
+		}
+		$plugin_array['quads_shortcode'] = QUADS_PLUGIN_URL . 'assets/js/tinymce_shortcode.js';
+		return $plugin_array;
+	}
+	/**
+	 * Add button to tinyMCE window
+	 *
+	 * @param array $buttons array with existing buttons.
+	 *
+	 * @return array
+	 */
+	public function quads_register_buttons( $buttons ) {
+		if ( ! is_array( $buttons ) ) {
+			$buttons = array();
+		}
+		$buttons[] = 'quads_shortcode_button';
+		return $buttons;
 	}
 }
 new quads_Welcome();

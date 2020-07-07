@@ -109,9 +109,9 @@ if(is_object($screens)){
         wp_enqueue_script('quads-newsletter');
     }
 
-    if( !apply_filters( 'quads_load_admin_scripts', quads_is_admin_page(), $hook ) ) {
-        return;
-    }
+    // if( !apply_filters( 'quads_load_admin_scripts', quads_is_admin_page(), $hook ) ) {
+    //     return;
+    // }
     global $wp_version, $quads;
 
     $js_dir  = QUADS_PLUGIN_URL . 'assets/js/';
