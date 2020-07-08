@@ -54052,7 +54052,19 @@ function (_Component) {
           ad_type_name = 'MGID';
           comp_html.push(_react["default"].createElement("div", {
             key: "mgid"
-          }, _react["default"].createElement("table", null, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Upload Ad Image', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
+          }, _react["default"].createElement("table", null, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data Publisher', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_publisher == '' ? 'quads_form_error' : '',
+            value: post_meta.data_publisher,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_publisher",
+            name: "data_publisher",
+            placeholder: "site.com"
+          }), show_form_error && post_meta.data_publisher == '' ? _react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, _react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Data Publisher") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data Widget', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
             className: show_form_error && post_meta.data_widget == '' ? 'quads_form_error' : '',
             value: post_meta.data_widget,
             onChange: this.props.adFormChangeHandler,
@@ -54064,7 +54076,31 @@ function (_Component) {
             className: "quads_form_msg"
           }, _react["default"].createElement("span", {
             className: "material-icons"
-          }, "error_outline"), "Enter Data Widget") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Size', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("div", null, _react["default"].createElement("select", {
+          }, "error_outline"), "Enter Data Widget") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data Container', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_container == '' ? 'quads_form_error' : '',
+            value: post_meta.data_container,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_container",
+            name: "data_container",
+            placeholder: "M87ScriptRootC123645"
+          }), show_form_error && post_meta.data_container == '' ? _react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, _react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Data Container") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data Js Src', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("input", {
+            className: show_form_error && post_meta.data_js_src == '' ? 'quads_form_error' : '',
+            value: post_meta.data_js_src,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "data_js_src",
+            name: "data_js_src",
+            placeholder: "//jsc.mgid.com/a/m/quads.com.123645.js"
+          }), show_form_error && post_meta.data_js_src == '' ? _react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, _react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Data Js Src") : '')), _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Size', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("div", null, _react["default"].createElement("select", {
             value: post_meta.adsense_type,
             onChange: this.props.adFormChangeHandler,
             name: "adsense_type",
