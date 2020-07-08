@@ -54438,7 +54438,7 @@ function (_Component) {
           break;
 
         case 'mediavine':
-          ad_type_name = 'Taboola';
+          ad_type_name = 'MediaVine';
           comp_html.push(_react["default"].createElement("div", {
             key: "mediavine"
           }, _react["default"].createElement("table", null, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data Site Id', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("div", null, " ", _react["default"].createElement("input", {

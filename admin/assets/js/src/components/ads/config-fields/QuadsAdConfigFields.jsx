@@ -486,7 +486,7 @@ error_outline
 
               break;
               case 'mediavine':
-             ad_type_name = 'Taboola';  
+             ad_type_name = 'MediaVine';  
               comp_html.push(<div key="mediavine">
                 <table>
                   <tbody>
