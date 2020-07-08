@@ -149,6 +149,9 @@ function quads_common_head_code(){
             f.parentNode.insertBefore(e, f);
           }(document.createElement("script"), document.getElementsByTagName("script")[0], "//cdn.taboola.com/libtrc/'.esc_attr($ads['taboola_publisher_id']).'/loader.js");
           </script>';
+            }else if($ads['ad_type']== 'mediavine'){
+               echo '<link rel="dns-prefetch" href="//scripts.mediavine.com" />
+                  <script type="text/javascript" async="async" data-noptimize="1" data-cfasync="false" src="//scripts.mediavine.com/tags/'.esc_attr($ads['mediavine_site_id']).'.js?ver=5.2.3"></script>';
             }
     }                                                    
 
@@ -955,6 +958,16 @@ function quads_render_amp($id,$ampsupport=''){
                                     data-crid="'.esc_attr($quads_options['ads'][$id]['data_crid']).'"
                                     data-enable-refresh="10">
                                 </amp-ad> ';
+
+            }else if($quads_options['ads'][$id]['ad_type'] == 'mediavine'){
+                    $width = (isset($quads_options['ads'][$id]['g_data_ad_width']) && (!empty($quads_options['ads'][$id]['g_data_ad_width']))) ? $quads_options['ads'][$id]['g_data_ad_width']:300;
+                    $height = (isset($quads_options['ads'][$id]['g_data_ad_height']) && (!empty($quads_options['ads'][$id]['g_data_ad_height']))) ? $quads_options['ads'][$id]['g_data_ad_height']:250;
+
+                        $html = ' <amp-ad width="'. esc_attr($width) .'"
+                                          height="'. esc_attr($height) .'"
+                                          type="mediavine"
+                                          data-site="'.esc_attr($quads_options['ads'][$id]['mediavine_site_id']).'">
+                                    </amp-ad>';
 
             }else{
                    // Return default adsense code

@@ -10219,6 +10219,17 @@ function (_Component) {
 
           break;
 
+        case 'mediavine':
+          if (validation_flag && quads_post_meta.mediavine_site_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+            _this.saveAdFormData('publish');
+          } else {
+            _this.setState({
+              show_form_error: true
+            });
+          }
+
+          break;
+
         default:
           break;
       }
@@ -10365,6 +10376,17 @@ function (_Component) {
 
             break;
 
+          case 'mediavine':
+            if (quads_post_meta.mediavine_site_id) {
+              _this.props.history.push(new_url);
+            } else {
+              _this.setState({
+                show_form_error: true
+              });
+            }
+
+            break;
+
           default:
             break;
         }
@@ -10464,7 +10486,8 @@ function (_Component) {
         image_redirect_url: '',
         taboola_publisher_id: '',
         data_cid: '',
-        data_crid: ''
+        data_crid: '',
+        mediavine_site_id: ''
       },
       quads_form_errors: {
         g_data_ad_slot: '',
@@ -54389,6 +54412,24 @@ function (_Component) {
             id: "g_data_ad_height",
             name: "g_data_ad_height"
           })))) : '')))))));
+          break;
+
+        case 'mediavine':
+          ad_type_name = 'Taboola';
+          comp_html.push(_react["default"].createElement("div", {
+            key: "mediavine"
+          }, _react["default"].createElement("table", null, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Data Site Id', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("div", null, " ", _react["default"].createElement("input", {
+            value: post_meta.mediavine_site_id,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "mediavine_site_id",
+            name: "mediavine_site_id",
+            placeholder: "123456"
+          })), show_form_error && post_meta.mediavine_site_id == '' ? _react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, _react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Data Site Id") : ''))))));
           break;
 
         default:
@@ -102528,6 +102569,10 @@ function (_Component) {
           img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/adsensev3.png';
           break;
 
+        case 'mediavine':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/adsensev3.png';
+          break;
+
         default:
           break;
       }
@@ -103053,6 +103098,10 @@ function (_Component) {
           img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/add_adsense_logo.png';
           break;
 
+        case 'mediavine':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/add_adsense_logo.png';
+          break;
+
         default:
           break;
       }
@@ -103097,6 +103146,9 @@ function (_Component) {
       }, {
         ad_type: 'media_net',
         ad_type_name: 'Media.net'
+      }, {
+        ad_type: 'mediavine',
+        ad_type_name: 'Mediavine'
       }, {
         ad_type: 'random_ads',
         ad_type_name: 'Random Ads'

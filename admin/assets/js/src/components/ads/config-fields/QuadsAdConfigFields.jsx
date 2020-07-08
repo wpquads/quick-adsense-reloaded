@@ -485,6 +485,23 @@ error_outline
                 </div>);
 
               break;
+              case 'mediavine':
+             ad_type_name = 'Taboola';  
+              comp_html.push(<div key="mediavine">
+                <table>
+                  <tbody>
+                    <tr><td>
+                    <label>{__('Data Site Id', 'quick-adsense-reloaded')}</label></td><td>
+                   <div> <input value={post_meta.mediavine_site_id} onChange={this.props.adFormChangeHandler} type="text" id="mediavine_site_id" name="mediavine_site_id" placeholder="123456" /></div>
+                                   
+                    {(show_form_error && post_meta.mediavine_site_id == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Data Site Id</div> :''}
+                     </td></tr>
+                  </tbody>
+                </table>
+                </div>);
+
+              break;
 
             default:
               comp_html.push(<div key="noads" >{__('Ad not found', 'quick-adsense-reloaded')}</div>);

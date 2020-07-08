@@ -87,7 +87,8 @@ class QuadsAdCreateRouter extends Component {
             image_redirect_url         : '' ,  
             taboola_publisher_id       : '' ,   
             data_cid                   : '' , 
-            data_crid                  : '' ,                      
+            data_crid                  : '' , 
+            mediavine_site_id          : '' ,                      
             },
             quads_form_errors : {
               g_data_ad_slot       : '',
@@ -460,6 +461,13 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             }
           break;
+          case 'mediavine':
+            if(validation_flag && quads_post_meta.mediavine_site_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;
       
       
         default:
@@ -600,6 +608,13 @@ class QuadsAdCreateRouter extends Component {
             break;
           case 'media_net':
             if(quads_post_meta.data_cid && quads_post_meta.data_crid){
+              this.props.history.push(new_url); 
+            }else{
+              this.setState({show_form_error:true});
+            }
+            break;
+          case 'mediavine':
+            if(quads_post_meta.mediavine_site_id){
               this.props.history.push(new_url); 
             }else{
               this.setState({show_form_error:true});
