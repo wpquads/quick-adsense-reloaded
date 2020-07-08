@@ -72,6 +72,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_media_net( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_media_net_async( $id ),$id );
     }
+    if( true === quads_is_outbrain( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_outbrain_async( $id ),$id );
+    }
     // Return empty string
     return '';
 }
@@ -152,6 +155,8 @@ function quads_common_head_code(){
             }else if($ads['ad_type']== 'mediavine'){
                echo '<link rel="dns-prefetch" href="//scripts.mediavine.com" />
                   <script type="text/javascript" async="async" data-noptimize="1" data-cfasync="false" src="//scripts.mediavine.com/tags/'.esc_attr($ads['mediavine_site_id']).'.js?ver=5.2.3"></script>';
+            }else if($ads['ad_type']== 'outbrain'){
+               echo '<script type="text/javascript" async="async" src="http://widgets.outbrain.com/outbrain.js "></script>';
             }
     }                                                    
 
@@ -288,6 +293,27 @@ function quads_render_media_net_async( $id ) {
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_media_net_async', $html );
 }
+/**
+ * Render Outbrain
+ * 
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_outbrain_async( $id ) {
+    global $quads_options;
+
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Outbrain --> \n\n";
+
+
+    $html .= '<div class="quads_ad_amp_outbrain" data-widget-id="'.esc_attr($quads_options['ads'][$id]['outbrain_widget_ids']).'"></div>
+';
+
+    
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_outbrain_async', $html );
+}
+
 
 /**
  * Render MGID ad
@@ -845,6 +871,22 @@ function quads_is_media_net( $id, $string ) {
     }
     return false;
 }
+/**
+ * Check if ad code is Outbrain
+ * 
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_outbrain( $id, $string ) {
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'outbrain') {
+        return true;
+    }
+    return false;
+}
+
 
 /**
  * Render advert on amp pages
@@ -968,6 +1010,17 @@ function quads_render_amp($id,$ampsupport=''){
                                           type="mediavine"
                                           data-site="'.esc_attr($quads_options['ads'][$id]['mediavine_site_id']).'">
                                     </amp-ad>';
+
+            }else if($quads_options['ads'][$id]['ad_type'] == 'outbrain'){
+                    $width = (isset($quads_options['ads'][$id]['g_data_ad_width']) && (!empty($quads_options['ads'][$id]['g_data_ad_width']))) ? $quads_options['ads'][$id]['g_data_ad_width']:300;
+                    $height = (isset($quads_options['ads'][$id]['g_data_ad_height']) && (!empty($quads_options['ads'][$id]['g_data_ad_height']))) ? $quads_options['ads'][$id]['g_data_ad_height']:250;
+
+                        $html = '<amp-embed type="outbrain"
+                                  width='. esc_attr($width) .'
+                                  height='. esc_attr($height) . '
+                                  data-widgetids='.esc_attr($quads_options['ads'][$id]['outbrain_widget_ids']).'
+                                  data-enable-refresh="10">
+                                </amp-sticky-ad>';
 
             }else{
                    // Return default adsense code

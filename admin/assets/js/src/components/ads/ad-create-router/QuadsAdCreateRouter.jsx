@@ -88,7 +88,8 @@ class QuadsAdCreateRouter extends Component {
             taboola_publisher_id       : '' ,   
             data_cid                   : '' , 
             data_crid                  : '' , 
-            mediavine_site_id          : '' ,                      
+            mediavine_site_id          : '' ,
+            outbrain_widget_ids        : '' ,                      
             },
             quads_form_errors : {
               g_data_ad_slot       : '',
@@ -468,8 +469,13 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             }
           break;
-      
-      
+          case 'outbrain':
+            if(validation_flag && quads_post_meta.outbrain_widget_ids && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;      
         default:
           break;
       }
@@ -615,6 +621,13 @@ class QuadsAdCreateRouter extends Component {
             break;
           case 'mediavine':
             if(quads_post_meta.mediavine_site_id){
+              this.props.history.push(new_url); 
+            }else{
+              this.setState({show_form_error:true});
+            }
+            break;
+          case 'outbrain':
+            if(quads_post_meta.outbrain_widget_ids){
               this.props.history.push(new_url); 
             }else{
               this.setState({show_form_error:true});

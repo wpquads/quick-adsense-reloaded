@@ -107,6 +107,9 @@ class QuadsAdList extends Component {
           case 'mediavine':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/adsensev3.png';
           break;
+          case 'outbrain':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/adsensev3.png';
+          break;
         default:
           break;
       }

@@ -500,7 +500,22 @@ error_outline
                   </tbody>
                 </table>
                 </div>);
-
+              break;
+            case 'outbrain':
+             ad_type_name = 'Outbrain';  
+              comp_html.push(<div key="outbrain">
+                <table>
+                  <tbody>
+                    <tr><td>
+                    <label>{__('Widget Id\'s', 'quick-adsense-reloaded')}</label></td><td>
+                   <div> <input value={post_meta.outbrain_widget_ids} onChange={this.props.adFormChangeHandler} type="text" id="outbrain_widget_ids" name="outbrain_widget_ids" placeholder="widget_1,widget_2" /></div>
+                                   
+                    {(show_form_error && post_meta.outbrain_widget_ids == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Widget Id's</div> :''}
+                     </td></tr>
+                  </tbody>
+                </table>
+                </div>);
               break;
 
             default:

@@ -22,7 +22,8 @@ class AdTypeSelectorNavLink extends Component {
                     {ad_type:'plain_text',ad_type_name:'Plain Text / HTML / JS'},
                     {ad_type:'taboola',ad_type_name:'Taboola'}, 
                     {ad_type:'media_net',ad_type_name:'Media.net'},
-                    {ad_type:'mediavine',ad_type_name:'Mediavine'},   
+                    {ad_type:'mediavine',ad_type_name:'Mediavine'},
+                    {ad_type:'outbrain',ad_type_name:'Outbrain'},    
                     {ad_type:'random_ads',ad_type_name:'Random Ads'},  
                                
                     ]          
@@ -62,6 +63,9 @@ class AdTypeSelectorNavLink extends Component {
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
               break;
               case 'mediavine':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
+              break;
+              case 'outbrain':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
               break;
             default:

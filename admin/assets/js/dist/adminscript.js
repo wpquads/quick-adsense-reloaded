@@ -10230,6 +10230,17 @@ function (_Component) {
 
           break;
 
+        case 'outbrain':
+          if (validation_flag && quads_post_meta.outbrain_widget_ids && quads_post_meta.position && quads_post_meta.visibility_include.length > 0) {
+            _this.saveAdFormData('publish');
+          } else {
+            _this.setState({
+              show_form_error: true
+            });
+          }
+
+          break;
+
         default:
           break;
       }
@@ -10387,6 +10398,17 @@ function (_Component) {
 
             break;
 
+          case 'outbrain':
+            if (quads_post_meta.outbrain_widget_ids) {
+              _this.props.history.push(new_url);
+            } else {
+              _this.setState({
+                show_form_error: true
+              });
+            }
+
+            break;
+
           default:
             break;
         }
@@ -10487,7 +10509,8 @@ function (_Component) {
         taboola_publisher_id: '',
         data_cid: '',
         data_crid: '',
-        mediavine_site_id: ''
+        mediavine_site_id: '',
+        outbrain_widget_ids: ''
       },
       quads_form_errors: {
         g_data_ad_slot: '',
@@ -54430,6 +54453,24 @@ function (_Component) {
           }, _react["default"].createElement("span", {
             className: "material-icons"
           }, "error_outline"), "Enter Data Site Id") : ''))))));
+          break;
+
+        case 'outbrain':
+          ad_type_name = 'Outbrain';
+          comp_html.push(_react["default"].createElement("div", {
+            key: "outbrain"
+          }, _react["default"].createElement("table", null, _react["default"].createElement("tbody", null, _react["default"].createElement("tr", null, _react["default"].createElement("td", null, _react["default"].createElement("label", null, __('Widget Id\'s', 'quick-adsense-reloaded'))), _react["default"].createElement("td", null, _react["default"].createElement("div", null, " ", _react["default"].createElement("input", {
+            value: post_meta.outbrain_widget_ids,
+            onChange: this.props.adFormChangeHandler,
+            type: "text",
+            id: "outbrain_widget_ids",
+            name: "outbrain_widget_ids",
+            placeholder: "widget_1,widget_2"
+          })), show_form_error && post_meta.outbrain_widget_ids == '' ? _react["default"].createElement("div", {
+            className: "quads_form_msg"
+          }, _react["default"].createElement("span", {
+            className: "material-icons"
+          }, "error_outline"), "Enter Widget Id's") : ''))))));
           break;
 
         default:
@@ -102573,6 +102614,10 @@ function (_Component) {
           img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/adsensev3.png';
           break;
 
+        case 'outbrain':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/adsensev3.png';
+          break;
+
         default:
           break;
       }
@@ -103102,6 +103147,10 @@ function (_Component) {
           img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/add_adsense_logo.png';
           break;
 
+        case 'outbrain':
+          img_url = quads_localize_data.quads_plugin_url + 'admin/assets/js/src/images/add_adsense_logo.png';
+          break;
+
         default:
           break;
       }
@@ -103149,6 +103198,9 @@ function (_Component) {
       }, {
         ad_type: 'mediavine',
         ad_type_name: 'Mediavine'
+      }, {
+        ad_type: 'outbrain',
+        ad_type_name: 'Outbrain'
       }, {
         ad_type: 'random_ads',
         ad_type_name: 'Random Ads'
