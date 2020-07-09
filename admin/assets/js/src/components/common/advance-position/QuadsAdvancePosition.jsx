@@ -34,7 +34,7 @@ class QuadsAdvancePosition extends Component {
           <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
           <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
           <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
-          <option value="in_between_loop">{__('In Between Loop', 'quick-adsense-reloaded')}</option> 
+          <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
           <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option> 
           </optgroup>  
          
@@ -48,7 +48,6 @@ class QuadsAdvancePosition extends Component {
             <option value="amp_below_the_title">Below the Title (Single Post)</option>
             <option value="amp_above_related_post">Above Related Posts (Single Post)</option>
             <option value="amp_below_author_box">Below the Author Box (Single Post)</option>
-            <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
             </optgroup> 
            
         </select> 
@@ -64,14 +63,14 @@ class QuadsAdvancePosition extends Component {
           <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
            <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
            <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
-          <option value="in_between_loop">{__('In Between Loop', 'quick-adsense-reloaded')}</option> 
+          <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
           <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
           </select>  }
            <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select Where Will The AD Appear</div></span> : ''}</div>
         </div> 
 <div className='position_content'>
           <div>
-          {post_meta.position == 'amp_ads_in_loops' ? <input min="1" onChange={this.props.ads_loop_number} name="paragraph_number" value={post_meta.ads_loop_number} placeholder="Position" type="number" /> : ''}         
+          {post_meta.position == 'amp_ads_in_loops' ? <input min="1" onChange={this.props.adFormChangeHandler} name="ads_loop_number" value={post_meta.ads_loop_number} placeholder="Position" type="number" /> : ''}         
           {post_meta.position == 'after_image' ? <input min="1" onChange={this.props.adFormChangeHandler} name="image_number" value={post_meta.image_number}  type="number" /> : ''}         
           </div>
           <div>
@@ -104,13 +103,6 @@ class QuadsAdvancePosition extends Component {
           <div>
           <label> 
           <input min="1" onChange={this.props.adFormChangeHandler} name="after_the_percentage_value" value={post_meta.after_the_percentage_value}  type="number" /> % 
-          </label>
-           </div> : ''}
-
-           {post_meta.position == 'in_between_loop' ? 
-          <div>
-          <label>  
-          <input min="1" onChange={this.props.adFormChangeHandler} name="in_between_loop_number" value={post_meta.in_between_loop_number}  type="number" /> 
           </label>
            </div> : ''}
             {(show_form_error && post_meta.position == 'after_the_percentage' && (post_meta.g_data_ad_client == '' || parseInt(quads_post_meta.after_the_percentage_value) < 10 || parseInt(quads_post_meta.after_the_percentage_value) > 101)) ? <div className="quads_form_msg"><span className="material-icons">

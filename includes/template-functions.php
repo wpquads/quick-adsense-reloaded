@@ -1429,7 +1429,7 @@ function quads_del_element($array, $idx) {
 
         $is_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
 
-        if ( ! $wp_query instanceof WP_Query || is_feed() || ( is_admin() && ! $is_ajax ) ) {
+        if ( ! $wp_query instanceof WP_Query || is_feed() || ( is_admin() && ! $is_ajax )  ) {
             return;
         }
 
@@ -1451,7 +1451,14 @@ function quads_del_element($array, $idx) {
         }
 
 
-        $curr_index = $wp_query->current_post + 1; // normalize index
+        $curr_index = $wp_query->current_post ; // normalize index
+        static $handled_indexes = array();
+        if ( $wp_query->is_main_query() ) {
+            if ( in_array( $curr_index, $handled_indexes ) ) {
+                return;
+            }
+            $handled_indexes[] = $curr_index;
+        }
 
         require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
         $api_service = new QUADS_Ad_Setup_Api_Service();
@@ -1463,7 +1470,7 @@ function quads_del_element($array, $idx) {
                 if($value['post']['post_status']== 'draft'){
                     continue;
                 }
-                if($ads['position'] == 'in_between_loop' && (isset($ads['in_between_loop_number']) && $ads['in_between_loop_number'] == $curr_index)){
+                if($ads['position'] == 'amp_ads_in_loops' && (isset($ads['ads_loop_number']) && $ads['ads_loop_number'] == $curr_index)){
                     $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
                   echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
                 }

@@ -10499,7 +10499,7 @@ function (_Component) {
         enabled_on_amp: false,
         enable_on_end_of_post: false,
         after_the_percentage_value: 50,
-        in_between_loop_number: 1,
+        ads_loop_number: 1,
         image_caption: false,
         include_dropdown: false,
         exclude_dropdown: false,
@@ -61521,8 +61521,8 @@ function (_Component) {
       }, __('After the Percentage', 'quick-adsense-reloaded')), _react["default"].createElement("option", {
         value: "ad_after_html_tag"
       }, __('Ad After HTML Tag', 'quick-adsense-reloaded')), _react["default"].createElement("option", {
-        value: "in_between_loop"
-      }, __('In Between Loop', 'quick-adsense-reloaded')), _react["default"].createElement("option", {
+        value: "amp_ads_in_loops"
+      }, "Ads Inbetween Loop"), _react["default"].createElement("option", {
         value: "ad_shortcode"
       }, __('Shortcode (Manual)', 'quick-adsense-reloaded'))), _react["default"].createElement("optgroup", {
         label: "Partial Support ( AMP Only )"
@@ -61544,9 +61544,7 @@ function (_Component) {
         value: "amp_above_related_post"
       }, "Above Related Posts (Single Post)"), _react["default"].createElement("option", {
         value: "amp_below_author_box"
-      }, "Below the Author Box (Single Post)"), _react["default"].createElement("option", {
-        value: "amp_ads_in_loops"
-      }, "Ads Inbetween Loop"))) : _react["default"].createElement("select", {
+      }, "Below the Author Box (Single Post)"))) : _react["default"].createElement("select", {
         className: show_form_error && post_meta.position == '' ? 'quads_form_error' : '',
         value: post_meta.position,
         name: "position",
@@ -61574,8 +61572,8 @@ function (_Component) {
       }, __('After the Percentage', 'quick-adsense-reloaded')), _react["default"].createElement("option", {
         value: "ad_after_html_tag"
       }, __('Ad After HTML Tag', 'quick-adsense-reloaded')), _react["default"].createElement("option", {
-        value: "in_between_loop"
-      }, __('In Between Loop', 'quick-adsense-reloaded')), _react["default"].createElement("option", {
+        value: "amp_ads_in_loops"
+      }, "Ads Inbetween Loop"), _react["default"].createElement("option", {
         value: "ad_shortcode"
       }, __('Shortcode (Manual)', 'quick-adsense-reloaded'))), _react["default"].createElement("div", null, show_form_error && post_meta.position == '' ? _react["default"].createElement("span", {
         className: "quads-error"
@@ -61587,8 +61585,8 @@ function (_Component) {
         className: "position_content"
       }, _react["default"].createElement("div", null, post_meta.position == 'amp_ads_in_loops' ? _react["default"].createElement("input", {
         min: "1",
-        onChange: this.props.ads_loop_number,
-        name: "paragraph_number",
+        onChange: this.props.adFormChangeHandler,
+        name: "ads_loop_number",
         value: post_meta.ads_loop_number,
         placeholder: "Position",
         type: "number"
@@ -61632,13 +61630,7 @@ function (_Component) {
         name: "after_the_percentage_value",
         value: post_meta.after_the_percentage_value,
         type: "number"
-      }), " %")) : '', post_meta.position == 'in_between_loop' ? _react["default"].createElement("div", null, _react["default"].createElement("label", null, _react["default"].createElement("input", {
-        min: "1",
-        onChange: this.props.adFormChangeHandler,
-        name: "in_between_loop_number",
-        value: post_meta.in_between_loop_number,
-        type: "number"
-      }))) : '', show_form_error && post_meta.position == 'after_the_percentage' && (post_meta.g_data_ad_client == '' || parseInt(quads_post_meta.after_the_percentage_value) < 10 || parseInt(quads_post_meta.after_the_percentage_value) > 101) ? _react["default"].createElement("div", {
+      }), " %")) : '', show_form_error && post_meta.position == 'after_the_percentage' && (post_meta.g_data_ad_client == '' || parseInt(quads_post_meta.after_the_percentage_value) < 10 || parseInt(quads_post_meta.after_the_percentage_value) > 101) ? _react["default"].createElement("div", {
         className: "quads_form_msg"
       }, _react["default"].createElement("span", {
         className: "material-icons"
