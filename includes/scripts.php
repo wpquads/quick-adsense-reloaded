@@ -90,7 +90,7 @@ if(is_object($screens)){
     add_action( 'admin_notices', 'quads_admin_messages' );
           }   
 
-    global $current_user;
+    global $current_user,$wp_version, $quads;
     $dismissed = explode (',', get_user_meta (wp_get_current_user ()->ID, 'dismissed_wp_pointers', true));                            
     $do_tour   = !in_array ('wpquads_subscribe_pointer', $dismissed);
 
@@ -108,33 +108,11 @@ if(is_object($screens)){
         ) );
         wp_enqueue_script('quads-newsletter');
     }
-
-    // if( !apply_filters( 'quads_load_admin_scripts', quads_is_admin_page(), $hook ) ) {
-    //     return;
-    // }
-    global $wp_version, $quads;
-
     $js_dir  = QUADS_PLUGIN_URL . 'assets/js/';
     $css_dir = QUADS_PLUGIN_URL . 'assets/css/';
-
-    // Use minified libraries if SCRIPT_DEBUG is turned off
+        // Use minified libraries if SCRIPT_DEBUG is turned off
     $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
-
-
-    // These have to be global
-    wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
     wp_enqueue_script( 'quads-admin-scripts', $js_dir . 'quads-admin' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
-    wp_enqueue_script( 'quads-jscolor', $js_dir . 'jscolor' . $suffix . '.js', array(), QUADS_VERSION, false );
-    wp_enqueue_script( 'jquery-chosen', $js_dir . 'chosen.jquery' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
-    wp_enqueue_script( 'jquery-form' );
-
-    $vi_dir = QUADS_PLUGIN_URL . 'includes/vendor/vi/public/js/';
-    wp_enqueue_script( 'quads-vi', $vi_dir . 'vi.js', array(), QUADS_VERSION, false );
-
-
-    wp_enqueue_style( 'quads-admin', $css_dir . 'quads-admin' . $suffix . '.css',array(), QUADS_VERSION );
-    wp_enqueue_style( 'jquery-chosen', $css_dir . 'chosen' . $suffix . '.css',array(), QUADS_VERSION );
-
     $signupURL = $quads->vi->getSettings()->data->signupURL;
          $quads_import_classic_ads_popup = false;
         $classic_ads_status = get_option( 'quads_import_classic_ads_popup' );
@@ -157,6 +135,22 @@ if(is_object($screens)){
         'quads_import_classic_ads_popup' => $quads_import_classic_ads_popup,
         'quads_get_active_ads' => quads_get_active_ads_backup()
     ) );
+    if( !apply_filters( 'quads_load_admin_scripts', quads_is_admin_page(), $hook ) ) {
+        return;
+    }
+    
+    // These have to be global
+    wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
+    wp_enqueue_script( 'quads-jscolor', $js_dir . 'jscolor' . $suffix . '.js', array(), QUADS_VERSION, false );
+    wp_enqueue_script( 'jquery-chosen', $js_dir . 'chosen.jquery' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+    wp_enqueue_script( 'jquery-form' );
+
+    $vi_dir = QUADS_PLUGIN_URL . 'includes/vendor/vi/public/js/';
+    wp_enqueue_script( 'quads-vi', $vi_dir . 'vi.js', array(), QUADS_VERSION, false );
+    wp_enqueue_style( 'quads-admin', $css_dir . 'quads-admin' . $suffix . '.css',array(), QUADS_VERSION );
+    wp_enqueue_style( 'jquery-chosen', $css_dir . 'chosen' . $suffix . '.css',array(), QUADS_VERSION );
+
+
 }
 
 /**
