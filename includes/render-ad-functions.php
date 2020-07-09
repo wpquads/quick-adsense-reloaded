@@ -122,7 +122,22 @@ function quads_common_head_code(){
             }else if($ads['ad_type'] == 'adsense'){
                 $adsense= true;
 
-            }   
+            } 
+            if($ads['ad_type']== 'taboola'){
+               echo '<script type="text/javascript">window._taboola = window._taboola || [];
+              _taboola.push({article:"auto"});
+              !function (e, f, u) {
+                e.async = 1;
+                e.src = u;
+                f.parentNode.insertBefore(e, f);
+              }(document.createElement("script"), document.getElementsByTagName("script")[0], "//cdn.taboola.com/libtrc/'.esc_attr($ads['taboola_publisher_id']).'/loader.js");
+              </script>';
+            }else if($ads['ad_type']== 'mediavine'){
+               echo '<link rel="dns-prefetch" href="//scripts.mediavine.com" />
+                  <script type="text/javascript" async="async" data-noptimize="1" data-cfasync="false" src="//scripts.mediavine.com/tags/'.esc_attr($ads['mediavine_site_id']).'.js?ver=5.2.3"></script>';
+            }else if($ads['ad_type']== 'outbrain'){
+               echo '<script type="text/javascript" async="async" src="http://widgets.outbrain.com/outbrain.js "></script>';
+            }  
 
         }
         if( $data_slot !=''){
@@ -143,21 +158,7 @@ function quads_common_head_code(){
 
         }                       
 
-            if($ads['ad_type']== 'taboola'){
-               echo '<script type="text/javascript">window._taboola = window._taboola || [];
-          _taboola.push({article:"auto"});
-          !function (e, f, u) {
-            e.async = 1;
-            e.src = u;
-            f.parentNode.insertBefore(e, f);
-          }(document.createElement("script"), document.getElementsByTagName("script")[0], "//cdn.taboola.com/libtrc/'.esc_attr($ads['taboola_publisher_id']).'/loader.js");
-          </script>';
-            }else if($ads['ad_type']== 'mediavine'){
-               echo '<link rel="dns-prefetch" href="//scripts.mediavine.com" />
-                  <script type="text/javascript" async="async" data-noptimize="1" data-cfasync="false" src="//scripts.mediavine.com/tags/'.esc_attr($ads['mediavine_site_id']).'.js?ver=5.2.3"></script>';
-            }else if($ads['ad_type']== 'outbrain'){
-               echo '<script type="text/javascript" async="async" src="http://widgets.outbrain.com/outbrain.js "></script>';
-            }
+
     }                                                    
 
 }  
