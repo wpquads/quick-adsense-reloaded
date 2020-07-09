@@ -18,6 +18,7 @@ add_filter('the_content', 'quads_process_content', quads_get_load_priority());
 add_filter('rest_prepare_post', 'quads_classic_to_gutenberg', 10, 1);
 add_filter('the_content', 'quads_change_adsbygoogle_to_amp',11);
 add_action('wp_head',  'quads_common_head_code');
+add_action( 'the_post', 'quads_in_between_loop' , 20, 2 );
 
 /**
  * Show ads before posts
@@ -1416,3 +1417,57 @@ function quads_del_element($array, $idx) {
     }   
   return $copy;
 }
+
+/**
+     * echo ad before/after posts in loops on archive pages
+     *
+     * @since 1.2.1
+     * @param arr $post post object
+     * @param WP_Query $wp_query query object
+     */
+     function quads_in_between_loop( $post, $wp_query = null ) {
+
+        $is_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+
+        if ( ! $wp_query instanceof WP_Query || is_feed() || ( is_admin() && ! $is_ajax ) ) {
+            return;
+        }
+
+        if( ! isset( $wp_query->current_post )) {
+            return;
+        };
+
+        // don’t inject into main query on single pages.
+        if( $wp_query->is_main_query() && is_single() ){
+            return;
+        }
+        if ( $wp_query->is_singular() || ! $wp_query->in_the_loop   ) {
+                return;
+        }
+
+        // check if the loop is outside of wp_head, but only on non-AJAX calls.
+        if  ( ! is_admin() && ! did_action( 'wp_head' ) ) {
+            return;
+        }
+
+
+        $curr_index = $wp_query->current_post + 1; // normalize index
+
+        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        $api_service = new QUADS_Ad_Setup_Api_Service();
+        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+
+        if(isset($quads_ads['posts_data'])){        
+            foreach($quads_ads['posts_data'] as $key => $value){
+                $ads =$value['post_meta'];
+                if($value['post']['post_status']== 'draft'){
+                    continue;
+                }
+                if($ads['position'] == 'in_between_loop' && (isset($ads['in_between_loop_number']) && $ads['in_between_loop_number'] == $curr_index)){
+                    $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+                  echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
+                }
+
+            }
+        }
+    }
