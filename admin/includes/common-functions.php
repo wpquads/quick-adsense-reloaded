@@ -163,6 +163,7 @@ function quads_validate_ads_txt_line( $line, $line_number ) {
 
 ////
 
+
 function quads_change_mode() {
 
 	check_ajax_referer( 'quads_ajax_nonce', 'nonce' );
@@ -173,7 +174,11 @@ function quads_change_mode() {
 	ignore_user_abort( true );
 	$quads_settings_backup = get_option( 'quads_settings_backup' );
 	$quads_settings = get_option( 'quads_settings' );
-    update_option('quads_settings', $quads_settings_backup);
+	if($quads_settings_backup){
+		update_option('quads_settings', $quads_settings_backup);
+	}else{
+		update_option('quads_settings', $quads_settings);
+	}
 	update_option('quads_settings_backup', $quads_settings);
 	update_option('quads-mode',sanitize_text_field($_REQUEST['mode']));
 	
