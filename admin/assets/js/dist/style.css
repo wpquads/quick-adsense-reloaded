@@ -1292,6 +1292,36 @@ a.quads-doc-link:hover {
   .quads-settings-tab-container .quads-hs {
     grid-template-columns: 1fr;
     grid-gap: 20px; } }
+
+.adblock_support .quads-modal-popup-content {
+  max-width: 980px !important; }
+
+.adblock_support .quads-modal-popup-content {
+  position: initial; }
+
+.adblock_support .color-pick-swatch {
+  padding: 5px;
+  background: #fff;
+  borderRadius: 1px;
+  boxShadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  cursor: pointer; }
+
+.adblock_support .color-pick-popover {
+  position: absolute;
+  z-index: 2; }
+
+.adblock_support .color-pick-cover {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px; }
+
+.adblock_support .color-pick-color {
+  width: 36px;
+  height: 14px;
+  borderRadius: 2px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

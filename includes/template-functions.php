@@ -19,7 +19,284 @@ add_filter('rest_prepare_post', 'quads_classic_to_gutenberg', 10, 1);
 add_filter('the_content', 'quads_change_adsbygoogle_to_amp',11);
 add_action('wp_head',  'quads_common_head_code');
 add_action( 'the_post', 'quads_in_between_loop' , 20, 2 );
+//Ad blocker
+add_action('wp_head', 'quads_adblocker_detector');
+add_action('wp_footer', 'quads_adblocker_popup_notice');
+add_action('wp_footer', 'quads_adblocker_notice_jsondata');
+add_action('wp_body_open', 'quads_adblocker_notice_bar');
+function quads_adblocker_detector(){
+    if(quads_is_file_inroot()){
+        $scriptUrl = site_url().'/'.'front.js';
+    }else{
+        $scriptUrl = site_url()."?quads_front_js=1";
+    }
+    ?>
+    <script type="text/javascript">              
+          jQuery(document).ready( function($) {    
+              if ($('#quads-hidden-block').length == 0 ) {
+                   $.getScript("<?php echo esc_url_raw($scriptUrl); ?>");
+              }
+          });
+     </script>
+   <?php
+}
+function quads_is_file_inroot(){
+    if(is_writable(ABSPATH)){
+        return true;
+    }else{
+        return false;
+    }
+}
+/**
+ * It is default settings value, if value is not set for any option in setting section 
+ * @return type
+ */
+function quads_defaultSettings(){
+    
+    $defaults = array(
+    'app_blog_name'       => get_bloginfo( 'name' ),
+    'advnc_ads_import_check'  => 1,
+    'ad_blocker_support'      => 1,
+    'notice_type'    => 'bar',
+    'page_redirect'  => 0,
+    'allow_cookies'    => 2,
+    'notice_title'    => 'Adblock Detected!',
+    'notice_description'    => 'Our website is made possible by displaying online advertisements to our visitors. Please consider supporting us by whitelisting our website.',
+    'notice_close_btn' => 1,
+    'btn_txt' => 'X',
+    'notice_txt_color' => '#ffffff',
+    'notice_bg_color' => '#1e73be',
+    'notice_btn_txt_color' => '#ffffff',
+    'notice_btn_bg_color' => '#f44336',
+    'ad_sponsorship_label' => 0,
+    'ad_sponsorship_label_text' => 'Advertisement',
+    'ad_label_postion' => 'above',
+    'ad_label_txt_color' => '#cccccc'
+    );  
+        
+    $settings = get_option( 'quads_settings', $defaults );
+        
+    return $settings;
+}
+function quads_adblocker_popup_notice(){
+  
+  $settings = quads_defaultSettings();
 
+  if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support']){
+
+    if($settings['notice_type'] == 'popup'){
+        
+
+      $content_color = sanitize_hex_color($settings['notice_txt_color']);
+      $notice_title = esc_attr($settings['notice_title']);
+      $notice_description = esc_attr($settings['notice_description']);
+      $button_txt = esc_attr($settings['btn_txt']);
+      $background_color = sanitize_hex_color($settings['notice_bg_color']);
+      $btn_txt_color = sanitize_hex_color($settings['notice_btn_txt_color']);
+      $btn_background_color = sanitize_hex_color($settings['notice_btn_bg_color']);
+      
+  ?>
+    <div id="quads-myModal" class="quads-modal">
+      <!-- Modal content -->
+      <div class="quads-modal-content">
+    <?php if( isset($settings['notice_close_btn']) && $settings['notice_close_btn'] && empty($button_txt) ){
+          ?>
+          <span class="quads-close quads-cls-notice">&times;</span>  
+          <?php
+        }
+        ?>
+        <h2 style="text-align: center;padding-top:0;color: <?php echo $content_color;?>;"><?php echo $notice_title;?></h2>
+        <p style="margin:0 0 1.5em;padding: 0;text-align: center;color: <?php echo $content_color;?>;"><?php echo $notice_description;?></p>
+        <?php if( isset($settings['notice_close_btn']) && $settings['notice_close_btn'] &&  !empty($button_txt) ){
+          ?>
+          <button class="quads-button quads-closebtn quads-cls-notice"><?php echo $button_txt;?></button>
+        <?php
+        }
+        ?>
+      </div>
+    </div>
+    <style type="text/css">
+    .quads-modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 999; /* Sit on top */
+      padding-top: 200px; /* Location of the box */
+      left: 0;
+      right:0;
+      top: 50%; 
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+      -webkit-transform:translateY(-50%);
+       -moz-transform:translateY(-50%);
+       -ms-transform:translateY(-50%);
+       -o-transform:translateY(-50%);
+       transform:translateY(-50%);
+    }
+
+    /* Modal Content */
+    .quads-modal-content {
+      background-color: <?php echo $background_color;?>;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 40%;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    /* The Close Button */
+    .quads-close{
+      color: <?php echo $btn_txt_color;?>;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .quads-close:hover,
+    .quads-close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .quads-button {
+      background-color: <?php echo $btn_background_color;?>; /* Green */
+      border: none;
+      color: <?php echo $btn_txt_color;?>;
+      padding: 10px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+    @media screen and (max-width: 1024px) {
+      .quads-modal-content {
+        width: 80%;
+        font-size: 14px;
+      }
+      .quads-modal {
+        padding-top: 100px;
+      }
+    }
+  </style>
+  <?php
+    }
+  }
+}
+function quads_adblocker_notice_jsondata(){
+    $settings = quads_defaultSettings();
+    $output = '';
+
+    if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support'] && !empty($settings['notice_type'])){
+      
+      $output    .= '<script type="text/javascript">';
+      $output    .= '/* <![CDATA[ */';
+      $output    .= 'var quadsOptions =' .
+        json_encode(
+          array(
+            'quadsChoice'          => esc_attr($settings['notice_type']),
+            'page_redirect'          => get_permalink($settings['page_redirect_path']['value'] ),
+            'allow_cookies'         => esc_attr($settings['notice_behaviour'])
+          )
+        );
+      $output    .= '/* ]]> */';
+      $output    .= '</script>';
+      echo $output;
+    }
+}
+function quads_adblocker_notice_bar(){
+    $settings = quads_defaultSettings();
+    
+  if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support']){
+    if($settings['notice_type'] == 'bar' ){
+      
+      $notice_description = esc_attr($settings['notice_description']);
+      $button_txt = esc_attr($settings['btn_txt']);
+      $content_color = sanitize_hex_color($settings['notice_txt_color']);
+      $background_color = sanitize_hex_color($settings['notice_bg_color']);
+      $btn_txt_color = sanitize_hex_color($settings['notice_btn_txt_color']);
+      $btn_background_color = sanitize_hex_color($settings['notice_btn_bg_color']);
+  ?>
+  
+  <div id="quads-myModal" class="quads-adblocker-notice-bar">
+    <div class="enb-textcenter">
+      <?php if( isset($settings['notice_close_btn'])&& $settings['notice_close_btn'] && empty($button_txt)){?>
+      <span class="quads-close quads-cls-notice">&times;</span>  
+    <?php } ?>
+      <div class="quads-adblocker-message">
+      <?php echo $notice_description;?>
+      </div>
+      <?php if( isset($settings['notice_close_btn'])&& $settings['notice_close_btn'] && !empty($button_txt)){?>
+      <button class="quads-button quads-closebtn quads-cls-notice"><?php echo $button_txt;?></button>  
+    <?php } ?>
+    </div>
+  </div>
+  <style type="text/css">
+    .quads-adblocker-message{
+      display: inline-block;
+    }
+    .quads-adblocker-notice-bar {
+      display: none;
+      width: 100%;
+      background: <?php echo $background_color;?>;
+      color: <?php echo $content_color;?>;
+      padding: 0.5em 1em;
+      font-size: 16px;
+      line-height: 1.8;
+      position: relative;
+      z-index: 99;
+    }
+    .quads-adblocker-notice-bar strong {
+      color: inherit; /* some themes change strong tag to make it darker */
+    }
+    /* Alignments */
+    .quads-adblocker-notice-bar .enb-textcenter {
+      text-align: center;
+    }
+    .quads-close{
+      color: <?php echo $btn_txt_color;?>;
+      float: right;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .quads-close:hover,
+    .quads-close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .quads-button {
+      background-color: <?php echo $btn_background_color;?>; /* Green */
+      border: none;
+      color: <?php echo $btn_txt_color;?>;
+      padding: 5px 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 0px 2px;
+      cursor: pointer;
+      float: right;
+    }
+    @media screen and (max-width: 1024px) {
+      .quads-modal-content {
+        font-size: 14px;
+      }
+      .quads-button{
+        padding:5px 10px;
+        font-size: 14px;
+        float:none;
+      }
+    }
+  </style>
+  <?php 
+    }
+  }
+}
 /**
  * Show ads before posts
  * @not used at the moment
