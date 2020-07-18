@@ -59,4 +59,18 @@ if( quads_get_option_uninstall( 'uninstall_on_delete' ) ) {
    // Delete transients
    delete_transient( 'quads_check_theme' );
    delete_transient( 'quads_activation_redirect' );
+   delete_option( 'quads-mode' );
+   delete_option( 'quads_version' );
+   delete_option( 'quads_wp_quads_pro_license_active' );
+   delete_option( 'widget_quads_ads_widget' );
+   delete_option( 'quads_vi_variant' );
+
+  $arg  = array();
+  $arg['post_type']      = 'quads-ads';
+  $arg['posts_per_page'] = -1;  
+  $arg['post_status']    = array('publish', 'draft');   
+  $allposts= get_posts( $arg );
+  foreach ($allposts as $eachpost) {
+  wp_delete_post( $eachpost->ID, true );
+  }
 }
