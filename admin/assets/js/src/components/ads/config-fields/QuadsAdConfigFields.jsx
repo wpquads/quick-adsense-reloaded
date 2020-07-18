@@ -121,7 +121,10 @@ removeSeleted = (e) => {
 
 }
   getallads = (search_text = '',page = '') => {
-   let url = quads_localize_data.rest_url + "quads-route/get-ads-list?posts_per_page=100&page="+page;
+       let url = quads_localize_data.rest_url + "quads-route/get-ads-list?posts_per_page=100&page="+page;
+  if(quads_localize_data.rest_url.includes('?')){
+        url = quads_localize_data.rest_url + "quads-route/get-ads-list&posts_per_page=100&page="+page;
+  }
       
       fetch(url, {
         headers: {                    

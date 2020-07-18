@@ -100,7 +100,9 @@ class QuadsAdListBody extends Component {
   mainSearchMethod = (search_text, page) => { 
       this.setState({isLoaded:false})
       let url = quads_localize_data.rest_url + "quads-route/get-ads-list?search_param="+search_text+"&posts_per_page=20&page="+page;
-      
+      if(quads_localize_data.rest_url.includes('?')){
+         url = quads_localize_data.rest_url + "quads-route/get-ads-list&search_param="+search_text+"&posts_per_page=20&page="+page;  
+      }
       fetch(url, {
         headers: {                    
           'X-WP-Nonce': quads_localize_data.nonce,

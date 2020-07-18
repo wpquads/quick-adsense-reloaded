@@ -15,7 +15,10 @@ class QuadsAdPublish extends Component {
  
      getAdDataById =  (ad_id) => {
 
-      let url = quads_localize_data.rest_url+'quads-route/get-ad-by-id?ad-id='+ad_id;      
+      let url = quads_localize_data.rest_url+'quads-route/get-ad-by-id?ad-id='+ad_id;     
+      if(quads_localize_data.rest_url.includes('?')){
+         url = quads_localize_data.rest_url+'quads-route/get-ad-by-id&ad-id='+ad_id;    
+      } 
       fetch(url,{
         headers: {                    
           'X-WP-Nonce': quads_localize_data.nonce,

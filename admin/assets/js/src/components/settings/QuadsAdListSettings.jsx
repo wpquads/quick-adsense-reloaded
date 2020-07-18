@@ -175,7 +175,10 @@ if(this.state.importampforwpmsgprocessing !=''){
 
   getPlugins = (search) => {
       
-    const url = quads_localize_data.rest_url + 'quads-route/get-plugins?search='+search;    
+    let url = quads_localize_data.rest_url + 'quads-route/get-plugins?search='+search;
+    if(quads_localize_data.rest_url.includes('?')){
+        url = quads_localize_data.rest_url + 'quads-route/get-plugins&search='+search;  
+    }    
     fetch(url,{
       method: "get",
       headers: {
@@ -200,7 +203,10 @@ if(this.state.importampforwpmsgprocessing !=''){
 
   getTags = (search) => {
       
-    const url = quads_localize_data.rest_url + 'quads-route/get-tags?search='+search;    
+    let url = quads_localize_data.rest_url + 'quads-route/get-tags?search='+search;    
+    if(quads_localize_data.rest_url.includes('?')){
+        url = quads_localize_data.rest_url + 'quads-route/get-tags&search='+search;  
+     }
     fetch(url,{
       method: "get",
       headers: {
@@ -734,6 +740,9 @@ handleMultiPluginsChange = (option) => {
     getPageDataMeta = (condition_type) => {
         
     let url = quads_localize_data.rest_url +"quads-route/get-condition-list?condition="+condition_type;
+    if(quads_localize_data.rest_url.includes('?')){
+      url = quads_localize_data.rest_url +"quads-route/get-condition-list&condition="+condition_type; 
+    }
       
       fetch(url, {
         headers: {                    
