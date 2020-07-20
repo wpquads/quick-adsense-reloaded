@@ -59,7 +59,7 @@ class QuadsAdListSettings extends Component {
                 multiUserValue     : [],
                 multiTagsValue     : [],
                 multiPluginsValue  : [], 
-                notice_type        : '', 
+                notice_type        : 'ad_blocker_message', 
                 notice_behaviour   : 2, 
                 notice_description : 'Our website is made possible by displaying online advertisements to our visitors. Please consider supporting us by whitelisting our website.', 
                 notice_title       : 'Adblock Detected!',
@@ -905,6 +905,9 @@ handleMultiPluginsChange = (option) => {
                                    <input id="popup" type="radio" value="popup" checked={settings.notice_type =='popup'}  name="notice_type" onChange={this.formChangeHandler} />Popup
                                    <br/>
                                    <input id="page_redirect" type="radio" checked={settings.notice_type =='page_redirect'}  value="page_redirect" name="notice_type" onChange={this.formChangeHandler}  />Page Redirection
+                                   <br/>
+                                   <input id="ad_blocker_message" type="radio" checked={settings.notice_type =='ad_blocker_message'} name="notice_type" value="ad_blocker_message"  onChange={this.formChangeHandler} /> Block Message 
+                                   <div className="quads-message bottom">If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker. <a href="http://wpquads.com/docs/customize-ad-blocker-notice/" target="_blank">Read here</a> how to customize colors and text.</div>
                                   </td>
                                 </tr>
                                 <tr>
@@ -1114,14 +1117,7 @@ handleMultiPluginsChange = (option) => {
                         <a className="quads-general-helper" href="#"></a><div className="quads-message bottom" >Check how many visitors are using ad blockers in your Google Analytics account from the event tracking in <i>Google Analytics-&gt;Behavior-&gt;Events</i>. This only works if your visitors are using regular ad blockers like 'adBlock'. There are browser plugins which block all external requests like the  software uBlock origin. This also block google analytics and as a result you do get any analytics data at all.</div></td>
                       </tr>
 
-                       :null}
-                      {quads_localize_data.is_pro ? 
-                      <tr>
-                      <th><label htmlFor="ad_blocker_message">{__('Ask user to deactivate ad blocker', 'quick-adsense-reloaded')}</label></th>
-                       <td><input id="ad_blocker_message" type="checkbox" onChange={this.formChangeHandler} name="ad_blocker_message" checked={settings.ad_blocker_message} />
-                       <a className="quads-general-helper" href="#"></a><div className="quads-message bottom">If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker. <a href="http://wpquads.com/docs/customize-ad-blocker-notice/" target="_blank">Read here</a> how to customize colors and text.</div></td>
-                     </tr>
-                     :null}                      
+                       :null}                
                       <tr>
                        <th><label htmlFor="uninstall_on_delete">{__('Delete Data on Uninstall?', 'quick-adsense-reloaded')}</label></th>
                         <td><input id="uninstall_on_delete" type="checkbox" onChange={this.formChangeHandler} name="uninstall_on_delete" checked={settings.uninstall_on_delete} />

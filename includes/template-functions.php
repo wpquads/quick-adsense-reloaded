@@ -24,28 +24,11 @@ add_action('wp_head', 'quads_adblocker_detector');
 add_action('wp_footer', 'quads_adblocker_popup_notice');
 add_action('wp_footer', 'quads_adblocker_notice_jsondata');
 add_action('wp_body_open', 'quads_adblocker_notice_bar');
+add_action('wp_footer', 'quads_adblocker_ad_block');
+
 function quads_adblocker_detector(){
-    if(quads_is_file_inroot()){
-        $scriptUrl = site_url().'/'.'front.js';
-    }else{
-        $scriptUrl = site_url()."?quads_front_js=1";
-    }
-    ?>
-    <script type="text/javascript">              
-          jQuery(document).ready( function($) {    
-              if ($('#quads-hidden-block').length == 0 ) {
-                   $.getScript("<?php echo esc_url_raw($scriptUrl); ?>");
-              }
-          });
-     </script>
-   <?php
-}
-function quads_is_file_inroot(){
-    if(is_writable(ABSPATH)){
-        return true;
-    }else{
-        return false;
-    }
+     echo '<script type="text/javascript" src="'.QUADS_PLUGIN_URL . 'assets/js/ads.js"></script>';
+
 }
 /**
  * It is default settings value, if value is not set for any option in setting section 
@@ -296,6 +279,124 @@ function quads_adblocker_notice_bar(){
   <?php 
     }
   }
+}
+function quads_adblocker_ad_block(){
+  ?>
+<script type="text/javascript">
+   if(typeof quadsOptions !== 'undefined' && typeof wpquads_adblocker_check_2 
+  === 'undefined' && quadsOptions.quadsChoice == 'ad_blocker_message'){
+
+  var addEvent1 = function (obj, type, fn) {
+      if (obj.addEventListener)
+          obj.addEventListener(type, fn, false);
+      else if (obj.attachEvent)
+          obj.attachEvent('on' + type, function () {
+              return fn.call(obj, window.event);
+          });
+  };
+   addEvent1(window, 'load', function () {
+      if (typeof wpquads_adblocker_check_2 === "undefined" || wpquads_adblocker_check_2 === false) {
+          highlight_adblocked_ads();
+      }
+  });
+
+   function highlight_adblocked_ads() {
+      try {
+          var ad_wrappers = document.querySelectorAll('div[id^="quads-ad"]')
+      } catch (e) {
+          return;
+      }
+
+      for (i = 0; i < ad_wrappers.length; i++) {
+          ad_wrappers[i].className += ' quads-highlight-adblocked';
+          ad_wrappers[i].className = ad_wrappers[i].className.replace('quads-location', '');
+          ad_wrappers[i].setAttribute('style', 'display:block !important');
+      }
+  }
+ }
+
+(function() {
+//Adblocker Notice Script Starts Here
+var curr_url = window.location.href;
+var red_ulr = localStorage.getItem('curr');
+var modal = document.getElementById("quads-myModal");
+var quadsAllowedCookie =  quadsgetCookie('quadsAllowedCookie');
+
+if(typeof quadsOptions !== 'undefined' && typeof wpquads_adblocker_check_2 
+  === 'undefined' ){
+
+  if(quadsAllowedCookie!=quadsOptions.allow_cookies){
+    quadssetCookie('quadsCookie', '', -1, '/');
+    quadssetCookie('quadsAllowedCookie', quadsOptions.allow_cookies, 1, '/');
+  }
+
+  if(quadsOptions.allow_cookies == 2){
+    if( quadsOptions.quadsChoice == 'bar' || quadsOptions.quadsChoice == 'popup'){
+        modal.style.display = "block";
+        quadssetCookie('quadsCookie', '', -1, '/');
+    }
+    
+    if(quadsOptions.quadsChoice == 'page_redirect' && quadsOptions.page_redirect !="undefined"){
+        if(red_ulr==null || curr_url!=quadsOptions.page_redirect){
+        window.location = quadsOptions.page_redirect;
+        localStorage.setItem('curr',quadsOptions.page_redirect);
+      }
+    }
+  }else{
+    var adsCookie = quadsgetCookie('quadsCookie');
+    if(adsCookie==false) {
+      if( quadsOptions.quadsChoice == 'bar' || quadsOptions.quadsChoice == 'popup'){
+          modal.style.display = "block";
+      }
+      if(quadsOptions.quadsChoice == 'page_redirect' && quadsOptions.page_redirect !="undefined"){
+        window.location = quadsOptions.page_redirect;
+        quadssetCookie('quadsCookie', true, 1, '/');
+      }
+    }else{
+      modal.style.display = "none";
+    }
+  }
+}
+
+function quadsgetCookie(cname){
+    var name = cname + '=';
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return false;
+}
+function quadssetCookie(cname, cvalue, exdays, path){
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+var span = document.getElementsByClassName("quads-cls-notice")[0];
+if(span){
+  span.onclick = function() {
+    modal.style.display = "none";
+    document.cookie = "quads_prompt_close="+new Date();
+    quadssetCookie('quadsCookie', 'true', 1, '/');
+  }
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+    document.cookie = "quads_prompt_close="+new Date();
+    quadssetCookie('quadsCookie', 'true', 1, '/');
+  }
+}
+})();
+//Adblocker Notice Script Ends Here
+</script>
+
+<?php
 }
 /**
  * Show ads before posts
