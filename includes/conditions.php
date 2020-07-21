@@ -588,7 +588,7 @@ function quads_comparison_logic_checker($visibility){
           
              $post_type  = get_post_type($post->ID); 
 
-             if($v_id == $post_type){
+             if($v_id == $post_type && is_singular()){
                 $result     = true; 
              }
                      
@@ -621,7 +621,7 @@ function quads_comparison_logic_checker($visibility){
   // Posts
     case 'post':    
       
-        if($v_id == $post->ID){
+        if($v_id == $post->ID && is_singular()){
             $result = true;
         }
         
