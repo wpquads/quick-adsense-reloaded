@@ -520,7 +520,30 @@ error_outline
                 </table>
                 </div>);
               break;
-
+            case 'background_ad':
+             ad_type_name = 'Background';  
+              comp_html.push(<div key="background_ad">
+                <table>
+                  <tbody>
+                    <tr><td>
+                    <label>{__('Upload Ad Banner', 'quick-adsense-reloaded')}</label></td><td>
+                   {post_meta.image_src == '' ? <div><a className="button" onClick={this.selectimages}>{__(' Upload Banner', 'quick-adsense-reloaded')}</a></div>
+                   : <div>
+                   <img src={post_meta.image_src} className="banner_image" />
+                   <a className="button" onClick={this.remove_image}>{__('Remove Banner', 'quick-adsense-reloaded')}</a></div>}                      
+                    {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Upload Ad Image</div> :''}
+                     </td></tr>
+                     <tr><td>
+                    <label>{__('Ad Anchor link', 'quick-adsense-reloaded')}</label></td><td>
+                    <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
+                    {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Ad Anchor link</div> :''}
+                     </td></tr>
+                  </tbody>
+                </table>
+                </div>);
+              break;
             default:
               comp_html.push(<div key="noads" >{__('Ad not found', 'quick-adsense-reloaded')}</div>);
               break;

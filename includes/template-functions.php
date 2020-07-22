@@ -20,6 +20,8 @@ add_filter('the_content', 'quads_change_adsbygoogle_to_amp',11);
 add_action('wp_head',  'quads_common_head_code');
 add_action( 'the_post', 'quads_in_between_loop' , 20, 2 );
 add_action( 'the_title', 'quads_above_post_headline' , 20, 1 );
+add_action( 'init', 'quads_background_ad' );
+
 //Ad blocker
 add_action('wp_head', 'quads_adblocker_detector');
 add_action('wp_footer', 'quads_adblocker_popup_notice');
@@ -1880,3 +1882,79 @@ function quads_del_element($array, $idx) {
         }
            return $title;
     }
+     function quads_background_ad(){
+
+              ob_start( "quads_background_ad_last");  
+
+    }
+
+
+     function quads_background_ad_last($content){
+
+      require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        $api_service = new QUADS_Ad_Setup_Api_Service();
+        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+
+        if(isset($quads_ads['posts_data'])){        
+            foreach($quads_ads['posts_data'] as $key => $value){
+                $ads =$value['post_meta'];
+                if($value['post']['post_status']== 'draft'){
+                    continue;
+                }
+                if($ads['ad_type'] == 'background_ad'){
+
+                      $after_body=''
+                . '<div class="quads-bg-wrapper">
+                   <a style="background-image: url('.esc_attr($ads['image_src']).')" class="quads-bg-ad" target="_blank" href="'.esc_attr($ads['image_redirect_url']).'">'
+                . '</a>'                               
+                . '<div class="quads-bg-content">';   
+                $style=' <style>     .quads-bg-ad{                             
+                                  position: fixed;
+                                  top: 0;
+                                  left: 0;
+                                  height: 100%;
+                                  width: 100%;
+                                  background-position: center;
+                                  background-repeat: no-repeat; 
+                                  background-size: cover;
+                               }
+                              .quads-bg-content{
+                                  z-index:1;
+                                  margin: auto;
+                                  position: absolute;
+                                  top: 0; 
+                                  left: 0; 
+                                  bottom: 0; 
+                                  right: 0;
+                               }
+                               .h_m{
+                                 z-index: 1;
+                                 position: relative;
+                               }
+                               .content-wrapper{
+                                   position: relative;
+                                   z-index: 0;
+                                   margin: 0 16%
+                               }
+                               .cntr, .amp-wp-article{
+                                  background:#ffffff;
+                               }
+                               .footer{
+                                  background:#ffffff;
+                               }
+                              @media(max-width:768px){
+                                 .quads-bg-ad{
+                                   position:relative;
+                                 }
+                                 .content-wrapper{
+                                   margin:0;
+                                 }
+                               }</style>';
+                  $before_body = $style.'</div></div>';
+                  $content = preg_replace("/(\<body.*\>)/", $before_body."$1".$after_body, $content);
+                }
+
+            }
+        }
+           return $content;
+        }

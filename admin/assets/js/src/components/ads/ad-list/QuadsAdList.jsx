@@ -110,6 +110,10 @@ class QuadsAdList extends Component {
           case 'outbrain':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/adsensev3.png';
           break;
+          case 'background_ad':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/banner_ad_icon.png';
+          type = "Background Ad";
+          break;
         default:
           break;
       }
