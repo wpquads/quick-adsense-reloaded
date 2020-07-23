@@ -185,7 +185,7 @@ function quads_adblocker_notice_jsondata(){
         json_encode(
           array(
             'quadsChoice'          => esc_attr($settings['notice_type']),
-            'page_redirect'          => get_permalink($settings['page_redirect_path']['value'] ),
+            'page_redirect'          => (isset($settings['page_redirect_path']['value']) && !empty($settings['page_redirect_path']['value'])) ? get_permalink($settings['page_redirect_path']['value'] ):'',
             'allow_cookies'         => esc_attr($settings['notice_behaviour'])
           )
         );
