@@ -21,6 +21,8 @@ add_action('wp_head',  'quads_common_head_code');
 add_action( 'the_post', 'quads_in_between_loop' , 20, 2 );
 add_action( 'the_title', 'quads_above_post_headline' , 20, 1 );
 add_action( 'init', 'quads_background_ad' );
+add_action('amp_post_template_head','quads_adsense_auto_ads_amp_script',1);
+add_action('amp_post_template_footer','quads_adsense_auto_ads_amp_tag');
 
 //Ad blocker
 add_action('wp_head', 'quads_adblocker_detector');

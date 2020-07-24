@@ -58,6 +58,8 @@ class QuadsAdCreateRouter extends Component {
             ad_id                : '',
             ad_type              : '',
             label                : '',
+            adsense_ad_type      : 'display_ads',
+            data_layout_key      : '',
             g_data_ad_slot       : '',
             g_data_ad_client     : '',
             adsense_type         : '',
