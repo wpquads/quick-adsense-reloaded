@@ -92,7 +92,9 @@ class QuadsAdCreateRouter extends Component {
             data_cid                   : '' , 
             data_crid                  : '' , 
             mediavine_site_id          : '' ,
-            outbrain_widget_ids        : '' ,                      
+            outbrain_widget_ids        : '' , 
+            data_container             : '' ,    
+            data_js_src                : '' ,        
             },
             quads_form_errors : {
               g_data_ad_slot       : '',
@@ -439,7 +441,7 @@ class QuadsAdCreateRouter extends Component {
             }
           break;
               case 'mgid':
-            if(validation_flag && quads_post_meta.data_publisher && quads_post_meta.data_widget && quads_post_meta.data_container && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.data_js_src && quads_post_meta.data_container && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
@@ -606,7 +608,7 @@ class QuadsAdCreateRouter extends Component {
           }
             break;
             case 'mgid':
-          if(quads_post_meta.data_publisher && quads_post_meta.data_widget && quads_post_meta.data_container){
+          if(quads_post_meta.data_container && quads_post_meta.data_js_src){
             this.props.history.push(new_url); 
           }else{
             this.setState({show_form_error:true});

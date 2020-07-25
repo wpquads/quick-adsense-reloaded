@@ -368,17 +368,7 @@ error_outline
               comp_html.push(<div key="mgid">
                 <table>
                   <tbody>
-                    <tr><td>
-                    <label>{__('Data Publisher', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_publisher == '') ? 'quads_form_error' : ''} value={post_meta.data_publisher} onChange={this.props.adFormChangeHandler} type="text" id="data_publisher" name="data_publisher" placeholder="site.com" />
-                    {(show_form_error && post_meta.data_publisher == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Data Publisher</div> :''}
-                     </td></tr>
-                           <tr><td>
-                    <label>{__('Data Widget', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_widget == '') ? 'quads_form_error' : ''} value={post_meta.data_widget} onChange={this.props.adFormChangeHandler} type="text" id="data_widget" name="data_widget" placeholder="123456" />
-                    {(show_form_error && post_meta.data_widget == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Data Widget</div> :''}
-                     </td></tr>
-                           <tr><td>
+                       <tr><td>
                     <label>{__('Data Container', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_container == '') ? 'quads_form_error' : ''} value={post_meta.data_container} onChange={this.props.adFormChangeHandler} type="text" id="data_container" name="data_container" placeholder="M87ScriptRootC123645" />
                     {(show_form_error && post_meta.data_container == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>Enter Data Container</div> :''}

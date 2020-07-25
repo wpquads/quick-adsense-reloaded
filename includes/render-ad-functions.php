@@ -335,56 +335,15 @@ function quads_render_outbrain_async( $id ) {
 function quads_render_mgid_async( $id ) {
     global $quads_options;
 
-    $data_publisher   = esc_attr($quads_options['ads'][$id]['data_publisher']);
-    $data_widget      = esc_attr($quads_options['ads'][$id]['data_widget']);
-    $data_container   = esc_attr($quads_options['ads'][$id]['data_container']);                     
-    $data_js_src      = esc_attr($quads_options['ads'][$id]['data_js_src']);
     $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';  
     $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';  
 
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content MGID --> \n\n";
     $html .= '<div  style="height:'.esc_attr($height). 'px; width:'.esc_attr($width). 'px;" >                             
-                <div id="'. esc_attr($data_container).'"> 
-                <script> 
-                 (function() {
-                    var D = new Date(),
-                        d = document,
-                        b = "body",
-                        ce = "createElement",
-                        ac = "appendChild",
-                        st = "style",
-                        ds = "display",
-                        n = "none",
-                        gi = "getElementById",
-                        lp = d.location.protocol,
-                        wp = lp.indexOf("http") == 0 ? lp : "https:";
-                    var i = d[ce]("iframe");
-                    i[st][ds] = n;
-                    d[gi]("'. esc_attr($data_container).'")[ac](i);
-                    try {
-                        var iw = i.contentWindow.document;
-                        iw.open();
-                        iw.writeln("<ht" + "ml><bo" + "dy></bo" + "dy></ht" + "ml>");
-                        iw.close();
-                        var c = iw;
-                    } catch (e) {
-                        var iw = d;
-                        var c = d[gi]("'. esc_attr($data_container).'");
-                    }
-                    var dv = iw[ce]("div");
-                    dv.id = "MG_ID";
-                    dv[st][ds] = n;
-                    dv.innerHTML = '. esc_attr($data_widget).';
-                    c[ac](dv);
-                    var s = iw[ce]("script");
-                    s.async = "async";
-                    s.defer = "defer";
-                    s.charset = "utf-8";
-                    s.src = wp + "'.esc_url($data_js_src).'?t=" + D.getYear() + D.getMonth() + D.getUTCDate() + D.getUTCHours();
-                    c[ac](s);
-                })();
-               </script> 
-               </div>
+                <div id="'.esc_attr($quads_options['ads'][$id]['data_container']).'">
+                </div>
+                <script src="'.esc_attr($quads_options['ads'][$id]['data_js_src']).'" async>
+                </script>
             </div>'; 
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_mgid_async', $html );
@@ -1052,11 +1011,11 @@ function quads_render_amp($id,$ampsupport=''){
 
                 $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';  
                 $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';  
-                                  
+                    preg_match('/\/([a-z.]+)\.([0-9]+)\.js/', $quads_options['ads'][$id]['data_js_src'], $matches);  
                   $html = '<amp-ad width='.esc_attr($width).' height='.esc_attr($height).'
                                   type="mgid"
-                                  data-publisher="'.esc_attr($quads_options['ads'][$id]['data_publisher']).'"
-                                  data-widget="'.esc_attr($quads_options['ads'][$id]['data_widget']).'"
+                                  data-publisher="'.esc_attr($matches[1]).'"
+                                  data-widget="'.esc_attr($matches[2]).'"
                                   data-container="'.esc_attr($quads_options['ads'][$id]['data_container']).'"
                                 >
                                 </amp-ad>';
