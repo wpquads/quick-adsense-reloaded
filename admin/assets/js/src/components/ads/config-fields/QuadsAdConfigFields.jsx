@@ -378,31 +378,6 @@ error_outline
                     {(show_form_error && post_meta.data_js_src == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>Enter Data Js Src</div> :''}
                      </td></tr>
-                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
-                      <div>
-                        <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
-                        <option value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</option>
-                        <option value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</option> 
-                      </select>
-                      {
-                        post_meta.adsense_type !== 'responsive' ?                        
-                      <div className="quads-adsense-width-heigth">
-                        
-                        <div className="quads-adsense-width">
-                          <label>{__('Width', 'quick-adsense-reloaded')}
-                          <input value={post_meta.g_data_ad_width ? post_meta.g_data_ad_width:'300'} onChange={this.props.adFormChangeHandler} type="number" id="g_data_ad_width" name="g_data_ad_width" /> 
-                          </label>
-                        </div>
-                        <div className="quads-adsense-height">
-                          <label>{__('Height', 'quick-adsense-reloaded')}
-                          <input value={post_meta.g_data_ad_height  ? post_meta.g_data_ad_height:'250'} onChange={this.props.adFormChangeHandler} type="number" id="g_data_ad_height" name="g_data_ad_height" />  
-                          </label>
-                        </div>
-                      </div>
-                      : ''
-                      }
-                      </div>
-                      </td></tr>
                   </tbody>
                 </table>
                 </div>);

@@ -335,16 +335,13 @@ function quads_render_outbrain_async( $id ) {
 function quads_render_mgid_async( $id ) {
     global $quads_options;
 
-    $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';  
-    $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';  
-
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content MGID --> \n\n";
-    $html .= '<div  style="height:'.esc_attr($height). 'px; width:'.esc_attr($width). 'px;" >                             
+    $html .= '                             
                 <div id="'.esc_attr($quads_options['ads'][$id]['data_container']).'">
                 </div>
                 <script src="'.esc_attr($quads_options['ads'][$id]['data_js_src']).'" async>
                 </script>
-            </div>'; 
+            '; 
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_mgid_async', $html );
 }
@@ -1003,16 +1000,11 @@ function quads_render_amp($id,$ampsupport=''){
         $html = '<amp-ad width='.esc_attr($width).' height='.esc_attr($height).' type="doubleclick" data-ad-slot="/'.esc_attr($network_code)."/".esc_attr($ad_unit_name). '/" data-multi-size="468x60,300x250"></amp-ad>';
             }else if($quads_options['ads'][$id]['ad_type'] == 'yandex'){
 
-                $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';  
-                $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';  
-                
                   $html = '<amp-ad width='.esc_attr($width).' height='.esc_attr($height).' type="yandex" data-block-id="'.esc_attr($quads_options['ads'][$id]['block_id']).'" data-html-access-allowed="true"></amp-ad>';
             }else if($quads_options['ads'][$id]['ad_type'] == 'mgid'){
 
-                $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';  
-                $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';  
                     preg_match('/\/([a-z.]+)\.([0-9]+)\.js/', $quads_options['ads'][$id]['data_js_src'], $matches);  
-                  $html = '<amp-ad width='.esc_attr($width).' height='.esc_attr($height).'
+                  $html = '<amp-ad  width="600" height="600"
                                   type="mgid"
                                   data-publisher="'.esc_attr($matches[1]).'"
                                   data-widget="'.esc_attr($matches[2]).'"
