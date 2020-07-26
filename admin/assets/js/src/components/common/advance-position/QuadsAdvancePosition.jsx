@@ -71,8 +71,7 @@ class QuadsAdvancePosition extends Component {
            <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select Where Will The AD Appear</div></span> : ''}</div>
         </div> 
 <div className='position_content'>
-          <div>
-          {post_meta.position == 'amp_ads_in_loops' ? <input min="1" onChange={this.props.adFormChangeHandler} name="ads_loop_number" value={post_meta.ads_loop_number} placeholder="Position" type="number" /> : ''}         
+          <div>       
           {post_meta.position == 'after_image' ? <input min="1" onChange={this.props.adFormChangeHandler} name="image_number" value={post_meta.image_number}  type="number" /> : ''}         
           </div>
           <div>
