@@ -397,7 +397,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             $quads_options['quicktags']['QckTags'] = "1";
             add_option('quads-mode','new');
             update_option( 'quads_settings', $quads_options );
-            update_option( 'quads_settings_backup', $quads_options );
          }
 
          // Update the current version
