@@ -219,6 +219,7 @@ removeSeleted = (e) => {
                     error_outline
                     </span>Enter Data Slot ID</div> :''}</td></tr>
                       : null }
+                      { !post_meta.adsense_ad_type || post_meta.adsense_ad_type == 'display_ads' ? (
                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
                         <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
@@ -244,6 +245,7 @@ removeSeleted = (e) => {
                       }
                       </div>
                       </td></tr>
+                      ) : null }
                   </tbody>
                 </table>
                 </div>);
