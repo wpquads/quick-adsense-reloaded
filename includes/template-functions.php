@@ -1809,6 +1809,7 @@ function quads_del_element($array, $idx) {
      * @param WP_Query $wp_query query object
      */
      function quads_in_between_loop( $post, $wp_query = null ) {
+       global $quads_new_interface_ads;
 
         $is_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
 
@@ -1842,10 +1843,14 @@ function quads_del_element($array, $idx) {
             }
             $handled_indexes[] = $curr_index;
         }
-
-        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        $api_service = new QUADS_Ad_Setup_Api_Service();
-        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        if(empty($quads_new_interface_ads)){
+          require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+          $api_service = new QUADS_Ad_Setup_Api_Service();
+          $quads_ads = $api_service->getAdDataByParam('quads-ads');
+          $quads_new_interface_ads = $quads_ads;
+        }else{
+          $quads_ads = $quads_new_interface_ads;
+        }
 
         if(isset($quads_ads['posts_data'])){        
             foreach($quads_ads['posts_data'] as $key => $value){
@@ -1856,7 +1861,6 @@ function quads_del_element($array, $idx) {
                  $display_after_every = (isset($ads['display_after_every']) && !empty($ads['display_after_every'])) ? $ads['display_after_every'] : false;
                 if($ads['position'] == 'amp_ads_in_loops' && (isset($ads['ads_loop_number']) && ($ads['ads_loop_number'] == $curr_index || ($display_after_every && $curr_index!== 0 && ($curr_index % $ads['ads_loop_number'] == 0))))){
                     $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
-                    echo $curr_index % $ads['ads_loop_number'].'----------------';
                   echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
                 }
 
