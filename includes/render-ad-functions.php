@@ -85,6 +85,14 @@ function quads_common_head_code(){
     }
     $data_slot  = '';   
     $adsense     = false;   
+        if(isset($quads_options['ads'])){
+        foreach ($quads_options['ads'] as $key => $value) {
+            if($value['ad_type'] == 'adsense'){
+                $adsense  = true;  
+                break;
+            }     
+        }
+    }
     require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
     $api_service = new QUADS_Ad_Setup_Api_Service();
     $quads_ads = $api_service->getAdDataByParam('quads-ads');               
