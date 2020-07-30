@@ -19,7 +19,6 @@ add_filter('rest_prepare_post', 'quads_classic_to_gutenberg', 10, 1);
 add_filter('the_content', 'quads_change_adsbygoogle_to_amp',11);
 add_action('wp_head',  'quads_common_head_code');
 add_action( 'the_post', 'quads_in_between_loop' , 20, 2 );
-add_action( 'the_title', 'quads_above_post_headline' , 20, 1 );
 add_action( 'init', 'quads_background_ad' );
 add_action('amp_post_template_head','quads_adsense_auto_ads_amp_script',1);
 add_action('amp_post_template_footer','quads_adsense_auto_ads_amp_tag');
@@ -1868,28 +1867,6 @@ function quads_del_element($array, $idx) {
         }
     }
 
-
-    function quads_above_post_headline($title){
-
-      require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        $api_service = new QUADS_Ad_Setup_Api_Service();
-        $quads_ads = $api_service->getAdDataByParam('quads-ads');
-
-        if(isset($quads_ads['posts_data'])){        
-            foreach($quads_ads['posts_data'] as $key => $value){
-                $ads =$value['post_meta'];
-                if($value['post']['post_status']== 'draft'){
-                    continue;
-                }
-                if($ads['position'] == 'above_post_headline'){
-                    $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
-                    $title = quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] ).$title;
-                }
-
-            }
-        }
-           return $title;
-    }
      function quads_background_ad(){
         if(!is_admin()){   
           ob_start( "quads_background_ad_last");  

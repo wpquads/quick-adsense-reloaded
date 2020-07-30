@@ -35,7 +35,6 @@ class QuadsAdvancePosition extends Component {
           <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
           <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
           <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
-          <option value="above_post_headline">Above Post Headline</option>
           <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option> 
           </optgroup>  
          
@@ -65,7 +64,6 @@ class QuadsAdvancePosition extends Component {
            <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
            <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
           <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
-          <option value="above_post_headline">Above Post Headline</option>
           <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
           </select>  }
            <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select Where Will The AD Appear</div></span> : ''}</div>
