@@ -448,7 +448,7 @@ function quads_render_google_async_new( $id ) {
     }
     $ad_data = '';
     if (isset($quads_options['ads'][$id]['adsense_ad_type']) && $quads_options['ads'][$id]['adsense_ad_type'] == 'in_feed_ads'){
-            $ad_data = ' style="display:block;"
+            $ad_data = ' style="display:block;min-height:50px"
                          data-ad-format="fluid"
                          data-ad-layout-key="'.esc_attr($quads_options['ads'][$id]['data_layout_key']).'"';
     }else if (isset($quads_options['ads'][$id]['adsense_ad_type']) && $quads_options['ads'][$id]['adsense_ad_type'] == 'in_article_ads'){
