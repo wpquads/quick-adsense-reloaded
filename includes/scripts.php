@@ -126,6 +126,7 @@ if(is_object($screens)){
         'nonce'         => wp_create_nonce( 'quads_ajax_nonce' ),
         'error'         => __( "error", 'quick-adsense-reloaded' ),
         'path'          => get_option( 'siteurl' ),
+        'plugin_url'    => QUADS_PLUGIN_URL,
         'vi_revenue'    => !empty( $quads->vi->getRevenue()->mtdReport ) ? $quads->vi->getRevenue()->mtdReport : '',
         'vi_login_url'  => $quads->vi->getLoginURL(),
         'vi_signup_url' => !empty( $signupURL ) ? $signupURL : '',

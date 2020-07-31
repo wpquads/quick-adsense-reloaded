@@ -99,19 +99,20 @@ class QuadsAdList extends Component {
           type = "Banner Ad";
           break;
           case 'taboola':
-          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/adsensev3.png';
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/taboola_icon.png';
           break;
           case 'media_net':
-          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/adsensev3.png';
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/medianet_icon.png';
+          type = "Media net";
           break;
           case 'mediavine':
-          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/adsensev3.png';
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/mediavine_icon.png';
           break;
           case 'outbrain':
-          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/adsensev3.png';
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/outbrain_icon.png';
           break;
           case 'background_ad':
-          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/banner_ad_icon.png';
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/bg_ad_icon.png';
           type = "Background Ad";
           break;
         default:

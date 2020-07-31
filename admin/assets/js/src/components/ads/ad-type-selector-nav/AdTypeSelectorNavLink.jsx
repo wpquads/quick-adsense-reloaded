@@ -58,19 +58,19 @@ class AdTypeSelectorNavLink extends Component {
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/banner_ad.png';
               break;
               case 'taboola':
-              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/taboola.png';
               break;
               case 'media_net':
-              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/medianet.png';
               break;
               case 'mediavine':
-              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/mediavine.png';
               break;
               case 'outbrain':
-              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/outbrain.png';
               break;
               case 'background_ad':
-              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/bg_ad.png';
               break;
             default:
               break;
