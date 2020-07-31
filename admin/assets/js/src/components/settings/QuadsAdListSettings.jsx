@@ -899,14 +899,16 @@ handleMultiPluginsChange = (option) => {
                               <tbody>
                                 <tr>
                                   <th>Notice Type</th>
-                                  <td>
+                                  <td className="notice_type">
+                                  <span>
                                    <input id="notice_type" type="radio" value="bar" checked={settings.notice_type =='bar'} name="notice_type" onChange={this.formChangeHandler} />Bar
-                                   <br/>
+                                    </span><span>
                                    <input id="popup" type="radio" value="popup" checked={settings.notice_type =='popup'}  name="notice_type" onChange={this.formChangeHandler} />Popup
-                                   <br/>
+                                    </span><span>
                                    <input id="page_redirect" type="radio" checked={settings.notice_type =='page_redirect'}  value="page_redirect" name="notice_type" onChange={this.formChangeHandler}  />Page Redirection
-                                   <br/>
+                                  </span><span>
                                    <input id="ad_blocker_message" type="radio" checked={settings.notice_type =='ad_blocker_message'} name="notice_type" value="ad_blocker_message"  onChange={this.formChangeHandler} /> Block Message 
+                                   </span>
                                    <div className="quads-message bottom">If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker. <a href="http://wpquads.com/docs/customize-ad-blocker-notice/" target="_blank">Read here</a> how to customize colors and text.</div>
                                   </td>
                                 </tr>
@@ -1040,8 +1042,10 @@ handleMultiPluginsChange = (option) => {
                                 : null }
           
                               </tbody>
-                            </table>
+                            </table><div className="quads-save-close">
+
                             <a className="quads-btn quads-btn-primary" onClick={this.saveAdBlockSuport}>OK</a>
+                            </div>
              </div>             
              </div>        
             </div> : null
