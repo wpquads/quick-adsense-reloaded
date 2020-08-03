@@ -13,7 +13,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 // we need to hook into the_content on lower than default priority (that's why we use separate hook)
-add_filter('the_content', 'quads_post_settings_to_quicktags', 5);
+add_filter('the_content', 'quads_post_settings_to_quicktags', quads_get_load_priority());
 add_filter('the_content', 'quads_process_content', quads_get_load_priority());
 add_filter('rest_prepare_post', 'quads_classic_to_gutenberg', 10, 1);
 add_filter('the_content', 'quads_change_adsbygoogle_to_amp',11);
