@@ -132,7 +132,7 @@ Alternative Installation:
 
 == Changelog == 
 
-= 2.0.10 =
+= 2.0.10 (03rd August 2020) =
 * New: AD blocker 2.0 #153
 * New: Taboola support #144
 * New: Media.net support #134
