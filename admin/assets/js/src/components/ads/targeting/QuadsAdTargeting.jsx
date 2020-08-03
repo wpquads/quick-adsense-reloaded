@@ -24,6 +24,8 @@ class QuadsAdTargeting extends Component {
           return (
                 <div>
                 <div className="quads-settings-group">
+              {post_meta.ad_type != "background_ad" ? 
+              <>
                 <div>{__('Position', 'quick-adsense-reloaded')}</div>  
                 <div className="quads-panel">
                 <div className="quads-panel-body"> 
@@ -78,6 +80,8 @@ class QuadsAdTargeting extends Component {
                 </table>                                 
                 </div>  
                 </div> 
+                </>
+                : ''}
                 </div> 
                 {post_meta.position != 'ad_shortcode' ?                   
                   <QuadsVisibility 

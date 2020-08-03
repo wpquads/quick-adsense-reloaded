@@ -8,7 +8,7 @@
 		 */
 		init : function( ed, url ) {
 			ed.addButton( 'quads_shortcode_button', {
-				title: ed.getLang( 'quads_shortcode.title', 'Quads ads shortcodes' ),
+				title: ed.getLang( 'quads_shortcode.title', 'WPQuads ads shortcodes' ),
 				image : quads.plugin_url+'admin/assets/js/src/images/wpquads_classic_icon.png',
 				classes: 'quads-tinymce-content-button', 
 				cmd: 'quads_shortcode_command'

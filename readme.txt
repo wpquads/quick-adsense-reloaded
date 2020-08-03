@@ -10,7 +10,7 @@ Tags: adsense, ads, ad, google adsense, advertising, amp, ad injection, ad inser
 Requires at least: 3.6+
 Tested up to: 5.4.2
 Requires PHP: 5.3
-Stable tag: 2.0.9.1
+Stable tag: 2.0.10
 
 Ads & AdSense Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
@@ -22,6 +22,8 @@ WP QUADS is coded well with no overhead and is used on huge websites with millio
 <br />
 [See all features](https://wpquads.com/)
 <br /> 
+* Multi ad type add support (Adsense with sub ad types, Google AD Manager, Yandex, MGID, Image Banner, Taboola, Media.net, MediaVine, Outbrain, Background ) with multiple positions<br />
+* AdBlocker Support<br />
 * AMP support! Add AMP ads automatically to your site (WP QUADS PRO needed)<br /> 
 * Use mobile optimized and responsive AdSense ads<br /> 
 * Disable AdSense ads on phone, tablet or desktop devices<br /> 
@@ -130,6 +132,24 @@ Alternative Installation:
 
 == Changelog == 
 
+= 2.0.10 =
+* New: AD blocker 2.0 #153
+* New: Taboola support #144
+* New: Media.net support #134
+* New: Outbrain support #143
+* New: MediaVine support #142
+* New: Background ad support #145
+* New: Ads in-between Loop #127
+* New: Added the ad option in the classic editor #201
+* New: Go Pro button in New interface #198
+* New: Adsense sub ad types #212
+* Fix: bug with MGID #214
+* Fix: Design issue #215
+* Fix: Adsense ad related script not loading #216
+* Fix: Changed help tab email Address #202
+* Fix: Loading... issue in the homepage with Extra theme #209
+* Fix: Hide Ads are not working on Elementor. #217
+
 = 2.0.9.1 (03rd July 2020) =
 * New: Show ads After HTML Tag #150
 * New: AMP by automattic compatibility #187
@@ -209,12 +229,10 @@ Alternative Installation:
 
 = 2.0 =
 * New interface added
-== Changelog == 
 = 1.8.18 =
 * Fix: The content missing issue in Wordpress 5.4 version.
 * Fix: Fixed amp validation issue.
 
-== Changelog == 
 = 1.8.17 =
 * Fix: Added vi banner dis-missable.
 * Fix: Debug Error in quads help tab.

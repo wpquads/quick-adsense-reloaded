@@ -1919,23 +1919,22 @@ function quads_del_element($array, $idx) {
                 . '</a>'                               
                 . '<div class="quads-bg-content">';   
                 $style=' <style>     .quads-bg-ad{                             
-                                  position: fixed;
-                                  top: 0;
-                                  left: 0;
-                                  height: 100%;
-                                  width: 100%;
-                                  background-position: center;
-                                  background-repeat: no-repeat; 
-                                  background-size: cover;
+                                      position: absolute;
+                                      top: 0;
+                                      left: 0;
+                                      height: 100%;
+                                      width: 100%;
+                                      background-position: center;
+                                      background-repeat: no-repeat;
+                                      background-size: cover;
                                }
                               .quads-bg-content{
-                                  z-index:1;
-                                  margin: auto;
-                                  position: absolute;
-                                  top: 0; 
-                                  left: 0; 
-                                  bottom: 0; 
-                                  right: 0;
+                                margin: auto;
+                                position: inherit;
+                                top: 0;
+                                left: 0;
+                                bottom: 0;
+                                right: 0;
                                }
                                .h_m{
                                  z-index: 1;

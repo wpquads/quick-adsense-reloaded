@@ -50,7 +50,7 @@ class QuadsAdConfig extends Component {
               />
               </div> 
               :''}   
-              {this.props.parentState.ad_type !="random_ads" ?
+              {this.props.parentState.ad_type !="random_ads" && this.props.parentState.ad_type != 'background_ad' ?
               <div className="quads-settings-group">
               <QuadsLayout 
               ad_type={page.ad_type} 
