@@ -417,7 +417,10 @@ function quads_visitor_comparison_logic_checker($visibility){
           }       
         break;
         
-        case 'geo_location':     
+        case 'geo_location':   
+            if(!quads_is_extra()){
+              break;
+            }  
            $country_code =  ''; 
            $saved_ip     =  '';
            $user_ip      =  quads_get_client_ip();    
@@ -538,14 +541,12 @@ function quads_get_ip_geolocation(){
       $saved_ip = trim(base64_decode($saved_ip_list[0])); 
     }
     if(empty($saved_ip_list) && $saved_ip != $user_ip){
-      if(isset($quads_options['ip_geolocation_api']) && $quads_options['ip_geolocation_api'] !=''){
-        $geo_location_data = wp_remote_get('https://api.ipgeolocation.io/ipgeo?apiKey='.$quads_options['ip_geolocation_api'].'&ip='.$user_ip.'&fields=country_code3' ); 
-        $geo_location_arr  = json_decode($geo_location_data['body'], true); 
-        if(isset($geo_location_arr['ip']) && isset($geo_location_arr['country_code3'])){
-          setcookie('quads_client_info[0]', trim(base64_encode($geo_location_arr['ip'])), time() + (86400 * 60), "/"); 
-          setcookie('quads_client_info[1]', trim(base64_encode ($geo_location_arr['country_code3'])), time() + (86400 * 60), "/"); 
+        $geo_location_data = wp_remote_get('http://ip-api.com/php/'.$user_ip); 
+        $geo_location_arr  = unserialize($geo_location_data['body']); 
+        if(isset($geo_location_arr['status']) && $geo_location_arr['status'] == 'success'){
+          setcookie('quads_client_info[0]', trim(base64_encode($geo_location_arr['query'])), time() + (86400 * 60), "/"); 
+          setcookie('quads_client_info[1]', trim(base64_encode ($geo_location_arr['countryCode'])), time() + (86400 * 60), "/"); 
         }
-      }
     }                                            
   }         
 } 

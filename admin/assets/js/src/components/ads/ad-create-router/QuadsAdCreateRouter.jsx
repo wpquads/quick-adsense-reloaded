@@ -399,6 +399,19 @@ class QuadsAdCreateRouter extends Component {
           validation_flag = false;
         }
       }
+      if(!quads_localize_data.is_pro ){
+      quads_post_meta.targeting_include.map( (item, index) => {
+          if(item.type.value == "geo_location"){
+            validation_flag = false;
+         }
+        } )
+        quads_post_meta.targeting_exclude.map( (item, index) => {
+          if(item.type.value == "geo_location"){
+            validation_flag = false;
+         }
+        } )
+      }
+     
       switch (quads_post_meta.ad_type) {
 
         case 'plain_text':
