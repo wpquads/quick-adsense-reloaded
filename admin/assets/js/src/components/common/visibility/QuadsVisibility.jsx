@@ -53,6 +53,9 @@ class QuadsVisibility extends Component {
   getConditionMeta = (condition_type, visibility_type, search_param = '') => {
         
     let url = quads_localize_data.rest_url +"quads-route/get-condition-list?condition="+condition_type+'&search='+search_param;
+    if(quads_localize_data.rest_url.includes('?')){
+      url = quads_localize_data.rest_url +"quads-route/get-condition-list&condition="+condition_type+'&search='+search_param;
+      }
       
       fetch(url, {
         headers: {                    

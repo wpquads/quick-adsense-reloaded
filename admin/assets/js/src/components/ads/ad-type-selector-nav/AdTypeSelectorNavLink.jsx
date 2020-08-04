@@ -19,7 +19,12 @@ class AdTypeSelectorNavLink extends Component {
                     {ad_type:'yandex',ad_type_name:'Yandex'},  
                     {ad_type:'mgid',ad_type_name:'MGID'}, 
                     {ad_type:'ad_image',ad_type_name:'Banner Ad'},
-                    {ad_type:'plain_text',ad_type_name:'Plain Text / HTML / JS'}, 
+                    {ad_type:'plain_text',ad_type_name:'Plain Text / HTML / JS'},
+                    {ad_type:'taboola',ad_type_name:'Taboola'}, 
+                    {ad_type:'media_net',ad_type_name:'Media.net'},
+                    {ad_type:'mediavine',ad_type_name:'Mediavine'},
+                    {ad_type:'outbrain',ad_type_name:'Outbrain'},  
+                     {ad_type:'background_ad',ad_type_name:'Background ad'},    
                     {ad_type:'random_ads',ad_type_name:'Random Ads'},  
                                
                     ]          
@@ -51,6 +56,21 @@ class AdTypeSelectorNavLink extends Component {
               break;
               case 'ad_image':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/banner_ad.png';
+              break;
+              case 'taboola':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/taboola.png';
+              break;
+              case 'media_net':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/medianet.png';
+              break;
+              case 'mediavine':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/mediavine.png';
+              break;
+              case 'outbrain':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/outbrain.png';
+              break;
+              case 'background_ad':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/bg_ad.png';
               break;
             default:
               break;

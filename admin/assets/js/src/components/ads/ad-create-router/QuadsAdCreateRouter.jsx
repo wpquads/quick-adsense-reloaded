@@ -58,6 +58,8 @@ class QuadsAdCreateRouter extends Component {
             ad_id                : '',
             ad_type              : '',
             label                : '',
+            adsense_ad_type      : 'display_ads',
+            data_layout_key      : '',
             g_data_ad_slot       : '',
             g_data_ad_client     : '',
             adsense_type         : '',
@@ -78,13 +80,21 @@ class QuadsAdCreateRouter extends Component {
             enabled_on_amp        : false,
             enable_on_end_of_post : false,
             after_the_percentage_value: 50,
+            ads_loop_number: 1,
             image_caption : false,
             include_dropdown           : false,
             exclude_dropdown           : false,  
             random_ads_list            : [], 
             image_src                  : '',
             image_src_id               : '' ,     
-            image_redirect_url         : '' ,                           
+            image_redirect_url         : '' ,  
+            taboola_publisher_id       : '' ,   
+            data_cid                   : '' , 
+            data_crid                  : '' , 
+            mediavine_site_id          : '' ,
+            outbrain_widget_ids        : '' , 
+            data_container             : '' ,    
+            data_js_src                : '' ,        
             },
             quads_form_errors : {
               g_data_ad_slot       : '',
@@ -119,7 +129,10 @@ class QuadsAdCreateRouter extends Component {
 
     getAdDataById =  (ad_id) => {
 
-      let url = quads_localize_data.rest_url+'quads-route/get-ad-by-id?ad-id='+ad_id;      
+      let url = quads_localize_data.rest_url+'quads-route/get-ad-by-id?ad-id='+ad_id;   
+      if(quads_localize_data.rest_url.includes('?')){
+         url = quads_localize_data.rest_url+'quads-route/get-ad-by-id&ad-id='+ad_id;  
+      }   
       fetch(url,{
         headers: {                    
           'X-WP-Nonce': quads_localize_data.nonce,
@@ -399,7 +412,7 @@ class QuadsAdCreateRouter extends Component {
           break;
 
           case 'adsense':
-            if(validation_flag && quads_post_meta.g_data_ad_slot && quads_post_meta.g_data_ad_client && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && (quads_post_meta.adsense_ad_type == 'adsense_auto_ads' || quads_post_meta.g_data_ad_slot) && quads_post_meta.g_data_ad_client && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
@@ -428,7 +441,7 @@ class QuadsAdCreateRouter extends Component {
             }
           break;
               case 'mgid':
-            if(validation_flag && quads_post_meta.data_publisher && quads_post_meta.data_widget && quads_post_meta.data_container && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.data_js_src && quads_post_meta.data_container && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
@@ -442,7 +455,42 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             }
           break;
-      
+          case 'taboola':
+            if(validation_flag && quads_post_meta.taboola_publisher_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;
+        case 'media_net':
+            if(validation_flag && quads_post_meta.data_cid && quads_post_meta.data_crid
+ && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;
+          case 'mediavine':
+            if(validation_flag && quads_post_meta.mediavine_site_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;
+          case 'outbrain':
+            if(validation_flag && quads_post_meta.outbrain_widget_ids && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break; 
+          case 'background_ad':
+            if(validation_flag && quads_post_meta.image_src && quads_post_meta.image_redirect_url && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;     
         default:
           break;
       }
@@ -531,7 +579,7 @@ class QuadsAdCreateRouter extends Component {
             break;
 
             case 'adsense':
-              if(quads_post_meta.g_data_ad_slot && quads_post_meta.g_data_ad_client){
+              if( (quads_post_meta.adsense_ad_type == 'adsense_auto_ads' || quads_post_meta.g_data_ad_slot) && quads_post_meta.g_data_ad_client){
                 this.props.history.push(new_url); 
               }else{
                 this.setState({show_form_error:true});
@@ -560,7 +608,7 @@ class QuadsAdCreateRouter extends Component {
           }
             break;
             case 'mgid':
-          if(quads_post_meta.data_publisher && quads_post_meta.data_widget && quads_post_meta.data_container){
+          if(quads_post_meta.data_container && quads_post_meta.data_js_src){
             this.props.history.push(new_url); 
           }else{
             this.setState({show_form_error:true});
@@ -572,7 +620,42 @@ class QuadsAdCreateRouter extends Component {
           }else{
             this.setState({show_form_error:true});
           } 
+          break;
+          case 'taboola':
+            if(quads_post_meta.taboola_publisher_id){
+              this.props.history.push(new_url); 
+            }else{
+              this.setState({show_form_error:true});
+            }
             break;
+          case 'media_net':
+            if(quads_post_meta.data_cid && quads_post_meta.data_crid){
+              this.props.history.push(new_url); 
+            }else{
+              this.setState({show_form_error:true});
+            }
+            break;
+          case 'mediavine':
+            if(quads_post_meta.mediavine_site_id){
+              this.props.history.push(new_url); 
+            }else{
+              this.setState({show_form_error:true});
+            }
+            break;
+          case 'outbrain':
+            if(quads_post_meta.outbrain_widget_ids){
+              this.props.history.push(new_url); 
+            }else{
+              this.setState({show_form_error:true});
+            }
+            break;
+            case 'background_ad':
+          if(quads_post_meta.image_src && quads_post_meta.image_redirect_url){
+            this.props.history.push(new_url); 
+          }else{
+            this.setState({show_form_error:true});
+          } 
+          break;
           default:
             break;
         }

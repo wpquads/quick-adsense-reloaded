@@ -121,7 +121,10 @@ removeSeleted = (e) => {
 
 }
   getallads = (search_text = '',page = '') => {
-   let url = quads_localize_data.rest_url + "quads-route/get-ads-list?posts_per_page=100&page="+page;
+       let url = quads_localize_data.rest_url + "quads-route/get-ads-list?posts_per_page=100&page="+page;
+  if(quads_localize_data.rest_url.includes('?')){
+        url = quads_localize_data.rest_url + "quads-route/get-ads-list&posts_per_page=100&page="+page;
+  }
       
       fetch(url, {
         headers: {                    
@@ -190,13 +193,33 @@ removeSeleted = (e) => {
               comp_html.push(<div key="adsense">
                 <table>
                   <tbody>
+                    <tr><td><label>{__('AdSense Type', 'quick-adsense-reloaded')}</label></td>
+                    <td>
+                      <div>
+                        <select value={post_meta.adsense_ad_type} onChange={this.props.adFormChangeHandler} name="adsense_ad_type" id="adsense_ad_type">
+                          <option value="display_ads">{__('Display Ads', 'quick-adsense-reloaded')}</option>
+                          <option value="in_feed_ads">{__('In-Feel Ads', 'quick-adsense-reloaded')}</option> 
+                          <option value="in_article_ads">{__('In-Article Ads', 'quick-adsense-reloaded')}</option> 
+                          <option value="adsense_auto_ads">{__('Auto Ads', 'quick-adsense-reloaded')}</option> 
+                        </select>
+                      </div>
+                    </td></tr> 
+                    {post_meta.adsense_ad_type == 'in_feed_ads' ? 
+                    <tr><td><label>{__('Data Layout Key', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_layout_key == '') ? 'quads_form_error' : ''} value={post_meta.data_layout_key} placeholder="-ez+4v+7r-fc+65" onChange={this.props.adFormChangeHandler} type="text" id="data_layout_key" name="data_layout_key" />
+                    {(show_form_error && post_meta.data_layout_key == '') ? <div className="quads_form_msg"><span className="material-icons">
+                      error_outline</span>Enter Data Layout Key</div> :''} </td></tr>
+                      : null }
                     <tr><td><label>{__('Data Client ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.g_data_ad_client == '') ? 'quads_form_error' : ''} value={post_meta.g_data_ad_client} placeholder="ca-pub-2005XXXXXXXXX342" onChange={this.props.adFormChangeHandler} type="text" id="g_data_ad_client" name="g_data_ad_client" />
                     {(show_form_error && post_meta.g_data_ad_client == '') ? <div className="quads_form_msg"><span className="material-icons">
-error_outline</span>Enter Data Client ID</div> :''} </td></tr>
+                      error_outline</span>Enter Data Client ID</div> :''} </td></tr>
+
+                     {post_meta.adsense_ad_type != 'adsense_auto_ads' ? 
                     <tr><td><label>{__('Data Slot ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.g_data_ad_slot == '') ? 'quads_form_error' : ''}  value={post_meta.g_data_ad_slot} onChange={this.props.adFormChangeHandler} type="text" id="g_data_ad_slot" name="g_data_ad_slot" placeholder="70XXXXXX12" />
                     {(show_form_error && post_meta.g_data_ad_slot == '') ? <div className="quads_form_msg"><span className="material-icons">
-error_outline
-</span>Enter Data Slot ID</div> :''}</td></tr>
+                    error_outline
+                    </span>Enter Data Slot ID</div> :''}</td></tr>
+                      : null }
+                      { !post_meta.adsense_ad_type || post_meta.adsense_ad_type == 'display_ads' ? (
                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
                         <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
@@ -222,6 +245,7 @@ error_outline
                       }
                       </div>
                       </td></tr>
+                      ) : null }
                   </tbody>
                 </table>
                 </div>);
@@ -341,41 +365,21 @@ error_outline
                 </div>);
 
               break;
-              case 'mgid':
+            case 'mgid':
              ad_type_name = 'MGID';  
               comp_html.push(<div key="mgid">
                 <table>
                   <tbody>
-                    <tr><td>
-                    <label>{__('Upload Ad Image', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_widget == '') ? 'quads_form_error' : ''} value={post_meta.data_widget} onChange={this.props.adFormChangeHandler} type="text" id="data_widget" name="data_widget" placeholder="123456" />
-                    {(show_form_error && post_meta.data_widget == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Data Widget</div> :''}
+                       <tr><td>
+                    <label>{__('Data Container', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_container == '') ? 'quads_form_error' : ''} value={post_meta.data_container} onChange={this.props.adFormChangeHandler} type="text" id="data_container" name="data_container" placeholder="M87ScriptRootC123645" />
+                    {(show_form_error && post_meta.data_container == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Data Container</div> :''}
                      </td></tr>
-                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
-                      <div>
-                        <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
-                        <option value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</option>
-                        <option value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</option> 
-                      </select>
-                      {
-                        post_meta.adsense_type !== 'responsive' ?                        
-                      <div className="quads-adsense-width-heigth">
-                        
-                        <div className="quads-adsense-width">
-                          <label>{__('Width', 'quick-adsense-reloaded')}
-                          <input value={post_meta.g_data_ad_width ? post_meta.g_data_ad_width:'300'} onChange={this.props.adFormChangeHandler} type="number" id="g_data_ad_width" name="g_data_ad_width" /> 
-                          </label>
-                        </div>
-                        <div className="quads-adsense-height">
-                          <label>{__('Height', 'quick-adsense-reloaded')}
-                          <input value={post_meta.g_data_ad_height  ? post_meta.g_data_ad_height:'250'} onChange={this.props.adFormChangeHandler} type="number" id="g_data_ad_height" name="g_data_ad_height" />  
-                          </label>
-                        </div>
-                      </div>
-                      : ''
-                      }
-                      </div>
-                      </td></tr>
+                           <tr><td>
+                    <label>{__('Data Js Src', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_js_src == '') ? 'quads_form_error' : ''} value={post_meta.data_js_src} onChange={this.props.adFormChangeHandler} type="text" id="data_js_src" name="data_js_src" placeholder="//jsc.mgid.com/a/m/quads.com.123645.js" />
+                    {(show_form_error && post_meta.data_js_src == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Data Js Src</div> :''}
+                     </td></tr>
                   </tbody>
                 </table>
                 </div>);
@@ -408,8 +412,124 @@ error_outline
                 </div>);
 
               break;
+            case 'taboola':
+             ad_type_name = 'Taboola';  
+              comp_html.push(<div key="taboola">
+                <table>
+                  <tbody>
+                    <tr><td>
+                    <label>{__('Data Publisher Id', 'quick-adsense-reloaded')}</label></td><td>
+                   <div> <input value={post_meta.taboola_publisher_id} onChange={this.props.adFormChangeHandler} type="text" id="taboola_publisher_id" name="taboola_publisher_id" placeholder="123456" /></div>
+                                   
+                    {(show_form_error && post_meta.taboola_publisher_id == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Data Publisher Id</div> :''}
+                     </td></tr>
+                  </tbody>
+                </table>
+                </div>);
 
+              break;
+              case 'media_net':
+             ad_type_name = 'Media.net';  
+              comp_html.push(<div key="media_net">
+                <table>
+                  <tbody>
+                      <tr><td>
+                    <label>{__('Data CID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_cid == '') ? 'quads_form_error' : ''} value={post_meta.data_cid} onChange={this.props.adFormChangeHandler} type="text" id="data_cid" name="data_cid" placeholder="8XXXXX74" />
+                    {(show_form_error && post_meta.data_cid == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Data CID</div> :''}
+                     </td></tr>
+                     <tr><td>
+                    <label>{__('Data CRID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_crid == '') ? 'quads_form_error' : ''} value={post_meta.data_crid} onChange={this.props.adFormChangeHandler} type="text" id="data_crid" name="data_crid" placeholder="1XXXXXX82" />
+                    {(show_form_error && post_meta.data_crid == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Data CRID</div> :''}
+                     </td></tr>
+                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
+                      <div>
+                        <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
+                        <option value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</option>
+                        <option value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</option> 
+                      </select>
+                      {
+                        post_meta.adsense_type !== 'responsive' ?                        
+                      <div className="quads-adsense-width-heigth">
+                        
+                        <div className="quads-adsense-width">
+                          <label>{__('Width', 'quick-adsense-reloaded')}
+                          <input value={post_meta.g_data_ad_width ? post_meta.g_data_ad_width:'300'} onChange={this.props.adFormChangeHandler} type="number" id="g_data_ad_width" name="g_data_ad_width" /> 
+                          </label>
+                        </div>
+                        <div className="quads-adsense-height">
+                          <label>{__('Height', 'quick-adsense-reloaded')}
+                          <input value={post_meta.g_data_ad_height  ? post_meta.g_data_ad_height:'250'} onChange={this.props.adFormChangeHandler} type="number" id="g_data_ad_height" name="g_data_ad_height" />  
+                          </label>
+                        </div>
+                      </div>
+                      : ''
+                      }
+                      </div>
+                      </td></tr>
+                  </tbody>
+                </table>
+                </div>);
 
+              break;
+              case 'mediavine':
+             ad_type_name = 'MediaVine';  
+              comp_html.push(<div key="mediavine">
+                <table>
+                  <tbody>
+                    <tr><td>
+                    <label>{__('Data Site Id', 'quick-adsense-reloaded')}</label></td><td>
+                   <div> <input value={post_meta.mediavine_site_id} onChange={this.props.adFormChangeHandler} type="text" id="mediavine_site_id" name="mediavine_site_id" placeholder="123456" /></div>
+                                   
+                    {(show_form_error && post_meta.mediavine_site_id == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Data Site Id</div> :''}
+                     </td></tr>
+                  </tbody>
+                </table>
+                </div>);
+              break;
+            case 'outbrain':
+             ad_type_name = 'Outbrain';  
+              comp_html.push(<div key="outbrain">
+                <table>
+                  <tbody>
+                    <tr><td>
+                    <label>{__('Widget Id\'s', 'quick-adsense-reloaded')}</label></td><td>
+                   <div> <input value={post_meta.outbrain_widget_ids} onChange={this.props.adFormChangeHandler} type="text" id="outbrain_widget_ids" name="outbrain_widget_ids" placeholder="widget_1,widget_2" /></div>
+                                   
+                    {(show_form_error && post_meta.outbrain_widget_ids == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Widget Id's</div> :''}
+                     </td></tr>
+                  </tbody>
+                </table>
+                </div>);
+              break;
+            case 'background_ad':
+             ad_type_name = 'Background';  
+              comp_html.push(<div key="background_ad">
+                <table>
+                  <tbody>
+                    <tr><td>
+                    <label>{__('Upload Ad Banner', 'quick-adsense-reloaded')}</label></td><td>
+                   {post_meta.image_src == '' ? <div><a className="button" onClick={this.selectimages}>{__(' Upload Banner', 'quick-adsense-reloaded')}</a></div>
+                   : <div>
+                   <img src={post_meta.image_src} className="banner_image" />
+                   <a className="button" onClick={this.remove_image}>{__('Remove Banner', 'quick-adsense-reloaded')}</a></div>}                      
+                    {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Upload Ad Image</div> :''}
+                     </td></tr>
+                     <tr><td>
+                    <label>{__('Ad Anchor link', 'quick-adsense-reloaded')}</label></td><td>
+                    <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
+                    {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Ad Anchor link</div> :''}
+                     </td></tr>
+                  </tbody>
+                </table>
+                </div>);
+              break;
             default:
               comp_html.push(<div key="noads" >{__('Ad not found', 'quick-adsense-reloaded')}</div>);
               break;

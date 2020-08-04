@@ -8,14 +8,18 @@ import Select from "react-select";
 import './QuadsAdListSettings.scss';
 import QuadsAdSettingsNavLink from './QuadsAdSettingsNavLink';
 import copy from 'copy-to-clipboard';
-
+import { SketchPicker } from 'react-color';
+import reactCSS from 'reactcss'
 
 class QuadsAdListSettings extends Component {
 
   constructor(props) {      
     super(props);
     this.state = {            
-            
+            notice_txt_color_picker: false,
+            notice_bg_color_picker : false,
+            notice_btn_txt_color_picker : false,
+            notice_btn_bg_color_picker : false,
             button_spinner_toggle: false,   
             multiUserOptions: [], 
             multiTagsOptions: [],
@@ -33,7 +37,12 @@ class QuadsAdListSettings extends Component {
             backup_file   : null,
             textToCopy    : '',
             copied: false,
+            ad_blocker_support_popup:false,
             settings      :{
+                notice_txt_color : '#ffffff',
+                notice_bg_color : '#1e73be',
+                notice_btn_txt_color : '#ffffff',
+                notice_btn_bg_color : '#f44336',
                 uninstall_on_delete: '',
                 adtxt_errors       :[],
                 maxads             :"100",
@@ -49,14 +58,58 @@ class QuadsAdListSettings extends Component {
                 analytics          : false,
                 multiUserValue     : [],
                 multiTagsValue     : [],
-                multiPluginsValue  : []                                                                    
+                multiPluginsValue  : [], 
+                notice_type        : 'ad_blocker_message', 
+                notice_behaviour   : 2, 
+                notice_description : 'Our website is made possible by displaying online advertisements to our visitors. Please consider supporting us by whitelisting our website.', 
+                notice_title       : 'Adblock Detected!',
+                notice_close_btn   : '',
+                btn_txt            : 'X',                                                                 
                 },
             quads_wp_quads_pro_license_key : '', 
             importampforwpmsg : "", 
             importampforwpmsgprocessing : "",  
-            importquadsclassicmsgprocessing : "",          
+            importquadsclassicmsgprocessing : "",
+            page_redirect_options   : []          
         };     
   }   
+  handleClick_notice_txt_color = () => {
+    this.setState({ notice_txt_color_picker: !this.state.notice_txt_color_picker })
+  };
+    handleClick_notice_bg_color = () => {
+    console.log(!this.state.notice_bg_color_picker );
+    this.setState({ notice_bg_color_picker: !this.state.notice_bg_color_picker })
+  };
+  handleClick_notice_btn_txt_color = () => {
+    this.setState({ notice_btn_txt_color_picker: !this.state.notice_btn_txt_color_picker })
+  };
+    handleClick_notice_btn_bg_color = () => {
+    this.setState({ notice_btn_bg_color_picker: !this.state.notice_btn_bg_color_picker })
+  };
+  notice_txt_color = (color) => {
+  const { settings } = this.state;
+  settings.notice_txt_color = color.hex;     
+  this.setState(settings);
+    this.setState({ notice_txt_color: color.hex })
+  };
+notice_bg_color = (color) => {
+   const { settings } = this.state;
+  settings.notice_bg_color = color.hex;     
+  this.setState(settings);
+  };
+  notice_btn_txt_color = (color) => {
+    const { settings } = this.state;
+  settings.notice_btn_txt_color = color.hex;     
+  this.setState(settings);
+  };
+    notice_btn_bg_color = (color) => {
+    const { settings } = this.state;
+  settings.notice_btn_bg_color = color.hex;     
+  this.setState(settings);
+  };
+  handleClose = () => {
+    this.setState({ notice_txt_color_picker: false,notice_bg_color_picker: false,notice_btn_txt_color_picker: false,notice_btn_bg_color_picker: false })
+  };
   handleCopy = () => {
     copy(this.state.textToCopy);
     this.setState({ copied: true });
@@ -116,10 +169,16 @@ if(this.state.importampforwpmsgprocessing !=''){
   open_global_excluder = () => {
     this.setState({global_excluder_modal:true});
   }
+  ad_blocker_support = () => {
+    this.setState({ad_blocker_support_popup:true});
+  }
 
   getPlugins = (search) => {
       
-    const url = quads_localize_data.rest_url + 'quads-route/get-plugins?search='+search;    
+    let url = quads_localize_data.rest_url + 'quads-route/get-plugins?search='+search;
+    if(quads_localize_data.rest_url.includes('?')){
+        url = quads_localize_data.rest_url + 'quads-route/get-plugins&search='+search;  
+    }    
     fetch(url,{
       method: "get",
       headers: {
@@ -144,7 +203,10 @@ if(this.state.importampforwpmsgprocessing !=''){
 
   getTags = (search) => {
       
-    const url = quads_localize_data.rest_url + 'quads-route/get-tags?search='+search;    
+    let url = quads_localize_data.rest_url + 'quads-route/get-tags?search='+search;    
+    if(quads_localize_data.rest_url.includes('?')){
+        url = quads_localize_data.rest_url + 'quads-route/get-tags&search='+search;  
+     }
     fetch(url,{
       method: "get",
       headers: {
@@ -230,6 +292,11 @@ handleMultiPluginsChange = (option) => {
         settings.multiUserValue = option;     
         this.setState(settings);
   }  
+    page_redirect_select_fun = (option) => {    
+        const { settings } = this.state;
+        settings.page_redirect_path = option;     
+        this.setState(settings);
+  }
   sendCustomerMessage = () => {       
     
     const json_data = {
@@ -452,6 +519,7 @@ handleMultiPluginsChange = (option) => {
     this.getTags('');
     this.getPlugins('');
     this.getQuadsInfo();
+    this.getPageDataMeta('page');
     if(quads_localize_data.licenses == '' && typeof this.state.licensemsg === 'undefined'){
         this.setState({ licensemsg: 'not activated' });
     }else  if(quads_localize_data.licenses.license == 'valid'){
@@ -479,6 +547,11 @@ handleMultiPluginsChange = (option) => {
     e.preventDefault();
     this.saveSettings();
     this.setState({global_excluder_modal:false});
+  }
+  saveAdBlockSuport = (e) => {
+    e.preventDefault();
+    this.saveSettings();
+    this.setState({ad_blocker_support_popup:false});
   }
     saveSettings = () => {                 
 
@@ -629,7 +702,7 @@ handleMultiPluginsChange = (option) => {
     this.setState({adtxt_modal:true});
   }
   closeModal = () =>{
-    this.setState({adtxt_modal:false, global_excluder_modal:false});
+    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false});
   } 
   getErrorMessage =(type) => {
     const {__} = wp.i18n;
@@ -664,11 +737,51 @@ handleMultiPluginsChange = (option) => {
 
     return message;
   }
+    getPageDataMeta = (condition_type) => {
+        
+    let url = quads_localize_data.rest_url +"quads-route/get-condition-list?condition="+condition_type;
+    if(quads_localize_data.rest_url.includes('?')){
+      url = quads_localize_data.rest_url +"quads-route/get-condition-list&condition="+condition_type; 
+    }
+      
+      fetch(url, {
+        headers: {                    
+          'X-WP-Nonce': quads_localize_data.nonce,
+        }
+      })
+      .then(res => res.json())
+      .then(
+        (result) => {      
+            this.setState({page_redirect_options:result});          
+        },        
+        (error) => {
+          this.setState({
+            quads_is_error: false,           
+          });
+        }
+      );          
+  }
   
-  render() {           
+  render() {    
+   const styles = reactCSS({
+      'default': {
+        notice_txt_color: {
+          background: this.state.notice_txt_color ,
+        },
+        'notice_bg_color': {
+          background: this.state.notice_bg_color ,
+        },
+        'notice_btn_txt_color': {
+          background: this.state.notice_btn_txt_color ,
+        },
+        'notice_btn_bg_color': {
+          background: this.state.notice_btn_bg_color ,
+        },
+      },
+    });    
           const { textToCopy, btnText } = this.state;    
           const {__} = wp.i18n; 
-          const {settings} = this.state;    
+          const {settings} = this.state;
           const page = queryString.parse(window.location.search); 
           let auto_ads_get_post_types = [];
           if(this.state.auto_ads_get_post_types){
@@ -773,6 +886,170 @@ handleMultiPluginsChange = (option) => {
              </div>        
             </div> : null
             } 
+
+             {/* Ad Blocker Support */}
+
+            {this.state.ad_blocker_support_popup ? 
+           <div className="quads-modal-popup adblock_support">            
+            <div className="quads-modal-popup-content">
+             <span className="quads-modal-close" onClick={this.closeModal}>&times;</span>
+             <h3>Notice For Ad Blocker</h3>                         
+             <div className="quads-modal-content">
+             <table className="form-table" role="presentation">
+                              <tbody>
+                                <tr>
+                                  <th>Notice Type</th>
+                                  <td className="notice_type">
+                                  <span>
+                                   <input id="notice_type" type="radio" value="bar" checked={settings.notice_type =='bar'} name="notice_type" onChange={this.formChangeHandler} />Bar
+                                    </span><span>
+                                   <input id="popup" type="radio" value="popup" checked={settings.notice_type =='popup'}  name="notice_type" onChange={this.formChangeHandler} />Popup
+                                    </span><span>
+                                   <input id="page_redirect" type="radio" checked={settings.notice_type =='page_redirect'}  value="page_redirect" name="notice_type" onChange={this.formChangeHandler}  />Page Redirection
+                                  </span><span>
+                                   <input id="ad_blocker_message" type="radio" checked={settings.notice_type =='ad_blocker_message'} name="notice_type" value="ad_blocker_message"  onChange={this.formChangeHandler} /> Block Message 
+                                   </span>
+                                   <div className="quads-message bottom">If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker. <a href="http://wpquads.com/docs/customize-ad-blocker-notice/" target="_blank">Read here</a> how to customize colors and text.</div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>Notice Behaviour</th>
+                                  <td>
+                                   <select value={settings.notice_behaviour} onChange={this.formChangeHandler} name="notice_behaviour" id="notice_behaviour">
+                                    <option value="2">{__('Show on Every Visit', 'quick-adsense-reloaded')}</option>
+                                    <option value="1">{__('Show Only Once', 'quick-adsense-reloaded')}</option> 
+                                  </select>
+                                  </td>
+                                </tr>
+                            {settings.notice_type == 'bar' || settings.notice_type == 'popup' ? 
+                            <>
+                              <tr>
+                                <th><b>Notice Content</b></th>
+                                <td>
+                                </td>
+                              </tr>
+                              {settings.notice_type == 'popup' ? (
+                              <tr>
+                                <th>Title</th>
+                                <td><input value={settings.notice_title} onChange={this.formChangeHandler} name="notice_title" type="text" placeholder="Adblock Detected!" className="quads-premium-cus" />
+                                </td>
+                              </tr>
+                            ) : null    }
+                              <tr>
+                                <th>Description</th>
+                                <td>
+                                  <textarea  name="notice_description" value={settings.notice_description } onChange={this.formChangeHandler}  cols="60" rows="5" className="quads-premium-cus" />
+                                </td>
+                              </tr>
+                              <tr>
+                              <th>
+                              Close Button
+                              </th>
+                              <td><input id="notice_close_btn" type="checkbox" name="notice_close_btn" onChange={this.formChangeHandler} checked={settings.notice_close_btn} /></td>
+                              </tr>
+                              <tr>
+                              <th>Button Text</th>
+                              <td><input value={settings.btn_txt} onChange={this.formChangeHandler} name="btn_txt" type="text" placeholder="Email" className="quads-premium-cus" /></td>
+                              </tr>
+                               <tr>
+                                <th><b>Notice Design</b></th>
+                                <td>
+                                </td>
+                              </tr>
+                              <tr>
+                              <th>Content Color</th>
+                              <td>
+                                 <div>
+                                    <div className="color-pick-swatch" onClick={ this.handleClick_notice_txt_color }>
+                                      <div >
+                                        <div style={ styles.notice_txt_color } className="color-pick-color" /></div>
+                                        <span className="wp-color-result-text">Select Color</span>
+                                      </div>
+                                    { this.state.notice_txt_color_picker ? <div className="color-pick-popover">
+                                      <div className="color-pick-cover" onClick={ this.handleClose }/>
+                                      <SketchPicker color={ this.state.notice_txt_color } onChange={ this.notice_txt_color } />
+                                    </div> : null }
+
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                              <th>Background Color</th>
+                              <td>
+                                 <div>
+                                    <div className="color-pick-swatch" onClick={ this.handleClick_notice_bg_color }>
+                                      <div >
+                                        <div style={ styles.notice_bg_color } className="color-pick-color" /></div>
+                                        <span className="wp-color-result-text">Select Color</span>
+                                      </div>
+                                    { this.state.notice_bg_color_picker ? <div className="color-pick-popover">
+                                      <div className="color-pick-cover" onClick={ this.handleClose }/>
+                                      <SketchPicker color={ this.state.notice_bg_color } onChange={ this.notice_bg_color } />
+                                    </div> : null }
+
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                              <th>Button Text Color</th>
+                              <td>
+                                 <div>
+                                    <div className="color-pick-swatch" onClick={ this.handleClick_notice_btn_txt_color }>
+                                      <div >
+                                        <div style={ styles.notice_btn_txt_color } className="color-pick-color" /></div>
+                                        <span className="wp-color-result-text">Select Color</span>
+                                      </div>
+                                    { this.state.notice_btn_txt_color_picker ? <div className="color-pick-popover">
+                                      <div className="color-pick-cover" onClick={ this.handleClose }/>
+                                      <SketchPicker color={ settings.notice_btn_txt_color } onChange={ this.notice_btn_txt_color } />
+                                    </div> : null }
+
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                              <th>Button Background Color</th>
+                              <td>
+                                 <div>
+                                    <div className="color-pick-swatch" onClick={ this.handleClick_notice_btn_bg_color }>
+                                      <div >
+                                        <div style={ styles.notice_btn_bg_color } className="color-pick-color" /></div>
+                                        <span className="wp-color-result-text">Select Color</span>
+                                      </div>
+                                    { this.state.notice_btn_bg_color_picker ? <div className="color-pick-popover">
+                                      <div className="color-pick-cover" onClick={ this.handleClose }/>
+                                      <SketchPicker color={ this.state.notice_btn_bg_color } onChange={ this.notice_btn_bg_color } />
+                                    </div> : null }
+
+                                  </div>
+                                </td>
+                              </tr>
+                              </>
+                                : null }
+                            {settings.notice_type == 'page_redirect' ? 
+                                 <tr>
+                                  <th>Target Page</th>
+                                  <td>
+                                  <Select
+                                    name="page_redirect_path"
+                                    placeholder="Choose Page"
+                                    value={settings.page_redirect_path}
+                                    options={this.state.page_redirect_options}
+                                    onChange={this.page_redirect_select_fun}                                    
+                                  />
+                                  </td>
+                                </tr>
+                                : null }
+          
+                              </tbody>
+                            </table><div className="quads-save-close">
+
+                            <a className="quads-btn quads-btn-primary" onClick={this.saveAdBlockSuport}>OK</a>
+                            </div>
+             </div>             
+             </div>        
+            </div> : null
+            }
           </div>            
           <div className="quads-settings-main">  
           <QuadsAdSettingsNavLink/>
@@ -818,7 +1095,17 @@ handleMultiPluginsChange = (option) => {
                        </label>
                       
                       </td>
-                      </tr>                 
+                      </tr>   
+                       <tr>
+                     <th><label htmlFor="global_excluder_enabled">{__('Ad Blocker Support', 'quick-adsense-reloaded')}</label></th> 
+                     <td>
+                       <label className="quads-switch">
+                         <input id="ad_blocker_support" type="checkbox" name="ad_blocker_support" onChange={this.formChangeHandler} checked={settings.ad_blocker_support} />
+                         <span className="quads-slider"></span>
+                       </label>                       
+                       {this.state.ad_blocker_support ? <span onClick={this.ad_blocker_support} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                     </td>
+                     </tr>              
                    </tbody>
                  </table>  
                 </div>
@@ -834,14 +1121,7 @@ handleMultiPluginsChange = (option) => {
                         <a className="quads-general-helper" href="#"></a><div className="quads-message bottom" >Check how many visitors are using ad blockers in your Google Analytics account from the event tracking in <i>Google Analytics-&gt;Behavior-&gt;Events</i>. This only works if your visitors are using regular ad blockers like 'adBlock'. There are browser plugins which block all external requests like the  software uBlock origin. This also block google analytics and as a result you do get any analytics data at all.</div></td>
                       </tr>
 
-                       :null}
-                      {quads_localize_data.is_pro ? 
-                      <tr>
-                      <th><label htmlFor="ad_blocker_message">{__('Ask user to deactivate ad blocker', 'quick-adsense-reloaded')}</label></th>
-                       <td><input id="ad_blocker_message" type="checkbox" onChange={this.formChangeHandler} name="ad_blocker_message" checked={settings.ad_blocker_message} />
-                       <a className="quads-general-helper" href="#"></a><div className="quads-message bottom">If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker. <a href="http://wpquads.com/docs/customize-ad-blocker-notice/" target="_blank">Read here</a> how to customize colors and text.</div></td>
-                     </tr>
-                     :null}                      
+                       :null}                
                       <tr>
                        <th><label htmlFor="uninstall_on_delete">{__('Delete Data on Uninstall?', 'quick-adsense-reloaded')}</label></th>
                         <td><input id="uninstall_on_delete" type="checkbox" onChange={this.formChangeHandler} name="uninstall_on_delete" checked={settings.uninstall_on_delete} />

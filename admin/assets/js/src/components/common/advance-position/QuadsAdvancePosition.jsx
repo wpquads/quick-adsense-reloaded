@@ -34,6 +34,7 @@ class QuadsAdvancePosition extends Component {
           <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
           <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
           <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
+          <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
           <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option> 
           </optgroup>  
          
@@ -47,7 +48,6 @@ class QuadsAdvancePosition extends Component {
             <option value="amp_below_the_title">Below the Title (Single Post)</option>
             <option value="amp_above_related_post">Above Related Posts (Single Post)</option>
             <option value="amp_below_author_box">Below the Author Box (Single Post)</option>
-            <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
             </optgroup> 
            
         </select> 
@@ -63,13 +63,13 @@ class QuadsAdvancePosition extends Component {
           <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
            <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
            <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
+          <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
           <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
           </select>  }
            <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select Where Will The AD Appear</div></span> : ''}</div>
         </div> 
 <div className='position_content'>
-          <div>
-          {post_meta.position == 'amp_ads_in_loops' ? <input min="1" onChange={this.props.ads_loop_number} name="paragraph_number" value={post_meta.ads_loop_number} placeholder="Position" type="number" /> : ''}         
+          <div>       
           {post_meta.position == 'after_image' ? <input min="1" onChange={this.props.adFormChangeHandler} name="image_number" value={post_meta.image_number}  type="number" /> : ''}         
           </div>
           <div>

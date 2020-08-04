@@ -881,7 +881,7 @@ class QUADS_Ad_Setup_Api {
              if($email && $message){
                            
                  //php mailer variables        
-                 $sendto    = 'team@magazine3.com';
+                 $sendto    = 'team@ampforwp.com';
                  $subject   = "WP Quads Customer Query";
                  
                  $headers[] = 'Content-Type: text/html; charset=UTF-8';
@@ -930,7 +930,9 @@ class QUADS_Ad_Setup_Api {
             $add = array('none' => 'Exclude nothing');
             $quads_settings['auto_ads_get_post_types'] =  $add + $post_types;
             $quads_settings['autoads_excl_user_roles'] =  array_merge(array('none' => 'Exclude nothing'), $this->quads_get_user_roles_api());
-            $quads_settings['adsTxtText'] = trim(file_get_contents(ABSPATH . 'ads.txt'));
+            if(file_exists(ABSPATH . 'ads.txt')){
+                $quads_settings['adsTxtText'] = trim(file_get_contents(ABSPATH . 'ads.txt'));
+            }
             return $quads_settings;
         }
         public function getConditionList($request_data){

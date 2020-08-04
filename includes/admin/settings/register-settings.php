@@ -458,6 +458,27 @@ function quads_get_registered_settings() {
 
    return $quads_settings;
 }
+add_action('wp_ajax_wpquads_ads_for_shortcode', 'wpquads_ads_for_shortcode');
+function wpquads_ads_for_shortcode(){
+      if ( ! isset( $_POST['wpquads_security_nonce'] ) ){
+        return; 
+    } 
+    if ( !wp_verify_nonce( $_POST['wpquads_security_nonce'], 'quads_ajax_nonce' ) ){
+        return;  
+    } 
+     global $quads_options;
+      $html ='<select id="quads-select-for-shortcode">';
+      foreach ($quads_options['ads'] as $key => $value){
+        $html .='<option value="'.$key.'"> '.$key.'</option>';
+
+
+      }
+   $html .='</select>';
+   echo  $html;
+   wp_die();
+
+}
+
 add_action('wp_ajax_wpquads_send_query_message', 'wpquads_send_query_message');
 function wpquads_send_query_message(){
 
@@ -486,7 +507,7 @@ function wpquads_send_query_message(){
             $user_email = $email;
         }            
         //php mailer variables        
-        $sendto    = 'team@wpquads.com';
+        $sendto    = 'team@ampforwp.com';
         $subject   = "WPQuads Support ticket";
         $headers[] = 'Content-Type: text/html; charset=UTF-8';
         $headers[] = 'From: '. esc_attr($user_email);            

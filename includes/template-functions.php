@@ -13,12 +13,395 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 // we need to hook into the_content on lower than default priority (that's why we use separate hook)
-add_filter('the_content', 'quads_post_settings_to_quicktags', 5);
+add_filter('the_content', 'quads_post_settings_to_quicktags', quads_get_load_priority());
 add_filter('the_content', 'quads_process_content', quads_get_load_priority());
 add_filter('rest_prepare_post', 'quads_classic_to_gutenberg', 10, 1);
 add_filter('the_content', 'quads_change_adsbygoogle_to_amp',11);
 add_action('wp_head',  'quads_common_head_code');
+add_action( 'the_post', 'quads_in_between_loop' , 20, 2 );
+add_action( 'init', 'quads_background_ad' );
+add_action('amp_post_template_head','quads_adsense_auto_ads_amp_script',1);
+add_action('amp_post_template_footer','quads_adsense_auto_ads_amp_tag');
 
+//Ad blocker
+add_action('wp_head', 'quads_adblocker_detector');
+add_action('wp_footer', 'quads_adblocker_popup_notice');
+add_action('wp_footer', 'quads_adblocker_notice_jsondata');
+add_action('wp_body_open', 'quads_adblocker_notice_bar');
+add_action('wp_footer', 'quads_adblocker_ad_block');
+
+function quads_adblocker_detector(){
+     echo '<script type="text/javascript" src="'.QUADS_PLUGIN_URL . 'assets/js/ads.js"></script>';
+
+}
+/**
+ * It is default settings value, if value is not set for any option in setting section 
+ * @return type
+ */
+function quads_defaultSettings(){
+    
+    $defaults = array(
+    'app_blog_name'       => get_bloginfo( 'name' ),
+    'advnc_ads_import_check'  => 1,
+    'ad_blocker_support'      => 1,
+    'notice_type'    => 'bar',
+    'page_redirect'  => 0,
+    'allow_cookies'    => 2,
+    'notice_title'    => 'Adblock Detected!',
+    'notice_description'    => 'Our website is made possible by displaying online advertisements to our visitors. Please consider supporting us by whitelisting our website.',
+    'notice_close_btn' => 1,
+    'btn_txt' => 'X',
+    'notice_txt_color' => '#ffffff',
+    'notice_bg_color' => '#1e73be',
+    'notice_btn_txt_color' => '#ffffff',
+    'notice_btn_bg_color' => '#f44336',
+    'ad_sponsorship_label' => 0,
+    'ad_sponsorship_label_text' => 'Advertisement',
+    'ad_label_postion' => 'above',
+    'ad_label_txt_color' => '#cccccc'
+    );  
+        
+    $settings = get_option( 'quads_settings', $defaults );
+        
+    return $settings;
+}
+function quads_adblocker_popup_notice(){
+  
+  $settings = quads_defaultSettings();
+
+  if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support']){
+
+    if($settings['notice_type'] == 'popup'){
+        
+
+      $content_color = sanitize_hex_color($settings['notice_txt_color']);
+      $notice_title = esc_attr($settings['notice_title']);
+      $notice_description = esc_attr($settings['notice_description']);
+      $button_txt = esc_attr($settings['btn_txt']);
+      $background_color = sanitize_hex_color($settings['notice_bg_color']);
+      $btn_txt_color = sanitize_hex_color($settings['notice_btn_txt_color']);
+      $btn_background_color = sanitize_hex_color($settings['notice_btn_bg_color']);
+      
+  ?>
+    <div id="quads-myModal" class="quads-modal">
+      <!-- Modal content -->
+      <div class="quads-modal-content">
+    <?php if( isset($settings['notice_close_btn']) && $settings['notice_close_btn'] && empty($button_txt) ){
+          ?>
+          <span class="quads-close quads-cls-notice">&times;</span>  
+          <?php
+        }
+        ?>
+        <h2 style="text-align: center;padding-top:0;color: <?php echo $content_color;?>;"><?php echo $notice_title;?></h2>
+        <p style="margin:0 0 1.5em;padding: 0;text-align: center;color: <?php echo $content_color;?>;"><?php echo $notice_description;?></p>
+        <?php if( isset($settings['notice_close_btn']) && $settings['notice_close_btn'] &&  !empty($button_txt) ){
+          ?>
+          <button class="quads-button quads-closebtn quads-cls-notice"><?php echo $button_txt;?></button>
+        <?php
+        }
+        ?>
+      </div>
+    </div>
+    <style type="text/css">
+    .quads-modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 999; /* Sit on top */
+      padding-top: 200px; /* Location of the box */
+      left: 0;
+      right:0;
+      top: 50%; 
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+      -webkit-transform:translateY(-50%);
+       -moz-transform:translateY(-50%);
+       -ms-transform:translateY(-50%);
+       -o-transform:translateY(-50%);
+       transform:translateY(-50%);
+    }
+
+    /* Modal Content */
+    .quads-modal-content {
+      background-color: <?php echo $background_color;?>;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 40%;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    /* The Close Button */
+    .quads-close{
+      color: <?php echo $btn_txt_color;?>;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .quads-close:hover,
+    .quads-close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .quads-button {
+      background-color: <?php echo $btn_background_color;?>; /* Green */
+      border: none;
+      color: <?php echo $btn_txt_color;?>;
+      padding: 10px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+    @media screen and (max-width: 1024px) {
+      .quads-modal-content {
+        width: 80%;
+        font-size: 14px;
+      }
+      .quads-modal {
+        padding-top: 100px;
+      }
+    }
+  </style>
+  <?php
+    }
+  }
+}
+function quads_adblocker_notice_jsondata(){
+    $settings = quads_defaultSettings();
+    $output = '';
+
+    if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support'] && !empty($settings['notice_type'])){
+      
+      $output    .= '<script type="text/javascript">';
+      $output    .= '/* <![CDATA[ */';
+      $output    .= 'var quadsOptions =' .
+        json_encode(
+          array(
+            'quadsChoice'          => esc_attr($settings['notice_type']),
+            'page_redirect'          => (isset($settings['page_redirect_path']['value']) && !empty($settings['page_redirect_path']['value'])) ? get_permalink($settings['page_redirect_path']['value'] ):'',
+            'allow_cookies'         => esc_attr($settings['notice_behaviour'])
+          )
+        );
+      $output    .= '/* ]]> */';
+      $output    .= '</script>';
+      echo $output;
+    }
+}
+function quads_adblocker_notice_bar(){
+    $settings = quads_defaultSettings();
+    
+  if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support']){
+    if($settings['notice_type'] == 'bar' ){
+      
+      $notice_description = esc_attr($settings['notice_description']);
+      $button_txt = esc_attr($settings['btn_txt']);
+      $content_color = sanitize_hex_color($settings['notice_txt_color']);
+      $background_color = sanitize_hex_color($settings['notice_bg_color']);
+      $btn_txt_color = sanitize_hex_color($settings['notice_btn_txt_color']);
+      $btn_background_color = sanitize_hex_color($settings['notice_btn_bg_color']);
+  ?>
+  
+  <div id="quads-myModal" class="quads-adblocker-notice-bar">
+    <div class="enb-textcenter">
+      <?php if( isset($settings['notice_close_btn'])&& $settings['notice_close_btn'] && empty($button_txt)){?>
+      <span class="quads-close quads-cls-notice">&times;</span>  
+    <?php } ?>
+      <div class="quads-adblocker-message">
+      <?php echo $notice_description;?>
+      </div>
+      <?php if( isset($settings['notice_close_btn'])&& $settings['notice_close_btn'] && !empty($button_txt)){?>
+      <button class="quads-button quads-closebtn quads-cls-notice"><?php echo $button_txt;?></button>  
+    <?php } ?>
+    </div>
+  </div>
+  <style type="text/css">
+    .quads-adblocker-message{
+      display: inline-block;
+    }
+    .quads-adblocker-notice-bar {
+      display: none;
+      width: 100%;
+      background: <?php echo $background_color;?>;
+      color: <?php echo $content_color;?>;
+      padding: 0.5em 1em;
+      font-size: 16px;
+      line-height: 1.8;
+      position: relative;
+      z-index: 99;
+    }
+    .quads-adblocker-notice-bar strong {
+      color: inherit; /* some themes change strong tag to make it darker */
+    }
+    /* Alignments */
+    .quads-adblocker-notice-bar .enb-textcenter {
+      text-align: center;
+    }
+    .quads-close{
+      color: <?php echo $btn_txt_color;?>;
+      float: right;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .quads-close:hover,
+    .quads-close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .quads-button {
+      background-color: <?php echo $btn_background_color;?>; /* Green */
+      border: none;
+      color: <?php echo $btn_txt_color;?>;
+      padding: 5px 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 0px 2px;
+      cursor: pointer;
+      float: right;
+    }
+    @media screen and (max-width: 1024px) {
+      .quads-modal-content {
+        font-size: 14px;
+      }
+      .quads-button{
+        padding:5px 10px;
+        font-size: 14px;
+        float:none;
+      }
+    }
+  </style>
+  <?php 
+    }
+  }
+}
+function quads_adblocker_ad_block(){
+  ?>
+<script type="text/javascript">
+   if(typeof quadsOptions !== 'undefined' && typeof wpquads_adblocker_check_2 
+  === 'undefined' && quadsOptions.quadsChoice == 'ad_blocker_message'){
+
+  var addEvent1 = function (obj, type, fn) {
+      if (obj.addEventListener)
+          obj.addEventListener(type, fn, false);
+      else if (obj.attachEvent)
+          obj.attachEvent('on' + type, function () {
+              return fn.call(obj, window.event);
+          });
+  };
+   addEvent1(window, 'load', function () {
+      if (typeof wpquads_adblocker_check_2 === "undefined" || wpquads_adblocker_check_2 === false) {
+          highlight_adblocked_ads();
+      }
+  });
+
+   function highlight_adblocked_ads() {
+      try {
+          var ad_wrappers = document.querySelectorAll('div[id^="quads-ad"]')
+      } catch (e) {
+          return;
+      }
+
+      for (i = 0; i < ad_wrappers.length; i++) {
+          ad_wrappers[i].className += ' quads-highlight-adblocked';
+          ad_wrappers[i].className = ad_wrappers[i].className.replace('quads-location', '');
+          ad_wrappers[i].setAttribute('style', 'display:block !important');
+      }
+  }
+ }
+
+(function() {
+//Adblocker Notice Script Starts Here
+var curr_url = window.location.href;
+var red_ulr = localStorage.getItem('curr');
+var modal = document.getElementById("quads-myModal");
+var quadsAllowedCookie =  quadsgetCookie('quadsAllowedCookie');
+
+if(typeof quadsOptions !== 'undefined' && typeof wpquads_adblocker_check_2 
+  === 'undefined' ){
+
+  if(quadsAllowedCookie!=quadsOptions.allow_cookies){
+    quadssetCookie('quadsCookie', '', -1, '/');
+    quadssetCookie('quadsAllowedCookie', quadsOptions.allow_cookies, 1, '/');
+  }
+
+  if(quadsOptions.allow_cookies == 2){
+    if( quadsOptions.quadsChoice == 'bar' || quadsOptions.quadsChoice == 'popup'){
+        modal.style.display = "block";
+        quadssetCookie('quadsCookie', '', -1, '/');
+    }
+    
+    if(quadsOptions.quadsChoice == 'page_redirect' && quadsOptions.page_redirect !="undefined"){
+        if(red_ulr==null || curr_url!=quadsOptions.page_redirect){
+        window.location = quadsOptions.page_redirect;
+        localStorage.setItem('curr',quadsOptions.page_redirect);
+      }
+    }
+  }else{
+    var adsCookie = quadsgetCookie('quadsCookie');
+    if(adsCookie==false) {
+      if( quadsOptions.quadsChoice == 'bar' || quadsOptions.quadsChoice == 'popup'){
+          modal.style.display = "block";
+      }
+      if(quadsOptions.quadsChoice == 'page_redirect' && quadsOptions.page_redirect !="undefined"){
+        window.location = quadsOptions.page_redirect;
+        quadssetCookie('quadsCookie', true, 1, '/');
+      }
+    }else{
+      modal.style.display = "none";
+    }
+  }
+}
+
+function quadsgetCookie(cname){
+    var name = cname + '=';
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return false;
+}
+function quadssetCookie(cname, cvalue, exdays, path){
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+var span = document.getElementsByClassName("quads-cls-notice")[0];
+if(span){
+  span.onclick = function() {
+    modal.style.display = "none";
+    document.cookie = "quads_prompt_close="+new Date();
+    quadssetCookie('quadsCookie', 'true', 1, '/');
+  }
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+    document.cookie = "quads_prompt_close="+new Date();
+    quadssetCookie('quadsCookie', 'true', 1, '/');
+  }
+}
+})();
+//Adblocker Notice Script Ends Here
+</script>
+
+<?php
+}
 /**
  * Show ads before posts
  * @not used at the moment
@@ -1416,3 +1799,172 @@ function quads_del_element($array, $idx) {
     }   
   return $copy;
 }
+
+/**
+     * echo ad before/after posts in loops on archive pages
+     *
+     * @since 1.2.1
+     * @param arr $post post object
+     * @param WP_Query $wp_query query object
+     */
+     function quads_in_between_loop( $post, $wp_query = null ) {
+       global $quads_new_interface_ads;
+
+        $is_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+
+        if ( ! $wp_query instanceof WP_Query || is_feed() || ( is_admin() && ! $is_ajax )  ) {
+            return;
+        }
+
+        if( ! isset( $wp_query->current_post )) {
+            return;
+        };
+
+        // don’t inject into main query on single pages.
+        if( $wp_query->is_main_query() && is_single() ){
+            return;
+        }
+        if ( $wp_query->is_singular() || ! $wp_query->in_the_loop   ) {
+                return;
+        }
+
+        // check if the loop is outside of wp_head, but only on non-AJAX calls.
+        if  ( ! is_admin() && ! did_action( 'wp_head' ) ) {
+            return;
+        }
+
+
+        $curr_index = $wp_query->current_post ; // normalize index
+        static $handled_indexes = array();
+        if ( $wp_query->is_main_query() ) {
+            if ( in_array( $curr_index, $handled_indexes ) ) {
+                return;
+            }
+            $handled_indexes[] = $curr_index;
+        }
+        if(empty($quads_new_interface_ads)){
+          require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+          $api_service = new QUADS_Ad_Setup_Api_Service();
+          $quads_ads = $api_service->getAdDataByParam('quads-ads');
+          $quads_new_interface_ads = $quads_ads;
+        }else{
+          $quads_ads = $quads_new_interface_ads;
+        }
+
+        if(isset($quads_ads['posts_data'])){        
+            foreach($quads_ads['posts_data'] as $key => $value){
+                $ads =$value['post_meta'];
+                if($value['post']['post_status']== 'draft'){
+                    continue;
+                }
+                 $display_after_every = (isset($ads['display_after_every']) && !empty($ads['display_after_every'])) ? $ads['display_after_every'] : false;
+                if($ads['position'] == 'amp_ads_in_loops' && (isset($ads['ads_loop_number']) && ($ads['ads_loop_number'] == $curr_index || ($display_after_every && $curr_index!== 0 && ($curr_index % $ads['ads_loop_number'] == 0))))){
+                    $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+                  echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
+                }
+
+            }
+        }
+    }
+
+     function quads_background_ad(){
+        if(!is_admin()){   
+          ob_start( "quads_background_ad_last");  
+        }
+
+    }
+
+
+     function quads_background_ad_last($content){
+
+      require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        $api_service = new QUADS_Ad_Setup_Api_Service();
+        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+
+        if(isset($quads_ads['posts_data'])){        
+            foreach($quads_ads['posts_data'] as $key => $value){
+                $ads =$value['post_meta'];
+                if($value['post']['post_status']== 'draft'){
+                    continue;
+                }
+
+         if(isset($ads['visibility_include']))
+             $ads['visibility_include'] = unserialize($ads['visibility_include']);
+         if(isset($ads['visibility_exclude']))
+             $ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);
+
+         if(isset($ads['targeting_include']))
+             $ads['targeting_include'] = unserialize($ads['targeting_include']);
+
+         if(isset($ads['targeting_exclude']))
+             $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
+            $is_on         = quads_is_visibility_on($ads);
+            $is_visitor_on = quads_is_visitor_on($ads);
+            if(isset($ads['ad_id']))
+            $post_status = get_post_status($ads['ad_id']); 
+            else
+              $post_status =  'publish';
+
+            if(!isset($ads['position']) || isset($ads['ad_type']) && $ads['ad_type']== 'random_ads'){
+                
+                $is_on = true;
+            }           
+            
+            if($is_on && $is_visitor_on && $post_status=='publish'){
+                if($ads['ad_type'] == 'background_ad'){
+
+                      $after_body=''
+                . '<div class="quads-bg-wrapper">
+                   <a style="background-image: url('.esc_attr($ads['image_src']).')" class="quads-bg-ad" target="_blank" href="'.esc_attr($ads['image_redirect_url']).'">'
+                . '</a>'                               
+                . '<div class="quads-bg-content">';   
+                $style=' <style>     .quads-bg-ad{                             
+                                      position: absolute;
+                                      top: 0;
+                                      left: 0;
+                                      height: 100%;
+                                      width: 100%;
+                                      background-position: center;
+                                      background-repeat: no-repeat;
+                                      background-size: cover;
+                               }
+                              .quads-bg-content{
+                                margin: auto;
+                                position: inherit;
+                                top: 0;
+                                left: 0;
+                                bottom: 0;
+                                right: 0;
+                               }
+                               .h_m{
+                                 z-index: 1;
+                                 position: relative;
+                               }
+                               .content-wrapper{
+                                   position: relative;
+                                   z-index: 0;
+                                   margin: 0 16%
+                               }
+                               .cntr, .amp-wp-article{
+                                  background:#ffffff;
+                               }
+                               .footer{
+                                  background:#ffffff;
+                               }
+                              @media(max-width:768px){
+                                 .quads-bg-ad{
+                                   position:relative;
+                                 }
+                                 .content-wrapper{
+                                   margin:0;
+                                 }
+                               }</style>';
+                  $before_body = $style.'</div></div>';
+                  $content = preg_replace("/(\<body.*\>)/", $before_body."$1".$after_body, $content);
+                }
+              }
+
+            }
+        }
+           return $content;
+        }
