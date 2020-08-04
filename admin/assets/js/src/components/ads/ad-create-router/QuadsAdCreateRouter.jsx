@@ -787,7 +787,6 @@ class QuadsAdCreateRouter extends Component {
                               movePrev={this.movePrev}                                                        
                               publish={this.publish}                                                                                    
                               onListSearchHover          ={this.onListSearchHover}  
-                              updateVisitorTarget ={this.updateVisitorTarget}    
                               />;
                           case "wizard_publish":  
                               return <QuadsAdPublish  {...props} 
