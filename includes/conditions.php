@@ -292,7 +292,9 @@ function quads_is_visitor_on($ads){
         }   
       
       }else{
+        if(empty($include)){
           $response = true;
+        }
       }
       
       if(!empty($include)){
@@ -535,8 +537,8 @@ function quads_get_ip_geolocation(){
           setcookie('quads_client_info[0]', trim(base64_encode($geo_location_arr['query'])), time() + (86400 * 60), "/"); 
           setcookie('quads_client_info[1]', trim(base64_encode ($geo_location_arr['countryCode'])), time() + (86400 * 60), "/"); 
         }
-        $quads_client_info[0]=$geo_location_arr['query'];
-        $quads_client_info[1]=$geo_location_arr['countryCode'];
+        $quads_client_info[0]=(isset($geo_location_arr['query']))?$geo_location_arr['query'] : "";
+        $quads_client_info[1]=(isset($geo_location_arr['countryCode']))?$geo_location_arr['countryCode'] : "";
     }   
       return $quads_client_info;                                         
   }         
