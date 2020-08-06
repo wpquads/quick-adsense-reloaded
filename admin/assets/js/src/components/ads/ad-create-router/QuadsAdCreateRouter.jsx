@@ -401,12 +401,12 @@ class QuadsAdCreateRouter extends Component {
       }
       if(!quads_localize_data.is_pro ){
       quads_post_meta.targeting_include.map( (item, index) => {
-          if(item.type.value == "geo_location"){
+          if(item.type.value == "geo_location_country"){
             validation_flag = false;
          }
         } )
         quads_post_meta.targeting_exclude.map( (item, index) => {
-          if(item.type.value == "geo_location"){
+          if(item.type.value == "geo_location_country"){
             validation_flag = false;
          }
         } )

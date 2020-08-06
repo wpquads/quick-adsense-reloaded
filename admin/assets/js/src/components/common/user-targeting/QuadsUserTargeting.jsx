@@ -41,7 +41,8 @@ class QuadsUserTargeting extends Component {
         {label:'Logged In', value:'logged_in'},
         {label:'User Agent', value:'user_agent'},
         {label:'User Role', value:'user_type'},                
-        {label:'Geo Location', value:'geo_location'},
+        {label:'Country', value:'geo_location_country'},
+        {label:'City', value:'geo_location_city'},
         {label:'Cookie', value:'cookie'},
         {label:'URL Parameter ', value:'url_parameter'},
         {label:'Referring URL ', value:'referrer_url'},        
@@ -159,7 +160,7 @@ class QuadsUserTargeting extends Component {
           { value:'true', label: 'True'},
           { value:'false', label: 'False'},
         ], 
-        geo_location:[
+        geo_location_country:[
           {value :'AF' , label : 'Afghanistan'},
           {value :'AL' , label : 'Albania'},
           {value :'DZ' , label : 'Algeria'},
@@ -420,7 +421,7 @@ class QuadsUserTargeting extends Component {
       let type = this.state.multiTypeTargetOption[option.value];      
       var placeholder = 'Search for ' + option.label;
     
-      if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url'){
+      if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url' || option.value==='geo_location_city'){
         placeholder = 'Enter your ' + option.label;
         this.setState({includedTextToggle:false});
         this.setState({multiTypeLeftIncludedValue:option, includedDynamicOptions:type, textTypeRightIncludedValue:'', includedRightPlaceholder:placeholder});
@@ -467,7 +468,7 @@ handleCustomExcludedRightChange = (option) =>{
 }
 handleMultiIncludedRightChange = (option) => {    
     let type  = this.state.multiTypeLeftIncludedValue;
-    if(type.value==='cookie' || type.value==='url_parameter' || type.value==='referrer_url'){
+    if(type.value==='cookie' || type.value==='url_parameter' || type.value==='referrer_url'  || type.value==='geo_location_city'){
       this.setState({textTypeRightIncludedValue:option.target.value});
     }else{
       this.setState({multiTypeRightIncludedValue:option});
@@ -571,12 +572,12 @@ excludedToggle = () => {
     let  validation_flag = false;
       if(!quads_localize_data.is_pro ){
        this.state.multiTypeIncludedValue.map( (item, index) => {
-          if(item.type.value == "geo_location"){
+          if(item.type.value == "geo_location_country"){
             validation_flag = true;
          }
         } )
           this.state.multiTypeExcludedValue.map( (item, index) => {
-          if(item.type.value == "geo_location"){
+          if(item.type.value == "geo_location_country"){
             validation_flag = true;
          }
         } )

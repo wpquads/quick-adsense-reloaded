@@ -419,7 +419,7 @@ function quads_visitor_comparison_logic_checker($visibility){
           }       
         break;
         
-        case 'geo_location':  
+        case 'geo_location_country':  
 
             if(!quads_is_extra()){
               break;
@@ -428,6 +428,18 @@ function quads_visitor_comparison_logic_checker($visibility){
            $quads_client_info = quads_get_ip_geolocation();
  
             if (isset($quads_client_info['1']) && $quads_client_info['1'] == $v_id ) {
+              $result = true;
+            }           
+        break;
+        case 'geo_location_city':  
+
+            if(!quads_is_extra()){
+              break;
+            }    
+           $quads_client_info = array();
+           $quads_client_info = quads_get_ip_geolocation();
+ 
+            if (isset($quads_client_info['3']) && strtolower($quads_client_info['3']) == strtolower($v_id) ) {
               $result = true;
             }           
         break;
@@ -529,6 +541,8 @@ function quads_get_ip_geolocation(){
       $saved_ip = trim(base64_decode($saved_ip_list[0])); 
       $quads_client_info[0]=$saved_ip;
       $quads_client_info[1]=trim(base64_decode($saved_ip_list[1])); 
+      $quads_client_info[2]=trim(base64_decode($saved_ip_list[2])); 
+      $quads_client_info[3]=trim(base64_decode($saved_ip_list[3])); 
     }
     if($saved_ip != $user_ip){
         $geo_location_data = wp_remote_get('http://ip-api.com/php/'.$user_ip); 
@@ -536,9 +550,13 @@ function quads_get_ip_geolocation(){
         if(isset($geo_location_arr['status']) && $geo_location_arr['status'] == 'success'){
           setcookie('quads_client_info[0]', trim(base64_encode($geo_location_arr['query'])), time() + (86400 * 60), "/"); 
           setcookie('quads_client_info[1]', trim(base64_encode ($geo_location_arr['countryCode'])), time() + (86400 * 60), "/"); 
+          setcookie('quads_client_info[2]', trim(base64_encode ($geo_location_arr['region'])), time() + (86400 * 60), "/"); 
+          setcookie('quads_client_info[3]', trim(base64_encode ($geo_location_arr['city'])), time() + (86400 * 60), "/"); 
         }
         $quads_client_info[0]=(isset($geo_location_arr['query']))?$geo_location_arr['query'] : "";
         $quads_client_info[1]=(isset($geo_location_arr['countryCode']))?$geo_location_arr['countryCode'] : "";
+        $quads_client_info[2]=(isset($geo_location_arr['region']))?$geo_location_arr['region'] : "";
+        $quads_client_info[3]=(isset($geo_location_arr['city']))?$geo_location_arr['city'] : "";
     }   
       return $quads_client_info;                                         
   }         
