@@ -162,7 +162,15 @@ class QUADS_Ad_Setup_Api {
         } 
 
         public function importadsforwp_ads(){
-
+            global $quads_settings;
+             $ad_count = 1;
+                if(isset($quads_settings['ads'])){   
+                  foreach($quads_settings['ads'] as $key2 => $value2){  
+                        if($key2 === 'ad'.$ad_count){
+                           $ad_count++;
+                        } 
+                    }  
+                }
             $args = array(
                 'post_type' => 'adsforwp'
             );
@@ -174,7 +182,7 @@ class QUADS_Ad_Setup_Api {
                     $ads_post = array(
                                 'post_author' => $ads->$post_author,                                                            
                                 'post_title'  => $ads->post_title,                    
-                                'post_status' => $ads->$post_status,                                                            
+                                'post_status' => $ads->$post_status,
                                 'post_name'   => $ads->$post_title,                    
                                 'post_type'   => 'quads-ads',
                             );  
@@ -304,10 +312,24 @@ class QUADS_Ad_Setup_Api {
                         }
                     } 
   
+                    switch ($post_meta['select_adtype'][0]) {
+                        case 'custom':
+                           $select_adtype = 'plain_text';
+                            break;
+                        case 'doubleclick':
+                           $select_adtype = 'double_click';
+                            break;
+                        case 'ad_background':
+                           $select_adtype = 'background_ad';
+                            break;    
+                        default:
+                            $select_adtype = $post_meta['select_adtype'][0];
+                            break;
+                    }
 
                     $adforwp_meta_key = array(
                         'label'                         => $ads->post_title ,
-                        'ad_type'                       => $post_meta['select_adtype'][0], 
+                        'ad_type'                       => $select_adtype , 
                         'adsense_ad_type'               => $adsense_type,     
                         'g_data_ad_client'              => $post_meta['data_client_id'][0], 
                         'g_data_ad_slot'                => $post_meta['data_ad_slot'][0],  
@@ -318,7 +340,8 @@ class QUADS_Ad_Setup_Api {
                         'after_the_percentage_value'    => $after_the_percentage_value, 
                         'paragraph_number'              => $paragraph_number, 
                         'repeat_paragraph'              => $repeat_paragraph,  
-                        'ads_loop_number'               => $ads_loop_number,    
+                        'ads_loop_number'               => $ads_loop_number,
+                        'count_as_per'                  => $count_as_per, 
                         'imported_from'                 => 'adsforwp_ads',
                         'adsforwp_ads_id'               => $ads->ID,
                         'data_publisher'                => $post_meta['adsforwp_mgid_data_publisher'][0], 
@@ -341,12 +364,17 @@ class QUADS_Ad_Setup_Api {
                         'visibility_include'            => $visibility_include,
                         'ad_id'                         => $post_id,
                         'enable_one_end_of_post'        =>'',
+                        'quads_ad_old_id'               => 'ad'.$ad_count,
                     );
                             
                     foreach ($adforwp_meta_key as $key => $val){    
                         update_post_meta($post_id, $key, $val);  
                     } 
                 }
+                update_option('adsforwp_to_quads', 'imported');      
+                     require_once QUADS_PLUGIN_DIR . '/admin/includes/migration-service.php';
+                        $this->migration_service = new QUADS_Ad_Migration();
+                        $this->migration_service->quadsUpdateOldAd('ad'.$ad_count, $adforwp_meta_key);      
             }
 
             return  array('status' => 't', 'data' => 'Ads have been successfully imported'); 
@@ -1124,6 +1152,7 @@ class QUADS_Ad_Setup_Api {
             $quads_settings = get_option('quads_settings');            
             $quads_settings['QckTags'] = isset($quads_settings['quicktags']['QckTags']) ? $quads_settings['quicktags']['QckTags'] : false;
             $quads_settings['license'] = get_option( 'quads_wp_quads_pro_license_active' );
+            $quads_settings['adsforwp_to_quads'] = get_option( 'adsforwp_to_quads' );
             $post_types = get_post_types();
             $add = array('none' => 'Exclude nothing');
             $quads_settings['auto_ads_get_post_types'] =  $add + $post_types;

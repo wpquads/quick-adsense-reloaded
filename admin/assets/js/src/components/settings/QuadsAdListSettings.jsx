@@ -49,6 +49,7 @@ class QuadsAdListSettings extends Component {
                 hide_ajax          :false,
                 QckTags            :false,
                 adsTxtEnabled      :false,
+                adsforwp_quads_shortcode :false,
                 lazy_load_global      :false,
                 global_excluder_enabled: false,  
                 adsTxtText         :'',                
@@ -725,13 +726,19 @@ handleMultiPluginsChange = (option) => {
     if(name == 'ip_geolocation_api'){
      this.saveSettings();
     }
+       if(name == 'adsforwp_quads_shortcode'){
+     this.saveSettings();
+    }
        
   }
   open_ad_text_modal = () =>{        
     this.setState({adtxt_modal:true});
   }
+  adsforwp_to_quads_model = () =>{        
+    this.setState({adsforwp_to_quads_model:true});
+  }
   closeModal = () =>{
-    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false});
+    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,adsforwp_to_quads_model:false});
   } 
   getErrorMessage =(type) => {
     const {__} = wp.i18n;
@@ -850,6 +857,25 @@ handleMultiPluginsChange = (option) => {
              <div className="quads-modal-content">
                <textarea cols="80" rows="15" name="adsTxtText" onChange={this.formChangeHandler} value={settings.adsTxtText} />
               <a className="button" onClick={this.validateAdstxt}>{__('OK', 'quick-adsense-reloaded')}</a>
+             </div>             
+             </div>        
+            </div> : null
+            } 
+
+             {this.state.adsforwp_to_quads_model ? 
+           <div className="quads-modal-popup">            
+            <div className="quads-modal-popup-content">
+             <span className="quads-modal-close" onClick={this.closeModal}>&times;</span>
+             <h3>Ads For wp Setting</h3>
+             <div className="quads-modal-description"></div>
+
+             <div className="quads-modal-content">
+             Change adsforwp Short code to quads 
+              <label className="quads-switch">
+                         <input id="adsforwp_quads_shortcode" type="checkbox" name="adsforwp_quads_shortcode" onChange={this.formChangeHandler} checked={settings.adsforwp_quads_shortcode} />
+                         <span className="quads-slider"></span>
+                       </label>
+
              </div>             
              </div>        
             </div> : null
@@ -1207,6 +1233,7 @@ handleMultiPluginsChange = (option) => {
                         <th><label>{__('ADS for WP Ads', 'quick-adsense-reloaded')}</label></th>
                         <td>
                           <a className="quads-btn quads-btn-primary" id="import_ads_for_wp" onClick={this.importadsforwpdata}>{__('Import', 'quick-adsense-reloaded')}</a>
+                          {settings.adsforwp_to_quads == 'imported' ? <span onClick={this.adsforwp_to_quads_model} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''} 
                             {this.state.importadsforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importadsforwpmsg}</Alert> : null}
                             {this.state.importadsforwpmsgprocessing ? <div className='updating-message importadsforwpmsgprocessing'><p>Importing Ads</p></div>: ''}
                         </td>
