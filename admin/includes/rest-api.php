@@ -178,12 +178,13 @@ class QUADS_Ad_Setup_Api {
 
             if($all_ads_post){
                 foreach($all_ads_post as $ads){ 
+                  
                     $post_meta = get_post_meta($ads->ID, $key='', true );
                     $ads_post = array(
-                                'post_author' => $ads->$post_author,                                                            
+                                'post_author' => $ads->post_author,
                                 'post_title'  => $ads->post_title,                    
-                                'post_status' => $ads->$post_status,
-                                'post_name'   => $ads->$post_title,                    
+                                'post_status' => $ads->post_status,
+                                'post_name'   => $ads->post_title,                    
                                 'post_type'   => 'quads-ads',
                             );  
                     $post_id          = wp_insert_post($ads_post);    
@@ -370,13 +371,13 @@ class QUADS_Ad_Setup_Api {
                     foreach ($adforwp_meta_key as $key => $val){    
                         update_post_meta($post_id, $key, $val);  
                     } 
+                    require_once QUADS_PLUGIN_DIR . '/admin/includes/migration-service.php';
+                        $this->migration_service = new QUADS_Ad_Migration();
+                        $this->migration_service->quadsUpdateOldAd('ad'.$ad_count, $adforwp_meta_key);     
+                        $ad_count++;  
                 }
                 update_option('adsforwp_to_quads', 'imported');      
-                     require_once QUADS_PLUGIN_DIR . '/admin/includes/migration-service.php';
-                        $this->migration_service = new QUADS_Ad_Migration();
-                        $this->migration_service->quadsUpdateOldAd('ad'.$ad_count, $adforwp_meta_key);      
             }
-
             return  array('status' => 't', 'data' => 'Ads have been successfully imported'); 
         } 
      /** Here we are importing AMP for WP and advance Amp ads to Quads**/
