@@ -222,34 +222,77 @@ class QUADS_Ad_Setup_Api {
                     $i =0;  $j =0;  
 
                     foreach ($data_group_array as $key => $value) { 
-                        $label = '';    
-                        switch ($value['data_array'][0]['key_1']) { 
-                            case 'post_type':   
-                            $label = 'Post Type';   
-                            break;  
-                            case 'post_format': 
-                            $label = 'Post Format'; 
-                            break;  
-                            case 'page':    
-                            $label = 'Page';    
-                            break;  
-                        }   
+                        foreach ($value['data_array'] as $keys => $values) { 
+                            $label = '';    
+                            switch ($values['key_1']) { 
+                                case 'post_type':   
+                                $label = 'Post Type';   
+                                break;  
+                                case 'post_format': 
+                                $label = 'Post Format'; 
+                                break;  
+                                case 'page':    
+                                $label = 'Page';    
+                                break;  
+                            }   
+                            if($values['key_2'] == 'equal'){    
+                                $visibility_include[$i]['type']['label'] = $label;  
+                                $visibility_include[$i]['type']['value'] = 'post_type'; 
+                                $visibility_include[$i]['value']['label'] = $label; 
+                                $visibility_include[$i]['value']['value'] = esc_html($values['key_3']); 
+                                $i++;  
 
-                        if($value['data_array'][0]['key_2'] == 'equal'){    
-                            $visibility_include[$i]['type']['label'] = $label;  
-                            $visibility_include[$i]['type']['value'] = 'post_type'; 
-                            $visibility_include[$i]['value']['label'] = $label; 
-                            $visibility_include[$i]['value']['value'] = esc_html($value['data_array'][0]['key_3']); 
-                            $i++;   
-                        }else{  
-                            $visibility_exclude[$j]['type']['label'] = $label;  
-                            $visibility_exclude[$j]['type']['value'] = 'post_type'; 
-                            $visibility_exclude[$j]['value']['label'] = $label; 
-                            $visibility_exclude[$j]['value']['value'] = esc_html($value['data_array'][0]['key_3']); 
-                            $j++;   
-                        }   
-                        update_post_meta( $post_id, 'visibility_include', $visibility_include); 
-                        update_post_meta( $post_id, 'visibility_exclude', $visibility_exclude); 
+                            }else{  
+                                $visibility_exclude[$j]['type']['label'] = $label;  
+                                $visibility_exclude[$j]['type']['value'] = 'post_type'; 
+                                $visibility_exclude[$j]['value']['label'] = $label; 
+                                $visibility_exclude[$j]['value']['value'] = esc_html($values['key_3']); 
+                                $j++;   
+
+                            }   
+                            update_post_meta( $post_id, 'visibility_include', $visibility_include); 
+                            update_post_meta( $post_id, 'visibility_exclude', $visibility_exclude); 
+                        }
+                    }
+
+                    $visibility_include = array();  
+                    $visibility_exclude = array();  
+                    $data_group_array = unserialize($post_meta['visitor_conditions_array'][0]); 
+                    $i =0;  $j =0;  
+
+                    foreach ($data_group_array as $key => $value) { 
+                        foreach ($value['visitor_conditions'] as $keys => $values) { 
+                            $label = '';    
+                            switch ($values['key_1']) { 
+                                case 'device':   
+                                $label = 'Device Type';   
+                                break;  
+                                case 'browser_language': 
+                                $label = 'Browser Language'; 
+                                break;  
+                                case 'url_parameter':    
+                                $label = ' URL Parameter';    
+                                break;  
+                            }   
+       
+                            if($values['key_2'] == 'equal'){    
+                                $targeting_include[$i]['type']['label'] = $label;  
+                                $targeting_include[$i]['type']['value'] = esc_html($values['key_1']);  
+                                $targeting_include[$i]['value']['label'] =  esc_html($values['key_3']); 
+                                $targeting_include[$i]['value']['value'] = esc_html($values['key_3']); 
+                                $i++;  
+
+                            }else{  
+                                $targeting_exclude[$j]['type']['label'] = $label;  
+                                $targeting_exclude[$j]['type']['value'] =  esc_html($values['key_1']);  
+                                $targeting_exclude[$j]['value']['label'] =  esc_html($values['key_3']); 
+                                $targeting_exclude[$j]['value']['value'] = esc_html($values['key_3']); 
+                                $j++;   
+
+                            }   
+                            update_post_meta( $post_id, 'targeting_include', $targeting_include); 
+                            update_post_meta( $post_id, 'targeting_exclude', $targeting_exclude); 
+                        }
                     }
 
                    $banner_size = 'responsive';
@@ -362,7 +405,6 @@ class QUADS_Ad_Setup_Api {
                         'image_src'                     => $post_meta['ad_background_image'][0], 
                         'image_redirect_url'            => $post_meta['ad_background_redirect_url'][0], 
                         'enabled_on_amp'                => 1,
-                        'visibility_include'            => $visibility_include,
                         'ad_id'                         => $post_id,
                         'enable_one_end_of_post'        =>'',
                         'quads_ad_old_id'               => 'ad'.$ad_count,
