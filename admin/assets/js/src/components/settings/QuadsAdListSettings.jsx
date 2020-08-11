@@ -869,7 +869,7 @@ handleMultiPluginsChange = (option) => {
              <h3>Ads For wp Setting</h3>
              <div className="quads-modal-description"></div>
 
-             <div className="quads-modal-content">
+             <div className="quads-modal-content adsforwp-quads-popup">
              Change adsforwp Short code to quads 
               <label className="quads-switch">
                          <input id="adsforwp_quads_shortcode" type="checkbox" name="adsforwp_quads_shortcode" onChange={this.formChangeHandler} checked={settings.adsforwp_quads_shortcode} />
@@ -1233,7 +1233,7 @@ handleMultiPluginsChange = (option) => {
                         <th><label>{__('ADS for WP Ads', 'quick-adsense-reloaded')}</label></th>
                         <td>
                           <a className="quads-btn quads-btn-primary" id="import_ads_for_wp" onClick={this.importadsforwpdata}>{__('Import', 'quick-adsense-reloaded')}</a>
-                          {settings.adsforwp_to_quads == 'imported' ? <span onClick={this.adsforwp_to_quads_model} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''} 
+                          {settings.adsforwp_to_quads == 'imported' ? <span onClick={this.adsforwp_to_quads_model} className="quads-generic-icon import_ads_for_wp dashicons dashicons-admin-generic"></span> : ''} 
                             {this.state.importadsforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importadsforwpmsg}</Alert> : null}
                             {this.state.importadsforwpmsgprocessing ? <div className='updating-message importadsforwpmsgprocessing'><p>Importing Ads</p></div>: ''}
                         </td>

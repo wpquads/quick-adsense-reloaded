@@ -62,6 +62,9 @@ function quads_from_adsforwp_manual_ads($atts ){
     );
 
     $event_query = new WP_Query( $args );
+    if(!isset($event_query->post->ID)){
+      return '';
+    }
     $quads_post_id =$event_query->post->ID;
    $id_name = get_post_meta ( $quads_post_id, 'quads_ad_old_id', true );
    $id_array = explode('ad', $id_name );
