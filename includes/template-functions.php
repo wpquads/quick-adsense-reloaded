@@ -24,13 +24,15 @@ add_action('amp_post_template_head','quads_adsense_auto_ads_amp_script',1);
 add_action('amp_post_template_footer','quads_adsense_auto_ads_amp_tag');
  
 add_action( 'init', 'remove_ads_for_wp_shortcodes',999 );
+
 function remove_ads_for_wp_shortcodes() {
   $quads_settings = get_option( 'quads_settings' );
-  if($quads_settings['adsforwp_quads_shortcode']){
+  if(isset($quads_settings['adsforwp_quads_shortcode']) && $quads_settings['adsforwp_quads_shortcode']){
       remove_shortcode( 'adsforwp' );
       add_shortcode('adsforwp', 'quads_from_adsforwp_manual_ads',1);
   }
 }
+
 //Ad blocker
 add_action('wp_head', 'quads_adblocker_detector');
 add_action('wp_footer', 'quads_adblocker_popup_notice');
