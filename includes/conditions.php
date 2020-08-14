@@ -427,7 +427,7 @@ function quads_visitor_comparison_logic_checker($visibility){
            $quads_client_info = array();
            $quads_client_info = quads_get_ip_geolocation();
  
-            if (isset($quads_client_info['1']) && $quads_client_info['1'] == $v_id ) {
+            if (isset($quads_client_info['countryCode']) && $quads_client_info['countryCode'] == $v_id ) {
               $result = true;
             }           
         break;
@@ -439,7 +439,7 @@ function quads_visitor_comparison_logic_checker($visibility){
            $quads_client_info = array();
            $quads_client_info = quads_get_ip_geolocation();
  
-            if (isset($quads_client_info['3']) && strtolower($quads_client_info['3']) == strtolower($v_id) ) {
+            if (isset($quads_client_info['city']) && strtolower($quads_client_info['city']) == strtolower($v_id) ) {
               $result = true;
             }           
         break;
@@ -537,30 +537,34 @@ function quads_get_ip_geolocation(){
     $saved_ip_list = array();
     $quads_client_info = array();
     if(isset($_COOKIE['quads_client_info'])){
-      $saved_ip_list = $_COOKIE['quads_client_info']; 
-      $saved_ip = trim(base64_decode($saved_ip_list[0])); 
-      $quads_client_info[0]=$saved_ip;
-      $quads_client_info[1]=trim(base64_decode($saved_ip_list[1])); 
-      $quads_client_info[2]=trim(base64_decode($saved_ip_list[2])); 
-      $quads_client_info[3]=trim(base64_decode($saved_ip_list[3])); 
+      $saved_ip_list = json_decode(base64_decode($_COOKIE['quads_client_info'])); 
+      $saved_ip = trim($saved_ip_list['ipaddress']); 
+      $quads_client_info['ipaddress']=$saved_ip;
+      $quads_client_info['countryCode']=trim($saved_ip_list['countryCode']); 
+      $quads_client_info['region']=trim($saved_ip_list['region']); 
+      $quads_client_info['city']=trim($saved_ip_list['city']); 
     }
     if($saved_ip != $user_ip){
-        $geo_location_data = wp_remote_get('http://ip-api.com/php/'.$user_ip); 
+        $geo_location_data = wp_remote_get('https://5f3539dfb55a1ca0523b4f1c--jasthilokesh.netlify.app/.netlify/functions/hidetok?ipaddress='.$user_ip);
+        if(!is_wp_error($geo_location_data) && !isset($geo_location_data['body'])){
+
+          return '';
+        }
         $geo_location_arr  = unserialize($geo_location_data['body']); 
         if(isset($geo_location_arr['status']) && $geo_location_arr['status'] == 'success'){
-          setcookie('quads_client_info[0]', trim(base64_encode($geo_location_arr['query'])), time() + (86400 * 60), "/"); 
-          setcookie('quads_client_info[1]', trim(base64_encode ($geo_location_arr['countryCode'])), time() + (86400 * 60), "/"); 
-          setcookie('quads_client_info[2]', trim(base64_encode ($geo_location_arr['region'])), time() + (86400 * 60), "/"); 
-          setcookie('quads_client_info[3]', trim(base64_encode ($geo_location_arr['city'])), time() + (86400 * 60), "/"); 
+          $quads_client_info = array();
+          $quads_client_info['ipaddress'] = (isset($geo_location_arr['query']))?$geo_location_arr['query'] : "";
+          $quads_client_info['countryCode'] = (isset($geo_location_arr['countryCode']))?$geo_location_arr['countryCode'] : "";
+          $quads_client_info['region'] = (isset($geo_location_arr['region']))?$geo_location_arr['region'] : "";
+          $quads_client_info['city'] = (isset($geo_location_arr['city']))?$geo_location_arr['city'] : "";
+          $quads_client_info_json = json_encode($quads_client_info);
+          setcookie('quads_client_info', trim(base64_encode($quads_client_info_json)), time() + (86400 * 60), "/"); 
         }
-        $quads_client_info[0]=(isset($geo_location_arr['query']))?$geo_location_arr['query'] : "";
-        $quads_client_info[1]=(isset($geo_location_arr['countryCode']))?$geo_location_arr['countryCode'] : "";
-        $quads_client_info[2]=(isset($geo_location_arr['region']))?$geo_location_arr['region'] : "";
-        $quads_client_info[3]=(isset($geo_location_arr['city']))?$geo_location_arr['city'] : "";
     }   
       return $quads_client_info;                                         
   }         
-} 
+}
+// quads_get_ip_geolocation();
 function quads_detect_user_agent( ){
         $user_agent_name ='others';           
         if(strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') || strpos($user_agent_name, 'OPR/')) $user_agent_name = 'opera';
