@@ -80,7 +80,6 @@ class QuadsAdListSettings extends Component {
     this.setState({ notice_txt_color_picker: !this.state.notice_txt_color_picker })
   };
     handleClick_notice_bg_color = () => {
-    console.log(!this.state.notice_bg_color_picker );
     this.setState({ notice_bg_color_picker: !this.state.notice_bg_color_picker })
   };
   handleClick_notice_btn_txt_color = () => {
