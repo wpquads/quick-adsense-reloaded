@@ -55,13 +55,17 @@ function quads_block_assets() { // phpcs:ignore
 
 // Hook: Block assets.
 add_action( 'init', 'quads_block_assets' );
-  $quads_settings = get_option( 'quads_settings' );
-  if(isset($quads_settings['adsforwp_quads_shortcode']) && $quads_settings['adsforwp_quads_shortcode'] && class_exists('Adsforwp_Ads_Gutenberg') ){
+$quads_settings = get_option( 'quads_settings' );
+if(isset($quads_settings['adsforwp_quads_gutenberg']) && $quads_settings['adsforwp_quads_gutenberg'] && class_exists('Adsforwp_Ads_Gutenberg') ){
+	remove_action( 'init', array( Adsforwp_Ads_Gutenberg::get_instance(), 'adsforwp_ads_block' ));
+	add_action( 'init', 'adsforwp_to_quads_ads_block',999 );
+}
 
-remove_action( 'init', array( Adsforwp_Ads_Gutenberg::get_instance(), 'adsforwp_ads_block' ));
-add_action( 'init', 'adsforwp_to_quads_ads_block',999 );
-add_action( 'enqueue_block_editor_assets',  'adsforwp_to_quads_register_admin_scripts'  );
-
+  if(isset($quads_settings['adsforwp_quads_gutenberg']) && $quads_settings['adsforwp_quads_gutenberg'] && !class_exists('Adsforwp_Ads_Gutenberg') ){
+	add_action( 'init', 'adsforwp_to_quads_ads_block',999 );
+	if(! defined('ADSFORWP_PLUGIN_DIR_URI')){
+		add_action( 'enqueue_block_editor_assets',  'adsforwp_to_quads_register_admin_scripts'  );
+	}
 }
 
 function adsforwp_to_quads_ads_block(){
@@ -98,35 +102,21 @@ function adsforwp_to_quads_ads_render_blocks($attributes ){
 
     return ob_get_clean();
 }
-function adsforwp_register_admin_scripts() {
+function adsforwp_to_quads_register_admin_scripts() {
 	    if ( !function_exists( 'register_block_type' ) ) {
 	            // no Gutenberg, Abort
 	            return;
 	    }
 	    wp_register_script(
             'adsforwp-gb-ad-js',
-            ADSFORWP_PLUGIN_DIR_URI . 'admin/inc/gutenberg/js/adsforwp-blocks.js',
+            QUADS_PLUGIN_URL . '/includes/gutenberg/src/adsforwp-blocks.js',
             array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' )
         );                                         
 	   
-	    $all_ads = adsforwp_get_ad_ids(); 
-	    $all_group_ads = adsforwp_get_group_ad_ids();
+
 	    $ads = array();
 		$groups = array();
-
-		if (is_array($all_ads) && !empty($all_ads)){
-			foreach ( $all_ads as $ad_id ) {
-				$ads[] = array( 'id' => $ad_id, 'title' => get_the_title( $ad_id ) );
-			}
-		}
-
-		if (is_array($all_group_ads) && !empty($all_group_ads) ){
-			foreach ( $all_group_ads as $gr_ad_id ) {
-				$groups[] = array( 'id' => $gr_ad_id, 'name' => get_the_title($gr_ad_id) );
-			}
-		}
-		
-		$default = array(
+			$default = array(
 			'--empty--' => esc_html__( '--empty--', 'ads-for-wp' ),
 			'adsforwp' => esc_html__( 'Adsforwp Ads', 'ads-for-wp' ),
 			'ads' => esc_html__( 'Ads', 'ads-for-wp' ),
