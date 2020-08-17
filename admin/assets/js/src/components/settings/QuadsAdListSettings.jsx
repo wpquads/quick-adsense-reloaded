@@ -37,9 +37,11 @@ class QuadsAdListSettings extends Component {
             backup_file   : null,
             textToCopy    : '',
             copied: false,
+
             ad_blocker_support_popup:false,
             settings      :{
                 notice_txt_color : '#ffffff',
+                ad_blocker_support :false,
                 notice_bg_color : '#1e73be',
                 notice_btn_txt_color : '#ffffff',
                 notice_btn_bg_color : '#f44336',
@@ -50,6 +52,7 @@ class QuadsAdListSettings extends Component {
                 QckTags            :false,
                 adsTxtEnabled      :false,
                 adsforwp_quads_shortcode :false,
+                adsforwp_quads_gutenberg :false,
                 lazy_load_global      :false,
                 global_excluder_enabled: false,  
                 adsTxtText         :'',                
@@ -725,7 +728,10 @@ handleMultiPluginsChange = (option) => {
     if(name == 'ip_geolocation_api'){
      this.saveSettings();
     }
-       if(name == 'adsforwp_quads_shortcode'){
+    if(name == 'adsforwp_quads_shortcode'){
+     this.saveSettings();
+    }
+    if(name == 'adsforwp_quads_gutenberg'){
      this.saveSettings();
     }
        
@@ -869,12 +875,20 @@ handleMultiPluginsChange = (option) => {
              <div className="quads-modal-description"></div>
 
              <div className="quads-modal-content adsforwp-quads-popup">
+             <div className="quads-modal">
              Change adsforwp Short code to quads 
               <label className="quads-switch">
                          <input id="adsforwp_quads_shortcode" type="checkbox" name="adsforwp_quads_shortcode" onChange={this.formChangeHandler} checked={settings.adsforwp_quads_shortcode} />
                          <span className="quads-slider"></span>
                        </label>
-
+            </div>
+            <div className="quads-modal">
+             Change adsforwp Gutenberg to quads 
+              <label className="quads-switch">
+                         <input id="adsforwp_quads_gutenberg" type="checkbox" name="adsforwp_quads_gutenberg" onChange={this.formChangeHandler} checked={settings.adsforwp_quads_gutenberg} />
+                         <span className="quads-slider"></span>
+                       </label>
+            </div>
              </div>             
              </div>        
             </div> : null
