@@ -1,4 +1,4 @@
-=== Ads & AdSense Plugin WP QUADS === 
+=== Ads & AdSense Plugin WP QUADS ===
 
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
@@ -8,106 +8,160 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: adsense, ads, ad, google adsense, advertising, amp, ad injection, ad inserter, ad manager
 Requires at least: 3.6+
-Tested up to: 5.4.2
+Tested up to: 5.5
 Requires PHP: 5.3
-Stable tag: 2.0.10
+Stable tag: 2.0.10.2
 
 Ads & AdSense Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
-== Description == 
+== Description ==
+The legendary WPQuads Ads plugin is back with the modern approach for an Ads solution. WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
 
-#### WPQUADS - Quick AdSense Reloaded 
-This free Google AdSense advanced inserting plugin is an improvement of the successfull but discontinued plugin Quick AdSense which is used on more than 100.000 websites.
-WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
-<br />
-[See all features](https://wpquads.com/)
-<br /> 
-* Multi ad type add support (Adsense with sub ad types, Google AD Manager, Yandex, MGID, Image Banner, Taboola, Media.net, MediaVine, Outbrain, Background ) with multiple positions<br />
-* AdBlocker Support<br />
-* AMP support! Add AMP ads automatically to your site (WP QUADS PRO needed)<br /> 
-* Use mobile optimized and responsive AdSense ads<br /> 
-* Disable AdSense ads on phone, tablet or desktop devices<br /> 
-* Define AdSense sizes for different devices<br />
+WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built for WordPress.
 
-AMP feature requires [Automattic AMP plugin](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) or any other AMP plugin installed <br />
-Get WP QUADS PRO: [wpquads.com](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) <br /> 
-
-This AdSense plugin is rewritten from scratch with a solid code
-base and will be maintained and updated to be compatible with all future WordPress versions<br />
-Found a issue? Open a ticket in the [support forum](https://wordpress.org/support/plugin/quick-adsense-reloaded/ "support forum").
-
-= Why a Quick AdSense fork? =
-
-Quick Adsense is a great plugin and used by more than 100.000 websites. 
-Although is not under maintainance and development for more than 3 years by the original author it is still downloaded hundred times a day.
-So i decided to continue the project to make sure the plugin will also work in future with new WordPress versions.
-
-Deprecated functions removed, bugs fixed and new filters and hooks created to make this plugin extensible by third party developers!
-
-<strong>We Guarantee: </strong><br>
-This plugin does not do any revenue sharing with your Google AdSense ads. We never show our on ads ads on your website.<br>
-We are an active and dedicated member of the WordPress community and we are following strictly the WordPress Codex in terms of code quality and good behave.
-
-= Main Features =
-
-* Import all ads settings from Quick AdSense v. 1.9.2 and convert them into serialized options.
-* Visibility conditions, show / hide ads based on post type and user roles (needs WP QUADS PRO)
-* Quicktags of Quick Adsense are 100% compatible to Quick AdSense Reloaded
-* No external script dependencies. All plugin code reside on your site. 
-* Dynamic AdSense positioning: Assign Google AdSense ads to the beginning, middle and end of post, assign ads after 'more' tag, before last paragraph, after certain paragraphs & assign Ads after certain images.
-* Insert Google AdSense ads specifically or randomly anywhere within a post.
-* Support any Ads code, not limited to Google Adsense ads only.
-* Display up to a maximum of 10 Ads on a page. Google TOS allows publishers to place up to 3 Google Adsense for Content on a page. If you are using other ads, you may display up to 10 Ads.
-* Support up to a maximum of 10 Ads codes on Sidebar Widgets.
-* Support up to a maximum of 10 Ads codes for specific placement & randomization within a post.
-* Insert Google AdSense ads on-the-fly, insert &lt;!--Ads1--&gt;, &lt;!--Ads2--&gt; ... , &lt;!--RndAds--&gt; to a post to accomplish this.
-* Disable Ads on-the-fly, insert &lt;!--NoAds--&gt;, &lt;!--OffDef--&gt;, &lt;!--OffWidget--&gt;, &lt;!--OffBegin--&gt; ... and more to a post to accomplish this.
-* The above quicktags can be inserted into a post easily via the additional Quicktag Buttons added to the HTML Edit Post SubPanel.
-* Use shortcodes within ads (Suppport advertisements from other ad plugins for example Simple Ads Manager or AdRotate)
-
-= Improvements to original Quick AdSense Ads plugin =
-
-* Performance improvements
+= Features: =
+* <strong>Easy</strong> to use Modern options panel built on React JS.
+* Deeply <strong>integrates with AMP</strong> plugins like AMPforWP, Official AMP by Google.
+* <strong>Google Adsense</strong> support: It gives a deep integration with the ad types of Google Adsense like Display ads, In-feed ads, In-article ads & Auto ads. You can define fixed or responsive sizes for the ads.
+* Google AD Manager, formerly Double Click for Publishers (DFP) support.
+* <strong>8 Ad vendors</strong> support and 20 more on the development roadmap
+* <strong>12 Ads positions</strong> that helps you control where the ad will appear.
+* <strong>10 Post Specific Ads Control</strong>: 10 Conditional Ad visibility positions which allows you to control (include/exclude) on which pages would you like the ads to appear.
+* <strong>9 Targeting conditions</strong> which will allow you to control when an ad should appear.
+* Custom Image banner support
+* Custom html Code support with auto AMP Sanitization
+* Background ad (Full website background ad)
+* Group multiple ads into one and rotate them Randomly
+* ads.txt support
+* Lazy Loading for Adsense ads
+* Responsive ads
+* <strong>Ad Blocker</strong> support: It's the most advanced ad blocker which allows you to add the notice in 4 types. Bar, Popup, Page Redirection & Block Message. You can choose if you want to show only once or on every visit.
+* <strong>Unlimited Ads</strong> - Add an unlimited amount of ads to your website.
+* Layout options to help you control Alignment & Margin of the ads.
+* <strong>Ad Label</strong> support: You can add your custom label, you can even choose to display it above or below the ad.
+* One-click duplicate ads with the same configuration
+* Ajax based search to help you quickly find the ads
+* Sidebar Widgets to ads unlimited widget ads in the sidebar
+* <strong>High Performance</strong> - Developed well to keep the speed of your site. It loads only the code it needs at the moment of execution, making it small and fast and with a lot of hooks easy extensible by third party developers.
 * Serialized storing of Ad options instead storing every single option as separate table entry all over
 * Multi language support
-* Remove of small coding issues like "unexpected output" message when plugin is activated on several sites
+* Remove of small coding issues like “unexpected output” message when plugin is activated on several sites
 * Import / Export function makes plugin migrating to other sites easier. Copy your ads code to other sites.
+* Automatic Ad detection - WP QUADS detects optimal ad sizes for all devices.
+* <strong>Caching Power</strong> - Supports WP Rocket, W3 Total and any other Caching plugin.
 
-= Safety improvements = 
 
-* Exit code if Quick AdSense plugin is not called by WordPress directly 
-* Better sanitizing of user input
 
-= We Distance Ourself From =
-These are known AdSense plugins which are removed from the WordPress repository because of non ethic behavior:
+= Ad Vendors Support =
+* Google Adsense
+* Google AD Manager, formerly Double Click for Publishers (DFP)
+* Yandex Direct Ads support
+* MGID Ads Support
+* Taboola Ads support
+* Media.net ads Support
+* MediaVine Ads support
+* Outbrain Ads support
+* 20+ more ad vendors coming in the future updates.
 
-* AdSense Extreme
-* AdSense Insert 
+= Display Positions =
+* Beginning of Post
+* Middle of Post
+* End of the Post
+* After Paragraph: You can choose after which paragraph you want to display the ad. You can even choose to display an ad after every X number of paragraph.
+* Right after the <!--more--> tag
+* Right before the last Paragraph
+* After Image: You can choose after which image you want to display the ad.
+* By Word Count
+* After the Percentage
+* Ad After HTML Tag: You can choose between these tags p, img, h1 - h6 & even custom html tag. You can even choose to display after x number of that specific tag.
+* Ads Inbetween Loop: You can choose after which post do you want to display the ad and even display after every x number of posts.
+* Shortcode & PHP tag placement
+* More display positions are coming in the future updates
 
-Make sure to switch to WP QUADS or any other AdSense plugin if you are still using these plugins!
+= Visibility: You can choose include/exclude the ads from =
+* Post types
+* Post: specific one post or multiple posts
+* Homepage
+* Globally
+* Logged-in User Roles Type
+* Post Category: specific one category or multiple categories
+* Post Tag: specific one tag or multiple tags
+* Post Formats
+* Page: specific one page or multiple pages
+* Taxonomy Terms
+* Page Templates
 
-<h3>WP QUADS PRO:</h3>
+= Targeting: When should the ad be displayed =
+* Device Type
+* Browser Language
+* Logged In
+* User Agent
+* User Role
+* Cookie
+* URL Parameter
+* Referrer URL Path
+* Browser Width
 
-* Support for responsive Google AdSense ads
-* GUI improvements
+= Active Development: =
+We are actively developing this plugin and our aim is to make this plugin into the #1 advertisment solution in the world. You can [Request a Feature](https://wpquads.com/support/) or [Report a Bug](https://github.com/wpquads/quick-adsense-reloaded/issues). The code is hosted on [Github](https://github.com/wpquads/quick-adsense-reloaded).
 
-Check out WP QUADS PRO: [wpquads.com](http://wpquads.com/?utm_source=wp_org&utm_medium=plugin_page&utm_term=check_out_wp_quads&utm_campaign=wpquads) <br /> 
+= Development Roadmap: =
+* <strong>Geo Targeting </strong>: Target the ads based on the city and countries.
+* <strong>Reports & Tracking </strong>: Find out which of your ads are performing the best and find out the most performing ad location.
+* <strong>AD Blindness </strong>: Helps you fight the Ad blindness.
+* <strong>AD Logging </strong>: Gives you an almost accurate data page, IP, browser, referrer, and dimensions of the user that clicked the ad and gives you reports of that data.
+* <strong>A/B Testing</strong>: Find out which ads perform the most and how you can improve the ad revenue further.
+* <strong>GDPR & Privacy tools</strong>: We have got the GDPR and other privacy tools planned so that you dont have to worry about complying with privacy laws.
+* <strong>Click Fraud Detection</strong>: Helps you fight the click fraud and helps you stabilize the ad revenue.
+* <strong>3rd Party compatibility</strong>: Deep integration with BuddyPress, BuddyBoss, bbPress, Paid Membership Pro, WPML, Mailpoet, Multisite, WooCommerce and More.
+* <strong>Innovation & Disruption</strong>: We are constantly evolving our product and going to introduce new features which are not being used by anyone in the world.
+* [View Full Development Roadmap](https://github.com/wpquads/quick-adsense-reloaded/projects/1)
 
-Do you have suggestions for more features?
+**Pro version** supports additional [advanced features](https://wpquads.com/#see-features):
 
-= High Performance =
+= Documentation =
+Documentation & Tutorials are available on [Documentation Center](https://wpquads.com/documentation/).
 
-Quick AdSense Reloaded is *coded well and developed for high performance*.
-It loads only the code it needs at the moment of execution, making it small and fast and with a lot of hooks easy extensible by third party developers.
+= Technical Support =
+Support is provided in [Forum](https://wordpress.org/support/plugin/quick-adsense-reloaded/). You can also [Contact us](https://wpquads.com/support/), our turn around time on email is around 12 hours.
 
-** GitHub **
-Follow the development and improve the plugin.
-You find it on [GitHub](https://github.com/rene-hermenau/quick-adsense-reloaded/)
+= We Guarantee =
+This plugin does not do any revenue sharing with your Google AdSense ads. We never show our on ads ads on your website.
+We are an active and dedicated member of the WordPress community and we are following strictly the WordPress Codex in terms of code quality and good behave.
+
 
 
 == Frequently Asked Questions ==
 
-Post your question in the [support forum](https://wordpress.org/support/plugin/quick-adsense-reloaded)
+= WHY A QUICK ADSENSE FORK?  =
+Quick Adsense is a great plugin and used by more than 100.000 websites.
+Although is not under maintenance and development for more than 3 years by the original author it is still downloaded hundred times a day.
+So I decided to continue the project to make sure the plugin will also work in future with new WordPress versions.
+Deprecated functions removed, bugs fixed and new filters and hooks created to make this plugin extensible by third party developers!
+Deprecated functions removed, bugs fixed and new filters and hooks created to make this plugin extensible by third party developers!
+
+
+= Do we insert our own ads =
+We don't insert any ads into the users website. We believe in the advertisement solution and that's why we built it.
+
+= How does WPQuads make money =
+We make money only by selling the PRO version, we do not do any un-ethical ways to make the money.
+
+= Does WPQuads take a part of the Revenue? =
+We do not take any part of the revenue, nor we do any revenue sharing with our user. Our software is a fully open-source project.
+
+= How do I report bugs and suggest new features? =
+You can report the bugs [here](https://github.com/wpquads/quick-adsense-reloaded/issues)
+
+= Will you Add New features to my request? =
+
+Yes, Absolutely! We would suggest you send your feature request by creating an issue in [Github](https://github.com/wpquads/quick-adsense-reloaded/issues/new/) . It helps us organise the feedback easily.
+
+
+= How do I get in touch? =
+
+You can contact us from [here](https://wpquads.com/support/)
+
 
 == Installation ==
 
@@ -117,7 +171,7 @@ Recommended Installation:
 2. Search for "Quick Adsense reloaded" or "WP QUADS"
 3. Click "install Now"
 
-Alternative Installation: 
+Alternative Installation:
 
 1. [Download the plugin](https://downloads.wordpress.org/plugin/quick-adsense-reloaded.latest-stable.zip) , unzip and place it in your wp-content/plugins/ folder.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
@@ -130,7 +184,16 @@ Alternative Installation:
 4. AdSense Options from the post editor
 
 
-== Changelog == 
+== Changelog ==
+
+= 2.0.10.1 (17th August 2020) =
+* New: WordPress 5.5 support  #224
+* Fix: Console errors with 5.5 #225
+* Fix: WP 5.5 causing jQuery issues #232
+
+= 2.0.10.1 (05th August 2020) =
+* Removed: Helpscout beacon  #223
+
 
 = 2.0.10 (03rd August 2020) =
 * New: AD blocker 2.0 #153
@@ -250,7 +313,7 @@ Alternative Installation:
 * New: Added Email optin box with auto message
 * New: Added Margin & Padding options for AD Widget
 * New: Improve tab UX
-* Fix: updated the dependency in package-lock.json 
+* Fix: updated the dependency in package-lock.json
 * Fix: Removed hello world block gutenberg module.
 
 = 1.8.13 =
@@ -258,7 +321,7 @@ Alternative Installation:
 * Fix: Assigned version number of Gutenberg module js and css files.
 
 = 1.8.12 =
-* Fix: Fatal error for wordpress version below 5.0 
+* Fix: Fatal error for wordpress version below 5.0
 
 = 1.8.11 =
 * Feature: Elementor module for ads #60
