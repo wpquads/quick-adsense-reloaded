@@ -1275,7 +1275,7 @@ class QUADS_Ad_Setup_Api {
             $post_type    = 'quads-ads';
 
             if(isset($_GET['page'])){
-                $paged    = sanitize_text_field($_GET['page']);
+                $paged    = sanitize_text_field($_GET['pageno']);
             }
             if(isset($_GET['posts_per_page'])){
                 $rvcount = sanitize_text_field($_GET['posts_per_page']);

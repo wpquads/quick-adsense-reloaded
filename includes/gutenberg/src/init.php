@@ -114,8 +114,24 @@ function adsforwp_to_quads_register_admin_scripts() {
         );                                         
 	   
 
+	     $all_ads = adsforwp_to_quads_get_ad_ids(); 
+	    $all_group_ads =  array();
 	    $ads = array();
 		$groups = array();
+
+		if (is_array($all_ads) && !empty($all_ads)){
+			foreach ( $all_ads as $ad_id ) {
+				$ads[] = array( 'id' => $ad_id, 'title' => get_the_title( $ad_id ) );
+			}
+		}
+
+		if (is_array($all_group_ads) && !empty($all_group_ads) ){
+			foreach ( $all_group_ads as $gr_ad_id ) {
+				$groups[] = array( 'id' => $gr_ad_id, 'name' => get_the_title($gr_ad_id) );
+			}
+		}
+
+
 			$default = array(
 			'--empty--' => esc_html__( '--empty--', 'ads-for-wp' ),
 			'adsforwp' => esc_html__( 'Adsforwp Ads', 'ads-for-wp' ),
@@ -138,3 +154,31 @@ function adsforwp_to_quads_register_admin_scripts() {
 	    wp_add_inline_script( 'adsforwp-gb-ad-js', 'var adsforwpGutenberg = '.$inline_script,'before');
         wp_enqueue_script( 'adsforwp-gb-ad-js' );               
 	}
+
+	function adsforwp_to_quads_get_ad_ids(){
+        
+    $all_ads_id = json_decode(get_transient('adsforwp_transient_ads_ids'), true);
+    if(!$all_ads_id){
+      $all_ads_post = get_posts(
+            array(
+                    'post_type'    => 'adsforwp',
+                    'posts_per_page'     => -1,
+                    'post_status'        => 'publish',
+            )
+        ); 
+        $ads_post_ids = array();
+        if($all_ads_post){
+
+            foreach($all_ads_post as $ads){
+                $ads_post_ids[] = $ads->ID;         
+           }
+        }
+     
+        if(!empty($ads_post_ids) ){
+          return $ads_post_ids;
+        }else{
+          return false;
+        }
+    }                  
+    return $all_ads_id;
+}
