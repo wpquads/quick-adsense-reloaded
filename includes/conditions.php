@@ -438,10 +438,15 @@ function quads_visitor_comparison_logic_checker($visibility){
             }    
            $quads_client_info = array();
            $quads_client_info = quads_get_ip_geolocation();
- 
-            if (isset($quads_client_info['city']) && strtolower($quads_client_info['city']) == strtolower($v_id) ) {
-              $result = true;
-            }           
+           if(isset($quads_client_info['city'])){
+              $city_cookie = str_replace(' ','',$quads_client_info['city']);
+              $city_cookie = strtolower($city_cookie);   
+              $city        = str_replace(' ','',$v_id);
+              $city        = strtolower($city); 
+              if($city_cookie ==  $city) {
+                $result = true;
+              }           
+            }
         break;
         
         case 'url_parameter':                      
@@ -537,7 +542,7 @@ function quads_get_ip_geolocation(){
     $saved_ip_list = array();
     $quads_client_info = array();
     if(isset($_COOKIE['quads_client_info'])){
-      $saved_ip_list = json_decode(base64_decode($_COOKIE['quads_client_info'])); 
+      $saved_ip_list = json_decode(base64_decode($_COOKIE['quads_client_info']),true); 
       $saved_ip = trim($saved_ip_list['ipaddress']); 
       $quads_client_info['ipaddress']=$saved_ip;
       $quads_client_info['countryCode']=trim($saved_ip_list['countryCode']); 
@@ -545,7 +550,13 @@ function quads_get_ip_geolocation(){
       $quads_client_info['city']=trim($saved_ip_list['city']); 
     }
     if($saved_ip != $user_ip){
-        $geo_location_data = wp_remote_get('https://5f3539dfb55a1ca0523b4f1c--jasthilokesh.netlify.app/.netlify/functions/hidetok?ipaddress='.$user_ip);
+      $quads_license_key = isset( $quads_options['quads_wp_quads_pro_license_key'] ) ? $quads_options['quads_wp_quads_pro_license_key'] : '';
+      if(empty($quads_license_key)){
+          return '';
+      }
+        $geo_location_data = wp_remote_get('https://us-central1-golden-academy-286513.cloudfunctions.net/function-1?ipaddress='.$user_ip,array( 
+            'headers' => array( 'quads_auth' => $quads_license_key) 
+             ));
         if(!is_wp_error($geo_location_data) && !isset($geo_location_data['body'])){
 
           return '';
@@ -564,7 +575,6 @@ function quads_get_ip_geolocation(){
       return $quads_client_info;                                         
   }         
 }
-// quads_get_ip_geolocation();
 function quads_detect_user_agent( ){
         $user_agent_name ='others';           
         if(strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') || strpos($user_agent_name, 'OPR/')) $user_agent_name = 'opera';

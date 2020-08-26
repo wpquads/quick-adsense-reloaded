@@ -12,9 +12,11 @@ class QuadsUserTargeting extends Component {
       is_amp_endpoint_exc : false,
       includedToggle : false,
       includedTextToggle : true,
+      includedMainToggle : true,
       includedCustomTextToggle : false,
       excludedCustomTextToggle : false,
       excludedTextToggle : true,
+      excludedMainToggle :true,
       excludedToggle  : false,      
       includedRightPlaceholder: 'Select Targeting Data',
       excludedRightPlaceholder: 'Select Targeting Data',
@@ -419,6 +421,12 @@ class QuadsUserTargeting extends Component {
 
   handleMultiIncludedLeftChange = (option) => {    
       let type = this.state.multiTypeTargetOption[option.value];      
+        if( !quads_localize_data.is_pro && (option.value==='geo_location_country' || option.value==='geo_location_city')){
+         this.setState({includedMainToggle:false});
+         return;
+        }else{
+        this.setState({includedMainToggle:true});
+        } 
       var placeholder = 'Search for ' + option.label;
     
       if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url' || option.value==='geo_location_city'){
@@ -437,9 +445,15 @@ class QuadsUserTargeting extends Component {
      
   }
   handleMultiExcludedLeftChange = (option) => {    
-    let type = this.state.multiTypeTargetOption[option.value];         
+    let type = this.state.multiTypeTargetOption[option.value];      
+    if( !quads_localize_data.is_pro && (option.value==='geo_location_country' || option.value==='geo_location_city')){
+     this.setState({excludedMainToggle:false});
+    return;
+    }else{
+      this.setState({excludedMainToggle:true});
+    } 
      var placeholder = 'Search for ' + option.label;
-      if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url'){
+      if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url' || option.value==='geo_location_city'){
          placeholder = 'Enter your ' + option.label;
          this.setState({excludedTextToggle:false});
          this.setState({multiTypeLeftExcludedValue:option, excludedDynamicOptions:type, textTypeRightExcludedValue:'', excludedRightPlaceholder:placeholder});
@@ -483,7 +497,7 @@ handleMultiIncludedRightChange = (option) => {
 }
 handleMultiExcludedRightChange = (option) => {    
   let type  = this.state.multiTypeLeftExcludedValue;
-  if(type.value=='cookie' || type.value==='url_parameter' || type.value==='referrer_url'){
+  if(type.value=='cookie' || type.value==='url_parameter' || type.value==='referrer_url'|| type.value==='geo_location_city'){
     this.setState({textTypeRightExcludedValue:option.target.value});
   }else{ 
     this.setState({multiTypeRightExcludedValue:option});
@@ -625,6 +639,8 @@ excludedToggle = () => {
               <span className="amp-support">AMP does not support Browser Width Targeting</span>
             :''}             
            </td>
+           {this.state.includedMainToggle ? (
+            <>
            <td>
            {this.state.includedTextToggle?
             <Select       
@@ -651,6 +667,7 @@ excludedToggle = () => {
             :''}     
            </td>
            <td><a onClick={this.addIncluded} className="quads-btn quads-btn-primary">Add</a></td>
+              </>) :<><td className="targeting_get_pro">This feature is available in PRO version </td><td><a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a> </td></>}
            </tr>
          </tbody> 
         </table>
@@ -687,8 +704,11 @@ excludedToggle = () => {
               <span className="amp-support">AMP does not support Browser Width Targeting</span>
             :''}
            </td>
+            {this.state.excludedMainToggle ? (
+            <>
            <td>
-           {this.state.excludedTextToggle?
+                     
+           {this.state.excludedTextToggle ?
             <Select       
               Clearable ={true}      
               name="userTargetingExcludedData"
@@ -703,7 +723,8 @@ excludedToggle = () => {
               placeholder={this.state.excludedRightPlaceholder}
               value={this.state.textTypeRightExcludedValue}
               onChange={this.handleMultiExcludedRightChange}  />  
-            }
+            }  
+        
             {this.state.excludedCustomTextToggle?
             <input type="text"
               name="userTargetingIncludedData" 
@@ -714,6 +735,7 @@ excludedToggle = () => {
             :''}             
            </td>
            <td><a onClick={this.addExcluded} className="quads-btn quads-btn-primary">Add</a></td>
+               </>) : <><td className="targeting_get_pro">This feature is available in PRO version</td><td><a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a> </td></>}
            </tr>
          </tbody> 
         </table>
@@ -722,9 +744,6 @@ excludedToggle = () => {
        </div>
       
       </div>  
-
-       {(show_form_error && validation_flag) ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Geo-Location Available Only On WPQuads Pro version</div> :''}
       </div>  
       </div>
     );

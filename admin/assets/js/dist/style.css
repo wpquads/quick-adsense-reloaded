@@ -247,6 +247,9 @@ and open the template in the editor.
 
 .quads-user-targeting-label b {
   color: #000000; }
+
+.targeting_get_pro {
+  text-transform: none; }
 .quads-user-targeting table td {
   width: 25%; }
 
