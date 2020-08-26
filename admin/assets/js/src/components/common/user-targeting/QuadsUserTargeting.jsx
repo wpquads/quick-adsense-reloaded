@@ -431,6 +431,9 @@ class QuadsUserTargeting extends Component {
     
       if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url' || option.value==='geo_location_city'){
         placeholder = 'Enter your ' + option.label;
+        if(option.value==='geo_location_city'){
+          placeholder = 'Add City name';
+        }
         this.setState({includedTextToggle:false});
         this.setState({multiTypeLeftIncludedValue:option, includedDynamicOptions:type, textTypeRightIncludedValue:'', includedRightPlaceholder:placeholder});
       }else{
@@ -455,6 +458,9 @@ class QuadsUserTargeting extends Component {
      var placeholder = 'Search for ' + option.label;
       if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url' || option.value==='geo_location_city'){
          placeholder = 'Enter your ' + option.label;
+         if(option.value==='geo_location_city'){
+          placeholder = 'Add City name';
+        }
          this.setState({excludedTextToggle:false});
          this.setState({multiTypeLeftExcludedValue:option, excludedDynamicOptions:type, textTypeRightExcludedValue:'', excludedRightPlaceholder:placeholder});
       }else{
