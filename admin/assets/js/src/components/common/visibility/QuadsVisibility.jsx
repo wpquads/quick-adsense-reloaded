@@ -68,7 +68,6 @@ class QuadsVisibility extends Component {
                            
            if(visibility_type == 'include'){                                         
             this.setState({includedDynamicOptions:result, multiTypeRightIncludedValue:[]});
-            console.log(this.state);
            }
 
            if(visibility_type == 'exclude' || visibility_type){                         

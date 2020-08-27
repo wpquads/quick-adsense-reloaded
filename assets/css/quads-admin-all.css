@@ -146,16 +146,6 @@
   text-transform: capitalize;
 }
 
- .quads-help-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    z-index: 9999;
-    bottom: 0px;
-    right: 0pc;
-}
-
 #quads-shortcode-modal-container-body{
     text-align: center;
 }

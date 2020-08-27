@@ -953,7 +953,7 @@ e.preventDefault();
             }
             p = setTimeout(n, $.fn[c].delay)
         }
-        $.browser.msie && !d && (function () {
+        !d && (function () {
             var q, r;
             j.start = function () {
                 if (!q) {

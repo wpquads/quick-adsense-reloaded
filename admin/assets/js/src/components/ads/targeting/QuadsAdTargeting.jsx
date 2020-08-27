@@ -57,7 +57,7 @@ class QuadsAdTargeting extends Component {
                     <td><label>{__('Enter Your Tag', 'quick-adsense-reloaded')}</label></td>
                       <td><input  onChange={this.props.adFormChangeHandler} name="enter_your_tag" value={post_meta.enter_your_tag}  type="text" placeholder='"div"' /></td>
                     </tr>
-                    : ''}
+                    : null}
                     <tr>
                       <td><label>{__('Display After', 'quick-adsense-reloaded')}</label></td>
                       <td><input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_number" value={post_meta.paragraph_number}  type="number" />
@@ -96,7 +96,7 @@ class QuadsAdTargeting extends Component {
                 />               
               <div className="quads-btn-navigate">
                 <div className="quads-next"><a onClick={this.props.publish} className="quads-btn quads-btn-primary">{page.action == 'edit' ? 'Update' : 'Publish'}</a></div>
-                <div className=""><a onClick={this.props.movePrev} className="quads-btn quads-btn-primary">{__('Prev', 'quick-adsense-reloaded')}</a></div>
+                <div ><a onClick={this.props.movePrev} className="quads-btn quads-btn-primary">{__('Prev', 'quick-adsense-reloaded')}</a></div>
                 </div>
               </div>
             );

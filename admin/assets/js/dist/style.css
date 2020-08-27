@@ -247,6 +247,9 @@ and open the template in the editor.
 
 .quads-user-targeting-label b {
   color: #000000; }
+
+.targeting_get_pro {
+  text-transform: none; }
 .quads-user-targeting table td {
   width: 25%; }
 
@@ -1388,6 +1391,15 @@ a.quads-doc-link:hover {
   right: 0;
   background: #f1f1f1;
   left: 0; }
+
+.quads-generic-icon {
+  top: 13px; }
+
+.quads-modal-content.adsforwp-quads-popup {
+  text-align: left; }
+
+.quads-modal-content.adsforwp-quads-popup .quads-switch {
+  margin-left: 40px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

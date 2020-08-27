@@ -79,6 +79,7 @@ class QuadsAdCreateRouter extends Component {
             image_number      : 1,
             enabled_on_amp        : false,
             enable_on_end_of_post : false,
+            repeat_paragraph      : false,
             after_the_percentage_value: 50,
             ads_loop_number: 1,
             image_caption : false,
@@ -399,6 +400,7 @@ class QuadsAdCreateRouter extends Component {
           validation_flag = false;
         }
       }
+    
       switch (quads_post_meta.ad_type) {
 
         case 'plain_text':
@@ -774,7 +776,6 @@ class QuadsAdCreateRouter extends Component {
                               movePrev={this.movePrev}                                                        
                               publish={this.publish}                                                                                    
                               onListSearchHover          ={this.onListSearchHover}  
-                              updateVisitorTarget ={this.updateVisitorTarget}    
                               />;
                           case "wizard_publish":  
                               return <QuadsAdPublish  {...props} 

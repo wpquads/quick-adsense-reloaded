@@ -37,9 +37,11 @@ class QuadsAdListSettings extends Component {
             backup_file   : null,
             textToCopy    : '',
             copied: false,
+
             ad_blocker_support_popup:false,
             settings      :{
                 notice_txt_color : '#ffffff',
+                ad_blocker_support :false,
                 notice_bg_color : '#1e73be',
                 notice_btn_txt_color : '#ffffff',
                 notice_btn_bg_color : '#f44336',
@@ -49,6 +51,8 @@ class QuadsAdListSettings extends Component {
                 hide_ajax          :false,
                 QckTags            :false,
                 adsTxtEnabled      :false,
+                adsforwp_quads_shortcode :false,
+                adsforwp_quads_gutenberg :false,
                 lazy_load_global      :false,
                 global_excluder_enabled: false,  
                 adsTxtText         :'',                
@@ -68,7 +72,9 @@ class QuadsAdListSettings extends Component {
                 },
             quads_wp_quads_pro_license_key : '', 
             importampforwpmsg : "", 
-            importampforwpmsgprocessing : "",  
+            importampforwpmsgprocessing : "",
+            importadsforwpmsg : "", 
+            importadsforwpmsgprocessing : "",  
             importquadsclassicmsgprocessing : "",
             page_redirect_options   : []          
         };     
@@ -77,7 +83,6 @@ class QuadsAdListSettings extends Component {
     this.setState({ notice_txt_color_picker: !this.state.notice_txt_color_picker })
   };
     handleClick_notice_bg_color = () => {
-    console.log(!this.state.notice_bg_color_picker );
     this.setState({ notice_bg_color_picker: !this.state.notice_bg_color_picker })
   };
   handleClick_notice_btn_txt_color = () => {
@@ -158,6 +163,33 @@ if(this.state.importampforwpmsgprocessing !=''){
       (result) => {
             if(result.status === 't'){              
               this.setState({importampforwpmsg: result.data,importampforwpmsgprocessing:''});
+            }                              
+      },        
+      (error) => {
+        
+      }
+    );  
+
+  }
+  importadsforwpdata = () => {
+if(this.state.importadsforwpmsgprocessing !=''){
+  return;
+}
+      this.setState({importadsforwpmsgprocessing: 'Importing Ads'});
+    const url = quads_localize_data.rest_url + 'quads-route/import-adsforwp-ads';    
+    fetch(url,{
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-WP-Nonce': quads_localize_data.nonce,
+      }              
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {
+            if(result.status === 't'){              
+              this.setState({importadsforwpmsg: result.data,importadsforwpmsgprocessing:''});
             }                              
       },        
       (error) => {
@@ -365,7 +397,7 @@ handleMultiPluginsChange = (option) => {
     
   }
   closeQuerySuccess = (e) => {
-    this.setState({customer_querey_success : '',importampforwpmsg : '',importquadsclassicmsg : ''});   
+    this.setState({customer_querey_success : '',importampforwpmsg : '',importadsforwpmsg : '',importquadsclassicmsg : ''});   
   }
   closeQueryError = (e) => {
     this.setState({customer_querey_error: ''});   
@@ -696,13 +728,22 @@ handleMultiPluginsChange = (option) => {
     if(name == 'ip_geolocation_api'){
      this.saveSettings();
     }
+    if(name == 'adsforwp_quads_shortcode'){
+     this.saveSettings();
+    }
+    if(name == 'adsforwp_quads_gutenberg'){
+     this.saveSettings();
+    }
        
   }
   open_ad_text_modal = () =>{        
     this.setState({adtxt_modal:true});
   }
+  adsforwp_to_quads_model = () =>{        
+    this.setState({adsforwp_to_quads_model:true});
+  }
   closeModal = () =>{
-    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false});
+    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,adsforwp_to_quads_model:false});
   } 
   getErrorMessage =(type) => {
     const {__} = wp.i18n;
@@ -821,6 +862,33 @@ handleMultiPluginsChange = (option) => {
              <div className="quads-modal-content">
                <textarea cols="80" rows="15" name="adsTxtText" onChange={this.formChangeHandler} value={settings.adsTxtText} />
               <a className="button" onClick={this.validateAdstxt}>{__('OK', 'quick-adsense-reloaded')}</a>
+             </div>             
+             </div>        
+            </div> : null
+            } 
+
+             {this.state.adsforwp_to_quads_model ? 
+           <div className="quads-modal-popup">            
+            <div className="quads-modal-popup-content">
+             <span className="quads-modal-close" onClick={this.closeModal}>&times;</span>
+             <h3>Ads For wp Setting</h3>
+             <div className="quads-modal-description"></div>
+
+             <div className="quads-modal-content adsforwp-quads-popup">
+             <div className="quads-modal">
+             Change adsforwp Short code to quads 
+              <label className="quads-switch">
+                         <input id="adsforwp_quads_shortcode" type="checkbox" name="adsforwp_quads_shortcode" onChange={this.formChangeHandler} checked={settings.adsforwp_quads_shortcode} />
+                         <span className="quads-slider"></span>
+                       </label>
+            </div>
+            <div className="quads-modal">
+             Change adsforwp Gutenberg to quads 
+              <label className="quads-switch">
+                         <input id="adsforwp_quads_gutenberg" type="checkbox" name="adsforwp_quads_gutenberg" onChange={this.formChangeHandler} checked={settings.adsforwp_quads_gutenberg} />
+                         <span className="quads-slider"></span>
+                       </label>
+            </div>
              </div>             
              </div>        
             </div> : null
@@ -1173,7 +1241,16 @@ handleMultiPluginsChange = (option) => {
                             {this.state.importampforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importampforwpmsg}</Alert> : null}
                             {this.state.importampforwpmsgprocessing ? <div className='updating-message importampforwpmsgprocessing'><p>Importing Ads</p></div>: ''}
                         </td>
-                      </tr>                                     
+                      </tr> 
+                        <tr>
+                        <th><label>{__('ADS for WP Ads', 'quick-adsense-reloaded')}</label></th>
+                        <td>
+                          <a className="quads-btn quads-btn-primary" id="import_ads_for_wp" onClick={this.importadsforwpdata}>{__('Import', 'quick-adsense-reloaded')}</a>
+                          {settings.adsforwp_to_quads == 'imported' ? <span onClick={this.adsforwp_to_quads_model} className="quads-generic-icon import_ads_for_wp dashicons dashicons-admin-generic"></span> : ''} 
+                            {this.state.importadsforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importadsforwpmsg}</Alert> : null}
+                            {this.state.importadsforwpmsgprocessing ? <div className='updating-message importadsforwpmsgprocessing'><p>Importing Ads</p></div>: ''}
+                        </td>
+                      </tr>                                    
                     </tbody>
                   </table>
 

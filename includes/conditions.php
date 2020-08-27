@@ -292,7 +292,9 @@ function quads_is_visitor_on($ads){
         }   
       
       }else{
+        if(empty($include)){
           $response = true;
+        }
       }
       
       if(!empty($include)){
@@ -416,32 +418,7 @@ function quads_visitor_comparison_logic_checker($visibility){
             $result = true;
           }       
         break;
-        
-        case 'geo_location':     
-           $country_code =  ''; 
-           $saved_ip     =  '';
-           $user_ip      =  quads_get_client_ip();    
-           $saved_ip_list = array();
-           quads_get_ip_geolocation();
-            if(isset($_COOKIE['quads_client_info'])){
-                 $saved_ip_list = $_COOKIE['quads_client_info']; 
-                 $saved_ip = trim(base64_decode($saved_ip_list[0]));  
-            }           
-           
-           if(!empty($saved_ip_list) && $saved_ip == $user_ip){  
-            if(isset($saved_ip_list[1])){
-                $country_code = trim(base64_decode($saved_ip_list[1])); 
-                
-            }                  
-           } 
-         
-            if ( $country_code == $v_id ) {
-              $result = true;
-            }
       
-                        
-        break;
-        
         case 'url_parameter':                      
               $url = esc_url($_SERVER['REQUEST_URI']);                                 
               if ( strpos($url,$v_id) !== false ) {                           
@@ -507,48 +484,12 @@ function quads_visitor_comparison_logic_checker($visibility){
       break;
   }
 
+ $result  = apply_filters( 'quads_visitor_comparison_logic_checker', $visibility, $result );
+
+
 return $result;
 }
- function quads_get_client_ip() {
-    $ipaddress = '';
-    if (isset($_SERVER['HTTP_CLIENT_IP']))
-        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-    else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    else if(isset($_SERVER['HTTP_X_FORWARDED']))
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-    else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
-        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-    else if(isset($_SERVER['HTTP_FORWARDED']))
-        $ipaddress = $_SERVER['HTTP_FORWARDED'];
-    else if(isset($_SERVER['REMOTE_ADDR']))
-        $ipaddress = $_SERVER['REMOTE_ADDR'];
-    else
-        $ipaddress = 'UNKNOWN';
-    return $ipaddress;
-}
-function quads_get_ip_geolocation(){
-  if(!is_admin()){
-    global $quads_options;
-    $user_ip      = quads_get_client_ip();    
-    $saved_ip = '';
-    $saved_ip_list = array();
-    if(isset($_COOKIE['quads_client_info'])){
-      $saved_ip_list = $_COOKIE['quads_client_info']; 
-      $saved_ip = trim(base64_decode($saved_ip_list[0])); 
-    }
-    if(empty($saved_ip_list) && $saved_ip != $user_ip){
-      if(isset($quads_options['ip_geolocation_api']) && $quads_options['ip_geolocation_api'] !=''){
-        $geo_location_data = wp_remote_get('https://api.ipgeolocation.io/ipgeo?apiKey='.$quads_options['ip_geolocation_api'].'&ip='.$user_ip.'&fields=country_code3' ); 
-        $geo_location_arr  = json_decode($geo_location_data['body'], true); 
-        if(isset($geo_location_arr['ip']) && isset($geo_location_arr['country_code3'])){
-          setcookie('quads_client_info[0]', trim(base64_encode($geo_location_arr['ip'])), time() + (86400 * 60), "/"); 
-          setcookie('quads_client_info[1]', trim(base64_encode ($geo_location_arr['country_code3'])), time() + (86400 * 60), "/"); 
-        }
-      }
-    }                                            
-  }         
-} 
+
 function quads_detect_user_agent( ){
         $user_agent_name ='others';           
         if(strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') || strpos($user_agent_name, 'OPR/')) $user_agent_name = 'opera';

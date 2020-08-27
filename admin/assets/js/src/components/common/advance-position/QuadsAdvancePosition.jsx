@@ -83,12 +83,12 @@ class QuadsAdvancePosition extends Component {
 
           
           </label>
-           <label for="enable_on_end_of_post">
+           <label htmlFor="enable_on_end_of_post">
            <input id='enable_on_end_of_post' checked={post_meta.enable_on_end_of_post} name="enable_on_end_of_post" onChange={this.props.adFormChangeHandler} type="checkbox"/>
            {__('to', 'quick-adsense-reloaded')} <strong>{__('End of Post', 'quick-adsense-reloaded')}</strong> {__('if fewer paragraphs', 'quick-adsense-reloaded')}</label>
 </div><div>
              <input id='repeat_paragraph' checked={post_meta.repeat_paragraph} name="repeat_paragraph" onChange={this.props.adFormChangeHandler} type="checkbox"/>
-              <label for="repeat_paragraph"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number}</label>
+              <label htmlFor="repeat_paragraph"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number}</label>
            
            </div></div> : ''}
 
@@ -118,8 +118,8 @@ error_outline</span>Percentage should be
 
           <label>   
 
-          Post Shortcode: <input name="post_shortcode" id="post_shortcode" type="text" value={'[quads id='+(post_meta.quads_ad_old_id).match(/\d+/)+']'} readonly=""/>  
-          PHP:<input name="php_shortcode" id="post_shortcode_php"  type="text" value={"<?php echo do_shortcode('[quads id="+(post_meta.quads_ad_old_id).match(/\d+/)+"]'); ?>"} readonly=""/> 
+          Post Shortcode: <input name="post_shortcode" id="post_shortcode" type="text" defaultValue={'[quads id='+(post_meta.quads_ad_old_id).match(/\d+/)+']'}  readOnly/>  
+          PHP:<input name="php_shortcode" id="post_shortcode_php"  type="text" defaultValue={"<?php echo do_shortcode('[quads id="+(post_meta.quads_ad_old_id).match(/\d+/)+"]'); ?>"} readOnly/> 
           </label> : ''}
             </div> 
           </div>      
