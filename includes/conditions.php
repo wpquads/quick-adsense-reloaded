@@ -418,37 +418,7 @@ function quads_visitor_comparison_logic_checker($visibility){
             $result = true;
           }       
         break;
-        
-        case 'geo_location_country':  
-
-            if(!quads_is_extra()){
-              break;
-            }    
-           $quads_client_info = array();
-           $quads_client_info = quads_get_ip_geolocation();
- 
-            if (isset($quads_client_info['countryCode']) && $quads_client_info['countryCode'] == $v_id ) {
-              $result = true;
-            }           
-        break;
-        case 'geo_location_city':  
-
-            if(!quads_is_extra()){
-              break;
-            }    
-           $quads_client_info = array();
-           $quads_client_info = quads_get_ip_geolocation();
-           if(isset($quads_client_info['city'])){
-              $city_cookie = str_replace(' ','',$quads_client_info['city']);
-              $city_cookie = strtolower($city_cookie);   
-              $city        = str_replace(' ','',$v_id);
-              $city        = strtolower($city); 
-              if($city_cookie ==  $city) {
-                $result = true;
-              }           
-            }
-        break;
-        
+      
         case 'url_parameter':                      
               $url = esc_url($_SERVER['REQUEST_URI']);                                 
               if ( strpos($url,$v_id) !== false ) {                           
@@ -514,67 +484,12 @@ function quads_visitor_comparison_logic_checker($visibility){
       break;
   }
 
+ $result  = apply_filters( 'quads_visitor_comparison_logic_checker', $visibility, $result );
+
+
 return $result;
 }
- function quads_get_client_ip() {
-    $ipaddress = '';
-    if (isset($_SERVER['HTTP_CLIENT_IP']))
-        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-    else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    else if(isset($_SERVER['HTTP_X_FORWARDED']))
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-    else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
-        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-    else if(isset($_SERVER['HTTP_FORWARDED']))
-        $ipaddress = $_SERVER['HTTP_FORWARDED'];
-    else if(isset($_SERVER['REMOTE_ADDR']))
-        $ipaddress = $_SERVER['REMOTE_ADDR'];
-    else
-        $ipaddress = 'UNKNOWN';
-    return $ipaddress;
-}
-function quads_get_ip_geolocation(){
-  if(!is_admin()){
-    global $quads_options;
-    $user_ip      = quads_get_client_ip();    
-    $saved_ip = '';
-    $saved_ip_list = array();
-    $quads_client_info = array();
-    if(isset($_COOKIE['quads_client_info'])){
-      $saved_ip_list = json_decode(base64_decode($_COOKIE['quads_client_info']),true); 
-      $saved_ip = trim($saved_ip_list['ipaddress']); 
-      $quads_client_info['ipaddress']=$saved_ip;
-      $quads_client_info['countryCode']=trim($saved_ip_list['countryCode']); 
-      $quads_client_info['region']=trim($saved_ip_list['region']); 
-      $quads_client_info['city']=trim($saved_ip_list['city']); 
-    }
-    if($saved_ip != $user_ip){
-      $quads_license_key = isset( $quads_options['quads_wp_quads_pro_license_key'] ) ? $quads_options['quads_wp_quads_pro_license_key'] : '';
-      if(empty($quads_license_key)){
-          return '';
-      }
-        $geo_location_data = wp_remote_get('https://us-central1-golden-academy-286513.cloudfunctions.net/function-1?ipaddress='.$user_ip,array( 
-            'headers' => array( 'quads_auth' => $quads_license_key) 
-             ));
-        if(!is_wp_error($geo_location_data) && !isset($geo_location_data['body'])){
 
-          return '';
-        }
-        $geo_location_arr  = unserialize($geo_location_data['body']); 
-        if(isset($geo_location_arr['status']) && $geo_location_arr['status'] == 'success'){
-          $quads_client_info = array();
-          $quads_client_info['ipaddress'] = (isset($geo_location_arr['query']))?$geo_location_arr['query'] : "";
-          $quads_client_info['countryCode'] = (isset($geo_location_arr['countryCode']))?$geo_location_arr['countryCode'] : "";
-          $quads_client_info['region'] = (isset($geo_location_arr['region']))?$geo_location_arr['region'] : "";
-          $quads_client_info['city'] = (isset($geo_location_arr['city']))?$geo_location_arr['city'] : "";
-          $quads_client_info_json = json_encode($quads_client_info);
-          setcookie('quads_client_info', trim(base64_encode($quads_client_info_json)), time() + (86400 * 60), "/"); 
-        }
-    }   
-      return $quads_client_info;                                         
-  }         
-}
 function quads_detect_user_agent( ){
         $user_agent_name ='others';           
         if(strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') || strpos($user_agent_name, 'OPR/')) $user_agent_name = 'opera';

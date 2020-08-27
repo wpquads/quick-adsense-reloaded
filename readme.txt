@@ -1,4 +1,4 @@
-=== Ads & AdSense Plugin WP QUADS ===
+=== Ads by WPQUADS - Best Ads & Adsense Ads Plugin ===
 
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
@@ -6,13 +6,13 @@ Contributors: wpquads
 Donate link: https://wpquads.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: adsense, ads, ad, google adsense, advertising, amp, ad injection, ad inserter, ad manager
+Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 5.5
 Requires PHP: 5.3
-Stable tag: 2.0.11
+Stable tag: 2.0.11.1
 
-Ads & AdSense Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
+Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
 == Description ==
 The legendary WPQuads Ads plugin is back with the modern approach for an Ads solution. WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
@@ -63,7 +63,7 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 * Outbrain Ads support
 * 20+ more ad vendors coming in the future updates.
 
-= Display Positions =
+= Display Positions for Ads =
 * Beginning of Post
 * Middle of Post
 * End of the Post
@@ -178,16 +178,25 @@ Alternative Installation:
 
 == Screenshots ==
 
-1. The Quick AdSense Settings page
-2. General Settings
-3. AdSense Widgets
-4. AdSense Options from the post editor
+1. The Ads Overview Page
+2. Choose Ad Vendor
+3. How to insert an Ad?
+4. Ad types in AdSense
+5. Visibility & Targeting Options
+6. Where do you want to insert the ad?
+7. You can Insert the ad anywhere
+8. Tons of options to target the ad.
+9. Settings Page for WPQuads
+10. Widget AD
+11. Customer Support Happiness Stats 
 
 
 == Changelog ==
+= 2.0.11.1 (27th August 2020) =
+* New: Geo Location improvements #156
 
 = 2.0.11 (26th August 2020) =
-* New: Geo Location Targetting for ads #156
+* New: Geo Location Targeting for ads #156
 * New: AdsforWP Migrator #87
 
 = 2.0.10.2 (17th August 2020) =
