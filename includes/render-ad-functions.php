@@ -462,7 +462,8 @@ function quads_render_google_async_new( $id ) {
                           data-full-width-responsive="true"';
 
     }
-    if (isset($quads_options['ads'][$id]['adsense_type']) && $quads_options['ads'][$id]['adsense_type'] == 'normal' && ((isset($quads_options['ads'][$id]['adsense_ad_type']) && $quads_options['ads'][$id]['adsense_ad_type'] == 'display_ads') || !isset($quads_options['ads'][$id]['adsense_ad_type']))) {
+
+    if (isset($quads_options['ads'][$id]['adsense_type']) && $quads_options['ads'][$id]['adsense_type'] != 'responsive' && ((isset($quads_options['ads'][$id]['adsense_ad_type']) && $quads_options['ads'][$id]['adsense_ad_type'] == 'display_ads') || !isset($quads_options['ads'][$id]['adsense_ad_type']))) {
         $width = (isset($quads_options['ads'][$id]['g_data_ad_width']) && (!empty($quads_options['ads'][$id]['g_data_ad_width']))) ? $quads_options['ads'][$id]['g_data_ad_width']:300;
         $height = (isset($quads_options['ads'][$id]['g_data_ad_height']) && (!empty($quads_options['ads'][$id]['g_data_ad_height']))) ? $quads_options['ads'][$id]['g_data_ad_height']:250;
         $style = 'display:inline-block;width:' . esc_attr($width) . 'px;height:' . esc_attr($height) . 'px;' ;
@@ -473,6 +474,7 @@ function quads_render_google_async_new( $id ) {
                     <script>
                      (adsbygoogle = window.adsbygoogle || []).push({});</script>';
     }else{
+
         $html .= '
             <ins class="adsbygoogle"
                  '.$ad_data.'
