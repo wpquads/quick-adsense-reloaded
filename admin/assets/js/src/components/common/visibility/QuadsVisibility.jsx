@@ -26,14 +26,14 @@ class QuadsVisibility extends Component {
       multiTypeOptions : [
         {label:'Post Type', value:'post_type'},
         {label:'General', value:'general'},
-        {label:'Logged in User Type', value:'user_type'},
         {label:'Post', value:'post'},
         {label:'Post Category', value:'post_category'},
         {label:'Post Format', value:'post_format'},
         {label:'Page', value:'page'},
         {label:'Taxonomy Terms', value:'taxonomy'},
         {label:'Tags', value:'tags'},  
-         {label:'Page Template', value:'page_template'}       
+        {label:'Page Template', value:'page_template'},
+        {label:'Logged in User Type', value:'user_type'}       
       ]                      
     };       
   }     
