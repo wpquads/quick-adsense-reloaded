@@ -20,6 +20,7 @@ The legendary WPQuads Ads plugin is back with the modern approach for an Ads sol
 WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built for WordPress.
 
 = Features: =
+* <strong> NEW Geo Targeting </strong>: Target the ads based on the city and countries.
 * <strong>Easy</strong> to use Modern options panel built on React JS.
 * Deeply <strong>integrates with AMP</strong> plugins like AMPforWP, Official AMP by Google.
 * <strong>Google Adsense</strong> support: It gives a deep integration with the ad types of Google Adsense like Display ads, In-feed ads, In-article ads & Auto ads. You can define fixed or responsive sizes for the ads.
@@ -28,7 +29,6 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 * <strong>12 Ads positions</strong> that helps you control where the ad will appear.
 * <strong>10 Post Specific Ads Control</strong>: 10 Conditional Ad visibility positions which allows you to control (include/exclude) on which pages would you like the ads to appear.
 * <strong>9 Targeting conditions</strong> which will allow you to control when an ad should appear.
-* <strong> NEW Geo Targeting </strong>: Target the ads based on the city and countries.
 * Custom Image banner support
 * Custom html Code support with auto AMP Sanitization
 * Background ad (Full website background ad)
