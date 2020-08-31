@@ -28,6 +28,7 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 * <strong>12 Ads positions</strong> that helps you control where the ad will appear.
 * <strong>10 Post Specific Ads Control</strong>: 10 Conditional Ad visibility positions which allows you to control (include/exclude) on which pages would you like the ads to appear.
 * <strong>9 Targeting conditions</strong> which will allow you to control when an ad should appear.
+* <strong> NEW Geo Targeting </strong>: Target the ads based on the city and countries.
 * Custom Image banner support
 * Custom html Code support with auto AMP Sanitization
 * Background ad (Full website background ad)
@@ -106,7 +107,6 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 We are actively developing this plugin and our aim is to make this plugin into the #1 advertisment solution in the world. You can [Request a Feature](https://wpquads.com/support/) or [Report a Bug](https://github.com/wpquads/quick-adsense-reloaded/issues). The code is hosted on [Github](https://github.com/wpquads/quick-adsense-reloaded).
 
 = Development Roadmap: =
-* <strong>Geo Targeting </strong>: Target the ads based on the city and countries.
 * <strong>Reports & Tracking </strong>: Find out which of your ads are performing the best and find out the most performing ad location.
 * <strong>AD Blindness </strong>: Helps you fight the Ad blindness.
 * <strong>AD Logging </strong>: Gives you an almost accurate data page, IP, browser, referrer, and dimensions of the user that clicked the ad and gives you reports of that data.
