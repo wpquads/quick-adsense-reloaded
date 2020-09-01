@@ -532,7 +532,7 @@ and open the template in the editor.
   width: 0;
   bottom: 1px;
   position: absolute;
-  background: #2F80ED;
+  background: red;
   transition: 0.2s ease all; }
 
 .select-bar:before {
@@ -794,7 +794,8 @@ a.quads-nav-link-active {
 
 .quads-targeting-selection {
   margin-top: 10px;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  color: #000; }
 
 .quads-btn-spinner {
   display: inline-block;
