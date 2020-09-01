@@ -201,6 +201,7 @@ removeSeleted = (e) => {
                           <option value="in_feed_ads">{__('In-Feel Ads', 'quick-adsense-reloaded')}</option> 
                           <option value="in_article_ads">{__('In-Article Ads', 'quick-adsense-reloaded')}</option> 
                           <option value="adsense_auto_ads">{__('Auto Ads', 'quick-adsense-reloaded')}</option> 
+                          <option value="matched_content">{__('Matched content', 'quick-adsense-reloaded')}</option> 
                         </select>
                       </div>
                     </td></tr> 
@@ -219,7 +220,7 @@ removeSeleted = (e) => {
                     error_outline
                     </span>Enter Data Slot ID</div> :''}</td></tr>
                       : null }
-                      { !post_meta.adsense_ad_type || post_meta.adsense_ad_type == 'display_ads' ? (
+                      { !post_meta.adsense_ad_type || post_meta.adsense_ad_type == 'display_ads' || post_meta.adsense_ad_type == 'matched_content' ? (
                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
                         <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
