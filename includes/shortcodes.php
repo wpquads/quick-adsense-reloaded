@@ -70,13 +70,19 @@ function quads_shortcode_display_ad( $atts ) {
  * @return string
  */
 function quads_get_ad($id = 0) {
-    global $quads_options;
+    global $quads_options,$quads_mode;
 
     if ( quads_ad_reach_max_count() ){
         return;
     }
     
     if ( isset($quads_options['ads']['ad' . $id]['code']) ){
+        if($quads_mode == 'new'){
+            $content_post = get_post($quads_options['ads']['ad' . $id]['ad_id']);
+            if( isset($content_post->post_status) && $content_post->post_status == 'draft'){
+                return '';
+            }
+        }
         // Count how often the shortcode is used - Important
         quads_set_ad_count_shortcode();
         //$code = "\n".'<!-- WP QUADS Shortcode Ad v. ' . QUADS_VERSION .' -->'."\n";
