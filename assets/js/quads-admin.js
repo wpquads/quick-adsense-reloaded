@@ -391,7 +391,7 @@ e.preventDefault();
         bubble.toggle();
         e.stopPropagation();
     });
-        $('.quads-general-helper').hover(function (e) {
+        $(document).on('mouseover', '.quads-general-helper',function (e) {
         e.preventDefault();
         var icon = $(this),
                 bubble = $(this).next();
@@ -415,7 +415,10 @@ e.preventDefault();
         bubble.toggle();
         e.stopPropagation();
     });
-    $('.quads-general-helper').click(function (e) {
+           $(document).on('mouseout', '.quads-general-helper',function (e) {
+            $('.quads-message').hide();
+            });
+    $(document).on('click', '.quads-general-helper',function (e) {
         e.preventDefault();
         var icon = $(this),
                 bubble = $(this).next();
