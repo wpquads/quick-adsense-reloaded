@@ -1026,7 +1026,7 @@ function quads_render_amp($id,$ampsupport=''){
                                 >
                                 </amp-ad>';
             }else if($quads_options['ads'][$id]['ad_type'] == 'ad_image'){
-
+                    $html = '';
                 if(isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
                         $html .= '
                         <a target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
