@@ -840,3 +840,125 @@ opacity: 50%;
    text-decoration: none;
    font-weight: 500;
 }
+
+
+.quads-large-popup{
+  position: fixed;
+    top: 30px;
+    left: 30px;
+    right: 30px;
+    bottom: 30px;
+    z-index: 160000;
+}
+
+
+.quads-large-popup-content{
+      position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    min-height: 300px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+    background: #fcfcfc;
+    -webkit-font-smoothing: subpixel-antialiased;
+}
+.quads-large-close{
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    padding: 0;
+    text-align: center;
+    float: right;
+    font-size: 23px;
+    border-left: 1px solid #ccc;
+    line-height: 2;
+}
+.quads-large-popup-title{
+  left: 0;
+    right: 150px;
+    position: absolute;
+    top: 0;
+    height: 50px;
+    z-index: 200;
+        box-sizing: content-box;
+}
+.quads-large-popup-title h1{
+  
+      padding: 0 16px;
+    font-size: 22px;
+    line-height: 2.27272727;
+    margin: 0;
+}
+.quads-large-popup * {
+   /* box-sizing: content-box;*/
+}
+.quads-large-content{
+  
+  border-bottom: none;
+    bottom: 0;
+    top: 50px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    height: auto;
+    width: auto;
+    margin: 0;
+    overflow: auto;
+    background: #fff;
+    border-top: 1px solid #ddd;
+         padding: 15px 20px;
+
+}
+.quads-large-content .form-table span {
+    width: 100%;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+
+.quads-large-content .form-table .color-pick-swatch{
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.1);
+  cursor: pointer;
+       padding: 0;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+.quads-large-content .form-table .color-pick-popover{
+  position: absolute;
+  z-index: 2;
+}
+.quads-large-content .form-table .color-pick-cover{
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+.quads-large-content .form-table .color-pick-color{
+ width: 32px;
+    height: 28px;
+    border-radius: 2px;
+    border-right: 1px solid #ccc;
+}
+
+.quads-large-content .form-table .wp-color-result-text{
+      padding-left: 8px;
+    font-size: 12px;
+    padding-right: 6px;
+}
+
+.quads-large-content .form-table td {
+
+    margin-bottom: 9px;
+    padding: 15px 10px;
+    line-height: 1.3;
+    vertical-align: middle;
+    text-align: left;
+
+}

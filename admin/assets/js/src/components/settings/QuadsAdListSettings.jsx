@@ -958,11 +958,13 @@ handleMultiPluginsChange = (option) => {
              {/* Ad Blocker Support */}
 
             {this.state.ad_blocker_support_popup ? 
-           <div className="quads-modal-popup adblock_support">            
-            <div className="quads-modal-popup-content">
-             <span className="quads-modal-close" onClick={this.closeModal}>&times;</span>
-             <h3>Notice For Ad Blocker</h3>                         
-             <div className="quads-modal-content">
+           <div className="quads-large-popup">            
+            <div className="quads-large-popup-content">
+             <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
+            <div className="quads-large-popup-title">
+              <h1>Notice For Ad Blocker</h1>   
+            </div>                      
+             <div className="quads-large-content">
              <table className="form-table" role="presentation">
                               <tbody>
                                 <tr>
