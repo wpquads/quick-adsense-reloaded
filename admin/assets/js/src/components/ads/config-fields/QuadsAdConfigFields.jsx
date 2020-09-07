@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import './QuadsAdConfigFields.scss';
 import QuadsAdModal from '../../common/modal/QuadsAdModal';
+import QuadsLargeAdModal from '../../common/modal/QuadsLargeAdModal';
+
 import Icon from '@material-ui/core/Icon';
 import Select from "react-select";
 
@@ -540,7 +542,7 @@ error_outline
                 {this.props.ad_type == 'adsense' ? 
                 <div className="quads-autofill-div"><a className="quads-autofill" onClick={this.props.openModal}>{__('Autofill', 'quick-adsense-reloaded')}</a>
                 <a className="quads-general-helper" target="_blank" href="https://wpquads.com/documentation/how-to-find-data-client-id-data-slot-id-for-adsense-integration/"></a>
-                <QuadsAdModal 
+                <QuadsLargeAdModal 
                  closeModal    = {this.props.closeModal}
                  parentState={this.props.parentState} 
                  title={__('Enter AdSense text and display ad code here', 'quick-adsense-reloaded')}
@@ -548,7 +550,7 @@ error_outline
                   content={
                     <div>
                       <div><textarea className="quads-auto-fill-textarea" cols="80" rows="15" onChange={this.props.modalValue} value={this.props.quads_modal_value}/></div>
-                      <div><a className="button" onClick={this.props.getAdsenseCode}>{__('Get Code', 'quick-adsense-reloaded')}</a></div>
+                      <div><a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.props.getAdsenseCode}>{__('Get Code', 'quick-adsense-reloaded')}</a></div>
                     </div>
                   }/>
                 </div> : ''}
