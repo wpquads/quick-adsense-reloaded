@@ -843,11 +843,15 @@ handleMultiPluginsChange = (option) => {
           <div className="quads-hidden-elements">
             {/* add txt modal */}
            {this.state.adtxt_modal ? 
-           <div className="quads-modal-popup">            
-            <div className="quads-modal-popup-content">
-             <span className="quads-modal-close" onClick={this.closeModal}>&times;</span>
-             <h3>Ad Txt</h3>
-             <div className="quads-modal-description"></div>
+           <>
+           <div className="quads-large-popup-bglayout">  </div> 
+           <div className="quads-large-popup">            
+            <div className="quads-large-popup-content">
+             <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
+              <div className="quads-large-popup-title">
+             <h1>Ad Txt</h1>
+             </div>
+             <div className="quads-large-description"></div>
             {settings.adtxt_errors ?
              <div className="quads-modal-error">
                <ul>
@@ -859,12 +863,12 @@ handleMultiPluginsChange = (option) => {
               </ul> 
              </div> 
             :null}
-             <div className="quads-modal-content">
+             <div className="quads-large-content">
                <textarea cols="80" rows="15" name="adsTxtText" onChange={this.formChangeHandler} value={settings.adsTxtText} />
-              <a className="button" onClick={this.validateAdstxt}>{__('OK', 'quick-adsense-reloaded')}</a>
+               <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>Save Changes</a>
              </div>             
              </div>        
-            </div> : null
+            </div> </>: null
             } 
 
              {this.state.adsforwp_to_quads_model ? 
@@ -1125,7 +1129,7 @@ handleMultiPluginsChange = (option) => {
                               </tbody>
                             </table><div className="quads-save-close">
 
-                            <a className="quads-btn quads-btn-primary" onClick={this.saveAdBlockSuport}>OK</a>
+                            <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveAdBlockSuport}>Save Changes</a>
                             </div>
              </div>             
              </div>        

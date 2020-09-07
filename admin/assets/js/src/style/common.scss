@@ -283,7 +283,6 @@ and open the template in the editor.
   color:#fff
 }
 .quads-btn-primary{
-  float: right;
   background-color: #005aef;
   font-size: 16px;
   border-radius: 4px;
@@ -298,6 +297,9 @@ and open the template in the editor.
     position: relative;
     left: 8px;
     top: -1px;
+}
+.quads-large-btn{
+    float: right;
 }
 
 //Button css ends here
