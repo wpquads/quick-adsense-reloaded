@@ -958,7 +958,10 @@ handleMultiPluginsChange = (option) => {
              {/* Ad Blocker Support */}
 
             {this.state.ad_blocker_support_popup ? 
-           <div className="quads-large-popup">            
+            <>
+              <div className="quads-large-popup-bglayout">  </div> 
+           <div className="quads-large-popup">  
+
             <div className="quads-large-popup-content">
              <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
             <div className="quads-large-popup-title">
@@ -971,13 +974,21 @@ handleMultiPluginsChange = (option) => {
                                   <th>Notice Type</th>
                                   <td className="notice_type">
                                   <span>
-                                   <input id="notice_type" type="radio" value="bar" checked={settings.notice_type =='bar'} name="notice_type" onChange={this.formChangeHandler} />Bar
+                                   <input id="bar" type="radio" value="bar" checked={settings.notice_type =='bar'} name="notice_type" onChange={this.formChangeHandler} />
+                                    <label htmlFor="bar"> {__('Bar', 'quick-adsense-reloaded')} </label>
+
+                                   
                                     </span><span>
-                                   <input id="popup" type="radio" value="popup" checked={settings.notice_type =='popup'}  name="notice_type" onChange={this.formChangeHandler} />Popup
+                                   <input id="popup" type="radio" value="popup" checked={settings.notice_type =='popup'}  name="notice_type" onChange={this.formChangeHandler} />
+                                   <label htmlFor="popup"> {__('Popup', 'quick-adsense-reloaded')} </label>
                                     </span><span>
-                                   <input id="page_redirect" type="radio" checked={settings.notice_type =='page_redirect'}  value="page_redirect" name="notice_type" onChange={this.formChangeHandler}  />Page Redirection
+                                   <input id="page_redirect" type="radio" checked={settings.notice_type =='page_redirect'}  value="page_redirect" name="notice_type" onChange={this.formChangeHandler}  />
+                                    <label htmlFor="page_redirect"> {__('Page Redirection', 'quick-adsense-reloaded')} </label>
+
                                   </span><span>
-                                   <input id="ad_blocker_message" type="radio" checked={settings.notice_type =='ad_blocker_message'} name="notice_type" value="ad_blocker_message"  onChange={this.formChangeHandler} /> Block Message 
+                                   <input id="ad_blocker_message" type="radio" checked={settings.notice_type =='ad_blocker_message'} name="notice_type" value="ad_blocker_message"  onChange={this.formChangeHandler} /> 
+                                    <label htmlFor="ad_blocker_message"> {__('Block Message ', 'quick-adsense-reloaded')} </label>
+
                                    </span>
                                    <div className="quads-message bottom">If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker. <a href="http://wpquads.com/docs/customize-ad-blocker-notice/" target="_blank">Read here</a> how to customize colors and text.</div>
                                   </td>
@@ -1118,7 +1129,7 @@ handleMultiPluginsChange = (option) => {
                             </div>
              </div>             
              </div>        
-            </div> : null
+            </div> </>: null
             }
           </div>            
           <div className="quads-settings-main">  

@@ -283,6 +283,7 @@ and open the template in the editor.
   color:#fff
 }
 .quads-btn-primary{
+  float: right;
   background-color: #005aef;
   font-size: 16px;
   border-radius: 4px;
@@ -663,16 +664,16 @@ a.quads-nav-link-active {
   height: 42px;
 }
 .quads-ad-header{
-  display: flex;
-  padding: 17px 20px;
-  align-items: center;
-  height: 35px;
-  background: #fff;
-  width: 98.8%;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #D8D8D8;
-  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 6px 0px;
+     display: flex;
+    padding: 17px 0% 17px 2%;
+    align-items: center;
+    height: 35px;
+    background: #fff;
+    width: 98%;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #D8D8D8;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 6px 0px;
 }
 .quads-ad-menu{
     display:flex;
@@ -875,6 +876,18 @@ opacity: 50%;
     border-left: 1px solid #ccc;
     line-height: 2;
 }
+.quads-large-popup-bglayout{
+  position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-height: 360px;
+    background: #000;
+    opacity: 0.7;
+    z-index: 159900;
+}
+
 .quads-large-popup-title{
   left: 0;
     right: 150px;
@@ -948,9 +961,12 @@ opacity: 50%;
 }
 
 .quads-large-content .form-table .wp-color-result-text{
+    background: none;
+        border-left: none;
       padding-left: 8px;
     font-size: 12px;
     padding-right: 6px;
+    height: 18px;
 }
 
 .quads-large-content .form-table td {
@@ -960,5 +976,11 @@ opacity: 50%;
     line-height: 1.3;
     vertical-align: middle;
     text-align: left;
+
+}
+
+.quads-large-content b{
+   text-transform: uppercase;
+  font-size: 16px;
 
 }
