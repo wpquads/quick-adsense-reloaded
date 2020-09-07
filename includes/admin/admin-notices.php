@@ -76,6 +76,10 @@ function quads_admin_messages() {
     if( isset( $_GET['quads-action'] ) && $_GET['quads-action'] === 'validate' && quads_is_admin_page() && quads_is_any_ad_activated() && quads_is_post_type_activated() && quads_get_active_ads() > 0 ) {
         echo '<div class="notice notice-success">' . sprintf( __( '<strong>No errors detected in WP QUADS settings.</strong> If ads are still not shown read the <a href="%s" target="_blank">troubleshooting guide</a>' ), 'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink' ) . '</div>';
     }
+quads_show_rate_div();
+
+}
+function quads_show_rate_div(){
 
 
     $install_date = get_option( 'quads_install_date' );
@@ -87,7 +91,7 @@ function quads_admin_messages() {
     $rate = get_option( 'quads_rating_div', false );
     if( $diff_intrval >= 7 && ($rate === "no" || false === $rate || quads_rate_again() ) ) {
         echo '<div class="quads_fivestar updated " style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;">
-    	<p>Awesome, you\'ve been using <strong>WP QUADS</strong> for more than 1 week. <br> May i ask you to give it a <strong>5-star rating</strong> on Wordpress? </br>
+        <p>Awesome, you\'ve been using <strong>WP QUADS</strong> for more than 1 week. <br> May i ask you to give it a <strong>5-star rating</strong> on Wordpress? </br>
         This will help to spread its popularity and to make this plugin a better one.
         <br><br>Your help is much appreciated. Thank you very much,<br> ~René Hermenau
         <ul>
@@ -117,7 +121,7 @@ function quads_admin_messages() {
             if (e=="success") {
                jQuery(".spinner").removeClass("is-active");
                jQuery(\'.quads_fivestar\').slideUp(\'fast\');
-			   
+               
             }
         }
          });
@@ -137,7 +141,7 @@ function quads_admin_messages() {
             if (e=="success") {
                jQuery(".spinner").removeClass("is-active");
                jQuery(\'.quads_fivestar\').slideUp(\'fast\');
-			   
+               
             }
         }
          });
@@ -191,7 +195,6 @@ add_action( 'wp_ajax_quads_hide_rating_week', 'quads_hide_rating_notice_week' );
  * @return boolean
  */
 function quads_rate_again() {
-
     $rate_again_date = get_option( 'quads_date_next_notice' );
 
     if( false === $rate_again_date ) {

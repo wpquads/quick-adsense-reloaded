@@ -1,4 +1,4 @@
-=== Ads by WPQUADS - Best Ads & Adsense Ads Plugin ===
+=== Ads by WPQUADS - Best Ads & Adsense Ads Plugin for WP & AMP ===
 
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
@@ -118,6 +118,8 @@ We are actively developing this plugin and our aim is to make this plugin into t
 * [View Full Development Roadmap](https://github.com/wpquads/quick-adsense-reloaded/projects/1)
 
 **Pro version** supports additional [advanced features](https://wpquads.com/#see-features):
+
+**[JOIN CHAT GROUP COMMUNITY](https://t.me/wpquads/)**: Purpose of this group is to get proper suggestions and feedback from plugin users and the community so that we can make the plugin even better.
 
 = Documentation =
 Documentation & Tutorials are available on [Documentation Center](https://wpquads.com/documentation/).
