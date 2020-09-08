@@ -990,3 +990,12 @@ opacity: 50%;
   font-size: 16px;
 
 }
+
+.quads-general-helper-new{
+  opacity: .5;
+  background-color: #005af0;
+}
+
+tr:hover .quads-general-helper-new,.quads-general-helper-new:hover  {
+    opacity: 1;
+}

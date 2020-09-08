@@ -1242,6 +1242,13 @@ a.quads-nav-link-active {
 .quads-large-content b {
   text-transform: uppercase;
   font-size: 16px; }
+
+.quads-general-helper-new {
+  opacity: .5;
+  background-color: #005af0; }
+
+tr:hover .quads-general-helper-new, .quads-general-helper-new:hover {
+  opacity: 1; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

@@ -865,9 +865,10 @@ handleMultiPluginsChange = (option) => {
             :null}
              <div className="quads-large-content">
                <textarea cols="80" rows="15" name="adsTxtText" onChange={this.formChangeHandler} value={settings.adsTxtText} />
+               To know more about ads.txt  you can <a  target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/">view this </a>
                <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>Save Changes</a>
              </div>             
-             </div>        
+             </div>       
             </div> </>: null
             } 
 
@@ -1128,7 +1129,7 @@ handleMultiPluginsChange = (option) => {
           
                               </tbody>
                             </table><div className="quads-save-close">
-
+  To know more about Ad Blocker you can <a  target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-blocker-support-in-wp-quads/">view this </a>
                             <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveAdBlockSuport}>Save Changes</a>
                             </div>
              </div>             
@@ -1155,7 +1156,7 @@ handleMultiPluginsChange = (option) => {
                        </label>
                        
                        {this.state.adsTxtEnabled ? <span onClick={this.open_ad_text_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''} 
-                       <a className="quads-general-helper" target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/"></a>
+                       <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/"></a>
                      </td>
                      </tr>
                     {
@@ -1179,7 +1180,7 @@ handleMultiPluginsChange = (option) => {
                          <input id="lazy_load_global" type="checkbox" name="lazy_load_global" onChange={this.formChangeHandler} checked={settings.lazy_load_global} />
                          <span className="quads-slider"></span>
                        </label>
-                       <a className="quads-general-helper" target="_blank" href="https://wpquads.com/documentation/what-is-lazy-loading-for-adsense-and-how-to-use-it/"></a>
+                       <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-lazy-loading-for-adsense-and-how-to-use-it/"></a>
                       </td>
                       </tr>   
                        <tr>
@@ -1190,7 +1191,7 @@ handleMultiPluginsChange = (option) => {
                          <span className="quads-slider"></span>
                        </label>                       
                        {this.state.ad_blocker_support ? <span onClick={this.ad_blocker_support} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
-                        <a className="quads-general-helper" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-blocker-support-in-wp-quads/"></a>
+                        <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-blocker-support-in-wp-quads/"></a>
                      </td>
                      </tr>              
                    </tbody>
@@ -1205,14 +1206,14 @@ handleMultiPluginsChange = (option) => {
                         <tr>
                        <th><label   htmlFor="analytics">{__('Google Analytics Integration', 'quick-adsense-reloaded')}</label></th>
                         <td><input  id="analytics" type="checkbox" onChange={this.formChangeHandler} name="analytics" checked={settings.analytics} />
-                        <a className="quads-general-helper" href="#"></a><div className="quads-message bottom" >Check how many visitors are using ad blockers in your Google Analytics account from the event tracking in <i>Google Analytics-&gt;Behavior-&gt;Events</i>. This only works if your visitors are using regular ad blockers like 'adBlock'. There are browser plugins which block all external requests like the  software uBlock origin. This also block google analytics and as a result you do get any analytics data at all.</div></td>
+                        <a className="quads-general-helper quads-general-helper-new" href="#"></a><div className="quads-message bottom" >Check how many visitors are using ad blockers in your Google Analytics account from the event tracking in <i>Google Analytics-&gt;Behavior-&gt;Events</i>. This only works if your visitors are using regular ad blockers like 'adBlock'. There are browser plugins which block all external requests like the  software uBlock origin. This also block google analytics and as a result you do get any analytics data at all.</div></td>
                       </tr>
 
                        :null}                
                       <tr>
                        <th><label htmlFor="uninstall_on_delete">{__('Delete Data on Uninstall?', 'quick-adsense-reloaded')}</label></th>
                         <td><input id="uninstall_on_delete" type="checkbox" onChange={this.formChangeHandler} name="uninstall_on_delete" checked={settings.uninstall_on_delete} />
-                        <a className="quads-general-helper" href="#"></a><div className="quads-message bottom" >Check this box if you would like <strong>Settings-&gt;WPQUADS</strong> to completely remove all of its data when the plugin is deleted.</div>
+                        <a className="quads-general-helper quads-general-helper-new" href="#"></a><div className="quads-message bottom" >Check this box if you would like <strong>Settings-&gt;WPQUADS</strong> to completely remove all of its data when the plugin is deleted.</div>
                         </td>
                       </tr>
                       <tr>

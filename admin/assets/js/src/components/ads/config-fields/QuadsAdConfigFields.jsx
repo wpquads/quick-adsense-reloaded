@@ -541,16 +541,17 @@ error_outline
                 <div>{ad_type_name} {__('Ad Configuration', 'quick-adsense-reloaded')}
                 {this.props.ad_type == 'adsense' ? 
                 <div className="quads-autofill-div"><a className="quads-autofill" onClick={this.props.openModal}>{__('Autofill', 'quick-adsense-reloaded')}</a>
-                <a className="quads-general-helper" target="_blank" href="https://wpquads.com/documentation/how-to-find-data-client-id-data-slot-id-for-adsense-integration/"></a>
+                <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-find-data-client-id-data-slot-id-for-adsense-integration/"></a>
                 <QuadsLargeAdModal 
                  closeModal    = {this.props.closeModal}
                  parentState={this.props.parentState} 
                  title={__('Enter AdSense text and display ad code here', 'quick-adsense-reloaded')}
-                 description={__('Do not enter AdSense page level ads or Auto ads! Learn how to create AdSense ad code', 'quick-adsense-reloaded')}  
                   content={
                     <div>
                       <div><textarea className="quads-auto-fill-textarea" cols="80" rows="15" onChange={this.props.modalValue} value={this.props.quads_modal_value}/></div>
-                      <div><a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.props.getAdsenseCode}>{__('Get Code', 'quick-adsense-reloaded')}</a></div>
+                      <div>
+Do not enter AdSense page level ads or Auto ads! Learn how to create <a  target="_blank" href="https://wpquads.com/documentation/how-to-find-data-client-id-data-slot-id-for-adsense-integration/"> AdSense ad code </a>
+                      <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.props.getAdsenseCode}>{__('Get Code', 'quick-adsense-reloaded')}</a></div>
                     </div>
                   }/>
                 </div> : ''}
