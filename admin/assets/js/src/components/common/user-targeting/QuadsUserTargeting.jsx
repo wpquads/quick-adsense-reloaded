@@ -382,6 +382,14 @@ excludedToggle = () => {
          }
         } )
       }
+      const colorStyles = {
+        placeholder: defaultStyles => {
+          return {
+            ...defaultStyles,
+            color: "#333"
+          };
+        }
+      };
     return (
       <div className="quads-settings-group quads-targeting">
       <div className="quads-title">{__('Targeting', 'quick-adsense-reloaded')}</div>  
@@ -419,7 +427,8 @@ excludedToggle = () => {
               placeholder="Select Targeting Type"              
               options= {this.state.multiTypeOptions}
               value  = {this.multiTypeLeftIncludedValue}
-              onChange={this.handleMultiIncludedLeftChange}         
+              onChange={this.handleMultiIncludedLeftChange}  
+              styles={colorStyles}       
             /> 
             {this.state.is_amp_endpoint_inc?
               <span className="amp-support">AMP does not support Browser Width Targeting</span>
@@ -435,7 +444,8 @@ excludedToggle = () => {
               placeholder={this.state.includedRightPlaceholder}
               value={this.state.multiTypeRightIncludedValue}
               options={this.state.includedDynamicOptions}
-              onChange={this.handleMultiIncludedRightChange}                                    
+              onChange={this.handleMultiIncludedRightChange} 
+              styles={colorStyles}                                     
             /> 
             :<input type="text"
               name="userTargetingIncludedData" 
@@ -484,7 +494,8 @@ excludedToggle = () => {
               placeholder="Select Targeting Type"              
               options= {this.state.multiTypeOptions}
               value  = {this.multiTypeLeftExcludedValue}
-              onChange={this.handleMultiExcludedLeftChange}   
+              onChange={this.handleMultiExcludedLeftChange}  
+              styles={colorStyles}  
             />  
             {this.state.is_amp_endpoint_exc?
               <span className="amp-support">AMP does not support Browser Width Targeting</span>
@@ -501,7 +512,8 @@ excludedToggle = () => {
               placeholder={this.state.excludedRightPlaceholder}
               value={this.state.multiTypeRightExcludedValue}
               options={this.state.excludedDynamicOptions}
-              onChange={this.handleMultiExcludedRightChange}                                    
+              onChange={this.handleMultiExcludedRightChange} 
+              styles={colorStyles}                                    
             />   
             :<input type="text"
               Clearable ={true}  

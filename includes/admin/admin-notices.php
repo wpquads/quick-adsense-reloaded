@@ -93,7 +93,7 @@ function quads_show_rate_div(){
         echo '<div class="quads_fivestar updated " style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;">
         <p>Awesome, you\'ve been using <strong>WP QUADS</strong> for more than 1 week. <br> May i ask you to give it a <strong>5-star rating</strong> on Wordpress? </br>
         This will help to spread its popularity and to make this plugin a better one.
-        <br><br>Your help is much appreciated. Thank you very much,<br> ~René Hermenau
+        <br><br>Your help is much appreciated. Thank you very much
         <ul>
             <li><a href="https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/?filter=5#new-post" class="thankyou" target="_new" title="Ok, you deserved it" style="font-weight:bold;">Ok, you deserved it</a></li>
             <li><a href="javascript:void(0);" class="quadsHideRating" title="I already did" style="font-weight:bold;">I already did</a></li>
