@@ -1155,6 +1155,7 @@ handleMultiPluginsChange = (option) => {
                        </label>
                        
                        {this.state.adsTxtEnabled ? <span onClick={this.open_ad_text_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''} 
+                       <a className="quads-general-helper" target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/"></a>
                      </td>
                      </tr>
                     {
@@ -1178,7 +1179,7 @@ handleMultiPluginsChange = (option) => {
                          <input id="lazy_load_global" type="checkbox" name="lazy_load_global" onChange={this.formChangeHandler} checked={settings.lazy_load_global} />
                          <span className="quads-slider"></span>
                        </label>
-                      
+                       <a className="quads-general-helper" target="_blank" href="https://wpquads.com/documentation/what-is-lazy-loading-for-adsense-and-how-to-use-it/"></a>
                       </td>
                       </tr>   
                        <tr>
@@ -1189,6 +1190,7 @@ handleMultiPluginsChange = (option) => {
                          <span className="quads-slider"></span>
                        </label>                       
                        {this.state.ad_blocker_support ? <span onClick={this.ad_blocker_support} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                        <a className="quads-general-helper" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-blocker-support-in-wp-quads/"></a>
                      </td>
                      </tr>              
                    </tbody>
