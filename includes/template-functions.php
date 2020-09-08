@@ -1012,21 +1012,36 @@ function quads_filter_default_ads_new( $content ) {
 
                     break;    
                      case 'after_the_percentage':
+                      $wp_charset = get_bloginfo( 'charset' );
+                       $tag = 'p[not(parent::blockquote)]';
+                       $doc =  new DOMDocument( '1.0', $wp_charset );
+                       libxml_use_internal_errors( true );
+                        $doc->loadHTML($content);
+                        $xpath = new DOMXPath( $doc );
+                        $items = $xpath->query( '/html/body/' . $tag );
+                        $whitespaces = json_decode( '"\t\n\r \u00A0"' );
+                        foreach ( $items  as $item) {
+                          if (  ( isset( $item->textContent ) && trim( $item->textContent, $whitespaces ) !== '' ) ) { 
+                            $paragraphs[] = $item;
+                          }
+                        }
+                        $total_paragraphs = count($paragraphs);    
 
-                                    $closing_p        = '</p>';
-                                    $paragraphs       = explode( $closing_p, $content );       
-                                    $total_paragraphs = count($paragraphs);                          
-                                    $percentage       = intval($ads['after_the_percentage_value']);
-                                    $paragraph_id     = floor(($percentage / 100) * $total_paragraphs);                              
-                                    foreach ($paragraphs as $index => $paragraph) {
-                                        if ( trim( $paragraph ) ) {
-                                            $paragraphs[$index] .= $closing_p;
-                                        }
-                                        if ( $paragraph_id == $index + 1 ) {
-                                            $paragraphs[$index] .= $cusads;
-                                        }
-                                    }
-                                    $content = implode('', $paragraphs ); 
+                        $percentage       = intval($ads['after_the_percentage_value']);
+                        $paragraph_id     = floor(($percentage / 100) * $total_paragraphs);
+                        $ref_node  = $paragraphs[$paragraph_id];
+
+                        $ad_dom =  new DOMDocument( '1.0', $wp_charset );
+                        libxml_use_internal_errors( true );
+                        $ad_dom->loadHtml( '<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $cusads );
+
+                        foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
+                          $importedNode = $doc->importNode( $importedNode, true );
+                          $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
+                        }
+
+                        $content =   $doc->saveHTML();
+
                      break;
                      case 'ad_after_html_tag':
                         $tag = 'p';

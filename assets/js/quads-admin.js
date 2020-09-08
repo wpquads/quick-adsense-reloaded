@@ -419,9 +419,13 @@ e.preventDefault();
             $('.quads-message').hide();
             });
     $(document).on('click', '.quads-general-helper',function (e) {
-        e.preventDefault();
         var icon = $(this),
                 bubble = $(this).next();
+        if(bubble.html() === undefined){
+            return ;
+        }else{
+            e.preventDefault();
+        }
 
         // Close any that are already open
         $('.quads-message').not(bubble).hide();
