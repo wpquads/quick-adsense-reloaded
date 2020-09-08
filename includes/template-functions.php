@@ -948,11 +948,15 @@ function quads_filter_default_ads_new( $content ) {
                                         case 'after_paragraph':
                         
                         if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
+                          $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
+                            if( strpos($content, "</blockquote>")){
+                          $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
+                        }else{
                             $closing_p        = '</p>';
                             $paragraphs       = explode( $closing_p, $content );
                             $p_count          = count($paragraphs);
                             $original_paragraph_no = $paragraph_no;                                                             
-                            $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
+                            
                             if($paragraph_no <= $p_count){
 
                                 foreach ($paragraphs as $index => $paragraph) {
@@ -974,7 +978,7 @@ function quads_filter_default_ads_new( $content ) {
                                 }                                
                             }                                                        
                         }
-
+                      }
                         break;
                     
                     case 'after_image':
@@ -1012,35 +1016,8 @@ function quads_filter_default_ads_new( $content ) {
 
                     break;    
                      case 'after_the_percentage':
-                      $wp_charset = get_bloginfo( 'charset' );
-                       $tag = 'p[not(parent::blockquote)]';
-                       $doc =  new DOMDocument( '1.0', $wp_charset );
-                       libxml_use_internal_errors( true );
-                        $doc->loadHTML($content);
-                        $xpath = new DOMXPath( $doc );
-                        $items = $xpath->query( '/html/body/' . $tag );
-                        $whitespaces = json_decode( '"\t\n\r \u00A0"' );
-                        foreach ( $items  as $item) {
-                          if (  ( isset( $item->textContent ) && trim( $item->textContent, $whitespaces ) !== '' ) ) { 
-                            $paragraphs[] = $item;
-                          }
-                        }
-                        $total_paragraphs = count($paragraphs);    
-
-                        $percentage       = intval($ads['after_the_percentage_value']);
-                        $paragraph_id     = floor(($percentage / 100) * $total_paragraphs);
-                        $ref_node  = $paragraphs[$paragraph_id];
-
-                        $ad_dom =  new DOMDocument( '1.0', $wp_charset );
-                        libxml_use_internal_errors( true );
-                        $ad_dom->loadHtml( '<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $cusads );
-
-                        foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
-                          $importedNode = $doc->importNode( $importedNode, true );
-                          $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
-                        }
-
-                        $content =   $doc->saveHTML();
+                    
+                        $content =  remove_ad_from_content($content,$cusads,$ads);
 
                      break;
                      case 'ad_after_html_tag':
@@ -1064,11 +1041,15 @@ function quads_filter_default_ads_new( $content ) {
                                  break;
                         }
                             
-                            $closing_p        = '</'.$tag.'>';
+                                                                                       
+                            $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
+                          if($tag == 'p' && strpos($content, "</blockquote>")){
+                          $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
+                        }else{
+                                $closing_p        = '</'.$tag.'>';
                             $paragraphs       = explode( $closing_p, $content );
                             $p_count          = count($paragraphs);
-                            $original_paragraph_no = $paragraph_no;                                                             
-                            $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
+                            $original_paragraph_no = $paragraph_no;
                             if($paragraph_no <= $p_count){
 
                                 foreach ($paragraphs as $index => $paragraph) {
@@ -1076,7 +1057,6 @@ function quads_filter_default_ads_new( $content ) {
                                         $paragraphs[$index] .= $closing_p;
                                     }
                                     if ( $paragraph_no == $index + 1 ) {
-                                        // exit(var_dump($index));
                                         $paragraphs[$index] .= $cusads;
                                         if($repeat_paragraph){
                                          $paragraph_no =  $original_paragraph_no+$paragraph_no; 
@@ -1088,7 +1068,8 @@ function quads_filter_default_ads_new( $content ) {
                                 if($end_of_post){
                                     $content = $content.$cusads;   
                                 }                                
-                            }                                                        
+                            }  
+                            }                                                      
                         break; 
                 }
 
@@ -2045,3 +2026,59 @@ function quads_del_element($array, $idx) {
         }
            return $content;
         }
+
+
+function remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_paragraph=false){
+
+    $wp_charset = get_bloginfo( 'charset' );
+     $tag = 'p[not(parent::blockquote)]';
+     $doc =  new DOMDocument( '1.0', $wp_charset );
+     libxml_use_internal_errors( true );
+      $doc->loadHTML($content);
+      $xpath = new DOMXPath( $doc );
+      $items = $xpath->query( '/html/body/' . $tag );
+      $whitespaces = json_decode( '"\t\n\r \u00A0"' );
+      foreach ( $items  as $item) {
+        if (  ( isset( $item->textContent ) && trim( $item->textContent, $whitespaces ) !== '' ) ) { 
+          $paragraphs[] = $item;
+        }
+      }
+      $total_paragraphs = count($paragraphs);    
+      if(isset($ads_data['after_the_percentage_value'])){
+        $percentage       = intval($ads_data['after_the_percentage_value']);
+        $position     = floor(($percentage / 100) * $total_paragraphs);
+      }
+if($repeat_paragraph){
+      for ( $i = $position -1; $i < $total_paragraphs; $i++ ) {
+        // Select every X number.
+        if ( ( $i + 1 ) % $position === 0 )  {
+          $offsets[] = $i;
+        }
+      }
+                               foreach ( $offsets as $offset ) {
+
+                        $ref_node  = $paragraphs[$offset]->nextSibling;
+                        $ad_dom =  new DOMDocument( '1.0', $wp_charset );
+                        libxml_use_internal_errors( true );
+                        $ad_dom->loadHtml( '<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads );
+
+                        foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
+                          $importedNode = $doc->importNode( $importedNode, true );
+                          $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
+                        }
+}
+    }else{
+      $ref_node  = $paragraphs[$position];
+
+      $ad_dom =  new DOMDocument( '1.0', $wp_charset );
+      libxml_use_internal_errors( true );
+      $ad_dom->loadHtml( '<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads );
+
+      foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
+        $importedNode = $doc->importNode( $importedNode, true );
+        $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
+      }
+    }
+    $content =$doc->saveHTML();
+    return $content;  
+}
