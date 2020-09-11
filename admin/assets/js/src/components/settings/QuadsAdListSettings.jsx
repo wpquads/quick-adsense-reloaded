@@ -10,9 +10,7 @@ import QuadsAdSettingsNavLink from './QuadsAdSettingsNavLink';
 import copy from 'copy-to-clipboard';
 import { SketchPicker } from 'react-color';
 import reactCSS from 'reactcss'
-
 class QuadsAdListSettings extends Component {
-
   constructor(props) {      
     super(props);
     this.state = {            
@@ -37,7 +35,6 @@ class QuadsAdListSettings extends Component {
             backup_file   : null,
             textToCopy    : '',
             copied: false,
-
             ad_blocker_support_popup:false,
             settings      :{
                 notice_txt_color : '#ffffff',
@@ -124,11 +121,9 @@ notice_bg_color = (color) => {
       return;
     }
     this.setState({importquadsclassicmsgprocessing: 'Importing Ads'});
-   
     let formData = new FormData();
     formData.append('action', 'quads_sync_ads_in_new_design');
     formData.append('nonce', quads.nonce);
-
     fetch(ajaxurl,{
       method: "post",
       body: formData              
@@ -139,10 +134,8 @@ notice_bg_color = (color) => {
               this.setState({importquadsclassicmsg: 'Ads have been successfully imported',importquadsclassicmsgprocessing:''});                             
       },        
       (error) => {
-        
       }
     );  
-
   }
 importampforwpdata = () => {
 if(this.state.importampforwpmsgprocessing !=''){
@@ -166,10 +159,8 @@ if(this.state.importampforwpmsgprocessing !=''){
             }                              
       },        
       (error) => {
-        
       }
     );  
-
   }
   importadsforwpdata = () => {
 if(this.state.importadsforwpmsgprocessing !=''){
@@ -193,10 +184,8 @@ if(this.state.importadsforwpmsgprocessing !=''){
             }                              
       },        
       (error) => {
-        
       }
     );  
-
   }
   open_global_excluder = () => {
     this.setState({global_excluder_modal:true});
@@ -204,9 +193,7 @@ if(this.state.importadsforwpmsgprocessing !=''){
   ad_blocker_support = () => {
     this.setState({ad_blocker_support_popup:true});
   }
-
   getPlugins = (search) => {
-      
     let url = quads_localize_data.rest_url + 'quads-route/get-plugins?search='+search;
     if(quads_localize_data.rest_url.includes('?')){
         url = quads_localize_data.rest_url + 'quads-route/get-plugins&search='+search;  
@@ -227,14 +214,10 @@ if(this.state.importadsforwpmsgprocessing !=''){
             }                              
       },        
       (error) => {
-        
       }
     );  
-
   }
-
   getTags = (search) => {
-      
     let url = quads_localize_data.rest_url + 'quads-route/get-tags?search='+search;    
     if(quads_localize_data.rest_url.includes('?')){
         url = quads_localize_data.rest_url + 'quads-route/get-tags&search='+search;  
@@ -250,22 +233,15 @@ if(this.state.importadsforwpmsgprocessing !=''){
     .then(res => res.json())
     .then(
       (result) => {
-
             if(result.status === 't'){
-              
               this.setState({multiTagsOptions: result.data});
             }                  
-            
       },        
       (error) => {
-        
       }
     );  
-
   }
-
   getUserRole = () => {
-      
     const url = quads_localize_data.rest_url + 'quads-route/get-user-role';    
     fetch(url,{
       method: "get",
@@ -278,43 +254,30 @@ if(this.state.importadsforwpmsgprocessing !=''){
     .then(res => res.json())
     .then(
       (result) => {
-
             if(result.status === 't'){
-              
               this.setState({multiUserOptions: result.data});
             }                  
-            
       },        
       (error) => {
-        
       }
     );  
-
   }
-
   handleMultiPluginsSearch = (q) => {    
-    
     if(q !== ''){
         this.getPlugins(q);
     } 
-
 }
   handleMultiTagsSearch = (q) => {    
-    
     if(q !== ''){
         this.getTags(q);
     } 
-
 }
-
 handleMultiPluginsChange = (option) => {    
-
   const { settings } = this.state;
   settings.multiPluginsValue = option;     
   this.setState(settings);
 }
   handleMultiTagsChange = (option) => {    
-
     const { settings } = this.state;
     settings.multiTagsValue = option;     
     this.setState(settings);
@@ -330,7 +293,6 @@ handleMultiPluginsChange = (option) => {
         this.setState(settings);
   }
   sendCustomerMessage = () => {       
-    
     const json_data = {
                   email  : this.state.customer_query_email,
                   message: this.state.customer_query_message,
@@ -356,13 +318,10 @@ handleMultiPluginsChange = (option) => {
           this.setState({customer_querey_success: ''});
           this.setState({customer_querey_error: 'Something went wrong. Please check your internet connection'});  
         }         
-        
       },        
       (error) => {
-       
       }
     ); 
-    
   }
    add_license_key = (e) => {
      const { settings } = this.state;
@@ -370,7 +329,6 @@ handleMultiPluginsChange = (option) => {
   this.setState(settings);
   }
     activeLicense = () => {       
-    
     const json_data = {
                   license_key  : this.state.license_key,
     };
@@ -388,13 +346,10 @@ handleMultiPluginsChange = (option) => {
     .then(
       (result) => { 
     location.reload();      
-        
       },        
       (error) => {
-       
       }
     ); 
-    
   }
   closeQuerySuccess = (e) => {
     this.setState({customer_querey_success : '',importampforwpmsg : '',importadsforwpmsg : '',importquadsclassicmsg : ''});   
@@ -464,11 +419,9 @@ handleMultiPluginsChange = (option) => {
   }
   sendCustomerQuery = (e) => {
     e.preventDefault();
-    
     let customer_type    = this.state.customer_query_type;
     let customer_email   = this.state.customer_query_email;
     let customer_message = this.state.customer_query_message;
-
     if(customer_type == '' || customer_email == '' || customer_message == ''){
       if(customer_type == ''){
         this.setState({customer_querey_error: 'Please select customer type'});
@@ -479,7 +432,6 @@ handleMultiPluginsChange = (option) => {
       if(customer_message == ''){
         this.setState({customer_querey_error: 'Please write your query'});
       }
-
     }else{
       if(this.validateEmail(customer_email) == true){
         this.sendCustomerMessage();        
@@ -487,18 +439,13 @@ handleMultiPluginsChange = (option) => {
         this.setState({customer_querey_error: 'Email is not valid. Please provide valid email'});
       }
     }
-
   }
-
   validateEmail = (email) => {
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return regex.test(email);
   }
-
   getQuadsInfo = () => {
-      
     let url = quads_localize_data.rest_url + 'quads-route/get-quads-info';
-    
     fetch(url,{
       headers: {                    
         'X-WP-Nonce': quads_localize_data.nonce,
@@ -512,16 +459,11 @@ handleMultiPluginsChange = (option) => {
           }
       },        
       (error) => {
-        
       }
     );  
-
   }
-
   getSettings = () => {
-      
     let url = quads_localize_data.rest_url + 'quads-route/get-settings';
-    
     fetch(url,{
       headers: {                    
         'X-WP-Nonce': quads_localize_data.nonce,
@@ -539,12 +481,9 @@ handleMultiPluginsChange = (option) => {
             this.setState(settings);                
       },        
       (error) => {
-        
       }
     );  
-
   }
-
   componentDidMount(){    
     this.getSettings();
     this.getUserRole();
@@ -566,14 +505,12 @@ handleMultiPluginsChange = (option) => {
     }    
   }
   limitOptions =() => {
-
     let rows = [];
     for (let i = 1; i <=20; i++) {
       rows.push(<option key={i} value={i}>{i}</option>);
     }
     rows.push(<option key={100} value="100">Unlimited</option>);
     return rows;
-
   }
   saveGlobalExcluder = (e) => {
     e.preventDefault();
@@ -586,7 +523,6 @@ handleMultiPluginsChange = (option) => {
     this.setState({ad_blocker_support_popup:false});
   }
     saveSettings = () => {                 
-
       const formData = new FormData();
       formData.append("file", this.state.backup_file);
       formData.append("settings", JSON.stringify(this.state.settings));
@@ -619,13 +555,10 @@ handleMultiPluginsChange = (option) => {
             }                               
         },        
         (error) => {
-         
         }
       ); 
-      
     }
   licensesaveSettings = (status) => {                 
-
       const formData = new FormData();
       formData.append("file", this.state.backup_file);
       formData.append("settings", JSON.stringify(this.state.settings));
@@ -653,9 +586,7 @@ handleMultiPluginsChange = (option) => {
          location.reload();  
         }
       ); 
-      
     }
-
     saveSettingsHandler = (e) => {
       e.preventDefault();  
       this.setState({button_spinner_toggle:true});
@@ -666,7 +597,6 @@ handleMultiPluginsChange = (option) => {
       this.setState({button_spinner_toggle:true,quads_wp_quads_pro_license_key_deactivate:'Deactivate License'});
       this.licensesaveSettings('deactivate');
     }
-
     validateAdstxt = (e) => {
       e.preventDefault(); 
       const { settings } = { ...this.state };
@@ -693,31 +623,24 @@ handleMultiPluginsChange = (option) => {
             }      
         },        
         (error) => {
-         
         }
       ); 
-
     }  
   formChangeHandler = (event) => {
-              
     let name  = event.target.name;
     let value = '';
-
     if(event.target.type === 'file'){
        value = event.target.files[0];
        this.setState({backup_file:value});
     }else{
-
       if(event.target.type === 'checkbox'){
         value = event.target.checked;  
       }else{
         value = event.target.value                
       }
         const { settings } = this.state;
-
         settings[name] = value;     
         this.setState(settings);
-
     }
     if(name == 'adsTxtEnabled'){
      this.saveSettings();
@@ -734,7 +657,6 @@ handleMultiPluginsChange = (option) => {
     if(name == 'adsforwp_quads_gutenberg'){
      this.saveSettings();
     }
-       
   }
   open_ad_text_modal = () =>{        
     this.setState({adtxt_modal:true});
@@ -747,18 +669,14 @@ handleMultiPluginsChange = (option) => {
   } 
   getErrorMessage =(type) => {
     const {__} = wp.i18n;
-
     let message = '';
-    
     switch (type) {
-
       case 'invalid_variable':
         message = __( 'Unrecognized variable' );
         break;
       case 'invalid_record':
         message = __( 'Invalid record' , 'quick-adsense-reloaded');
         break;
-          
       case 'invalid_account_type':
         message =  __( 'Third field should be RESELLER or DIRECT', 'quick-adsense-reloaded' );
         break;
@@ -771,20 +689,16 @@ handleMultiPluginsChange = (option) => {
       case 'invalid_tagid':
         message = __( '%s does not appear to be a valid TAG-ID', 'quick-adsense-reloaded' );
         break;  
-    
       default:
         break;
     }
-
     return message;
   }
     getPageDataMeta = (condition_type) => {
-        
     let url = quads_localize_data.rest_url +"quads-route/get-condition-list?condition="+condition_type;
     if(quads_localize_data.rest_url.includes('?')){
       url = quads_localize_data.rest_url +"quads-route/get-condition-list&condition="+condition_type; 
     }
-      
       fetch(url, {
         headers: {                    
           'X-WP-Nonce': quads_localize_data.nonce,
@@ -802,7 +716,6 @@ handleMultiPluginsChange = (option) => {
         }
       );          
   }
-  
   render() {    
    const styles = reactCSS({
       'default': {
@@ -827,14 +740,12 @@ handleMultiPluginsChange = (option) => {
           let auto_ads_get_post_types = [];
           if(this.state.auto_ads_get_post_types){
             Object.entries(this.state.auto_ads_get_post_types).map(([meta_key, meta_val]) => {   
-
             auto_ads_get_post_types.push(<option value={meta_key}>{meta_val}</option>);  
             })
             }
           let autoads_excl_user_roles = [];
           if(this.state.autoads_excl_user_roles){
             Object.entries(this.state.autoads_excl_user_roles).map(([meta_key, meta_val]) => {   
-
             autoads_excl_user_roles.push(<option value={meta_key}>{meta_val}</option>);  
             })
             }
@@ -871,14 +782,12 @@ handleMultiPluginsChange = (option) => {
              </div>       
             </div> </>: null
             } 
-
              {this.state.adsforwp_to_quads_model ? 
            <div className="quads-modal-popup">            
             <div className="quads-modal-popup-content">
              <span className="quads-modal-close" onClick={this.closeModal}>&times;</span>
              <h3>Ads For wp Setting</h3>
              <div className="quads-modal-description"></div>
-
              <div className="quads-modal-content adsforwp-quads-popup">
              <div className="quads-modal">
              Change adsforwp Short code to quads 
@@ -898,18 +807,14 @@ handleMultiPluginsChange = (option) => {
              </div>        
             </div> : null
             } 
-
             {/* global excluder modal */}
-
             {this.state.global_excluder_modal ? 
            <div className="quads-modal-popup">            
             <div className="quads-modal-popup-content">
              <span className="quads-modal-close" onClick={this.closeModal}>&times;</span>
              <h3>Global Excluder</h3>                         
              <div className="quads-modal-content">
-             <table className="form-table" role="presentation">
-                              <tbody>
-                                <tr>
+             <table className="form-table" role="presentation"><tbody><tr>
                                   <th>Hide Ads for User Roles</th>
                                   <td>
                                   <Select
@@ -951,49 +856,38 @@ handleMultiPluginsChange = (option) => {
                                     onInputChange={this.handleMultiPluginsSearch}                                    
                                   />
                                   </td>
-                                </tr>
-                              </tbody>
-                            </table>
+                                </tr></tbody></table>
                             <a className="quads-btn quads-btn-primary" onClick={this.saveGlobalExcluder}>OK</a>
              </div>             
              </div>        
             </div> : null
             } 
-
              {/* Ad Blocker Support */}
-
             {this.state.ad_blocker_support_popup ? 
             <>
               <div className="quads-large-popup-bglayout">  </div> 
            <div className="quads-large-popup">  
-
             <div className="quads-large-popup-content">
              <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
             <div className="quads-large-popup-title">
               <h1>Notice For Ad Blocker</h1>   
             </div>                      
              <div className="quads-large-content">
-             <table className="form-table" role="presentation">
-                              <tbody>
-                                <tr>
+             <table className="form-table" role="presentation"><tbody><tr>
                                   <th>Notice Type</th>
                                   <td className="notice_type">
                                   <span>
                                    <input id="bar" type="radio" value="bar" checked={settings.notice_type =='bar'} name="notice_type" onChange={this.formChangeHandler} />
                                     <label htmlFor="bar"> {__('Bar', 'quick-adsense-reloaded')} </label>
-
-                                   
                                     </span><span>
                                    <input id="popup" type="radio" value="popup" checked={settings.notice_type =='popup'}  name="notice_type" onChange={this.formChangeHandler} />
                                    <label htmlFor="popup"> {__('Popup', 'quick-adsense-reloaded')} </label>
                                     </span><span>
                                    <input id="page_redirect" type="radio" checked={settings.notice_type =='page_redirect'}  value="page_redirect" name="notice_type" onChange={this.formChangeHandler}  />
                                     <label htmlFor="page_redirect"> {__('Page Redirection', 'quick-adsense-reloaded')} </label>
-
                                   </span><span>
                                    <input id="ad_blocker_message" type="radio" checked={settings.notice_type =='ad_blocker_message'} name="notice_type" value="ad_blocker_message"  onChange={this.formChangeHandler} /> 
                                     <label htmlFor="ad_blocker_message"> {__('Block Message ', 'quick-adsense-reloaded')} </label>
-
                                    </span>
                                    <div className="quads-message bottom">If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker. <a href="http://wpquads.com/docs/customize-ad-blocker-notice/" target="_blank">Read here</a> how to customize colors and text.</div>
                                   </td>
@@ -1055,7 +949,6 @@ handleMultiPluginsChange = (option) => {
                                       <div className="color-pick-cover" onClick={ this.handleClose }/>
                                       <SketchPicker color={ this.state.notice_txt_color } onChange={ this.notice_txt_color } />
                                     </div> : null }
-
                                   </div>
                                 </td>
                               </tr>
@@ -1072,7 +965,6 @@ handleMultiPluginsChange = (option) => {
                                       <div className="color-pick-cover" onClick={ this.handleClose }/>
                                       <SketchPicker color={ this.state.notice_bg_color } onChange={ this.notice_bg_color } />
                                     </div> : null }
-
                                   </div>
                                 </td>
                               </tr>
@@ -1089,7 +981,6 @@ handleMultiPluginsChange = (option) => {
                                       <div className="color-pick-cover" onClick={ this.handleClose }/>
                                       <SketchPicker color={ settings.notice_btn_txt_color } onChange={ this.notice_btn_txt_color } />
                                     </div> : null }
-
                                   </div>
                                 </td>
                               </tr>
@@ -1106,7 +997,6 @@ handleMultiPluginsChange = (option) => {
                                       <div className="color-pick-cover" onClick={ this.handleClose }/>
                                       <SketchPicker color={ this.state.notice_btn_bg_color } onChange={ this.notice_btn_bg_color } />
                                     </div> : null }
-
                                   </div>
                                 </td>
                               </tr>
@@ -1124,11 +1014,7 @@ handleMultiPluginsChange = (option) => {
                                     onChange={this.page_redirect_select_fun}                                    
                                   />
                                   </td>
-                                </tr>
-                                : null }
-          
-                              </tbody>
-                            </table><div className="quads-save-close">
+                                </tr>: null}</tbody></table><div className="quads-save-close">
   To know more about Ad Blocker you can <a  target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-blocker-support-in-wp-quads/">view this </a>
                             <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveAdBlockSuport}>Save Changes</a>
                             </div>
@@ -1145,16 +1031,13 @@ handleMultiPluginsChange = (option) => {
             switch (page.path) {
               case "settings":   return(
                 <div className="quads-settings-tab-container">
-                 <table className="form-table" role="presentation">
-                   <tbody>
-                     <tr>
+                 <table className="form-table" role="presentation"><tbody><tr>
                      <th><label htmlFor="adsTxtEnabled">ads.txt - {__('Automatic Creation', 'quick-adsense-reloaded')}</label></th> 
                      <td>
                        <label className="quads-switch">
                          <input id="adsTxtEnabled" type="checkbox" name="adsTxtEnabled" onChange={this.formChangeHandler} checked={settings.adsTxtEnabled} />
                          <span className="quads-slider"></span>
                        </label>
-                       
                        {this.state.adsTxtEnabled ? <span onClick={this.open_ad_text_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''} 
                        <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/"></a>
                      </td>
@@ -1170,9 +1053,7 @@ handleMultiPluginsChange = (option) => {
                        </label>                       
                        {this.state.global_excluder_enabled ? <span onClick={this.open_global_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                      </td>
-                     </tr>
-                      : ''
-                    }     
+                     </tr>:null}     
                     <tr>
                    <th><label htmlFor="lazy_load_global">{__('Lazy Loading for Adsense', 'quick-adsense-reloaded')}</label></th>
                     <td>
@@ -1193,24 +1074,18 @@ handleMultiPluginsChange = (option) => {
                        {this.state.ad_blocker_support ? <span onClick={this.ad_blocker_support} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-blocker-support-in-wp-quads/"></a>
                      </td>
-                     </tr>              
-                   </tbody>
-                 </table>  
+                     </tr></tbody></table>  
                 </div>
                );   
               case "settings_tools": return(
                 <div className="quads-settings-tab-container">                  
                   <table className="form-table" role="presentation">
-                    <tbody>
-                      {quads_localize_data.is_pro ? 
-                        <tr>
+                    <tbody>{quads_localize_data.is_pro ?<tr>
                        <th><label   htmlFor="analytics">{__('Google Analytics Integration', 'quick-adsense-reloaded')}</label></th>
                         <td><input  id="analytics" type="checkbox" onChange={this.formChangeHandler} name="analytics" checked={settings.analytics} />
                         <a className="quads-general-helper quads-general-helper-new" href="#"></a><div className="quads-message bottom" >Check how many visitors are using ad blockers in your Google Analytics account from the event tracking in <i>Google Analytics-&gt;Behavior-&gt;Events</i>. This only works if your visitors are using regular ad blockers like 'adBlock'. There are browser plugins which block all external requests like the  software uBlock origin. This also block google analytics and as a result you do get any analytics data at all.</div></td>
                       </tr>
-
-                       :null}                
-                      <tr>
+                       :null}<tr>
                        <th><label htmlFor="uninstall_on_delete">{__('Delete Data on Uninstall?', 'quick-adsense-reloaded')}</label></th>
                         <td><input id="uninstall_on_delete" type="checkbox" onChange={this.formChangeHandler} name="uninstall_on_delete" checked={settings.uninstall_on_delete} />
                         <a className="quads-general-helper quads-general-helper-new" href="#"></a><div className="quads-message bottom" >Check this box if you would like <strong>Settings-&gt;WPQUADS</strong> to completely remove all of its data when the plugin is deleted.</div>
@@ -1233,33 +1108,26 @@ handleMultiPluginsChange = (option) => {
                           <a href={`${quads_localize_data.rest_url}quads-route/export-settings`} className="quads-btn quads-btn-primary">Export</a>
                           <p>{__('Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded')}</p>
                         </td>
-                      </tr>                                 
-                    </tbody>
-                  </table>
-
+                      </tr></tbody></table>
                 </div>
                );  
                case "settings_importer": return(
                                <div className="quads-settings-tab-container">                  
-                  <table className="form-table" role="presentation">
-                    <tbody>
-                    {quads.quads_get_active_ads !== "0" ?
+                  <table className="form-table" role="presentation"><tbody>{quads.quads_get_active_ads !== "0" ?
                        <tr>
                         <th><label>{__('Quads Classic view Ads', 'quick-adsense-reloaded')}</label></th>
                         <td>
                           <a className="quads-btn quads-btn-primary" id="quads_import_classic_ads_popup" onClick={this.quads_classic_ads}>{__('Import', 'quick-adsense-reloaded')}</a>
-
                             {this.state.importquadsclassicmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importquadsclassicmsg}</Alert> : null }
-                            {this.state.importquadsclassicmsgprocessing ? <div className='updating-message importquadsclassicmsgprocessing'><p>Importing Ads</p></div>: ''}
+                            {this.state.importquadsclassicmsgprocessing ? <div className='updating-message importquadsclassicmsgprocessing'><p>Importing Ads</p></div>:null}
                         </td>
                       </tr>  
-                      : null }
-                        <tr>
+                      : null}<tr>
                         <th><label>{__('AMP for WP Ads', 'quick-adsense-reloaded')}</label></th>
                         <td>
                           <a className="quads-btn quads-btn-primary" id="import_amp_for_wp" onClick={this.importampforwpdata}>{__('Import', 'quick-adsense-reloaded')}</a>
-                            {this.state.importampforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importampforwpmsg}</Alert> : null}
-                            {this.state.importampforwpmsgprocessing ? <div className='updating-message importampforwpmsgprocessing'><p>Importing Ads</p></div>: ''}
+                            {this.state.importampforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importampforwpmsg}</Alert> :null}
+                            {this.state.importampforwpmsgprocessing ? <div className='updating-message importampforwpmsgprocessing'><p>Importing Ads</p></div>:null}
                         </td>
                       </tr> 
                         <tr>
@@ -1270,19 +1138,14 @@ handleMultiPluginsChange = (option) => {
                             {this.state.importadsforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importadsforwpmsg}</Alert> : null}
                             {this.state.importadsforwpmsgprocessing ? <div className='updating-message importadsforwpmsgprocessing'><p>Importing Ads</p></div>: ''}
                         </td>
-                      </tr>                                    
-                    </tbody>
-                  </table>
-
+                      </tr></tbody></table>
                 </div>
-
                );
                 case "settings_google_autoads":  return(
                 <div className="quads-settings-tab-container">
                 <div className="quads-help-support">
                     <div>
                       <h3>{__('Google Auto Ads', 'quick-adsense-reloaded')}</h3>
-
                     </div>
                     <div>
                    <p> <a href="https://wpquads.com/docs/add-google-auto-ads-wordpress/" target="_blank">Read this</a> to learn how to create Google auto ads and to learn more about this new ad type. After activation, Google detects on his own where to place ads on your website. If you want to place ads manually leave auto ads empty and use the <a href="#quads_settingsadsense_header">regular ad codes</a> instead.</p> <p> Any code that you place into this field will be added to the head of your website.</p> 
@@ -1291,7 +1154,6 @@ handleMultiPluginsChange = (option) => {
                       {__('Enter Google Auto Ads code below', 'quick-adsense-reloaded')}
                     </div>
                     <div><textarea  name="auto_ad_code" value={this.state.auto_ad_code} onChange={this.addauto_ad_code}  cols="60" rows="5" className="quads-premium-cus" /></div>
-
                      <div>
                       {__('Status', 'quick-adsense-reloaded')}
                     </div>
@@ -1303,10 +1165,8 @@ handleMultiPluginsChange = (option) => {
                       {__('Exclude Auto Ads From Post Types', 'quick-adsense-reloaded')}
                     </div>
                     <div>  <select multiple={true} name="autoads_post_types" value={this.state.autoads_post_types} onChange={this.addautoads_post_types} className="quads-premium-cus">
-                   
                        {auto_ads_get_post_types}
                       </select></div>
-
                        <div>
                       {__('Exclude Auto Ads From Extra pages', 'quick-adsense-reloaded')}
                     </div>
@@ -1325,9 +1185,7 @@ handleMultiPluginsChange = (option) => {
                );
               case "settings_legacy":  return(
                 <div className="quads-settings-tab-container">
-                 <table className="form-table" role="presentation">
-                 <tbody>
-                  <tr>
+                 <table className="form-table" role="presentation"><tbody><tr>
                     <th scope="row"><label>{__('Limit Amount of ads', 'quick-adsense-reloaded')}</label></th>
                     <td>
                       <select  name="maxads" value={settings.maxads} onChange={this.formChangeHandler}>
@@ -1352,9 +1210,7 @@ handleMultiPluginsChange = (option) => {
                       <p>{__('1. Insert', 'quick-adsense-reloaded')} &lt;!--Ads1--&gt;, &lt;!--Ads2--&gt;, {__('etc. into a post to show the Particular Ads at specific location.', 'quick-adsense-reloaded')}</p>
                       <p>{__('2. Insert', 'quick-adsense-reloaded')} &lt;!--RndAds--&gt; {__('into a post to show the Random Ads at specific location', 'quick-adsense-reloaded')}</p>
                     </td>
-                  </tr> 
-                 </tbody>  
-                 </table>
+                  </tr></tbody></table>
                 </div>
                );  
               case "settings_support":  return(
@@ -1407,7 +1263,6 @@ handleMultiPluginsChange = (option) => {
                 <div className="quads-help-support">
                     <div>
                       <h3>{__('Activate Your License', 'quick-adsense-reloaded')}</h3>
-                  
                     </div>
                     <div>
                       {__('WP QUADS PRO License Key', 'quick-adsense-reloaded')}
@@ -1417,7 +1272,6 @@ handleMultiPluginsChange = (option) => {
             Deactivate License</a>: null}    </div> 
             {this.state.licensemsg ?
             <div id="quads_licensemsg">{this.state.licensemsg}</div> : null}
-                    
                   {/* <div>
                     <h3>System Info</h3>
                     <textarea className="quads-system-info" readOnly={true} value={this.state.textToCopy}/>
@@ -1442,7 +1296,6 @@ handleMultiPluginsChange = (option) => {
           </form>
           <div className="quads-bnr">
             <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-quads&utm_campaign=wpquads" target="_blank">
-
               <img  src={quads_localize_data.quads_plugin_url+'assets/images/quads_banner_250x521_buy.png'} />
            </a>
           </div>
@@ -1452,5 +1305,4 @@ handleMultiPluginsChange = (option) => {
         );
   }
 }
-
 export default QuadsAdListSettings;

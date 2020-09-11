@@ -44,9 +44,9 @@ module.exports = function (grunt) {
         copy: {
             build: {
                 files: [
-                    {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wp-quads-pro.php', '!**/includes/admin/settings/advanced-settings.php', '!grafik/**'],
+                    {expand: true, src: ['**', '!node_modules/**','!**/admin/assets/js/node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wp-quads-pro.php', '!**/includes/admin/settings/advanced-settings.php', '!grafik/**'],
                         dest: '<%= paths.base %>'},
-                    {expand: true, src: ['**', '!node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wp-quads-pro.php', '!**/includes/admin/settings/advanced-settings.php', '!grafik/**'],
+                    {expand: true, src: ['**', '!node_modules/**','!**/admin/assets/js/node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wp-quads-pro.php', '!**/includes/admin/settings/advanced-settings.php', '!grafik/**'],
                         dest: '<%= paths.basetrunk %>'}
                 ]
             },
@@ -62,7 +62,7 @@ module.exports = function (grunt) {
                 },
                 options: {
                     replacements: [{
-                            pattern: /2.0.10/g,
+                            pattern: /2.0.11/g,
                             replacement: '<%= pkg.version %>'
                         }]
                 }
@@ -120,6 +120,6 @@ module.exports = function (grunt) {
 
     // Build task
     //grunt.registerTask( 'build', [ 'compress:build' ]);
-    //grunt.registerTask('build', ['clean:build', 'uglify:build', 'cssmin:build', 'copy:build', 'string-replace:version', 'compress:build']);
-    grunt.registerTask('build', ['clean:build', 'copy:build', 'cssmin:build', 'string-replace:version', 'compress:build']);
+    // grunt.registerTask('build', ['clean:build', 'uglify:build', 'cssmin:build', 'copy:build', 'string-replace:version', 'compress:build']);
+    grunt.registerTask('build', ['clean:build', 'copy:build','uglify:build', 'cssmin:build', 'string-replace:version', 'compress:build']);
 };
