@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 5.5
+Tested up to: 5.5.1
 Requires PHP: 5.3
-Stable tag: 2.0.11.1
+Stable tag: 2.0.12
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
@@ -194,6 +194,28 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.12 (11th September 2020) =
+* New: Added the matched contents ads feature #235
+* New: Adstxt lightbox Design #226
+* New: Added articles in these tooltips #228
+* New: Dropdown text colour #239
+* New: Design changes for Ad blocker 2.0 #219
+* New: Rating Internally and Telegram group in desc #240
+* Fix: Fixed width and height issue of the AdSense Ads through the shortcode #237
+* Fix: Improve create Ad option #220
+* Fix: Fixed empty tooltip? #227
+* Fix: Fixed the ugly popup #229
+* Fix: Fixed Search is not working #230
+* Fix: Changed visibility condition option position #231
+* Fix: Fixed Uncaught Reference Error #236
+* Fix: Increased the size of the pub id #238
+* Fix: Visibility condition not working in Image banner Ad #242
+* Fix: Shortcode ads are not hidden when an Ads was in draft #245
+* Fix: Ads inside the blockquote #246
+* Fix: Potential issue with the latest React / NPM version #250
+
+
+
 = 2.0.11.1 (27th August 2020) =
 * New: Geo Location improvements #156
 
