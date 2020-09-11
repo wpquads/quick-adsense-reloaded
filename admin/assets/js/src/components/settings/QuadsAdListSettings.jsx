@@ -776,7 +776,7 @@ handleMultiPluginsChange = (option) => {
             :null}
              <div className="quads-large-content">
                <textarea cols="80" rows="15" name="adsTxtText" onChange={this.formChangeHandler} value={settings.adsTxtText} />
-               To know more about ads.txt  you can <a  target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/">view this </a>
+               To know more about ads.txt  you can <a  target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/">view this tutorial</a>
                <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>Save Changes</a>
              </div>             
              </div>       
