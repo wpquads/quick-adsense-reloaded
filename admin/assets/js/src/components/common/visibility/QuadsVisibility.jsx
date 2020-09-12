@@ -26,14 +26,14 @@ class QuadsVisibility extends Component {
       multiTypeOptions : [
         {label:'Post Type', value:'post_type'},
         {label:'General', value:'general'},
-        {label:'Logged in User Type', value:'user_type'},
         {label:'Post', value:'post'},
         {label:'Post Category', value:'post_category'},
         {label:'Post Format', value:'post_format'},
         {label:'Page', value:'page'},
         {label:'Taxonomy Terms', value:'taxonomy'},
         {label:'Tags', value:'tags'},  
-         {label:'Page Template', value:'page_template'}       
+        {label:'Page Template', value:'page_template'},
+        {label:'Logged in User Type', value:'user_type'}       
       ]                      
     };       
   }     
@@ -182,7 +182,14 @@ excludedToggle = () => {
     
 
   render() {
-
+    const colorStyles = {
+        placeholder: defaultStyles => {
+          return {
+            ...defaultStyles,
+            color: "#333"
+          };
+        }
+      };
     const {__} = wp.i18n; 
     const show_form_error = this.props.parentState.show_form_error;
     return (
@@ -223,7 +230,8 @@ excludedToggle = () => {
               placeholder="Select Targeting Type"              
               options= {this.state.multiTypeOptions}
               value  = {this.multiTypeLeftIncludedValue}
-              onChange={this.handleMultiIncludedLeftChange}                                                 
+              onChange={this.handleMultiIncludedLeftChange} 
+              styles={colorStyles}                                                    
             />             
            </td>
            <td>
@@ -234,7 +242,8 @@ excludedToggle = () => {
               value={this.state.multiTypeRightIncludedValue}
               options={this.state.includedDynamicOptions}
               onChange={this.handleMultiIncludedRightChange} 
-              onInputChange={this.handleMultiIncludedSearch}                                     
+              onInputChange={this.handleMultiIncludedSearch} 
+              styles={colorStyles}                                        
             />             
            </td>
            <td><a onClick={this.addIncluded} className="quads-btn quads-btn-primary">Add</a></td>
@@ -270,7 +279,8 @@ excludedToggle = () => {
               placeholder="Select Targeting Type"              
               options= {this.state.multiTypeOptions}
               value  = {this.multiTypeLeftExcludedValue}
-              onChange={this.handleMultiExcludedLeftChange}                                                 
+              onChange={this.handleMultiExcludedLeftChange}   
+              styles={colorStyles}                                                  
             />             
            </td>
            <td>
@@ -281,7 +291,8 @@ excludedToggle = () => {
               value={this.state.multiTypeRightExcludedValue}
               options={this.state.excludedDynamicOptions}
               onChange={this.handleMultiExcludedRightChange}
-              onInputChange={this.handleMultiExcludedSearch}                                    
+              onInputChange={this.handleMultiExcludedSearch} 
+              styles={colorStyles}                                       
             />             
            </td>
            <td><a onClick={this.addExcluded} className="quads-btn quads-btn-primary">Add</a></td>

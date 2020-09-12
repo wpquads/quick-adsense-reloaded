@@ -1,4 +1,4 @@
-=== Ads by WPQUADS - Best Ads & Adsense Ads Plugin ===
+=== Ads by WPQUADS - Best Ads & Adsense Ads Plugin for WP & AMP ===
 
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 5.5
+Tested up to: 5.5.1
 Requires PHP: 5.3
-Stable tag: 2.0.11.1
+Stable tag: 2.0.12
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
@@ -20,6 +20,7 @@ The legendary WPQuads Ads plugin is back with the modern approach for an Ads sol
 WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built for WordPress.
 
 = Features: =
+* <strong> NEW Geo Targeting </strong>: Target the ads based on the city and countries.
 * <strong>Easy</strong> to use Modern options panel built on React JS.
 * Deeply <strong>integrates with AMP</strong> plugins like AMPforWP, Official AMP by Google.
 * <strong>Google Adsense</strong> support: It gives a deep integration with the ad types of Google Adsense like Display ads, In-feed ads, In-article ads & Auto ads. You can define fixed or responsive sizes for the ads.
@@ -106,7 +107,6 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 We are actively developing this plugin and our aim is to make this plugin into the #1 advertisment solution in the world. You can [Request a Feature](https://wpquads.com/support/) or [Report a Bug](https://github.com/wpquads/quick-adsense-reloaded/issues). The code is hosted on [Github](https://github.com/wpquads/quick-adsense-reloaded).
 
 = Development Roadmap: =
-* <strong>Geo Targeting </strong>: Target the ads based on the city and countries.
 * <strong>Reports & Tracking </strong>: Find out which of your ads are performing the best and find out the most performing ad location.
 * <strong>AD Blindness </strong>: Helps you fight the Ad blindness.
 * <strong>AD Logging </strong>: Gives you an almost accurate data page, IP, browser, referrer, and dimensions of the user that clicked the ad and gives you reports of that data.
@@ -118,6 +118,8 @@ We are actively developing this plugin and our aim is to make this plugin into t
 * [View Full Development Roadmap](https://github.com/wpquads/quick-adsense-reloaded/projects/1)
 
 **Pro version** supports additional [advanced features](https://wpquads.com/#see-features):
+
+**[JOIN CHAT GROUP COMMUNITY](https://t.me/wpquads/)**: Purpose of this group is to get proper suggestions and feedback from plugin users and the community so that we can make the plugin even better.
 
 = Documentation =
 Documentation & Tutorials are available on [Documentation Center](https://wpquads.com/documentation/).
@@ -192,6 +194,28 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.12 (11th September 2020) =
+* New: Added the matched contents ads feature #235
+* New: Adstxt lightbox Design #226
+* New: Added articles in these tooltips #228
+* New: Dropdown text colour #239
+* New: Design changes for Ad blocker 2.0 #219
+* New: Rating Internally and Telegram group in desc #240
+* Fix: Fixed width and height issue of the AdSense Ads through the shortcode #237
+* Fix: Improve create Ad option #220
+* Fix: Fixed empty tooltip? #227
+* Fix: Fixed the ugly popup #229
+* Fix: Fixed Search is not working #230
+* Fix: Changed visibility condition option position #231
+* Fix: Fixed Uncaught Reference Error #236
+* Fix: Increased the size of the pub id #238
+* Fix: Visibility condition not working in Image banner Ad #242
+* Fix: Shortcode ads are not hidden when an Ads was in draft #245
+* Fix: Ads inside the blockquote #246
+* Fix: Potential issue with the latest React / NPM version #250
+
+
+
 = 2.0.11.1 (27th August 2020) =
 * New: Geo Location improvements #156
 

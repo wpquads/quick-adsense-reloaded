@@ -279,7 +279,7 @@ class QUADS_Ad_Setup_Api_Service {
     }
 
     public function getAdDataByParam($post_type, $attr = null, $rvcount = null, $paged = null, $offset = null, $search_param=null){
-            
+
         $response   = array();                                
         $arg        = array();
         $meta_query = array();
@@ -314,17 +314,10 @@ class QUADS_Ad_Setup_Api_Service {
                 array(
                     'relation' => 'OR',
                     array(
-                        'key'     => 'label',
-                        'value'   => $search_param,
-                        'compare' => 'LIKE'
-                    ),
-                    array(
-                        'key'     => 'ad_id',
                         'value'   => $search_param,
                         'compare' => '='
                     ),
                     array(
-                        'key'     => 'ad_type',
                         'value'   => $search_param,
                         'compare' => 'LIKE'
                     )
@@ -333,9 +326,7 @@ class QUADS_Ad_Setup_Api_Service {
                 $arg['meta_query']          = $meta_query_args; 
                 $arg['paged']               = 1;                               
         }        
-        
         $response = $this->getPostsByArg($arg);
-        
         return $response;
     }
 

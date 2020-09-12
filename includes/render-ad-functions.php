@@ -456,13 +456,18 @@ function quads_render_google_async_new( $id ) {
                          data-ad-layout="in-article"
                          data-ad-format="fluid"';
 
+    }else if (isset($quads_options['ads'][$id]['adsense_ad_type']) && $quads_options['ads'][$id]['adsense_ad_type'] == 'matched_content'){
+            $ad_data = 'style="display:block; text-align:center;"
+                         data-ad-layout="in-article"
+                         data-ad-format="fluid"';
+
     }else{
             $ad_data = ' style="display:block;"
-                          data-ad-format="auto"
-                          data-full-width-responsive="true"';
+                          data-ad-format="autorelaxed"';
 
     }
-    if (isset($quads_options['ads'][$id]['adsense_type']) && $quads_options['ads'][$id]['adsense_type'] == 'normal' && ((isset($quads_options['ads'][$id]['adsense_ad_type']) && $quads_options['ads'][$id]['adsense_ad_type'] == 'display_ads') || !isset($quads_options['ads'][$id]['adsense_ad_type']))) {
+
+    if (isset($quads_options['ads'][$id]['adsense_type']) && $quads_options['ads'][$id]['adsense_type'] != 'responsive' && ((isset($quads_options['ads'][$id]['adsense_ad_type']) && ($quads_options['ads'][$id]['adsense_ad_type'] == 'display_ads' || $quads_options['ads'][$id]['adsense_ad_type'] == 'matched_content')) || !isset($quads_options['ads'][$id]['adsense_ad_type']))) {
         $width = (isset($quads_options['ads'][$id]['g_data_ad_width']) && (!empty($quads_options['ads'][$id]['g_data_ad_width']))) ? $quads_options['ads'][$id]['g_data_ad_width']:300;
         $height = (isset($quads_options['ads'][$id]['g_data_ad_height']) && (!empty($quads_options['ads'][$id]['g_data_ad_height']))) ? $quads_options['ads'][$id]['g_data_ad_height']:250;
         $style = 'display:inline-block;width:' . esc_attr($width) . 'px;height:' . esc_attr($height) . 'px;' ;
@@ -473,6 +478,7 @@ function quads_render_google_async_new( $id ) {
                     <script>
                      (adsbygoogle = window.adsbygoogle || []).push({});</script>';
     }else{
+
         $html .= '
             <ins class="adsbygoogle"
                  '.$ad_data.'
@@ -1020,7 +1026,7 @@ function quads_render_amp($id,$ampsupport=''){
                                 >
                                 </amp-ad>';
             }else if($quads_options['ads'][$id]['ad_type'] == 'ad_image'){
-
+                    $html = '';
                 if(isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
                         $html .= '
                         <a target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
@@ -1087,13 +1093,18 @@ function quads_render_amp($id,$ampsupport=''){
 
                     $html = '<amp-ad layout="fixed" width='.esc_attr($width).' height='.esc_attr($height).' type="adsense" data-ad-client="'. esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '" data-ad-slot="'.esc_attr($quads_options['ads'][$id]['g_data_ad_slot']).'"></amp-ad>';
                 }else{
+
+                    $data_auto_format ="rspv";
+                    if( $quads_options['ads'][$id]['adsense_ad_type'] == 'matched_content'){
+                      $data_auto_format ="mcrspv";   
+                    }
                     $html = '<amp-ad
                                   width="100vw"
                                   height="320"
                                   type="adsense"
                                   data-ad-client="'. esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '"
                                   data-ad-slot="'. esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '"
-                                  data-auto-format="rspv"
+                                  data-auto-format="'.$data_auto_format.'"
                                   data-full-width
                                 >
                                   <div overflow></div>
@@ -1103,7 +1114,6 @@ function quads_render_amp($id,$ampsupport=''){
             }
      
     }
-
     return $html;
 }
 

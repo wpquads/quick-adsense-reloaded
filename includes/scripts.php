@@ -55,12 +55,16 @@ function quads_check_ad_blocker() {
  * @return void
  */
 function quads_load_admin_scripts( $hook ) {
+    $quads_mode = get_option('quads-mode');
 $screens = get_current_screen();
 $currentScreen = '';
 if(is_object($screens)){
     $currentScreen = $screens->base;
     if($currentScreen == 'toplevel_page_quads-settings'){
         remove_all_actions('admin_notices');
+        if($quads_mode == 'new'){
+            add_action( 'admin_notices', 'quads_show_rate_div' );
+        }
         wp_enqueue_media();
         //To add page
         if ( ! class_exists( '_WP_Editors', false ) ) {
@@ -69,10 +73,10 @@ if(is_object($screens)){
     }
 }
       
-       $quads_mode = get_option('quads-mode');
+       
           if($quads_mode != 'new'){
-    add_action( 'admin_notices', 'quads_admin_messages' );
-          }   
+            add_action( 'admin_notices', 'quads_admin_messages' );
+          }    
 
     global $current_user,$wp_version, $quads;
     $dismissed = explode (',', get_user_meta (wp_get_current_user ()->ID, 'dismissed_wp_pointers', true));                            

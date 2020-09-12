@@ -219,45 +219,6 @@ a.quads-doc-link:hover{
 .adblock_support .quads-modal-popup-content{
     position: initial;
 }
-.adblock_support .color-pick-swatch{
-  padding: 5px;
-  background: #fff;
-  borderRadius: 1px;
-  boxShadow: 0 0 0 1px rgba(0,0,0,.1);
-  display: inline-block;
-  cursor: pointer;
-}
-.adblock_support .color-pick-popover{
-  position: absolute;
-  z-index: 2;
-}
-.adblock_support .color-pick-cover{
-  position: fixed;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-}
-
-.adblock_support .color-pick-color{
- width: 32px;
-    height: 28px;
-    border-radius: 2px;
-    border-right: 1px solid #ccc;
-}
-
-.adblock_support .color-pick-swatch{
-      padding: 0;
-    display: inline-flex;
-    align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-}
-.adblock_support .wp-color-result-text{
-      padding-left: 8px;
-    font-size: 12px;
-    padding-right: 6px;
-}
 
 .adblock_support .quads-modal-popup-content {
     max-width: 96% !important;
@@ -327,12 +288,11 @@ position: fixed;
     background: #f1f1f1;
     left: 0;
 }
-.quads-generic-icon {
-    top: 13px;
-}
+
 .quads-modal-content.adsforwp-quads-popup{
       text-align: left;
 }
 .quads-modal-content.adsforwp-quads-popup .quads-switch{
     margin-left: 40px;
 }
+ 
