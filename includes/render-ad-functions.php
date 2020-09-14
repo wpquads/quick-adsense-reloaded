@@ -463,7 +463,7 @@ function quads_render_google_async_new( $id ) {
 
     }else{
             $ad_data = ' style="display:block;"
-                          data-ad-format="autorelaxed"';
+                          data-ad-format="auto"';
 
     }
 
