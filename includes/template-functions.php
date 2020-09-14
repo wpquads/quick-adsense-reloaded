@@ -2034,7 +2034,7 @@ function remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_
      $tag = 'p[not(parent::blockquote)]';
      $doc =  new DOMDocument( '1.0', $wp_charset );
      libxml_use_internal_errors( true );
-      $doc->loadHTML($content);
+     $doc->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
       $xpath = new DOMXPath( $doc );
       $items = $xpath->query( '/html/body/' . $tag );
       $whitespaces = json_decode( '"\t\n\r \u00A0"' );
@@ -2060,7 +2060,7 @@ if($repeat_paragraph){
                         $ref_node  = $paragraphs[$offset]->nextSibling;
                         $ad_dom =  new DOMDocument( '1.0', $wp_charset );
                         libxml_use_internal_errors( true );
-                        $ad_dom->loadHtml( '<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads );
+                        $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
 
                         foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
                           $importedNode = $doc->importNode( $importedNode, true );
@@ -2072,7 +2072,7 @@ if($repeat_paragraph){
 
       $ad_dom =  new DOMDocument( '1.0', $wp_charset );
       libxml_use_internal_errors( true );
-      $ad_dom->loadHtml( '<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads );
+ $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
 
       foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
         $importedNode = $doc->importNode( $importedNode, true );
