@@ -36,10 +36,15 @@ class QuadsAdListSettings extends Component {
             textToCopy    : '',
             copied: false,
             ad_blocker_support_popup:false,
+            click_fraud_protection_popup:false,
             settings      :{
                 notice_txt_color : '#ffffff',
                 ad_blocker_support :false,
+                click_fraud_protection : false,
                 notice_bg_color : '#1e73be',
+                allowed_click   : 3,
+                click_limit     : 3,
+                ban_duration    : 7,
                 notice_btn_txt_color : '#ffffff',
                 notice_btn_bg_color : '#f44336',
                 uninstall_on_delete: '',
@@ -192,6 +197,9 @@ if(this.state.importadsforwpmsgprocessing !=''){
   }
   ad_blocker_support = () => {
     this.setState({ad_blocker_support_popup:true});
+  }
+    click_fraud_protection_popup = () => {
+    this.setState({click_fraud_protection_popup:true});
   }
   getPlugins = (search) => {
     let url = quads_localize_data.rest_url + 'quads-route/get-plugins?search='+search;
@@ -522,6 +530,11 @@ handleMultiPluginsChange = (option) => {
     this.saveSettings();
     this.setState({ad_blocker_support_popup:false});
   }
+   saveClickFraud = (e) => {
+    e.preventDefault();
+    this.saveSettings();
+    this.setState({click_fraud_protection_popup:false});
+  }
     saveSettings = () => {                 
       const formData = new FormData();
       formData.append("file", this.state.backup_file);
@@ -665,7 +678,7 @@ handleMultiPluginsChange = (option) => {
     this.setState({adsforwp_to_quads_model:true});
   }
   closeModal = () =>{
-    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,adsforwp_to_quads_model:false});
+    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false});
   } 
   getErrorMessage =(type) => {
     const {__} = wp.i18n;
@@ -1022,6 +1035,36 @@ handleMultiPluginsChange = (option) => {
              </div>        
             </div> </>: null
             }
+                        {this.state.click_fraud_protection_popup ? 
+            <>
+              <div className="quads-large-popup-bglayout">  </div> 
+           <div className="quads-large-popup">  
+            <div className="quads-large-popup-content">
+             <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
+            <div className="quads-large-popup-title">
+              <h1>Click Fraud Protection</h1>   
+            </div>                      
+             <div className="quads-large-content">
+             <table className="form-table" role="presentation"><tbody>
+                                  <tr>
+                              <th>Allowed clicks</th>
+                              <td><input value={settings.allowed_click} onChange={this.formChangeHandler} name="allowed_click" type="text" placeholder="3" className="quads-premium-cus" /></td>
+                              </tr>
+                               <tr>
+                              <th>Click limit( in hours )</th>
+                              <td><input value={settings.click_limit} onChange={this.formChangeHandler} name="click_limit" type="text" placeholder="3" className="quads-premium-cus" /></td>
+                              </tr>
+                               <tr>
+                              <th>Ban duration ( in days )</th>
+                              <td><input value={settings.ban_duration} onChange={this.formChangeHandler} name="ban_duration" type="text" placeholder="3" className="quads-premium-cus" /></td>
+                              </tr></tbody></table>
+                              <div className="quads-save-close">
+                            <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveAdBlockSuport}>Save Changes</a>
+                            </div>
+             </div>             
+             </div>        
+            </div> </>: null
+            }
           </div>            
           <div className="quads-settings-main">  
           <QuadsAdSettingsNavLink/>
@@ -1065,7 +1108,7 @@ handleMultiPluginsChange = (option) => {
                       </td>
                       </tr>   
                        <tr>
-                     <th><label htmlFor="global_excluder_enabled">{__('Ad Blocker Support', 'quick-adsense-reloaded')}</label></th> 
+                     <th><label htmlFor="ad_blocker_support">{__('Ad Blocker Support', 'quick-adsense-reloaded')}</label></th> 
                      <td>
                        <label className="quads-switch">
                          <input id="ad_blocker_support" type="checkbox" name="ad_blocker_support" onChange={this.formChangeHandler} checked={settings.ad_blocker_support} />
@@ -1074,7 +1117,18 @@ handleMultiPluginsChange = (option) => {
                        {this.state.ad_blocker_support ? <span onClick={this.ad_blocker_support} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-blocker-support-in-wp-quads/"></a>
                      </td>
-                     </tr></tbody></table>  
+                     </tr>
+                     <tr>
+                     <th><label htmlFor="click_fraud_protection">{__('Click Fraud Protection', 'quick-adsense-reloaded')}</label></th> 
+                     <td>
+                       <label className="quads-switch">
+                         <input id="click_fraud_protection" type="checkbox" name="click_fraud_protection" onChange={this.formChangeHandler} checked={settings.click_fraud_protection} />
+                         <span className="quads-slider"></span>
+                       </label>                       
+                       {this.state.click_fraud_protection ? <span onClick={this.click_fraud_protection_popup} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                     </td>
+                     </tr>
+                     </tbody></table>  
                 </div>
                );   
               case "settings_tools": return(

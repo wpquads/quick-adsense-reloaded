@@ -424,23 +424,7 @@ if(typeof quadsOptions !== 'undefined' && typeof wpquads_adblocker_check_2
   }
 }
 
-function quadsgetCookie(cname){
-    var name = cname + '=';
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i].trim();
-        if (c.indexOf(name) === 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return false;
-}
-function quadssetCookie(cname, cvalue, exdays, path){
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays*24*60*60*1000));
-  var expires = "expires="+ d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
+
 
 var span = document.getElementsByClassName("quads-cls-notice")[0];
 if(span){
@@ -459,6 +443,23 @@ window.onclick = function(event) {
   }
 }
 })();
+function quadsgetCookie(cname){
+    var name = cname + '=';
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return false;
+}
+function quadssetCookie(cname, cvalue, exdays, path){
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
 //Adblocker Notice Script Ends Here
 </script>
 
@@ -790,6 +791,7 @@ function quads_get_max_allowed_post_ads( $content ) {
 function quads_filter_default_ads_new( $content ) {
 
     global $quads_options, $adsArrayCus;   
+    
     $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
 
     if( $off_default_ads ) { // If default ads are disabled 
@@ -822,6 +824,7 @@ function quads_filter_default_ads_new( $content ) {
              $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
             $is_on         = quads_is_visibility_on($ads);
             $is_visitor_on = quads_is_visitor_on($ads);
+            $is_click_fraud_on = quads_click_fraud_on();
             if(isset($ads['ad_id']))
             $post_status = get_post_status($ads['ad_id']); 
             else
@@ -848,7 +851,7 @@ function quads_filter_default_ads_new( $content ) {
                 $is_on = true;
             }           
             
-            if($is_on && $is_visitor_on && $post_status=='publish'){
+            if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish'){
                     
                 $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
                 $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;
