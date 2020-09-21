@@ -52,12 +52,6 @@
                  }else{
                     cookie_val['count'] = C_vc['count']+1;
                  }
-                 if(cookie_val['count'] > quads_click_limit){
-                    var elements = document.getElementsByClassName('quads-location');
-                    while(elements.length > 0){
-                        elements[0].parentNode.removeChild(elements[0]);
-                    }
-                 }
                 cookie_val['exp'] = expires;
                 quadssetCookie(quads_ad_click, JSON.stringify( cookie_val, 'false', false ), quads_ban_duration);
             } else {

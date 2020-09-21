@@ -1051,11 +1051,11 @@ handleMultiPluginsChange = (option) => {
                               <td><input value={settings.allowed_click} onChange={this.formChangeHandler} name="allowed_click" type="text" placeholder="3" className="quads-premium-cus" /></td>
                               </tr>
                                <tr>
-                              <th>Click limit( in hours )</th>
+                              <th>Click limit (in hours)</th>
                               <td><input value={settings.click_limit} onChange={this.formChangeHandler} name="click_limit" type="text" placeholder="3" className="quads-premium-cus" /></td>
                               </tr>
                                <tr>
-                              <th>Ban duration ( in days )</th>
+                              <th>Ban duration (in days)</th>
                               <td><input value={settings.ban_duration} onChange={this.formChangeHandler} name="ban_duration" type="text" placeholder="3" className="quads-premium-cus" /></td>
                               </tr></tbody></table>
                               <div className="quads-save-close">
