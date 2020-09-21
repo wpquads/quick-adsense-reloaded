@@ -776,7 +776,11 @@ handleMultiPluginsChange = (option) => {
              <h1>Ad Txt</h1>
              </div>
              <div className="quads-large-description"></div>
-            {settings.adtxt_errors ?
+            
+             <div className="quads-large-content">
+               <textarea cols="80" rows="15" name="adsTxtText" onChange={this.formChangeHandler} value={settings.adsTxtText} />
+               To know more about ads.txt  you can <a  target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/">view this tutorial</a>
+               {settings.adtxt_errors ?
              <div className="quads-modal-error">
                <ul>
               {settings.adtxt_errors.map((error, key) => (            
@@ -787,10 +791,7 @@ handleMultiPluginsChange = (option) => {
               </ul> 
              </div> 
             :null}
-             <div className="quads-large-content">
-               <textarea cols="80" rows="15" name="adsTxtText" onChange={this.formChangeHandler} value={settings.adsTxtText} />
-               To know more about ads.txt  you can <a  target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/">view this tutorial</a>
-               <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>Save Changes</a>
+               <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>Validate</a>
              </div>             
              </div>       
             </div> </>: null
