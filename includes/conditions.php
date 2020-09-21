@@ -31,14 +31,30 @@ function quads_ad_is_allowed( $content = null ) {
         /* it's an AJAX call */ 
         return false;
     }
+    $hide_ads = apply_filters('quads_hide_ads', false);
 
     if(isset($quads_mode) && $quads_mode == 'new'){
         
+         if(
+            (is_feed()) ||
+            (is_search()) ||
+            (is_404() ) ||
+            (strpos( $content, '<!--NoAds-->' ) !== false) ||
+            (strpos( $content, '<!--OffAds-->' ) !== false) ||
+            (is_front_page() && !isset( $quads_options['visibility']['AppHome'] ) ) ||
+            (is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
+            (is_archive() && !( isset( $quads_options['visibility']['AppArch'] ) ) ) ||
+            (is_tag() && !( isset( $quads_options['visibility']['AppTags'] ) ) ) ||
+            (!quads_post_type_allowed()) ||
+            (is_user_logged_in() && ( isset( $quads_options['visibility']['AppLogg'] ) ) ) ||
+            true === $hide_ads
+    ) {
+        return false;
+    }
        return true; 
 
     }
     
-    $hide_ads = apply_filters('quads_hide_ads', false);
     
     // User Roles check
     if(!quads_user_roles_permission()){
