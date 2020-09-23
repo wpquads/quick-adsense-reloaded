@@ -2067,7 +2067,9 @@ if($repeat_paragraph){
 
                         foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
                           $importedNode = $doc->importNode( $importedNode, true );
-                          $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
+                          if($ref_node){
+                            $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
+                          }
                         }
 }
     }else{
@@ -2079,7 +2081,9 @@ if($repeat_paragraph){
 
       foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
         $importedNode = $doc->importNode( $importedNode, true );
-        $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
+          if($ref_node){
+                $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
+              }
       }
     }
     $content =$doc->saveHTML();
