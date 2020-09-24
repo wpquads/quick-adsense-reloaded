@@ -37,6 +37,7 @@ class QuadsAdListSettings extends Component {
             copied: false,
             ad_blocker_support_popup:false,
             click_fraud_protection_popup:false,
+            old_settings  : '',
             settings      :{
                 notice_txt_color : '#ffffff',
                 ad_blocker_support :false,
@@ -481,12 +482,14 @@ handleMultiPluginsChange = (option) => {
     .then(
       (result) => {                  
         const { settings } = { ...this.state };
+        let old_settings = '';
               Object.entries(result).map(([meta_key, meta_val]) => {                
                   if(meta_val){
                     settings[meta_key] =    meta_val;   
                   }                   
               })
-            this.setState(settings);                
+          old_settings = {...settings};
+          this.setState({settings:settings,old_settings:old_settings});                 
       },        
       (error) => {
       }
@@ -568,6 +571,58 @@ handleMultiPluginsChange = (option) => {
             }                               
         },        
         (error) => {
+    let settings = this.state.settings;
+    let old_settings = this.state.old_settings;
+    let difference ={};
+    const settingskeys = Object.keys(settings);
+    const settingsValues = Object.values(settings);
+    const old_settingsKeys = Object.keys(old_settings);
+    const old_settingsValues = Object.values(old_settings);
+
+    for ( let i = 0; i < settingskeys.length; i++ ) {
+      for ( let j = 0; j < old_settingsKeys.length; j++ ) {
+        if ( settingskeys[i] === old_settingsKeys[j]) {
+          if ( settingsValues[i] !== old_settingsValues[j]) {
+              difference[settingskeys[i]] = settingsValues[i];
+          }
+        }
+      }
+    }  
+
+      const formData = new FormData();
+      formData.append("file", this.state.backup_file);
+      formData.append("settings", JSON.stringify(difference));
+      formData.append("requestfrom",'wpquads2');
+      let url = quads_localize_data.rest_url + 'quads-route/update-settings';
+      fetch(url,{
+        method: "post",
+        headers: {
+          'Accept': 'application/json', 
+          'X-WP-Nonce': quads_localize_data.nonce,         
+        },        
+        body: formData
+      })
+      .then(res => res.json())
+      .then(
+        (result) => {  
+        const currentpage = queryString.parse(window.location.search); 
+        if(this.state.licensemsg == "not activated" && currentpage.path =="settings_licenses"){
+          location.reload();
+        }
+            if(result.status === 't'){              
+              if(result.file_status === 't'){               
+                this.setState({file_uploaded:true,button_spinner_toggle:false});
+                this.setState({settings_saved:true});
+              }else{
+                this.setState({settings_saved:true, button_spinner_toggle:false});
+              }
+            }else{
+              this.setState({settings_error:result.msg, button_spinner_toggle:false});
+            }                               
+        },        
+        (error) => {
+        }
+      );
         }
       ); 
     }
