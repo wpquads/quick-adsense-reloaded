@@ -424,23 +424,7 @@ if(typeof quadsOptions !== 'undefined' && typeof wpquads_adblocker_check_2
   }
 }
 
-function quadsgetCookie(cname){
-    var name = cname + '=';
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i].trim();
-        if (c.indexOf(name) === 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return false;
-}
-function quadssetCookie(cname, cvalue, exdays, path){
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays*24*60*60*1000));
-  var expires = "expires="+ d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
+
 
 var span = document.getElementsByClassName("quads-cls-notice")[0];
 if(span){
@@ -459,6 +443,23 @@ window.onclick = function(event) {
   }
 }
 })();
+function quadsgetCookie(cname){
+    var name = cname + '=';
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return false;
+}
+function quadssetCookie(cname, cvalue, exdays, path){
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
 //Adblocker Notice Script Ends Here
 </script>
 
@@ -790,6 +791,7 @@ function quads_get_max_allowed_post_ads( $content ) {
 function quads_filter_default_ads_new( $content ) {
 
     global $quads_options, $adsArrayCus;   
+    
     $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
 
     if( $off_default_ads ) { // If default ads are disabled 
@@ -822,6 +824,7 @@ function quads_filter_default_ads_new( $content ) {
              $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
             $is_on         = quads_is_visibility_on($ads);
             $is_visitor_on = quads_is_visitor_on($ads);
+            $is_click_fraud_on = quads_click_fraud_on();
             if(isset($ads['ad_id']))
             $post_status = get_post_status($ads['ad_id']); 
             else
@@ -848,7 +851,7 @@ function quads_filter_default_ads_new( $content ) {
                 $is_on = true;
             }           
             
-            if($is_on && $is_visitor_on && $post_status=='publish'){
+            if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish'){
                     
                 $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
                 $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;
@@ -1916,7 +1919,7 @@ function quads_del_element($array, $idx) {
                     continue;
                 }
                  $display_after_every = (isset($ads['display_after_every']) && !empty($ads['display_after_every'])) ? $ads['display_after_every'] : false;
-                if($ads['position'] == 'amp_ads_in_loops' && (isset($ads['ads_loop_number']) && ($ads['ads_loop_number'] == $curr_index || ($display_after_every && $curr_index!== 0 && ($curr_index % $ads['ads_loop_number'] == 0))))){
+                if( isset($ads['position'] ) && $ads['position'] == 'amp_ads_in_loops' && (isset($ads['ads_loop_number']) && ($ads['ads_loop_number'] == $curr_index || ($display_after_every && $curr_index!== 0 && ($curr_index % $ads['ads_loop_number'] == 0))))){
                     $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
                   echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
                 }
@@ -2034,7 +2037,7 @@ function remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_
      $tag = 'p[not(parent::blockquote)]';
      $doc =  new DOMDocument( '1.0', $wp_charset );
      libxml_use_internal_errors( true );
-      $doc->loadHTML($content);
+     $doc->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
       $xpath = new DOMXPath( $doc );
       $items = $xpath->query( '/html/body/' . $tag );
       $whitespaces = json_decode( '"\t\n\r \u00A0"' );
@@ -2060,11 +2063,13 @@ if($repeat_paragraph){
                         $ref_node  = $paragraphs[$offset]->nextSibling;
                         $ad_dom =  new DOMDocument( '1.0', $wp_charset );
                         libxml_use_internal_errors( true );
-                        $ad_dom->loadHtml( '<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads );
+                        $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
 
                         foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
                           $importedNode = $doc->importNode( $importedNode, true );
-                          $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
+                          if($ref_node){
+                            $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
+                          }
                         }
 }
     }else{
@@ -2072,11 +2077,13 @@ if($repeat_paragraph){
 
       $ad_dom =  new DOMDocument( '1.0', $wp_charset );
       libxml_use_internal_errors( true );
-      $ad_dom->loadHtml( '<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads );
+ $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
 
       foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
         $importedNode = $doc->importNode( $importedNode, true );
-        $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
+          if($ref_node){
+                $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
+              }
       }
     }
     $content =$doc->saveHTML();

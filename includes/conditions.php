@@ -31,14 +31,30 @@ function quads_ad_is_allowed( $content = null ) {
         /* it's an AJAX call */ 
         return false;
     }
+    $hide_ads = apply_filters('quads_hide_ads', false);
 
     if(isset($quads_mode) && $quads_mode == 'new'){
         
+         if(
+            (is_feed()) ||
+            (is_search()) ||
+            (is_404() ) ||
+            (strpos( $content, '<!--NoAds-->' ) !== false) ||
+            (strpos( $content, '<!--OffAds-->' ) !== false) ||
+            (is_front_page() && !isset( $quads_options['visibility']['AppHome'] ) ) ||
+            (is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
+            (is_archive() && !( isset( $quads_options['visibility']['AppArch'] ) ) ) ||
+            (is_tag() && !( isset( $quads_options['visibility']['AppTags'] ) ) ) ||
+            (!quads_post_type_allowed()) ||
+            (is_user_logged_in() && ( isset( $quads_options['visibility']['AppLogg'] ) ) ) ||
+            true === $hide_ads
+    ) {
+        return false;
+    }
        return true; 
 
     }
     
-    $hide_ads = apply_filters('quads_hide_ads', false);
     
     // User Roles check
     if(!quads_user_roles_permission()){
@@ -258,13 +274,37 @@ function quads_is_disabled_post_amp() {
     }
     return false;
 }
-//New Functions in 2.0 starts here
+function quads_click_fraud_on(){
+  global $quads_options;
+  $cookie_check = true;
+
+  if (isset($quads_options['click_fraud_protection']) && !empty($quads_options['click_fraud_protection']) && $quads_options['click_fraud_protection']  && isset( $_COOKIE['quads_ad_clicks'] ) ) {
+    $quads_ad_click = json_decode( stripslashes( $_COOKIE['quads_ad_clicks'] ), true );
+    $current_time = time();
+    if ($quads_options['allowed_click'] <= $quads_ad_click['count'] ) {
+      $cookie_check = false;
+      if($current_time >= strtotime( $quads_ad_click['exp']. ' +'.$quads_options['ban_duration'].' day') ){
+        $cookie_check = true;
+      }else {
+        if ($current_time <= strtotime( $quads_ad_click['exp']. ' +'.$quads_options['click_limit'].' hours') ) {
+             $cookie_check = false;
+        }
+      }
+    }
+  }
+return $cookie_check;
+}
+//New Functions in 2.0 starts here =272;
 
 function quads_is_visitor_on($ads){
-
+    global $quads_options;
     $include  = array();
     $exclude  = array();
     $response = false;
+    $cookie_check = true;
+
+
+
     
     $visibility_include = isset($ads['targeting_include']) ? $ads['targeting_include'] : ''; 
     

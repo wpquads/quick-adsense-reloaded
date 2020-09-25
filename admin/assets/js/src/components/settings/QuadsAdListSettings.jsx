@@ -36,10 +36,16 @@ class QuadsAdListSettings extends Component {
             textToCopy    : '',
             copied: false,
             ad_blocker_support_popup:false,
+            click_fraud_protection_popup:false,
+            old_settings  : '',
             settings      :{
                 notice_txt_color : '#ffffff',
                 ad_blocker_support :false,
+                click_fraud_protection : false,
                 notice_bg_color : '#1e73be',
+                allowed_click   : 3,
+                click_limit     : 3,
+                ban_duration    : 7,
                 notice_btn_txt_color : '#ffffff',
                 notice_btn_bg_color : '#f44336',
                 uninstall_on_delete: '',
@@ -192,6 +198,9 @@ if(this.state.importadsforwpmsgprocessing !=''){
   }
   ad_blocker_support = () => {
     this.setState({ad_blocker_support_popup:true});
+  }
+    click_fraud_protection_popup = () => {
+    this.setState({click_fraud_protection_popup:true});
   }
   getPlugins = (search) => {
     let url = quads_localize_data.rest_url + 'quads-route/get-plugins?search='+search;
@@ -473,12 +482,14 @@ handleMultiPluginsChange = (option) => {
     .then(
       (result) => {                  
         const { settings } = { ...this.state };
+        let old_settings = '';
               Object.entries(result).map(([meta_key, meta_val]) => {                
                   if(meta_val){
                     settings[meta_key] =    meta_val;   
                   }                   
               })
-            this.setState(settings);                
+          old_settings = {...settings};
+          this.setState({settings:settings,old_settings:old_settings});                 
       },        
       (error) => {
       }
@@ -522,6 +533,11 @@ handleMultiPluginsChange = (option) => {
     this.saveSettings();
     this.setState({ad_blocker_support_popup:false});
   }
+   saveClickFraud = (e) => {
+    e.preventDefault();
+    this.saveSettings();
+    this.setState({click_fraud_protection_popup:false});
+  }
     saveSettings = () => {                 
       const formData = new FormData();
       formData.append("file", this.state.backup_file);
@@ -555,6 +571,58 @@ handleMultiPluginsChange = (option) => {
             }                               
         },        
         (error) => {
+    let settings = this.state.settings;
+    let old_settings = this.state.old_settings;
+    let difference ={};
+    const settingskeys = Object.keys(settings);
+    const settingsValues = Object.values(settings);
+    const old_settingsKeys = Object.keys(old_settings);
+    const old_settingsValues = Object.values(old_settings);
+
+    for ( let i = 0; i < settingskeys.length; i++ ) {
+      for ( let j = 0; j < old_settingsKeys.length; j++ ) {
+        if ( settingskeys[i] === old_settingsKeys[j]) {
+          if ( settingsValues[i] !== old_settingsValues[j]) {
+              difference[settingskeys[i]] = settingsValues[i];
+          }
+        }
+      }
+    }  
+
+      const formData = new FormData();
+      formData.append("file", this.state.backup_file);
+      formData.append("settings", JSON.stringify(difference));
+      formData.append("requestfrom",'wpquads2');
+      let url = quads_localize_data.rest_url + 'quads-route/update-settings';
+      fetch(url,{
+        method: "post",
+        headers: {
+          'Accept': 'application/json', 
+          'X-WP-Nonce': quads_localize_data.nonce,         
+        },        
+        body: formData
+      })
+      .then(res => res.json())
+      .then(
+        (result) => {  
+        const currentpage = queryString.parse(window.location.search); 
+        if(this.state.licensemsg == "not activated" && currentpage.path =="settings_licenses"){
+          location.reload();
+        }
+            if(result.status === 't'){              
+              if(result.file_status === 't'){               
+                this.setState({file_uploaded:true,button_spinner_toggle:false});
+                this.setState({settings_saved:true});
+              }else{
+                this.setState({settings_saved:true, button_spinner_toggle:false});
+              }
+            }else{
+              this.setState({settings_error:result.msg, button_spinner_toggle:false});
+            }                               
+        },        
+        (error) => {
+        }
+      );
         }
       ); 
     }
@@ -665,7 +733,7 @@ handleMultiPluginsChange = (option) => {
     this.setState({adsforwp_to_quads_model:true});
   }
   closeModal = () =>{
-    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,adsforwp_to_quads_model:false});
+    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false});
   } 
   getErrorMessage =(type) => {
     const {__} = wp.i18n;
@@ -763,7 +831,11 @@ handleMultiPluginsChange = (option) => {
              <h1>Ad Txt</h1>
              </div>
              <div className="quads-large-description"></div>
-            {settings.adtxt_errors ?
+            
+             <div className="quads-large-content">
+               <textarea cols="80" rows="15" name="adsTxtText" onChange={this.formChangeHandler} value={settings.adsTxtText} />
+               To know more about ads.txt  you can <a  target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/">view this tutorial</a>
+               {settings.adtxt_errors ?
              <div className="quads-modal-error">
                <ul>
               {settings.adtxt_errors.map((error, key) => (            
@@ -774,10 +846,7 @@ handleMultiPluginsChange = (option) => {
               </ul> 
              </div> 
             :null}
-             <div className="quads-large-content">
-               <textarea cols="80" rows="15" name="adsTxtText" onChange={this.formChangeHandler} value={settings.adsTxtText} />
-               To know more about ads.txt  you can <a  target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/">view this tutorial</a>
-               <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>Save Changes</a>
+               <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>Validate</a>
              </div>             
              </div>       
             </div> </>: null
@@ -1022,6 +1091,36 @@ handleMultiPluginsChange = (option) => {
              </div>        
             </div> </>: null
             }
+                        {this.state.click_fraud_protection_popup ? 
+            <>
+              <div className="quads-large-popup-bglayout">  </div> 
+           <div className="quads-large-popup">  
+            <div className="quads-large-popup-content">
+             <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
+            <div className="quads-large-popup-title">
+              <h1>Click Fraud Protection</h1>   
+            </div>                      
+             <div className="quads-large-content">
+             <table className="form-table" role="presentation"><tbody>
+                                  <tr>
+                              <th>Allowed clicks</th>
+                              <td><input value={settings.allowed_click} onChange={this.formChangeHandler} name="allowed_click" type="text" placeholder="3" className="quads-premium-cus" /></td>
+                              </tr>
+                               <tr>
+                              <th>Click limit (in hours)</th>
+                              <td><input value={settings.click_limit} onChange={this.formChangeHandler} name="click_limit" type="text" placeholder="3" className="quads-premium-cus" /></td>
+                              </tr>
+                               <tr>
+                              <th>Ban duration (in days)</th>
+                              <td><input value={settings.ban_duration} onChange={this.formChangeHandler} name="ban_duration" type="text" placeholder="3" className="quads-premium-cus" /></td>
+                              </tr></tbody></table>
+                              <div className="quads-save-close">
+                            <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveAdBlockSuport}>Save Changes</a>
+                            </div>
+             </div>             
+             </div>        
+            </div> </>: null
+            }
           </div>            
           <div className="quads-settings-main">  
           <QuadsAdSettingsNavLink/>
@@ -1065,7 +1164,7 @@ handleMultiPluginsChange = (option) => {
                       </td>
                       </tr>   
                        <tr>
-                     <th><label htmlFor="global_excluder_enabled">{__('Ad Blocker Support', 'quick-adsense-reloaded')}</label></th> 
+                     <th><label htmlFor="ad_blocker_support">{__('Ad Blocker Support', 'quick-adsense-reloaded')}</label></th> 
                      <td>
                        <label className="quads-switch">
                          <input id="ad_blocker_support" type="checkbox" name="ad_blocker_support" onChange={this.formChangeHandler} checked={settings.ad_blocker_support} />
@@ -1074,7 +1173,18 @@ handleMultiPluginsChange = (option) => {
                        {this.state.ad_blocker_support ? <span onClick={this.ad_blocker_support} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-blocker-support-in-wp-quads/"></a>
                      </td>
-                     </tr></tbody></table>  
+                     </tr>
+                     <tr>
+                     <th><label htmlFor="click_fraud_protection">{__('Click Fraud Protection', 'quick-adsense-reloaded')}</label></th> 
+                     <td>
+                       <label className="quads-switch">
+                         <input id="click_fraud_protection" type="checkbox" name="click_fraud_protection" onChange={this.formChangeHandler} checked={settings.click_fraud_protection} />
+                         <span className="quads-slider"></span>
+                       </label>                       
+                       {this.state.click_fraud_protection ? <span onClick={this.click_fraud_protection_popup} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                     </td>
+                     </tr>
+                     </tbody></table>  
                 </div>
                );   
               case "settings_tools": return(

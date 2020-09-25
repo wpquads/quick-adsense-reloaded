@@ -20,7 +20,25 @@ add_action( 'admin_enqueue_scripts', 'quads_load_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_plugins_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_all_admin_scripts', 100 );
 add_action( 'admin_print_footer_scripts', 'quads_check_ad_blocker' );
+add_action( 'wp_head', 'click_fraud_protection' );
 
+
+function click_fraud_protection(){
+
+      global $quads_options;
+        $allowed_click = isset( $quads_options['allowed_click'] )? $quads_options['allowed_click'] : 3;
+        $ban_duration = isset( $quads_options['ban_duration'] )? $quads_options['ban_duration'] : 7;
+        $click_limit = isset( $quads_options['click_limit'] )? absint( $quads_options['click_limit'] ) : 3;
+
+           if (isset($quads_options['click_fraud_protection']) && !empty($quads_options['click_fraud_protection']) && $quads_options['click_fraud_protection']  ) {   ?>
+            <script type="text/javascript" src="<?php echo QUADS_PLUGIN_URL . 'assets/js/fraud_protection.js' ?>"></script>
+         
+<?php } ?>   <script type="text/javascript">
+        var quads_allowed_click = <?php echo $allowed_click; ?>;
+        var quads_click_limit = <?php echo $click_limit; ?>;
+        var quads_ban_duration = <?php echo $ban_duration; ?>;
+        </script><?php
+}
 /**
  * Create ad blocker admin script
  * 
