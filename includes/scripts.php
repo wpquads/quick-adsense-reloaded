@@ -20,7 +20,7 @@ add_action( 'admin_enqueue_scripts', 'quads_load_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_plugins_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_all_admin_scripts', 100 );
 add_action( 'admin_print_footer_scripts', 'quads_check_ad_blocker' );
-add_action( 'wp_head', 'click_fraud_protection' );
+add_action( 'wp_enqueue_scripts', 'click_fraud_protection' );
 
 
 function click_fraud_protection(){
@@ -30,14 +30,17 @@ function click_fraud_protection(){
         $ban_duration = isset( $quads_options['ban_duration'] )? $quads_options['ban_duration'] : 7;
         $click_limit = isset( $quads_options['click_limit'] )? absint( $quads_options['click_limit'] ) : 3;
 
-           if (isset($quads_options['click_fraud_protection']) && !empty($quads_options['click_fraud_protection']) && $quads_options['click_fraud_protection']  ) {   ?>
-            <script type="text/javascript" src="<?php echo QUADS_PLUGIN_URL . 'assets/js/fraud_protection.js' ?>"></script>
+           if (isset($quads_options['click_fraud_protection']) && !empty($quads_options['click_fraud_protection']) && $quads_options['click_fraud_protection']  ) {  
+                $suffix = ( quadsIsDebugMode() ) ? '' : '.min'; 
+              wp_enqueue_script( 'quads-scripts', QUADS_PLUGIN_URL . 'assets/js/fraud_protection' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
          
-<?php } ?>   <script type="text/javascript">
-        var quads_allowed_click = <?php echo $allowed_click; ?>;
-        var quads_click_limit = <?php echo $click_limit; ?>;
-        var quads_ban_duration = <?php echo $ban_duration; ?>;
-        </script><?php
+            } 
+                wp_localize_script( 'quads-scripts', 'quads', array(
+                    'version'               => QUADS_VERSION,
+                    'allowed_click'         => esc_attr($allowed_click),
+                    'quads_click_limit'     => esc_attr($click_limit),
+                    'quads_ban_duration'    => esc_attr($ban_duration),
+                ) );
 }
 /**
  * Create ad blocker admin script
@@ -314,7 +317,7 @@ function quads_render_media_query( $key, $value ) {
 function quadsIsDebugMode() {
     global $quads_options;
 
-    $debug_mode = isset( $quads_options['debug_mode'] ) ? true : false;
+    $debug_mode = (isset( $quads_options['debug_mode'] ) && $quads_options['debug_mode'] ) ? true : false;
     return $debug_mode;
 }
 
