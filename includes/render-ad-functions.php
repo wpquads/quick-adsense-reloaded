@@ -97,12 +97,18 @@ function quads_common_head_code(){
     $api_service = new QUADS_Ad_Setup_Api_Service();
     $quads_ads = $api_service->getAdDataByParam('quads-ads');               
     if(isset($quads_ads['posts_data'])){  
-
+        $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
         foreach($quads_ads['posts_data'] as $key => $value){
             if($value['post']['post_status']== 'draft'){
                 continue;
             }
+      
             $ads =$value['post_meta'];
+            if($revenue_sharing){
+                if(isset($revenue_sharing['author_pub_id']) && !empty($revenue_sharing['author_pub_id'])){
+                    $ads['g_data_ad_client'] = $revenue_sharing['author_pub_id'];
+                }
+            }
             if(isset($ads['random_ads_list']))
                 $ads['random_ads_list'] = unserialize($ads['random_ads_list']);
             if(isset($ads['visibility_include']))
@@ -354,8 +360,6 @@ function quads_render_mgid_async( $id ) {
     return apply_filters( 'quads_render_mgid_async', $html );
 }
 function quads_adsense_auto_ads_amp_script(){
-      $result = $this->quads_get_adsense_publisher_id(); 
-
         require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
     $api_service = new QUADS_Ad_Setup_Api_Service();
     $quads_ads = $api_service->getAdDataByParam('quads-ads');               
@@ -394,14 +398,21 @@ function quads_adsense_auto_ads_amp_script(){
 function quads_adsense_auto_ads_amp_tag(){
         require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
     $api_service = new QUADS_Ad_Setup_Api_Service();
-    $quads_ads = $api_service->getAdDataByParam('quads-ads');               
+    $quads_ads = $api_service->getAdDataByParam('quads-ads');  
+     $revenue_sharing = quads_get_pub_id_on_revenue_percentage();             
     if(isset($quads_ads['posts_data'])){  
 
         foreach($quads_ads['posts_data'] as $key => $value){
             if($value['post']['post_status']== 'draft'){
                 continue;
             }
+
             $ads =$value['post_meta'];
+            if($revenue_sharing){
+                if(isset($revenue_sharing['author_pub_id']) && !empty($revenue_sharing['author_pub_id'])){
+                    $ads['g_data_ad_client'] = $revenue_sharing['author_pub_id'];
+                }
+            }
             if(isset($ads['random_ads_list']))
                 $ads['random_ads_list'] = unserialize($ads['random_ads_list']);
             if(isset($ads['visibility_include']))
@@ -441,9 +452,8 @@ function quads_render_google_async_new( $id ) {
     global $quads_options,$loaded_lazy_load;
     $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
     if($revenue_sharing){
-        if(isset($revenue_sharing['author_pub_id']) && !empty($revenue_sharing['author_pub_id']) && isset($revenue_sharing['author_ad_slot_id']) && !empty($revenue_sharing['author_ad_slot_id'])){
+        if(isset($revenue_sharing['author_pub_id']) && !empty($revenue_sharing['author_pub_id'])){
             $quads_options['ads'][$id]['g_data_ad_client'] = $revenue_sharing['author_pub_id'];
-            $quads_options['ads'][$id]['g_data_ad_slot'] = $revenue_sharing['author_ad_slot_id'];
         }
     }
      if (isset($quads_options['ads'][$id]['adsense_ad_type']) && $quads_options['ads'][$id]['adsense_ad_type'] == 'adsense_auto_ads'){
@@ -994,6 +1004,12 @@ function quads_render_amp($id,$ampsupport=''){
         }
 
     }else{
+        $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
+        if($revenue_sharing){
+            if(isset($revenue_sharing['author_pub_id']) && !empty($revenue_sharing['author_pub_id'])){
+                $quads_options['ads'][$id]['g_data_ad_client'] = $revenue_sharing['author_pub_id'];
+            }
+        }
 
          if((isset($quads_options['ads'][$id]['enabled_on_amp']) && isset($quads_options['ads'][$id]['code']) && !empty($quads_options['ads'][$id]['code']))|| (!empty($ampsupport) && $ampsupport)){
                 if((isset($quads_options['ads'][$id]['enabled_on_amp']) && $quads_options['ads'][$id]['enabled_on_amp']) || (!empty($ampsupport) && $ampsupport)){
@@ -1204,7 +1220,6 @@ add_filter( 'quads_render_ad', 'quads_render_ad_label_new',99,2 );
             
             if(!($current_second <= $display_per_in_minute)) {
              $author_adsense_ids['author_pub_id']     =  get_the_author_meta( 'quads_adsense_pub_id' );                     
-             $author_adsense_ids['author_ad_slot_id'] =  get_the_author_meta( 'quads_adsense_ad_slot_id' );                     
             }  
             return $author_adsense_ids;                    
         }

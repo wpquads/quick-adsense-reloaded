@@ -969,7 +969,7 @@ handleMultiPluginsChange = (option) => {
              </div>                      
              <div className="quads-large-content">
              <table className="form-table" role="presentation"><tbody><tr>
-                                  <th>Owner</th>
+                                  <th>Administrator</th>
                                   <td>
                                      <input type="number" min={0} max={100} placeholder="Percentage"  name="ad_owner_revenue_per" value={settings.ad_owner_revenue_per}  onChange={this.formChangeHandler} />
                                   </td>
@@ -1195,7 +1195,7 @@ handleMultiPluginsChange = (option) => {
                          <input id="adsTxtEnabled" type="checkbox" name="adsTxtEnabled" onChange={this.formChangeHandler} checked={settings.adsTxtEnabled} />
                          <span className="quads-slider"></span>
                        </label>
-                       {this.state.adsTxtEnabled ? <span onClick={this.open_ad_text_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''} 
+                       {settings.adsTxtEnabled ? <span onClick={this.open_ad_text_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''} 
                        <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/"></a>
                      </td>
                      </tr>
@@ -1208,7 +1208,7 @@ handleMultiPluginsChange = (option) => {
                          <input id="global_excluder_enabled" type="checkbox" name="global_excluder_enabled" onChange={this.formChangeHandler} checked={settings.global_excluder_enabled} />
                          <span className="quads-slider"></span>
                        </label>                       
-                       {this.state.global_excluder_enabled ? <span onClick={this.open_global_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                       {settings.global_excluder_enabled ? <span onClick={this.open_global_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                      </td>
                      </tr>:null}     
                     <tr>
@@ -1228,7 +1228,7 @@ handleMultiPluginsChange = (option) => {
                          <input id="ad_blocker_support" type="checkbox" name="ad_blocker_support" onChange={this.formChangeHandler} checked={settings.ad_blocker_support} />
                          <span className="quads-slider"></span>
                        </label>                       
-                       {this.state.ad_blocker_support ? <span onClick={this.ad_blocker_support} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                       {settings.ad_blocker_support ? <span onClick={this.ad_blocker_support} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-blocker-support-in-wp-quads/"></a>
                      </td>
                      </tr>
@@ -1239,7 +1239,7 @@ handleMultiPluginsChange = (option) => {
                          <input id="click_fraud_protection" type="checkbox" name="click_fraud_protection" onChange={this.formChangeHandler} checked={settings.click_fraud_protection} />
                          <span className="quads-slider"></span>
                        </label>                       
-                       {this.state.click_fraud_protection ? <span onClick={this.click_fraud_protection_popup} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                       {settings.click_fraud_protection ? <span onClick={this.click_fraud_protection_popup} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                      </td>
                      </tr>
                      <tr>
@@ -1249,7 +1249,7 @@ handleMultiPluginsChange = (option) => {
                          <input id="revenue_sharing_enabled" type="checkbox" name="revenue_sharing_enabled" onChange={this.formChangeHandler} checked={settings.revenue_sharing_enabled} />
                          <span className="quads-slider"></span>
                        </label>                       
-                       {this.state.revenue_sharing_enabled ? <span onClick={this.open_revenue_sharing_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                       {settings.revenue_sharing_enabled ? <span onClick={this.open_revenue_sharing_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                      </td>
                      </tr>
                      </tbody></table>  

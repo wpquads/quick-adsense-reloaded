@@ -2559,7 +2559,7 @@ function quads_adsense_code_callback( $args ) {
  */
 function quads_extra_user_profile_fields( $user ) {
     ?>
-    <h3><?php esc_html_e("Quads Revenue Sharing", "quads"); ?></h3>
+    <h3><?php esc_html_e("WPQuads Revenue Sharing", "quads"); ?></h3>
 
     <table class="form-table">
     <tr>
@@ -2567,13 +2567,6 @@ function quads_extra_user_profile_fields( $user ) {
         <td>
             <input placeholder="ca-pub-2005XXXXXXXXX342" type="text" name="quads_adsense_pub_id" id="quads_adsense_pub_id" value="<?php echo esc_attr( get_the_author_meta( 'quads_adsense_pub_id', $user->ID ) ); ?>" class="regular-text" /><br />
             <span class="description"><?php esc_html_e("Please enter your pub ID.", "quads"); ?></span>
-        </td>
-    </tr>
-    <tr>
-        <th><label for="quads-data-ad-slot"><?php esc_html_e("Data Ad Slot","quads"); ?></label></th>
-        <td>
-            <input placeholder="70XXXXXX12" type="text" name="quads_adsense_ad_slot_id" id="quads_adsense_ad_slot_id" value="<?php echo esc_attr( get_the_author_meta( 'quads_adsense_ad_slot_id', $user->ID ) ); ?>" class="regular-text" /><br />
-            <span class="description"><?php esc_html_e("Please enter your ad slot ID.", "quads"); ?></span>
         </td>
     </tr>
     </table>
@@ -2593,9 +2586,7 @@ function quads_save_extra_user_profile_fields( $user_id ) {
         return false; 
     }
     $adsense_pub_id     = sanitize_text_field($_POST['quads_adsense_pub_id']);
-    $adsense_ad_slot_id = sanitize_text_field($_POST['quads_adsense_ad_slot_id']);
     update_user_meta( $user_id, 'quads_adsense_pub_id', $adsense_pub_id ); 
-    update_user_meta( $user_id, 'quads_adsense_ad_slot_id', $adsense_ad_slot_id );    
 }
 
 add_action( 'personal_options_update', 'quads_save_extra_user_profile_fields' );
