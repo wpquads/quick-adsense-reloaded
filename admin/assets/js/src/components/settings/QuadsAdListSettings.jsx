@@ -27,6 +27,7 @@ class QuadsAdListSettings extends Component {
             settings_error :'',
             adtxt_modal :false,
             global_excluder_modal :false,
+            revenue_sharing_modal :false,
             customer_querey_error: '',
             customer_querey_success: '',
             customer_query_type: '',
@@ -42,6 +43,9 @@ class QuadsAdListSettings extends Component {
                 notice_txt_color : '#ffffff',
                 ad_blocker_support :false,
                 click_fraud_protection : false,
+                revenue_sharing_enabled : false,
+                ad_owner_revenue_per:50,
+                ad_author_revenue_per:50,
                 notice_bg_color : '#1e73be',
                 allowed_click   : 3,
                 click_limit     : 3,
@@ -195,6 +199,9 @@ if(this.state.importadsforwpmsgprocessing !=''){
   }
   open_global_excluder = () => {
     this.setState({global_excluder_modal:true});
+  }
+  open_revenue_sharing_excluder = () => {
+    this.setState({revenue_sharing_modal:true});
   }
   ad_blocker_support = () => {
     this.setState({ad_blocker_support_popup:true});
@@ -528,6 +535,11 @@ handleMultiPluginsChange = (option) => {
     this.saveSettings();
     this.setState({global_excluder_modal:false});
   }
+  saveRevenueSharing = (e) => {
+    e.preventDefault();
+    this.saveSettings();
+    this.setState({revenue_sharing_modal:false});
+  }
   saveAdBlockSuport = (e) => {
     e.preventDefault();
     this.saveSettings();
@@ -725,6 +737,21 @@ handleMultiPluginsChange = (option) => {
     if(name == 'adsforwp_quads_gutenberg'){
      this.saveSettings();
     }
+     if(name == 'ad_owner_revenue_per'){
+      const { settings } = this.state;
+      let { value, min, max } = event.target;
+      value = Math.max(Number(min), Math.min(Number(max), Number(value)));
+      settings['ad_author_revenue_per'] = 100 - value;     
+      this.setState({ settings });
+
+    }
+    if(name == 'ad_author_revenue_per'){
+     const { settings } = this.state;
+      let { value, min, max } = event.target;
+      value = Math.max(Number(min), Math.min(Number(max), Number(value)));
+      settings['ad_owner_revenue_per'] = 100 - value;     
+      this.setState({ settings });
+    }
   }
   open_ad_text_modal = () =>{        
     this.setState({adtxt_modal:true});
@@ -733,7 +760,7 @@ handleMultiPluginsChange = (option) => {
     this.setState({adsforwp_to_quads_model:true});
   }
   closeModal = () =>{
-    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false});
+    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false,revenue_sharing_modal:false});
   } 
   getErrorMessage =(type) => {
     const {__} = wp.i18n;
@@ -930,6 +957,37 @@ handleMultiPluginsChange = (option) => {
              </div>             
              </div>        
             </div> : null
+            } 
+            {/* Revenue Sharing modal */}
+            {this.state.revenue_sharing_modal ? 
+            <>
+           <div className="quads-large-popup">            
+            <div className="quads-large-popup-content">
+             <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
+             <div className="quads-large-popup-title">
+             <h1>Revenue Sharing</h1>   
+             </div>                      
+             <div className="quads-large-content">
+             <table className="form-table" role="presentation"><tbody><tr>
+                                  <th>Owner</th>
+                                  <td>
+                                     <input type="number" min={0} max={100} placeholder="Percentage"  name="ad_owner_revenue_per" value={settings.ad_owner_revenue_per}  onChange={this.formChangeHandler} />
+                                  </td>
+                                </tr><tr>
+                                  <th>Author</th>
+                                  <td>
+                                     <input type="number"  min={0} max={100} placeholder="Percentage"  name="ad_author_revenue_per" value={settings.ad_author_revenue_per} onChange={this.formChangeHandler} />
+                                  </td>
+                                </tr>
+                               </tbody></table>
+                             
+                                          <div className="quads-save-close">
+                                          Enter the percentage of revenue that you would like to share
+                            <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveRevenueSharing}>Save Changes</a>
+                            </div>
+             </div>             
+             </div>        
+            </div> </>: null
             } 
              {/* Ad Blocker Support */}
             {this.state.ad_blocker_support_popup ? 
@@ -1182,6 +1240,16 @@ handleMultiPluginsChange = (option) => {
                          <span className="quads-slider"></span>
                        </label>                       
                        {this.state.click_fraud_protection ? <span onClick={this.click_fraud_protection_popup} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                     </td>
+                     </tr>
+                     <tr>
+                     <th><label htmlFor="revenue_sharing_enabled">{__('Revenue Sharing', 'quick-adsense-reloaded')}</label></th> 
+                     <td>
+                       <label className="quads-switch">
+                         <input id="revenue_sharing_enabled" type="checkbox" name="revenue_sharing_enabled" onChange={this.formChangeHandler} checked={settings.revenue_sharing_enabled} />
+                         <span className="quads-slider"></span>
+                       </label>                       
+                       {this.state.revenue_sharing_enabled ? <span onClick={this.open_revenue_sharing_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                      </td>
                      </tr>
                      </tbody></table>  

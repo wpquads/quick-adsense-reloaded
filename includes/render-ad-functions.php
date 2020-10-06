@@ -354,6 +354,8 @@ function quads_render_mgid_async( $id ) {
     return apply_filters( 'quads_render_mgid_async', $html );
 }
 function quads_adsense_auto_ads_amp_script(){
+      $result = $this->quads_get_adsense_publisher_id(); 
+
         require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
     $api_service = new QUADS_Ad_Setup_Api_Service();
     $quads_ads = $api_service->getAdDataByParam('quads-ads');               
@@ -437,6 +439,13 @@ function quads_adsense_auto_ads_amp_tag(){
  */
 function quads_render_google_async_new( $id ) {
     global $quads_options,$loaded_lazy_load;
+    $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
+    if($revenue_sharing){
+        if(isset($revenue_sharing['author_pub_id']) && !empty($revenue_sharing['author_pub_id']) && isset($revenue_sharing['author_ad_slot_id']) && !empty($revenue_sharing['author_ad_slot_id'])){
+            $quads_options['ads'][$id]['g_data_ad_client'] = $revenue_sharing['author_pub_id'];
+            $quads_options['ads'][$id]['g_data_ad_slot'] = $revenue_sharing['author_ad_slot_id'];
+        }
+    }
      if (isset($quads_options['ads'][$id]['adsense_ad_type']) && $quads_options['ads'][$id]['adsense_ad_type'] == 'adsense_auto_ads'){
         return '';
         }
@@ -1177,3 +1186,26 @@ function quads_render_ad_label_new( $adcode,$id='') {
 }
 
 add_filter( 'quads_render_ad', 'quads_render_ad_label_new',99,2 );
+
+    /**
+     * This function returns publisher id or data ad client id for adsense ads
+     * @return type
+     */    
+    function quads_get_pub_id_on_revenue_percentage(){
+          global $quads_options;   
+        $ad_owner_revenue_per       = '';
+        $display_per_in_minute      = '';
+        $author_adsense_ids         = array();
+                
+        if(isset($quads_options['ad_owner_revenue_per']) && $quads_options['ad_owner_revenue_per']){
+            $ad_owner_revenue_per         =  isset( $quads_options['ad_owner_revenue_per'] ) ? $quads_options['ad_owner_revenue_per'] : 0;
+            $display_per_in_minute      = (60*$ad_owner_revenue_per)/100; 
+            $current_second = date("s"); 
+            
+            if(!($current_second <= $display_per_in_minute)) {
+             $author_adsense_ids['author_pub_id']     =  get_the_author_meta( 'quads_adsense_pub_id' );                     
+             $author_adsense_ids['author_ad_slot_id'] =  get_the_author_meta( 'quads_adsense_ad_slot_id' );                     
+            }  
+            return $author_adsense_ids;                    
+        }
+    }
