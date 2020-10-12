@@ -25,7 +25,8 @@ add_action( 'wp_enqueue_scripts', 'click_fraud_protection' );
 
 function click_fraud_protection(){
 
-      global $quads_options;
+    global $quads_options,$quads_mode;
+    if($quads_mode == 'new'){
         $allowed_click = isset( $quads_options['allowed_click'] )? $quads_options['allowed_click'] : 3;
         $ban_duration = isset( $quads_options['ban_duration'] )? $quads_options['ban_duration'] : 7;
         $click_limit = isset( $quads_options['click_limit'] )? absint( $quads_options['click_limit'] ) : 3;
@@ -41,6 +42,7 @@ function click_fraud_protection(){
                     'quads_click_limit'     => esc_attr($click_limit),
                     'quads_ban_duration'    => esc_attr($ban_duration),
                 ) );
+    }
 }
 /**
  * Create ad blocker admin script

@@ -234,6 +234,12 @@ function quads_get_registered_settings() {
                        ),
                'type' => 'checkbox'
            ),
+            array(
+               'id' => 'lazy_load_global',
+               'name' => __( 'Lazy Loading for Adsense', 'quick-adsense-reloaded' ),
+               // 'desc' => __( 'Lazy Loading for Adsense', 'quick-adsense-reloaded' ),
+               'type' => 'checkbox'
+           ),
            array(
                'id' => 'quicktags',
                'name' => __( 'Quicktags', 'quick-adsense-reloaded' ),

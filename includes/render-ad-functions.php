@@ -80,7 +80,7 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
 }
 function quads_common_head_code(){
     global $quads_options;
-    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']== true) {
         echo quads_load_loading_script();
     }
     $data_slot  = '';   
@@ -461,7 +461,7 @@ function quads_render_google_async_new( $id ) {
         }
     $id_name = "quads-".esc_attr($id)."-place";
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
-    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global'] == true) {
             
         $html .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
     }
@@ -508,7 +508,7 @@ function quads_render_google_async_new( $id ) {
 
     }
     
-    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']== true) {
         $html = str_replace( 'class="adsbygoogle"', '', $html );
         $html = str_replace( '></ins>', '><span>Loading...</span></ins></div>', $html );
         $code = 'instant= new adsenseLoader( \'#quads-' . esc_attr($id) . '-place\', {
@@ -579,6 +579,11 @@ function quads_render_google_async( $id ) {
 
 
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
+      if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global'] == true) {
+             $id_name = "quads-".esc_attr($id)."-place";
+        $html .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
+    }
+
     //google async script
     $html .= "\n".'<script type="text/javascript" >' . "\n";
     $html .= 'var quads_screen_width = document.body.clientWidth;' . "\n";
@@ -588,7 +593,18 @@ function quads_render_google_async( $id ) {
         $html .= quads_render_tablet_landscape_js( $id, $default_ad_sizes );
         $html .= quads_render_tablet_portrait_js( $id, $default_ad_sizes );
         $html .= quads_render_phone_js( $id, $default_ad_sizes );
-
+       if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global'] == true) {
+            $html = str_replace( 'class="adsbygoogle"', '', $html );
+            $html = str_replace( '></ins>', '><span>Loading...</span></ins></div>', $html );
+            $code = 'instant= new adsenseLoader( \'#quads-' . esc_attr($id) . '-place\', {
+            onLoad: function( ad ){
+                if (ad.classList.contains("quads-ll")) {
+                    ad.classList.remove("quads-ll");
+                }
+              }   
+            });';
+            $html = str_replace( '(adsbygoogle = window.adsbygoogle || []).push({});', $code, $html );
+        }
         $html .=   "\n".'</script>' . "\n";
 
         $html .= "\n <!-- end WP QUADS --> \n\n";
@@ -599,10 +615,10 @@ function quads_render_google_async( $id ) {
 function quads_load_loading_script(){
     global $quads_options;
     $script = '';
-    if ($quads_options['lazy_load_global']===true) {
+    if ($quads_options['lazy_load_global']== true) {
     $script .=  "\n".'<script>';
-
-    $script .= file_get_contents(QUADS_PLUGIN_DIR.'assets/js/lazyload.js');
+    $suffix = ( quadsIsDebugMode() ) ? '' : '.min'; 
+    $script .= file_get_contents(QUADS_PLUGIN_DIR.'assets/js/lazyload' . $suffix .'.js');
 
     $script .='</script>' . "\n";
         }
