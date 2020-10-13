@@ -79,6 +79,11 @@ function quads_admin_messages() {
 quads_show_rate_div();
 
 }
+function quads_admin_messages_new(){
+       if( quads_is_admin_page() ) {
+        echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="wpquads-adblock-notice">' . sprintf( __( '<strong><p>Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup</strong></p>', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
+    }
+}
 function quads_show_rate_div(){
 
 

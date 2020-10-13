@@ -87,6 +87,7 @@ if(is_object($screens)){
         remove_all_actions('admin_notices');
         if($quads_mode == 'new'){
             add_action( 'admin_notices', 'quads_show_rate_div' );
+             add_action( 'admin_notices', 'quads_admin_messages_new' );
         }
         wp_enqueue_media();
         //To add page
