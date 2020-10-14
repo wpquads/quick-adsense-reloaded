@@ -456,7 +456,7 @@ e.preventDefault();
     });
  
     jQuery('#quads_settings').submit(function() {
-        
+        quads_clear_cache();
         // Check if ad name has been changed and prepare new data for saving
         $('.quads-toogle-title').each(function(){
             $(this).children('input').val($(this).text());
@@ -492,6 +492,17 @@ e.preventDefault();
             return false;
         }
     });
+      function quads_clear_cache(){
+         var data = {
+            action: 'quads_clear_cache',
+            nonce: quads.nonce,
+        };
+        $.post(ajaxurl, data, function (resp, status, xhr) {
+            console.log('success:' + resp + status + xhr);
+        }).fail(function (xhr) { // Will be executed when $.post() fails
+            console.log('error: ' + xhr.statusText);
+        });
+    }
     
     function quads_hide_success_message(){
         setTimeout("jQuery('#quads-save-message').hide()", 1000);
