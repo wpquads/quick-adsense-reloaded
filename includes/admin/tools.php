@@ -567,6 +567,11 @@ function quads_clear_cache(){
 	if ( function_exists( 'rocket_clean_domain' ) ) {
 		rocket_clean_domain();
 	}
+	if ( defined( 'WPCACHEHOME' ) ) {
+		global  $file_prefix;
+		wp_cache_clean_cache( $file_prefix, true );
+	}
+
 }
 add_action('wp_ajax_quads_clear_cache', 'quads_clear_cache');
 
