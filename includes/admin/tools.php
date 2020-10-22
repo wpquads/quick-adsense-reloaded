@@ -559,6 +559,24 @@ function quads_import_quick_adsense_process() {
 add_action('wp_ajax_quads_import_quick_adsense', 'quads_import_quick_adsense_process');
 
 /**
+ * Clear all the cache to apply latest changes
+ * 
+ * @return boolean true when it is installed and version matches
+ */
+function quads_clear_cache(){
+	if ( function_exists( 'rocket_clean_domain' ) ) {
+		rocket_clean_domain();
+	}
+	if ( defined( 'WPCACHEHOME' ) ) {
+		global  $file_prefix;
+		wp_cache_clean_cache( $file_prefix, true );
+	}
+
+}
+add_action('wp_ajax_quads_clear_cache', 'quads_clear_cache');
+
+
+/**
  * Check if Quick AdSense is installed and if version is 1.9.2
  * 
  * @return boolean true when it is installed and version matches

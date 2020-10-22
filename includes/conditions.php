@@ -28,6 +28,13 @@ function quads_ad_is_allowed( $content = null ) {
          (! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) == 'xmlhttprequest' )
         )
         { 
+          $theme = wp_get_theme();
+          if(is_object($theme) && $theme->name == 'Bimber'){
+              $bimber_theme_settings = get_option( 'bimber_theme' );
+              if(isset($bimber_theme_settings['posts_auto_load_enable']) && $bimber_theme_settings['posts_auto_load_enable']){
+                return true;
+              }
+          }
         /* it's an AJAX call */ 
         return false;
     }

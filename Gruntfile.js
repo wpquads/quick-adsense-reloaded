@@ -44,9 +44,9 @@ module.exports = function (grunt) {
         copy: {
             build: {
                 files: [
-                    {expand: true, src: ['**', '!node_modules/**','!**/admin/assets/js/node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wp-quads-pro.php', '!**/includes/admin/settings/advanced-settings.php', '!grafik/**'],
+                    {expand: true, src: ['**', '!node_modules/**','!**/admin/assets/js/node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wp-quads-pro.php', '!**/includes/admin/settings/advanced-settings.php', '!grafik/**', '!**/includes/admin/assets/js/src/components', '!**/includes/admin/assets/js/src/style', '!**/includes/admin/assets/js/src/style/index.jsx', '!**/includes/admin/assets/js/webpack.config.jsx', '!**/includes/admin/assets/js/package.jsx', '!**/includes/admin/assets/js/package-lock.jsx', '!**/includes/admin/assets/js/.babelrc'],
                         dest: '<%= paths.base %>'},
-                    {expand: true, src: ['**', '!node_modules/**','!**/admin/assets/js/node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wp-quads-pro.php', '!**/includes/admin/settings/advanced-settings.php', '!grafik/**'],
+                    {expand: true, src: ['**', '!node_modules/**','!**/admin/assets/js/node_modules/**', '!Gruntfile.js', '!package.json', '!nbproject/**', '!grunt/**', '!wp-quads-pro.php', '!**/includes/admin/settings/advanced-settings.php', '!grafik/**', '!**/includes/admin/assets/js/src/components', '!**/includes/admin/assets/js/src/style', '!**/includes/admin/assets/js/src/style/index.jsx', '!**/includes/admin/assets/js/webpack.config.jsx', '!**/includes/admin/assets/js/package.jsx', '!**/includes/admin/assets/js/package-lock.jsx', '!**/includes/admin/assets/js/.babelrc'],
                         dest: '<%= paths.basetrunk %>'}
                 ]
             },
@@ -62,7 +62,7 @@ module.exports = function (grunt) {
                 },
                 options: {
                     replacements: [{
-                            pattern: /2.0.12/g,
+                            pattern: /2.0.14/g,
                             replacement: '<%= pkg.version %>'
                         }]
                 }

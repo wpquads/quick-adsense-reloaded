@@ -80,7 +80,7 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
 }
 function quads_common_head_code(){
     global $quads_options;
-    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']== true) {
         echo quads_load_loading_script();
     }
     $data_slot  = '';   
@@ -97,12 +97,18 @@ function quads_common_head_code(){
     $api_service = new QUADS_Ad_Setup_Api_Service();
     $quads_ads = $api_service->getAdDataByParam('quads-ads');               
     if(isset($quads_ads['posts_data'])){  
-
+        $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
         foreach($quads_ads['posts_data'] as $key => $value){
             if($value['post']['post_status']== 'draft'){
                 continue;
             }
+      
             $ads =$value['post_meta'];
+            if($revenue_sharing){
+                if(isset($revenue_sharing['author_pub_id']) && !empty($revenue_sharing['author_pub_id'])){
+                    $ads['g_data_ad_client'] = $revenue_sharing['author_pub_id'];
+                }
+            }
             if(isset($ads['random_ads_list']))
                 $ads['random_ads_list'] = unserialize($ads['random_ads_list']);
             if(isset($ads['visibility_include']))
@@ -392,14 +398,21 @@ function quads_adsense_auto_ads_amp_script(){
 function quads_adsense_auto_ads_amp_tag(){
         require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
     $api_service = new QUADS_Ad_Setup_Api_Service();
-    $quads_ads = $api_service->getAdDataByParam('quads-ads');               
+    $quads_ads = $api_service->getAdDataByParam('quads-ads');  
+     $revenue_sharing = quads_get_pub_id_on_revenue_percentage();             
     if(isset($quads_ads['posts_data'])){  
 
         foreach($quads_ads['posts_data'] as $key => $value){
             if($value['post']['post_status']== 'draft'){
                 continue;
             }
+
             $ads =$value['post_meta'];
+            if($revenue_sharing){
+                if(isset($revenue_sharing['author_pub_id']) && !empty($revenue_sharing['author_pub_id'])){
+                    $ads['g_data_ad_client'] = $revenue_sharing['author_pub_id'];
+                }
+            }
             if(isset($ads['random_ads_list']))
                 $ads['random_ads_list'] = unserialize($ads['random_ads_list']);
             if(isset($ads['visibility_include']))
@@ -437,12 +450,18 @@ function quads_adsense_auto_ads_amp_tag(){
  */
 function quads_render_google_async_new( $id ) {
     global $quads_options,$loaded_lazy_load;
+    $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
+    if($revenue_sharing){
+        if(isset($revenue_sharing['author_pub_id']) && !empty($revenue_sharing['author_pub_id'])){
+            $quads_options['ads'][$id]['g_data_ad_client'] = $revenue_sharing['author_pub_id'];
+        }
+    }
      if (isset($quads_options['ads'][$id]['adsense_ad_type']) && $quads_options['ads'][$id]['adsense_ad_type'] == 'adsense_auto_ads'){
         return '';
         }
     $id_name = "quads-".esc_attr($id)."-place";
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
-    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global'] == true) {
             
         $html .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
     }
@@ -489,7 +508,7 @@ function quads_render_google_async_new( $id ) {
 
     }
     
-    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true) {
+    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']== true) {
         $html = str_replace( 'class="adsbygoogle"', '', $html );
         $html = str_replace( '></ins>', '><span>Loading...</span></ins></div>', $html );
         $code = 'instant= new adsenseLoader( \'#quads-' . esc_attr($id) . '-place\', {
@@ -560,6 +579,11 @@ function quads_render_google_async( $id ) {
 
 
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
+      if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global'] == true) {
+             $id_name = "quads-".esc_attr($id)."-place";
+        $html .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
+    }
+
     //google async script
     $html .= "\n".'<script type="text/javascript" >' . "\n";
     $html .= 'var quads_screen_width = document.body.clientWidth;' . "\n";
@@ -569,7 +593,18 @@ function quads_render_google_async( $id ) {
         $html .= quads_render_tablet_landscape_js( $id, $default_ad_sizes );
         $html .= quads_render_tablet_portrait_js( $id, $default_ad_sizes );
         $html .= quads_render_phone_js( $id, $default_ad_sizes );
-
+       if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global'] == true) {
+            $html = str_replace( 'class="adsbygoogle"', '', $html );
+            $html = str_replace( '></ins>', '><span>Loading...</span></ins></div>', $html );
+            $code = 'instant= new adsenseLoader( \'#quads-' . esc_attr($id) . '-place\', {
+            onLoad: function( ad ){
+                if (ad.classList.contains("quads-ll")) {
+                    ad.classList.remove("quads-ll");
+                }
+              }   
+            });';
+            $html = str_replace( '(adsbygoogle = window.adsbygoogle || []).push({});', $code, $html );
+        }
         $html .=   "\n".'</script>' . "\n";
 
         $html .= "\n <!-- end WP QUADS --> \n\n";
@@ -580,10 +615,10 @@ function quads_render_google_async( $id ) {
 function quads_load_loading_script(){
     global $quads_options;
     $script = '';
-    if ($quads_options['lazy_load_global']===true) {
+    if ($quads_options['lazy_load_global']== true) {
     $script .=  "\n".'<script>';
-
-    $script .= file_get_contents(QUADS_PLUGIN_DIR.'assets/js/lazyload.js');
+    $suffix = ( quadsIsDebugMode() ) ? '' : '.min'; 
+    $script .= file_get_contents(QUADS_PLUGIN_DIR.'assets/js/lazyload' . $suffix .'.js');
 
     $script .='</script>' . "\n";
         }
@@ -985,6 +1020,12 @@ function quads_render_amp($id,$ampsupport=''){
         }
 
     }else{
+        $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
+        if($revenue_sharing){
+            if(isset($revenue_sharing['author_pub_id']) && !empty($revenue_sharing['author_pub_id'])){
+                $quads_options['ads'][$id]['g_data_ad_client'] = $revenue_sharing['author_pub_id'];
+            }
+        }
 
          if((isset($quads_options['ads'][$id]['enabled_on_amp']) && isset($quads_options['ads'][$id]['code']) && !empty($quads_options['ads'][$id]['code']))|| (!empty($ampsupport) && $ampsupport)){
                 if((isset($quads_options['ads'][$id]['enabled_on_amp']) && $quads_options['ads'][$id]['enabled_on_amp']) || (!empty($ampsupport) && $ampsupport)){
@@ -1177,3 +1218,25 @@ function quads_render_ad_label_new( $adcode,$id='') {
 }
 
 add_filter( 'quads_render_ad', 'quads_render_ad_label_new',99,2 );
+
+    /**
+     * This function returns publisher id or data ad client id for adsense ads
+     * @return type
+     */    
+    function quads_get_pub_id_on_revenue_percentage(){
+          global $quads_options;   
+        $ad_owner_revenue_per       = '';
+        $display_per_in_minute      = '';
+        $author_adsense_ids         = array();
+                
+        if(isset($quads_options['ad_owner_revenue_per']) && $quads_options['ad_owner_revenue_per']){
+            $ad_owner_revenue_per         =  isset( $quads_options['ad_owner_revenue_per'] ) ? $quads_options['ad_owner_revenue_per'] : 0;
+            $display_per_in_minute      = (60*$ad_owner_revenue_per)/100; 
+            $current_second = date("s"); 
+            
+            if(!($current_second <= $display_per_in_minute)) {
+             $author_adsense_ids['author_pub_id']     =  get_the_author_meta( 'quads_adsense_pub_id' );                     
+            }  
+            return $author_adsense_ids;                    
+        }
+    }
