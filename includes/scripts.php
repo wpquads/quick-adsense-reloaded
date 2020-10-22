@@ -21,6 +21,22 @@ add_action( 'admin_enqueue_scripts', 'quads_load_plugins_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_all_admin_scripts', 100 );
 add_action( 'admin_print_footer_scripts', 'quads_check_ad_blocker' );
 add_action( 'wp_enqueue_scripts', 'click_fraud_protection' );
+add_action( 'wp_enqueue_scripts', 'tcf_2_integration' );
+
+function tcf_2_integration(){
+    global $quads_options;
+    if(isset($quads_options['tcf_2_integration']) && !empty($quads_options['tcf_2_integration']) && $quads_options['tcf_2_integration']){
+
+
+
+        $suffix = ( quadsIsDebugMode() ) ? '' : '.min'; 
+        wp_enqueue_script( 'quads-tcf-2-scripts', QUADS_PLUGIN_URL . 'assets/js/tcf_2_integration' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+
+        wp_localize_script( 'quads-tcf-2-scripts', 'quads_tcf_2',array( ) );
+
+    }
+
+}
 
 
 function click_fraud_protection(){

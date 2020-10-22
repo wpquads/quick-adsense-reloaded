@@ -1729,8 +1729,16 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
         $adscode ='';
     }   
     $cont = explode('<!--'.$quicktag.'-->', $content, 2);
-        
-    return $cont[0].$adscode.$cont[1];
+    if(isset($quads_options['tcf_2_integration']) && !empty($quads_options['tcf_2_integration']) && $quads_options['tcf_2_integration']){
+        $adscode= sprintf(
+              '<script type="text/plain" data-tcf="waiting-for-consent" data-id="%d">%s</script>',
+              $id,
+              base64_encode( $adscode )
+      );
+    }
+    $content =  $cont[0].$adscode.$cont[1];
+
+    return  $content;
 }
 
 /**
