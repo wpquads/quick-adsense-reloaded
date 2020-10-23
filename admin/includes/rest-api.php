@@ -1325,6 +1325,13 @@ class QUADS_Ad_Setup_Api {
             $parameters = $request_data->get_params();                                   
             $ad_id      = $this->api_service->updateAdData($parameters);            
             if($ad_id){
+                if ( function_exists( 'rocket_clean_domain' ) ) {
+                    rocket_clean_domain();
+                }
+                if ( defined( 'WPCACHEHOME' ) ) {
+                    global  $file_prefix;
+                    wp_cache_clean_cache( $file_prefix, true );
+                }
                 return array('status' => 't', 'ad_id' => $ad_id);
             }else{
                 return array('status' => 'f', 'ad_id' => $ad_id);
