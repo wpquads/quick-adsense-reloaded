@@ -531,8 +531,7 @@ function quads_visitor_comparison_logic_checker($visibility){
       break;
   }
 
- $result  = apply_filters( 'quads_visitor_comparison_logic_checker', $visibility, $result );
-
+ $result  = apply_filters( 'quads_visitor_comparison_logic_checker', $result ,$visibility);
 
 return $result;
 }

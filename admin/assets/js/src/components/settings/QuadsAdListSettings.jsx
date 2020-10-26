@@ -44,6 +44,7 @@ class QuadsAdListSettings extends Component {
                 ad_blocker_support :false,
                 click_fraud_protection : false,
                 revenue_sharing_enabled : false,
+                tcf_2_integration   : false,
                 ad_owner_revenue_per:50,
                 ad_author_revenue_per:50,
                 notice_bg_color : '#1e73be',
@@ -1250,6 +1251,15 @@ handleMultiPluginsChange = (option) => {
                          <span className="quads-slider"></span>
                        </label>                       
                        {settings.revenue_sharing_enabled ? <span onClick={this.open_revenue_sharing_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                     </td>
+                     </tr>
+                     <tr>
+                     <th><label htmlFor="tcf_2_integration">{__('TCF v2.0 integration ', 'quick-adsense-reloaded')}</label></th> 
+                     <td>
+                       <label className="quads-switch">
+                         <input id="tcf_2_integration" type="checkbox" name="tcf_2_integration" onChange={this.formChangeHandler} checked={settings.tcf_2_integration} />
+                         <span className="quads-slider"></span>
+                       </label>                       
                      </td>
                      </tr>
                      </tbody></table>  
