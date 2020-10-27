@@ -509,6 +509,27 @@ error_outline
                 </table>
                 </div>);
               break;
+             case 'infolinks':
+             ad_type_name = 'Infolinks';  
+              comp_html.push(<div key="infolinks">
+                <table>
+                  <tbody>
+                    <tr><td>
+                    <label>{__('Infolinks P ID', 'quick-adsense-reloaded')}</label></td><td>
+                   <div> <input value={post_meta.infolinks_pid} onChange={this.props.adFormChangeHandler} type="text" id="infolinks_pid" name="infolinks_pid" /></div>
+                    {(show_form_error && post_meta.infolinks_pid == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Infolinks P ID</div> :''}
+                     </td></tr>
+                      <tr><td>
+                    <label>{__('Infolinks W S ID', 'quick-adsense-reloaded')}</label></td><td>
+                   <div> <input value={post_meta.infolinks_wsid} onChange={this.props.adFormChangeHandler} type="text" id="infolinks_wsid" name="infolinks_wsid" /></div>
+                    {(show_form_error && post_meta.infolinks_wsid == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Infolinks W S ID</div> :''}
+                     </td></tr>
+                  </tbody>
+                </table>
+                </div>);
+              break;
             case 'background_ad':
              ad_type_name = 'Background';  
               comp_html.push(<div key="background_ad">

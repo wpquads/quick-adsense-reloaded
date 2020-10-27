@@ -75,6 +75,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_outbrain( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_outbrain_async( $id ),$id );
     }
+    if( true === quads_is_infolinks( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_infolinks_async( $id ),$id );
+    }
     // Return empty string
     return '';
 }
@@ -337,8 +340,26 @@ function quads_render_outbrain_async( $id ) {
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_outbrain_async', $html );
 }
+/**
+ * Render Infolinks
+ * 
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_infolinks_async( $id ) {
+    global $quads_options;
 
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Infolinks --> \n\n";
+    $html .= ' <script type="text/javascript">
+                                    var infolinks_pid = '.esc_attr($quads_options['ads'][$id]['infolinks_pid']).';
+                                    var infolinks_wsid = '.esc_attr($quads_options['ads'][$id]['infolinks_wsid']).';
+                                  </script>
+                                <script type="text/javascript" src="http://resources.infolinks.com/js/infolinks_main.js"></script>';
 
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_infolinks_async', $html );
+}
 /**
  * Render MGID ad
  * 
@@ -988,7 +1009,21 @@ function quads_is_outbrain( $id, $string ) {
     }
     return false;
 }
+/**
+ * Check if ad code is Infolinks
+ * 
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_infolinks( $id, $string ) {
+    global $quads_options;
 
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'infolinks') {
+        return true;
+    }
+    return false;
+}
 
 /**
  * Render advert on amp pages

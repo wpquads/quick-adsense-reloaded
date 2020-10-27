@@ -20,6 +20,7 @@ class QuadsAdListNavLink extends Component {
                     {ad_type:'media_net',ad_type_name:'Media.net'},
                     {ad_type:'mediavine',ad_type_name:'Mediavine'},
                     {ad_type:'outbrain',ad_type_name:'Outbrain'},  
+                    {ad_type:'infolinks',ad_type_name:'Infolinks'},  
                     {ad_type:'plain_text',ad_type_name:'Plain Text / HTML / JS'},
                     {ad_type:'ad_image',ad_type_name:'Banner Ad'},
                     {ad_type:'background_ad',ad_type_name:'Background ad'},    
@@ -64,6 +65,9 @@ class QuadsAdListNavLink extends Component {
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/mediavine.png';
               break;
               case 'outbrain':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/outbrain.png';
+              break;
+              case 'infolinks':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/outbrain.png';
               break;
               case 'background_ad':
