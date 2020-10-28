@@ -952,7 +952,7 @@ function quads_filter_default_ads_new( $content ) {
                         
                         if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
                           $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
-                            if( strpos($content, "</blockquote>")){
+                         if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
                           $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
                         }else{
                             $closing_p        = '</p>';
@@ -1046,7 +1046,7 @@ function quads_filter_default_ads_new( $content ) {
                             
                                                                                        
                             $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
-                          if($tag == 'p' && strpos($content, "</blockquote>")){
+                            if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
                           $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
                         }else{
                                 $closing_p        = '</'.$tag.'>';
@@ -2042,7 +2042,9 @@ function quads_del_element($array, $idx) {
 function remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_paragraph=false){
 
     $wp_charset = get_bloginfo( 'charset' );
-     $tag = 'p[not(parent::blockquote)]';
+     $tag = 'p[not(parent::blockquote)]|p[not(parent::table)]';
+      $offsets = array();
+       $paragraphs = array();
      $doc =  new DOMDocument( '1.0', $wp_charset );
      libxml_use_internal_errors( true );
      $doc->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
@@ -2059,6 +2061,7 @@ function remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_
         $percentage       = intval($ads_data['after_the_percentage_value']);
         $position     = floor(($percentage / 100) * $total_paragraphs);
       }
+     
 if($repeat_paragraph){
       for ( $i = $position -1; $i < $total_paragraphs; $i++ ) {
         // Select every X number.
