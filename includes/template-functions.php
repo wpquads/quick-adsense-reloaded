@@ -2084,17 +2084,19 @@ if($repeat_paragraph){
                         }
 }
     }else{
-      $ref_node  = $paragraphs[$position];
-
-      $ad_dom =  new DOMDocument( '1.0', $wp_charset );
-      libxml_use_internal_errors( true );
- $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
-
-      foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
-        $importedNode = $doc->importNode( $importedNode, true );
-          if($ref_node){
-                $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
-              }
+      if(isset($paragraphs[$position])){
+            $ref_node  = $paragraphs[$position];
+      
+            $ad_dom =  new DOMDocument( '1.0', $wp_charset );
+            libxml_use_internal_errors( true );
+       $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
+      
+            foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
+              $importedNode = $doc->importNode( $importedNode, true );
+                if($ref_node){
+                      $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
+                    }
+            }
       }
     }
     $content =$doc->saveHTML();
