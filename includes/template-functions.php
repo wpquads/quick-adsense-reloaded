@@ -31,6 +31,10 @@ function remove_ads_for_wp_shortcodes() {
       remove_shortcode( 'adsforwp' );
       add_shortcode('adsforwp', 'quads_from_adsforwp_manual_ads',1);
   }
+  if(isset($quads_settings['advance_ads_to_quads_model']) && $quads_settings['advance_ads_to_quads_model']){
+      remove_shortcode( 'the_ad_placement' );
+      add_shortcode('the_ad_placement', 'quads_from_advance_manual_ads',1);
+  }
 }
 
 //Ad blocker
@@ -40,6 +44,71 @@ add_action('wp_footer', 'quads_adblocker_notice_jsondata');
 add_action('wp_body_open', 'quads_adblocker_notice_bar');
 add_action('wp_footer', 'quads_adblocker_ad_block');
 
+function quads_from_advance_manual_ads($atts ){
+     global $quads_options;
+    
+    // Display Condition is false and ignoreShortcodeCond is empty or not true
+    if( !quads_ad_is_allowed() && !isset($quads_options['ignoreShortcodeCond']) )
+        return;
+
+
+    //return quads_check_meta_setting('NoAds');
+    if( quads_check_meta_setting( 'NoAds' ) === '1' ){
+        return;
+    }
+    $id = '';
+    // The ad id
+    // $advance_ads_id = isset( $atts['id'] ) ? ( int ) $atts['id'] : 0;
+ $atts = is_array( $atts ) ? $atts : array();
+    $advance_ads_id   = isset( $atts['id'] ) ? (string) $atts['id'] : '';
+      $advanced_ads_placements       = get_option('advads-ads-placements'); 
+      foreach ($advanced_ads_placements as $key => $value) {
+        if($key == $advance_ads_id){
+          $idArray =    explode('ad_', $value['item']);
+          $id = $idArray['1'];
+
+        }
+      }
+      
+      if(empty($id)){
+      return '';
+    }
+    $args = array(
+      'post_type'      => 'quads-ads',
+      'meta_key'       => 'advance_ads_id', 
+      'meta_value'     => $id
+    );
+
+    $event_query = new WP_Query( $args );
+
+    if(!isset($event_query->post->ID)){
+      return '';
+    }
+    $quads_post_id =$event_query->post->ID;
+   $id_name = get_post_meta ( $quads_post_id, 'quads_ad_old_id', true );
+   $id_array = explode('ad', $id_name );
+   $id = $id_array[1]; 
+    $arr = array(
+        'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
+        'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
+        'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
+        'float:none;margin:%1$dpx;');
+    
+    $adsalign = isset($quads_options['ads']['ad' . $id]['align']) ? $quads_options['ads']['ad' . $id]['align'] : 3; // default
+    $adsmargin = isset( $quads_options['ads']['ad' . $id]['margin'] ) ? $quads_options['ads']['ad' . $id]['margin'] : '3'; // default
+    $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
+
+  
+    // Do not create any inline style on AMP site
+    $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
+
+    $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
+            '<div class="quads-location quads-ad' . $id . '" id="quads-ad' . $id . '" style="' . $style . '">' . "\n";
+    $code .= do_shortcode( quads_get_ad( $id ) );
+    $code .= '</div>' . "\n";
+
+    return $code;
+}
 
 function quads_from_adsforwp_manual_ads($atts ){
      global $quads_options;

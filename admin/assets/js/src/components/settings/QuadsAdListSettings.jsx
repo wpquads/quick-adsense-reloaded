@@ -61,6 +61,7 @@ class QuadsAdListSettings extends Component {
                 adsTxtEnabled      :false,
                 adsforwp_quads_shortcode :false,
                 adsforwp_quads_gutenberg :false,
+                advance_ads_to_quads_model :false,
                 lazy_load_global      :false,
                 global_excluder_enabled: false,  
                 adsTxtText         :'',                
@@ -83,6 +84,8 @@ class QuadsAdListSettings extends Component {
             importampforwpmsgprocessing : "",
             importadsforwpmsg : "", 
             importadsforwpmsgprocessing : "",  
+            importadvancedadsmsg : '',
+            importadvancedadsmsgprocessing : "",
             importquadsclassicmsgprocessing : "",
             page_redirect_options   : []          
         };     
@@ -192,6 +195,32 @@ if(this.state.importadsforwpmsgprocessing !=''){
       (result) => {
             if(result.status === 't'){              
               this.setState({importadsforwpmsg: result.data,importadsforwpmsgprocessing:''});
+            }                              
+      },        
+      (error) => {
+      }
+    );  
+  }
+
+  importadvancedadsdata = () => {
+      if(this.state.importadvancedadsmsgprocessing !=''){
+        return;
+      }
+      this.setState({importadvancedadsmsgprocessing: 'Importing Ads'});
+    const url = quads_localize_data.rest_url + 'quads-route/import-advance-ads';    
+    fetch(url,{
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-WP-Nonce': quads_localize_data.nonce,
+      }              
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {
+            if(result.status === 't'){              
+              this.setState({importadvancedadsmsg: result.data,importadvancedadsmsgprocessing:''});
             }                              
       },        
       (error) => {
@@ -369,7 +398,7 @@ handleMultiPluginsChange = (option) => {
     ); 
   }
   closeQuerySuccess = (e) => {
-    this.setState({customer_querey_success : '',importampforwpmsg : '',importadsforwpmsg : '',importquadsclassicmsg : ''});   
+    this.setState({customer_querey_success : '',importampforwpmsg : '',importadsforwpmsg : '',importadvancedadsmsg : '',importquadsclassicmsg : ''});   
   }
   closeQueryError = (e) => {
     this.setState({customer_querey_error: ''});   
@@ -732,10 +761,7 @@ handleMultiPluginsChange = (option) => {
     if(name == 'ip_geolocation_api'){
      this.saveSettings();
     }
-    if(name == 'adsforwp_quads_shortcode'){
-     this.saveSettings();
-    }
-    if(name == 'adsforwp_quads_gutenberg'){
+    if(name == 'adsforwp_quads_shortcode'|| name == 'adsforwp_quads_gutenberg' || name == 'advance_ads_to_quads_model'){
      this.saveSettings();
     }
      if(name == 'ad_owner_revenue_per'){
@@ -760,8 +786,11 @@ handleMultiPluginsChange = (option) => {
   adsforwp_to_quads_model = () =>{        
     this.setState({adsforwp_to_quads_model:true});
   }
+  advance_ads_to_quads_model = () =>{        
+    this.setState({advance_ads_to_quads_model:true});
+  }
   closeModal = () =>{
-    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false,revenue_sharing_modal:false});
+    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false,advance_ads_to_quads_model:false,revenue_sharing_modal:false});
   } 
   getErrorMessage =(type) => {
     const {__} = wp.i18n;
@@ -897,6 +926,24 @@ handleMultiPluginsChange = (option) => {
              Change adsforwp Gutenberg to quads 
               <label className="quads-switch">
                          <input id="adsforwp_quads_gutenberg" type="checkbox" name="adsforwp_quads_gutenberg" onChange={this.formChangeHandler} checked={settings.adsforwp_quads_gutenberg} />
+                         <span className="quads-slider"></span>
+                       </label>
+            </div>
+             </div>             
+             </div>        
+            </div> : null
+            } 
+             {this.state.advance_ads_to_quads_model ? 
+           <div className="quads-modal-popup">            
+            <div className="quads-modal-popup-content">
+             <span className="quads-modal-close" onClick={this.closeModal}>&times;</span>
+             <h3>Advance Ads Setting</h3>
+             <div className="quads-modal-description"></div>
+             <div className="quads-modal-content adsforwp-quads-popup">
+             <div className="quads-modal">
+             Change Advance Ads Short code to quads 
+              <label className="quads-switch">
+                         <input id="advance_ads_to_quads_model" type="checkbox" name="advance_ads_to_quads_model" onChange={this.formChangeHandler} checked={settings.advance_ads_to_quads_model} />
                          <span className="quads-slider"></span>
                        </label>
             </div>
@@ -1326,7 +1373,17 @@ handleMultiPluginsChange = (option) => {
                             {this.state.importadsforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importadsforwpmsg}</Alert> : null}
                             {this.state.importadsforwpmsgprocessing ? <div className='updating-message importadsforwpmsgprocessing'><p>Importing Ads</p></div>: ''}
                         </td>
-                      </tr></tbody></table>
+                      </tr>
+                      <tr>
+                        <th><label>{__('Advanced Ads', 'quick-adsense-reloaded')}</label></th>
+                        <td>
+                          <a className="quads-btn quads-btn-primary" id="import_advanced_ads" onClick={this.importadvancedadsdata}>{__('Import', 'quick-adsense-reloaded')}</a>
+                          {settings.adsforwp_to_quads == 'imported' ? <span onClick={this.advance_ads_to_quads_model} className="quads-generic-icon import_advanced_ads dashicons dashicons-admin-generic"></span> : ''} 
+                            {this.state.importadvancedadsmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importadvancedadsmsg}</Alert> : null}
+                            {this.state.importadvancedadsmsgprocessing ? <div className='updating-message importadvancedadsmsgprocessing'><p>Importing Ads</p></div>: ''}
+                        </td>
+                      </tr>
+                      </tbody></table>
                 </div>
                );
                 case "settings_google_autoads":  return(
