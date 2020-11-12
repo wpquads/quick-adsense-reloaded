@@ -22,9 +22,82 @@ add_action( 'the_post', 'quads_in_between_loop' , 20, 2 );
 add_action( 'init', 'quads_background_ad' );
 add_action('amp_post_template_head','quads_adsense_auto_ads_amp_script',1);
 add_action('amp_post_template_footer','quads_adsense_auto_ads_amp_tag');
- 
+add_action( 'plugins_loaded', 'quads_plugins_loaded_bbpress', 20 );
+
 add_action( 'init', 'remove_ads_for_wp_shortcodes',999 );
 
+function quads_plugins_loaded_bbpress(){
+  global $quads_mode;
+      if($quads_mode != 'new' || !class_exists( 'bbPress' )){
+        return ;
+      }
+  add_action( 'bbp_template_after_replies_loop', 'quads_bbp_template_after_Ads' );
+  add_action( 'bbp_template_before_replies_loop', 'quads_bbp_template_before_Ads' );
+  add_action( 'bbp_theme_after_reply_content', 'quads_bbp_template_after_replies_loop' );
+  add_action( 'bbp_theme_before_reply_content', 'quads_bbp_template_before_replies_loop' );
+}
+function quads_bbp_template_after_Ads(){
+  quads_load_ads_common('bbpress_after_ad');
+}
+
+function quads_bbp_template_before_Ads(){
+  quads_load_ads_common('bbpress_before_ad');
+}
+function quads_bbp_template_after_replies_loop(){
+  quads_load_ads_common('bbpress_after_reply');
+}
+
+function quads_bbp_template_before_replies_loop(){
+  quads_load_ads_common('bbpress_before_reply');
+}
+
+function quads_load_ads_common($user_position){
+        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+    $api_service = new QUADS_Ad_Setup_Api_Service();
+    $quads_ads = $api_service->getAdDataByParam('quads-ads');
+    if(isset($quads_ads['posts_data'])){        
+        foreach($quads_ads['posts_data'] as $key => $value){
+          $ads =$value['post_meta'];
+          if($value['post']['post_status']== 'draft'){
+            continue;
+          }
+          if(!isset($ads['position'])){
+            continue;
+          }
+          if(isset($ads['ad_id']))
+            $post_status = get_post_status($ads['ad_id']); 
+            else
+              $post_status =  'publish';
+            if(isset($ads['random_ads_list']))
+            $ads['random_ads_list'] = unserialize($ads['random_ads_list']);
+         if(isset($ads['visibility_include']))
+             $ads['visibility_include'] = unserialize($ads['visibility_include']);
+         if(isset($ads['visibility_exclude']))
+             $ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);
+
+         if(isset($ads['targeting_include']))
+             $ads['targeting_include'] = unserialize($ads['targeting_include']);
+
+         if(isset($ads['targeting_exclude']))
+             $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
+            $is_on         = quads_is_visibility_on($ads);
+            $is_visitor_on = quads_is_visitor_on($ads);
+             if($is_on && $is_visitor_on && $post_status == 'publish'){
+            
+
+          if(($ads['position'] == 'bbpress_after_ad' && $user_position == 'bbpress_after_ad' )|| ($ads['position'] == 'bbpress_before_ad' && $user_position == 'bbpress_before_ad')){
+              $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+              echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
+          }else if(($ads['position'] == 'bbpress_before_reply' && $user_position == 'bbpress_before_reply' )|| ($ads['position'] == 'bbpress_after_reply' && $user_position == 'bbpress_after_reply')){
+            if((did_action( 'bbp_theme_before_reply_content' ) % $ads['paragraph_number'] == 0  && $user_position == 'bbpress_before_reply' )|| (did_action( 'bbp_theme_after_reply_content' ) % $ads['paragraph_number'] == 0 && $user_position == 'bbpress_after_reply')){
+                  $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+                  echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
+            }
+          }
+        }  
+       }
+     }
+}
 function remove_ads_for_wp_shortcodes() {
   $quads_settings = get_option( 'quads_settings' );
   if(isset($quads_settings['adsforwp_quads_shortcode']) && $quads_settings['adsforwp_quads_shortcode']){
