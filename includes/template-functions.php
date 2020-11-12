@@ -104,7 +104,7 @@ function remove_ads_for_wp_shortcodes() {
       remove_shortcode( 'adsforwp' );
       add_shortcode('adsforwp', 'quads_from_adsforwp_manual_ads',1);
   }
-  if(isset($quads_settings['advance_ads_to_quads_model']) && $quads_settings['advance_ads_to_quads_model']){
+  if(isset($quads_settings['advance_ads_to_quads']) && $quads_settings['advance_ads_to_quads']){
       remove_shortcode( 'the_ad_placement' );
       add_shortcode('the_ad_placement', 'quads_from_advance_manual_ads',1);
   }

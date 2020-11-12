@@ -62,6 +62,7 @@ class QuadsAdListSettings extends Component {
                 adsforwp_quads_shortcode :false,
                 adsforwp_quads_gutenberg :false,
                 advance_ads_to_quads_model :false,
+                advance_ads_to_quads : false,
                 lazy_load_global      :false,
                 global_excluder_enabled: false,  
                 adsTxtText         :'',                
@@ -761,7 +762,7 @@ handleMultiPluginsChange = (option) => {
     if(name == 'ip_geolocation_api'){
      this.saveSettings();
     }
-    if(name == 'adsforwp_quads_shortcode'|| name == 'adsforwp_quads_gutenberg' || name == 'advance_ads_to_quads_model'){
+    if(name == 'adsforwp_quads_shortcode'|| name == 'adsforwp_quads_gutenberg' || name == 'advance_ads_to_quads'){
      this.saveSettings();
     }
      if(name == 'ad_owner_revenue_per'){
@@ -943,7 +944,7 @@ handleMultiPluginsChange = (option) => {
              <div className="quads-modal">
              Change Advance Ads Short code to quads 
               <label className="quads-switch">
-                         <input id="advance_ads_to_quads_model" type="checkbox" name="advance_ads_to_quads_model" onChange={this.formChangeHandler} checked={settings.advance_ads_to_quads_model} />
+                         <input id="advance_ads_to_quads" type="checkbox" name="advance_ads_to_quads" onChange={this.formChangeHandler} checked={settings.advance_ads_to_quads} />
                          <span className="quads-slider"></span>
                        </label>
             </div>
