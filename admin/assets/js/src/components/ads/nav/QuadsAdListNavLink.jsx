@@ -68,7 +68,7 @@ class QuadsAdListNavLink extends Component {
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/outbrain.png';
               break;
               case 'infolinks':
-              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/outbrain.png';
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/infolinks.png';
               break;
               case 'background_ad':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/bg_ad.png';
