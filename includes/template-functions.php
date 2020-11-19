@@ -22,14 +22,91 @@ add_action( 'the_post', 'quads_in_between_loop' , 20, 2 );
 add_action( 'init', 'quads_background_ad' );
 add_action('amp_post_template_head','quads_adsense_auto_ads_amp_script',1);
 add_action('amp_post_template_footer','quads_adsense_auto_ads_amp_tag');
- 
+add_action( 'plugins_loaded', 'quads_plugins_loaded_bbpress', 20 );
+
 add_action( 'init', 'remove_ads_for_wp_shortcodes',999 );
 
+function quads_plugins_loaded_bbpress(){
+  global $quads_mode;
+      if($quads_mode != 'new' || !class_exists( 'bbPress' )){
+        return ;
+      }
+  add_action( 'bbp_template_after_replies_loop', 'quads_bbp_template_after_Ads' );
+  add_action( 'bbp_template_before_replies_loop', 'quads_bbp_template_before_Ads' );
+  add_action( 'bbp_theme_after_reply_content', 'quads_bbp_template_after_replies_loop' );
+  add_action( 'bbp_theme_before_reply_content', 'quads_bbp_template_before_replies_loop' );
+}
+function quads_bbp_template_after_Ads(){
+  quads_load_ads_common('bbpress_after_ad');
+}
+
+function quads_bbp_template_before_Ads(){
+  quads_load_ads_common('bbpress_before_ad');
+}
+function quads_bbp_template_after_replies_loop(){
+  quads_load_ads_common('bbpress_after_reply');
+}
+
+function quads_bbp_template_before_replies_loop(){
+  quads_load_ads_common('bbpress_before_reply');
+}
+
+function quads_load_ads_common($user_position){
+        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+    $api_service = new QUADS_Ad_Setup_Api_Service();
+    $quads_ads = $api_service->getAdDataByParam('quads-ads');
+    if(isset($quads_ads['posts_data'])){        
+        foreach($quads_ads['posts_data'] as $key => $value){
+          $ads =$value['post_meta'];
+          if($value['post']['post_status']== 'draft'){
+            continue;
+          }
+          if(!isset($ads['position'])){
+            continue;
+          }
+          if(isset($ads['ad_id']))
+            $post_status = get_post_status($ads['ad_id']); 
+            else
+              $post_status =  'publish';
+            if(isset($ads['random_ads_list']))
+            $ads['random_ads_list'] = unserialize($ads['random_ads_list']);
+         if(isset($ads['visibility_include']))
+             $ads['visibility_include'] = unserialize($ads['visibility_include']);
+         if(isset($ads['visibility_exclude']))
+             $ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);
+
+         if(isset($ads['targeting_include']))
+             $ads['targeting_include'] = unserialize($ads['targeting_include']);
+
+         if(isset($ads['targeting_exclude']))
+             $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
+            $is_on         = quads_is_visibility_on($ads);
+            $is_visitor_on = quads_is_visitor_on($ads);
+             if($is_on && $is_visitor_on && $post_status == 'publish'){
+            
+
+          if(($ads['position'] == 'bbpress_after_ad' && $user_position == 'bbpress_after_ad' )|| ($ads['position'] == 'bbpress_before_ad' && $user_position == 'bbpress_before_ad')){
+              $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+              echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
+          }else if(($ads['position'] == 'bbpress_before_reply' && $user_position == 'bbpress_before_reply' )|| ($ads['position'] == 'bbpress_after_reply' && $user_position == 'bbpress_after_reply')){
+            if((did_action( 'bbp_theme_before_reply_content' ) % $ads['paragraph_number'] == 0  && $user_position == 'bbpress_before_reply' )|| (did_action( 'bbp_theme_after_reply_content' ) % $ads['paragraph_number'] == 0 && $user_position == 'bbpress_after_reply')){
+                  $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+                  echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
+            }
+          }
+        }  
+       }
+     }
+}
 function remove_ads_for_wp_shortcodes() {
   $quads_settings = get_option( 'quads_settings' );
   if(isset($quads_settings['adsforwp_quads_shortcode']) && $quads_settings['adsforwp_quads_shortcode']){
       remove_shortcode( 'adsforwp' );
       add_shortcode('adsforwp', 'quads_from_adsforwp_manual_ads',1);
+  }
+  if(isset($quads_settings['advance_ads_to_quads']) && $quads_settings['advance_ads_to_quads']){
+      remove_shortcode( 'the_ad_placement' );
+      add_shortcode('the_ad_placement', 'quads_from_advance_manual_ads',1);
   }
 }
 
@@ -40,6 +117,71 @@ add_action('wp_footer', 'quads_adblocker_notice_jsondata');
 add_action('wp_body_open', 'quads_adblocker_notice_bar');
 add_action('wp_footer', 'quads_adblocker_ad_block');
 
+function quads_from_advance_manual_ads($atts ){
+     global $quads_options;
+    
+    // Display Condition is false and ignoreShortcodeCond is empty or not true
+    if( !quads_ad_is_allowed() && !isset($quads_options['ignoreShortcodeCond']) )
+        return;
+
+
+    //return quads_check_meta_setting('NoAds');
+    if( quads_check_meta_setting( 'NoAds' ) === '1' ){
+        return;
+    }
+    $id = '';
+    // The ad id
+    // $advance_ads_id = isset( $atts['id'] ) ? ( int ) $atts['id'] : 0;
+ $atts = is_array( $atts ) ? $atts : array();
+    $advance_ads_id   = isset( $atts['id'] ) ? (string) $atts['id'] : '';
+      $advanced_ads_placements       = get_option('advads-ads-placements'); 
+      foreach ($advanced_ads_placements as $key => $value) {
+        if($key == $advance_ads_id){
+          $idArray =    explode('ad_', $value['item']);
+          $id = $idArray['1'];
+
+        }
+      }
+      
+      if(empty($id)){
+      return '';
+    }
+    $args = array(
+      'post_type'      => 'quads-ads',
+      'meta_key'       => 'advance_ads_id', 
+      'meta_value'     => $id
+    );
+
+    $event_query = new WP_Query( $args );
+
+    if(!isset($event_query->post->ID)){
+      return '';
+    }
+    $quads_post_id =$event_query->post->ID;
+   $id_name = get_post_meta ( $quads_post_id, 'quads_ad_old_id', true );
+   $id_array = explode('ad', $id_name );
+   $id = $id_array[1]; 
+    $arr = array(
+        'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
+        'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
+        'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
+        'float:none;margin:%1$dpx;');
+    
+    $adsalign = isset($quads_options['ads']['ad' . $id]['align']) ? $quads_options['ads']['ad' . $id]['align'] : 3; // default
+    $adsmargin = isset( $quads_options['ads']['ad' . $id]['margin'] ) ? $quads_options['ads']['ad' . $id]['margin'] : '3'; // default
+    $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
+
+  
+    // Do not create any inline style on AMP site
+    $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
+
+    $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
+            '<div class="quads-location quads-ad' . $id . '" id="quads-ad' . $id . '" style="' . $style . '">' . "\n";
+    $code .= do_shortcode( quads_get_ad( $id ) );
+    $code .= '</div>' . "\n";
+
+    return $code;
+}
 
 function quads_from_adsforwp_manual_ads($atts ){
      global $quads_options;
@@ -952,7 +1094,7 @@ function quads_filter_default_ads_new( $content ) {
                         
                         if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
                           $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
-                            if( strpos($content, "</blockquote>")){
+                         if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
                           $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
                         }else{
                             $closing_p        = '</p>';
@@ -1046,7 +1188,7 @@ function quads_filter_default_ads_new( $content ) {
                             
                                                                                        
                             $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
-                          if($tag == 'p' && strpos($content, "</blockquote>")){
+                            if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
                           $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
                         }else{
                                 $closing_p        = '</'.$tag.'>';
@@ -2042,7 +2184,9 @@ function quads_del_element($array, $idx) {
 function remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_paragraph=false){
 
     $wp_charset = get_bloginfo( 'charset' );
-     $tag = 'p[not(parent::blockquote)]';
+     $tag = 'p[not(parent::blockquote)]|p[not(parent::table)]';
+      $offsets = array();
+       $paragraphs = array();
      $doc =  new DOMDocument( '1.0', $wp_charset );
      libxml_use_internal_errors( true );
      $doc->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
@@ -2059,6 +2203,7 @@ function remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_
         $percentage       = intval($ads_data['after_the_percentage_value']);
         $position     = floor(($percentage / 100) * $total_paragraphs);
       }
+     
 if($repeat_paragraph){
       for ( $i = $position -1; $i < $total_paragraphs; $i++ ) {
         // Select every X number.
@@ -2081,17 +2226,19 @@ if($repeat_paragraph){
                         }
 }
     }else{
-      $ref_node  = $paragraphs[$position];
-
-      $ad_dom =  new DOMDocument( '1.0', $wp_charset );
-      libxml_use_internal_errors( true );
- $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
-
-      foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
-        $importedNode = $doc->importNode( $importedNode, true );
-          if($ref_node){
-                $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
-              }
+      if(isset($paragraphs[$position])){
+            $ref_node  = $paragraphs[$position];
+      
+            $ad_dom =  new DOMDocument( '1.0', $wp_charset );
+            libxml_use_internal_errors( true );
+       $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
+      
+            foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
+              $importedNode = $doc->importNode( $importedNode, true );
+                if($ref_node){
+                      $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
+                    }
+            }
       }
     }
     $content =$doc->saveHTML();

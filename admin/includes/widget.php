@@ -47,7 +47,7 @@ class Quads_Ads_Widget extends WP_Widget {
         }
          // exit(print_r($instance));
         $cont = quads_post_settings_to_quicktags( get_the_content() );
-        $ads = $quads_options['ads'][$instance['ads']];
+        $ads = isset($quads_options['ads'][$instance['ads']])?$quads_options['ads'][$instance['ads']]:'';
 
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_is_visibility_on($ads)) {
             echo $args['before_widget'];

@@ -64,6 +64,15 @@ class QuadsAdvancePosition extends Component {
            <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
            <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
           <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
+           {quads_localize_data.is_bbpress_exist ? 
+           <>
+           <option value="bbpress_before_ad">BBpress Before Ad</option>
+                  <option value="bbpress_after_ad">BBpress After Ad</option>
+                  <option value="bbpress_before_reply">BBpress Before Reply</option>
+                  <option value="bbpress_after_reply">BBpress After Reply</option>
+                  </>
+                  :null}
+
           <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
           </select>  }
            <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select Where Will The AD Appear</div></span> : ''}</div>
@@ -73,7 +82,14 @@ class QuadsAdvancePosition extends Component {
           {post_meta.position == 'after_image' ? <input min="1" onChange={this.props.adFormChangeHandler} name="image_number" value={post_meta.image_number}  type="number" /> : ''}         
           </div>
           <div>
-
+  {post_meta.position == 'bbpress_before_reply' || post_meta.position == 'bbpress_after_reply' ? 
+          <div>
+          <label>  Inject at
+          <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_number" value={post_meta.paragraph_number}  type="number" /> 
+          </label>
+          <input id='repeat_paragraph' checked={post_meta.repeat_paragraph} name="repeat_paragraph" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+              <label htmlFor="repeat_paragraph"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number}</label>
+           </div> : ''}
 
           {post_meta.position == 'after_paragraph' ? 
           <div>
