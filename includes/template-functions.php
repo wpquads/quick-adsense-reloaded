@@ -807,6 +807,7 @@ function quads_process_content( $content ) {
         $content = quads_parse_quicktags( $content );
         $content = quads_parse_random_quicktag_ads($content);
         $content = quads_parse_random_ads_new( $content );
+        $content = quads_parse_rotator_ads_new( $content );
         $content = quads_clean_tags( $content );
         return do_shortcode( $content );   
     }else{
@@ -1005,6 +1006,8 @@ function quads_filter_default_ads_new( $content ) {
                 // placeholder string for custom ad spots
                 if(isset($ads['random_ads_list']) && !empty($ads['random_ads_list'])){
                     $cusads = '<!--CusRnd'.$ads['ad_id'].'-->'; 
+                }else if(isset($ads['rotator_ads_list']) && !empty($ads['rotator_ads_list'])){
+                    $cusads = '<!--CusRot'.$ads['ad_id'].'-->'; 
                 }else{
                        $cusads = '<!--CusAds'.$ads['ad_id'].'-->'; 
                 }
@@ -1094,6 +1097,8 @@ function quads_filter_default_ads_new( $content ) {
                         
                         if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
                           $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
+                          $paragraph_limit         = isset($ads['paragraph_limit']) ? $ads['paragraph_limit'] : '';
+                          $paragraph_delay          = isset($ads['paragraph_delay']) ? $ads['paragraph_delay'] : '';
                          if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
                           $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
                         }else{
@@ -1103,6 +1108,28 @@ function quads_filter_default_ads_new( $content ) {
                             $original_paragraph_no = $paragraph_no;                                                             
                             
                             if($paragraph_no <= $p_count){
+
+                              if($ads['ad_type']== 'rotator_ads'){
+
+                                $addstart = false;
+                                $addstart_limit = 1;
+                                foreach ($paragraphs as $index => $paragraph) {
+                                    if ( trim( $paragraph ) ) {
+                                        $paragraphs[$index] .= $closing_p;
+                                    }
+                                    if ( $paragraph_no == $index + 1  || $addstart == true) {
+                                      if($addstart_limit ==  $paragraph_limit){
+                                        $addstart = false;
+                                      }else{
+                                        $addstart = true;
+                                      }
+                                        $paragraphs[$index] .= $cusads;
+                                         $addstart_limit++;
+                                      }
+                                    
+                                }
+
+                              }else{
 
                                 foreach ($paragraphs as $index => $paragraph) {
                                     if ( trim( $paragraph ) ) {
@@ -1116,6 +1143,7 @@ function quads_filter_default_ads_new( $content ) {
                                         }
                                     }
                                 }
+                              }
                                 $content = implode( '', $paragraphs ); 
                             }else{
                                 if($end_of_post){
@@ -1627,6 +1655,64 @@ function quads_parse_random_quicktag_ads($content){
         $selected_ads[] = $randomid;
         $enabled_on_amp = (isset($ad_meta['enabled_on_amp'][0]))? $ad_meta['enabled_on_amp'][0]: '';
         $content = quads_replace_ads_new( $content, 'CusRnd' . $ad_id, $randomid,$enabled_on_amp);
+    }
+    return $content;
+
+}
+
+/**
+ * Parse rotator default ads which can be enabled from general settings
+ * 
+ * @global array $adsArray
+ * @global int $visibleContentAds
+ * @return string
+ */
+ function quads_parse_rotator_ads_new($content) {
+    $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
+    if( $off_default_ads ) {
+        return $content;
+    }
+    $selected_ads =array();
+    $random_ads_list_after =array();
+
+    $number_rand_ads = substr_count( $content, '<!--CusRot' );
+    for ( $i = 0; $i <= $number_rand_ads - 1; $i++ ) {
+        preg_match("#<!--CusRot(.+?)-->#si", $content, $match);
+        if(!isset($match['1'])){
+          return $content;
+        }
+        $ad_id = $match['1'];
+        if(!empty($ad_id)){
+            $ad_meta = get_post_meta($ad_id, '',true);
+        }
+        $rotator_ads_list = unserialize($ad_meta['rotator_ads_list']['0']);
+        if (!is_array($rotator_ads_list)) return $content; 
+        $temp_array =array();
+        foreach ($rotator_ads_list as $radom_ad ) {
+            if (isset($radom_ad['value'])){
+                $temp_array[] = $radom_ad['value'];
+            }
+        }
+       $paragraph_limit         = isset($ad_meta['paragraph_limit'][0]) ? $ad_meta['paragraph_limit'][0] : '';
+       $paragraph_delay         = (isset($ad_meta['paragraph_delay'][0]) && !empty($ad_meta['paragraph_delay'][0])) ? $ad_meta['paragraph_delay'][0] : 1;
+        $temp_array_count =count($temp_array);
+        $currentloop=1;
+        $dealyCount_flag = true;
+        for($i=$paragraph_delay-1; $i < $temp_array_count;$i++){
+
+            $enabled_on_amp = (isset($ad_meta['enabled_on_amp'][0]))? $ad_meta['enabled_on_amp'][0]: '';
+            $content = quads_replace_ads_new( $content, 'CusRot' . $ad_id, $temp_array[$i],$enabled_on_amp);
+
+            if(!empty( $paragraph_limit) &&  ($i ==  $temp_array_count-1 )){
+                $i=-1;
+            }
+            if($currentloop == $paragraph_limit){
+                 break;
+            }
+
+            $currentloop++;
+
+        }
     }
     return $content;
 

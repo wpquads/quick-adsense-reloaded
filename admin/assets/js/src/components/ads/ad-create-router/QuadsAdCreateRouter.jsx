@@ -83,10 +83,13 @@ class QuadsAdCreateRouter extends Component {
             repeat_paragraph      : false,
             after_the_percentage_value: 50,
             ads_loop_number: 1,
+            paragraph_limit: '',
+            paragraph_delay: '',
             image_caption : false,
             include_dropdown           : false,
             exclude_dropdown           : false,  
             random_ads_list            : [], 
+            rotator_ads_list           : [], 
             image_src                  : '',
             image_src_id               : '' ,     
             image_redirect_url         : '' ,  
@@ -107,7 +110,8 @@ class QuadsAdCreateRouter extends Component {
               label                : '',
               position             : '',
               visibility_include   : [],
-              random_ads_list      : []  
+              random_ads_list      : [],
+              rotator_ads_list     : [],   
             }                    
         };       
      this.include_timer = null;      
@@ -127,8 +131,12 @@ class QuadsAdCreateRouter extends Component {
       this.includedVisibilityVal = include;
       this.excludedVisibilityVal = exclude;
     }
-      updateRandomAds = (random_ads_list) => {            
+      updateRandomAds = (random_ads_list) => {         
       this.random_ads_list = random_ads_list;
+    }
+    updateRotatorAds = (rotator_ads_list) => {     
+        this.rotator_ads_list = rotator_ads_list;
+
     }
 
     getAdDataById =  (ad_id) => {
@@ -330,6 +338,7 @@ class QuadsAdCreateRouter extends Component {
       body_json.quads_post_meta.visibility_include = this.includedVisibilityVal; 
       body_json.quads_post_meta.visibility_exclude = this.excludedVisibilityVal; 
       body_json.quads_post_meta.random_ads_list = this.random_ads_list; 
+      body_json.quads_post_meta.rotator_ads_list = this.rotator_ads_list; 
       let url = quads_localize_data.rest_url + 'quads-route/update-ad';
       fetch(url,{
         method: "post",
@@ -431,6 +440,13 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             }
           break;
+          case 'rotator_ads':
+            if(validation_flag && quads_post_meta.rotator_ads_list.length > 0 && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;
            case 'double_click':
             if(validation_flag && quads_post_meta.ad_unit_name && quads_post_meta.network_code && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');   
@@ -510,6 +526,7 @@ class QuadsAdCreateRouter extends Component {
     }
     componentDidUpdate(){
           
+
     }
     componentDidMount(){ 
              
@@ -573,7 +590,6 @@ class QuadsAdCreateRouter extends Component {
       let page    = queryString.parse(window.location.search);          
       let new_url = this.props.location.pathname + this.removePartofQueryString(this.props.location.search, 'path=wizard');      
       const {quads_post_meta} = this.state;
-
       if(page.path == 'wizard'){
 
         new_url += 'path=wizard_target';
@@ -600,6 +616,14 @@ class QuadsAdCreateRouter extends Component {
             break;
          case 'random_ads':
           if(quads_post_meta.random_ads_list.length > 0 ){
+             this.props.history.push(new_url); 
+            }else{
+              this.setState({show_form_error:true});
+            }
+            break;
+          case 'rotator_ads':
+
+          if(quads_post_meta.rotator_ads_list.length > 0 ){
              this.props.history.push(new_url); 
             }else{
               this.setState({show_form_error:true});
@@ -738,6 +762,8 @@ class QuadsAdCreateRouter extends Component {
       let quads_ad_old_id ='ad'+result.id;
       if(page.ad_type == 'random_ads'){
           titleName =result.name +" (Random)";
+      }else if(page.ad_type == 'rotator_ads'){
+          titleName =result.name +" (Rotator)";
       }
           this.setState(Object.assign(this.state.quads_post_meta,{label:titleName,quads_ad_old_id:quads_ad_old_id}));
       },        
@@ -782,6 +808,7 @@ class QuadsAdCreateRouter extends Component {
                               openModal     = {this.openModal}
                               closeModal    = {this.closeModal}
                               updateRandomAds    = {this.updateRandomAds}  
+                              updateRotatorAds    = {this.updateRotatorAds} 
                               />;
                           case "wizard_target":
                               return <QuadsAdTargeting  

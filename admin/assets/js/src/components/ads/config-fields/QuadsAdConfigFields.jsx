@@ -12,6 +12,8 @@ class QuadsAdConfigFields extends Component {
     this.state = { 
     adsToggle : false,    
     random_ads_list:[],  
+    adsToggle_list : false,
+    rotator_ads_list:[], 
     getallads_data: [],
     getallads_data_temp: [],
     currentselectedvalue: "",
@@ -36,32 +38,35 @@ class QuadsAdConfigFields extends Component {
  
   this.setState({adsToggle:!this.state.adsToggle,currentselectedvalue : '',getallads_data_temp:getallads_data_temp});
 }
-addIncluded = (e) => {
+  adsToggle_list = () => {
+  const get_all_data = JSON.parse(JSON.stringify(this.state.getallads_data));
+  var get_all_data_count = get_all_data.length;
+  var getallads_data_temp = [];
+  getallads_data_temp = get_all_data;
+  const rotator_ads_list = this.state.rotator_ads_list;
+  var rotator_ads_list_count = this.state.rotator_ads_list.length;
 
-    e.preventDefault();  
-
-    let type  = this.state.multiTypeLeftIncludedValue;
-    let value = this.state.multiTypeRightIncludedValue;
-  
-    if( typeof (value.value) !== 'undefined'){
-      const {random_ads_list} = this.state;
-      let data    = random_ads_list;
-      data.push({type: type, value: value});
-      let newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);          
-      this.setState({random_ads_list: newData});       
-    }        
-  
+    for(var i = 0;i < get_all_data_count;i++){
+      for(var j = 0;j < rotator_ads_list_count;j++){
+        if(typeof rotator_ads_list[j] !== "undefined" && typeof get_all_data[i] !== "undefined" && get_all_data[i].value == rotator_ads_list[j].value){
+          getallads_data_temp.splice(i,1);
+        }
+      }
+    }
+ 
+  this.setState({adsToggle_list:!this.state.adsToggle_list,currentselectedvalue : '',getallads_data_temp:getallads_data_temp});
 }
 
   static getDerivedStateFromProps(props, state) {    
 
+       let alldata = {};
     if(!state.adsToggle){
-      return {
-        random_ads_list: props.parentState.quads_post_meta.random_ads_list, 
-      };
-    }else{
-      return null;
+       alldata.random_ads_list = props.parentState.quads_post_meta.random_ads_list;
     }
+    if(!state.adsToggle_list){
+      alldata.rotator_ads_list= props.parentState.quads_post_meta.rotator_ads_list;
+    }
+    return alldata;
     
   }
     componentDidUpdate (){
@@ -69,6 +74,10 @@ addIncluded = (e) => {
     const random_ads_list = this.state.random_ads_list; 
     if(random_ads_list &&random_ads_list.length > 0 ){
       this.props.updateRandomAds(random_ads_list);
+    }
+     const rotator_ads_list = this.state.rotator_ads_list; 
+    if(rotator_ads_list && rotator_ads_list.length > 0 ){
+      this.props.updateRotatorAds(rotator_ads_list);
     }
     
   }
@@ -122,6 +131,13 @@ removeSeleted = (e) => {
       this.setState(random_ads_list);
 
 }
+removeSeleted_list = (e) => {
+      let index = e.currentTarget.dataset.index;  
+      const { rotator_ads_list } = { ...this.state };    
+      rotator_ads_list.splice(index,1);
+      this.setState(rotator_ads_list);
+
+}
   getallads = (search_text = '',page = '') => {
        let url = quads_localize_data.rest_url + "quads-route/get-ads-list?posts_per_page=100&pageno="+page;
   if(quads_localize_data.rest_url.includes('?')){
@@ -138,7 +154,7 @@ removeSeleted = (e) => {
         (result) => {      
           let getallads_data =[];
           Object.entries(result.posts_data).map(([key, value]) => {
-          if(value.post_meta['ad_type'] != "random_ads" && value.post['post_status'] != "draft")
+          if(value.post_meta['ad_type'] != "random_ads" && value.post_meta['ad_type'] != "rotator_ads" && value.post['post_status'] != "draft")
             getallads_data.push({label: value.post['post_title'], value: value.post['post_id']});
           })      
             this.setState({
@@ -170,6 +186,25 @@ removeSeleted = (e) => {
       this.setState({random_ads_list: newData,adsToggle : false});    
          
     }        
+  
+}
+
+  addselected_list = (e) => {
+
+  
+    e.preventDefault();  
+
+    let value  = this.state.currentselectedvalue;  
+    let label  = this.state.currentselectedlabel;  
+  
+    if( typeof (value) !== 'undefined' && value != ''){
+      const {rotator_ads_list} = this.state;
+      let data    = rotator_ads_list;
+      data.push({ value: value,label: label});
+      let newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);          
+      this.setState({rotator_ads_list: newData,adsToggle_list : false});    
+         
+    }       
   
 }
    componentDidMount() {  
@@ -266,6 +301,48 @@ removeSeleted = (e) => {
                   </tr>
                   </tbody></table>
                   </div>);      
+              break; 
+              case 'rotator_ads':                
+                 ad_type_name = 'Rotator Ads';
+                comp_html.push(<div key="rotator_ads" className="quads-user-targeting"> 
+       <h2>Select Ads<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
+
+                
+             <div className="quads-target-item-list">
+              {                
+              this.state.rotator_ads_list ? 
+              this.state.rotator_ads_list.map( (item, index) => (
+                <div key={index} className="quads-target-item">
+                  <span className="quads-target-label">{item.label}</span>
+                  <span className="quads-target-icon" onClick={this.removeSeleted_list} data-index={index}><Icon>close</Icon></span> 
+                </div>
+               ) )
+              :''}
+              <div>{ (this.state.rotator_ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+             </div>             
+        
+
+        {this.state.adsToggle_list ?
+        <div className="quads-targeting-selection">
+        <table className="form-table">
+         <tbody>
+           <tr>             
+           <td>
+            <Select              
+              name="userTargetingIncludedType"
+              placeholder="Select Ads"              
+              options= {this.state.getallads_data_temp}
+              value  = {this.multiTypeLeftIncludedValue}
+              onChange={this.selectAdchange}                                                 
+            />             
+           </td>
+           <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+           </tr>
+         </tbody> 
+        </table>
+        </div>
+        : ''}
+       </div>);      
               break; 
                case 'random_ads':                
                  ad_type_name = 'Random Ads';
