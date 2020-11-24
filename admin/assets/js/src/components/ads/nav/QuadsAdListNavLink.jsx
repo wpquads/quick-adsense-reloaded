@@ -43,6 +43,7 @@ class QuadsAdListNavLink extends Component {
               break;
               case 'rotator_ads':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/rotator_ads.png';
+              break;
               case 'random_ads':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/random_ads.png';
               break;

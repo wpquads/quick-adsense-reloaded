@@ -1118,13 +1118,17 @@ function quads_filter_default_ads_new( $content ) {
                                         $paragraphs[$index] .= $closing_p;
                                     }
                                     if ( $paragraph_no == $index + 1  || $addstart == true) {
-                                      if($addstart_limit ==  $paragraph_limit){
+
+                                      if(empty($paragraph_limit) && count($paragraphs)-1 == $addstart_limit){
+
                                         $addstart = false;
                                       }else{
                                         $addstart = true;
                                       }
+                                      if($addstart){
                                         $paragraphs[$index] .= $cusads;
                                          $addstart_limit++;
+                                       }
                                       }
                                     
                                 }

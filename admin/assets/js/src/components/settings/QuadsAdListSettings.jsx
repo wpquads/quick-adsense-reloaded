@@ -45,6 +45,7 @@ class QuadsAdListSettings extends Component {
                 click_fraud_protection : false,
                 revenue_sharing_enabled : false,
                 tcf_2_integration   : false,
+                rotator_ads_settings   : true,
                 ad_owner_revenue_per:50,
                 ad_author_revenue_per:50,
                 notice_bg_color : '#1e73be',
@@ -55,7 +56,7 @@ class QuadsAdListSettings extends Component {
                 notice_btn_bg_color : '#f44336',
                 uninstall_on_delete: '',
                 adtxt_errors       :[],
-                maxads             :"100",
+                maxads             :100,
                 hide_ajax          :false,
                 QckTags            :false,
                 adsTxtEnabled      :false,
@@ -522,9 +523,9 @@ handleMultiPluginsChange = (option) => {
         const { settings } = { ...this.state };
         let old_settings = '';
               Object.entries(result).map(([meta_key, meta_val]) => {                
-                  if(meta_val){
+                 // if(meta_val != ''){
                     settings[meta_key] =    meta_val;   
-                  }                   
+                 // }                   
               })
           old_settings = {...settings};
           this.setState({settings:settings,old_settings:old_settings});                 
@@ -760,6 +761,12 @@ handleMultiPluginsChange = (option) => {
      this.saveSettings();
     }
     if(name == 'ip_geolocation_api'){
+     this.saveSettings();
+    }
+    if(name == 'tcf_2_integration'){
+     this.saveSettings();
+    }
+    if(name == 'rotator_ads_settings'){
      this.saveSettings();
     }
     if(name == 'adsforwp_quads_shortcode'|| name == 'adsforwp_quads_gutenberg' || name == 'advance_ads_to_quads'){
@@ -1306,6 +1313,15 @@ handleMultiPluginsChange = (option) => {
                      <td>
                        <label className="quads-switch">
                          <input id="tcf_2_integration" type="checkbox" name="tcf_2_integration" onChange={this.formChangeHandler} checked={settings.tcf_2_integration} />
+                         <span className="quads-slider"></span>
+                       </label>                       
+                     </td>
+                     </tr>
+                     <tr>
+                     <th><label htmlFor="rotator_ads_settings">{__('Rotator Ads', 'quick-adsense-reloaded')}</label></th> 
+                     <td>
+                       <label className="quads-switch">
+                         <input id="rotator_ads_settings" type="checkbox" name="rotator_ads_settings" onChange={this.formChangeHandler} checked={settings.rotator_ads_settings} />
                          <span className="quads-slider"></span>
                        </label>                       
                      </td>

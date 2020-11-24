@@ -304,6 +304,12 @@ removeSeleted_list = (e) => {
               break; 
               case 'rotator_ads':                
                  ad_type_name = 'Rotator Ads';
+                 if(!quads_localize_data.is_pro){
+                  comp_html.push(<div key="rotator_ads" className="quads-user-targeting"> 
+This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+</div>);
+                 break;
+                 }
                 comp_html.push(<div key="rotator_ads" className="quads-user-targeting"> 
        <h2>Select Ads<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
 
