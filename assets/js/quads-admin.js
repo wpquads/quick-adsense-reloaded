@@ -15,6 +15,27 @@ jQuery(selector).attr('onClick', "");
 
 jQuery(document).ready(function ($) {
 
+        $("#quads-offer-close").click(function(){
+        $(".quads-wrapper-discount").remove();
+    });
+    $("#quads-offer-close").click(function(){
+        url: ajaxurl;
+        var data = {
+            action: 'quads_dismiss_discount_btn',
+        };
+        $.post(ajaxurl, data, function(response) {
+             $(".quads-wrapper-discount").remove();
+        });
+    });
+    $("#quads-close-notice").click(function(){
+        var data = {
+            action: 'quads_feedback_remove_notice',
+        };
+        $.post(ajaxurl, data, function(response) {
+            $(".quads_remove_notice").remove();
+        });
+    });
+
 $('a[href$="quads_switch_to_new"]').removeAttr("href").attr('onClick', "quads_switch_version('new',this);");
 $('a[href$="quads_switch_to_old"]').removeAttr("href").attr('onClick', "quads_switch_version('old',this);");
 

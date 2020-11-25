@@ -57,7 +57,7 @@ function quads_add_options_link() {
         if (quads_is_extra() || quads_is_advanced()) {
             
         }else{
-            $quads_add_ons_page = add_submenu_page('quads-settings', __('Get Add-On', 'quick-adsense-reloaded'), 'Get WP QUADS PRO', 'manage_options', 'quads-addons', 'quads_add_ons_page');
+            $quads_add_ons_page = add_submenu_page('quads-settings', __('Get Add-On', 'quick-adsense-reloaded'), 'upgrade to PRO', 'manage_options', 'quads-addons', 'quads_add_ons_page');
         }
     }
 }
