@@ -157,11 +157,21 @@ class QuadsAdCreateRouter extends Component {
           
           const { quads_post_meta } = { ...this.state };
           Object.entries(result).map(([key, value]) => {
+            console.log(key);
             if(key == 'post'){
               this.setState({quads_post: result.post}); 
-            }else{              
+            }else{ 
+                          
               Object.entries(value).map(([meta_key, meta_val]) => {
-                
+                 if(meta_key == 'visibility_include'){
+                   this.includedVisibilityVal = meta_val;
+                }else if(meta_key == 'visibility_exclude'){
+                   this.excludedVisibilityVal = meta_val;
+                }else if(meta_key == 'targeting_include'){
+                   this.includedVal = meta_val;
+                }else if(meta_key == 'targeting_exclude'){
+                   this.excludedVal = meta_val;
+                }
                   if(meta_val){
                     quads_post_meta[meta_key] =    meta_val;   
                   }                   
