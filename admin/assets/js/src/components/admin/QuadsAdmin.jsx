@@ -3,7 +3,7 @@ import queryString from 'query-string'
 import QuadsAdListSettings from './../settings/QuadsAdListSettings'
 import QuadsAdListBody from './../ads/body/QuadsAdListBody'
 import QuadsAdListNavLink from './../ads/nav/QuadsAdListNavLink'
-
+import QuadsAdReport from '../report/QuadsAdReport'
 class QuadsAdmin extends Component {
 
     constructor(props) {      
@@ -81,8 +81,11 @@ class QuadsAdmin extends Component {
                                 return <QuadsAdListBody
                                  nodatashowAddTypeSelector ={this.nodatashowAddTypeSelector}
                                  />;                                
-                            }                                
-                            })()}
+                            }
+                            if(pagePath.includes('reports')){
+                                return <QuadsAdReport      />;
+                            }
+                        })()}
                     </div>
                     </div>                                                                
             );

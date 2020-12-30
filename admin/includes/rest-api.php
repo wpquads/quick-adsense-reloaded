@@ -6,6 +6,9 @@ class QUADS_Ad_Setup_Api {
                 
         private static $instance;   
         private $api_service = null;
+    const CID = '92665529714-u1epglunqmdl9s2nne6cttkfc138smb7.apps.googleusercontent.com';
+
+    const CS = 'dHjumDqZSshxPitfVJErRTcX';
 
         private function __construct() {
             
@@ -168,9 +171,22 @@ class QUADS_Ad_Setup_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
-                      
-        } 
+            register_rest_route( 'quads-route', 'reports-adsense-confcode', array(
+                'methods'    => 'POST',
+                'callback'   => array($this, 'reportsAdsenseConfcode'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
+        }
+    public static function log( $task = 'No task provided' ) {
 
+        $message = date_i18n( '[Y-m-d H:i:s]' ) . ' ' . $task . "\n";
+        error_log( $message, 3, WP_CONTENT_DIR . '/Quads-ads-google-api-requests.log' );
+    }
+    public function reportsAdsenseConfcode() {
+
+    }
         public function importadsforwp_ads(){
             global $quads_settings;
              $ad_count = 1;

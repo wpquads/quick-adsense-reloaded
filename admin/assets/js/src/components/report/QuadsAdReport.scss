@@ -1,0 +1,35 @@
+.quads-large-popup{
+
+  position: absolute;
+}
+.view_report{
+  padding: 22px;
+}
+.breadcrumb {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  padding: .75rem 1rem;
+  margin-bottom: 1rem;
+  list-style: none;
+  background-color: #e9ecef;
+  border-radius: .25rem;
+}
+.breadcrumb-item.active {
+  color: #6c757d;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+  display: inline-block;
+  padding-right: .5rem;
+  padding-left: .5rem;
+  color: #6c757d;
+  content: "/";
+}
+.chart_main_class{
+  padding: 24px;
+}
+.breadcrumb-item{
+  cursor: pointer;
+}

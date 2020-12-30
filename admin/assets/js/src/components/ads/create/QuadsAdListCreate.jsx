@@ -72,11 +72,13 @@ class QuadsAdListCreate extends Component {
                      <div className="quads-close-ad-modal material-icons" onClick={this.ad_modal_hide}><a>close</a></div>
                     <div className="quads-popular-network">
                     <h3>{__('Popular Integration', 'quick-adsense-reloaded')}</h3>
-                    <ul>
+                        <div>
+                        <ul>
                     {this.state.popular_ad_network.map(item => (
                     <li data-adtype={item.ad_type} onClick={this.QuadsRedirectToWizard} key={item.ad_type}><a className="quads-nav-link">{this.getImageByAdType(item.ad_type)}<div><strong>{item.ad_type_name}</strong></div></a></li>  
                     ))}
                     </ul>
+                        </div>
                     </div>
                     <div className="quads-all-network">
                     <h3>{__('AD Integrations', 'quick-adsense-reloaded')}</h3>
