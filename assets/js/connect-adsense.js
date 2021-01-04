@@ -1,5 +1,84 @@
 ;(function($){
 
+    $( document ).on( 'click', '#report_type', function(){
+      var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_adsense';
+
+        $.ajax({
+            url: url,
+            type: 'post',
+            data: data,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': quads_localize_data.nonce,
+            },
+            success:function(response, status, XHR){
+
+
+                display_report(response);
+            },
+            error:function(request, status, error){
+                $( '#gadsense-loading-overlay' ).css( 'display', 'none' );
+            },
+        });
+    } );
+function display_report(response){
+    console.log( response );
+    let config = {
+        type: 'line',
+        data: {
+            labels: ['31-12-2020', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: 'red',
+                borderColor:'red',
+                data: [
+                    10,20,30,22
+                ],
+                fill: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Chart.js Line Chart'
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                }
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {
+                x: {
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Month'
+                    }
+                },
+                y: {
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Value'
+                    }
+                }
+            }
+        }
+    };
+    let ctx = document.getElementById('canvas').getContext('2d');
+    // console.log('ctx');
+
+    // console.log(ctx);
+    // let myLine = new Chart(ctx, config);
+    // console.log('config');
+}
     $( document ).on( 'click', '#quads-connect-adsense', function(){
         if ( $( this ).hasClass( 'disabled_adsense_link' ) ) return;
         if ( 'undefined' != typeof window.quadsMapiConnect ) {

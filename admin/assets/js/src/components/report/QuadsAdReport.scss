@@ -33,3 +33,10 @@
 .breadcrumb-item{
   cursor: pointer;
 }
+
+#report_type,#report_period,#input_based{
+  width: 200px;
+}
+.quads-select-menu{
+  display: flex;
+}

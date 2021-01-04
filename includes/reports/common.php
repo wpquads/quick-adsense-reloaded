@@ -288,10 +288,6 @@ function has_token( $adsense_id = '' ) {
 }
 function quads_adsense_get_report_data($request_data){
 
-
-// $response =   get_option('quads_adsense_api_data_response');
-//
-// return $response;
     $parameters = $request_data->get_params();
     $report_period = (isset($parameters['report_period'])&& !empty($parameters['report_period']))?$parameters['report_period'] :'';
     $report_type = (isset($parameters['report_type'])&& !empty($parameters['report_type']))?$parameters['report_type'] :'';
@@ -315,10 +311,6 @@ function quads_adsense_get_report_data($request_data){
             $startDate = strtotime(" -6 day");
             break;
     }
-
-
-//    $newEndingDate = date("Y-m-d", strtotime(date("Y-m-d", ));
-
 
     $account_id = $parameters['account_id'];
     $startDate = date("Y-m-d", $startDate);//date('Y-m-d',$startDate);
@@ -477,6 +469,8 @@ function quads_load_adsnese_scripts($hook){
     wp_localize_script( 'quads-admin-adsense', 'quads_adsense', array(
         'auth_url' => $auth_url
     ) );
-
-
+// chart js
+    wp_enqueue_script( 'quads_charts_js', $js_dir . 'Chart' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+//    wp_localize_script( 'quads-charts-js' ,'');
+    wp_enqueue_script( 'quads_charts_js' );
 }

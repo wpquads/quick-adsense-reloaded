@@ -168,6 +168,7 @@ class QuadsAdReport extends Component {
     change_page =(newPageName) =>{
         this.setState({current_page:newPageName});
     }
+
     quads_adsense_report  =(pub_id='') =>{
         const {report} = this.state;
         if(pub_id == ''){
@@ -175,94 +176,6 @@ class QuadsAdReport extends Component {
         }else{
             this.setState({ adsense_pub_id: pub_id,current_page:'adsense_report_page'});
         }
-        // this.setState({isLoading:true});
-
-        let report_type =report.report_type;
-        let report_period =report.report_period;
-        let url = quads_localize_data.rest_url + 'quads-adsense/get_report_adsense';
-        // return true;
-        fetch(url,{
-            method: "post",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-WP-Nonce': quads_localize_data.nonce,
-            },
-            body: JSON.stringify({'account_id':pub_id,'report_type':report_type,'report_period':report_period})
-            //make sure to serialize your JSON body
-        })
-            .then(res => res.json())
-            .then(
-                (response) => {
-                    const {report} = this.state;
-
-                    let data_array_desktop =[];
-                    let data_array_tablet =[];
-                    let data_array_mobile = [];
-                    let data_array = [];
-                    let arr =[];
-                    if(report_type == 'earning') {
-                        response.map(item => {
-                            data_array.push({primary: new Date(item[0]), secondary: item[1]});
-                        });
-                        arr = [{
-                            label: 'Earnings',
-                            data: data_array
-                        }];
-                        report['adsense_code_data']=arr;
-                        this.setState({report:report,isLoading:false});
-                    }else if(report_type == 'earning_forcast') {
-                        let total_amount = 0;
-                        let data_array = [];
-                        response.map(item => {
-                            total_amount += parseFloat(item[1]);
-                        });
-                        let avg = total_amount/response.length;
-
-                        for (let i=1;i<=report.input_based;i++){
-                            let date = new Date();
-                            date.setDate(date.getDate() + i);
-                            console.log(date);
-
-                            data_array.push({primary: date, secondary: avg});
-                        }
-                        console.log(data_array);
-
-                        arr = [{
-                            label: 'Earnings',
-                            data: data_array
-                        }];
-                        report['adsense_code_data']=arr;
-                        this.setState({report:report,isLoading:false});
-                    }else
-                    if(report_type == 'top_device_type') {
-                        response.map(item => {
-                            if (item[1] == 'Desktop') {
-                                data_array_desktop.push({primary: new Date(item[0]), secondary: item[2]});
-                            } else if (item[1] == 'Tablet') {
-                                data_array_tablet.push({primary: new Date(item[0]), secondary: item[2]});
-                            } else if (item[1] == 'HighEndMobile') {
-                                data_array_mobile.push({primary: new Date(item[0]), secondary: item[2]});
-                            }
-                        });
-                        arr = [{
-                            label: 'Desktop',
-                            data: data_array_desktop
-                        }, {
-                            label: 'Tablet',
-                            data: data_array_tablet
-                        }, {
-                            label: 'HighEndMobile',
-                            data: data_array_mobile
-                        }];
-                        report['adsense_code_data']=arr;
-                        this.setState({report:report,isLoading:false});
-                    }else{
-                        report['adsense_code_data']=arr;
-                        this.setState({isLoading:false});
-                    }
-
-                });
     }
     report_formChangeHandler = (event) => {
 
@@ -308,7 +221,6 @@ class QuadsAdReport extends Component {
     revoke_adsense_link = () =>{
         let url = quads_localize_data.rest_url + 'quads-adsense/revoke_adsense_link';
         let  pub_id =this.state.adsense_pub_id;
-        console.log(pub_id);
         fetch(url,{
             method: "post",
             headers: {
@@ -344,22 +256,24 @@ class QuadsAdReport extends Component {
         return (
             <>
                 {this.state.isLoading ? <div className="quads-cover-spin"></div>
-                : null}
+                    : null}
                 { this.state.current_page == 'report' ?
                     <div className="quads-full-page-modal">
                         <div className="quads-full-page-modal-content"><h3>{__('Reports', 'quick-adsense-reloaded')}</h3>
                             <div className="quads-ad-networks">
-                                <ul>
+                                <ul key={'quads-ad-networks'}>
                                     {this.state.All_report_list.map(item => (
-                                        <li  data-adtype={item.ad_type} key={item.ad_type}><a className="quads-nav-link" id={item.id} onClick={() => this.quads_adsense_report(this.state.adsense_pub_id)} >{this.getImageByAdType(item.ad_type)}<div><strong>{item.ad_type_name}</strong></div></a>
-                                                <div className={'view_report'} >
-                                                 <label htmlFor="quads-connect-adsense">{report.adsense_code_view ?'Active': 'InActive' }</label>
+                                        <li  data-adtype={item.ad_type} key={item.ad_type} id={item.id}><a className="quads-nav-link" onClick={() => this.quads_adsense_report(this.state.adsense_pub_id)} >{this.getImageByAdType(item.ad_type)}<div><strong>{item.ad_type_name}</strong></div></a>
+                                            <div className={'view_report'} >
+                                                <label htmlFor="quads-connect-adsense">{report.adsense_code_view ?'Active': 'InActive' }</label>
 
-                                                        <label className="quads-switch">
-                                                            <input id="quads-connect-adsense" className={report.adsense_code_view ?'disabled_adsense_link': '' } type="checkbox" name="adsense_code_view" onChange={this.report_formChangeHandler} checked={report.adsense_code_view} />
-                                                            <span className="quads-slider"></span>
-                                                        </label>
-                                                </div>
+                                                <label className="quads-switch">
+                                                    <input type={'hidden'} id={'pub_id'} value={this.state.adsense_pub_id} />
+
+                                                    <input id="quads-connect-adsense" className={report.adsense_code_view ?'disabled_adsense_link': '' } type="checkbox" name="adsense_code_view" onChange={this.report_formChangeHandler} checked={report.adsense_code_view} />
+                                                    <span className="quads-slider"></span>
+                                                </label>
+                                            </div>
                                         </li>
                                     ))}
                                 </ul>
@@ -386,41 +300,43 @@ class QuadsAdReport extends Component {
                                 {/*<div className="quads-large-description"></div>*/}
 
                                 {/*<div className="quads-large-content">*/}
-                                    <select  name="report_type" onChange={this.report_formChangeHandler} >
+                                <div className={'quads-select-menu'} >
+                                    <input type={'hidden'} id={'pub_id'} value={this.state.adsense_pub_id} />
+                                    <select  name="report_type" id={'report_type'} onChange={this.report_formChangeHandler} >
                                         <option value="earning">Earnings</option>
                                         <option value="earning_forcast">Earnings Forcast</option>
                                         <option value="top_adunit">Top Performs Adunits</option>
                                         <option value="top_country">Top Paying country</option>
                                         <option value="top_device_type">Top Earning Device type</option>
                                     </select>
-                                {this.state.report.report_type != 'earning_forcast' ?
-                                    <select name="report_period" onChange={this.report_formChangeHandler}>
-                                        <option value="last_7days">Last 7days</option>
-                                        <option value="last_15days">Last 15days</option>
-                                        <option value="last_30days">Last 30days</option>
-                                        <option value="last_6months">Last 6months</option>
-                                        <option value="last_1year">Last 1year</option>
-                                    </select>
-                               : ''}
-                                {this.state.report.report_type == 'earning_forcast' ?
-                                  <div>  revenue prediction based on<select name="report_period" onChange={this.report_formChangeHandler}>
-                                        <option value="last_7days">Last 7days</option>
-                                        <option value="last_15days">Last 15days</option>
-                                        <option value="last_30days">Last 30days</option>
-                                        <option value="last_6months">Last 6months</option>
-                                        <option value="last_1year">Last 1year</option>
-                                    </select> for <input id={'input_based'} defaultValue={'7'} name={'input_based'} onChange={this.report_formChangeHandler} />
-                                  </div>
-                                    : ''}
-                                    <div className={'chart_main_class'} style={{
-                                        width: "400px",
-                                        height: "300px"
-                                    }}
-                                    >
-                                        <Chart data={this.state.report.adsense_code_data} axes={axes} series={series} tooltip />
-                                    </div>
-                                {/*</div>*/}
-
+                                    {this.state.report.report_type != 'earning_forcast' ?
+                                        <select name="report_period" id={'report_period'} onChange={this.report_formChangeHandler}>
+                                            <option value="last_7days">Last 7days</option>
+                                            <option value="last_15days">Last 15days</option>
+                                            <option value="last_30days">Last 30days</option>
+                                            <option value="last_6months">Last 6months</option>
+                                            <option value="last_1year">Last 1year</option>
+                                        </select>
+                                        : ''}
+                                    {this.state.report.report_type == 'earning_forcast' ?
+                                        <div>  revenue prediction based on<select name="report_period" id={'report_period'} onChange={this.report_formChangeHandler}>
+                                            <option value="last_7days">Last 7days</option>
+                                            <option value="last_15days">Last 15days</option>
+                                            <option value="last_30days">Last 30days</option>
+                                            <option value="last_6months">Last 6months</option>
+                                            <option value="last_1year">Last 1year</option>
+                                        </select> for
+                                            <select name="input_based" id={'input_based'} onChange={this.report_formChangeHandler}>
+                                                <option value="next_7days">Next 7days</option>
+                                                <option value="next_15days">Next 15days</option>
+                                                <option value="next_30days">Next 30days</option>
+                                                <option value="next_6months">Next 6months</option>
+                                                <option value="next_1year">Next 1year</option>
+                                            </select>
+                                        </div>
+                                        : ''}
+                                </div>
+                                <canvas id="canvas"></canvas>
                             </div>
                         </div>
                     </div>: null
