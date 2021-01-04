@@ -381,9 +381,8 @@ function quads_adblocker_popup_notice(){
 function quads_adblocker_notice_jsondata(){
     $settings = quads_defaultSettings();
     $output = '';
-
-    if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support'] && !empty($settings['notice_type'])){
-      
+    $quads_mode = get_option('quads-mode');
+    if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support'] && !empty($settings['notice_type']) || ($quads_mode && $quads_mode == 'old' && isset($settings['ad_blocker_message'])  && $settings['ad_blocker_message'])){
       $output    .= '<script type="text/javascript">';
       $output    .= '/* <![CDATA[ */';
       $output    .= 'var quadsOptions =' .
@@ -489,11 +488,15 @@ function quads_adblocker_notice_bar(){
   }
 }
 function quads_adblocker_ad_block(){
-  ?>
+    $settings = quads_defaultSettings();
+    $quads_mode = get_option('quads-mode');
+    if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support'] && !empty($settings['notice_type']) || ($quads_mode && $quads_mode == 'old' && isset($settings['ad_blocker_message'])  && $settings['ad_blocker_message'])){
+
+        ?>
 <script type="text/javascript">
+
    if(typeof quadsOptions !== 'undefined' && typeof wpquads_adblocker_check_2 
   === 'undefined' && quadsOptions.quadsChoice == 'ad_blocker_message'){
-
   var addEvent1 = function (obj, type, fn) {
       if (obj.addEventListener)
           obj.addEventListener(type, fn, false);
@@ -504,6 +507,7 @@ function quads_adblocker_ad_block(){
   };
    addEvent1(window, 'load', function () {
       if (typeof wpquads_adblocker_check_2 === "undefined" || wpquads_adblocker_check_2 === false) {
+
           highlight_adblocked_ads();
       }
   });
@@ -606,6 +610,7 @@ function quadssetCookie(cname, cvalue, exdays, path){
 </script>
 
 <?php
+    }
 }
 /**
  * Show ads before posts
