@@ -768,7 +768,7 @@ function quads_get_load_priority(){
 }
 
 /**
- * 
+ *
  * @global arr $quads_options
  * @global type $adsArray
  * @param type $content
@@ -807,7 +807,6 @@ function quads_process_content( $content ) {
         $content = quads_parse_quicktags( $content );
         $content = quads_parse_random_quicktag_ads($content);
         $content = quads_parse_random_ads_new( $content );
-        $content = quads_parse_rotator_ads_new( $content );
         $content = quads_clean_tags( $content );
         return do_shortcode( $content );   
     }else{
@@ -1664,63 +1663,7 @@ function quads_parse_random_quicktag_ads($content){
 
 }
 
-/**
- * Parse rotator default ads which can be enabled from general settings
- * 
- * @global array $adsArray
- * @global int $visibleContentAds
- * @return string
- */
- function quads_parse_rotator_ads_new($content) {
-    $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
-    if( $off_default_ads ) {
-        return $content;
-    }
-    $selected_ads =array();
-    $random_ads_list_after =array();
 
-    $number_rand_ads = substr_count( $content, '<!--CusRot' );
-    for ( $i = 0; $i <= $number_rand_ads - 1; $i++ ) {
-        preg_match("#<!--CusRot(.+?)-->#si", $content, $match);
-        if(!isset($match['1'])){
-          return $content;
-        }
-        $ad_id = $match['1'];
-        if(!empty($ad_id)){
-            $ad_meta = get_post_meta($ad_id, '',true);
-        }
-        $rotator_ads_list = unserialize($ad_meta['rotator_ads_list']['0']);
-        if (!is_array($rotator_ads_list)) return $content; 
-        $temp_array =array();
-        foreach ($rotator_ads_list as $radom_ad ) {
-            if (isset($radom_ad['value'])){
-                $temp_array[] = $radom_ad['value'];
-            }
-        }
-       $paragraph_limit         = isset($ad_meta['paragraph_limit'][0]) ? $ad_meta['paragraph_limit'][0] : '';
-       $paragraph_delay         = (isset($ad_meta['paragraph_delay'][0]) && !empty($ad_meta['paragraph_delay'][0])) ? $ad_meta['paragraph_delay'][0] : 1;
-        $temp_array_count =count($temp_array);
-        $currentloop=1;
-        $dealyCount_flag = true;
-        for($i=$paragraph_delay-1; $i < $temp_array_count;$i++){
-
-            $enabled_on_amp = (isset($ad_meta['enabled_on_amp'][0]))? $ad_meta['enabled_on_amp'][0]: '';
-            $content = quads_replace_ads_new( $content, 'CusRot' . $ad_id, $temp_array[$i],$enabled_on_amp);
-
-            if(!empty( $paragraph_limit) &&  ($i ==  $temp_array_count-1 )){
-                $i=-1;
-            }
-            if($currentloop == $paragraph_limit){
-                 break;
-            }
-
-            $currentloop++;
-
-        }
-    }
-    return $content;
-
-}
 
 /**
  * Parse random default ads which can be enabled from general settings

@@ -157,7 +157,6 @@ class QuadsAdCreateRouter extends Component {
           
           const { quads_post_meta } = { ...this.state };
           Object.entries(result).map(([key, value]) => {
-            console.log(key);
             if(key == 'post'){
               this.setState({quads_post: result.post}); 
             }else{ 

@@ -28,32 +28,29 @@ class QuadsAdConfigFields extends Component {
   const random_ads_list = this.state.random_ads_list;
   var random_ads_list_count = this.state.random_ads_list.length;
 
-    for(var i = 0;i < get_all_data_count;i++){
-      for(var j = 0;j < random_ads_list_count;j++){
-        if(typeof random_ads_list[j] !== "undefined" && typeof get_all_data[i] !== "undefined" && get_all_data[i].value == random_ads_list[j].value){
-          getallads_data_temp.splice(i,1);
-        }
+      for( let i=getallads_data_temp.length - 1; i>=0; i--){
+          for( let j=0; j<random_ads_list.length; j++){
+              if(getallads_data_temp[i] && (getallads_data_temp[i].value === random_ads_list[j].value)){
+                  getallads_data_temp.splice(i, 1);
+              }
+          }
       }
-    }
- 
   this.setState({adsToggle:!this.state.adsToggle,currentselectedvalue : '',getallads_data_temp:getallads_data_temp});
 }
   adsToggle_list = () => {
   const get_all_data = JSON.parse(JSON.stringify(this.state.getallads_data));
-  var get_all_data_count = get_all_data.length;
   var getallads_data_temp = [];
   getallads_data_temp = get_all_data;
   const rotator_ads_list = this.state.rotator_ads_list;
-  var rotator_ads_list_count = this.state.rotator_ads_list.length;
 
-    for(var i = 0;i < get_all_data_count;i++){
-      for(var j = 0;j < rotator_ads_list_count;j++){
-        if(typeof rotator_ads_list[j] !== "undefined" && typeof get_all_data[i] !== "undefined" && get_all_data[i].value == rotator_ads_list[j].value){
-          getallads_data_temp.splice(i,1);
-        }
+      for( let i=getallads_data_temp.length - 1; i>=0; i--){
+          for( let j=0; j<rotator_ads_list.length; j++){
+              if(getallads_data_temp[i] && (getallads_data_temp[i].value === rotator_ads_list[j].value)){
+                  getallads_data_temp.splice(i, 1);
+              }
+          }
       }
-    }
- 
+
   this.setState({adsToggle_list:!this.state.adsToggle_list,currentselectedvalue : '',getallads_data_temp:getallads_data_temp});
 }
 
