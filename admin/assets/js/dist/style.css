@@ -1992,8 +1992,7 @@ and open the template in the editor.
   margin: 0; }
 
 .quads-ad-networks {
-  padding: 50px;
-  max-width: 900px; }
+  padding: 50px; }
 
 .quads-side-part {
   width: 10%; }
@@ -2048,3 +2047,9 @@ and open the template in the editor.
 
 .quads-select-menu {
   display: flex; }
+
+.view_report label {
+  margin-right: 9px; }
+
+#quads-adsense .quads-nav-link strong {
+  color: #005af0; }

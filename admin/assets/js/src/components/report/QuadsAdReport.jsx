@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import '../ads/create/QuadsAdListCreate.scss';
 import '../../components/report/QuadsAdReport.scss'
 import {Chart} from 'react-charts'
@@ -176,6 +176,9 @@ class QuadsAdReport extends Component {
         }else{
             this.setState({ adsense_pub_id: pub_id,current_page:'adsense_report_page'});
         }
+        if(!report.adsense_code_view) {
+            this.inputElement.click();
+        }
     }
     report_formChangeHandler = (event) => {
 
@@ -258,19 +261,19 @@ class QuadsAdReport extends Component {
                 {this.state.isLoading ? <div className="quads-cover-spin"></div>
                     : null}
                 { this.state.current_page == 'report' ?
-                    <div className="quads-full-page-modal">
-                        <div className="quads-full-page-modal-content"><h3>{__('Reports', 'quick-adsense-reloaded')}</h3>
+                    <Fragment>
+                        <div>  <h3>{__('Reports', 'quick-adsense-reloaded')}</h3>
                             <div className="quads-ad-networks">
                                 <ul key={'quads-ad-networks'}>
                                     {this.state.All_report_list.map(item => (
-                                        <li  data-adtype={item.ad_type} key={item.ad_type} id={item.id}><a className="quads-nav-link" onClick={() => this.quads_adsense_report(this.state.adsense_pub_id)} >{this.getImageByAdType(item.ad_type)}<div><strong>{item.ad_type_name}</strong></div></a>
+                                        <li  data-adtype={item.ad_type} key={item.ad_type} id={item.id}><a className="quads-nav-link" onClick={() => this.quads_adsense_report(this.state.adsense_pub_id)} >{this.getImageByAdType(item.ad_type)}<div><strong>{report.adsense_code_view ?'View Report': 'Connect' }</strong></div></a>
                                             <div className={'view_report'} >
-                                                <label htmlFor="quads-connect-adsense">{report.adsense_code_view ?'Active': 'InActive' }</label>
+                                                <label htmlFor="quads-connect-adsense">{report.adsense_code_view ?'Connected': 'Disconnected' }</label>
 
                                                 <label className="quads-switch">
                                                     <input type={'hidden'} id={'pub_id'} value={this.state.adsense_pub_id} />
 
-                                                    <input id="quads-connect-adsense" className={report.adsense_code_view ?'disabled_adsense_link': '' } type="checkbox" name="adsense_code_view" onChange={this.report_formChangeHandler} checked={report.adsense_code_view} />
+                                                    <input id="quads-connect-adsense" ref={input => this.inputElement = input} className={report.adsense_code_view ?'disabled_adsense_link': '' } type="checkbox" name="adsense_code_view" onChange={this.report_formChangeHandler} checked={report.adsense_code_view} />
                                                     <span className="quads-slider"></span>
                                                 </label>
                                             </div>
@@ -279,7 +282,8 @@ class QuadsAdReport extends Component {
                                 </ul>
                             </div>
                         </div>
-                    </div> : ''
+                    </Fragment>
+                    : ''
                 }
                 {this.state.current_page =='adsense_report_page' ?
                     <div className="quads-full-page-modal">
@@ -303,6 +307,7 @@ class QuadsAdReport extends Component {
                                 <div className={'quads-select-menu'} >
                                     <input type={'hidden'} id={'pub_id'} value={this.state.adsense_pub_id} />
                                     <select  name="report_type" id={'report_type'} onChange={this.report_formChangeHandler} >
+                                        <option value="">Select Report</option>
                                         <option value="earning">Earnings</option>
                                         <option value="earning_forcast">Earnings Forcast</option>
                                         <option value="top_adunit">Top Performs Adunits</option>
@@ -311,6 +316,7 @@ class QuadsAdReport extends Component {
                                     </select>
                                     {this.state.report.report_type != 'earning_forcast' ?
                                         <select name="report_period" id={'report_period'} onChange={this.report_formChangeHandler}>
+                                            <option value="">Select Duration</option>
                                             <option value="last_7days">Last 7days</option>
                                             <option value="last_15days">Last 15days</option>
                                             <option value="last_30days">Last 30days</option>
@@ -320,6 +326,7 @@ class QuadsAdReport extends Component {
                                         : ''}
                                     {this.state.report.report_type == 'earning_forcast' ?
                                         <div>  revenue prediction based on<select name="report_period" id={'report_period'} onChange={this.report_formChangeHandler}>
+                                            <option value="">Select Duration</option>
                                             <option value="last_7days">Last 7days</option>
                                             <option value="last_15days">Last 15days</option>
                                             <option value="last_30days">Last 30days</option>
