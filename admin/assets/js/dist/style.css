@@ -1101,8 +1101,8 @@ a.quads-nav-link-active {
   opacity: 50%; }
 
 .quads-got_pro {
-  font-size: 18px !important;
-  padding: 12px 26px;
+  font-size: 12px !important;
+  padding: 6px 12px;
   border-radius: 60px;
   background: -webkit-linear-gradient(to right, #eb3349, #f45c43);
   background: linear-gradient(to right, #eb3349, #f45c43);
