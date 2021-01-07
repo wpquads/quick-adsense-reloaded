@@ -91,7 +91,7 @@ class QuadsAdvancePosition extends Component {
               <label htmlFor="repeat_paragraph"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number}</label>
            </div> : ''}
 
-          {post_meta.position == 'after_paragraph' ? 
+          {post_meta.position == 'after_paragraph' ?
           <div>
           <div>
           <label>  
@@ -109,16 +109,16 @@ class QuadsAdvancePosition extends Component {
 
            
            </div>
-           : null}
-
-          <div>
-            <label > {__('Limit', 'quick-adsense-reloaded')}</label>
-            <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_limit" value={post_meta.paragraph_limit}  type="number" />
-          </div>
-          <div>
+           : <div><div>
+        <label > {__('Limit', 'quick-adsense-reloaded')}</label>
+        <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_limit" value={post_meta.paragraph_limit}  type="number" />
+    </div>
+        <div>
             <label > {__('Delay Count', 'quick-adsense-reloaded')}</label>
             <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_delay" value={post_meta.paragraph_delay}  type="number" />
-          </div>
+        </div></div>}
+
+
            </div> : ''}
 
           {post_meta.position == 'after_word_count' ? 

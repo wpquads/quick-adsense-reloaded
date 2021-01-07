@@ -452,6 +452,7 @@ function quads_adsense_renew_access_token( $account ) {
     }
 }
 function quads_load_adsnese_scripts($hook){
+    if($hook!=='toplevel_page_quads-settings'){ return ; }
 
     $js_dir  = QUADS_PLUGIN_URL . 'assets/js/';
 //    $css_dir = QUADS_PLUGIN_URL . 'assets/css/';
