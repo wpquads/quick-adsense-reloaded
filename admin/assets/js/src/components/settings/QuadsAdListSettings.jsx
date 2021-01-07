@@ -420,7 +420,7 @@ handleMultiPluginsChange = (option) => {
   addauto_ad_code = (e) => {
     let value = e.target.value;
     const { settings } = this.state;
-    settings.auto_ad_code = value;     
+    settings.auto_ad_code = value;
     this.setState(settings);
   }
     addauto_ads_pos = (e) => {
@@ -871,14 +871,15 @@ handleMultiPluginsChange = (option) => {
           const {settings} = this.state;
           const page = queryString.parse(window.location.search); 
           let auto_ads_get_post_types = [];
-          if(this.state.auto_ads_get_post_types){
-            Object.entries(this.state.auto_ads_get_post_types).map(([meta_key, meta_val]) => {   
+
+          if(settings.auto_ads_get_post_types){
+            Object.entries(settings.auto_ads_get_post_types).map(([meta_key, meta_val]) => {
             auto_ads_get_post_types.push(<option value={meta_key}>{meta_val}</option>);  
             })
             }
           let autoads_excl_user_roles = [];
-          if(this.state.autoads_excl_user_roles){
-            Object.entries(this.state.autoads_excl_user_roles).map(([meta_key, meta_val]) => {   
+          if(settings.autoads_excl_user_roles){
+            Object.entries(settings.autoads_excl_user_roles).map(([meta_key, meta_val]) => {
             autoads_excl_user_roles.push(<option value={meta_key}>{meta_val}</option>);  
             })
             }
@@ -1415,31 +1416,31 @@ handleMultiPluginsChange = (option) => {
                     <div>
                       {__('Enter Google Auto Ads code below', 'quick-adsense-reloaded')}
                     </div>
-                    <div><textarea  name="auto_ad_code" value={this.state.auto_ad_code} onChange={this.addauto_ad_code}  cols="60" rows="5" className="quads-premium-cus" /></div>
+                    <div><textarea  name="auto_ad_code" value={settings.auto_ad_code} onChange={this.addauto_ad_code}  cols="60" rows="5" className="quads-premium-cus" /></div>
                      <div>
                       {__('Status', 'quick-adsense-reloaded')}
                     </div>
-                    <div>  <select name="customer_query_type" value={this.state.auto_ads_pos} onChange={this.addauto_ads_pos} className="quads-premium-cus"> m
+                    <div>  <select name="customer_query_type" value={settings.auto_ads_pos} onChange={this.addauto_ads_pos} className="quads-premium-cus"> m
                         <option value="disabled">{__('Auto Ads Disabled', 'quick-adsense-reloaded')}</option>
                         <option value="enabled">{__('Auto Ads Enabled', 'quick-adsense-reloaded')}</option>
                       </select></div>
                        <div>
                       {__('Exclude Auto Ads From Post Types', 'quick-adsense-reloaded')}
                     </div>
-                    <div>  <select multiple={true} name="autoads_post_types" value={this.state.autoads_post_types} onChange={this.addautoads_post_types} className="quads-premium-cus">
+                    <div>  <select multiple={true} name="autoads_post_types" value={settings.autoads_post_types} onChange={this.addautoads_post_types} className="quads-premium-cus">
                        {auto_ads_get_post_types}
                       </select></div>
                        <div>
                       {__('Exclude Auto Ads From Extra pages', 'quick-adsense-reloaded')}
                     </div>
-                    <div>  <select multiple={true} name="autoads_extra_pages" value={this.state.autoads_extra_pages}  onChange={this.addautoads_extra_pages} className="quads-premium-cus">
+                    <div>  <select multiple={true} name="autoads_extra_pages" value={settings.autoads_extra_pages}  onChange={this.addautoads_extra_pages} className="quads-premium-cus">
                         <option value="none">{__('Exclude nothing', 'quick-adsense-reloaded')}</option>
                         <option value="homepage">{__('homepage', 'quick-adsense-reloaded')}</option>
                       </select></div>
                          <div>
                       {__('Exclude Auto Ads From User Roles', 'quick-adsense-reloaded')}
                     </div>
-                    <div>  <select multiple={true} name="autoads_user_roles" value={this.state.autoads_user_roles}  onChange={this.addautoads_user_roles} className="quads-premium-cus">
+                    <div>  <select multiple={true} name="autoads_user_roles" value={settings.autoads_user_roles}  onChange={this.addautoads_user_roles} className="quads-premium-cus">
                       {autoads_excl_user_roles}
                       </select></div>
                 </div>
