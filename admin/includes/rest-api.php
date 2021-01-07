@@ -1402,6 +1402,7 @@ class QUADS_Ad_Setup_Api {
                         break;
                     case 'duplicate':
                         $new_ad_id = $this->api_service->duplicateAd($ad_id);
+                        $this->quads_clear_all_cache();
                         if($new_ad_id){
                             $data     = $this->api_service->getAdById($new_ad_id);                            
                             $response = array('status'=> 't', 'msg' => 'Duplicated Successfully', 'data' => $data);
@@ -1616,14 +1617,9 @@ class QUADS_Ad_Setup_Api {
             $parameters = $request_data->get_params();                                   
             $ad_id      = $this->api_service->updateAdData($parameters);            
             if($ad_id){
-                if ( function_exists( 'rocket_clean_domain' ) ) {
-                    rocket_clean_domain();
-                }
-                if ( defined( 'WPCACHEHOME' ) ) {
-                    global  $file_prefix;
-                    wp_cache_clean_cache( $file_prefix, true );
-                }
-                return array('status' => 't', 'ad_id' => $ad_id);
+                $this->quads_clear_all_cache();
+
+                    return array('status' => 't', 'ad_id' => $ad_id);
             }else{
                 return array('status' => 'f', 'ad_id' => $ad_id);
             }     
@@ -1645,7 +1641,18 @@ public function quads_get_user_roles_api() {
    }
    return $roles;
 }
-     
+ public function quads_clear_all_cache(){
+     if (function_exists('w3tc_flush_all')){
+         w3tc_flush_all();
+     }
+     if ( function_exists( 'rocket_clean_domain' ) ) {
+         rocket_clean_domain();
+     }
+     if ( defined( 'WPCACHEHOME' ) ) {
+         global  $file_prefix;
+         wp_cache_clean_cache( $file_prefix, true );
+     }
+ }
        
 }
 if(class_exists('QUADS_Ad_Setup_Api')){
