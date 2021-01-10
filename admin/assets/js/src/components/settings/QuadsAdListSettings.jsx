@@ -46,6 +46,7 @@ class QuadsAdListSettings extends Component {
                 revenue_sharing_enabled : false,
                 tcf_2_integration   : false,
                 rotator_ads_settings   : true,
+                group_insertion_settings : true,
                 ad_owner_revenue_per:50,
                 ad_author_revenue_per:50,
                 notice_bg_color : '#1e73be',
@@ -766,7 +767,7 @@ handleMultiPluginsChange = (option) => {
     if(name == 'tcf_2_integration'){
      this.saveSettings();
     }
-    if(name == 'rotator_ads_settings'){
+    if(name == 'rotator_ads_settings' || name == 'group_insertion_settings'){
      this.saveSettings();
     }
     if(name == 'adsforwp_quads_shortcode'|| name == 'adsforwp_quads_gutenberg' || name == 'advance_ads_to_quads'){
@@ -1327,6 +1328,15 @@ handleMultiPluginsChange = (option) => {
                        </label>                       
                      </td>
                      </tr>
+                 <tr>
+                     <th><label htmlFor="group_insertion_settings">{__('Group Insertion Ads', 'quick-adsense-reloaded')}</label></th>
+                     <td>
+                         <label className="quads-switch">
+                             <input id="group_insertion_settings" type="checkbox" name="group_insertion_settings" onChange={this.formChangeHandler} checked={settings.group_insertion_settings} />
+                             <span className="quads-slider"></span>
+                         </label>
+                     </td>
+                 </tr>
                      </tbody></table>  
                 </div>
                );   

@@ -20,7 +20,9 @@ class QuadsAdTargeting extends Component {
     const {__} = wp.i18n;    
     const page = queryString.parse(window.location.search); 
     const post_meta = this.props.parentState.quads_post_meta;
-           
+    if(post_meta.ad_type == "group_insertion" && post_meta.position == "beginning_of_post") {
+        this.props.adFormChangeHandler({target: {name: 'position', value: 'after_paragraph'}});
+    }
           return (
                 <div>
                 <div className="quads-settings-group">
@@ -33,7 +35,20 @@ class QuadsAdTargeting extends Component {
                   <tbody>
                     <tr className="quads-tr-position">
                     <td><label>{__('Where will the AD appear?', 'quick-adsense-reloaded')}</label></td>
-                    <td><QuadsAdvancePosition parentState={this.props.parentState} adFormChangeHandler = {this.props.adFormChangeHandler}/></td>  
+                        <td>{post_meta.ad_type != "group_insertion" ? (<QuadsAdvancePosition parentState={this.props.parentState} adFormChangeHandler = {this.props.adFormChangeHandler}/>
+                        ):<div><select  value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
+                            <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
+                        </select>
+                            <div><div>
+                                <label > {__('Limit', 'quick-adsense-reloaded')}</label>
+                                <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_limit" value={post_meta.paragraph_limit}  type="number" />
+                            </div>
+                                <div>
+                                    <label > {__('Delay Count', 'quick-adsense-reloaded')}</label>
+                                    <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_delay" value={post_meta.paragraph_delay}  type="number" />
+                                </div></div>
+                        </div>
+                            }</td>
                     </tr>
                     {post_meta.position == 'ad_after_html_tag' ? (
                       <>
@@ -75,7 +90,26 @@ class QuadsAdTargeting extends Component {
                       <label htmlFor="display_after_every"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.ads_loop_number} </label></td>
                     </tr>
                    : null}
-                    
+                    {post_meta.ad_type == 'rotator_ads' ?
+                        <tr>
+                            <td><label>{__('Refresh Type', 'quick-adsense-reloaded')}</label></td>
+                            <td><select value={post_meta.refresh_type} name="refresh_type" onChange={this.props.adFormChangeHandler} >
+                                <option value="on_load">On Reload</option>
+                                <option value="on_interval">Auto Refresh</option>
+                            </select></td>
+                        </tr>
+                        : null}
+                    {post_meta.ad_type == 'rotator_ads' && post_meta.refresh_type == 'on_interval' ?
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input id={'refresh_type_interval_sec'}
+                                       name={'refresh_type_interval_sec'} type="number"
+                                       value={post_meta.refresh_type_interval_sec} onChange={this.props.adFormChangeHandler}  /> milliseconds<p className="description">Refresh ads on the
+                                    same spot</p><p className="description">On AMP ads will be shown only on reload.</p>
+                            </td>
+                        </tr>
+                        :null}
                   </tbody>
                 </table>                                 
                 </div>  

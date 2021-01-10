@@ -123,6 +123,10 @@ class QuadsAdList extends Component {
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/bg_ad_icon.png';
           type = "Background Ad";
           break;
+        case 'group_insertion':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/group_insertion_icon.png';
+          type = "Group Insertion";
+          break;
         default:
           break;
       }

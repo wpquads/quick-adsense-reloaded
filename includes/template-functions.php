@@ -1010,8 +1010,8 @@ function quads_filter_default_ads_new( $content ) {
                 // placeholder string for custom ad spots
                 if(isset($ads['random_ads_list']) && !empty($ads['random_ads_list'])){
                     $cusads = '<!--CusRnd'.$ads['ad_id'].'-->'; 
-                }else if(isset($ads['rotator_ads_list']) && !empty($ads['rotator_ads_list'])){
-                    $cusads = '<!--CusRot'.$ads['ad_id'].'-->'; 
+                }else if($ads['ad_type']== 'rotator_ads' &&isset($ads['ads_list']) && !empty($ads['ads_list'])){
+                    $cusads = '<!--CusRot'.$ads['ad_id'].'-->';
                 }else{
                        $cusads = '<!--CusAds'.$ads['ad_id'].'-->'; 
                 }
@@ -1098,11 +1098,10 @@ function quads_filter_default_ads_new( $content ) {
 
                         break;
                                         case 'after_paragraph':
-                        
+
                         if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
                           $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
                           $paragraph_limit         = isset($ads['paragraph_limit']) ? $ads['paragraph_limit'] : '';
-                          $paragraph_delay          = isset($ads['paragraph_delay']) ? $ads['paragraph_delay'] : '';
                          if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
                           $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
                         }else{
@@ -1112,9 +1111,8 @@ function quads_filter_default_ads_new( $content ) {
                             $original_paragraph_no = $paragraph_no;                                                             
                             
                             if($paragraph_no <= $p_count){
-
-                              if($ads['ad_type']== 'rotator_ads'){
-
+                              if($ads['ad_type']== 'group_insertion'){
+                                  $cusads = '<!--CusGI'.$ads['ad_id'].'-->';
                                 $addstart = false;
                                 $addstart_limit = 1;
                                 foreach ($paragraphs as $index => $paragraph) {
@@ -1127,6 +1125,9 @@ function quads_filter_default_ads_new( $content ) {
 
                                         $addstart = false;
                                       }else{
+                                          if(!empty($paragraph_limit) && $paragraph_limit == $index){
+                                              break;
+                                          }
                                         $addstart = true;
                                       }
                                       if($addstart){

@@ -42,7 +42,7 @@ function quads_add_options_link() {
             $quads_settings_page = add_submenu_page('quads-settings', __('Ads', 'quick-adsense-reloaded'), 'Ads', 'manage_options', 'quads-settings', 'quads_options_page_new');
 
             $quads_settings_page = add_submenu_page('quads-settings', __('Settings', 'quick-adsense-reloaded'), 'Settings', 'manage_options', 'quads-settings&path=settings', 'quads_options_page_new');
-            $quads_settings_page = add_submenu_page('quads-settings', __('Report', 'quick-adsense-reloaded'), 'Reports', 'manage_options', 'quads-settings&path=reports', 'quads_options_page_new');
+//            $quads_settings_page = add_submenu_page('quads-settings', __('Report', 'quick-adsense-reloaded'), 'Reports', 'manage_options', 'quads-settings&path=reports', 'quads_options_page_new');
 
             add_submenu_page('quads-settings', __('Return to Classic view', 'quick-adsense-reloaded'), 'Return to Classic view', 'manage_options', 'quads_switch_to_old', 'quads_version_switch');
 

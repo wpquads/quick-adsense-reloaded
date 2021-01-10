@@ -1062,7 +1062,7 @@ function quads_render_amp($id,$ampsupport=''){
             }
         }
 
-         if((isset($quads_options['ads'][$id]['enabled_on_amp']) && isset($quads_options['ads'][$id]['code']) && !empty($quads_options['ads'][$id]['code']))|| (!empty($ampsupport) && $ampsupport)){
+         if($quads_options['ads'][$id]['ad_type'] == 'plain_text' && (isset($quads_options['ads'][$id]['enabled_on_amp']) && isset($quads_options['ads'][$id]['code']) && !empty($quads_options['ads'][$id]['code']))|| (!empty($ampsupport) && $ampsupport)){
                 if((isset($quads_options['ads'][$id]['enabled_on_amp']) && $quads_options['ads'][$id]['enabled_on_amp']) || (!empty($ampsupport) && $ampsupport)){
                     if(isset($quads_options['ads'][$id]['code'])){
                         return $quads_options['ads'][$id]['code'];

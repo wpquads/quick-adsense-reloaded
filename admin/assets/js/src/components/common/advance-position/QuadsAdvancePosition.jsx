@@ -103,20 +103,10 @@ class QuadsAdvancePosition extends Component {
            <input id='enable_on_end_of_post' checked={post_meta.enable_on_end_of_post} name="enable_on_end_of_post" onChange={this.props.adFormChangeHandler} type="checkbox"/>
            {__('to', 'quick-adsense-reloaded')} <strong>{__('End of Post', 'quick-adsense-reloaded')}</strong> {__('if fewer paragraphs', 'quick-adsense-reloaded')}</label>
 </div>
-{post_meta.ad_type != 'rotator_ads' ? <div>
+          <div>
              <input id='repeat_paragraph' checked={post_meta.repeat_paragraph} name="repeat_paragraph" onChange={this.props.adFormChangeHandler} type="checkbox"/>
               <label htmlFor="repeat_paragraph"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number}</label>
-
-           
            </div>
-           : <div><div>
-        <label > {__('Limit', 'quick-adsense-reloaded')}</label>
-        <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_limit" value={post_meta.paragraph_limit}  type="number" />
-    </div>
-        <div>
-            <label > {__('Delay Count', 'quick-adsense-reloaded')}</label>
-            <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_delay" value={post_meta.paragraph_delay}  type="number" />
-        </div></div>}
 
 
            </div> : ''}

@@ -86,7 +86,17 @@ function quads_get_ad($id = 0) {
         $ads =$quads_options['ads']['ad' . $id];
         $is_on         = quads_is_visibility_on($ads);
         $is_visitor_on = quads_is_visitor_on($ads);
-        if($is_on && $is_visitor_on ) {
+        if($quads_mode == 'new' ) {
+            if($is_on && $is_visitor_on ) {
+                // Count how often the shortcode is used - Important
+                quads_set_ad_count_shortcode();
+                //$code = "\n".'<!-- WP QUADS Shortcode Ad v. ' . QUADS_VERSION .' -->'."\n";
+                //return $code . $quads_options['ad' . $id]['code'];
+                return quads_render_ad('ad' . $id, $quads_options['ads']['ad' . $id]['code']);
+            }else{
+                return '';
+            }
+        }else{
             // Count how often the shortcode is used - Important
             quads_set_ad_count_shortcode();
             //$code = "\n".'<!-- WP QUADS Shortcode Ad v. ' . QUADS_VERSION .' -->'."\n";

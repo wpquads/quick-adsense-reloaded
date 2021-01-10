@@ -22,7 +22,7 @@ function sanitize_post_meta($key, $meta){
 		break;
       case 'random_ads_list':
 			$response = wp_unslash($meta);  
-		case 'rotator_ads_list':
+		case 'ads_list':
 			$response = wp_unslash($meta);          
 		break;
       default:

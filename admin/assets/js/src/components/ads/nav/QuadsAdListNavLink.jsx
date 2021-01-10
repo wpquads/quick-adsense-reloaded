@@ -25,8 +25,9 @@ class QuadsAdListNavLink extends Component {
                     {ad_type:'ad_image',ad_type_name:'Banner Ad'},
                     {ad_type:'background_ad',ad_type_name:'Background ad'}, 
                     {ad_type:'rotator_ads',ad_type_name:'Rotator Ads'},     
-                    {ad_type:'random_ads',ad_type_name:'Random Ads'},          
-                    ]
+                    {ad_type:'random_ads',ad_type_name:'Random Ads'},
+                    {ad_type:'group_insertion',ad_type_name:'Group Insertion'},
+           ]
         };            
     }
           getImageByAdType = (type, index,return_type='') =>{
@@ -47,6 +48,9 @@ class QuadsAdListNavLink extends Component {
               case 'random_ads':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/random_ads.png';
               break;
+              case 'group_insertion':
+                  img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/group_insertion.png';
+                  break;
               case 'double_click':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/double_click.png';
               break;
@@ -147,7 +151,7 @@ class QuadsAdListNavLink extends Component {
             <ul>
                 <li><Link to={'admin.php?page=quads-settings'} className={current == 'ads' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Ads', 'quick-adsense-reloaded')}</Link></li>                
                 <li><Link to={'admin.php?page=quads-settings&path=settings'} className={current == 'settings' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Settings', 'quick-adsense-reloaded')}</Link></li>
-                <li><Link to={'admin.php?page=quads-settings&path=reports'} className={current == 'reports' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Reports', 'quick-adsense-reloaded')}</Link></li>
+                {/*<li><Link to={'admin.php?page=quads-settings&path=reports'} className={current == 'reports' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Reports', 'quick-adsense-reloaded')}</Link></li>*/}
                 <li><div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.showAddTypeSelector}><Icon>add_circle</Icon>Create Ad</a></div></li>
             </ul>
         </div> 
