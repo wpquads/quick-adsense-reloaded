@@ -39,14 +39,16 @@ class QuadsAdTargeting extends Component {
                         ):<div><select  value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                             <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
                         </select>
-                            <div><div>
-                                <label > {__('Limit', 'quick-adsense-reloaded')}</label>
-                                <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_limit" value={post_meta.paragraph_limit}  type="number" />
-                            </div>
+                            <div>
                                 <div>
-                                    <label > {__('Delay Count', 'quick-adsense-reloaded')}</label>
-                                    <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_delay" value={post_meta.paragraph_delay}  type="number" />
-                                </div></div>
+                                    <label > {__('Insert After Every '+post_meta.insert_after+' Paragraph', 'quick-adsense-reloaded')}</label>
+                                    <input min="1" onChange={this.props.adFormChangeHandler} name="insert_after" value={post_meta.insert_after}  type="number" />
+                                </div>
+                                <div>
+                                    <label > {__('Limit The Insertion Till Nth Ad', 'quick-adsense-reloaded')}</label>
+                                    <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_limit" value={post_meta.paragraph_limit}  type="number" />
+                                </div>
+                            </div>
                         </div>
                             }</td>
                     </tr>

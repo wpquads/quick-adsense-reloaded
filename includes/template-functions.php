@@ -111,7 +111,6 @@ function remove_ads_for_wp_shortcodes() {
 }
 
 //Ad blocker
-add_action('wp_head', 'quads_adblocker_detector');
 add_action('wp_footer', 'quads_adblocker_popup_notice');
 add_action('wp_footer', 'quads_adblocker_notice_jsondata');
 add_action('wp_body_open', 'quads_adblocker_notice_bar');
@@ -234,10 +233,7 @@ function quads_from_adsforwp_manual_ads($atts ){
 
     return $code;
 }
-function quads_adblocker_detector(){
-     echo '<script type="text/javascript" src="'.QUADS_PLUGIN_URL . 'assets/js/ads.js"></script>';
 
-}
 /**
  * It is default settings value, if value is not set for any option in setting section 
  * @return type
@@ -1102,6 +1098,7 @@ function quads_filter_default_ads_new( $content ) {
                         if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
                           $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
                           $paragraph_limit         = isset($ads['paragraph_limit']) ? $ads['paragraph_limit'] : '';
+                          $insert_after         = isset($ads['insert_after']) ? $ads['insert_after'] : 1;
                          if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
                           $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
                         }else{
@@ -1112,32 +1109,28 @@ function quads_filter_default_ads_new( $content ) {
                             
                             if($paragraph_no <= $p_count){
                               if($ads['ad_type']== 'group_insertion'){
+                                  $p_count =$p_count -1;
                                   $cusads = '<!--CusGI'.$ads['ad_id'].'-->';
-                                $addstart = false;
-                                $addstart_limit = 1;
-                                foreach ($paragraphs as $index => $paragraph) {
-                                    if ( trim( $paragraph ) ) {
-                                        $paragraphs[$index] .= $closing_p;
-                                    }
-                                    if ( $paragraph_no == $index + 1  || $addstart == true) {
+                                $next_insert_val = $insert_after;
+                                $displayed_ad =1;
+                                  foreach ($paragraphs as $index => $paragraph) {
+                                      $addstart = false;
+                                      if ( trim( $paragraph ) ) {
+                                          $paragraphs[$index] .= $closing_p;
+                                      }
 
-                                      if(empty($paragraph_limit) && count($paragraphs)-1 == $addstart_limit){
-
-                                        $addstart = false;
-                                      }else{
-                                          if(!empty($paragraph_limit) && $paragraph_limit == $index){
-                                              break;
+                                      if((!empty($paragraph_limit) && $paragraph_limit < $displayed_ad) || ($index == $p_count )){
+                                          break;
+                                      }
+                                          if($index+1 == $next_insert_val){
+                                              $displayed_ad +=1;
+                                            $next_insert_val = $next_insert_val+$insert_after;
+                                            $addstart = true;
+                                        }
+                                          if($addstart){
+                                              $paragraphs[$index] .= $cusads;
                                           }
-                                        $addstart = true;
-                                      }
-                                      if($addstart){
-                                        $paragraphs[$index] .= $cusads;
-                                         $addstart_limit++;
-                                       }
-                                      }
-                                    
-                                }
-
+                                  }
                               }else{
 
                                 foreach ($paragraphs as $index => $paragraph) {
@@ -1145,7 +1138,6 @@ function quads_filter_default_ads_new( $content ) {
                                         $paragraphs[$index] .= $closing_p;
                                     }
                                     if ( $paragraph_no == $index + 1 ) {
-                                        // exit(var_dump($index));
                                         $paragraphs[$index] .= $cusads;
                                         if($repeat_paragraph){
                                          $paragraph_no =  $original_paragraph_no+$paragraph_no; 
