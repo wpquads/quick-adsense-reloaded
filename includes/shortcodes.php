@@ -75,28 +75,57 @@ function quads_get_ad($id = 0) {
     if ( quads_ad_reach_max_count() ){
         return;
     }
-    
+
     if ( isset($quads_options['ads']['ad' . $id]['code']) ){
+
         if($quads_mode == 'new'){
             $content_post = get_post($quads_options['ads']['ad' . $id]['ad_id']);
             if( isset($content_post->post_status) && $content_post->post_status == 'draft'){
+
                 return '';
             }
         }
         $ads =$quads_options['ads']['ad' . $id];
+
         $is_on         = quads_is_visibility_on($ads);
         $is_visitor_on = quads_is_visitor_on($ads);
         if($quads_mode == 'new' ) {
             if($is_on && $is_visitor_on ) {
+            if($ads['ad_type'] == 'random_ads') {
+                if ( function_exists( 'quads_parse_random_ads' ) ) {
+                    $html  ='<!--CusRnd'.$ads['ad_id'].'-->';
+                    return quads_parse_random_ads_new($html);
+                }else{
+                    return '';
+                }
+            }else if($ads['ad_type'] == 'rotator_ads') {
+                if ( function_exists( 'quads_parse_rotator_ads' ) ) {
+                    $html  ='<!--CusRot'.$ads['ad_id'].'-->';
+                    return quads_parse_rotator_ads($html);
+                }else{
+                    return '';
+                }
+            }else if($ads['ad_type'] == 'group_insertion') {
+                if ( function_exists( 'quads_parse_group_insert_ads' ) ) {
+                    $html  ='<!--CusGI'.$ads['ad_id'].'-->';
+                    return quads_parse_group_insert_ads($html);
+                }else{
+                    return '';
+                }
+            }else{
                 // Count how often the shortcode is used - Important
                 quads_set_ad_count_shortcode();
                 //$code = "\n".'<!-- WP QUADS Shortcode Ad v. ' . QUADS_VERSION .' -->'."\n";
                 //return $code . $quads_options['ad' . $id]['code'];
                 return quads_render_ad('ad' . $id, $quads_options['ads']['ad' . $id]['code']);
+            }
+
             }else{
+
                 return '';
             }
         }else{
+
             // Count how often the shortcode is used - Important
             quads_set_ad_count_shortcode();
             //$code = "\n".'<!-- WP QUADS Shortcode Ad v. ' . QUADS_VERSION .' -->'."\n";
