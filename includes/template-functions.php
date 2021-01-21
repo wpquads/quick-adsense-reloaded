@@ -2105,8 +2105,23 @@ function quads_del_element($array, $idx) {
                 }
                  $display_after_every = (isset($ads['display_after_every']) && !empty($ads['display_after_every'])) ? $ads['display_after_every'] : false;
                 if( isset($ads['position'] ) && $ads['position'] == 'amp_ads_in_loops' && (isset($ads['ads_loop_number']) && ($ads['ads_loop_number'] == $curr_index || ($display_after_every && $curr_index!== 0 && ($curr_index % $ads['ads_loop_number'] == 0))))){
-                    $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
-                  echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
+                    $tag= '<!--CusAds'.$ads['ad_id'].'-->';
+                    if(isset($ads['visibility_include']))
+                        $ads['visibility_include'] = unserialize($ads['visibility_include']);
+                    if(isset($ads['visibility_exclude']))
+                        $ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);
+
+                    if(isset($ads['targeting_include']))
+                        $ads['targeting_include'] = unserialize($ads['targeting_include']);
+
+                    if(isset($ads['targeting_exclude']))
+                        $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
+                    $is_on         = quads_is_visibility_on($ads);
+                    $is_visitor_on = quads_is_visitor_on($ads);
+                    if($is_on && $is_visitor_on ){
+                        echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
+
+                    }
                 }
 
             }
