@@ -494,9 +494,9 @@ function quads_visitor_comparison_logic_checker($visibility){
           }
           break;
         
-         case 'logged_in_visitor': 
-          
-           if ( is_user_logged_in() ) {
+         case 'logged_in_visitor':
+        case 'logged_in':
+        if ( is_user_logged_in() ) {
               $status = 'true';
            } else {
               $status = 'false';

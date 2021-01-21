@@ -111,6 +111,7 @@ function remove_ads_for_wp_shortcodes() {
 }
 
 //Ad blocker
+add_action('wp_head', 'quads_adblocker_detector');
 add_action('wp_footer', 'quads_adblocker_popup_notice');
 add_action('wp_footer', 'quads_adblocker_notice_jsondata');
 add_action('wp_body_open', 'quads_adblocker_notice_bar');
@@ -233,7 +234,10 @@ function quads_from_adsforwp_manual_ads($atts ){
 
     return $code;
 }
-
+function quads_adblocker_detector(){
+    $js_dir  = QUADS_PLUGIN_URL . 'assets/js/';
+    wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
+}
 /**
  * It is default settings value, if value is not set for any option in setting section 
  * @return type
