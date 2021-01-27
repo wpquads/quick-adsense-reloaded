@@ -125,7 +125,8 @@ function quads_common_head_code(){
             if(isset($ads['targeting_exclude']))
                 $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
             $is_on =quads_is_visibility_on($ads);
-           if(!$is_on){
+            $is_visitor_on = quads_is_visitor_on($ads);
+           if(!$is_on || !$is_visitor_on){
              continue;
            }
             if($ads['ad_type']== 'double_click'){
