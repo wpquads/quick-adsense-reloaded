@@ -310,12 +310,10 @@ class QuadsAdReport extends Component {
                                         <option value="">Select Report</option>
                                         <option value="earning">Earnings</option>
                                         <option value="earning_forcast">Earnings Forcast</option>
-                                        <option value="top_adunit">Top Performs Adunits</option>
-                                        <option value="top_country">Top Paying country</option>
                                         <option value="top_device_type">Top Earning Device type</option>
                                     </select>
                                     {this.state.report.report_type != 'earning_forcast' ?
-                                        <select name="report_period" id={'report_period'} onChange={this.report_formChangeHandler}>
+                                        <select name="report_period" id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
                                             <option value="">Select Duration</option>
                                             <option value="last_7days">Last 7days</option>
                                             <option value="last_15days">Last 15days</option>
@@ -325,7 +323,7 @@ class QuadsAdReport extends Component {
                                         </select>
                                         : ''}
                                     {this.state.report.report_type == 'earning_forcast' ?
-                                        <div>  revenue prediction based on<select name="report_period" id={'report_period'} onChange={this.report_formChangeHandler}>
+                                        <div>  revenue prediction based on<select name="report_period" id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
                                             <option value="">Select Duration</option>
                                             <option value="last_7days">Last 7days</option>
                                             <option value="last_15days">Last 15days</option>
@@ -343,7 +341,10 @@ class QuadsAdReport extends Component {
                                         </div>
                                         : ''}
                                 </div>
-                                <canvas id="canvas"></canvas>
+                                <div id='quads_reports_canvas'>
+                                    <h2> Please select Report type and Duration</h2>
+
+                                </div>
                             </div>
                         </div>
                     </div>: null
