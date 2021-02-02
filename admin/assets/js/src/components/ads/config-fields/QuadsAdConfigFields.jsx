@@ -232,7 +232,7 @@ removeSeleted_list = (e) => {
                       <div>
                         <select value={post_meta.adsense_ad_type} onChange={this.props.adFormChangeHandler} name="adsense_ad_type" id="adsense_ad_type">
                           <option value="display_ads">{__('Display Ads', 'quick-adsense-reloaded')}</option>
-                          <option value="in_feed_ads">{__('In-Feel Ads', 'quick-adsense-reloaded')}</option> 
+                          <option value="in_feed_ads">{__('In-Feed Ads', 'quick-adsense-reloaded')}</option>
                           <option value="in_article_ads">{__('In-Article Ads', 'quick-adsense-reloaded')}</option> 
                           <option value="adsense_auto_ads">{__('Auto Ads', 'quick-adsense-reloaded')}</option> 
                           <option value="matched_content">{__('Matched content', 'quick-adsense-reloaded')}</option> 
