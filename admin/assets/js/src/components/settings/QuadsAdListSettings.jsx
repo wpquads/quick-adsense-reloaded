@@ -10,6 +10,7 @@ import QuadsAdSettingsNavLink from './QuadsAdSettingsNavLink';
 import copy from 'copy-to-clipboard';
 import { SketchPicker } from 'react-color';
 import reactCSS from 'reactcss'
+// import {saveAs} from "file-saver";
 class QuadsAdListSettings extends Component {
   constructor(props) {      
     super(props);
@@ -133,6 +134,33 @@ notice_bg_color = (color) => {
     copy(this.state.textToCopy);
     this.setState({ copied: true });
   }
+
+    export_settings = () => {
+      console.log('click done');
+        const url = quads_localize_data.rest_url + 'quads-route/export-settings';
+        fetch(url,{
+            method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': quads_localize_data.nonce,
+            }
+        })
+            .then(res => res.blob())
+            .then(
+                (blob ) => {
+                    console.log('ajax');
+                    const href = window.URL.createObjectURL(blob);
+                    const a = this.linkRef.current;
+                    a.download = 'Lebenslauf.json';
+                    a.href = href;
+                    a.click();
+                    a.href = '';
+                },
+                (error) => {
+                }
+            );
+    }
     quads_classic_ads = () => {
     if(this.state.importquadsclassicmsgprocessing !=''){
       return;
@@ -1368,7 +1396,7 @@ handleMultiPluginsChange = (option) => {
                       <tr>
                         <th><label>{__('Export', 'quick-adsense-reloaded')}</label></th>
                         <td>
-                          <a href={`${quads_localize_data.rest_url}quads-route/export-settings`} className="quads-btn quads-btn-primary">Export</a>
+                          <a onclick={this.export_settings} className="quads-btn quads-btn-primary">Export</a>
                           <p>{__('Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded')}</p>
                         </td>
                       </tr></tbody></table>

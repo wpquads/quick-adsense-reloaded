@@ -1,12 +1,13 @@
 ;(function($){
-    $( document ).on( 'change', '#report_type,#report_period', function(){
+    $( document ).on( 'change', '#report_type,#report_period,#input_based', function(){
         var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_adsense';
         var report_type = $('#report_type').val();
         var report_period = $('#report_period').val();
+        var input_based  = (typeof $('#input_based').val()  !== "undefined")?$('#input_based').val():'';
         var pub_id = $('#pub_id').val();
 
 
-        var data ={account_id:pub_id,report_type:report_type,report_period:report_period};
+        var data ={account_id:pub_id,report_type:report_type,report_period:report_period,input_based:input_based};
         if($.trim(report_type) !='' & $.trim(report_period) !='' ) {
             $('#quads_reports_canvas').html('<div class="quads-cover-spin"></div>');
             $.ajax({
@@ -370,46 +371,20 @@ function display_report(response){
             }
         };
     }else {
-        if(report_type == 'earning_forcast') {
-            var data_length = response.length;
-            var total_amount = 0;
 
-            for (index = 0; index < data_length; ++index) {
-                total_amount += parseFloat(response[index][1]);
+        var data_length = response.length;
+        var dates_array = [];
+        var data = [];
+
+        for (index = 0; index < data_length; ++index) {
+            var date = new Date((response[index][0]));
+            var month = date.toLocaleString('default', { month: 'short' });
+
+            var New_date_formate = date.getDate()+' '+month+' '+date.getUTCFullYear();
+            if (!dates_array.includes(New_date_formate)) {
+                dates_array.push(New_date_formate);
             }
-            var avg = total_amount/response.length;
-            var data_length = response.length;
-            var dates_array = [];
-            var data = [];
-            for (index = 0; index < data_length; ++index) {
-
-                var date = new Date((response[index][0]));
-                var month = date.toLocaleString('default', { month: 'short' });
-
-                var New_date_formate = date.getDate()+' '+month+' '+date.getUTCFullYear();
-
-
-                if (!dates_array.includes(New_date_formate)) {
-                    dates_array.push(New_date_formate);
-                }
-                data.push(avg);
-            }
-
-        }else {
-            var data_length = response.length;
-            var dates_array = [];
-            var data = [];
-
-            for (index = 0; index < data_length; ++index) {
-                var date = new Date((response[index][0]));
-                var month = date.toLocaleString('default', { month: 'short' });
-
-                var New_date_formate = date.getDate()+' '+month+' '+date.getUTCFullYear();
-                if (!dates_array.includes(New_date_formate)) {
-                    dates_array.push(New_date_formate);
-                }
-                data.push(response[index][1]);
-            }
+            data.push(response[index][1]);
         }
         datasets = [{
             label: 'Earnings',
@@ -418,8 +393,6 @@ function display_report(response){
             data: data,
             fill: false,
         }];
-
-
         var config = {
             type: 'line',
             data: {

@@ -291,23 +291,30 @@ function quads_adsense_get_report_data($request_data){
     $parameters = $request_data->get_params();
     $report_period = (isset($parameters['report_period'])&& !empty($parameters['report_period']))?$parameters['report_period'] :'';
     $report_type = (isset($parameters['report_type'])&& !empty($parameters['report_type']))?$parameters['report_type'] :'';
-    $StartingDate = mktime();  // todays date as a timestamp
-//exit(print_r($report_period));
-    switch ($report_period){
+    $input_based = (isset($parameters['input_based'])&& !empty($parameters['input_based']))?$parameters['input_based'] :'';
+    $startDate = mktime();  // todays date as a timestamp
+    $forcast_date_count = 0;
+
+    switch ($report_period) {
         case 'last_15days':
             $startDate = strtotime(" -14 day");
+            $forcast_date_count = 15;
             break;
         case 'last_30days':
             $startDate = strtotime(" -29 day");
+            $forcast_date_count = 30;
             break;
         case 'last_6months':
             $startDate = strtotime("-6 month");
+            $forcast_date_count = 180;
             break;
         case 'last_1year':
 
             $startDate = strtotime('-1 year');
+            $forcast_date_count = 365;
             break;
         default:
+            $forcast_date_count = 7;
             $startDate = strtotime(" -6 day");
             break;
     }
@@ -319,20 +326,16 @@ function quads_adsense_get_report_data($request_data){
 
     switch ($report_type){
 
-        case earning_forcast:
-            $report_type = 'EARNINGS';//EARNINGS total of device amount is same
-            $url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.$account_id.'/reports?startDate='.$startDate.'&endDate='.$endDate.'&dimension=DATE&dimension=EARNINGS&metric=EARNINGS&useTimezoneReporting=true';
+        case 'earning_forcast':
 
+            $url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.$account_id.'/reports?startDate='.$startDate.'&endDate='.$endDate.'&dimension=DATE&dimension=EARNINGS&metric=EARNINGS&useTimezoneReporting=true';
             break;
-        case top_adunit:
-            $report_type = 'IMPRESSIONS';
-            break;
-        case top_device_type:
+        case 'top_device_type':
             $report_type = 'PLATFORM_TYPE_CODE';
             $url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.$account_id.'/reports?startDate='.$startDate.'&endDate='.$endDate.'&dimension=DATE&dimension=PLATFORM_TYPE_CODE&metric=EARNINGS&useTimezoneReporting=true';
 
             break;
-        case earning:
+        case 'earning':
         default:
             $report_type = 'EARNINGS';
             $url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.$account_id.'/reports?startDate='.$startDate.'&endDate='.$endDate.'&dimension=DATE&dimension=EARNINGS&metric=EARNINGS&useTimezoneReporting=true';
@@ -357,9 +360,48 @@ function quads_adsense_get_report_data($request_data){
 
     } else {
         $adsense_data_response = json_decode( $response['body'], true );
-        $adsense_data = array();
-        $i = 0;
+        if($report_type == 'earning_forcast') {
 
+            switch ($input_based) {
+                case 'next_15days':
+                    $forcast_date_count = 15;
+                    break;
+                case 'next_30days':
+                    $forcast_date_count = 30;
+                    break;
+                case 'next_6months':
+                    $forcast_date_count = 180;
+                    break;
+                case 'next_1year':
+                    $forcast_date_count = 365;
+                    break;
+                default:
+                    $forcast_date_count = 7;
+                    break;
+            }
+
+            $forcast_data_array = array();
+            $count = 1;
+            foreach ($adsense_data_response['rows'] as $data){
+                $dates[]=$count;
+                $amounts[]=$data[1];
+                $count += 1;
+            }
+            for($i=1;$i<=$forcast_date_count;$i++) {
+
+                $forcast_data = quads_forcast(count($dates)+$i, $amounts,$dates);
+
+                $forcastdate = strtotime(" $i day");
+                $forcastdate = date("Y-m-d", $forcastdate);
+
+
+                $forcast_data_array[]= array($forcastdate,sprintf("%.2f", $forcast_data));
+            }
+
+
+
+            return $forcast_data_array;
+        }
         return $adsense_data_response['rows'];
 
     }
@@ -367,6 +409,21 @@ function quads_adsense_get_report_data($request_data){
     die;
 
 }
+function quads_forcast($x, $ky, $kx){
+
+    $i=0; $nr=0; $dr=0;$ax=0;$ay=0;$a=0;$b=0;
+
+    $ax=array_sum($kx)/count($kx);
+    $ay=array_sum($ky)/count($ky);
+    for ($i=0;$i<count($kx);$i++){
+        $nr = $nr + (($kx[i]-$ax) * ($ky[i]-$ay));
+        $dr = $dr + (($kx[i]-$ax)*($kx[i]-$ax));
+    }
+    $b=$nr/$dr;
+    $a=$ay-b*$ax;
+    return ($a+$b*$x);
+}
+
 function quads_adsense_get_access_token($account){
     $options = quads_get_option_adsense();
     if ( isset( $options['accounts'][ $account ] ) ) {
