@@ -2,6 +2,9 @@ import React, {Component, Fragment} from 'react';
 import '../ads/create/QuadsAdListCreate.scss';
 import '../../components/report/QuadsAdReport.scss'
 import {Chart} from 'react-charts'
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 class QuadsAdReport extends Component {
 
@@ -12,6 +15,8 @@ class QuadsAdReport extends Component {
             adsense_modal :false,
             current_page : 'report',
             isLoading : false,
+            cust_fromdate:new Date(),
+            cust_todate:new Date(),
             report : {
                 adsense_code: '',
                 adsense_code_data :[
@@ -313,24 +318,41 @@ class QuadsAdReport extends Component {
                                         <option value="top_device_type">Top Earning Device type</option>
                                     </select>
                                     {this.state.report.report_type != 'earning_forcast' ?
+                                        <>
                                         <select name="report_period" id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
                                             <option value="">Select Duration</option>
-                                            <option value="last_7days">Last 7days</option>
-                                            <option value="last_15days">Last 15days</option>
-                                            <option value="last_30days">Last 30days</option>
-                                            <option value="last_6months">Last 6months</option>
-                                            <option value="last_1year">Last 1year</option>
+                                            <option value="last_7days">Last 7 days</option>
+                                            <option value="last_15days">Last 15 days</option>
+                                            <option value="last_30days">Last 30 days</option>
+                                            <option value="last_6months">Last 6 months</option>
+                                            <option value="last_1year">Last 1 year</option>
+                                            <option value="all_time">All Time</option>
+                                            <option value="custom">Custom</option>
                                         </select>
+                                            {report.report_period == 'custom' ?
+                                                <>
+                                                <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
+                                                <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_todate:date})} />
+                                                </>
+                                                : null}
+                                        </>
                                         : ''}
                                     {this.state.report.report_type == 'earning_forcast' ?
                                         <div>  revenue prediction based on<select name="report_period" id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
                                             <option value="">Select Duration</option>
-                                            <option value="last_7days">Last 7days</option>
-                                            <option value="last_15days">Last 15days</option>
-                                            <option value="last_30days">Last 30days</option>
-                                            <option value="last_6months">Last 6months</option>
-                                            <option value="last_1year">Last 1year</option>
-                                        </select> for
+                                            <option value="last_7days">Last 7 days</option>
+                                            <option value="last_15days">Last 15 days</option>
+                                            <option value="last_30days">Last 30 days</option>
+                                            <option value="last_6months">Last 6 months</option>
+                                            <option value="last_1year">Last 1 year</option>
+                                            <option value="all_time">All Time</option>
+                                            <option value="custom">Custom</option>
+                                        </select> {report.report_period == 'custom' ?
+                                            <>
+                                                <DatePicker  minDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
+                                                <DatePicker minDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_todate:date})} />
+                                            </>
+                                            : null} for
                                             <select name="input_based" id={'input_based'} onChange={this.report_formChangeHandler}>
                                                 <option value="next_7days">Next 7days</option>
                                                 <option value="next_15days">Next 15days</option>
@@ -341,9 +363,18 @@ class QuadsAdReport extends Component {
                                         </div>
                                         : ''}
                                 </div>
+                                <div > <select name="report_view_type" id={'report_view_type'}>
+                                    <option value="">View Type</option>
+                                    <option value="day">Day</option>
+                                    <option value="week">Week</option>
+                                    <option value="month">Month</option>
+                                    <option value="year">year</option>
+                                </select>
+
                                 <div id='quads_reports_canvas'>
                                     <h2> Please select Report type and Duration</h2>
-
+                                </div>
+                                    <div id={'quads_report_table'}></div>
                                 </div>
                             </div>
                         </div>

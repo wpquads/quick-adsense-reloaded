@@ -37,6 +37,7 @@
   "react-charts": "^2.0.0-beta.7",
   "react-color": "^2.19.3",
   "react-confirm-alert": "^2.6.2",
+  "react-datepicker": "^3.4.1",
   "react-dom": "^16.14.0",
   "react-dropdown-select": "^4.7.1",
   "react-moment": "^0.9.7",

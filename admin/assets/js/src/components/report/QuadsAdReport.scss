@@ -34,7 +34,7 @@
   cursor: pointer;
 }
 
-#report_type,#report_period,#input_based{
+#report_type,#report_period,#input_based,#report_view_type{
   width: 200px;
 }
 .quads-select-menu{
@@ -45,4 +45,21 @@
 }
 #quads-adsense .quads-nav-link strong {
   color: #005af0;
+}
+#report_view_type{
+  float: right;
+}
+#quads_report_table{
+  padding-top: 10px;
+}
+#quads_report_table table{
+  border-collapse: collapse;
+}
+#quads_report_table table td{
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.quads-full-page-modal {
+  height: auto;
 }
