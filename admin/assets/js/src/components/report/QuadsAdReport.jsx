@@ -75,23 +75,33 @@ class QuadsAdReport extends Component {
                 (response) => {
                     if ( response.status && true === response.status ) {
                         if ( response['adsense_id'] ) {
+                            console.log('iam 1');
                             this.closeModal();
+                            const {report} = this.state;
+                            report['adsense_pub_id'] =   response['adsense_id'];
+                            report['adsense_code_view'] =  true;
+
+                            this.setState({ report });
                         } else {
+                            console.log('iam 2');
                             const {report} = this.state;
                             report['adsense_report_errors'] =   JSON.stringify( response );
                             this.setState({ report });
                         }
                     } else {
                         if ( response['raw']['errors'][0]['message'] ) {
+                            console.log('iam 3');
                             const {report} = this.state;
                             report['adsense_report_errors'] =  response['raw']['errors'][0]['message'] ;
                             this.setState({ report });
 
                         } else if ( response['raw']['message'] ) {
+                            console.log('iam 4');
                             const {report} = this.state;
                             report['adsense_report_errors'] =  response['raw']['message'] ;
                             this.setState({ report });
                         }
+                        console.log('iam 5');
                     }
 
                 });
@@ -155,12 +165,11 @@ class QuadsAdReport extends Component {
             case 'adsense':
                 img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
                 break;
-
             default:
                 break;
         }
 
-        type_img.push(<img  src={img_url} />);
+        type_img.push(<img key={type}  src={img_url} />);
 
         return type_img;
     }
@@ -216,7 +225,10 @@ class QuadsAdReport extends Component {
             this.setState({ report });
             this.quads_adsense_report();
         }else if(name == 'adsense_code_view'){
-            report['adsense_code_view'] =  value;
+            if(this.state.adsense_pub_id ) {
+            console.log(this.state.adsense_pub_id);
+                report['adsense_code_view'] =  value;
+            }
             this.setState({ report });
             if(value) {
                 this.openAdsenseAuth();
@@ -260,7 +272,11 @@ class QuadsAdReport extends Component {
         const series = [
             {showPoints: 'false'}
         ];
-
+        // if((this.state.adsense_pub_id === undefined|| this.state.adsense_pub_id =='')&& report['adsense_code_view'] !=  false){
+        //     console.log('i am inside');
+        //     report['adsense_code_view'] =  false;
+        //     this.setState({ report });
+        // }
         return (
             <>
                 {this.state.isLoading ? <div className="quads-cover-spin"></div>
@@ -271,7 +287,7 @@ class QuadsAdReport extends Component {
                             <div className="quads-ad-networks">
                                 <ul key={'quads-ad-networks'}>
                                     {this.state.All_report_list.map(item => (
-                                        <li  data-adtype={item.ad_type} key={item.ad_type} id={item.id}><a className="quads-nav-link" onClick={() => this.quads_adsense_report(this.state.adsense_pub_id)} >{this.getImageByAdType(item.ad_type)}<div><strong>{report.adsense_code_view ?'View Report': 'Connect' }</strong></div></a>
+                                        <li key={item.id} data-adtype={item.ad_type} id={item.id}><a className="quads-nav-link" onClick={() => this.quads_adsense_report(this.state.adsense_pub_id)} >{this.getImageByAdType(item.ad_type)}<div><strong>{report.adsense_code_view ?'View Report': 'Connect' }</strong></div></a>
                                             <div className={'view_report'} >
                                                 <label htmlFor="quads-connect-adsense">{report.adsense_code_view ?'Connected': 'Disconnected' }</label>
 
@@ -291,94 +307,93 @@ class QuadsAdReport extends Component {
                     : ''
                 }
                 {this.state.current_page =='adsense_report_page' ?
-                    <div className="quads-full-page-modal">
+                    <Fragment>
+                            <div >
+                                <nav aria-label="breadcrumb">
+                                    <ol className="breadcrumb">
+                                        <li className="breadcrumb-item" onClick={() => this.change_page('report') }><a >Report</a></li>
+                                        <li className="breadcrumb-item active" aria-current="page">Adsense Report</li>
+                                    </ol>
+                                </nav>
+                                <div className="quads-report-networks">
 
-                        <div className="quads-full-page-modal-content">
-                            <nav aria-label="breadcrumb">
-                                <ol className="breadcrumb">
-                                    <li className="breadcrumb-item" onClick={() => this.change_page('report') }><a >Report</a></li>
-                                    <li className="breadcrumb-item active" aria-current="page">Adsense Report</li>
-                                </ol>
-                            </nav>
-                            <div className="quads-ad-networks">
+                                    <div>
+                                        <h1>Adsense Reports
+                                        </h1>
+                                    </div>
+                                    {/*<div className="quads-large-description"></div>*/}
 
-                                <div className="quads-large-popup-title">
-                                    <h1>Adsense Reports
-                                    </h1>
-                                </div>
-                                {/*<div className="quads-large-description"></div>*/}
-
-                                {/*<div className="quads-large-content">*/}
-                                <div className={'quads-select-menu'} >
-                                    <input type={'hidden'} id={'pub_id'} value={this.state.adsense_pub_id} />
-                                    <select  name="report_type" id={'report_type'} onChange={this.report_formChangeHandler} >
-                                        <option value="">Select Report</option>
-                                        <option value="earning">Earnings</option>
-                                        <option value="earning_forcast">Earnings Forcast</option>
-                                        <option value="top_device_type">Top Earning Device type</option>
-                                    </select>
-                                    {this.state.report.report_type != 'earning_forcast' ?
-                                        <>
-                                        <select name="report_period" id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
-                                            <option value="">Select Duration</option>
-                                            <option value="last_7days">Last 7 days</option>
-                                            <option value="last_15days">Last 15 days</option>
-                                            <option value="last_30days">Last 30 days</option>
-                                            <option value="last_6months">Last 6 months</option>
-                                            <option value="last_1year">Last 1 year</option>
-                                            <option value="all_time">All Time</option>
-                                            <option value="custom">Custom</option>
+                                    {/*<div className="quads-large-content">*/}
+                                    <div className={'quads-select-menu'} >
+                                        <input type={'hidden'} id={'pub_id'} value={this.state.adsense_pub_id} />
+                                        <select  name="report_type" id={'report_type'} onChange={this.report_formChangeHandler} >
+                                            <option value="">Select Report</option>
+                                            <option value="earning">Earnings</option>
+                                            <option value="earning_forcast">Earnings Forcast</option>
+                                            <option value="top_device_type">Top Earning Device type</option>
                                         </select>
-                                            {report.report_period == 'custom' ?
-                                                <>
-                                                <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
-                                                <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_todate:date})} />
-                                                </>
-                                                : null}
-                                        </>
-                                        : ''}
-                                    {this.state.report.report_type == 'earning_forcast' ?
-                                        <div>  revenue prediction based on<select name="report_period" id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
-                                            <option value="">Select Duration</option>
-                                            <option value="last_7days">Last 7 days</option>
-                                            <option value="last_15days">Last 15 days</option>
-                                            <option value="last_30days">Last 30 days</option>
-                                            <option value="last_6months">Last 6 months</option>
-                                            <option value="last_1year">Last 1 year</option>
-                                            <option value="all_time">All Time</option>
-                                            <option value="custom">Custom</option>
-                                        </select> {report.report_period == 'custom' ?
+                                        {this.state.report.report_type != 'earning_forcast' ?
                                             <>
-                                                <DatePicker  minDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
-                                                <DatePicker minDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_todate:date})} />
+                                                <select name="report_period" id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
+                                                    <option value="">Select Duration</option>
+                                                    <option value="last_7days">Last 7 days</option>
+                                                    <option value="last_15days">Last 15 days</option>
+                                                    <option value="last_30days">Last 30 days</option>
+                                                    <option value="last_6months">Last 6 months</option>
+                                                    <option value="last_1year">Last 1 year</option>
+                                                    <option value="all_time">All Time</option>
+                                                    <option value="custom">Custom</option>
+                                                </select>
+                                                {report.report_period == 'custom' ?
+                                                    <>
+                                                        <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
+                                                        <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_todate:date})} />
+                                                    </>
+                                                    : null}
                                             </>
-                                            : null} for
-                                            <select name="input_based" id={'input_based'} onChange={this.report_formChangeHandler}>
-                                                <option value="next_7days">Next 7days</option>
-                                                <option value="next_15days">Next 15days</option>
-                                                <option value="next_30days">Next 30days</option>
-                                                <option value="next_6months">Next 6months</option>
-                                                <option value="next_1year">Next 1year</option>
-                                            </select>
-                                        </div>
-                                        : ''}
-                                </div>
-                                <div > <select name="report_view_type" id={'report_view_type'}>
-                                    <option value="">View Type</option>
-                                    <option value="day">Day</option>
-                                    <option value="week">Week</option>
-                                    <option value="month">Month</option>
-                                    <option value="year">year</option>
-                                </select>
+                                            : ''}
+                                        {this.state.report.report_type == 'earning_forcast' ?
+                                            <div>  revenue prediction based on<select name="report_period" id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
+                                                <option value="">Select Duration</option>
+                                                <option value="last_7days">Last 7 days</option>
+                                                <option value="last_15days">Last 15 days</option>
+                                                <option value="last_30days">Last 30 days</option>
+                                                <option value="last_6months">Last 6 months</option>
+                                                <option value="last_1year">Last 1 year</option>
+                                                <option value="all_time">All Time</option>
+                                                <option value="custom">Custom</option>
+                                            </select> {report.report_period == 'custom' ?
+                                                <>
+                                                    <DatePicker  minDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
+                                                    <DatePicker minDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_todate:date})} />
+                                                </>
+                                                : null} for
+                                                <select name="input_based" id={'input_based'} onChange={this.report_formChangeHandler}>
+                                                    <option value="next_7days">Next 7days</option>
+                                                    <option value="next_15days">Next 15days</option>
+                                                    <option value="next_30days">Next 30days</option>
+                                                    <option value="next_6months">Next 6months</option>
+                                                    <option value="next_1year">Next 1year</option>
+                                                </select>
+                                            </div>
+                                            : ''}
+                                    </div>
+                                    <div > <select name="report_view_type" id={'report_view_type'}>
+                                        <option value="">View Type</option>
+                                        <option value="day">Day</option>
+                                        <option value="week">Week</option>
+                                        <option value="month">Month</option>
+                                        <option value="year">year</option>
+                                    </select>
 
-                                <div id='quads_reports_canvas'>
-                                    <h2> Please select Report type and Duration</h2>
-                                </div>
-                                    <div id={'quads_report_table'}></div>
+                                        <div id='quads_reports_canvas'>
+                                            <h5> Please select Report type and Duration</h5>
+                                        </div>
+                                        <div id={'quads_report_table'}></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>: null
+                    </Fragment>: null
                 }
                 {this.state.adsense_modal ?
                     <>

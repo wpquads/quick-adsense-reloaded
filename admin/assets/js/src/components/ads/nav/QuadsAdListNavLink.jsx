@@ -6,39 +6,59 @@ import Icon from '@material-ui/core/Icon';
 
 class QuadsAdListNavLink extends Component {
 
-    constructor(props) {  
-      
+    constructor(props) {
+
         super(props);
-        this.state = {          
+        this.state = {
             ad_type_toggle:this.props.ad_type_toggle,
+            displayReports:false,
            All_ad_network: [
                     {ad_type:'adsense',ad_type_name:'AdSense'},
                     {ad_type:'double_click',ad_type_name:'Google Ad Manager'},
-                    {ad_type:'yandex',ad_type_name:'Yandex'},  
-                    {ad_type:'mgid',ad_type_name:'MGID'}, 
-                    {ad_type:'taboola',ad_type_name:'Taboola'}, 
+                    {ad_type:'yandex',ad_type_name:'Yandex'},
+                    {ad_type:'mgid',ad_type_name:'MGID'},
+                    {ad_type:'taboola',ad_type_name:'Taboola'},
                     {ad_type:'media_net',ad_type_name:'Media.net'},
                     {ad_type:'mediavine',ad_type_name:'Mediavine'},
-                    {ad_type:'outbrain',ad_type_name:'Outbrain'},  
-                    {ad_type:'infolinks',ad_type_name:'Infolinks'},  
+                    {ad_type:'outbrain',ad_type_name:'Outbrain'},
+                    {ad_type:'infolinks',ad_type_name:'Infolinks'},
                     {ad_type:'plain_text',ad_type_name:'Plain Text / HTML / JS'},
                     {ad_type:'ad_image',ad_type_name:'Banner Ad'},
-                    {ad_type:'background_ad',ad_type_name:'Background ad'}, 
-                    {ad_type:'rotator_ads',ad_type_name:'Rotator Ads'},     
+                    {ad_type:'background_ad',ad_type_name:'Background ad'},
+                    {ad_type:'rotator_ads',ad_type_name:'Rotator Ads'},
                     {ad_type:'random_ads',ad_type_name:'Random Ads'},
                     {ad_type:'group_insertion',ad_type_name:'Group Insertion'},
            ]
-        };            
+        };
+        this.getSettings();
+    }
+    getSettings = () => {
+        let url = quads_localize_data.rest_url + 'quads-route/get-settings';
+        fetch(url,{
+            headers: {
+                'X-WP-Nonce': quads_localize_data.nonce,
+            }
+        })
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    Object.entries(result).map(([meta_key, meta_val]) => {
+                        if(meta_key=='reports_settings'){
+                            this.setState({displayReports:meta_val});
+                        }
+                    })
+                }
+            );
     }
           getImageByAdType = (type, index,return_type='') =>{
         let type_img = [];
         let img_url  = '';
-    
+
           switch (type) {
             case 'adsense':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
               break;
-    
+
             case 'plain_text':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/custom_code.png';
               break;
@@ -88,18 +108,18 @@ class QuadsAdListNavLink extends Component {
             return img_url;
             }
           type_img.push(<img key={index}  src={img_url} />);
-          
+
         return type_img;
       }
     showAddTypeSelector = (e) => {
         e.preventDefault();
-        this.setState({ad_type_toggle:true});    
+        this.setState({ad_type_toggle:true});
     }
     hideAddTypeSelector = (e) => {
         e.preventDefault();
-        this.setState({ad_type_toggle:false});    
+        this.setState({ad_type_toggle:false});
     }
-    componentDidMount(){ 
+    componentDidMount(){
         this.state.All_ad_network.map((item, index ) => {
             var link = document.createElement('link');
               link.rel = "preload";
@@ -108,12 +128,12 @@ class QuadsAdListNavLink extends Component {
               document.head.appendChild(link);
             })
     }
-  render() {    
-    const {__} = wp.i18n;    
-    const page = queryString.parse(window.location.search); 
+  render() {
+    const {__} = wp.i18n;
+    const page = queryString.parse(window.location.search);
     let current = 'ads';
-    
-    if(typeof(page.path)  != 'undefined' ) { 
+
+    if(typeof(page.path)  != 'undefined' ) {
 
         if( page.path == 'settings' || page.path == 'settings_tools' || page.path == 'settings_importer' || page.path == 'settings_legacy' || page.path == 'settings_support' || page.path == 'settings_licenses' || page.path == 'settings_google_autoads')  {
             jQuery('.wp-submenu li').removeClass('current');
@@ -132,29 +152,31 @@ class QuadsAdListNavLink extends Component {
         <div className="quads-ad-tab-wrapper">
          <div className="quads-hidden-element">
          {
-                this.state.ad_type_toggle || this.props.ad_type_toggle ? 
-                <div className="quads-full-page-modal">                           
-                <div className="quads-full-page-modal-content">             
+                this.state.ad_type_toggle || this.props.ad_type_toggle ?
+                <div className="quads-full-page-modal">
+                <div className="quads-full-page-modal-content">
                 <div className="material-icons quads-close-create-page"><a onClick={this.hideAddTypeSelector} className="quads-full-page-modal-close">close</a></div>
                 <h3>{__('AD Integrations', 'quick-adsense-reloaded')}</h3>
-                 <div>                 
-                  <AdTypeSelectorNavLink 
+                 <div>
+                  <AdTypeSelectorNavLink
                   All_ad_network            =   {this.state.All_ad_network}
-                  getImageByAdType          =   {this.getImageByAdType} />                  
+                  getImageByAdType          =   {this.getImageByAdType} />
                  </div>
-                </div>        
+                </div>
                 </div>
                 : ''
               }
-         </div>   
+         </div>
         <div className="quads-ad-tab">
             <ul>
-                <li><Link to={'admin.php?page=quads-settings'} className={current == 'ads' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Ads', 'quick-adsense-reloaded')}</Link></li>                
+                <li><Link to={'admin.php?page=quads-settings'} className={current == 'ads' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Ads', 'quick-adsense-reloaded')}</Link></li>
                 <li><Link to={'admin.php?page=quads-settings&path=settings'} className={current == 'settings' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Settings', 'quick-adsense-reloaded')}</Link></li>
+                {this.state.displayReports ?
                 <li><Link to={'admin.php?page=quads-settings&path=reports'} className={current == 'reports' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Reports', 'quick-adsense-reloaded')}</Link></li>
+                : null }
                 <li><div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.showAddTypeSelector}><Icon>add_circle</Icon>Create Ad</a></div></li>
             </ul>
-        </div> 
+        </div>
         </div>
         );
     }

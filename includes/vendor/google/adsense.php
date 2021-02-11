@@ -6,7 +6,7 @@ namespace wpquads;
  * Google AdSense integration for WP QUADS
  * @author René Hermenau
  * @email info@mashshare.net
- * 
+ *
  */
 
 /**
@@ -21,7 +21,7 @@ class adsense {
      * @var array
      */
     private $settings;
-    
+
     public $publisherIds = array();
 
     public function __construct($settings) {
@@ -34,23 +34,24 @@ class adsense {
      * @return string
      */
     public function setPublisherID() {
-        
-        if (!isset($this->settings['ads'])){
+
+        if (isset($this->settings['ads']) && !empty($this->settings['ads'])){
+            // loop through all adsense g_data_ad_client fields and check if there is any adsense publisher id
+            foreach ($this->settings['ads'] as $key => $value) {
+                if (!empty($value['g_data_ad_client'])){
+                    $this->publisherIds[] = $value['g_data_ad_client'];
+                }
+            }
+        }else{
             $this->publisherIds[] = '';
             return $this->publisherIds;
-            
         }
-        
-        // loop through all adsense g_data_ad_client fields and check if there is any adsense publisher id
-        foreach ($this->settings['ads'] as $key => $value) {
-            if (!empty($value['g_data_ad_client'])){
-                $this->publisherIds[] = $value['g_data_ad_client'];
-            }
-        }
-        
+
+
+
         // Loop through all other possible ad codes and check if there is any possible google publisher id
         $quads_options = $this->settings;
-        
+
         foreach ($quads_options as $id => $ads) {
             if (!is_array($ads)) {
                 continue;
@@ -93,10 +94,10 @@ class adsense {
 //                return $value['g_data_ad_client'];
 //            }
 //        }
-//        
+//
 //        // Loop through all other possible ad codes and check if there is any possible google publisher id
 //        $quads_options = $this->settings;
-//        
+//
 //        foreach ($quads_options as $id => $ads) {
 //            if (!is_array($ads)) {
 //                continue;
@@ -128,31 +129,31 @@ class adsense {
 //
 //        return '';
 //    }
-    
-    
+
+
     public function getPublisherIds(){
         return array_unique($this->publisherIds);
     }
-    
+
 
     /**
      * Write ads.txt
      * @return boolean
      */
     public function writeAdsTxt(){
-        
+
 //        if (!isset($this->settings['adsTxtEnabled'])){
 //            return false;
 //        }
-        
+
         $publisherIds = $this->getPublisherIds();
-        
+
         if (empty($publisherIds)){
             return false;
         }
-        
+
         foreach ($publisherIds as $publisherId){
-            $content = 'google.com, ' . str_replace('ca-', '', $publisherId) . ', DIRECT, f08c47fec0942fa0';  
+            $content = 'google.com, ' . str_replace('ca-', '', $publisherId) . ', DIRECT, f08c47fec0942fa0';
             $adsTxt = new adsTxt($content, $content);
             $adsTxt->writeAdsTxt();
         }

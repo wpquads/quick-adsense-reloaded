@@ -2,8 +2,8 @@
     if( !defined( 'ABSPATH' ) )
         exit;
     add_action( 'admin_enqueue_scripts', 'quads_load_adsnese_scripts', 100 );
-    define('client_id','92665529714-hv86d98s4g3kkg62n4pej8foao38l2ri.apps.googleusercontent.com');
-    define('client_secret','Mh5lqjIt3ZmFX6ll2XnoK_tC');
+    define('client_id','434993230199-hk6lg7d10mi9lja7euvqckef6ji2i4n0.apps.googleusercontent.com');
+    define('client_secret','LTUkw1OpRaL4S-kvDaS7tMU_');
     add_action( 'rest_api_init', 'quads_registerRoute');
 
     function quads_registerRoute($hook){
@@ -282,6 +282,8 @@
 
     }
     function quads_adsense_get_report_data($request_data){
+    echo '    [["2021-02-05","0.26"],["2021-02-06","1.36"],["2021-02-07","1.56"],["2021-02-08","0.38"],["2021-02-09","0.24"],["2021-02-10","0.45"],["2021-02-11","0.02"]]';
+    die;
         $parameters = $request_data->get_params();
         $report_period = (isset($parameters['report_period'])&& !empty($parameters['report_period']))?$parameters['report_period'] :'';
         $report_type = (isset($parameters['report_type'])&& !empty($parameters['report_type']))?$parameters['report_type'] :'';

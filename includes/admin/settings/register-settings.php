@@ -50,13 +50,13 @@ function quads_get_settings() {
       $settings = array_merge( $general_settings, $ext_settings, $imexport_settings, $help_settings );
 
       update_option( 'quads_settings', $settings );
-      
+
 
    }
    return apply_filters( 'quads_get_settings', $settings );
 }
 
-function wpquads_support_page_callback(){         
+function wpquads_support_page_callback(){
     ?>
      <div class="wpquads_support_div">
           <?php echo esc_html__('If you have any query, please write the query in below box or email us at', 'quick-adsense-reloaded') ?> <a href="mailto:team@wpquads.com">team@wpquads.com</a>. <?php echo esc_html__('We will reply to your email address shortly', 'quick-adsense-reloaded') ?><br><br>
@@ -66,19 +66,19 @@ function wpquads_support_page_callback(){
                 <li>
                    <input type="text" id="wpquads_query_email" name="wpquads_query_email" placeholder="Your Email">
                 </li>
-                <li>                    
+                <li>
                     <div><textarea rows="5" cols="60" id="wpquads_query_message" name="wpquads_query_message" placeholder="Write your query"></textarea></div>
                 </li>
                 <li>
-                    <strong><?php echo esc_html__('Are you a premium customer ?', 'quick-adsense-reloaded'); ?></strong>  
-                    <select id="wpquads_query_premium_cus" name="wpquads_query_premium_cus">                       
+                    <strong><?php echo esc_html__('Are you a premium customer ?', 'quick-adsense-reloaded'); ?></strong>
+                    <select id="wpquads_query_premium_cus" name="wpquads_query_premium_cus">
                         <option value=""><?php echo esc_html__('Select', 'quick-adsense-reloaded'); ?></option>
                         <option value="yes"><?php echo esc_html__('Yes', 'quick-adsense-reloaded'); ?></option>
                         <option value="no"><?php echo esc_html__('No', 'quick-adsense-reloaded'); ?></option>
-                    </select>                      
+                    </select>
                 </li>
                 <li><button class="button wpquads-send-query"><?php echo esc_html__('Send Message', 'quick-adsense-reloaded'); ?></button></li>
-            </ul>   
+            </ul>
         </div>
     <?php
 }
@@ -128,7 +128,7 @@ function quads_register_settings() {
       }
    }
 
-   // Store adsense values 
+   // Store adsense values
    quads_store_adsense_args();
 
    // Store AdSense value
@@ -228,7 +228,7 @@ function quads_get_registered_settings() {
                'name' => __( 'ads.txt - Automatic Creation', 'quick-adsense-reloaded' ),
                'desc' => __( 'Create an ads.txt file', 'quick-adsense-reloaded' ),
                "helper-desc" => sprintf(__( 'Allow WP QUADS to generate automatically the ads.txt file in root of your website domain. After enabling and saving settings,'
-                       . ' check if your ads.txt is correct by opening: <a href="%1$s" target="_blank">%1$s</a> <br><a href="%2$s" target="_blank">Read here</a> to learn more about ads.txt', 'quick-adsense-reloaded' ), 
+                       . ' check if your ads.txt is correct by opening: <a href="%1$s" target="_blank">%1$s</a> <br><a href="%2$s" target="_blank">Read here</a> to learn more about ads.txt', 'quick-adsense-reloaded' ),
                         get_site_url() . '/ads.txt',
                        'https://wpquads.com/make-more-revenue-by-using-an-ads-txt-in-your-website-root-domain/'
                        ),
@@ -445,12 +445,12 @@ function quads_get_registered_settings() {
                )
        ),
        'help' => apply_filters( 'quads_settings_help', array(
-         
+
             'support' => array(
                'id' => 'wpquads_support',
                'name' => __( 'Get help from our development team', 'quick-adsense-reloaded' ),
                 'desc' => __( '', 'quick-adsense-reloaded' ),
-               'type' => 'header'  
+               'type' => 'header'
            ),
            'systeminfo' => array(
                'id' => 'systeminfo',
@@ -467,11 +467,11 @@ function quads_get_registered_settings() {
 add_action('wp_ajax_wpquads_ads_for_shortcode', 'wpquads_ads_for_shortcode');
 function wpquads_ads_for_shortcode(){
       if ( ! isset( $_POST['wpquads_security_nonce'] ) ){
-        return; 
-    } 
+        return;
+    }
     if ( !wp_verify_nonce( $_POST['wpquads_security_nonce'], 'quads_ajax_nonce' ) ){
-        return;  
-    } 
+        return;
+    }
      global $quads_options;
       $html ='<select id="quads-select-for-shortcode">';
       foreach ($quads_options['ads'] as $key => $value){
@@ -489,15 +489,15 @@ add_action('wp_ajax_wpquads_send_query_message', 'wpquads_send_query_message');
 function wpquads_send_query_message(){
 
     if ( ! isset( $_POST['wpquads_security_nonce'] ) ){
-        return; 
-    } 
+        return;
+    }
     if ( !wp_verify_nonce( $_POST['wpquads_security_nonce'], 'quads_ajax_nonce' ) ){
-        return;  
-    }   
+        return;
+    }
     $customer_type  = 'Are you a premium customer ? No';
-    $message        = sanitize_textarea_field($_POST['message']); 
-    $email          = sanitize_textarea_field($_POST['email']); 
-    $premium_cus    = sanitize_textarea_field($_POST['premium_cus']);   
+    $message        = sanitize_textarea_field($_POST['message']);
+    $email          = sanitize_textarea_field($_POST['email']);
+    $premium_cus    = sanitize_textarea_field($_POST['premium_cus']);
     $user           = wp_get_current_user();
 
     if($premium_cus == 'yes'){
@@ -507,26 +507,26 @@ function wpquads_send_query_message(){
     $message = '<p>'.$message.'</p><br><br>'. $customer_type. '<br><br> query from WPQuads support tab <br> User Website URL: '.site_url();
 
     if($user){
-        $user_data  = $user->data;        
-        $user_email = $user_data->user_email;     
+        $user_data  = $user->data;
+        $user_email = $user_data->user_email;
         if($email){
             $user_email = $email;
-        }            
-        //php mailer variables        
+        }
+        //php mailer variables
         $sendto    = 'team@ampforwp.com';
         $subject   = "WPQuads Support ticket";
         $headers[] = 'Content-Type: text/html; charset=UTF-8';
-        $headers[] = 'From: '. esc_attr($user_email);            
+        $headers[] = 'From: '. esc_attr($user_email);
         $headers[] = 'Reply-To: ' . esc_attr($user_email);
-        // Load WP components, no themes.                      
-        $sent = wp_mail($sendto, $subject, $message, $headers); 
+        // Load WP components, no themes.
+        $sent = wp_mail($sendto, $subject, $message, $headers);
         if($sent){
-            echo json_encode(array('status'=>'t'));  
+            echo json_encode(array('status'=>'t'));
         }else{
-            echo json_encode(array('status'=>'f'));            
+            echo json_encode(array('status'=>'f'));
         }
     }
-    wp_die();   
+    wp_die();
 }
 
 /**
@@ -550,7 +550,7 @@ function quads_empty_callback() {
  * @return string $input Sanitized value
  */
 function quads_settings_sanitize( $input = array() ) {
-   
+
    global $quads_options;
 
 
@@ -563,7 +563,7 @@ function quads_settings_sanitize( $input = array() ) {
    $settings = quads_get_registered_settings();
    $tab = isset( $referrer['tab'] ) ? $referrer['tab'] : 'general';
 
-   
+
    $input = $input ? $input : array();
    $input = apply_filters( 'quads_settings_' . $tab . '_sanitize', $input );
    // Loop through each setting being saved and pass it through a sanitization filter
@@ -577,10 +577,10 @@ function quads_settings_sanitize( $input = array() ) {
       }
 
       // General filter
-      $input[$key] = apply_filters( 'quads_settings_sanitize', $value, $key );      
+      $input[$key] = apply_filters( 'quads_settings_sanitize', $value, $key );
    }
    //wp_die(var_dump($input));
-   
+
 
    // Loop through the whitelist and unset any that are empty for the tab being saved
    if( !empty( $settings[$tab] ) ) {
@@ -795,7 +795,7 @@ function quads_radio_callback( $args ) {
  * @since 1.2.7
  * @param1 array $args Arguments passed by the setting
  * @param2 id int ID of the ad
- * 
+ *
  * @global $quads_options Array of all the QUADS Options
  * @return void
  */
@@ -825,7 +825,7 @@ function quads_adtype_callback( $id, $args ) {
  * @since 1.2.7
  * @param1 array $args Arguments passed by the setting
  * @param2 id int ID of the ad
- * 
+ *
  * @global $quads_options Array of all the QUADS Options
  * @return void
  */
@@ -1019,18 +1019,18 @@ function quads_adense_select_callback( $id, $args ) {
       $value = $quads_options['ads'][$id][$args['id']];
    else
       $value = isset( $args['std'] ) ? $args['std'] : '';
-   
+
 
    $size = !empty( $args['size'] ) ? $args['size'] : 'quads-medium-size';
 
    $htmlNew = '<label class="quads_hidden" id="quads-label-' . $args['desc'] . '" for="quads_settings[ads][' . $id . '][' . $args['id'] . ']"> ' . $args['desc'] . ' </label>';
    $htmlNew .= '<select class="quads-select-' . $args['desc'] . ' ' . $size . '" id="quads_settings[ads][' . $id . '][' . $args['id'] . ']" name="quads_settings[ads][' . $id . '][' . $args['id'] . ']" >';
-   
+
    foreach ( $args['options'] as $option => $name ) {
       $selected = selected( $option, $value, false );
       $htmlNew .= '<option value="' . $option . '" ' . $selected . '>' . $name . '</option>';
    }
-   
+
    $htmlNew .= '</select>';
    echo $htmlNew;
 }
@@ -1120,34 +1120,34 @@ function quads_upload_callback( $args ) {
 
 /**
  * Check if extra settings are available and activated
- * 
+ *
  * @return boolean
  */
 function quads_is_extra() {
-       
+
    if( !function_exists( 'quads_extra' ) ) {
       return false;
    }
-   
+
    $lic = get_option( 'quads_wp_quads_pro_license_active' );
-   
+
    if (!$lic){
-     return false;  
+     return false;
    }
-   
+
    if (isset($lic->error) && $lic->error === 'expired'){
        return true;
    }
-   
+
    if (isset($lic->license) && $lic->license === 'valid'){
        return true;
    }
-   
+
    if (isset($lic->license) && $lic->license === 'inactive'){
        return false;
    }
-     
-   
+
+
 //   if( !$lic || (is_object( $lic ) && $lic->success !== true) ) {
 //      return false;
 //   }
@@ -1208,7 +1208,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
       }
 
       if( !empty( $license ) && is_object( $license ) ) {
-          
+
 
          // activate_license 'invalid' on anything other than valid, so if there was an error capture it
          if( false === $license->success ) {
@@ -1300,9 +1300,9 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 
                      $license_status = 'quads-license-expiration-date-notice';
                   }
-               break; 
-                  
-               case 'inactive' : 
+               break;
+
+               case 'inactive' :
                     $messages[] = sprintf(
                              __( 'Your license key has been disabled! <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), 'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
                      );
@@ -1315,10 +1315,10 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 //             case 'invalid' :
 //                    $messages[] = sprintf(
 //                             __( 'Your license key has been disabled! <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), 'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
-//                     );        
+//                     );
 //             break;
-//         } 
-         
+//         }
+
       } else {
          $license_status = null;
 
@@ -1516,13 +1516,13 @@ function quads_log_permissions() {
 
 /**
  * Get number of available ads
- * 
+ *
  * @global $quads_options $quads_options
  * @return array
  */
 function quads_get_ads() {
    global $quads_options;
-   
+    $quads_options['ads'] = (array)$quads_options['ads'];
    if (!isset($quads_options['ads']) || ( isset($quads_options['ads']) && count( $quads_options['ads'] ) === 0) ) {
             $ads = array(
           0 => __( 'Random Ads', 'quick-adsense-reloaded' ),
@@ -1539,15 +1539,15 @@ function quads_get_ads() {
       );
       return $ads;
    }
-   
+
    // Start array with
    $arrHeader = array ( 0 => __( 'Random Ads', 'quick-adsense-reloaded' ) );
-   
+
    $ads = array();
-   
+
    foreach ( $quads_options['ads'] as $key => $value ){
       // Skip all widget ads
-      if ( false !== strpos($key, '_widget') ){ 
+      if ( false !== strpos($key, '_widget') ){
          continue;
       }
       // Create array
@@ -1556,11 +1556,11 @@ function quads_get_ads() {
       } else {
           $ads[] = $key;
       }
-     
+
    }
-   
+
    return array_merge($arrHeader, $ads);
-   
+
 //   $ads = array(
 //       0 => __( 'Random Ads', 'quick-adsense-reloaded' ),
 //       1 => isset( $quads_options['ads']['ad1']['label'] ) ? $quads_options['ads']['ad1']['label'] : 'ad1',
@@ -1579,7 +1579,7 @@ function quads_get_ads() {
 
 /**
  * Get array of 1 to 50 for image and paragraph dropdown values
- * 
+ *
  * @global $quads_options $quads_options
  * @return array
  */
@@ -1737,19 +1737,19 @@ function quads_quicktags_callback( $args ) {
  */
 function quads_ajax_add_ads(){
    global $quads_options;
-   
+
    $postCount = !empty($_POST['count']) ? $_POST['count'] : 1;
-   
-   
+
+
    $count = isset($quads_options['ads']) ? count ($quads_options['ads']) + $postCount : 10 + $postCount;
-     
-   
+
+
    $args = array();
    // subtract 10 widget ads
    //$args['id'] = $count-10;
    $args['id'] = $count-getTotalWidgets();
    $args['name'] = 'Ad ' . $args['id'];
-   
+
    quads_ajax_add_ads_new($args);
 
    ob_start();
@@ -1757,7 +1757,7 @@ function quads_ajax_add_ads(){
    quads_adsense_code_callback( $args );
    $content = ob_get_contents();
    ob_end_clean();
-   
+
    $html = '<tr><td>';
    $html.= $content;
    $html.= '</td></tr>';
@@ -1775,7 +1775,7 @@ function getTotalWidgets(){
       global $quads_options;
 
       $i = 0;
-      
+
       foreach ($quads_options['ads'] as $key => $value){
          if (false !== strpos($key, 'widget')){
             $i++;
@@ -1786,17 +1786,17 @@ function getTotalWidgets(){
 
 /**
  * Count normal ads. Do not count widget ads
- * 
+ *
  * @global array $quads_options
  * @return int
  */
 function quads_count_normal_ads() {
    global $quads_options;
-   
+
    if(!isset($quads_options['ads'])){
       return 0;
    }
-   
+
    // Count normal ads - not widget ads
    $adsCount = 0;
    $id = 1;
@@ -1823,13 +1823,13 @@ function quads_new_ad_callback(){
  */
 function quads_ad_code_callback(){
    global $quads_options;
-   
+
 //   echo '<tr><td>';
 //   echo 'test2';
 //   echo '</td></tr>';
-   
+
    $args = array();
-   
+
    $i = 1;
    // Render 10 default ads if there are less than 10 ads stored or none at all
    if( quads_count_normal_ads() < 10 || !quads_is_extra()) {
@@ -1847,9 +1847,9 @@ function quads_ad_code_callback(){
          echo '<tr><td>';
          echo quads_adsense_code_callback( $args );
          echo '</td></tr>';
-         
+
       }
-     
+
       // Stop here early
       return true;
    }
@@ -1857,17 +1857,17 @@ function quads_ad_code_callback(){
    // Else render 10 + n ads
    $i = 1;
    foreach ($quads_options['ads'] as $ads => $value ){
-            
+
       $id = $i++;
-      
+
       $args['id'] = $id;
-      
+
       $args['desc'] = '';
-   
+
       $args['name'] = !empty($quads_options['ads']['ad' . $id]['label']) ? $quads_options['ads']['ad' . $id]['label'] : 'Ad ' . $id;
 
       // Skip if its a widget ad
-      if ( (strpos($ads, 'ad' . $id) === 0) && (false === strpos($ads, 'ad' . $id . '_widget') ) ){            
+      if ( (strpos($ads, 'ad' . $id) === 0) && (false === strpos($ads, 'ad' . $id . '_widget') ) ){
       echo '<tr><td>';
       echo quads_adsense_code_callback( $args );
       echo '</td></tr>';
@@ -1904,10 +1904,10 @@ function quads_adsense_code_callback( $args ) {
    $g_data_ad_width = isset( $quads_options['ads']['ad'. $args['id']]['g_data_ad_width'] ) ? $quads_options['ads']['ad'. $args['id']]['g_data_ad_width'] : '';
 
    $g_data_ad_height = isset( $quads_options['ads']['ad'. $args['id']]['g_data_ad_height'] ) ? $quads_options['ads']['ad'. $args['id']]['g_data_ad_height'] : '';
-   
+
    //$args['desc'] = __( '<strong>Shortcode:</strong> [quads id="'.$args['id'].'"] | <strong>PHP:</strong> echo do_shortcode(\'[quads id="'.$args['id'].'"]\');', 'quick-adsense-reloaded' );
 
-   //$label = !empty($new_label) ? $new_label : 
+   //$label = !empty($new_label) ? $new_label :
    // Create a shorter var to make HTML cleaner
    $id = 'ad' . $args['id'];
    ?>
@@ -1980,7 +1980,7 @@ function quads_adsense_code_callback( $args ) {
    echo quads_adposition_callback( $id, $args_ad_position );
    // if WP QUADS PRO is installed and version number is higher or equal 1.2.7 show the new margin settings
    if( !quads_is_extra() ) {
-      ?> 
+      ?>
 
               <br />
               <label class="quads-label-left" for="quads_settings[ads][<?php echo $id; ?>][margin]"><?php _e( 'Margin', 'quick-adsense-reloaded' ); ?></label>
@@ -2019,40 +2019,40 @@ function quads_adsense_code_callback( $args ) {
       $marginright  = 0;
       $marginbottom = 0;
       $marginleft   = 0;
-      if(isset( $quads_options['ads'][$args['id']]['margin'] )){ 
+      if(isset( $quads_options['ads'][$args['id']]['margin'] )){
          $margintop     = esc_attr( stripslashes($quads_options['ads'][$args['id']]['margin']));
          $marginright   = esc_attr( stripslashes($quads_options['ads'][$args['id']]['margin']));
          $marginbottom  = esc_attr( stripslashes($quads_options['ads'][$args['id']]['margin']));
          $marginleft    = esc_attr( stripslashes($quads_options['ads'][$args['id']]['margin']));
        }
-       if(isset( $quads_options['ads'][$args['id']]['margintop'] )){ 
+       if(isset( $quads_options['ads'][$args['id']]['margintop'] )){
          $margintop = esc_attr( stripslashes($quads_options['ads'][$args['id']]['margintop']));
        }
-       if(isset( $quads_options['ads'][$args['id']]['marginright'] )){ 
+       if(isset( $quads_options['ads'][$args['id']]['marginright'] )){
          $marginright = esc_attr( stripslashes($quads_options['ads'][$args['id']]['marginright']));
        }
-       if(isset( $quads_options['ads'][$args['id']]['marginbottom'] )){ 
+       if(isset( $quads_options['ads'][$args['id']]['marginbottom'] )){
          $marginbottom = esc_attr( stripslashes($quads_options['ads'][$args['id']]['marginbottom']));
        }
-       if(isset( $quads_options['ads'][$args['id']]['marginleft'] )){ 
+       if(isset( $quads_options['ads'][$args['id']]['marginleft'] )){
          $marginleft = esc_attr( stripslashes($quads_options['ads'][$args['id']]['marginleft']));
        }
-       // padding 
+       // padding
       $paddingtop   = 0;
       $paddingright  = 0;
       $paddingbottom = 0;
       $paddingleft   = 0;
 
-       if(isset( $quads_options['ads'][$args['id']]['paddingtop'] )){ 
+       if(isset( $quads_options['ads'][$args['id']]['paddingtop'] )){
          $paddingtop = esc_attr( stripslashes($quads_options['ads'][$args['id']]['paddingtop']));
        }
-       if(isset( $quads_options['ads'][$args['id']]['paddingright'] )){ 
+       if(isset( $quads_options['ads'][$args['id']]['paddingright'] )){
          $paddingright = esc_attr( stripslashes($quads_options['ads'][$args['id']]['paddingright']));
        }
-       if(isset( $quads_options['ads'][$args['id']]['paddingbottom'] )){ 
+       if(isset( $quads_options['ads'][$args['id']]['paddingbottom'] )){
          $paddingbottom = esc_attr( stripslashes($quads_options['ads'][$args['id']]['paddingbottom']));
        }
-       if(isset( $quads_options['ads'][$args['id']]['paddingleft'] )){ 
+       if(isset( $quads_options['ads'][$args['id']]['paddingleft'] )){
          $paddingleft = esc_attr( stripslashes($quads_options['ads'][$args['id']]['paddingleft']));
        }
 
@@ -2133,7 +2133,7 @@ function quads_adsense_code_callback( $args ) {
    echo quads_adposition_callback( $id, $args_ad_position );
    // if WP QUADS PRO is installed and version number is higher or equal 1.2.7 show the new margin settings
    if( !quads_is_extra() ) {
-      ?> 
+      ?>
               <br />
               <label class="quads-label-left" ><?php _e( 'Margin', 'quick-adsense-reloaded' ); ?></label>
               <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][margintop]" name="quads_settings[ads][<?php echo $id; ?>][margintop]" value="<?php echo esc_attr( stripslashes( $margintop ) ); ?>"/>
@@ -2174,9 +2174,9 @@ function quads_adsense_code_callback( $args ) {
     }
 
     /**
-     * 
+     *
      * Return array of alignment options
-     * 
+     *
      * @return array
      */
     function quads_get_alignment() {
@@ -2191,7 +2191,7 @@ function quads_adsense_code_callback( $args ) {
 
     /**
      * Check if plugin Clickfraud Monitoring is installed
-     * 
+     *
      * @return boolean true when it is installed and active
      */
     function quads_is_installed_clickfraud() {
@@ -2206,7 +2206,7 @@ function quads_adsense_code_callback( $args ) {
     }
 
     /**
-     * 
+     *
      * @param array $args array(
      * 'id' => 'string),
      * 'type' => desktop, tablet_landscape, tablet_portrait, phone
@@ -2284,7 +2284,7 @@ function quads_adsense_code_callback( $args ) {
 
     /**
      * Store AdSense parameters
-     * 
+     *
      * @return boolean
      */
    function quads_store_adsense_args() {
@@ -2339,15 +2339,15 @@ function quads_adsense_code_callback( $args ) {
 }
 
 /**
-     * Populate AdSense Code field otherwise ads are not shown on frontpage (Bug). 
+     * Populate AdSense Code field otherwise ads are not shown on frontpage (Bug).
      * @todo
-     * 
+     *
      * @global $quads_options $quads_options
      * @deprecated since 1.3.8
      */
 //function quads_fix_ad_not_shown(){
 //    global $quads_options;
-//    
+//
 //    foreach ( $quads_options as $id => $values ) {
 //        if( is_array( $values ) && array_key_exists( 'code', $values ) && array_key_exists( 'ad_type', $values ) && empty($values['code']) ) {
 //            $quads_options[$id]['code'] = '...';
@@ -2421,28 +2421,28 @@ function quads_adsense_code_callback( $args ) {
 
        $html = '<select id="quads_select_'. $args['id'] .'" name="quads_settings[' . $args['id'] . '][]" data-placeholder="' . $placeholder . '" style="width:550px;" multiple tabindex="4" class="quads-select quads-chosen-select">';
        $i = 0;
-       
+
        if (!isset($quads_options[$args['id']]) || !is_array( $quads_options[$args['id']] ) || count($quads_options[$args['id']]) == 0){
             $html .= '</select>';
             echo $html;
             return;
        }
-       
+
        foreach ( $quads_options[$args['id']] as $key => $value ) {
           $html .= '<option value="' . $key . '" selected="selected">' . $value . '</option>';
        };
        $html .= '</select>';
        echo $html;
     }
-    
+
     /**
      * VI Integration
      * @global type $quads
-     * 
+     *
      */
     function quads_vi_signup_callback() {
     global $quads, $quads_options;
-    
+
             //$adsense = new \wpquads\adsense($quads_options);
             //var_dump($adsense->getPublisherIds());
             //echo 'test' . $adsense->getPublisherIds() . $adsense->writeAdsTxt();
@@ -2458,10 +2458,10 @@ function quads_adsense_code_callback( $args ) {
             echo $header->render();
             echo $error->render();
             echo $footer->render();
-            return true; 
+            return true;
         }
     }
-    
+
 
     $data = !empty($quads->vi->getSettings()->data) ? (array) $quads->vi->getSettings()->data : array();
 
@@ -2499,7 +2499,7 @@ function quads_adsense_code_callback( $args ) {
     function quads_write_adsense_ads_txt() {
         // Get the current recently updated settings
         $quads_options = get_option('quads_settings');
-        
+
         // ads.txt is disabled
         if (!isset($quads_options['adsTxtEnabled'])) {
             set_transient('quads_ads_txt_disabled', true, 100);
@@ -2521,8 +2521,8 @@ function quads_adsense_code_callback( $args ) {
         }
     }
     add_action('update_option_quads_settings', 'quads_write_adsense_ads_txt');
-    
-    
+
+
     /**
      * Periodically update ads.txt once a day for vi and adsense
      * This is to ensure that the file is recreated in case it was deleted
@@ -2546,9 +2546,9 @@ function quads_adsense_code_callback( $args ) {
    if($args['id']){
 
       $parameters = array();
-      $parameters['quads_post_meta']['ad_type'] = 'adsense';  
-      $parameters['quads_post_meta']['label']   = $args['name'];        
-      $parameters['quads_post_meta']['quads_ad_old_id'] = 'ad'.$args['id'];  
+      $parameters['quads_post_meta']['ad_type'] = 'adsense';
+      $parameters['quads_post_meta']['label']   = $args['name'];
+      $parameters['quads_post_meta']['quads_ad_old_id'] = 'ad'.$args['id'];
 
       $api_service =   new QUADS_Ad_Setup_Api_Service();
       $api_service->updateAdData($parameters);
@@ -2576,7 +2576,7 @@ function quads_extra_user_profile_fields( $user ) {
         </td>
     </tr>
     </table>
-<?php 
+<?php
 }
 add_action( 'show_user_profile', 'quads_extra_user_profile_fields' );
 add_action( 'edit_user_profile', 'quads_extra_user_profile_fields' );
@@ -2587,12 +2587,12 @@ add_action( 'edit_user_profile', 'quads_extra_user_profile_fields' );
  * @return boolean
  */
 function quads_save_extra_user_profile_fields( $user_id ) {
-    
-    if ( !current_user_can( 'edit_user', $user_id ) ) { 
-        return false; 
+
+    if ( !current_user_can( 'edit_user', $user_id ) ) {
+        return false;
     }
     $adsense_pub_id     = sanitize_text_field($_POST['quads_adsense_pub_id']);
-    update_user_meta( $user_id, 'quads_adsense_pub_id', $adsense_pub_id ); 
+    update_user_meta( $user_id, 'quads_adsense_pub_id', $adsense_pub_id );
 }
 
 add_action( 'personal_options_update', 'quads_save_extra_user_profile_fields' );
