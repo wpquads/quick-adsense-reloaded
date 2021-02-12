@@ -216,12 +216,10 @@
                             'raw'       => $accounts['error'],
                         )
                     );
-
                 }
             }
 
         }
-
         die;
     }
     function quads_get_option_adsense(){
@@ -271,27 +269,23 @@
         if ( empty( $adsense_id ) ) {
             return false;
         }
-
         $has_token = false;
         $options   = get_option();
         if ( isset( $options['accounts'][ $adsense_id ] ) && ! empty( $options['accounts'][ $adsense_id ]['refresh_token'] ) ) {
             $has_token = true;
         }
-
         return $has_token;
-
     }
     function quads_adsense_get_report_data($request_data){
-    echo '    [["2021-02-05","0.26"],["2021-02-06","1.36"],["2021-02-07","1.56"],["2021-02-08","0.38"],["2021-02-09","0.24"],["2021-02-10","0.45"],["2021-02-11","0.02"]]';
-    die;
+
         $parameters = $request_data->get_params();
         $report_period = (isset($parameters['report_period'])&& !empty($parameters['report_period']))?$parameters['report_period'] :'';
         $report_type = (isset($parameters['report_type'])&& !empty($parameters['report_type']))?$parameters['report_type'] :'';
         $input_based = (isset($parameters['input_based'])&& !empty($parameters['input_based']))?$parameters['input_based'] :'';
         $report_view_type = (isset($parameters['report_view_type'])&& !empty($parameters['report_view_type']))?$parameters['report_view_type'] :'';
 
-        $startDate = mktime();  // todays date as a timestamp
         $forcast_date_count = 0;
+
         $endDate = (isset($parameters['endDate'])&& $parameters['endDate'])?$parameters['endDate'] :date('Y-m-d');
 
         switch ($report_period) {
@@ -333,21 +327,17 @@
         $token_data    = quads_adsense_get_access_token($account_id);
 
         switch ($report_type){
-
             case 'earning_forcast':
-
                 $url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.$account_id.'/reports?startDate='.$startDate.'&endDate='.$endDate.'&dimension=DATE&dimension=EARNINGS&metric=EARNINGS&useTimezoneReporting=true';
                 break;
             case 'top_device_type':
                 $report_type = 'PLATFORM_TYPE_CODE';
                 $url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.$account_id.'/reports?startDate='.$startDate.'&endDate='.$endDate.'&dimension=DATE&dimension=PLATFORM_TYPE_CODE&metric=EARNINGS&useTimezoneReporting=true';
-
                 break;
             case 'earning':
             default:
                 $report_type = 'EARNINGS';
                 $url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.$account_id.'/reports?startDate='.$startDate.'&endDate='.$endDate.'&dimension=DATE&dimension=EARNINGS&metric=EARNINGS&useTimezoneReporting=true';
-
                 break;
         }
         $token_data = wp_unslash( $token_data);
@@ -367,80 +357,10 @@
 
         } else {
             $adsense_data_response = json_decode( $response['body'], true );
-            if($report_type == 'earning_forcast') {
-                switch ($input_based) {
-                    case 'next_15days':
-                        $forcast_date_count = 15;
-                        break;
-                    case 'next_30days':
-                        $forcast_date_count = 30;
-                        break;
-                    case 'next_6months':
-                        $forcast_date_count = 180;
-                        break;
-                    case 'next_1year':
-                        $forcast_date_count = 365;
-                        break;
-                    default:
-                        $forcast_date_count = 7;
-                        break;
-                }
 
-                $forcast_data_array = array();
-                $count = 1;
-                foreach ($adsense_data_response['rows'] as $data){
-                    $dates[]=$count;
-                    $amounts[]=$data[1];
-                    $count += 1;
-                }
-                $week_end_flag = true;
-                for($i=1;$i<=$forcast_date_count;$i++) {
-
-                    $forcast_data = quads_forcast(count($dates)+$i, $amounts,$dates);
-
-                    $forcastdate = strtotime(" $i day");
-                    $forcastdate = date("Y-m-d", $forcastdate);
-
-                    $forcast_data_array[]= array($forcastdate,sprintf("%.2f", $forcast_data));
-                    if($report_view_type=='week' && $forcast_date_count == $i && $week_end_flag){
-                        $week_end_flag =false;
-                        $dto = new DateTime();
-                        $forcastdate = strtotime(" $i day");
-                        $dto->setISODate( date("Y", $forcastdate),  date("W", $forcastdate));
-                        $dto->modify('+6 days');
-                        $week_end = $dto->format('Y-m-d');
-                        $forcastdate = date("Y-m-d", $forcastdate);
-                        $diff=date_diff(date_create($forcastdate),date_create($week_end));
-                        $diff = $diff->format("%a");
-                        $forcast_date_count += $diff-1;
-                    }
-                    if($report_view_type=='month' && $forcast_date_count == $i && $week_end_flag){
-                        $week_end_flag =false;
-                        $month_end_date = date("Y-m-t", strtotime($forcastdate));
-                        $diff=date_diff(date_create($forcastdate),date_create($month_end_date));
-                        $diff = $diff->format("%a");
-                        $forcast_date_count += $diff;
-                    }
-                }
-                return $forcast_data_array;
-            }
             return $adsense_data_response['rows'];
         }
         die;
-    }
-    function quads_forcast($x, $ky, $kx){
-
-        $i=0; $nr=0; $dr=0;$ax=0;$ay=0;$a=0;$b=0;
-
-        $ax=array_sum($kx)/count($kx);
-        $ay=array_sum($ky)/count($ky);
-        for ($i=0;$i<count($kx);$i++){
-            $nr = $nr + (($kx[$i]-$ax) * ($ky[$i]-$ay));
-            $dr = $dr + (($kx[$i]-$ax)*($kx[$i]-$ax));
-        }
-        $b=$nr/$dr;
-        $a=$ay-$b*$ax;
-        return ($a+$b*$x);
     }
 
     function quads_adsense_get_access_token($account){

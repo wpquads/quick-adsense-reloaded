@@ -1996,7 +1996,7 @@ and open the template in the editor.
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  padding: .75rem 1rem;
+  padding: 15px 15px 10px 20px;
   margin-bottom: 1rem;
   list-style: none;
   background-color: #e9ecef;
@@ -2050,11 +2050,13 @@ and open the template in the editor.
   font-size: 15px; }
 
 .quads-report-networks {
-  padding: 0px 29px;
   max-width: 100%;
   background: #fff;
   z-index: 8;
   position: relative; }
+
+.quads-segment ol.breadcrumb {
+  margin: 0px; }
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle, .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow,
 .react-datepicker__month-year-read-view--down-arrow {

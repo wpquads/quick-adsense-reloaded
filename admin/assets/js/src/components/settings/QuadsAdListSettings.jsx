@@ -430,7 +430,7 @@ handleMultiPluginsChange = (option) => {
     );
   }
   closeQuerySuccess = (e) => {
-    this.setState({customer_querey_success : '',importampforwpmsg : '',importadsforwpmsg : '',importadvancedadsmsg : '',importquadsclassicmsg : ''});   
+    this.setState({customer_querey_success : '',importampforwpmsg : '',importadsforwpmsg : '',importadvancedadsmsg : '',importquadsclassicmsg : ''});
   }
   closeQueryError = (e) => {
     this.setState({customer_querey_error: ''});
@@ -1368,7 +1368,7 @@ handleMultiPluginsChange = (option) => {
                      </td>
                  </tr>
                  <tr>
-                     <th><label htmlFor="reports_settings">{__('Reports', 'quick-adsense-reloaded')}</label></th>
+                     <th><label htmlFor="reports_settings">{__('Revenue Reports', 'quick-adsense-reloaded')}</label></th>
                      <td>
                          <label className="quads-switch">
                              <input id="reports_settings" type="checkbox" name="reports_settings" onChange={this.formChangeHandler} checked={settings.reports_settings} />
