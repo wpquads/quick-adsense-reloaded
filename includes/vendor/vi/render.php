@@ -4,28 +4,28 @@ namespace wpquads;
 
 /*
  * vi ad render for WP QUADS used on frontend
- * 
+ *
  * @author René Hermenau
  * @email info@mashshare.net
- * 
+ *
  */
 
 class render extends conditions\conditions {
 
     /**
      * All Ad Settings
-     * @var array 
+     * @var array
      */
     protected $ads;
-    
+
     /**
      * Array of already populated ads
-     * This is to make sure that never 
+     * This is to make sure that never
      * one ad is injected multiple times into page
-     * @var array 
+     * @var array
      */
     protected $adsInjected = array();
-    
+
 
     /**
      * Curent ad id
@@ -35,7 +35,7 @@ class render extends conditions\conditions {
 
     /**
      * Filtered Content
-     * @var string 
+     * @var string
      */
     //protected $content;
 
@@ -45,7 +45,7 @@ class render extends conditions\conditions {
         if (is_admin()) {
             return false;
         }
-        
+
         if (!$this->getToken()) {
             return false;
         }
@@ -117,7 +117,7 @@ class render extends conditions\conditions {
         }
         return false;
     }
-    
+
     private function filterAbovePost($content) {
         if (isset($this->ads['ads'][$this->id]['position']) &&
                 $this->ads['ads'][$this->id]['position'] === 'abovePost') {
@@ -144,7 +144,7 @@ class render extends conditions\conditions {
             if ($paragraphCount > 1) {
                 $content = explode("</p>", $content);
                 array_splice($content, $middle, 0, $this->render()); // splice in at middle position
-                $content = implode($content, "</p>");
+                $content = implode("</p>",$content);
             }
 
             return $content . $this->render();
@@ -174,14 +174,14 @@ class render extends conditions\conditions {
      * @return string
      */
     private function getInlineStyle() {
-        
+
         // Create margin
         $marginTop = !empty($this->ads['ads'][$this->id]['marginTop']) ? $this->ads['ads'][$this->id]['marginTop'] : '0';
         $marginRight = !empty($this->ads['ads'][$this->id]['marginRight']) ? $this->ads['ads'][$this->id]['marginRight'] : '0';
         $marginBottom = !empty($this->ads['ads'][$this->id]['marginBottom']) ? $this->ads['ads'][$this->id]['marginBottom'] : '0';
         $marginLeft = !empty($this->ads['ads'][$this->id]['marginLeft']) ? $this->ads['ads'][$this->id]['marginLeft'] : '0';
         $margin = 'margin-top:' . $marginTop .'px;margin-right:' . $marginRight .'px;margin-bottom:' . $marginBottom.  'px;margin-left:' . $marginLeft .'px;';
-        
+
         $style = '';
         // Layout Alignment
         if (isset($this->ads['ads'][$this->id]['align']) &&
@@ -201,8 +201,8 @@ class render extends conditions\conditions {
         }
         return $style . $margin;
     }
-    
-        
+
+
     /**
      * Check if vi api is active
      * @return boolean
@@ -214,7 +214,7 @@ class render extends conditions\conditions {
         }
         return true;
     }
-    
+
     private function getToken() {
         $token = get_option('quads_vi_token', '');
 
