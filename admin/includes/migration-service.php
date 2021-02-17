@@ -21,7 +21,7 @@ class QUADS_Ad_Migration {
             $old_ad_id      = get_post_meta($ad_id, 'quads_ad_old_id', true);
 
             $quads_settings = get_option( 'quads_settings' );
-            
+
             if($old_ad_id){
                 $quads_settings['ads'][$old_ad_id] = $new_data;
             }else{
@@ -47,7 +47,7 @@ class QUADS_Ad_Migration {
     public function quadsAdReset(){
         global $quads_options;
         $quadsAdReset = get_option( 'quadsAdReset' );
-        if($quadsAdReset){
+        if(!$quadsAdReset){
             require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
             $api_service = new QUADS_Ad_Setup_Api_Service();
             $quads_ads = $api_service->getAdDataByParam('quads-ads');
@@ -100,7 +100,7 @@ class QUADS_Ad_Migration {
                 update_option('quads_settings_backup_reset', $quads_options);
                 update_option('quads_settings', $quads_options);
             }
-          update_option('quadsAdReset', 1);
+          update_option('quadsAdReset', true);
         }
 
     }
