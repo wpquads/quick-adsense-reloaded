@@ -146,17 +146,19 @@ notice_bg_color = (color) => {
                 'Content-Type': 'application/json',
                 'X-WP-Nonce': quads_localize_data.nonce,
             }
-        })
-            .then(res => res.blob())
+        }) .then(res => res.json())
             .then(
-                (blob ) => {
-                    console.log('ajax');
-                    const href = window.URL.createObjectURL(blob);
-                    const a = this.linkRef.current;
-                    a.download = 'Lebenslauf.json';
-                    a.href = href;
-                    a.click();
-                    a.href = '';
+                (result) => {
+                let jsonData =result;
+                let filename ='quads-settings';
+                    const fileData = JSON.stringify(jsonData);
+                    const blob = new Blob([fileData], {type: "text/plain"});
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = `${filename}.json`;
+                    link.href = url;
+                    link.click();
+                console.log(result);
                 },
                 (error) => {
                 }
@@ -1404,7 +1406,7 @@ handleMultiPluginsChange = (option) => {
                       <tr>
                         <th><label>{__('Export', 'quick-adsense-reloaded')}</label></th>
                         <td>
-                          <a onclick={this.export_settings} className="quads-btn quads-btn-primary">Export</a>
+                          <a onClick={this.export_settings} className="quads-btn quads-btn-primary">Export</a>
                           <p>{__('Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded')}</p>
                         </td>
                       </tr></tbody></table>

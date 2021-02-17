@@ -102,7 +102,7 @@ class QUADS_Ad_Setup_Api {
                 }
             ));
             register_rest_route( 'quads-route', 'export-settings', array(
-                'methods'    => 'GET',
+                'methods'    => 'POST',
                 'callback'   => array($this, 'exportSettings') ,
                 'permission_callback' => function(){
                     return current_user_can( 'manage_options' );
