@@ -197,7 +197,9 @@ Alternative Installation:
 = 2.0.19 (17th February 2020) =
 * Fix: Target not working for ads in between loops. #303
 * Fix: Issue while ad saving. #316
+* Fix: Export ads settings #271
 * Fix: Typo. #307
+* Fix: Fixed Shortcode does not work on Homepage and topic. #315
 
 = 2.0.19 (21th January 2020) =
 * New: New Group Insertion #297
