@@ -42,8 +42,8 @@ function quads_add_options_link() {
             $quads_settings_page = add_submenu_page('quads-settings', __('Ads', 'quick-adsense-reloaded'), 'Ads', 'manage_options', 'quads-settings', 'quads_options_page_new');
 
             $quads_settings_page = add_submenu_page('quads-settings', __('Settings', 'quick-adsense-reloaded'), 'Settings', 'manage_options', 'quads-settings&path=settings', 'quads_options_page_new');
-            if(isset($quads_options['reports_settings']) && $quads_options['reports_settings'])
-            $quads_settings_page = add_submenu_page('quads-settings', __('Reports', 'quick-adsense-reloaded'), 'Reports', 'manage_options', 'quads-settings&path=reports', 'quads_options_page_new');
+//            if(isset($quads_options['reports_settings']) && $quads_options['reports_settings'])
+//            $quads_settings_page = add_submenu_page('quads-settings', __('Reports', 'quick-adsense-reloaded'), 'Reports', 'manage_options', 'quads-settings&path=reports', 'quads_options_page_new');
 
             add_submenu_page('quads-settings', __('Return to Classic view', 'quick-adsense-reloaded'), 'Return to Classic view', 'manage_options', 'quads_switch_to_old', 'quads_version_switch');
 
@@ -59,7 +59,7 @@ function quads_add_options_link() {
         if (quads_is_extra() || quads_is_advanced()) {
 
         }else{
-            $quads_add_ons_page = add_submenu_page('quads-settings', __('Get Add-On', 'quick-adsense-reloaded'), 'upgrade to PRO', 'manage_options', 'quads-addons', 'quads_add_ons_page');
+            $quads_add_ons_page = add_submenu_page('quads-settings', __('Get Add-On', 'quick-adsense-reloaded'), 'Upgrade to PRO', 'manage_options', 'quads-addons', 'quads_add_ons_page');
         }
     }
 }

@@ -1332,15 +1332,6 @@ handleMultiPluginsChange = (option) => {
                      </td>
                      </tr>
                      <tr>
-                         <th><label htmlFor="reports_settings">{__('Revenue Reports', 'quick-adsense-reloaded')}</label></th>
-                         <td>
-                             <label className="quads-switch">
-                                 <input id="reports_settings" type="checkbox" name="reports_settings" onChange={this.formChangeHandler} checked={settings.reports_settings} />
-                                 <span className="quads-slider"></span>
-                             </label>
-                         </td>
-                     </tr>
-                     <tr>
                      <th><label htmlFor="revenue_sharing_enabled">{__('Revenue Sharing', 'quick-adsense-reloaded')}</label></th>
                      <td>
                        <label className="quads-switch">

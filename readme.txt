@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 5.6
+Tested up to: 5.6.1
 Requires PHP: 5.3
-Stable tag: 2.0.19
+Stable tag: 2.0.20
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
@@ -190,10 +190,15 @@ Alternative Installation:
 8. Tons of options to target the ad.
 9. Settings Page for WPQuads
 10. Widget AD
-11. Customer Support Happiness Stats 
+11. Customer Support Happiness Stats
 
 
 == Changelog ==
+= 2.0.19 (17th February 2020) =
+* Fix: Target not working for ads in between loops. #303
+* Fix: Issue while ad saving. #316
+* Fix: Typo. #307
+
 = 2.0.19 (21th January 2020) =
 * New: New Group Insertion #297
 * Fix: Exclude targeting is not working. #286

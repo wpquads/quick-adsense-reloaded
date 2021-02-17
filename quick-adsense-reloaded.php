@@ -5,8 +5,8 @@
  * Plugin URI: https://wordpress.org/plugins/quick-adsense-reloaded/
  * Description: Insert Google AdSense and other ad formats fully automatic into your website
  * Author: WP Quads
- * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
- * Version: 2.0.19
+ * Author URI: https://wpquads.com/
+ * Version: 2.0.20
  * Text Domain: quick-adsense-reloaded
  * Domain Path: languages
  * Credits: WP QUADS - Quick AdSense Reloaded is a fork of Quick AdSense
@@ -38,7 +38,7 @@ if( !defined( 'ABSPATH' ) )
 
 // Plugin version
 if( !defined( 'QUADS_VERSION' ) ) {
-  define( 'QUADS_VERSION', '2.0.19' );
+  define( 'QUADS_VERSION', '2.0.20' );
 }
 
 // Plugin name
@@ -91,15 +91,15 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
       public $html;
 
       /* QUADS LOGGER Class
-       * 
+       *
        */
       public $logger;
-      
+
       /**
        * Public vi class
        */
       public $vi;
-      
+
       public function __construct() {
 
       }
@@ -164,7 +164,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
 
       public function update_data(){
 
-            $quads_settings = get_option('quads_settings');  
+            $quads_settings = get_option('quads_settings');
             $quads_mode = get_option('quads-mode');
             if($quads_mode && $quads_mode == 'new' && isset($quads_settings['ad_blocker_message']) && $quads_settings['ad_blocker_message'] && !isset($quads_settings['ad_blocker_support']) && !isset($quads_settings['notice_type'])){
                 $quads_settings['ad_blocker_support'] = true;
@@ -211,10 +211,10 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          global $quads_options, $quads_mode;
 
          $quads_mode = get_option('quads-mode');
-         
+
          require_once QUADS_PLUGIN_DIR . 'includes/admin/settings/register-settings.php';
          $quads_options = quads_get_settings();
-                  
+
          require_once QUADS_PLUGIN_DIR . 'includes/post_types.php';
          require_once QUADS_PLUGIN_DIR . 'includes/user_roles.php';
          require_once QUADS_PLUGIN_DIR . 'includes/widgets.php';
@@ -264,15 +264,15 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             $this->registerNamespaces();
 
          }
-         
+
          //Includes new files
          require_once QUADS_PLUGIN_DIR . '/admin/includes/setup.php';
-         require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api.php';  
-         require_once QUADS_PLUGIN_DIR . '/admin/includes/common-functions.php'; 
-         require_once QUADS_PLUGIN_DIR . '/admin/includes/widget.php';         
-         
+         require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api.php';
+         require_once QUADS_PLUGIN_DIR . '/admin/includes/common-functions.php';
+         require_once QUADS_PLUGIN_DIR . '/admin/includes/widget.php';
+
       }
-      
+
    /**
     * Register used namespaces
     */
@@ -281,7 +281,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
 
       // Autoloader
       $autoloader->registerNamespaces( array(
-          "wpquads" => array( 
+          "wpquads" => array(
               QUADS_PLUGIN_DIR,
               QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms',
               QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms' . DIRECTORY_SEPARATOR . 'Elements',
@@ -295,8 +295,8 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
       // Register namespaces
       $autoloader->register();
    }
-   
-      
+
+
 
       public function load_hooks() {
          if( is_admin() && quads_is_plugins_page() ) {
@@ -337,10 +337,10 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
       }
 
       /*
-       * Activation function fires when the plugin is activated.  
+       * Activation function fires when the plugin is activated.
        * Checks first if multisite is enabled
        * @since 1.0.0
-       * 
+       *
        */
 
       public static function activation( $networkwide ) {
@@ -372,12 +372,12 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
        * @return void
        */
       public static function during_activation() {
-         
-         // Add cron event   
+
+         // Add cron event
          require_once plugin_dir_path( __FILE__ ) . 'includes/Cron/Cron.php';
          $cron = new quadsCron();
          $cron->schedule_event();
-         
+
          // Create vi api endpints and settings
          self::instance()->vi->setSettings();
 
@@ -410,7 +410,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          // Add the transient to redirect (not for multisites)
          set_transient( 'quads_activation_redirect', true, 3600 );
       }
-      
+
       /**
        * Get all wp quads settings
        * @return array
@@ -480,7 +480,7 @@ function quads_is_pro_active() {
 
 /**
  * Check if advanced settings are available
- * 
+ *
  * @return boolean
  */
 function quads_is_advanced() {
@@ -494,7 +494,7 @@ function quads_is_advanced() {
 
 /**
  * Check if wp quads pro is active and installed
- * 
+ *
  * @deprecated since version 1.3.0
  * @return boolean
  */
@@ -510,7 +510,7 @@ function quads_is_active_deprecated() {
 
 /**
  * Create a MU plugin to remove unused shortcode when plugin is removed.
- * 
+ *
  * @since 1.8.12
  */
 add_action('update_option_quads_settings', 'wpquads_remove_shortcode',10,3);
