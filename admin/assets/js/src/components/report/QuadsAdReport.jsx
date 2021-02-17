@@ -387,12 +387,16 @@ class QuadsAdReport extends Component {
                                         </select>
                                         :null}
 
-                                    <div id='quads_reports_canvas'>
-                                        <h5> Please select Report type and Duration</h5>
-                                    </div>
+
                                     {!quads_localize_data_is_pro && this.state.report.report_type != 'earning'?
-                                    <div id={'quads_get_pro'}>This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
-                                    </div>:null}
+                                        <div id='quads_reports_canvas' className={'canvas_get_pro'}>
+                                            <h5> Please select Report type and Duration</h5>
+                                            <div id={'quads_get_pro'}>This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+                                            </div>
+                                        </div>
+                                        :<div id='quads_reports_canvas'>
+                                            <h5> Please select Report type and Duration</h5>
+                                        </div>}
                                     <div id={'quads_report_table'}></div>
                                 </div>
                             </div>

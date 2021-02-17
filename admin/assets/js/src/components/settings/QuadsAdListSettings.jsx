@@ -1328,7 +1328,17 @@ handleMultiPluginsChange = (option) => {
                          <span className="quads-slider"></span>
                        </label>
                        {settings.click_fraud_protection ? <span onClick={this.click_fraud_protection_popup} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-click-fraud-protection-and-how-to-use-it/"></a>
                      </td>
+                     </tr>
+                     <tr>
+                         <th><label htmlFor="reports_settings">{__('Revenue Reports', 'quick-adsense-reloaded')}</label></th>
+                         <td>
+                             <label className="quads-switch">
+                                 <input id="reports_settings" type="checkbox" name="reports_settings" onChange={this.formChangeHandler} checked={settings.reports_settings} />
+                                 <span className="quads-slider"></span>
+                             </label>
+                         </td>
                      </tr>
                      <tr>
                      <th><label htmlFor="revenue_sharing_enabled">{__('Revenue Sharing', 'quick-adsense-reloaded')}</label></th>
@@ -1338,6 +1348,7 @@ handleMultiPluginsChange = (option) => {
                          <span className="quads-slider"></span>
                        </label>
                        {settings.revenue_sharing_enabled ? <span onClick={this.open_revenue_sharing_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/setup-revenue-sharing-in-wordpress-and-amp/"></a>
                      </td>
                      </tr>
                      <tr>
@@ -1347,6 +1358,7 @@ handleMultiPluginsChange = (option) => {
                          <input id="tcf_2_integration" type="checkbox" name="tcf_2_integration" onChange={this.formChangeHandler} checked={settings.tcf_2_integration} />
                          <span className="quads-slider"></span>
                        </label>
+                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-transparency-consent-framework-tcf-v2-0-and-how-to-use-it/"></a>
                      </td>
                      </tr>
                      <tr>
@@ -1356,6 +1368,7 @@ handleMultiPluginsChange = (option) => {
                          <input id="rotator_ads_settings" type="checkbox" name="rotator_ads_settings" onChange={this.formChangeHandler} checked={settings.rotator_ads_settings} />
                          <span className="quads-slider"></span>
                        </label>
+                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-rotator-in-wp-quads/"></a>
                      </td>
                      </tr>
                  <tr>
@@ -1365,17 +1378,10 @@ handleMultiPluginsChange = (option) => {
                              <input id="group_insertion_settings" type="checkbox" name="group_insertion_settings" onChange={this.formChangeHandler} checked={settings.group_insertion_settings} />
                              <span className="quads-slider"></span>
                          </label>
+                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/"></a>
                      </td>
                  </tr>
-                 <tr>
-                     <th><label htmlFor="reports_settings">{__('Revenue Reports', 'quick-adsense-reloaded')}</label></th>
-                     <td>
-                         <label className="quads-switch">
-                             <input id="reports_settings" type="checkbox" name="reports_settings" onChange={this.formChangeHandler} checked={settings.reports_settings} />
-                             <span className="quads-slider"></span>
-                         </label>
-                     </td>
-                 </tr>
+
                      </tbody></table>
                 </div>
                );

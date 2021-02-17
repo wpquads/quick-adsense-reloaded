@@ -3,7 +3,7 @@
   position: absolute;
 }
 .view_report{
-  padding: 22px;
+  padding: 25px 12px 12px 12px;
 }
 .breadcrumb {
   display: -webkit-box;
@@ -56,10 +56,12 @@
   border-collapse: collapse;
 }
 #quads_report_table table td{
-  border: 1px solid black;
-  padding: 5px;
+  border: 1px solid #b4b4b4;
+  padding: 5px 13px;
 }
-
+#quads_report_table table b{
+  font-weight: 700;
+}
 .quads-full-page-modal {
   height: auto;
 }
@@ -75,4 +77,29 @@
 
 .quads-segment ol.breadcrumb{
 margin: 0px;
+}
+.canvas_get_pro{
+  position: relative;
+  background: #6c6c6c;
+  z-index: 99999999999999999999999999999999999999999999999;
+}
+
+.canvas_get_pro #quads_get_pro{
+  position: absolute;
+  top: 30%;
+  font-size: 25px;
+  color: #fff;
+  left: 27%;
+  font-weight: 700;
+  line-height: 50px;
+  text-align: center;
+}
+
+.canvas_get_pro #quads_get_pro a{
+  font-size: 16px !important;
+  display: block;
+  margin: 0 auto;
+  width: 190px;
+  height: 34px;
+  line-height: 32px;
 }
