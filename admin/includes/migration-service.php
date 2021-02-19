@@ -12,7 +12,13 @@ class QUADS_Ad_Migration {
         return self::$instance;
     }
 
-     public function quadsUpdateOldAd($ad_id, $post_meta){
+	/**
+	 * @param $ad_id
+	 * @param $post_meta
+	 *
+	 * @return mixed
+	 */
+	public function quadsUpdateOldAd($ad_id, $post_meta){
 
             $new_data = array();
 
@@ -47,7 +53,8 @@ class QUADS_Ad_Migration {
     public function quadsAdReset(){
         global $quads_options;
         $quadsAdReset = get_option( 'quadsAdReset' );
-        if(!$quadsAdReset){
+	    $quads_mode = get_option('quads-mode');
+        if(!$quadsAdReset && $quads_mode == 'new'){
             require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
             $api_service = new QUADS_Ad_Setup_Api_Service();
             $quads_ads = $api_service->getAdDataByParam('quads-ads');
@@ -104,9 +111,40 @@ class QUADS_Ad_Migration {
         }
 
     }
+
+
+	public function quadsAdResetDeleted(){
+		global $quads_options;
+		$quadsAdResetDeleted = get_option( 'quadsAdResetDeleted' );
+		$quads_mode = get_option('quads-mode');
+		if(!$quadsAdResetDeleted && $quads_mode == 'new'){
+			$quads_settings = get_option('quads_settings');
+			update_option('quadsAdResetDeleted', $quads_settings);
+			require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+			$api_service = new QUADS_Ad_Setup_Api_Service();
+			$quads_ads = $api_service->getAdDataByParam('quads-ads');
+			$check_array =array();
+			if(isset($quads_ads['posts_data'])) {
+				foreach ($quads_ads['posts_data'] as $key => $value) {
+					$ads = $value['post_meta'];
+					if ( ! in_array( $ads['quads_ad_old_id'], $check_array ) ) {
+						$check_array[] = $ads['quads_ad_old_id'];
+					}
+				}
+			}
+			foreach ( $quads_settings['ads'] as $key => $value ) {
+				if( ! in_array( $key, $check_array )){
+					unset($quads_settings['ads'][$key]);
+				}
+			}
+			$quads_options =$quads_settings;
+			update_option('quads_settings', $quads_settings);
+		}
+	}
 }
 
 if(class_exists('QUADS_Ad_Migration')){
     $quadsAdMigration = QUADS_Ad_Migration::getInstance();
     $quadsAdMigration->quadsAdReset();
+	$quadsAdMigration->quadsAdResetDeleted();
 }
