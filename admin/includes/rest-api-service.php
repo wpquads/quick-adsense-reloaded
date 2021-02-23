@@ -77,7 +77,7 @@ class QUADS_Ad_Setup_Api_Service {
 
             if( $post_types )
             {
-              foreach( $post_types as $post_type ){
+	            foreach( $post_types as $post_type ){
 
                 $arg['post_type']      = $post_type;
                 $arg['posts_per_page'] = 10;
@@ -99,7 +99,10 @@ class QUADS_Ad_Setup_Api_Service {
 
                 }
 
+
               }
+	            $choices = array_map("unserialize", array_unique(array_map("serialize", $choices)));
+
 
             }
 
