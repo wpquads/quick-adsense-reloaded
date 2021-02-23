@@ -58,17 +58,17 @@ module.exports = {
       filename: "style.css",
       allChunks: true
     }),
-       // new UglifyJsPlugin({
-       //        sourceMap: true,
-       //        cache: true,
-       //        parallel: true,
-       //        uglifyOptions: {
-       //          warnings: false,
-       //          parse: {},
-       //          compress: {},
-       //          mangle: true,
-       //          output: null
-       //        }
-       //      })
+       new UglifyJsPlugin({
+              sourceMap: true,
+              cache: true,
+              parallel: true,
+              uglifyOptions: {
+                warnings: false,
+                parse: {},
+                compress: {},
+                mangle: true,
+                output: null
+              }
+            })
   ]
 };

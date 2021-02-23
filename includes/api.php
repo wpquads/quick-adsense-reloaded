@@ -196,8 +196,7 @@ function quads_ad( $args ) {
 					$api_pos =array();
 					$api_pos = explode('-',$ads['position']);
 					$ampsupport='';
-
-					if($api_pos[0]='api' && $api_pos[1]==$args['location']){
+					if(isset($api_pos[1]) && $api_pos[0]='api' && $api_pos[1]==$args['location']){
 						$style = quads_get_inline_ad_style_new($ads['ad_id']);
 						$adscode =
 							"\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
