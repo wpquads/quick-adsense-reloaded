@@ -178,7 +178,20 @@ class QUADS_Ad_Setup_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+	        register_rest_route( 'quads-route', 'quads_register_ad', array(
+		        'methods'    => 'POST',
+		        'callback'   => array($this, 'quads_register_ad'),
+		        'permission_callback' => function(){
+			        return current_user_can( 'manage_options' );
+		        }
+	        ));
+
         }
+        public function quads_register_ad(){
+	        global $_quads_registered_ad_locations;
+	        return $_quads_registered_ad_locations;
+        }
+
     public static function log( $task = 'No task provided' ) {
 
         $message = date_i18n( '[Y-m-d H:i:s]' ) . ' ' . $task . "\n";
