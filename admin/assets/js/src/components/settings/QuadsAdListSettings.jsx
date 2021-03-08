@@ -45,6 +45,7 @@ class QuadsAdListSettings extends Component {
                 ad_blocker_support :false,
                 click_fraud_protection : false,
                 revenue_sharing_enabled : false,
+                hide_quads_markup : false,
                 tcf_2_integration   : false,
                 rotator_ads_settings   : true,
                 group_insertion_settings : true,
@@ -1344,15 +1345,25 @@ handleMultiPluginsChange = (option) => {
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/setup-revenue-sharing-in-wordpress-and-amp/"></a>
                      </td>
                      </tr>
+                 { quads_localize_data.is_pro ?
                      <tr>
-                     <th><label htmlFor="tcf_2_integration">{__('TCF v2.0 integration ', 'quick-adsense-reloaded')}</label></th>
+                     <th><label htmlFor="hide_quads_markup">{__('Hide Quads Markup', 'quick-adsense-reloaded')}</label></th>
                      <td>
                        <label className="quads-switch">
-                         <input id="tcf_2_integration" type="checkbox" name="tcf_2_integration" onChange={this.formChangeHandler} checked={settings.tcf_2_integration} />
+                         <input id="hide_quads_markup" type="checkbox" name="hide_quads_markup" onChange={this.formChangeHandler} checked={settings.hide_quads_markup} />
                          <span className="quads-slider"></span>
                        </label>
-                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-transparency-consent-framework-tcf-v2-0-and-how-to-use-it/"></a>
                      </td>
+                     </tr> : null}
+                     <tr>
+                         <th><label htmlFor="tcf_2_integration">{__('TCF v2.0 integration ', 'quick-adsense-reloaded')}</label></th>
+                         <td>
+                             <label className="quads-switch">
+                                 <input id="tcf_2_integration" type="checkbox" name="tcf_2_integration" onChange={this.formChangeHandler} checked={settings.tcf_2_integration} />
+                                 <span className="quads-slider"></span>
+                             </label>
+                             <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-transparency-consent-framework-tcf-v2-0-and-how-to-use-it/"></a>
+                         </td>
                      </tr>
                      <tr>
                      <th><label htmlFor="rotator_ads_settings">{__('Rotator Ads', 'quick-adsense-reloaded')}</label></th>
