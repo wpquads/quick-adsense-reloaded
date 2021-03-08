@@ -21,7 +21,7 @@ function quads_admin_inline_css() {
     if (!quads_is_addon_page()){
         return false;
     }
-  echo '<style>
+    echo '<style>
 .quads-button.green {
     display: inline-block;
     background-color: #83c11f;
@@ -103,18 +103,19 @@ function quads_admin_inline_css() {
     border-radius: 10px;
 }
 .fp-cnt{
-    position: absolute;
-    top: 340px;
+height: 250px;
     bottom: 0;
     left: 40px;
     right: 40px;
     margin: 0 auto;
     text-align: center;
+        background: #000;
 }
 .fp-cnt h1{
     font-size: 45px;
     color: #fff;
     font-weight: 600;
+        padding-top: 58px;
 }
 .fp-cnt h2{
     font-size: 25px;
@@ -358,7 +359,7 @@ function quads_admin_inline_css() {
     color: #000;
 }
 .pri-tb span{
-    display:inline-block;
+    display:block;
 }
 .pri-tb .amt{
     font-size: 40px;
@@ -722,14 +723,10 @@ fieldset#redux_builder_amp-AMPforWP_cache_mode .description.field-desc {
  * @return void
  */
 function quads_add_ons_page() {
-	ob_start();
-	$freepro_listing = '
+    ob_start();
+    $freepro_listing = '
 <div id="quads_freevspro">
     <div class="fp-wr">
-        <div class="fp-img">
-            <img src="'.AMPFORWP_IMAGE_DIR . '/Bitmap.png" />
-            <span class="ov"></span>
-        </div>
         <div class="fp-cnt">
             <h1>Upgrade to Pro</h1>
             <p>Take your Quads to the next level Save time & earn more with next level AdSense integration!</p>
@@ -738,17 +735,17 @@ function quads_add_ons_page() {
         <div class="pvf">
             <div class="ext">
                 <div class="ex-1 e-1">
-                    <img src="'.AMPFORWP_IMAGE_DIR . '/ex-1.png" />
+                    <img src="'.QUADS_PLUGIN_URL . 'assets/images/ex-1.png" />
                     <h4>Features</h4>
-                    <p>Includes a suite of advanced features like Ad Rotator ,Group Insertion , GEO Location 10+ premium extensions.</p>
+                    <p>Includes a suite of advanced features like Ad Rotator, Group Insertion, GEO Location 10+ premium features.</p>
                 </div>
                 <div class="ex-1 e-2">
-                    <img src="'.AMPFORWP_IMAGE_DIR . '/ex-2.png" />
+                    <img src="'.QUADS_PLUGIN_URL . 'assets/images/ex-2.png" />
                     <h4>Simple Setup</h4>
                     <p>We focus on important stuff and keep it clean and simple. WP QUADS Pro makes it extremely easy to deliver well converting ads to your audience.</p>
                 </div>
                 <div class="ex-1 e-3">
-                    <img src="'.AMPFORWP_IMAGE_DIR . '/ex-3.png" />
+                    <img src="'.QUADS_PLUGIN_URL . 'assets/images/ex-3.png" />
                     <h4>Dedicated Support</h4>
                     <p>Get private ticketing help from our full-time staff who helps you with the technical issues.</p>
                 </div>
@@ -767,7 +764,7 @@ function quads_add_ons_page() {
                                 <p>We take bug reports and feature requests seriously. We’re continiously developing & improve this product for last 4 years with passion and love.</p>
                             </div>
                             <div class="fe-1">
-                                <h4>100+ Features</h4>
+                                <h4>10+ Features</h4>
                                 <p>We\'re constantly expanding the plugin and make it more useful. We have wide variety of features which will fit any use-case.</p>
                             </div>
                             <div class="fe-1">
@@ -787,78 +784,78 @@ function quads_add_ons_page() {
                             <div class="fet">
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.AMPFORWP_IMAGE_DIR . '/tick.png" />
+                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
                                         <h4>GEO Location</h4>
                                     </div>
                                     <p>Target the ads by Country & City.</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.AMPFORWP_IMAGE_DIR . '/tick.png" />
+                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
                                         <h4>Ad Rotator</h4>
                                     </div>
                                     <p>with on-reload or auto-refresh functionality.</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.AMPFORWP_IMAGE_DIR . '/tick.png" />
+                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
                                         <h4>Group Insertion</h4>
                                     </div>
                                     <p>Insert multiple ads with one-go.</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.AMPFORWP_IMAGE_DIR . '/tick.png" />
+                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
                                         <h4>AMP Support</h4>
                                     </div>
                                     <p>Add ads on your AMP page.</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.AMPFORWP_IMAGE_DIR . '/tick.png" />
+                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
                                         <h4>Global Excluder</h4>
                                     </div>
                                     <p>Exclude the ads based on the tags.</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.AMPFORWP_IMAGE_DIR . '/tick.png" />
+                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
                                         <h4>Google Analytics</h4>
                                     </div>
                                     <p>Check how many visitors are using ad blockers.</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.AMPFORWP_IMAGE_DIR . '/tick.png" />
+                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
                                         <h4>Google Auto Ads</h4>
                                     </div>
                                     <p>Dedicated Google Auto Ads tag.</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.AMPFORWP_IMAGE_DIR . '/tick.png" />
+                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
                                         <h4>Dedicated Support</h4>
                                     </div>
                                     <p>With a Dedicated person helping you with the extension setup and questions.</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.AMPFORWP_IMAGE_DIR . '/tick.png" />
+                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
                                         <h4>Continious Updates</h4>
                                     </div>
                                     <p>We\'re continiously updating our premium features and releasing them.</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.AMPFORWP_IMAGE_DIR . '/tick.png" />
+                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
                                         <h4>Innovation</h4>
                                     </div>
                                     <p>Be the first one to get the innovative features that we build in the future.</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.AMPFORWP_IMAGE_DIR . '/tick.png" />
-                                        <h4>500+ Plugin Support</h4>
+                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
+                                        <h4>50+ Plugin Support</h4>
                                     </div>
                                     <p>Works smoothly almost all the plugin.</p>
                                 </div>
@@ -872,7 +869,7 @@ function quads_add_ons_page() {
             </div><!-- /. pvf-cnt -->
             <div id="upgrade" class="amp-upg">
                 <div class="upg-t">
-                    <h2>Let\'s Upgrade Your AMP</h2>
+                    <h2>Let\'s Upgrade Your Ads Revenue</h2>
                     <span>Choose your plan and upgrade in minutes!</span>
                 </div>
                 <div class="pri-lst">
@@ -890,7 +887,7 @@ function quads_add_ons_page() {
                             <span class="pri-by">Buy Now</span>
                         </a>
                     </div>
-                    <div class="pri-tb">
+                    <div class="pri-tb rec">
                         <a href="https://wpquads.com/checkout?edd_action=add_to_cart&amp;download_id=11&amp;edd_options[price_id]=2">
                             <h5>MULTIPLE</h5>
                             <span class="d-amt"><sup>$</sup>139</span>
@@ -902,9 +899,10 @@ function quads_add_ons_page() {
                             <span class="f">Pro Features</span>
                             <span class="sv">Save 55%</span>
                             <span class="pri-by">Buy Now</span>
+                         <span class="rcm">RECOMMENDED</span>
                         </a>
                     </div>
-                    <div class="pri-tb rec">
+                    <div class="pri-tb ">
                         <a href="https://wpquads.com/checkout?edd_action=add_to_cart&amp;download_id=11&amp;edd_options[price_id]=3">
                             <h5>WEBMASTER</h5>
                             <span class="d-amt"><sup>$</sup>199</span>
@@ -916,7 +914,6 @@ function quads_add_ons_page() {
                             <span class="f">Pro Features</span>
                             <span class="sv">Save 83%</span>
                             <span class="pri-by">Buy Now</span>
-                            <span class="rcm">RECOMMENDED</span>
 
                         </a>
                     </div>
@@ -937,9 +934,9 @@ function quads_add_ons_page() {
            
                 </div><!-- /.pri-lst -->
                 <div class="tru-us">
-                    <img src="'.AMPFORWP_IMAGE_DIR . '/rating.png" />
-                    <h2>Trusted by more that 180000+ Users!</h2>
-                    <p>More than 180k Websites, Blogs & E-Commerce website are powered by our Quads making it the #1 Rated Quads plugin in WordPress Community.</p>
+                    <img src="'.QUADS_PLUGIN_URL . 'assets/images/rating.png" />
+                    <h2>Trusted by more that 60,000+ Users!</h2>
+                    <p>More than 60k Websites, Blogs & E-Commerce website are powered by our Quads making it the #1 Rated Quads plugin in WordPress Community.</p>
                     <a href="https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/?filter=5" target="_blank">Read The Reviews</a>
                 </div>
             </div><!--/ .amp-upg -->
@@ -999,132 +996,8 @@ function quads_add_ons_page() {
             </div><!-- /.faq -->
         </div><!-- /. pvf -->
     </div><!-- /. fp-wr --></div>';
-	$gettingstarted_extension_listing = '
-    <div class="extension_listing getting_started_listing">
-        <p style="font-size:13px">Take your AMP to the next level with these premium extensions which gives you advanced features.</p>
-        <ul>
-            <li class="first"><a href="http://ampforwp.com/advanced-amp-ads/#utm_source=options-panel&utm_medium=gettingstarted-amp-ads&utm_campaign=AMP%20Plugin" target="_blank">
-                    <div class="align_left"><img src="'.AMPFORWP_IMAGE_DIR . '/click.png" /></div>
-                    <div class="extension_desc">
-                        <h2>Advanced AMP ADS</h2>
-                        <p>Add Advertisement directly in the content</p>
-                        <div class="extension_btn">From: $29</div>
-                    </div>
-                </a></li>
-            <li class="second"><a href="http://ampforwp.com/opt-in-forms/#utm_source=options-panel&utm_medium=gettingstarted_opt-in-forms&utm_campaign=AMP%20Plugin" target="_blank">
-                    <div class="align_left"><img src="'.AMPFORWP_IMAGE_DIR . '/email.png" /></div>
-                    <div class="extension_desc">
-                        <h2>Email Opt-in Forms</h2>
-                        <p>Capture Leads with Email Subscription.</p>
-                        <div class="extension_btn">From: $79</div>
-                    </div>
-                </a></li>
-            <li class="first"><a href="http://ampforwp.com/call-to-action/#utm_source=options-panel&utm_medium=gettingstarted_amp-cta&utm_campaign=AMP%20Plugin" target="_blank">
-                    <div class="align_left"><img src="'.AMPFORWP_IMAGE_DIR . '/mac-click.png" /></div>
-                    <div class="extension_desc">
-                        <h2>Call To Action (CTA)</h2>
-                        <p>Higher Visibility & More Conversions</p>
-                        <div class="extension_btn">From: $29</div>
-                    </div>
-                </a></li>
-            <li class="second"><a href="http://ampforwp.com/custom-post-type/#utm_source=options-panel&utm_medium=gettingstarted_custom-post-type&utm_campaign=AMP%20Plugin" target="_blank">
-                    <div class="align_left"><img src="'.AMPFORWP_IMAGE_DIR . '/comments.png" /></div>
-                    <div class="extension_desc">
-                        <h2>Custom Post Type</h2>
-                        <p>Enable Custom Post type support in AMP.</p>
-                        <div class="extension_btn">From: $19</div>
-                    </div>
-                </a></li>
 
-            <li class="first"><a href="http://ampforwp.com/acf-amp/#utm_source=options-panel&utm_medium=gettingstarted_acf&utm_campaign=AMP%20Plugin" target="_blank">
-                    <div class="align_left"><img src="'.AMPFORWP_IMAGE_DIR . '/acf.png" /></div>
-                    <div class="extension_desc">
-                        <h2>Advanced Custom Fields</h2>
-                        <p>Easily add ACF support in AMP.</p>
-                        <div class="extension_btn">From: $29</div>
-                    </div>
-                </a></li>
-            <li class="second"><a href="http://ampforwp.com/doubleclick-for-publishers/#utm_source=options-panel&utm_medium=gettingstarted_doubleclick&utm_campaign=AMP%20Plugin" target="_blank">
-                    <div class="align_left"><img src="'.AMPFORWP_IMAGE_DIR . '/dfp.png" /></div>
-                    <div class="extension_desc">
-                        <h2>DoubleClick For Publishers</h2>
-                        <p>Enable DFP Support for AMP.</p>
-                        <div class="extension_btn">From: $19</div>
-                    </div>
-                </a></li>
+    echo $freepro_listing;
 
-
-            <li class="first"><a href="http://ampforwp.com/amp-ratings/#utm_source=options-panel&utm_medium=gettingstarted_amp-ratings&utm_campaign=AMP%20Plugin" target="_blank">
-                    <div class="align_left"><img src="'.AMPFORWP_IMAGE_DIR . '/star.png" /></div>
-                    <div class="extension_desc">
-                        <h2>Star Ratings</h2>
-                        <p>Star Review Ratings for AMP.</p>
-                        <div class="extension_btn">From: $19</div>
-                    </div>
-                </a></li>
-            <li class="second"><a href="https://ampforwp.com/woocommerce/" target="_blank">
-                    <div class="align_left"><img src="'.AMPFORWP_IMAGE_DIR . '/woo.png" /></div>
-                    <div class="extension_desc">
-                        <h2>AMP WooCommerce Pro</h2>
-                        <p>Advanced WooCommerce in AMP in two clicks.</p>
-                        <div class="extension_btn">From: $79</div>
-                    </div>
-                </a></li>
-
-            <li class="first"><a href="http://ampforwp.com/amp-category-base-remove-support/#utm_source=options-panel&utm_medium=gettingstarted_amp-category-base-remove-support&utm_campaign=AMP%20Plugin" target="_blank">
-                    <div class="align_left"><img src="'.AMPFORWP_IMAGE_DIR . '/puzzel.png" /></div>
-                    <div class="extension_desc">
-                        <h2>Category Base Removal</h2>
-                        <p>Remove Category Base Support in AMP</p>
-                        <div class="extension_btn">FREE</div>
-                    </div>
-                </a></li>
-            <li class="second"><a href="https://ampforwp.com/extensions/#utm_source=options-panel&utm_medium=gettingstarted_amp-more-comingsoon&utm_campaign=AMP%20Plugin" target="_blank">
-                    <div class="align_left"><img src="'.AMPFORWP_IMAGE_DIR . '/comments.png" /></div>
-                    <div class="extension_desc">
-                        <h2>View All Extensions</h2>
-                        <p>See all the extensions available for AMP</p>
-                        <div class="extension_btn">View All</div>        </div>
-                </a></li>
-
-
-        </ul>
-    </div>
-    ';
-
-
-	$single_extension_listing = '
-    <div class="extension_listing single_ex_listing">
-        <h3>Increase the Revenue, Leads and Conversation with these Handpicked extensions</h3>
-        <ul>
-            <li class="first"><a href="http://ampforwp.com/advanced-amp-ads/#utm_source=options-panel&utm_medium=gettingstarted-amp-ads&utm_campaign=AMP%20Plugin" target="_blank">
-                    <div class="align_left"><img src="'.AMPFORWP_IMAGE_DIR . '/click.png" /></div>
-                    <div class="extension_desc">
-                        <h2>Advanced AMP ADS</h2>
-                        <p>Add Advertisement directly in the content</p>
-                        <div class="extension_btn">View Details</div>
-                    </div>
-                </a></li>
-            <li class="second"><a href="http://ampforwp.com/opt-in-forms/#utm_source=options-panel&utm_medium=gettingstarted_opt-in-forms&utm_campaign=AMP%20Plugin" target="_blank">
-                    <div class="align_left"><img src="'.AMPFORWP_IMAGE_DIR . '/email.png" /></div>
-                    <div class="extension_desc">
-                        <h2>Email Opt-in Forms</h2>
-                        <p>Capture Leads with Email Subscription.</p>
-                        <div class="extension_btn">View Details</div>
-                    </div>
-                </a></li>
-            <li class="first"><a href="http://ampforwp.com/call-to-action/#utm_source=options-panel&utm_medium=gettingstarted_amp-cta&utm_campaign=AMP%20Plugin" target="_blank">
-                    <div class="align_left"><img src="'.AMPFORWP_IMAGE_DIR . '/mac-click.png" /></div>
-                    <div class="extension_desc">
-                        <h2>Call To Action (CTA)</h2>
-                        <p>Higher Visibility & More Conversions</p>
-                        <div class="extension_btn">View Details</div>
-                    </div>
-                </a></li>
-        </ul>
-    </div>
-    ';
-	echo $freepro_listing;
-
-	echo ob_get_clean();
+    echo ob_get_clean();
 }
