@@ -144,13 +144,20 @@ class vi {
         $viad = $this->getAdCode();
 
         $style = 'min-width:363px;min-height:363px;';
-
+        if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+            $code = '<div style="' . $style . '">' . "\n";
+            $code .= "<script>";
+            $code .= do_shortcode($viad['ads'][1]['code']);
+            $code .= '</script>' . "\n";
+            $code .= '</div>' . "\n";
+        }else{
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode vi ad -->' . "\n";
         $code .= '<div class="quads-location' . $id . '" id="quads-vi-ad' . $id . '" style="' . $style . '">' . "\n";
         $code .= "<script>";
         $code .= do_shortcode($viad['ads'][1]['code']);
         $code .= '</script>' . "\n";
         $code .= '</div>' . "\n";
+        }
 
         return $code;
     }

@@ -174,11 +174,17 @@ function quads_from_advance_manual_ads($atts ){
   
     // Do not create any inline style on AMP site
     $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
-
-    $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
+    if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+        $code =
+            "\n".'<div style="'.$style.'">'."\n";
+            $code .= do_shortcode(quads_get_ad($id));
+        $code .='</div>'. "\n";
+    }else {
+        $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
             '<div class="quads-location quads-ad' . $id . '" id="quads-ad' . $id . '" style="' . $style . '">' . "\n";
-    $code .= do_shortcode( quads_get_ad( $id ) );
-    $code .= '</div>' . "\n";
+        $code .= do_shortcode(quads_get_ad($id));
+        $code .= '</div>' . "\n";
+    }
 
     return $code;
 }
@@ -226,11 +232,17 @@ function quads_from_adsforwp_manual_ads($atts ){
     
     // Do not create any inline style on AMP site
     $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
-
-    $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
+    if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+        $adscode =
+            "\n".'<div style="'.$style.'">'."\n".
+            do_shortcode(quads_get_ad($id)).
+            '</div>'. "\n";
+    }else {
+        $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
             '<div class="quads-location quads-ad' . $id . '" id="quads-ad' . $id . '" style="' . $style . '">' . "\n";
-    $code .= do_shortcode( quads_get_ad( $id ) );
-    $code .= '</div>' . "\n";
+        $code .= do_shortcode(quads_get_ad($id));
+        $code .= '</div>' . "\n";
+    }
 
     return $code;
 }
@@ -1837,11 +1849,21 @@ function quads_replace_ads($content, $quicktag, $id) {
                 
                 $code = !empty($quads_options['ads']['ad' . $id ]['code']) ? $quads_options['ads']['ad' . $id ]['code'] : '';
                 $style = quads_get_inline_ad_style($id);
-                $adscode =
-            "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
-            '<div class="quads-location quads-ad' .$id. '" id="quads-ad' .$id. '" style="'.$style.'">'."\n".
-            quads_render_ad('ad'.$id, $code)."\n".
-            '</div>'. "\n";
+
+
+        if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+            $adscode =
+                "\n".'<div style="'.$style.'">'."\n".
+                quads_render_ad('ad'.$id, $code)."\n".
+                '</div>'. "\n";
+        }else{
+            $adscode =
+                "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
+                '<div class="quads-location quads-ad' .$id. '" id="quads-ad' .$id. '" style="'.$style.'">'."\n".
+                quads_render_ad('ad'.$id, $code)."\n".
+                '</div>'. "\n";
+        }
+
               
     } else {
         $adscode ='';
@@ -1896,11 +1918,19 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
             $code ='';
         }
                 $style = quads_get_inline_ad_style_new($id);
-                $adscode =
-            "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
-            '<div class="quads-location quads-ad' .$id. '" id="quads-ad' .$id. '" style="'.$style.'">'."\n".
-            quads_render_ad($ad_meta['quads_ad_old_id'][0], $code,'',$ampsupport)."\n".
-            '</div>'. "\n";
+
+        if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+            $adscode =
+                "\n".'<div style="'.$style.'">'."\n".
+                quads_render_ad($ad_meta['quads_ad_old_id'][0], $code,'',$ampsupport)."\n".
+                '</div>'. "\n";
+        }else{
+            $adscode =
+                "\n".'<!-- WP QUADS Content Ad Plugin v. '.quads_hide_markup()  . QUADS_VERSION .' -->'."\n".
+                '<div class="quads-location quads-ad' .$id. '" id="quads-ad' .$id. '" style="'.$style.'">'."\n".
+                quads_render_ad($ad_meta['quads_ad_old_id'][0], $code,'',$ampsupport)."\n".
+                '</div>'. "\n";
+        }
               
     } else {
         $adscode ='';

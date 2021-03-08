@@ -198,12 +198,20 @@ function quads_ad( $args ) {
 					$ampsupport='';
 					if(isset($api_pos[1]) && $api_pos[0]='api' && $api_pos[1]==$args['location']){
 						$style = quads_get_inline_ad_style_new($ads['ad_id']);
-						$adscode =
-							"\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
-							'<div class="quads-location quads-ad' .$ads['ad_id']. '" id="quads-ad' .$ads['ad_id']. '" style="'.$style.'">'."\n".
-							quads_render_ad($ads['ad_id'], $ads['code'],'',$ampsupport)."\n".
-							'</div>'. "\n";
-						;
+                        if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+                            $adscode =
+                                "\n". '<div style="'.$style.'">'."\n".
+                                quads_render_ad($ads['ad_id'], $ads['code'],'',$ampsupport)."\n".
+                                '</div>'. "\n";
+                        }else{
+                            $adscode =
+                                "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
+                                '<div class="quads-location quads-ad' .$ads['ad_id']. '" id="quads-ad' .$ads['ad_id']. '" style="'.$style.'">'."\n".
+                                quads_render_ad($ads['ad_id'], $ads['code'],'',$ampsupport)."\n".
+                                '</div>'. "\n";
+                        }
+
+
 						$code =$adscode;
 						break;
 

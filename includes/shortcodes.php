@@ -53,11 +53,16 @@ function quads_shortcode_display_ad( $atts ) {
 
     // Do not create any inline style on AMP site
     $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
-
-    $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
+    if(function_exists('quads_hide_markup') && quads_hide_markup()) {
+        $code = "\n" . '<div style="' . $style . '">' . "\n";
+        $code .= do_shortcode( quads_get_ad( $id ) );
+        $code .= '</div>' . "\n";
+    }else{
+        $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
             '<div class="quads-location quads-ad' . $id . '" id="quads-ad' . $id . '" style="' . $style . '">' . "\n";
-    $code .= do_shortcode( quads_get_ad( $id ) );
-    $code .= '</div>' . "\n";
+        $code .= do_shortcode( quads_get_ad( $id ) );
+        $code .= '</div>' . "\n";
+    }
 
     return $code;
 }
