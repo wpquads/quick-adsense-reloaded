@@ -197,6 +197,7 @@ Alternative Installation:
 
 == Changelog ==
 = 2.0.21 (09th March 2021) =
+* New: created an option to remove Quads Markup #180
 * Fix: PHP Deprecated: implode() #277
 * Fix: Theme ad location #284
 * Fix: Free vs pro section in Plugin #308
@@ -205,7 +206,7 @@ Alternative Installation:
 * Fix: Ads not displayed in Custom Post Type created by Custom Post Type UI plugin #321
 * Fix: warning message after 2.0.20 update #318
 * Fix: Visibility conditions Post are getting duplicated #322
-* Fix: Need to create an option to remove #180
+
 
 = 2.0.20.1 (17th February 2021) =
 * Fix: Fixed Warning message #318
