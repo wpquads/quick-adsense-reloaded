@@ -1926,7 +1926,7 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
                 '</div>'. "\n";
         }else{
             $adscode =
-                "\n".'<!-- WP QUADS Content Ad Plugin v. '.quads_hide_markup()  . QUADS_VERSION .' -->'."\n".
+                "\n".'<!-- WP QUADS Content Ad Plugin v. '.QUADS_VERSION .' -->'."\n".
                 '<div class="quads-location quads-ad' .$id. '" id="quads-ad' .$id. '" style="'.$style.'">'."\n".
                 quads_render_ad($ad_meta['quads_ad_old_id'][0], $code,'',$ampsupport)."\n".
                 '</div>'. "\n";
