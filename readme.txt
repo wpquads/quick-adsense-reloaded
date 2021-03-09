@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 5.6.1
+Tested up to: 5.7
 Requires PHP: 5.3
-Stable tag: 2.0.20
+Stable tag: 2.0.21
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
@@ -196,26 +196,40 @@ Alternative Installation:
 
 
 == Changelog ==
-= 2.0.19 (17th February 2020) =
+= 2.0.21 (09th March 2021) =
+* Fix: PHP Deprecated: implode() #277
+* Fix: Theme ad location #284
+* Fix: Free vs pro section in Plugin #308
+* Fix: proper links in readme.txt by ahmed #309
+* Fix: WP quads ads block is not working properly in the widgets section. #314
+* Fix: Ads not displayed in Custom Post Type created by Custom Post Type UI plugin #321
+* Fix: warning message after 2.0.20 update #318
+* Fix: Visibility conditions Post are getting duplicated #322
+* Fix: Need to create an option to remove #180
+
+= 2.0.20.1 (17th February 2021) =
+* Fix: Fixed Warning message #318
+
+= 2.0.20 (17th February 20201 =
 * Fix: Target not working for ads in between loops. #303
 * Fix: Issue while ad saving. #316
 * Fix: Export ads settings #271
 * Fix: Typo. #307
 * Fix: Fixed Shortcode does not work on Homepage and topic. #315
 
-= 2.0.19 (21th January 2020) =
+= 2.0.19 (21th January 2021) =
 * New: New Group Insertion #297
 * Fix: Exclude targeting is not working. #286
 * Fix: Random Ads shortcode does not work. #278
 * Fix: Rotator Ads shortcode does not work. #278
 * Fix: Rotator Ads work flow. #274
 
-= 2.0.18.1 (07th January 2020) =
+= 2.0.18.1 (07th January 2021) =
 * Fix: Fixed Google Auto Ads script is not getting saved #293
 * Fix: Fixed Duplicate option. #294
 * Fix: Fixed Unable to edit posts with Avada post builder #295
 
-= 2.0.18 (05th January 2020) =
+= 2.0.18 (05th January 2021) =
 * New: Ads rotator feature #274
 * Fix: Exclude by city option. #289
 * Fix: Removed unnecessary code of adblocker. #287
