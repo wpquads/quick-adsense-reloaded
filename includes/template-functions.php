@@ -988,28 +988,7 @@ function quads_filter_default_ads_new( $content ) {
             $post_status = get_post_status($ads['ad_id']); 
             else
               $post_status =  'publish';
-
-            if(!isset($ads['position']) || isset($ads['ad_type']) && $ads['ad_type']== 'random_ads'){
-                if($ads['ad_id']){
-
-                    if(isset($ads['position'])){
-
-                        $ads['position']               = isset($ads['position']) ? $ads['position'] : '';;
-                        $ads['paragraph_number']       = isset($ads['paragraph_number']) ? $ads['paragraph_number'] : '';
-                        $ads['image_number']           = isset($ads['image_number']) ? $ads['image_number'] : '';
-                        $ads['image_caption']          = isset($ads['image_caption']) ? $ads['image_caption'] : '';
-                        $ads['enable_on_end_of_post']  = isset($ads['enable_on_end_of_post']) ? $ads['enable_on_end_of_post'] : '';
-                        $quads_options[$key]['position']              = isset($ads['position']) ? $ads['position'] : '';
-                        $quads_options[$key]['paragraph_number']      = isset($ads['paragraph_number']) ? $ads['paragraph_number'] : '';
-                        $quads_options[$key]['image_number']          = isset($ads['image_number']) ? $ads['image_number'] : '';
-                        $quads_options[$key]['image_caption']         = isset($ads['image_caption']) ? $ads['image_caption'] : '';
-                        $quads_options[$key]['enable_on_end_of_post'] = isset($ads['enable_on_end_of_post']) ? $ads['enable_on_end_of_post'] : '';
-                    }
-                }
-                
-                $is_on = true;
-            }           
-            
+                        
             if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish'){
                     
                 $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
