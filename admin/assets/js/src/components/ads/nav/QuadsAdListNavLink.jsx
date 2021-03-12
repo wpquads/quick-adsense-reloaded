@@ -112,6 +112,8 @@ class QuadsAdListNavLink extends Component {
         return type_img;
       }
     showAddTypeSelector = (e) => {
+
+
         e.preventDefault();
         this.setState({ad_type_toggle:true});
     }
@@ -171,9 +173,9 @@ class QuadsAdListNavLink extends Component {
             <ul>
                 <li><Link to={'admin.php?page=quads-settings'} className={current == 'ads' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Ads', 'quick-adsense-reloaded')}</Link></li>
                 <li><Link to={'admin.php?page=quads-settings&path=settings'} className={current == 'settings' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Settings', 'quick-adsense-reloaded')}</Link></li>
-                {/*{this.state.displayReports ?*/}
-                {/*<li><Link to={'admin.php?page=quads-settings&path=reports'} className={current == 'reports' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Reports', 'quick-adsense-reloaded')}</Link></li>*/}
-                {/*: null }*/}
+                {quads_localize_data.is_pro && this.state.displayReports ?
+                <li><Link to={'admin.php?page=quads-settings&path=reports'} className={current == 'reports' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Reports', 'quick-adsense-reloaded')}</Link></li>
+                : null }
                 <li><div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.showAddTypeSelector}><Icon>add_circle</Icon>Create Ad</a></div></li>
             </ul>
         </div>
