@@ -1052,6 +1052,7 @@ handleMultiPluginsChange = (option) => {
             {/* Revenue Sharing modal */}
             {this.state.revenue_sharing_modal ?
             <>
+                <div className="quads-large-popup-bglayout">  </div>
            <div className="quads-large-popup">
             <div className="quads-large-popup-content">
              <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
