@@ -307,10 +307,6 @@ function quads_is_visitor_on($ads){
     $include  = array();
     $exclude  = array();
     $response = false;
-    $cookie_check = true;
-
-
-
 
     $visibility_include = isset($ads['targeting_include']) ? $ads['targeting_include'] : '';
 
@@ -347,9 +343,11 @@ function quads_is_visitor_on($ads){
 
         $include =   array_filter(array_unique($include));
 
-        if(isset($include[0])){
-            $response = true;
-        }
+	      if(in_array( false ,$include )){
+		      $response = false;
+	      }else{
+		      $response = true;
+	      }
 
       }
 
