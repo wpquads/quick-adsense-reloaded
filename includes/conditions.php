@@ -341,8 +341,6 @@ function quads_is_visitor_on($ads){
 
       if(!empty($include)){
 
-        $include =   array_filter(array_unique($include));
-
 	      if(in_array( false ,$include )){
 		      $response = false;
 	      }else{
