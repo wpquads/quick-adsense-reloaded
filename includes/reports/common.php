@@ -49,7 +49,7 @@ function quads_adsense_revoke_adsense_link($request_data){
 	$account_id = $parameters['account_id'];
 	$token = $options['accounts'][ $account_id ]['refresh_token'];
 
-	$url  = 'https://accounts.google.com/o/oauth2/revoke?token=' . $token;
+	$url  = 'https://accounts.google.com/o/oauth2/revoke?token=' . esc_html($token);
 	$args = array(
 		'timeout' => 5,
 		'header'  => array( 'Content-type' => 'application/x-www-form-urlencoded' ),
@@ -318,16 +318,16 @@ function quads_adsense_get_report_data($request_data){
 
 	switch ($report_type){
 		case 'earning_forcast':
-			$url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.$account_id.'/reports?startDate='.$startDate.'&endDate='.$endDate.'&dimension=DATE&dimension=EARNINGS&metric=EARNINGS&useTimezoneReporting=true';
+			$url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.esc_html($account_id).'/reports?startDate='.esc_html($startDate).'&endDate='.esc_html($endDate).'&dimension=DATE&dimension=EARNINGS&metric=EARNINGS&useTimezoneReporting=true';
 			break;
 		case 'top_device_type':
 			$report_type = 'PLATFORM_TYPE_CODE';
-			$url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.$account_id.'/reports?startDate='.$startDate.'&endDate='.$endDate.'&dimension=DATE&dimension=PLATFORM_TYPE_CODE&metric=EARNINGS&useTimezoneReporting=true';
+			$url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.esc_html($account_id).'/reports?startDate='.esc_html($startDate).'&endDate='.esc_html($endDate).'&dimension=DATE&dimension=PLATFORM_TYPE_CODE&metric=EARNINGS&useTimezoneReporting=true';
 			break;
 		case 'earning':
 		default:
 			$report_type = 'EARNINGS';
-			$url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.$account_id.'/reports?startDate='.$startDate.'&endDate='.$endDate.'&dimension=DATE&dimension=EARNINGS&metric=EARNINGS&useTimezoneReporting=true';
+			$url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.esc_html($account_id).'/reports?startDate='.esc_html($startDate).'&endDate='.esc_html($endDate).'&dimension=DATE&dimension=EARNINGS&metric=EARNINGS&useTimezoneReporting=true';
 			break;
 	}
 	$token_data = wp_unslash( $token_data);

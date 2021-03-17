@@ -871,8 +871,8 @@ function quads_text_callback( $args ) {
       $value = isset( $args['std'] ) ? $args['std'] : '';
 
    $size = ( isset( $args['size'] ) && !is_null( $args['size'] ) ) ? $args['size'] : 'regular';
-   $html = '<input type="text" class="' . $size . '-text" id="quads_settings[' . $args['id'] . ']" name="quads_settings[' . $args['id'] . ']" value="' . esc_attr( stripslashes( $value ) ) . '"/>';
-   $html .= '<label class="quads_hidden" class="quads_hidden" for="quads_settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+   $html = '<input type="text" class="' . esc_attr($size) . '-text" id="quads_settings[' . esc_attr($args['id']) . ']" name="quads_settings[' . esc_attr($args['id']) . ']" value="' . esc_attr( stripslashes( $value ) ) . '"/>';
+   $html .= '<label class="quads_hidden" class="quads_hidden" for="quads_settings[' . esc_attr($args['id']) . ']"> ' . esc_attr($args['desc']) . '</label>';
 
    echo $html;
 }
@@ -901,7 +901,7 @@ function quads_number_callback( $args ) {
 
    $size = ( isset( $args['size'] ) && !is_null( $args['size'] ) ) ? $args['size'] : 'regular';
    $html = '<input type="number" step="' . esc_attr( $step ) . '" max="' . esc_attr( $max ) . '" min="' . esc_attr( $min ) . '" class="' . $size . '-text" id="quads_settings[' . $args['id'] . ']" name="quads_settings[' . $args['id'] . ']" value="' . esc_attr( stripslashes( $value ) ) . '"/>';
-   $html .= '<label class="quads_hidden" for="quads_settings[' . $args['id'] . ']"> ' . $args['desc'] . '</label>';
+   $html .= '<label class="quads_hidden" for="quads_settings[' . esc_attr($args['id']) . ']"> ' . esc_attr($args['desc']) . '</label>';
 
    echo $html;
 }

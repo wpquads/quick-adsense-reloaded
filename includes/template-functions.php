@@ -86,11 +86,11 @@ function quads_load_ads_common($user_position){
             
 
           if(($ads['position'] == 'bbpress_after_ad' && $user_position == 'bbpress_after_ad' )|| ($ads['position'] == 'bbpress_before_ad' && $user_position == 'bbpress_before_ad')){
-              $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+              $tag= '<!--CusAds'.esc_html($ads['ad_id']).'-->';
               echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
           }else if(($ads['position'] == 'bbpress_before_reply' && $user_position == 'bbpress_before_reply' )|| ($ads['position'] == 'bbpress_after_reply' && $user_position == 'bbpress_after_reply')){
             if((did_action( 'bbp_theme_before_reply_content' ) % $ads['paragraph_number'] == 0  && $user_position == 'bbpress_before_reply' )|| (did_action( 'bbp_theme_after_reply_content' ) % $ads['paragraph_number'] == 0 && $user_position == 'bbpress_after_reply')){
-                  $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+                  $tag= '<!--CusAds'.esc_html($ads['ad_id']).'-->';
                   echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
             }
           }
@@ -181,7 +181,7 @@ function quads_from_advance_manual_ads($atts ){
         $code .='</div>'. "\n";
     }else {
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
-            '<div class="quads-location quads-ad' . $id . '" id="quads-ad' . $id . '" style="' . $style . '">' . "\n";
+            '<div class="quads-location quads-ad' . esc_html($id) . '" id="quads-ad' . esc_html($id) . '" style="' . esc_html($style) . '">' . "\n";
         $code .= do_shortcode(quads_get_ad($id));
         $code .= '</div>' . "\n";
     }
@@ -234,12 +234,12 @@ function quads_from_adsforwp_manual_ads($atts ){
     $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
     if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
         $adscode =
-            "\n".'<div style="'.$style.'">'."\n".
+            "\n".'<div style="'.esc_html($style).'">'."\n".
             do_shortcode(quads_get_ad($id)).
             '</div>'. "\n";
     }else {
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
-            '<div class="quads-location quads-ad' . $id . '" id="quads-ad' . $id . '" style="' . $style . '">' . "\n";
+            '<div class="quads-location quads-ad' . esc_html($id) . '" id="quads-ad' . esc_html($id) . '" style="' . esc_html($style) . '">' . "\n";
         $code .= do_shortcode(quads_get_ad($id));
         $code .= '</div>' . "\n";
     }
@@ -1000,11 +1000,11 @@ function quads_filter_default_ads_new( $content ) {
  
                 // placeholder string for custom ad spots
                 if(isset($ads['random_ads_list']) && !empty($ads['random_ads_list'])){
-                    $cusads = '<!--CusRnd'.$ads['ad_id'].'-->'; 
+                    $cusads = '<!--CusRnd'.esc_html($ads['ad_id']).'-->';
                 }else if($ads['ad_type']== 'rotator_ads' &&isset($ads['ads_list']) && !empty($ads['ads_list'])){
-                    $cusads = '<!--CusRot'.$ads['ad_id'].'-->';
+                    $cusads = '<!--CusRot'.esc_html($ads['ad_id']).'-->';
                 }else{
-                       $cusads = '<!--CusAds'.$ads['ad_id'].'-->'; 
+                       $cusads = '<!--CusAds'.esc_html($ads['ad_id']).'-->';
                 }
                 switch ($position) {
 
@@ -1832,13 +1832,13 @@ function quads_replace_ads($content, $quicktag, $id) {
 
         if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
             $adscode =
-                "\n".'<div style="'.$style.'">'."\n".
+                "\n".'<div style="'.esc_attr($style).'">'."\n".
                 quads_render_ad('ad'.$id, $code)."\n".
                 '</div>'. "\n";
         }else{
             $adscode =
                 "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
-                '<div class="quads-location quads-ad' .$id. '" id="quads-ad' .$id. '" style="'.$style.'">'."\n".
+                '<div class="quads-location quads-ad' .esc_html($id). '" id="quads-ad' .esc_html($id). '" style="'.esc_attr($style).'">'."\n".
                 quads_render_ad('ad'.$id, $code)."\n".
                 '</div>'. "\n";
         }
@@ -1900,13 +1900,13 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
 
         if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
             $adscode =
-                "\n".'<div style="'.$style.'">'."\n".
+                "\n".'<div style="'.esc_attr($style).'">'."\n".
                 quads_render_ad($ad_meta['quads_ad_old_id'][0], $code,'',$ampsupport)."\n".
                 '</div>'. "\n";
         }else{
             $adscode =
                 "\n".'<!-- WP QUADS Content Ad Plugin v. '.QUADS_VERSION .' -->'."\n".
-                '<div class="quads-location quads-ad' .$id. '" id="quads-ad' .$id. '" style="'.$style.'">'."\n".
+                '<div class="quads-location quads-ad' .esc_attr($id). '" id="quads-ad' .esc_attr($id). '" style="'.esc_attr($style).'">'."\n".
                 quads_render_ad($ad_meta['quads_ad_old_id'][0], $code,'',$ampsupport)."\n".
                 '</div>'. "\n";
         }

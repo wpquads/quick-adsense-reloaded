@@ -537,7 +537,7 @@ class QUADS_Ad_Setup_Api_Service {
     }
 
 	public function deleteAd($ad_id){
-
+//  current_user_can already checked in class QUADS_Ad_Setup_Api
 		$quads_settings = get_option('quads_settings');
 
 		$old_ad_id      = get_post_meta($ad_id, 'quads_ad_old_id', true);

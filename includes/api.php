@@ -9,9 +9,6 @@
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       0.9.9
  */
-if ( function_exists( 'quads_register_ad' ) ) {
-//	quads_register_ad( array( 'location' => 'custom', 'description' => 'Header positionsss' ) );
-}
 
 /*
  * Sample function for creating custom ad positions in your template files
@@ -150,7 +147,7 @@ function quads_ad( $args ) {
 		$location_settings = quads_get_ad_location_settings( $args['location'] );
 
 		$code .= "\n".'<!-- WP QUADS Custom Ad v. ' . QUADS_VERSION .' -->'."\n";
-		$code .= '<div class="quads-location quads-ad' .$location_settings['ad']. '" id="quads-ad' .$location_settings['ad']. '" style="'.  quads_get_inline_ad_style( $location_settings['ad'] ).'">'."\n";
+		$code .= '<div class="quads-location quads-ad' .esc_html($location_settings['ad']). '" id="quads-ad' .esc_html($location_settings['ad']). '" style="'.  quads_get_inline_ad_style( $location_settings['ad'] ).'">'."\n";
 		$code .= quads_render_ad( 'ad' . $location_settings['ad'], $quads_options['ads'][ 'ad' . $location_settings['ad'] ]['code'] );
 		$code .= '</div>';
 	}elseif ($quads_mode == 'new'){
@@ -206,7 +203,7 @@ function quads_ad( $args ) {
                         }else{
                             $adscode =
                                 "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
-                                '<div class="quads-location quads-ad' .$ads['ad_id']. '" id="quads-ad' .$ads['ad_id']. '" style="'.$style.'">'."\n".
+                                '<div class="quads-location quads-ad' .esc_html($ads['ad_id']). '" id="quads-ad' .esc_html($ads['ad_id']). '" style="'.esc_html($style).'">'."\n".
                                 quads_render_ad($ads['ad_id'], $ads['code'],'',$ampsupport)."\n".
                                 '</div>'. "\n";
                         }

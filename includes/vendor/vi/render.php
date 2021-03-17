@@ -180,7 +180,7 @@ class render extends conditions\conditions {
         $marginRight = !empty($this->ads['ads'][$this->id]['marginRight']) ? $this->ads['ads'][$this->id]['marginRight'] : '0';
         $marginBottom = !empty($this->ads['ads'][$this->id]['marginBottom']) ? $this->ads['ads'][$this->id]['marginBottom'] : '0';
         $marginLeft = !empty($this->ads['ads'][$this->id]['marginLeft']) ? $this->ads['ads'][$this->id]['marginLeft'] : '0';
-        $margin = 'margin-top:' . $marginTop .'px;margin-right:' . $marginRight .'px;margin-bottom:' . $marginBottom.  'px;margin-left:' . $marginLeft .'px;';
+        $margin = 'margin-top:' . esc_html($marginTop) .'px;margin-right:' . esc_html($marginRight) .'px;margin-bottom:' . esc_html($marginBottom).  'px;margin-left:' . esc_html($marginLeft) .'px;';
 
         $style = '';
         // Layout Alignment
