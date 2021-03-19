@@ -15,6 +15,7 @@ class QuadsAdListSettings extends Component {
   constructor(props) {
     super(props);
     this.state = {
+            display_pro_alert_msg : false,
             notice_txt_color_picker: false,
             notice_bg_color_picker : false,
             notice_btn_txt_color_picker : false,
@@ -93,7 +94,7 @@ class QuadsAdListSettings extends Component {
             importadvancedadsmsg : '',
             importadvancedadsmsgprocessing : "",
             importquadsclassicmsgprocessing : "",
-            page_redirect_options   : []
+            page_redirect_options   : [],
         };
   }
   handleClick_notice_txt_color = () => {
@@ -883,6 +884,14 @@ handleMultiPluginsChange = (option) => {
         }
       );
   }
+    display_pro_alert_fun = (event) => {
+        let name  = event.target.name;
+        if(this.state.display_pro_alert_msg == name && name!=''){
+            name ='';
+        }
+        this.setState({display_pro_alert_msg: name});
+    }
+
   render() {
    const styles = reactCSS({
       'default': {
@@ -1346,16 +1355,6 @@ handleMultiPluginsChange = (option) => {
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/setup-revenue-sharing-in-wordpress-and-amp/"></a>
                      </td>
                      </tr>
-                 { quads_localize_data.is_pro ?
-                     <tr>
-                     <th><label htmlFor="hide_quads_markup">{__('Hide Quads Markup', 'quick-adsense-reloaded')}</label></th>
-                     <td>
-                       <label className="quads-switch">
-                         <input id="hide_quads_markup" type="checkbox" name="hide_quads_markup" onChange={this.formChangeHandler} checked={settings.hide_quads_markup} />
-                         <span className="quads-slider"></span>
-                       </label>
-                     </td>
-                     </tr> : null}
                      <tr>
                          <th><label htmlFor="tcf_2_integration">{__('TCF v2.0 integration ', 'quick-adsense-reloaded')}</label></th>
                          <td>
@@ -1386,6 +1385,54 @@ handleMultiPluginsChange = (option) => {
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/"></a>
                      </td>
                  </tr>
+                 { quads_localize_data.is_pro ?
+                     <>
+                         <tr>
+                             <th><label htmlFor="hide_quads_markup">{__('Hide Quads Markup', 'quick-adsense-reloaded')}</label></th>
+                             <td>
+                                 <label className="quads-switch">
+                                     <input id="hide_quads_markup" type="checkbox" name="hide_quads_markup" onChange={this.formChangeHandler} checked={settings.hide_quads_markup} />
+                                     <span className="quads-slider"></span>
+                                 </label>
+                             </td>
+                         </tr>
+                         <tr>
+                             <th><label htmlFor="reports_settings">{__('Reports', 'quick-adsense-reloaded')}</label></th>
+                             <td>
+                                 <label className="quads-switch">
+                                     <input id="reports_settings" type="checkbox" name="reports_settings" onChange={this.formChangeHandler} checked={settings.reports_settings} />
+                                     <span className="quads-slider"></span>
+                                 </label>
+                             </td>
+                         </tr>
+                     </>:
+                     <>
+                         <tr>
+                             <th><label htmlFor="hide_quads_markup">{__('Hide Quads Markup', 'quick-adsense-reloaded')}</label></th>
+                             <td>
+                                 <label className="quads-switch">
+                                     <input  type="checkbox" name="hide_quads_markup"  onChange={this.display_pro_alert_fun} />
+                                     <span className="quads-slider"></span>
+                                 </label>
+                                 {this.state.display_pro_alert_msg && this.state.display_pro_alert_msg == 'hide_quads_markup'  ? <Alert severity="error" action={<Icon onClick={this.display_pro_alert_fun}>close</Icon>}><div className={'alert_get_pro'}> This feature is available in PRO version <a
+                                     className="quads-got_pro premium_features_btn"
+                                     href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a></div></Alert> : null }
+                             </td>
+                         </tr>
+                         <tr>
+                             <th><label htmlFor="hide_quads_markup">{__('Reports', 'quick-adsense-reloaded')}</label></th>
+                             <td>
+                                 <label className="quads-switch">
+                                     <input  type="checkbox" name="reports" onChange={this.display_pro_alert_fun}  />
+                                     <span className="quads-slider"></span>
+                                 </label>
+                                 {this.state.display_pro_alert_msg && this.state.display_pro_alert_msg == 'reports'  ? <Alert severity="error" action={<Icon onClick={this.display_pro_alert_fun}>close</Icon>}><div className={'alert_get_pro'}> This feature is available in PRO version <a
+                                     className="quads-got_pro premium_features_btn"
+                                     href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a></div></Alert> : null }
+                             </td>
+                         </tr>
+                     </>
+                 }
 
                      </tbody></table>
                 </div>
