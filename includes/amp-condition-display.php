@@ -51,9 +51,16 @@ class quads_output_amp_condition_display{
         add_action('ampforwp_between_loop', array($this, 'quads_display_ads_between_loop'),10,1);        
         // Ad After Featured Image #42
         add_action('ampforwp_after_featured_image_hook',array($this, 'quads_display_ads_after_featured_image'));
-        
+	    add_filter('amp_story_auto_ads_configuration',array($this,'quads_amp_story_ads'));
+
+
     }
-    
+	public function quads_amp_story_ads($data){
+
+	return	$this->quads_amp_condition_ad_code('quads_amp_story_ads',$data);
+
+	}
+
     public function quads_display_ads_after_featured_image(){   
         
             $this->quads_amp_condition_ad_code('quads_after_featured_image');   
@@ -117,13 +124,16 @@ class quads_output_amp_condition_display{
     public function quads_amp_condition_ad_code($condition, $count=null){               
                 
         $result = $this->quads_amp_condition_get_ad_code($condition, $count);
-        echo $result;
-                        
+        if($condition == 'quads_amp_story_ads')
+            return $result;
+        else
+	        echo $result;
     } 
     public function quads_amp_condition_get_ad_code($condition, $count=null){
       // if (quads_is_amp_endpoint()){
       // return ;
       // }
+
       $quads_ads = $this->api_service->getAdDataByParam('quads-ads');
       if(isset($quads_ads['posts_data'])){        
         foreach($quads_ads['posts_data'] as $key => $value){
@@ -137,6 +147,7 @@ class quads_output_amp_condition_display{
           if(!isset($ads['position'])){
             continue;
           }
+
           if(isset($ads['ad_id']))
             $post_status = get_post_status($ads['ad_id']); 
             else
@@ -156,7 +167,8 @@ class quads_output_amp_condition_display{
             $is_on         = quads_is_visibility_on($ads);
             $is_visitor_on = quads_is_visitor_on($ads);
              if($is_on && $is_visitor_on && $post_status=='publish'){
-          if($ads['position'] =='amp_after_featured_image' && $condition == 'quads_after_featured_image'){
+
+	             if($ads['position'] =='amp_after_featured_image' && $condition == 'quads_after_featured_image'){
               $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
               echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
           }else if($ads['position'] =='amp_below_the_header' && $condition == 'quads_below_the_header'){
@@ -190,8 +202,27 @@ class quads_output_amp_condition_display{
             $displayed_posts        = get_option('posts_per_page');        
             if(intval($ads_loop_number) == $count){            
                 echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
-            }   
-          }
+            }
+         }else if($ads['position'] =='amp_story_ads' && $condition == 'quads_amp_story_ads'){
+		             $data = array();
+	             if($ads['ad_type'] == 'adsense') {
+		             $data[] = array(
+			             "ad-attributes" => array(
+				             "type"      => "adsense",
+				             "data-ad-client" =>esc_attr($ads['g_data_ad_client']),
+				             "data-ad-slot" => esc_attr($ads['g_data_ad_slot']),
+			             ),
+		             );
+	             }elseif($ads['ad_type'] == 'double_click') {
+		             $data[] = array(
+			             "ad-attributes" => array(
+				             "type"      => "doubleclick",
+				             "data-slot" => esc_attr($ads['network_code']).'/'.esc_attr($ads['ad_unit_name']),
+			             ),
+		             );
+	             }
+             return $data;
+         }
         }
         }
       }

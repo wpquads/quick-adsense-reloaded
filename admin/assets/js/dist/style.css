@@ -1258,6 +1258,12 @@ and open the template in the editor.
     Created on : Jan 28, 2020, 11:41:08 AM
     Author     : Magazine3
 */
+.alert_get_pro {
+  font-size: 12px; }
+
+.alert_get_pro .quads-got_pro.premium_features_btn {
+  margin: 0; }
+
 .quads-settings-saved-msg {
   background: blue;
   color: #fff;

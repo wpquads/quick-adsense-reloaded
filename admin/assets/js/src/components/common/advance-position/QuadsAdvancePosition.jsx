@@ -48,7 +48,6 @@ class QuadsAdvancePosition extends Component {
         const {__} = wp.i18n;
         const post_meta = this.props.parentState.quads_post_meta;
         const show_form_error = this.props.parentState.show_form_error;
-
         return (
             <div>
                 <div className="quads-position-dropdown">
@@ -82,6 +81,7 @@ class QuadsAdvancePosition extends Component {
                                     <option value="amp_below_the_title">Below the Title (Single Post)</option>
                                     <option value="amp_above_related_post">Above Related Posts (Single Post)</option>
                                     <option value="amp_below_author_box">Below the Author Box (Single Post)</option>
+                                    {post_meta.ad_type =='adsense' || post_meta.ad_type =='double_click' ?  <option value="amp_story_ads">AMP Story Ad</option> : null }
                                 </optgroup>
 
                             </select>
