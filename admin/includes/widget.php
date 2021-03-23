@@ -45,16 +45,21 @@ class Quads_Ads_Widget extends WP_Widget {
         if( quads_check_meta_setting( 'NoAds' ) === '1' ){
             return false;
         }
-         // exit(print_r($instance));
+//          exit(print_r($instance['ads']));
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         $ads = isset($quads_options['ads'][$instance['ads']])?$quads_options['ads'][$instance['ads']]:'';
+		$ads_fixed = isset($instance['ads_fixed'])?$instance['ads_fixed']:'';
 
-        if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_is_visibility_on($ads)) {
+		if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_is_visibility_on($ads)) {
             echo $args['before_widget'];
             
             $code = quads_render_ad( $instance['ads'], $ads['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
-            echo '<div id="quads-ad' . $instance['ads'] . '_widget">';
+            if($ads_fixed) {
+	            echo '<div id="quads-ad' . $instance['ads'] . '_widget" class="quads_widget_fixed">';
+            }else{
+	            echo '<div id="quads-ad' . $instance['ads'] . '_widget">';
+            }
             echo $code;
             echo '</div>';
             echo $args['after_widget'];	
@@ -72,6 +77,12 @@ class Quads_Ads_Widget extends WP_Widget {
 	public function form( $instance ) {
         
         global $quads_options;
+
+		if ( isset( $instance['ads_fixed'] ) ) {
+			$check_fixed = $instance['ads_fixed'];
+		} else {
+			$check_fixed = 0;
+		}
         
         $title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Ad title or group title', 'quick-adsense-reloaded' );
         $ads = ! empty( $instance['ads'] ) ? $instance['ads'] : esc_html__( 'ads list to be display', 'quick-adsense-reloaded' );?>
@@ -87,9 +98,13 @@ class Quads_Ads_Widget extends WP_Widget {
             }
 
             echo '</select>';
+
         }
 
-		?></p><?php 
+		?></p><p><?php
+		echo '<input type="checkbox" name="' . esc_attr( $this->get_field_name( 'ads_fixed' ) ) . '" value="1" ' . checked( $check_fixed, 1, false ) . '/>' . PHP_EOL;
+
+            echo '<label for="'.esc_attr( $this->get_field_name( 'ads_fixed' )).'" >Fixed widget</label>'; ?></p><?php
 	}
 
 	/**
@@ -103,9 +118,9 @@ class Quads_Ads_Widget extends WP_Widget {
 	 * @return array Updated safe values to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$instance = array();                
-        
-        $instance['ads'] = ( ! empty( $new_instance['ads'] ) ) ? sanitize_text_field( $new_instance['ads'] ) : '';                                
+		$instance = array();
+        $instance['ads'] = ( ! empty( $new_instance['ads'] ) ) ? sanitize_text_field( $new_instance['ads'] ) : '';
+		$instance['ads_fixed'] = ( ! empty( $new_instance['ads_fixed'] ) ) ? sanitize_text_field( $new_instance['ads_fixed'] ) : '';
 		return $instance;
 	}
 
