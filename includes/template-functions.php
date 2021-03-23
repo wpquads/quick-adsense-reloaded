@@ -1897,7 +1897,10 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
             $code ='';
         }
                 $style = quads_get_inline_ad_style_new($id);
-
+	    // if it was sticky ad return empty
+	    if (isset($ad_meta['adsense_ad_type'][0]) && $ad_meta['adsense_ad_type'][0] == 'adsense_sticky_ads' ){
+		    return  $content;
+	    }
         if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
             $adscode =
                 "\n".'<div style="'.esc_attr($style).'">'."\n".

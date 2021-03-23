@@ -26,7 +26,7 @@ class QuadsAdTargeting extends Component {
           return (
                 <div>
                 <div className="quads-settings-group">
-              {post_meta.ad_type != "background_ad" ? 
+              {post_meta.ad_type != "background_ad" && post_meta.adsense_ad_type != 'adsense_sticky_ads' ?
               <>
                 <div>{__('Position', 'quick-adsense-reloaded')}</div>  
                 <div className="quads-panel">

@@ -234,8 +234,9 @@ removeSeleted_list = (e) => {
                           <option value="display_ads">{__('Display Ads', 'quick-adsense-reloaded')}</option>
                           <option value="in_feed_ads">{__('In-Feed Ads', 'quick-adsense-reloaded')}</option>
                           <option value="in_article_ads">{__('In-Article Ads', 'quick-adsense-reloaded')}</option> 
-                          <option value="adsense_auto_ads">{__('Auto Ads', 'quick-adsense-reloaded')}</option> 
-                          <option value="matched_content">{__('Matched content', 'quick-adsense-reloaded')}</option> 
+                          <option value="adsense_auto_ads">{__('Auto Ads', 'quick-adsense-reloaded')}</option>
+                            {quads_localize_data.is_amp_enable || post_meta.adsense_ad_type == adsense_sticky_ads ?    <option value="adsense_sticky_ads">{__('Sticky (Only AMP)', 'quick-adsense-reloaded')}</option>:null}
+                            <option value="matched_content">{__('Matched content', 'quick-adsense-reloaded')}</option>
                         </select>
                       </div>
                     </td></tr> 
@@ -254,7 +255,7 @@ removeSeleted_list = (e) => {
                     error_outline
                     </span>Enter Data Slot ID</div> :''}</td></tr>
                       : null }
-                      { !post_meta.adsense_ad_type || post_meta.adsense_ad_type == 'display_ads' || post_meta.adsense_ad_type == 'matched_content' ? (
+                      { !post_meta.adsense_ad_type || post_meta.adsense_ad_type == 'display_ads' || post_meta.adsense_ad_type == 'matched_content' || post_meta.adsense_ad_type == 'adsense_sticky_ads' ? (
                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
                         <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
