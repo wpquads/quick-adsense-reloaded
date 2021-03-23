@@ -855,6 +855,20 @@ function quads_add_ons_page() {
                                 <div class="fe-2">
                                     <div class="fe-t">
                                         <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
+                                        <h4>Reports</h4>
+                                    </div>
+                                    <p>Reports feature we can display the day-wise earing and forecast.</p>
+                                </div>
+                                <div class="fe-2">
+                                    <div class="fe-t">
+                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
+                                        <h4>Hide Quads Markup</h4>
+                                    </div>
+                                    <p>Hide Quads Markup from sourcecode.</p>
+                                </div>
+                                <div class="fe-2">
+                                    <div class="fe-t">
+                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
                                         <h4>50+ Plugin Support</h4>
                                     </div>
                                     <p>Works smoothly almost all the plugin.</p>
