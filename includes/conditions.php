@@ -311,54 +311,57 @@ function quads_is_visitor_on($ads){
     $visibility_include = isset($ads['targeting_include']) ? $ads['targeting_include'] : '';
 
     $visibility_exclude = isset($ads['targeting_exclude']) ? $ads['targeting_exclude'] : '';
-
-
+    $include_value_old = true;
     if($visibility_include){
-
+        $condition_old = '';
+        $include_value_old = true;
         foreach ($visibility_include as $visibility){
-
-           $include[] = quads_visitor_comparison_logic_checker($visibility);
-
+            $condition         = isset($visibility['condition']) ? $visibility['condition'] :'AND';
+            $include_value_new = quads_visitor_comparison_logic_checker($visibility);
+            switch ($condition_old){
+                case 'AND':
+                    $include_value_old = $include_value_old &&  $include_value_new;
+                    $condition_old = $condition;
+                    break;
+                case 'OR':
+                    $include_value_old = $include_value_old ||  $include_value_new;
+                    $condition_old = $condition;
+                    break;
+                default:
+                    $condition_old = $condition;
+                    $include_value_old =$include_value_new;
+                    break;
+            }
         }
+    }
 
-      }else{
-          $response = true;
-      }
-
-      if($visibility_exclude){
-
+    $response = $include_value_old;
+    if($visibility_exclude){
+        $exclude_value_old = false;
+        $condition_old = '';
         foreach ($visibility_exclude as $visibility){
-
-            $exclude[] = quads_visitor_comparison_logic_checker($visibility);
-
+            $condition         = isset($visibility['condition']) ? $visibility['condition'] :'AND';
+            $exclude_value_new = quads_visitor_comparison_logic_checker($visibility);
+            switch ($condition_old){
+                case 'AND':
+                    $exclude_value_old = $exclude_value_old &&  $exclude_value_new;
+                    $condition_old = $condition;
+                    break;
+                case 'OR':
+                    $exclude_value_old = $exclude_value_old ||  $exclude_value_new;
+                    $condition_old = $condition;
+                    break;
+                default:
+                    $condition_old = $condition;
+                    $exclude_value_old =$exclude_value_new;
+                    break;
+            }
         }
-
-      }else{
-        if(empty($include)){
-          $response = true;
+        if($exclude_value_old){
+            $response =false;
         }
-      }
-
-      if(!empty($include)){
-
-	      if(in_array( false ,$include )){
-		      $response = false;
-	      }else{
-		      $response = true;
-	      }
-
-      }
-
-      if(!empty($exclude)){
-        $exclude =   array_filter(array_unique($exclude));
-
-        if(isset($exclude[0])){
-            $response = false;
-        }
-
-      }
-
-      return $response;
+    }
+    return $response;
 
 }
 
@@ -366,9 +369,7 @@ function quads_is_visibility_on($ads){
     $include  = array();
     $exclude  = array();
     $response = false;
-
     $visibility_include = isset($ads['visibility_include']) ? $ads['visibility_include'] : '';
-
     $visibility_exclude = isset($ads['visibility_exclude']) ? $ads['visibility_exclude'] : '';
     $include_value_old = true;
     if($visibility_include){
@@ -400,7 +401,6 @@ function quads_is_visibility_on($ads){
         foreach ($visibility_exclude as $visibility){
             $condition         = isset($visibility['condition']) ? $visibility['condition'] :'AND';
             $exclude_value_new = quads_comparison_logic_checker($visibility);
-//            return  var_dump($exclude_value_new);
             switch ($condition_old){
                 case 'AND':
                     $exclude_value_old = $exclude_value_old &&  $exclude_value_new;
@@ -421,7 +421,6 @@ function quads_is_visibility_on($ads){
         }
     }
       return $response;
-
 }
 add_action('wp_head', 'quads_set_browser_width_script');
 function quads_set_browser_width_script(){
