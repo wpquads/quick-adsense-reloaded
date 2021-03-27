@@ -37,9 +37,6 @@ class QuadsAdvancePosition extends Component {
                     this.setState({ad_extra_position:ad_extra_position});
                 },
                 (error) => {
-                    console.log("error");
-
-                    console.log(error);
                 }
             );
     }

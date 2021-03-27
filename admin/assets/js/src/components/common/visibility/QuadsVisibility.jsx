@@ -181,6 +181,17 @@ class QuadsVisibility extends Component {
         let newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);
         this.setState({multiTypeIncludedValue: newData});
     }
+    removeExcluded_con = (e) => {
+        let index = e.currentTarget.dataset.index;
+        const {multiTypeExcludedValue} = this.state;
+        let data = multiTypeExcludedValue;
+        let lastArray = multiTypeExcludedValue[multiTypeExcludedValue.length - 1];
+        multiTypeExcludedValue.splice(-1, 1);
+        lastArray['condition'] = '';
+        data.push(lastArray);
+        let newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);
+        this.setState({multiTypeExcludedValue: newData});
+    }
     removeExcluded = (e) => {
         let index = e.currentTarget.dataset.index;
         const {multiTypeExcludedValue} = {...this.state};
