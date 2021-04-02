@@ -230,6 +230,7 @@ class QuadsUserTargeting extends Component {
     }
     handleMultiExcludedLeftChange = (option) => {
         let type = this.state.multiTypeTargetOption[option.value];
+        let self =this;
         if( !quads_localize_data.is_pro && (option.value==='geo_location_country' || option.value==='geo_location_city')){
             this.setState({excludedMainToggle:false});
             return;
@@ -249,9 +250,27 @@ class QuadsUserTargeting extends Component {
                 this.setState({is_amp_endpoint_exc:true});
             }else{
                 this.setState({is_amp_endpoint_exc:false});
+            }if(option.value==='geo_location_country'){
+
+                const response =  fetch(
+                    quads_localize_data.quads_pro_plugin_url+'includes/admin/geo_location_country_code.json', {headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'X-WP-Nonce': quads_localize_data.nonce,
+                        }}
+                )  .then(res => res.json())    .then(function(result) {
+
+                    type =  result.geo_location_country;
+
+                    self.setState({excludedTextToggle:true});
+                    self.setState({multiTypeLeftExcludedValue:option, excludedDynamicOptions:type, multiTypeRightExcludedValue:[], excludedRightPlaceholder:placeholder});
+                });
+
+            }else{
+                this.setState({excludedTextToggle:true});
+                this.setState({multiTypeLeftExcludedValue:option, excludedDynamicOptions:type, multiTypeRightExcludedValue:[], excludedRightPlaceholder:placeholder});
             }
-            this.setState({excludedTextToggle:true});
-            this.setState({multiTypeLeftExcludedValue:option, excludedDynamicOptions:type, multiTypeRightExcludedValue:[], excludedRightPlaceholder:placeholder});
+
         }
     }
 // new condition
