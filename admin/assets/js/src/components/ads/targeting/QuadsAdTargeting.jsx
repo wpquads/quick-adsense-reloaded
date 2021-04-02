@@ -119,17 +119,18 @@ class QuadsAdTargeting extends Component {
                 </>
                 : ''}
                 </div> 
-                {post_meta.position != 'ad_shortcode' ?                   
+                {post_meta.position != 'ad_shortcode' && post_meta.position != 'amp_story_ads' ?
                   <QuadsVisibility 
                     parentState                  ={this.props.parentState} 
                     updateVisibility             ={this.props.updateVisibility}
                   />
                  : ''}
-
+                    {post_meta.position != 'amp_story_ads' ?
                <QuadsUserTargeting 
                   parentState                  ={this.props.parentState} 
                   updateVisitorTarget          ={this.props.updateVisitorTarget}
-                />               
+                />
+                        : ''}
               <div className="quads-btn-navigate">
                 <div className="quads-next"><a onClick={this.props.publish} className="quads-btn quads-btn-primary">{page.action == 'edit' ? 'Update' : 'Publish'}</a></div>
                 <div ><a onClick={this.props.movePrev} className="quads-btn quads-btn-primary">{__('Prev', 'quick-adsense-reloaded')}</a></div>

@@ -168,7 +168,7 @@ class quads_output_amp_condition_display{
             $is_on         = quads_is_visibility_on($ads);
             $is_visitor_on = quads_is_visitor_on($ads);
 
-             if($is_on && $is_visitor_on && $post_status=='publish'){
+             if($is_on && $is_visitor_on && $post_status=='publish' ||$condition == 'quads_amp_story_ads'){
 	             if($ads['position'] =='amp_after_featured_image' && $condition == 'quads_after_featured_image'){
               $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
               echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );

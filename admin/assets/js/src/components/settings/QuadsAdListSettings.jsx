@@ -1005,11 +1005,17 @@ handleMultiPluginsChange = (option) => {
             }
             {/* global excluder modal */}
             {this.state.global_excluder_modal ?
-           <div className="quads-modal-popup">
-            <div className="quads-modal-popup-content">
-             <span className="quads-modal-close" onClick={this.closeModal}>&times;</span>
-             <h3>Global Excluder</h3>
-             <div className="quads-modal-content">
+                <>           <div className="quads-large-popup-bglayout">  </div>
+
+           <div className="quads-large-popup">
+            <div className="quads-large-popup-content">
+             <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
+                <div className="quads-large-popup-title">
+                    <h1>Global Excluder</h1>
+                </div>
+                <div className="quads-large-description"></div>
+
+                <div className="quads-large-content">
              <table className="form-table" role="presentation"><tbody><tr>
                                   <th>Hide Ads for User Roles</th>
                                   <td>
@@ -1056,7 +1062,7 @@ handleMultiPluginsChange = (option) => {
                             <a className="quads-btn quads-btn-primary" onClick={this.saveGlobalExcluder}>OK</a>
              </div>
              </div>
-            </div> : null
+            </div> </>: null
             }
             {/* Revenue Sharing modal */}
             {this.state.revenue_sharing_modal ?
@@ -1309,7 +1315,9 @@ handleMultiPluginsChange = (option) => {
                          <input id="global_excluder_enabled" type="checkbox" name="global_excluder_enabled" onChange={this.formChangeHandler} checked={settings.global_excluder_enabled} />
                          <span className="quads-slider"></span>
                        </label>
-                       {settings.global_excluder_enabled ? <span onClick={this.open_global_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/"></a>
+
+                         {settings.global_excluder_enabled ? <span onClick={this.open_global_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                      </td>
                      </tr>:null}
                     <tr>
@@ -1394,6 +1402,8 @@ handleMultiPluginsChange = (option) => {
                                      <input id="hide_quads_markup" type="checkbox" name="hide_quads_markup" onChange={this.formChangeHandler} checked={settings.hide_quads_markup} />
                                      <span className="quads-slider"></span>
                                  </label>
+                                 <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/"></a>
+
                              </td>
                          </tr>
                          <tr>
@@ -1408,12 +1418,28 @@ handleMultiPluginsChange = (option) => {
                      </>:
                      <>
                          <tr>
+                             <th><label htmlFor="hide_quads_markup">{__('Global Excluder', 'quick-adsense-reloaded')}</label></th>
+                             <td>
+                                 <label className="quads-switch">
+                                     <input  type="checkbox" name="global_excluder" onChange={this.display_pro_alert_fun}  />
+                                     <span className="quads-slider"></span>
+                                 </label>
+                                 <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/"></a>
+
+                                 {this.state.display_pro_alert_msg && this.state.display_pro_alert_msg == 'global_excluder'  ? <Alert severity="error" action={<Icon onClick={this.display_pro_alert_fun}>close</Icon>}><div className={'alert_get_pro'}> This feature is available in PRO version <a
+                                     className="quads-got_pro premium_features_btn"
+                                     href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a></div></Alert> : null }
+                             </td>
+                         </tr>
+                         <tr>
                              <th><label htmlFor="hide_quads_markup">{__('Hide Quads Markup', 'quick-adsense-reloaded')}</label></th>
                              <td>
                                  <label className="quads-switch">
                                      <input  type="checkbox" name="hide_quads_markup"  onChange={this.display_pro_alert_fun} />
                                      <span className="quads-slider"></span>
                                  </label>
+                                 <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/"></a>
+
                                  {this.state.display_pro_alert_msg && this.state.display_pro_alert_msg == 'hide_quads_markup'  ? <Alert severity="error" action={<Icon onClick={this.display_pro_alert_fun}>close</Icon>}><div className={'alert_get_pro'}> This feature is available in PRO version <a
                                      className="quads-got_pro premium_features_btn"
                                      href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a></div></Alert> : null }
@@ -1426,6 +1452,8 @@ handleMultiPluginsChange = (option) => {
                                      <input  type="checkbox" name="reports" onChange={this.display_pro_alert_fun}  />
                                      <span className="quads-slider"></span>
                                  </label>
+                                 <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-link-adsense-account-for-the-revenue-reports-feature/"></a>
+
                                  {this.state.display_pro_alert_msg && this.state.display_pro_alert_msg == 'reports'  ? <Alert severity="error" action={<Icon onClick={this.display_pro_alert_fun}>close</Icon>}><div className={'alert_get_pro'}> This feature is available in PRO version <a
                                      className="quads-got_pro premium_features_btn"
                                      href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a></div></Alert> : null }

@@ -78,7 +78,7 @@ class QuadsAdCreateRouter extends Component {
             count_as_per      : 'p_tag',
             word_count_number : 100,
             image_number      : 1,
-            enabled_on_amp        : false,
+            enabled_on_amp        : true,
             enable_on_end_of_post : false,
             repeat_paragraph      : false,
             after_the_percentage_value: 50,
