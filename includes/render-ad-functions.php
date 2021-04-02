@@ -482,7 +482,11 @@ function quads_render_google_async_new( $id ) {
         return '';
         }
     $id_name = "quads-".esc_attr($id)."-place";
-    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
+    if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+        $html = "";
+    }else{
+        $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
+    }
     if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global'] == true) {
 
         $html .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
@@ -542,7 +546,10 @@ function quads_render_google_async_new( $id ) {
         });';
         $html = str_replace( '(adsbygoogle = window.adsbygoogle || []).push({});', $code, $html );
     }
-    $html .= "\n <!-- end WP QUADS --> \n\n";
+    if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+    }else{
+        $html .= "\n <!-- end WP QUADS --> \n\n";
+    }
     return apply_filters( 'quads_render_adsense_async', $html );
 }
 
@@ -599,8 +606,11 @@ function quads_render_google_async( $id ) {
         $default_ad_sizes[$id]['phone_height'] = $ad_size_parts[1];
     }
 
-
-    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
+    if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+        $html = "";
+    }else{
+        $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
+    }
       if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global'] == true) {
              $id_name = "quads-".esc_attr($id)."-place";
         $html .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
@@ -628,8 +638,10 @@ function quads_render_google_async( $id ) {
             $html = str_replace( '(adsbygoogle = window.adsbygoogle || []).push({});', $code, $html );
         }
         $html .=   "\n".'</script>' . "\n";
-
+    if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+    }else{
         $html .= "\n <!-- end WP QUADS --> \n\n";
+    }
 
 
         return apply_filters( 'quads_render_adsense_async', $html );
