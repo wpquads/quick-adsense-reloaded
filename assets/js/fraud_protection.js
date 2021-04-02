@@ -43,20 +43,20 @@
             var now = new Date();
             var expires =  d.toUTCString();
             cookie_val['exp'] = expires;
-            
+
             if (C_vc) {
-                 var old_date = new Date(C_vc['exp']);
-                var click_limit_time = old_date.setHours(old_date.getHours() +quads_click_limit );
+                var old_date = new Date(C_vc['exp']);
+                var click_limit_time = old_date.setHours(old_date.getHours() +quads.quads_click_limit );
                 if(click_limit_time < now ){
-                     cookie_val['count'] = 0;
-                 }else{
+                    cookie_val['count'] = 0;
+                }else{
                     cookie_val['count'] = C_vc['count']+1;
-                 }
+                }
                 cookie_val['exp'] = expires;
-                quadssetCookie(quads_ad_click, JSON.stringify( cookie_val, 'false', false ), quads_ban_duration);
+                quadssetCookie(quads_ad_click, JSON.stringify( cookie_val, 'false', false ), quads.quads_ban_duration);
             } else {
                 cookie_val['count'] = 0;
-                quadssetCookie(quads_ad_click, JSON.stringify( cookie_val, 'false', false ), quads_ban_duration);
+                quadssetCookie(quads_ad_click, JSON.stringify( cookie_val, 'false', false ), quads.quads_ban_duration);
             }
         }
     }
@@ -78,3 +78,28 @@
     });
 
 })(window.jQuery);
+
+
+if (typeof quadsgetCookie !== "function"){
+
+    function quadsgetCookie(cname) {
+        var name = cname + '=';
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i].trim();
+            if (c.indexOf(name) === 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return false;
+    }
+}
+if (typeof quadssetCookie !== "function") {
+
+    function quadssetCookie(cname, cvalue, exdays, path) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+}
