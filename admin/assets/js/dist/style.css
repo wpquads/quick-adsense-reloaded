@@ -299,6 +299,9 @@ and open the template in the editor.
 
 .quads-settings-group .quads-tr-position .quads-position-dropdown select {
   width: 311px; }
+
+.MuiPaper-root.MuiAlert-root.MuiAlert-standardError.check_plugin_exist.MuiPaper-elevation0 div {
+  padding-bottom: 5px  !important; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

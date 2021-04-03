@@ -185,7 +185,13 @@ class QUADS_Ad_Setup_Api {
 			        return current_user_can( 'manage_options' );
 		        }
 	        ));
-
+            register_rest_route( 'quads-route', 'check_plugin_exist', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'check_plugin_exist'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
         }
         public function quads_register_ad(){
 	        global $_quads_registered_ad_locations;
@@ -1352,6 +1358,22 @@ class QUADS_Ad_Setup_Api {
 
             return $response;
 
+        }
+        
+        public function check_plugin_exist($request){
+
+            $response = array();
+            $parameters = $request->get_params();
+            $plugin_name   = isset($parameters['plugin_name'])?$parameters['plugin_name']:'';
+            if($plugin_name == 'amp_story'){
+                if (defined('AMPFORWP_STORIES_PLUGIN_DIR')) {
+                    return array('status' => 't');
+                }
+                if (defined('WEBSTORIES_VERSION')) {
+                    return array('status' => 't');
+                }     
+            }
+            return array('status' => 'f');
         }
 
         public function getUserRole($request){

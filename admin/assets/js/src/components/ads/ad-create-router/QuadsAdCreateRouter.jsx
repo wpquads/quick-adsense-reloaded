@@ -51,6 +51,7 @@ class QuadsAdCreateRouter extends Component {
           quads_include_meta     : {},                   
           quads_exclude_meta     : {},                   
           quads_post_meta        :  {        
+            check_plugin_exist   : true,
             visibility_include   : visibility_include_def_val,
             visibility_exclude   : [],
             targeting_include         : [],              
@@ -395,17 +396,55 @@ class QuadsAdCreateRouter extends Component {
       
       const name = event.target.name;
       const value = event.target.type === 'checkbox' ?  event.target.checked : event.target.value;   
-      const { quads_post_meta } = { ...this.state };
-      const currentState = quads_post_meta;      
-      if(name){
-        currentState[name] = value;     
-        this.setState({ quads_post_meta: currentState,  quads_state_changed: true });  
-      }                  
-      var page = queryString.parse(window.location.search);  
-      
-      if(!this.state.quads_ad_status){
-        this.setState({quads_ad_status:'draft'});
-      }            
+      if(name == 'position' && value == 'amp_story_ads'){
+        let url = quads_localize_data.rest_url+'quads-route/check_plugin_exist?plugin_name=amp_story';   
+        fetch(url,{
+          headers: {                    
+            'X-WP-Nonce': quads_localize_data.nonce,
+          }
+        }
+        )
+        .then(res => res.json())
+        .then(
+          (result) => {  
+            let status =result.status;
+                
+            const { quads_post_meta } = { ...this.state };
+        const currentState = quads_post_meta;      
+        if(name){
+          currentState[name] = value;    
+          if(status=='f'){
+            currentState['check_plugin_exist'] = false;
+          }  
+          this.setState({ quads_post_meta: currentState,  quads_state_changed: true });  
+        }                  
+        var page = queryString.parse(window.location.search);  
+        
+        if(!this.state.quads_ad_status){
+          this.setState({quads_ad_status:'draft'});
+        }                 
+          },        
+          (error) => {
+            
+          }
+        );  
+
+      }else{
+        const { quads_post_meta } = { ...this.state };
+        const currentState = quads_post_meta;      
+        if(name){
+          currentState[name] = value;     
+          this.setState({ quads_post_meta: currentState,  quads_state_changed: true });  
+        }                  
+        var page = queryString.parse(window.location.search);  
+        
+        if(!this.state.quads_ad_status){
+          this.setState({quads_ad_status:'draft'});
+        } 
+      }
+
+
+
 
     }
     saveAsDraft = (event) => {      

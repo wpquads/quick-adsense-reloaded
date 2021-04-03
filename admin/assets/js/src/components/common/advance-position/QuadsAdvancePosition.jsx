@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import './QuadsAdvancePosition.scss';
+import { Alert } from '@material-ui/lab';
+import Icon from '@material-ui/core/Icon';
 
 class QuadsAdvancePosition extends Component {
 
@@ -11,7 +13,10 @@ class QuadsAdvancePosition extends Component {
         }
         this.quads_register_ad();
     };
-
+check_plugin_exist = (event) => {
+    const { quads_post_meta } = { ...this.state };
+    this.setState({ quads_post_meta: true});  
+    }
     quads_register_ad = () => {
         const json_data = {
             action: 'quads_ajax_add_ads',
@@ -45,6 +50,7 @@ class QuadsAdvancePosition extends Component {
         const {__} = wp.i18n;
         const post_meta = this.props.parentState.quads_post_meta;
         const show_form_error = this.props.parentState.show_form_error;
+        console.log(post_meta.check_plugin_exist);
         return (
             <div>
                 <div className="quads-position-dropdown">
@@ -103,6 +109,7 @@ class QuadsAdvancePosition extends Component {
                                         <option value="bbpress_after_reply">BBpress After Reply</option>
                                     </>
                                     :null}
+                                    
                                 {this.state.ad_extra_position}
                                 <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
                             </select>  }
@@ -141,6 +148,8 @@ class QuadsAdvancePosition extends Component {
 
 
                                 </div> : ''}
+
+                                {!post_meta.check_plugin_exist?<Alert severity="error" className={'check_plugin_exist'}><div > AMP stories plugin not exist </div></Alert>:null}
 
                             {post_meta.position == 'after_word_count' ?
                                 <div>
