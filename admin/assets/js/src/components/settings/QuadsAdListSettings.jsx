@@ -1496,7 +1496,8 @@ handleMultiPluginsChange = (option) => {
                           <a onClick={this.export_settings} className="quads-btn quads-btn-primary">Export</a>
                           <p>{__('Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded')}</p>
                         </td>
-                      </tr></tbody></table>
+                      </tr>
+                      </tbody></table>
                 </div>
                );
                case "settings_importer": return(
@@ -1665,7 +1666,7 @@ handleMultiPluginsChange = (option) => {
                     <div>
                       {__('WP QUADS PRO License Key', 'quick-adsense-reloaded')}
                     </div>
-                   <div><input value={this.state.quads_wp_quads_pro_license_key} onChange={this.add_license_key} name="quads_wp_quads_pro_license_key" type="text" placeholder="License Key" className="quads-premium-cus" />
+                   <div><input value={settings.quads_wp_quads_pro_license_key} onChange={this.add_license_key} name="quads_wp_quads_pro_license_key" type="text" placeholder="License Key" className="quads-premium-cus" />
                       {quads_localize_data.licenses.license == "valid" ? <a onClick={this.pro_license_key_deactivate} className="quads-btn quads-btn-primary">
             Deactivate License</a>: null}    </div>
             {this.state.licensemsg ?
