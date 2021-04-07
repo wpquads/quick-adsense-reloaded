@@ -108,6 +108,13 @@ class QUADS_Ad_Setup_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'quads-route', 'import-settings', array(
+                'methods'    => 'POST',
+                'callback'   => array($this, 'importSettings') ,
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
             register_rest_route( 'quads-route', 'get-quads-info', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getQuadsInfo'),
@@ -1411,6 +1418,41 @@ class QUADS_Ad_Setup_Api {
             header( "Expires: 0" );
             return   $settings ;
         }
+        public function importSettings($request){
+            $files = $request->get_file_params();
+
+            if ( ! empty( $files ) ) {
+                $file_data = @file_get_contents($files['myFile']['tmp_name']);
+                $file_data = json_decode($file_data,true);
+
+
+                if ( ! empty( $file_data )) {
+
+                    $settings = get_option( 'quads_settings' );
+                    if(!$settings){
+                        update_option('quads_settings',$file_data);
+                        foreach($file_data['ads'] as $ad){
+                            $temp_array = array();
+                            $temp_array['quads_post_meta'] =$ad;
+                        $ad_id      = $this->api_service->updateAdData($ad);
+                        }
+                    }else{
+                        foreach($file_data['ads'] as $ad){
+                            if($ad['ad_type']=='plain_text' && empty($ad['code'])){
+                            }else{
+                                $temp_array = array();
+                            $temp_array['quads_post_meta'] =$ad;
+                            $ad_id      = $this->api_service->updateAdData($temp_array);
+                            }
+                        }
+
+                    }
+                  
+                }
+            } 
+return array('status' => 't');
+        }
+        
         public function adMoreAction($request){
 
             $response   = array();

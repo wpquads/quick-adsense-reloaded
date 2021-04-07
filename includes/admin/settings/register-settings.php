@@ -1522,7 +1522,7 @@ function quads_log_permissions() {
  */
 function quads_get_ads() {
    global $quads_options;
-    $quads_options['ads'] = (array)$quads_options['ads'];
+    $quads_options['ads'] = (isset($quads_options['ads']) )?(array)$quads_options['ads']: '';
    if (!isset($quads_options['ads']) || ( isset($quads_options['ads']) && count( $quads_options['ads'] ) === 0) ) {
             $ads = array(
           0 => __( 'Random Ads', 'quick-adsense-reloaded' ),

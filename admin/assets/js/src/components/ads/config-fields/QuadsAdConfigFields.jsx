@@ -235,7 +235,7 @@ removeSeleted_list = (e) => {
                           <option value="in_feed_ads">{__('In-Feed Ads', 'quick-adsense-reloaded')}</option>
                           <option value="in_article_ads">{__('In-Article Ads', 'quick-adsense-reloaded')}</option> 
                           <option value="adsense_auto_ads">{__('Auto Ads', 'quick-adsense-reloaded')}</option>
-                            {quads_localize_data.is_amp_enable || post_meta.adsense_ad_type == adsense_sticky_ads ?    <option value="adsense_sticky_ads">{__('Sticky (Only AMP)', 'quick-adsense-reloaded')}</option>:null}
+                            {quads_localize_data.is_amp_enable || post_meta.adsense_ad_type == "adsense_sticky_ads" ?    <option value="adsense_sticky_ads">{__('Sticky (Only AMP)', 'quick-adsense-reloaded')}</option>:null}
                             <option value="matched_content">{__('Matched content', 'quick-adsense-reloaded')}</option>
                         </select>
                       </div>

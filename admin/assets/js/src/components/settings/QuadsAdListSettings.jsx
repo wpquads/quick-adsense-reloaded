@@ -95,8 +95,47 @@ class QuadsAdListSettings extends Component {
             importadvancedadsmsgprocessing : "",
             importquadsclassicmsgprocessing : "",
             page_redirect_options   : [],
+            selectedFile  : '',
+            isLoading : false,
         };
   }
+  onFileChange = (event) => {
+    
+    // Update the state
+    this.setState({ selectedFile: event.target.files[0] });
+  
+  };
+  import_settings = () => {
+    
+    this.setState({ isLoading: true });
+    // Create an object of formData
+    const formData = new FormData();
+    // Update the formData object
+    formData.append(
+      "myFile",
+      this.state.selectedFile,
+      this.state.selectedFile.name
+    );
+    const url = quads_localize_data.rest_url + 'quads-route/import-settings';
+
+    fetch(url,{
+      method: "post",
+      body: formData,
+      headers: {
+          'Accept': 'application/json',
+          'X-WP-Nonce': quads_localize_data.nonce,
+      }
+  }) .then(res => res.json())
+      .then(
+          (result) => {
+            this.setState({ isLoading: false,selectedFile:'' });
+            
+          },
+          (error) => {
+          }
+      );
+  };
+  
   handleClick_notice_txt_color = () => {
     this.setState({ notice_txt_color_picker: !this.state.notice_txt_color_picker })
   };
@@ -139,7 +178,6 @@ notice_bg_color = (color) => {
   }
 
     export_settings = () => {
-      console.log('click done');
         const url = quads_localize_data.rest_url + 'quads-route/export-settings';
         fetch(url,{
             method: "post",
@@ -928,6 +966,8 @@ handleMultiPluginsChange = (option) => {
             }
           return (
           <div>
+            {this.state.isLoading ? <div className="quads-cover-spin"></div>
+                    : null}
           <div className="quads-hidden-elements">
             {/* add txt modal */}
            {this.state.adtxt_modal ?
@@ -1497,7 +1537,14 @@ handleMultiPluginsChange = (option) => {
                           <p>{__('Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded')}</p>
                         </td>
                       </tr>
-                      </tbody></table>
+                      <tr>
+                        <th><label>{__('Import', 'quick-adsense-reloaded')}</label></th>
+                        <td>    <input type="file" onChange={this.onFileChange} />
+                        <a class="quads-btn quads-btn-primary" onClick={this.import_settings}>Import</a>
+          
+                          <p>{__('Import the Quick AdSense Reloaded settings for this site from a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded')}</p>
+                        </td>
+                      </tr></tbody></table>
                 </div>
                );
                case "settings_importer": return(

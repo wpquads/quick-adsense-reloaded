@@ -448,7 +448,7 @@ class QUADS_Ad_Setup_Api_Service {
                 'post_type'    => 'quads-ads',
             );
 
-            if($ad_id){
+            if($ad_id && !is_null(get_post($ad_id))){
 
                 $arg['ID'] = $ad_id;
 
