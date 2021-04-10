@@ -80,7 +80,8 @@ class QuadsAdListBody extends Component {
             if(action == 'duplicate'){              
               item.post.post_id = result.data.post.ID;
               item.post_meta.ad_id = result.data.post.ID;
-              items.splice(this.state.more_box_index, 0, item);              
+              items.splice(this.state.more_box_index, 0, item);     
+              location.reload();         
             } else if(action == 'delete'){              
               items.splice(this.state.more_box_index,1);
             } else {

@@ -528,7 +528,8 @@ class QUADS_Ad_Setup_Api_Service {
 
              $sql_query.= implode(" UNION ALL ", $sql_query_sel);
              $wpdb->query( $sql_query );
-
+             $post_meta= $this->getAdById($new_post_id);
+             $this->migration_service->quadsUpdateOldAd($new_post_id, $post_meta['post_meta'],'update_old');
             }
             $response = $new_post_id;
       }

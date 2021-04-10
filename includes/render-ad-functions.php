@@ -90,7 +90,7 @@ function quads_common_head_code(){
     $adsense     = false;
         if(isset($quads_options['ads'])){
         foreach ($quads_options['ads'] as $key => $value) {
-            if($value['ad_type'] == 'adsense'){
+            if(isset($value['ad_type']) && $value['ad_type'] == 'adsense'){
                 $adsense  = true;
                 break;
             }

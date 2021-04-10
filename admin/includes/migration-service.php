@@ -18,8 +18,8 @@ class QUADS_Ad_Migration {
 	 *
 	 * @return mixed
 	 */
-	public function quadsUpdateOldAd($ad_id, $post_meta){
-
+	public function quadsUpdateOldAd($ad_id, $post_meta,$arg=''){
+        global $quads_options;
             $new_data = array();
 
             $new_data = $post_meta;
@@ -28,19 +28,23 @@ class QUADS_Ad_Migration {
 
             $quads_settings = get_option( 'quads_settings' );
 
-            if($old_ad_id){
+            if($old_ad_id && $arg != 'update_old'){
                 $quads_settings['ads'][$old_ad_id] = $new_data;
             }else{
 
-            $old_ads = array();
+            $old_ads = $quads_settings;
             $ad_count = 1;
-
-            foreach($quads_settings['ads'] as $key => $ads){
-                if($key == 'ad'.$ad_count){
-                    $ad_count++;
-                    $old_ads[$key] = $ads;
+            if(isset($quads_settings['ads']) && !empty($quads_settings['ads'])){
+                end($quads_settings['ads']);
+                $key = key($quads_settings['ads']);
+                if(!empty($key)){
+                    $key_array =   explode("ad",$key);
+                    if(is_array($key_array)){
+                        $ad_count = (isset($key_array[1]) && !empty($key_array[1]))?$key_array[1]+1:1;
+                    }
                 }
             }
+            $new_data['quads_ad_old_id'] ='ad'.$ad_count;
             $old_ads['ad'.$ad_count] = $new_data;
             $quads_settings['ads'] = $old_ads;
             update_post_meta($ad_id, 'quads_ad_old_id', 'ad'.$ad_count);
