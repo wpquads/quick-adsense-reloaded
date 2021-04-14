@@ -311,6 +311,11 @@ function quads_is_visitor_on($ads){
     $visibility_include = isset($ads['targeting_include']) ? $ads['targeting_include'] : '';
 
     $visibility_exclude = isset($ads['targeting_exclude']) ? $ads['targeting_exclude'] : '';
+    $check_condition_include = array_column($ads['visibility_include'], 'condition');
+    $check_condition_exclude = array_column($ads['visibility_exclude'], 'condition');
+
+  if((is_array($check_condition_include) && !empty($check_condition_include)) || (is_array($check_condition_exclude) && !empty($check_condition_exclude))){
+   
     $include_value_old = true;
     if($visibility_include){
         $condition_old = '';
@@ -361,6 +366,37 @@ function quads_is_visitor_on($ads){
             $response =false;
         }
     }
+  }else{
+    if($visibility_include){
+      foreach ($visibility_include as $visibility){
+         $include[] = quads_visitor_comparison_logic_checker($visibility);
+      }
+    }else{
+        $response = true;
+    }
+    if($visibility_exclude){
+      foreach ($visibility_exclude as $visibility){
+          $exclude[] = quads_visitor_comparison_logic_checker($visibility);
+      }
+    }else{
+      if(empty($include)){
+        $response = true;
+      }
+    }
+    if(!empty($include)){
+      if(in_array( false ,$include )){
+        $response = false;
+      }else{
+        $response = true;
+      }
+    }
+    if(!empty($exclude)){
+      $exclude =   array_filter(array_unique($exclude));
+      if(isset($exclude[0])){
+          $response = false;
+      }
+    }
+  }
     return $response;
 
 }
@@ -371,6 +407,11 @@ function quads_is_visibility_on($ads){
     $response = false;
     $visibility_include = isset($ads['visibility_include']) ? $ads['visibility_include'] : '';
     $visibility_exclude = isset($ads['visibility_exclude']) ? $ads['visibility_exclude'] : '';
+    $check_condition_include = array_column($ads['visibility_include'], 'condition');
+    $check_condition_exclude = array_column($ads['visibility_exclude'], 'condition');
+
+  if((is_array($check_condition_include) && !empty($check_condition_include)) || (is_array($check_condition_exclude) && !empty($check_condition_exclude))){
+    
     $include_value_old = true;
     if($visibility_include){
         $condition_old = '';
@@ -420,6 +461,32 @@ function quads_is_visibility_on($ads){
             $response =false;
         }
     }
+  }else{
+    if($visibility_include){
+      foreach ($visibility_include as $visibility){
+         $include[] = quads_comparison_logic_checker($visibility);
+      }
+    }
+
+    if($visibility_exclude){
+      foreach ($visibility_exclude as $visibility){
+          $exclude[] = quads_comparison_logic_checker($visibility);
+      }
+    }
+
+    if(!empty($include)){
+      $include =   array_values(array_filter(array_unique($include)));
+      if(isset($include[0])){
+          $response = true;
+      }
+    }
+    if(!empty($exclude)){
+      $exclude =   array_filter(array_unique($exclude));
+      if(isset($exclude[0])){
+          $response = false;
+      }
+    }
+  }
       return $response;
 }
 add_action('wp_head', 'quads_set_browser_width_script');
