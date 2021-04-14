@@ -311,8 +311,8 @@ function quads_is_visitor_on($ads){
     $visibility_include = isset($ads['targeting_include']) ? $ads['targeting_include'] : '';
 
     $visibility_exclude = isset($ads['targeting_exclude']) ? $ads['targeting_exclude'] : '';
-    $check_condition_include = array_column($ads['visibility_include'], 'condition');
-    $check_condition_exclude = array_column($ads['visibility_exclude'], 'condition');
+    $check_condition_include = array_column($ads['targeting_include'], 'condition');
+    $check_condition_exclude = array_column($ads['targeting_exclude'], 'condition');
 
   if((is_array($check_condition_include) && !empty($check_condition_include)) || (is_array($check_condition_exclude) && !empty($check_condition_exclude))){
    
