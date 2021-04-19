@@ -1522,8 +1522,8 @@ function quads_log_permissions() {
  */
 function quads_get_ads() {
    global $quads_options;
-    $quads_options['ads'] = (isset($quads_options['ads']) )?(array)$quads_options['ads']: '';
-   if (!isset($quads_options['ads']) || ( isset($quads_options['ads']) && count( $quads_options['ads'] ) === 0) ) {
+   $quads_options['ads'] = (isset($quads_options['ads']) && count( $quads_options['ads'] ) !== 0 )?(array)$quads_options['ads']: array();
+   if (empty($quads_options['ads'])) {
             $ads = array(
           0 => __( 'Random Ads', 'quick-adsense-reloaded' ),
           1 => isset( $quads_options['ads']['ad1']['label'] ) ? $quads_options['ads']['ad1']['label'] : 'ad1',

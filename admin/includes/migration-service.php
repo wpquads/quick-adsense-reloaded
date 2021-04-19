@@ -64,7 +64,7 @@ class QUADS_Ad_Migration {
             $quads_ads = $api_service->getAdDataByParam('quads-ads');
             $duplicate_array =array();
 
-            if(isset($quads_ads['posts_data'])) {
+            if(isset($quads_ads['posts_data']) && isset($quads_options['ads'])) {
                 foreach ($quads_options['ads'] as $key1 => $value1) {
                     foreach ($quads_ads['posts_data'] as $key => $value) {
                         $ads = $value['post_meta'];
@@ -136,11 +136,13 @@ class QUADS_Ad_Migration {
 					}
 				}
 			}
+            if(isset($quads_settings['ads'])){
 			foreach ( $quads_settings['ads'] as $key => $value ) {
 				if( ! in_array( $key, $check_array )){
 					unset($quads_settings['ads'][$key]);
 				}
 			}
+        }
 			$quads_options =$quads_settings;
 			update_option('quads_settings', $quads_settings);
 		}
