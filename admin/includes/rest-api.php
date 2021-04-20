@@ -1631,7 +1631,7 @@ return array('status' => 't');
         return $args;
     }
         public function getAdList(){
-
+            global $quads_options;
             $search_param = '';
             $rvcount      = 10;
             $attr         = array();
@@ -1649,6 +1649,16 @@ return array('status' => 't');
                 $search_param = sanitize_text_field($_GET['search_param']);
             }
             $result = $this->api_service->getAdDataByParam($post_type, $attr, $rvcount, $paged, $offset, $search_param);
+            if(isset($quads_options['ad_performance_tracking']) && $quads_options['ad_performance_tracking'] ){
+
+                $new_result =array();
+                foreach ($result['posts_data'] as $key => $value) {
+                    $analytics = quads_get_ad_stats('sumofstats',$value['post_meta']['ad_id']);
+                    $value['post_meta']['analytics'] = $analytics;
+                    $new_result[] = $value;
+                }
+                $result['posts_data'] = $new_result;
+            }
             return $result;
 
         }

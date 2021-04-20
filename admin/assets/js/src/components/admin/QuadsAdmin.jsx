@@ -10,7 +10,8 @@ class QuadsAdmin extends Component {
         super(props);
         this.state = {                            
                 switchToOld: false,
-                ad_type_toggle: false            
+                ad_type_toggle: false,
+                settings  : []          
             };     
       }
       nodatashowAddTypeSelector = (e) => {
@@ -52,7 +53,7 @@ class QuadsAdmin extends Component {
   render() {
         const {__} = wp.i18n; 
         const page = queryString.parse(window.location.search); 
-        let pagePath = 'ads'
+        let pagePath = 'ads';
         if(typeof(page.path)  != 'undefined' ){
             pagePath = page.path;
         }
@@ -69,6 +70,7 @@ class QuadsAdmin extends Component {
                           <div className="quads-ad-menu">
                               <QuadsAdListNavLink
                               ad_type_toggle ={this.state.ad_type_toggle}
+                              settings = {this.state.settings}
                                />                   
                           </div>
                           
@@ -80,6 +82,7 @@ class QuadsAdmin extends Component {
                             }
                             if(pagePath.includes('ads')){
                                 return <QuadsAdListBody
+                                settings = {this.state.settings}
                                  nodatashowAddTypeSelector ={this.nodatashowAddTypeSelector}
                                  />;                                
                             }

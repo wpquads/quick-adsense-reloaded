@@ -50,6 +50,7 @@ class QuadsAdListSettings extends Component {
                 tcf_2_integration   : false,
                 rotator_ads_settings   : true,
                 group_insertion_settings : true,
+                ad_performance_tracking : false,
                 reports_settings : true,
                 ad_owner_revenue_per:50,
                 ad_author_revenue_per:50,
@@ -838,7 +839,7 @@ handleMultiPluginsChange = (option) => {
     if(name == 'tcf_2_integration'){
      this.saveSettings();
     }
-    if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'reports_settings'){
+    if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'reports_settings' || name == 'ad_performance_tracking'){
      this.saveSettings();
         window.location.reload();
     }
@@ -1428,6 +1429,16 @@ handleMultiPluginsChange = (option) => {
                      <td>
                          <label className="quads-switch">
                              <input id="group_insertion_settings" type="checkbox" name="group_insertion_settings" onChange={this.formChangeHandler} checked={settings.group_insertion_settings} />
+                             <span className="quads-slider"></span>
+                         </label>
+                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/"></a>
+                     </td>
+                 </tr>
+                 <tr>
+                     <th><label htmlFor="ad_performance_tracking">{__('Ad Performance Tracking', 'quick-adsense-reloaded')}</label></th>
+                     <td>
+                         <label className="quads-switch">
+                             <input id="ad_performance_tracking" type="checkbox" name="ad_performance_tracking" onChange={this.formChangeHandler} checked={settings.ad_performance_tracking} />
                              <span className="quads-slider"></span>
                          </label>
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/"></a>

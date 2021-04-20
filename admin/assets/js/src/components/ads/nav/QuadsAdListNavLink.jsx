@@ -11,6 +11,7 @@ class QuadsAdListNavLink extends Component {
         super(props);
         this.state = {
             ad_type_toggle:this.props.ad_type_toggle,
+            settings:this.props.settings,
             displayReports:false,
            All_ad_network: [
                     {ad_type:'adsense',ad_type_name:'AdSense'},
@@ -42,11 +43,15 @@ class QuadsAdListNavLink extends Component {
             .then(res => res.json())
             .then(
                 (result) => {
+                  const { settings } = { ...this.state };
                     Object.entries(result).map(([meta_key, meta_val]) => {
                         if(meta_key=='reports_settings'){
                             this.setState({displayReports:meta_val});
                         }
+                        settings[meta_key] =    meta_val;
                     })
+                    this.setState({settings:settings});
+
                 }
             );
     }

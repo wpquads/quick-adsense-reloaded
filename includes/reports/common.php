@@ -460,3 +460,128 @@ function quads_load_adsnese_scripts($hook){
 	//    wp_localize_script( 'quads-charts-js' ,'');
 	wp_enqueue_script( 'quads_charts_js' );
 }
+
+/**
+ * Here, We get date in unix format as per condition
+ * @param type $type
+ * @return type string
+ */
+function quads_get_date($type) {
+    	
+	switch($type) {
+		
+		case 'day' :
+			$timezone = get_option('timezone_string');
+			if($timezone) {
+				$server_timezone = date('e');
+				date_default_timezone_set($timezone);
+				$result = strtotime('00:00:00') + (get_option('gmt_offset') * 3600);
+				date_default_timezone_set($server_timezone);
+			} else {
+				$result = gmdate('U', gmmktime(0, 0, 0, gmdate('n'), gmdate('j')));
+			}
+		break;
+				
+	}
+
+	return $result;
+}
+
+/**
+ * Here, We fetch ads stats from database table as per condition in query
+ * @global type $wpdb
+ * @param type $condition
+ * @param type $ad_id
+ * @param type $date
+ * @return type array
+ */
+function quads_get_ad_stats($condition, $ad_id, $date=null) {
+    
+    global $wpdb;
+    $ad_stats = array();
+    
+    switch ($condition) {
+        
+        case 'sumofstats':
+
+            $result = $wpdb->get_results($wpdb->prepare("SELECT SUM(`ad_clicks`) as `clicks`, SUM(`ad_impressions`) as `impressions` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d;", $ad_id), ARRAY_A);
+           
+            $ad_stats['impressions'] = $result[0]['impressions'];
+            $ad_stats['clicks']      = $result[0]['clicks'];
+                                    
+            break;
+        
+        case 'fetchAllBy':
+
+            
+            if($ad_id){
+                
+                $result = $wpdb->get_results($wpdb->prepare("SELECT *FROM `{$wpdb->prefix}quads_stats` WHERE `ad_thetime` = %d AND `ad_id` = %d;", $date, $ad_id), ARRAY_A);
+                
+            }else{
+            
+                $result = $wpdb->get_results($wpdb->prepare("SELECT *FROM `{$wpdb->prefix}quads_stats` WHERE `ad_thetime` = %d;", $date), ARRAY_A);
+                
+            }                        
+                
+            if($result){
+                                               
+                foreach($result as $row){
+                     
+                    if($row['ad_device_name'] =='desktop'){
+                        
+                        if(isset($ad_stats['desktop']['click'])){
+                            $ad_stats['desktop']['click']      +=  $row['ad_clicks'];
+                        }else{
+                            $ad_stats['desktop']['click']       =  $row['ad_clicks'];
+                        }
+                        
+                        if(isset($ad_stats['desktop']['impression'])){
+                            $ad_stats['desktop']['impression'] +=  $row['ad_impressions'];
+                        }else{
+                            $ad_stats['desktop']['impression'] =  $row['ad_impressions'];
+                        }
+                                                
+                    }
+                    if($row['ad_device_name'] =='mobile'){
+                       
+                        if(isset($ad_stats['mobile']['click'])){
+                            $ad_stats['mobile']['click']      +=  $row['ad_clicks'];
+                        }else{
+                            $ad_stats['mobile']['click']       =  $row['ad_clicks'];
+                        }
+                        
+                        if(isset($ad_stats['mobile']['impression'])){
+                            $ad_stats['mobile']['impression'] +=  $row['ad_impressions'];   
+                        }else{
+                            $ad_stats['mobile']['impression']  =  $row['ad_impressions'];   
+                        }
+                                                
+                    }
+                    if($row['ad_device_name'] =='amp'){
+                        
+                        if(isset($ad_stats['amp']['click'])){
+                            $ad_stats['amp']['click']         +=  $row['ad_clicks'];
+                        }else{
+                            $ad_stats['amp']['click']          =  $row['ad_clicks'];
+                        }
+                        
+                        if(isset($ad_stats['amp']['impression'])){
+                            $ad_stats['amp']['impression']    +=  $row['ad_impressions'];
+                        }else{
+                           $ad_stats['amp']['impression']      =  $row['ad_impressions']; 
+                        }
+                                                                     
+                    }
+                                        
+                }
+                
+            }
+            
+            break;
+
+        default:
+            break;
+    }            
+    return $ad_stats;
+}

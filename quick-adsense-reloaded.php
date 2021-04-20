@@ -239,7 +239,10 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/admin/adsTxt.php';
         require_once QUADS_PLUGIN_DIR . 'includes/elementor/widget.php';
         require_once QUADS_PLUGIN_DIR . 'includes/amp-condition-display.php';
-          require_once QUADS_PLUGIN_DIR . 'includes/reports/common.php';
+         require_once QUADS_PLUGIN_DIR . 'includes/reports/common.php';
+         if(isset($quads_options['ad_performance_tracking']) && $quads_options['ad_performance_tracking'] ){
+          require_once QUADS_PLUGIN_DIR . 'includes/reports/analytics.php';
+         }
         if ( function_exists('has_blocks')) {
             require_once QUADS_PLUGIN_DIR . 'includes/gutenberg/src/init.php';
         }

@@ -23,6 +23,8 @@ class QuadsAdListBody extends Component {
       posts_found       : 0,
       more_box_id       : null,
       more_box_index    : null,
+      static_box_id       : null,
+      static_box_index    : null,
       delete_modal      : false,
       delete_modal_id   : null,            
     };                   
@@ -43,9 +45,22 @@ class QuadsAdListBody extends Component {
     else   
      this.setState({more_box_id:null});
   }
+  showStaticIconBox = (e) => {
+    e.preventDefault();        
+    const id = e.currentTarget.dataset.id;  
+    const index = e.currentTarget.dataset.index;        
+    if(this.state.static_box_index != index || this.state.static_box_id == null)  
+     this.setState({static_box_id:id, static_box_index:index});
+    else   
+     this.setState({static_box_id:null});
+  }
   hideMoreIconBox = (e) => {
     e.preventDefault();
     this.setState({more_box_id:null});
+  }
+  hideStaticIconBox = (e) => {
+    e.preventDefault();
+    this.setState({static_box_id:null});
   }
   processAction = (e) => {
 
@@ -186,10 +201,13 @@ class QuadsAdListBody extends Component {
                   {...this.state}
                   ad_list={this.state}
                   showMoreIconBox ={this.showMoreIconBox}
+                  showStaticIconBox = {this.showStaticIconBox}
                   hideMoreIconBox ={this.hideMoreIconBox}
+                  hideStaticIconBox = {this.hideStaticIconBox}
                   processAction   ={this.processAction}
                   showDeleteModal ={this.showDeleteModal}
                   nodatashowAddTypeSelector ={this.props.nodatashowAddTypeSelector}
+                  settings = {this.props.settings}
                 />
               </div>            
               <div className="quads-list-pagination">

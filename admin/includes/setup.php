@@ -24,6 +24,7 @@ class QUADS_Ad_Setup {
             
             add_action( 'wp_ajax_quads_sync_ads_in_new_design', array($this, 'quadsSyncAdsInNewDesign') );
              add_action( 'wp_ajax_quads_sync_random_ads_in_new_design', array($this, 'quadsSyncRandomAdsInNewDesign') );
+             $this->quads_database_install();
 
         }
                 
@@ -280,6 +281,51 @@ class QUADS_Ad_Setup {
                    wp_die();         
         }                        
 
+/**
+ * Here, We create our own database and tables 
+ * @global type $wpdb
+ */
+public function quads_database_install() {
+    
+    if ( ! current_user_can( 'manage_options' ) ) {
+        return;
+    }
+	global $wpdb;                
+	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+	$charset_collate = $engine = '';	
+	
+	if(!empty($wpdb->charset)) {
+		$charset_collate .= " DEFAULT CHARACTER SET {$wpdb->charset}";
+	} 
+	if($wpdb->has_cap('collation') AND !empty($wpdb->collate)) {
+		$charset_collate .= " COLLATE {$wpdb->collate}";
+	}
+
+	$found_engine = $wpdb->get_var("SELECT ENGINE FROM `information_schema`.`TABLES` WHERE `TABLE_SCHEMA` = '".DB_NAME."' AND `TABLE_NAME` = '{$wpdb->prefix}posts';");
+        
+	if(strtolower($found_engine) == 'innodb') {
+		$engine = ' ENGINE=InnoDB';
+	}
+
+	$found_tables = $wpdb->get_col("SHOW TABLES LIKE '{$wpdb->prefix}quads%';");	
+        
+	if(!in_array("{$wpdb->prefix}quads_stats", $found_tables)) {
+            
+		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_stats` (
+			`id` bigint(9) unsigned NOT NULL auto_increment,
+			`ad_id` int(50) unsigned NOT NULL default '0',			
+			`ad_thetime` int(15) unsigned NOT NULL default '0',
+			`ad_clicks` int(15) unsigned NOT NULL default '0',
+			`ad_impressions` int(15) unsigned NOT NULL default '0',
+                        `ad_device_name` varchar(20) NOT NULL default '',
+			PRIMARY KEY  (`id`),
+			INDEX `ad_id` (`ad_id`),
+			INDEX `ad_thetime` (`ad_thetime`)
+		) ".$charset_collate.$engine.";");
+                
+	}
+
+}
 
 public function quadsSyncRandomAdsInNewDesign(){
     $quads_settings = get_option('quads_settings_backup');
