@@ -827,10 +827,7 @@ handleMultiPluginsChange = (option) => {
         settings[name] = value;
         this.setState(settings);
     }
-    if(name == 'adsTxtEnabled'){
-     this.saveSettings();
-    }
-    if(name == 'lazy_load_global'){
+    if(name == 'adsTxtEnabled' || name == 'global_excluder_enabled' || name == 'lazy_load_global' || name == 'ad_blocker_support' || name == 'click_fraud_protection' || name == 'revenue_sharing_enabled' || name == 'hide_quads_markup'){
      this.saveSettings();
     }
     if(name == 'ip_geolocation_api'){
@@ -841,7 +838,6 @@ handleMultiPluginsChange = (option) => {
     }
     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'reports_settings' || name == 'ad_performance_tracking'){
      this.saveSettings();
-        window.location.reload();
     }
     if(name == 'adsforwp_quads_shortcode'|| name == 'adsforwp_quads_gutenberg' || name == 'advance_ads_to_quads'){
      this.saveSettings();
@@ -1441,7 +1437,7 @@ handleMultiPluginsChange = (option) => {
                              <input id="ad_performance_tracking" type="checkbox" name="ad_performance_tracking" onChange={this.formChangeHandler} checked={settings.ad_performance_tracking} />
                              <span className="quads-slider"></span>
                          </label>
-                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/"></a>
+                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/ad-performance-tracking-in-wp-quads/"></a>
                      </td>
                  </tr>
                  { quads_localize_data.is_pro ?
@@ -1464,6 +1460,7 @@ handleMultiPluginsChange = (option) => {
                                      <input id="reports_settings" type="checkbox" name="reports_settings" onChange={this.formChangeHandler} checked={settings.reports_settings} />
                                      <span className="quads-slider"></span>
                                  </label>
+                                 <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-link-adsense-account-for-the-revenue-reports-feature/"></a>
                              </td>
                          </tr>
                      </>:
@@ -1551,7 +1548,7 @@ handleMultiPluginsChange = (option) => {
                       <tr>
                         <th><label>{__('Import', 'quick-adsense-reloaded')}</label></th>
                         <td>    <input type="file" onChange={this.onFileChange} />
-                        <a class="quads-btn quads-btn-primary" onClick={this.import_settings}>Import</a>
+                        <a className="quads-btn quads-btn-primary" onClick={this.import_settings}>Import</a>
           
                           <p>{__('Import the Quick AdSense Reloaded settings for this site from a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded')}</p>
                         </td>
@@ -1614,7 +1611,7 @@ handleMultiPluginsChange = (option) => {
                      <div>
                       {__('Status', 'quick-adsense-reloaded')}
                     </div>
-                    <div>  <select name="customer_query_type" value={settings.auto_ads_pos} onChange={this.addauto_ads_pos} className="quads-premium-cus"> m
+                    <div>  <select name="customer_query_type" value={settings.auto_ads_pos} onChange={this.addauto_ads_pos} className="quads-premium-cus"> 
                         <option value="disabled">{__('Auto Ads Disabled', 'quick-adsense-reloaded')}</option>
                         <option value="enabled">{__('Auto Ads Enabled', 'quick-adsense-reloaded')}</option>
                       </select></div>
@@ -1738,7 +1735,7 @@ handleMultiPluginsChange = (option) => {
                );
             }
           })()}
-          {page.path == 'settings_support' || page.path == 'settings_importer' ? '' : (
+          {page.path == 'settings_support' || page.path == 'settings_importer' || page.path == 'settings' ? '' : (
             <div className="quads-save-settings">
             {this.state.button_spinner_toggle ?
             <a className="quads-btn quads-btn-primary">

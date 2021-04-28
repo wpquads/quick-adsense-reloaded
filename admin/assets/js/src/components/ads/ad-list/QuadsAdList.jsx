@@ -134,7 +134,8 @@ class QuadsAdList extends Component {
       type_img.push(<Tooltip title={type} placement="left" arrow key={index}><img key={index} height="20" width="20" src={img_url} /></Tooltip>);
       
     return type_img;
-  }    
+  }   
+   
   render() {    
     
     const {__} = wp.i18n;     
@@ -169,7 +170,18 @@ class QuadsAdList extends Component {
                 {/* <td>{item.post.post_status}</td> */}
                 <td>
                 <div className="quads-action-div">
-
+                {this.props.static_box_id ==  item.post_meta.ad_id ?
+                <div className="quads-more-icon-box">
+                  <div className="quads-more-icon-box-close" onClick={this.props.hideStaticIconBox}><Icon>close</Icon></div>
+                  <ul>
+                    <li role="presentation"><span>{__('Impression ', 'quick-adsense-reloaded')}</span>{item.post_meta.analytics.impressions ? item.post_meta.analytics.impressions : 0}</li>
+                    <li role="presentation"><span>{__('Clicks ', 'quick-adsense-reloaded')}</span>{item.post_meta.analytics.clicks ? item.post_meta.analytics.clicks : 0}</li>
+                  </ul>
+                  </div> : ''  }
+                  {this.props.settings.ad_performance_tracking ? <a className="quads-edit-btn" data-index={index} data-id={item.post_meta.ad_id} onClick={this.props.showStaticIconBox}><Icon>stacked_bar_chart</Icon></a>                
+                : null }
+                
+                <Link to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.post_meta.ad_type}&action=edit&post=${item.post.post_id}`} className="quads-edit-btn"><Icon>edit_icon</Icon> </Link>  
                 {this.props.more_box_id ==  item.post_meta.ad_id ?
                 <div className="quads-more-icon-box">
                   <div className="quads-more-icon-box-close" onClick={this.props.hideMoreIconBox}><Icon>close</Icon></div>
@@ -178,20 +190,9 @@ class QuadsAdList extends Component {
                     <li role="presentation"><a onClick={this.props.showDeleteModal} data-ad={item.post_meta.ad_id} data-id="delete"><Icon>delete</Icon> <span>{__('Delete', 'quick-adsense-reloaded')}</span></a></li>
                     <li role="presentation"><a onClick={this.props.processAction} data-ad={item.post_meta.ad_id} data-id="duplicate"><Icon>file_copy</Icon> <span>{__('Duplicate', 'quick-adsense-reloaded')}</span></a></li>
                   </ul>
-                  </div> : ''  }
-                  {this.props.static_box_id ==  item.post_meta.ad_id ?
-                <div className="quads-more-icon-box">
-                  <div className="quads-more-icon-box-close" onClick={this.props.hideStaticIconBox}><Icon>close</Icon></div>
-                  <ul>
-                    <li role="presentation"><span>{__('Impression ', 'quick-adsense-reloaded')}</span>{item.post_meta.analytics.impressions ? item.post_meta.analytics.impressions : 0}</li>
-                    <li role="presentation"><span>{__('Clicks ', 'quick-adsense-reloaded')}</span>{item.post_meta.analytics.clicks ? item.post_meta.analytics.clicks : 0}</li>
-                  </ul>
-                  </div> : ''  }
-
-                <Link to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.post_meta.ad_type}&action=edit&post=${item.post.post_id}`} className="quads-edit-btn"><Icon>edit_icon</Icon> </Link>                                                
+                  </div> : ''  }                                              
                   <a className="quads-edit-btn" data-index={index} data-id={item.post_meta.ad_id} onClick={this.props.showMoreIconBox}><Icon>more_vert_icon</Icon></a>         
-                {this.props.settings.ad_performance_tracking ? <a className="quads-edit-btn" data-index={index} data-id={item.post_meta.ad_id} onClick={this.props.showStaticIconBox}><Icon>stacked_bar_chart</Icon></a>                
-                : null }
+        
                 </div>  
                 </td>
             </tr>

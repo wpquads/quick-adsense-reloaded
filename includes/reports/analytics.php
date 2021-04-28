@@ -69,6 +69,8 @@ public function quads_insert_ad_impression(){
       global $wpdb;
       
       $today = quads_get_date('day');
+      $id_array = explode('quads-ad', $ad_id );
+      $ad_id = $id_array[1]; 
       
       $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d AND `ad_device_name` = %s AND `ad_thetime` = %d;", $ad_id, trim($device_name), $today ));
       
