@@ -148,7 +148,6 @@ class QUADS_Ad_Migration {
 		}
 	}
     public function quadsAdReset_optionsDeleted(){
-        return true;
 		global $quads_options;
         $quads_settings = get_option('quads_settings');
 		$quadsAdResetDeleted = get_option( 'quadsAdReset_optionsDeleted' );
@@ -168,7 +167,6 @@ class QUADS_Ad_Migration {
 					unset($quads_settings['ads'][$key]);
 				}
 			}
-
             if(isset($quads_ads['posts_data']) && isset($quads_options['ads'])) {
                 foreach ($quads_options['ads'] as $key1 => $value1) {
                     foreach ($quads_ads['posts_data'] as $key => $value) {

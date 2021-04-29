@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 5.7
+Tested up to: 5.7.1
 Requires PHP: 5.3
-Stable tag: 2.0.25
+Stable tag: 2.0.26
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
@@ -22,7 +22,14 @@ The legendary [WPQuads Ads](https://wpquads.com/)  plugin is back with the moder
 WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built for WordPress.
 
 = Features: =
-* <strong> NEW Geo Targeting </strong>: Target the ads based on the city and countries.
+* <strong>NEW AMP Story ADS</strong>: Advertise in AMP Web Stories
+* <strong>NEW Group Insertion ADS</strong>
+* <strong>NEW ADS rotator</strong>
+* <strong>NEW Infolinks suppor</strong>
+* <strong>NEW Reports & Tracking </strong>: Find out which of your ads are performing the best and find out the most performing ad location.
+* <strong>NEW Click Fraud Detection</strong>: Helps you fight the click fraud and helps you stabilize the ad revenue.
+* <strong>NEW GDPR & Privacy tools</strong>: We have got the GDPR and other privacy tools planned so that you dont have to worry about complying with privacy laws.
+* <strong>Geo Targeting </strong>: Target the ads based on the city and countries.
 * <strong>Easy</strong> to use Modern options panel built on React JS.
 * Deeply <strong>integrates with AMP</strong> plugins like AMPforWP, Official AMP by Google.
 * <strong>Google Adsense</strong> support: It gives a deep integration with the ad types of Google Adsense like Display ads, In-feed ads, In-article ads & Auto ads. You can define fixed or responsive sizes for the ads.
@@ -64,6 +71,7 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 * Media.net ads Support
 * MediaVine Ads support
 * Outbrain Ads support
+* infolinks Ads support
 * 20+ more ad vendors coming in the future updates.
 
 = Display Positions for Ads =
@@ -109,12 +117,9 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 We are actively developing this plugin and our aim is to make this plugin into the #1 advertisment solution in the world. You can [Request a Feature](https://wpquads.com/support/) or [Report a Bug](https://github.com/wpquads/quick-adsense-reloaded/issues). The code is hosted on [Github](https://github.com/wpquads/quick-adsense-reloaded).
 
 = Development Roadmap: =
-* <strong>Reports & Tracking </strong>: Find out which of your ads are performing the best and find out the most performing ad location.
 * <strong>AD Blindness </strong>: Helps you fight the Ad blindness.
 * <strong>AD Logging </strong>: Gives you an almost accurate data page, IP, browser, referrer, and dimensions of the user that clicked the ad and gives you reports of that data.
 * <strong>A/B Testing</strong>: Find out which ads perform the most and how you can improve the ad revenue further.
-* <strong>GDPR & Privacy tools</strong>: We have got the GDPR and other privacy tools planned so that you dont have to worry about complying with privacy laws.
-* <strong>Click Fraud Detection</strong>: Helps you fight the click fraud and helps you stabilize the ad revenue.
 * <strong>3rd Party compatibility</strong>: Deep integration with BuddyPress, BuddyBoss, bbPress, Paid Membership Pro, WPML, Mailpoet, Multisite, WooCommerce and More.
 * <strong>Innovation & Disruption</strong>: We are constantly evolving our product and going to introduce new features which are not being used by anyone in the world.
 * [View Full Development Roadmap](https://github.com/wpquads/quick-adsense-reloaded/projects/1)
@@ -196,6 +201,11 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.26 (29th April 2021) =
+* New: Ad impression and Ad clicks. #312
+* Fix: Fixed duplicate id issue #341
+* Fix: Lazy loading issue #352
+
 = 2.0.25 (10th April 2021) =
 * New: Import option for the settings is not there in the tool section. #339
 * Fix: License key is not visible when the license is activated. #338
