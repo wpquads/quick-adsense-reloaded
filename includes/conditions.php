@@ -287,7 +287,7 @@ function quads_click_fraud_on(){
   if (isset($quads_options['click_fraud_protection']) && !empty($quads_options['click_fraud_protection']) && $quads_options['click_fraud_protection']  && isset( $_COOKIE['quads_ad_clicks'] ) ) {
     $quads_ad_click = json_decode( stripslashes( $_COOKIE['quads_ad_clicks'] ), true );
     $current_time = time();
-    if ($quads_options['allowed_click'] <= $quads_ad_click['count'] ) {
+    if (isset($quads_options['allowed_click']) && isset($quads_options['ban_duration']) && $quads_options['allowed_click'] <= $quads_ad_click['count'] ) {
       $cookie_check = false;
       if($current_time >= strtotime( $quads_ad_click['exp']. ' +'.$quads_options['ban_duration'].' day') ){
         $cookie_check = true;
