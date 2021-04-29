@@ -205,6 +205,7 @@ Alternative Installation:
 * New: Ad impression and Ad clicks. #312
 * Fix: Fixed duplicate id issue #341
 * Fix: Lazy loading issue #352
+* Fix: Undefined index and array key errors #350
 
 = 2.0.25 (10th April 2021) =
 * New: Import option for the settings is not there in the tool section. #339
