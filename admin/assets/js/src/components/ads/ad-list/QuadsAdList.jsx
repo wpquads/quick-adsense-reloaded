@@ -174,8 +174,8 @@ class QuadsAdList extends Component {
                 <div className="quads-more-icon-box">
                   <div className="quads-more-icon-box-close" onClick={this.props.hideStaticIconBox}><Icon>close</Icon></div>
                   <ul>
-                    <li role="presentation"><span>{__('Impression ', 'quick-adsense-reloaded')}</span>{item.post_meta.analytics.impressions ? item.post_meta.analytics.impressions : 0}</li>
-                    <li role="presentation"><span>{__('Clicks ', 'quick-adsense-reloaded')}</span>{item.post_meta.analytics.clicks ? item.post_meta.analytics.clicks : 0}</li>
+                    <li role="presentation"><span className="static_num">{item.post_meta.analytics.impressions ? item.post_meta.analytics.impressions : 0}</span> <span>{__('Impression ', 'quick-adsense-reloaded')}</span></li>
+                    <li role="presentation"><span className="static_num">{item.post_meta.analytics.clicks ? item.post_meta.analytics.clicks : 0}</span> <span>{__('Clicks ', 'quick-adsense-reloaded')}</span></li>
                   </ul>
                   </div> : ''  }
                   {this.props.settings.ad_performance_tracking ? <a className="quads-edit-btn" data-index={index} data-id={item.post_meta.ad_id} onClick={this.props.showStaticIconBox}><Icon>stacked_bar_chart</Icon></a>                
