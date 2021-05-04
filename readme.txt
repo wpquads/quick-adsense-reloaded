@@ -22,13 +22,12 @@ The legendary [WPQuads Ads](https://wpquads.com/)  plugin is back with the moder
 WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built for WordPress.
 
 = Features: =
-* <strong>NEW AMP Story ADS</strong>: Advertise in AMP Web Stories
-* <strong>NEW Group Insertion ADS</strong>
-* <strong>NEW ADS rotator</strong>
-* <strong>NEW Infolinks suppor</strong>
-* <strong>NEW Reports & Tracking </strong>: Find out which of your ads are performing the best and find out the most performing ad location.
-* <strong>NEW Click Fraud Detection</strong>: Helps you fight the click fraud and helps you stabilize the ad revenue.
-* <strong>NEW GDPR & Privacy tools</strong>: We have got the GDPR and other privacy tools planned so that you dont have to worry about complying with privacy laws.
+* <strong>NEW - Web Stories Integration: </strong> Advertise in AMP Web Stories
+* <strong>NEW - Group Insertion</strong>
+* <strong>NEW - Ad rotator</strong>
+* <strong>NEW - Reports & Tracking </strong>: Find out which of your ads are performing the best and find out the most performing ad location.
+* <strong>NEW - Click Fraud Detection</strong>: Helps you fight the click fraud and helps you stabilize the ad revenue.
+* <strong>NEW - GDPR & Privacy tools</strong>: We have got the GDPR and other privacy tools planned so that you dont have to worry about complying with privacy laws.
 * <strong>Geo Targeting </strong>: Target the ads based on the city and countries.
 * <strong>Easy</strong> to use Modern options panel built on React JS.
 * Deeply <strong>integrates with AMP</strong> plugins like AMPforWP, Official AMP by Google.
@@ -71,7 +70,7 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 * Media.net ads Support
 * MediaVine Ads support
 * Outbrain Ads support
-* infolinks Ads support
+* Infolinks Ads support
 * 20+ more ad vendors coming in the future updates.
 
 = Display Positions for Ads =

@@ -628,6 +628,10 @@ class vi {
      *  @return bool
      */
     public function setActive() {
+        $isActive = get_option('quads_vi_active');
+        if($isActive && $isActive == '404') {
+          return false;
+        }
         $url = 'https://wpquads.com/vi.html';
         $args = array(
             'method' => 'GET',
