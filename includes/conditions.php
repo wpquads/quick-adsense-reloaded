@@ -48,11 +48,6 @@ function quads_ad_is_allowed( $content = null ) {
             (is_404() ) ||
             (strpos( $content, '<!--NoAds-->' ) !== false) ||
             (strpos( $content, '<!--OffAds-->' ) !== false) ||
-            (is_front_page() && !isset( $quads_options['visibility']['AppHome'] ) ) ||
-            (is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
-            (is_archive() && !( isset( $quads_options['visibility']['AppArch'] ) ) ) ||
-            (is_tag() && !( isset( $quads_options['visibility']['AppTags'] ) ) ) ||
-            (is_user_logged_in() && ( isset( $quads_options['visibility']['AppLogg'] ) ) ) ||
             true === $hide_ads
     ) {
         return false;
