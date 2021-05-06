@@ -389,6 +389,20 @@ class QUADS_Ad_Setup_Api_Service {
                 }
               }
             } else{
+              if($key == 'ad_blocker_support' && $val){
+                $upload_dir = wp_upload_dir();
+                $content_url = $upload_dir['basedir'].'/wpquads/tinymce_shortcode.js';
+                  wp_mkdir_p($upload_dir['basedir'].'/wpquads', 755, true);
+                  $sourc = QUADS_PLUGIN_URL . 'assets/js/tinymce_shortcode_uploads.js';
+                  if (!file_exists($content_url)) {
+                    copy($sourc,$content_url);
+                  }
+                  $sourc = QUADS_PLUGIN_URL . 'admin/assets/js/src/images/wpquads_classic_icon.png';
+                  $content_url = $upload_dir['basedir'].'/wpquads/wpquads_classic_icon.png';
+                  if (!file_exists($content_url)) {
+                    copy($sourc,$content_url);
+                  }
+              }
               $quads_options[$key] = $val;
              }
 
