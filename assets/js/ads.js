@@ -47,10 +47,10 @@ function quads_sidebar(options){
     var quads_widget_fixed =   jQuery('.quads_widget_fixed');
     for ( var i = 0; i < quads_widget_fixed.length; i++ ) {
         // var widget_obj = jQuery('#' + options_current_id);
-      var  widget_obj = jQuery( quads_widget_fixed[i]);
+      var  widget_obj = jQuery( quads_widget_fixed[i]).parent();
 
         widget_obj.css('position',''); // clear fixed mode p2
-        if ( widget_obj.attr('id') ) { 
+        // if ( widget_obj.attr('id') ) { 
             widgets[i] = new widget();
             widgets[i].obj = widget_obj;
             widgets[i].clone = widget_obj.clone();
@@ -67,9 +67,9 @@ function quads_sidebar(options){
 
             widgets[i].fixed_margin_bottom = fixed_margin_top + widgets[i].height;
             fixed_margin_top += widgets[i].height;
-        } else {
-            widgets[i] = false;			
-        }
+        // } else {
+        //     widgets[i] = false;			
+        // }
     }
 // var widget_parent_container;
 
