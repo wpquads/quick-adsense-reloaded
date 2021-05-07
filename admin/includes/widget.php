@@ -56,6 +56,7 @@ class Quads_Ads_Widget extends WP_Widget {
             $code = quads_render_ad( $instance['ads'], $ads['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if($ads_fixed) {
+				$this->fixed_widget();
 	            echo '<div id="quads-ad' . $instance['ads'] . '_widget" class="quads_widget_fixed">';
             }else{
 	            echo '<div id="quads-ad' . $instance['ads'] . '_widget">';
@@ -66,6 +67,10 @@ class Quads_Ads_Widget extends WP_Widget {
         }
         	
 	}
+	public function fixed_widget(){
+            $suffix = ( quadsIsDebugMode() ) ? '' : '.min'; 
+            wp_enqueue_script( 'fixed_widget', QUADS_PLUGIN_URL . 'assets/js/fixed_widget' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+}
 
 	/**
 	 * Back-end widget form.
