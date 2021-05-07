@@ -2355,7 +2355,7 @@ and open the template in the editor.
   margin-left: 10px; }
 
 .react-datepicker__input-time-container .react-datepicker-time__input-container .react-datepicker-time__input input {
-  width: 85px; }
+  width: auto; }
 
 .react-datepicker__input-time-container .react-datepicker-time__input-container .react-datepicker-time__input input[type="time"]::-webkit-inner-spin-button,
 .react-datepicker__input-time-container .react-datepicker-time__input-container .react-datepicker-time__input input[type="time"]::-webkit-outer-spin-button {
