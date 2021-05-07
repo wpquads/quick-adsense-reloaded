@@ -92,7 +92,7 @@ class vi {
         if (!empty($this->token)) {
             // Cron Check vi api settings daily
             add_action('quads_weekly_event', array($this, 'setSettings'));
-            add_action('quads_daily_event', array($this, 'setActive'));
+            // add_action('quads_daily_event', array($this, 'setActive'));
             add_action('quads_daily_event', array($this, 'setRevenue'));
             add_action('quads_weekly_event', array($this, 'verifyViAdCode'));
         }
@@ -628,10 +628,6 @@ class vi {
      *  @return bool
      */
     public function setActive() {
-        $isActive = get_option('quads_vi_active');
-        if($isActive && $isActive == '404') {
-          return false;
-        }
         $url = 'https://wpquads.com/vi.html';
         $args = array(
             'method' => 'GET',
