@@ -2,7 +2,7 @@
   "name": "quick-adsense-reloaded",
   "version": "2.0.17",
   "devDependencies": {
-    "grunt": "~0.4.5",
+    "grunt": "~1.3.0",
     "grunt-contrib-clean": "~0.6.0",
     "grunt-contrib-compress": "~0.13.0",
     "grunt-contrib-copy": "~0.7.0",
