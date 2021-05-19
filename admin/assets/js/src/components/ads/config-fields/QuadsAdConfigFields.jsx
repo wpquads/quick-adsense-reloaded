@@ -12,6 +12,8 @@ class QuadsAdConfigFields extends Component {
     this.state = { 
     adsToggle : false,    
     random_ads_list:[],  
+    adsToggle_list : false,
+    ads_list:[], 
     getallads_data: [],
     getallads_data_temp: [],
     currentselectedvalue: "",
@@ -26,42 +28,42 @@ class QuadsAdConfigFields extends Component {
   const random_ads_list = this.state.random_ads_list;
   var random_ads_list_count = this.state.random_ads_list.length;
 
-    for(var i = 0;i < get_all_data_count;i++){
-      for(var j = 0;j < random_ads_list_count;j++){
-        if(typeof random_ads_list[j] !== "undefined" && typeof get_all_data[i] !== "undefined" && get_all_data[i].value == random_ads_list[j].value){
-          getallads_data_temp.splice(i,1);
-        }
+      for( let i=getallads_data_temp.length - 1; i>=0; i--){
+          for( let j=0; j<random_ads_list.length; j++){
+              if(getallads_data_temp[i] && (getallads_data_temp[i].value === random_ads_list[j].value)){
+                  getallads_data_temp.splice(i, 1);
+              }
+          }
       }
-    }
- 
   this.setState({adsToggle:!this.state.adsToggle,currentselectedvalue : '',getallads_data_temp:getallads_data_temp});
 }
-addIncluded = (e) => {
+  adsToggle_list = () => {
+  const get_all_data = JSON.parse(JSON.stringify(this.state.getallads_data));
+  var getallads_data_temp = [];
+  getallads_data_temp = get_all_data;
+  const ads_list = this.state.ads_list;
 
-    e.preventDefault();  
+      for( let i=getallads_data_temp.length - 1; i>=0; i--){
+          for( let j=0; j<ads_list.length; j++){
+              if(getallads_data_temp[i] && (getallads_data_temp[i].value === ads_list[j].value)){
+                  getallads_data_temp.splice(i, 1);
+              }
+          }
+      }
 
-    let type  = this.state.multiTypeLeftIncludedValue;
-    let value = this.state.multiTypeRightIncludedValue;
-  
-    if( typeof (value.value) !== 'undefined'){
-      const {random_ads_list} = this.state;
-      let data    = random_ads_list;
-      data.push({type: type, value: value});
-      let newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);          
-      this.setState({random_ads_list: newData});       
-    }        
-  
+  this.setState({adsToggle_list:!this.state.adsToggle_list,currentselectedvalue : '',getallads_data_temp:getallads_data_temp});
 }
 
   static getDerivedStateFromProps(props, state) {    
 
+       let alldata = {};
     if(!state.adsToggle){
-      return {
-        random_ads_list: props.parentState.quads_post_meta.random_ads_list, 
-      };
-    }else{
-      return null;
+       alldata.random_ads_list = props.parentState.quads_post_meta.random_ads_list;
     }
+    if(!state.adsToggle_list){
+      alldata.ads_list= props.parentState.quads_post_meta.ads_list;
+    }
+    return alldata;
     
   }
     componentDidUpdate (){
@@ -69,6 +71,10 @@ addIncluded = (e) => {
     const random_ads_list = this.state.random_ads_list; 
     if(random_ads_list &&random_ads_list.length > 0 ){
       this.props.updateRandomAds(random_ads_list);
+    }
+     const ads_list = this.state.ads_list; 
+    if(ads_list && ads_list.length > 0 ){
+      this.props.updateAdsList(ads_list);
     }
     
   }
@@ -122,6 +128,13 @@ removeSeleted = (e) => {
       this.setState(random_ads_list);
 
 }
+removeSeleted_list = (e) => {
+      let index = e.currentTarget.dataset.index;  
+      const { ads_list } = { ...this.state };    
+      ads_list.splice(index,1);
+      this.setState(ads_list);
+
+}
   getallads = (search_text = '',page = '') => {
        let url = quads_localize_data.rest_url + "quads-route/get-ads-list?posts_per_page=100&pageno="+page;
   if(quads_localize_data.rest_url.includes('?')){
@@ -138,7 +151,7 @@ removeSeleted = (e) => {
         (result) => {      
           let getallads_data =[];
           Object.entries(result.posts_data).map(([key, value]) => {
-          if(value.post_meta['ad_type'] != "random_ads" && value.post['post_status'] != "draft")
+          if(value.post_meta['ad_type'] != "random_ads" && value.post_meta['ad_type'] != "rotator_ads" && value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] != "draft")
             getallads_data.push({label: value.post['post_title'], value: value.post['post_id']});
           })      
             this.setState({
@@ -172,6 +185,25 @@ removeSeleted = (e) => {
     }        
   
 }
+
+  addselected_list = (e) => {
+
+  
+    e.preventDefault();  
+
+    let value  = this.state.currentselectedvalue;  
+    let label  = this.state.currentselectedlabel;  
+  
+    if( typeof (value) !== 'undefined' && value != ''){
+      const {ads_list} = this.state;
+      let data    = ads_list;
+      data.push({ value: value,label: label});
+      let newData = Array.from(new Set(data.map(JSON.stringify))).map(JSON.parse);          
+      this.setState({ads_list: newData,adsToggle_list : false});    
+         
+    }       
+  
+}
    componentDidMount() {  
           this.getallads(); 
   } 
@@ -200,10 +232,11 @@ removeSeleted = (e) => {
                       <div>
                         <select value={post_meta.adsense_ad_type} onChange={this.props.adFormChangeHandler} name="adsense_ad_type" id="adsense_ad_type">
                           <option value="display_ads">{__('Display Ads', 'quick-adsense-reloaded')}</option>
-                          <option value="in_feed_ads">{__('In-Feel Ads', 'quick-adsense-reloaded')}</option> 
+                          <option value="in_feed_ads">{__('In-Feed Ads', 'quick-adsense-reloaded')}</option>
                           <option value="in_article_ads">{__('In-Article Ads', 'quick-adsense-reloaded')}</option> 
-                          <option value="adsense_auto_ads">{__('Auto Ads', 'quick-adsense-reloaded')}</option> 
-                          <option value="matched_content">{__('Matched content', 'quick-adsense-reloaded')}</option> 
+                          <option value="adsense_auto_ads">{__('Auto Ads', 'quick-adsense-reloaded')}</option>
+                            {quads_localize_data.is_amp_enable || post_meta.adsense_ad_type == "adsense_sticky_ads" ?    <option value="adsense_sticky_ads">{__('Sticky (Only AMP)', 'quick-adsense-reloaded')}</option>:null}
+                            <option value="matched_content">{__('Matched content', 'quick-adsense-reloaded')}</option>
                         </select>
                       </div>
                     </td></tr> 
@@ -222,7 +255,7 @@ removeSeleted = (e) => {
                     error_outline
                     </span>Enter Data Slot ID</div> :''}</td></tr>
                       : null }
-                      { !post_meta.adsense_ad_type || post_meta.adsense_ad_type == 'display_ads' || post_meta.adsense_ad_type == 'matched_content' ? (
+                      { !post_meta.adsense_ad_type || post_meta.adsense_ad_type == 'display_ads' || post_meta.adsense_ad_type == 'matched_content' || post_meta.adsense_ad_type == 'adsense_sticky_ads' ? (
                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
                         <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
@@ -266,8 +299,109 @@ removeSeleted = (e) => {
                   </tr>
                   </tbody></table>
                   </div>);      
-              break; 
-               case 'random_ads':                
+              break;
+              case 'rotator_ads':
+                 ad_type_name = 'Rotator Ads';
+                 if(!quads_localize_data.is_pro){
+                  comp_html.push(<div key="rotator_ads" className="quads-user-targeting"> 
+This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+</div>);
+                 break;
+                 }
+                comp_html.push(<div key="rotator_ads" className="quads-user-targeting"> 
+       <h2>Select Ads<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
+
+                
+             <div className="quads-target-item-list">
+              {                
+              this.state.ads_list ? 
+              this.state.ads_list.map( (item, index) => (
+                <div key={index} className="quads-target-item">
+                  <span className="quads-target-label">{item.label}</span>
+                  <span className="quads-target-icon" onClick={this.removeSeleted_list} data-index={index}><Icon>close</Icon></span> 
+                </div>
+               ) )
+              :''}
+              <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+             </div>             
+        
+
+        {this.state.adsToggle_list ?
+        <div className="quads-targeting-selection">
+        <table className="form-table">
+         <tbody>
+           <tr>             
+           <td>
+            <Select              
+              name="userTargetingIncludedType"
+              placeholder="Select Ads"              
+              options= {this.state.getallads_data_temp}
+              value  = {this.multiTypeLeftIncludedValue}
+              onChange={this.selectAdchange}                                                 
+            />             
+           </td>
+           <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+           </tr>
+         </tbody> 
+        </table>
+        </div>
+        : ''}
+       </div>);      
+              break;
+
+
+              case 'group_insertion':
+                  ad_type_name = 'Group Insertion';
+                  if(!quads_localize_data.is_pro){
+                      comp_html.push(<div key="group_insertion" className="quads-user-targeting">
+                          This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+                      </div>);
+                      break;
+                  }
+                  comp_html.push(<div key="group_insertion" className="quads-user-targeting">
+                      <h2>Select Ads<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
+
+
+                      <div className="quads-target-item-list">
+                          {
+                              this.state.ads_list ?
+                                  this.state.ads_list.map( (item, index) => (
+                                      <div key={index} className="quads-target-item">
+                                          <span className="quads-target-label">{item.label}</span>
+                                          <span className="quads-target-icon" onClick={this.removeSeleted_list} data-index={index}><Icon>close</Icon></span>
+                                      </div>
+                                  ) )
+                                  :''}
+                          <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+                      </div>
+
+
+                      {this.state.adsToggle_list ?
+                          <div className="quads-targeting-selection">
+                              <table className="form-table">
+                                  <tbody>
+                                  <tr>
+                                      <td>
+                                          <Select
+                                              name="userTargetingIncludedType"
+                                              placeholder="Select Ads"
+                                              options= {this.state.getallads_data_temp}
+                                              value  = {this.multiTypeLeftIncludedValue}
+                                              onChange={this.selectAdchange}
+                                          />
+                                      </td>
+                                      <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+                                  </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          : ''}
+                  </div>);
+                  break;
+
+
+
+               case 'random_ads':
                  ad_type_name = 'Random Ads';
                 comp_html.push(<div key="random_ads" className="quads-user-targeting"> 
        <h2>Select Ads<a onClick={this.adsToggle}><Icon>add_circle</Icon></a>  </h2>

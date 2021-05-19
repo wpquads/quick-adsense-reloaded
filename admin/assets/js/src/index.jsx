@@ -22,7 +22,7 @@ class QuadsAdRootComponent extends Component {
                                 
                                 if(typeof(page.path)  != 'undefined' ) {                           
                                     
-                                        if(page.path.includes('settings')){
+                                        if(page.path.includes('settings') || page.path.includes('reports')){
 
                                             return <QuadsAdmin {...props}/>;
 
@@ -33,7 +33,7 @@ class QuadsAdRootComponent extends Component {
                                         }
                                         else{
                                             return 'Page not found';
-                                        }                                        
+                                        }
 
                                 }else{
                                     return <QuadsAdmin {...props}/>;  

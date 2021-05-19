@@ -38,26 +38,28 @@ function quads_add_options_link() {
         if($quads_mode == 'new'){
 
             $quads_parent_page = add_menu_page('Quick AdSense Reloaded Settings', $label, 'manage_options', 'quads-settings', 'quads_options_page_new', 'data:image/svg+xml;base64,' . $wpquads_logo);
-        
+
             $quads_settings_page = add_submenu_page('quads-settings', __('Ads', 'quick-adsense-reloaded'), 'Ads', 'manage_options', 'quads-settings', 'quads_options_page_new');
 
             $quads_settings_page = add_submenu_page('quads-settings', __('Settings', 'quick-adsense-reloaded'), 'Settings', 'manage_options', 'quads-settings&path=settings', 'quads_options_page_new');
-                 
-                add_submenu_page('quads-settings', __('Return to Classic view', 'quick-adsense-reloaded'), 'Return to Classic view', 'manage_options', 'quads_switch_to_old', 'quads_version_switch');  
+            if(quads_is_advanced() && isset($quads_options['reports_settings']) && $quads_options['reports_settings'])
+            $quads_settings_page = add_submenu_page('quads-settings', __('Reports', 'quick-adsense-reloaded'), 'Reports', 'manage_options', 'quads-settings&path=reports', 'quads_options_page_new');
+
+            add_submenu_page('quads-settings', __('Return to Classic view', 'quick-adsense-reloaded'), 'Return to Classic view', 'manage_options', 'quads_switch_to_old', 'quads_version_switch');
 
         }else{
             $quads_parent_page = add_menu_page('Quick AdSense Reloaded Settings', $label, 'manage_options', 'quads-settings', 'quads_options_page', 'data:image/svg+xml;base64,' . $wpquads_logo);
-        
-            $quads_settings_page = add_submenu_page('quads-settings', __('Ad Settings', 'quick-adsense-reloaded'), 'Ad Settings', 'manage_options', 'quads-settings', 'quads_options_page');
-            
-            add_submenu_page('quads-settings', __('Switch to New Interface', 'quick-adsense-reloaded'), 'Switch to New Interface', 'manage_options', 'quads_switch_to_new', 'quads_version_switch');       
 
-        }        
+            $quads_settings_page = add_submenu_page('quads-settings', __('Ad Settings', 'quick-adsense-reloaded'), 'Ad Settings', 'manage_options', 'quads-settings', 'quads_options_page');
+
+            add_submenu_page('quads-settings', __('Switch to New Interface', 'quick-adsense-reloaded'), 'Switch to New Interface', 'manage_options', 'quads_switch_to_new', 'quads_version_switch');
+
+        }
 
         if (quads_is_extra() || quads_is_advanced()) {
-            
+
         }else{
-            $quads_add_ons_page = add_submenu_page('quads-settings', __('Get Add-On', 'quick-adsense-reloaded'), 'Get WP QUADS PRO', 'manage_options', 'quads-addons', 'quads_add_ons_page');
+            $quads_add_ons_page = add_submenu_page('quads-settings', __('Get Add-On', 'quick-adsense-reloaded'), 'Upgrade to PRO', 'manage_options', 'quads-addons', 'quads_add_ons_page');
         }
     }
 }
@@ -66,10 +68,10 @@ add_action( 'admin_menu', 'quads_add_options_link', 10 );
 
 /**
  *  Determines whether the current admin page is an QUADS admin page.
- *  
- *  Only works after the `wp_loaded` hook, & most effective 
+ *
+ *  Only works after the `wp_loaded` hook, & most effective
  *  starting on `admin_menu` hook.
- *  
+ *
  *  @since 1.9.6
  *  @return bool True if QUADS admin page.
  */
@@ -78,17 +80,17 @@ function quads_is_admin_page() {
 	if ( ! is_admin() || ! did_action( 'wp_loaded' ) ) {
 		return false;
 	}
-	
+
 	if ( 'quads-settings' == $currentpage ) {
-		return true;      
-	}       
+		return true;
+	}
 }
 /**
  *  Determines whether the current admin page is an QUADS add-on page.
- *  
- *  Only works after the `wp_loaded` hook, & most effective 
+ *
+ *  Only works after the `wp_loaded` hook, & most effective
  *  starting on `admin_menu` hook.
- *  
+ *
  *  @since 1.4.9
  *  @return bool True if QUADS admin page.
  */
@@ -99,6 +101,6 @@ function quads_is_addon_page() {
 	}
 
 	if ( 'quads-addons' == $currentpage ) {
-		return true;      
-	}       
+		return true;
+	}
 }

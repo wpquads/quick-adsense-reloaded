@@ -120,7 +120,9 @@
 			var anyNew = false;
 			adsLoaded.forEach( function( ad )
 			{
-				if( ad._adsenseLoaderData.width != getAdWidth( ad ))
+				var hasClass = ad.querySelector('ins').classList.contains('adsbygoogle');
+
+				if(!hasClass && ad._adsenseLoaderData.width != getAdWidth( ad ))
 				{
 					anyNew			= true;
 					adsLoaded		= removeAdFromList( adsLoaded, ad );

@@ -92,7 +92,7 @@ class vi {
         if (!empty($this->token)) {
             // Cron Check vi api settings daily
             add_action('quads_weekly_event', array($this, 'setSettings'));
-            add_action('quads_daily_event', array($this, 'setActive'));
+            // add_action('quads_daily_event', array($this, 'setActive'));
             add_action('quads_daily_event', array($this, 'setRevenue'));
             add_action('quads_weekly_event', array($this, 'verifyViAdCode'));
         }
@@ -144,13 +144,20 @@ class vi {
         $viad = $this->getAdCode();
 
         $style = 'min-width:363px;min-height:363px;';
-
+        if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+            $code = '<div style="' . esc_html($style) . '">' . "\n";
+            $code .= "<script>";
+            $code .= do_shortcode($viad['ads'][1]['code']);
+            $code .= '</script>' . "\n";
+            $code .= '</div>' . "\n";
+        }else{
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode vi ad -->' . "\n";
-        $code .= '<div class="quads-location' . $id . '" id="quads-vi-ad' . $id . '" style="' . $style . '">' . "\n";
+        $code .= '<div class="quads-location' . esc_html($id) . '" id="quads-vi-ad' . esc_html($id) . '" style="' . esc_html($style) . '">' . "\n";
         $code .= "<script>";
         $code .= do_shortcode($viad['ads'][1]['code']);
         $code .= '</script>' . "\n";
         $code .= '</div>' . "\n";
+        }
 
         return $code;
     }
@@ -317,7 +324,7 @@ class vi {
         $file = ABSPATH . 'ads.txt';
 
         // Default ads.txt content used when api is not returning anything
-        $vi = "vi.ai " . $this->token->publisherId . " DIRECT #41b5eef6" . "\r\n";
+        $vi = "vi.ai " . esc_html($this->token->publisherId) . " DIRECT #41b5eef6" . "\r\n";
         $vi .= "spotxchange.com, 74964, RESELLER, 7842df1d2fe2db34 #41b5eef6" . "\r\n";
         $vi .= "spotx.tv, 74964, RESELLER, 7842df1d2fe2db34 #41b5eef6" . "\r\n";
         $vi .= "spotx.tv, 104684, RESELLER, 7842df1d2fe2db34 #41b5eef6" . "\r\n";

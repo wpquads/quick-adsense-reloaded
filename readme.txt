@@ -8,19 +8,27 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 5.5.3
+Tested up to: 5.7.1
 Requires PHP: 5.3
-Stable tag: 2.0.17
+Stable tag: 2.0.27
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
 == Description ==
-The legendary WPQuads Ads plugin is back with the modern approach for an Ads solution. WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
+The legendary [WPQuads Ads](https://wpquads.com/)  plugin is back with the modern approach for an Ads solution. WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
+
+[Home](https://wpquads.com/) | [Documentation](https://wpquads.com/documentation/) | [Help](https://wpquads.com/support/) | [Premium version Features](https://wpquads.com/#buy-wpquads)
 
 WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built for WordPress.
 
 = Features: =
-* <strong> NEW Geo Targeting </strong>: Target the ads based on the city and countries.
+* <strong>NEW - Web Stories Integration: </strong> Advertise in AMP Web Stories
+* <strong>NEW - Group Insertion</strong>
+* <strong>NEW - Ad rotator</strong>
+* <strong>NEW - Reports & Tracking </strong>: Find out which of your ads are performing the best and find out the most performing ad location.
+* <strong>NEW - Click Fraud Detection</strong>: Helps you fight the click fraud and helps you stabilize the ad revenue.
+* <strong>NEW - GDPR & Privacy tools</strong>: We have got the GDPR and other privacy tools planned so that you dont have to worry about complying with privacy laws.
+* <strong>Geo Targeting </strong>: Target the ads based on the city and countries.
 * <strong>Easy</strong> to use Modern options panel built on React JS.
 * Deeply <strong>integrates with AMP</strong> plugins like AMPforWP, Official AMP by Google.
 * <strong>Google Adsense</strong> support: It gives a deep integration with the ad types of Google Adsense like Display ads, In-feed ads, In-article ads & Auto ads. You can define fixed or responsive sizes for the ads.
@@ -62,6 +70,7 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 * Media.net ads Support
 * MediaVine Ads support
 * Outbrain Ads support
+* Infolinks Ads support
 * 20+ more ad vendors coming in the future updates.
 
 = Display Positions for Ads =
@@ -107,12 +116,9 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 We are actively developing this plugin and our aim is to make this plugin into the #1 advertisment solution in the world. You can [Request a Feature](https://wpquads.com/support/) or [Report a Bug](https://github.com/wpquads/quick-adsense-reloaded/issues). The code is hosted on [Github](https://github.com/wpquads/quick-adsense-reloaded).
 
 = Development Roadmap: =
-* <strong>Reports & Tracking </strong>: Find out which of your ads are performing the best and find out the most performing ad location.
 * <strong>AD Blindness </strong>: Helps you fight the Ad blindness.
 * <strong>AD Logging </strong>: Gives you an almost accurate data page, IP, browser, referrer, and dimensions of the user that clicked the ad and gives you reports of that data.
 * <strong>A/B Testing</strong>: Find out which ads perform the most and how you can improve the ad revenue further.
-* <strong>GDPR & Privacy tools</strong>: We have got the GDPR and other privacy tools planned so that you dont have to worry about complying with privacy laws.
-* <strong>Click Fraud Detection</strong>: Helps you fight the click fraud and helps you stabilize the ad revenue.
 * <strong>3rd Party compatibility</strong>: Deep integration with BuddyPress, BuddyBoss, bbPress, Paid Membership Pro, WPML, Mailpoet, Multisite, WooCommerce and More.
 * <strong>Innovation & Disruption</strong>: We are constantly evolving our product and going to introduce new features which are not being used by anyone in the world.
 * [View Full Development Roadmap](https://github.com/wpquads/quick-adsense-reloaded/projects/1)
@@ -190,17 +196,94 @@ Alternative Installation:
 8. Tons of options to target the ad.
 9. Settings Page for WPQuads
 10. Widget AD
-11. Customer Support Happiness Stats 
+11. Customer Support Happiness Stats
 
 
 == Changelog ==
+= 2.0.27 (7th April 2021) =
+* Fix: Fixed Widget option is not working properly bug #342
+* Fix: Fixed 404 error on vi.html #351
+* Fix: Ads are not showing post category pages #331
+
+= 2.0.26 (29th April 2021) =
+* New: Ad impression and Ad clicks. #312
+* Fix: Fixed duplicate id issue #341
+* Fix: Lazy loading issue #352
+* Fix: Undefined index and array key errors #350
+
+= 2.0.25 (10th April 2021) =
+* New: Import option for the settings is not there in the tool section. #339
+* Fix: License key is not visible when the license is activated. #338
+* Fix: duplicate option not working properly #340
+
+= 2.0.24 (3rd April 2021) =
+* New: Check list for 2.0.24 #334
+* New: Click Fraud Protection is not working perfectly #332
+* New: Geolocation targeting feature is not working cloudflare server. #337
+* Fix: No country names when selected Country from the Excluded list. #336
+
+= 2.0.23 (30th March 2021) =
+* New: visibility conditions. #325
+* New: Sticky floating ads. #263
+* New: AMP Story ADS feature. #276
+* Fix: reports on/off. #329
+
+= 2.0.22 (15th March 2021) =
+* New: Adsense Reports #290
+* Fix: Hide ads for user roles (PRO) #313
+* Fix: Improved targeting condition #328
+* Fix: Random ads Exclude targeting is not working #320
+
+= 2.0.21 (09th March 2021) =
+* New: created an option to remove Quads Markup #180
+* Fix: PHP Deprecated: implode() #277
+* Fix: Theme ad location #284
+* Fix: Free vs pro section in Plugin #308
+* Fix: proper links in readme.txt by ahmed #309
+* Fix: WP quads ads block is not working properly in the widgets section. #314
+* Fix: Ads not displayed in Custom Post Type created by Custom Post Type UI plugin #321
+* Fix: warning message after 2.0.20 update #318
+* Fix: Visibility conditions Post are getting duplicated #322
+
+
+= 2.0.20.1 (17th February 2021) =
+* Fix: Fixed Warning message #318
+
+= 2.0.20 (17th February 20201 =
+* Fix: Target not working for ads in between loops. #303
+* Fix: Issue while ad saving. #316
+* Fix: Export ads settings #271
+* Fix: Typo. #307
+* Fix: Fixed Shortcode does not work on Homepage and topic. #315
+
+= 2.0.19 (21st January 2021) =
+* New: New Group Insertion #297
+* Fix: Exclude targeting is not working. #286
+* Fix: Random Ads shortcode does not work. #278
+* Fix: Rotator Ads shortcode does not work. #278
+* Fix: Rotator Ads work flow. #274
+
+= 2.0.18.1 (07th January 2021) =
+* Fix: Fixed Google Auto Ads script is not getting saved #293
+* Fix: Fixed Duplicate option. #294
+* Fix: Fixed Unable to edit posts with Avada post builder #295
+
+= 2.0.18 (05th January 2021) =
+* New: Ads rotator feature #274
+* Fix: Exclude by city option. #289
+* Fix: Removed unnecessary code of adblocker. #287
+
+= 2.0.17.1 (25th November 2020) =
+* New: Special banner for the Black Friday #281
+* Fix: Fixed Ad condition getting erased while updating. #282
+
 = 2.0.17 (12th November 2020) =
 * New: Infolinks support #221
 * New: Advance Ads Migrator #115
 * New: Need an option to remove ads in tables #268
 * New: bbPress support #264
 
-= 2.0.16 (23th October 2020) =
+= 2.0.16 (23rd October 2020) =
 * New: TCF 2.0 support #234
 * Fix: Cache Management issue #265
 * Fix: Targeting condition issue. #269

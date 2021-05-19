@@ -86,11 +86,11 @@ function quads_load_ads_common($user_position){
             
 
           if(($ads['position'] == 'bbpress_after_ad' && $user_position == 'bbpress_after_ad' )|| ($ads['position'] == 'bbpress_before_ad' && $user_position == 'bbpress_before_ad')){
-              $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+              $tag= '<!--CusAds'.esc_html($ads['ad_id']).'-->';
               echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
           }else if(($ads['position'] == 'bbpress_before_reply' && $user_position == 'bbpress_before_reply' )|| ($ads['position'] == 'bbpress_after_reply' && $user_position == 'bbpress_after_reply')){
             if((did_action( 'bbp_theme_before_reply_content' ) % $ads['paragraph_number'] == 0  && $user_position == 'bbpress_before_reply' )|| (did_action( 'bbp_theme_after_reply_content' ) % $ads['paragraph_number'] == 0 && $user_position == 'bbpress_after_reply')){
-                  $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+                  $tag= '<!--CusAds'.esc_html($ads['ad_id']).'-->';
                   echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
             }
           }
@@ -174,11 +174,17 @@ function quads_from_advance_manual_ads($atts ){
   
     // Do not create any inline style on AMP site
     $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
-
-    $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
-            '<div class="quads-location quads-ad' . $id . '" id="quads-ad' . $id . '" style="' . $style . '">' . "\n";
-    $code .= do_shortcode( quads_get_ad( $id ) );
-    $code .= '</div>' . "\n";
+    if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+        $code =
+            "\n".'<div style="'.$style.'">'."\n";
+            $code .= do_shortcode(quads_get_ad($id));
+        $code .='</div>'. "\n";
+    }else {
+        $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
+            '<div class="quads-location quads-ad' . esc_html($id) . '" id="quads-ad' . esc_html($id) . '" style="' . esc_html($style) . '">' . "\n";
+        $code .= do_shortcode(quads_get_ad($id));
+        $code .= '</div>' . "\n";
+    }
 
     return $code;
 }
@@ -226,17 +232,23 @@ function quads_from_adsforwp_manual_ads($atts ){
     
     // Do not create any inline style on AMP site
     $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
-
-    $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
-            '<div class="quads-location quads-ad' . $id . '" id="quads-ad' . $id . '" style="' . $style . '">' . "\n";
-    $code .= do_shortcode( quads_get_ad( $id ) );
-    $code .= '</div>' . "\n";
+    if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+        $adscode =
+            "\n".'<div style="'.esc_html($style).'">'."\n".
+            do_shortcode(quads_get_ad($id)).
+            '</div>'. "\n";
+    }else {
+        $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
+            '<div class="quads-location quads-ad' . esc_html($id) . '" id="quads-ad' . esc_html($id) . '" style="' . esc_html($style) . '">' . "\n";
+        $code .= do_shortcode(quads_get_ad($id));
+        $code .= '</div>' . "\n";
+    }
 
     return $code;
 }
 function quads_adblocker_detector(){
-     echo '<script type="text/javascript" src="'.QUADS_PLUGIN_URL . 'assets/js/ads.js"></script>';
-
+    $js_dir  = QUADS_PLUGIN_URL . 'assets/js/';
+    wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
 }
 /**
  * It is default settings value, if value is not set for any option in setting section 
@@ -381,9 +393,8 @@ function quads_adblocker_popup_notice(){
 function quads_adblocker_notice_jsondata(){
     $settings = quads_defaultSettings();
     $output = '';
-
-    if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support'] && !empty($settings['notice_type'])){
-      
+    $quads_mode = get_option('quads-mode');
+    if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support'] && !empty($settings['notice_type']) || ($quads_mode && $quads_mode == 'old' && isset($settings['ad_blocker_message'])  && $settings['ad_blocker_message'])){
       $output    .= '<script type="text/javascript">';
       $output    .= '/* <![CDATA[ */';
       $output    .= 'var quadsOptions =' .
@@ -489,11 +500,15 @@ function quads_adblocker_notice_bar(){
   }
 }
 function quads_adblocker_ad_block(){
-  ?>
+    $settings = quads_defaultSettings();
+    $quads_mode = get_option('quads-mode');
+    if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support'] && !empty($settings['notice_type']) || ($quads_mode && $quads_mode == 'old' && isset($settings['ad_blocker_message'])  && $settings['ad_blocker_message'])){
+
+        ?>
 <script type="text/javascript">
+
    if(typeof quadsOptions !== 'undefined' && typeof wpquads_adblocker_check_2 
   === 'undefined' && quadsOptions.quadsChoice == 'ad_blocker_message'){
-
   var addEvent1 = function (obj, type, fn) {
       if (obj.addEventListener)
           obj.addEventListener(type, fn, false);
@@ -504,6 +519,7 @@ function quads_adblocker_ad_block(){
   };
    addEvent1(window, 'load', function () {
       if (typeof wpquads_adblocker_check_2 === "undefined" || wpquads_adblocker_check_2 === false) {
+
           highlight_adblocked_ads();
       }
   });
@@ -606,6 +622,7 @@ function quadssetCookie(cname, cvalue, exdays, path){
 </script>
 
 <?php
+    }
 }
 /**
  * Show ads before posts
@@ -768,7 +785,7 @@ function quads_get_load_priority(){
 }
 
 /**
- * 
+ *
  * @global arr $quads_options
  * @global type $adsArray
  * @param type $content
@@ -971,28 +988,7 @@ function quads_filter_default_ads_new( $content ) {
             $post_status = get_post_status($ads['ad_id']); 
             else
               $post_status =  'publish';
-
-            if(!isset($ads['position']) || isset($ads['ad_type']) && $ads['ad_type']== 'random_ads'){
-                if($ads['ad_id']){
-
-                    if(isset($ads['position'])){
-
-                        $ads['position']               = isset($ads['position']) ? $ads['position'] : '';;
-                        $ads['paragraph_number']       = isset($ads['paragraph_number']) ? $ads['paragraph_number'] : '';
-                        $ads['image_number']           = isset($ads['image_number']) ? $ads['image_number'] : '';
-                        $ads['image_caption']          = isset($ads['image_caption']) ? $ads['image_caption'] : '';
-                        $ads['enable_on_end_of_post']  = isset($ads['enable_on_end_of_post']) ? $ads['enable_on_end_of_post'] : '';
-                        $quads_options[$key]['position']              = isset($ads['position']) ? $ads['position'] : '';
-                        $quads_options[$key]['paragraph_number']      = isset($ads['paragraph_number']) ? $ads['paragraph_number'] : '';
-                        $quads_options[$key]['image_number']          = isset($ads['image_number']) ? $ads['image_number'] : '';
-                        $quads_options[$key]['image_caption']         = isset($ads['image_caption']) ? $ads['image_caption'] : '';
-                        $quads_options[$key]['enable_on_end_of_post'] = isset($ads['enable_on_end_of_post']) ? $ads['enable_on_end_of_post'] : '';
-                    }
-                }
-                
-                $is_on = true;
-            }           
-            
+                        
             if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish'){
                     
                 $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
@@ -1004,9 +1000,11 @@ function quads_filter_default_ads_new( $content ) {
  
                 // placeholder string for custom ad spots
                 if(isset($ads['random_ads_list']) && !empty($ads['random_ads_list'])){
-                    $cusads = '<!--CusRnd'.$ads['ad_id'].'-->'; 
+                    $cusads = '<!--CusRnd'.esc_html($ads['ad_id']).'-->';
+                }else if($ads['ad_type']== 'rotator_ads' &&isset($ads['ads_list']) && !empty($ads['ads_list'])){
+                    $cusads = '<!--CusRot'.esc_html($ads['ad_id']).'-->';
                 }else{
-                       $cusads = '<!--CusAds'.$ads['ad_id'].'-->'; 
+                       $cusads = '<!--CusAds'.esc_html($ads['ad_id']).'-->';
                 }
                 switch ($position) {
 
@@ -1091,9 +1089,11 @@ function quads_filter_default_ads_new( $content ) {
 
                         break;
                                         case 'after_paragraph':
-                        
+
                         if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
                           $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
+                          $paragraph_limit         = isset($ads['paragraph_limit']) ? $ads['paragraph_limit'] : '';
+                          $insert_after         = isset($ads['insert_after']) ? $ads['insert_after'] : 1;
                          if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
                           $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
                         }else{
@@ -1103,19 +1103,43 @@ function quads_filter_default_ads_new( $content ) {
                             $original_paragraph_no = $paragraph_no;                                                             
                             
                             if($paragraph_no <= $p_count){
+                              if($ads['ad_type']== 'group_insertion'){
+                                  $p_count =$p_count -1;
+                                  $cusads = '<!--CusGI'.$ads['ad_id'].'-->';
+                                $next_insert_val = $insert_after;
+                                $displayed_ad =1;
+                                  foreach ($paragraphs as $index => $paragraph) {
+                                      $addstart = false;
+                                      if ( trim( $paragraph ) ) {
+                                          $paragraphs[$index] .= $closing_p;
+                                      }
+
+                                      if((!empty($paragraph_limit) && $paragraph_limit < $displayed_ad) || ($index == $p_count )){
+                                          break;
+                                      }
+                                          if($index+1 == $next_insert_val){
+                                              $displayed_ad +=1;
+                                            $next_insert_val = $next_insert_val+$insert_after;
+                                            $addstart = true;
+                                        }
+                                          if($addstart){
+                                              $paragraphs[$index] .= $cusads;
+                                          }
+                                  }
+                              }else{
 
                                 foreach ($paragraphs as $index => $paragraph) {
                                     if ( trim( $paragraph ) ) {
                                         $paragraphs[$index] .= $closing_p;
                                     }
                                     if ( $paragraph_no == $index + 1 ) {
-                                        // exit(var_dump($index));
                                         $paragraphs[$index] .= $cusads;
                                         if($repeat_paragraph){
                                          $paragraph_no =  $original_paragraph_no+$paragraph_no; 
                                         }
                                     }
                                 }
+                              }
                                 $content = implode( '', $paragraphs ); 
                             }else{
                                 if($end_of_post){
@@ -1632,6 +1656,8 @@ function quads_parse_random_quicktag_ads($content){
 
 }
 
+
+
 /**
  * Parse random default ads which can be enabled from general settings
  * 
@@ -1802,11 +1828,21 @@ function quads_replace_ads($content, $quicktag, $id) {
                 
                 $code = !empty($quads_options['ads']['ad' . $id ]['code']) ? $quads_options['ads']['ad' . $id ]['code'] : '';
                 $style = quads_get_inline_ad_style($id);
-                $adscode =
-            "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
-            '<div class="quads-location quads-ad' .$id. '" id="quads-ad' .$id. '" style="'.$style.'">'."\n".
-            quads_render_ad('ad'.$id, $code)."\n".
-            '</div>'. "\n";
+
+
+        if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+            $adscode =
+                "\n".'<div style="'.esc_attr($style).'">'."\n".
+                quads_render_ad('ad'.$id, $code)."\n".
+                '</div>'. "\n";
+        }else{
+            $adscode =
+                "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
+                '<div class="quads-location quads-ad' .esc_html($id). '" id="quads-ad' .esc_html($id). '" style="'.esc_attr($style).'">'."\n".
+                quads_render_ad('ad'.$id, $code)."\n".
+                '</div>'. "\n";
+        }
+
               
     } else {
         $adscode ='';
@@ -1861,11 +1897,22 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
             $code ='';
         }
                 $style = quads_get_inline_ad_style_new($id);
-                $adscode =
-            "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
-            '<div class="quads-location quads-ad' .$id. '" id="quads-ad' .$id. '" style="'.$style.'">'."\n".
-            quads_render_ad($ad_meta['quads_ad_old_id'][0], $code,'',$ampsupport)."\n".
-            '</div>'. "\n";
+	    // if it was sticky ad return empty
+	    if (isset($ad_meta['adsense_ad_type'][0]) && $ad_meta['adsense_ad_type'][0] == 'adsense_sticky_ads' ){
+		    return  $content;
+	    }
+        if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+            $adscode =
+                "\n".'<div style="'.esc_attr($style).'">'."\n".
+                quads_render_ad($ad_meta['quads_ad_old_id'][0], $code,'',$ampsupport)."\n".
+                '</div>'. "\n";
+        }else{
+            $adscode =
+                "\n".'<!-- WP QUADS Content Ad Plugin v. '.QUADS_VERSION .' -->'."\n".
+                '<div class="quads-location quads-ad' .esc_attr($id). '" id="quads-ad' .esc_attr($id). '" style="'.esc_attr($style).'">'."\n".
+                quads_render_ad($ad_meta['quads_ad_old_id'][0], $code,'',$ampsupport)."\n".
+                '</div>'. "\n";
+        }
               
     } else {
         $adscode ='';
@@ -2070,8 +2117,23 @@ function quads_del_element($array, $idx) {
                 }
                  $display_after_every = (isset($ads['display_after_every']) && !empty($ads['display_after_every'])) ? $ads['display_after_every'] : false;
                 if( isset($ads['position'] ) && $ads['position'] == 'amp_ads_in_loops' && (isset($ads['ads_loop_number']) && ($ads['ads_loop_number'] == $curr_index || ($display_after_every && $curr_index!== 0 && ($curr_index % $ads['ads_loop_number'] == 0))))){
-                    $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
-                  echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
+                    $tag= '<!--CusAds'.$ads['ad_id'].'-->';
+                    if(isset($ads['visibility_include']))
+                        $ads['visibility_include'] = unserialize($ads['visibility_include']);
+                    if(isset($ads['visibility_exclude']))
+                        $ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);
+
+                    if(isset($ads['targeting_include']))
+                        $ads['targeting_include'] = unserialize($ads['targeting_include']);
+
+                    if(isset($ads['targeting_exclude']))
+                        $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
+                    $is_on         = quads_is_visibility_on($ads);
+                    $is_visitor_on = quads_is_visitor_on($ads);
+                    if($is_on && $is_visitor_on ){
+                        echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
+
+                    }
                 }
 
             }

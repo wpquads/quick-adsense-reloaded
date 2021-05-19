@@ -79,15 +79,33 @@ class quads_Welcome {
 	 *
 	 * @return array
 	 */
-	public function quads_add_plugin( $plugin_array ) {
+		public function quads_add_plugin( $plugin_array ) {
+			global $quads_options;
+
 		if ( ! is_array( $plugin_array ) ) {
 			$plugin_array = array();
 		}
-		$plugin_array['quads_shortcode'] = QUADS_PLUGIN_URL . 'assets/js/tinymce_shortcode.js';
+		if(isset($quads_options['ad_blocker_support']) && $quads_options['ad_blocker_support']){
+			$upload_dir = wp_upload_dir();
+			$content_url = $upload_dir['basedir'].'/wpquads/tinymce_shortcode.js';
+			$plugin_array['quads_shortcode'] = $upload_dir['baseurl'].'/wpquads/tinymce_shortcode.js';
+			wp_mkdir_p($upload_dir['basedir'].'/wpquads', 755, true);
+                  $sourc = QUADS_PLUGIN_URL . 'assets/js/tinymce_shortcode_uploads.js';
+                  if (!file_exists($content_url)) {
+                    copy($sourc,$content_url);
+                  }
+                  $sourc = QUADS_PLUGIN_URL . 'admin/assets/js/src/images/wpquads_classic_icon.png';
+                  $content_url = $upload_dir['basedir'].'/wpquads/wpquads_classic_icon.png';
+                  if (!file_exists($content_url)) {
+                    copy($sourc,$content_url);
+                  }	  
+		}else{
+			$plugin_array['quads_shortcode'] = QUADS_PLUGIN_URL . 'assets/js/tinymce_shortcode.js';
+		}
 		return $plugin_array;
 	}
 	/**
-	 * Add button to tinyMCE window
+	 * Add button to tinyMCE window.
 	 *
 	 * @param array $buttons array with existing buttons.
 	 *
