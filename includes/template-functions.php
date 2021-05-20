@@ -2234,7 +2234,134 @@ function quads_del_element($array, $idx) {
                                }</style>';
                   $before_body = $style.'</div></div>';
                   $content = preg_replace("/(\<body.*\>)/", $before_body."$1".$after_body, $content);
+                } else if($ads['ad_type'] == 'skip_ads'){
+                
+                    if(!isset($_COOKIE['skip_ads_delay'])) {
+                        setcookie('skip_ads_delay', esc_attr($ads['freq_page_view']),-1, "/"); // 86400 = 1 day
+                    }else{
+                        if($_COOKIE['skip_ads_delay'] != 0){
+                            setcookie('skip_ads_delay', esc_attr($_COOKIE['skip_ads_delay']-1),-1, "/"); // 86400 = 1 day
+                            return $content;
+                        }
+    
+                        }
+
+                    $html = '<div style="bottom: 0px; height: 8px; background: rgb(210, 210, 210);" id="progressContainer" class="progressContainer">
+                    <div id="progressAd" class="progressAd" style="background-color: rgb(221, 51, 51); width: 0%; height: 8px;"></div>
+                    </div>
+                    
+                    <div style="background-color:#212121;" id="progressModal" class="progressModal">
+                            <span class="pClose" style="right:0.8rem;bottom:1.2rem;background-color:#000;color:#ffffff" id="progressSkipper">Please wait..</span>
+                            <div class="progresContentArea">';
+                    if(isset($ads['skip_ads_type'])  && $ads['skip_ads_type'] == 'image_banner' ){
+
+                        if(isset($ads['image_redirect_url'])  && !empty($ads['image_redirect_url'])){
+                            $html .= '
+                            <a target="_blank" href="'.esc_attr($ads['image_redirect_url']). '" rel="nofollow">
+                            <img class="aligncenter" src="'.esc_attr($ads['image_src']). '" > 
+                            </a>';
+                        }else{
+                            $html .= '<img class="aligncenter" src="'.esc_attr($ads['image_src']). '" >';
+                        }
+                    }else{
+                        $html .= $ads['code'];
+                    }
+                  
+                    $html .= '</div>
+                    </div>
+                    <script>
+                    
+                    if (typeof quadsgetCookie !== "function"){
+
+                        function quadsgetCookie(cname) {
+                            var name = cname + "=";
+                            var ca = document.cookie.split(";");
+                            for (var i = 0; i < ca.length; i++) {
+                                var c = ca[i].trim();
+                                if (c.indexOf(name) === 0) {
+                                    return c.substring(name.length, c.length);
+                                }
+                            }
+                            return false;
+                        }
+                    }
+                    if (typeof quadssetCookie !== "function") {
+                    
+                        function quadssetCookie(cName, cValue, exdays, path) {
+                            var d = new Date();
+                            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                            var expires = "expires=" + d.toUTCString();
+                            document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
+                        }
+                    }
+
+
+
+                    function updateDCPAProgress(top, bottom, col1, col2, range, time, skip, remaining, type, modal, adstime, afterads) {
+                          var selectRange = range;
+                          var selectRange2 = selectRange + 30;
+                          
+                          var percent = Math.ceil(top / bottom * 100) + "%";
+                          var normal = Math.ceil(top / bottom * 100);
+                          
+                          document.getElementById("progressAd").style.width = percent;
+                              
+                              if (normal >= selectRange && normal <= selectRange2) { //if in range
+                    
+                                    const element = document.querySelector("#progressModal");
+                                    if(element.classList.contains("active") == false && element.classList.contains("clicked") == false){
+                                        //if in ads
+                                        element.classList.add("active");
+                                        document.body.style.overflow = "hidden";
+                                        document.querySelector("#progressAd").style.backgroundColor = col2;
+                                    
+                                        if (type == 2 ) {
+                                            //if youtube style ad button
+                                            var timeleft = time;
+                                            var downloadTimer = setInterval(function(){
+                                              document.getElementById("progressSkipper").innerHTML = timeleft + " " + remaining;
+                                              timeleft--;
+                                              if(timeleft == -2){
+                                                clearInterval(downloadTimer);
+                                                document.getElementById("progressSkipper").innerHTML = skip;
+                                                    document.querySelector(".pClose").onclick = function() {
+                                                        var count_skip =quadsgetCookie("skip_ads_delay");
+                                                        quadssetCookie("skip_ads_delay",count_skip -1, 30, "/");
+                    
+                                                        document.querySelector("#progressContainer").style.display = "none";
+                                                        element.classList.remove("active");
+                                                        element.classList.add("clicked");
+                                                        document.body.style.overflow = "visible";
+                                                        document.querySelector("#progressAd").style.backgroundColor = col1;
+                                                    }
+                                              }
+                                            }, 1000);
+                                        }
+                                    }
+                                }
+                    }
+                    window.addEventListener("scroll", function () {
+                        var top = window.scrollY;
+                        var height = document.body.getBoundingClientRect().height - window.innerHeight;
+                        var color1 = "#dd3333";
+                        var color2 = "#eff700";
+                        var type = 2;
+                        var range = 30;
+                        var modal = 1;
+                        var time = '.esc_attr(isset($ads['ad_wt_time'])?$ads['ad_wt_time'] : 5). ';
+                        var skip = "Skip Ad >";
+                        var remaining = "seconds remaining";
+                        var freq = 0;
+                        var afterads = 1;
+                        updateDCPAProgress(top, height, color1, color2, range, time, skip, remaining, type, modal, freq, afterads);
+                      });</script>
+                    <style>
+                    #progressCloser{z-index:999999;font-family:Arial;font-size:21px;position:absolute;cursor:pointer;padding:4px 11px;text-align:center;border-radius:100%}#progressSkipper{z-index:999999;font-family:Arial;font-size:21px;position:absolute;cursor:pointer;padding:8px 12px 8px;border:1px solid #484848;text-align:center;}.progressModal{z-index:999998;padding:2rem 4rem 2rem;background-color:#000;visibility:hidden;opacity:0;transition:opacity .5s,visibility 0s .5s}@media (max-width :768px){.progressModal{padding:2rem 1rem 1rem}}.progressModal.active{opacity:1;overflow-y:scroll!important;visibility:visible;transition:opacity .5s}.progresContentArea{padding:.4rem}.progressContainer{z-index:999999;position:fixed;left:0;width:100%}.progressAd{z-index:999999;transition:width .5s}.progressAdcontent,.progressModal{position:fixed;max-height:100%;overflow-y:auto;overflow:hidden;top:0;left:0;height:100%;width:100%}.progressAdcontent{z-index:999998}@keyframes progMove{from{background-position:0 0}to{background-position:220px 0}}.progressAd2{z-index:999999;float:left;box-sizing:border-box;background-size:40px 40px;border-radius:10px 0 0 10px;background-image:-webkit-linear-gradient(45deg,rgba(255,255,255,.2) 30%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.1) 33%,transparent 33%,transparent 46%,rgba(0,0,0,.1) 46%,rgba(0,0,0,.1) 50%,rgba(255,255,255,.2) 50%,rgba(255,255,255,.2) 80%,rgba(0,0,0,.1) 80%,rgba(0,0,0,.1) 83%,transparent 83%,transparent 97%,rgba(0,0,0,.1) 97%,rgba(0,0,0,.1));background-image:linear-gradient(45deg,rgba(255,255,255,.2) 30%,rgba(0,0,0,.1) 30%,rgba(0,0,0,.1) 34%,transparent 34%,transparent 46%,rgba(0,0,0,.1) 46%,rgba(0,0,0,.1) 50%,rgba(255,255,255,.2) 50%,rgba(255,255,255,.2) 80%,rgba(0,0,0,.1) 80%,rgba(0,0,0,.1) 84%,transparent 84%,transparent 96%,rgba(0,0,0,.1) 96%,rgba(0,0,0,.1));-webkit-box-shadow:inset 0 -1px 0 rgba(0,0,0,.1);-moz-box-shadow:inset 0 -1px 0 rgba(0,0,0,.1);box-shadow:inset 0 -1px 0 rgba(0,0,0,.1);-webkit-transition:width .2s ease;-moz-transition:width .2s ease;-o-transition:width .2s ease;transition:width .2s ease}.progressAd3{z-index:999999;-webkit-border-radius:3px;-moz-border-radius:3px;-ms-border-radius:3px;-o-border-radius:3px;border-radius:3px;-webkit-box-shadow:inset 0 3px 5px 0 rgba(0,0,0,.2);-moz-box-shadow:inset 0 3px 5px 0 rgba(0,0,0,.2);box-shadow:inset 0 3px 5px 0 rgba(0,0,0,.2);background-image:-webkit-gradient(linear,0 0,100% 100%,color-stop(.25,rgba(255,255,255,.2)),color-stop(.25,transparent),color-stop(.5,transparent),color-stop(.5,rgba(255,255,255,.2)),color-stop(.75,rgba(255,255,255,.2)),color-stop(.75,transparent),to(transparent));background-image:-webkit-linear-gradient(45deg,rgba(255,255,255,.2) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.2) 50%,rgba(255,255,255,.2) 75%,transparent 75%,transparent);background-image:-moz-linear-gradient(45deg,rgba(255,255,255,.2) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.2) 50%,rgba(255,255,255,.2) 75%,transparent 75%,transparent);background-image:-ms-linear-gradient(45deg,rgba(255,255,255,.2) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.2) 50%,rgba(255,255,255,.2) 75%,transparent 75%,transparent);background-image:-o-linear-gradient(45deg,rgba(255,255,255,.2) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.2) 50%,rgba(255,255,255,.2) 75%,transparent 75%,transparent);-webkit-background-size:45px 45px;-moz-background-size:45px 45px;-o-background-size:45px 45px;background-size:45px 45px}.progressAd4{z-index:999999;animation:progMove 4s linear infinite;-moz-animation:progMove 4s linear infinite;-webkit-animation:progMove 4s linear infinite;-o-animation:progMove 4s linear infinite;-webkit-border-radius:3px;-moz-border-radius:3px;-ms-border-radius:3px;-o-border-radius:3px;border-radius:3px;-webkit-box-shadow:inset 0 3px 5px 0 rgba(0,0,0,.2);-moz-box-shadow:inset 0 3px 5px 0 rgba(0,0,0,.2);box-shadow:inset 0 3px 5px 0 rgba(0,0,0,.2);background-image:-webkit-gradient(linear,0 0,100% 100%,color-stop(.25,rgba(255,255,255,.2)),color-stop(.25,transparent),color-stop(.5,transparent),color-stop(.5,rgba(255,255,255,.2)),color-stop(.75,rgba(255,255,255,.2)),color-stop(.75,transparent),to(transparent));background-image:-webkit-linear-gradient(45deg,rgba(255,255,255,.2) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.2) 50%,rgba(255,255,255,.2) 75%,transparent 75%,transparent);background-image:-moz-linear-gradient(45deg,rgba(255,255,255,.2) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.2) 50%,rgba(255,255,255,.2) 75%,transparent 75%,transparent);background-image:-ms-linear-gradient(45deg,rgba(255,255,255,.2) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.2) 50%,rgba(255,255,255,.2) 75%,transparent 75%,transparent);background-image:-o-linear-gradient(45deg,rgba(255,255,255,.2) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.2) 50%,rgba(255,255,255,.2) 75%,transparent 75%,transparent);-webkit-background-size:45px 45px;-moz-background-size:45px 45px;-o-background-size:45px 45px;background-size:45px 45px}.progressAd5{z-index:999999;background-image:-webkit-linear-gradient(-45deg,transparent 33%,rgba(0,0,0,.1) 33%,rgba(0,0,0,.1) 55%,transparent 55%),-webkit-linear-gradient(top,rgba(255,255,255,.25),rgba(0,0,0,.25)),-webkit-linear-gradient(left,#09c,#f44);border-radius:2px;background-size:35px 20px,100% 100%,100% 100%}.progressAd6{z-index:999999;background-color:#fff;background-image:url("data:image/svg+xml,%3Csvg width="40" height="12" viewBox="0 0 40 12" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0 6.172L6.172 0h5.656L0 11.828V6.172zm40 5.656L28.172 0h5.656L40 6.172v5.656zM6.172 12l12-12h3.656l12 12h-5.656L20 3.828 11.828 12H6.172zm12 0L20 10.172 21.828 12h-3.656z" fill="%23008386" fill-opacity="0.7" fill-rule="evenodd"/%3E%3C/svg%3E")!important}.progressAd7{z-index:999999;background-color:#383838;background-image:url("data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%23e6afff" fill-opacity="1" fill-rule="evenodd"/%3E%3C/svg%3E")!important}.progressAd8{z-index:999999;background-color:#72deff;background-image:url("data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 80 80"%3E%3Cg fill="%2392278f" fill-opacity="0.71"%3E%3Cpath fill-rule="evenodd" d="M0 0h40v40H0V0zm40 40h40v40H40V40zm0-40h2l-2 2V0zm0 4l4-4h2l-6 6V4zm0 4l8-8h2L40 10V8zm0 4L52 0h2L40 14v-2zm0 4L56 0h2L40 18v-2zm0 4L60 0h2L40 22v-2zm0 4L64 0h2L40 26v-2zm0 4L68 0h2L40 30v-2zm0 4L72 0h2L40 34v-2zm0 4L76 0h2L40 38v-2zm0 4L80 0v2L42 40h-2zm4 0L80 4v2L46 40h-2zm4 0L80 8v2L50 40h-2zm4 0l28-28v2L54 40h-2zm4 0l24-24v2L58 40h-2zm4 0l20-20v2L62 40h-2zm4 0l16-16v2L66 40h-2zm4 0l12-12v2L70 40h-2zm4 0l8-8v2l-6 6h-2zm4 0l4-4v2l-2 2h-2z"/%3E%3C/g%3E%3C/svg%3E")!important}.progressAd9{z-index:999999;background-color:#585858;background-image:url("data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 28" width="56" height="28"%3E%3Cpath fill="%23f0d519" fill-opacity="0.89" d="M56 26v2h-7.75c2.3-1.27 4.94-2 7.75-2zm-26 2a2 2 0 1 0-4 0h-4.09A25.98 25.98 0 0 0 0 16v-2c.67 0 1.34.02 2 .07V14a2 2 0 0 0-2-2v-2a4 4 0 0 1 3.98 3.6 28.09 28.09 0 0 1 2.8-3.86A8 8 0 0 0 0 6V4a9.99 9.99 0 0 1 8.17 4.23c.94-.95 1.96-1.83 3.03-2.63A13.98 13.98 0 0 0 0 0h7.75c2 1.1 3.73 2.63 5.1 4.45 1.12-.72 2.3-1.37 3.53-1.93A20.1 20.1 0 0 0 14.28 0h2.7c.45.56.88 1.14 1.29 1.74 1.3-.48 2.63-.87 4-1.15-.11-.2-.23-.4-.36-.59H26v.07a28.4 28.4 0 0 1 4 0V0h4.09l-.37.59c1.38.28 2.72.67 4.01 1.15.4-.6.84-1.18 1.3-1.74h2.69a20.1 20.1 0 0 0-2.1 2.52c1.23.56 2.41 1.2 3.54 1.93A16.08 16.08 0 0 1 48.25 0H56c-4.58 0-8.65 2.2-11.2 5.6 1.07.8 2.09 1.68 3.03 2.63A9.99 9.99 0 0 1 56 4v2a8 8 0 0 0-6.77 3.74c1.03 1.2 1.97 2.5 2.79 3.86A4 4 0 0 1 56 10v2a2 2 0 0 0-2 2.07 28.4 28.4 0 0 1 2-.07v2c-9.2 0-17.3 4.78-21.91 12H30zM7.75 28H0v-2c2.81 0 5.46.73 7.75 2zM56 20v2c-5.6 0-10.65 2.3-14.28 6h-2.7c4.04-4.89 10.15-8 16.98-8zm-39.03 8h-2.69C10.65 24.3 5.6 22 0 22v-2c6.83 0 12.94 3.11 16.97 8zm15.01-.4a28.09 28.09 0 0 1 2.8-3.86 8 8 0 0 0-13.55 0c1.03 1.2 1.97 2.5 2.79 3.86a4 4 0 0 1 7.96 0zm14.29-11.86c1.3-.48 2.63-.87 4-1.15a25.99 25.99 0 0 0-44.55 0c1.38.28 2.72.67 4.01 1.15a21.98 21.98 0 0 1 36.54 0zm-5.43 2.71c1.13-.72 2.3-1.37 3.54-1.93a19.98 19.98 0 0 0-32.76 0c1.23.56 2.41 1.2 3.54 1.93a15.98 15.98 0 0 1 25.68 0zm-4.67 3.78c.94-.95 1.96-1.83 3.03-2.63a13.98 13.98 0 0 0-22.4 0c1.07.8 2.09 1.68 3.03 2.63a9.99 9.99 0 0 1 16.34 0z"%3E%3C/path%3E%3C/svg%3E")!important}.progressAd10{z-index:999999;background-color:#f36b6b;background-image:url("data:image/svg+xml,%3Csvg width="100" height="20" viewBox="0 0 100 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M21.184 20c.357-.13.72-.264 1.088-.402l1.768-.661C33.64 15.347 39.647 14 50 14c10.271 0 15.362 1.222 24.629 4.928.955.383 1.869.74 2.75 1.072h6.225c-2.51-.73-5.139-1.691-8.233-2.928C65.888 13.278 60.562 12 50 12c-10.626 0-16.855 1.397-26.66 5.063l-1.767.662c-2.475.923-4.66 1.674-6.724 2.275h6.335zm0-20C13.258 2.892 8.077 4 0 4V2c5.744 0 9.951-.574 14.85-2h6.334zM77.38 0C85.239 2.966 90.502 4 100 4V2c-6.842 0-11.386-.542-16.396-2h-6.225zM0 14c8.44 0 13.718-1.21 22.272-4.402l1.768-.661C33.64 5.347 39.647 4 50 4c10.271 0 15.362 1.222 24.629 4.928C84.112 12.722 89.438 14 100 14v-2c-10.271 0-15.362-1.222-24.629-4.928C65.888 3.278 60.562 2 50 2 39.374 2 33.145 3.397 23.34 7.063l-1.767.662C13.223 10.84 8.163 12 0 12v2z" fill="%230d37c2" fill-opacity="0.4" fill-rule="evenodd"/%3E%3C/svg%3E")!important}.progressAd11{z-index:999999;background-color:#f3e092;background-image:url("data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%238fe1e7" fill-opacity="1" fill-rule="evenodd"%3E%3Cpath d="M0 40L40 0H20L0 20M40 40V20L20 40"/%3E%3C/g%3E%3C/svg%3E")!important}.progresContentArea .alignnone { margin: 5px 20px 20px 0; } .progresContentArea .aligncenter, .progresContentArea div.aligncenter { display: block; margin: 5px auto 5px auto; } .progresContentArea .alignright { float:right; margin: 5px 0 20px 20px; } .progresContentArea .alignleft { float: left; margin: 5px 20px 20px 0; } .progresContentArea a img.alignright { float: right; margin: 5px 0 20px 20px; } .progresContentArea a img.alignnone { margin: 5px 20px 20px 0; } .progresContentArea a img.alignleft { float: left; margin: 5px 20px 20px 0; } .progresContentArea a img.aligncenter { display: block; margin-left: auto; margin-right: auto; } .progresContentArea .wp-caption { background: #fff; border: 1px solid #f0f0f0; max-width: 96%; padding: 5px 3px 10px; text-align: center; } .progresContentArea .wp-caption.alignnone { margin: 5px 20px 20px 0; } .progresContentArea .wp-caption.alignleft { margin: 5px 20px 20px 0; } .progresContentArea .wp-caption.alignright { margin: 5px 0 20px 20px; } .progresContentArea .wp-caption img { border: 0 none; height: auto; margin: 0; max-width: 98.5%; padding: 0; width: auto; } .progresContentArea .wp-caption p.wp-caption-text { font-size: 11px; line-height: 17px; margin: 0; padding: 0 4px 5px; }
+                    </style>';
+                    $content = preg_replace("/(\<body.*\>)/", $html."$1".$after_body, $content);
+
                 }
+}
               }
 
             }

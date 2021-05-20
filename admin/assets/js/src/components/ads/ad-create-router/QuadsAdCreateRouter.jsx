@@ -67,6 +67,9 @@ class QuadsAdCreateRouter extends Component {
             g_data_ad_width      : '',
             g_data_ad_height     : '',   
             network_code         : '',
+            skip_ads_type        : 'image_banner',
+            freq_page_view       : '5',
+            ad_wt_time           : '5',
             ad_unit_name         : '',      
             code           : '',
             align             : 3,
@@ -574,7 +577,14 @@ class QuadsAdCreateRouter extends Component {
             }else{
               this.setState({show_form_error:true});
             }
-          break;     
+          break; 
+          case 'skip_ads':
+            if(validation_flag && quads_post_meta.skip_ads_type && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;    
         default:
           break;
       }
@@ -763,6 +773,13 @@ class QuadsAdCreateRouter extends Component {
             this.setState({show_form_error:true});
           } 
           break;
+          case 'skip_ads':
+          if( (quads_post_meta.skip_ads_type == 'image_banner' && quads_post_meta.image_src && quads_post_meta.image_redirect_url) || (quads_post_meta.skip_ads_type == 'custom_html' && quads_post_meta.code)){
+            this.props.history.push(new_url); 
+          }else{
+            this.setState({show_form_error:true});
+          } 
+            break;
           default:
             break;
         }
