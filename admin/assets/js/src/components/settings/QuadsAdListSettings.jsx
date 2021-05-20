@@ -78,7 +78,9 @@ class QuadsAdListSettings extends Component {
                 notice_description : 'Our website is made possible by displaying online advertisements to our visitors. Please consider supporting us by whitelisting our website.', 
                 notice_title       : 'Adblock Detected!',
                 notice_close_btn   : '',
-                btn_txt            : 'X',                                                                 
+                btn_txt            : 'X',
+                adsforwp_to_quads  : false,
+                optimize_core_vitals : false,                                                                 
                 },
             quads_wp_quads_pro_license_key : '', 
             importampforwpmsg : "", 
@@ -131,6 +133,32 @@ notice_bg_color = (color) => {
     copy(this.state.textToCopy);
     this.setState({ copied: true });
   }
+  export_settings = () => {
+    const url = quads_localize_data.rest_url + 'quads-route/export-settings';
+    fetch(url,{
+        method: "post",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-WP-Nonce': quads_localize_data.nonce,
+        }
+    }) .then(res => res.json())
+        .then(
+            (result) => {
+            let jsonData =result;
+            let filename ='quads-settings';
+                const fileData = JSON.stringify(jsonData);
+                const blob = new Blob([fileData], {type: "text/plain"});
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = `${filename}.json`;
+                link.href = url;
+                link.click();
+            },
+            (error) => {
+            }
+        );
+}
     quads_classic_ads = () => {
     if(this.state.importquadsclassicmsgprocessing !=''){
       return;
@@ -753,12 +781,10 @@ handleMultiPluginsChange = (option) => {
         settings[name] = value;     
         this.setState(settings);
     }
-    if(name == 'adsTxtEnabled'){
+    if(name == 'adsTxtEnabled' || name == 'global_excluder_enabled' || name == 'lazy_load_global' || name == 'ad_blocker_support' || name == 'click_fraud_protection' || name == 'revenue_sharing_enabled' || name == 'hide_quads_markup' || name == 'optimize_core_vitals'){
      this.saveSettings();
     }
-    if(name == 'lazy_load_global'){
-     this.saveSettings();
-    }
+
     if(name == 'ip_geolocation_api'){
      this.saveSettings();
     }
@@ -1310,7 +1336,121 @@ handleMultiPluginsChange = (option) => {
                        </label>                       
                      </td>
                      </tr>
-                     </tbody></table>  
+                     <tr>
+                     <th><label htmlFor="group_insertion_settings">{__('Group Insertion Ads', 'quick-adsense-reloaded')}</label></th>
+                     <td>
+                         <label className="quads-switch">
+                             <input id="group_insertion_settings" type="checkbox" name="group_insertion_settings" onChange={this.formChangeHandler} checked={settings.group_insertion_settings} />
+                             <span className="quads-slider"></span>
+                         </label>
+                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/"></a>
+                     </td>
+                 </tr>
+                 <tr>
+                     <th><label htmlFor="ad_performance_tracking">{__('Ad Performance Tracking', 'quick-adsense-reloaded')}</label></th>
+                     <td>
+                         <label className="quads-switch">
+                             <input id="ad_performance_tracking" type="checkbox" name="ad_performance_tracking" onChange={this.formChangeHandler} checked={settings.ad_performance_tracking} />
+                             <span className="quads-slider"></span>
+                         </label>
+                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/ad-performance-tracking-in-wp-quads/"></a>
+                     </td>
+                 </tr>
+                 { quads_localize_data.is_pro ?
+                     <>
+                      <tr>
+                             <th><label htmlFor="optimize_core_vitals">{__('Optimize for Core Web Vitals', 'quick-adsense-reloaded')}</label></th>
+                             <td>
+                                 <label className="quads-switch">
+                                     <input id="optimize_core_vitals" type="checkbox" name="optimize_core_vitals" onChange={this.formChangeHandler} checked={settings.optimize_core_vitals} />
+                                     <span className="quads-slider"></span>
+                                 </label>
+                                 <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/"></a>
+
+                             </td>
+                         </tr>
+                         <tr>
+                             <th><label htmlFor="hide_quads_markup">{__('Hide Quads Markup', 'quick-adsense-reloaded')}</label></th>
+                             <td>
+                                 <label className="quads-switch">
+                                     <input id="hide_quads_markup" type="checkbox" name="hide_quads_markup" onChange={this.formChangeHandler} checked={settings.hide_quads_markup} />
+                                     <span className="quads-slider"></span>
+                                 </label>
+                                 <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/"></a>
+
+                             </td>
+                         </tr>
+                         <tr>
+                             <th><label htmlFor="reports_settings">{__('Reports', 'quick-adsense-reloaded')}</label></th>
+                             <td>
+                                 <label className="quads-switch">
+                                     <input id="reports_settings" type="checkbox" name="reports_settings" onChange={this.formChangeHandler} checked={settings.reports_settings} />
+                                     <span className="quads-slider"></span>
+                                 </label>
+                                 <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-link-adsense-account-for-the-revenue-reports-feature/"></a>
+                             </td>
+                         </tr>
+                     </>:
+                     <><tr>
+                             <th><label htmlFor="optimize_core_vitals">{__('Optimize for Core Web Vitals', 'quick-adsense-reloaded')}</label></th>
+                             <td>
+                                 <label className="quads-switch">
+                                     <input  type="checkbox" name="optimize_core_vitals"  onChange={this.display_pro_alert_fun} />
+                                     <span className="quads-slider"></span>
+                                 </label>
+                                 <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/"></a>
+
+                                 {this.state.display_pro_alert_msg && this.state.display_pro_alert_msg == 'optimize_core_vitals'  ? <Alert severity="error" action={<Icon onClick={this.display_pro_alert_fun}>close</Icon>}><div className={'alert_get_pro'}> This feature is available in PRO version <a
+                                     className="quads-got_pro premium_features_btn"
+                                     href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a></div></Alert> : null }
+                             </td>
+                         </tr>
+                         <tr>
+                             <th><label htmlFor="hide_quads_markup">{__('Global Excluder', 'quick-adsense-reloaded')}</label></th>
+                             <td>
+                                 <label className="quads-switch">
+                                     <input  type="checkbox" name="global_excluder" onChange={this.display_pro_alert_fun}  />
+                                     <span className="quads-slider"></span>
+                                 </label>
+                                 <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/"></a>
+
+                                 {this.state.display_pro_alert_msg && this.state.display_pro_alert_msg == 'global_excluder'  ? <Alert severity="error" action={<Icon onClick={this.display_pro_alert_fun}>close</Icon>}><div className={'alert_get_pro'}> This feature is available in PRO version <a
+                                     className="quads-got_pro premium_features_btn"
+                                     href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a></div></Alert> : null }
+                             </td>
+                         </tr>
+                         <tr>
+                             <th><label htmlFor="hide_quads_markup">{__('Hide Quads Markup', 'quick-adsense-reloaded')}</label></th>
+                             <td>
+                                 <label className="quads-switch">
+                                     <input  type="checkbox" name="hide_quads_markup"  onChange={this.display_pro_alert_fun} />
+                                     <span className="quads-slider"></span>
+                                 </label>
+                                 <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/"></a>
+
+                                 {this.state.display_pro_alert_msg && this.state.display_pro_alert_msg == 'hide_quads_markup'  ? <Alert severity="error" action={<Icon onClick={this.display_pro_alert_fun}>close</Icon>}><div className={'alert_get_pro'}> This feature is available in PRO version <a
+                                     className="quads-got_pro premium_features_btn"
+                                     href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a></div></Alert> : null }
+                             </td>
+                         </tr>
+                         <tr>
+                             <th><label htmlFor="hide_quads_markup">{__('Reports', 'quick-adsense-reloaded')}</label></th>
+                             <td>
+                                 <label className="quads-switch">
+                                     <input  type="checkbox" name="reports" onChange={this.display_pro_alert_fun}  />
+                                     <span className="quads-slider"></span>
+                                 </label>
+                                 <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-link-adsense-account-for-the-revenue-reports-feature/"></a>
+
+                                 {this.state.display_pro_alert_msg && this.state.display_pro_alert_msg == 'reports'  ? <Alert severity="error" action={<Icon onClick={this.display_pro_alert_fun}>close</Icon>}><div className={'alert_get_pro'}> This feature is available in PRO version <a
+                                     className="quads-got_pro premium_features_btn"
+                                     href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a></div></Alert> : null }
+                             </td>
+                         </tr>
+                     </>
+                 }
+
+                     </tbody></table>
                 </div>
                );   
               case "settings_tools": return(
@@ -1379,7 +1519,7 @@ handleMultiPluginsChange = (option) => {
                         <th><label>{__('Advanced Ads', 'quick-adsense-reloaded')}</label></th>
                         <td>
                           <a className="quads-btn quads-btn-primary" id="import_advanced_ads" onClick={this.importadvancedadsdata}>{__('Import', 'quick-adsense-reloaded')}</a>
-                          {settings.adsforwp_to_quads == 'imported' ? <span onClick={this.advance_ads_to_quads_model} className="quads-generic-icon import_advanced_ads dashicons dashicons-admin-generic"></span> : ''} 
+                          {settings.advance_ads_to_quads == 'imported' ? <span onClick={this.advance_ads_to_quads_model} className="quads-generic-icon import_advanced_ads dashicons dashicons-admin-generic"></span> : ''} 
                             {this.state.importadvancedadsmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importadvancedadsmsg}</Alert> : null}
                             {this.state.importadvancedadsmsgprocessing ? <div className='updating-message importadvancedadsmsgprocessing'><p>Importing Ads</p></div>: ''}
                         </td>
