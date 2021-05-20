@@ -23,10 +23,37 @@ class QuadsAdListNavLink extends Component {
                     {ad_type:'infolinks',ad_type_name:'Infolinks'},  
                     {ad_type:'plain_text',ad_type_name:'Plain Text / HTML / JS'},
                     {ad_type:'ad_image',ad_type_name:'Banner Ad'},
-                    {ad_type:'background_ad',ad_type_name:'Background ad'},    
-                    {ad_type:'random_ads',ad_type_name:'Random Ads'},          
-                    ]
-        };            
+                    {ad_type:'background_ad',ad_type_name:'Background ad'},
+                    {ad_type:'rotator_ads',ad_type_name:'Rotator Ads'},
+                    {ad_type:'random_ads',ad_type_name:'Random Ads'},
+                    {ad_type:'group_insertion',ad_type_name:'Group Insertion'},
+                    {ad_type:'skip_ads',ad_type_name:'Skip Ads'},
+           ]
+        };
+        this.getSettings();
+    }
+    getSettings = () => {
+        let url = quads_localize_data.rest_url + 'quads-route/get-settings';
+        fetch(url,{
+            headers: {
+                'X-WP-Nonce': quads_localize_data.nonce,
+            }
+        })
+            .then(res => res.json())
+            .then(
+                (result) => {
+                  const { settings } = { ...this.state };
+                    Object.entries(result).map(([meta_key, meta_val]) => {
+                        if(meta_key=='reports_settings'){
+                            this.setState({displayReports:meta_val});
+                        }
+                        settings[meta_key] =    meta_val;
+                    })
+                    this.setState({settings:settings});
+
+                }
+            );
+
     }
           getImageByAdType = (type, index,return_type='') =>{
         let type_img = [];
@@ -73,6 +100,9 @@ class QuadsAdListNavLink extends Component {
               case 'background_ad':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/bg_ad.png';
               break;
+              case 'skip_ads':
+                  img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/skip_ads.png';
+                  break;
             default:
               break;
           }

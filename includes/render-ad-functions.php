@@ -78,12 +78,17 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_infolinks( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_infolinks_async( $id ),$id );
     }
+    if( true === quads_is_skip_ads( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_skip_ads( $id ),$id );
+    }
     // Return empty string
     return '';
 }
 function quads_common_head_code(){
     global $quads_options;
-    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']== true) {
+    $optimize_core_vitals =(isset($quads_options['optimize_core_vitals']))? $quads_options['optimize_core_vitals'] : false;
+
+    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']== true && !$optimize_core_vitals) {
         echo quads_load_loading_script();
     }
     $data_slot  = '';   
@@ -180,9 +185,19 @@ function quads_common_head_code(){
 
         }     
         if($adsense){
+                if ( isset($quads_options['optimize_core_vitals']) && $quads_options['optimize_core_vitals']== true) {
+
+            echo '<script type="text/javascript">
+            //<![CDATA[
+            var la=!1;window.addEventListener("scroll",function(){(0!=document.documentElement.scrollTop&&!1===la||0!=document.body.scrollTop&&!1===la)&&(!function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(e,a)}(),la=!0)},!0);
+            //]]>
+            </script>';
+        }else{
             echo '<script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
 
         }                       
+
+        }
 
 
     }                                                    
@@ -263,6 +278,33 @@ function quads_render_ad_image_async( $id ) {
     }
     
     $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_ad_image_async', $html );
+}
+
+
+/**
+ * Render Skip Ad
+ *
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_skip_ads( $id ) {
+    global $quads_options;
+  if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+        $html = "";
+    }else{
+        $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
+    }
+
+
+  
+
+
+    if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+    }else{
+        $html .= "\n <!-- end WP QUADS --> \n\n";
+    }
     return apply_filters( 'quads_render_ad_image_async', $html );
 }
 
@@ -471,6 +513,7 @@ function quads_adsense_auto_ads_amp_tag(){
  */
 function quads_render_google_async_new( $id ) {
     global $quads_options,$loaded_lazy_load;
+    $optimize_core_vitals =(isset($quads_options['optimize_core_vitals']))? $quads_options['optimize_core_vitals'] : false;
     $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
     if($revenue_sharing){
         if(isset($revenue_sharing['author_pub_id']) && !empty($revenue_sharing['author_pub_id'])){
@@ -481,9 +524,13 @@ function quads_render_google_async_new( $id ) {
         return '';
         }
     $id_name = "quads-".esc_attr($id)."-place";
-    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
-    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global'] == true) {
-            
+    if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+        $html = "";
+    }else{
+        $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
+    }
+    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global'] == true && !$optimize_core_vitals) {
+
         $html .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
     }
     $ad_data = '';
@@ -528,8 +575,7 @@ function quads_render_google_async_new( $id ) {
                  (adsbygoogle = window.adsbygoogle || []).push({});</script>';
 
     }
-    
-    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']== true) {
+    if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']== true && !$optimize_core_vitals) {
         $html = str_replace( 'class="adsbygoogle"', '', $html );
         $html = str_replace( '></ins>', '><span>Loading...</span></ins></div>', $html );
         $code = 'instant= new adsenseLoader( \'#quads-' . esc_attr($id) . '-place\', {
@@ -598,9 +644,12 @@ function quads_render_google_async( $id ) {
         $default_ad_sizes[$id]['phone_height'] = $ad_size_parts[1];
     }
 
-
-    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
-      if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global'] == true) {
+    if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
+        $html = "";
+    }else{
+        $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdSense async --> \n\n";
+    }
+      if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global'] == true ) {
              $id_name = "quads-".esc_attr($id)."-place";
         $html .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
     }
@@ -636,7 +685,7 @@ function quads_render_google_async( $id ) {
 function quads_load_loading_script(){
     global $quads_options;
     $script = '';
-    if ($quads_options['lazy_load_global']== true) {
+    if (isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']== true) {
     $script .=  "\n".'<script>';
     $suffix = ( quadsIsDebugMode() ) ? '' : '.min'; 
     $script .= file_get_contents(QUADS_PLUGIN_DIR.'assets/js/lazyload' . $suffix .'.js');
@@ -1020,6 +1069,22 @@ function quads_is_infolinks( $id, $string ) {
     global $quads_options;
 
     if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'infolinks') {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Check if ad code is Skip Ads
+ *
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_skip_ads( $id, $string ) {
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'skip_ads') {
         return true;
     }
     return false;

@@ -118,6 +118,10 @@ class QuadsAdList extends Component {
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/bg_ad_icon.png';
           type = "Background Ad";
           break;
+          case 'skip_ads':
+            img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/skip_ads_icon.png';
+            type = "Skip Ad";
+          break;
         default:
           break;
       }

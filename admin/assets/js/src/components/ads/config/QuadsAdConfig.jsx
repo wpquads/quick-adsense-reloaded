@@ -41,7 +41,7 @@ class QuadsAdConfig extends Component {
               closeModal    = {this.props.closeModal}
               />
               </div> 
-              {quads_localize_data.is_amp_enable ? 
+              {quads_localize_data.is_amp_enable && this.props.parentState.ad_type != 'skip_ads'  ? 
               <div className="quads-settings-group">
               <QuadsAMPCompatibility 
               ad_type={page.ad_type} 
