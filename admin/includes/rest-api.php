@@ -480,6 +480,11 @@ class QUADS_Ad_Setup_Api {
         public function importadvance_ads(){
 
             $placements      = Advanced_Ads::get_ad_placements_array();
+            $get_Advanced_Ads      = Advanced_Ads::get_ads();
+            foreach ($get_Advanced_Ads  as $advanced_Ad) {
+                $name = 'shortcode_'.$advanced_Ad->ID;
+                $placements[$name] = array('item' => 'ad_'.$advanced_Ad->ID,'advanced_ads'=>true);
+            }
             foreach ($placements  as $placement) {
 
                 $idArray =    explode('ad_', $placement['item']);
@@ -490,16 +495,8 @@ class QUADS_Ad_Setup_Api {
                 // }
                 $post_meta = get_post_meta($id,'advanced_ads_ad_options');
                 if(isset($post_meta['0']['type'])){
-                     $advanced_ads_options       = get_option('advanced-ads');
-                     global $quads_settings;
-                     $ad_count = 1;
-                        if(isset($quads_settings['ads'])){
-                          foreach($quads_settings['ads'] as $key2 => $value2){
-                                if($key2 === 'ad'.$ad_count){
-                                   $ad_count++;
-                                }
-                            }
-                        }
+                    $advanced_ads_options       = get_option('advanced-ads');
+                    $quads_settings = get_option( 'quads_settings' );
                     $ads_post = array(
                         'post_author' => $post['post_author'],
                         'post_title'  => $post['post_title'],
@@ -722,7 +719,6 @@ class QUADS_Ad_Setup_Api {
                         'align'                         => $align,
                         'advance_ads_id'                => $id,
                         'ad_id'                         => $post_id,
-                        'quads_ad_old_id'               => 'ad'.$ad_count,
                         'visibility_include'            => $visibility_include,
                         'visibility_exclude'            => $visibility_exclude,
                         'targeting_include'             => $targeting_include,
@@ -735,8 +731,7 @@ class QUADS_Ad_Setup_Api {
                     }
                     require_once QUADS_PLUGIN_DIR . '/admin/includes/migration-service.php';
                     $this->migration_service = new QUADS_Ad_Migration();
-                    $this->migration_service->quadsUpdateOldAd('ad'.$ad_count, $advance_ads_meta_key);
-                    $ad_count++;
+                    $this->migration_service->quadsUpdateOldAd($post_id, $advance_ads_meta_key);
                 }
             }
             return  array('status' => 't', 'data' => 'Ads have been successfully imported');
