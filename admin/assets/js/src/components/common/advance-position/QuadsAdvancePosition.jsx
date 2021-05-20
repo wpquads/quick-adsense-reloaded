@@ -50,7 +50,6 @@ check_plugin_exist = (event) => {
         const {__} = wp.i18n;
         const post_meta = this.props.parentState.quads_post_meta;
         const show_form_error = this.props.parentState.show_form_error;
-        console.log(post_meta.check_plugin_exist);
         return (
             <div>
                 <div className="quads-position-dropdown">
