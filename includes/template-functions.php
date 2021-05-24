@@ -2370,7 +2370,7 @@ function quads_del_element($array, $idx) {
                     $content = preg_replace("/(\<body.*\>)/", $html."$1".$after_body, $content);
 
                 }
-}
+
               }
 
             }
