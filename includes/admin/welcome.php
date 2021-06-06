@@ -63,13 +63,8 @@ class quads_Welcome {
                 }
 
 		$upgrade = get_option( 'quads_version_upgraded_from' );
+		wp_safe_redirect( admin_url( 'admin.php?page=quads-settings' ) ); exit;
 
-                // Redirect to settings page if wp quads pro is not installed
-		if( quads_is_extra() ) { // First time install
-			wp_safe_redirect( admin_url( 'admin.php?page=quads-settings' ) ); exit;
-		} else { // Update
-			wp_safe_redirect( admin_url( 'admin.php?page=quads-addons' ) ); exit;
-		}
 	}
 
 	/**
