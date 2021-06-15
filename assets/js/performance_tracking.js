@@ -22,9 +22,11 @@
         } 
              $(".quads-location").on("click",function(){
          var ad_id = $(this).attr('id');
+         var currentLocation = window.location.href;
+                       var referrer = document.referrer;
          if(ad_id){
             $.post(quads_analytics.ajax_url, 
-                  { action:"quads_insert_ad_clicks", ad_id:ad_id, quads_front_nonce:quads_analytics.quads_front_nonce},
+                  { action:"quads_insert_ad_clicks", ad_id:ad_id, quads_front_nonce:quads_analytics.quads_front_nonce,currentLocation:currentLocation,referrer:referrer},
                     function(response){
                     console.log(response);                
        });  

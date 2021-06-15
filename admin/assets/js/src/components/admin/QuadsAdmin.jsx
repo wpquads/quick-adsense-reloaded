@@ -4,6 +4,8 @@ import QuadsAdListSettings from './../settings/QuadsAdListSettings'
 import QuadsAdListBody from './../ads/body/QuadsAdListBody'
 import QuadsAdListNavLink from './../ads/nav/QuadsAdListNavLink'
 import QuadsAdReport from '../report/QuadsAdReport'
+import QuadsAdLogging from '../report/QuadsAdLogging'
+
 class QuadsAdmin extends Component {
 
     constructor(props) {      
@@ -89,6 +91,9 @@ class QuadsAdmin extends Component {
                             if(pagePath.includes('reports')){
                                 return <QuadsAdReport      />;
                             }
+                            if(pagePath.includes('ad_logging')){
+                              return <QuadsAdLogging      />;
+                          }
                         })()}
                     </div>
                     </div>                                                                

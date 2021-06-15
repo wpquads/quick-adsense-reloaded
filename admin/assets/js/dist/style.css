@@ -1580,6 +1580,9 @@ and open the template in the editor.
   font-size: 15px;
   text-transform: capitalize; }
 
+.quads-ad-table td.quads_no_transform {
+  text-transform: none; }
+
 .quads-ad-table td:nth-child(2) img {
   position: relative;
   top: 2px;
@@ -1609,6 +1612,9 @@ and open the template in the editor.
   background-color: #f1f3f4;
   border-radius: 4px;
   padding: 2px 4px; }
+
+.ad_logging .quads-ad-table th:nth-child(4) {
+  color: #5f6368; }
 
 .quads-ad-table th:nth-child(4) {
   color: transparent; }
@@ -2092,6 +2098,9 @@ and open the template in the editor.
   width: 190px;
   height: 34px;
   line-height: 32px; }
+
+.quads-ad-networks.ad_logging {
+  padding: 0px; }
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle, .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow,
 .react-datepicker__month-year-read-view--down-arrow {

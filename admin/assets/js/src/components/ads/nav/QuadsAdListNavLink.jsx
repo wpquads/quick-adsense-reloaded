@@ -13,6 +13,7 @@ class QuadsAdListNavLink extends Component {
             ad_type_toggle:this.props.ad_type_toggle,
             settings:this.props.settings,
             displayReports:false,
+            displayad_logging:false,
            All_ad_network: [
                     {ad_type:'adsense',ad_type_name:'AdSense'},
                     {ad_type:'double_click',ad_type_name:'Google Ad Manager'},
@@ -48,7 +49,9 @@ class QuadsAdListNavLink extends Component {
                     Object.entries(result).map(([meta_key, meta_val]) => {
                         if(meta_key=='reports_settings'){
                             this.setState({displayReports:meta_val});
-                        }
+                        }else if(meta_key=='ad_logging'){
+                          this.setState({displayad_logging:meta_val});
+                      }
                         settings[meta_key] =    meta_val;
                     })
                     this.setState({settings:settings});
@@ -154,7 +157,11 @@ class QuadsAdListNavLink extends Component {
             jQuery('.wp-submenu li').removeClass('current');
             jQuery('a[href$="quads-settings&path=reports"]').parent().addClass('current');
             current = 'reports';
-        }
+        }else if(page.path == 'ad_logging'){
+          jQuery('.wp-submenu li').removeClass('current');
+          jQuery('a[href$="quads-settings&path=ad_logging"]').parent().addClass('current');
+          current = 'ad_logging';
+      }
         }else if(page.page == 'quads-settings'){
             jQuery('.wp-submenu li').removeClass('current');
             jQuery('a[href$="quads-settings"]').parent().addClass('current');
@@ -184,6 +191,9 @@ class QuadsAdListNavLink extends Component {
                 <li><Link to={'admin.php?page=quads-settings&path=settings'} className={current == 'settings' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Settings', 'quick-adsense-reloaded')}</Link></li>
                 {quads_localize_data.is_pro && this.state.displayReports ?
                 <li><Link to={'admin.php?page=quads-settings&path=reports'} className={current == 'reports' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Reports', 'quick-adsense-reloaded')}</Link></li>
+                : null }
+                {quads_localize_data.is_pro && this.state.displayad_logging ?
+                <li><Link to={'admin.php?page=quads-settings&path=ad_logging'} className={current == 'ad_logging' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Log', 'quick-adsense-reloaded')}</Link></li>
                 : null }
                 <li><div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.showAddTypeSelector}><Icon>add_circle</Icon>Create Ad</a></div></li>
             </ul>

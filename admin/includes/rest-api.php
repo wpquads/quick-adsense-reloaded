@@ -199,6 +199,13 @@ class QUADS_Ad_Setup_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'quads-route', 'getAdloggingData', array(
+                'methods'    => 'POST',
+                'callback'   => array($this, 'getAdloggingData'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
         }
         public function quads_register_ad(){
 	        global $_quads_registered_ad_locations;
@@ -1654,6 +1661,41 @@ return array('status' => 't');
                 }
                 $result['posts_data'] = $new_result;
             }
+            return $result;
+
+        }
+        public function getAdloggingData($request){
+            $parameters = $request->get_params();
+            $search_param = array();
+            $rvcount      = 10;
+            $attr         = array();
+            $paged        =  1;
+            $post_type    = 'quads-ads';
+            $result       =  '';
+            // if(isset($parameters['posts_per_page'])){
+            //     $rvcount = sanitize_text_field($parameters['posts_per_page']);
+            // }
+             if(isset($parameters['report_period'])){
+
+                $search_param['report_period'] = esc_html($parameters['report_period']);
+
+                if(isset($parameters['cust_fromdate'])){
+                    $search_param['cust_fromdate'] = esc_html($parameters['cust_fromdate']);
+                }
+
+                if(isset($parameters['cust_todate'])){
+                    $search_param['cust_todate'] = esc_html($parameters['cust_todate']);
+                }
+
+            }
+            if(isset($parameters['search_param'])){
+                $search_param['search_param'] = esc_html($parameters['search_param']);
+            }
+            if(isset($parameters['page'])){
+                $search_param['page'] = sanitize_text_field($parameters['page']);
+            }
+
+            $result =  quads_get_ad_stats('search','','',$search_param);
             return $result;
 
         }

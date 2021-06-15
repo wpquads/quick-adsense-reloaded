@@ -495,7 +495,7 @@ function quads_get_date($type) {
  * @param type $date
  * @return type array
  */
-function quads_get_ad_stats($condition, $ad_id, $date=null) {
+function quads_get_ad_stats($condition, $ad_id='', $date=null,$parameters ='') {
     
     global $wpdb;
     $ad_stats = array();
@@ -521,6 +521,7 @@ function quads_get_ad_stats($condition, $ad_id, $date=null) {
             }else{
             
                 $result = $wpdb->get_results($wpdb->prepare("SELECT *FROM `{$wpdb->prefix}quads_stats` WHERE `ad_thetime` = %d;", $date), ARRAY_A);
+
                 
             }                        
                 
@@ -579,7 +580,87 @@ function quads_get_ad_stats($condition, $ad_id, $date=null) {
             }
             
             break;
+			case 'search':
+				$ad_thetime = '';
+				$items_per_page = 20;
+				$page = (isset($parameters['page'])&& !empty($parameters['page']))?$parameters['page'] :1;
 
+				$offset = ($page - 1) * $items_per_page;
+
+				if($parameters){
+					if(isset($parameters['report_period'])){
+
+						$endDate = strtotime('now');
+						switch ($parameters['report_period']) {
+							case 'last_15days':
+								$startDate = strtotime("-14 day");
+								break;
+							case 'last_30days':
+								$startDate = strtotime("-29 day");
+								break;
+							case 'last_6months':
+								$startDate = strtotime("-6 month");
+								break;
+							case 'last_1year':
+					
+								$startDate = strtotime('-1 year');
+								break;
+							case 'custom':  
+								$startDate = (isset($parameters['cust_fromdate'])&& !empty($parameters['cust_fromdate']))?strtotime($parameters['cust_fromdate']) :strtotime("now");
+								$endDate = (isset($parameters['cust_todate'])&& !empty($parameters['cust_todate']))?strtotime($parameters['cust_todate']) :strtotime('now');;
+								break;
+							case 'all_time':
+								$startDate = strtotime('-3 year');
+								break;
+							default:
+								$startDate = strtotime(" -6 day");
+								break;
+						}
+						$ad_thetime = $wpdb->prepare('where ad_thetime BETWEEN '.$startDate.' AND '.$endDate); 
+					
+					}
+				}
+				$search_param = '';
+				if(isset($parameters['search_param']) && !empty($parameters['search_param'])){
+					if(empty($ad_thetime)){
+						$search_param = $wpdb->prepare("where ad_id  LIKE '%".$parameters['search_param']."%' or
+						ad_device_name  LIKE '%".$parameters['search_param']."%' or
+						ip_address  LIKE '%".$parameters['search_param']."%' or
+						url  LIKE '%".$parameters['search_param']."%' or
+						browser  LIKE '%".$parameters['search_param']."%' or
+						referrer  LIKE '%".$parameters['search_param']."%'   "); 
+					}else {
+					
+						$search_param = $wpdb->prepare("and ( ad_id  LIKE '%".$parameters['search_param']."%' or
+						ad_device_name  LIKE '%".$parameters['search_param']."%' or
+						ip_address  LIKE '%".$parameters['search_param']."%' or
+						url  LIKE '%".$parameters['search_param']."%' or
+						browser  LIKE '%".$parameters['search_param']."%' or
+						referrer  LIKE '%".$parameters['search_param']."%' )  "); 
+					}
+
+				}
+			$results = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}quads_stats` ". $ad_thetime ." ".$search_param ." LIMIT " . $offset . "," . $items_per_page), ARRAY_A);
+					$ad_stats = $results;	
+					$result_total = $wpdb->get_row($wpdb->prepare("SELECT count(*) as total FROM `{$wpdb->prefix}quads_stats` ". $ad_thetime ." ".$search_param), ARRAY_A);
+					$log_array = array();
+					foreach($results as $result){
+						$ad_id = $result['ad_id'];
+						
+		$post_type      = get_post_meta($ad_id, 'ad_type', true);
+		$post_label      = get_post_meta($ad_id, 'label', true);
+		$result['ad_type'] = $post_type;
+
+		$result['label'] = $post_label;
+		$log_array[] = $result;
+
+					}
+					$response['posts_data']  = $log_array;
+					$response['posts_found'] = ($result_total['total']);
+
+					return $response;
+
+				break;
         default:
             break;
     }            

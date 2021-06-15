@@ -140,6 +140,7 @@ class QuadsAdList extends Component {
     
     const {__} = wp.i18n;     
     const { error, isLoaded, items } = this.props.ad_list;  
+   
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -179,6 +180,9 @@ class QuadsAdList extends Component {
                   </ul>
                   </div> : ''  }
                   {this.props.settings.ad_performance_tracking ? <a className="quads-edit-btn" data-index={index} data-id={item.post_meta.ad_id} onClick={this.props.showStaticIconBox}><Icon>stacked_bar_chart</Icon></a>                
+                : null }
+                
+                {this.props.settings.ad_logging ?<Link className="quads-edit-btn" to={'admin.php?page=quads-settings&path=ad_logging&ad_id='+item.post_meta.ad_id} ><img height="20" width="20" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ad_log.png'} ></img></Link>              
                 : null }
                 
                 <Link to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.post_meta.ad_type}&action=edit&post=${item.post.post_id}`} className="quads-edit-btn"><Icon>edit_icon</Icon> </Link>  

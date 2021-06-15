@@ -30,6 +30,10 @@ and open the template in the editor.
     font-size: 15px;
     text-transform: capitalize;
 }
+.quads-ad-table td.quads_no_transform{
+  
+    text-transform: none;
+}
 .quads-ad-table td:nth-child(2) img {
     position: relative;
     top: 2px;
@@ -60,6 +64,9 @@ and open the template in the editor.
     border-radius: 4px;
     padding: 2px 4px;
 }
+.ad_logging .quads-ad-table th:nth-child(4) {
+    color: #5f6368;
+ }
 .quads-ad-table th:nth-child(4) {
     color: transparent;
 }

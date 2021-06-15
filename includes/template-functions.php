@@ -1030,16 +1030,22 @@ function quads_filter_default_ads_new( $content ) {
                             $closing_p        = '</p>';
                             $paragraphs       = explode( $closing_p, $content );       
                             $total_paragraphs = count($paragraphs);                          
-                            $paragraph_id     = floor($total_paragraphs /2);                              
-                            foreach ($paragraphs as $index => $paragraph) {
-                                if ( trim( $paragraph ) ) {
-                                    $paragraphs[$index] .= $closing_p;
+                            $paragraph_id     = floor($total_paragraphs /2);  
+                            if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
+                                $ads_data['after_the_percentage_value'] = 50;
+                               $content =  remove_ad_from_content($content,$cusads,$ads_data);
+
+                              }else{                            
+                                    foreach ($paragraphs as $index => $paragraph) {
+                                        if ( trim( $paragraph ) ) {
+                                            $paragraphs[$index] .= $closing_p;
+                                        }
+                                        if ( $paragraph_id == $index + 1 ) {
+                                            $paragraphs[$index] .= $cusads;
+                                        }
+                                    }
+                                    $content = implode('', $paragraphs ); 
                                 }
-                                if ( $paragraph_id == $index + 1 ) {
-                                    $paragraphs[$index] .= $cusads;
-                                }
-                            }
-                            $content = implode('', $paragraphs ); 
                         }
 
                         break;                            
