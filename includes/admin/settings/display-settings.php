@@ -190,6 +190,7 @@ function quads_options_page_new() {
             'licenses'             => get_option( 'quads_wp_quads_pro_license_active' ),
             'is_amp_enable'        => function_exists('is_amp_endpoint') ? true : false,
             'is_bbpress_exist'     => class_exists( 'bbPress' )? true : false,
+            'is_newsPapertheme_exist'     => class_exists( 'tagdiv_config' )? true : false,
                 
         );
         $data = apply_filters('quads_localize_filter',$data,'quads_localize_data');
