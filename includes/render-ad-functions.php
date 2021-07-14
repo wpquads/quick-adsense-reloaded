@@ -1116,14 +1116,16 @@ function quads_render_amp($id,$ampsupport=''){
                                 </amp-ad>';
             }else if($quads_options['ads'][$id]['ad_type'] == 'ad_image'){
                     $html = '';
+                    list($width, $height) = getimagesize($quads_options['ads'][$id]['image_src']);
+
                 if(isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
-                        $html .= '
+                    $html .= '
                         <a target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
                         <amp-img
 
   src="'.esc_attr($quads_options['ads'][$id]['image_src']). '"
-  width="900"
-  height="675"
+  width="'.esc_attr($width).'"
+  height="'.esc_attr($height).'"
   layout="responsive"
 >
 </amp-img>
@@ -1132,8 +1134,8 @@ function quads_render_amp($id,$ampsupport=''){
                         $html .= '                        <amp-img
 
                         src="'.esc_attr($quads_options['ads'][$id]['image_src']). '"
-                        width="900"
-                        height="675"
+                        width="'.esc_attr($width).'"
+                        height="'.esc_attr($height).'"
                         layout="responsive"
                       >
                       </amp-img>';
