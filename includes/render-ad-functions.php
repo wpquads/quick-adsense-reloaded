@@ -1119,10 +1119,24 @@ function quads_render_amp($id,$ampsupport=''){
                 if(isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
                         $html .= '
                         <a target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
-                        <img  src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" > 
+                        <amp-img
+
+  src="'.esc_attr($quads_options['ads'][$id]['image_src']). '"
+  width="900"
+  height="675"
+  layout="responsive"
+>
+</amp-img>
                         </a>';
                     }else{
-                        $html .= '<img src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" >';
+                        $html .= '                        <amp-img
+
+                        src="'.esc_attr($quads_options['ads'][$id]['image_src']). '"
+                        width="900"
+                        height="675"
+                        layout="responsive"
+                      >
+                      </amp-img>';
                     }
             }else if($quads_options['ads'][$id]['ad_type'] == 'taboola'){
                         $html = '<div id="quads_taboola_'.$id.'"></div>';
