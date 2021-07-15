@@ -740,7 +740,9 @@ class QUADS_Ad_Setup_Api {
                     $this->migration_service = new QUADS_Ad_Migration();
                     $this->migration_service->quadsUpdateOldAd($post_id, $advance_ads_meta_key);
                 }
+                update_option('advance_ads_to_quads', 'imported');
             }
+            
             return  array('status' => 't', 'data' => 'Ads have been successfully imported');
         }
 
@@ -1570,6 +1572,7 @@ return array('status' => 't');
             $quads_settings['QckTags'] = isset($quads_settings['quicktags']['QckTags']) ? $quads_settings['quicktags']['QckTags'] : false;
             $quads_settings['license'] = get_option( 'quads_wp_quads_pro_license_active' );
             $quads_settings['adsforwp_to_quads'] = get_option( 'adsforwp_to_quads' );
+            $quads_settings['advance_ads_to_quads'] = get_option( 'advance_ads_to_quads' );
             $post_types = get_post_types();
             $add = array('none' => 'Exclude nothing');
             $quads_settings['auto_ads_get_post_types'] =  $add + $post_types;
