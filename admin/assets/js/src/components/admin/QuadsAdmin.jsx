@@ -76,7 +76,33 @@ class QuadsAdmin extends Component {
                                />                   
                           </div>
                           
-                        </div>                
+                        </div>
+                        
+                        {(quads_localize_data && quads_localize_data.licenses!==undefined && quads_localize_data.licenses.price_id!==undefined && quads_localize_data.licenses !== ""  &&
+                            quads_localize_data.licenses.price_id > 0 && 
+                         quads_localize_data.licenses.price_id <= 30 ) &&
+                            <div class="quads-renewal-banner">
+                        <div class="quads-renew-message">
+                        <p>Your WP QUADS PRO license is about to expire in <span class="q-r-m">{quads_localize_data.licenses.price_id} days</span>.</p>
+                        </div>
+                        <div class="quads-renew-cta-container">
+                        <a href="https://wpquads.com/your-account/" class="quads-renew-cta" target="_blank" rel="noopener noreferrer">Renew now</a>
+                        </div>
+                        </div>
+                        }
+                        {(quads_localize_data && quads_localize_data.licenses!==undefined && quads_localize_data.licenses.price_id!==undefined && quads_localize_data.licenses !== "" && quads_localize_data.licenses.license !== "valid"  &&
+                            quads_localize_data.licenses.price_id <= 0 ) &&
+                            <div class="quads-renewal-banner">
+                        <div class="quads-renew-message">
+                        <p>Your WP QUADS PRO license Key is <span class="q-r-m-e">Expired</span>.</p>
+                        </div>
+                        <div class="quads-renew-cta-container">
+                        <a href="https://wpquads.com/your-account/" class="quads-renew-cta" target="_blank" rel="noopener noreferrer">Renew now</a>
+                        </div>
+                        </div>
+                        }
+                        
+                        
                         <div className="quads-segment">                
                         {(() => {
                             if(pagePath.includes('settings')){

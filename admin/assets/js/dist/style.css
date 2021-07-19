@@ -1348,10 +1348,14 @@ a.quads-nav-link-active {
 #quads-submit-button {
   margin: 15px; }
 
-.quads-premium-cus {
-  margin-top: 5px; }
+input.quads-premium-cus {
+  width: 300px;
+    float: left;
+    height: 10px;
+    padding: 18px;
+    margin: 4px 2px; }
 
-.quads-help-support input, textarea, select {
+.quads-help-support textarea, select {
   width: 100%; }
 
 .quads-help-support select {
@@ -1580,9 +1584,6 @@ and open the template in the editor.
   font-size: 15px;
   text-transform: capitalize; }
 
-.quads-ad-table td.quads_no_transform {
-  text-transform: none; }
-
 .quads-ad-table td:nth-child(2) img {
   position: relative;
   top: 2px;
@@ -1612,9 +1613,6 @@ and open the template in the editor.
   background-color: #f1f3f4;
   border-radius: 4px;
   padding: 2px 4px; }
-
-.ad_logging .quads-ad-table th:nth-child(4) {
-  color: #5f6368; }
 
 .quads-ad-table th:nth-child(4) {
   color: transparent; }
@@ -2098,9 +2096,6 @@ and open the template in the editor.
   width: 190px;
   height: 34px;
   line-height: 32px; }
-
-.quads-ad-networks.ad_logging {
-  padding: 0px; }
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle, .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow,
 .react-datepicker__month-year-read-view--down-arrow {
@@ -2804,3 +2799,321 @@ and open the template in the editor.
 .react-datepicker__portal .react-datepicker__navigation--next--disabled, .react-datepicker__portal .react-datepicker__navigation--next--disabled:hover {
   border-left-color: #e6e6e6;
   cursor: default; }
+
+.quads-message {
+  display: block;
+  padding: 10px;
+  border: 1px solid #FBFBFB;
+  border-radius: 2px;
+  background-color: #F8F8F7;
+  position: absolute;
+  max-width: 500px;
+  z-index: 9999;
+  display: none;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  font-weight: normal;
+  line-height: 20px;
+  text-transform: none;
+  font-size: 14px; }
+
+@font-face {
+    font-family: "quads-icomoon";
+    src: url("../fonts/icomoon.eot");
+    src: url("../fonts/icomoon.eot?#iefix") format("embedded-opentype"), url("../fonts/icomoon.woff") format("woff"), url("../fonts/icomoon.ttf") format("truetype"), url("../fonts/icomoon.svg#icomoon") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+[class^="quads-icon-"]:before,
+[class*=" quads-icon-"]:after,
+[class^="quads-icon-"]:after,
+[class*=" quads-icon-"]:before,
+[id^="quads-nav-"]:before,
+[id*=" quads-nav-"]:after,
+[id^="quads-nav-"]:after,
+[id*=" quads-nav-"]:before {
+    font-family: "quads-icomoon";
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.quads-icon-chevron-right:before {
+    content: "\e900";
+}
+.quads-icon-chevron-left:before {
+    content: "\e900";
+    transform: rotate(180deg);
+}
+.quads-icon-chevron-down:before {
+    content: "\e901";
+    transform: scale(0.6);
+}
+.quads-icon-chevron-up:before {
+    content: "\e902";
+    top: 50%;
+    transform: translateY(-50%) scale(0.6);
+}
+.quads-icon-rollback:before {
+    content: "\e903";
+}
+.quads-icon-addon:before,
+.quads-addonSubMenuItem:before {
+    content: "\e904";
+}
+.quads-icon-addons:before,
+#quads-nav-addons:before {
+    content: "\e905";
+}
+.quads-icon-book:before {
+    content: "\e906";
+}
+.quads-icon-cdn:before,
+#quads-nav-page_cdn:before {
+    content: "\e907";
+}
+.quads-icon-database:before,
+#quads-nav-database:before {
+    content: "\e908";
+}
+.quads-icon-export:before {
+    content: "\e909";
+}
+.quads-icon-files:before,
+#quads-nav-cache:before {
+    content: "\e90a";
+}
+.quads-icon-help:before {
+    content: "\e90b";
+}
+.quads-icon-home:before,
+#quads-nav-dashboard:before {
+    content: "\e90c";
+}
+.quads-icon-import:before {
+    content: "\e90d";
+}
+.quads-icon-important:before {
+    content: "\e90e";
+}
+.quads-icon-information:before {
+    content: "\e90f";
+}
+.quads-icon-information2:before {
+    content: "\e910";
+}
+.quads-icon-interrogation:before {
+    content: "\e911";
+}
+.quads-icon-media:before,
+#quads-nav-media:before {
+    content: "\e912";
+}
+.quads-icon-plus:before {
+    content: "\e913";
+}
+.quads-Page#dashboard .quads-infoAccount:before {
+    content: "";
+    position: relative;
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    background: #e0e4e9;
+    border-radius: 50%;
+    color: #fff;
+    margin-right: 6px;
+    text-align: center;
+    top: 2px;
+    font-size: 0.5rem;
+    line-height: 1.625;
+}
+.quads-Page#dashboard .quads-infoAccount.quads-isValid {
+    color: #00a66b;
+}
+.quads-infoAccount.quads-isValid:before {
+    content: "\e920";
+    font-family: "quads-icomoon";
+    speak: none;
+    background: #3ece9d;
+    top: -1px;
+    position: relative;
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    color: #fff;
+    margin-right: 6px;
+    text-align: center;
+    top: 0px;
+    font-size: .5rem;
+    line-height: 1.625;
+}
+.quads-renewal-banner {
+    background: #ffd400;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0px;
+    padding: 8px;
+}
+.quads-renew-message {
+    margin: 0 16px;
+}
+.quads-renew-message > p {
+    font-size: 18px;
+    margin: 0 0;
+    font-weight: normal;
+}
+.quads-renew-cta {
+    display: block;
+    background: #2b2b2b;
+    border-radius: 64px;
+    color: #ffd400;
+    font-size: 15px;
+    line-height: 1.125;
+    font-weight: 600;
+    padding: 9px 14px;
+    text-decoration: none;
+}
+.quads-renew-cta:hover,
+.quads-renew-cta:active,
+.quads-renew-cta:focus {
+    color: #fff;
+}
+.quads-renew-cta::after {
+    content: "\2192";
+    font-weight: normal;
+    margin-left: 8px;
+}
+.quads-button {
+    position: relative;
+    display: inline-block;
+    width: auto;
+    padding: 8px 24px;
+    text-align: center;    
+    box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: -0.08px;
+    font-weight: bold;
+    border-radius: 4px;
+    color: #fff !important;
+    white-space: nowrap;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transition: all 200ms ease-out;
+    -webkit-transition: all 200ms ease-out;
+    font-size: 0.8125rem;
+    line-height: 1.53846;
+    bottom: 0px;
+}
+.quads-button:hover,
+.quads-button:focus {
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.25), 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+.quads-button--small {
+    padding: 6px 5px;
+    letter-spacing: 0px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.81818;
+    text-transform: inherit;
+}
+.quads-button-btn {
+    padding-left: 10px;
+    padding-right: 33px;
+    text-align: left;
+    background: #005aef;
+}
+.quads-button-btn:before {
+    position: absolute;
+    line-height: 1.33333;
+}
+.quads-button--fixed {
+    position: fixed;
+    display: flex;
+    padding: 8px 16px;
+    right: 24px;
+    bottom: 32px;
+    border-radius: 16px;
+}
+.quads-button--fixed:before {
+    font-size: 1.125rem;
+    line-height: 1;
+    margin-right: 8px;
+}
+.quads-button:focus {
+    outline: none;
+    color: #fff !important;
+}
+.quads-infoAccount.quads-isValid {
+    color: #00A66B;
+    font-weight: bold;
+    margin-left: 5px;
+    display: inline-block;
+}
+[class^="quads-icon-"]:before, [class*=" quads-icon-"]:after, [class^="quads-icon-"]:after, [class*=" quads-icon-"]:before, [id^="quads-nav-"]:before, [id*=" quads-nav-"]:after, [id^="quads-nav-"]:after, [id*=" quads-nav-"]:before {
+    font-family: 'quads-icomoon';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}.quads-infoAccountt.quads-isValids {
+    color: #00A66B;
+    font-weight: bold;
+    margin-left: 5px;
+    display: inline-block;
+}.activated_p {
+    display: contents;
+}
+.activated_messg {
+    font-size: initial;
+    font-weight: 600;
+}.Key_msg {
+    margin-top: 10px;
+}.quads-optionHeader .quads-title2 {
+        line-height: 24px;
+    color: #005af0;
+    padding-right: 40px;
+    font-weight: 600;
+    font-size: 16px;
+}.quads-title2 {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: bold;
+    letter-spacing: -0.02em;
+}.quads-icon-user:before {
+    content: "\e914";
+    top: 11px;
+    right: 13px;
+    font-size: 13px;
+}.quads-bnr-inv {
+    margin-top: 30px;
+}.quads_fivestar.updated {
+    display: none;
+}.q-r-m{
+  font-weight: bold;
+  }.quads-Page-inner{
+    border: 1px solid #ececec;
+    padding: 0 0 20px 15px;
+    margin-top: 20px;
+  }.pro_key_btn{
+    width: 199px;
+    float: left;
+  }.q-r-m-e {
+    font-weight: bold;
+    color: #FF0000;
+}.quads-isinValid {
+    color: red;
+    font-weight: bold;
+    margin-left: 5px;
+    display: inline-block;
+}

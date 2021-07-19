@@ -140,8 +140,65 @@ class QUADS_License {
 			'license'   => $this->license,
 			'author'    => $this->author
 		);
-            
-		if( ! empty( $this->item_id ) ) {
+		// data to send in our API request
+		$api_params = array(
+			'edd_action'=> 'check_license',
+			'license' 	=> $this->license,
+			'item_name' => urlencode( $this->item_name ),
+			'url'       => home_url()
+		);
+
+		// Call the API
+		$response = wp_remote_post(
+			$this->api_url,
+			array(
+				'timeout'   => 15,
+				'sslverify' => false,
+				'body'      => $api_params
+			)
+		);
+
+		// make sure the response came back okay
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+  $license_data = json_decode( wp_remote_retrieve_body( $response ) );
+  // print_r($license_data);die;
+		// if ($license_data->license == "expired") {
+			// $license_data = get_option( 'quads_wp_quads_pro_license_active' );
+        $license_exp = date('Y-m-d', strtotime($license_data->expires));
+        $license_exp_d = date('d F Y', strtotime($license_data->expires));
+        if (isset($license_data->expires)) {
+        	$license_data->expires = $license_exp_d;
+        }
+        // print_r($license_data);die;
+        // print_r($license_exp_d);die;
+    $today = date('Y-m-d');
+    $exp_date = $license_exp;
+    $date1 = date_create($today);
+    $date2 = date_create($exp_date);
+    $diff = date_diff($date1,$date2);
+    $days = $diff->format("%a");
+    if($today > $exp_date){
+    	$days = -$days;
+    }
+    // print_r($days);die;
+		// }
+		
+    //check the license on 30th day 
+		     // print_r($licenses);die;
+    // print_r($days); die;
+    if ($days>= 0 && $days <= 30   ) {
+    if(isset($_GET["path"])&&!empty($_GET)){
+    	if($_GET['path'] == 'settings_licenses' ){
+    		$this->weekly_license_check();
+    	};
+    }
+  }
+
+  // $this->weekly_license_check();
+  //end
+  if( ! empty( $this->item_id ) ) {
 			$args['item_id']   = $this->item_id;
 		} else {
 			$args['item_name'] = $this->item_name;
@@ -288,7 +345,18 @@ class QUADS_License {
 	 * @return  void
 	 */
 	public function activate_license() {
-
+		$details = get_option( $this->item_shortname . '_license_active' );
+		$license_exp = date('Y-m-d', strtotime($details->expires));
+		$license_exp_d = date('d F Y', strtotime($details->expires));
+		$today = date('Y-m-d');
+		$exp_date = $license_exp;
+		$date1 = date_create($today);
+			$date2 = date_create($exp_date);
+			$diff = date_diff($date1,$date2);
+			$days = $diff->format("%a");
+			if($today > $exp_date){
+				$days = -$days;
+			}
 
 		if ( ! isset( $_REQUEST[ $this->item_shortname . '_license_key-nonce'] ) || ! wp_verify_nonce( $_REQUEST[ $this->item_shortname . '_license_key-nonce'], $this->item_shortname . '_license_key-nonce' ) ) {
 
@@ -326,13 +394,23 @@ class QUADS_License {
 		if( empty( $license ) ) {
 			return;
 		}
-
+			$license_exp_d = date('d F Y', strtotime($details->expires));
+			$today = date('Y-m-d');
+			$exp_date =$license_exp;
+			$date1 = date_create($today);
+			$date2 = date_create($exp_date);
+			$diff = date_diff($date1,$date2);
+			$days = $diff->format("%a");
+			if($today > $exp_date){
+				$days = -$days;
+			}
 		// Data to send to the API
 		$api_params = array(
 			'edd_action' => 'activate_license',
 			'license'    => $license,
 			'item_name'  => urlencode( $this->item_name ),
-			'url'        => home_url()
+			'url'        => home_url(),
+			'key_duration'        => $license_exp_d
 		);
 
 		// Call the API
@@ -515,8 +593,13 @@ class QUADS_License {
 		}
 
 		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+		if ($license_data->license == "expired") {
 
+		}
+		if ($license_data->license !== "expired") {
 		update_option( $this->item_shortname . '_license_active', $license_data );
+		}
+
 
 	}
 

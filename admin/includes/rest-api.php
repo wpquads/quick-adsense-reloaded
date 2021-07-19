@@ -1566,7 +1566,24 @@ return array('status' => 't');
         }
         public function getSettings($request){
 
-            $quads_settings = get_option('quads_settings');
+            $quads_settings = get_option('quads_settings');           
+            $b_license = $quads_settings['quads_wp_quads_pro_license_key'];
+            $transient =  'quads_trans';
+            $value =  $b_license;
+            $expiration =  '' ;
+            set_transient( $transient, $value, $expiration );
+            // $b_license
+        $strlen = strlen($b_license);
+        $show_key = "";
+        for($i=1;$i<$strlen;$i++){
+            if($i<$strlen-4){
+                $show_key .= "*";
+            }else{
+                $show_key .= $b_license[$i];
+            }
+        }
+                   $quads_settings['quads_wp_quads_pro_license_key']  = $show_key ;
+
             $quads_settings['QckTags'] = isset($quads_settings['quicktags']['QckTags']) ? $quads_settings['quicktags']['QckTags'] : false;
             $quads_settings['license'] = get_option( 'quads_wp_quads_pro_license_active' );
             $quads_settings['adsforwp_to_quads'] = get_option( 'adsforwp_to_quads' );
@@ -1725,10 +1742,21 @@ return array('status' => 't');
                 if(isset($parameters['settings'])){
                     $result      = $this->api_service->updateSettings(json_decode($parameters['settings'], true));
                     if($result){
-                        $response = array('status' => 't', 'msg' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
+                        $response = array('status' => 'tp', 'msg' =>  __( 'Settings has been saved successfullycv', 'quick-adsense-reloaded' ));
+                        if(is_array($result)){
+                            if ($result['license'] == "invalid") {
+                                $response = array('status' => 'lic_not_valid','license'=>$result['license'], 'msgINV' =>  __( 'Settings has been saved successfullyvf', 'quick-adsense-reloaded' ));
+                            }
+                            else
+                                {
+                                    if ($result['license'] == "valid") {
+                                        $response = array('status' => 'license_validated','license'=>$result['license'], 'msgV' =>  __( 'Settings has been saved successfullyvf', 'quick-adsense-reloaded' ));
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
-            }
 
             return $response;
         }

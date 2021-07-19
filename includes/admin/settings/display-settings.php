@@ -182,12 +182,34 @@ function quads_options_page_new() {
         wp_enqueue_style('quads-admin-ad-style', QUADS_PLUGIN_URL.'admin/assets/js/dist/style.css');
         
         wp_enqueue_style('quads-material-ui-font', 'https://fonts.googleapis.com/icon?family=Material+Icons');
-
+        
+        $licenses = get_option( 'quads_wp_quads_pro_license_active' );
+        $license_exp = date('Y-m-d', strtotime($licenses->expires));
+        $license_exp_d = date('d F Y', strtotime($licenses->expires));
+        if (isset($licenses->expires)) {
+        $licenses->expires = $license_exp_d;
+        }        
+        $today = date('Y-m-d');
+        $exp_date =$license_exp;
+        $date1 = date_create($today);
+        $date2 = date_create($exp_date);
+        $diff = date_diff($date1,$date2);        
+        $days = $diff->format("%a");
+        if($today > $exp_date){
+            $days = -$days;
+        }
+        if(isset($licenses->price_id)){
+            $licenses->price_id = $days;
+        }        
+        // print_r($licenses->price_id);die;       
+        if($today > $exp_date){
+            $days = -$days;
+        }
         $data = array(
             'quads_plugin_url'     => QUADS_PLUGIN_URL,
             'rest_url'             => esc_url_raw( rest_url() ),
             'nonce'                => wp_create_nonce( 'wp_rest' ),
-            'licenses'             => get_option( 'quads_wp_quads_pro_license_active' ),
+            'licenses'             => $licenses,
             'is_amp_enable'        => function_exists('is_amp_endpoint') ? true : false,
             'is_bbpress_exist'     => class_exists( 'bbPress' )? true : false,
             'is_newsPapertheme_exist'     => class_exists( 'tagdiv_config' )? true : false,

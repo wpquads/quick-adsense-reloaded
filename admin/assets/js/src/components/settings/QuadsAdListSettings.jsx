@@ -675,8 +675,14 @@ handleMultiPluginsChange = (option) => {
       .then(
         (result) => {
         const currentpage = queryString.parse(window.location.search);
-        if(this.state.licensemsg == "not activated" && currentpage.path =="settings_licenses"){
+        if( this.state.licensemsg == "not activated" || currentpage.path =="settings_licenses" && result.status == "license_validated" && result.license == "valid" ){
           location.reload();
+        }
+        if(result.status == "lic_not_valid" && result.license == "invalid" ){
+            setTimeout(function(){ 
+            var elementsArray = document.getElementsByClassName("inv_msg");
+            elementsArray[0].style.display = 'block'  
+           }, 100);
         }
             if(result.status === 't'){
               if(result.file_status === 't'){
@@ -1767,15 +1773,56 @@ handleMultiPluginsChange = (option) => {
                case "settings_licenses":  return(
                 <div className="quads-settings-tab-container">
                 <div className="quads-help-support">
+        {( quads_localize_data.licenses.license == "valid" &&quads_localize_data.licenses.price_id != 0 ) && 
+        <span class="activated_messg">Congratulations!</span>
+        }
+        {( quads_localize_data.licenses.license == "valid" &&quads_localize_data.licenses.price_id != 0 ) && 
+        <p class="activated_p"> WP QUADS PRO is now activated and working for you. This enables the Advanced Settings and High Performance for your ADS!</p>
+        }
                     <div>
-                      <h3>{__('Activate Your License', 'quick-adsense-reloaded')}</h3>
+                    {quads_localize_data.licenses.license !== "valid" ? <h3>{__('Activate Your License', 'quick-adsense-reloaded')}</h3> : null}
                     </div>
-                    <div>
+                    <div class="Key_msg">
                       {__('WP QUADS PRO License Key', 'quick-adsense-reloaded')}
                     </div>
-                   <div><input value={settings.quads_wp_quads_pro_license_key} onChange={this.add_license_key} name="quads_wp_quads_pro_license_key" type="text" placeholder="License Key" className="quads-premium-cus" />
-                      {quads_localize_data.licenses.license == "valid" ? <a onClick={this.pro_license_key_deactivate} className="quads-btn quads-btn-primary">
-            Deactivate License</a>: null}    </div>
+                   <div>
+                   <input value={settings.quads_wp_quads_pro_license_key} onChange={this.add_license_key} name="quads_wp_quads_pro_license_key" type="text" placeholder="License Key" className="quads-premium-cus" />
+                   {
+                    quads_localize_data.licenses.license == "valid" ?  
+                   <div className="">
+            {this.state.button_spinner_toggle ?
+            <a className="quads-btn quads-btn-primary">
+            <span className="quads-btn-spinner"></span>Saving...
+            </a> :
+            //<div style={{width: "199px";float: "left";}}>
+            <div class="pro_key_btn">
+            <a onClick={this.pro_license_key_deactivate} className="quads-btn quads-btn-primary">
+            Deactivate License</a>
+            </div>
+          }
+          </div> : null}
+          {quads_localize_data.licenses.license !== "valid" ?  
+          <div className="">
+            {this.state.button_spinner_toggle ?
+            <a className="quads-btn quads-btn-primary">
+            <span className="quads-btn-spinner"></span>Saving...
+            </a> :
+            <a onClick={this.saveSettingsHandler} className="quads-btn quads-btn-primary" id="act_license" >
+            Activate License
+            </a>
+          }
+          </div> : null}
+          {quads_localize_data.licenses.license !== "valid" ?  
+          <div className="">
+            {this.state.button_spinner_toggle ?
+            <a className="">
+            <span className=""></span>
+            </a> :
+            <div class="inv_msg" style={{display: "none"}}>Enter a Valid License Key</div>
+          }
+          </div> : null}
+          
+          </div>
             {this.state.licensemsg ?
             <div id="quads_licensemsg">{this.state.licensemsg}</div> : null}
                   {/* <div>
@@ -1787,7 +1834,8 @@ handleMultiPluginsChange = (option) => {
                );
             }
           })()}
-          {page.path == 'settings_support' || page.path == 'settings_importer' || page.path == 'settings' ? '' : (
+
+          {page.path == 'settings_support' || page.path == 'settings_importer' || page.path == 'settings' || page.path == 'settings_licenses' ? '' : (
             <div className="quads-save-settings">
             {this.state.button_spinner_toggle ?
             <a className="quads-btn quads-btn-primary">
@@ -1800,11 +1848,60 @@ handleMultiPluginsChange = (option) => {
           </div>
           )           }
           </form>
-          <div className="quads-bnr">
+           
+            {( quads_localize_data.licenses.license == "valid" && quads_localize_data.licenses.price_id != 0 ) &&
+          <div class="quads-Page-col-main">
+          <div class="quads-Page-inner">
+          <div class="quads-optionHeader">
+          <h3 class="quads-title2">My Account</h3>
+          </div>
+          <div class="quads-field quads-field-account">
+          <div class="quads-flex">
+          <div class="quads-infoAccount-License">
+          <span class="quads-title3">License Key is</span>
+          <span class="quads-infoAccountt quads-isValids" id="quads-account-data">Activated</span>          
+          <p>Hey! You're enjoying all the PRO benefits of the WP QUADS along with regular updates & Technical Support.</p>
+          <p class="">
+          <span class="quads-title3">Expiration Date</span>
+          <span class="quads-infoAccount quads-isValid" id="quads-expiration-data">{quads_localize_data.licenses.expires}</span>
+          </p>
+          <a href="https://wpquads.com/your-account/" target="_blank" class="quads-button quads-button-btn quads-button--small quads-icon-user">Extend License</a>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
+        }
+        {( quads_localize_data.licenses.price_id == 0 ) &&
+          <div class="quads-Page-col-main">
+          <div class="quads-Page-inner">
+          <div class="quads-optionHeader">
+          <h3 class="quads-title2">My Account</h3>
+          </div>
+          <div class="quads-field quads-field-account">
+          <div class="quads-flex">
+          <div class="quads-infoAccount-License">
+          <span class="quads-title3">License Key is</span>
+          <span class="quads-infoAccountt quads-isinValid" id="quads-account-data">Expired</span>          
+          <p>Extend the License to receive the further updates & support.</p>
+          <p class="">
+          <span class="quads-title3">Expiration Date</span>
+          <span class="quads-infoAccount quads-isValid" id="quads-expiration-data">{quads_localize_data.licenses.expires}</span>
+          </p>
+          <a href="https://wpquads.com/your-account/" target="_blank" class="quads-button quads-button-btn quads-button--small quads-icon-user">Extend License</a>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
+        }
+         
+          {quads_localize_data.licenses.license !== "valid" ? <div className="quads-bnr-inv">
             <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-quads&utm_campaign=wpquads" target="_blank">
               <img  src={quads_localize_data.quads_plugin_url+'assets/images/quads_banner_250x521_buy.png'} />
            </a>
-          </div>
+          </div>: null}
+                   
           </div>
           </div>
           </div>
