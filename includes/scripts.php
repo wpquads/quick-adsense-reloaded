@@ -19,6 +19,7 @@ add_action('amp_post_template_css','quads_inline_styles_amp', 11);
 add_action( 'admin_enqueue_scripts', 'quads_load_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_plugins_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_all_admin_scripts', 100 );
+add_action( 'admin_enqueue_scripts', 'quads_load_admin_fonts', 100 );
 add_action( 'admin_print_footer_scripts', 'quads_check_ad_blocker' );
 add_action( 'wp_enqueue_scripts', 'click_fraud_protection' );
 add_action( 'wp_enqueue_scripts', 'tcf_2_integration' );
@@ -223,6 +224,48 @@ function quads_load_all_admin_scripts( $hook ) {
     $css_dir = QUADS_PLUGIN_URL . 'assets/css/';
 
     wp_enqueue_style( 'quads-admin-all', $css_dir . 'quads-admin-all.css',array(), QUADS_VERSION );
+}
+
+function quads_load_admin_fonts( ) {
+    $font_url = QUADS_PLUGIN_URL.'admin/assets/js';
+    echo '<style>
+    @font-face {
+    font-family: "quads-icomoon";
+    src: url("../fonts/icomoon.eot");
+    src: url("../fonts/icomoon.eot?#iefix") format("embedded-opentype"), url("'.$font_url.'/fonts/icomoon.woff") format("woff"), url("../fonts/icomoon.ttf") format("truetype"), url("../fonts/icomoon.svg#icomoon") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+[class^="quads-icon-"]:before,
+[class*=" quads-icon-"]:after,
+[class^="quads-icon-"]:after,
+[class*=" quads-icon-"]:before,
+[id^="quads-nav-"]:before,
+[id*=" quads-nav-"]:after,
+[id^="quads-nav-"]:after,
+[id*=" quads-nav-"]:before {
+    font-family: "quads-icomoon";
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+[class^="quads-icon-"]:before, [class*=" quads-icon-"]:after, [class^="quads-icon-"]:after, [class*=" quads-icon-"]:before, [id^="quads-nav-"]:before, [id*=" quads-nav-"]:after, [id^="quads-nav-"]:after, [id*=" quads-nav-"]:before {
+    font-family: \'quads-icomoon\';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+    </style>';
+
 }
 
 

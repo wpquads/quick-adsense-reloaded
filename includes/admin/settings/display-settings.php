@@ -184,13 +184,16 @@ function quads_options_page_new() {
         wp_enqueue_style('quads-material-ui-font', 'https://fonts.googleapis.com/icon?family=Material+Icons');
         
         $licenses = get_option( 'quads_wp_quads_pro_license_active' );
+        if (isset($licenses->expires)) {
         $license_exp = date('Y-m-d', strtotime($licenses->expires));
         $license_exp_d = date('d F Y', strtotime($licenses->expires));
         if (isset($licenses->expires)) {
         $licenses->expires = $license_exp_d;
-        }        
+        }    
+
         $today = date('Y-m-d');
         $exp_date =$license_exp;
+
         $date1 = date_create($today);
         $date2 = date_create($exp_date);
         $diff = date_diff($date1,$date2);        
@@ -198,12 +201,14 @@ function quads_options_page_new() {
         if($today > $exp_date){
             $days = -$days;
         }
+
         if(isset($licenses->price_id)){
             $licenses->price_id = $days;
         }        
         // print_r($licenses->price_id);die;       
         if($today > $exp_date){
             $days = -$days;
+        }
         }
         $data = array(
             'quads_plugin_url'     => QUADS_PLUGIN_URL,

@@ -166,15 +166,19 @@ class QUADS_License {
   // print_r($license_data);die;
 		// if ($license_data->license == "expired") {
 			// $license_data = get_option( 'quads_wp_quads_pro_license_active' );
+  			if (isset($license_data->expires)) {
         $license_exp = date('Y-m-d', strtotime($license_data->expires));
         $license_exp_d = date('d F Y', strtotime($license_data->expires));
+      
         if (isset($license_data->expires)) {
         	$license_data->expires = $license_exp_d;
         }
         // print_r($license_data);die;
         // print_r($license_exp_d);die;
     $today = date('Y-m-d');
+    
     $exp_date = $license_exp;
+
     $date1 = date_create($today);
     $date2 = date_create($exp_date);
     $diff = date_diff($date1,$date2);
@@ -182,12 +186,14 @@ class QUADS_License {
     if($today > $exp_date){
     	$days = -$days;
     }
+    }
     // print_r($days);die;
 		// }
 		
     //check the license on 30th day 
 		     // print_r($licenses);die;
     // print_r($days); die;
+    if (isset($days)) {
     if ($days>= 0 && $days <= 30   ) {
     if(isset($_GET["path"])&&!empty($_GET)){
     	if($_GET['path'] == 'settings_licenses' ){
@@ -195,6 +201,7 @@ class QUADS_License {
     	};
     }
   }
+}
 
   // $this->weekly_license_check();
   //end
@@ -346,6 +353,7 @@ class QUADS_License {
 	 */
 	public function activate_license() {
 		$details = get_option( $this->item_shortname . '_license_active' );
+		if (isset($license_data->expires)) {
 		$license_exp = date('Y-m-d', strtotime($details->expires));
 		$license_exp_d = date('d F Y', strtotime($details->expires));
 		$today = date('Y-m-d');
@@ -357,6 +365,7 @@ class QUADS_License {
 			if($today > $exp_date){
 				$days = -$days;
 			}
+		}
 
 		if ( ! isset( $_REQUEST[ $this->item_shortname . '_license_key-nonce'] ) || ! wp_verify_nonce( $_REQUEST[ $this->item_shortname . '_license_key-nonce'], $this->item_shortname . '_license_key-nonce' ) ) {
 
