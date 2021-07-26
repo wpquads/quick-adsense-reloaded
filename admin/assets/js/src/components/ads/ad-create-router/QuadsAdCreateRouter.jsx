@@ -53,6 +53,7 @@ class QuadsAdCreateRouter extends Component {
           quads_post_meta        :  {        
             check_plugin_exist   : true,
             visibility_include   : visibility_include_def_val,
+            ad_blindness         : [],
             visibility_exclude   : [],
             targeting_include         : [],              
             targeting_exclude        : [],              
@@ -352,6 +353,7 @@ class QuadsAdCreateRouter extends Component {
       body_json.quads_post_meta.visibility_include = this.includedVisibilityVal; 
       body_json.quads_post_meta.visibility_exclude = this.excludedVisibilityVal; 
       body_json.quads_post_meta.random_ads_list = this.random_ads_list; 
+      body_json.quads_post_meta.ad_blindness =body_json['ad_blindness'];
       body_json.quads_post_meta.ads_list = this.ads_list; 
       let url = quads_localize_data.rest_url + 'quads-route/update-ad';
       fetch(url,{
@@ -396,7 +398,7 @@ class QuadsAdCreateRouter extends Component {
     }
 
     adFormChangeHandler = (event) => {
-      
+   
       const name = event.target.name;
       const value = event.target.type === 'checkbox' ?  event.target.checked : event.target.value;   
       if(name == 'position' && value == 'amp_story_ads'){
@@ -437,7 +439,7 @@ class QuadsAdCreateRouter extends Component {
         const currentState = quads_post_meta;      
         if(name){
           currentState[name] = value;     
-          this.setState({ quads_post_meta: currentState,  quads_state_changed: true });  
+            this.setState({ quads_post_meta: currentState,  quads_state_changed: true });  
         }                  
         var page = queryString.parse(window.location.search);  
         
@@ -530,6 +532,13 @@ class QuadsAdCreateRouter extends Component {
 
           case 'ad_image':
             if(validation_flag && quads_post_meta.image_src && quads_post_meta.image_redirect_url && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;
+          case 'ad_blindness':
+            if(validation_flag && quads_post_meta.ads_list.length > 0 && quads_post_meta.ad_blindness.length > 0 && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
@@ -724,7 +733,14 @@ class QuadsAdCreateRouter extends Component {
             this.setState({show_form_error:true});
           } 
             break;
-             case 'ad_image':
+          case 'ad_blindness':
+            if(quads_post_meta.ads_list.length > 0 ){
+              this.props.history.push(new_url); 
+            }else{
+              this.setState({show_form_error:true});
+            } 
+            break;
+            case 'ad_image':
           if(quads_post_meta.image_src && quads_post_meta.image_redirect_url){
             this.props.history.push(new_url); 
           }else{
@@ -899,7 +915,7 @@ class QuadsAdCreateRouter extends Component {
                               parentState={this.state}                             
                               updateVisitorTarget ={this.updateVisitorTarget}
                               updateVisibility    = {this.updateVisibility}                                                                                                                
-                              adFormChangeHandler={this.adFormChangeHandler}                             
+                              adFormChangeHandler={this.adFormChangeHandler}    
                               movePrev={this.movePrev}                                                        
                               publish={this.publish}                                                                                    
                               onListSearchHover          ={this.onListSearchHover}  

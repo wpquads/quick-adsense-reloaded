@@ -5,6 +5,7 @@ import QuadsUserTargeting from  '../../common/user-targeting/QuadsUserTargeting'
 import QuadsVisibility from  '../../common/visibility/QuadsVisibility'
 import QuadsAdvancePosition from  '../../common/advance-position/QuadsAdvancePosition'
 import queryString from 'query-string'
+import QuadsAdvancePositionMuti from  '../../common/advance-position/QuadsAdvancePositionMuti'
 
 
 class QuadsAdTargeting extends Component {
@@ -26,7 +27,7 @@ class QuadsAdTargeting extends Component {
           return (
                 <div>
                 <div className="quads-settings-group">
-              {post_meta.ad_type != "background_ad" && post_meta.adsense_ad_type != 'adsense_sticky_ads' ?
+              {post_meta.ad_type != "background_ad" && post_meta.adsense_ad_type != 'adsense_sticky_ads'  && post_meta.ad_type != 'ad_blindness' ?
               <>
                 <div>{__('Position', 'quick-adsense-reloaded')}</div>  
                 <div className="quads-panel">
@@ -118,6 +119,9 @@ class QuadsAdTargeting extends Component {
                 </div> 
                 </>
                 : ''}
+     {post_meta.ad_type == "ad_blindness" ? <QuadsAdvancePositionMuti parentState={this.props.parentState} adFormChangeHandler={this.props.adFormChangeHandler} />  
+        : ''}
+
                 </div> 
                 {post_meta.position != 'ad_shortcode' && post_meta.position != 'amp_story_ads' ?
                   <QuadsVisibility 

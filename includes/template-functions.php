@@ -706,6 +706,9 @@ function quads_change_adsbygoogle_to_amp($content){
         else{
           $content =  preg_replace( '/&.*?;/', 'x', $content ); // multi-byte characters converted to X
         }
+        if(empty($content)){
+            return $content;
+          }
         @$dom->loadHTML($content);
         $nodes = $dom->getElementsByTagName( 'ins' );
 
@@ -1022,7 +1025,8 @@ function quads_filter_default_ads_new( $content ) {
             else
               $post_status =  'publish';
             if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish'){
-                    
+                $ads  = apply_filters( 'quads_default_filter_position_data', $ads);
+
                 $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
                 $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;
                 $word_count_number = (isset($ads['word_count_number']) && $ads['word_count_number'] !='') ? $ads['word_count_number'] : 1;
@@ -1034,10 +1038,6 @@ function quads_filter_default_ads_new( $content ) {
                 if(isset($ads['random_ads_list']) && !empty($ads['random_ads_list'])){
                     $cusads = '<!--CusRnd'.esc_html($ads['ad_id']).'-->';
                 }else if($ads['ad_type']== 'rotator_ads' &&isset($ads['ads_list']) && !empty($ads['ads_list'])){
-                    $cusads = '<!--CusRot'.esc_html($ads['ad_id']).'-->';
-                }else if($ads['ad_type']== 'ad_blindness' ){
-                 
-
                     $cusads = '<!--CusRot'.esc_html($ads['ad_id']).'-->';
                 }else{
                        $cusads = '<!--CusAds'.esc_html($ads['ad_id']).'-->';

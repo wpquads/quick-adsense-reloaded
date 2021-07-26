@@ -50,6 +50,7 @@ class QuadsAdListSettings extends Component {
                 tcf_2_integration   : false,
                 rotator_ads_settings   : true,
                 group_insertion_settings : true,
+                blindness_settings : true,
                 ad_performance_tracking : false,
                 reports_settings : true,
                 ad_logging : true,
@@ -844,8 +845,8 @@ handleMultiPluginsChange = (option) => {
      if(name == 'tcf_2_integration'){
       this.saveSettings();
      }
-     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'reports_settings' || name == 'ad_performance_tracking' || name == 'ad_logging'){
-     this.saveSettings();
+     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'reports_settings' || name == 'ad_performance_tracking' || name == 'ad_logging'){
+      this.saveSettings();
     }
     if(name == 'adsforwp_quads_shortcode'|| name == 'adsforwp_quads_gutenberg' || name == 'advance_ads_to_quads'){
      this.saveSettings();
@@ -1433,6 +1434,15 @@ handleMultiPluginsChange = (option) => {
                      <td>
                          <label className="quads-switch">
                              <input id="group_insertion_settings" type="checkbox" name="group_insertion_settings" onChange={this.formChangeHandler} checked={settings.group_insertion_settings} />
+                             <span className="quads-slider"></span>
+                         </label>
+                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/"></a>
+                     </td>
+                 </tr>
+                 <tr>  <th><label htmlFor="blindness_settings">{__('Ad Blindness', 'quick-adsense-reloaded')}</label></th>
+                     <td>
+                         <label className="quads-switch">
+                             <input id="blindness_settings" type="checkbox" name="blindness_settings" onChange={this.formChangeHandler} checked={settings.blindness_settings} />
                              <span className="quads-slider"></span>
                          </label>
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/"></a>
