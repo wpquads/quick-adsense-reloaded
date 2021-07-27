@@ -58,10 +58,12 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 = TAKE IT A STEP FURTHER WITH WPQUADS PRO =
 With [WPQUADS PRO](https://wpquads.com/#buy-wpquads) you can add as many ads as you like to your WordPress website. There are no limitations.
 Get access to more professional Settings, options and positions to really push your ads to the next level.
-
-* <strong>NEW - [Group Insertion](https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/)</strong>
-* <strong>NEW - [Ad rotator](https://wpquads.com/documentation/how-to-use-ad-rotator-in-wp-quads/)</strong>
-* <strong>NEW - [Reports & Tracking](https://wpquads.com/documentation/how-to-link-adsense-account-for-the-revenue-reports-feature/) </strong>: Find out which of your ads are performing the best and find out the most performing ad location.
+* <strong>New - AD Blindness </strong>: Helps you fight the Ad blindness.
+* <strong>New - Skip Ad </strong>: Helps you to make ads Skippable.
+* <strong>New - AD Logging </strong>: Gives you an almost accurate data page, IP, browser, referrer, and dimensions of the user that clicked the ad and gives you reports of that data.
+* <strong>[Group Insertion](https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/)</strong>
+* <strong>[Ad rotator](https://wpquads.com/documentation/how-to-use-ad-rotator-in-wp-quads/)</strong>
+* <strong>[Reports & Tracking](https://wpquads.com/documentation/how-to-link-adsense-account-for-the-revenue-reports-feature/) </strong>: Find out which of your ads are performing the best and find out the most performing ad location.
 * <strong>[Geo Targeting ](https://wpquads.com/documentation/what-is-geo-location-feature-and-how-to-use-it/)</strong>: Target the ads based on the city and countries.
 
 
@@ -120,8 +122,6 @@ Get access to more professional Settings, options and positions to really push y
 We are actively developing this plugin and our aim is to make this plugin into the #1 advertisment solution in the world. You can [Request a Feature](https://wpquads.com/support/) or [Report a Bug](https://github.com/wpquads/quick-adsense-reloaded/issues). The code is hosted on [Github](https://github.com/wpquads/quick-adsense-reloaded).
 
 = Development Roadmap: =
-* <strong>AD Blindness </strong>: Helps you fight the Ad blindness.
-* <strong>AD Logging </strong>: Gives you an almost accurate data page, IP, browser, referrer, and dimensions of the user that clicked the ad and gives you reports of that data.
 * <strong>A/B Testing</strong>: Find out which ads perform the most and how you can improve the ad revenue further.
 * <strong>3rd Party compatibility</strong>: Deep integration with BuddyPress, BuddyBoss, bbPress, Paid Membership Pro, WPML, Mailpoet, Multisite, WooCommerce and More.
 * <strong>Innovation & Disruption</strong>: We are constantly evolving our product and going to introduce new features which are not being used by anyone in the world.
@@ -210,8 +210,6 @@ Alternative Installation:
 * New: AD Logging #364
 * New: Ad lazy load for vital #362
 * Fix: Image was not converting to amp-image on AMP #400
-
-
 
 = 2.0.27.4 (05th June 2021) =
 * Fix: when sticky ads are enable Adsense ads are not loading: #394
