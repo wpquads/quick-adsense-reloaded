@@ -131,6 +131,10 @@ class QuadsAdList extends Component {
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/group_insertion_icon.png';
           type = "Group Insertion";
           break;
+          case 'skip_ads':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/skip_ads_icon.png';
+          type = "Skip Ads";
+          break;
         default:
           break;
       }

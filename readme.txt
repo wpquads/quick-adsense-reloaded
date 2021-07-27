@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 5.7.2
+Tested up to: 5.8
 Requires PHP: 5.4
-Stable tag: 2.0.27.4
+Stable tag: 2.0.28
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
@@ -204,6 +204,15 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.28 (31th July 2021) =
+* New: AD Blindness #363
+* New: Skippable ads. #343
+* New: AD Logging #364
+* New: Ad lazy load for vital #362
+* Fix: Image was not converting to amp-image on AMP #400
+
+
+
 = 2.0.27.4 (05th June 2021) =
 * Fix: when sticky ads are enable Adsense ads are not loading: #394
 * Fix: Newspaper unable to add mutiple ads #392
