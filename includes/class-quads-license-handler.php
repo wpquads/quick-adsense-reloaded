@@ -106,7 +106,7 @@ class QUADS_License {
 		add_action( 'admin_init', array( $this, 'deactivate_license' ) );
 
 		// Check that license is valid once per week
-		add_action( 'quads_weekly_event', array( $this, 'weekly_license_check' ) );
+		// add_action( 'quads_weekly_event', array( $this, 'weekly_license_check' ) );
 
 		// For testing license notices, uncomment this line to force checks on every page load
 		//add_action( 'admin_init', array( $this, 'weekly_license_check' ) );
@@ -140,29 +140,33 @@ class QUADS_License {
 			'license'   => $this->license,
 			'author'    => $this->author
 		);
-		// data to send in our API request
-		$api_params = array(
-			'edd_action'=> 'check_license',
-			'license' 	=> $this->license,
-			'item_name' => urlencode( $this->item_name ),
-			'url'       => home_url()
-		);
+// 		// data to send in our API request
+// 		$api_params = array(
+// 			'edd_action'=> 'check_license',
+// 			'license' 	=> $this->license,
+// 			'item_name' => urlencode( $this->item_name ),
+// 			'url'       => home_url()
+// 		);
 
-		// Call the API
-		$response = wp_remote_post(
-			$this->api_url,
-			array(
-				'timeout'   => 15,
-				'sslverify' => false,
-				'body'      => $api_params
-			)
-		);
+// 		// Call the API
+// 		$response = wp_remote_post(
+// 			$this->api_url,
+// 			array(
+// 				'timeout'   => 15,
+// 				'sslverify' => false,
+// 				'body'      => $api_params
+// 			)
+// 		);
 
-		// make sure the response came back okay
-		if ( is_wp_error( $response ) ) {
-			return false;
-		}
-  $license_data = json_decode( wp_remote_retrieve_body( $response ) );
+// 		// make sure the response came back okay
+// 		if ( is_wp_error( $response ) ) {
+// 			return false;
+// 		}
+//   $license_data = json_decode( wp_remote_retrieve_body( $response ) );
+
+
+  $license = get_option( $this->item_shortname . '_license_active' );
+
   // print_r($license_data);die;
 		// if ($license_data->license == "expired") {
 			// $license_data = get_option( 'quads_wp_quads_pro_license_active' );
@@ -603,6 +607,9 @@ class QUADS_License {
 
 		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 		if ($license_data->license == "expired") {
+
+
+			
 
 		}
 		if ($license_data->license !== "expired") {
