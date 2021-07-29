@@ -165,7 +165,7 @@ class QUADS_License {
 //   $license_data = json_decode( wp_remote_retrieve_body( $response ) );
 
 
-  $license = get_option( $this->item_shortname . '_license_active' );
+  $license_data = get_option( $this->item_shortname . '_license_active' );
 
   // print_r($license_data);die;
 		// if ($license_data->license == "expired") {
