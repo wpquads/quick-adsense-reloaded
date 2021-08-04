@@ -1860,6 +1860,8 @@ handleMultiPluginsChange = (option) => {
           </form>
            
             {( quads_localize_data.licenses.license == "valid" && quads_localize_data.licenses.price_id != 0 ) &&
+            <div className="quads-renew-message-main">
+            { quads_localize_data.is_pro ?
           <div class="quads-Page-col-main">
           <div class="quads-Page-inner">
           <div class="quads-optionHeader">
@@ -1881,8 +1883,16 @@ handleMultiPluginsChange = (option) => {
           </div>
           </div>
           </div>
+          : <div className="quads-bnr-inv">
+            <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-quads&utm_campaign=wpquads" target="_blank">
+              <img  src={quads_localize_data.quads_plugin_url+'assets/images/quads_banner_250x521_buy.png'} />
+           </a>
+          </div> }
+          </div>
         }
         {( quads_localize_data.licenses.price_id == 0 ) &&
+          <div className="quads-renew-message-main">
+            { quads_localize_data.is_pro ?
           <div class="quads-Page-col-main">
           <div class="quads-Page-inner">
           <div class="quads-optionHeader">
@@ -1904,13 +1914,14 @@ handleMultiPluginsChange = (option) => {
           </div>
           </div>
           </div>
-        }
-         
-          {quads_localize_data.licenses.license !== "valid" ? <div className="quads-bnr-inv">
+        : <div className="quads-bnr-inv">
             <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-quads&utm_campaign=wpquads" target="_blank">
               <img  src={quads_localize_data.quads_plugin_url+'assets/images/quads_banner_250x521_buy.png'} />
            </a>
-          </div>: null}
+          </div> }
+          </div>
+        }
+        
                    
           </div>
           </div>
