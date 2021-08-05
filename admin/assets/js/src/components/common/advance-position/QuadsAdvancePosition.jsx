@@ -50,7 +50,6 @@ check_plugin_exist = (event) => {
         const {__} = wp.i18n;
         const post_meta = this.props.parentState.quads_post_meta;
         const show_form_error = this.props.parentState.show_form_error;
-        console.log(post_meta.check_plugin_exist);
         return (
             <div>
                 <div className="quads-position-dropdown">
@@ -73,7 +72,10 @@ check_plugin_exist = (event) => {
                                     <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
                                     {this.state.ad_extra_position}
                                 </optgroup>
-
+                                <optgroup label="Newspaper Theme support">
+                                <option value="before_header">{__('Before the Header', 'quick-adsense-reloaded')}</option>
+                                <option value="after_header">{__('After the Header', 'quick-adsense-reloaded')}</option>
+                                    </optgroup>
                                 <optgroup label="Partial Support ( AMP Only )">
                                     <option value="amp_after_featured_image">Ad after Featured Image</option>
                                     <option value="amp_below_the_header">Below the Header (SiteWide)</option>
@@ -112,12 +114,18 @@ check_plugin_exist = (event) => {
                                     
                                 {this.state.ad_extra_position}
                                 <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
+                                <optgroup label="Newspaper Theme support">
+                                <option value="before_header">{__('Before the Header', 'quick-adsense-reloaded')}</option>
+                                <option value="after_header">{__('After the Header', 'quick-adsense-reloaded')}</option>
+                                    </optgroup>
                             </select>  }
                         <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select Where Will The AD Appear</div></span> : ''}</div>
                     </div>
                     <div className='position_content'>
                         <div>
                             {post_meta.position == 'after_image' ? <input min="1" onChange={this.props.adFormChangeHandler} name="image_number" value={post_meta.image_number}  type="number" /> : ''}
+                       
+                        
                         </div>
                         <div>
                             {post_meta.position == 'bbpress_before_reply' || post_meta.position == 'bbpress_after_reply' ?

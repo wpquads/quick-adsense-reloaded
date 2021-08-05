@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 5.7.1
-Requires PHP: 5.3
-Stable tag: 2.0.27
+Tested up to: 5.8
+Requires PHP: 5.4
+Stable tag: 2.0.28.2
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
@@ -22,13 +22,9 @@ The legendary [WPQuads Ads](https://wpquads.com/)  plugin is back with the moder
 WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built for WordPress.
 
 = Features: =
-* <strong>NEW - Web Stories Integration: </strong> Advertise in AMP Web Stories
-* <strong>NEW - Group Insertion</strong>
-* <strong>NEW - Ad rotator</strong>
-* <strong>NEW - Reports & Tracking </strong>: Find out which of your ads are performing the best and find out the most performing ad location.
+* <strong>NEW - Web Stories Integration: </strong> Advertise in AMP Web Stories.
 * <strong>NEW - Click Fraud Detection</strong>: Helps you fight the click fraud and helps you stabilize the ad revenue.
 * <strong>NEW - GDPR & Privacy tools</strong>: We have got the GDPR and other privacy tools planned so that you dont have to worry about complying with privacy laws.
-* <strong>Geo Targeting </strong>: Target the ads based on the city and countries.
 * <strong>Easy</strong> to use Modern options panel built on React JS.
 * Deeply <strong>integrates with AMP</strong> plugins like AMPforWP, Official AMP by Google.
 * <strong>Google Adsense</strong> support: It gives a deep integration with the ad types of Google Adsense like Display ads, In-feed ads, In-article ads & Auto ads. You can define fixed or responsive sizes for the ads.
@@ -59,6 +55,16 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 * Automatic Ad detection - WP QUADS detects optimal ad sizes for all devices.
 * <strong>Caching Power</strong> - Supports WP Rocket, W3 Total and any other Caching plugin.
 
+= TAKE IT A STEP FURTHER WITH WPQUADS PRO =
+With [WPQUADS PRO](https://wpquads.com/#buy-wpquads) you can add as many ads as you like to your WordPress website. There are no limitations.
+Get access to more professional Settings, options and positions to really push your ads to the next level.
+* <strong>New - AD Blindness </strong>: Helps you fight the Ad blindness.
+* <strong>New - Skip Ad </strong>: Helps you to make ads Skippable.
+* <strong>New - AD Logging </strong>: Gives you an almost accurate data page, IP, browser, referrer, and dimensions of the user that clicked the ad and gives you reports of that data.
+* <strong>[Group Insertion](https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/)</strong>
+* <strong>[Ad rotator](https://wpquads.com/documentation/how-to-use-ad-rotator-in-wp-quads/)</strong>
+* <strong>[Reports & Tracking](https://wpquads.com/documentation/how-to-link-adsense-account-for-the-revenue-reports-feature/) </strong>: Find out which of your ads are performing the best and find out the most performing ad location.
+* <strong>[Geo Targeting ](https://wpquads.com/documentation/what-is-geo-location-feature-and-how-to-use-it/)</strong>: Target the ads based on the city and countries.
 
 
 = Ad Vendors Support =
@@ -116,8 +122,6 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 We are actively developing this plugin and our aim is to make this plugin into the #1 advertisment solution in the world. You can [Request a Feature](https://wpquads.com/support/) or [Report a Bug](https://github.com/wpquads/quick-adsense-reloaded/issues). The code is hosted on [Github](https://github.com/wpquads/quick-adsense-reloaded).
 
 = Development Roadmap: =
-* <strong>AD Blindness </strong>: Helps you fight the Ad blindness.
-* <strong>AD Logging </strong>: Gives you an almost accurate data page, IP, browser, referrer, and dimensions of the user that clicked the ad and gives you reports of that data.
 * <strong>A/B Testing</strong>: Find out which ads perform the most and how you can improve the ad revenue further.
 * <strong>3rd Party compatibility</strong>: Deep integration with BuddyPress, BuddyBoss, bbPress, Paid Membership Pro, WPML, Mailpoet, Multisite, WooCommerce and More.
 * <strong>Innovation & Disruption</strong>: We are constantly evolving our product and going to introduce new features which are not being used by anyone in the world.
@@ -200,6 +204,34 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.28.2 (03rd August 2021) =
+* Fix: Option panel was getting blank #403
+
+= 2.0.28.1 (28th July 2021) =
+* Fix: After update 2.0.28 wpquads server issue. #402
+
+= 2.0.28 (27th July 2021) =
+* New: AD Blindness #363
+* New: Skippable ads. #343
+* New: AD Logging #364
+* New: Ad lazy load for vital #362
+* Fix: Image was not converting to amp-image on AMP #400
+
+= 2.0.27.4 (05th June 2021) =
+* Fix: when sticky ads are enable Adsense ads are not loading: #394
+* Fix: Newspaper unable to add mutiple ads #392
+
+= 2.0.27.3 (29th June 2021) =
+* New: update readme.txt #393
+
+= 2.0.27.2 (26th June 2021) =
+* New: Newspaper Theme compatibility #392
+
+= 2.0.27.1 (6th June 2021) =
+* Fix: Unable to import Advanced Ads shortcode #371
+* Fix: After first installation, it goes to Upgrade to pro #380
+* Fix: Mistake in page #374
+
 = 2.0.27 (7th April 2021) =
 * Fix: Fixed Widget option is not working properly bug #342
 * Fix: Fixed 404 error on vi.html #351

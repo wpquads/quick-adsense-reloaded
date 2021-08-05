@@ -75,7 +75,6 @@ class QuadsAdReport extends Component {
                 (response) => {
                     if ( response.status && true === response.status ) {
                         if ( response['adsense_id'] ) {
-                            console.log('iam 1');
                             this.closeModal();
                             const {report} = this.state;
                             report['adsense_pub_id'] =   response['adsense_id'];
@@ -83,25 +82,21 @@ class QuadsAdReport extends Component {
 
                             this.setState({ report });
                         } else {
-                            console.log('iam 2');
                             const {report} = this.state;
                             report['adsense_report_errors'] =   JSON.stringify( response );
                             this.setState({ report });
                         }
                     } else {
                         if ( response['raw']['errors'][0]['message'] ) {
-                            console.log('iam 3');
                             const {report} = this.state;
                             report['adsense_report_errors'] =  response['raw']['errors'][0]['message'] ;
                             this.setState({ report });
 
                         } else if ( response['raw']['message'] ) {
-                            console.log('iam 4');
                             const {report} = this.state;
                             report['adsense_report_errors'] =  response['raw']['message'] ;
                             this.setState({ report });
                         }
-                        console.log('iam 5');
                     }
 
                 });
@@ -226,7 +221,6 @@ class QuadsAdReport extends Component {
             this.quads_adsense_report();
         }else if(name == 'adsense_code_view'){
             if(this.state.adsense_pub_id ) {
-                console.log(this.state.adsense_pub_id);
                 report['adsense_code_view'] =  value;
             }
             this.setState({ report });

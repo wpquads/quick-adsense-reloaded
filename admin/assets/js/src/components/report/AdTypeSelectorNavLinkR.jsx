@@ -52,7 +52,7 @@ class AdTypeSelectorNavLinkR extends Component {
                     <div className="quads-ad-networks">                                                                                
                     <ul>
                     {this.props.All_ad_network.map((item, index ) => 
-                    <li key={item.ad_type}  style={(item.ad_type ==  'rotator_ads' && !this.state.rotator_ads_status) || (item.ad_type ==  'group_insertion' && !this.state.group_insertion_settings) ?  ({ display: 'none' }) :{}}><div className="quads-ad-type-link"><Link  to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.ad_type}`} className="quads-nav-link">{this.props.getImageByAdType(item.ad_type, index)}</Link></div></li>    )}
+                    <li key={item.ad_type}  style={(item.ad_type ==  'blindness_settings' && !this.state.blindness_settings) || (item.ad_type ==  'blindness_settings' && !this.state.blindness_settings) || (item.ad_type ==  'rotator_ads' && !this.state.rotator_ads_status) || (item.ad_type ==  'group_insertion' && !this.state.group_insertion_settings) ?  ({ display: 'none' }) :{}}><div className="quads-ad-type-link"><Link  to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.ad_type}`} className="quads-nav-link">{this.props.getImageByAdType(item.ad_type, index)}</Link></div></li>    )}
                     </ul>
                     </div>                            
         );

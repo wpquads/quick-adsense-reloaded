@@ -371,9 +371,9 @@ class QUADS_Ad_Setup_Api_Service {
     public function updateSettings($parameters){
 
         $response = false;
-
+        $license_info =array();
         if($parameters){
-          $quads_options = get_settings('quads_settings');
+          $quads_options = get_option('quads_settings');
 
           foreach($parameters as $key => $val){
 
@@ -402,13 +402,51 @@ class QUADS_Ad_Setup_Api_Service {
                   if (!file_exists($content_url)) {
                     copy($sourc,$content_url);
                   }
+              }else if($key == 'quads_wp_quads_pro_license_key' && !empty($val) && strpos($val, '****************') === false){
+                        $item_shortname='quads_wp_quads_pro';
+                        $item_name ='WP QUADS PRO';
+                        $license = sanitize_text_field($val );
+                        // Data to send to the API
+                        $api_params = array(
+                          'edd_action' => 'activate_license',
+                          'license'    => $license,
+                          'item_name'  => urlencode( $item_name ),
+                          'url'        => home_url()
+                        );
+
+                        // Call the API
+                        $response = wp_remote_post(
+                          'http://wpquads.com/edd-sl-api/',
+                          array(
+                            'timeout'   => 15,
+                            'sslverify' => false,
+                            'body'      => $api_params
+                          )
+                        );
+
+                        // Make sure there are no errors
+                        if ( is_wp_error( $response ) ) {    
+                          $response = array('status' => 't','license'=>$response, 'msg' =>  __( 'Settings has been saved successfullyc', 'quick-adsense-reloaded' ));
+                        }
+                        // Decode license data
+                        $license_data = json_decode( wp_remote_retrieve_body( $response ) );
+                        if($license_data){
+                            $license_info = array('license'=>$license_data->license);
+                        }
+                    
               }
-              $quads_options[$key] = $val;
-             }
+              if ($key != 'quads_wp_quads_pro_license_key' || ($key == 'quads_wp_quads_pro_license_key'  && !empty($val) &&  strpos($val, '****************') === false)) {
+                $quads_options[$key] = $val;
+              }
+            }
 
           }
          $response =  update_option( 'quads_settings', $quads_options );
         }
+if($license_info){
+  $response =$license_info;
+}
+
 
         return $response;
     }
@@ -478,6 +516,9 @@ class QUADS_Ad_Setup_Api_Service {
                 foreach($post_meta as $key => $val){
 
                     $filterd_meta = sanitize_post_meta($key, $val);
+                    if($key == 'ad_blindness'){
+                      $filterd_meta =$val;
+                    }
 
                     update_post_meta($ad_id, $key, $filterd_meta);
                 }

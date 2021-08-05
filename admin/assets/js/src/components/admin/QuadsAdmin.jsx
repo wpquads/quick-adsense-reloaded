@@ -4,6 +4,8 @@ import QuadsAdListSettings from './../settings/QuadsAdListSettings'
 import QuadsAdListBody from './../ads/body/QuadsAdListBody'
 import QuadsAdListNavLink from './../ads/nav/QuadsAdListNavLink'
 import QuadsAdReport from '../report/QuadsAdReport'
+import QuadsAdLogging from '../report/QuadsAdLogging'
+
 class QuadsAdmin extends Component {
 
     constructor(props) {      
@@ -74,7 +76,40 @@ class QuadsAdmin extends Component {
                                />                   
                           </div>
                           
-                        </div>                
+                        </div>
+                        
+                        {(quads_localize_data && quads_localize_data.licenses!==undefined && quads_localize_data.licenses.price_id!==undefined && quads_localize_data.licenses !== ""  &&
+                            quads_localize_data.licenses.price_id > 0 && 
+                         quads_localize_data.licenses.price_id <= 30 ) &&
+                        <div className="quads-renew-message-main">
+                        { quads_localize_data.is_pro ? <div class="quads-renewal-banner">
+                        <div class="quads-renew-message">
+                        <p>Your WP QUADS PRO license is about to expire in <span class="q-r-m">{quads_localize_data.licenses.price_id} days</span>.</p>
+                        </div>
+                        <div class="quads-renew-cta-container">
+                        <a href="https://wpquads.com/your-account/" class="quads-renew-cta" target="_blank" rel="noopener noreferrer">Renew now</a>
+                        </div>
+                        </div>
+                          : '' }
+                        </div>
+                        }
+                        {(quads_localize_data && quads_localize_data.licenses!==undefined && quads_localize_data.licenses.price_id!==undefined && quads_localize_data.licenses !== "" && quads_localize_data.licenses.license !== "valid"  &&
+                            quads_localize_data.licenses.price_id <= 0 ) &&
+                        <div className="quads-renew-message-main">
+                        { quads_localize_data.is_pro ?
+                            <div class="quads-renewal-banner">
+                        <div class="quads-renew-message">
+                        <p>Your WP QUADS PRO license Key is <span class="q-r-m-e">Expired</span>.</p>
+                        </div>
+                        <div class="quads-renew-cta-container">
+                        <a href="https://wpquads.com/your-account/" class="quads-renew-cta" target="_blank" rel="noopener noreferrer">Renew now</a>
+                        </div>
+                        </div>                        
+                          : '' }
+                        </div>
+                        }
+                        
+                        
                         <div className="quads-segment">                
                         {(() => {
                             if(pagePath.includes('settings')){
@@ -89,6 +124,9 @@ class QuadsAdmin extends Component {
                             if(pagePath.includes('reports')){
                                 return <QuadsAdReport      />;
                             }
+                            if(pagePath.includes('ad_logging')){
+                              return <QuadsAdLogging      />;
+                          }
                         })()}
                     </div>
                     </div>                                                                

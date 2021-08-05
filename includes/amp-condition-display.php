@@ -23,6 +23,7 @@ class quads_output_amp_condition_display{
         add_action( 'ampforwp_add_loop_class', array($this, 'ampforwp_add_loop_class_above_ad') );
         
         add_action( 'ampforwp_after_header', array($this, 'quads_display_ads_below_the_header') );
+        add_action( 'ampforwp_before_head', array($this, 'quads_display_ads_before_head') );
         add_action( 'ampforwp_design_1_after_header', array($this, 'quads_display_ads_below_the_header') ); 
         
         //Below the Footer
@@ -115,7 +116,12 @@ class quads_output_amp_condition_display{
             $this->quads_amp_condition_ad_code('quads_below_the_header');
             
     }
-
+    public function quads_display_ads_before_head(){  
+        
+      $this->quads_amp_condition_ad_code('quads_before_head');
+      
+}
+    
     /**
      * Here, We are displaying ads or group ads according to amp where to display condition
      * @param type $condition
@@ -172,7 +178,7 @@ class quads_output_amp_condition_display{
 	             if($ads['position'] =='amp_after_featured_image' && $condition == 'quads_after_featured_image'){
               $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
               echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
-          }else if($ads['position'] =='amp_below_the_header' && $condition == 'quads_below_the_header'){
+          }else if(($ads['position'] =='amp_below_the_header' || $ads['position'] == 'after_header') && $condition == 'quads_below_the_header'){
             $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
             echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
           }else if($ads['position'] =='amp_below_the_footer' && $condition == 'quads_below_the_footer'){
@@ -204,7 +210,10 @@ class quads_output_amp_condition_display{
             if(intval($ads_loop_number) == $count){            
                 echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
             }
-         }else if($ads['position'] =='amp_story_ads' && $condition == 'quads_amp_story_ads'){
+         }else if($ads['position'] =='quads_before_head' && $condition == 'before_header'){
+          $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+          echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
+       }else if($ads['position'] =='amp_story_ads' && $condition == 'quads_amp_story_ads'){
 
 		             $data = array();
 	             if($ads['ad_type'] == 'adsense') {

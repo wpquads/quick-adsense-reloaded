@@ -27,6 +27,33 @@ function quads_get_option( $key = '', $default = false ) {
    return apply_filters( 'quads_get_option_' . $key, $value, $key, $default );
 }
 
+
+
+add_action( 'admin_init', 'quads_check_licene_my_upgrade_function',10);
+ 
+function quads_check_licene_my_upgrade_function() {
+ 
+   $quads_license_bug_fixed =   get_transient('quads_license_bug_fixed');
+   $quads_mode = get_option('quads-mode');
+      if($quads_license_bug_fixed != 'value' && QUADS_VERSION >= '2.0.28' &&  $quads_mode == 'new'){
+         $quadsAdResetDeleted = get_option('quadsAdResetDeleted');
+         if(isset($quadsAdResetDeleted['quads_wp_quads_pro_license_key']) && !empty($quadsAdResetDeleted['quads_wp_quads_pro_license_key'])){
+
+            $license_key = $quadsAdResetDeleted['quads_wp_quads_pro_license_key'];
+            $quads_settings = get_option('quads_settings');
+
+            if( strpos($quads_settings['quads_wp_quads_pro_license_key'] , '******') !== false){
+               $quads_settings['quads_wp_quads_pro_license_key'] = $license_key;
+               $response =  update_option( 'quads_settings', $quads_settings );
+            }
+         }
+         set_transient('quads_license_bug_fixed', 'value', '');
+   }
+}
+
+
+
+
 /**
  * Get Settings
  *

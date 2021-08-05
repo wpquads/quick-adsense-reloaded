@@ -318,6 +318,10 @@ public function quads_database_install() {
 			`ad_clicks` int(15) unsigned NOT NULL default '0',
 			`ad_impressions` int(15) unsigned NOT NULL default '0',
                         `ad_device_name` varchar(20) NOT NULL default '',
+                        `ip_address` varchar(20) NOT NULL default '',
+                        `URL` varchar(255) NOT NULL default '',
+                        `browser` varchar(20) NOT NULL default '',
+                        `referrer` varchar(255) NOT NULL default '',
 			PRIMARY KEY  (`id`),
 			INDEX `ad_id` (`ad_id`),
 			INDEX `ad_thetime` (`ad_thetime`)

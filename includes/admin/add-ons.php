@@ -891,7 +891,7 @@ function quads_add_ons_page() {
                         <a href="https://wpquads.com/checkout?edd_action=add_to_cart&amp;download_id=11&amp;edd_options[price_id]=1">
                             <h5>PERSONAL</h5>
                             <span class="d-amt"><sup>$</sup>89</span>
-                            <span class="amt"><sup>$</sup>59</span>
+                            <span class="amt"><sup>$</sup>89</span>
                             <span class="s-amt">(Save $59)</span>
                             <span class="bil">Billed Annually</span>
                             <span class="s">1 Site License</span>

@@ -14,6 +14,7 @@ class QuadsAdConfigFields extends Component {
     random_ads_list:[],  
     adsToggle_list : false,
     ads_list:[], 
+    ad_blindness:[],
     getallads_data: [],
     getallads_data_temp: [],
     currentselectedvalue: "",
@@ -549,6 +550,53 @@ error_outline
                 </div>);
 
               break;
+            case 'ad_blindness':
+              ad_type_name = 'Ad Blindness';
+              if(!quads_localize_data.is_pro){
+                comp_html.push(<div key="ad_blindness" className="quads-user-targeting"> 
+This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+</div>);
+               break;
+               }
+
+              comp_html.push(<div key="ad_blindness" className="quads-user-targeting">
+                {this.state.ads_list.length == 0  ?
+                <h2>Select Ads<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
+                :null}
+                <div className="quads-target-item-list">
+                  {
+                    this.state.ads_list ?
+                      this.state.ads_list.map((item, index) => (
+                        <div key={index} className="quads-target-item">
+                          <span className="quads-target-label">{item.label}</span>
+                          <span className="quads-target-icon" onClick={this.removeSeleted_list} data-index={index}><Icon>close</Icon></span>
+                        </div>
+                      ))
+                      : ''}
+                  <div>{(this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+                </div>
+                {this.state.adsToggle_list ?
+                  <div className="quads-targeting-selection">
+                    <table className="form-table">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <Select
+                              name="userTargetingIncludedType"
+                              placeholder="Select Ads"
+                              options={this.state.getallads_data_temp}
+                              value={this.multiTypeLeftIncludedValue}
+                              onChange={this.selectAdchange}
+                            />
+                          </td>
+                          <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  : ''}
+              </div>);
+              break;
             case 'taboola':
              ad_type_name = 'Taboola';  
               comp_html.push(<div key="taboola">
@@ -688,6 +736,57 @@ error_outline
                 </table>
                 </div>);
               break;
+              case 'skip_ads':
+                ad_type_name = 'Skip Ads';  
+                 comp_html.push(<div key="skip_ads">
+                   <table>
+                     <tbody>
+                       <tr><td>
+                       <label>{__('Skip Ads Type', 'quick-adsense-reloaded')}</label></td><td>
+                       <select value={post_meta.skip_ads_type} onChange={this.props.adFormChangeHandler} name="skip_ads_type" id="skip_ads_type">
+                        <option value="image_banner">{__('Image Banner', 'quick-adsense-reloaded')}</option>
+                        <option value="custom_html">{__('Custom HTML', 'quick-adsense-reloaded')}</option> 
+                      </select>
+                        </td></tr>
+                        <tr><td>
+                    <label>{__('Frequency by page view', 'quick-adsense-reloaded')}</label></td><td>
+                    <input value={post_meta.freq_page_view} onChange={this.props.adFormChangeHandler} type="number" id="freq_page_view" name="freq_page_view" placeholder="Ad Frequency" />
+                     </td></tr>
+                     <tr><td>
+                    <label>{__('Ad Waiting Time', 'quick-adsense-reloaded')}</label></td><td>
+                    <input value={post_meta.ad_wt_time} onChange={this.props.adFormChangeHandler} type="number" id="ad_wt_time" name="ad_wt_time" placeholder="Ad Waiting Time" />
+                     </td></tr>
+                        {post_meta.skip_ads_type == 'image_banner' ? <>
+                        <tr><td>
+                    <label>{__('Upload Ad Banner', 'quick-adsense-reloaded')}</label></td><td>
+                   {post_meta.image_src == '' ? <div><a className="button" onClick={this.selectimages}>{__(' Upload Banner', 'quick-adsense-reloaded')}</a></div>
+                   : <div>
+                   <img src={post_meta.image_src} className="banner_image" />
+                   <a className="button" onClick={this.remove_image}>{__('Remove Banner', 'quick-adsense-reloaded')}</a></div>}
+                     
+                      
+                    {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Upload Ad Image</div> :''}
+                     </td></tr>
+                     <tr><td>
+                    <label>{__('Ad Anchor link', 'quick-adsense-reloaded')}</label></td><td>
+                    <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
+                    {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Ad Anchor link</div> :''}
+                     </td></tr>
+                     </>
+                     :<><tr>
+                     <td><label>{__('Plain Text / HTML / JS', 'quick-adsense-reloaded')}</label></td> 
+                     <td><textarea className={(show_form_error && post_meta.code == '') ? 'quads_form_error' : ''}  cols="50" rows="5" value={post_meta.code} onChange={this.props.adFormChangeHandler} id="code" name="code" />
+                     {(show_form_error && post_meta.code == '') ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>Enter Plain Text / HTML / JS</div> : ''}</td>
+                     </tr></>
+                      }
+                     
+                     </tbody>
+                   </table>
+                   </div>);
+   
+                 break;
             default:
               comp_html.push(<div key="noads" >{__('Ad not found', 'quick-adsense-reloaded')}</div>);
               break;

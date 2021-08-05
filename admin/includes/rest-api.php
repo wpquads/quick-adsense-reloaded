@@ -199,6 +199,13 @@ class QUADS_Ad_Setup_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'quads-route', 'getAdloggingData', array(
+                'methods'    => 'POST',
+                'callback'   => array($this, 'getAdloggingData'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+            ));
         }
         public function quads_register_ad(){
 	        global $_quads_registered_ad_locations;
@@ -480,6 +487,11 @@ class QUADS_Ad_Setup_Api {
         public function importadvance_ads(){
 
             $placements      = Advanced_Ads::get_ad_placements_array();
+            $get_Advanced_Ads      = Advanced_Ads::get_ads();
+            foreach ($get_Advanced_Ads  as $advanced_Ad) {
+                $name = 'shortcode_'.$advanced_Ad->ID;
+                $placements[$name] = array('item' => 'ad_'.$advanced_Ad->ID,'advanced_ads'=>true);
+            }
             foreach ($placements  as $placement) {
 
                 $idArray =    explode('ad_', $placement['item']);
@@ -490,16 +502,8 @@ class QUADS_Ad_Setup_Api {
                 // }
                 $post_meta = get_post_meta($id,'advanced_ads_ad_options');
                 if(isset($post_meta['0']['type'])){
-                     $advanced_ads_options       = get_option('advanced-ads');
-                     global $quads_settings;
-                     $ad_count = 1;
-                        if(isset($quads_settings['ads'])){
-                          foreach($quads_settings['ads'] as $key2 => $value2){
-                                if($key2 === 'ad'.$ad_count){
-                                   $ad_count++;
-                                }
-                            }
-                        }
+                    $advanced_ads_options       = get_option('advanced-ads');
+                    $quads_settings = get_option( 'quads_settings' );
                     $ads_post = array(
                         'post_author' => $post['post_author'],
                         'post_title'  => $post['post_title'],
@@ -722,7 +726,6 @@ class QUADS_Ad_Setup_Api {
                         'align'                         => $align,
                         'advance_ads_id'                => $id,
                         'ad_id'                         => $post_id,
-                        'quads_ad_old_id'               => 'ad'.$ad_count,
                         'visibility_include'            => $visibility_include,
                         'visibility_exclude'            => $visibility_exclude,
                         'targeting_include'             => $targeting_include,
@@ -735,8 +738,7 @@ class QUADS_Ad_Setup_Api {
                     }
                     require_once QUADS_PLUGIN_DIR . '/admin/includes/migration-service.php';
                     $this->migration_service = new QUADS_Ad_Migration();
-                    $this->migration_service->quadsUpdateOldAd('ad'.$ad_count, $advance_ads_meta_key);
-                    $ad_count++;
+                    $this->migration_service->quadsUpdateOldAd($post_id, $advance_ads_meta_key);
                 }
             }
             return  array('status' => 't', 'data' => 'Ads have been successfully imported');
@@ -1564,7 +1566,24 @@ return array('status' => 't');
         }
         public function getSettings($request){
 
-            $quads_settings = get_option('quads_settings');
+            $quads_settings = get_option('quads_settings');           
+            $b_license = isset($quads_settings['quads_wp_quads_pro_license_key'])?$quads_settings['quads_wp_quads_pro_license_key']:'';
+            $transient =  'quads_trans';
+            $value =  $b_license;
+            $expiration =  '' ;
+            set_transient( $transient, $value, $expiration );
+            // $b_license
+        $strlen = strlen($b_license);
+        $show_key = "";
+        for($i=1;$i<$strlen;$i++){
+            if($i<$strlen-4){
+                $show_key .= "*";
+            }else{
+                $show_key .= $b_license[$i];
+            }
+        }
+                   $quads_settings['quads_wp_quads_pro_license_key']  = $show_key ;
+
             $quads_settings['QckTags'] = isset($quads_settings['quicktags']['QckTags']) ? $quads_settings['quicktags']['QckTags'] : false;
             $quads_settings['license'] = get_option( 'quads_wp_quads_pro_license_active' );
             $quads_settings['adsforwp_to_quads'] = get_option( 'adsforwp_to_quads' );
@@ -1662,6 +1681,41 @@ return array('status' => 't');
             return $result;
 
         }
+        public function getAdloggingData($request){
+            $parameters = $request->get_params();
+            $search_param = array();
+            $rvcount      = 10;
+            $attr         = array();
+            $paged        =  1;
+            $post_type    = 'quads-ads';
+            $result       =  '';
+            // if(isset($parameters['posts_per_page'])){
+            //     $rvcount = sanitize_text_field($parameters['posts_per_page']);
+            // }
+             if(isset($parameters['report_period'])){
+
+                $search_param['report_period'] = esc_html($parameters['report_period']);
+
+                if(isset($parameters['cust_fromdate'])){
+                    $search_param['cust_fromdate'] = esc_html($parameters['cust_fromdate']);
+                }
+
+                if(isset($parameters['cust_todate'])){
+                    $search_param['cust_todate'] = esc_html($parameters['cust_todate']);
+                }
+
+            }
+            if(isset($parameters['search_param'])){
+                $search_param['search_param'] = esc_html($parameters['search_param']);
+            }
+            if(isset($parameters['page'])){
+                $search_param['page'] = sanitize_text_field($parameters['page']);
+            }
+
+            $result =  quads_get_ad_stats('search','','',$search_param);
+            return $result;
+
+        }
         public function updateSettings($request_data){
 
             $response        = array();
@@ -1688,10 +1742,21 @@ return array('status' => 't');
                 if(isset($parameters['settings'])){
                     $result      = $this->api_service->updateSettings(json_decode($parameters['settings'], true));
                     if($result){
-                        $response = array('status' => 't', 'msg' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
+                        $response = array('status' => 'tp', 'msg' =>  __( 'Settings has been saved successfullycv', 'quick-adsense-reloaded' ));
+                        if(is_array($result)){
+                            if ($result['license'] == "invalid") {
+                                $response = array('status' => 'lic_not_valid','license'=>$result['license'], 'msgINV' =>  __( 'Settings has been saved successfullyvf', 'quick-adsense-reloaded' ));
+                            }
+                            else
+                                {
+                                    if ($result['license'] == "valid") {
+                                        $response = array('status' => 'license_validated','license'=>$result['license'], 'msgV' =>  __( 'Settings has been saved successfullyvf', 'quick-adsense-reloaded' ));
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
-            }
 
             return $response;
         }
