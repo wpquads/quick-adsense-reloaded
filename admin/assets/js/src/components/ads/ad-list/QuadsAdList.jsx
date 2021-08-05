@@ -170,7 +170,7 @@ class QuadsAdList extends Component {
           </tr>
           </thead>
           <tbody>
-          {items.map((item, index) => (     
+          {items.map((item, index) => ( item.post_meta.ad_id &&(    
                    
             <tr key={index}>
                 <td>{item.post_meta.label} {item.post.post_status == 'draft' ? <span className="quads-ad-label-draft">draft</span> : ''}</td>
@@ -183,8 +183,8 @@ class QuadsAdList extends Component {
                 <div className="quads-more-icon-box">
                   <div className="quads-more-icon-box-close" onClick={this.props.hideStaticIconBox}><Icon>close</Icon></div>
                   <ul>
-                    <li role="presentation"><span className="static_num">{item.post_meta.analytics.impressions ? item.post_meta.analytics.impressions : 0}</span> <span>{__('Impression ', 'quick-adsense-reloaded')}</span></li>
-                    <li role="presentation"><span className="static_num">{item.post_meta.analytics.clicks ? item.post_meta.analytics.clicks : 0}</span> <span>{__('Clicks ', 'quick-adsense-reloaded')}</span></li>
+                    <li role="presentation"><span className="static_num">{item.post_meta?.analytics?.impressions ? item.post_meta.analytics.impressions : 0}</span> <span>{__('Impression ', 'quick-adsense-reloaded')}</span></li>
+                    <li role="presentation"><span className="static_num">{item.post_meta?.analytics?.clicks ? item.post_meta.analytics.clicks : 0}</span> <span>{__('Clicks ', 'quick-adsense-reloaded')}</span></li>
                   </ul>
                   </div> : ''  }
                   {this.props.settings.ad_performance_tracking ? <a className="quads-edit-btn" data-index={index} data-id={item.post_meta.ad_id} onClick={this.props.showStaticIconBox}><Icon>stacked_bar_chart</Icon></a>                
@@ -194,7 +194,7 @@ class QuadsAdList extends Component {
                 : null }
                 
                 <Link to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.post_meta.ad_type}&action=edit&post=${item.post.post_id}`} className="quads-edit-btn"><Icon>edit_icon</Icon> </Link>  
-                {this.props.more_box_id ==  item.post_meta.ad_id ?
+                {item.post_meta.ad_id && this.props.more_box_id ==  item.post_meta.ad_id ?
                 <div className="quads-more-icon-box">
                   <div className="quads-more-icon-box-close" onClick={this.props.hideMoreIconBox}><Icon>close</Icon></div>
                   <ul>
@@ -208,7 +208,7 @@ class QuadsAdList extends Component {
                 </div>  
                 </td>
             </tr>
-          ))} 
+             )   ))} 
             </tbody>
         </table> : <div className="nodatadiv"><div className="first_ad_main">
                       <h3>Thank you for using WP Quads</h3>

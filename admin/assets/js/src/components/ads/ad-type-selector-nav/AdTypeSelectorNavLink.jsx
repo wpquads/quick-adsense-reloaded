@@ -12,6 +12,7 @@ class AdTypeSelectorNavLink extends Component {
       showGoProPopup: false,
       rotator_ads_status: true,
       blindness_settings: true,
+      skippable_ads: true,
       feature_name:'',
       popular_ad_network: [
         { ad_type: 'adsense', ad_type_name: 'AdSense' },
@@ -43,6 +44,9 @@ class AdTypeSelectorNavLink extends Component {
             if (meta_key == "blindness_settings") {
               this.setState({ blindness_settings: meta_val });
             }
+            if (meta_key == "skippable_ads") {
+              this.setState({ skippable_ads: meta_val });
+            }
           })
         },
         (error) => {
@@ -59,7 +63,7 @@ class AdTypeSelectorNavLink extends Component {
       <div className="quads-ad-networks">
         <ul>
           {this.props.All_ad_network.map((item, index) =>
-            <li key={item.ad_type} style={(item.ad_type == 'ad_blindness' && !this.state.blindness_settings) || (item.ad_type == 'rotator_ads' && !this.state.rotator_ads_status) ? ({ display: 'none' }) : {}}><div className="quads-ad-type-link">{!item.pro || quads_localize_data.is_pro ?<Link to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.ad_type}`} className="quads-nav-link">{this.props.getImageByAdType(item.ad_type, index)}</Link> :<div onClick={() => this.changepopupState(item.ad_type_name)}>  {this.props.getImageByAdType(item.ad_type, index)} </div>}</div></li>)}
+            <li key={item.ad_type} style={(item.ad_type == 'skip_ads' && !this.state.skippable_ads) || (item.ad_type == 'ad_blindness' && !this.state.blindness_settings) || (item.ad_type == 'rotator_ads' && !this.state.rotator_ads_status) ? ({ display: 'none' }) : {}}><div className="quads-ad-type-link">{!item.pro || quads_localize_data.is_pro ?<Link to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.ad_type}`} className="quads-nav-link">{this.props.getImageByAdType(item.ad_type, index)}</Link> :<div onClick={() => this.changepopupState(item.ad_type_name)}>  {this.props.getImageByAdType(item.ad_type, index)} </div>}</div></li>)}
         </ul>
         {this.state.showGoProPopup ?
           <>

@@ -1567,7 +1567,7 @@ return array('status' => 't');
         public function getSettings($request){
 
             $quads_settings = get_option('quads_settings');           
-            $b_license = $quads_settings['quads_wp_quads_pro_license_key'];
+            $b_license = isset($quads_settings['quads_wp_quads_pro_license_key'])?$quads_settings['quads_wp_quads_pro_license_key']:'';
             $transient =  'quads_trans';
             $value =  $b_license;
             $expiration =  '' ;
