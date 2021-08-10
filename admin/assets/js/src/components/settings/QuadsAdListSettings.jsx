@@ -619,7 +619,7 @@ handleMultiPluginsChange = (option) => {
     this.getQuadsInfo();
     this.getPageDataMeta('page');
     if(quads_localize_data.licenses == '' && typeof this.state.licensemsg === 'undefined'){
-        this.setState({ licensemsg: 'not activated' });
+        this.setState({ licensemsg: 'Please activate your WP QUADS PRO License Key' });
     }else  if(quads_localize_data.licenses.license == 'valid'){
     if(quads_localize_data.licenses.expires == "lifetime"){
         this.setState({ licensemsg: 'License key never expire' });
@@ -677,7 +677,7 @@ handleMultiPluginsChange = (option) => {
       .then(
         (result) => {
         const currentpage = queryString.parse(window.location.search);
-        if( this.state.licensemsg == "not activated" || currentpage.path =="settings_licenses" && result.status == "license_validated" && result.license == "valid" ){
+        if( this.state.licensemsg == "Please activate your WP QUADS PRO License Key" || currentpage.path =="settings_licenses" && result.status == "license_validated" && result.license == "valid" ){
           location.reload();
         }
         if(result.status == "lic_not_valid" && result.license == "invalid" ){
@@ -733,7 +733,7 @@ handleMultiPluginsChange = (option) => {
       .then(
         (result) => {
         const currentpage = queryString.parse(window.location.search);
-        if(this.state.licensemsg == "not activated" && currentpage.path =="settings_licenses"){
+        if(this.state.licensemsg == "Please activate your WP QUADS PRO License Key" && currentpage.path =="settings_licenses"){
           location.reload();
         }
             if(result.status === 't'){
@@ -1833,7 +1833,7 @@ handleMultiPluginsChange = (option) => {
                     {quads_localize_data.licenses.license !== "valid" ? <h3>{__('Activate Your License', 'quick-adsense-reloaded')}</h3> : null}
                     </div>
                     <div class="Key_msg">
-                      {__('WP QUADS PRO License Key', 'quick-adsense-reloaded')}
+                      {/*__('WP QUADS PRO License Key', 'quick-adsense-reloaded')*/}
                     </div>
                    <div>
                    <input value={settings.quads_wp_quads_pro_license_key} onChange={this.add_license_key} name="quads_wp_quads_pro_license_key" type="text" placeholder="License Key" className="quads-premium-cus" />

@@ -529,3 +529,12 @@ function wpquads_remove_shortcode($old_value,$new_value,$option){
     wp_delete_file($content_url);
   }
 }
+
+if (QUADS_VERSION >= '2.0.28' && quads_is_pro_active() ) {
+         $quads_settings = get_option('quads_settings');    
+         if (strpos($quads_settings['quads_wp_quads_pro_license_key'], '****************') !== false) {
+       $quads_settings['quads_wp_quads_pro_license_key'] = '';
+       update_option( 'quads_settings', $quads_settings );
+       delete_option( 'quads_wp_quads_pro_license_active' );
+    }
+ }

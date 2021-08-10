@@ -78,6 +78,16 @@ class QuadsAdmin extends Component {
                           
                         </div>
                         
+                        {(quads_localize_data && quads_localize_data.is_pro == 1 && quads_localize_data.licenses== ""  ) &&
+                        <div className="quads-renew-message-main">
+                        <div class="quads-renewal-banner">
+                          <div class="quads-renew-message">
+                        {/*<p>After installing <a href="https://wpquads.com/" >WP Quads Pro</a>, you need to activate your license. Please add the License key.</p>*/}
+                        <p>Thank you for installing <a href="https://wpquads.com/" >WP QUADS PRO</a>, please activate the license key to receive regular updates.</p>
+                        </div>
+                        </div>
+                        </div>
+                        }
                         {(quads_localize_data && quads_localize_data.licenses!==undefined && quads_localize_data.licenses.price_id!==undefined && quads_localize_data.licenses !== ""  &&
                             quads_localize_data.licenses.price_id > 0 && 
                          quads_localize_data.licenses.price_id <= 30 ) &&
