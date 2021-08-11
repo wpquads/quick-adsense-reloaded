@@ -67,25 +67,6 @@ function quads_add_options_link() {
 add_action( 'admin_menu', 'quads_add_options_link', 10 );
 
 /**
- *  Determines whether the current admin page is an QUADS admin page.
- *
- *  Only works after the `wp_loaded` hook, & most effective
- *  starting on `admin_menu` hook.
- *
- *  @since 1.9.6
- *  @return bool True if QUADS admin page.
- */
-function quads_is_admin_page() {
-        $currentpage = isset($_GET['page']) ? $_GET['page'] : '';
-	if ( ! is_admin() || ! did_action( 'wp_loaded' ) ) {
-		return false;
-	}
-
-	if ( 'quads-settings' == $currentpage ) {
-		return true;
-	}
-}
-/**
  *  Determines whether the current admin page is an QUADS add-on page.
  *
  *  Only works after the `wp_loaded` hook, & most effective

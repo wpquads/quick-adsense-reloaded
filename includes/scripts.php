@@ -71,7 +71,7 @@ function click_fraud_protection(){
  *  @since 1.9.6
  *  @return bool True if QUADS admin page.
  */
-if(!function_exists('my_function')){
+if(!function_exists('quads_is_admin_page')){
     function quads_is_admin_page() {
         $currentpage = isset($_GET['page']) ? $_GET['page'] : '';
         if ( ! is_admin() || ! did_action( 'wp_loaded' ) ) {
