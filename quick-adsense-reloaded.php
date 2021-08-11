@@ -208,13 +208,31 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
        * @return void
        */
       private function includes() {
-         global $quads_options, $quads_mode;
+         global $quads_options, $quads_mode,$quads_permissions;
 
          $quads_mode = get_option('quads-mode');
 
          require_once QUADS_PLUGIN_DIR . 'includes/admin/settings/register-settings.php';
          $quads_options = quads_get_settings();
 
+         
+         $permissions = "manage_options";
+         if(isset($quads_options['RoleBasedAccess'])){
+            $user = wp_get_current_user();
+            $rolename = $quads_options['RoleBasedAccess'];
+            $rolename= array_map(function($x){ return $x['value']; }, $rolename);
+            if( in_array( 'administrator', $user->roles ) ) {
+               $permissions = "manage_options";
+            }elseif( in_array( 'editor', $user->roles ) && in_array('editor', $rolename) ){
+               $permissions = 'edit_pages';
+            }elseif( in_array( 'author', $user->roles ) && in_array('author', $rolename)){
+               $permissions = 'edit_posts';
+            }
+            if (class_exists('WPSEO_Options') && in_array( 'wpseo_manager', $user->roles ) && in_array('wpseo_manager', $rolename)) {
+               $permissions = 'edit_pages'; 
+            }
+         }
+         $quads_permissions =$permissions;
          require_once QUADS_PLUGIN_DIR . 'includes/post_types.php';
          require_once QUADS_PLUGIN_DIR . 'includes/user_roles.php';
          require_once QUADS_PLUGIN_DIR . 'includes/widgets.php';
@@ -532,7 +550,7 @@ function wpquads_remove_shortcode($old_value,$new_value,$option){
 
 if (QUADS_VERSION >= '2.0.28' && quads_is_pro_active() ) {
          $quads_settings = get_option('quads_settings');    
-         if (strpos($quads_settings['quads_wp_quads_pro_license_key'], '****************') !== false) {
+         if (isset($quads_settings['quads_wp_quads_pro_license_key']) && strpos($quads_settings['quads_wp_quads_pro_license_key'], '****************') !== false) {
        $quads_settings['quads_wp_quads_pro_license_key'] = '';
        update_option( 'quads_settings', $quads_settings );
        delete_option( 'quads_wp_quads_pro_license_active' );

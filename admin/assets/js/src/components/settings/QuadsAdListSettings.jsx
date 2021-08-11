@@ -81,6 +81,7 @@ class QuadsAdListSettings extends Component {
                 ad_blocker_message : false,
                 analytics          : false,
                 multiUserValue     : [],
+                RoleBasedAccess    : [{label: "Administrator", value: "administrator"}],
                 multiTagsValue     : [],
                 multiPluginsValue  : [],
                 notice_type        : 'ad_blocker_message',
@@ -412,6 +413,12 @@ handleMultiPluginsChange = (option) => {
         settings.multiUserValue = option;
         this.setState(settings);
   }
+  
+  handleRoleBasedAccess = (option) => {
+    const { settings } = this.state;
+    settings.RoleBasedAccess = option;
+    this.setState(settings);
+}
     page_redirect_select_fun = (option) => {
         const { settings } = this.state;
         settings.page_redirect_path = option;
@@ -1772,7 +1779,22 @@ handleMultiPluginsChange = (option) => {
                       <p>{__('1. Insert', 'quick-adsense-reloaded')} &lt;!--Ads1--&gt;, &lt;!--Ads2--&gt;, {__('etc. into a post to show the Particular Ads at specific location.', 'quick-adsense-reloaded')}</p>
                       <p>{__('2. Insert', 'quick-adsense-reloaded')} &lt;!--RndAds--&gt; {__('into a post to show the Random Ads at specific location', 'quick-adsense-reloaded')}</p>
                     </td>
-                  </tr></tbody></table>
+                  </tr>
+                  <tr>
+                    <th scope="row"><label htmlFor="RoleBasedAccess">{__('Role Based Access', 'quick-adsense-reloaded')}</label></th>
+                    <td>
+                    <Select
+                      isMulti
+                      name="RoleBasedAccess"
+                      placeholder="Role Based Access"
+                      value={settings.RoleBasedAccess}
+                      options={this.state.multiUserOptions}
+                      onChange={this.handleRoleBasedAccess}
+                    />
+                    </td>
+                  </tr>
+
+                  </tbody></table>
                 </div>
                );
               case "settings_support":  return(
