@@ -1114,19 +1114,34 @@ function quads_filter_default_ads_new( $content ) {
                     case 'after_word_count':
                         
                         if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
+                           
+
                             $paragraphs       =  explode( ' ', $content );
                             $p_count          = count($paragraphs);
-                            $original_paragraph_no = $paragraph_no;                                        
+                            $original_paragraph_no = $paragraph_no;  
+                             ;   
+                           
+                            $flag= false;                                   
                             if($word_count_number <= $p_count){
+                                if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
+                                    $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no);
+                                  }else{
 
                                 foreach ($paragraphs as $index => $paragraph) {
         
                                     if ( $word_count_number == $index + 1 ) {
+                                        $flag= true; 
+                                    }
+                                    if($flag && preg_match("/<[^<]+>/",$paragraphs[$index])){
+                                        
                                         $paragraphs[$index] .= $cusads;
+                                        $flag= false;  
                                     }
                                 }
                                 $content = implode( ' ', $paragraphs ); 
-                            }                                                       
+                            }  
+                            
+                        }
                         }
 
                         break;
