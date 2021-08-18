@@ -209,6 +209,7 @@ Alternative Installation:
 * Fix: Word count bug fix #407
 * Fix: Newspaper theme conflicts with WpQuads #395
 * Fix: To change Background color to the ads #387
+* New: pro version label change #409
 
 = 2.0.28.2 (03rd August 2021) =
 * Fix: Option panel was getting blank #403
