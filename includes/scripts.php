@@ -329,7 +329,12 @@ function quads_inline_styles() {
             $css .= quads_render_media_query( $key, $value );
         }
     }
-    $css .=".quads-ad-label { font-size: 12px; text-align: center; color: #333;}";
+    $css .="
+    .quads-location ins.adsbygoogle {
+        background: transparent !important;
+    }
+    
+    .quads-ad-label { font-size: 12px; text-align: center; color: #333;}";
     // Register empty style so we do not need an external css file
     wp_register_style( 'quads-styles', false );
     // Enque empty style
