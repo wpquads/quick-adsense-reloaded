@@ -1672,9 +1672,11 @@ return array('status' => 't');
 
                 $new_result =array();
                 foreach ($result['posts_data'] as $key => $value) {
+                    if(isset($value['post_meta']['ad_id'])){
                     $analytics = quads_get_ad_stats('sumofstats',$value['post_meta']['ad_id']);
                     $value['post_meta']['analytics'] = $analytics;
                     $new_result[] = $value;
+                }
                 }
                 $result['posts_data'] = $new_result;
             }
