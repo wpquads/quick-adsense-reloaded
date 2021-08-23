@@ -94,7 +94,7 @@ class vi {
             add_action('quads_weekly_event', array($this, 'setSettings'));
             // add_action('quads_daily_event', array($this, 'setActive'));
             add_action('quads_daily_event', array($this, 'setRevenue'));
-            add_action('quads_weekly_event', array($this, 'verifyViAdCode'));
+           // add_action('quads_weekly_event', array($this, 'verifyViAdCode'));
         }
 
         // Shortcodes
