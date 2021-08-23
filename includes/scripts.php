@@ -61,6 +61,27 @@ function click_fraud_protection(){
                 ) );
     }
 }
+
+/**
+ *  Determines whether the current admin page is an QUADS admin page.
+ *
+ *  Only works after the `wp_loaded` hook, & most effective
+ *  starting on `admin_menu` hook.
+ *
+ *  @since 1.9.6
+ *  @return bool True if QUADS admin page.
+ */
+if(!function_exists('quads_is_admin_page')){
+    function quads_is_admin_page() {
+        $currentpage = isset($_GET['page']) ? $_GET['page'] : '';
+        if ( ! is_admin() || ! did_action( 'wp_loaded' ) ) {
+            return false;
+        }
+        if ( 'quads-settings' == $currentpage ) {
+            return true;
+        }
+    }
+}
 /**
  * Create ad blocker admin script
  * 
@@ -308,7 +329,12 @@ function quads_inline_styles() {
             $css .= quads_render_media_query( $key, $value );
         }
     }
-    $css .=".quads-ad-label { font-size: 12px; text-align: center; color: #333;}";
+    $css .="
+    .quads-location ins.adsbygoogle {
+        background: transparent !important;
+    }
+    
+    .quads-ad-label { font-size: 12px; text-align: center; color: #333;}";
     // Register empty style so we do not need an external css file
     wp_register_style( 'quads-styles', false );
     // Enque empty style

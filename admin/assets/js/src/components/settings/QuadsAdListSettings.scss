@@ -97,7 +97,11 @@ a.quads-nav-link-active {
 }
 .quads-premium-cus{
   margin-top: 5px;  
+  width: 300px;
+  padding: 18px 20px;
+  margin: 4px 2px;
 }
+
 .quads-help-support input,textarea,select{
   width: 100%;  
 }
@@ -589,3 +593,19 @@ position: fixed;
     margin-left: 5px;
     display: inline-block;
 }
+.getprocheckbox{
+  font-size: 11px;
+  background: #546e7a;
+  color: #fff;
+  padding: 2px 4px;
+  border-radius: 4px;
+  margin-left: 2px;
+
+}
+.RoleBasedAccess{
+  width: 82%;
+  +a.quads-general-helper.quads-general-helper-new {
+    margin-top: -34px;
+}
+}
+
