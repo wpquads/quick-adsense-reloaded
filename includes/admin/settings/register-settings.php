@@ -29,9 +29,9 @@ function quads_get_option( $key = '', $default = false ) {
 
 
 
-add_action( 'admin_init', 'quads_check_licene_my_upgrade_function',10);
+add_action( 'admin_init', 'quads_check_licene_upgrade_modified',10);
  
-function quads_check_licene_my_upgrade_function() {
+function quads_check_licene_upgrade_modified() {
  
    $quads_license_bug_fixed =   get_transient('quads_license_bug_fixed');
    $quads_mode = get_option('quads-mode');
