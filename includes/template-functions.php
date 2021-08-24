@@ -1132,9 +1132,19 @@ function quads_filter_default_ads_new( $content ) {
                                     if ( $word_count_number == $index + 1 ) {
                                         $flag= true; 
                                     }
-                                    if($flag && preg_match("/<[^<]+>/",$paragraphs[$index])){
-                                        
+                                     if($flag && preg_match("/<[^<]+>/",$paragraphs[$index])){
+                                        $pattern = "#<\s*?li\b[^>]*>(.*?)#s"; //  to find the tag name
+                                        preg_match($pattern, $paragraphs[$index], $matches);
+                                     if(isset($matches[0])){
+                                        $tagname =$matches[0];
+                                        $stringarray= explode($tagname,$paragraphs[$index]);
+                                        if(isset($stringarray[0])){
+                                            $stringarray[0]=$stringarray[0].$cusads;
+                                            $paragraphs[$index] =   implode($tagname,$stringarray);
+                                        }
+                                     }else{
                                         $paragraphs[$index] .= $cusads;
+                                     }
                                         $flag= false;  
                                     }
                                 }
