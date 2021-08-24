@@ -91,9 +91,9 @@ class vi {
         // We need to ensure publishers privacy and do not want to send more personal information than absolutely necessary
         if (!empty($this->token)) {
             // Cron Check vi api settings daily
-            add_action('quads_weekly_event', array($this, 'setSettings'));
+          //  add_action('quads_weekly_event', array($this, 'setSettings'));
             // add_action('quads_daily_event', array($this, 'setActive'));
-            add_action('quads_daily_event', array($this, 'setRevenue'));
+            //add_action('quads_daily_event', array($this, 'setRevenue'));
            // add_action('quads_weekly_event', array($this, 'verifyViAdCode'));
         }
 
