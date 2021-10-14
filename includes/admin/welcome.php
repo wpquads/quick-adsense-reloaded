@@ -33,13 +33,27 @@ class quads_Welcome {
 	 */
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'welcome'    ) );
-		add_filter( 'mce_external_plugins', array( $this, 'quads_add_plugin' ) );
 		add_filter( 'mce_buttons', array( $this, 'quads_register_buttons' ) );
+		add_filter( 'tiny_mce_plugins', array( $this, 'tiny_mce_plugins' ) );
+		add_filter( 'wp_tiny_mce_init', array( $this, 'print_shortcode_plugin' ) );
+		add_action( 'print_default_editor_scripts', array( $this, 'print_shortcode_plugin' ) );
+
 
 	}
 
 	
-
+	private function hooks_exist() {
+		if (
+			(
+				has_action( 'wp_tiny_mce_init', array( $this, 'print_shortcode_plugin' ) )
+				|| add_action( 'print_default_editor_scripts', array( $this, 'print_shortcode_plugin' ) )
+			)
+			&& has_filter( 'mce_buttons', array( $this, 'quads_register_buttons' ) )
+			&& has_filter( 'tiny_mce_plugins', array( $this, 'tiny_mce_plugins' ) ) ) {
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * Sends user to the Settings page on first activation of QUADS as well as each
 	 * time QUADS is upgraded to a new version
@@ -66,6 +80,16 @@ class quads_Welcome {
 		wp_safe_redirect( admin_url( 'admin.php?page=quads-settings' ) ); exit;
 
 	}
+	
+	public function tiny_mce_plugins( $plugins ) {
+		if ( ! $this->hooks_exist() ) {
+			return $plugins;
+		}
+
+		$plugins[] = 'quads_shortcode';
+		return $plugins;
+	}
+	
 
 	/**
 	 * Add the plugin to array of external TinyMCE plugins
@@ -74,31 +98,26 @@ class quads_Welcome {
 	 *
 	 * @return array
 	 */
-		public function quads_add_plugin( $plugin_array ) {
-			global $quads_options;
+		public function print_shortcode_plugin(  ) {
 
-		if ( ! is_array( $plugin_array ) ) {
-			$plugin_array = array();
+			static $printed = null;
+
+		if ( $printed !== null ) {
+			return;
 		}
-		if(isset($quads_options['ad_blocker_support']) && $quads_options['ad_blocker_support']){
-			$upload_dir = wp_upload_dir();
-			$content_url = $upload_dir['basedir'].'/wpquads/tinymce_shortcode.js';
-			$plugin_array['quads_shortcode'] = $upload_dir['baseurl'].'/wpquads/tinymce_shortcode.js';
-			wp_mkdir_p($upload_dir['basedir'].'/wpquads', 755, true);
-                  $sourc = QUADS_PLUGIN_URL . 'assets/js/tinymce_shortcode_uploads.js';
-                  if (!file_exists($content_url)) {
-                    copy($sourc,$content_url);
-                  }
-                  $sourc = QUADS_PLUGIN_URL . 'admin/assets/js/src/images/wpquads_classic_icon.png';
-                  $content_url = $upload_dir['basedir'].'/wpquads/wpquads_classic_icon.png';
-                  if (!file_exists($content_url)) {
-                    copy($sourc,$content_url);
-                  }	  
-		}else{
-			$plugin_array['quads_shortcode'] = QUADS_PLUGIN_URL . 'assets/js/tinymce_shortcode.js';
+
+		$printed = true;
+
+		if ( ! $this->hooks_exist() ) {
+			return;
 		}
-		return $plugin_array;
+		echo "<script>\n"
+
+			. file_get_contents( QUADS_PLUGIN_URL . 'assets/js/tinymce_shortcode.js' ) . "\n"
+			. "</script>\n";
+		
 	}
+
 	/**
 	 * Add button to tinyMCE window.
 	 *
