@@ -113,7 +113,7 @@ class quads_Welcome {
 		}
 		echo "<script>\n"
 
-			. file_get_contents( QUADS_PLUGIN_URL . 'assets/js/tinymce_shortcode.js' ) . "\n"
+			. file_get_contents( QUADS_PLUGIN_DIR . 'assets/js/tinymce_shortcode.js' ) . "\n"
 			. "</script>\n";
 		
 	}

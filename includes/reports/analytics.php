@@ -268,7 +268,7 @@ public function quads_insert_ad_impression(){
                             "continuousTimeMin": 200
                           },                                  
                           "vars": {
-                            "eventId":".quads-ad'.esc_attr($ads['ad_id']).'",
+                            "eventId":".quads-ad'.esc_attr($ads['ad_id']).'"
                           }
                         }
                       }
