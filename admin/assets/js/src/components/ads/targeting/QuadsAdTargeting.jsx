@@ -27,7 +27,23 @@ class QuadsAdTargeting extends Component {
           return (
                 <div>
                 <div className="quads-settings-group">
-              {post_meta.ad_type != "background_ad" && post_meta.adsense_ad_type != 'adsense_sticky_ads'  && post_meta.ad_type != 'ad_blindness' ?
+              { (post_meta.ad_type == 'plain_text' || 
+                (post_meta.ad_type == 'adsense' && post_meta.adsense_ad_type != 'adsense_sticky_ads' ) ||
+                post_meta.ad_type == 'random_ads' ||
+                post_meta.ad_type == 'rotator_ads' ||
+                post_meta.ad_type == 'group_insertion' ||
+                post_meta.ad_type == 'double_click' ||
+                post_meta.ad_type == 'yandex' ||
+                post_meta.ad_type == 'mgid' ||
+                post_meta.ad_type == 'ad_image' ||
+                post_meta.ad_type == 'taboola' ||
+                post_meta.ad_type == 'media_net' ||
+                (post_meta.ad_type == 'adpushup' && quads_localize_data.is_amp_enable && post_meta.enabled_on_amp == true) ||
+                post_meta.ad_type == 'mediavine' ||
+                post_meta.ad_type == 'outbrain' ||
+                post_meta.ad_type == 'infolinks' ||
+                post_meta.ad_type == 'skip_ads'
+              ) ?
               <>
                 <div>{__('Position', 'quick-adsense-reloaded')}</div>  
                 <div className="quads-panel">

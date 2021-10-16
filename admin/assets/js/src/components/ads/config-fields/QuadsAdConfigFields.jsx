@@ -659,6 +659,53 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                 </div>);
 
               break;
+
+              case 'adpushup':
+             ad_type_name = 'AdPushup';  
+              comp_html.push(<div key="adpushup">
+                <table>
+                  <tbody>
+                      <tr><td>
+                    <label>{__('Adpushup Site ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.adpushup_site_id == '') ? 'quads_form_error' : ''} value={post_meta.adpushup_site_id} onChange={this.props.adFormChangeHandler} type="text" id="adpushup_site_id" name="adpushup_site_id" placeholder="42844" />
+                    {(show_form_error && post_meta.adpushup_site_id == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Adpushup Site ID</div> :''}
+                     </td></tr>
+                     <tr><td>
+                    <label>{__('Adpushup Slot ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.adpushup_slot_id == '') ? 'quads_form_error' : ''} value={post_meta.adpushup_slot_id} onChange={this.props.adFormChangeHandler} type="text" id="adpushup_slot_id" name="adpushup_slot_id" placeholder="/103512698/AMP_COMPONENT_TEST_1" />
+                    {(show_form_error && post_meta.adpushup_slot_id == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Adpushup Slot ID</div> :''}
+                     </td></tr>
+                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
+                      <div>
+                        <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
+                        <option value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</option>
+                        <option value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</option> 
+                      </select>
+                      {
+                        post_meta.adsense_type !== 'responsive' ?                        
+                      <div className="quads-adsense-width-heigth">
+                        
+                        <div className="quads-adsense-width">
+                          <label>{__('Width', 'quick-adsense-reloaded')}
+                          <input value={post_meta.g_data_ad_width ? post_meta.g_data_ad_width:'300'} onChange={this.props.adFormChangeHandler} type="number" id="g_data_ad_width" name="g_data_ad_width" /> 
+                          </label>
+                        </div>
+                        <div className="quads-adsense-height">
+                          <label>{__('Height', 'quick-adsense-reloaded')}
+                          <input value={post_meta.g_data_ad_height  ? post_meta.g_data_ad_height:'250'} onChange={this.props.adFormChangeHandler} type="number" id="g_data_ad_height" name="g_data_ad_height" />  
+                          </label>
+                        </div>
+                      </div>
+                      : ''
+                      }
+                      </div>
+                      </td></tr>
+                  </tbody>
+                </table>
+                </div>);
+
+              break;
+
               case 'mediavine':
              ad_type_name = 'MediaVine';  
               comp_html.push(<div key="mediavine">

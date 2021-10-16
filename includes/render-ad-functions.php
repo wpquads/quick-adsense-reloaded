@@ -164,6 +164,17 @@ function quads_common_head_code(){
                   <script type="text/javascript" async="async" data-noptimize="1" data-cfasync="false" src="//scripts.mediavine.com/tags/'.esc_attr($ads['mediavine_site_id']).'.js?ver=5.2.3"></script>';
             }else if($ads['ad_type']== 'outbrain'){
                echo '<script type="text/javascript" async="async" src="http://widgets.outbrain.com/outbrain.js "></script>';
+            }else if($ads['ad_type']== 'adpushup'){
+                echo '<script data-cfasync="false" type="text/javascript">
+                (function(w, d) {
+                    var s = d.createElement("script");
+                    s.src = "//cdn.adpushup.com/'.esc_attr($ads['adpushup_site_id']).'/adpushup.js";
+                    s.crossOrigin="anonymous"; 
+                    s.type = "text/javascript"; s.async = true;
+                    (d.getElementsByTagName("head")[0] || d.getElementsByTagName("body")[0]).appendChild(s);
+                    w.adpushup = w.adpushup || {que:[]};
+                })(window, document);                
+                </script>';
             }
 
         }
@@ -1047,7 +1058,7 @@ function quads_is_infolinks( $id, $string ) {
  */
 function quads_render_amp($id,$ampsupport=''){
     global $quads_options,$quads_mode;
-
+    
     if($quads_mode != 'new'){
         // quads pro not installed and activated
         if ( !quads_is_extra() ){
@@ -1092,7 +1103,7 @@ function quads_render_amp($id,$ampsupport=''){
         if (!isset($quads_options['ads'][$id]['enabled_on_amp']) || (isset($quads_options['ads'][$id]['enabled_on_amp']) && $quads_options['ads'][$id]['enabled_on_amp'] === false) ){
             return '';
         }
-
+        
             if($quads_options['ads'][$id]['ad_type'] == 'double_click'){
                 $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';
                 $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';
@@ -1188,6 +1199,18 @@ function quads_render_amp($id,$ampsupport=''){
                                   data-widgetids='.esc_attr($quads_options['ads'][$id]['outbrain_widget_ids']).'
                                   data-enable-refresh="10">
                                 </amp-sticky-ad>';
+
+            } else if($quads_options['ads'][$id]['ad_type'] == 'adpushup'){
+                
+                $width = (isset($quads_options['ads'][$id]['g_data_ad_width']) && (!empty($quads_options['ads'][$id]['g_data_ad_width']))) ? $quads_options['ads'][$id]['g_data_ad_width']:300;
+                $height = (isset($quads_options['ads'][$id]['g_data_ad_height']) && (!empty($quads_options['ads'][$id]['g_data_ad_height']))) ? $quads_options['ads'][$id]['g_data_ad_height']:250;
+
+                $html = '<amp-ad width="'.esc_attr($width).'" height="'.esc_attr($height).'"
+                type="adpushup"
+                data-siteid="'.esc_attr($quads_options['ads'][$id]['adpushup_site_id']).'"
+                data-slotpath="'.esc_attr($quads_options['ads'][$id]['adpushup_slot_id']).'"
+                data-totalAmpSlots="1">
+                </amp-ad>';
 
             }else{
                    // Return default adsense code

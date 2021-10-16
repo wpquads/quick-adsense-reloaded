@@ -55,7 +55,11 @@ check_plugin_exist = (event) => {
                 <div className="quads-position-dropdown">
                     <div>
                         {quads_localize_data.is_amp_enable &&  post_meta.enabled_on_amp ?
+                        <>
                             <select className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
+                               <>
+                               {post_meta.ad_type != "adpushup" ?                                
+                                <>
                                 <optgroup label="Full Support ( AMP &amp; NON AMP )">
                                     <option value="">{__('Select Position', 'quick-adsense-reloaded')}</option>
                                     <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>
@@ -76,6 +80,9 @@ check_plugin_exist = (event) => {
                                 <option value="before_header">{__('Before the Header', 'quick-adsense-reloaded')}</option>
                                 <option value="after_header">{__('After the Header', 'quick-adsense-reloaded')}</option>
                                     </optgroup>
+                                </>
+                                : ''}  
+                               </>                                  
                                 <optgroup label="Partial Support ( AMP Only )">
                                     <option value="amp_after_featured_image">Ad after Featured Image</option>
                                     <option value="amp_below_the_header">Below the Header (SiteWide)</option>
@@ -90,6 +97,8 @@ check_plugin_exist = (event) => {
                                 </optgroup>
 
                             </select>
+                            {post_meta.ad_type == "adpushup" ? <p>This selection is just for AMP</p> : ''}
+                            </>                            
                             : <select className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                                 <option value="">{__('Select Position', 'quick-adsense-reloaded')}</option>
                                 <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>
