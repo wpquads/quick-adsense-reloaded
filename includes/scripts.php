@@ -105,6 +105,23 @@ function quads_check_ad_blocker() {
     <?php
 }
 
+function quads_show_adpushup_notice(){
+
+     // do not show anything
+        if( false !== get_option( 'quads_hide_adpushup_notice' ) ) {
+            return false;
+        }
+    
+        $message  = __( 'Get 30+ ad networks to compete for your ad inventory with Google Certified Publishing partner AdPushup.', 'quick-adsense-reloaded' );
+        $message .= '<br><br><a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_adpushup_notice" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Close Notice</a>';
+        ?>
+        <div class="updated notice" style="border-left: 4px solid #ffba00;">
+            <p><?php echo $message; ?></p>
+        </div>
+        <?php
+
+}
+
 /**
  * Load Admin Scripts
  *
@@ -116,16 +133,19 @@ function quads_check_ad_blocker() {
  * @return void
  */
 function quads_load_admin_scripts( $hook ) {
-    $quads_mode = get_option('quads-mode');
+
+$quads_mode = get_option('quads-mode');
 $screens = get_current_screen();
+
 $currentScreen = '';
 if(is_object($screens)){
-    $currentScreen = $screens->base;
+    $currentScreen = $screens->base;    
+
     if($currentScreen == 'toplevel_page_quads-settings'){
         remove_all_actions('admin_notices');
         if($quads_mode == 'new'){
-            add_action( 'admin_notices', 'quads_show_rate_div' );
-             add_action( 'admin_notices', 'quads_admin_messages_new' );
+             add_action( 'admin_notices', 'quads_show_rate_div' );
+             add_action( 'admin_notices', 'quads_admin_messages_new' );             
         }
         wp_enqueue_media();
         //To add page
@@ -133,6 +153,11 @@ if(is_object($screens)){
             require( ABSPATH . WPINC . '/class-wp-editor.php' );
         }
     }
+
+    if($currentScreen == 'plugins' || $currentScreen == 'toplevel_page_quads-settings'){
+        add_action( 'admin_notices', 'quads_show_adpushup_notice' );
+    }
+
 }
       
        
