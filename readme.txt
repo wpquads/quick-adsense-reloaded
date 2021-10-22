@@ -206,8 +206,7 @@ Alternative Installation:
 == Changelog ==
 
 = 2.0.32 (22nd October 2021) =
-* Fix: Failed to load plugin: quads_shortcode from url… #426
-* Fix: The script tag contains invalid JSON that cannot be parsed issue in AMP #425
+* Added: AdPushup Ad Network #419
 
 = 2.0.31 (14th October 2021) =
 * Fix: Failed to load plugin: quads_shortcode from url… #426
