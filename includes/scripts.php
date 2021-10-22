@@ -106,14 +106,14 @@ function quads_check_ad_blocker() {
 }
 
 function quads_show_adpushup_notice(){
-
-     // do not show anything
+     
         if( false !== get_option( 'quads_hide_adpushup_notice' ) ) {
             return false;
         }
     
         $message  = __( 'Get 30+ ad networks to compete for your ad inventory with Google Certified Publishing partner AdPushup.', 'quick-adsense-reloaded' );
-        $message .= '<br><br><a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_adpushup_notice" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Close Notice</a>';
+        $message .= '<br><br><a target="_blank" href="https://www.adpushup.com/publisher/wp-quads/" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Know More</a>';
+        $message .= '  <a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_adpushup_notice" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Close Notice</a>';
         ?>
         <div class="updated notice" style="border-left: 4px solid #ffba00;">
             <p><?php echo $message; ?></p>
