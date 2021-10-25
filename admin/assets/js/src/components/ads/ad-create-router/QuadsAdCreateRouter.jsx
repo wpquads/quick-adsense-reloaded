@@ -179,9 +179,9 @@ class QuadsAdCreateRouter extends Component {
                 }else if(meta_key == 'targeting_exclude'){
                    this.excludedVal = meta_val;
                 }
-                  if(meta_val){
+                  
                     quads_post_meta[meta_key] =    meta_val;   
-                  }                   
+                                     
               })
               
               this.setState(quads_post_meta);
