@@ -74,6 +74,10 @@ class QuadsAdList extends Component {
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/adsensev3.png';
           break;
 
+          case 'adpushup':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/adpushup-icon.png';
+          break;
+
         case 'plain_text':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/htmlcode.png';
           type = "custom code";

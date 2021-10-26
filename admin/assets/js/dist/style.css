@@ -468,7 +468,7 @@ and open the template in the editor.
   transform: rotate(45deg);
   opacity: 0; }
 
-.quads-panel-body input[type="checkbox"]:checked, .quads-panel-body input[type="checkbox"]:focus {
+.quads-panel-body input[type="checkbox"]:checked {
   color: #fff;
   border-color: #005aef;
   background: #005aef; }

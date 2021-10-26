@@ -107,6 +107,8 @@ class QuadsAdCreateRouter extends Component {
             infolinks_wsid             : '' ,
             data_container             : '' ,    
             data_js_src                : '' ,
+            adpushup_site_id           : '',
+            adpushup_slot_id           : '',            
             refresh_type               : 'on_load',
             },
             quads_form_errors : {
@@ -177,9 +179,9 @@ class QuadsAdCreateRouter extends Component {
                 }else if(meta_key == 'targeting_exclude'){
                    this.excludedVal = meta_val;
                 }
-                  if(meta_val){
+                  
                     quads_post_meta[meta_key] =    meta_val;   
-                  }                   
+                                     
               })
               
               this.setState(quads_post_meta);
@@ -559,6 +561,15 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             }
           break;
+
+          case 'adpushup':
+            if(validation_flag && quads_post_meta.adpushup_site_id){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;
+          
           case 'mediavine':
             if(validation_flag && quads_post_meta.mediavine_site_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');   
@@ -761,6 +772,14 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             }
             break;
+
+          case 'adpushup':
+            if(quads_post_meta.adpushup_site_id){
+              this.props.history.push(new_url); 
+            }else{
+              this.setState({show_form_error:true});
+            }
+            break; 
           case 'mediavine':
             if(quads_post_meta.mediavine_site_id){
               this.props.history.push(new_url); 

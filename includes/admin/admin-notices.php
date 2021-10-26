@@ -351,6 +351,12 @@ function quads_hide_notice_1_5_3() {
 
 add_action( 'quads_hide_update_notice_1_5_3', 'quads_hide_notice_1_5_3' );
 
+function quads_hide_adpushup_notice_box() {
+    update_option( 'quads_hide_adpushup_notice', '1' );
+}
+
+add_action( 'quads_hide_adpushup_notice', 'quads_hide_adpushup_notice_box' );
+
 /**
  * Check if any ad is activated and assigned in general settings
  * 

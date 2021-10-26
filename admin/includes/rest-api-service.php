@@ -273,7 +273,11 @@ class QUADS_Ad_Setup_Api_Service {
 
                 }
             }
-
+            if($meta_data['enabled_on_amp']){
+              $meta_data['enabled_on_amp'] = true;
+            }else{
+              $meta_data['enabled_on_amp'] = false;
+            }
             $response['post_meta'] = $meta_data;
 
         }
