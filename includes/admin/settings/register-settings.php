@@ -1309,13 +1309,13 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 
                   if( 'lifetime' === $license->expires ) {
 
-                     $messages[] = __( 'License key never expires.', 'quick-adsense-reloaded' );
+                     $messages[] = __( ' Your <span class="lifetime">License key is Valid for Lifetime</span> ', 'quick-adsense-reloaded' );
 
                      $license_status = 'quads-license-lifetime-notice';
                   } elseif( $expiration > $now && $expiration - $now < ( DAY_IN_SECONDS * 30 ) ) {
 
                      $messages[] = sprintf(
-                             __( 'Your license key expires soon! It expires on %s. <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ), 'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
+                             __( 'Your license key expires soon! It expires on %s. <a class="license_expiring" href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ), 'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
                      );
 
                      $license_status = 'quads-license-expires-soon-notice';
@@ -1328,6 +1328,39 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
                      $license_status = 'quads-license-expiration-date-notice';
                   }
                break;
+
+               case 'expired' :
+
+               if (isset($license->expires)) {
+                $license_exp = date('Y-m-d', strtotime($license->expires));
+                $license_exp_d = date('d F Y', strtotime($license->expires));
+                if (isset($license->expires)) {
+                $license->expires = $license_exp_d;
+              }
+              $license_info_lifetime = $license->expires;
+              $today = date('Y-m-d');
+              $exp_date = $license_exp;
+              $date1 = date_create($today);
+              $date2 = date_create($exp_date);
+            $diff = date_diff($date1,$date2);
+            $days = $diff->format("%a");
+            if( $license_info_lifetime == 'lifetime' ){
+              $days = 'Lifetime';
+              if ($days == 'Lifetime') {
+              $expire_msg = " Your License is Valid for Lifetime ";
+              }
+            }
+            elseif($today > $exp_date){
+              $days = -$days;
+            }
+          
+                $messages[] = sprintf(
+                             __( '<span class="expired_license_main">Your <span class="expired_license">License key has been Expired.</span></span> <a class="lic_is_expired" href="%s" target="_blank" title="Renew license">Renew Now</a>', 'quick-adsense-reloaded' ), 'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
+                     );
+                     $license_status = 'quads-license-error-notice';
+                     }
+                break;
+                
 
                case 'inactive' :
                     $messages[] = sprintf(
@@ -1352,8 +1385,19 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
       }
 
       $size = ( isset( $args['size'] ) && !is_null( $args['size'] ) ) ? $args['size'] : 'regular';
-      $html = '<input type="text" class="' . sanitize_html_class( $size ) . '-text" id="quads_settings[' . quads_sanitize_key( $args['id'] ) . ']" name="quads_settings[' . quads_sanitize_key( $args['id'] ) . ']" value="' . esc_attr( $value ) . '"/>';
+      
+      if( ( is_object( $license ) && 'valid' == $license->license ) || 'valid' == $license ) {
 
+         $html = '<div class="quads-after-actv"><span class="after_activation">Congratulations!</span><span class="after_activation_in"> WP QUADS PRO is now activated and working for you. This enables the Advanced Settings and High Performance for your ADS!</span></div>';
+         add_action('wp','quads_after_activation');
+         function quads_after_activation(){
+          echo "string";die;
+          echo "<style>div#licenses_header {display: none;}</style>";
+         }
+      }
+
+      $html .= '<input type="text" class="' . sanitize_html_class( $size ) . '-text" id="quads_settings[' . quads_sanitize_key( $args['id'] ) . ']" name="quads_settings[' . quads_sanitize_key( $args['id'] ) . ']" value="' . esc_attr( $value ) . '"/>';
+        
       if( ( is_object( $license ) && 'valid' == $license->license ) || 'valid' == $license ) {
          $html .= '<input type="submit" class="button-secondary" name="' . $args['id'] . '_deactivate" value="' . __( 'Deactivate License', 'quick-adsense-reloaded' ) . '"/>';
       }

@@ -556,3 +556,32 @@ if (QUADS_VERSION >= '2.0.28' && quads_is_pro_active() ) {
        delete_option( 'quads_wp_quads_pro_license_active' );
     }
  }
+      
+add_action( 'wp_loaded','quads_checker_license' );
+function quads_checker_license(){
+  if ( QUADS_VERSION == '2.0.33' && function_exists('quads_is_pro_active') && quads_is_pro_active() ) {
+    if( isset( $_GET["page"] ) && !empty( $_GET ) && $_GET["page"] == 'quads-settings' && isset($_GET["tab"]) && $_GET["tab"] == 'licenses' ){
+      $quads_license_obj = new QUADS_License( __FILE__, 'WP QUADS PRO', QUADS_PRO_VERSION, 'Rene Hermenau', 'edd_sl_license_key' );
+      $trans_check = get_transient( 'quads_adsense_license_auto_check' );
+      if ( $trans_check !== 'quads_adsense_license_auto_check_value' ) {
+        $quads_license_obj->weekly_license_check();
+      }
+    }
+  }
+}
+
+if( function_exists('quads_is_pro_active') && quads_is_pro_active() && isset( $_GET["page"] ) && !empty( $_GET ) && $_GET["page"] == 'quads-settings' && isset($_GET["tab"]) && $_GET["tab"] == 'licenses' ){
+    $license = get_option( 'quads_wp_quads_pro_license_active' );
+    if( !empty( $license ) && is_object( $license ) && $license->license == 'valid' ) {
+      add_action('plugins_loaded','quads_settings_update_title');
+    }
+  }
+
+function quads_settings_update_title(){
+  add_filter('quads_settings_licenses','quads_settings_update_license_t_name',99,1);
+}
+
+function quads_settings_update_license_t_name($q_array){
+  $q_array['licenses_header']['name'] = '';
+  return $q_array;
+}

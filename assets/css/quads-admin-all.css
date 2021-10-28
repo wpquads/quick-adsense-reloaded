@@ -154,4 +154,24 @@
     margin-top: 2px;
 }span.lifetime {
     color: #00A66B;
+}.quads-after-actv {
+    margin-bottom: 12px;
+}.after_activation{
+    font-size: initial;
+    font-weight: 600;
+}a.license_expiring { display: inline-block; background: #2b2b2b; border-radius: 64px; color: #ffd400; font-size: 15px; line-height: 1.125; font-weight: 600; padding: 9px 14px; text-decoration: none; }
+a.lic_is_expired {
+    display: inline-block;
+    background: #2b2b2b;
+    border-radius: 64px;
+    color: #ffd400;
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 600;
+    padding: 7px 11px;
+    text-decoration: none;
+}.expired_license {
+    color: red;
+}span.expired_license_main {
+    font-size: 15px;
 }
