@@ -1389,11 +1389,6 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
       if( ( is_object( $license ) && 'valid' == $license->license ) || 'valid' == $license ) {
 
          $html = '<div class="quads-after-actv"><span class="after_activation">Congratulations!</span><span class="after_activation_in"> WP QUADS PRO is now activated and working for you. This enables the Advanced Settings and High Performance for your ADS!</span></div>';
-         add_action('wp','quads_after_activation');
-         function quads_after_activation(){
-          echo "string";die;
-          echo "<style>div#licenses_header {display: none;}</style>";
-         }
       }
 
       $html .= '<input type="text" class="' . sanitize_html_class( $size ) . '-text" id="quads_settings[' . quads_sanitize_key( $args['id'] ) . ']" name="quads_settings[' . quads_sanitize_key( $args['id'] ) . ']" value="' . esc_attr( $value ) . '"/>';

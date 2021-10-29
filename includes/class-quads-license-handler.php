@@ -606,10 +606,6 @@ class QUADS_License {
 		if ( empty( $post_setting['quads_wp_quads_pro_license_key'] ) ) {
 			return;
 		}
-                
-                if( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
 
 		// Run on deactivate button press
 		if ( isset( $_POST['quads_wp_quads_pro_license_key_deactivate'] ) ) {
@@ -659,6 +655,10 @@ class QUADS_License {
 		}
 
 		if( empty( $this->license ) ) {
+			return;
+		}
+
+		if( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
