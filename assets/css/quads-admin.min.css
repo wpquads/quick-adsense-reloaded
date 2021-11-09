@@ -131,7 +131,7 @@ input.medium-text, textarea.medium-text {
 
 
 #quads_tab_container .quads-row{ 
-    padding-top:12px;
+    /* padding-top:12px; */
     padding-bottom:12px;
 }
 

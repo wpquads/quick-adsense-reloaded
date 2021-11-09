@@ -726,9 +726,9 @@ function quads_show_update_auto_ads() {
 function quads_licene_acivation_notice(){
     $quads_mode = get_option('quads-mode');
     if($quads_mode == 'new'){
-        $message = __( 'Activate Liencese the <a href="'.admin_url('admin.php?page=quads-settings&path=settings_licenses').'" target="_blank"> <strong>WP QUADS PRO!</strong></a><br><p>', 'quick-adsense-reloaded' );
+        $message = __( 'Activate the License of <a href="'.admin_url('admin.php?page=quads-settings&path=settings_licenses').'" target="_blank"> <strong>WP QUADS PRO!</strong></a><br><p>', 'quick-adsense-reloaded' );
     }else{
-        $message = __( 'Activate Liencese the <a href="'.admin_url('admin.php?page=quads-settings&tab=licenses').'" target="_blank"> <strong>WP QUADS PRO!</strong></a><br><p>', 'quick-adsense-reloaded' );
+        $message = __( 'Activate the License of <a href="'.admin_url('admin.php?page=quads-settings&tab=licenses').'" target="_blank"> <strong>WP QUADS PRO!</strong></a><br><p>', 'quick-adsense-reloaded' );
     }
         ?>
         <div class="updated notice" style="border-left: 4px solid #ffba00;">

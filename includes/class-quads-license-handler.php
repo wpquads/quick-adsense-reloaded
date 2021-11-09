@@ -114,6 +114,8 @@ class QUADS_License {
 		// Updater
 		add_action( 'admin_init', array( $this, 'auto_updater' ), 0 );
 
+		add_action( 'admin_init', array( $this, 'auto_checker' ), 0 );
+
 		// Display notices to admins
 		//add_action( 'admin_notices', array( $this, 'notices' ) );
 
@@ -177,19 +179,22 @@ class QUADS_License {
         if (isset($license_data->expires)) {
         	$license_data->expires = $license_exp_d;
         }
-        // print_r($license_data);die;
-        // print_r($license_exp_d);die;
-    $today = date('Y-m-d');
-    
-    $exp_date = $license_exp;
-
-    $date1 = date_create($today);
-    $date2 = date_create($exp_date);
-    $diff = date_diff($date1,$date2);
-    $days = $diff->format("%a");
-    if($today > $exp_date){
-    	$days = -$days;
-    }
+        $license_info_lifetime = $license_data->expires;
+		$today = date('Y-m-d');
+		$exp_date = $license_exp;
+		$date1 = date_create($today);
+			$date2 = date_create($exp_date);
+			$diff = date_diff($date1,$date2);
+			$days = $diff->format("%a");
+			if( $license_info_lifetime == 'lifetime' ){
+				$days = 'Lifetime';
+				if ($days == 'Lifetime') {
+				$expire_msg = " Your License is Valid for Lifetime ";
+				}
+			}
+			elseif($today > $exp_date){
+				$days = -$days;
+			}
     }
     // print_r($days);die;
 		// }
@@ -201,7 +206,7 @@ class QUADS_License {
     if ($days>= 0 && $days <= 30   ) {
     if(isset($_GET["path"])&&!empty($_GET)){
     	if($_GET['path'] == 'settings_licenses' ){
-    		$this->weekly_license_check();
+    		// $this->weekly_license_check();
     	};
     }
   }
@@ -221,6 +226,47 @@ class QUADS_License {
 			$this->file,
 			$args
 		);
+	}
+
+	public function auto_checker(){
+		$details = get_option( 'quads_wp_quads_pro_license_active' );
+		if (isset($details->expires)) {
+		$license_exp = date('Y-m-d', strtotime($details->expires));
+		$license_info_lifetime = $details->expires;
+		$today = date('Y-m-d');
+		$exp_date = $license_exp;
+		$date1 = date_create($today);
+			$date2 = date_create($exp_date);
+			$diff = date_diff($date1,$date2);
+			$days = $diff->format("%a");
+			if( $license_info_lifetime == 'lifetime' ){
+				$days = 'Lifetime';
+				if ($days == 'Lifetime') {
+				$expire_msg = " Your License is Valid for Lifetime ";
+				}
+			}
+			elseif($today > $exp_date){
+				$days = -$days;
+			}
+		}
+	
+		if ( $details ) {
+		if ( $days <=7 ) {
+			if( isset( $_GET["page"] ) && !empty( $_GET ) ) {
+				$quads_mode = get_option('quads-mode');
+				if( $quads_mode !== "old" && $_GET['page'] == 'quads-settings' ){
+					$trans_check = get_transient( 'quads_adsense_r_t' );
+					if ( $days<=7 && $trans_check !== 'quads_adsense_r_tvalue' ) {
+						$this->weekly_license_check();
+					}
+					$transient =  'quads_adsense_r_t';
+					$value =  'quads_adsense_r_tvalue';
+					$expiration =  86400 ;
+					set_transient( $transient, $value, $expiration );
+				}
+			}
+		}
+		}
 	}
 
 
@@ -346,9 +392,28 @@ class QUADS_License {
 		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 
 		update_option( $this->item_shortname . '_license_active', $license_data );
-      $response = array('status' => 't','license' => 'actived', 'msg' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' )); 
+      $response = array('status' => 't','license' => 'actived', 'msg' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ), 'expiring_days' => $license_data->expires); 
+
+      $license_exp = date('Y-m-d', strtotime($details->expires));
+			$license_exp_d = date('d F Y', strtotime($details->expires));
+			$license_info_lifetime = $details->expires;
+		$today = date('Y-m-d');
+		$exp_date = $license_exp;
+		$date1 = date_create($today);
+			$date2 = date_create($exp_date);
+			$diff = date_diff($date1,$date2);
+			$days = $diff->format("%a");
+			if( $license_info_lifetime == 'lifetime' ){
+				$days = 'Lifetime';
+				if ($days == 'Lifetime') {
+				$expire_msg = " Your License is Valid for Lifetime ";
+				}
+			}
+			elseif($today > $exp_date){
+				$days = -$days;
+			}
       return $response;
-                }
+  }
 	/**
 	 * Activate the license key
 	 *
@@ -360,13 +425,20 @@ class QUADS_License {
 		if (isset($license_data->expires)) {
 		$license_exp = date('Y-m-d', strtotime($details->expires));
 		$license_exp_d = date('d F Y', strtotime($details->expires));
+		$license_info_lifetime = $details->expires;
 		$today = date('Y-m-d');
 		$exp_date = $license_exp;
 		$date1 = date_create($today);
 			$date2 = date_create($exp_date);
 			$diff = date_diff($date1,$date2);
 			$days = $diff->format("%a");
-			if($today > $exp_date){
+			if( $license_info_lifetime == 'lifetime' ){
+				$days = 'Lifetime';
+				if ($days == 'Lifetime') {
+				$expire_msg = " Your License is Valid for Lifetime ";
+				}
+			}
+			elseif($today > $exp_date){
 				$days = -$days;
 			}
 		}
@@ -407,14 +479,22 @@ class QUADS_License {
 		if( empty( $license ) ) {
 			return;
 		}
+			$license_exp = date('Y-m-d', strtotime($details->expires));
 			$license_exp_d = date('d F Y', strtotime($details->expires));
+			$license_info_lifetime = $details->expires;
 			$today = date('Y-m-d');
-			$exp_date =$license_exp;
+			$exp_date = $license_exp;
 			$date1 = date_create($today);
 			$date2 = date_create($exp_date);
 			$diff = date_diff($date1,$date2);
 			$days = $diff->format("%a");
-			if($today > $exp_date){
+			if( $license_info_lifetime == 'lifetime' ){
+				$days = 'Lifetime';
+				if ($days == 'Lifetime') {
+				$expire_msg = " Your License is Valid for Lifetime ";
+				}
+			}
+			elseif($today > $exp_date){
 				$days = -$days;
 			}
 		// Data to send to the API
@@ -526,10 +606,6 @@ class QUADS_License {
 		if ( empty( $post_setting['quads_wp_quads_pro_license_key'] ) ) {
 			return;
 		}
-                
-                if( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
 
 		// Run on deactivate button press
 		if ( isset( $_POST['quads_wp_quads_pro_license_key_deactivate'] ) ) {
@@ -582,6 +658,10 @@ class QUADS_License {
 			return;
 		}
 
+		if( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		// data to send in our API request
 		$api_params = array(
 			'edd_action'=> 'check_license',
@@ -607,15 +687,46 @@ class QUADS_License {
 
 		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 		if ($license_data->license == "expired") {
-
-
-			
-
-		}
+  			if (isset($license_data->expires)) {
+        $license_exp = date('Y-m-d', strtotime($license_data->expires));
+        $license_exp_d = date('d F Y', strtotime($license_data->expires));
+      
+        if (isset($license_data->expires)) {
+        	$license_data->expires = $license_exp_d;
+        }
+        $license_info_lifetime = $license_data->expires;
+		$today = date('Y-m-d');
+		$exp_date = $license_exp;
+		$date1 = date_create($today);
+			$date2 = date_create($exp_date);
+			$diff = date_diff($date1,$date2);
+			$days = $diff->format("%a");
+			if( $license_info_lifetime == 'lifetime' ){
+				$days = 'Lifetime';
+				if ($days == 'Lifetime') {
+				$expire_msg = " Your License is Valid for Lifetime ";
+				}
+			}
+			elseif($today > $exp_date){
+				$days = -$days;
+			}
+    }
+    update_option( $this->item_shortname . '_license_active', $license_data );
+}
 		if ($license_data->license !== "expired") {
 		update_option( $this->item_shortname . '_license_active', $license_data );
 		}
 
+		if ($response['response']['code'] == 200 && $response['response']['message'] == 'OK') {
+			if ( QUADS_VERSION == '2.0.33' && function_exists('quads_is_pro_active') && quads_is_pro_active() ) {
+				if( isset( $_GET["page"] ) && !empty( $_GET ) && $_GET["page"] == 'quads-settings' && isset($_GET["tab"]) && $_GET["tab"] == 'licenses' ){
+			$transient_load =  'quads_adsense_license_auto_check';
+            $value_load =  'quads_adsense_license_auto_check_value';
+            $expiration_load =  0 ;
+            set_transient( $transient_load, $value_load, $expiration_load );
+        }
+    }
+}
 
 	}
 

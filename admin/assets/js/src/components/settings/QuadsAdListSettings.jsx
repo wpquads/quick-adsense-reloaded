@@ -1772,7 +1772,7 @@ handleMultiPluginsChange = (option) => {
           
           </div>
             {this.state.licensemsg ?
-            <div id="quads_licensemsg">{this.state.licensemsg}</div> : null}
+            <div id="quads_licensemsg">{/*this.state.licensemsg*/}</div> : null}
                   {/* <div>
                     <h3>System Info</h3>
                     <textarea className="quads-system-info" readOnly={true} value={this.state.textToCopy}/>
@@ -1812,8 +1812,7 @@ handleMultiPluginsChange = (option) => {
           <span class="quads-infoAccountt quads-isValids" id="quads-account-data">Activated</span>          
           <p>Hey! You're enjoying all the PRO benefits of the WP QUADS along with regular updates & Technical Support.</p>
           <p class="">
-          <span class="quads-title3">Expiration Date</span>
-          <span class="quads-infoAccount quads-isValid" id="quads-expiration-data">{quads_localize_data.licenses.expires}</span>
+          { quads_localize_data.licenses.expires>0 ? <span class="quads-title3">Your License is valid for {quads_localize_data.licenses.expires} days<span class="quads-infoAccount quads-isValid" id="quads-expiration-data"></span></span> : <span class="quads-title3">Your <span className="lifetime">License is valid for {quads_localize_data.licenses.expires}</span><span class="quads-infoAccount quads-isValid" id="quads-expiration-data"></span></span> }
           </p>
           <a href="https://wpquads.com/your-account/" target="_blank" class="quads-button quads-button-btn quads-button--small quads-icon-user">Extend License</a>
           </div>
@@ -1842,10 +1841,6 @@ handleMultiPluginsChange = (option) => {
           <span class="quads-title3">License Key is</span>
           <span class="quads-infoAccountt quads-isinValid" id="quads-account-data">Expired</span>          
           <p>Extend the License to receive the further updates & support.</p>
-          <p class="">
-          <span class="quads-title3">Expiration Date</span>
-          <span class="quads-infoAccount quads-isValid" id="quads-expiration-data">{quads_localize_data.licenses.expires}</span>
-          </p>
           <a href="https://wpquads.com/your-account/" target="_blank" class="quads-button quads-button-btn quads-button--small quads-icon-user">Extend License</a>
           </div>
           </div>

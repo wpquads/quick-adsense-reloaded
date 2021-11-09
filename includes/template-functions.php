@@ -1161,59 +1161,56 @@ function quads_filter_default_ads_new( $content ) {
                           $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
                           $paragraph_limit         = isset($ads['paragraph_limit']) ? $ads['paragraph_limit'] : '';
                           $insert_after         = isset($ads['insert_after']) ? $ads['insert_after'] : 1;
-                         if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
-                          $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
-                        }else{
-                            $closing_p        = '</p>';
-                            $paragraphs       = explode( $closing_p, $content );
-                            $p_count          = count($paragraphs);
-                            $original_paragraph_no = $paragraph_no;                                                             
-                            
-                            if($paragraph_no <= $p_count){
-                              if($ads['ad_type']== 'group_insertion'){
-                                  $p_count =$p_count -1;
-                                  $cusads = '<!--CusGI'.$ads['ad_id'].'-->';
-                                $next_insert_val = $insert_after;
-                                $displayed_ad =1;
-                                  foreach ($paragraphs as $index => $paragraph) {
-                                      $addstart = false;
-                                      if ( trim( $paragraph ) ) {
-                                          $paragraphs[$index] .= $closing_p;
-                                      }
 
-                                      if((!empty($paragraph_limit) && $paragraph_limit < $displayed_ad) || ($index == $p_count )){
-                                          break;
-                                      }
-                                          if($index+1 == $next_insert_val){
-                                              $displayed_ad +=1;
-                                            $next_insert_val = $next_insert_val+$insert_after;
-                                            $addstart = true;
-                                        }
-                                          if($addstart){
-                                              $paragraphs[$index] .= $cusads;
-                                          }
-                                  }
-                              }else{
-
+                          $closing_p        = '</p>';
+                          $paragraphs       = explode( $closing_p, $content );
+                          $p_count          = count($paragraphs);
+                          $original_paragraph_no = $paragraph_no;                                                             
+                          
+                          if($paragraph_no <= $p_count){
+                            if($ads['ad_type']== 'group_insertion'){
+                                $p_count =$p_count -1;
+                                $cusads = '<!--CusGI'.$ads['ad_id'].'-->';
+                              $next_insert_val = $insert_after;
+                              $displayed_ad =1;
                                 foreach ($paragraphs as $index => $paragraph) {
+                                    $addstart = false;
                                     if ( trim( $paragraph ) ) {
                                         $paragraphs[$index] .= $closing_p;
                                     }
-                                    if ( $paragraph_no == $index + 1 ) {
-                                        $paragraphs[$index] .= $cusads;
-                                        if($repeat_paragraph){
-                                         $paragraph_no =  $original_paragraph_no+$paragraph_no; 
-                                        }
+
+                                    if((!empty($paragraph_limit) && $paragraph_limit < $displayed_ad) || ($index == $p_count )){
+                                        break;
                                     }
+                                        if($index+1 == $next_insert_val){
+                                            $displayed_ad +=1;
+                                          $next_insert_val = $next_insert_val+$insert_after;
+                                          $addstart = true;
+                                      }
+                                        if($addstart){
+                                            $paragraphs[$index] .= $cusads;
+                                        }
                                 }
-                              }
-                                $content = implode( '', $paragraphs ); 
                             }else{
-                                if($end_of_post){
-                                    $content = $content.$cusads;   
-                                }                                
-                            }                                                        
-                        }
+
+                              foreach ($paragraphs as $index => $paragraph) {
+                                  if ( trim( $paragraph ) ) {
+                                      $paragraphs[$index] .= $closing_p;
+                                  }
+                                  if ( $paragraph_no == $index + 1 ) {
+                                      $paragraphs[$index] .= $cusads;
+                                      if($repeat_paragraph){
+                                       $paragraph_no =  $original_paragraph_no+$paragraph_no; 
+                                      }
+                                  }
+                              }
+                            }
+                              $content = implode( '', $paragraphs ); 
+                          }else{
+                              if($end_of_post){
+                                  $content = $content.$cusads;   
+                              }                                
+                          }
                       }
                         break;
                     

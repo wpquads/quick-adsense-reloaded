@@ -187,28 +187,35 @@ function quads_options_page_new() {
         if (isset($licenses->expires)) {
         $license_exp = date('Y-m-d', strtotime($licenses->expires));
         $license_exp_d = date('d F Y', strtotime($licenses->expires));
-        if (isset($licenses->expires)) {
-        $licenses->expires = $license_exp_d;
-        }    
+        $license_info_lifetime = $licenses->expires;
+
+        // if (isset($licenses->expires)) {
+        // $licenses->expires = $license_exp_d;
+        // }
 
         $today = date('Y-m-d');
-        $exp_date =$license_exp;
-
+        $exp_date = $license_exp;
         $date1 = date_create($today);
-        $date2 = date_create($exp_date);
-        $diff = date_diff($date1,$date2);        
-        $days = $diff->format("%a");
-        if($today > $exp_date){
-            $days = -$days;
-        }
+            $date2 = date_create($exp_date);
+            $diff = date_diff($date1,$date2);
+            $days = $diff->format("%a");
+            if( $license_info_lifetime == 'lifetime' ){
+                $days = 'Lifetime';
+                if ($days == 'Lifetime') {
+                $expire_msg = " Your License is Valid for Lifetime ";
+                }
+            }
+            elseif($today > $exp_date){
+                $days = -$days;
+            }
 
         if(isset($licenses->price_id)){
             $licenses->price_id = $days;
         }        
+        if(isset($licenses->expires)){
+            $licenses->expires = $days;
+        }        
         // print_r($licenses->price_id);die;       
-        if($today > $exp_date){
-            $days = -$days;
-        }
         }
         $data = array(
             'quads_plugin_url'     => QUADS_PLUGIN_URL,
