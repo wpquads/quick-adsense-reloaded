@@ -602,6 +602,15 @@ position: fixed;
   margin-left: 2px;
 
 }
+a.quads_pro_link{
+  font-size: 11px;
+    background: #546e7a;
+    color: #fff;
+    padding: 2px 4px;
+    border-radius: 4px;
+    margin-left: 2px;
+  text-decoration: none;
+}
 .RoleBasedAccess{
   width: 82%;
   +a.quads-general-helper.quads-general-helper-new {

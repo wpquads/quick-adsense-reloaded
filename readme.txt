@@ -23,7 +23,7 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 
 = Features: =
 * <strong>NEW - Web Stories Integration: </strong> Advertise in AMP Web Stories.
-* <strong>NEW - Click Fraud Detection</strong>: Helps you fight the click fraud and helps you stabilize the ad revenue.
+* <strong>NEW - Click Fraud Protection</strong>: Helps you fight the click fraud and helps you stabilize the ad revenue.
 * <strong>NEW - GDPR & Privacy tools</strong>: We have got the GDPR and other privacy tools planned so that you dont have to worry about complying with privacy laws.
 * <strong>Easy</strong> to use Modern options panel built on React JS.
 * Deeply <strong>integrates with AMP</strong> plugins like AMPforWP, Official AMP by Google.

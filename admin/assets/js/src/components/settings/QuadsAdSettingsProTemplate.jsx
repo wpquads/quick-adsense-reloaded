@@ -32,7 +32,7 @@ class QuadsAdSettingsProTemplate extends Component {
       );
     } else {
       return (
-      <tr>  <th><label htmlFor={data.id}>{data.title} <span className={'getprocheckbox'}>PRO</span></label></th>
+      <tr>  <th><label htmlFor={data.id}>{data.title} <span className={'getprocheckbox'}><a className={'quads_pro_link'} href="https://wpquads.com/#buy-wpquads">PRO</a></span></label></th>
         <td>
           <label className="quads-switch">
             <input type="checkbox" name={data.id} onChange={this.props.display_pro_alert_fun} value={data.id} />
