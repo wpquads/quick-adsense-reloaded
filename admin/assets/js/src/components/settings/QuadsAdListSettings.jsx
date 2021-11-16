@@ -106,6 +106,8 @@ class QuadsAdListSettings extends Component {
             page_redirect_options   : [],
             selectedFile  : '',
             isLoading : true,
+            blocked_ips:'',
+            q_admin_url:'',
         };
   }
   onFileChange = (event) => {
@@ -627,7 +629,27 @@ handleMultiPluginsChange = (option) => {
       }
     );
   }
+
+  get_blocked_ips () {
+    var blocked_ips = quads_localize_data.quads_get_ips;
+    var q_admin_url = quads_localize_data.ajax_url;
+
+    if( blocked_ips.length>1 ){
+      this.setState({ blocked_ips: blocked_ips });
+      console.log('blocked_ipsInner'+ blocked_ips.length);
+    }else{
+      blocked_ips = 0;
+    }
+    if(q_admin_url){
+      this.setState({ q_admin_url: q_admin_url });
+      console.log('q_admin_url'+ q_admin_url);
+    }else{
+      q_admin_url = ''
+    }
+  }
+  
   componentDidMount(){
+    this.get_blocked_ips();
     this.getSettings();
     this.getUserRole();
     this.getTags('');
@@ -883,6 +905,18 @@ handleMultiPluginsChange = (option) => {
       settings['ad_owner_revenue_per'] = 100 - value;
       this.setState({ settings });
     }
+  }
+
+  formhandler = (e) => {
+    e.preventDefault();
+    console.log( this.state.q_admin_url+'?action=quads_id_delete' );
+    fetch( this.state.q_admin_url+'?action=quads_id_delete' , {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },      
+    }).then((response) => response.json())
+  
   }
   open_ad_text_modal = () =>{
     this.setState({adtxt_modal:true});
@@ -1369,8 +1403,26 @@ handleMultiPluginsChange = (option) => {
                               <td><input value={settings.ban_duration} onChange={this.formChangeHandler} name="ban_duration" type="text" placeholder="3" className="quads-premium-cus" /></td>
                               </tr></tbody></table>
                               <div className="quads-save-close">
-                            <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveAdBlockSuport}>Save Changes</a>
-                            </div>
+                            <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveAdBlockSuport}>Save Changes</a></div>
+                            <div className="blocked_main">
+                            <span className="blocked_ids">Blocked IP Address</span>
+                            <span>
+                            {(this.state.blocked_ips && this.state.blocked_ips.length > 0 ) ? 
+                            <span className="blocked_ids"><form className="quads_block_ids_" method="POST" action={this.state.q_admin_url+'?action=quads_id_delete'} >
+                            <input onClick={this.formhandler} type="button" value="Clear All" />
+                          </form></span> : '' }
+                          </span>{(this.state.blocked_ips && this.state.blocked_ips.length > 0 ) ?this.state.blocked_ips.map( (value, index) => {
+                                return (
+                                  <div className="inner_ids" id={index}>
+                                  { (value!=="") &&
+                                    <p className="blocked_values">{value}
+                                     </p>
+                                  }
+                                  </div>
+                                  )
+                                }) : '' }
+                              </div>
+                            
              </div>
              </div>
             </div> </>: null

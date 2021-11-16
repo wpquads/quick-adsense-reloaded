@@ -217,6 +217,8 @@ function quads_options_page_new() {
         }        
         // print_r($licenses->price_id);die;       
         }
+        $get_ip =  get_option('add_blocked_ip') ?  get_option('add_blocked_ip')  : 0 ;
+        $ajax_call = admin_url( 'admin-ajax.php' );
         $data = array(
             'quads_plugin_url'     => QUADS_PLUGIN_URL,
             'rest_url'             => esc_url_raw( rest_url() ),
@@ -225,6 +227,8 @@ function quads_options_page_new() {
             'is_amp_enable'        => function_exists('is_amp_endpoint') ? true : false,
             'is_bbpress_exist'     => class_exists( 'bbPress' )? true : false,
             'is_newsPapertheme_exist'     => class_exists( 'tagdiv_config' )? true : false,
+            'quads_get_ips'     => $get_ip,
+            'ajax_url' => $ajax_call
                 
         );
         $data = apply_filters('quads_localize_filter',$data,'quads_localize_data');

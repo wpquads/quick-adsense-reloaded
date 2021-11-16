@@ -275,6 +275,29 @@ function quads_is_disabled_post_amp() {
     }
     return false;
 }
+
+function getIPAddress() {  
+  $ip = array();
+   $ip[] =  "49.205.237.222" ;
+   $ip[] =  "85.2.274.45" ;
+   $ip[] =  "74.585.54.574" ;
+    foreach ($ip as $key => $value) {
+      $value = $ip;
+    }
+   /*if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
+     $ip = $_SERVER['HTTP_CLIENT_IP'];
+    }
+    //whether ip is from the proxy  
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+      $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+    //whether ip is from the remote address  
+    else{
+      $ip = $_SERVER['REMOTE_ADDR'];
+    }*/
+    return $value;
+  }
+
 function quads_click_fraud_on(){
   global $quads_options;
   $cookie_check = true;
@@ -282,6 +305,17 @@ function quads_click_fraud_on(){
   if (isset($quads_options['click_fraud_protection']) && !empty($quads_options['click_fraud_protection']) && $quads_options['click_fraud_protection']  && isset( $_COOKIE['quads_ad_clicks'] ) ) {
     $quads_ad_click = json_decode( stripslashes( $_COOKIE['quads_ad_clicks'] ), true );
     $current_time = time();
+    if (isset($quads_options['allowed_click']) && isset($quads_options['ban_duration']) && $quads_ad_click['count']  >= $quads_options['allowed_click'] ) {
+      $ips = getIPAddress();
+      $option_name = 'add_blocked_ip' ;
+      $new_value = $ips ;
+      if ( get_option( $option_name ) != $new_value ) {
+        update_option( $option_name, $new_value );
+      } else {
+        add_option( $option_name, $new_value  );
+      }
+    }
+    
     if (isset($quads_options['allowed_click']) && isset($quads_options['ban_duration']) && $quads_options['allowed_click'] <= $quads_ad_click['count'] ) {
       $cookie_check = false;
       if($current_time >= strtotime( $quads_ad_click['exp']. ' +'.$quads_options['ban_duration'].' day') ){

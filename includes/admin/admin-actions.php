@@ -117,6 +117,13 @@ function quads_save_vi_token() {
 
 add_action('wp_ajax_quads_save_vi_token', 'quads_save_vi_token');
 
+add_action('wp_ajax_quads_id_delete', 'quads_id_delete');
+function quads_id_delete(){
+    delete_option('add_blocked_ip');
+    echo 'Operation success';
+    exit;
+}
+
 /**
  * Save vi ad settings and create ad code
  */
