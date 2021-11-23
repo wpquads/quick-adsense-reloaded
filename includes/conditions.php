@@ -277,26 +277,23 @@ function quads_is_disabled_post_amp() {
 }
 
 function getIPAddress() {  
-  $ip = array();
-   $ip[] =  "49.205.237.222" ;
-   $ip[] =  "85.2.274.45" ;
-   $ip[] =  "74.585.54.574" ;
-    foreach ($ip as $key => $value) {
-      $value = $ip;
-    }
-   /*if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
-     $ip = $_SERVER['HTTP_CLIENT_IP'];
-    }
-    //whether ip is from the proxy  
-    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-      $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    }
-    //whether ip is from the remote address  
-    else{
-      $ip = $_SERVER['REMOTE_ADDR'];
-    }*/
-    return $value;
+$ip = array();
+ if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
+   $new_ip = $_SERVER['HTTP_CLIENT_IP'];
   }
+  //whether ip is from the proxy  
+  elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    $new_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+  }
+  //whether ip is from the remote address  
+  else{
+    $new_ip = $_SERVER['REMOTE_ADDR'];
+  }
+   $ip =  get_option('add_blocked_ip') ? get_option('add_blocked_ip') : array() ;
+   array_push( $ip, array('ip'=>$new_ip,'time'=>date('l d-m-Y H:i:s') ) );
+   $ip = array_values(array_column( $ip , null, 'ip' ));
+  return $ip;
+}
 
 function quads_click_fraud_on(){
   global $quads_options;
@@ -306,16 +303,13 @@ function quads_click_fraud_on(){
     $quads_ad_click = json_decode( stripslashes( $_COOKIE['quads_ad_clicks'] ), true );
     $current_time = time();
     if (isset($quads_options['allowed_click']) && isset($quads_options['ban_duration']) && $quads_ad_click['count']  >= $quads_options['allowed_click'] ) {
+    if(function_exists('getIPAddress') ){
       $ips = getIPAddress();
-      $option_name = 'add_blocked_ip' ;
-      $new_value = $ips ;
-      if ( get_option( $option_name ) != $new_value ) {
-        update_option( $option_name, $new_value );
-      } else {
-        add_option( $option_name, $new_value  );
-      }
     }
-    
+    $final_ip = $ips ;
+    update_option( 'add_blocked_ip', $final_ip  );
+  }
+  
     if (isset($quads_options['allowed_click']) && isset($quads_options['ban_duration']) && $quads_options['allowed_click'] <= $quads_ad_click['count'] ) {
       $cookie_check = false;
       if($current_time >= strtotime( $quads_ad_click['exp']. ' +'.$quads_options['ban_duration'].' day') ){
@@ -324,9 +318,9 @@ function quads_click_fraud_on(){
         if ($current_time <= strtotime( $quads_ad_click['exp']. ' +'.$quads_options['click_limit'].' hours') ) {
              $cookie_check = false;
         }
-      }
     }
   }
+}
 return $cookie_check;
 }
 //New Functions in 2.0 starts here =272;
