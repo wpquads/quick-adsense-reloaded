@@ -63,6 +63,7 @@ class QuadsAdListSettings extends Component {
                 allowed_click   : 3,
                 click_limit     : 3,
                 ban_duration    : 7,
+                checkbox_value    : false,
                 notice_btn_txt_color : '#ffffff',
                 notice_btn_bg_color : '#f44336',
                 uninstall_on_delete: '',
@@ -106,6 +107,10 @@ class QuadsAdListSettings extends Component {
             page_redirect_options   : [],
             selectedFile  : '',
             isLoading : true,
+            blocked_ips:'',
+            q_admin_url:'',
+            black: true,
+            checked: false
         };
   }
   onFileChange = (event) => {
@@ -627,7 +632,27 @@ handleMultiPluginsChange = (option) => {
       }
     );
   }
+
+  get_blocked_ips () {
+    var blocked_ips = quads_localize_data.quads_get_ips;
+    var q_admin_url = quads_localize_data.ajax_url;
+
+    if( blocked_ips.length>1 ){
+      this.setState({ blocked_ips: blocked_ips });
+      // console.log('blocked_ipsInner'+ blocked_ips.length);
+    }else{
+      blocked_ips = 0;
+    }
+    if(q_admin_url){
+      this.setState({ q_admin_url: q_admin_url });
+      // console.log('q_admin_url'+ q_admin_url);
+    }else{
+      q_admin_url = ''
+    }
+  }
+  
   componentDidMount(){
+    this.get_blocked_ips();
     this.getSettings();
     this.getUserRole();
     this.getTags('');
@@ -884,6 +909,42 @@ handleMultiPluginsChange = (option) => {
       this.setState({ settings });
     }
   }
+
+  formhandler = (e) => {
+    e.preventDefault();
+    console.log( this.state.q_admin_url+'?action=quads_id_delete' );
+    fetch( this.state.q_admin_url+'?action=quads_id_delete' , {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+          },      
+        }).then((response) => response.json())
+        setTimeout(() => {
+          document.getElementById("blocked_id_main").innerHTML = 'Data is cleared'
+        document.getElementById("blocked_id_main").style.fontWeight = '500'
+        }, 500);
+      }
+
+      quads_open_mainblock = (event) =>{
+        let name  = event.target.name;
+      let value = '';
+      if(event.target.type === 'checkbox'){
+        value = event.target.checked;
+      }else{
+        value = event.target.value
+      }
+        const { settings } = this.state;
+        settings[name] = value;
+        this.setState(settings);
+
+        if(name == 'checkbox_value'){
+          this.saveSettings();
+         }
+         
+         this.setState({
+          checked: !this.state.checked
+        } )
+  }      
   open_ad_text_modal = () =>{
     this.setState({adtxt_modal:true});
   }
@@ -974,7 +1035,7 @@ handleMultiPluginsChange = (option) => {
       {id:'skippable_ads',title:'Skippable Ad',url:'https://wpquads.com/documentation/how-to-ad-skippable-ads/'},
       {id:'blindness_settings',title:'Ad Blindness',url:'https://wpquads.com/documentation/how-to-add-ad-blindness'},
       {id:'optimize_core_vitals',title:'Optimize for Core Web Vitals',url:'https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/'},
-      {id:'hide_quads_markup',title:'Hide Quads Markup',url:'https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/'},
+      {id:'hide_quads_markup',title:'Hide Quads Markup',url:'https://wpquads.com/documentation/how-to-globally-exclude-or-hide-ads-for-user-roles-with-wp-quads-pro/'},
       {id:'global_excluder',title:'Global Excluder',url:'https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/'},
       {id:'ad_log',title:'AD Logging',url:'https://wpquads.com/documentation/how-to-track-ad-performance/'},
       {id:'reports_settings',title:'Reports',url:'https://wpquads.com/documentation/how-to-link-adsense-account-for-the-revenue-reports-feature/'},
@@ -1358,19 +1419,58 @@ handleMultiPluginsChange = (option) => {
              <table className="form-table" role="presentation"><tbody>
                                   <tr>
                               <th>Allowed clicks</th>
-                              <td><input value={settings.allowed_click} onChange={this.formChangeHandler} name="allowed_click" type="text" placeholder="3" className="quads-premium-cus" /></td>
+                              <td><input value={settings.allowed_click} onChange={this.formChangeHandler} name="allowed_click" type="text" placeholder="3" className="quads-premium-cus" /><a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-click-fraud-protection-and-how-to-use-it/"></a></td>
                               </tr>
                                <tr>
                               <th>Click limit (in hours)</th>
-                              <td><input value={settings.click_limit} onChange={this.formChangeHandler} name="click_limit" type="text" placeholder="3" className="quads-premium-cus" /></td>
+                              <td><input value={settings.click_limit} onChange={this.formChangeHandler} name="click_limit" type="text" placeholder="3" className="quads-premium-cus" /><a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-click-fraud-protection-and-how-to-use-it/"></a></td>
                               </tr>
                                <tr>
                               <th>Ban duration (in days)</th>
-                              <td><input value={settings.ban_duration} onChange={this.formChangeHandler} name="ban_duration" type="text" placeholder="3" className="quads-premium-cus" /></td>
+                              <td><input value={settings.ban_duration} onChange={this.formChangeHandler} name="ban_duration" type="text" placeholder="3" className="quads-premium-cus" /><a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-click-fraud-protection-and-how-to-use-it/"></a></td>
                               </tr></tbody></table>
+                              
+                            <div className="blocked_main">
+                            <span className="blocked_ids_in">Log IP of Blocked Users<span className="blocked_ids_inn"> <input className="quads_open_block" onClick={this.quads_open_mainblock} value={settings.checkbox_value} name="checkbox_value" type="checkbox" defaultChecked={this.state.settings.checkbox_value} ></input> </span> </span>
+                            <span>
+                            {(this.state.blocked_ips && this.state.blocked_ips.length > 0 ) ? 
+                            <span className="blocked_ids"><form className="quads_block_ids_" method="POST" action={this.state.q_admin_url+'?action=quads_id_delete'} >
+                            { (settings.checkbox_value === true ) ? <span id="input_main">
+                            <input id="btn_clear_all_ips" onClick={this.formhandler} type="button" value="Clear All" /></span>
+                            : ''}
+                          </form></span> : '' }
+                          <a className="blocked_ids_href quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-click-fraud-protection-and-how-to-use-it/"></a>
+                          </span>
+                          { (settings.checkbox_value === true ) ?
+                            <div id="blocked_id_main">
+                            <div id="table_main">
+                            <table id="blocked_id_table">
+                            <tbody>
+                            <tr className="b_in_">
+                              <td className="b_in_">ID</td>
+                              <td className="b_in_">Date/Time</td>
+                              <td className="b_in_">IP</td>
+                            </tr>
+                            </tbody>
+                            { (this.state.blocked_ips && this.state.blocked_ips.length > 0 ) ? this.state.blocked_ips.map( (value, index) => {
+                              return (
+                                <tbody className="b_inspan">
+                                { (value!=="") &&
+                                <tr className="b_in">
+                              <td className="b_in">{index+1}</td>
+                              <td className="b_in">{value.time}</td>
+                              <td className="b_in">{value.ip}</td>
+                            </tr>
+                              }</tbody> )})
+                                
+                              : <div className="no_id">No Data available</div> }
+                              </table></div></div>
+                                : ''}
+                                
+                              </div>
                               <div className="quads-save-close">
-                            <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveAdBlockSuport}>Save Changes</a>
-                            </div>
+                            <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveAdBlockSuport}>Save Changes</a></div>
+                            
              </div>
              </div>
             </div> </>: null

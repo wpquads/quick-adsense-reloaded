@@ -275,6 +275,26 @@ function quads_is_disabled_post_amp() {
     }
     return false;
 }
+
+function getIPAddress() {  
+$ip = array();
+ if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
+   $new_ip = $_SERVER['HTTP_CLIENT_IP'];
+  }
+  //whether ip is from the proxy  
+  elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    $new_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+  }
+  //whether ip is from the remote address  
+  else{
+    $new_ip = $_SERVER['REMOTE_ADDR'];
+  }
+   $ip =  get_option('add_blocked_ip') ? get_option('add_blocked_ip') : array() ;
+   array_push( $ip, array('ip'=>$new_ip,'time'=>date('l d-m-Y H:i:s') ) );
+   $ip = array_values(array_column( $ip , null, 'ip' ));
+  return $ip;
+}
+
 function quads_click_fraud_on(){
   global $quads_options;
   $cookie_check = true;
@@ -282,6 +302,14 @@ function quads_click_fraud_on(){
   if (isset($quads_options['click_fraud_protection']) && !empty($quads_options['click_fraud_protection']) && $quads_options['click_fraud_protection']  && isset( $_COOKIE['quads_ad_clicks'] ) ) {
     $quads_ad_click = json_decode( stripslashes( $_COOKIE['quads_ad_clicks'] ), true );
     $current_time = time();
+    if (isset($quads_options['allowed_click']) && isset($quads_options['ban_duration']) && $quads_ad_click['count']  >= $quads_options['allowed_click'] ) {
+    if(function_exists('getIPAddress') ){
+      $ips = getIPAddress();
+    }
+    $final_ip = $ips ;
+    update_option( 'add_blocked_ip', $final_ip  );
+  }
+  
     if (isset($quads_options['allowed_click']) && isset($quads_options['ban_duration']) && $quads_options['allowed_click'] <= $quads_ad_click['count'] ) {
       $cookie_check = false;
       if($current_time >= strtotime( $quads_ad_click['exp']. ' +'.$quads_options['ban_duration'].' day') ){
@@ -290,9 +318,9 @@ function quads_click_fraud_on(){
         if ($current_time <= strtotime( $quads_ad_click['exp']. ' +'.$quads_options['click_limit'].' hours') ) {
              $cookie_check = false;
         }
-      }
     }
   }
+}
 return $cookie_check;
 }
 //New Functions in 2.0 starts here =272;
