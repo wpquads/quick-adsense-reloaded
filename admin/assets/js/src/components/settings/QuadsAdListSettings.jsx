@@ -694,6 +694,7 @@ handleMultiPluginsChange = (option) => {
     e.preventDefault();
     this.saveSettings();
     this.setState({ad_blocker_support_popup:false});
+    this.setState({button_spinner_toggle:true});
   }
    saveClickFraud = (e) => {
     e.preventDefault();
@@ -911,6 +912,7 @@ handleMultiPluginsChange = (option) => {
   }
 
   formhandler = (e) => {
+    if (window.confirm("You are about to clear Log Data, do you wish to continue?")) {
     e.preventDefault();
     console.log( this.state.q_admin_url+'?action=quads_id_delete' );
     fetch( this.state.q_admin_url+'?action=quads_id_delete' , {
@@ -924,6 +926,7 @@ handleMultiPluginsChange = (option) => {
         document.getElementById("blocked_id_main").style.fontWeight = '500'
         }, 500);
       }
+    }
 
       quads_open_mainblock = (event) =>{
         let name  = event.target.name;
@@ -1469,7 +1472,12 @@ handleMultiPluginsChange = (option) => {
                                 
                               </div>
                               <div className="quads-save-close">
-                            <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveAdBlockSuport}>Save Changes</a></div>
+                              {this.state.button_spinner_toggle ?
+                                <a className="quads-btn quads-btn-primary quads-large-btn">
+                                <span className="quads-btn-spinner"></span>Saving...</a> :
+                                <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveAdBlockSuport}>Save Changes</a>
+                              }
+                              </div>
                             
              </div>
              </div>
