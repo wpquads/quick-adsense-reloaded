@@ -1972,7 +1972,13 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
                 "\n".'<div style="'.esc_attr($style).'">'."\n".
                 quads_render_ad($ad_meta['quads_ad_old_id'][0], $code,'',$ampsupport)."\n".
                 '</div>'. "\n";
-        }else{
+        }
+
+        elseif (isset($ad_meta['adsense_ad_type'][0]) && $ad_meta['adsense_ad_type'][0] == 'adsense_sticky_ads' ){
+            $adscode = '';
+        }
+        
+        else{
             $adscode =
                 "\n".'<!-- WP QUADS Content Ad Plugin v. '.QUADS_VERSION .' -->'."\n".
                 '<div class="quads-location quads-ad' .esc_attr($id). '" id="quads-ad' .esc_attr($id). '" style="'.esc_attr($style).'">'."\n".
