@@ -1096,6 +1096,9 @@ class QUADS_Ad_Setup_Api {
                             case 9:
                                     $position   =   'amp_ads_in_loops';
                                     break;
+                            case 10:
+                                    $position   =   'amp_doubleclick_sticky_ad';
+                                    break;
                         }
 
                                     $g_data_ad_width = '';

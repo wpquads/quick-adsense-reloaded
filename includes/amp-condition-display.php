@@ -29,6 +29,9 @@ class quads_output_amp_condition_display{
         //Below the Footer
         add_action( 'amp_post_template_footer', array($this, 'quads_display_ads_below_the_footer') );
         
+        //Below Footer Sticky AD
+        add_action( 'amp_post_template_footer', array($this, 'quads_display_ads_sticky_doubleclick') );
+        
         //ABove the Footer
         add_action( 'amp_post_template_above_footer', array($this, 'quads_display_ads_above_the_footer') );
         
@@ -111,6 +114,12 @@ class quads_output_amp_condition_display{
             
     }
     
+    public function quads_display_ads_sticky_doubleclick(){  
+        
+            $this->quads_amp_condition_ad_code('quads_sticky_ad_doubleclick');    
+            
+    }
+    
     public function quads_display_ads_below_the_header(){  
         
             $this->quads_amp_condition_ad_code('quads_below_the_header');
@@ -140,6 +149,7 @@ class quads_output_amp_condition_display{
       // return ;
       // }
 
+      global $quads_options;
       $quads_ads = $this->api_service->getAdDataByParam('quads-ads');
       if(isset($quads_ads['posts_data'])){        
         foreach($quads_ads['posts_data'] as $key => $value){
@@ -181,6 +191,16 @@ class quads_output_amp_condition_display{
           }else if(($ads['position'] =='amp_below_the_header' || $ads['position'] == 'after_header') && $condition == 'quads_below_the_header'){
             $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
             echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
+          }else if($ads['position'] =='amp_doubleclick_sticky_ad' && $condition == 'quads_sticky_ad_doubleclick'){
+                global $quads_options;
+                $ads_id = $ads['quads_ad_old_id'];
+                $width        = ( isset($quads_options['ads'][$ads_id]['g_data_ad_width']) ) ? $quads_options['ads'][$ads_id]['g_data_ad_width'] : '300';
+                $height        = ( isset($quads_options['ads'][$ads_id]['g_data_ad_height']) ) ? $quads_options['ads'][$ads_id]['g_data_ad_height'] : '250';
+                $network_code  = $quads_options['ads'][$ads_id]['network_code'];
+                $ad_unit_name  = $quads_options['ads'][$ads_id]['ad_unit_name'];
+		             add_filter('amp_post_template_data',array($this, 'quads_enque_ads_specific_amp_script'));
+		             $output = '<amp-sticky-ad layout="nodisplay"><amp-ad class="amp-sticky-ads" width='.$width.' height='.$height.' type="doubleclick" data-slot="'.$network_code.'" ></amp-ad></amp-sticky-ad>';
+                 echo $output;
           }else if($ads['position'] =='amp_below_the_footer' && $condition == 'quads_below_the_footer'){
             $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
             echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
