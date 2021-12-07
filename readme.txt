@@ -205,6 +205,11 @@ Alternative Installation:
 
 == Changelog ==
 
+= 2.0.36 (7th December 2021) =
+* Added: Added a feature of Doubleclick Sticky AD(AMP) #440
+* Fixed: Adsense Sticky AD shows AD in sticky as well as before Single Post Content Position #439
+* Fixed: Doubleclick ADS not loading #442
+
 = 2.0.35 (23rd November 2021) =
 * Added: Added a feature to Log IP Address for Click Fraud Protection #437
 * Fixed: Incorrect Document Links #436
