@@ -93,6 +93,7 @@ check_plugin_exist = (event) => {
                                     <option value="amp_below_the_title">Below the Title (Single Post)</option>
                                     <option value="amp_above_related_post">Above Related Posts (Single Post)</option>
                                     <option value="amp_below_author_box">Below the Author Box (Single Post)</option>
+                                    <option value="amp_doubleclick_sticky_ad">Sticky AD (AMP) </option>
                                     {post_meta.ad_type =='adsense' || post_meta.ad_type =='double_click' ?  <option value="amp_story_ads">AMP Story Ad</option> : null }
                                 </optgroup>
 

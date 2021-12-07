@@ -1111,7 +1111,7 @@ function quads_render_amp($id,$ampsupport=''){
                 $network_code  = $quads_options['ads'][$id]['network_code'];
                 $ad_unit_name  = $quads_options['ads'][$id]['ad_unit_name'];
                // Return default Double click code
-        $html = '<amp-ad width='.esc_attr($width).' height='.esc_attr($height).' type="doubleclick" data-ad-slot="/'.esc_attr($network_code)."/".esc_attr($ad_unit_name). '/" data-multi-size="468x60,300x250"></amp-ad>';
+        $html = '<amp-ad width='.esc_attr($width).' height='.esc_attr($height).' type="doubleclick" data-slot="/'.esc_attr($network_code)."/".esc_attr($ad_unit_name). '/" data-multi-size="468x60,300x250"></amp-ad>';
             }else if($quads_options['ads'][$id]['ad_type'] == 'yandex'){
 
                   $html = '<amp-ad width='.esc_attr($width).' height='.esc_attr($height).' type="yandex" data-block-id="'.esc_attr($quads_options['ads'][$id]['block_id']).'" data-html-access-allowed="true"></amp-ad>';
