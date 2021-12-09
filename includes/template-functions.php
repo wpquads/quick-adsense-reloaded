@@ -2053,6 +2053,12 @@ function quads_get_inline_ad_style_new( $id ) {
         'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
         'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
         'float:none;margin:%1$dpx;');
+        
+    $padding_styleArray = array(
+        'padding:%1$dpx %1$dpx %1$dpx 0;',
+        'padding:%1$dpx 0 %1$dpx 0;',
+        'padding:%1$dpx 0 %1$dpx %1$dpx;',
+        'padding:%1$dpx;');
     
     // Alignment
     $adsalign = ( int )$ad_meta['align'][0];
@@ -2060,11 +2066,15 @@ function quads_get_inline_ad_style_new( $id ) {
     // Margin
     $adsmargin = isset( $ad_meta['margin'][0] ) ? $ad_meta['margin'][0] : '3'; // default option = 3
     $margin = sprintf( $styleArray[$adsalign], $adsmargin );
+
+    // Padding
+    $adspadding = isset( $ad_meta['padding'][0] ) ? $ad_meta['padding'][0] : '0'; // default option = 0
+    $padding = sprintf( $padding_styleArray[$adsalign], $adspadding );    
     
     // Do not create any inline style on AMP site
     $style =  apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) ;
     
-    return $style;
+    return $style.$padding;
 }
 
 /**
