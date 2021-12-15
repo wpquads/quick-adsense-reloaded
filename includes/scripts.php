@@ -110,6 +110,10 @@ function quads_show_adpushup_notice(){
         if( false !== get_option( 'quads_hide_adpushup_notice' ) ) {
             return false;
         }
+
+        if( function_exists('quads_is_pro_active') && quads_is_pro_active() ){
+        return false;
+        }
     
         $message  = __( 'Get 30+ ad networks to compete for your ad inventory with Google Certified Publishing partner AdPushup.', 'quick-adsense-reloaded' );
         $message .= '<br><br><a target="_blank" href="https://www.adpushup.com/publisher/wp-quads/" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Know More</a>';

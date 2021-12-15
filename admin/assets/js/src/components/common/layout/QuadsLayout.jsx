@@ -35,6 +35,9 @@ class QuadsLayout extends Component {
                         <td><label>{__('Margin', 'quick-adsense-reloaded')}</label></td><td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="margin" name="margin" value={post_meta.margin}/></td>
                       </tr>
                       <tr>
+                        <td><label>{__('Padding', 'quick-adsense-reloaded')}</label></td><td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="padding" name="padding" value={post_meta.padding}/></td>
+                      </tr>
+                      <tr>
                         <td><label htmlFor="ad_label_check">{__('Ad label', 'quick-adsense-reloaded')}</label></td>
                         <td>
                         <input id="ad_label_check" checked={post_meta.ad_label_check} name="ad_label_check" onChange={this.props.adFormChangeHandler} type="checkbox"/>

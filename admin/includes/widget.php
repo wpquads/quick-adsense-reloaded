@@ -99,7 +99,11 @@ class Quads_Ads_Widget extends WP_Widget {
             echo '<select id="'.esc_attr( $this->get_field_id( 'ads' )).'" name="'.esc_attr( $this->get_field_name( 'ads' )).'">';
 
             foreach($quads_options['ads'] as $key => $ad){
-             echo '<option '. esc_attr(selected( $ads, $key, false)).' value="'.esc_attr($key).'">'.esc_html__($ad['label'], 'quick-adsense-reloaded').'</option>';
+				$title = $key;
+				if( is_array($ad) && array_key_exists( 'label', $ad ) ){ 
+					$title = $ad['label'];
+				}
+             echo '<option '. esc_attr(selected( $ads, $key, false)).' value="'.esc_attr($key).'">'.esc_html__($title, 'quick-adsense-reloaded').'</option>';
             }
 
             echo '</select>';

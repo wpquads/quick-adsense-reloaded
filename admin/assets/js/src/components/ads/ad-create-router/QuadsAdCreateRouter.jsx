@@ -78,6 +78,7 @@ class QuadsAdCreateRouter extends Component {
             adlabel           : '',
             ad_label_text  : 'Advertisements',
             margin            : 0,
+            padding            : 0,
             position          : 'beginning_of_post',
             paragraph_number  : 1,
             count_as_per      : 'p_tag',
