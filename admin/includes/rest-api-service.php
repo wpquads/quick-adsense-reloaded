@@ -569,18 +569,18 @@ if($license_info){
 
           if ( count( $post_metas )!=0 ) {
 
-            $sql_query = "INSERT INTO $wpdb->postmeta ( post_id, meta_key, meta_value ) ";
+            $sql_query = $wpdb->prepare( "INSERT INTO $wpdb->postmeta ( post_id, meta_key, meta_value ) ");
 
             foreach ( $post_metas as $post_meta ) {
 
-             $meta_key = $post_meta->meta_key;
+             $meta_key = esc_sql($post_meta->meta_key);
 
              if( $meta_key == '_wp_old_slug' ) continue;
 
                 if($meta_key == 'ad_id'){
-                  $meta_value = addslashes( $new_post_id);
+                  $meta_value = esc_sql( $new_post_id);
                 }else{
-                  $meta_value = addslashes( $post_meta->meta_value);
+                  $meta_value = esc_sql( $post_meta->meta_value);
                 }
                 $sql_query_sel[]= "SELECT $new_post_id, '$meta_key', '$meta_value'";
              }

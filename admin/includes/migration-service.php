@@ -40,7 +40,7 @@ class QUADS_Ad_Migration {
                 if(!empty($key)){
                     $key_array =   explode("ad",$key);
                     if(is_array($key_array)){
-                        $ad_count = (isset($key_array[1]) && !empty($key_array[1]))?$key_array[1]+1:1;
+                        $ad_count = (isset($key_array[1]) && !empty($key_array[1]))?$key_array[1]:1;
                     }
                 }
             }
