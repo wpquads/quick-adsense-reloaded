@@ -82,6 +82,24 @@ public function quads_insert_ad_impression(){
 
 }
 
+public function quads_get_client_ip() {
+  $ipaddress = '';
+  if (isset($_SERVER['HTTP_CLIENT_IP']))
+      $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+  else if(isset($_SERVER['REMOTE_ADDR']))
+      $ipaddress = $_SERVER['REMOTE_ADDR'];
+  else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+      $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+  else if(isset($_SERVER['HTTP_X_FORWARDED']))
+      $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+  else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+      $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+  else if(isset($_SERVER['HTTP_FORWARDED']))
+      $ipaddress = $_SERVER['HTTP_FORWARDED'];
+  else
+      $ipaddress = 'UNKNOWN';
+  return $ipaddress;
+}
 
 
   /**
@@ -352,7 +370,7 @@ public function quads_insert_ad_impression(){
             $device_name = 'amp';            
             
             $referrer_url  = (isset($_SERVER['HTTP_REFERER'])) ? esc_url($_SERVER['HTTP_REFERER']):'';
-            $user_ip       =  quads_get_client_ip();
+            $user_ip       =  $this->quads_get_client_ip();
             $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
             $browser = $_SERVER['HTTP_USER_AGENT'];
             require_once QUADS_PLUGIN_DIR . '/admin/includes/mobile-detect.php';
