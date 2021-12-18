@@ -281,25 +281,6 @@ function quads_options_page() {
 	?>
 	<div class="wrap quads_admin">
              <h1 style="text-align:center;"> <?php echo QUADS_NAME . ' ' . QUADS_VERSION; ?></h1>
-             <div class="about-text" style="font-weight: 400;line-height: 1.6em;text-align:center;">
-                <div class='quads-share-button-container'>
-                    <div class='quads-share-button quads-share-button-twitter' data-share-url="https://wordpress.org/plugins/quick-adsense-reloaded">
-                        <div clas='box'>
-                            <a href="https://twitter.com/share?url=http://wpquads.com&text=WPQUADS+-+The quickest+and+most+easiest+way+to+integrate+AdSense+into+WordPress+websites+@wpquads" target='_blank'>
-                                <span class='quads-share'><?php echo __('Shout out a tweet','quick-adsense-reloaded'); ?></span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="quads-share-button quads-share-button-facebook" data-share-url="https://wordpress.org/plugins/quick-adsense-reloaded">
-                        <div class="box">
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=http://wpquads.com" target="_blank">
-                                <span class='quads-share'><?php echo __('Share on Facebook','quick-adsense-reloaded'); ?></span>
-                            </a>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
 		<h2 class="quads-nav-tab-wrapper">
 			<?php
 			foreach( quads_get_settings_tabs() as $tab_id => $tab_name ) {
