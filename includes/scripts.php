@@ -116,6 +116,7 @@ function quads_show_adpushup_notice(){
         }
     
         $message  = __( 'Get 30+ ad networks to compete for your ad inventory with Google Certified Publishing partner AdPushup.', 'quick-adsense-reloaded' );
+        $message .= '  <a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_adpushup_notice" class="close_adpushup" target="_self" title="Close Notice" style="font-weight:bold;"><span class="screen-reader-text">Dismiss this notice.</span></a>';
         $message .= '<br><br><a target="_blank" href="https://www.adpushup.com/publisher/wp-quads/" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Know More</a>';
         $message .= '  <a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_adpushup_notice" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Close Notice</a>';
         ?>

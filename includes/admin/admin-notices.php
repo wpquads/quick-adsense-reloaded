@@ -31,7 +31,7 @@ function quads_admin_messages() {
         return;
     }
     if (!quads_is_advanced()) {
-        quads_show_update_auto_ads();
+        // quads_show_update_auto_ads();
     }else{
         if(!quads_is_extra())
         quads_licene_acivation_notice();
@@ -40,7 +40,7 @@ function quads_admin_messages() {
 
     quads_theme_notice();
 
-    quads_update_notice();
+    // quads_update_notice();
 
     quads_update_notice_v2();
 
@@ -49,7 +49,7 @@ function quads_admin_messages() {
     quads_show_vi_api_error();
 
 
-    echo quads_get_vi_notice();
+    // echo quads_get_vi_notice();
 
     echo quads_show_vi_notices();
 
@@ -69,9 +69,9 @@ function quads_admin_messages() {
 //        echo '<div class="notice notice-warning">' . sprintf( __( '<strong>No ads defined!</strong> You need to create at least one ad code. Fix this in <a href="%s">ADSENSE CODE</a>.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsadsense_header' ) . '</div>';
 //    }
 
-    if( !quads_is_post_type_activated() && quads_is_admin_page() ) {
-        echo '<div class="notice notice-warning">' . sprintf( __( '<strong>No ads are shown - No post type chosen!</strong> You need to select at least 1 post type like <i>blog</i> or <i>page</i>. Fix this in <a href="%s">General Settings</a> or no ads are shown at all.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
-    }
+    // if( !quads_is_post_type_activated() && quads_is_admin_page() ) {
+    //     echo '<div class="notice notice-warning">' . sprintf( __( '<strong>No ads are shown - No post type chosen!</strong> You need to select at least 1 post type like <i>blog</i> or <i>page</i>. Fix this in <a href="%s">General Settings</a> or no ads are shown at all.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
+    // }
 
     if( isset( $_GET['quads-action'] ) && $_GET['quads-action'] === 'validate' && quads_is_admin_page() && quads_is_any_ad_activated() && quads_is_post_type_activated() && quads_get_active_ads() > 0 ) {
         echo '<div class="notice notice-success">' . sprintf( __( '<strong>No errors detected in WP QUADS settings.</strong> If ads are still not shown read the <a href="%s" target="_blank">troubleshooting guide</a>' ), 'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink' ) . '</div>';
@@ -576,7 +576,7 @@ function quads_show_vi_notices() {
         $notice['type']    = 'update-nag';
         $notice['transient']    = 'quads_vi_ads_txt_notice';
         $adsUpdated        = new wpquads\template( '/includes/vendor/vi/views/notices', $notice );
-        echo $adsUpdated->render();
+        // echo $adsUpdated->render();
     }
 
     // show ad.txt update notice

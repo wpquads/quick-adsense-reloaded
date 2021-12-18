@@ -119,6 +119,20 @@
     width: 20px;
     -webkit-font-smoothing: antialiased;
 }
+
+a.close_adpushup:before{
+    display: inline-block;
+    background: 0 0;
+    color: #72777c;
+    content: "\f153";
+    font: 400 16px/20px dashicons;
+    speak: none;
+    height: 20px;
+    text-align: center;
+    width: 20px;
+    -webkit-font-smoothing: antialiased;
+    float: right;
+}
 .wpquads_hide{
     display: none;
 }
