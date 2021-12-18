@@ -582,7 +582,7 @@ if($license_info){
                 }else{
                   $meta_value = esc_sql( $post_meta->meta_value);
                 }
-                $sql_query_sel[]= "SELECT $new_post_id, '$meta_key', '$meta_value'";
+                $sql_query_sel[]= $wpdb->prepare( "SELECT $new_post_id, '$meta_key', '$meta_value' " );
              }
 
              $sql_query.= implode(" UNION ALL ", $sql_query_sel);
