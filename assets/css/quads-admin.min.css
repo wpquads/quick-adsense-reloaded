@@ -1315,5 +1315,8 @@ input:checked + .quads-slider {
     width: 0;
     height: 0;
   }
+  .callback_data {
+    display: none;
+}
 
 /* //Switch checkbox css ends here */

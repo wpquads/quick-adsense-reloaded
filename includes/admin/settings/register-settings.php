@@ -177,6 +177,22 @@ function quads_get_registered_settings() {
     * 'Whitelisted' QUADS settings, filters are provided for each settings
     * section to allow extensions and other plugins to add their own settings
     */
+    global $quads, $quads_options;
+
+    $vi_ads = array(
+          'id' => 'vi_header',
+          'name' => '<strong>' . __( 'vi ads', 'quick-adsense-reloaded' ) . '</strong>',
+          'desc' => '<strong>Native video ad units powered by video intelligence</strong>',
+          'type' => 'header'
+     ); 
+
+     $vi_ads_not_loggedin = array(
+          'id' => '',
+          'type' => ''
+     );
+
+    $vi_ads_final = ( false === $quads->vi->setRevenue() ) ? $vi_ads_not_loggedin :  $vi_ads;
+   
    $quads_settings = array(
        /** General Settings */
        'general' => apply_filters( 'quads_settings_general', array(
@@ -273,12 +289,7 @@ function quads_get_registered_settings() {
                'desc' => __( '', 'quick-adsense-reloaded' ),
                'type' => 'quicktags'
            ),
-           array(
-               'id' => 'vi_header',
-               'name' => '<strong>' . __( 'vi ads', 'quick-adsense-reloaded' ) . '</strong>',
-               'desc' => '<strong>Native video ad units powered by video intelligence</strong>',
-               'type' => 'header'
-           ),
+          $vi_ads_final,
            array(
                'id' => 'vi_signup',
                'name' =>__( '', 'quick-adsense-reloaded' ) . '</strong>',
@@ -993,7 +1004,9 @@ function quads_password_callback( $args ) {
  * @return void
  */
 function quads_missing_callback( $args ) {
+   echo '<div class="callback_data">';
    printf( __( 'The callback function used for the <strong>%s</strong> setting is missing.', 'quick-adsense-reloaded' ), $args['id'] );
+   echo '</div>';
 }
 
 /**
@@ -2544,7 +2557,7 @@ function quads_adsense_code_callback( $args ) {
 
     // Not logged in
     if (empty($data) || false === $quads->vi->setRevenue()) {
-        echo $not_logged_in->render();
+        return false;
     } else {
     // Is logged in
     //if ($quads->vi->setRevenue()) {
