@@ -219,6 +219,7 @@ function quads_options_page_new() {
         }
         $get_ip =  get_option('add_blocked_ip') ?  get_option('add_blocked_ip')  : 0 ;
         $ajax_call = admin_url( 'admin-ajax.php' );
+        $get_admin_url = admin_url('admin.php');
         $data = array(
             'quads_plugin_url'     => QUADS_PLUGIN_URL,
             'rest_url'             => esc_url_raw( rest_url() ),
@@ -228,7 +229,8 @@ function quads_options_page_new() {
             'is_bbpress_exist'     => class_exists( 'bbPress' )? true : false,
             'is_newsPapertheme_exist'     => class_exists( 'tagdiv_config' )? true : false,
             'quads_get_ips'     => $get_ip,
-            'ajax_url' => $ajax_call
+            'ajax_url' => $ajax_call,
+            'get_admin_url' => $get_admin_url
                 
         );
         $data = apply_filters('quads_localize_filter',$data,'quads_localize_data');

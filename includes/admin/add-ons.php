@@ -752,16 +752,16 @@ function quads_add_ons_page() {
             </div><!-- /. ext -->
             <div class="pvf-cnt">
                 <div class="pvf-tlt">
-                    <h2>Compare Pro vs. Free Version</h2>
-                    <span>See what you\'ll get with the professional version</span>
+                    <h2 id="upgrade_to_premium">Compare Pro vs. Free Version</h2>
+                    <span>See what you\'ll get with the WPQuads Premium Version</span>
                 </div>
                 <div class="pvf-cmp">
                     <div class="fr">
                         <h1>FREE</h1>
                         <div class="fr-fe">
                             <div class="fe-1">
-                                <h4>Continious Development</h4>
-                                <p>We take bug reports and feature requests seriously. We’re continiously developing & improve this product for last 4 years with passion and love.</p>
+                                <h4>Continuous Development</h4>
+                                <p>We take bug reports and feature requests seriously. We’re Continuously developing & improve this product for last 4 years with passion and love.</p>
                             </div>
                             <div class="fe-1">
                                 <h4>10+ Features</h4>
