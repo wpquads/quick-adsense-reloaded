@@ -64,7 +64,7 @@ class QuadsAdmin extends Component {
                         <div className="quads-ad-header">
                           <div className="quads-logo"><img height="42" width="175" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/quads-v2-logo.png'} /></div>
                           { !quads_localize_data.is_pro ? 
-                           <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Upgrade to Premium</a>
+                            <a className="quads-got_pro premium_features_btn" href={quads_localize_data.get_admin_url+'?page=quads-addons#upgrade_to_premium'} >Upgrade to Premium</a>
                           : ''}   
                          <div>                      
                          
