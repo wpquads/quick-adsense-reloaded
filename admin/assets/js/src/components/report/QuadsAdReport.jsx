@@ -61,21 +61,23 @@ class QuadsAdReport extends Component {
         // data['token_data'] = tokenData;
         let url = quads_localize_data.rest_url + 'quads-adsense/quads_adsense_get_details';
         fetch(url,{
-            method: "post",
+            method: "POST",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
                 'X-WP-Nonce': quads_localize_data.nonce,
             },
             //make sure to serialize your JSON body
             body: JSON.stringify(data)
         })
-            .then(res => res.json())
+        .then(response => response.json())
             .then(
                 (response) => {
                     if ( response.status && true === response.status ) {
                         if ( response['adsense_id'] ) {
                             this.closeModal();
+                            window.location.reload();
                             const {report} = this.state;
                             report['adsense_pub_id'] =   response['adsense_id'];
                             report['adsense_code_view'] =  true;
@@ -86,7 +88,8 @@ class QuadsAdReport extends Component {
                             report['adsense_report_errors'] =   JSON.stringify( response );
                             this.setState({ report });
                         }
-                    } else {
+                    }
+                     else {
                         if ( response['raw']['errors'][0]['message'] ) {
                             const {report} = this.state;
                             report['adsense_report_errors'] =  response['raw']['errors'][0]['message'] ;
@@ -144,11 +147,11 @@ class QuadsAdReport extends Component {
         })
             .then(res => res.json())
             .then(
-                (response) => {
-                    if ( true === response.adsense.status && response.adsense.account_id ) {
+                response => {
+                    if (  true == response.adsense.status && response.adsense.account_id.displayName ) {
                         const {report} = this.state;
                         report['adsense_code_view'] =  true;
-                        this.setState({ report,adsense_pub_id:response.adsense.account_id  });
+                        this.setState({ report,adsense_pub_id:response.adsense.account_id.displayName  });
                     }
                 });
     }
@@ -249,10 +252,10 @@ class QuadsAdReport extends Component {
             .then(res => res.json())
             .then(
                 (response) => {
-                    if ( true === response.adsense.status && response.adsense.account_id ) {
+                    if ( true == response.adsense.status && response.adsense.account_id.displayName ) {
                         const {report} = this.state;
                         report['adsense_code_view'] =  true;
-                        this.setState({ report,adsense_pub_id:response.adsense.account_id  });
+                        this.setState({ report,adsense_pub_id:response.adsense.account_id.displayName  });
                     }
                 });
     }
@@ -325,11 +328,11 @@ class QuadsAdReport extends Component {
                                         <>
                                             <select name="report_period" id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
                                                 <option value="">Select Duration</option>
-                                                <option value="last_7days">Last 7 days</option>
-                                                <option value="last_15days">Last 15 days</option>
-                                                <option value="last_30days">Last 30 days</option>
-                                                <option value="last_6months">Last 6 months</option>
-                                                <option value="last_1year">Last 1 year</option>
+                                                <option value="last_7_days">Last 7 days</option>
+                                                <option value="last_15_days">Last 15 days</option>
+                                                <option value="last_30_days">Last 30 days</option>
+                                                <option value="last_6_months">Last 6 months</option>
+                                                <option value="last_1_year">Last 1 year</option>
                                                 <option value="all_time">All Time</option>
                                                 <option value="custom">Custom</option>
                                             </select>
@@ -346,11 +349,11 @@ class QuadsAdReport extends Component {
                                             quads_localize_data_is_pro ?
                                                 <div>  revenue prediction based on<select name="report_period" id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
                                                     <option value="">Select Duration</option>
-                                                    <option value="last_7days">Last 7 days</option>
-                                                    <option value="last_15days">Last 15 days</option>
-                                                    <option value="last_30days">Last 30 days</option>
-                                                    <option value="last_6months">Last 6 months</option>
-                                                    <option value="last_1year">Last 1 year</option>
+                                                    <option value="last_7_days">Last 7 days</option>
+                                                    <option value="last_15_days">Last 15 days</option>
+                                                    <option value="last_30_days">Last 30 days</option>
+                                                    <option value="last_6_months">Last 6 months</option>
+                                                    <option value="last_1_year">Last 1 year</option>
                                                     <option value="all_time">All Time</option>
                                                     <option value="custom">Custom</option>
                                                 </select> {report.report_period == 'custom' ?
