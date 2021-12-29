@@ -71,7 +71,8 @@ function quads_adsense_get_report_status($request_data){
 	$account_id ='';
 	$status = false;
 	if(isset($quads_get_option_adsense['accounts']) && !empty($quads_get_option_adsense['accounts'])){
-		$account_id =implode(',',array_keys($quads_get_option_adsense['accounts']));
+		//$account_id =implode(',',array_keys($quads_get_option_adsense['accounts']));
+		$account_id = $quads_get_option_adsense['accounts'][""]["details"];
 		$status = true;
 	}
 	$reportlist['adsense'] =  array("status"=>$status,"account_id" =>$account_id);
@@ -135,7 +136,7 @@ function quads_confirm_code($request_data){
 function quads_adsense_get_details($request_data){
 	$parameters = $request_data->get_params();
 
-	$url        = 'https://www.googleapis.com/adsense/v1.4/accounts';
+	$url        = 'https://adsense.googleapis.com/v2/accounts';
 	$token_data = wp_unslash( $parameters );
 
 	if ( ! is_array( $token_data ) ) {
@@ -165,15 +166,18 @@ function quads_adsense_get_details($request_data){
 	} else {
 
 		$accounts = json_decode( $response['body'], true );
-		if ( isset( $accounts['items'] ) ) {
+		if ( isset( $accounts ) ) {
 			$options = quads_get_option_adsense();
 			$options['connect_error'] = array();
 			update_option( 'quads_adsense_api_data', $options );
 
-			$adsense_id = $accounts['items'][0]['id'];
-			$name = $accounts['items'][0]['name'];
+			// $adsense_id = $accounts['items'][0]['id'];
+			// $name = $accounts['items'][0]['name'];
+			$adsense_id = $accounts["accounts"][0]['displayName'];
+			$name = $accounts["accounts"][0]['name'];
 
-			quads_save_token_from_data( $token_data, $accounts['items'][0]);
+			// quads_save_token_from_data( $token_data, $accounts['items'][0]);
+			quads_save_token_from_data( $token_data, $accounts["accounts"][0]);
 			echo json_encode(
 				array(
 					'status'     => true,
@@ -189,7 +193,7 @@ function quads_adsense_get_details($request_data){
 					$msg = $accounts['error']['message'];
 				}
 
-				$options = get_option();
+				$options = get_option('quads_adsense_api_data');
 				$options['connect_error'] = array(
 					'message' => $msg,
 				);
@@ -279,19 +283,23 @@ function quads_adsense_get_report_data($request_data){
 	$endDate = (isset($parameters['endDate'])&& $parameters['endDate'])?$parameters['endDate'] :date('Y-m-d');
 
 	switch ($report_period) {
-		case 'last_15days':
+		case 'last_7_days':
+			$startDate = strtotime(" -6 day");
+			$forcast_date_count = 7;
+			break;
+		case 'last_15_days':
 			$startDate = strtotime(" -14 day");
 			$forcast_date_count = 15;
 			break;
-		case 'last_30days':
+		case 'last_30_days':
 			$startDate = strtotime(" -29 day");
 			$forcast_date_count = 30;
 			break;
-		case 'last_6months':
+		case 'last_6_months':
 			$startDate = strtotime("-6 month");
 			$forcast_date_count = 180;
 			break;
-		case 'last_1year':
+		case 'last_1_year':
 
 			$startDate = strtotime('-1 year');
 			$forcast_date_count = 365;
@@ -318,16 +326,17 @@ function quads_adsense_get_report_data($request_data){
 
 	switch ($report_type){
 		case 'earning_forcast':
-			$url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.esc_html($account_id).'/reports?startDate='.esc_html($startDate).'&endDate='.esc_html($endDate).'&dimension=DATE&dimension=EARNINGS&metric=EARNINGS&useTimezoneReporting=true';
+			$url        = 'https://adsense.googleapis.com/v2/accounts/'.esc_html($account_id).'/reports:generate?dateRange='.esc_html($report_period).'&dimensions=MONTH&metrics=ESTIMATED_EARNINGS';
 			break;
 		case 'top_device_type':
 			$report_type = 'PLATFORM_TYPE_CODE';
-			$url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.esc_html($account_id).'/reports?startDate='.esc_html($startDate).'&endDate='.esc_html($endDate).'&dimension=DATE&dimension=PLATFORM_TYPE_CODE&metric=EARNINGS&useTimezoneReporting=true';
+			$url        = 'https://adsense.googleapis.com/v2/accounts/'.esc_html($account_id).'/reports:generate?dateRange='.esc_html($report_period).'&dimensions=PLATFORM_TYPE_CODE&metrics=TOTAL_EARNINGS';
 			break;
 		case 'earning':
 		default:
 			$report_type = 'EARNINGS';
-			$url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.esc_html($account_id).'/reports?startDate='.esc_html($startDate).'&endDate='.esc_html($endDate).'&dimension=DATE&dimension=EARNINGS&metric=EARNINGS&useTimezoneReporting=true';
+			// $url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.esc_html($account_id).'/reports?startDate='.esc_html($startDate).'&endDate='.esc_html($endDate).'&dimension=DATE&dimension=EARNINGS&metric=EARNINGS&useTimezoneReporting=true';
+			$url        = 'https://adsense.googleapis.com/v2/accounts/'.esc_html($account_id).'/reports:generate?dateRange='.esc_html($report_period).'&dimensions=MONTH&metrics=TOTAL_EARNINGS';
 			break;
 	}
 	$token_data = wp_unslash( $token_data);
@@ -345,18 +354,21 @@ function quads_adsense_get_report_data($request_data){
 		);
 
 	} else {
-		$adsense_data_response = json_decode( $response['body'], true );
+		// $adsense_data_response = json_decode( $response['body'], true );
+		return json_decode( $response['body'], true );
 
-		return $adsense_data_response['rows'];
+		// return $adsense_data_response['rows'];
 	}
 	die;
 }
 
 function quads_adsense_get_access_token($account){
 	$options = quads_get_option_adsense();
-	if ( isset( $options['accounts'][ $account ] ) ) {
+	// if ( isset( $options['accounts'][ $account ] ) ) {
 
-		if ( time() > $options['accounts'][ $account ]['expires'] ) {
+	// 	if ( time() > $options['accounts'][ $account ]['expires'] ) {
+		if ( isset( $options['accounts'][""] ) ) {
+			if ( time() > $options['accounts'][""]['expires'] ) {
 			$new_tokens = quads_adsense_renew_access_token( $account );
 			if ( $new_tokens['status'] ) {
 				return $new_tokens['access_token'];
@@ -365,7 +377,7 @@ function quads_adsense_get_access_token($account){
 				return $new_tokens;
 			}
 		} else {
-			return $options['accounts'][ $account ]['access_token'];
+			return $options['accounts'][""]['access_token'];
 		}
 
 	} else {
@@ -390,8 +402,8 @@ function quads_adsense_get_access_token($account){
 function quads_adsense_renew_access_token( $account ) {
 
 	$options       = quads_get_option_adsense();
-	$access_token  = $options['accounts'][ $account ]['access_token'];
-	$refresh_token = $options['accounts'][ $account ]['refresh_token'];
+	$access_token  = $options['accounts'][""]['access_token'];
+	$refresh_token = $options['accounts'][""]['refresh_token'];
 
 	$url  = 'https://www.googleapis.com/oauth2/v4/token';
 	$args = array(
