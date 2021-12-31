@@ -84,7 +84,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
 function quads_common_head_code(){
     global $quads_options;
     if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']== true) {
+        if ( ( function_exists( 'ampforwp_is_amp_endpoint' ) && !ampforwp_is_amp_endpoint() ) || function_exists( 'is_amp_endpoint' ) && !is_amp_endpoint() ) {
         echo quads_load_loading_script();
+        }
     }
     $data_slot  = '';
     $adsense     = false;
@@ -180,6 +182,7 @@ function quads_common_head_code(){
         }
         if( $data_slot !=''){
 
+            if ( ( function_exists( 'ampforwp_is_amp_endpoint' ) && !ampforwp_is_amp_endpoint() ) || function_exists( 'is_amp_endpoint' ) && !is_amp_endpoint() ) {
             echo "<script async src='https://securepubads.g.doubleclick.net/tag/js/gpt.js'></script>
                     <script>
                  window.googletag = window.googletag || {cmd: []};
@@ -189,10 +192,13 @@ function quads_common_head_code(){
                     googletag.enableServices();
                   });
              </script>";
+                }
 
         }
         if($adsense){
+            if ( ( function_exists( 'ampforwp_is_amp_endpoint' ) && !ampforwp_is_amp_endpoint() ) || function_exists( 'is_amp_endpoint' ) && !is_amp_endpoint() ) {
             echo '<script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
+            }
 
         }
 

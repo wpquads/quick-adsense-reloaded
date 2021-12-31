@@ -181,7 +181,9 @@ public function quads_get_client_ip() {
           'quads_front_nonce'   => wp_create_nonce('quads_ajax_check_front_nonce')
       );
       $suffix = ( quadsIsDebugMode() ) ? '' : '.min'; 
+     if ( (function_exists( 'ampforwp_is_amp_endpoint' ) && !ampforwp_is_amp_endpoint()) || function_exists( 'is_amp_endpoint' ) && !is_amp_endpoint()) {
       wp_enqueue_script( 'quads_ads_front', QUADS_PLUGIN_URL . 'assets/js/performance_tracking' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+     }
       wp_localize_script('quads_ads_front', 'quads_analytics', $object_name);
 
 

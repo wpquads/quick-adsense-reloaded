@@ -281,7 +281,9 @@ function quads_from_adsforwp_manual_ads($atts ){
 }
 function quads_adblocker_detector(){
     $js_dir  = QUADS_PLUGIN_URL . 'assets/js/';
+    if ( ( function_exists( 'ampforwp_is_amp_endpoint' ) && !ampforwp_is_amp_endpoint() ) || function_exists( 'is_amp_endpoint' ) && !is_amp_endpoint() ) {
     wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
+    }
 }
 /**
  * It is default settings value, if value is not set for any option in setting section 
