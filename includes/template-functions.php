@@ -1028,6 +1028,7 @@ function quads_filter_default_ads_new( $content ) {
               $post_status =  'publish';
             if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish'){
                 $ads  = apply_filters( 'quads_default_filter_position_data', $ads);
+                $ads  = apply_filters( 'quads_default_filter_position_data_ab_testing', $ads);
 
                 $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
                 $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;

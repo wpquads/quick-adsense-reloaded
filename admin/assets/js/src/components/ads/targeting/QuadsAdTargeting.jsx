@@ -6,6 +6,8 @@ import QuadsVisibility from  '../../common/visibility/QuadsVisibility'
 import QuadsAdvancePosition from  '../../common/advance-position/QuadsAdvancePosition'
 import queryString from 'query-string'
 import QuadsAdvancePositionMuti from  '../../common/advance-position/QuadsAdvancePositionMuti'
+import QuadsAdvancePositionMutiabtesting from  '../../common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting'
+import QuadsAdvancePositionn from  '../../common/advance-position-abtesting/QuadsAdvancePositionn'
 
 
 class QuadsAdTargeting extends Component {
@@ -136,6 +138,8 @@ class QuadsAdTargeting extends Component {
                 </>
                 : ''}
      {post_meta.ad_type == "ad_blindness" ? <QuadsAdvancePositionMuti parentState={this.props.parentState} adFormChangeHandler={this.props.adFormChangeHandler} />  
+        : ''}
+     {post_meta.ad_type == "ab_testing" ? <QuadsAdvancePositionMutiabtesting parentState={this.props.parentState} adFormChangeHandler={this.props.adFormChangeHandler} />  
         : ''}
 
                 </div> 

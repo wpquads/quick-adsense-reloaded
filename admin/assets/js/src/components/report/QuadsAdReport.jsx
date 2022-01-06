@@ -163,6 +163,9 @@ class QuadsAdReport extends Component {
             case 'adsense':
                 img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
                 break;
+            case 'abtesting':
+                img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ab.png';
+                break;
             default:
                 break;
         }
@@ -181,6 +184,9 @@ class QuadsAdReport extends Component {
         this.setState({current_page:newPageName});
     }
 
+    abtesting_handler = () =>{
+        this.setState({current_page:'adsense_report_page_abtesting'});
+    }
     quads_adsense_report  =(pub_id='') =>{
         const {report} = this.state;
         if(pub_id == ''){
@@ -282,7 +288,11 @@ class QuadsAdReport extends Component {
                             <div className="quads-ad-networks">
                                 <ul key={'quads-ad-networks'}>
                                     {this.state.All_report_list.map(item => (
-                                        <li key={item.id} data-adtype={item.ad_type} id={item.id}><a className="quads-nav-link" onClick={() => this.quads_adsense_report(this.state.adsense_pub_id)} >{this.getImageByAdType(item.ad_type)}<div><strong>{report.adsense_code_view ?'View Report': 'Connect' }</strong></div></a>
+                                        <li key={item.id} data-adtype={item.ad_type} id={item.id}><a className="quads-nav-link" onClick={() => this.quads_adsense_report(this.state.adsense_pub_id)} >
+                                                {this.getImageByAdType(item.ad_type)}
+                                                {item.ad_type=='adsense' ? <div><strong>{report.adsense_code_view ?'View Report': 'Connect' }</strong></div> : '' }
+                                                </a>
+                                                {item.ad_type=='adsense' ?
                                             <div className={'view_report'} >
                                                 <label htmlFor="quads-connect-adsense">{report.adsense_code_view ?'Connected': 'Disconnected' }</label>
 
@@ -293,14 +303,43 @@ class QuadsAdReport extends Component {
                                                     <span className="quads-slider"></span>
                                                 </label>
                                             </div>
+                                            : '' }
                                         </li>
+
+                                        
                                     ))}
+                                    <li data-adtype="abtesting" id="quads-adsense-abtesting">
+                                    <a class="quads-nav-linkforabtesting" onClick={ () =>{
+                                        this.abtesting_handler()
+                                    } }  >
+                                    <img src="http://localhost/wp/wp-content/plugins/quick-adsense-reloaded/admin/assets/js/src/images/ab.png"/>
+                                    </a>
+                                    <div id="view_report_abtesting" style={{marginTop: "40px",color: "#005af0"}} onClick={ () =>{
+                                        this.abtesting_handler()
+                                    } }><strong>View Report</strong></div>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                     </Fragment>
                     : ''
                 }
+                {this.state.current_page =='adsense_report_page_abtesting' ?
+                    <Fragment>
+                        <div >
+                        <nav aria-label="breadcrumb">
+                        <ol className="breadcrumb">
+                            <li className="breadcrumb-item"><a> Report</a></li>
+                            <li className="breadcrumb-item active" aria-current="page">A/B Testing Report</li>
+                        </ol>
+                    </nav>
+                    <div className="quads-report-networks">
+                        <div>
+                        <h1>A/B Testing Reports</h1>
+                        </div>
+                        </div>
+                        </div>
+                        </Fragment> : ''}
                 {this.state.current_page =='adsense_report_page' ?
                     <Fragment>
                         <div >

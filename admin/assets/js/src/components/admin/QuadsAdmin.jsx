@@ -4,6 +4,7 @@ import QuadsAdListSettings from './../settings/QuadsAdListSettings'
 import QuadsAdListBody from './../ads/body/QuadsAdListBody'
 import QuadsAdListNavLink from './../ads/nav/QuadsAdListNavLink'
 import QuadsAdReport from '../report/QuadsAdReport'
+import QuadsAdReportabtesting from '../report/QuadsAdReportabtesting'
 import QuadsAdLogging from '../report/QuadsAdLogging'
 
 class QuadsAdmin extends Component {
@@ -133,6 +134,7 @@ class QuadsAdmin extends Component {
                             }
                             if(pagePath.includes('reports')){
                                 return <QuadsAdReport      />;
+                                return <QuadsAdReportabtesting/>;
                             }
                             if(pagePath.includes('ad_logging')){
                               return <QuadsAdLogging      />;
