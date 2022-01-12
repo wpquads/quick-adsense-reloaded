@@ -72,11 +72,35 @@ public function quads_insert_ad_impression(){
       $id_array = explode('quads-ad', $ad_id );
       $ad_id = $id_array[1]; 
       
+      $referrer_url  = (isset($_POST['referrer'])) ? esc_url($_POST['referrer']):'';
+      if(empty($referrer_url) && isset($_SERVER['HTTP_REFERER'])){
+        $referrer_url  =  esc_url($_SERVER['HTTP_REFERER']);
+      }
+      $user_ip      =  quads_get_client_ip();
+      $actual_link  = (isset($_POST['currentLocation'])) ? esc_url($_POST['currentLocation']):'';
+      if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
+        $actual_link = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+      }
+
+      require_once QUADS_PLUGIN_DIR . '/admin/includes/mobile-detect.php';
+      $device_name ='';
+      $mobile_detect = $isTablet = '';
+      $mobile_detect = new Quads_Mobile_Detect;
+      $isMobile = $mobile_detect->isMobile();
+      $isTablet = $mobile_detect->isTablet();
+
+      $device_name  = 'desktop';
+      if( $isMobile && $isTablet ){ //Only For tablet
+        $device_name  = 'mobile';
+      }else if($isMobile && !$isTablet){ // Only for mobile
+        $device_name  = 'mobile';
+      }
+
       $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d AND `ad_device_name` = %d AND `ad_thetime` = %d AND `referrer` = %d AND `ip_address` = %d AND `url` = %d AND `browser` = %d ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
       if($stats > 0) {
               $wpdb->query("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_clicks` = `ad_clicks` + 1 WHERE `id` = {$stats};");
       } else {
-              $wpdb->insert($wpdb->prefix.'quads_stats', array('ad_id' => $ad_id, 'ad_thetime' => $today, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_device_name' => trim($device_name),'referrer' => trim($referrer_url),'ip_address' => trim($user_ip),'browser' => trim($browser) ));
+              $wpdb->insert($wpdb->prefix.'quads_stats', array('ad_id' => $ad_id, 'ad_thetime' => $today, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_device_name' => trim($device_name),'referrer' => trim($referrer_url),'ip_address' => trim($user_ip),'browser' => trim($browser), 'url'=>$actual_link ));
     
             }                                                   
 
@@ -344,6 +368,10 @@ public function quads_get_client_ip() {
       $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d AND `ad_device_name` = %d AND `ad_thetime` = %d AND `referrer` = %d AND `ip_address` = %d AND `url` = %d AND `browser` = %d ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
       if($stats > 0) {
               $wpdb->query("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_clicks` = `ad_clicks` + 1 WHERE `id` = {$stats};");
+              $row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = `{$wpdb->prefix}quads_stats` AND column_name = 'Beginning_of_post'"  );
+         if(empty($row)){
+             $wpdb->query("ALTER TABLE `{$wpdb->prefix}quads_stats` ADD Beginning_of_post INT(1) NOT NULL DEFAULT 0, ADD End_of_post INT(1) NOT NULL DEFAULT 0, ADD Middle_of_post INT(1) NOT NULL DEFAULT 0, ADD After_more_tag INT(1) NOT NULL DEFAULT 0 ");
+         }
       } else {
         
               $wpdb->insert($wpdb->prefix.'quads_stats', array('ad_id' => $ad_id, 'ad_thetime' => $today, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_device_name' => trim($device_name),'referrer' => trim($referrer_url),'ip_address' => trim($user_ip),'browser' => trim($browser),'url' => trim($actual_link) ));

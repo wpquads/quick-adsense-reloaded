@@ -198,6 +198,15 @@ class QuadsAdReport extends Component {
             this.inputElement.click();
         }
     }
+
+    ab_testing_report_formChangeHandler = (event) =>{
+        const {report} = this.state;
+        let name  = event.target.name;
+        let value = '';
+        console.log(name);
+
+    }
+
     report_formChangeHandler = (event) => {
 
         const {report} = this.state;
@@ -336,6 +345,12 @@ class QuadsAdReport extends Component {
                     <div className="quads-report-networks">
                         <div>
                         <h1>A/B Testing Reports</h1>
+                        </div>
+                        <div className={'quads-select-menu'} >
+                                    <select  name="report_type" id={'report_type'} onChange={this.ab_testing_report_formChangeHandler} >
+                                        <option value="">Select Report</option>
+                                        
+                                    </select>
                         </div>
                         </div>
                         </div>

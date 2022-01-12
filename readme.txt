@@ -52,7 +52,6 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 * Multi language support
 * Remove of small coding issues like “unexpected output” message when plugin is activated on several sites
 * Import / Export function makes plugin migrating to other sites easier. Copy your ads code to other sites.
-* Automatic Ad detection - WP QUADS detects optimal ad sizes for all devices.
 * <strong>Caching Power</strong> - Supports WP Rocket, W3 Total and any other Caching plugin.
 
 = TAKE IT A STEP FURTHER WITH WPQUADS PRO =
