@@ -1953,6 +1953,9 @@ td.b_in_ {
 
 tr.b_in_ {
   font-weight: bold; }
+
+select#abtesting_report {
+  margin: 0px 0px 5px 0px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

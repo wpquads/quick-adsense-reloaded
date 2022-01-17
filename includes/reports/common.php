@@ -35,6 +35,13 @@ function quads_registerRoute($hook){
 			return current_user_can( 'manage_options' );
 		}
 	));
+	register_rest_route( 'quads-adsense', 'get_report_abtesting', array(
+		'methods'    => 'POST',
+		'callback'   => 'quads_adsense_get_report_abtesting_data',
+		'permission_callback' => function(){
+			return current_user_can( 'manage_options' );
+		}
+	));
 	register_rest_route( 'quads-adsense', 'revoke_adsense_link', array(
 		'methods'    => 'POST',
 		'callback'   => 'quads_adsense_revoke_adsense_link',
@@ -270,6 +277,42 @@ function has_token( $adsense_id = '' ) {
 	}
 	return $has_token;
 }
+
+function quads_adsense_get_report_abtesting_data(){
+	global $wpdb;
+	$results = $wpdb->get_results( "SELECT * FROM `wp_quads_stats` ");
+	if(!empty($results)) {    
+    $quads_table = "<table id=\"blocked_id_table\">"; 
+    $quads_table.= "<tbody>";
+	$quads_table.= '<tr class="b_in_" style="font-weight: bold;">
+	<td class="b_in_">ID</td>
+	<td class="b_in_">Beginning Of Post</td>
+	<td class="b_in_">End Of Post</td>
+	<td class="b_in_">Middle Of Post</td>
+	<td class="b_in_">After more Tag</td>
+  </tr>';
+    foreach($results as $row){   
+    $userip = $row->ad_clicks;                
+    $quads_table.= '
+	<tr class="b_in">
+                              <td class="b_in" >'.$row->id.'</td>
+                              <td class="b_in">'.$row->Beginning_of_post.'</td>
+                              <td class="b_in">'.$row->End_of_post.'</td>
+                              <td class="b_in">'.$row->Middle_of_post.'</td>
+                              <td class="b_in">'.$row->After_more_tag.'</td>
+	</tr>
+	'; 
+    }
+    $quads_table.= "</tbody>";
+    $quads_table.= "</table>"; 
+}
+echo json_encode(
+	array(
+		'status'    => 'success',
+		'success_msg' => $quads_table,
+	));
+}
+
 function quads_adsense_get_report_data($request_data){
 
 	$parameters = $request_data->get_params();
@@ -467,6 +510,9 @@ function quads_load_adsnese_scripts($hook){
 	wp_localize_script( 'quads-admin-adsense', 'quads_adsense', array(
 		'auth_url' => $auth_url
 	) );
+
+	// ab testing js
+	wp_enqueue_script( 'quads-admin-abtesting', $js_dir . 'abtesting-reports' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
 	// chart js
 	wp_enqueue_script( 'quads_charts_js', $js_dir . 'Chart' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
 	//    wp_localize_script( 'quads-charts-js' ,'');

@@ -1,0 +1,13 @@
+jQuery(document).ready(function($){
+
+    // jQuery code is in here
+    $(function(){
+        $("#abtesting_report").on('change', function(){
+          alert("Works");
+        })
+         
+       });
+
+    });
+    
+    
