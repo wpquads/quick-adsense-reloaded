@@ -15,9 +15,160 @@ class QuadsAdTargeting extends Component {
   constructor(props) {
     super(props);    
     this.state = {               
+      file_uploaded :false,
+      settings_saved :false,
+      settings_error :'',       
+      backup_file   : null,       
+      old_settings  : '',        
+      settings  :{
+         grid_ad_style : '',
+         g_data_ad_width  : '1',
+         g_data_ad_height  : '2',
+         checked: false,
+        },
+    checked: false
     };       
   } 
  
+  componentDidMount(){
+    this.getSettings();
+  }
+
+  saveSettings = () => {
+    const formData = new FormData();
+    formData.append("file", this.state.backup_file);
+    formData.append("settings", JSON.stringify(this.state.settings));
+    formData.append("requestfrom",'wpquads2');
+    let url = quads_localize_data.rest_url + 'quads-route/update-settings';
+    
+    fetch(url,{
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'X-WP-Nonce': quads_localize_data.nonce,
+      },
+      body: formData
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {
+        const currentpage = queryString.parse(window.location.search);
+          if(result.status === 't'){
+            if(result.file_status === 't'){
+              this.setState({file_uploaded:true,button_spinner_toggle:false});
+              this.setState({settings_saved:true});
+            }else{
+              this.setState({settings_saved:true, button_spinner_toggle:false});
+            }
+          }else{
+            this.setState({settings_error:result.msg, button_spinner_toggle:false});
+          }
+      },
+      (error) => {
+      let settings = this.state.settings;
+      let old_settings = this.state.old_settings;
+      let difference ={};
+      const settingskeys = Object.keys(settings);
+      const settingsValues = Object.values(settings);
+      const old_settingsKeys = Object.keys(old_settings);
+      const old_settingsValues = Object.values(old_settings);
+
+      for ( let i = 0; i < settingskeys.length; i++ ) {
+        for ( let j = 0; j < old_settingsKeys.length; j++ ) {
+          if ( settingskeys[i] === old_settingsKeys[j]) {
+            if ( settingsValues[i] !== old_settingsValues[j]) {
+                difference[settingskeys[i]] = settingsValues[i];
+            }
+          }
+        }
+      }
+
+    const formData = new FormData();
+    formData.append("file", this.state.backup_file);
+    formData.append("settings", JSON.stringify(difference));
+    formData.append("requestfrom",'wpquads2');
+    let url = quads_localize_data.rest_url + 'quads-route/update-settings';
+    fetch(url,{
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'X-WP-Nonce': quads_localize_data.nonce,
+      },
+      body: formData
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {
+      const currentpage = queryString.parse(window.location.search);
+       
+          if(result.status === 't'){
+            if(result.file_status === 't'){
+              this.setState({file_uploaded:true,button_spinner_toggle:false});
+              this.setState({settings_saved:true});
+            }else{
+              this.setState({settings_saved:true, button_spinner_toggle:false});
+            }
+          }else{
+            this.setState({settings_error:result.msg, button_spinner_toggle:false});
+          }
+      },
+      (error) => {
+      }
+    );
+      }
+    );
+  }
+
+
+  getSettings = () => {
+    let url = quads_localize_data.rest_url + 'quads-route/get-settings';
+    fetch(url,{
+      headers: {
+        'X-WP-Nonce': quads_localize_data.nonce,
+      }
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {
+        const { settings } = { ...this.state };        
+              Object.entries(result).map(([meta_key, meta_val]) => {                 
+                    settings[meta_key] =    meta_val;                 
+              })
+          const  old_settings = {...settings};
+          this.setState({settings:old_settings});
+          this.setState({ isLoading: false });
+
+      },
+      (error) => {
+        this.setState({ isLoading: false });
+
+      }
+    );
+  }
+
+  gridformChangeHandler = (event) => {
+    let name  = event.target.name;
+    let value = '';
+    if(event.target.type === 'file'){
+       value = event.target.files[0];
+       this.setState({backup_file:value});
+    }else{
+      if(event.target.type === 'checkbox'){
+        value = event.target.checked;
+      }else{
+        value = event.target.value
+      }
+        const { settings } = this.state;
+        settings[name] = value;
+        this.setState(settings);
+    }
+
+    if(name == 'grid_ad_style' ){
+      this.saveSettings();
+    }
+    
+  }
+
   render() {
 
     const {__} = wp.i18n;    
@@ -130,6 +281,40 @@ class QuadsAdTargeting extends Component {
                                     same spot</p><p className="description">On AMP ads will be shown only on reload.</p>
                             </td>
                         </tr>
+                        :null}
+                    
+                        {post_meta.ad_type == 'rotator_ads' && post_meta.refresh_type == 'on_interval' ?
+                        <tr>
+
+                        <td className='grid_style_ad'><label htmlFor="grid_ad_style"> {__('Grid', 'quick-adsense-reloaded')}</label>
+                        <label className="quads-switch">
+                            <input id="grid_ad_style" type="checkbox" name="grid_ad_style" onChange={this.gridformChangeHandler} checked={this.state.settings.grid_ad_style} />
+                            <span className="quads-slider"></span>
+                          </label>
+                        </td>                          
+                          { this.state.settings.grid_ad_style ?                         
+                            <td>
+                            <input id={'grid_data_ad_column'} placeholder='Column'
+                              name={'grid_data_ad_column'} type="number"
+                              value={post_meta.grid_data_ad_column }  onChange={this.props.adFormChangeHandler}    />X
+                              <input id={'grid_data_ad_row'} placeholder='Row'
+                              name={'grid_data_ad_row'} type="number"
+                              value={post_meta.grid_data_ad_row }  onChange={this.props.adFormChangeHandler}    />
+                            </td>
+                              : ''}
+                            </tr>
+                            
+                        :null}
+                        {post_meta.ad_type == 'rotator_ads' && post_meta.refresh_type == 'on_interval' ?
+                        <tr>
+                        <td className='grid_style_ad_num_ads_t_s'><label htmlFor="grid_ad_style_n"> {__('Number Of Ads to Show', 'quick-adsense-reloaded')}</label>
+                        </td>
+                        
+                        <td>
+                        <input id={'grid_data_ad_row'} name="num_ads_t_s" onChange={this.props.adFormChangeHandler} type="number" value={post_meta.num_ads_t_s} />
+                        </td>
+                        </tr>
+                            
                         :null}
                   </tbody>
                 </table>                                 

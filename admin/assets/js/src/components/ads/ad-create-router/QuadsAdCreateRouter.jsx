@@ -67,7 +67,9 @@ class QuadsAdCreateRouter extends Component {
             g_data_ad_client     : '',
             adsense_type         : 'normal',
             g_data_ad_width      : '',
+            grid_data_ad_column  : '0',
             g_data_ad_height     : '',   
+            grid_data_ad_row     : '0',   
             network_code         : '',
             skip_ads_type        : 'image_banner',
             freq_page_view       : '5',
@@ -112,6 +114,7 @@ class QuadsAdCreateRouter extends Component {
             adpushup_site_id           : '',
             adpushup_slot_id           : '',            
             refresh_type               : 'on_load',
+            num_ads_t_s               : '1',
             },
             quads_form_errors : {
               g_data_ad_slot       : '',
@@ -326,6 +329,11 @@ class QuadsAdCreateRouter extends Component {
         if(ad_format == 'auto'){
           adsense_type = 'responsive';
         }
+        const { quads_post_meta } = { ...this.state };
+          quads_post_meta.grid_data_ad_column  = ad_column;
+          quads_post_meta.grid_data_ad_row = ad_row;
+          quads_post_meta.num_ads_t_s = ad_num_ads_t_s;
+          this.setState(quads_post_meta);
 
         if ((ad_slot.length >=0 ) && (ad_client.length >= 0 )) {
 

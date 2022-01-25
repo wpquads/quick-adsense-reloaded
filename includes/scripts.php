@@ -366,6 +366,7 @@ function quads_inline_styles() {
         background: transparent !important;
     }
     
+    .quads.quads_ad_container { display: grid; grid-template-columns: auto; grid-gap: 10px; padding: 10px; }
     .quads-ad-label { font-size: 12px; text-align: center; color: #333;}";
     // Register empty style so we do not need an external css file
     wp_register_style( 'quads-styles', false );
