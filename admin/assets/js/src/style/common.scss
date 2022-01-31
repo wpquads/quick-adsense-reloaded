@@ -1003,4 +1003,9 @@ tr:hover .quads-general-helper-new,.quads-general-helper-new:hover  {
   margin-top: 2px;
 }span.lifetime {
   color: #00A66B;
-}
+}input:checked + .quads-slider {
+  background-color: #005af0;
+  border-radius: 30px;
+}.grid_style_ad .quads-switch {
+  margin: 3px 0px 0px 15px;
+}input#grid_data_ad_column, input#grid_data_ad_row { width: 100px; }

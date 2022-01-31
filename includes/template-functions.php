@@ -281,7 +281,9 @@ function quads_from_adsforwp_manual_ads($atts ){
 }
 function quads_adblocker_detector(){
     $js_dir  = QUADS_PLUGIN_URL . 'assets/js/';
+    if ( ( function_exists( 'ampforwp_is_amp_endpoint' ) && !ampforwp_is_amp_endpoint() ) || function_exists( 'is_amp_endpoint' ) && !is_amp_endpoint() ) {
     wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
+    }
 }
 /**
  * It is default settings value, if value is not set for any option in setting section 
@@ -1026,6 +1028,7 @@ function quads_filter_default_ads_new( $content ) {
               $post_status =  'publish';
             if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish'){
                 $ads  = apply_filters( 'quads_default_filter_position_data', $ads);
+                $ads  = apply_filters( 'quads_default_filter_position_data_ab_testing', $ads);
 
                 $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
                 $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;

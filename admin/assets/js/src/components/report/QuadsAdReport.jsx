@@ -1,4 +1,6 @@
 import React, {Component, Fragment} from 'react';
+import Icon from '@material-ui/core/Icon';
+import Select from "react-select";
 import '../ads/create/QuadsAdListCreate.scss';
 import '../../components/report/QuadsAdReport.scss'
 import {Chart} from 'react-charts'
@@ -17,6 +19,12 @@ class QuadsAdReport extends Component {
             isLoading : false,
             cust_fromdate:new Date(),
             cust_todate:new Date(),
+            ads_list:[],
+            adsToggle : false,    
+            adsToggle_list : false,
+            ab_testing:[],
+            getallads_data_temp: [],
+            getallads_data: [],
             report : {
                 adsense_code: '',
                 adsense_code_data :[
@@ -39,6 +47,47 @@ class QuadsAdReport extends Component {
         this.QuadsRedirectToWizard = this.QuadsRedirectToWizard.bind(this);
     }
 
+    getallads = (search_text = '',page = '') => {
+        let url = quads_localize_data.rest_url + "quads-route/get-ads-list?posts_per_page=100&pageno="+page;
+        if(quads_localize_data.rest_url.includes('?')){
+         url = quads_localize_data.rest_url + "quads-route/get-ads-list&posts_per_page=100&pageno="+page;
+      }
+       
+       fetch(url, {
+         headers: {                    
+           'X-WP-Nonce': quads_localize_data.nonce,
+         }
+       })
+       .then(res => res.json())
+       .then(
+         (result) => {      
+           let getallads_data =[];
+           Object.entries(result.posts_data).map(([key, value]) => {
+           if(value.post_meta['ad_type'] != "random_ads" && value.post_meta['ad_type'] != "rotator_ads" && value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] != "draft" && value.post_meta['ad_type'] == "ab_testing" )
+             getallads_data.push({label: value.post['post_title'], value: value.post['post_id']});
+           })      
+             this.setState({
+             isLoaded: true,
+             getallads_data: getallads_data,
+           });
+           
+         },        
+         (error) => {
+           this.setState({
+              isLoaded: true,         
+           });
+         }
+       );          
+      }
+    
+    adsToggle_list = () => {
+      const get_all_data = JSON.parse(JSON.stringify(this.state.getallads_data));
+      var getallads_data_temp = [];
+      getallads_data_temp = get_all_data;
+      const ads_list = this.state.ads_list;
+      this.setState({getallads_data_temp:getallads_data_temp});
+    }
+    
     QuadsRedirectToWizard(e){
 
         this.setState({
@@ -132,6 +181,7 @@ class QuadsAdReport extends Component {
 
     componentDidMount(){
         this.get_report_status();
+        this.getallads(); 
     }
 
     get_report_status = () => {
@@ -163,6 +213,9 @@ class QuadsAdReport extends Component {
             case 'adsense':
                 img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
                 break;
+            case 'abtesting':
+                img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ab.png';
+                break;
             default:
                 break;
         }
@@ -181,6 +234,9 @@ class QuadsAdReport extends Component {
         this.setState({current_page:newPageName});
     }
 
+    abtesting_handler = () =>{
+        this.setState({current_page:'adsense_report_page_abtesting'});
+    }
     quads_adsense_report  =(pub_id='') =>{
         const {report} = this.state;
         if(pub_id == ''){
@@ -192,6 +248,38 @@ class QuadsAdReport extends Component {
             this.inputElement.click();
         }
     }
+
+    ab_testing_report_formChangeHandler = (event) =>{
+        const {report} = this.state;
+        let name  = event.target.name;
+        let value = '';
+        if( name =='abtesting_report' ){
+            let url = quads_localize_data.rest_url + 'quads-adsense/get_report_abtesting';
+            fetch(url,{
+            method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': quads_localize_data.nonce,
+            },
+            body: JSON.stringify({ title: 'Get positions data' })
+        })
+        .then(res => res.json())
+            .then(
+                (response) => {
+                    var newNode = document.createElement("span");
+                    newNode.innerHTML = response.success_msg;
+                    newNode.setAttribute("id", "table_main");
+                    var referenceNode = document.querySelector('#abtesting_report');
+                    referenceNode.after(newNode);
+                }).catch((error) => {
+                    console.log(error)
+                  });
+
+        }
+
+    }
+
     report_formChangeHandler = (event) => {
 
         const {report} = this.state;
@@ -282,7 +370,11 @@ class QuadsAdReport extends Component {
                             <div className="quads-ad-networks">
                                 <ul key={'quads-ad-networks'}>
                                     {this.state.All_report_list.map(item => (
-                                        <li key={item.id} data-adtype={item.ad_type} id={item.id}><a className="quads-nav-link" onClick={() => this.quads_adsense_report(this.state.adsense_pub_id)} >{this.getImageByAdType(item.ad_type)}<div><strong>{report.adsense_code_view ?'View Report': 'Connect' }</strong></div></a>
+                                        <li key={item.id} data-adtype={item.ad_type} id={item.id}><a className="quads-nav-link" onClick={() => this.quads_adsense_report(this.state.adsense_pub_id)} >
+                                                {this.getImageByAdType(item.ad_type)}
+                                                {item.ad_type=='adsense' ? <div><strong>{report.adsense_code_view ?'View Report': 'Connect' }</strong></div> : '' }
+                                                </a>
+                                                {item.ad_type=='adsense' ?
                                             <div className={'view_report'} >
                                                 <label htmlFor="quads-connect-adsense">{report.adsense_code_view ?'Connected': 'Disconnected' }</label>
 
@@ -293,14 +385,55 @@ class QuadsAdReport extends Component {
                                                     <span className="quads-slider"></span>
                                                 </label>
                                             </div>
+                                            : '' }
                                         </li>
+
+                                        
                                     ))}
+                                    <li data-adtype="abtesting" id="quads-adsense-abtesting">
+                                    <a class="quads-nav-linkforabtesting" onClick={ () =>{
+                                        this.abtesting_handler()
+                                    } }  >
+                                    <img src="http://localhost/wp/wp-content/plugins/quick-adsense-reloaded/admin/assets/js/src/images/ab.png"/>
+                                    </a>
+                                    <div id="view_report_abtesting" style={{marginTop: "40px",color: "#005af0"}} onClick={ () =>{
+                                        this.abtesting_handler()
+                                    } }><strong>View Report</strong></div>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                     </Fragment>
                     : ''
                 }
+                {this.state.current_page =='adsense_report_page_abtesting' ?
+                    <Fragment>
+                        <div >
+                        <nav aria-label="breadcrumb">
+                        <ol className="breadcrumb">
+                            <li className="breadcrumb-item"><a> Report</a></li>
+                            <li className="breadcrumb-item active" aria-current="page">A/B Testing Report</li>
+                        </ol>
+                    </nav>
+                    <div className="quads-report-networks">
+                        <div>
+                        <h1>A/B Testing Reports</h1>
+                        </div>
+                        <div className={'quads-select-menu'} >
+                        <div className={'quads-select'} onClick={this.adsToggle_list}>
+                        <select name="abtesting_report" id={'abtesting_report'} 
+                        onChange={this.ab_testing_report_formChangeHandler} placeholder="Select Ads">
+                        <option value="">Select report</option>
+                        {this.state.getallads_data_temp ? this.state.getallads_data_temp.map( item => (
+                            <option key={item.value} value={item.value}>{item.label}</option>
+                        ) )
+                        : 'No Options' }
+                        </select>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </Fragment> : ''}
                 {this.state.current_page =='adsense_report_page' ?
                     <Fragment>
                         <div >

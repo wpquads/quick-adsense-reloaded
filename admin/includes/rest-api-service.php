@@ -523,6 +523,9 @@ if($license_info){
                     if($key == 'ad_blindness'){
                       $filterd_meta =$val;
                     }
+                    if($key == 'ab_testing'){
+                      $filterd_meta =$val;
+                    }
 
                     update_post_meta($ad_id, $key, $filterd_meta);
                 }

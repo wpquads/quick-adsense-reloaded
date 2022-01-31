@@ -15,6 +15,7 @@ class QuadsAdConfigFields extends Component {
     adsToggle_list : false,
     ads_list:[], 
     ad_blindness:[],
+    ab_testing:[],
     getallads_data: [],
     getallads_data_temp: [],
     currentselectedvalue: "",
@@ -550,7 +551,54 @@ error_outline
                 </div>);
 
               break;
-            case 'ad_blindness':
+            case 'ab_testing':
+              ad_type_name = 'AB Testing';
+              if(!quads_localize_data.is_pro){
+                comp_html.push(<div key="ab_testing" className="quads-user-targeting"> 
+This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+</div>);
+               break;
+               }
+
+              comp_html.push(<div key="ab_testing" className="quads-user-targeting">
+                {this.state.ads_list.length == 0  ?
+                <h2>Select Ads<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
+                :null}
+                <div className="quads-target-item-list">
+                  {
+                    this.state.ads_list ?
+                      this.state.ads_list.map((item, index) => (
+                        <div key={index} className="quads-target-item">
+                          <span className="quads-target-label">{item.label}</span>
+                          <span className="quads-target-icon" onClick={this.removeSeleted_list} data-index={index}><Icon>close</Icon></span>
+                        </div>
+                      ))
+                      : ''}
+                  <div>{(this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+                </div>
+                {this.state.adsToggle_list ?
+                  <div className="quads-targeting-selection">
+                    <table className="form-table">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <Select
+                              name="userTargetingIncludedType"
+                              placeholder="Select Ads"
+                              options={this.state.getallads_data_temp}
+                              value={this.multiTypeLeftIncludedValue}
+                              onChange={this.selectAdchange}
+                            />
+                          </td>
+                          <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  : ''}
+              </div>);
+              break;
+              case 'ad_blindness':
               ad_type_name = 'Ad Blindness';
               if(!quads_localize_data.is_pro){
                 comp_html.push(<div key="ad_blindness" className="quads-user-targeting"> 

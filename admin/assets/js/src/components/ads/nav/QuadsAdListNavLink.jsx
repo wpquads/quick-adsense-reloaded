@@ -33,6 +33,7 @@ class QuadsAdListNavLink extends Component {
                     {ad_type:'group_insertion',ad_type_name:'Group Insertion',pro:'true'},
                     {ad_type:'skip_ads',ad_type_name:'Skip Ads',pro:'true'},
                     {ad_type:'ad_blindness',ad_type_name:'Ad Blindness',pro:'true'},
+                    {ad_type:'ab_testing',ad_type_name:'AB Testing',pro:'true'},
            ]
         };
         this.getSettings();
@@ -69,6 +70,9 @@ class QuadsAdListNavLink extends Component {
             case 'adsense':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/add_adsense_logo.png';
               break;
+            case 'ab_testing':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ab_testing_img.png';
+              break;
             case 'adpushup':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/adpushup.png';
             break;
@@ -98,6 +102,9 @@ class QuadsAdListNavLink extends Component {
               break;
               case 'ad_blindness':
                 img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ad_blindness.png';
+                break;
+              case 'ab_testing':
+                img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ab_testing_img.png';
                 break;
               case 'taboola':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/taboola.png';

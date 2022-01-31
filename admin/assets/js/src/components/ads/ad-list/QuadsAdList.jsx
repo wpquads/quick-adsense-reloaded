@@ -111,6 +111,10 @@ class QuadsAdList extends Component {
             img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ad_blindness_icon.png';
             type = "Ad Blindness";
             break;
+          case 'ab_testing':
+            img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ab_testing_img.png';
+            type = "AB Testing";
+            break;
           case 'taboola':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/taboola_icon.png';
           break;

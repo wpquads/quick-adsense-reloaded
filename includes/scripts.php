@@ -50,7 +50,9 @@ function click_fraud_protection(){
 
            if (isset($quads_options['click_fraud_protection']) && !empty($quads_options['click_fraud_protection']) && $quads_options['click_fraud_protection']  ) {  
                 $suffix = ( quadsIsDebugMode() ) ? '' : '.min'; 
+                if ( (function_exists( 'ampforwp_is_amp_endpoint' ) && !ampforwp_is_amp_endpoint()) || function_exists( 'is_amp_endpoint' ) && !is_amp_endpoint() ) {
               wp_enqueue_script( 'quads-scripts', QUADS_PLUGIN_URL . 'assets/js/fraud_protection' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+                }
          
             } 
                 wp_localize_script( 'quads-scripts', 'quads', array(
@@ -364,6 +366,9 @@ function quads_inline_styles() {
         background: transparent !important;
     }
     
+    .quads.quads_ad_container { display: grid; grid-template-columns: auto; grid-gap: 10px; padding: 10px; }
+    .grid_image{animation: fadeIn 0.5s;-webkit-animation: fadeIn 0.5s;-moz-animation: fadeIn 0.5s;
+        -o-animation: fadeIn 0.5s;-ms-animation: fadeIn 0.5s;}
     .quads-ad-label { font-size: 12px; text-align: center; color: #333;}";
     // Register empty style so we do not need an external css file
     wp_register_style( 'quads-styles', false );

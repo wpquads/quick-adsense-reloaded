@@ -53,6 +53,7 @@ class QuadsAdListSettings extends Component {
                 rotator_ads_settings   : true,
                 group_insertion_settings : true,
                 blindness_settings : true,
+                ab_testing_settings : true,
                 skippable_ads : true,
                 ad_performance_tracking : false,
                 reports_settings : true,
@@ -888,7 +889,7 @@ handleMultiPluginsChange = (option) => {
      if(name == 'tcf_2_integration'){
       this.saveSettings();
      }
-     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'reports_settings' || name == 'ad_performance_tracking' || name == 'ad_logging' || name == 'skippable_ads'){
+     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking' || name == 'ad_logging' || name == 'skippable_ads'){
       this.saveSettings();
     }
     if(name == 'adsforwp_quads_shortcode'|| name == 'adsforwp_quads_gutenberg' || name == 'advance_ads_to_quads'){
@@ -1037,6 +1038,7 @@ handleMultiPluginsChange = (option) => {
     const quads_setting_pro_items =[
       {id:'skippable_ads',title:'Skippable Ad',url:'https://wpquads.com/documentation/how-to-ad-skippable-ads/'},
       {id:'blindness_settings',title:'Ad Blindness',url:'https://wpquads.com/documentation/how-to-add-ad-blindness'},
+      {id:'ab_testing_settings',title:'AB Testing',url:'https://wpquads.com/documentation/how-to-add-ab-testing'},
       {id:'optimize_core_vitals',title:'Optimize for Core Web Vitals',url:'https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/'},
       {id:'hide_quads_markup',title:'Hide Quads Markup',url:'https://wpquads.com/documentation/how-to-globally-exclude-or-hide-ads-for-user-roles-with-wp-quads-pro/'},
       {id:'global_excluder',title:'Global Excluder',url:'https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/'},

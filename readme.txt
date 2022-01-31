@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 5.8
 Requires PHP: 5.4
-Stable tag: 2.0.39
+Stable tag: 2.0.40
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
@@ -52,7 +52,6 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 * Multi language support
 * Remove of small coding issues like “unexpected output” message when plugin is activated on several sites
 * Import / Export function makes plugin migrating to other sites easier. Copy your ads code to other sites.
-* Automatic Ad detection - WP QUADS detects optimal ad sizes for all devices.
 * <strong>Caching Power</strong> - Supports WP Rocket, W3 Total and any other Caching plugin.
 
 = TAKE IT A STEP FURTHER WITH WPQUADS PRO =
@@ -204,6 +203,10 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.40 (31 January 2022) =
+* Added: Live AD Rotation in one group as a grid #461
+* Fixed: Validation errors in transitional mode with Official AMP Plugin #456
 
 = 2.0.39 (28 December 2021) =
 * Fixed: Revenue Reports Feature not working #452

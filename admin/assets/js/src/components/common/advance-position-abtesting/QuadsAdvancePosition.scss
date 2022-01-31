@@ -1,0 +1,36 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Jan 28, 2020, 11:41:08 AM
+    Author     : Magazine3
+*/
+
+.quads-position-dropdown{
+  /*display: inline-flex;*/
+}
+.position_content{
+	display: inline-flex;
+    padding-top: 20px;
+}
+
+#post_shortcode{
+	width:132px;
+}
+#post_shortcode_php{
+	width:380px;
+}
+.position_content div {
+    padding-bottom: 5px;
+}
+#repeat_paragraph+label {
+    text-transform: none;
+}
+.quads-settings-group .quads-tr-position .quads-position-dropdown select{
+        width: 311px
+}
+.MuiPaper-root.MuiAlert-root.MuiAlert-standardError.check_plugin_exist.MuiPaper-elevation0 div{
+    padding-bottom: 5px  !important;   
+}
