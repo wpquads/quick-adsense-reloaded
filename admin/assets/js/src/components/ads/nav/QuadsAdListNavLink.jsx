@@ -17,7 +17,7 @@ class QuadsAdListNavLink extends Component {
            All_ad_network: [
                     {ad_type:'adsense',ad_type_name:'AdSense'},
                     {ad_type:'double_click',ad_type_name:'Google Ad Manager'},
-                    {ad_type:'adpushup',ad_type_name:'AdPushup'},
+                    // {ad_type:'adpushup',ad_type_name:'AdPushup'},
                     {ad_type:'yandex',ad_type_name:'Yandex'},
                     {ad_type:'mgid',ad_type_name:'MGID'},
                     {ad_type:'taboola',ad_type_name:'Taboola'},
@@ -73,9 +73,9 @@ class QuadsAdListNavLink extends Component {
             case 'ab_testing':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ab_testing_img.png';
               break;
-            case 'adpushup':
-              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/adpushup.png';
-            break;
+            // case 'adpushup':
+            //   img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/adpushup.png';
+            // break;
             case 'plain_text':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/custom_code.png';
               break;
