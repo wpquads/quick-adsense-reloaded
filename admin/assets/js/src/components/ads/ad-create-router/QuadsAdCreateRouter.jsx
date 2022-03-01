@@ -580,13 +580,13 @@ class QuadsAdCreateRouter extends Component {
             }
           break;
 
-          case 'adpushup':
-            if(validation_flag && quads_post_meta.adpushup_site_id){
-              this.saveAdFormData('publish');   
-            }else{
-              this.setState({show_form_error:true});
-            }
-          break;
+          // case 'adpushup':
+          //   if(validation_flag && quads_post_meta.adpushup_site_id){
+          //     this.saveAdFormData('publish');   
+          //   }else{
+          //     this.setState({show_form_error:true});
+          //   }
+          // break;
           
           case 'mediavine':
             if(validation_flag && quads_post_meta.mediavine_site_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
@@ -798,13 +798,13 @@ class QuadsAdCreateRouter extends Component {
             }
             break;
 
-          case 'adpushup':
-            if(quads_post_meta.adpushup_site_id){
-              this.props.history.push(new_url); 
-            }else{
-              this.setState({show_form_error:true});
-            }
-            break; 
+          // case 'adpushup':
+          //   if(quads_post_meta.adpushup_site_id){
+          //     this.props.history.push(new_url); 
+          //   }else{
+          //     this.setState({show_form_error:true});
+          //   }
+          //   break; 
           case 'mediavine':
             if(quads_post_meta.mediavine_site_id){
               this.props.history.push(new_url); 

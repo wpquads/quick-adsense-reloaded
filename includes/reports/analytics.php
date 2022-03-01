@@ -76,7 +76,7 @@ public function quads_insert_ad_impression(){
       if(empty($referrer_url) && isset($_SERVER['HTTP_REFERER'])){
         $referrer_url  =  esc_url($_SERVER['HTTP_REFERER']);
       }
-      $user_ip      =  quads_get_client_ip();
+      $user_ip      =  $this->quads_get_client_ip();
       $actual_link  = (isset($_POST['currentLocation'])) ? esc_url($_POST['currentLocation']):'';
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
         $actual_link = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -145,7 +145,7 @@ public function quads_get_client_ip() {
       $referrer_url  =  esc_url($_SERVER['HTTP_REFERER']);
 
     }
-      $user_ip       =  quads_get_client_ip();
+      $user_ip       =  $this->quads_get_client_ip();
       $actual_link  = (isset($_POST['currentLocation'])) ? esc_url($_POST['currentLocation']):'';      
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
         $actual_link = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
