@@ -39,6 +39,7 @@ function quads_shortcode_display_ad( $atts ) {
 
     // The ad id
     $id = isset( $atts['id'] ) ? ( int ) $atts['id'] : 0;
+    $ad_id = $quads_options['ads']['ad'.$id.'']['ad_id'] ? $quads_options['ads']['ad'.$id.'']['ad_id'] : $id;
 
     $arr = array(
         'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
@@ -58,8 +59,10 @@ function quads_shortcode_display_ad( $atts ) {
         $code .= do_shortcode( quads_get_ad( $id ) );
         $code .= '</div>' . "\n";
     }else{
+        $idof_ad_id = '';
+        $idof_ad_id = $ad_id;
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
-            '<div class="quads-location quads-ad' . $id . '" id="quads-ad' . $id . '" style="' . $style . '">' . "\n";
+            '<div class="quads-location quads-ad' . $idof_ad_id . '" id="quads-ad' . $idof_ad_id . '" style="' . $style . '">' . "\n";
         $code .= do_shortcode( quads_get_ad( $id ) );
         $code .= '</div>' . "\n";
     }
