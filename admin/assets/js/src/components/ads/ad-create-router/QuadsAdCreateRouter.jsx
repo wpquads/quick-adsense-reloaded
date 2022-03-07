@@ -881,6 +881,12 @@ class QuadsAdCreateRouter extends Component {
       const {__} = wp.i18n; 
       const post_meta = this.state.quads_post_meta;
       const show_form_error = this.state.show_form_error;
+      var quads_old_id = '';
+      quads_old_id = this.state.quads_post_meta.quads_ad_old_id;       
+      if( quads_old_id ){
+          var final_quads_old_id =  quads_old_id.substring(2);
+          
+      }
       if(page.path == 'wizard_target' && this.state.quads_post_meta.label == ''){
 
     const json_data = {
@@ -914,6 +920,53 @@ class QuadsAdCreateRouter extends Component {
         
       }
     );  
+      }
+      else if(page.path == 'wizard_target' && page.action !== 'edit' && this.state.quads_post_meta.label != '' && this.state.quads_post_meta.label != 'Ad '+final_quads_old_id+''   ){
+        setTimeout(() => {
+          var e = document.getElementsByName("position")[0];
+          var strUser = e.options[e.selectedIndex].value;
+          if( strUser == 'ad_shortcode' ){
+          const location = this.props.location;         
+          var location_check = location.search
+          const post_meta = this.state.quads_post_meta;
+        
+        const json_data = {
+          action: 'quads_ajax_add_ads',
+        } 
+        
+        const url = quads_localize_data.rest_url + "quads-route/get-add-next-id";
+            
+        if ( !location_check.includes('edit') ) {
+        fetch( url , {
+          method: "post",
+          headers: {    
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',                
+            'X-WP-Nonce': quads_localize_data.nonce,
+          },
+          body: JSON.stringify(json_data)
+        })
+        .then(res => res.json())
+        .then(
+          (result) => {
+          let titleName =post_meta.label;
+          let quads_ad_old_id ='ad'+result.id;
+          if(page.ad_type == 'random_ads'){
+              titleName =post_meta.label;
+          }else if(page.ad_type == 'rotator_ads'){
+              titleName =post_meta.label;
+          }else if(page.ad_type == 'group_insertion'){
+            titleName =post_meta.label;
+          }
+              this.setState(Object.assign(this.state.quads_post_meta,{label:titleName,quads_ad_old_id:quads_ad_old_id}));
+          },        
+          (error) => {
+            
+          }
+        );
+      }
+          }
+        }, 100);
       }
 
     return (    

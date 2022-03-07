@@ -115,9 +115,10 @@ class QuadsAdListBody extends Component {
 
   mainSearchMethod = (search_text, page) => { 
       this.setState({isLoaded:false})
-      let url = quads_localize_data.rest_url + "quads-route/get-ads-list?search_param="+search_text+"&posts_per_page=20&pageno="+page;
+      let get_eppp = quads_localize_data.num_of_ads_to_display
+      let url = quads_localize_data.rest_url + "quads-route/get-ads-list?search_param="+search_text+"&posts_per_page="+get_eppp+"&pageno="+page;
       if(quads_localize_data.rest_url.includes('?')){
-         url = quads_localize_data.rest_url + "quads-route/get-ads-list&search_param="+search_text+"&posts_per_page=20&pageno="+page;  
+         url = quads_localize_data.rest_url + "quads-route/get-ads-list&search_param="+search_text+"&posts_per_page="+get_eppp+"&pageno="+page;  
       }
       fetch(url, {
         headers: {                    
@@ -210,7 +211,7 @@ class QuadsAdListBody extends Component {
                   settings = {this.props.settings}
                 />
               </div>            
-              <div className="quads-list-pagination">
+              <div className="quads-list-pagination" style={{display:'none'}} >
                 <QuadsAdListPagination ad_list={this.state} triggerPagination={this.QuadsPaginateAd} />
               </div>
               </div>                        

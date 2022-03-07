@@ -218,6 +218,21 @@ function quads_options_page_new() {
         // print_r($licenses->price_id);die;       
         }
         $get_ip =  get_option('add_blocked_ip') ?  get_option('add_blocked_ip')  : 0 ;
+        $get_e_p_p_p = '20';
+        if(is_admin()){
+            $current_user = get_current_user_id();
+        }
+        if( is_admin() & $current_user){
+        $user_info = get_user_meta($current_user);
+        if( isset($user_info['edit_post_per_page']) ){
+            $get_specific_user_meta = $user_info['edit_post_per_page'];
+            // get edit_post_per_page
+            $get_e_p_p_p = implode("",$get_specific_user_meta);
+        }
+        else{
+            $get_specific_user_meta = '20' ;
+        }
+    }
         $ajax_call = admin_url( 'admin-ajax.php' );
         $get_admin_url = admin_url('admin.php');
         $data = array(
@@ -230,6 +245,7 @@ function quads_options_page_new() {
             'is_newsPapertheme_exist'     => class_exists( 'tagdiv_config' )? true : false,
             'quads_get_ips'     => $get_ip,
             'ajax_url' => $ajax_call,
+            'num_of_ads_to_display' => $get_e_p_p_p,
             'get_admin_url' => $get_admin_url
                 
         );
