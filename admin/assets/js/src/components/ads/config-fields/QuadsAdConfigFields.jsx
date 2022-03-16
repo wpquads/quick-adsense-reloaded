@@ -18,6 +18,7 @@ class QuadsAdConfigFields extends Component {
     ab_testing:[],
     getallads_data: [],
     getallads_data_temp: [],
+    ad_ids_temp: [],
     currentselectedvalue: "",
     currentselectedlabel : "",              
     };       
@@ -152,13 +153,17 @@ removeSeleted_list = (e) => {
       .then(
         (result) => {      
           let getallads_data =[];
+          let ad_ids_temp =[];
           Object.entries(result.posts_data).map(([key, value]) => {
           if(value.post_meta['ad_type'] != "random_ads" && value.post_meta['ad_type'] != "rotator_ads" && value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] != "draft")
             getallads_data.push({label: value.post['post_title'], value: value.post['post_id']});
+          if(value.post_meta['ad_type'] != "random_ads" && value.post_meta['ad_type'] != "rotator_ads" && value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] == "publish")
+            ad_ids_temp.push(value.post['post_id']);
           })      
             this.setState({
             isLoaded: true,
             getallads_data: getallads_data,
+            ad_ids_temp: ad_ids_temp,
           });
           
         },        
@@ -317,12 +322,14 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
              <div className="quads-target-item-list">
               {                
               this.state.ads_list ? 
-              this.state.ads_list.map( (item, index) => (
-                <div key={index} className="quads-target-item">
-                  <span className="quads-target-label">{item.label}</span>
-                  <span className="quads-target-icon" onClick={this.removeSeleted_list} data-index={index}><Icon>close</Icon></span> 
-                </div>
-               ) )
+              this.state.ads_list.map( (item, index) => {
+                if( this.state.ad_ids_temp && this.state.ad_ids_temp.indexOf(item.value)>=0 ) {
+                return <div key={index} className="quads-target-item">
+                  <span className="quads-target-label xyz">{item.label}</span>
+                  <span className="quads-target-icon qaz" onClick={this.removeSeleted_list} data-index={index}><Icon>close</Icon></span> 
+                </div>  
+                }
+              })
               :''}
               <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
              </div>             
