@@ -723,10 +723,17 @@ handleMultiPluginsChange = (option) => {
         if( (this.state.licensemsg == "Please activate your WP QUADS PRO License Key" && currentpage.path =="settings_licenses") ||( currentpage.path =="settings_licenses" && result.status == "license_validated" && result.license == "valid" )){
           location.reload();
         }
-        if(result.status == "lic_not_valid" && result.license == "invalid" ){
+        if(result.status == "lic_not_valid" && result.license == "invalid" && quads_localize_data.licenses.error != "expired" ){
             setTimeout(function(){ 
             var elementsArray = document.getElementsByClassName("inv_msg");
             elementsArray[0].style.display = 'block'  
+           }, 100);
+        }
+        if( quads_localize_data.licenses.error == "expired" && quads_localize_data.licenses.expires < 0 ){
+            setTimeout(function(){ 
+            var elementsArray = document.getElementsByClassName("exp_msg");
+            elementsArray[0].style.display = 'block'
+            elementsArray[0].style.color = 'red'
            }, 100);
         }
             if(result.status === 't'){
@@ -1879,6 +1886,10 @@ handleMultiPluginsChange = (option) => {
             <div class="inv_msg" style={{display: "none"}}>Enter a Valid License Key</div>
           }
           </div> : null}
+          {
+            quads_localize_data.licenses.error == "expired" ? 
+            <div className='exp_msg' style={{display:'none'}}> You are entering an Expired License Key </div> : ''
+          }
           
           </div>
             {this.state.licensemsg ?

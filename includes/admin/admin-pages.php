@@ -41,7 +41,36 @@ function quads_add_options_link() {
 
             $quads_settings_page = add_submenu_page('quads-settings', __('Ads', 'quick-adsense-reloaded'), 'Ads', $quads_permissions, 'quads-settings', 'quads_options_page_new');
 
-            $quads_settings_page = add_submenu_page('quads-settings', __('Settings', 'quick-adsense-reloaded'), 'Settings', $quads_permissions, 'quads-settings&path=settings', 'quads_options_page_new');
+	        if( defined('QUADS_PRO_VERSION') ){
+                $license_alert = $days = '';
+                $license_info = get_option( 'quads_wp_quads_pro_license_active' );
+                if ( isset( $license_info ) ) {
+                    $license_exp = isset( $license_info->expires ) ? date('Y-m-d', strtotime( $license_info->expires) ) : '' ;
+                    $license_info_lifetime = isset( $license_info->expires ) ? $license_info->expires : '' ;
+                    $today = date('Y-m-d');
+                    $exp_date = $license_exp;
+                    $date1 = date_create($today);
+                    $date2 = date_create($exp_date);
+                    $diff = date_diff($date1,$date2);
+                    $days = $diff->format("%a");
+                    if( $license_info_lifetime == 'lifetime' ){
+                    $days = 'Lifetime';
+                    if ($days == 'Lifetime') {
+                    $expire_msg = " Your License is Valid for Lifetime ";
+                    }
+                    }
+                    else if($today > $exp_date){
+                    $days = -$days;
+                    }
+                $license_alert = isset($days) && $days!==0 && $days<=30 && $days!=='Lifetime' ? "<span class='wpquads_pro_icon dashicons dashicons-warning wpquads_pro_alert' style='color: #ffb229;left: 3px;position: relative;'></span>": "" ;
+                }
+                
+                $quads_settings_page = add_submenu_page('quads-settings', __('Settings', 'quick-adsense-reloaded'), 'Settings'.$license_alert.'', $quads_permissions, 'quads-settings&path=settings', 'quads_options_page_new');
+                
+            }
+            else{
+                $quads_settings_page = add_submenu_page('quads-settings', __('Settings', 'quick-adsense-reloaded'), 'Settings', $quads_permissions, 'quads-settings&path=settings', 'quads_options_page_new');
+            }
             if(quads_is_advanced() && isset($quads_options['reports_settings']) && $quads_options['reports_settings'])
             $quads_settings_page = add_submenu_page('quads-settings', __('Reports', 'quick-adsense-reloaded'), 'Reports', $quads_permissions, 'quads-settings&path=reports', 'quads_options_page_new');
 
