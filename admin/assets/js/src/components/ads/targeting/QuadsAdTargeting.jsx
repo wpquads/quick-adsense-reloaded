@@ -189,6 +189,7 @@ class QuadsAdTargeting extends Component {
                 post_meta.ad_type == 'yandex' ||
                 post_meta.ad_type == 'mgid' ||
                 post_meta.ad_type == 'ad_image' ||
+                post_meta.ad_type == 'propeller' ||
                 post_meta.ad_type == 'taboola' ||
                 post_meta.ad_type == 'media_net' ||
                 (post_meta.ad_type == 'adpushup' && quads_localize_data.is_amp_enable && post_meta.enabled_on_amp == true) ||

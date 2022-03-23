@@ -558,6 +558,21 @@ error_outline
                 </div>);
 
               break;
+              case 'propeller':
+             ad_type_name = 'Propeller';  
+              comp_html.push(<div key="propeller">
+                <table>
+                  <tbody>
+                           <tr><td>
+                    <label>{__('Propeller AD Script', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.propeller_js == '') ? 'quads_form_error' : ''} value={post_meta.propeller_js} onChange={this.props.adFormChangeHandler} type="text" id="propeller_js" name="propeller_js" placeholder='<script type="text/javascript" src="//dolohen.com/apu.php?zoneid=xxx728"></script>' />
+                    {(show_form_error && post_meta.propeller_js == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter AD Script</div> :''}
+                     </td></tr>
+                  </tbody>
+                </table>
+                </div>);
+
+              break;
             case 'ab_testing':
               ad_type_name = 'AB Testing';
               if(!quads_localize_data.is_pro){

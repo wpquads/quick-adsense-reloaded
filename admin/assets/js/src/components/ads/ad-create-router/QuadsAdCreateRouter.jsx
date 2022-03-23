@@ -111,6 +111,7 @@ class QuadsAdCreateRouter extends Component {
             infolinks_wsid             : '' ,
             data_container             : '' ,    
             data_js_src                : '' ,
+            propeller_js                : '' ,
             adpushup_site_id           : '',
             adpushup_slot_id           : '',            
             refresh_type               : 'on_load',
@@ -542,6 +543,13 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             }
           break;
+              case 'propeller':
+            if(validation_flag && quads_post_meta.propeller_js && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;
 
           case 'ad_image':
             if(validation_flag && quads_post_meta.image_src && quads_post_meta.image_redirect_url && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
@@ -757,6 +765,13 @@ class QuadsAdCreateRouter extends Component {
             break;
             case 'mgid':
           if(quads_post_meta.data_container && quads_post_meta.data_js_src){
+            this.props.history.push(new_url); 
+          }else{
+            this.setState({show_form_error:true});
+          } 
+            break;
+            case 'propeller':
+          if( quads_post_meta.propeller_js ){
             this.props.history.push(new_url); 
           }else{
             this.setState({show_form_error:true});

@@ -63,6 +63,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_mgid( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_mgid_async( $id ),$id );
     }
+    if( true === quads_is_propeller( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_propeller_async( $id ),$id );
+    }
     if( true === quads_is_ad_image( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_ad_image_async( $id ),$id );
     }
@@ -391,6 +394,20 @@ function quads_render_mgid_async( $id ) {
             ';
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_mgid_async', $html );
+}
+
+function quads_render_propeller_async( $id ) {
+    global $quads_options;
+
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content propeller --> \n\n";
+    $html .= '                             
+                <div id="'.$id.' propeller-ad">
+                <script type="text/javascript" src="'.esc_attr($quads_options['ads'][$id]['propeller_js']).'" >
+                </script>
+                </div>
+            ';
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_propeller_async', $html );
 }
 function quads_adsense_auto_ads_amp_script(){
         require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
@@ -968,6 +985,22 @@ function quads_is_mgid( $id, $string ) {
     global $quads_options;
 
     if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'mgid') {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Check if ad code is Propeller or other ad code
+ *
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_propeller( $id, $string ) {
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'propeller') {
         return true;
     }
     return false;
