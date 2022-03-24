@@ -219,10 +219,10 @@ function quads_options_page_new() {
         }
         $get_ip =  get_option('add_blocked_ip') ?  get_option('add_blocked_ip')  : 0 ;
         $get_e_p_p_p = '20';
-        if(is_admin()){
+        if(is_user_logged_in()){
             $current_user = get_current_user_id();
         }
-        if( is_admin() & $current_user){
+        if( is_user_logged_in() && $current_user){
         $user_info = get_user_meta($current_user);
         if( isset($user_info['edit_post_per_page']) ){
             $get_specific_user_meta = $user_info['edit_post_per_page'];

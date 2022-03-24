@@ -564,7 +564,7 @@ error_outline
                 <table>
                   <tbody>
                            <tr><td>
-                    <label>{__('Propeller AD Script', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.propeller_js == '') ? 'quads_form_error' : ''} value={post_meta.propeller_js} onChange={this.props.adFormChangeHandler} type="text" id="propeller_js" name="propeller_js" placeholder='<script type="text/javascript" src="//dolohen.com/apu.php?zoneid=xxx728"></script>' />
+                    <label>{__('Propeller AD Script', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.propeller_js == '') ? 'quads_form_error' : ''} value={post_meta.propeller_js} onChange={this.props.adFormChangeHandler} type="text" id="propeller_js" name="propeller_js" placeholder="(function(s,u,z,p){s.src=u,s.setAttribute('data-zone',z),p.appendChild(s);})(document.createElement('script'),'https://iclickcdn.com/tag.min.js',XXX3393,document.body||document.documentElement)" />
                     {(show_form_error && post_meta.propeller_js == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>Enter AD Script</div> :''}
                      </td></tr>

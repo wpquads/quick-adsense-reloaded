@@ -402,7 +402,7 @@ function quads_render_propeller_async( $id ) {
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content propeller --> \n\n";
     $html .= '                             
                 <div id="'.$id.' propeller-ad">
-                <script type="text/javascript" src="'.esc_attr($quads_options['ads'][$id]['propeller_js']).'" >
+                <script type="text/javascript"> '.esc_attr($quads_options['ads'][$id]['propeller_js']).'"
                 </script>
                 </div>
             ';
