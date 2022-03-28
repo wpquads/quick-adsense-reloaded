@@ -162,11 +162,13 @@ class QUADS_Ad_Migration {
 			$get_unique_value = array();
 			if(isset($quads_ads['posts_data'])) {
                 $get_unique_value = array_unique(array_map(function ($i) { return $i['post_meta']['quads_ad_old_id']; },$quads_ads['posts_data']));
+                if( isset($quads_settings['ads']) ){
 			foreach ( $quads_settings['ads'] as $key => $value ) {
 				if( ! in_array( $key, $get_unique_value )){
 					unset($quads_settings['ads'][$key]);
 				}
 			}
+        }
             if(isset($quads_ads['posts_data']) && isset($quads_options['ads'])) {
                 foreach ($quads_options['ads'] as $key1 => $value1) {
                     foreach ($quads_ads['posts_data'] as $key => $value) {
