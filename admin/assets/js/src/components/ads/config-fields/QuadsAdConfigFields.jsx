@@ -220,6 +220,9 @@ removeSeleted_list = (e) => {
 
   }
   render() {     
+    const get_all_data = JSON.parse(JSON.stringify(this.state.getallads_data));
+    var getallads_data_temp = [];
+    getallads_data_temp = get_all_data;
 
           const {__} = wp.i18n;
           const post_meta = this.props.parentState.quads_post_meta;
@@ -323,6 +326,11 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
               {                
               this.state.ads_list ? 
               this.state.ads_list.map( (item, index) => {
+                getallads_data_temp.map( ( item_two,index_two )  => {
+                  if( item.value == item_two.value ){
+                    item.label = item_two.label;
+                  }
+                })
                 if( this.state.ad_ids_temp && this.state.ad_ids_temp.indexOf(item.value)>=0 ) {
                 return <div key={index} className="quads-target-item">
                   <span className="quads-target-label xyz">{item.label}</span>
