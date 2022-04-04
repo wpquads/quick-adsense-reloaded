@@ -235,6 +235,7 @@ function quads_options_page_new() {
     }
         $ajax_call = admin_url( 'admin-ajax.php' );
         $get_admin_url = admin_url('admin.php');
+        $get_activated_data = is_plugin_active('sitepress-multilingual-cms/sitepress.php') ? is_plugin_active('sitepress-multilingual-cms/sitepress.php') : 0 ;
         $data = array(
             'quads_plugin_url'     => QUADS_PLUGIN_URL,
             'rest_url'             => esc_url_raw( rest_url() ),
@@ -246,7 +247,8 @@ function quads_options_page_new() {
             'quads_get_ips'     => $get_ip,
             'ajax_url' => $ajax_call,
             'num_of_ads_to_display' => $get_e_p_p_p,
-            'get_admin_url' => $get_admin_url
+            'get_admin_url' => $get_admin_url,
+            'wpml_activation' => $get_activated_data
                 
         );
         $data = apply_filters('quads_localize_filter',$data,'quads_localize_data');

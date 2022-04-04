@@ -560,6 +560,14 @@ function quads_visitor_comparison_logic_checker($visibility){
             $result = true;
           }
         break;
+        case 'multilingual_language':
+          if( class_exists('SitePress') ){
+          $multilingual_language = apply_filters( 'wpml_current_language', NULL );  
+          if ( $multilingual_language == $v_id ) {
+            $result = true;
+          }
+        }
+        break;
 
         case 'url_parameter':
               $url = esc_url($_SERVER['REQUEST_URI']);

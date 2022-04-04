@@ -394,7 +394,7 @@ class QuadsAdReport extends Component {
                                     <a class="quads-nav-linkforabtesting" onClick={ () =>{
                                         this.abtesting_handler()
                                     } }  >
-                                    <img src="http://localhost/wp/wp-content/plugins/quick-adsense-reloaded/admin/assets/js/src/images/ab.png"/>
+                                    <img src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ab.png'}/>
                                     </a>
                                     <div id="view_report_abtesting" style={{marginTop: "40px",color: "#005af0"}} onClick={ () =>{
                                         this.abtesting_handler()
