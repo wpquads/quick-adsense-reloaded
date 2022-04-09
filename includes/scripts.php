@@ -369,7 +369,8 @@ function quads_inline_styles() {
     .quads.quads_ad_container { display: grid; grid-template-columns: auto; grid-gap: 10px; padding: 10px; }
     .grid_image{animation: fadeIn 0.5s;-webkit-animation: fadeIn 0.5s;-moz-animation: fadeIn 0.5s;
         -o-animation: fadeIn 0.5s;-ms-animation: fadeIn 0.5s;}
-    .quads-ad-label { font-size: 12px; text-align: center; color: #333;}";
+    .quads-ad-label { font-size: 12px; text-align: center; color: #333;}
+    .quads_click_impression { display: none;}";
     // Register empty style so we do not need an external css file
     wp_register_style( 'quads-styles', false );
     // Enque empty style
