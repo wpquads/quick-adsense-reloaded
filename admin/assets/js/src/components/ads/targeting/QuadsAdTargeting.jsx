@@ -264,22 +264,27 @@ class QuadsAdTargeting extends Component {
                     </tr>
                    : null}
                     {post_meta.ad_type == 'rotator_ads' ?
-                        <tr>
-                            <td><label>{__('Refresh Type', 'quick-adsense-reloaded')}</label></td>
+                        <tr className='rotation_table'>
+                            <td><label>{__('Rotation Type', 'quick-adsense-reloaded')}</label></td>
                             <td><select value={post_meta.refresh_type} name="refresh_type" onChange={this.props.adFormChangeHandler} >
                                 <option value="on_load">On Reload</option>
-                                <option value="on_interval">Auto Refresh</option>
-                            </select></td>
-                        </tr>
+                                <option value="on_interval">Auto Rotate</option>
+                                </select></td>
+                                <td><a class="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-auto-rotation-how-to-set-it-up/"></a></td>
+                                </tr>
                         : null}
+                        { post_meta.ad_type == 'rotator_ads' && post_meta.refresh_type == 'on_interval' ?
+                        <p className="description_adr">Change/Rotate Ads on one spot</p> : ''
+                      }
                     {post_meta.ad_type == 'rotator_ads' && post_meta.refresh_type == 'on_interval' ?
-                        <tr>
+                    <tr>
+                    
                             <td></td>
                             <td>
                                 <input id={'refresh_type_interval_sec'}
                                        name={'refresh_type_interval_sec'} type="number"
-                                       value={post_meta.refresh_type_interval_sec} onChange={this.props.adFormChangeHandler}  /> milliseconds<p className="description">Refresh ads on the
-                                    same spot</p><p className="description">On AMP ads will be shown only on reload.</p>
+                                       value={post_meta.refresh_type_interval_sec} onChange={this.props.adFormChangeHandler}  /> milliseconds
+                                       <p className="description">On AMP, Ads will be shown only on reload.</p>
                             </td>
                         </tr>
                         :null}
@@ -301,6 +306,9 @@ class QuadsAdTargeting extends Component {
                               <input id={'grid_data_ad_row'} placeholder='Row'
                               name={'grid_data_ad_row'} type="number"
                               value={post_meta.grid_data_ad_row }  onChange={this.props.adFormChangeHandler}    />
+                              <a class="quads-general-helper quads-general-helper-new ad_rotator_grid" target="_blank" href="https://wpquads.com/documentation/how-to-setup-grid-in-ad-rotator/"></a>
+                              <p class="description">This option allows you to order multiple ads in columns and rows
+                              </p>
                             </td>
                               : ''}
                             </tr>
