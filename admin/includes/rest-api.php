@@ -525,6 +525,9 @@ class QUADS_Ad_Setup_Api {
                     $g_data_ad_client = '';
                     $g_data_ad_slot = '';
                     $adsense_ad_type = '';
+                    $image_ads_url = '';
+                    $image_ad_width = '';
+                    $image_ad_height = '';
                     $data_layout_key = '';
                     $post_meta_data =$post_meta['0'];
                     if($post_meta_data['type'] == 'plain' || $post_meta_data['type'] == 'content'){
@@ -544,6 +547,18 @@ class QUADS_Ad_Setup_Api {
                         }
                         $adsense_ad_type = $post_content_json['unitType'];
 
+                    }
+                    else if($post_meta_data['type'] == 'image'){
+                        $ad_type_label ='ad_image';
+                        $code = $post['post_content'];
+                        $image_ads_url = $post_meta_data["url"];
+                        $image_ad_width = $post_meta_data["width"];
+                        $image_ad_height = $post_meta_data["height"];
+                        $post_meta = get_post_meta($id,'advanced_ads_ad_options');
+                        $post_meta_image_id = $post_meta[0]["output"]["image_id"];
+                        $post_meta_image_value = get_post_meta($post_meta_image_id,'_wp_attached_file',true);
+                        $wp_upload_dir = wp_upload_dir();
+                        $post_meta_image_value_final = $wp_upload_dir["baseurl"].'/'.$post_meta_image_value;
                     }
                     $position = 'ad_shortcode';
                     switch ($placement['type']) {
@@ -617,6 +632,7 @@ class QUADS_Ad_Setup_Api {
                     $visibility_include = array();
                     $visibility_exclude = array();
                     $i=0;
+                    $j=0;
                     foreach ($placement['options']['placement_conditions']['display'] as $display) {
                         if($display['type'] == 'posttypes'){
                             if($display['operator'] == 'is'){
@@ -718,6 +734,8 @@ class QUADS_Ad_Setup_Api {
                         'g_data_ad_client'              => $g_data_ad_client,
                         'g_data_ad_slot'                => $g_data_ad_slot,
                         'adsense_ad_type'               => $adsense_ad_type,
+                        'image_redirect_url'            => $image_ads_url,
+                        'image_src'                     => $post_meta_image_value_final,
                         'data_layout_key'               => $data_layout_key,
                         'label'                         => $post['post_title'],
                         'ad_label_check'                => $ad_label_check,
