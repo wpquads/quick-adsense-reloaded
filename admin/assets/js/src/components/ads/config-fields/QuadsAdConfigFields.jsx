@@ -331,7 +331,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                     item.label = item_two.label;
                   }
                 })
-                if( this.state.ad_ids_temp && this.state.ad_ids_temp.indexOf(item.value)>=0 ) {
+                if( this.state.ad_ids_temp /*&& this.state.ad_ids_temp.indexOf(item.value)>=0*/ ) {
                 return <div key={index} className="quads-target-item">
                   <span className="quads-target-label xyz">{item.label}</span>
                   <span className="quads-target-icon qaz" onClick={this.removeSeleted_list} data-index={index}><Icon>close</Icon></span> 

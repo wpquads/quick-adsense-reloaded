@@ -484,6 +484,29 @@ class QUADS_Ad_Setup_Api {
         }
 
  /** Here we are importing Advance ads to Quads**/
+        public function getgroup(){
+            $group = get_terms([
+                'taxonomy' => 'advanced_ads_groups',
+                'hide_empty' => false,
+            ]);
+            return $group;
+        }
+ 
+        public function get_single_adsGroup( $group ) {
+            $group = get_terms([
+                'taxonomy' => 'advanced_ads_groups',
+                'hide_empty' => false,
+            ]);
+
+            return new WP_Query( array(
+                'post_type'      => "advanced_ads" ,
+                'post_status'    => array( 'publish', 'pending', 'future', 'private' ),
+                'taxonomy'       => $group[0]->taxonomy,
+                'term'           => $group[0]->slug,
+                'posts_per_page' => - 1,
+            ) );
+        }
+
         public function importadvance_ads(){
 
             $placements      = Advanced_Ads::get_ad_placements_array();
@@ -541,6 +564,17 @@ class QUADS_Ad_Setup_Api {
                     if( $get_Advanced_Ads_group_ads[0]->taxonomy == "advanced_ads_groups" ){
                         $ad_type_label ='rotator_ads';
                         $posttitle = $get_Advanced_Ads_group_ads[0]->name;
+                        $group = get_terms([
+                            'taxonomy' => 'advanced_ads_groups',
+                            'hide_empty' => false,
+                        ]);
+                        // $get_single_ads_from_Groupad get_safg
+                    $get_safg = $this->get_single_adsGroup($group)->posts;
+                    $ads_list_arr = array() ;
+                    foreach ($get_safg as $key => $get_safg_value) {
+                        $ads_list_arr[$key]['value'] = $get_safg_value->ID;
+                        $ads_list_arr[$key]['label'] = $get_safg_value->post_title;
+                }
                     }
                     // End Get Groups Ads Data
                     if($post_meta_data['type'] == 'plain' || $post_meta_data['type'] == 'content'){
@@ -741,6 +775,7 @@ class QUADS_Ad_Setup_Api {
                       $adlabel = $placement['options']['ad_label'];
                      $advance_ads_meta_key =array(
                         'ad_type'                       => $ad_type_label ,
+                        'ads_list'                       => $ads_list_arr ,
                         'code'                          => $code,
                         'position'                      => $position,
                         'count_as_per'                  => $count_as_per,
