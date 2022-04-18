@@ -282,7 +282,7 @@ class QuadsAdTargeting extends Component {
                                 <input id={'refresh_type_interval_sec'}
                                        name={'refresh_type_interval_sec'} type="number"
                                        value={post_meta.refresh_type_interval_sec} onChange={this.props.adFormChangeHandler}  /> milliseconds
-                                       { quads_localize_data.is_amp_enable && post_meta.refresh_type == 'on_load' ? <p className="description">On AMP, Ads will be shown only on reload.</p> : '' }
+                                       { quads_localize_data.is_amp_enable && post_meta.enabled_on_amp == true ? <p className="description">On AMP, Ads will be shown only on reload.</p> : '' }
                             </td>
                         </tr>
                         :null}
