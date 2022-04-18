@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 5.9.3
 Requires PHP: 5.4
-Stable tag: 2.0.48
+Stable tag: 2.0.49
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
 
@@ -206,6 +206,13 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.49 (18 April 2022) =
+* Fixed: Impressions & clicks not counting properly. #515
+* Fixed: Improved Ad rotator settings area. #510
+* Fixed: Ad Positioning skipped. #508
+* Fixed: Advanced Ad importer not importing Group Ads . #501
+* Fixed: Advanced Ad importer not importing image Ads . #506
 
 = 2.0.48 (09 April 2022) =
 * Fixed: Removed unnecessary scripts. #499

@@ -484,6 +484,29 @@ class QUADS_Ad_Setup_Api {
         }
 
  /** Here we are importing Advance ads to Quads**/
+        public function getgroup(){
+            $group = get_terms([
+                'taxonomy' => 'advanced_ads_groups',
+                'hide_empty' => false,
+            ]);
+            return $group;
+        }
+ 
+        public function get_single_adsGroup( $group ) {
+            $group = get_terms([
+                'taxonomy' => 'advanced_ads_groups',
+                'hide_empty' => false,
+            ]);
+
+            return new WP_Query( array(
+                'post_type'      => "advanced_ads" ,
+                'post_status'    => array( 'publish', 'pending', 'future', 'private' ),
+                'taxonomy'       => $group[0]->taxonomy,
+                'term'           => $group[0]->slug,
+                'posts_per_page' => - 1,
+            ) );
+        }
+
         public function importadvance_ads(){
 
             $placements      = Advanced_Ads::get_ad_placements_array();
@@ -491,6 +514,11 @@ class QUADS_Ad_Setup_Api {
             foreach ($get_Advanced_Ads  as $advanced_Ad) {
                 $name = 'shortcode_'.$advanced_Ad->ID;
                 $placements[$name] = array('item' => 'ad_'.$advanced_Ad->ID,'advanced_ads'=>true);
+            }
+            $get_Advanced_Ads_group_ads      = Advanced_Ads::get_ad_groups();
+            foreach ($get_Advanced_Ads_group_ads  as $group_ad) {
+                $name = 'shortcode_'.$group_ad->term_id;
+                $placements[$name] = array('item' => 'ad_'.$group_ad->term_id,'advanced_ads_groups'=>true);
             }
             foreach ($placements  as $placement) {
 
@@ -500,8 +528,9 @@ class QUADS_Ad_Setup_Api {
                 // if ( null === $data ) {
                 //     return false;
                 // }
+                $term_name = isset( get_term( $id )->name) ? get_term( $id )->name : NULL ;
                 $post_meta = get_post_meta($id,'advanced_ads_ad_options');
-                if(isset($post_meta['0']['type'])){
+                if(isset($post_meta['0']['type'])  ||  isset($get_Advanced_Ads_group_ads[0]->taxonomy ) && $get_Advanced_Ads_group_ads[0]->taxonomy == "advanced_ads_groups"   ){
                     $advanced_ads_options       = get_option('advanced-ads');
                     $quads_settings = get_option( 'quads_settings' );
                     $ads_post = array(
@@ -525,14 +554,37 @@ class QUADS_Ad_Setup_Api {
                     $g_data_ad_client = '';
                     $g_data_ad_slot = '';
                     $adsense_ad_type = '';
+                    $image_ads_url = '';
+                    $image_ad_width = '';
+                    $image_ad_height = '';
                     $data_layout_key = '';
                     $post_meta_data =$post_meta['0'];
+                    $posttitle = '';
+                    // Start Get Groups Ads Data
+                    if( $get_Advanced_Ads_group_ads[0]->taxonomy == "advanced_ads_groups" ){
+                        $ad_type_label ='rotator_ads';
+                        $posttitle = $get_Advanced_Ads_group_ads[0]->name;
+                        $group = get_terms([
+                            'taxonomy' => 'advanced_ads_groups',
+                            'hide_empty' => false,
+                        ]);
+                        // $get_single_ads_from_Groupad get_safg
+                    $get_safg = $this->get_single_adsGroup($group)->posts;
+                    $ads_list_arr = array() ;
+                    foreach ($get_safg as $key => $get_safg_value) {
+                        $ads_list_arr[$key]['value'] = $get_safg_value->ID;
+                        $ads_list_arr[$key]['label'] = $get_safg_value->post_title;
+                }
+                    }
+                    // End Get Groups Ads Data
                     if($post_meta_data['type'] == 'plain' || $post_meta_data['type'] == 'content'){
                         $ad_type_label ='plain_text';
                         $code =$post['post_content'];
+                        $posttitle = $post['post_title'];
 
                     }else if($post_meta_data['type'] == 'adsense'){
                         $ad_type_label ='adsense';
+                        $posttitle = $post['post_title'];
                         $post_content_json = json_decode( $post['post_content'],true );
                         $g_data_ad_slot = $post_content_json['slotId'];
                         $g_data_ad_client = $post_content_json['pubId'];
@@ -545,6 +597,80 @@ class QUADS_Ad_Setup_Api {
                         $adsense_ad_type = $post_content_json['unitType'];
 
                     }
+                    else if($post_meta_data['type'] == 'image'){
+                        $ad_type_label ='ad_image';
+                        $code = $post['post_content'];
+                        $posttitle = $post['post_title'];
+                        $image_ads_url = $post_meta_data["url"];
+                        $image_ad_width = $post_meta_data["width"];
+                        $image_ad_height = $post_meta_data["height"];
+                        $post_meta = get_post_meta($id,'advanced_ads_ad_options');
+                        $post_meta_image_id = $post_meta[0]["output"]["image_id"];
+                        $post_meta_image_value = get_post_meta($post_meta_image_id,'_wp_attached_file',true);
+                        $wp_upload_dir = wp_upload_dir();
+                        $post_meta_image_value_final = $wp_upload_dir["baseurl"].'/'.$post_meta_image_value;
+                        //  Added Visibility support
+                        $conditions = $post_meta_data["conditions"];
+                        $visibility_include = array();
+                        $visibility_exclude = array();
+                        $i=0;
+                        $j=0;
+                    foreach ($conditions as $display) {
+                        if($display['type'] == 'posttypes'){
+                        if($display['operator'] == 'is'){
+                            $visibility_include[$i]['type']['label'] = 'Post Type';
+                            $visibility_include[$i]['type']['value'] = 'post_type';
+                            $visibility_include[$i]['value']['label'] = $display['value'][0];
+                            $visibility_include[$i]['value']['value'] = $display['value'][0];
+                            $i++;
+                        }else{
+                            $visibility_exclude[$j]['type']['label'] = 'Post Type';
+                            $visibility_exclude[$j]['type']['value'] = 'post_type';
+                            $visibility_exclude[$j]['value']['label'] = $display['value'][0];
+                            $visibility_exclude[$j]['value']['value'] = $display['value'][0];
+                            $j++;
+                        }
+                    }elseif($display['type'] == 'archive_category' || $display['type'] == 'taxonomy_category'){
+                        if($display['operator'] == 'is'){
+                            foreach ($display['value'] as $key => $value) {
+                                $visibility_include[$i]['type']['label'] = 'Post Category';
+                                $visibility_include[$i]['type']['value'] = 'post_category';
+                                $visibility_include[$i]['value']['label'] = get_the_category( $value )[0]->name;
+                                $visibility_include[$i]['value']['value'] = $value;
+                                $i++;
+                            }
+                        }else{
+                            foreach ($display['value'] as $key => $value) {
+                                $visibility_exclude[$j]['type']['label'] = 'Post Category';
+                                $visibility_exclude[$j]['type']['value'] = 'post_category';
+                                $visibility_exclude[$j]['value']['label'] = get_the_category( $value )[0]->name;
+                                $visibility_exclude[$j]['value']['value'] = $value;
+                                $i++;
+                            }
+                        }
+                    }elseif($display['type'] == 'archive_post_tag' || $display['type'] == 'taxonomy_post_tag'){
+                        if($display['operator'] == 'is'){
+                            foreach ($display['value'] as $key => $value) {
+                                $visibility_include[$i]['type']['label'] = 'Tags';
+                                $visibility_include[$i]['type']['value'] = 'tags';
+                                $visibility_include[$i]['value']['label'] = get_tag( $value )->name;
+                                $visibility_include[$i]['value']['value'] = $value;
+                                $i++;
+                            }
+                        }else{
+                            foreach ($display['value'] as $key => $value) {
+                                $visibility_exclude[$j]['type']['label'] = 'Tags';
+                                $visibility_exclude[$j]['type']['value'] = 'tags';
+                                $visibility_exclude[$j]['value']['label'] = get_tag( $value )->name;
+                                $visibility_exclude[$j]['value']['value'] = $value;
+                                $i++;
+                            }
+                        }
+                    }
+                        }
+                        
+                    }
+                    
                     $position = 'ad_shortcode';
                     switch ($placement['type']) {
                         case 'post_top':
@@ -614,9 +740,6 @@ class QUADS_Ad_Setup_Api {
                         $align = 3;
                         break;
                     }
-                    $visibility_include = array();
-                    $visibility_exclude = array();
-                    $i=0;
                     foreach ($placement['options']['placement_conditions']['display'] as $display) {
                         if($display['type'] == 'posttypes'){
                             if($display['operator'] == 'is'){
@@ -709,6 +832,7 @@ class QUADS_Ad_Setup_Api {
                       $adlabel = $placement['options']['ad_label'];
                      $advance_ads_meta_key =array(
                         'ad_type'                       => $ad_type_label ,
+                        'ads_list'                       => $ads_list_arr ,
                         'code'                          => $code,
                         'position'                      => $position,
                         'count_as_per'                  => $count_as_per,
@@ -718,8 +842,10 @@ class QUADS_Ad_Setup_Api {
                         'g_data_ad_client'              => $g_data_ad_client,
                         'g_data_ad_slot'                => $g_data_ad_slot,
                         'adsense_ad_type'               => $adsense_ad_type,
+                        'image_redirect_url'            => $image_ads_url,
+                        'image_src'                     => $post_meta_image_value_final,
                         'data_layout_key'               => $data_layout_key,
-                        'label'                         => $post['post_title'],
+                        'label'                         => $posttitle,
                         'ad_label_check'                => $ad_label_check,
                         'adlabel'                       => 'above',
                         'ad_label_text'                 => $advanced_ads_options['custom-label']['text'],
@@ -736,6 +862,7 @@ class QUADS_Ad_Setup_Api {
                     foreach ($advance_ads_meta_key as $key => $val){
                         update_post_meta($post_id, $key, $val);
                     }
+                    // var_dump($advance_ads_meta_key);
                     require_once QUADS_PLUGIN_DIR . '/admin/includes/migration-service.php';
                     $this->migration_service = new QUADS_Ad_Migration();
                     $this->migration_service->quadsUpdateOldAd($post_id, $advance_ads_meta_key);

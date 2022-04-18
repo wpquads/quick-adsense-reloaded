@@ -242,6 +242,16 @@ and open the template in the editor.
 
 .position_content div {
   padding-bottom: 15px !important; }
+
+p.description_adr {
+  text-align: center;
+  margin: 0px 0px -16px 0px;
+  right: 15%;
+  position: relative;
+  bottom: 33px; }
+
+.ad_rotator_grid {
+  float: unset; }
 .quads-user-targeting table td {
   width: 25%; }
 
