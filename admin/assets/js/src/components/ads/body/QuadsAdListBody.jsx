@@ -22,7 +22,15 @@ class QuadsAdListBody extends Component {
       items             : [],
       posts_found       : 0,
       more_box_id       : null,
+      more_hover_box_id       : null,
       more_box_index    : null,
+      more_box_hover_index    : null,
+      edit_hover_id    : null,
+      EditHoverIn_index    : null,
+      adlog_hover_id    : null,
+      AdlogIn_index    : null,
+      adimp_count_hover_id    : null,
+      AdImp_Count_index    : null,
       static_box_id       : null,
       static_box_index    : null,
       delete_modal      : false,
@@ -45,6 +53,63 @@ class QuadsAdListBody extends Component {
     else   
      this.setState({more_box_id:null});
   }
+  
+  showMoreHoverIn = (e) => {
+    e.preventDefault();        
+    const id = e.currentTarget.dataset.id;  
+    const index = e.currentTarget.dataset.index;        
+    if(this.state.more_box_hover_index != index || this.state.more_hover_box_id == null)  
+     this.setState({more_hover_box_id:id, more_box_hover_index:index});
+    else   
+     this.setState({more_hover_box_id:null});
+  }
+  showMoreHoverOut = (e) => {
+    e.preventDefault();        
+     this.setState({more_hover_box_id:null});
+  }
+  
+  EditHoverIn = (e) => {
+    e.preventDefault();        
+    const id = e.currentTarget.dataset.id;  
+    const index = e.currentTarget.dataset.index;        
+    if(this.state.EditHoverIn_index != index || this.state.edit_hover_id == null)  
+     this.setState({edit_hover_id:id, EditHoverIn_index:index});
+    else   
+     this.setState({edit_hover_id:null});
+  }
+  EditHoverOut = (e) => {
+    e.preventDefault();        
+     this.setState({edit_hover_id:null});
+  }
+  
+  AdLogHoverIn = (e) => {
+    e.preventDefault();        
+    const id = e.currentTarget.dataset.id;  
+    const index = e.currentTarget.dataset.index;        
+    if(this.state.AdlogIn_index != index || this.state.adlog_hover_id == null)  
+     this.setState({adlog_hover_id:id, AdlogIn_index:index});
+    else   
+     this.setState({adlog_hover_id:null});
+  }
+  AdLogHoverOut = (e) => {
+    e.preventDefault();        
+     this.setState({adlog_hover_id:null});
+  }
+  
+  AdImp_Count_HoverIn = (e) => {
+    e.preventDefault();        
+    const id = e.currentTarget.dataset.id;  
+    const index = e.currentTarget.dataset.index;        
+    if(this.state.AdImp_Count_index != index || this.state.adimp_count_hover_id == null)  
+     this.setState({adimp_count_hover_id:id, AdImp_Count_index:index});
+    else   
+     this.setState({adimp_count_hover_id:null});
+  }
+  AdImp_Count_HoverOut = (e) => {
+    e.preventDefault();        
+     this.setState({adimp_count_hover_id:null});
+  }
+  
   showStaticIconBox = (e) => {
     e.preventDefault();        
     const id = e.currentTarget.dataset.id;  
@@ -202,6 +267,14 @@ class QuadsAdListBody extends Component {
                   {...this.state}
                   ad_list={this.state}
                   showMoreIconBox ={this.showMoreIconBox}
+                  showMoreHoverIn ={this.showMoreHoverIn}
+                  showMoreHoverOut ={this.showMoreHoverOut}
+                  EditHoverIn ={this.EditHoverIn}
+                  EditHoverOut ={this.EditHoverOut}
+                  AdLogHoverIn ={this.AdLogHoverIn}
+                  AdLogHoverOut ={this.AdLogHoverOut}
+                  AdImp_Count_HoverIn ={this.AdImp_Count_HoverIn}
+                  AdImp_Count_HoverOut ={this.AdImp_Count_HoverOut}
                   showStaticIconBox = {this.showStaticIconBox}
                   hideMoreIconBox ={this.hideMoreIconBox}
                   hideStaticIconBox = {this.hideStaticIconBox}
