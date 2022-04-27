@@ -62,6 +62,33 @@ class QuadsLayout extends Component {
                         </td>
                       </tr> 
                         : null }
+                        <tr>
+                        <td><label htmlFor="text_around_ad_check">{__('Text around Ad', 'quick-adsense-reloaded')}</label></td>
+                        <td>
+                        <input id="text_around_ad_check" checked={post_meta.text_around_ad_check} name="text_around_ad_check" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                        </td>                
+                      </tr>
+                      {post_meta.text_around_ad_check ?
+                        <tr>
+                          <td><label>{__('Ad Text', 'quick-adsense-reloaded')}</label></td> 
+                          <td>
+                          <input onChange={this.props.adFormChangeHandler} type="text" className="small-text" id="text_around_ad_text" name="text_around_ad_text" value={post_meta.text_around_ad_text}/>  
+                          </td>
+                        </tr>
+                        : null }
+                        {post_meta.text_around_ad_check ?
+                        <tr>
+                          <td><label>{__('Ad text Position', 'quick-adsense-reloaded')}</label></td> 
+                          <td>
+                          <select name="text_around_ad_text_label" value={post_meta.text_around_ad_text_label} onChange={this.props.adFormChangeHandler}>
+                          <option value="text_around_above">{__('Above Ad', 'quick-adsense-reloaded')}</option>  
+                          <option value="text_around_below">{__('Below Ad', 'quick-adsense-reloaded')}</option>                        
+                          <option value="text_around_left">{__('Left Ad', 'quick-adsense-reloaded')}</option>                        
+                          <option value="text_around_right">{__('Right Ad', 'quick-adsense-reloaded')}</option>                        
+                          </select>  
+                          </td>
+                        </tr> 
+                          : null }
                        
                   </tbody>
                 </table>
