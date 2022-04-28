@@ -211,12 +211,27 @@ function quads_common_head_code(){
  * @return html
  */
 function quads_render_double_click_async( $id ) {
-    global $quads_options;
+    global $quads_options,$quads_mode;
+    $t_css = "" ;
       $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';
         $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';
 
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Doubleclick async --> \n\n";
-    $html .= '<div class="wp_quads_dfp" id="wp_quads_dfp_'.esc_attr($quads_options['ads'][$id]['ad_id']). '" style="height:'.esc_attr($height). 'px; width:'.esc_attr($width). 'px;">
+    $post_id= quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $id);
+     $ad_meta = get_post_meta($post_id, '',true);
+
+     $text_around_ad_check  = isset($ad_meta['text_around_ad_check'][0]) ? $ad_meta['text_around_ad_check'][0] : false;
+     if($quads_mode =='new' && $text_around_ad_check){
+        $position =  (isset($ad_meta['text_around_ad_text_label'][0]) && !empty($ad_meta['text_around_ad_text_label'][0]) )? $ad_meta['text_around_ad_text_label'][0] : 'above';
+     }
+     if( isset($position) && $position == "text_around_right" ){
+         $t_css = "float: left;";
+     }
+     if( isset($position) && $position == "text_around_left" ){
+         $t_css = "float: right;";
+     }
+     
+    $html .= '<div class="wp_quads_dfp" id="wp_quads_dfp_'.esc_attr($quads_options['ads'][$id]['ad_id']). '" style="height:'.esc_attr($height). 'px; width:'.esc_attr($width). 'px; '.$t_css.' ">
                         <script>
                         googletag.cmd.push(function() { googletag.display("wp_quads_dfp_'.esc_attr($quads_options['ads'][$id]['ad_id']).'"); });
                         </script>

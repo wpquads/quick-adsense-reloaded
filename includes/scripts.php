@@ -370,11 +370,12 @@ function quads_inline_styles() {
     .grid_image{animation: fadeIn 0.5s;-webkit-animation: fadeIn 0.5s;-moz-animation: fadeIn 0.5s;
         -o-animation: fadeIn 0.5s;-ms-animation: fadeIn 0.5s;}
     .quads-ad-label { font-size: 12px; text-align: center; color: #333;}
-    .quads-text-around-ad-label-text_around_left.quads-text-around-label-new {
+    .quads-text-around-ad-label-text_around_left {
         width: 50%;
         float: left;
-    }.wp_quads_dfp {
-        max-width: 50%;
+    }
+    .quads-text-around-ad-label-text_around_right {
+        width: 50%;
         float: right;
     }
     .quads_click_impression { display: none;}";
