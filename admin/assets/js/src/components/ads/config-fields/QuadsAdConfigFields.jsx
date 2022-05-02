@@ -588,18 +588,12 @@ error_outline
                     <label>{__('Upload Ad Banner', 'quick-adsense-reloaded')}</label></td><td>
                    {post_meta.image_src == '' ? <div><div><a className="button" onClick={this.selectimages}>{__(' Upload Banner', 'quick-adsense-reloaded')}</a>
                    </div>
-                   <div className='quads_img_mobile_ad'>
-                   <label className='q_img_ma_lab' htmlFor="mobile_image_check">{__('Add Mobile AD', 'quick-adsense-reloaded')}</label>
-                   <input className='mob_img_check' id="mobile_image_check" checked={post_meta.mobile_image_check} name="mobile_image_check" onChange={this.props.adFormChangeHandler} type="checkbox"/></div>
                    </div>
                    : <div>
                    <div>
                    <img src={post_meta.image_src} className="banner_image" />
                    <a className="button" onClick={this.remove_image}>{__('Remove Banner', 'quick-adsense-reloaded')}</a></div>
 
-                   <div className='quads_img_mobile_ad'>
-                   <label className='q_img_ma_lab' htmlFor="mobile_image_check">{__('Add Mobile AD', 'quick-adsense-reloaded')}</label>
-                   <input id="mobile_image_check" checked={post_meta.mobile_image_check} name="mobile_image_check" onChange={this.props.adFormChangeHandler} type="checkbox"/></div> 
                    </div>
                   }
                      
@@ -607,6 +601,15 @@ error_outline
                     {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>Upload Ad Image</div> :''}
                      </td></tr>
+                     <tr>
+                     <td><label className='q_img_ma_lab' htmlFor="mobile_image_check">{__('Mobile specific Banner', 'quick-adsense-reloaded')}</label></td>
+                     <td>
+                     <label className="quads-switch mob_ads_image">
+                     <input className='mob_img_check' id="mobile_image_check" checked={post_meta.mobile_image_check} name="mobile_image_check" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                            <span className="quads-slider"></span>
+                          </label>
+                     </td>
+                     </tr>
                      
                       { post_meta.mobile_image_check && post_meta.mobile_image_check == 1 ? <tr><td>
                         <label>{__('Upload Mobile AD Banner ', 'quick-adsense-reloaded')}</label></td><td>
