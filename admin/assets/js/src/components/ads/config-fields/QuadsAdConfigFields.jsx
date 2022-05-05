@@ -119,9 +119,49 @@ class QuadsAdConfigFields extends Component {
           image_frame.open();
 
     }
+    selectimages_2  = (event) => {
+      var image_frame_2;
+
+      var self =this;
+      if(image_frame_2){
+       image_frame_2.open();
+      }
+
+      // Define image_frame_2 as wp.media object
+      image_frame_2 = wp.media({
+                 library : {
+                      type : 'image',
+                  }
+             });
+      image_frame_2.on('close',function() {
+                  // On close, get selections and save to the hidden input
+                  // plus other AJAX stuff to refresh the image preview
+                  var selection =  image_frame_2.state().get('selection');
+                  var id = '';
+                  var src_2 = '';
+                  var my_index_2 = 0;
+                  selection.each(function(attachment) {
+                     id = attachment['id'];
+                     src_2 = attachment.attributes.sizes.full.url;
+                  });
+                  self.props.adFormChangeHandler({ target : { name : 'image_mobile_src' , value : src_2 } });                  
+               });   
+      image_frame_2.on('open',function() {
+              // On open, get the id from the hidden input
+              // and select the appropiate images in the media manager
+              var selection =  image_frame_2.state().get('selection');
+
+            });
+          image_frame_2.open();
+
+    }
     remove_image = (e) => {
     this.props.adFormChangeHandler({ target : { name : 'image_src_id' , value : '' } });
     this.props.adFormChangeHandler({ target : { name : 'image_src' , value : '' } });    
+
+}
+    remove_image_2 = (e) => {
+    this.props.adFormChangeHandler({ target : { name : 'image_mobile_src' , value : '' } });    
 
 }
 removeSeleted = (e) => {
@@ -546,15 +586,45 @@ error_outline
                   <tbody>
                     <tr><td>
                     <label>{__('Upload Ad Banner', 'quick-adsense-reloaded')}</label></td><td>
-                   {post_meta.image_src == '' ? <div><a className="button" onClick={this.selectimages}>{__(' Upload Banner', 'quick-adsense-reloaded')}</a></div>
+                   {post_meta.image_src == '' ? <div><div><a className="button" onClick={this.selectimages}>{__(' Upload Banner', 'quick-adsense-reloaded')}</a>
+                   </div>
+                   </div>
                    : <div>
+                   <div>
                    <img src={post_meta.image_src} className="banner_image" />
-                   <a className="button" onClick={this.remove_image}>{__('Remove Banner', 'quick-adsense-reloaded')}</a></div>}
+                   <a className="button" onClick={this.remove_image}>{__('Remove Banner', 'quick-adsense-reloaded')}</a></div>
+
+                   </div>
+                  }
                      
                       
                     {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>Upload Ad Image</div> :''}
                      </td></tr>
+                     <tr>
+                     <td><label className='q_img_ma_lab' htmlFor="mobile_image_check">{__('Mobile specific Banner', 'quick-adsense-reloaded')}</label></td>
+                     <td>
+                     <label className="quads-switch mob_ads_image">
+                     <input className='mob_img_check' id="mobile_image_check" checked={post_meta.mobile_image_check} name="mobile_image_check" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                            <span className="quads-slider"></span>
+                          </label>
+                     </td>
+                     </tr>
+                     
+                      { post_meta.mobile_image_check && post_meta.mobile_image_check == 1 ? <tr><td>
+                        <label>{__('Upload Mobile AD Banner ', 'quick-adsense-reloaded')}</label></td><td>
+                       {post_meta.image_mobile_src == '' ? <div><a className="button" onClick={this.selectimages_2}>{__(' Upload Banner', 'quick-adsense-reloaded')}</a></div>
+                       : <div>
+                       <img src={post_meta.image_mobile_src} className="banner_image" />
+                       <a className="button" onClick={this.remove_image_2}>{__('Remove Banner', 'quick-adsense-reloaded')}</a></div>}
+                         
+                          
+                        {(show_form_error && post_meta.image_mobile_src == '') ? <div className="quads_form_msg"><span className="material-icons">
+                        error_outline</span>Upload Mobile AD Banner </div> :''}
+                         </td></tr>
+                        : ''
+                      }
+                    
                      <tr><td>
                     <label>{__('Ad Anchor link', 'quick-adsense-reloaded')}</label></td><td>
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />

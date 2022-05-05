@@ -72,6 +72,14 @@ and open the template in the editor.
   cursor: pointer;
   font-size: 20px;
   color: white; }
+
+.hover_data {
+  padding: 8px 0px 0px 6px !important;
+  background-clip: padding-box !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  min-width: 94px !important;
+  bottom: 10px !important; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
