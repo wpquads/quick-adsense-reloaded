@@ -1980,7 +1980,8 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
         }
         
         else{
-            $image_banner_device_detect = $useragent = $dev_name = $output = '';
+            $image_banner_device_detect = $useragent = $dev_name = $output = $wpimage_quads = '';
+            $wpimage_quads = "quads";
             $output = quads_render_ad( isset( $ad_meta['quads_ad_old_id'][0] ) ? $ad_meta['quads_ad_old_id'][0] : '', $code , '', $ampsupport );
             if (strpos($output, 'imagebanner') !== false) {
                 $image_banner_device_detect = true;
@@ -1993,9 +1994,19 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
         $dev_name = 'quads-desktop';
     }
 }
+
+    $settings = quads_defaultSettings();
+    if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support'] ){
+        if( $image_banner_device_detect == true ){
+            $wpimage_quads = "quadss";
+        }else{
+            $wpimage_quads = "quads";
+        }
+    }
+
             $adscode =
                 "\n".'<!-- WP QUADS Content Ad Plugin v. '.QUADS_VERSION .' -->'."\n".
-                '<div class="quads-location quads-ad' .esc_attr($id). ' '.$dev_name.'" id="quads-ad' .esc_attr($id). '" style="'.esc_attr($style).'">'."\n".
+                '<div class="'.$wpimage_quads.'-location quads-ad' .esc_attr($id). ' '.$dev_name.'" id="quads-ad' .esc_attr($id). '" style="'.esc_attr($style).'">'."\n".
                 quads_render_ad($ad_meta['quads_ad_old_id'][0], $code,'',$ampsupport)."\n".
                 '</div>'. "\n";
         }
