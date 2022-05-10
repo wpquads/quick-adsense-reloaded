@@ -1,4 +1,4 @@
-=== Ads by WPQUADS - Best Ads & Adsense Ads Plugin for WP & AMP ===
+=== Ads by WPQUADS – Best Ads & Adsense Ads Plugin ===
 
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
@@ -12,7 +12,7 @@ Tested up to: 5.9.3
 Requires PHP: 5.4
 Stable tag: 2.0.50
 
-Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & other ads into your website. Google AdSense integration with Google AMP support.
+Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & Banner ads on your site. Innovative features, Active Development & Fast Support.
 
 == Description ==
 The legendary [WPQuads Ads](https://wpquads.com/)  plugin is back with the modern approach for an Ads solution. WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
