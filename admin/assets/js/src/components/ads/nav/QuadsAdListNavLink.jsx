@@ -31,6 +31,7 @@ class QuadsAdListNavLink extends Component {
                     {ad_type:'background_ad',ad_type_name:'Background ad'},
                     {ad_type:'rotator_ads',ad_type_name:'Rotator Ads',pro:'true'},
                     {ad_type:'random_ads',ad_type_name:'Random Ads'},
+                    {ad_type:'popup_ads',ad_type_name:'Popup Ads'},
                     {ad_type:'group_insertion',ad_type_name:'Group Insertion',pro:'true'},
                     {ad_type:'skip_ads',ad_type_name:'Skip Ads',pro:'true'},
                     {ad_type:'ad_blindness',ad_type_name:'Ad Blindness',pro:'true'},
@@ -85,6 +86,9 @@ class QuadsAdListNavLink extends Component {
               break;
               case 'random_ads':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/random_ads.png';
+              break;
+              case 'popup_ads':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/popup_ads.jpg';
               break;
               case 'group_insertion':
                   img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/group_insertion.png';

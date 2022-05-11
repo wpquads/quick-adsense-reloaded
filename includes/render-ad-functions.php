@@ -57,6 +57,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_double_click( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_double_click_async( $id ),$id );
     }
+    // if( true === quads_is_popup_ad( $id, $string ) ) {
+    //     return apply_filters( 'quads_render_ad', quads_render_popup_ad_async( $id ),$id );
+    // }
     if( true === quads_is_yandex( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_yandex_async( $id ),$id );
     }
@@ -239,6 +242,33 @@ function quads_render_double_click_async( $id ) {
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_double_click_async', $html );
 }
+// function quads_render_popup_ad_async( $id ) {
+//     global $quads_options,$quads_mode;
+//     $t_css = "" ;
+//       $width        = (isset($quads_options['ads'][$id]['g_data_ad_width']) && !empty($quads_options['ads'][$id]['g_data_ad_width'])) ? $quads_options['ads'][$id]['g_data_ad_width'] : '300';
+//         $height        = (isset($quads_options['ads'][$id]['g_data_ad_height']) && !empty($quads_options['ads'][$id]['g_data_ad_height'])) ? $quads_options['ads'][$id]['g_data_ad_height'] : '250';
+
+//     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Popup async --> \n\n";
+//     $post_id= quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $id);
+//      $ad_meta = get_post_meta($post_id, '',true);
+
+//      $text_around_ad_check  = isset($ad_meta['text_around_ad_check'][0]) ? $ad_meta['text_around_ad_check'][0] : false;
+//      if($quads_mode =='new' && $text_around_ad_check){
+//         $position =  (isset($ad_meta['text_around_ad_text_label'][0]) && !empty($ad_meta['text_around_ad_text_label'][0]) )? $ad_meta['text_around_ad_text_label'][0] : 'above';
+//      }
+//      if( isset($position) && $position == "text_around_right" ){
+//          $t_css = "float: left;";
+//      }
+//      if( isset($position) && $position == "text_around_left" ){
+//          $t_css = "float: right;";
+//      }
+     
+//     $html .= '<div class="wp_quads_popup" id="wp_quads_popup_'.esc_attr($quads_options['ads'][$id]['ad_id']). '" style="height:'.esc_attr($height). 'px; width:'.esc_attr($width). 'px; '.$t_css.' ">
+    
+//                         </div>';
+//     $html .= "\n <!-- end WP QUADS --> \n\n";
+//     return apply_filters( 'quads_render_popup_ad_async', $html );
+// }
 /**
  * Render Yandex ad
  *
@@ -990,6 +1020,16 @@ function quads_is_double_click( $id, $string ) {
     return false;
 }
 
+function quads_is_popup_ad( $id, $string ) {
+    // echo 'sdsf';die;
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'popup_ads') {
+        return true;
+    }
+    return false;
+}
+
 /**
  * Check if ad code is double click or other ad code
  *
@@ -1435,3 +1475,29 @@ function quads_render_ad_text_around_ad_new( $adcode,$id='') {
             return $author_adsense_ids;
         }
     }
+
+
+    
+add_filter( 'quads_default_filter_position_data_popup_ads', 'quadspro_default_filter_popup_ads',10 ,1 );
+function quadspro_default_filter_popup_ads($ads){    
+
+    if($ads['ad_type']== 'popup_ads' ){
+        $cusads = '<!--CusRot'.esc_html($ads['ad_id']).'-->';
+        
+        $ads['popup_ads'] = array();
+        // print_r($ads['popup_ads']);die;
+        $popup_ads = $ads['popup_ads'];
+        $ads=array_merge($ads,$popup_ads);   
+
+        if(isset($ads['ads_list']))
+        $ads['ads_list'] = unserialize($ads['ads_list']);
+        $ads['ad_id'] = $ads['ads_list'][0]['value'];
+
+    }
+        return apply_filters( 'quads_ads_data' , $ads);
+}
+
+add_filter('wp_quads_final_ad_data','wp_quads_popup_ads_content');
+function wp_quads_popup_ads_content($adscode){
+    // echo 'mydata'; echo($adscode);
+}

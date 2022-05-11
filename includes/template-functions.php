@@ -1027,6 +1027,7 @@ function quads_filter_default_ads_new( $content ) {
             if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish'){
                 $ads  = apply_filters( 'quads_default_filter_position_data', $ads);
                 $ads  = apply_filters( 'quads_default_filter_position_data_ab_testing', $ads);
+                $ads  = apply_filters( 'quads_default_filter_position_data_popup_ads', $ads);
 
                 $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
                 $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;
@@ -2023,6 +2024,7 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
       );
     }
     $content =  $cont[0].$adscode.$cont[1];
+    $adscode = apply_filters("wp_quads_final_ad_data", $adscode);
 
     return  $content;
 }
