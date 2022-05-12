@@ -861,6 +861,7 @@ function quads_process_content( $content ) {
         $content = quads_parse_random_quicktag_ads($content);
         $content = quads_parse_random_ads_new( $content );
         $content = quads_clean_tags( $content );
+        $content = quads_parse_popup_ads( $content );
         return do_shortcode( $content );   
     }else{
         $content = quads_filter_default_ads( $content );    
@@ -1027,7 +1028,6 @@ function quads_filter_default_ads_new( $content ) {
             if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish'){
                 $ads  = apply_filters( 'quads_default_filter_position_data', $ads);
                 $ads  = apply_filters( 'quads_default_filter_position_data_ab_testing', $ads);
-                $ads  = apply_filters( 'quads_default_filter_position_data_popup_ads', $ads);
 
                 $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
                 $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;
@@ -1041,6 +1041,8 @@ function quads_filter_default_ads_new( $content ) {
                     $cusads = '<!--CusRnd'.esc_html($ads['ad_id']).'-->';
                 }else if($ads['ad_type']== 'rotator_ads' &&isset($ads['ads_list']) && !empty($ads['ads_list'])){
                     $cusads = '<!--CusRot'.esc_html($ads['ad_id']).'-->';
+                }else if($ads['ad_type']== 'popup_ads' &&isset($ads['ads_list']) && !empty($ads['ads_list'])){
+                    $cusads = '<!--CusRott'.esc_html($ads['ad_id']).'-->';
                 }else{
                        $cusads = '<!--CusAds'.esc_html($ads['ad_id']).'-->';
                 }
@@ -1850,6 +1852,103 @@ function quads_parse_default_ads( $content ) {
         }
     }
     return $content;
+}
+function quads_parse_popup_ads($content) {
+
+    preg_match("#<!--CusRott(.+?)-->#si", $content, $match);
+    if (!isset($match['1'])) {
+        return $content;
+    }
+    $ad_id = $match['1'];
+    if(!empty($ad_id)){
+        $ad_meta = get_post_meta($ad_id, '',true);
+    }
+    $ads_list = unserialize($ad_meta['ads_list']['0']);
+
+    if (!is_array($ads_list)) return $content;
+    $temp_array =array();
+    foreach ($ads_list as $ad ) {
+        if (isset($ad['value'])){
+            $temp_array[] = $ad['value'];
+        }
+    }
+
+    $ad_code = array_rand($temp_array);
+
+    $adsresultset = array();
+    if( $ads_list ){
+        foreach ($temp_array as $post_ad_id){
+            $ad_meta_group = get_post_meta($post_ad_id, '',true);
+            if( get_post_status($post_ad_id) !== 'publish' ) {
+                continue;
+            }
+            $adsresultset[] = array(
+                'ad_id'                     => $post_ad_id,
+                'ad_type'                   => $ad_meta_group['ad_type'],
+                'ad_adsense_type'           => $ad_meta_group['adsense_type'],
+                'ad_data_client_id'         => $ad_meta_group['g_data_ad_client'][0],
+                'ad_data_ad_slot'           => $ad_meta_group['g_data_ad_slot'][0],
+                // 'ad_custom_code'            => $ad_meta_group['custom_code'],
+                'width'                     => $ad_meta_group['g_data_ad_width'],
+                'height'                    => $ad_meta_group['g_data_ad_height'],
+                'code'                      => $ad_meta_group['code'],
+                'network_code'              => $ad_meta_group['network_code'],
+                'ad_unit_name'              => $ad_meta_group['ad_unit_name'],
+                // 'block_id'                  => $ad_meta_group['block_id'],
+                'data_container'            => $ad_meta_group['data_container'],
+                'data_js_src'               => $ad_meta_group['data_js_src'],
+                'data_cid'                  => $ad_meta_group['data_cid'],
+                'data_crid'                 => $ad_meta_group['data_crid'],
+                'taboola_publisher_id'      => $ad_meta_group['taboola_publisher_id'],
+                'mediavine_site_id'         => $ad_meta_group['mediavine_site_id'],
+                'outbrain_widget_ids'       => $ad_meta_group['outbrain_widget_ids'],
+                'image_redirect_url'        => $ad_meta_group['image_redirect_url'],
+                'ad_image'                  => $ad_meta_group['image_src'],
+            ) ;
+        }
+        $response['quads_group_id'] = $ad_id;
+        $response['quads_popup_type']           = 'popupads';
+        $response['ads'] = $adsresultset;
+
+        $arr = array(
+            'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
+            'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
+            'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
+            'float:none;margin:%1$dpx;');
+
+        $adsalign = isset($quads_options['ads']['ad' . $ad_id]['align']) ? $quads_options['ads']['ad' . $ad_id]['align'] : 0; // default
+        $adsmargin = isset( $quads_options['ads']['ad' . $ad_id]['margin'] ) ? $quads_options['ads']['ad' . $ad_id]['margin'] : '0'; // default
+        $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
+
+        // Do not create any inline style on AMP site
+        $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $ad_id ) : '';
+
+        $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
+            '<div class="quads-location quads-popupad ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" style="' . $style . '">' . "\n";
+        $code .='<div class="quads-groups-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
+        $code .='</div>';
+
+        $code .='<div style="display:none;" class="quads_ad_containerr_pre"></div><div data-id="'.esc_attr($ad_id).'" class="quads quads_ad_containerr">
+        
+        </div>';
+
+        $code .= '</div>' . "\n";
+
+        $cont = explode('<!--CusRot'.$ad_id.'-->', $content, 2);
+
+        $content =  $cont[0].$code;
+        $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
+
+        // Use minified libraries if SCRIPT_DEBUG is turned off
+        $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
+
+        // These have to be global
+        wp_enqueue_script( 'quads-popup_ads', $js_dir . 'popup_ads' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+
+    }else{
+        $content = quads_replace_ads_new( $content, 'CusRot' . $ad_id, $temp_array[$ad_code],$enabled_on_amp);
+    }
+    return  $content ;
 }
 function quads_parse_default_ads_new( $content ) {
     global $adsArrayCus, $adsRandom, $adsArray;
