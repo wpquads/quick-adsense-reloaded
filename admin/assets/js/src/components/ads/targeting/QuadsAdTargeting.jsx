@@ -184,7 +184,6 @@ class QuadsAdTargeting extends Component {
                 (post_meta.ad_type == 'adsense' && post_meta.adsense_ad_type != 'adsense_sticky_ads' ) ||
                 post_meta.ad_type == 'random_ads' ||
                 post_meta.ad_type == 'rotator_ads' ||
-                post_meta.ad_type == 'popup_ads' ||
                 post_meta.ad_type == 'group_insertion' ||
                 post_meta.ad_type == 'double_click' ||
                 post_meta.ad_type == 'yandex' ||

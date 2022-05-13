@@ -1854,6 +1854,7 @@ function quads_parse_default_ads( $content ) {
     return $content;
 }
 function quads_parse_popup_ads($content) {
+    if(!isset($_COOKIE['quads_popup'])){
 
     preg_match("#<!--CusRott(.+?)-->#si", $content, $match);
     if (!isset($match['1'])) {
@@ -1948,6 +1949,7 @@ function quads_parse_popup_ads($content) {
     }else{
         $content = quads_replace_ads_new( $content, 'CusRot' . $ad_id, $temp_array[$ad_code],$enabled_on_amp);
     }
+}
     return  $content ;
 }
 function quads_parse_default_ads_new( $content ) {
