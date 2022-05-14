@@ -1876,6 +1876,12 @@ function quads_parse_popup_ads($content) {
 
     $ad_code = array_rand($temp_array);
 
+    $popup_type                    =  isset($ad_meta['popup_type'][0]) ? $ad_meta['popup_type'][0] : '';
+    $everytime_popup       =  (isset($ad_meta['everytime_popup'][0]) && !empty($ad_meta['everytime_popup'][0])) ? $ad_meta['everytime_popup'][0] : 0;
+    $specific_time_interval_sec       =  (isset($ad_meta['specific_time_interval_sec'][0]) && !empty($ad_meta['specific_time_interval_sec'][0])) ? $ad_meta['specific_time_interval_sec'][0] : 0;
+    $on_scroll_popup_percentage       =  (isset($ad_meta['on_scroll_popup_percentage'][0]) && !empty($ad_meta['on_scroll_popup_percentage'][0])) ? $ad_meta['on_scroll_popup_percentage'][0] : 0;
+
+    
     $adsresultset = array();
     if( $ads_list ){
         foreach ($temp_array as $post_ad_id){
@@ -1909,6 +1915,8 @@ function quads_parse_popup_ads($content) {
         }
         $response['quads_group_id'] = $ad_id;
         $response['quads_popup_type']           = 'popupads';
+        $response['specific_time_popup']           = $specific_time_interval_sec;
+        $response['on_scroll_popup']           = $on_scroll_popup_percentage;
         $response['ads'] = $adsresultset;
 
         $arr = array(
@@ -1922,10 +1930,23 @@ function quads_parse_popup_ads($content) {
         $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
 
         // Do not create any inline style on AMP site
-        $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $ad_id ) : '';
+        $style = '' ;
+        $popups_data = '';
+        if( $popup_type == "everytime_popup" ){
+            $style = "display:block";
+            $popups_data = '';
+        }
+        if( $popup_type == "specific_time_popup" ){
+            $style = "display:none";
+            $popups_data = "data-timer=".$specific_time_interval_sec."";
+        }
+        if( $popup_type == "on_scroll_popup" ){
+            $style = "display:none";
+            $popups_data = "data-percent=".$on_scroll_popup_percentage."";
+        }
 
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
-            '<div class="quads-location quads-popupad ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" style="' . $style . '">' . "\n";
+            '<div class="quads-location quads-popupad ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" '.$popups_data.' data-popuptype="'.$popup_type.'" style="' . $style . '">' . "\n";
         $code .='<div class="quads-groups-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
         $code .='</div>';
 

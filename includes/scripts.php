@@ -382,18 +382,16 @@ function quads_inline_styles() {
         position: absolute;
         top: 0%;
         left: 0%;
-        z-index: 99;
         width: 100%;
         height: 2000px;
         background-color: rgba(0,0,0,0.6);
         z-index: 999;
     }
     .quads.quads_ad_containerr {
-        position: absolute;
-        top: 16%;
+        position: sticky;
+        top: 40%;
         left: 36%;
         width: 30em;
-        height: 16em;
     }
     #btn_close{
 		background-color: #fff;
@@ -410,10 +408,8 @@ function quads_inline_styles() {
 	}
     @media screen and (max-width: 480px) {
         .quads.quads_ad_containerr {
-            position: absolute;
             left: 9%;
             width: 19em;
-            height: 16em;
         }
     }
     .quads_click_impression { display: none;}";

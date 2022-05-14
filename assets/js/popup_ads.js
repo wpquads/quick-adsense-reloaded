@@ -1,10 +1,50 @@
 
 jQuery( document ).ready(function($) {
+
+    // setting cookie when button is closed
+    function set_quads_Cookie(name,value,days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+    
     setTimeout(() => {
         $("#btn_close").click(function() {  
             $(".quads-popupad").css("display", "none");
+            set_quads_Cookie('quads_popup','popup_ad',1);
           });
     }, 500);
+    // showing popup after respective time as per settings
+    var data_popuptype = $(".quads-popupad").attr('data-popuptype');
+    var data_timer = $(".quads-popupad").attr('data-timer');
+    
+    if( data_popuptype && data_popuptype == "specific_time_popup" ){
+        setTimeout(() => {
+            $(".quads-popupad").css("display", "block");
+        }, data_timer);
+    }
+    // showing popup after respective scroll as per settings
+    var data_popuptype = $(".quads-popupad").attr('data-popuptype');
+    var data_percent = $(".quads-popupad").attr('data-percent');
+    if( data_popuptype == "on_scroll_popup"  ){
+        window.addEventListener("scroll", () => {
+            let scrollTop = window.scrollY;
+            let docHeight = document.body.offsetHeight;
+            let winHeight = window.innerHeight;
+            let scrollPercent = scrollTop / (docHeight - winHeight);
+            let scrollPercentRounded = Math.round(scrollPercent * 100);
+            if( scrollPercentRounded>=data_percent  ) {
+                $(".quads-popupad").css("display", "block");
+            }
+            else{
+                $(".quads-popupad").css("display", "none");
+            }
+          });
+    }
      
 
     /**
