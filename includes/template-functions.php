@@ -1965,7 +1965,7 @@ function quads_parse_popup_ads($content) {
         $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
         // These have to be global
-        wp_enqueue_script( 'quads-popup_ads', $js_dir . 'popup_ads' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+        wp_enqueue_script( 'wp_qds_popup', $js_dir . 'wp_qds_popup' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
 
     }else{
         $content = quads_replace_ads_new( $content, 'CusRot' . $ad_id, $temp_array[$ad_code],$enabled_on_amp);
