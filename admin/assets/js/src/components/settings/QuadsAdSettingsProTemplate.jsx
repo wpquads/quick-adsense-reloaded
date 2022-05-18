@@ -18,13 +18,42 @@ class QuadsAdSettingsProTemplate extends Component {
     
     let settings= this.props.settings;
 
+    var load_symbol = ''
     if (quads_localize_data.is_pro) {
+      if(data.id == "skippable_ads"){
+        load_symbol = 'lazy_loader_s'
+      }
+      if(data.id == "blindness_settings"){
+          load_symbol = 'lazy_loader_bl'
+        }
+        if(data.id == "ab_testing_settings"){
+          load_symbol = 'lazy_loader_ab'
+        }
+        if(data.id == "optimize_core_vitals"){
+          load_symbol = 'lazy_loader_o'
+        }
+        if(data.id == "hide_quads_markup"){
+          load_symbol = 'lazy_loader_h'
+        }
+        if(data.id == "global_excluder"){
+          load_symbol = 'lazy_loader_ge'
+        }
+        if(data.id == "ad_log"){
+          load_symbol = 'lazy_loader_al'
+        }
+        if(data.id == "reports_settings"){
+          load_symbol = 'lazy_loader_rs'
+        }
+
       return (
+        
         <tr>  <th><label htmlFor={data.id}>{data.title} </label></th>
           <td>
+          
             <label className="quads-switch">
               <input type="checkbox" name={data.id} onChange={this.props.formChangeHandler} checked={settings[data.id]} value={data.id} />
-              <span className="quads-slider"></span>
+              <span id={data.id+'_'} className="quads-slider"></span>
+              <div className={load_symbol}></div>
             </label>
             <a className="quads-general-helper quads-general-helper-new" target="_blank" href={data.url}></a>
           </td>

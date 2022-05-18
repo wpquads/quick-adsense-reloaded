@@ -96,6 +96,7 @@ class QuadsAdListSettings extends Component {
                 btn_txt            : 'X',
                 adsforwp_to_quads  : false,
                 optimize_core_vitals : false, 
+                namer : '', 
                 },
             quads_wp_quads_pro_license_key : '',
             importampforwpmsg : "",
@@ -708,6 +709,85 @@ handleMultiPluginsChange = (option) => {
       formData.append("settings", JSON.stringify(this.state.settings));
       formData.append("requestfrom",'wpquads2');
       let url = quads_localize_data.rest_url + 'quads-route/update-settings';
+
+      // Begin show saving loader
+      let namer_data = this.state.settings.namer
+
+      if( namer_data == "adsTxtEnabled" ){
+        document.getElementById("adsTxtEnabled_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader")[0].style.display = 'block';
+      }
+      if( namer_data == "lazy_load_global" ){
+        document.getElementById("lazy_load_global_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_l")[0].style.display = 'block';
+      }
+      if( namer_data == "ad_blocker_support" ){
+        document.getElementById("ad_blocker_support_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_a")[0].style.display = 'block';
+      }
+      if( namer_data == "click_fraud_protection" ){
+        document.getElementById("click_fraud_protection_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_c")[0].style.display = 'block';
+      }
+      if( namer_data == "revenue_sharing_enabled" ){
+        document.getElementById("revenue_sharing_enabled_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_r")[0].style.display = 'block';
+      }
+      if( namer_data == "tcf_2_integration" ){
+        document.getElementById("tcf_2_integration_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_t")[0].style.display = 'block';
+      }
+      if( namer_data == "rotator_ads_settings" ){
+        document.getElementById("rotator_ads_settings_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_rr")[0].style.display = 'block';
+      }
+      if( namer_data == "group_insertion_settings" ){
+        document.getElementById("group_insertion_settings_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_gp")[0].style.display = 'block';
+      }
+      if( namer_data == "ad_performance_tracking" ){
+        document.getElementById("ad_performance_tracking_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_ap")[0].style.display = 'block';
+      }
+      if( namer_data == "global_excluder_enabled" ){
+        document.getElementById("global_excluder_enabled_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_g")[0].style.display = 'block';
+      }
+      if( namer_data == "skippable_ads" ){
+        document.getElementById("skippable_ads_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_s")[0].style.display = 'block';
+      }
+      if( namer_data == "blindness_settings" ){
+        document.getElementById("blindness_settings_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_bl")[0].style.display = 'block';
+      }
+      if( namer_data == "ab_testing_settings" ){
+        document.getElementById("ab_testing_settings_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_ab")[0].style.display = 'block';
+      }
+      if( namer_data == "optimize_core_vitals" ){
+        document.getElementById("optimize_core_vitals_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_o")[0].style.display = 'block';
+      }
+      if( namer_data == "hide_quads_markup" ){
+        document.getElementById("hide_quads_markup_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_h")[0].style.display = 'block';
+      }
+      if( namer_data == 'global_excluder' ){
+        document.getElementById("global_excluder_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_ge")[0].style.display = 'block';
+      }
+      if( namer_data == 'ad_log' ){
+        document.getElementById("ad_log_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_al")[0].style.display = 'block';
+      }
+      if( namer_data == 'reports_settings' ){
+        document.getElementById("reports_settings_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_rs")[0].style.display = 'block';
+      }
+
+      // End show saving loader
+
       fetch(url,{
         method: "post",
         headers: {
@@ -744,6 +824,85 @@ handleMultiPluginsChange = (option) => {
                 this.setState({settings_saved:true, button_spinner_toggle:false});
               }
             }else{
+
+              // Begin show saving loader
+              let namer_data = this.state.settings.namer
+
+              if( namer_data == "adsTxtEnabled" ){
+                document.getElementById("adsTxtEnabled_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader")[0].style.display = 'none';
+                }
+              if( namer_data == "lazy_load_global" ){
+              document.getElementById("lazy_load_global_").style.display = 'block';
+              document.getElementsByClassName("lazy_loader_l")[0].style.display = 'none';
+              }
+              if( namer_data == "ad_blocker_support" ){
+                document.getElementById("ad_blocker_support_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_a")[0].style.display = 'none';
+              }
+              if( namer_data == "click_fraud_protection" ){
+                document.getElementById("click_fraud_protection_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_c")[0].style.display = 'none';
+              }
+              if( namer_data == "revenue_sharing_enabled" ){
+                document.getElementById("revenue_sharing_enabled_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_r")[0].style.display = 'none';
+              }
+              if( namer_data == "tcf_2_integration" ){
+                document.getElementById("tcf_2_integration_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_t")[0].style.display = 'none';
+              }
+              if( namer_data == "rotator_ads_settings" ){
+                document.getElementById("rotator_ads_settings_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_rr")[0].style.display = 'none';
+              }
+              if( namer_data == "group_insertion_settings" ){
+                document.getElementById("group_insertion_settings_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_gp")[0].style.display = 'none';
+              }
+              if( namer_data == "ad_performance_tracking" ){
+                document.getElementById("ad_performance_tracking_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_ap")[0].style.display = 'none';
+              }
+              if( namer_data == "global_excluder_enabled" ){
+                document.getElementById("global_excluder_enabled_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_g")[0].style.display = 'none';
+              }
+              if( namer_data == "skippable_ads" ){
+                document.getElementById("skippable_ads_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_s")[0].style.display = 'none';
+              }
+              if( namer_data == "blindness_settings" ){
+                document.getElementById("blindness_settings_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_bl")[0].style.display = 'none';
+              }
+              if( namer_data == "ab_testing_settings" ){
+                document.getElementById("ab_testing_settings_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_ab")[0].style.display = 'none';
+              }
+              if( namer_data == "optimize_core_vitals" ){
+                document.getElementById("optimize_core_vitals_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_o")[0].style.display = 'none';
+              }
+              if( namer_data == "hide_quads_markup" ){
+                document.getElementById("hide_quads_markup_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_h")[0].style.display = 'none';
+              }
+              if( namer_data == 'global_excluder' ){
+                document.getElementById("global_excluder_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_ge")[0].style.display = 'none';
+              }
+              if( namer_data == 'ad_log' ){
+                document.getElementById("ad_log_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_al")[0].style.display = 'none';
+              }
+              if( namer_data == 'reports_settings' ){
+                document.getElementById("reports_settings_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_rs")[0].style.display = 'none';
+              }
+
+              // End show saving loader
+
               this.setState({settings_error:result.msg, button_spinner_toggle:false});
             }
         },
@@ -873,6 +1032,7 @@ handleMultiPluginsChange = (option) => {
     }
   formChangeHandler = (event) => {
     let name  = event.target.name;
+    this.state.settings.namer  = name;
     let value = '';
     if(event.target.type === 'file'){
        value = event.target.files[0];
@@ -1506,7 +1666,8 @@ handleMultiPluginsChange = (option) => {
                      <td>
                        <label className="quads-switch">
                          <input id="adsTxtEnabled" type="checkbox" name="adsTxtEnabled" onChange={this.formChangeHandler} checked={settings.adsTxtEnabled} />
-                         <span className="quads-slider"></span>
+                         <span id="adsTxtEnabled_" className="quads-slider"></span>
+                         <div className="lazy_loader"></div>
                        </label>
                        {settings.adsTxtEnabled ? <span onClick={this.open_ad_text_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''}
                        <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/"></a>
@@ -1519,7 +1680,8 @@ handleMultiPluginsChange = (option) => {
                      <td>
                        <label className="quads-switch">
                          <input id="global_excluder_enabled" type="checkbox" name="global_excluder_enabled" onChange={this.formChangeHandler} checked={settings.global_excluder_enabled} />
-                         <span className="quads-slider"></span>
+                         <span id="global_excluder_enabled_" className="quads-slider"></span>
+                         <div className="lazy_loader_g"></div>
                        </label>
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/"></a>
 
@@ -1531,7 +1693,8 @@ handleMultiPluginsChange = (option) => {
                     <td>
                         <label className="quads-switch">
                          <input id="lazy_load_global" type="checkbox" name="lazy_load_global" onChange={this.formChangeHandler} checked={settings.lazy_load_global} />
-                         <span className="quads-slider"></span>
+                         <span id="lazy_load_global_" className="quads-slider"></span>
+                         <div className="lazy_loader_l"></div>
                        </label>
                        <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-lazy-loading-for-adsense-and-how-to-use-it/"></a>
                       </td>
@@ -1541,7 +1704,8 @@ handleMultiPluginsChange = (option) => {
                      <td>
                        <label className="quads-switch">
                          <input id="ad_blocker_support" type="checkbox" name="ad_blocker_support" onChange={this.formChangeHandler} checked={settings.ad_blocker_support} />
-                         <span className="quads-slider"></span>
+                         <span id="ad_blocker_support_" className="quads-slider"></span>
+                         <div class="lazy_loader_a"></div>
                        </label>
                        {settings.ad_blocker_support ? <span onClick={this.ad_blocker_support} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-blocker-support-in-wp-quads/"></a>
@@ -1552,7 +1716,8 @@ handleMultiPluginsChange = (option) => {
                      <td>
                        <label className="quads-switch">
                          <input id="click_fraud_protection" type="checkbox" name="click_fraud_protection" onChange={this.formChangeHandler} checked={settings.click_fraud_protection} />
-                         <span className="quads-slider"></span>
+                         <span id="click_fraud_protection_" className="quads-slider"></span>
+                         <div className="lazy_loader_c"></div>
                        </label>
                        {settings.click_fraud_protection ? <span onClick={this.click_fraud_protection_popup} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-click-fraud-protection-and-how-to-use-it/"></a>
@@ -1563,7 +1728,8 @@ handleMultiPluginsChange = (option) => {
                      <td>
                        <label className="quads-switch">
                          <input id="revenue_sharing_enabled" type="checkbox" name="revenue_sharing_enabled" onChange={this.formChangeHandler} checked={settings.revenue_sharing_enabled} />
-                         <span className="quads-slider"></span>
+                         <span id="revenue_sharing_enabled_" className="quads-slider"></span>
+                         <div className="lazy_loader_r"></div>
                        </label>
                        {settings.revenue_sharing_enabled ? <span onClick={this.open_revenue_sharing_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/setup-revenue-sharing-in-wordpress-and-amp/"></a>
@@ -1574,7 +1740,8 @@ handleMultiPluginsChange = (option) => {
                          <td>
                              <label className="quads-switch">
                                  <input id="tcf_2_integration" type="checkbox" name="tcf_2_integration" onChange={this.formChangeHandler} checked={settings.tcf_2_integration} />
-                                 <span className="quads-slider"></span>
+                                 <span id="tcf_2_integration_" className="quads-slider"></span>
+                                 <div className="lazy_loader_t"></div>
                              </label>
                              <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-transparency-consent-framework-tcf-v2-0-and-how-to-use-it/"></a>
                          </td>
@@ -1584,7 +1751,8 @@ handleMultiPluginsChange = (option) => {
                      <td>
                        <label className="quads-switch">
                          <input id="rotator_ads_settings" type="checkbox" name="rotator_ads_settings" onChange={this.formChangeHandler} checked={settings.rotator_ads_settings} />
-                         <span className="quads-slider"></span>
+                         <span id="rotator_ads_settings_" className="quads-slider"></span>
+                         <div className="lazy_loader_rr"></div>
                        </label>
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-rotator-in-wp-quads/"></a>
                      </td>
@@ -1594,7 +1762,8 @@ handleMultiPluginsChange = (option) => {
                      <td>
                          <label className="quads-switch">
                              <input id="group_insertion_settings" type="checkbox" name="group_insertion_settings" onChange={this.formChangeHandler} checked={settings.group_insertion_settings} />
-                             <span className="quads-slider"></span>
+                             <span id="group_insertion_settings_" className="quads-slider"></span>
+                             <div className="lazy_loader_gp"></div>
                          </label>
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/"></a>
                      </td>
@@ -1605,7 +1774,8 @@ handleMultiPluginsChange = (option) => {
                      <td>
                          <label className="quads-switch">
                              <input id="ad_performance_tracking" type="checkbox" name="ad_performance_tracking" onChange={this.formChangeHandler} checked={settings.ad_performance_tracking} />
-                             <span className="quads-slider"></span>
+                             <span id="ad_performance_tracking_" className="quads-slider"></span>
+                             <div className="lazy_loader_ap"></div>
                          </label>
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/ad-performance-tracking-in-wp-quads/"></a>
                      </td>

@@ -80,6 +80,23 @@ and open the template in the editor.
   border-radius: 4px !important;
   min-width: 94px !important;
   bottom: 10px !important; }
+
+.lazy_loader, .lazy_loader_l, .lazy_loader_g, .lazy_loader_a, .lazy_loader_c, .lazy_loader_r, .lazy_loader_t, .lazy_loader_rr, .lazy_loader_gp, .lazy_loader_ap, .lazy_loader_s, .lazy_loader_bl, .lazy_loader_ab, .lazy_loader_o, .lazy_loader_h, .lazy_loader_ge, .lazy_loader_al, .lazy_loader_rs {
+  border: 5px solid #f3f3f3;
+  animation: spin 0.7s linear infinite;
+  border-top: 5px solid #555;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  display: none;
+  bottom: 24px;
+  position: relative; }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
