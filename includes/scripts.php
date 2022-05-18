@@ -162,7 +162,7 @@ if(is_object($screens)){
     }
 
     if($currentScreen == 'plugins' || $currentScreen == 'toplevel_page_quads-settings'){
-        add_action( 'admin_notices', 'quads_show_adpushup_notice' );
+        // add_action( 'admin_notices', 'quads_show_adpushup_notice' );
     }
 
 }
