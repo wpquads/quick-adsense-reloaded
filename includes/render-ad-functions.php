@@ -990,6 +990,16 @@ function quads_is_double_click( $id, $string ) {
     return false;
 }
 
+function quads_is_popup_ad( $id, $string ) {
+    // echo 'sdsf';die;
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'popup_ads') {
+        return true;
+    }
+    return false;
+}
+
 /**
  * Check if ad code is double click or other ad code
  *
@@ -1435,3 +1445,6 @@ function quads_render_ad_text_around_ad_new( $adcode,$id='') {
             return $author_adsense_ids;
         }
     }
+
+
+    

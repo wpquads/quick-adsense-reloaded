@@ -184,6 +184,7 @@ class QuadsAdTargeting extends Component {
                 (post_meta.ad_type == 'adsense' && post_meta.adsense_ad_type != 'adsense_sticky_ads' ) ||
                 post_meta.ad_type == 'random_ads' ||
                 post_meta.ad_type == 'rotator_ads' ||
+                post_meta.ad_type == 'popup_ads' ||
                 post_meta.ad_type == 'group_insertion' ||
                 post_meta.ad_type == 'double_click' ||
                 post_meta.ad_type == 'yandex' ||
@@ -204,8 +205,10 @@ class QuadsAdTargeting extends Component {
                 <div className="quads-panel-body"> 
                 <table>
                   <tbody>
+                  { post_meta.ad_type == "popup_ads" ?  "" : 
                     <tr className="quads-tr-position">
                     <td><label>{__('Where will the AD appear?', 'quick-adsense-reloaded')}</label></td>
+                    { post_meta.ad_type == "popup_ads" ?  "" : 
                         <td>{post_meta.ad_type != "group_insertion" ? (<QuadsAdvancePosition parentState={this.props.parentState} adFormChangeHandler = {this.props.adFormChangeHandler}/>
                         ):<div><select  value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                             <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
@@ -222,7 +225,9 @@ class QuadsAdTargeting extends Component {
                             </div>
                         </div>
                             }</td>
+                          }
                     </tr>
+                        }
                     {post_meta.position == 'ad_after_html_tag' ? (
                       <>
                     <tr>
@@ -320,6 +325,39 @@ class QuadsAdTargeting extends Component {
                         </td>
                         </tr>
                             
+                        :null}
+                        {post_meta.ad_type == 'popup_ads' ?
+                        <tr className='popup_table'>
+                            <td><label>{__('Popup Type', 'quick-adsense-reloaded')}</label></td>
+                            <td><select value={post_meta.popup_type} name="popup_type" onChange={this.props.adFormChangeHandler} >
+                                <option value="everytime_popup">Load instantly</option>
+                                <option value="specific_time_popup">After Specific Time</option>
+                                <option value="on_scroll_popup">On Scroll</option>
+                                </select></td>
+                                 
+                                </tr>
+                        : null}
+                    {post_meta.ad_type == 'popup_ads' && post_meta.popup_type == 'specific_time_popup' ?
+                    <tr>
+                    
+                            <td></td>
+                            <td>
+                                <input id={'specific_time_interval_sec'}
+                                       name={'specific_time_interval_sec'} type="number"
+                                       value={post_meta.specific_time_interval_sec} onChange={this.props.adFormChangeHandler}  /> milliseconds
+                            </td>
+                        </tr>
+                        :null}
+                    {post_meta.ad_type == 'popup_ads' && post_meta.popup_type == 'on_scroll_popup' ?
+                    <tr>
+                    
+                            <td></td>
+                            <td>
+                                <input id={'on_scroll_popup_percentage'}
+                                       name={'on_scroll_popup_percentage'} type="number"
+                                       value={post_meta.on_scroll_popup_percentage} onChange={this.props.adFormChangeHandler}  /> percentage
+                            </td>
+                        </tr>
                         :null}
                   </tbody>
                 </table>                                 

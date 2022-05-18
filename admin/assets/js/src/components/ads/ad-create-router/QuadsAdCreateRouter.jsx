@@ -55,6 +55,7 @@ class QuadsAdCreateRouter extends Component {
             visibility_include   : visibility_include_def_val,
             ad_blindness         : [],
             ab_testing         : [],
+            popup_ads         : [],
             visibility_exclude   : [],
             targeting_include         : [],              
             targeting_exclude        : [],              
@@ -373,6 +374,7 @@ class QuadsAdCreateRouter extends Component {
       body_json.quads_post_meta.random_ads_list = this.random_ads_list; 
       body_json.quads_post_meta.ad_blindness =body_json['ad_blindness'];
       body_json.quads_post_meta.ab_testing =body_json['ab_testing'];
+      body_json.quads_post_meta.popup_ads =body_json['popup_ads'];
       body_json.quads_post_meta.ads_list = this.ads_list; 
       let url = quads_localize_data.rest_url + 'quads-route/update-ad';
       fetch(url,{
@@ -576,6 +578,9 @@ class QuadsAdCreateRouter extends Component {
             }else{
               this.setState({show_form_error:true});
             }
+          break;
+          case 'popup_ads':
+            this.saveAdFormData('publish');
           break;
           case 'taboola':
             if(validation_flag && quads_post_meta.taboola_publisher_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
@@ -796,6 +801,13 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             } 
             break;
+          case 'popup_ads':
+            if(quads_post_meta.ads_list.length > 0 ){
+              this.props.history.push(new_url); 
+            }else{
+              this.setState({show_form_error:true});
+            } 
+            break;
             case 'ad_image':
           if(quads_post_meta.image_src && quads_post_meta.image_redirect_url){
             this.props.history.push(new_url); 
@@ -933,6 +945,8 @@ class QuadsAdCreateRouter extends Component {
           titleName =result.name +" (Rotator)";
       }else if(page.ad_type == 'group_insertion'){
         titleName =result.name +" (Group Insertion)";
+      }else if(page.ad_type == 'popup_ads'){
+        titleName =result.name +" (popup)";
       }
           this.setState(Object.assign(this.state.quads_post_meta,{label:titleName,quads_ad_old_id:quads_ad_old_id}));
       },        
@@ -976,6 +990,8 @@ class QuadsAdCreateRouter extends Component {
           }else if(page.ad_type == 'rotator_ads'){
               titleName =post_meta.label;
           }else if(page.ad_type == 'group_insertion'){
+            titleName =post_meta.label;
+          }else if(page.ad_type == 'popup_ads'){
             titleName =post_meta.label;
           }
               this.setState(Object.assign(this.state.quads_post_meta,{label:titleName,quads_ad_old_id:quads_ad_old_id}));

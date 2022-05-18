@@ -90,6 +90,9 @@ class QuadsAdList extends Component {
           case 'random_ads':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/random_ad_icon.png';
           type = "random ads";
+          case 'popup_ads':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/popup_ads.png';
+          type = "Popup Ad";
           break;
           case 'double_click':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/double_click_icon.png';
@@ -202,7 +205,7 @@ class QuadsAdList extends Component {
                   {this.props.settings.ad_performance_tracking ? <a className="quads-edit-btn" onMouseEnter={this.props.AdImp_Count_HoverIn} onMouseLeave={this.props.AdImp_Count_HoverOut} data-index={index} data-id={item.post_meta.ad_id} onClick={this.props.showStaticIconBox}><Icon>stacked_bar_chart</Icon></a>                
                 : null }
                 
-                {this.props.settings.ad_logging ?<Link className="quads-edit-btn" onMouseEnter={this.props.AdLogHoverIn} onMouseLeave={this.props.AdLogHoverOut} data-index={index} data-id={item.post_meta.ad_id} to={'admin.php?page=quads-settings&path=ad_logging&ad_id='+item.post_meta.ad_id} ><img height="20" width="20" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ad_log.png'} ></img></Link>              
+                {this.props.settings.ad_performance_tracking ?<Link className="quads-edit-btn" onMouseEnter={this.props.AdLogHoverIn} onMouseLeave={this.props.AdLogHoverOut} data-index={index} data-id={item.post_meta.ad_id} to={'admin.php?page=quads-settings&path=ad_logging&ad_id='+item.post_meta.ad_id} ><img height="20" width="20" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ad_log.png'} ></img></Link>              
                 : null }
                 { item.post_meta.ad_id && this.props.adlog_hover_id ==  item.post_meta.ad_id ?
                   <div className="quads-more-icon-box hover_data">AD Log</div> : '' }

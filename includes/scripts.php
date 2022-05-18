@@ -378,6 +378,40 @@ function quads_inline_styles() {
         width: 50%;
         float: right;
     }
+    .quads-popupad {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 2000px;
+        background-color: rgba(0,0,0,0.6);
+        z-index: 999;
+    }
+    .quads.quads_ad_containerr {
+        position: sticky;
+        top: 40%;
+        left: 36%;
+        width: 30em;
+    }
+    #btn_close{
+		background-color: #fff;
+		width: 25px;
+		height: 25px;
+		text-align: center;
+		line-height: 22px;
+		position: absolute;
+		right: -10px;
+		top: -10px;
+		cursor: pointer;
+		transition: all 0.5s ease;
+		border-radius: 50%;
+	}
+    @media screen and (max-width: 480px) {
+        .quads.quads_ad_containerr {
+            left: 9%;
+            width: 19em;
+        }
+    }
     .quads_click_impression { display: none;}";
     // Register empty style so we do not need an external css file
     wp_register_style( 'quads-styles', false );
