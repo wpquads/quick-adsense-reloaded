@@ -208,11 +208,16 @@ class QuadsAdList extends Component {
                 {this.props.settings.ad_performance_tracking ?<Link className="quads-edit-btn" onMouseEnter={this.props.AdLogHoverIn} onMouseLeave={this.props.AdLogHoverOut} data-index={index} data-id={item.post_meta.ad_id} to={'admin.php?page=quads-settings&path=ad_logging&ad_id='+item.post_meta.ad_id} ><img height="20" width="20" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ad_log.png'} ></img></Link>              
                 : null }
                 { item.post_meta.ad_id && this.props.adlog_hover_id ==  item.post_meta.ad_id ?
-                  <div className="quads-more-icon-box hover_data">AD Log</div> : '' }
+                  <div id="tooltip_2" className="on left"><div className="tooltip_2-arrow"></div><div className="tooltip_2-inner">Ad Log</div>
+                  </div> : '' }
                 
                 <Link onMouseEnter={this.props.EditHoverIn} onMouseLeave={this.props.EditHoverOut} data-index={index} data-id={item.post_meta.ad_id} to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.post_meta.ad_type}&action=edit&post=${item.post.post_id}`} className="quads-edit-btn"><Icon>edit_icon</Icon> </Link> 
+                  {console.log('item.post_meta.ad_isssssd')}
+                  {console.log(item.post_meta.ad_id)}
                 { item.post_meta.ad_id && this.props.edit_hover_id ==  item.post_meta.ad_id ?
-                  <div className="quads-more-icon-box hover_data">Edit AD</div> : '' }
+                  <div id="tooltip" className="on left"><div className="tooltip-arrow"></div><div className="tooltip-inner">Edit AD</div>
+                  </div>
+                   : '' }
                 {item.post_meta.ad_id && this.props.more_box_id ==  item.post_meta.ad_id ?
                 <div className="quads-more-icon-box">
                   <div className="quads-more-icon-box-close" onClick={this.props.hideMoreIconBox}><Icon>close</Icon></div>
@@ -223,7 +228,8 @@ class QuadsAdList extends Component {
                   </ul>
                   </div> : ''  } 
                 { item.post_meta.ad_id && this.props.more_hover_box_id ==  item.post_meta.ad_id ?
-                <div className="quads-more-icon-box hover_data">More Options</div> : '' }
+                  <div id="tooltip_3" className="on left"><div className="tooltip_3-arrow"></div><div className="tooltip_3-inner">More Options</div>
+                  </div> : '' }
                   
                 <a onMouseEnter={this.props.showMoreHoverIn} onMouseLeave={this.props.showMoreHoverOut} className="quads-edit-btn" data-index={index} data-id={item.post_meta.ad_id} onClick={this.props.showMoreIconBox}><Icon>more_vert_icon</Icon></a>       
         
