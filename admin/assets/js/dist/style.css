@@ -100,8 +100,8 @@ and open the template in the editor.
 
 #tooltip {
   position: absolute;
-  left: 100px;
-  top: 34px; }
+  left: 83px;
+  top: 53px; }
 
 #tooltip.left {
   margin-left: -5px; }
@@ -139,8 +139,8 @@ and open the template in the editor.
 
 #tooltip_2 {
   position: absolute;
-  left: 56px;
-  top: 37px; }
+  left: 36px;
+  top: 53px; }
 
 #tooltip_2.left {
   margin-left: -5px; }
@@ -178,8 +178,8 @@ and open the template in the editor.
 
 #tooltip_3 {
   position: absolute;
-  left: 140px;
-  top: 34px; }
+  left: 132px;
+  top: 53px; }
 
 #tooltip_3.left {
   margin-left: -5px; }
@@ -280,11 +280,41 @@ and open the template in the editor.
   background-color: dimgrey;
   border-radius: 4px; }
 
-#tooltip.on {
-  display: block; }
+.quads_response-suc-wrap {
+  display: block;
+  position: fixed;
+  width: 96px;
+  pointer-events: none !important;
+  letter-spacing: normal;
+  z-index: 9999999;
+  bottom: 20px;
+  right: 61px; }
 
-#tooltip.off {
-  display: none; }
+.quads_response-suc-single {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin: 0 0 5px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  font-weight: 500;
+  cursor: pointer; }
+
+.quads_response-suc-success {
+  background-color: #005af0;
+  color: #fff; }
+
+.quads_response-suc-error {
+  background-color: #d94f4f;
+  color: #fff; }
+
+.close-quads_response-suc-single {
+  position: absolute;
+  top: 10px;
+  right: 7px;
+  font-size: 20px;
+  cursor: pointer; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
