@@ -164,6 +164,16 @@ class QuadsAdList extends Component {
     
     const {__} = wp.i18n;     
     const { error, isLoaded, items } = this.props.ad_list; 
+    const t_main = { 
+        position: "absolute",
+        left: this.props.settings.ad_performance_tracking ? "83px" : "-12px",
+        top: "53px",
+  };
+    const t_main_more = { 
+        position: "absolute",
+        left: this.props.settings.ad_performance_tracking ? "132px" : "36px",
+        top: "53px",
+  };
     const ttp_1 = { 
       opacity: "1", 
       transform: "none",
@@ -227,7 +237,7 @@ class QuadsAdList extends Component {
                 { item.post_meta.ad_id && this.props.edit_hover_id ==  item.post_meta.ad_id ?
                   
             
-                  <div role="tooltip" class="MuiTooltip-popper MuiTooltip-popperArrow" id="tooltip" x-placement="bottom"><div class="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >Edit Ad<span class="MuiTooltip-arrow" style={ttp_1_}></span></div></div>
+                  <div style={t_main} class="MuiTooltip-popper MuiTooltip-popperArrow" id="tooltip" x-placement="bottom"><div class="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >Edit Ad<span class="MuiTooltip-arrow" style={ttp_1_}></span></div></div>
                    : '' }
                 {item.post_meta.ad_id && this.props.more_box_id ==  item.post_meta.ad_id ?
                 <div className="quads-more-icon-box">
@@ -239,7 +249,7 @@ class QuadsAdList extends Component {
                   </ul>
                   </div> : ''  } 
                 { item.post_meta.ad_id && this.props.more_hover_box_id ==  item.post_meta.ad_id ?
-                  <div role="tooltip" id="tooltip_3" class="MuiTooltip-popper MuiTooltip-popperArrow" x-placement="bottom"><div class="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >More Options<span class="MuiTooltip-arrow" style={ttp_1_}></span></div></div> : '' }
+                  <div role="tooltip" style={t_main_more} id="tooltip_3" class="MuiTooltip-popper MuiTooltip-popperArrow" x-placement="bottom"><div class="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >More Options<span class="MuiTooltip-arrow" style={ttp_1_}></span></div></div> : '' }
                   
                 <a onMouseEnter={this.props.showMoreHoverIn} onMouseLeave={this.props.showMoreHoverOut} className="quads-edit-btn" data-index={index} data-id={item.post_meta.ad_id} onClick={this.props.showMoreIconBox}><Icon>more_vert_icon</Icon></a>       
         
