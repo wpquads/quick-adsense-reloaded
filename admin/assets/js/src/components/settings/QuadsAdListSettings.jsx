@@ -911,7 +911,7 @@ handleMultiPluginsChange = (option) => {
               setTimeout(() => {
                 var quads_response_suc_ = document.getElementsByClassName("quads_response-suc-wrap bottom-left")[0];
                 quads_response_suc_.remove();
-              }, 1000);
+              }, 500);
 
               this.setState({settings_error:result.msg, button_spinner_toggle:false});
             }
