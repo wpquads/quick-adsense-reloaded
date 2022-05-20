@@ -11,6 +11,7 @@ import { Alert } from '@material-ui/lab';
 import './QuadsAdList.scss';
 
 class QuadsAdList extends Component {
+  
 
   constructor(props) {     
         super(props);
@@ -162,7 +163,28 @@ class QuadsAdList extends Component {
   render() {    
     
     const {__} = wp.i18n;     
-    const { error, isLoaded, items } = this.props.ad_list;  
+    const { error, isLoaded, items } = this.props.ad_list; 
+    const t_main = { 
+        position: "absolute",
+        left: this.props.settings.ad_performance_tracking ? "83px" : "-12px",
+        top: "53px",
+  };
+    const t_main_more = { 
+        position: "absolute",
+        left: this.props.settings.ad_performance_tracking ? "132px" : "36px",
+        top: "53px",
+  };
+    const ttp_1 = { 
+      opacity: "1", 
+      transform: "none",
+       transition: "opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, transform 133ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+  };
+    const ttp_1_ = { 
+      top: "2px",
+      left: "-6px !important",
+      margin: "-0.88em 5px 0px 18px",
+    }
+  
    
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -208,11 +230,15 @@ class QuadsAdList extends Component {
                 {this.props.settings.ad_performance_tracking ?<Link className="quads-edit-btn" onMouseEnter={this.props.AdLogHoverIn} onMouseLeave={this.props.AdLogHoverOut} data-index={index} data-id={item.post_meta.ad_id} to={'admin.php?page=quads-settings&path=ad_logging&ad_id='+item.post_meta.ad_id} ><img height="20" width="20" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ad_log.png'} ></img></Link>              
                 : null }
                 { item.post_meta.ad_id && this.props.adlog_hover_id ==  item.post_meta.ad_id ?
-                  <div className="quads-more-icon-box hover_data">AD Log</div> : '' }
+                  <div role="tooltip" class="MuiTooltip-popper MuiTooltip-popperArrow" id="tooltip_2" x-placement="bottom"><div class="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >Ad log<span class="MuiTooltip-arrow" style={ttp_1_}></span></div></div> : '' }
                 
                 <Link onMouseEnter={this.props.EditHoverIn} onMouseLeave={this.props.EditHoverOut} data-index={index} data-id={item.post_meta.ad_id} to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.post_meta.ad_type}&action=edit&post=${item.post.post_id}`} className="quads-edit-btn"><Icon>edit_icon</Icon> </Link> 
+                  
                 { item.post_meta.ad_id && this.props.edit_hover_id ==  item.post_meta.ad_id ?
-                  <div className="quads-more-icon-box hover_data">Edit AD</div> : '' }
+                  
+            
+                  <div style={t_main} class="MuiTooltip-popper MuiTooltip-popperArrow" id="tooltip" x-placement="bottom"><div class="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >Edit Ad<span class="MuiTooltip-arrow" style={ttp_1_}></span></div></div>
+                   : '' }
                 {item.post_meta.ad_id && this.props.more_box_id ==  item.post_meta.ad_id ?
                 <div className="quads-more-icon-box">
                   <div className="quads-more-icon-box-close" onClick={this.props.hideMoreIconBox}><Icon>close</Icon></div>
@@ -223,7 +249,7 @@ class QuadsAdList extends Component {
                   </ul>
                   </div> : ''  } 
                 { item.post_meta.ad_id && this.props.more_hover_box_id ==  item.post_meta.ad_id ?
-                <div className="quads-more-icon-box hover_data">More Options</div> : '' }
+                  <div role="tooltip" style={t_main_more} id="tooltip_3" class="MuiTooltip-popper MuiTooltip-popperArrow" x-placement="bottom"><div class="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >More Options<span class="MuiTooltip-arrow" style={ttp_1_}></span></div></div> : '' }
                   
                 <a onMouseEnter={this.props.showMoreHoverIn} onMouseLeave={this.props.showMoreHoverOut} className="quads-edit-btn" data-index={index} data-id={item.post_meta.ad_id} onClick={this.props.showMoreIconBox}><Icon>more_vert_icon</Icon></a>       
         

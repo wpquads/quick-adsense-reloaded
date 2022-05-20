@@ -1,4 +1,4 @@
-=== Ads by WPQUADS – Best Ads & Adsense Ads Plugin ===
+=== Ads by WPQuads – Adsense Ads, Banner Ads, Popup Ads & more ===
 
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 5.9.3
 Requires PHP: 5.4
-Stable tag: 2.0.51
+Stable tag: 2.0.52
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & Banner ads on your site. Innovative features, Active Development & Fast Support.
 
@@ -206,6 +206,12 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.52 ( 20 May 2022 ) =
+* Fixed: Tooltip improved. #534
+* Fixed: Auto save indication improvement. #536
+* Fixed: Notice removed. #544
+* Fixed: Readme files updated. #546
 
 = 2.0.51 ( 16 May 2022 ) =
 * Added: Popup AD Feature #527
