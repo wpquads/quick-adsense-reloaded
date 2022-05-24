@@ -112,6 +112,7 @@ check_plugin_exist = (event) => {
                                 <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
                                 <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
                                 <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
+                                <option value="ad_before_html_tag">{__('Ad Before HTML Tag', 'quick-adsense-reloaded')}</option>
                                 <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
                                 {quads_localize_data.is_bbpress_exist ?
                                     <>
