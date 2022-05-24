@@ -1766,14 +1766,34 @@ return array('status' => 't');
         $ad_count = 1;
         if(isset($quads_options['ads']) && !empty($quads_options['ads'])){
             end($quads_options['ads']);
+            $numberOfPosts = $post_Types = $post_args = '';
+            $post_args = array ( 'post_type'=>'quads-ads' );
+            $post_Types = new WP_Query($post_args);
+            $numberOfPosts = $post_Types->found_posts;
             $key = key($quads_options['ads']);
             if(!empty($key)){
-                $key_array =   explode("ad",$key);
-                if(is_array($key_array)){
+                if (strpos($key, 'ads_wp_qu') !== false) {
+                    $key = "ad".$numberOfPosts;
+                    $key_array =   explode("ad",$key);
+                    if( $key_array ){
+                    $ad_count = (isset($key_array[1]) && !empty($key_array[1]))?$key_array[1]+1:1;
+                }
+                }
+                if (strpos($key, 'ad') !== false) {
+                    $key_array =   explode("ad",$key);
+                    if( is_array($key_array) ){
+                    $ad_count = (isset($key_array[1]) && !empty($key_array[1]))?$key_array[1]+1:1;
+                }
+                }
+                else{
+                    $key = "ad".$numberOfPosts;
+                    $key_array =   explode("ad",$key);
+                    if( $key_array ){
                     $ad_count = (isset($key_array[1]) && !empty($key_array[1]))?$key_array[1]+1:1;
                 }
             }
         }
+    }
         $args['id'] = $ad_count;
         $args['name'] = 'Ad ' . $ad_count;
 
