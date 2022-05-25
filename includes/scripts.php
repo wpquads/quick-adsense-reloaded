@@ -19,7 +19,11 @@ add_action('amp_post_template_css','quads_inline_styles_amp', 11);
 add_action( 'admin_enqueue_scripts', 'quads_load_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_plugins_admin_scripts', 100 );
 add_action( 'admin_enqueue_scripts', 'quads_load_all_admin_scripts', 100 );
-add_action( 'admin_enqueue_scripts', 'quads_load_admin_fonts', 100 );
+
+if( function_exists( quads_is_pro_active() ) ) {
+    add_action( 'admin_enqueue_scripts', 'quads_load_admin_fonts', 100 );
+}
+
 add_action( 'admin_print_footer_scripts', 'quads_check_ad_blocker' );
 add_action( 'wp_enqueue_scripts', 'click_fraud_protection' );
 add_action( 'wp_enqueue_scripts', 'tcf_2_integration' );
@@ -279,9 +283,10 @@ function quads_load_all_admin_scripts( $hook ) {
     wp_enqueue_style( 'quads-admin-all', $css_dir . 'quads-admin-all.css',array(), QUADS_VERSION );
 }
 
-function quads_load_admin_fonts( ) {
+function quads_load_admin_fonts( $hook ) {
+    
     $font_url = QUADS_PLUGIN_URL.'admin/assets/js';
-    echo '<style>
+    $font_styles= '<style>
     @font-face {
     font-family: "quads-icomoon";
     src: url("../fonts/icomoon.eot");
@@ -319,6 +324,9 @@ function quads_load_admin_fonts( ) {
 
     </style>';
 
+    if( isset($hook) && $hook == "admin.php" ) {
+        echo $font_styles ;
+    } 
 }
 
 
