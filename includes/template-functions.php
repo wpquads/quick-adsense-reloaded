@@ -1284,8 +1284,6 @@ function quads_filter_default_ads_new( $content ) {
                           $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
                         }else{
                                 $closing_p        = '</'.$tag.'>';
-                                // $opening_p        = '<'.$tag.'>';
-                                // var_dump($closing_p);die;
                             $paragraphs       = explode( $closing_p, $content );
                             $p_count          = count($paragraphs);
                             $original_paragraph_no = $paragraph_no;
@@ -1338,7 +1336,6 @@ function quads_filter_default_ads_new( $content ) {
                               $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
                             }else{
                                 $opening_p        = '<'.$tag.'>';
-                                // var_dump($opening_p);die;
                                 $paragraphs       = explode( $opening_p, $content );
                                 $p_count          = count($paragraphs);
                                 $original_paragraph_no = $paragraph_no;
@@ -1346,10 +1343,11 @@ function quads_filter_default_ads_new( $content ) {
     
                                     foreach ($paragraphs as $index => $paragraph) {
                                         if ( trim( $paragraph ) ) {
-                                            $paragraphs[$index] .= $opening_p;
+                                            $paragraphs[$index] = $opening_p.$paragraphs[$index];
+                                            
                                         }
                                         if ( $paragraph_no == $index + 1 ) {
-                                            $paragraphs[$index] .= $cusads;
+                                            $paragraphs[$index] = $paragraphs[$index].$cusads;
                                             if($repeat_paragraph){
                                              $paragraph_no =  $original_paragraph_no+$paragraph_no; 
                                             }
@@ -2256,7 +2254,7 @@ function quads_get_inline_ad_style_new( $id ) {
         'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
         'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
         'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
-        'float:none;margin:%1$dpx;');
+        'float:none;margin:%1$dpx %2$dpx %3$dpx %4$dpx;');
         
     $padding_styleArray = array(
         'padding:%1$dpx %1$dpx %1$dpx 0;',
@@ -2269,7 +2267,10 @@ function quads_get_inline_ad_style_new( $id ) {
     
     // Margin
     $adsmargin = isset( $ad_meta['margin'][0] ) ? $ad_meta['margin'][0] : '3'; // default option = 3
-    $margin = sprintf( $styleArray[$adsalign], $adsmargin );
+    $adsmargin_right = isset( $ad_meta['margin_right'][0] ) ? $ad_meta['margin_right'][0] : '3'; // default option = 3
+    $adsmargin_bottom = isset( $ad_meta['margin_bottom'][0] ) ? $ad_meta['margin_bottom'][0] : '3'; // default option = 3
+    $adsmargin_left = isset( $ad_meta['margin_left'][0] ) ? $ad_meta['margin_left'][0] : '3'; // default option = 3
+    $margin = sprintf( $styleArray[$adsalign], $adsmargin, $adsmargin_right, $adsmargin_bottom, $adsmargin_left );
 
     // Padding
     $adspadding = isset( $ad_meta['padding'][0] ) ? $ad_meta['padding'][0] : '0'; // default option = 0

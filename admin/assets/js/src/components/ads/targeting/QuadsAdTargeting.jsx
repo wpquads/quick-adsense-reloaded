@@ -293,7 +293,7 @@ class QuadsAdTargeting extends Component {
                     </tr>
                     : null}
                     <tr>
-                      <td><label>{__('Display After', 'quick-adsense-reloaded')}</label></td>
+                      <td><label>{__('Display Before', 'quick-adsense-reloaded')}</label></td>
                       <td><input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_number" value={post_meta.paragraph_number}  type="number" />
                       <input id='repeat_paragraph' checked={post_meta.repeat_paragraph} name="repeat_paragraph" onChange={this.props.adFormChangeHandler} type="checkbox"/>
                       <label htmlFor="repeat_paragraph"> {__('Display Before Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number} </label></td>
