@@ -2266,11 +2266,11 @@ function quads_get_inline_ad_style_new( $id ) {
     $adsalign = ( int )$ad_meta['align'][0];
     
     // Margin
-    $adsmargin_top = isset( $ad_meta['margin_top'][0] ) ? $ad_meta['margin_top'][0] : '3'; // default option = 3
+    $adsmargin = isset( $ad_meta['margin'][0] ) ? $ad_meta['margin'][0] : '3'; // default option = 3
     $adsmargin_right = isset( $ad_meta['margin_right'][0] ) ? $ad_meta['margin_right'][0] : '3'; // default option = 3
     $adsmargin_bottom = isset( $ad_meta['margin_bottom'][0] ) ? $ad_meta['margin_bottom'][0] : '3'; // default option = 3
     $adsmargin_left = isset( $ad_meta['margin_left'][0] ) ? $ad_meta['margin_left'][0] : '3'; // default option = 3
-    $margin = sprintf( $styleArray[$adsalign], $adsmargin_top, $adsmargin_right, $adsmargin_bottom, $adsmargin_left );
+    $margin = sprintf( $styleArray[$adsalign], $adsmargin, $adsmargin_right, $adsmargin_bottom, $adsmargin_left );
 
     // Padding
     $adspadding = isset( $ad_meta['padding'][0] ) ? $ad_meta['padding'][0] : '0'; // default option = 0

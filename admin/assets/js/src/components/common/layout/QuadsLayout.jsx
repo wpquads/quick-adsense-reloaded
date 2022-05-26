@@ -33,8 +33,7 @@ class QuadsLayout extends Component {
                       </td>
                       </tr>
                       <tr>
-                        <td><label>{__('Margin', 'quick-adsense-reloaded')}</label></td>
-                        <td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="margin_top" name="margin_top" value={post_meta.margin_top}/></td>
+                      <td><label>{__('Margin', 'quick-adsense-reloaded')}</label></td><td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="margin" name="margin" value={post_meta.margin}/></td>
                         <td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="margin_right" name="margin_right" value={post_meta.margin_right}/></td>
                         <td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="margin_bottom" name="margin_bottom" value={post_meta.margin_bottom}/></td>
                         <td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="margin_left" name="margin_left" value={post_meta.margin_left}/></td>
