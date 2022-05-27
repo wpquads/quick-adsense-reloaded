@@ -220,6 +220,7 @@ class QuadsAdList extends Component {
                 <div className="quads-more-icon-box">
                   <div className="quads-more-icon-box-close" onClick={this.props.hideStaticIconBox}><Icon>close</Icon></div>
                   <ul>
+                  <li><Link to={'admin.php?page=quads-settings&path=reports'} className='view_reports_'> {__('View Full Report', 'quick-adsense-reloaded')}</Link></li>
                     <li role="presentation"><span className="static_num">{item.post_meta?.analytics?.impressions ? item.post_meta.analytics.impressions : 0}</span> <span>{__('Impression ', 'quick-adsense-reloaded')}</span></li>
                     <li role="presentation"><span className="static_num">{item.post_meta?.analytics?.clicks ? item.post_meta.analytics.clicks : 0}</span> <span>{__('Clicks ', 'quick-adsense-reloaded')}</span></li>
                   </ul>

@@ -25,6 +25,7 @@ class QuadsAdReport extends Component {
             ab_testing:[],
             getallads_data_temp: [],
             getallads_data: [],
+            ad_ids_temp: [],
             report : {
                 adsense_code: '',
                 adsense_code_data :[
@@ -62,13 +63,17 @@ class QuadsAdReport extends Component {
        .then(
          (result) => {      
            let getallads_data =[];
+           let ad_ids_temp =[];
            Object.entries(result.posts_data).map(([key, value]) => {
-           if(value.post_meta['ad_type'] != "random_ads" && value.post_meta['ad_type'] != "rotator_ads" && value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] != "draft" && value.post_meta['ad_type'] == "ab_testing" )
+           if(value.post_meta['ad_type'] != "random_ads" && value.post_meta['ad_type'] != "rotator_ads" && value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] != "draft")
              getallads_data.push({label: value.post['post_title'], value: value.post['post_id']});
+           if(value.post_meta['ad_type'] != "random_ads" && value.post_meta['ad_type'] != "rotator_ads" && value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] == "publish")
+             ad_ids_temp.push(value.post['post_id']);
            })      
              this.setState({
              isLoaded: true,
              getallads_data: getallads_data,
+             ad_ids_temp: ad_ids_temp,
            });
            
          },        
@@ -237,6 +242,11 @@ class QuadsAdReport extends Component {
     abtesting_handler = () =>{
         this.setState({current_page:'adsense_report_page_abtesting'});
     }
+    view_stats_report_handler = () => {
+        this.setState({
+            current_page:'view_reports_stats'
+        })
+    }
     quads_adsense_report  =(pub_id='') =>{
         const {report} = this.state;
         if(pub_id == ''){
@@ -276,6 +286,30 @@ class QuadsAdReport extends Component {
                     console.log(error)
                   });
 
+        }
+
+    }
+
+    view_report_stats_formChangeHandler = (eve) => {
+
+        const {report} = this.state
+        let name  = eve.target.name;
+        let value = '';
+        if( name == "view_stats_report" ){
+            var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats';
+            fetch(url,{
+                method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': quads_localize_data.nonce,
+            },
+            // body: JSON.stringify({'account_id':pub_id})
+            } )
+            .then(res => res.json())
+            .then( (response) => {
+                console.log(response)
+            } )
         }
 
     }
@@ -400,6 +434,18 @@ class QuadsAdReport extends Component {
                                         this.abtesting_handler()
                                     } }><strong>View Report</strong></div>
                                     </li>
+                                    
+                                    <li data-adtype="view_stats_report" id="quads-adsense-view_stats_report">
+                                    <a class="quads-nav-linkforview_stats_report" onClick={ () =>{
+                                        this.view_stats_report_handler()
+                                    } }  >
+                                    <img src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ab.png'}/>
+                                    </a>
+                                    <div id="view_report_view_stats_report" style={{marginTop: "40px",color: "#005af0"}} onClick={ () =>{
+                                        this.view_stats_report_handler()
+                                    } }><strong>View Stats Report</strong></div>
+                                    </li>
+
                                 </ul>
                             </div>
                         </div>
@@ -434,6 +480,37 @@ class QuadsAdReport extends Component {
                         </div>
                         </div>
                         </Fragment> : ''}
+                
+                { this.state.current_page =='view_reports_stats' ?
+                    
+
+                    <Fragment>
+                    <div>
+                        <nav aria-label="breadcrumb">
+                        <ol className="breadcrumb">
+                            <li className="breadcrumb-item"><a> Report</a></li>
+                            <li className="breadcrumb-item active" aria-current="page">Stats Report</li>
+                        </ol>
+                    </nav>
+                    <div className="quads-report-networks">
+                        <div>
+                        <h1>Stats Report</h1>
+                        </div>
+                        <div className={'quads-select-menu'} >
+                        <div className={'quads-select view_report'} onClick={this.adsToggle_list}>
+                        <select name="view_stats_report" id={'view_stats_report'} placeholder="Select Ads">
+                        <option value="selectt">select report</option>
+                        {this.state.getallads_data_temp ? this.state.getallads_data_temp.map( item => (
+                            <option key={item.value} value={item.value}>{item.label}</option>
+                        ) )
+                        : 'No Options' }
+                        </select>
+                        <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </Fragment> : '' }
                 {this.state.current_page =='adsense_report_page' ?
                     <Fragment>
                         <div >
