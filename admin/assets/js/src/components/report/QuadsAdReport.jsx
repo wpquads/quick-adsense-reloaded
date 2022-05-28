@@ -291,12 +291,17 @@ class QuadsAdReport extends Component {
     }
 
     view_report_stats_formChangeHandler = (eve) => {
-
+        let date = ''
+        let newdate = ''
         const {report} = this.state
-        let name  = eve.target.name;
-        let value = '';
-        if( name == "view_stats_report" ){
-            var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats';
+        if(eve.target===undefined){
+             this.setState({cust_fromdate:eve}) ;
+        }
+        let id = document.getElementById('view_stats_report').value
+        newdate = new Date(this.state.cust_fromdate).toISOString()
+       
+        var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id+'&date='+newdate;
+
             fetch(url,{
                 method: "post",
             headers: {
@@ -304,13 +309,19 @@ class QuadsAdReport extends Component {
                 'Content-Type': 'application/json',
                 'X-WP-Nonce': quads_localize_data.nonce,
             },
-            // body: JSON.stringify({'account_id':pub_id})
             } )
             .then(res => res.json())
             .then( (response) => {
-                console.log(response)
-            } )
-        }
+                if(response!=null){
+                var render_data
+                var get_table = document.getElementById("quads_report_table")
+                render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+                get_table.innerHTML = render_data
+            }
+            else{
+                get_table.innerHTML = 'No data Found'
+            }
+            } )    
 
     }
 
@@ -498,14 +509,15 @@ class QuadsAdReport extends Component {
                         </div>
                         <div className={'quads-select-menu'} >
                         <div className={'quads-select view_report'} onClick={this.adsToggle_list}>
-                        <select name="view_stats_report" id={'view_stats_report'} placeholder="Select Ads">
+                        <select name="view_stats_report" onChange={this.view_report_stats_formChangeHandler} id={'view_stats_report'} placeholder="Select Ads">
                         <option value="selectt">select report</option>
                         {this.state.getallads_data_temp ? this.state.getallads_data_temp.map( item => (
                             <option key={item.value} value={item.value}>{item.label}</option>
                         ) )
                         : 'No Options' }
                         </select>
-                        <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
+                        <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_stats_formChangeHandler} />
+                        <div id={'quads_report_table'}></div>
                         </div>
                         </div>
                         </div>

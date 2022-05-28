@@ -95,7 +95,7 @@ public function quads_insert_ad_impression(){
       }else if($isMobile && !$isTablet){ // Only for mobile
         $device_name  = 'mobile';
       }
-      $today_date = date("Y_m_d").'_impressions';
+      $today_date = 'impressions_'.date("d_m_Y");
 
       $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d AND `ad_device_name` = %d AND `ad_thetime` = %d AND `referrer` = %d AND `ip_address` = %d AND `url` = %d AND `browser` = %d ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
       if($stats > 0) {
@@ -375,7 +375,7 @@ public function quads_get_client_ip() {
       $id_array = explode('quads-ad', $ad_id );
 
       $ad_id = $id_array[1]; 
-      $today_date = date("Y_m_d").'_clicks';
+      $today_date = 'clicks_'.date("d_m_Y");
 
       $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d AND `ad_device_name` = %d AND `ad_thetime` = %d AND `referrer` = %d AND `ip_address` = %d AND `url` = %d AND `browser` = %d ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
       if( $stats == NULL ){

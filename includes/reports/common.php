@@ -412,97 +412,30 @@ function quads_adsense_get_report_data($request_data){
 	die;
 }
 
-function quads_ads_stats_get_report_data($request_data){
+function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	
-	$parameters = $request_data->get_params();
-	echo 'START'; var_dump($parameters);die;
-	$report_period = (isset($parameters['report_period'])&& !empty($parameters['report_period']))?$parameters['report_period'] :'';
-	$report_type = (isset($parameters['report_type'])&& !empty($parameters['report_type']))?$parameters['report_type'] :'';
-	$input_based = (isset($parameters['input_based'])&& !empty($parameters['input_based']))?$parameters['input_based'] :'';
-	$report_view_type = (isset($parameters['report_view_type'])&& !empty($parameters['report_view_type']))?$parameters['report_view_type'] :'';
+	global $wpdb;
+    $ad_stats = array();
+	
+	$ad_id = $_GET['id'];
+	$mydate = $_GET['date'];
+	$date_timestamp = strtotime($mydate);
+	$new_date = date('d_m_Y', $date_timestamp);  
+	
 
-	$forcast_date_count = 0;
-
-	$endDate = (isset($parameters['endDate'])&& $parameters['endDate'])?$parameters['endDate'] :date('Y-m-d');
-
-	switch ($report_period) {
-		case 'last_7_days':
-			$startDate = strtotime(" -6 day");
-			$forcast_date_count = 7;
-			break;
-		case 'last_15_days':
-			$startDate = strtotime(" -14 day");
-			$forcast_date_count = 15;
-			break;
-		case 'last_30_days':
-			$startDate = strtotime(" -29 day");
-			$forcast_date_count = 30;
-			break;
-		case 'last_6_months':
-			$startDate = strtotime("-6 month");
-			$forcast_date_count = 180;
-			break;
-		case 'last_1_year':
-
-			$startDate = strtotime('-1 year');
-			$forcast_date_count = 365;
-			break;
-		case 'custom':
-
-			$startDate = (isset($parameters['cust_fromdate'])&& !empty($parameters['cust_fromdate']))?strtotime(str_replace("/", "-",$parameters['cust_fromdate'])) :strtotime("now");
-			$endDate = (isset($parameters['cust_todate'])&& !empty($parameters['cust_todate']))?date("Y-m-d", strtotime(str_replace("/", "-",$parameters['cust_todate']))) :date("Y-m-d");
-			$forcast_date_count = 365;
-			break;
-		case 'all_time':
-			$startDate = strtotime('-3 year');
-			$forcast_date_count = 900;
-			break;
-		default:
-			$forcast_date_count = 7;
-			$startDate = strtotime(" -6 day");
-			break;
-	}
-
-	$account_id = $parameters['account_id'];
-	$startDate = date("Y-m-d", $startDate);//date('Y-m-d',$startDate);
-	$token_data    = quads_adsense_get_access_token($account_id);
-
-	switch ($report_type){
-		case 'earning_forcast':
-			$url        = 'https://adsense.googleapis.com/v2/accounts/'.esc_html($account_id).'/reports:generate?dateRange='.esc_html($report_period).'&dimensions=MONTH&metrics=ESTIMATED_EARNINGS';
-			break;
-		case 'top_device_type':
-			$report_type = 'PLATFORM_TYPE_CODE';
-			$url        = 'https://adsense.googleapis.com/v2/accounts/'.esc_html($account_id).'/reports:generate?dateRange='.esc_html($report_period).'&dimensions=PLATFORM_TYPE_CODE&metrics=TOTAL_EARNINGS';
-			break;
-		case 'earning':
-		default:
-			$report_type = 'EARNINGS';
-			// $url        = 'https://www.googleapis.com/adsense/v1.4/accounts/'.esc_html($account_id).'/reports?startDate='.esc_html($startDate).'&endDate='.esc_html($endDate).'&dimension=DATE&dimension=EARNINGS&metric=EARNINGS&useTimezoneReporting=true';
-			$url        = 'https://adsense.googleapis.com/v2/accounts/'.esc_html($account_id).'/reports:generate?dateRange='.esc_html($report_period).'&dimensions=MONTH&metrics=TOTAL_EARNINGS';
-			break;
-	}
-	$token_data = wp_unslash( $token_data);
-
-	$headers = array( 'Authorization' => 'Bearer ' . $token_data );
-	$response = wp_remote_get( $url, array( 'headers' => $headers ) );
-
-	if ( is_wp_error( $response ) ) {
-
-		echo json_encode(
-			array(
-				'status'    => false,
-				'error_msg' => $response->get_error_message(),
-			)
-		);
-
-	} else {
-		// $adsense_data_response = json_decode( $response['body'], true );
-		return json_decode( $response['body'], true );
-
-		// return $adsense_data_response['rows'];
-	}
-	die;
+		$col_name_imprsn = 'impressions_'.$new_date;
+		$col_name_clicks = 'clicks_'.$new_date;
+			$results = $wpdb->get_results($wpdb->prepare("SELECT *FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+			if(!empty($results)) {
+				foreach ($results as $key => $value) {
+					$ad_imprsn =  $value->$col_name_imprsn;
+					$ad_clicks =  $value->$col_name_clicks;
+				}
+			}
+            $ad_stats['impressions'] = $ad_imprsn;
+            $ad_stats['clicks']      = $ad_clicks;
+			return $ad_stats;
+                                    
 }
 
 function quads_adsense_get_access_token($account){
