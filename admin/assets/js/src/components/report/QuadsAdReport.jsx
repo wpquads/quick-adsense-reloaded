@@ -47,6 +47,99 @@ class QuadsAdReport extends Component {
         };
         this.QuadsRedirectToWizard = this.QuadsRedirectToWizard.bind(this);
     }
+    drawChart = (config) => {
+                
+        if(document.getElementById("quads_canvas"))
+            document.getElementById("quads_canvas").outerHTML = "";
+    
+        var new_canvas = "<canvas id='quads_canvas'>" + " <canvas>";
+        document.getElementById('quads_reports_canvas').innerHTML = new_canvas;
+        if(window.myPieChart ) {
+            window.myPieChart.update();
+        }
+        // Get the context of the canvas element we want to select
+        var ctx = document.getElementById('quads_canvas');
+        window.myPieChart = new Chart(ctx, config);
+             }
+             
+    display_report_stats = (response) => {
+
+        var data_length = response.length;
+        var dates_array = [];
+        var data = [];
+        // var report_view_type = document.getElementById('report_view_type').value;
+        var New_date_formate = '';
+        var week_total = 0;
+        var weekname_flag = '';
+        var flag = 0;
+        var view_count = []; 
+        var datasets = []; 
+     
+
+    datasets = [{
+        label: '',
+        backgroundColor: '',
+        borderColor: '',
+        display: 'none',
+        data: data,
+        fill: false,
+    }];
+    var config = {
+        type: 'line',
+        data: {
+            labels: dates_array,
+            datasets: datasets
+        },
+        options: {
+            legend: {
+                position: 'bottom',
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            responsive: true,
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+                callbacks: {
+                    label:function(tooltipItem, data){
+                        var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                        if (label) {
+                            label += ': ';
+                        }
+                        label += '$'+tooltipItem.yLabel;
+                        return label ;
+                    }
+                },
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Chart.js Line Chart'
+                },
+
+            },
+            scales: {
+                xAxes: {
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Month'
+                    }
+                },
+                yAxes: {
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Value'
+                    }
+                }
+            }
+        }
+    };
+drawChart(config);
+}
 
     getallads = (search_text = '',page = '') => {
         let url = quads_localize_data.rest_url + "quads-route/get-ads-list?posts_per_page=100&pageno="+page;
@@ -291,6 +384,7 @@ class QuadsAdReport extends Component {
     }
 
     view_report_stats_formChangeHandler = (eve) => {
+        // this.myfunc()
         let date = ''
         let newdate = ''
         const {report} = this.state
@@ -313,13 +407,18 @@ class QuadsAdReport extends Component {
             .then(res => res.json())
             .then( (response) => {
                 if(response!=null){
-                var render_data
-                var get_table = document.getElementById("quads_report_table")
-                render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
-                get_table.innerHTML = render_data
-            }
-            else{
-                get_table.innerHTML = 'No data Found'
+                    var render_data
+                    var get_table = document.getElementById("quads_report_table")
+                    if(response.clicks == null || response.impressions == null ){
+                        get_table.innerHTML = 'No data Found'
+                    }
+                    else{
+                        console.log(response);
+                        this.display_report_stats(response)
+                        render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+                        get_table.innerHTML = render_data
+
+                    }
             }
             } )    
 
@@ -450,7 +549,7 @@ class QuadsAdReport extends Component {
                                     <a class="quads-nav-linkforview_stats_report" onClick={ () =>{
                                         this.view_stats_report_handler()
                                     } }  >
-                                    <img src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ab.png'}/>
+                                    <img src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/view_stats.png'}/>
                                     </a>
                                     <div id="view_report_view_stats_report" style={{marginTop: "40px",color: "#005af0"}} onClick={ () =>{
                                         this.view_stats_report_handler()
@@ -504,11 +603,11 @@ class QuadsAdReport extends Component {
                         </ol>
                     </nav>
                     <div className="quads-report-networks">
-                        <div>
+                        <div className={'stats_rep'}>
                         <h1>Stats Report</h1>
                         </div>
                         <div className={'quads-select-menu'} >
-                        <div className={'quads-select view_report'} onClick={this.adsToggle_list}>
+                        <div className={'quads-select view_statsreport'} onClick={this.adsToggle_list}>
                         <select name="view_stats_report" onChange={this.view_report_stats_formChangeHandler} id={'view_stats_report'} placeholder="Select Ads">
                         <option value="selectt">select report</option>
                         {this.state.getallads_data_temp ? this.state.getallads_data_temp.map( item => (
@@ -517,8 +616,10 @@ class QuadsAdReport extends Component {
                         : 'No Options' }
                         </select>
                         <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_stats_formChangeHandler} />
-                        <div id={'quads_report_table'}></div>
                         </div>
+                        </div>
+                        <div id={'quads_report_table'}></div>
+                        <div id='quads_reports_canvas'>
                         </div>
                         </div>
                         </div>

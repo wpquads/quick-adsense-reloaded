@@ -100,7 +100,7 @@ public function quads_insert_ad_impression(){
       $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d AND `ad_device_name` = %d AND `ad_thetime` = %d AND `referrer` = %d AND `ip_address` = %d AND `url` = %d AND `browser` = %d ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
       if($stats > 0) {
               $wpdb->query("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_impressions` = `ad_impressions` + 1 WHERE `id` = {$stats};");
-
+              if( function_exists('quads_is_pro_active') && quads_is_pro_active() ){
               $quads_stats_getrow = $wpdb->get_row(" SELECT * FROM `{$wpdb->prefix}quads_stats` ");
 
             if(!isset($quads_stats_getrow->$today_date)){
@@ -109,6 +109,7 @@ public function quads_insert_ad_impression(){
             if(isset($quads_stats_getrow->$today_date)){
               $wpdb->query("UPDATE `{$wpdb->prefix}quads_stats` SET $today_date = $today_date + 1 WHERE `id` = {$stats};");
               }
+            }
             
       } else {
               $wpdb->insert($wpdb->prefix.'quads_stats', array('ad_id' => $ad_id, 'ad_thetime' => $today, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_device_name' => trim($device_name),'referrer' => trim($referrer_url),'ip_address' => trim($user_ip),'browser' => trim($browser), 'url'=>$actual_link ));
@@ -387,7 +388,7 @@ public function quads_get_client_ip() {
          if(empty($row)){
              $wpdb->query("ALTER TABLE `{$wpdb->prefix}quads_stats` ADD Beginning_of_post INT(1) NOT NULL DEFAULT 0, ADD End_of_post INT(1) NOT NULL DEFAULT 0, ADD Middle_of_post INT(1) NOT NULL DEFAULT 0, ADD After_more_tag INT(1) NOT NULL DEFAULT 0 ");
          }
-
+         if( function_exists('quads_is_pro_active') && quads_is_pro_active() ){
          $quads_stats_getrow = $wpdb->get_row(" SELECT * FROM `{$wpdb->prefix}quads_stats` ");
 
          if(!isset($quads_stats_getrow->$today_date)){
@@ -396,6 +397,7 @@ public function quads_get_client_ip() {
         if(isset($quads_stats_getrow->$today_date)){
         $wpdb->query("UPDATE `{$wpdb->prefix}quads_stats` SET $today_date = $today_date + 1 WHERE `id` = {$stats};");
         }
+      }
 
       } else {
         
