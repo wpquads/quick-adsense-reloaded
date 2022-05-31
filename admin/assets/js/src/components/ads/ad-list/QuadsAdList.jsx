@@ -95,6 +95,10 @@ class QuadsAdList extends Component {
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/popup_ads.png';
           type = "Popup Ad";
           break;
+          case 'video_ads':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/video_ads.png';
+          type = "Video Ad";
+          break;
           case 'double_click':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/double_click_icon.png';
           type = "Google Ad Manager";
@@ -114,6 +118,10 @@ class QuadsAdList extends Component {
           case 'ad_image':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/banner_ad_icon.png';
           type = "Banner Ad";
+          break;
+          case 'video_ads':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/video_ads.png';
+          type = "Video Ad";
           break;
           case 'ad_blindness':
             img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ad_blindness_icon.png';

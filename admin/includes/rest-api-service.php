@@ -531,6 +531,9 @@ if($license_info){
                     if($key == 'popup_ads'){
                       $filterd_meta =$val;
                     }
+                    if($key == 'video_ads'){
+                      $filterd_meta =$val;
+                    }
 
                     update_post_meta($ad_id, $key, $filterd_meta);
                 }

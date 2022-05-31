@@ -190,6 +190,7 @@ class QuadsAdTargeting extends Component {
                 post_meta.ad_type == 'yandex' ||
                 post_meta.ad_type == 'mgid' ||
                 post_meta.ad_type == 'ad_image' ||
+                post_meta.ad_type == 'video_ads' ||
                 post_meta.ad_type == 'propeller' ||
                 post_meta.ad_type == 'taboola' ||
                 post_meta.ad_type == 'media_net' ||
@@ -400,6 +401,49 @@ class QuadsAdTargeting extends Component {
                             </td>
                         </tr>
                         :null}
+                        { post_meta.ad_type == 'video_ads' ?
+                        <tr className='video_ad_table'>
+                            <td><label>{__('Video Type', 'quick-adsense-reloaded')}</label></td>
+                            <td><select value={post_meta.video_ad_type} name="video_ad_type" onChange={this.props.adFormChangeHandler} >
+                                <option value="select">Select</option>
+                                <option value="specific_time_video">After Specific Time</option>
+                                <option value="after_scroll_video">On Scroll</option>
+                                </select></td>                                 
+                                </tr>
+                         : ''
+                        }
+                        {post_meta.ad_type == 'video_ads' && post_meta.video_ad_type == 'specific_time_video' ?
+                          <tr>
+                          <td></td>
+                            <td>
+                                <input id={'specific_time_interval_sec_video'}
+                                       name={'specific_time_interval_sec_video'} type="number"
+                                       value={post_meta.specific_time_interval_sec_video} onChange={this.props.adFormChangeHandler}  /> milliseconds
+                            </td>
+                        </tr>
+                        :null}
+                        {post_meta.ad_type == 'video_ads' && post_meta.video_ad_type == 'after_scroll_video' ?
+                          <tr>
+                            <td></td>
+                            <td>
+                                <input id={'on_scroll_video_percentage'}
+                                       name={'on_scroll_video_percentage'} type="number"
+                                       value={post_meta.on_scroll_video_percentage} onChange={this.props.adFormChangeHandler}  /> Scroll percentage
+                            </td>
+                        </tr>
+                        :null}
+                        
+                        { post_meta.ad_type == 'video_ads' ?
+                        <tr className='video_ad_positiontable'>
+                            <td><label>{__('Position', 'quick-adsense-reloaded')}</label></td>
+                            <td><select value={post_meta.video_ad_type_position} name="video_ad_type_position" onChange={this.props.adFormChangeHandler} >
+                                <option value="select">Select</option>
+                                <option value="v_left">Left</option>
+                                <option value="v_right">Right</option>
+                                </select></td>                                 
+                                </tr>
+                         : ''
+                        }
                   </tbody>
                 </table>                                 
                 </div>  

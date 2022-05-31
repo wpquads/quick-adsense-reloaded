@@ -420,6 +420,12 @@ function quads_inline_styles() {
             width: 19em;
         }
     }
+    .quads-video {
+        position: fixed;
+        top: 50%;
+        left: 0%;
+        z-index: 999;
+    }
     .quads_click_impression { display: none;}";
     // Register empty style so we do not need an external css file
     wp_register_style( 'quads-styles', false );

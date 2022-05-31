@@ -120,6 +120,51 @@ class QuadsAdConfigFields extends Component {
           image_frame.open();
 
     }
+  
+    selectvideo  = (event) => {
+      var video_frame;
+
+      var self =this;
+      if(video_frame){
+       video_frame.open();
+      }
+
+      // Define video_frame as wp.media object
+      video_frame = wp.media({
+                 library : {
+                      type : 'video',
+                  }
+             });
+      video_frame.on('close',function() {
+                  // On close, get selections and save to the hidden input
+                  // plus other AJAX stuff to refresh the image preview
+                  var selection =  video_frame.state().get('selection');
+                  var id = '';
+                  var src = '';
+                  var video_width = '';
+                  var video_height = '';
+                  var my_index = 0;
+                  selection.each(function(attachment) {
+                    console.log(attachment);
+                    id = attachment['id'];
+                    src = attachment.attributes.url;
+                    video_width = attachment.attributes.width;
+                    video_height = attachment.attributes.height;
+                  });
+                  self.props.adFormChangeHandler({ target : { name : 'image_src_id' , value : id } });
+                  self.props.adFormChangeHandler({ target : { name : 'image_src' , value : src } });                  
+                  self.props.adFormChangeHandler({ target : { name : 'image_width' , value : video_width } });                  
+                  self.props.adFormChangeHandler({ target : { name : 'image_height' , value : video_height } });                  
+               });   
+      video_frame.on('open',function() {
+              // On open, get the id from the hidden input
+              // and select the appropiate images in the media manager
+              var selection =  video_frame.state().get('selection');
+
+            });
+          video_frame.open();
+
+    }
     selectimages_2  = (event) => {
       var image_frame_2;
 
@@ -631,6 +676,33 @@ error_outline
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
                     {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>Enter Ad Anchor link</div> :''}
+                     </td></tr>
+                  </tbody>
+                </table>
+                </div>);
+
+              break;
+            case 'video_ads':
+             ad_type_name = 'Video';  
+              comp_html.push(<div key="video_ads">
+                <table>
+                  <tbody>
+                    <tr><td>
+                    <label>{__('Upload A Video', 'quick-adsense-reloaded')}</label></td><td>
+                   {post_meta.image_src == '' ? <div><div><a className="button" onClick={this.selectvideo}>{__(' Upload Video', 'quick-adsense-reloaded')}</a>
+                   </div>
+                   </div>
+                   : <div>
+                   <div>
+                   <video src={post_meta.image_src} className="banner_image" />
+                   <a className="button" onClick={this.remove_image}>{__('Remove Video', 'quick-adsense-reloaded')}</a></div>
+
+                   </div>
+                  }
+                     
+                      
+                    {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Upload A Video</div> :''}
                      </td></tr>
                   </tbody>
                 </table>

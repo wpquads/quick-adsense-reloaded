@@ -313,6 +313,29 @@ function quads_render_ad_image_async( $id ) {
     return apply_filters( 'quads_render_ad_image_async', $html );
 }
 
+function quads_render_ad_video_async( $id ) {
+    global $quads_options;
+
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Yandex async --> \n\n";
+    $vid_width = isset($quads_options['ads'][$id]['image_width']) ? $quads_options['ads'][$id]['image_width'] : '' ;
+    $vid_height = isset($quads_options['ads'][$id]['image_height']) ? $quads_options['ads'][$id]['image_height'] : '' ;
+    if(isset($quads_options['ads'][$id]['image_src'])  && !empty($quads_options['ads'][$id]['image_src'])){
+        $html .= '
+        <iframe width="'.$vid_width.'" height="'.$vid_height.'" src="'.$quads_options['ads'][$id]['image_src'].'" 
+            frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen></iframe>
+        ';
+    }
+    else{
+        $html .= '<iframe width="560" height="315" src="'.$quads_options['ads'][$id]['image_src'].'" 
+        frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen></iframe>';
+    }
+
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_ad_image_async', $html );
+}
+
 /**
  * Render Taboola
  *
@@ -991,7 +1014,6 @@ function quads_is_double_click( $id, $string ) {
 }
 
 function quads_is_popup_ad( $id, $string ) {
-    // echo 'sdsf';die;
     global $quads_options;
 
     if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'popup_ads') {
@@ -1059,6 +1081,14 @@ function quads_is_ad_image( $id, $string ) {
     global $quads_options;
 
     if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'ad_image') {
+        return true;
+    }
+    return false;
+}
+function quads_is_ad_video( $id, $string ) {
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'video_ads') {
         return true;
     }
     return false;
