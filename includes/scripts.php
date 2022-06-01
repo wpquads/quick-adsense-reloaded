@@ -423,7 +423,6 @@ function quads_inline_styles() {
     .quads-video {
         position: fixed;
         top: 50%;
-        left: 0%;
         z-index: 999;
     }
     .quads_click_impression { display: none;}";

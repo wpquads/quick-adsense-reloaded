@@ -12,25 +12,26 @@ jQuery( document ).ready(function($) {
         document.cookie = name + "=" + (value || "")  + expires + "; path=/";
     }
     
-    setTimeout(() => {
-        $("#btn_close").click(function() {  
-            $(".quads-popupad").css("display", "none");
-            set_quads_Cookie('quads_popup','popup_ad',1);
-          });
-    }, 500);
-    // showing popup after respective time as per settings
-    var data_popuptype = $(".quads-popupad").attr('data-popuptype');
-    var data_timer = $(".quads-popupad").attr('data-timer');
-    
-    if( data_popuptype && data_popuptype == "specific_time_popup" ){
+ 
+    // showing video after respective time as per settings
+    var data_videotype = $(".quads-video").attr('data-videotype');
+    var data_videoposition = $(".quads-video").attr('data-position');
+    var data_timer = $(".quads-video").attr('data-timer');
+    if( data_videoposition == "v_right" ){
+        $(".quads-video").css("bottom", "0px");
+        $(".quads-video").css("float", "right");
+        $(".quads-video").css("position", "sticky");
+        $(".quads-video").css("top", "0%");
+    }
+    if( data_videotype && data_videotype == "specific_time_video" ){
         setTimeout(() => {
-            $(".quads-popupad").css("display", "block");
+            $(".quads-video").css("display", "block");
         }, data_timer);
     }
-    // showing popup after respective scroll as per settings
-    var data_popuptype = $(".quads-popupad").attr('data-popuptype');
-    var data_percent = $(".quads-popupad").attr('data-percent');
-    if( data_popuptype == "on_scroll_popup"  ){
+    // showing video after respective scroll as per settings
+    var data_percent = $(".quads-video").attr('data-percent');
+    console.log(data_percent);
+    if( data_videotype == "after_scroll_video"  ){
         window.addEventListener("scroll", () => {
             let scrollTop = window.scrollY;
             let docHeight = document.body.offsetHeight;
@@ -38,10 +39,7 @@ jQuery( document ).ready(function($) {
             let scrollPercent = scrollTop / (docHeight - winHeight);
             let scrollPercentRounded = Math.round(scrollPercent * 100);
             if( scrollPercentRounded>=data_percent  ) {
-                $(".quads-popupad").css("display", "block");
-            }
-            else{
-                $(".quads-popupad").css("display", "none");
+                $(".quads-video").css("display", "block");
             }
           });
     }
@@ -55,133 +53,48 @@ jQuery( document ).ready(function($) {
         var ad_data_json = $(this).attr('data-json');
 
         var obj = JSON.parse(ad_data_json);
-
-        var ads_group_id = obj.quads_group_id;
-        var ads_group_refresh_type = obj.quads_popup_type;
+        var lol = obj.quads_group_id;
+        var videourl = obj.viedo_url;
+        var videowidth = obj.viedo_width;
+        var videoheight = obj.viedo_height;
+        var ads_group_refresh_type = obj.quads_video_type;
         var ads_group_ref_interval_sec = obj.quads_group_ref_interval_sec;
         var ad_ids = obj.ads;
         var ad_ids_length = Object.keys(ad_ids).length;
 
         var i=0;
         var j = 0;
-        if(ads_group_refresh_type ==='popupads'){
+        if(ads_group_refresh_type ==='videoads'){
             j = 1;
 
-            quadsShowAdsById(ads_group_id, ad_ids[i], j);
+            quadsShowAdsById(lol,videourl,videowidth, videoheight, ad_ids[i], j);
             i++;
 
             j++;
-            var quads_ad_popupads = function () {
+            var quads_ad_videoads = function () {
                 if(i >= ad_ids_length){
                     i = 0;
                 }
                 var adbyindex ='';
                 adbyindex = ad_ids[i];
-                quadsShowAdsById(ads_group_id, adbyindex, j);
+                quadsShowAdsById(lol,videourl,videowidth, videoheight, adbyindex, j);
                 i++;
 
                 j++;
-                setTimeout(quads_ad_popupads, ads_group_ref_interval_sec);
+                setTimeout(quads_ad_videoads, ads_group_ref_interval_sec);
             };
-            // quads_ad_popupads();
+            // quads_ad_videoads();
         }
     });
 });
 
-function quadsShowAdsById(ads_group_id, adbyindex, j){
-    var container = jQuery(".quads_ad_containerr[data-id='"+ads_group_id+"']");
-    var container_pre = jQuery(".quads_ad_containerr_pre[data-id='"+ads_group_id+"']");
+function quadsShowAdsById(lol, videourl, viedo_width, viedo_height, adbyindex, j){
+    var container = jQuery(".quads_ad_containerrr[data-id='"+lol+"']");
+    var container_pre = jQuery(".quads_ad_containerrr_pre[data-id='"+lol+"']");
     var content ='';
     switch(adbyindex.ad_type[0]){
-        case "plain_text":
-            content +=adbyindex.code[0];
-            container.html(content);
-            break;
-        case "adsense":
-            // var bannersize =(adbyindex.ad_banner_size).split("x");
-            var width = adbyindex.width[0];
-            var height = adbyindex.height[0];
-            if(adbyindex.ad_adsense_type[0] == "normal"){
-                content +='<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
-                content +='<ins class="adsbygoogle" style="display:inline-block;width:'+width+'px;height:'+height+'px" data-ad-client="'+adbyindex.ad_data_client_id+'" data-ad-slot="'+adbyindex.ad_data_ad_slot+'"></ins>';
-            }
-            container.html(content);
-            break;
-        case "double_click":
-            var width = adbyindex.width[0];
-            var height = adbyindex.height[0];
-            var data_slot ="googletag.defineSlot('"+adbyindex.network_code+"/"+adbyindex.ad_unit_name+"/', ["+width+", "+height+"], 'wp_quads_dfp_"+ads_group_id+"');";
-            content +="<script async src='https://securepubads.g.doubleclick.net/tag/js/gpt.js'></script><script>window.googletag = window.googletag || {cmd: []}; googletag.cmd.push(function() { "+data_slot+"googletag.pubads().enableSingleRequest();googletag.enableServices(); });  </script>";
-
-            content +='<div id="wp_quads_dfp_'+ads_group_id+'" style="height:'+height+'px; width:'+width+'px;"><script>googletag.cmd.push(function() { googletag.display("wp_quads_dfp_'+ads_group_id+'"); });</script></div>';
-            container.html(content);
-            break;
-        case "yandex":
-            var width = adbyindex.width[0];
-            var height = adbyindex.height[0];
-            var data_slot ="googletag.defineSlot('"+adbyindex.network_code+"/"+adbyindex.ad_unit_name+"/', ["+width+", "+height+"], 'wp_quads_dfp_"+ads_group_id+"');";
-
-            content +='<div id="yandex_rtb_'+adbyindex.block_id+'" ></div>\n' +
-                '                       <script type="text/javascript">\n' +
-                '    (function(w, d, n, s, t) {\n' +
-                '        w[n] = w[n] || [];\n' +
-                '        w[n].push(function() {\n' +
-                '            Ya.Context.AdvManager.render({\n' +
-                '                blockId: "'+adbyindex.block_id+ '",\n' +
-                '                renderTo: "yandex_rtb_'+adbyindex.block_id+'",\n' +
-                '                async: true\n' +
-                '            });\n' +
-                '        });\n' +
-                '        t = d.getElementsByTagName("script")[0];\n' +
-                '        s = d.createElement("script");\n' +
-                '        s.type = "text/javascript";\n' +
-                '        s.src = "//an.yandex.ru/system/context.js";\n' +
-                '        s.async = true;\n' +
-                '        t.parentNode.insertBefore(s, t);\n' +
-                '    })(this, this.document, "yandexContextAsyncCallbacks");\n' +
-                '</script>';
-            container.html(content);
-            break;
-        case "mgid":
-            content +=' <div id="'+adbyindex.data_container+'"></div> <script src="'+adbyindex.data_js_src+'" async></script>';
-            container.html(content);
-            break;
-        case "taboola":
-            content +='<script type="text/javascript">window._taboola = window._taboola || [];\n' +
-                '              _taboola.push({article:"auto"});\n' +
-                '              !function (e, f, u) {\n' +
-                '                e.async = 1;\n' +
-                '                e.src = u;\n' +
-                '                f.parentNode.insertBefore(e, f);\n' +
-                '              }(document.createElement("script"), document.getElementsByTagName("script")[0], "//cdn.taboola.com/libtrc/'+adbyindex.taboola_publisher_id+'/loader.js");\n' +
-                '              </script>';
-            container.html(content);
-            break;
-        case "media_net":
-            var width = adbyindex.width[0];
-            var height = adbyindex.height[0];
-
-            content +='<script id="mNCC" language="javascript">';
-            content +='medianet_width = '+width+';';
-            content +='medianet_height = '+height+';';
-            content +='medianet_crid ='+adbyindex.data_crid;
-            content +='medianet_versionId ="3111299";';
-            content +='</script>';
-            content +='<script src="//contextual.media.net/nmedianet.js?cid='+adbyindex.data_cid+'"></script>';
-            container.html(content);
-            break;
-        case "mediavine":
-            content += '<link rel="dns-prefetch" href="//scripts.mediavine.com" />\n' +
-                '                  <script type="text/javascript" async="async" data-noptimize="1" data-cfasync="false" src="//scripts.mediavine.com/tags/'+adbyindex.mediavine_site_id+'.js?ver=5.2.3"></script>';
-            container.html(content);
-            break;
-        case "outbrain":
-            content += '<script type="text/javascript" async="async" src="http://widgets.outbrain.com/outbrain.js "></script>' +
-                '<div class="quads_ad_amp_outbrain" data-widget-id="'+adbyindex.outbrain_widget_ids+'"></div>';
-            container.html(content);
-            break;
-        case "ad_image":
-            content +='<div id="btn_close">x</div><a target="_blank" href="'+adbyindex.image_redirect_url+'"><img src="'+adbyindex.ad_image+'"></a>';
+        case "v":
+            content +='<iframe width="'+viedo_width+'" height="'+viedo_height+'" src='+videourl+' frameborder="0" allow="accelerometer; autoplay="true"; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
             container.html(content);
             break;
 

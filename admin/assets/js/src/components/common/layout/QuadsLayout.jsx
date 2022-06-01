@@ -15,7 +15,7 @@ class QuadsLayout extends Component {
     const {__} = wp.i18n;  
     const post_meta = this.props.parentState.quads_post_meta;  
           return (
-            post_meta.ad_type && post_meta.ad_type == "popup_ads" ? '' :
+            post_meta.ad_type && post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" ? '' :
             <div>
               <div>{__('Layout', 'quick-adsense-reloaded')}</div>
              <div className="quads-panel">
