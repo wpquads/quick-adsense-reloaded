@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 5.9.3
+Tested up to: 6.0
 Requires PHP: 5.4
-Stable tag: 2.0.52
+Stable tag: 2.0.53
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & Banner ads on your site. Innovative features, Active Development & Fast Support.
 
@@ -206,6 +206,14 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.53 ( 01 June 2022 ) =
+* Added: An Option to add Ad Before HTML Tag #531
+* Added: An Option to set margin as left and right #539
+* Added: An Option to set on only AMP version for Ad "After Paragraph" #540
+* Added: View Report of Ad Impressions. #541
+* Added: Video Ads Support. #543
+* Fixed: Updated mail id. #554
 
 = 2.0.52 ( 20 May 2022 ) =
 * Fixed: Tooltip improved. #534
