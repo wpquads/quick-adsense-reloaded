@@ -75,7 +75,7 @@ function quads_send_feedback() {
 
     $subject = isset( $form['quads_disable_reason'] ) ? $form['quads_disable_reason'] : '(no reason given)';
 
-    $success = wp_mail( 'makebetter@wpquads.com', $subject, $text, $headers );
+    $success = wp_mail( 'team@magazine3.in', $subject, $text, $headers );
 
     //error_log(print_r($success, true));
     //error_log($from . $subject . var_dump($form));
