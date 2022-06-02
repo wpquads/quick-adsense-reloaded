@@ -695,7 +695,9 @@ error_outline
                    : <div>
                    <div>
                    <video src={post_meta.image_src} className="banner_image" />
-                   <a className="button" onClick={this.remove_image}>{__('Remove Video', 'quick-adsense-reloaded')}</a></div>
+                   <a className="button" onClick={this.remove_image}>{__('Remove Video', 'quick-adsense-reloaded')}</a>
+                   <p className={'p_q_video'}>We recommend try keeping videos to under 15 seconds as much as possible & if size's smaller please donot upload HD Quality</p>
+                   </div>                   
 
                    </div>
                   }

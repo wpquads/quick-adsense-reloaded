@@ -2089,7 +2089,7 @@ function quads_parse_popup_ads($content) {
     return  $content ;
 }
 function quads_parse_video_ads($content) {
-    if(!isset($_COOKIE['quads_popup'])){
+    if(!isset($_COOKIE['quads_video'])){
         
         preg_match("#<!--CusRottt(.+?)-->#si", $content, $match);
         if (!isset($match['1'])) {
@@ -2156,10 +2156,10 @@ function quads_parse_video_ads($content) {
 
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
             '<div class="quads-location quads-video ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" '.$videoad_data.' data-videotype="'.$video_ad_type.'" style="' . $style . '">' . "\n";
-        $code .='<div class="quads-groups-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
+        $code .='<div class="quads-video-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
         $code .='</div>';
 
-        $code .='<div style="display:none;" class="quads_ad_containerrr_pre"></div><div data-id="'.esc_attr($ad_id).'" class="quads quads_ad_containerrr">
+        $code .='<div data-id="'.esc_attr($ad_id).'" class="quads quads_ad_container_video">
         
         </div>';
 

@@ -422,8 +422,12 @@ function quads_inline_styles() {
     }
     .quads-video {
         position: fixed;
-        top: 50%;
-        z-index: 999;
+        bottom: 0px;
+        z-index: 9999999;
+        left: 10px;
+    }
+    quads_ad_container_video{
+        max-width:220px;
     }
     .quads_click_impression { display: none;}";
     // Register empty style so we do not need an external css file
