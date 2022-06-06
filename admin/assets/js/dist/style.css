@@ -315,6 +315,26 @@ and open the template in the editor.
   right: 7px;
   font-size: 20px;
   cursor: pointer; }
+
+input#margin_bottom {
+  width: 79px; }
+
+a.view_reports_ {
+  text-decoration: none;
+  bottom: 6px;
+  position: relative;
+  padding: 0px 4px; }
+
+select#view_stats_report {
+  width: 200px;
+  margin-left: 18px;
+  margin-top: -4px; }
+
+#quads_report_table {
+  padding-left: 31px; }
+
+.stats_rep {
+  margin-left: 19px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

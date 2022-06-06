@@ -35,6 +35,13 @@ function quads_registerRoute($hook){
 			return current_user_can( 'manage_options' );
 		}
 	));
+	register_rest_route( 'quads-adsense', 'get_report_stats', array(
+		'methods'    => 'POST',
+		'callback'   => 'quads_ads_stats_get_report_data',
+		'permission_callback' => function(){
+			return current_user_can( 'manage_options' );
+		}
+	));
 	register_rest_route( 'quads-adsense', 'get_report_abtesting', array(
 		'methods'    => 'POST',
 		'callback'   => 'quads_adsense_get_report_abtesting_data',
@@ -405,6 +412,32 @@ function quads_adsense_get_report_data($request_data){
 	die;
 }
 
+function quads_ads_stats_get_report_data($request_data, $ad_id=''){
+	
+	global $wpdb;
+    $ad_stats = array();
+	
+	$ad_id = $_GET['id'];
+	$mydate = $_GET['date'];
+	$date_timestamp = strtotime($mydate);
+	$new_date = date('d_m_Y', $date_timestamp);  
+	
+
+		$col_name_imprsn = 'impressions_'.$new_date;
+		$col_name_clicks = 'clicks_'.$new_date;
+			$results = $wpdb->get_results($wpdb->prepare("SELECT *FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+			if(!empty($results)) {
+				foreach ($results as $key => $value) {
+					$ad_imprsn =  $value->$col_name_imprsn;
+					$ad_clicks =  $value->$col_name_clicks;
+				}
+			}
+            $ad_stats['impressions'] = $ad_imprsn;
+            $ad_stats['clicks']      = $ad_clicks;
+			return $ad_stats;
+                                    
+}
+
 function quads_adsense_get_access_token($account){
 	$options = quads_get_option_adsense();
 	// if ( isset( $options['accounts'][ $account ] ) ) {
@@ -557,11 +590,11 @@ function quads_get_ad_stats($condition, $ad_id='', $date=null,$parameters ='') {
     
     global $wpdb;
     $ad_stats = array();
-    
+    // var_dump($condition);die;
     switch ($condition) {
         
         case 'sumofstats':
-
+// echo 'sdf';die;	
             $result = $wpdb->get_results($wpdb->prepare("SELECT SUM(`ad_clicks`) as `clicks`, SUM(`ad_impressions`) as `impressions` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d;", $ad_id), ARRAY_A);
            
             $ad_stats['impressions'] = $result[0]['impressions'];

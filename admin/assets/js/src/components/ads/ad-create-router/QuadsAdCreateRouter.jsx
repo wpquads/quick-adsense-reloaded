@@ -56,6 +56,7 @@ class QuadsAdCreateRouter extends Component {
             ad_blindness         : [],
             ab_testing         : [],
             popup_ads         : [],
+            video_ads         : [],
             visibility_exclude   : [],
             targeting_include         : [],              
             targeting_exclude        : [],              
@@ -105,6 +106,8 @@ class QuadsAdCreateRouter extends Component {
             random_ads_list            : [], 
             ads_list                   : [],
             image_src                  : '',
+            image_width                  : '',
+            image_height                  : '',
             image_mobile_src                  : '',
             image_src_id               : '' ,     
             image_redirect_url         : '' ,  
@@ -375,6 +378,7 @@ class QuadsAdCreateRouter extends Component {
       body_json.quads_post_meta.ad_blindness =body_json['ad_blindness'];
       body_json.quads_post_meta.ab_testing =body_json['ab_testing'];
       body_json.quads_post_meta.popup_ads =body_json['popup_ads'];
+      body_json.quads_post_meta.video_ads =body_json['video_ads'];
       body_json.quads_post_meta.ads_list = this.ads_list; 
       let url = quads_localize_data.rest_url + 'quads-route/update-ad';
       fetch(url,{
@@ -565,6 +569,13 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             }
           break;
+          case 'video_ads':
+            if(validation_flag && quads_post_meta.image_src && quads_post_meta.image_width && quads_post_meta.image_height && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;
           case 'ad_blindness':
             if(validation_flag && quads_post_meta.ads_list.length > 0 && quads_post_meta.ad_blindness.length > 0 && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');   
@@ -580,6 +591,9 @@ class QuadsAdCreateRouter extends Component {
             }
           break;
           case 'popup_ads':
+            this.saveAdFormData('publish');
+          break;
+          case 'video_ads':
             this.saveAdFormData('publish');
           break;
           case 'taboola':
@@ -815,6 +829,13 @@ class QuadsAdCreateRouter extends Component {
             this.setState({show_form_error:true});
           } 
           break;
+            case 'video_ads':
+          if(true){
+            this.props.history.push(new_url); 
+          }else{
+            this.setState({show_form_error:true});
+          } 
+          break;
           case 'taboola':
             if(quads_post_meta.taboola_publisher_id){
               this.props.history.push(new_url); 
@@ -947,6 +968,8 @@ class QuadsAdCreateRouter extends Component {
         titleName =result.name +" (Group Insertion)";
       }else if(page.ad_type == 'popup_ads'){
         titleName =result.name +" (popup)";
+      }else if(page.ad_type == 'video_ads'){
+        titleName =result.name +" (video)";
       }
           this.setState(Object.assign(this.state.quads_post_meta,{label:titleName,quads_ad_old_id:quads_ad_old_id}));
       },        
@@ -992,6 +1015,8 @@ class QuadsAdCreateRouter extends Component {
           }else if(page.ad_type == 'group_insertion'){
             titleName =post_meta.label;
           }else if(page.ad_type == 'popup_ads'){
+            titleName =post_meta.label;
+          }else if(page.ad_type == 'video_ads'){
             titleName =post_meta.label;
           }
               this.setState(Object.assign(this.state.quads_post_meta,{label:titleName,quads_ad_old_id:quads_ad_old_id}));

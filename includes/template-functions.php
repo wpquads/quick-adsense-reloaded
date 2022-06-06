@@ -862,6 +862,7 @@ function quads_process_content( $content ) {
         $content = quads_parse_random_ads_new( $content );
         $content = quads_clean_tags( $content );
         $content = quads_parse_popup_ads( $content );
+        $content = quads_parse_video_ads( $content );
         return do_shortcode( $content );   
     }else{
         $content = quads_filter_default_ads( $content );    
@@ -1043,6 +1044,8 @@ function quads_filter_default_ads_new( $content ) {
                     $cusads = '<!--CusRot'.esc_html($ads['ad_id']).'-->';
                 }else if($ads['ad_type']== 'popup_ads' &&isset($ads['ads_list']) && !empty($ads['ads_list'])){
                     $cusads = '<!--CusRott'.esc_html($ads['ad_id']).'-->';
+                }else if($ads['ad_type']== 'video_ads'){
+                    $cusads = '<!--CusRottt'.esc_html($ads['ad_id']).'-->';
                 }else{
                        $cusads = '<!--CusAds'.esc_html($ads['ad_id']).'-->';
                 }
@@ -1308,6 +1311,118 @@ function quads_filter_default_ads_new( $content ) {
                             }  
                             }                                                      
                         break; 
+                        
+                        case 'ad_before_html_tag':
+                            $tag = 'p';
+                            switch ( $ads['count_as_per']) {
+                                case 'p_tag':
+                                     $tag = 'p';
+                                     break;
+                                case 'div_tag':
+                                     $tag = 'div';
+                                     break;
+                                case 'img_tag':
+                                     $tag = 'img';
+                                     break;
+                                case 'custom_tag':
+                                     $tag = $ads['enter_your_tag'];
+                                     break;
+                                 
+                                 default:
+                                     $tag = $ads['count_as_per'];
+                                     break;
+                            }
+                                
+                                                                                           
+                                $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
+                                if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
+                              $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
+                            }else{
+                                $opening_p        = '<'.$tag.'>';
+                                $paragraphs       = explode( $opening_p, $content );
+                                $p_count          = count($paragraphs);
+                                $original_paragraph_no = $paragraph_no;
+                                if($paragraph_no <= $p_count){
+    
+                                    foreach ($paragraphs as $index => $paragraph) {
+                                        if ( trim( $paragraph ) ) {
+                                            $paragraphs[$index] = $opening_p.$paragraphs[$index];
+                                            
+                                        }
+                                        if ( $paragraph_no == $index + 1 ) {
+                                            $paragraphs[$index] = $paragraphs[$index].$cusads;
+                                            if($repeat_paragraph){
+                                             $paragraph_no =  $original_paragraph_no+$paragraph_no; 
+                                            }
+                                        }
+                                    }
+                                    $content = implode( '', $paragraphs ); 
+                                }else{
+                                    if($end_of_post){
+                                        $content = $content.$cusads;   
+                                    }                                
+                                }  
+                                }                                                      
+                            break;
+                            case 'amp_after_paragraph':
+                        if( function_exists('quads_is_amp_endpoint') && quads_is_amp_endpoint()){
+                            if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
+                                $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
+                                $paragraph_limit         = isset($ads['paragraph_limit']) ? $ads['paragraph_limit'] : '';
+                                $insert_after         = isset($ads['insert_after']) ? $ads['insert_after'] : 1;
+      
+                                $closing_p        = '</p>';
+                                $paragraphs       = explode( $closing_p, $content );
+                                $p_count          = count($paragraphs);
+                                $original_paragraph_no = $paragraph_no;                                                             
+                                
+                                if($paragraph_no <= $p_count){
+                                  if($ads['ad_type']== 'group_insertion'){
+                                      $p_count =$p_count -1;
+                                      $cusads = '<!--CusGI'.$ads['ad_id'].'-->';
+                                    $next_insert_val = $insert_after;
+                                    $displayed_ad =1;
+                                      foreach ($paragraphs as $index => $paragraph) {
+                                          $addstart = false;
+                                          if ( trim( $paragraph ) ) {
+                                              $paragraphs[$index] .= $closing_p;
+                                          }
+      
+                                          if((!empty($paragraph_limit) && $paragraph_limit < $displayed_ad) || ($index == $p_count )){
+                                              break;
+                                          }
+                                              if($index+1 == $next_insert_val){
+                                                  $displayed_ad +=1;
+                                                $next_insert_val = $next_insert_val+$insert_after;
+                                                $addstart = true;
+                                            }
+                                              if($addstart){
+                                                  $paragraphs[$index] .= $cusads;
+                                              }
+                                      }
+                                  }else{
+      
+                                    foreach ($paragraphs as $index => $paragraph) {
+                                        if ( trim( $paragraph ) ) {
+                                            $paragraphs[$index] .= $closing_p;
+                                        }
+                                        if ( $paragraph_no == $index + 1 ) {
+                                            $paragraphs[$index] .= $cusads;
+                                            if($repeat_paragraph){
+                                             $paragraph_no =  $original_paragraph_no+$paragraph_no; 
+                                            }
+                                        }
+                                    }
+                                  }
+                                    $content = implode( '', $paragraphs ); 
+                                }else{
+                                    if($end_of_post){
+                                        $content = $content.$cusads;   
+                                    }                                
+                                }
+                            }                    
+                        }
+                        break;
                 }
 
                 $adsArrayCus[] = $i;   
@@ -1973,6 +2088,98 @@ function quads_parse_popup_ads($content) {
 }
     return  $content ;
 }
+function quads_parse_video_ads($content) {
+    if(!isset($_COOKIE['quads_video'])){
+        
+        preg_match("#<!--CusRottt(.+?)-->#si", $content, $match);
+        if (!isset($match['1'])) {
+            return $content;
+        }
+        $ad_id = $match['1'];
+
+        if(!empty($ad_id)){
+            $ad_meta = get_post_meta($ad_id, '',true);
+        }
+        $video_ad_type                    =  isset($ad_meta['video_ad_type'][0]) ? $ad_meta['video_ad_type'][0] : '';
+    $specific_time_interval_sec_video       =  (isset($ad_meta['specific_time_interval_sec_video'][0]) && !empty($ad_meta['specific_time_interval_sec_video'][0])) ? $ad_meta['specific_time_interval_sec_video'][0] : 0;
+    $position =  (isset($ad_meta['video_ad_type_position'][0]) && !empty($ad_meta['video_ad_type_position'][0])) ? $ad_meta['video_ad_type_position'][0] : 0;
+    $on_scroll_video_percentage       =  (isset($ad_meta['on_scroll_video_percentage'][0]) && !empty($ad_meta['on_scroll_video_percentage'][0])) ? $ad_meta['on_scroll_video_percentage'][0] : 0;
+    $V_image_src       =  (isset($ad_meta['image_src'][0]) && !empty($ad_meta['image_src'][0])) ? $ad_meta['image_src'][0] : 0;
+    $V_image_width       =  (isset($ad_meta['image_width'][0]) && !empty($ad_meta['image_width'][0])) ? $ad_meta['image_width'][0] : 0;
+    $V_image_height       =  (isset($ad_meta['image_height'][0]) && !empty($ad_meta['image_height'][0])) ? $ad_meta['image_height'][0] : 0;
+
+    
+    $adsresultset = array();
+    if( $ad_meta ){
+        foreach ($ad_meta as $post_ad_id){
+            $ad_meta_group = get_post_meta($post_ad_id, '',true);
+
+            if( get_post_status($post_ad_id) !== 'publish' ) {
+                continue;
+            }
+            $adsresultset[] = array(
+                'ad_id'                     => $post_ad_id,
+                'ad_type'                   => 'video_ads',
+            ) ;
+        }
+        $response['quads_group_id'] = $ad_id;
+        $response['quads_video_type']           = 'videoads';
+        $response['specific_time_interval_sec_video']           = $specific_time_interval_sec_video;
+        $response['on_scroll_video_percentage']           = $on_scroll_video_percentage;
+        $response['viedo_url']           = $V_image_src;
+        $response['viedo_height']           = $V_image_height;
+        $response['viedo_width']           = $V_image_width;
+        $response['viedo_position']           = $position;
+        $response['ads'] = $adsresultset;
+
+        $arr = array(
+            'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
+            'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
+            'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
+            'float:none;margin:%1$dpx;');
+
+        $adsalign = isset($quads_options['ads']['ad' . $ad_id]['align']) ? $quads_options['ads']['ad' . $ad_id]['align'] : 0; // default
+        $adsmargin = isset( $quads_options['ads']['ad' . $ad_id]['margin'] ) ? $quads_options['ads']['ad' . $ad_id]['margin'] : '0'; // default
+        $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
+
+        // Do not create any inline style on AMP site
+        $style = '' ;
+        $videoad_data = '';
+        if( $video_ad_type == "specific_time_video" ){
+            $style = "display:none";
+            $videoad_data = "data-position=".$position." data-timer=".$specific_time_interval_sec_video."";
+        }
+        if( $video_ad_type == "after_scroll_video" ){
+            $style = "display:none";
+            $videoad_data = "data-position=".$position." data-percent=".$on_scroll_video_percentage."";
+        }
+
+        $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
+            '<div class="quads-location quads-video ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" '.$videoad_data.' data-videotype="'.$video_ad_type.'" style="' . $style . '">' . "\n";
+        $code .='<div class="quads-video-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
+        $code .='</div>';
+
+        $code .='<div data-id="'.esc_attr($ad_id).'" class="quads quads_ad_container_video">
+        
+        </div>';
+
+        $code .= '</div>' . "\n";
+
+        $cont = explode('<!--CusRot'.$ad_id.'-->', $content, 2);
+
+        $content =  $cont[0].$code;
+        $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
+
+        // Use minified libraries if SCRIPT_DEBUG is turned off
+        $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
+
+        // These have to be global
+        wp_enqueue_script( 'wp_qds_video', $js_dir . 'wp_qds_video' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+
+    }
+}
+    return  $content ;
+}
 function quads_parse_default_ads_new( $content ) {
     global $adsArrayCus, $adsRandom, $adsArray;
      
@@ -2201,7 +2408,7 @@ function quads_get_inline_ad_style_new( $id ) {
         'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
         'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
         'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
-        'float:none;margin:%1$dpx;');
+        'float:none;margin:%1$dpx %2$dpx %3$dpx %4$dpx;');
         
     $padding_styleArray = array(
         'padding:%1$dpx %1$dpx %1$dpx 0;',
@@ -2214,7 +2421,10 @@ function quads_get_inline_ad_style_new( $id ) {
     
     // Margin
     $adsmargin = isset( $ad_meta['margin'][0] ) ? $ad_meta['margin'][0] : '3'; // default option = 3
-    $margin = sprintf( $styleArray[$adsalign], $adsmargin );
+    $adsmargin_right = isset( $ad_meta['margin_right'][0] ) ? $ad_meta['margin_right'][0] : '3'; // default option = 3
+    $adsmargin_bottom = isset( $ad_meta['margin_bottom'][0] ) ? $ad_meta['margin_bottom'][0] : '3'; // default option = 3
+    $adsmargin_left = isset( $ad_meta['margin_left'][0] ) ? $ad_meta['margin_left'][0] : '3'; // default option = 3
+    $margin = sprintf( $styleArray[$adsalign], $adsmargin, $adsmargin_right, $adsmargin_bottom, $adsmargin_left );
 
     // Padding
     $adspadding = isset( $ad_meta['padding'][0] ) ? $ad_meta['padding'][0] : '0'; // default option = 0

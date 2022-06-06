@@ -15,7 +15,7 @@ class QuadsLayout extends Component {
     const {__} = wp.i18n;  
     const post_meta = this.props.parentState.quads_post_meta;  
           return (
-            post_meta.ad_type && post_meta.ad_type == "popup_ads" ? '' :
+            post_meta.ad_type && post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" ? '' :
             <div>
               <div>{__('Layout', 'quick-adsense-reloaded')}</div>
              <div className="quads-panel">
@@ -33,7 +33,10 @@ class QuadsLayout extends Component {
                       </td>
                       </tr>
                       <tr>
-                        <td><label>{__('Margin', 'quick-adsense-reloaded')}</label></td><td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="margin" name="margin" value={post_meta.margin}/></td>
+                      <td><label>{__('Margin', 'quick-adsense-reloaded')}</label></td><td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="margin" name="margin" placeholder="Top" value={post_meta.margin}/></td>
+                        <td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="margin_right" name="margin_right" placeholder="Right" value={post_meta.margin_right}/></td>
+                        <td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="margin_bottom" name="margin_bottom" placeholder="Bottom" value={post_meta.margin_bottom}/></td>
+                        <td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="margin_left" name="margin_left" placeholder="Left" value={post_meta.margin_left}/></td>
                       </tr>
                       <tr>
                         <td><label>{__('Padding', 'quick-adsense-reloaded')}</label></td><td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="padding" name="padding" value={post_meta.padding}/></td>

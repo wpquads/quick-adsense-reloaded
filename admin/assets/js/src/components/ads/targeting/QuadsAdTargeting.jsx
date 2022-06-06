@@ -190,6 +190,7 @@ class QuadsAdTargeting extends Component {
                 post_meta.ad_type == 'yandex' ||
                 post_meta.ad_type == 'mgid' ||
                 post_meta.ad_type == 'ad_image' ||
+                post_meta.ad_type == 'video_ads' ||
                 post_meta.ad_type == 'propeller' ||
                 post_meta.ad_type == 'taboola' ||
                 post_meta.ad_type == 'media_net' ||
@@ -205,10 +206,10 @@ class QuadsAdTargeting extends Component {
                 <div className="quads-panel-body"> 
                 <table>
                   <tbody>
-                  { post_meta.ad_type == "popup_ads" ?  "" : 
+                  { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" ?  "" : 
                     <tr className="quads-tr-position">
                     <td><label>{__('Where will the AD appear?', 'quick-adsense-reloaded')}</label></td>
-                    { post_meta.ad_type == "popup_ads" ?  "" : 
+                    { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" ?  "" : 
                         <td>{post_meta.ad_type != "group_insertion" ? (<QuadsAdvancePosition parentState={this.props.parentState} adFormChangeHandler = {this.props.adFormChangeHandler}/>
                         ):<div><select  value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                             <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
@@ -256,6 +257,47 @@ class QuadsAdTargeting extends Component {
                       <td><input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_number" value={post_meta.paragraph_number}  type="number" />
                       <input id='repeat_paragraph' checked={post_meta.repeat_paragraph} name="repeat_paragraph" onChange={this.props.adFormChangeHandler} type="checkbox"/>
                       <label htmlFor="repeat_paragraph"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number} </label></td>
+                    </tr>
+                  </>)
+                    : null}
+
+                  {post_meta.position == 'amp_ads_in_loops' ? 
+                     <tr>
+                      <td><label>{__('Display After', 'quick-adsense-reloaded')}</label></td>
+                      <td><input min="1" onChange={this.props.adFormChangeHandler} name="ads_loop_number" value={post_meta.ads_loop_number} placeholder="Position" type="number" />
+                      <input id='display_after_every' checked={post_meta.display_after_every} name="display_after_every" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                      <label htmlFor="display_after_every"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.ads_loop_number} </label></td>
+                    </tr>
+                   : null}
+
+                    {post_meta.position == 'ad_before_html_tag' ? (
+                      <>
+                    <tr>
+                    <td><label>{__('Count As Per The', 'quick-adsense-reloaded')}</label></td>
+                      <td><select value={post_meta.count_as_per} name="count_as_per" onChange={this.props.adFormChangeHandler} >
+                      <option value="p_tag">p (default)</option>
+                      <option value="div_tag">div</option>
+                      <option value="img_tag">img</option>
+                      <option value="h1">H1</option>
+                      <option value="h2">H2</option>
+                      <option value="h3">H3</option>
+                      <option value="h4">H4</option>
+                      <option value="h5">H5</option>
+                      <option value="h6">H6</option>
+                      <option value="custom_tag">{__('Custom', 'quick-adsense-reloaded')}</option>
+                      </select></td>
+                    </tr>
+                     {post_meta.count_as_per == 'custom_tag' ? 
+                    <tr>
+                    <td><label>{__('Enter Your Tag', 'quick-adsense-reloaded')}</label></td>
+                      <td><input  onChange={this.props.adFormChangeHandler} name="enter_your_tag" value={post_meta.enter_your_tag}  type="text" placeholder='"div"' /></td>
+                    </tr>
+                    : null}
+                    <tr>
+                      <td><label>{__('Display Before', 'quick-adsense-reloaded')}</label></td>
+                      <td><input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_number" value={post_meta.paragraph_number}  type="number" />
+                      <input id='repeat_paragraph' checked={post_meta.repeat_paragraph} name="repeat_paragraph" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                      <label htmlFor="repeat_paragraph"> {__('Display Before Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number} </label></td>
                     </tr>
                   </>)
                     : null}
@@ -359,6 +401,49 @@ class QuadsAdTargeting extends Component {
                             </td>
                         </tr>
                         :null}
+                        { post_meta.ad_type == 'video_ads' ?
+                        <tr className='video_ad_table'>
+                            <td><label>{__('Video Type', 'quick-adsense-reloaded')}</label></td>
+                            <td><select value={post_meta.video_ad_type} name="video_ad_type" onChange={this.props.adFormChangeHandler} >
+                                <option value="select">Select</option>
+                                <option value="specific_time_video">After Specific Time</option>
+                                <option value="after_scroll_video">On Scroll</option>
+                                </select></td>                                 
+                                </tr>
+                         : ''
+                        }
+                        {post_meta.ad_type == 'video_ads' && post_meta.video_ad_type == 'specific_time_video' ?
+                          <tr>
+                          <td></td>
+                            <td>
+                                <input id={'specific_time_interval_sec_video'}
+                                       name={'specific_time_interval_sec_video'} type="number"
+                                       value={post_meta.specific_time_interval_sec_video} onChange={this.props.adFormChangeHandler}  /> milliseconds
+                            </td>
+                        </tr>
+                        :null}
+                        {post_meta.ad_type == 'video_ads' && post_meta.video_ad_type == 'after_scroll_video' ?
+                          <tr>
+                            <td></td>
+                            <td>
+                                <input id={'on_scroll_video_percentage'}
+                                       name={'on_scroll_video_percentage'} type="number"
+                                       value={post_meta.on_scroll_video_percentage} onChange={this.props.adFormChangeHandler}  /> Scroll percentage
+                            </td>
+                        </tr>
+                        :null}
+                        
+                        { post_meta.ad_type == 'video_ads' ?
+                        <tr className='video_ad_positiontable'>
+                            <td><label>{__('Position', 'quick-adsense-reloaded')}</label></td>
+                            <td><select value={post_meta.video_ad_type_position} name="video_ad_type_position" onChange={this.props.adFormChangeHandler} >
+                                <option value="select">Select</option>
+                                <option value="v_left">Left</option>
+                                <option value="v_right">Right</option>
+                                </select></td>                                 
+                                </tr>
+                         : ''
+                        }
                   </tbody>
                 </table>                                 
                 </div>  
