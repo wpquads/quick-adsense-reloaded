@@ -619,7 +619,7 @@ function quads_render_google_async_new( $id ) {
 
     if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']== true) {
         $html = str_replace( 'class="adsbygoogle"', '', $html );
-        $html = str_replace( '></ins>', '><span>Loading...</span></ins></div>', $html );
+        $html = str_replace( '></ins>', '><span></span></ins></div>', $html );
         $code = 'instant= new adsenseLoader( \'#quads-' . esc_attr($id) . '-place\', {
         onLoad: function( ad ){
             if (ad.classList.contains("quads-ll")) {
