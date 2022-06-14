@@ -429,7 +429,38 @@ function quads_inline_styles() {
     quads_ad_container_video{
         max-width:220px;
     }
-    .quads_click_impression { display: none;}";
+    .quads_click_impression { display: none;}
+    .quads-sticky {
+        z-index: 9999;
+        position: sticky;
+        top: 78%;
+        left: 0%;
+        width: 100%!important;
+        height: 2000px;
+        background-color: rgba(0,0,0,0.6);
+        position: fixed;
+        max-width: 100%!important;
+    
+    }.quads-sticky .quads-location {
+        text-align: center;
+    }.quads-sticky-ad-close:before {
+        transform: rotate(45deg);
+    }
+    .quads-sticky-ad-close:after, .quads-sticky-ad-close:before {
+        position: absolute;
+        left: 15px;
+        content: ' ';
+        height: 15px;
+        width: 2px;
+        background-color: #333;
+    }.quads-sticky-ad-close {
+        position: absolute;
+        right: 10px;
+        top: 0;
+        width: 32px;
+        height: 32px;
+        opacity: .3;
+    }";
     // Register empty style so we do not need an external css file
     wp_register_style( 'quads-styles', false );
     // Enque empty style

@@ -1088,6 +1088,13 @@ function quads_filter_default_ads_new( $content ) {
                            $content = $content.$cusads;   
                         }                     
                         # code...
+                        break;
+
+                    case 'ad_sticky_ad':
+                        if(strpos( $content, '<!--OffEnd-->' ) === false ) {
+                            $q_main_open = '<div class="quads-sticky"><a href="#" class="quads-sticky-ad-close"></a>';
+                            $q_close = '</div>';
+                            $content = $content.$q_main_open.$cusads.$q_close;}                                 
                         break;                                
                     case 'after_more_tag':
                         // Check if ad is after "More Tag"
