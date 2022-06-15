@@ -1031,6 +1031,7 @@ function quads_filter_default_ads_new( $content ) {
                 $ads  = apply_filters( 'quads_default_filter_position_data_ab_testing', $ads);
 
                 $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
+                $cls_btn     = (isset($ads['cls_btn']) && $ads['cls_btn'] !='') ? $ads['cls_btn'] : '';
                 $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;
                 $word_count_number = (isset($ads['word_count_number']) && $ads['word_count_number'] !='') ? $ads['word_count_number'] : 1;
                 $imageNo      = (isset($ads['image_number']) && $ads['image_number'] !='') ? $ads['image_number'] : 1;
@@ -1091,10 +1092,17 @@ function quads_filter_default_ads_new( $content ) {
                         break;
 
                     case 'ad_sticky_ad':
-                        if(strpos( $content, '<!--OffEnd-->' ) === false ) {
-                            $q_main_open = '<div class="quads-sticky"><a href="#" class="quads-sticky-ad-close"></a>';
-                            $q_close = '</div>';
-                            $content = $content.$q_main_open.$cusads.$q_close;}                                 
+                        $sticky_cookie =   (isset( $_COOKIE['quads_sticky'] ) && $_COOKIE['quads_sticky']!== NULL ) ? $_COOKIE['quads_sticky'] : '' ;
+                        if( $sticky_cookie !== "sticky_ad" ){
+                            if(strpos( $content, '<!--OffEnd-->' ) === false ) {
+                                $a_tag = '';
+                                if( isset($cls_btn) && $cls_btn == 1 ){
+                                    $a_tag = '<a class="quads-sticky-ad-close"></a>';
+                                }
+                                $q_main_open = '<div class="quads-sticky">'.$a_tag.'';
+                                $q_close = '</div>';
+                                $content = $content.$q_main_open.$cusads.$q_close;}                                 
+                            }
                         break;                                
                     case 'after_more_tag':
                         // Check if ad is after "More Tag"
