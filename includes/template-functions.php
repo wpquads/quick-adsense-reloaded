@@ -353,7 +353,7 @@ function quads_adblocker_popup_notice(){
     </div>
     <style type="text/css">
     .quads-modal {
-      display: none; /* Hidden by default */
+      display: block; /* Hidden by default */
       position: fixed; /* Stay in place */
       z-index: 999; /* Sit on top */
       padding-top: 200px; /* Location of the box */
@@ -626,9 +626,19 @@ if(span){
   }
 }
 
+var quads_closebtn = document.getElementsByClassName("quads-closebtn")[0]
+var quads_modal = document.getElementById("quads-myModal")
+if (quads_closebtn) {
+    quads_closebtn.addEventListener('click', function(){
+        if( quads_closebtn ){
+        quads_modal.style.display = "none"
+    }
+} )
+}
+
 window.onclick = function(event) {
   if (event.target == modal) {
-    modal.style.display = "none";
+    // modal.style.display = "none";
     document.cookie = "quads_prompt_close="+new Date();
     quadssetCookie('quadsCookie', 'true', 1, '/');
   }
