@@ -2676,3 +2676,18 @@ function quads_save_extra_user_profile_fields( $user_id ) {
 
 add_action( 'personal_options_update', 'quads_save_extra_user_profile_fields' );
 add_action( 'edit_user_profile_update', 'quads_save_extra_user_profile_fields' );
+
+function wp_quads_quick_tag() {
+   if ( wp_script_is( 'quicktags' ) ) {
+   ?>
+   <script type="text/javascript">
+   QTags.addButton( 'wpquads_s_ads', 'WPQuads ads', '', '', '', 'WPQuads ads Shortcode', 201 );
+   // QTags.addButton( 'embed_div', 'embed div', '<div class="embed-container">', '</div>', '', '', 1 );
+   setTimeout(() => {
+      console.log( document.getElementById("qt_content_wpquads_s_ads"))
+   }, 100);
+   </script>
+   <?php
+   }
+}
+add_action( 'admin_print_footer_scripts', 'wp_quads_quick_tag', 100 );
