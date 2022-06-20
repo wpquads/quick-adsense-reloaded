@@ -502,6 +502,36 @@ function quads_get_registered_settings() {
 
    return $quads_settings;
 }
+
+function quads_get_active_ads_data() {
+   global $quads_options;
+
+   // Return early
+   if (empty($quads_options['ads'])){
+      return 0;
+   }
+   // count valid ads
+   $i = 1;
+   foreach ( $quads_options['ads'] as $ads) {
+      $tmp = isset( $quads_options['ads']['ad' . $i]['code'] ) ? trim( $quads_options['ads']['ad' . $i]['code'] ) : '';
+       // id is valid if there is either the plain text field populated or the adsense ad slot and the ad client id
+       if( !empty( $tmp ) || (!empty( $quads_options['ads']['ad' . $i]['g_data_ad_slot'] ) && !empty( $quads_options['ads']['ad' . $i]['g_data_ad_client'] ) ) ) {
+           $adsArray[] = 'ad'.$i;
+       }
+       $i++;
+   }
+   return (isset($adsArray) && count($adsArray) > 0) ? $adsArray : 0;
+}
+
+add_action('wp_ajax_wpquads_ads_for_shortcode_data', 'wpquads_ads_for_shortcode_data');
+function wpquads_ads_for_shortcode_data(){
+
+      $html = quads_get_active_ads_data();
+      echo json_encode($html);
+      wp_die();
+      
+}
+
 add_action('wp_ajax_wpquads_ads_for_shortcode', 'wpquads_ads_for_shortcode');
 function wpquads_ads_for_shortcode(){
       if ( ! isset( $_POST['wpquads_security_nonce'] ) ){
@@ -2680,14 +2710,27 @@ add_action( 'edit_user_profile_update', 'quads_save_extra_user_profile_fields' )
 function wp_quads_quick_tag() {
    if ( wp_script_is( 'quicktags' ) ) {
    ?>
-   <script type="text/javascript">
-   QTags.addButton( 'wpquads_s_ads', 'WPQuads ads', '', '', '', 'WPQuads ads Shortcode', 201 );
-   // QTags.addButton( 'embed_div', 'embed div', '<div class="embed-container">', '</div>', '', '', 1 );
-   setTimeout(() => {
-      console.log( document.getElementById("qt_content_wpquads_s_ads"))
-   }, 100);
-   </script>
-   <?php
+<script language="javascript" type="text/javascript">
+      ( function() {
+         jQuery.ajax({
+			type: 'POST',
+			url: ajaxurl,
+			data: {
+				'action': 'wpquads_ads_for_shortcode_data',
+				'wpquads_security_nonce' :quads.nonce
+			}
+         
+		}, 'json' )
+		.done( function( data, textStatus, jqXHR ) {
+         dataObj = JSON.parse(data);
+         dataObj.forEach( ad_data => {
+         var ad_id = ad_data.replace('[',' ').replace(']','').replace('"','').replace('"','').replace('ad','')
+         QTags.addButton( ad_data , ad_data, "[quads id="+ad_id+"]", '', '' );
+         });
+		} )
+} )();
+	</script>
+<?php
    }
 }
 add_action( 'admin_print_footer_scripts', 'wp_quads_quick_tag', 100 );
