@@ -2733,4 +2733,7 @@ function wp_quads_quick_tag() {
 <?php
    }
 }
-add_action( 'admin_print_footer_scripts', 'wp_quads_quick_tag', 100 );
+$quads_mode = get_option('quads-mode') ? get_option('quads-mode') : '' ;
+if( isset($quads_mode) && $quads_mode == "old" ) {
+   add_action( 'admin_print_footer_scripts', 'wp_quads_quick_tag', 100 );
+}
