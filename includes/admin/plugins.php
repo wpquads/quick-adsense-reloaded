@@ -34,6 +34,18 @@ function quads_plugin_action_links( $links, $file ) {
 }
 add_filter( 'plugin_action_links', 'quads_plugin_action_links', 10, 2 );
 
+function quads_premium_plugin_action_links( $links, $file ){
+
+		$settings_link = array( 'settings'=> '<a href="https://wpquads.com/">' . esc_html__( 'Premium Features', 'quick-adsense-reloaded' ) . '</a> | <a href="https://wpquads.com/support/">' . esc_html__( 'Support', 'quick-adsense-reloaded' ) . '</a>' );
+		if ( $file == 'quick-adsense-reloaded/quick-adsense-reloaded.php' ){
+			$links = array_merge( $links, $settings_link );
+		}
+		
+		return $links;
+	
+	}
+
+add_filter('plugin_action_links', 'quads_premium_plugin_action_links', 10, 2);
 
 
 /**
