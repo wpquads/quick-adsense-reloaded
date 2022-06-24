@@ -1107,7 +1107,7 @@ function quads_filter_default_ads_new( $content ) {
                             if(strpos( $content, '<!--OffEnd-->' ) === false ) {
                                 $a_tag = '';
                                 if( isset($cls_btn) && $cls_btn == 1 ){
-                                    $a_tag = '<a class="quads-sticky-ad-close"></a>';
+                                    $a_tag = '<a class="quads-sticky-ad-close">x</a>';
                                 }
                                 $q_main_open = '<div class="quads-sticky">'.$a_tag.'';
                                 $q_close = '</div>';
@@ -2090,7 +2090,7 @@ function quads_parse_popup_ads($content) {
         $code .='<div class="quads-groups-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
         $code .='</div>';
 
-        $code .='<div style="display:none;" class="quads_ad_containerr_pre"></div><div data-id="'.esc_attr($ad_id).'" class="quads quads_ad_containerr">
+        $code .='<div style="display:none;" class="quads_ad_container__pre"></div><div data-id="'.esc_attr($ad_id).'" class="quads quads_ad_container_">
         
         </div>';
 
