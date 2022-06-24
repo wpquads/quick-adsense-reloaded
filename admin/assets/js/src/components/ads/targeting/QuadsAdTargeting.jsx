@@ -261,15 +261,6 @@ class QuadsAdTargeting extends Component {
                   </>)
                     : null}
 
-                  {post_meta.position == 'amp_ads_in_loops' ? 
-                     <tr>
-                      <td><label>{__('Display After', 'quick-adsense-reloaded')}</label></td>
-                      <td><input min="1" onChange={this.props.adFormChangeHandler} name="ads_loop_number" value={post_meta.ads_loop_number} placeholder="Position" type="number" />
-                      <input id='display_after_every' checked={post_meta.display_after_every} name="display_after_every" onChange={this.props.adFormChangeHandler} type="checkbox"/>
-                      <label htmlFor="display_after_every"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.ads_loop_number} </label></td>
-                    </tr>
-                   : null}
-
                    { post_meta.position == 'ad_sticky_ad' ? 
                     <>
                   <tr>

@@ -1371,7 +1371,7 @@ function quads_filter_default_ads_new( $content ) {
     
                                     foreach ($paragraphs as $index => $paragraph) {
                                         if ( trim( $paragraph ) ) {
-                                            $paragraphs[$index] = $opening_p.$paragraphs[$index];
+                                            $paragraphs[$index] .= $opening_p;
                                             
                                         }
                                         if ( $paragraph_no == $index + 1 ) {
@@ -2432,7 +2432,7 @@ function quads_get_inline_ad_style_new( $id ) {
     // Basic style
     $styleArray = array(
         'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
-        'float:none;margin:%1$dpx 0 %1$dpx 0;text-align:center;',
+        'float:none;text-align:center;',
         'float:right;margin:%1$dpx 0 %1$dpx %1$dpx;',
         'float:none;margin:%1$dpx %2$dpx %3$dpx %4$dpx;');
         
@@ -2444,7 +2444,7 @@ function quads_get_inline_ad_style_new( $id ) {
     
     // Alignment
     $adsalign = ( int )$ad_meta['align'][0];
-    var_dump($adsalign);die;
+    
     
     // Margin
     $adsmargin = isset( $ad_meta['margin'][0] ) ? $ad_meta['margin'][0] : '3'; // default option = 3
