@@ -420,18 +420,18 @@ function quads_inline_styles() {
             width: 19em;
         }
     }
+    
     .quads-video {
         position: fixed;
         bottom: 0px;
         z-index: 9999999;
-        left: 10px;
     }
     quads_ad_container_video{
         max-width:220px;
     }
     .quads_click_impression { display: none;}
     .quads-sticky {
-        top: 88%;
+        top: 87%;
         width: 100% !important;
         background-color: hsla(0,0%,100%,.7);
         position: fixed;

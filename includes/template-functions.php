@@ -2004,7 +2004,7 @@ function quads_parse_popup_ads($content) {
     if(!empty($ad_id)){
         $ad_meta = get_post_meta($ad_id, '',true);
     }
-    $ads_list = unserialize($ad_meta['ads_list']['0']);
+    $ads_list = !empty($ad_meta['ads_list']['0']) ? unserialize($ad_meta['ads_list']['0']) : "" ;
 
     if (!is_array($ads_list)) return $content;
     $temp_array =array();
@@ -2180,7 +2180,7 @@ function quads_parse_video_ads($content) {
         }
 
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
-            '<div class="quads-location quads-video ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" '.$videoad_data.' data-videotype="'.$video_ad_type.'" style="' . $style . '">' . "\n";
+            '<div class="video_main"><div class="quads-location quads-video ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" '.$videoad_data.' data-videotype="'.$video_ad_type.'" style="' . $style . '">' . "\n";
         $code .='<div class="quads-video-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
         $code .='</div>';
 
@@ -2188,6 +2188,7 @@ function quads_parse_video_ads($content) {
         
         </div>';
 
+        $code .= '</div>' . "\n";
         $code .= '</div>' . "\n";
 
         $cont = explode('<!--CusRot'.$ad_id.'-->', $content, 2);
@@ -2443,6 +2444,7 @@ function quads_get_inline_ad_style_new( $id ) {
     
     // Alignment
     $adsalign = ( int )$ad_meta['align'][0];
+    var_dump($adsalign);die;
     
     // Margin
     $adsmargin = isset( $ad_meta['margin'][0] ) ? $ad_meta['margin'][0] : '3'; // default option = 3
