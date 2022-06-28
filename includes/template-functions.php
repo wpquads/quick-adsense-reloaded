@@ -2334,6 +2334,10 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
         elseif (isset($ad_meta['adsense_ad_type'][0]) && $ad_meta['adsense_ad_type'][0] == 'adsense_sticky_ads' ){
             $adscode = '';
         }
+
+        elseif (isset($ad_meta['adsense_ad_type'][0]) && $ad_meta['adsense_ad_type'][0] == 'adsense_auto_ads' ){
+            $adscode = '';
+        }
         
         else{
             $image_banner_device_detect = $useragent = $dev_name = $output = $wpimage_quads = '';
