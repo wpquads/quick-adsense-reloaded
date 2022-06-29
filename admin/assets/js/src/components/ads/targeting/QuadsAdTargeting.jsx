@@ -179,6 +179,7 @@ class QuadsAdTargeting extends Component {
     }
           return (
                 <div>
+              { post_meta.adsense_ad_type !="adsense_auto_ads" &&
                 <div className="quads-settings-group">
               { (post_meta.ad_type == 'plain_text' || 
                 (post_meta.ad_type == 'adsense' && post_meta.adsense_ad_type != 'adsense_sticky_ads' ) ||
@@ -457,6 +458,7 @@ class QuadsAdTargeting extends Component {
         : ''}
 
                 </div> 
+              }
                 {post_meta.position != 'ad_shortcode' && post_meta.position != 'amp_story_ads' ?
                   <QuadsVisibility 
                     parentState                  ={this.props.parentState} 
