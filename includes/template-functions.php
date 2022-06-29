@@ -332,7 +332,7 @@ function quads_adblocker_popup_notice(){
       $btn_background_color = sanitize_hex_color($settings['notice_btn_bg_color']);
       
   ?>
-    <div id="quads-myModal" class="quads-modal">
+    <div id="quads-myModal_" class="quads-modal" style="display:none">
       <!-- Modal content -->
       <div class="quads-modal-content">
     <?php if( isset($settings['notice_close_btn']) && $settings['notice_close_btn'] && empty($button_txt) ){
@@ -581,6 +581,9 @@ var quadsAllowedCookie =  quadsgetCookie('quadsAllowedCookie');
 
 if(typeof quadsOptions !== 'undefined' && typeof wpquads_adblocker_check_2 
   === 'undefined' ){
+
+    var quads_model_  = document.getElementById("quads-myModal_");
+    if(quads_model_){ quads_model_.style.display = "block"; }
 
   if(quadsAllowedCookie!=quadsOptions.allow_cookies){
     quadssetCookie('quadsCookie', '', -1, '/');

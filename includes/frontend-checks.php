@@ -34,6 +34,10 @@ function quads_frontend_checks_init() {
 
 add_action( 'init', 'quads_frontend_checks_init' );
 
+if( !is_admin() ){
+    add_filter( 'wp_footer', 'quads_check_adblocker_', -101 );
+}
+
 /**
  * Create WP QUADS List possible error cases in the admin-bar.
  *
@@ -302,3 +306,8 @@ function quads_check_adblocker() {
     </script><!--/noptimize-->
     <?php }
 }
+
+function quads_check_adblocker_() {?>
+    <?php if(!quads_is_amp_endpoint()){ ?>
+        <script type="text/javascript" src="<?php echo QUADS_PLUGIN_URL . 'assets/js/ads.js' ?>"></script><?php }
+        }
