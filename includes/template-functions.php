@@ -1366,31 +1366,48 @@ function quads_filter_default_ads_new( $content ) {
                                 if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
                               $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
                             }else{
-                                $opening_p        = '<'.$tag.'>';
-                                $paragraphs       = explode( $opening_p, $content );
-                                $p_count          = count($paragraphs);
-                                $original_paragraph_no = $paragraph_no;
-                                if($paragraph_no <= $p_count){
-    
-                                    foreach ($paragraphs as $index => $paragraph) {
-                                        if ( trim( $paragraph ) ) {
-                                            $paragraphs[$index] .= $opening_p;
-                                            
+                                $string_data = $content;
+                                $pattern_ = "/<".$tag."(.*?)>/i";
+                                if($pattern_){
+                                    if(preg_match_all($pattern_, $string_data, $matches)) {
+                                        $p_reg_match = $matches;
+                                       }
+                                       $finalmatch = $p_reg_match;
+                                        foreach ($finalmatch[0] as $key => $value) {
+                                            $openingtag =   $value;
                                         }
-                                        if ( $paragraph_no == $index + 1 ) {
-                                            $paragraphs[$index] = $paragraphs[$index].$cusads;
-                                            if($repeat_paragraph){
-                                             $paragraph_no =  $original_paragraph_no+$paragraph_no; 
-                                            }
+                                       $opening_p        = $openingtag;
+                                       $paragraphs       = explode( $opening_p, $content );
+                                       $p_count          = count($paragraphs);
+                                       $original_paragraph_no = $paragraph_no;
+                                       if($paragraph_no <= $p_count){
+                                           foreach ($paragraphs as $index => $paragraph) {
+                                               $opening_p        = isset($finalmatch[0][$index]) ? $finalmatch[0][$index] : null;
+                                               if ( trim( $paragraph ) ) {
+                                                   $paragraphs[$index] .= '<'.$tag.'>';
+                                               }
+                                               if ( $paragraph_no == $index+1  ) {
+                                                $index = ($index>0) ? $index-1 : $index;
+                                                if( strpos( $paragraphs[$index] , $opening_p ) > -1 ) {
+                                                    $ad_c = $cusads.$opening_p;
+                                                    $paragraphs[$index] = str_replace($opening_p,$ad_c,$paragraphs[$index]);
+                                                   }else{
+                                                    $paragraphs[$index] .= $cusads;
+                                                   }
+                                                   if($repeat_paragraph){
+                                                    $paragraph_no =  $original_paragraph_no+$paragraph_no; 
+                                                   }
+                                               }
+                                           }
+                                           $content = implode( '', $paragraphs );
                                         }
-                                    }
-                                    $content = implode( '', $paragraphs ); 
-                                }else{
-                                    if($end_of_post){
-                                        $content = $content.$cusads;   
-                                    }                                
-                                }  
-                                }                                                      
+                                        else{
+                                           if($end_of_post){
+                                               $content = $content.$cusads;   
+                                           }                                
+                                       }
+                                }
+                            }                                                     
                             break;
                             case 'amp_after_paragraph':
                         if( function_exists('quads_is_amp_endpoint') && quads_is_amp_endpoint()){
