@@ -51,6 +51,16 @@ function quads_shortcode_display_ad( $atts ) {
     $adsmargin = isset( $quads_options['ads']['ad' . $id]['margin'] ) ? $quads_options['ads']['ad' . $id]['margin'] : '3'; // default
     $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
 
+            $ad_checker = '';
+            $ad_checker = quads_get_ad( $id ) ? quads_get_ad( $id ) : '' ;
+            if ( isset($ad_checker) ) {
+                if ( str_contains( $ad_checker, 'quads-rotatorad')) { 
+                    $margin = 'text-align: center';
+                }
+            }
+            else{
+                $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
+            }
 
     // Do not create any inline style on AMP site
     $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
