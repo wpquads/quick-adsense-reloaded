@@ -414,6 +414,19 @@ function quads_inline_styles() {
 		transition: all 0.5s ease;
 		border-radius: 50%;
 	}
+    #btn_close_video{
+		background-color: #fff;
+		width: 25px;
+		height: 25px;
+		text-align: center;
+		line-height: 22px;
+		position: absolute;
+		right: -10px;
+		top: -10px;
+		cursor: pointer;
+		transition: all 0.5s ease;
+		border-radius: 50%;
+	}
     @media screen and (max-width: 480px) {
         .quads.quads_ad_container_ {
             left: 10px;

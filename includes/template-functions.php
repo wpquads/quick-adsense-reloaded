@@ -1057,9 +1057,9 @@ function quads_filter_default_ads_new( $content ) {
                 }else if($ads['ad_type']== 'rotator_ads' &&isset($ads['ads_list']) && !empty($ads['ads_list'])){
                     $cusads = '<!--CusRot'.esc_html($ads['ad_id']).'-->';
                 }else if($ads['ad_type']== 'popup_ads' &&isset($ads['ads_list']) && !empty($ads['ads_list'])){
-                    $cusads = '<!--CusRott'.esc_html($ads['ad_id']).'-->';
+                    $cusads = '<!--pop_up_ads'.esc_html($ads['ad_id']).'-->';
                 }else if($ads['ad_type']== 'video_ads'){
-                    $cusads = '<!--CusRottt'.esc_html($ads['ad_id']).'-->';
+                    $cusads = '<!--video_ad'.esc_html($ads['ad_id']).'-->';
                 }else{
                        $cusads = '<!--CusAds'.esc_html($ads['ad_id']).'-->';
                 }
@@ -2016,7 +2016,7 @@ function quads_parse_default_ads( $content ) {
 function quads_parse_popup_ads($content) {
     if(!isset($_COOKIE['quads_popup'])){
 
-    preg_match("#<!--CusRott(.+?)-->#si", $content, $match);
+    preg_match("#<!--pop_up_ads(.+?)-->#si", $content, $match);
     if (!isset($match['1'])) {
         return $content;
     }
@@ -2136,7 +2136,7 @@ function quads_parse_popup_ads($content) {
 function quads_parse_video_ads($content) {
     if(!isset($_COOKIE['quads_video'])){
         
-        preg_match("#<!--CusRottt(.+?)-->#si", $content, $match);
+        preg_match("#<!--video_ad(.+?)-->#si", $content, $match);
         if (!isset($match['1'])) {
             return $content;
         }
