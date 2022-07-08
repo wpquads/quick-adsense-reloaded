@@ -534,10 +534,10 @@ drawChart(config);
 
                                         
                                     ))}
-                                    <li data-adtype="abtesting" id="quads-adsense-abtesting">
-                                    <a class="quads-nav-linkforabtesting" onClick={ () =>{
+                                    <li data-adtype="abtesting" id="quads-adsense-abtesting" onClick={ () =>{
                                         this.abtesting_handler()
                                     } }  >
+                                    <a class="quads-nav-linkforabtesting" >
                                     <img src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ab.png'}/>
                                     </a>
                                     <div id="view_report_abtesting" style={{marginTop: "40px",color: "#005af0"}} onClick={ () =>{
@@ -545,10 +545,10 @@ drawChart(config);
                                     } }><strong>View Report</strong></div>
                                     </li>
                                     
-                                    <li data-adtype="view_stats_report" id="quads-adsense-view_stats_report">
-                                    <a class="quads-nav-linkforview_stats_report" onClick={ () =>{
+                                    <li data-adtype="view_stats_report" id="quads-adsense-view_stats_report" onClick={ () =>{
                                         this.view_stats_report_handler()
                                     } }  >
+                                    <a class="quads-nav-linkforview_stats_report">
                                     <img src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/view_stats.png'}/>
                                     </a>
                                     <div id="view_report_view_stats_report" style={{marginTop: "40px",color: "#005af0"}} onClick={ () =>{
@@ -579,7 +579,7 @@ drawChart(config);
                         <div className={'quads-select'} onClick={this.adsToggle_list}>
                         <select name="abtesting_report" id={'abtesting_report'} 
                         onChange={this.ab_testing_report_formChangeHandler} placeholder="Select Ads">
-                        <option value="">Select report</option>
+                        <option value="">Select Ad</option>
                         {this.state.getallads_data_temp ? this.state.getallads_data_temp.map( item => (
                             <option key={item.value} value={item.value}>{item.label}</option>
                         ) )
@@ -609,7 +609,7 @@ drawChart(config);
                         <div className={'quads-select-menu'} >
                         <div className={'quads-select view_statsreport'} onClick={this.adsToggle_list}>
                         <select name="view_stats_report" onChange={this.view_report_stats_formChangeHandler} id={'view_stats_report'} placeholder="Select Ads">
-                        <option value="selectt">select report</option>
+                        <option value="selectt">Select Ad</option>
                         {this.state.getallads_data_temp ? this.state.getallads_data_temp.map( item => (
                             <option key={item.value} value={item.value}>{item.label}</option>
                         ) )

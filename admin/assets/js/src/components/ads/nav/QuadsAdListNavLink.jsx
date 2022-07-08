@@ -183,7 +183,12 @@ class QuadsAdListNavLink extends Component {
             jQuery('.wp-submenu li').removeClass('current');
             jQuery('a[href$="quads-settings&path=reports"]').parent().addClass('current');
             current = 'reports';
-        }else if(page.path == 'ad_logging'){
+        }else if(page.path == 'view_report'){
+          jQuery('.wp-submenu li').removeClass('current');
+          jQuery('a[href$="quads-settings&path=reports"]').parent().addClass('current');
+            current = 'reports';
+        }
+        else if(page.path == 'ad_logging'){
           jQuery('.wp-submenu li').removeClass('current');
           jQuery('a[href$="quads-settings&path=ad_logging"]').parent().addClass('current');
           current = 'ad_logging';
