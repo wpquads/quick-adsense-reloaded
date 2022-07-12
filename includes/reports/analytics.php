@@ -218,8 +218,12 @@ public function quads_get_client_ip() {
       );
       $suffix = ( quadsIsDebugMode() ) ? '' : '.min'; 
     //  if ( (function_exists( 'ampforwp_is_amp_endpoint' ) && !ampforwp_is_amp_endpoint()) || function_exists( 'is_amp_endpoint' ) && !is_amp_endpoint()) {
+      global $quads_options;
+      $quads_options = quads_get_settings();
+      if(isset($quads_options['ad_performance_tracking'])  && $quads_options['ad_performance_tracking'] == true ){
       wp_enqueue_script( 'quads_ads_front', QUADS_PLUGIN_URL . 'assets/js/performance_tracking' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
     //  }
+    }
       wp_localize_script('quads_ads_front', 'quads_analytics', $object_name);
 
 
@@ -384,10 +388,7 @@ public function quads_get_client_ip() {
       }
       if($stats > 0) {
               $wpdb->query("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_clicks` = `ad_clicks` + 1 WHERE `id` = {$stats};");
-              $row = $wpdb->get_results(  "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = `{$wpdb->prefix}quads_stats` AND column_name = 'Beginning_of_post'"  );
-         if(empty($row)){
-             $wpdb->query("ALTER TABLE `{$wpdb->prefix}quads_stats` ADD Beginning_of_post INT(1) NOT NULL DEFAULT 0, ADD End_of_post INT(1) NOT NULL DEFAULT 0, ADD Middle_of_post INT(1) NOT NULL DEFAULT 0, ADD After_more_tag INT(1) NOT NULL DEFAULT 0 ");
-         }
+
          if( function_exists('quads_is_pro_active') && quads_is_pro_active() ){
          $quads_stats_getrow = $wpdb->get_row(" SELECT * FROM `{$wpdb->prefix}quads_stats` ");
 
