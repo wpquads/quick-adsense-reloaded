@@ -469,6 +469,12 @@ function quads_inline_styles() {
         transition: all 0.5s ease;
         border-radius: 50%;
     }
+    .quads_parallax{ 
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: auto;
+    }
     ";
     // Register empty style so we do not need an external css file
     wp_register_style( 'quads-styles', false );

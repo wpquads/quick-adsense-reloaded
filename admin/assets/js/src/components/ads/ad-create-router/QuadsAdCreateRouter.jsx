@@ -80,6 +80,8 @@ class QuadsAdCreateRouter extends Component {
             code           : '',
             align             : 3,
             ad_label_check    : false,
+            parallax_ads_check    : false,
+            parallax_height       : 300,
             mobile_image_check    : false,
             adlabel           : '',
             ad_label_text  : 'Advertisements',
