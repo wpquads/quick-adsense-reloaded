@@ -179,6 +179,7 @@ class QuadsAdTargeting extends Component {
     }
           return (
                 <div>
+              { post_meta.adsense_ad_type !="adsense_auto_ads" &&
                 <div className="quads-settings-group">
               { (post_meta.ad_type == 'plain_text' || 
                 (post_meta.ad_type == 'adsense' && post_meta.adsense_ad_type != 'adsense_sticky_ads' ) ||
@@ -260,15 +261,6 @@ class QuadsAdTargeting extends Component {
                     </tr>
                   </>)
                     : null}
-
-                  {post_meta.position == 'amp_ads_in_loops' ? 
-                     <tr>
-                      <td><label>{__('Display After', 'quick-adsense-reloaded')}</label></td>
-                      <td><input min="1" onChange={this.props.adFormChangeHandler} name="ads_loop_number" value={post_meta.ads_loop_number} placeholder="Position" type="number" />
-                      <input id='display_after_every' checked={post_meta.display_after_every} name="display_after_every" onChange={this.props.adFormChangeHandler} type="checkbox"/>
-                      <label htmlFor="display_after_every"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.ads_loop_number} </label></td>
-                    </tr>
-                   : null}
 
                    { post_meta.position == 'ad_sticky_ad' ? 
                     <>
@@ -466,6 +458,7 @@ class QuadsAdTargeting extends Component {
         : ''}
 
                 </div> 
+              }
                 {post_meta.position != 'ad_shortcode' && post_meta.position != 'amp_story_ads' ?
                   <QuadsVisibility 
                     parentState                  ={this.props.parentState} 

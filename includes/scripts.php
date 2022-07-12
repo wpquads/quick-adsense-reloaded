@@ -387,19 +387,19 @@ function quads_inline_styles() {
         float: right;
     }
     .quads-popupad {
-        position: absolute;
-        top: 0%;
-        left: 0%;
-        width: 100%;
-        height: 2000px;
+        position: fixed;
+        top: 0px;
+        width: 68em;
+        height: 100em;
         background-color: rgba(0,0,0,0.6);
         z-index: 999;
+        max-width: 100em !important;
+        margin: 0 auto;
     }
-    .quads.quads_ad_containerr {
-        position: sticky;
+    .quads.quads_ad_container_ {
+        position: fixed;
         top: 40%;
         left: 36%;
-        width: 30em;
     }
     #btn_close{
 		background-color: #fff;
@@ -414,41 +414,61 @@ function quads_inline_styles() {
 		transition: all 0.5s ease;
 		border-radius: 50%;
 	}
+    #btn_close_video{
+		background-color: #fff;
+		width: 25px;
+		height: 25px;
+		text-align: center;
+		line-height: 22px;
+		position: absolute;
+		right: -10px;
+		top: -10px;
+		cursor: pointer;
+		transition: all 0.5s ease;
+		border-radius: 50%;
+	}
     @media screen and (max-width: 480px) {
-        .quads.quads_ad_containerr {
-            left: 9%;
-            width: 19em;
+        .quads.quads_ad_container_ {
+            left: 10px;
         }
     }
+    
     .quads-video {
         position: fixed;
         bottom: 0px;
         z-index: 9999999;
-        left: 10px;
     }
     quads_ad_container_video{
         max-width:220px;
     }
     .quads_click_impression { display: none;}
+    
     .quads-sticky {
-        top: 88%;
         width: 100% !important;
         background-color: hsla(0,0%,100%,.7);
         position: fixed;
         max-width: 100%!important;
+        bottom:0;
+        margin:0;
+        text-align: center;
     }.quads-sticky .quads-location {
         text-align: center;
     }.quads-sticky .wp_quads_dfp {
         display: contents;
     }
-    .quads-sticky-ad-close{
-        position:absolute;right:0px;top:0;width:32px;height:32px;opacity:.3
+    a.quads-sticky-ad-close {
+        background-color: #fff;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        line-height: 22px;
+        position: absolute;
+        right: 0px;
+        top: -15px;
+        cursor: pointer;
+        transition: all 0.5s ease;
+        border-radius: 50%;
     }
-    .quads-sticky-ad-close:hover{opacity:1}
-    .quads-sticky-ad-close:after,.quads-sticky-ad-close:before{
-            position:absolute;left:15px;content:' ';height:15px;width:2px;background-color:#333}
-            .quads-sticky-ad-close:before{transform:rotate(45deg)}
-            .quads-sticky-ad-close:after{transform:rotate(-45deg)}
     ";
     // Register empty style so we do not need an external css file
     wp_register_style( 'quads-styles', false );
