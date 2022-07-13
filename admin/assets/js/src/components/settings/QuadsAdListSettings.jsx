@@ -712,6 +712,7 @@ handleMultiPluginsChange = (option) => {
 
       // Begin show saving loader
       let namer_data = this.state.settings.namer
+      const current_page = queryString.parse(window.location.search);
 
       if( namer_data == "adsTxtEnabled" ){
         document.getElementById("adsTxtEnabled_").style.display = 'none';
@@ -745,7 +746,7 @@ handleMultiPluginsChange = (option) => {
         document.getElementById("group_insertion_settings_").style.display = 'none';
         document.getElementsByClassName("lazy_loader_gp")[0].style.display = 'block';
       }
-      if( namer_data == "ad_performance_tracking" ){
+      if( namer_data == "ad_performance_tracking" && current_page.path!="settings_licenses" ){
         document.getElementById("ad_performance_tracking_").style.display = 'none';
         document.getElementsByClassName("lazy_loader_ap")[0].style.display = 'block';
       }
