@@ -677,6 +677,20 @@ error_outline
                     {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>Enter Ad Anchor link</div> :''}
                      </td></tr>
+                     <tr>
+                     <td><label className='q_img_ma_lab' htmlFor="parallax_ads_check">{__('Parallax Effect', 'quick-adsense-reloaded')} </label></td>
+                     <td>
+                     <label>
+                     <input className='parallax_ads_check' id="parallax_ads_check" checked={post_meta.parallax_ads_check} name="parallax_ads_check" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                          </label>
+                     </td>
+                     </tr>
+                     { post_meta.parallax_ads_check && post_meta.parallax_ads_check == 1 ? <tr><td>
+                        <label>{__('Banner height ', 'quick-adsense-reloaded')}</label></td><td>
+                        <input className='parallax_height small-text' min="1" step="1" id="parallax_height" value={post_meta.parallax_height} name="parallax_height" onChange={this.props.adFormChangeHandler} type="number"/>
+                         </td></tr>
+                        : ''
+                      }
                   </tbody>
                 </table>
                 </div>);

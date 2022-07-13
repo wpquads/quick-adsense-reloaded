@@ -294,19 +294,49 @@ function quads_render_ad_image_async( $id ) {
             else{
                 $image_render_src = $quads_options['ads'][$id]['image_src'];
             }
+            if(isset($quads_options['ads'][$id]['parallax_ads_check']) && $quads_options['ads'][$id]['parallax_ads_check']){
+                $parallax_height=$quads_options['ads'][$id]['parallax_height']?$quads_options['ads'][$id]['parallax_height']:300;
+                $html .=' <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
+                 <div class="quads_parallax parallax_'.$id.'"></div>
+                 </a>
+                <style> .parallax_'.$id.' {background-image: url("'.esc_attr($image_render_src).'");height:'.$parallax_height.'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
+            }
+            else {
             $html .= '
             <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
             <img  src="'.esc_attr($image_render_src).'" > 
             </a>';
+            }
         }
     }
     else if (isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
-        $html .= '
+        
+        if(isset($quads_options['ads'][$id]['parallax_ads_check']) && $quads_options['ads'][$id]['parallax_ads_check']){
+            $parallax_height=$quads_options['ads'][$id]['parallax_height']?$quads_options['ads'][$id]['parallax_height']:300;
+            $html .='<a  imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
+             <div class="quads_parallax parallax_'.$id.'"></div>
+             </a>
+             <style> .parallax_'.$id.' {background-image: url("'.esc_attr($quads_options['ads'][$id]['image_src']).'");height:'.$parallax_height.'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
+            
+        }
+        else {
+            $html .= '
         <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
         <img  src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" > 
         </a>';
+        }
+        
     }else{
-        $html .= '<img src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" >';
+        if(isset($quads_options['ads'][$id]['parallax_ads_check']) && $quads_options['ads'][$id]['parallax_ads_check']){
+            $parallax_height=$quads_options['ads'][$id]['parallax_height']?$quads_options['ads'][$id]['parallax_height']:300;
+            $html .='<div class="quads_parallax parallax_'.$id.'"></div>
+            <style> .parallax_'.$id.' {background-image: url("'.esc_attr($image_render_src).'");height:'.$parallax_height.'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
+        
+    }
+        else{
+            $html .= '<img src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" >';
+        }
+        
     }
 
     $html .= "\n <!-- end WP QUADS --> \n\n";
@@ -1231,32 +1261,47 @@ function quads_render_amp($id,$ampsupport=''){
                                 >
                                 </amp-ad>';
             }else if($quads_options['ads'][$id]['ad_type'] == 'ad_image'){
-                    $html = '';
-                    list($width, $height) = getimagesize($quads_options['ads'][$id]['image_src']);
-
-                if(isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
-                    $html .= '
-                        <a target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
-                        <amp-img
-
-  src="'.esc_attr($quads_options['ads'][$id]['image_src']). '"
-  width="'.esc_attr($width).'"
-  height="'.esc_attr($height).'"
-  layout="responsive"
->
-</amp-img>
-                        </a>';
-                    }else{
-                        $html .= '                        <amp-img
-
-                        src="'.esc_attr($quads_options['ads'][$id]['image_src']). '"
-                        width="'.esc_attr($width).'"
-                        height="'.esc_attr($height).'"
-                        layout="responsive"
-                      >
-                      </amp-img>';
+                $html = '';$parallax = false;$parallax_height=300;
+                
+                list($width, $height) = getimagesize($quads_options['ads'][$id]['image_src']);
+                if(isset($quads_options['ads'][$id]['parallax_ads_check'])  && $quads_options['ads'][$id]['parallax_ads_check']){
+                    $parallax=true;
+                    $parallax_height=($quads_options['ads'][$id]['parallax_height']>1)?$quads_options['ads'][$id]['parallax_height']:300;
+                }
+            if(isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
+               
+                $html .= '
+                    <a target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">';
+                    if($parallax){
+                        $html .=' <amp-fx-flying-carpet height="'.$parallax_height.'px">';       
                     }
-            }else if($quads_options['ads'][$id]['ad_type'] == 'taboola'){
+                    $html .=' <amp-img
+src="'.esc_attr($quads_options['ads'][$id]['image_src']). '"
+width="'.esc_attr($width).'"
+height="'.esc_attr($height).'"
+layout="responsive"
+>
+</amp-img>';
+        if($parallax){
+            $html .='</amp-fx-flying-carpet>';
+        }            
+            $html .='</a>';
+                }else{
+                    if($parallax){
+                        $html .=' <amp-fx-flying-carpet height="'.$parallax_height.'px">';       
+                    }
+                    $html .= '                        <amp-img
+                    src="'.esc_attr($quads_options['ads'][$id]['image_src']). '"
+                    width="'.esc_attr($width).'"
+                    height="'.esc_attr($height).'"
+                    layout="responsive"
+                  >
+                  </amp-img>';
+                  if($parallax){
+                    $html .='</amp-fx-flying-carpet>';
+                }
+                }
+        }else if($quads_options['ads'][$id]['ad_type'] == 'taboola'){
                         $html = '<div id="quads_taboola_'.$id.'"></div>';
                           $html .= ' <amp-embed width="100" height="283"
                                          type=taboola
