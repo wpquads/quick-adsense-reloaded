@@ -419,20 +419,46 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	
 	$ad_id = $_GET['id'];
 	$mydate = $_GET['date'];
+	$day = $_GET['day'];
 	$date_timestamp = strtotime($mydate);
-	$new_date = date('d_m_Y', $date_timestamp);  
-	
+	$new_date = date('d_m_Y', $date_timestamp);
+
 
 		$col_name_imprsn = 'impressions_'.$new_date;
 		$col_name_clicks = 'clicks_'.$new_date;
-			$results = $wpdb->get_results($wpdb->prepare("SELECT *FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+	
+		if( $day == "last_7_days" ){
+		$startDate = strtotime("-7 day");
+		$endDate = strtotime('now');
+		
+		$dates_imp = "impressions_12_07_2022,impressions_13_07_2022,impressions_14_07_2022";
+		$results_impresn = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp FROM `{$wpdb->prefix}quads_stats`  WHERE `ad_id` = $ad_id "));
+		$array = array_values($results_impresn);
+		$ad_imprsn = 0;
+		
+		foreach ($array[0] as $key => $value) {
+			$ad_imprsn += $value;
+		}
+		
+		$dates_clk = "clicks_12_07_2022,clicks_13_07_2022,clicks_14_07_2022";
+		$results_click = $wpdb->get_results($wpdb->prepare("SELECT $dates_clk FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+		$array_c = array_values($results_click);
+		$ad_clicks = 0;
+		foreach ($array_c[0] as $key => $value) {
+			$ad_clicks += $value;
+		}
+	}
+	else{
+		$results = $wpdb->get_results($wpdb->prepare("SELECT *FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
 			if(!empty($results)) {
 				foreach ($results as $key => $value) {
 					$ad_imprsn =  $value->$col_name_imprsn;
 					$ad_clicks =  $value->$col_name_clicks;
 				}
 			}
-            $ad_stats['impressions'] = $ad_imprsn;
+	}
+			
+			$ad_stats['impressions'] = $ad_imprsn;
             $ad_stats['clicks']      = $ad_clicks;
 			return $ad_stats;
                                     

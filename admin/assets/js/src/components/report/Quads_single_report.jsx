@@ -223,14 +223,19 @@ drawChart(config);
         // this.myfunc()
         let date = ''
         let newdate = ''
+        let day_val = ''
         const {report} = this.state
         if(eve.target===undefined){
              this.setState({cust_fromdate:eve}) ;
         }
         let id = document.getElementById('view_stats_report').value
-        newdate = new Date(this.state.cust_fromdate).toISOString()
+        // newdate = new Date(this.state.cust_fromdate).toISOString()
+        newdate = document.getElementById('report_period').value
+        day_val = document.getElementById('report_period').value
+        console.log(newdate);
+        console.log(day_val);
        
-        var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id+'&date='+newdate;
+        var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id+'&date='+newdate+'&day='+day_val;
 
             fetch(url,{
                 method: "post",
@@ -290,7 +295,8 @@ drawChart(config);
         this.getallads(); 
         this.view_reports_data(); 
         setTimeout( () => {
-            var view_stat = document.getElementsByClassName("view_statsreport")[0].click()
+            var view_stat = document.getElementsByClassName("view_statsreport")[0]
+            view_stat.click()
         }, 500)
     }
   
@@ -396,7 +402,20 @@ drawChart(config);
                          } )
                         : 'No Options' }
                         </select>
-                        <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_stats_form_ChangeHandler} />
+                        <select name="report_period" id={'report_period'} onChange={this.view_report_stats_form_ChangeHandler}>
+                        <option value={new Date().toISOString().slice(0, 10)}>Today</option>
+                        <option value={new Date(Date.now() - 864e5).toISOString().slice(0, 10)}>Yesterday</option>
+                        <option value="last_7_days">Last 7 days</option>
+                        <option value="last_15_days">Last 15 days</option>
+                        <option value="last_30_days">Last 30 days</option>
+                        <option value="last_6_months">Last 6 months</option>
+                        <option value="last_1_year">Last 1 year</option>
+                        <option value="all_time">All Time</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                        {
+                            // <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_stats_form_ChangeHandler} />
+                    }
                         </div>
                         </div>
                         <div id={'quads_report_table'}></div>
