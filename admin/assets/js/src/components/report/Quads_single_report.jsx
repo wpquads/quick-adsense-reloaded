@@ -5,6 +5,7 @@ import '../ads/create/QuadsAdListCreate.scss';
 import '../../components/report/QuadsAdReport.scss'
 import {Chart} from 'react-charts'
 import DatePicker from "react-datepicker";
+import queryString from 'query-string'
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -15,6 +16,7 @@ class Quads_single_report extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            custom_period: false,
             redirect:false,
             adsense_modal :false,
             current_page : 'report',
@@ -183,14 +185,15 @@ drawChart(config);
       view_reports_data = (eve_) => {
         let date = ''
         let newdate = ''
-        if(eve_ == undefined){
-             this.setState({cust_fromdate:new Date()}) ;
-        }
+        let day_val = ''
+        const {report} = this.state
+
+        const current_page = queryString.parse(window.location.search);
+        let id_ = current_page.id
+        newdate = document.getElementById('report_period').value
+        day_val = document.getElementById('report_period').value
         
-        let params = new URLSearchParams(location.search);
-        let id = params.get('id')
-        newdate = new Date(this.state.cust_fromdate).toISOString()
-        var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id+'&date='+newdate;
+        var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id_+'&date='+newdate+'&day='+day_val;
 
             fetch(url,{
                 method: "post",
@@ -220,7 +223,6 @@ drawChart(config);
 
     }
     view_report_stats_form_ChangeHandler = (eve) => {
-        // this.myfunc()
         let date = ''
         let newdate = ''
         let day_val = ''
@@ -229,12 +231,11 @@ drawChart(config);
              this.setState({cust_fromdate:eve}) ;
         }
         let id = document.getElementById('view_stats_report').value
-        // newdate = new Date(this.state.cust_fromdate).toISOString()
         newdate = document.getElementById('report_period').value
         day_val = document.getElementById('report_period').value
-        console.log(newdate);
         console.log(day_val);
-       
+
+       if( day_val!='custom' ){
         var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id+'&date='+newdate+'&day='+day_val;
 
             fetch(url,{
@@ -261,9 +262,162 @@ drawChart(config);
 
                     }
             }
-            } )    
+            } )
+        }
+        
+        if( day_val == 'custom' ){
+            var newfromdate;
+            var newtodate;
+            if(eve.target===undefined){
+                this.setState({cust_fromdate:eve}) ;
+           }
+            if(eve.target===undefined){
+                this.setState({cust_todate:eve}) ;
+           }
+           newfromdate = new Date(this.state.cust_fromdate).toISOString()
+           newtodate = new Date(this.state.cust_todate).toISOString()
+            this.setState( { custom_period: true } )
+            var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id+'&fromdate='+newfromdate+'&todate='+newtodate+'&day='+day_val;
+
+            fetch(url,{
+                method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': quads_localize_data.nonce,
+            },
+            } )
+            .then(res => res.json())
+            .then( (response) => {
+                if(response!=null){
+                    var render_data
+                    var get_table = document.getElementById("quads_report_table")
+                    if(response.clicks == null || response.impressions == null ){
+                        get_table.innerHTML = 'No data Found'
+                    }
+                    else{
+                        console.log(response);
+                        this.display_report_stats(response)
+                        render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+                        get_table.innerHTML = render_data
+
+                    }
+            }
+            } )
+        }
+        else{
+            this.setState( { custom_period: false } )
+        }
 
     }
+    
+    view_report_fromdate = (eve) => {
+        let date = ''
+        let newdate = ''
+        let day_val = ''
+
+        let id = document.getElementById('view_stats_report').value
+        newdate = document.getElementById('report_period').value
+        day_val = document.getElementById('report_period').value
+        console.log(day_val);
+        
+        if( day_val == 'custom' ){
+            console.log('fromdate');
+            var newfromdate;
+            var newtodate;
+            console.log(eve);
+            if(eve.target===undefined){
+                this.setState({cust_fromdate:eve}) ;
+            }
+           if(eve.target===undefined){
+            this.setState({cust_todate:eve}) ;
+            }
+           newfromdate = new Date(this.state.cust_fromdate).toISOString()
+           console.log(newfromdate);
+           newtodate = new Date(this.state.cust_todate).toISOString()
+           console.log(newtodate);
+            // var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id+'&fromdate='+newfromdate+'&todate='+newtodate+'&day='+day_val;
+
+            // fetch(url,{
+            //     method: "post",
+            // headers: {
+            //     'Accept': 'application/json',
+            //     'Content-Type': 'application/json',
+            //     'X-WP-Nonce': quads_localize_data.nonce,
+            // },
+            // } )
+            // .then(res => res.json())
+            // .then( (response) => {
+            //     if(response!=null){
+            //         var render_data
+            //         var get_table = document.getElementById("quads_report_table")
+            //         if(response.clicks == null || response.impressions == null ){
+            //             get_table.innerHTML = 'No data Found'
+            //         }
+            //         else{
+            //             console.log(response);
+            //             this.display_report_stats(response)
+            //             render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+            //             get_table.innerHTML = render_data
+
+            //         }
+            // }
+            // } )
+        } 
+
+    }
+    
+    // view_report_todate = (eve) => {
+    //     let date = ''
+    //     let newdate = ''
+    //     let day_val = ''
+    //     const {report} = this.state
+    //     if(eve.target===undefined){
+    //          this.setState({cust_todate:eve}) ;
+    //     }
+    //     let id = document.getElementById('view_stats_report').value
+    //     newdate = document.getElementById('report_period').value
+    //     day_val = document.getElementById('report_period').value
+    //     console.log(day_val);
+        
+    //     if( day_val == 'custom' ){
+    //         console.log('todate');
+    //         var newtodate;
+    //         if(eve.target===undefined){
+    //             this.setState({cust_todate:eve}) ;
+    //        }
+    //        newtodate = new Date(this.state.cust_todate).toISOString()
+    //        console.log(newtodate);
+    //         // var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id+'&fromdate='+newfromdate+'&todate='+newtodate+'&day='+day_val;
+
+    //         // fetch(url,{
+    //         //     method: "post",
+    //         // headers: {
+    //         //     'Accept': 'application/json',
+    //         //     'Content-Type': 'application/json',
+    //         //     'X-WP-Nonce': quads_localize_data.nonce,
+    //         // },
+    //         // } )
+    //         // .then(res => res.json())
+    //         // .then( (response) => {
+    //         //     if(response!=null){
+    //         //         var render_data
+    //         //         var get_table = document.getElementById("quads_report_table")
+    //         //         if(response.clicks == null || response.impressions == null ){
+    //         //             get_table.innerHTML = 'No data Found'
+    //         //         }
+    //         //         else{
+    //         //             console.log(response);
+    //         //             this.display_report_stats(response)
+    //         //             render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+    //         //             get_table.innerHTML = render_data
+
+    //         //         }
+    //         // }
+    //         // } )
+    //     } 
+
+    // }
     
     adsToggle_list = () => {
       const get_all_data = JSON.parse(JSON.stringify(this.state.getallads_data));
@@ -403,18 +557,18 @@ drawChart(config);
                         : 'No Options' }
                         </select>
                         <select name="report_period" id={'report_period'} onChange={this.view_report_stats_form_ChangeHandler}>
-                        <option value={new Date().toISOString().slice(0, 10)}>Today</option>
-                        <option value={new Date(Date.now() - 864e5).toISOString().slice(0, 10)}>Yesterday</option>
+                        <option value="today">Today</option>
+                        <option value="yesterday">Yesterday</option>
                         <option value="last_7_days">Last 7 days</option>
                         <option value="last_15_days">Last 15 days</option>
-                        <option value="last_30_days">Last 30 days</option>
-                        <option value="last_6_months">Last 6 months</option>
-                        <option value="last_1_year">Last 1 year</option>
-                        <option value="all_time">All Time</option>
                         <option value="custom">Custom</option>
                     </select>
-                        {
-                            // <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_stats_form_ChangeHandler} />
+                    
+                    { this.state.custom_period == true  ? <>
+                        <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_fromdate} />
+                        <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_fromdate} />
+                    </> : '' 
+
                     }
                         </div>
                         </div>
