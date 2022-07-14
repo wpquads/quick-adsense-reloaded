@@ -81,6 +81,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_infolinks( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_infolinks_async( $id ),$id );
     }
+    if( true === quads_is_loopad( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_loopad_async( $id ),$id );
+    }
     // Return empty string
     return '';
 }
@@ -759,6 +762,47 @@ function quads_render_google_async( $id ) {
 
         return apply_filters( 'quads_render_adsense_async', $html );
 }
+/**
+ * Render Loop ad
+ *
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_loopad_async( $id ) {
+    global $quads_options;
+    $image_render_src = $useragent = '';
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Loop AD --> \n\n";
+    $useragent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '' ;
+    
+        $html.='<article class="post type-post status-publish format-standard has-post-thumbnail">
+	<div class="post-item">';
+       
+        $html .='<div class="entry-container">';    
+        if(isset($quads_options['ads'][$id]['loop_add_link']) && isset($quads_options['ads'][$id]['loop_add_title'])){    
+	$html .='<header class="entry-header">
+				<h2 class="entry-title default-max-width"><a href="'.$quads_options['ads'][$id]['loop_add_link'].'" rel="sponsored">'.$quads_options['ads'][$id]['loop_add_title'].'</a></h2>
+            </header><!-- .entry-header -->';
+        }
+        if(isset($quads_options['ads'][$id]['loop_add_link'])  && !empty($quads_options['ads'][$id]['loop_add_link']) && isset($quads_options['ads'][$id]['image_src'])  && !empty($quads_options['ads'][$id]['image_src'])){
+            $html .='<div class="featured-image">
+                        <a href="'.$quads_options['ads'][$id]['loop_add_link'].'" class="post-thumbnail-link"  rel="sponsored">
+                        <img src="'.$quads_options['ads'][$id]['image_src'].'" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" loading="lazy" style="width:100%;height:66.57%;max-width:350px;">
+                        </a>
+                </div><!-- .featured-image -->';
+                }
+        if(isset($quads_options['ads'][$id]['loop_add_description'])){    
+            $html .='<div class="entry-content">
+                        <p>'.$quads_options['ads'][$id]['loop_add_description'].'
+                        <a class="more-link" href="'.$quads_options['ads'][$id]['loop_add_link'].'">Learn More <span class="screen-reader-text">'.$quads_options['ads'][$id]['loop_add_title'].'</span></a></p>
+                     </div><!-- .entry-content -->';
+                }
+    $html.='</div><!-- .entry-container -->
+    </div><!-- .post-item -->
+</article>';
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_loopad_async', $html );
+}
 function quads_load_loading_script(){
     global $quads_options;
     $script = '';
@@ -1183,7 +1227,21 @@ function quads_is_infolinks( $id, $string ) {
     }
     return false;
 }
+/**
+ * Check if ad code is Loop ad
+ *
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_loopad( $id, $string ) {
+    global $quads_options;
 
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'loop_ads') {
+        return true;
+    }
+    return false;
+}
 /**
  * Render advert on amp pages
  *
@@ -1361,6 +1419,36 @@ layout="responsive"
                 data-slotpath="'.esc_attr($quads_options['ads'][$id]['adpushup_slot_id']).'"
                 data-totalAmpSlots="1">
                 </amp-ad>';
+
+            } else if($quads_options['ads'][$id]['ad_type'] == 'loop_ads'){
+                
+                if(isset($quads_options['ads'][$id]['loop_add_link']) && isset($quads_options['ads'][$id]['loop_add_title']) && isset($quads_options['ads'][$id]['loop_add_description']))
+                {    
+                $html = '<div class="fsp">'; 
+                if(isset($quads_options['ads'][$id]['image_src']) && !empty($quads_options['ads'][$id]['image_src'])){
+                    list($width, $height) = getimagesize($quads_options['ads'][$id]['image_src']);
+                $html .='<div class="fsp-img">
+                            <div class="loop-img image-container">
+                                <a href="'.$quads_options['ads'][$id]['loop_add_link'].'" title="'.esc_attr($quads_options['ads'][$id]['loop_add_title']).'">
+                                <amp-img
+                                        alt="'.esc_attr($quads_options['ads'][$id]['loop_add_title']).'"
+                                        src="'.esc_attr($quads_options['ads'][$id]['image_src']).'"
+                                        width="'.esc_attr($width).'"
+                                        height="'.esc_attr($height).'"
+                                        layout="responsive"
+                                        >
+                                        </amp-img>    
+                                </a></div> </div>';
+                }
+                $html .='     <div class="fsp-cnt">
+                                <h2 class="loop-title"><a href="'.$quads_options['ads'][$id]['loop_add_link'].'">'.$quads_options['ads'][$id]['loop_add_title'].'</a></h2>
+                                <p class="loop-excerpt">'.$quads_options['ads'][$id]['loop_add_description'].'</p> 
+                                <div class="pt-dt"> &nbsp; </div> 
+                            </div>
+                         </div>
+                         <style>.quads-ad'.$quads_options['ads'][$id]['ad_id'].' { flex-basis: calc(33.33% - 30px); } @media (max-width: 425px){.quads-ad'.$quads_options['ads'][$id]['ad_id'].' {flex-basis: calc(100% - 0px);margin: 15px 0px;}</style>';
+                }
+        
 
             }else{
                    // Return default adsense code

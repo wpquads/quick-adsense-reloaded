@@ -37,6 +37,7 @@ class QuadsAdListNavLink extends Component {
                     {ad_type:'skip_ads',ad_type_name:'Skip Ads',pro:'true'},
                     {ad_type:'ad_blindness',ad_type_name:'Ad Blindness',pro:'true'},
                     {ad_type:'ab_testing',ad_type_name:'AB Testing',pro:'true'},
+                    {ad_type:'loop_ads',ad_type_name:'Loop Ads'},
            ]
         };
         this.getSettings();
@@ -139,6 +140,9 @@ class QuadsAdListNavLink extends Component {
               case 'skip_ads':
                   img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/skip_ads.png';
                   break;
+              case 'loop_ads':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/loop_ads.png';
+              break;
             default:
               break;
           }

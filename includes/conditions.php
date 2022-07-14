@@ -752,8 +752,9 @@ function quads_comparison_logic_checker($visibility){
     break;
 
     case 'page':
-
-        if($v_id == $post->ID){
+        global $wp_query;
+        $page_id = $wp_query->get_queried_object_id();
+        if($v_id == $page_id){
             $result = true;
         }
 

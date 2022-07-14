@@ -1111,6 +1111,47 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                    </div>);
    
                  break;
+                 case 'loop_ads':
+                  ad_type_name = 'Loop';
+                   comp_html.push(<div key="loop_ads">
+                     <table>
+                       <tbody>
+                         <tr><td>
+                         <label>{__('Upload Ad Image', 'quick-adsense-reloaded')}</label></td><td>
+                        {post_meta.image_src == '' ? <div><div><a className="button" onClick={this.selectimages}>{__(' Upload Image', 'quick-adsense-reloaded')}</a>
+                        </div>
+                        </div>
+                        : <div>
+                        <div>
+                        <img src={post_meta.image_src} className="banner_image" />
+                        <a className="button" onClick={this.remove_image}>{__('Remove Image', 'quick-adsense-reloaded')}</a></div>
+     
+                        </div>
+                       }
+                          </td></tr>
+                          <tr><td>
+                         <label>{__('Ad Title', 'quick-adsense-reloaded')}</label></td><td>
+                         <input value={post_meta.loop_add_title} onChange={this.props.adFormChangeHandler} type="text" id="loop_add_title" name="loop_add_title" placeholder="Ad title" />
+                         {(show_form_error && post_meta.loop_add_title == '') ? <div className="quads_form_msg"><span className="material-icons">
+                         error_outline</span>Enter Ad Title</div> :''}
+                          </td></tr>
+                          <tr><td>
+                         <label>{__('Ad Short Description', 'quick-adsense-reloaded')}</label></td><td>
+                         <textarea rows="5" cols="50" onChange={this.props.adFormChangeHandler}  id="loop_add_description" name="loop_add_description" placeholder="Ad Short Description" value={post_meta.loop_add_description}></textarea>
+                         {(show_form_error && post_meta.loop_add_description == '') ? <div className="quads_form_msg"><span className="material-icons">
+                         error_outline</span>Enter Ad Description</div> :''}
+                          </td></tr>
+                          <tr><td>
+                         <label>{__('Ad Anchor link', 'quick-adsense-reloaded')}</label></td><td>
+                         <input value={post_meta.loop_add_link} onChange={this.props.adFormChangeHandler} type="text" id="loop_add_link" name="loop_add_link" placeholder="Ad Anchor link" />
+                         {(show_form_error && post_meta.loop_add_link == '') ? <div className="quads_form_msg"><span className="material-icons">
+                         error_outline</span>Enter Ad Anchor link</div> :''}
+                          </td></tr>
+                       </tbody>
+                     </table>
+                     </div>);
+     
+                   break;
             default:
               comp_html.push(<div key="noads" >{__('Ad not found', 'quick-adsense-reloaded')}</div>);
               break;
