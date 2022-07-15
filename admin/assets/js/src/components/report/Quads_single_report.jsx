@@ -226,14 +226,10 @@ drawChart(config);
         let date = ''
         let newdate = ''
         let day_val = ''
-        const {report} = this.state
-        if(eve.target===undefined){
-             this.setState({cust_fromdate:eve}) ;
-        }
+
         let id = document.getElementById('view_stats_report').value
         newdate = document.getElementById('report_period').value
         day_val = document.getElementById('report_period').value
-        console.log(day_val);
 
        if( day_val!='custom' ){
         var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id+'&date='+newdate+'&day='+day_val;
@@ -319,105 +315,76 @@ drawChart(config);
         let id = document.getElementById('view_stats_report').value
         newdate = document.getElementById('report_period').value
         day_val = document.getElementById('report_period').value
-        console.log(day_val);
         
         if( day_val == 'custom' ){
-            console.log('fromdate');
             var newfromdate;
             var newtodate;
-            console.log(eve);
             if(eve.target===undefined){
                 this.setState({cust_fromdate:eve}) ;
             }
-           if(eve.target===undefined){
-            this.setState({cust_todate:eve}) ;
-            }
            newfromdate = new Date(this.state.cust_fromdate).toISOString()
-           console.log(newfromdate);
-           newtodate = new Date(this.state.cust_todate).toISOString()
-           console.log(newtodate);
-            // var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id+'&fromdate='+newfromdate+'&todate='+newtodate+'&day='+day_val;
-
-            // fetch(url,{
-            //     method: "post",
-            // headers: {
-            //     'Accept': 'application/json',
-            //     'Content-Type': 'application/json',
-            //     'X-WP-Nonce': quads_localize_data.nonce,
-            // },
-            // } )
-            // .then(res => res.json())
-            // .then( (response) => {
-            //     if(response!=null){
-            //         var render_data
-            //         var get_table = document.getElementById("quads_report_table")
-            //         if(response.clicks == null || response.impressions == null ){
-            //             get_table.innerHTML = 'No data Found'
-            //         }
-            //         else{
-            //             console.log(response);
-            //             this.display_report_stats(response)
-            //             render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
-            //             get_table.innerHTML = render_data
-
-            //         }
-            // }
-            // } )
         } 
 
     }
     
-    // view_report_todate = (eve) => {
-    //     let date = ''
-    //     let newdate = ''
-    //     let day_val = ''
-    //     const {report} = this.state
-    //     if(eve.target===undefined){
-    //          this.setState({cust_todate:eve}) ;
-    //     }
-    //     let id = document.getElementById('view_stats_report').value
-    //     newdate = document.getElementById('report_period').value
-    //     day_val = document.getElementById('report_period').value
-    //     console.log(day_val);
+    view_report_todate = (event) => {
+        let date = ''
+        let newdate = ''
+        let day_val = ''
+        const {report} = this.state
+        if(event.target===undefined){
+             this.setState({cust_todate:event}) ;
+        }
+        let id = document.getElementById('view_stats_report').value
+        newdate = document.getElementById('report_period').value
+        day_val = document.getElementById('report_period').value
         
-    //     if( day_val == 'custom' ){
-    //         console.log('todate');
-    //         var newtodate;
-    //         if(eve.target===undefined){
-    //             this.setState({cust_todate:eve}) ;
-    //        }
-    //        newtodate = new Date(this.state.cust_todate).toISOString()
-    //        console.log(newtodate);
-    //         // var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id+'&fromdate='+newfromdate+'&todate='+newtodate+'&day='+day_val;
+        if( day_val == 'custom' ){
+            var newtodate;
+            if(event.target===undefined){
+                this.setState({cust_todate:event}) ;
+           }
+           newtodate = new Date(this.state.cust_todate).toISOString()
+        } 
 
-    //         // fetch(url,{
-    //         //     method: "post",
-    //         // headers: {
-    //         //     'Accept': 'application/json',
-    //         //     'Content-Type': 'application/json',
-    //         //     'X-WP-Nonce': quads_localize_data.nonce,
-    //         // },
-    //         // } )
-    //         // .then(res => res.json())
-    //         // .then( (response) => {
-    //         //     if(response!=null){
-    //         //         var render_data
-    //         //         var get_table = document.getElementById("quads_report_table")
-    //         //         if(response.clicks == null || response.impressions == null ){
-    //         //             get_table.innerHTML = 'No data Found'
-    //         //         }
-    //         //         else{
-    //         //             console.log(response);
-    //         //             this.display_report_stats(response)
-    //         //             render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
-    //         //             get_table.innerHTML = render_data
+    }
 
-    //         //         }
-    //         // }
-    //         // } )
-    //     } 
+    get_data_dates = (eve) => {
+        let day_val = ''
+        const current_page = queryString.parse(window.location.search);
+        let id_ = current_page.id
+        day_val = document.getElementById('report_period').value
+        let from_date = new Date(this.state.cust_fromdate).toISOString()
+        let to_date = new Date(this.state.cust_todate).toISOString()
+        var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id_+'&fromdate='+from_date+'&todate='+to_date+'&day='+day_val;
+        fetch(url,{
+                method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': quads_localize_data.nonce,
+            },
+            } )
+            .then(res => res.json())
+            .then( (response) => {
+                if(response!=null){
+                    var render_data
+                    var get_table = document.getElementById("quads_report_table")
+                    if(response.clicks == null || response.impressions == null ){
+                        get_table.innerHTML = 'No data Found'
+                    }
+                    else{
+                        console.log(response);
+                        this.display_report_stats(response)
+                        render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+                        get_table.innerHTML = render_data
 
-    // }
+                    }
+            }
+            } )
+
+    }
+
     
     adsToggle_list = () => {
       const get_all_data = JSON.parse(JSON.stringify(this.state.getallads_data));
@@ -547,7 +514,6 @@ drawChart(config);
                         <div className={'quads-select-menu'} >
                         <div className={'quads-select view_statsreport'} onClick={this.adsToggle_list}>
                         <select name="view_stats_report" onChange={this.view_report_stats_form_ChangeHandler} id={'view_stats_report'} placeholder="Select Ads">
-                        <option value={"select"}>Select Ad</option>
                         {this.state.getallads_data_temp ? this.state.getallads_data_temp.map( item => {
                             const sel = item.value                    
                             return (
@@ -566,7 +532,8 @@ drawChart(config);
                     
                     { this.state.custom_period == true  ? <>
                         <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_fromdate} />
-                        <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_fromdate} />
+                        <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_todate} />
+                        <button className="show_btn" onClick={this.get_data_dates}>Show data</button>
                     </> : '' 
 
                     }

@@ -528,6 +528,46 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		}
 
 	}
+	else if( $day == "custom" ) {
+		$fromdate = $_GET["fromdate"];
+		$todate = $_GET["todate"];
+		$get_from = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$3_$2_$1', $fromdate);
+		$get_to = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$3_$2_$1', $todate);
+		
+		$get_from_d = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$3-$2-$1', $fromdate);
+		$get_to_d = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$3-$2-$1', $todate);
+
+		$dates_imp__ = '';
+		$period = new DatePeriod(new DateTime($get_from_d), new DateInterval('P1D'), 
+		new DateTime(' '.$get_to_d.' +1 day'));
+		foreach ($period as $date) {
+			$dates_imp__ .= 'impressions_'.$date->format("d_m_Y").',';
+		}
+		$dates_imp_c = substr($dates_imp__, 0, -1);
+
+		$results_impresn_C = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp_c FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+		$array_i_c = array_values($results_impresn_C);
+		$ad_imprsn = 0;		
+		foreach ($array_i_c[0] as $key => $value) {
+			$ad_imprsn += $value;
+		}
+		
+		$dates_click__ = '';
+		$period_click = new DatePeriod(new DateTime($get_from_d), new DateInterval('P1D'), 
+		new DateTime(' '.$get_to_d.' +1 day'));
+		foreach ($period_click as $date) {
+			$dates_click__ .= 'clicks_'.$date->format("d_m_Y").',';
+		}
+		$dates_imp_c = substr($dates_click__, 0, -1);
+
+		$results_click_C = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp_c FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+		$array_c_c = array_values($results_click_C);
+		$ad_clicks = 0;		
+		foreach ($array_c_c[0] as $key => $value) {
+			$ad_clicks += $value;
+		}
+		
+	}
 			
 			$ad_stats['impressions'] = $ad_imprsn;
             $ad_stats['clicks']      = $ad_clicks;

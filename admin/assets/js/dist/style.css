@@ -2804,7 +2804,9 @@ and open the template in the editor.
   padding: 5px 13px; }
 
 #quads_report_table table b {
-  font-weight: 700; }
+  font-weight: 700;
+  line-height: 2;
+  font-weight: 600; }
 
 .quads-report-networks h1 {
   font-size: 15px; }
@@ -2843,6 +2845,19 @@ and open the template in the editor.
 
 .quads-ad-networks.ad_logging {
   padding: 0px; }
+
+.show_btn {
+  padding: 4px 10px 6px 10px;
+  font-size: 14px;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  cursor: pointer; }
+
+.quads-select.view_statsreport {
+  display: -webkit-box; }
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle, .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow,
 .react-datepicker__month-year-read-view--down-arrow {
