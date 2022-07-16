@@ -29,6 +29,9 @@ add_action( 'wp_enqueue_scripts', 'click_fraud_protection' );
 add_action( 'wp_enqueue_scripts', 'tcf_2_integration' );
 
 function tcf_2_integration(){
+    if(quads_is_amp_endpoint()){
+        return;
+    }
     global $quads_options;
     if(isset($quads_options['tcf_2_integration']) && !empty($quads_options['tcf_2_integration']) && $quads_options['tcf_2_integration']){
 

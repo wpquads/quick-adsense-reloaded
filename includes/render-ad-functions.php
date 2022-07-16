@@ -88,6 +88,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     return '';
 }
 function quads_common_head_code(){
+    if(quads_is_amp_endpoint()){
+        return;
+    }
     global $quads_options;
     if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']== true) {
         echo quads_load_loading_script();
