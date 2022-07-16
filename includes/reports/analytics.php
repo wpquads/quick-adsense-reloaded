@@ -211,7 +211,10 @@ public function quads_get_client_ip() {
 
 
     public function quads_frontend_enqueue(){
-
+      if(quads_is_amp_endpoint())
+      {
+        return;
+      }
       $object_name = array(
           'ajax_url'               => admin_url( 'admin-ajax.php' ), 
           'quads_front_nonce'   => wp_create_nonce('quads_ajax_check_front_nonce')
