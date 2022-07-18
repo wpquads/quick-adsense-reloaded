@@ -51,11 +51,40 @@ class Quads_single_report extends Component {
         };
         this.QuadsRedirectToWizard = this.QuadsRedirectToWizard.bind(this);
     }
-    drawChart = (config) => {
-                
-        if(document.getElementById("quads_canvas"))
-            document.getElementById("quads_canvas").outerHTML = "";
+     display_report_stats = (response) => {
+        let imp_report = response.impressions
+        let click_report = response.clicks
+        const data = {
+                    labels: ['Ad report','Ad report'],
+                    datasets: [
+                      {
+                      label: 'Impressions',
+                      data: [0,imp_report],
+                      fill: false,
+                      borderColor: 'rgb(75, 192, 192)',
+                      tension: 0.1
+                    },
+                    {
+                      label: 'Clicks',
+                      data: [0,click_report],
+                      fill: false,
+                      borderColor: 'rgb(75, 192, 192)',
+                      tension: 0.1
+                    }
+                  ]
+                  };
+            const config = {
+                type: 'line',
+                data: data,
+              };
+        drawChart(config);
     
+    }
+    
+    drawChart = (config) => {
+
+        if(document.getElementById("quads_canvas"))
+        document.getElementById("quads_canvas").outerHTML = "";
         var new_canvas = "<canvas id='quads_canvas'>" + " <canvas>";
         document.getElementById('quads_reports_canvas').innerHTML = new_canvas;
         if(window.myPieChart ) {
@@ -64,86 +93,8 @@ class Quads_single_report extends Component {
         // Get the context of the canvas element we want to select
         var ctx = document.getElementById('quads_canvas');
         window.myPieChart = new Chart(ctx, config);
-             }
-             
-    display_report_stats = (response) => {
 
-        var data_length = response.length;
-        var dates_array = [];
-        var data = [];
-        // var report_view_type = document.getElementById('report_view_type').value;
-        var New_date_formate = '';
-        var week_total = 0;
-        var weekname_flag = '';
-        var flag = 0;
-        var view_count = []; 
-        var datasets = []; 
-     
-
-    datasets = [{
-        label: '',
-        backgroundColor: '',
-        borderColor: '',
-        display: 'none',
-        data: data,
-        fill: false,
-    }];
-    var config = {
-        type: 'line',
-        data: {
-            labels: dates_array,
-            datasets: datasets
-        },
-        options: {
-            legend: {
-                position: 'bottom',
-            },
-            hover: {
-                mode: 'nearest',
-                intersect: true
-            },
-            responsive: true,
-            tooltips: {
-                mode: 'index',
-                intersect: false,
-                callbacks: {
-                    label:function(tooltipItem, data){
-                        var label = data.datasets[tooltipItem.datasetIndex].label || '';
-                        if (label) {
-                            label += ': ';
-                        }
-                        label += '$'+tooltipItem.yLabel;
-                        return label ;
-                    }
-                },
-            },
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Chart.js Line Chart'
-                },
-
-            },
-            scales: {
-                xAxes: {
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Month'
-                    }
-                },
-                yAxes: {
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Value'
-                    }
-                }
-            }
-        }
-    };
-drawChart(config);
-}
+    }
 
     getallads = (search_text = '',page = '') => {
         let url = quads_localize_data.rest_url + "quads-route/get-ads-list?posts_per_page=100&pageno="+page;
@@ -539,9 +490,8 @@ drawChart(config);
                     }
                         </div>
                         </div>
+                        <div id='quads_reports_canvas' class='report_single' ></div>
                         <div id={'quads_report_table'}></div>
-                        <div id='quads_reports_canvas'>
-                        </div>
                         </div>
                         </div>
                         </Fragment>

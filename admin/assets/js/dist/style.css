@@ -331,10 +331,13 @@ select#view_stats_report {
   margin-top: -4px; }
 
 #quads_report_table {
-  padding-left: 31px; }
+  padding-left: 40px; }
 
 .stats_rep {
   margin-left: 19px; }
+
+#quads_reports_canvas {
+  padding-top: 35px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -2392,7 +2395,8 @@ and open the template in the editor.
 .quads-more-icon-box li {
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   padding: 6px 5px;
-  margin: 0; }
+  margin: 0;
+  text-align: center; }
 
 .quads-more-icon-box li a {
   font-size: 13px;
@@ -2504,7 +2508,14 @@ and open the template in the editor.
   font-weight: bold; }
 
 a.view_reports_ {
-  top: 0px; }
+  top: 0px;
+  background: #444;
+  color: #fff !important;
+  border-radius: 4px;
+  padding: 4px 10px; }
+
+.view_reports_:hover {
+  background: #444 !important; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
