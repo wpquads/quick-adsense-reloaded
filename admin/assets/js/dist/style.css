@@ -2516,6 +2516,12 @@ a.view_reports_ {
 
 .view_reports_:hover {
   background: #444 !important; }
+
+a.delete_ad {
+  padding-right: 16px; }
+
+a.ad_draft {
+  padding-left: 12px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

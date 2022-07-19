@@ -54,7 +54,7 @@ function quads_shortcode_display_ad( $atts ) {
             $ad_checker = '';
             $ad_checker = quads_get_ad( $id ) ? quads_get_ad( $id ) : '' ;
             if ( isset($ad_checker) ) {
-                if ( str_contains( $ad_checker, 'quads-rotatorad')) { 
+                if ( strpos( $ad_checker, 'quads-rotatorad')!==false) { 
                     $margin = 'text-align: center';
                 }
             }
