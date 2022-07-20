@@ -444,10 +444,23 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$results_impresn_S = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp_S FROM `{$wpdb->prefix}quads_stats`  WHERE `ad_id` = $ad_id "));
 			$array = array_values($results_impresn_S);
 			$ad_imprsn = 0;
+			$ad_imprsn_values = '' ;
+			$ad_imprsn_single_dates = '' ;
+		
 			foreach ($array[0] as $key => $value) {
 				$ad_imprsn += $value;
+				$ad_imprsn_values .= $value.',';
+				$ad_imprsn_single_dates .= $key.',';
 			}
 			
+		$remove_comma = substr($ad_imprsn_values, 0, -1);
+		$individual_impr_day_counts = explode(",",$remove_comma);
+		
+		$remove_comma_d = substr($ad_imprsn_single_dates, 0, -1);
+		$get_dates = str_replace("impressions_",'',$remove_comma_d);
+		$_to_slash = explode(",",$get_dates);
+		$get_impressions_specific_dates = str_replace('_','/',$_to_slash);
+
 			for( $i=0; $i<=$loop; $i++ ){
 				$dates_c .= 'clicks_'.date( 'd_m_Y', mktime(0,0,0,$month,( $date_-$i ) , $year ) ).',';
 			}
@@ -455,9 +468,17 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$results_click_S = $wpdb->get_results($wpdb->prepare("SELECT $dates_click_S FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
 			$array_c = array_values($results_click_S);
 			$ad_clicks = 0;
+			$ad_click_values = '';
+			$ad_click_single_dates = '';
+
 			foreach ($array_c[0] as $key => $value) {
 				$ad_clicks += $value;
+				$ad_click_values .= $value.',';
+				$ad_click_single_dates .= $key.',';
 			}
+			$remove_comma_click = substr($ad_click_values, 0, -1);
+			$individual_click_day_counts = explode(",",$remove_comma_click);
+
 		}
 		else if( $day == "last_15_days" ){
 			
@@ -497,6 +518,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		$results_impresn = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
 		$array = array_values($results_impresn);
 		$ad_imprsn = 0;		
+		
 		foreach ($array[0] as $key => $value) {
 			$ad_imprsn = $value;
 		}
@@ -571,6 +593,10 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			
 			$ad_stats['impressions'] = $ad_imprsn;
             $ad_stats['clicks']      = $ad_clicks;
+            $ad_stats['ad_day']      = $day;
+            $ad_stats['individual_impr_day_counts']  = $individual_impr_day_counts;
+            $ad_stats['ad_imp_individual_dates']  = $get_impressions_specific_dates;
+            $ad_stats['individual_click_day_counts']  = $individual_click_day_counts;
 			return $ad_stats;
                                     
 }

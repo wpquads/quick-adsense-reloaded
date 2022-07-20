@@ -52,27 +52,83 @@ class Quads_single_report extends Component {
         this.QuadsRedirectToWizard = this.QuadsRedirectToWizard.bind(this);
     }
      display_report_stats = (response) => {
+
         let imp_report = response.impressions
         let click_report = response.clicks
-        const data = {
-                    labels: ['Ad report','Ad report'],
+        let ad_day = response.ad_day
+        let day_ranges_imp = response.individual_impr_day_counts
+        let day_ranges_click = response.individual_click_day_counts
+        let ad_imp_individual_dates = response.ad_imp_individual_dates
+        
+        if( ad_day === "last_7_days" ){
+
+            var imp_day_ranges_to_num = day_ranges_imp.map(Number)
+                var click_day_ranges_to_num = day_ranges_click.map(Number)
+                var data = {
+                    labels: ad_imp_individual_dates,
                     datasets: [
                       {
                       label: 'Impressions',
-                      data: [0,imp_report],
+                      data: imp_day_ranges_to_num,
                       fill: false,
                       borderColor: 'rgb(75, 192, 192)',
                       tension: 0.1
                     },
                     {
                       label: 'Clicks',
-                      data: [0,click_report],
+                      data: click_day_ranges_to_num,
                       fill: false,
                       borderColor: 'rgb(75, 192, 192)',
                       tension: 0.1
                     }
                   ]
+
                   };
+                }
+            if( ad_day == "today" ){
+                
+                var data = {
+                        labels: ['ad report','ad report'],
+                    datasets: [
+                      {
+                      label: 'Impressions',
+                      data: [imp_report,imp_report],
+                      fill: false,
+                      borderColor: 'rgb(75, 192, 192)',
+                      tension: 0.1
+                    },
+                    {
+                      label: 'Clicks',
+                      data: [click_report,click_report],
+                      fill: false,
+                      borderColor: 'rgb(75, 192, 192)',
+                      tension: 0.1
+                    }
+                  ]
+                  }
+                }
+            if( ad_day == "yesterday" ){
+
+                    var data = {
+                        labels: ['ad report','ad report'],
+                    datasets: [
+                      {
+                      label: 'Impressions',
+                      data: [imp_report,imp_report],
+                      fill: false,
+                      borderColor: 'rgb(75, 192, 192)',
+                      tension: 0.1
+                    },
+                    {
+                      label: 'Clicks',
+                      data: [click_report,click_report],
+                      fill: false,
+                      borderColor: 'rgb(75, 192, 192)',
+                      tension: 0.1
+                    }
+                  ]
+                  }
+                }
             const config = {
                 type: 'line',
                 data: data,
