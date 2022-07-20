@@ -218,7 +218,7 @@ Alternative Installation:
 
 = 2.0.56 ( 12 July 2022 ) =
 * Fixed: Removed Position option from AutoAds. #535
-* Fixed: Empty "<div>" improvement in Auto Ads. #538
+* Fixed: Empty div improvement in Auto Ads. #538
 * Fixed: Ad blocker is showing pop-up even if the visitor's Ad blocker is disabled/unavailable. #556
 * Fixed: ADS not showing show if we are using a page scroll to ID. #569
 * Fixed: Using Auto Insert BEFORE HTML tags changes all text before the first HTML Tag on the page to the formatting of that tag. #570
