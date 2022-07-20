@@ -419,20 +419,157 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	
 	$ad_id = $_GET['id'];
 	$mydate = $_GET['date'];
+	$day = $_GET['day'];
 	$date_timestamp = strtotime($mydate);
-	$new_date = date('d_m_Y', $date_timestamp);  
-	
+	$new_date = date('d_m_Y', $date_timestamp);
+
 
 		$col_name_imprsn = 'impressions_'.$new_date;
 		$col_name_clicks = 'clicks_'.$new_date;
-			$results = $wpdb->get_results($wpdb->prepare("SELECT *FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
-			if(!empty($results)) {
-				foreach ($results as $key => $value) {
-					$ad_imprsn =  $value->$col_name_imprsn;
-					$ad_clicks =  $value->$col_name_clicks;
-				}
+	
+		if( $day == "last_7_days" ){
+
+			$loop = 7 ;
+			$month= date("m");
+			$date_= date("d");
+			$year= date("Y");
+			$dates_i = '';
+			$dates_c = '';
+			$dates_imp_S = '';
+			$dates_click_S = '';
+			for( $i=0; $i<=$loop; $i++ ){
+			$dates_i .= 'impressions_'.date( 'd_m_Y', mktime(0,0,0,$month,( $date_-$i ) , $year ) ).',';
 			}
-            $ad_stats['impressions'] = $ad_imprsn;
+			$dates_imp_S = substr($dates_i, 0, -1);
+			$results_impresn_S = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp_S FROM `{$wpdb->prefix}quads_stats`  WHERE `ad_id` = $ad_id "));
+			$array = array_values($results_impresn_S);
+			$ad_imprsn = 0;
+			foreach ($array[0] as $key => $value) {
+				$ad_imprsn += $value;
+			}
+			
+			for( $i=0; $i<=$loop; $i++ ){
+				$dates_c .= 'clicks_'.date( 'd_m_Y', mktime(0,0,0,$month,( $date_-$i ) , $year ) ).',';
+			}
+			$dates_click_S = substr($dates_c, 0, -1);
+			$results_click_S = $wpdb->get_results($wpdb->prepare("SELECT $dates_click_S FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+			$array_c = array_values($results_click_S);
+			$ad_clicks = 0;
+			foreach ($array_c[0] as $key => $value) {
+				$ad_clicks += $value;
+			}
+		}
+		else if( $day == "last_15_days" ){
+			
+			$loop = 15 ;
+			$month= date("m");
+			$date_= date("d");
+			$year= date("Y");
+			$dates_i_F = '';
+			$dates_c_F = '';
+			$dates_imp_F = '';
+			$dates_click_F = '';
+			for( $i=0; $i<=$loop; $i++ ){
+			$dates_i_F .= 'impressions_'.date( 'd_m_Y', mktime(0,0,0,$month,( $date_-$i ) , $year ) ).',';
+		}
+		$dates_imp_F = substr($dates_i_F, 0, -1);
+		$results_impresn_F = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp_F FROM `{$wpdb->prefix}quads_stats`  WHERE `ad_id` = $ad_id "));
+		$array = array_values($results_impresn_F);
+		$ad_imprsn = 0;
+		foreach ($array[0] as $key => $value) {
+			$ad_imprsn += $value;
+		}
+
+		for( $i=0; $i<=$loop; $i++ ){
+			$dates_c_F .= 'clicks_'.date( 'd_m_Y', mktime(0,0,0,$month,( $date_-$i ) , $year ) ).',';
+		}
+		$dates_click_F = substr($dates_c_F, 0, -1);
+		$results_click_F = $wpdb->get_results($wpdb->prepare("SELECT $dates_click_F FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+		$array_c = array_values($results_click_F);
+		$ad_clicks = 0;
+		foreach ($array_c[0] as $key => $value) {
+			$ad_clicks += $value;
+		}
+	}
+	else if( $day == "yesterday" ){
+		
+		$dates_imp = "impressions_".date( 'd_m_Y',strtotime("-1 days") )."";
+		$results_impresn = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+		$array = array_values($results_impresn);
+		$ad_imprsn = 0;		
+		foreach ($array[0] as $key => $value) {
+			$ad_imprsn = $value;
+		}
+
+		$dates_clk = "clicks_".date( 'd_m_Y',strtotime("-1 days") )."";
+		$results_click = $wpdb->get_results($wpdb->prepare("SELECT $dates_clk FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+		$array_c = array_values($results_click);
+		$ad_clicks = 0;
+		foreach ($array_c[0] as $key => $value) {
+			$ad_clicks = $value;
+		}
+	}
+	else if( $day == "today" ) {
+
+		$dates_imp_t = "`impressions_".date("d_m_Y")."`";
+		$results_impresn_t = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp_t FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+		$array_i_t = array_values($results_impresn_t);
+		$ad_imprsn = 0;		
+		foreach ($array_i_t[0] as $key => $value) {
+			$ad_imprsn = $value;
+		}
+
+		$dates_clk_t = "clicks_".date("d_m_Y")."";
+		$results_click_t = $wpdb->get_results($wpdb->prepare("SELECT $dates_clk_t FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+		$array_c_t = array_values($results_click_t);
+		$ad_clicks = 0;
+		foreach ($array_c_t[0] as $key => $value) {
+			$ad_clicks = $value;
+		}
+
+	}
+	else if( $day == "custom" ) {
+		$fromdate = $_GET["fromdate"];
+		$todate = $_GET["todate"];
+		$get_from = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$3_$2_$1', $fromdate);
+		$get_to = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$3_$2_$1', $todate);
+		
+		$get_from_d = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$3-$2-$1', $fromdate);
+		$get_to_d = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$3-$2-$1', $todate);
+
+		$dates_imp__ = '';
+		$period = new DatePeriod(new DateTime($get_from_d), new DateInterval('P1D'), 
+		new DateTime(' '.$get_to_d.' +1 day'));
+		foreach ($period as $date) {
+			$dates_imp__ .= 'impressions_'.$date->format("d_m_Y").',';
+		}
+		$dates_imp_c = substr($dates_imp__, 0, -1);
+
+		$results_impresn_C = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp_c FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+		$array_i_c = array_values($results_impresn_C);
+		$ad_imprsn = 0;		
+		foreach ($array_i_c[0] as $key => $value) {
+			$ad_imprsn += $value;
+		}
+		
+		$dates_click__ = '';
+		$period_click = new DatePeriod(new DateTime($get_from_d), new DateInterval('P1D'), 
+		new DateTime(' '.$get_to_d.' +1 day'));
+		foreach ($period_click as $date) {
+			$dates_click__ .= 'clicks_'.$date->format("d_m_Y").',';
+		}
+		$dates_imp_c = substr($dates_click__, 0, -1);
+
+		$results_click_C = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp_c FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+		$array_c_c = array_values($results_click_C);
+		$ad_clicks = 0;		
+		foreach ($array_c_c[0] as $key => $value) {
+			$ad_clicks += $value;
+		}
+		
+	}
+			
+			$ad_stats['impressions'] = $ad_imprsn;
             $ad_stats['clicks']      = $ad_clicks;
 			return $ad_stats;
                                     

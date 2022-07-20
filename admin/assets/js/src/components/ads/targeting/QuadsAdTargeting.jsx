@@ -177,6 +177,10 @@ class QuadsAdTargeting extends Component {
     if(post_meta.ad_type == "group_insertion" && post_meta.position == "beginning_of_post") {
         this.props.adFormChangeHandler({target: {name: 'position', value: 'after_paragraph'}});
     }
+    if(post_meta.ad_type == "loop_ads")
+    {
+      post_meta.position="amp_ads_in_loops";
+    }
           return (
                 <div>
               { post_meta.adsense_ad_type !="adsense_auto_ads" &&
@@ -199,7 +203,8 @@ class QuadsAdTargeting extends Component {
                 post_meta.ad_type == 'mediavine' ||
                 post_meta.ad_type == 'outbrain' ||
                 post_meta.ad_type == 'infolinks' ||
-                post_meta.ad_type == 'skip_ads'
+                post_meta.ad_type == 'skip_ads' ||
+                post_meta.ad_type == 'loop_ads'
               ) ?
               <>
                 <div>{__('Position', 'quick-adsense-reloaded')}</div>  
@@ -207,7 +212,7 @@ class QuadsAdTargeting extends Component {
                 <div className="quads-panel-body"> 
                 <table>
                   <tbody>
-                  { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" ?  "" : 
+                  { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" || post_meta.ad_type == "loop_ads" ?  "" : 
                     <tr className="quads-tr-position">
                     <td><label>{__('Where will the AD appear?', 'quick-adsense-reloaded')}</label></td>
                     { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" ?  "" : 
@@ -303,7 +308,6 @@ class QuadsAdTargeting extends Component {
                     </tr>
                   </>)
                     : null}
-
                   {post_meta.position == 'amp_ads_in_loops' ? 
                      <tr>
                       <td><label>{__('Display After', 'quick-adsense-reloaded')}</label></td>

@@ -331,10 +331,13 @@ select#view_stats_report {
   margin-top: -4px; }
 
 #quads_report_table {
-  padding-left: 31px; }
+  padding-left: 40px; }
 
 .stats_rep {
   margin-left: 19px; }
+
+#quads_reports_canvas {
+  padding-top: 35px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -2392,7 +2395,8 @@ and open the template in the editor.
 .quads-more-icon-box li {
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   padding: 6px 5px;
-  margin: 0; }
+  margin: 0;
+  text-align: center; }
 
 .quads-more-icon-box li a {
   font-size: 13px;
@@ -2504,7 +2508,20 @@ and open the template in the editor.
   font-weight: bold; }
 
 a.view_reports_ {
-  top: 0px; }
+  top: 0px;
+  background: #444;
+  color: #fff !important;
+  border-radius: 4px;
+  padding: 4px 10px; }
+
+.view_reports_:hover {
+  background: #444 !important; }
+
+a.delete_ad {
+  padding-right: 16px; }
+
+a.ad_draft {
+  padding-left: 12px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -2778,7 +2795,8 @@ and open the template in the editor.
   cursor: pointer; }
 
 #report_type, #report_period, #input_based, #report_view_type {
-  width: 200px; }
+  width: 200px;
+  margin: 0px 0px 3px 4px; }
 
 .quads-select-menu {
   display: flex; }
@@ -2803,7 +2821,9 @@ and open the template in the editor.
   padding: 5px 13px; }
 
 #quads_report_table table b {
-  font-weight: 700; }
+  font-weight: 700;
+  line-height: 2;
+  font-weight: 600; }
 
 .quads-report-networks h1 {
   font-size: 15px; }
@@ -2842,6 +2862,19 @@ and open the template in the editor.
 
 .quads-ad-networks.ad_logging {
   padding: 0px; }
+
+.show_btn {
+  padding: 4px 10px 6px 10px;
+  font-size: 14px;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  cursor: pointer; }
+
+.quads-select.view_statsreport {
+  display: -webkit-box; }
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle, .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow,
 .react-datepicker__month-year-read-view--down-arrow {

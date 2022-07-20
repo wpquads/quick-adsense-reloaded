@@ -544,18 +544,6 @@ drawChart(config);
                                         this.abtesting_handler()
                                     } }><strong>View Report</strong></div>
                                     </li>
-                                    
-                                    <li data-adtype="view_stats_report" id="quads-adsense-view_stats_report" onClick={ () =>{
-                                        this.view_stats_report_handler()
-                                    } }  >
-                                    <a class="quads-nav-linkforview_stats_report">
-                                    <img src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/view_stats.png'}/>
-                                    </a>
-                                    <div id="view_report_view_stats_report" style={{marginTop: "40px",color: "#005af0"}} onClick={ () =>{
-                                        this.view_stats_report_handler()
-                                    } }><strong>View Stats Report</strong></div>
-                                    </li>
-
                                 </ul>
                             </div>
                         </div>

@@ -280,8 +280,12 @@ function quads_from_adsforwp_manual_ads($atts ){
     return $code;
 }
 function quads_adblocker_detector(){
-    $js_dir  = QUADS_PLUGIN_URL . 'assets/js/';
-    wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
+    if(!quads_is_amp_endpoint())
+    {
+        $js_dir  = QUADS_PLUGIN_URL . 'assets/js/';
+        wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array(), QUADS_VERSION, false );
+    }
+
 }
 /**
  * It is default settings value, if value is not set for any option in setting section 
@@ -424,6 +428,8 @@ function quads_adblocker_popup_notice(){
   }
 }
 function quads_adblocker_notice_jsondata(){
+    if(!quads_is_amp_endpoint())
+    {
     $settings = quads_defaultSettings();
     $output = '';
     $quads_mode = get_option('quads-mode');
@@ -441,6 +447,7 @@ function quads_adblocker_notice_jsondata(){
       $output    .= '/* ]]> */';
       $output    .= '</script>';
       echo $output;
+    }
     }
 }
 function quads_adblocker_notice_bar(){
@@ -533,6 +540,8 @@ function quads_adblocker_notice_bar(){
   }
 }
 function quads_adblocker_ad_block(){
+    if(!quads_is_amp_endpoint())
+    {
     $settings = quads_defaultSettings();
     $quads_mode = get_option('quads-mode');
     if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support'] && !empty($settings['notice_type']) || ($quads_mode && $quads_mode == 'old' && isset($settings['ad_blocker_message'])  && $settings['ad_blocker_message'])){
@@ -669,6 +678,7 @@ function quadssetCookie(cname, cvalue, exdays, path){
 
 <?php
     }
+}
 }
 /**
  * Show ads before posts

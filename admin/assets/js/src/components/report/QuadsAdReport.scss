@@ -35,7 +35,7 @@
 }
 
 #report_type,#report_period,#input_based,#report_view_type{
-  width: 200px;
+  width: 200px;margin: 0px 0px 3px 4px;
 }
 .quads-select-menu{
   display: flex;
@@ -61,6 +61,8 @@
 }
 #quads_report_table table b{
   font-weight: 700;
+  line-height: 2;
+  font-weight: 600;
 }
 
 .quads-report-networks h1{
@@ -103,4 +105,16 @@ margin: 0px;
 }
 .quads-ad-networks.ad_logging{
   padding: 0px;
+}.show_btn {
+  padding: 4px 10px 6px 10px;
+  font-size: 14px;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.quads-select.view_statsreport {
+  display: -webkit-box;
 }

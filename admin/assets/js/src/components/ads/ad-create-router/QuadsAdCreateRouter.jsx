@@ -126,6 +126,9 @@ class QuadsAdCreateRouter extends Component {
             adpushup_slot_id           : '',            
             refresh_type               : 'on_load',
             num_ads_t_s               : '1',
+            loop_add_title            :'',
+            loop_add_description      :'',
+            loop_add_link             :'',
             },
             quads_form_errors : {
               g_data_ad_slot       : '',
@@ -655,6 +658,13 @@ class QuadsAdCreateRouter extends Component {
             }else{
               this.setState({show_form_error:true});
             }
+          break;
+          case 'loop_ads':
+            if(validation_flag  && quads_post_meta.loop_add_title && quads_post_meta.loop_add_description && quads_post_meta.loop_add_link && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
           break;    
         default:
           break;
@@ -893,6 +903,13 @@ class QuadsAdCreateRouter extends Component {
           }else{
             this.setState({show_form_error:true});
           } 
+            break;
+          case 'loop_ads':
+            if(quads_post_meta.loop_add_link && quads_post_meta.loop_add_title && quads_post_meta.loop_add_description){
+              this.props.history.push(new_url); 
+            }else{
+              this.setState({show_form_error:true});
+            } 
             break;
           default:
             break;
