@@ -39,7 +39,7 @@ function quads_shortcode_display_ad( $atts ) {
 
     // The ad id
     $id = isset( $atts['id'] ) ? ( int ) $atts['id'] : 0;
-    $ad_id = isset($quads_options['ads']['ad'.$id.'']) && $quads_options['ads']['ad'.$id.'']!==NULL ? $quads_options['ads']['ad'.$id.'']['ad_id'] : NULL ;
+    $ad_id = isset($quads_options['ads']['ad'.$id.'']) && $quads_options['ads']['ad'.$id.'']!==NULL ? (isset($quads_options['ads']['ad'.$id.'']['ad_id'])?$quads_options['ads']['ad'.$id.'']['ad_id']:NULL ): NULL ;
 
     $arr = array(
         'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',
