@@ -59,7 +59,8 @@ class Quads_single_report extends Component {
         let day_ranges_imp = response.individual_impr_day_counts
         let day_ranges_click = response.individual_click_day_counts
         let ad_imp_individual_dates = response.ad_imp_individual_dates
-        
+        let individual_ad_dates = response.individual_ad_dates
+
         if( ad_day === "last_7_days" ){
 
             var imp_day_ranges_to_num = day_ranges_imp.map(Number)
@@ -78,7 +79,132 @@ class Quads_single_report extends Component {
                       label: 'Clicks',
                       data: click_day_ranges_to_num,
                       fill: false,
+                      borderColor: 'rgb(63, 0, 15)',
+                      tension: 0.1
+                    }
+                  ]
+
+                  };
+                }
+        if( ad_day === "this_month" ){
+
+            var imp_day_ranges_to_num = day_ranges_imp.map(Number)
+            var click_day_ranges_to_num = day_ranges_click.map(Number)
+                var data = {
+                    labels: ad_imp_individual_dates,
+                    datasets: [
+                        {
+                      label: 'Impressions',
+                      data: imp_day_ranges_to_num,
+                      fill: false,
                       borderColor: 'rgb(75, 192, 192)',
+                      tension: 0.1
+                    },
+                    {
+                      label: 'Clicks',
+                      data: click_day_ranges_to_num,
+                      fill: false,
+                      borderColor: 'rgb(63, 0, 15)',
+                      tension: 0.1
+                    }
+                  ]
+
+                  };
+                }
+        if( ad_day === "last_month" ){
+
+            var imp_day_ranges_to_num = day_ranges_imp.map(Number)
+            var click_day_ranges_to_num = day_ranges_click.map(Number)
+                var data = {
+                    labels: ad_imp_individual_dates,
+                    datasets: [
+                        {
+                      label: 'Impressions',
+                      data: imp_day_ranges_to_num,
+                      fill: false,
+                      borderColor: 'rgb(75, 192, 192)',
+                      tension: 0.1
+                    },
+                    {
+                      label: 'Clicks',
+                      data: click_day_ranges_to_num,
+                      fill: false,
+                      borderColor: 'rgb(63, 0, 15)',
+                      tension: 0.1
+                    }
+                  ]
+
+                  };
+                }
+        if( ad_day === "all_time" ){
+
+            var imp_day_ranges_to_num = day_ranges_imp.map(Number)
+            var click_day_ranges_to_num = day_ranges_click.map(Number)
+
+            var data = {
+                    labels: individual_ad_dates,
+                    datasets: [
+                        {
+                      label: 'Impressions',
+                      data: imp_day_ranges_to_num,
+                      fill: false,
+                      borderColor: 'rgb(75, 192, 192)',
+                      tension: 0.1
+                    },
+                    {
+                      label: 'Clicks',
+                      data: click_day_ranges_to_num,
+                      fill: false,
+                      borderColor: 'rgb(63, 0, 15)',
+                      tension: 0.1
+                    }
+                  ]
+
+                  };
+                }
+        if( ad_day === 'custom' ){
+
+            var imp_day_ranges_to_num = day_ranges_imp.map(Number)
+            var click_day_ranges_to_num = day_ranges_click.map(Number)
+            
+            var size = Object.keys(imp_day_ranges_to_num).length;
+            if(size == 1){
+                imp_day_ranges_to_num[1] = imp_day_ranges_to_num[0];
+            }else{
+                imp_day_ranges_to_num = imp_day_ranges_to_num
+            }
+
+            var size2 = Object.keys(ad_imp_individual_dates).length;
+            if(size2 == 1){
+                ad_imp_individual_dates[1] = ad_imp_individual_dates[0];
+            }
+            else{
+                ad_imp_individual_dates = ad_imp_individual_dates
+            }
+
+            var click_day_ranges_to_num = day_ranges_click.map(Number)
+            var size3 = Object.keys(click_day_ranges_to_num).length;
+            if(size3 == 1){
+                click_day_ranges_to_num[1] = click_day_ranges_to_num[0];
+            }else{
+                click_day_ranges_to_num = click_day_ranges_to_num
+            }
+
+                var data = {
+                    labels: ad_imp_individual_dates,
+                    datasets: [
+                        {
+                      label: 'Impressions',
+                      data: imp_day_ranges_to_num,
+                      fill: false,
+                      borderColor: 'rgb(75, 192, 192)',
+                      tension: 0.1
+                    },
+                    {
+                      label: 'Clicks',
+                      data: click_day_ranges_to_num,
+                      fill: false,
+                      borderColor: 'rgb(63, 0, 15)',
                       tension: 0.1
                     }
                   ]
@@ -88,7 +214,7 @@ class Quads_single_report extends Component {
             if( ad_day == "today" ){
                 
                 var data = {
-                        labels: ['ad report','ad report'],
+                labels: [ad_imp_individual_dates,ad_imp_individual_dates],
                     datasets: [
                       {
                       label: 'Impressions',
@@ -101,7 +227,7 @@ class Quads_single_report extends Component {
                       label: 'Clicks',
                       data: [click_report,click_report],
                       fill: false,
-                      borderColor: 'rgb(75, 192, 192)',
+                      borderColor: 'rgb(63, 0, 15)',
                       tension: 0.1
                     }
                   ]
@@ -110,7 +236,7 @@ class Quads_single_report extends Component {
             if( ad_day == "yesterday" ){
 
                     var data = {
-                        labels: ['ad report','ad report'],
+                        labels: [ad_imp_individual_dates,ad_imp_individual_dates],
                     datasets: [
                       {
                       label: 'Impressions',
@@ -123,7 +249,7 @@ class Quads_single_report extends Component {
                       label: 'Clicks',
                       data: [click_report,click_report],
                       fill: false,
-                      borderColor: 'rgb(75, 192, 192)',
+                      borderColor: 'rgb(63, 0, 15)',
                       tension: 0.1
                     }
                   ]
@@ -533,7 +659,9 @@ class Quads_single_report extends Component {
                         <option value="today">Today</option>
                         <option value="yesterday">Yesterday</option>
                         <option value="last_7_days">Last 7 days</option>
-                        <option value="last_15_days">Last 15 days</option>
+                        <option value="this_month">This month</option>
+                        <option value="last_month">Last month</option>
+                        <option value="all_time">All time</option>
                         <option value="custom">Custom</option>
                     </select>
                     

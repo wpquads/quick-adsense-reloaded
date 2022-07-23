@@ -76,6 +76,8 @@ public function quads_insert_ad_impression(){
       if(empty($referrer_url) && isset($_SERVER['HTTP_REFERER'])){
         $referrer_url  =  esc_url($_SERVER['HTTP_REFERER']);
       }
+      $todays_date = '';
+      $todays_date = date('Y-m-d');
       $user_ip      =  $this->quads_get_client_ip();
       $actual_link  = (isset($_POST['currentLocation'])) ? esc_url($_POST['currentLocation']):'';
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
@@ -95,26 +97,29 @@ public function quads_insert_ad_impression(){
       }else if($isMobile && !$isTablet){ // Only for mobile
         $device_name  = 'mobile';
       }
-      $today_date = 'impressions_'.date("d_m_Y");
 
       $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d AND `ad_device_name` = %d AND `ad_thetime` = %d AND `referrer` = %d AND `ip_address` = %d AND `url` = %d AND `browser` = %d ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
       if($stats > 0) {
               $wpdb->query("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_impressions` = `ad_impressions` + 1 WHERE `id` = {$stats};");
-              if( function_exists('quads_is_pro_active') && quads_is_pro_active() ){
-              $quads_stats_getrow = $wpdb->get_row(" SELECT * FROM `{$wpdb->prefix}quads_stats` ");
-
-            if(!isset($quads_stats_getrow->$today_date)){
-                $wpdb->query("ALTER TABLE `{$wpdb->prefix}quads_stats` ADD $today_date INT(1) NOT NULL DEFAULT 1");
-              }
-            if(isset($quads_stats_getrow->$today_date)){
-              $wpdb->query("UPDATE `{$wpdb->prefix}quads_stats` SET $today_date = $today_date + 1 WHERE `id` = {$stats};");
-              }
-            }
-            
       } else {
               $wpdb->insert($wpdb->prefix.'quads_stats', array('ad_id' => $ad_id, 'ad_thetime' => $today, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_device_name' => trim($device_name),'referrer' => trim($referrer_url),'ip_address' => trim($user_ip),'browser' => trim($browser), 'url'=>$actual_link ));
-    
-            }                                                   
+            }
+            
+            if( function_exists('quads_is_pro_active') && quads_is_pro_active() ){
+              $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_single_stats` WHERE `ad_id` = %d ", $ad_id ) );
+              if( $stats > 0 ) {
+                $quads_single_date = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}quads_single_stats` WHERE `ad_id` = {$ad_id} AND ad_date = '{$todays_date}' " );
+                
+                if(!$quads_single_date){
+                  $wpdb->insert($wpdb->prefix.'quads_single_stats', array('ad_id' => $ad_id, 'ad_thetime' => 0, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_date' => $todays_date, 'date_click' => 0, 'date_impression' => 1 ));
+                }
+                
+                $wpdb->query("UPDATE `{$wpdb->prefix}quads_single_stats` SET `ad_impressions` = `ad_impressions` + 1 WHERE `ad_id` = {$ad_id} AND `ad_date` = '{$todays_date}';");$wpdb->query("UPDATE `{$wpdb->prefix}quads_single_stats` SET `date_impression` = `date_impression` + 1 WHERE `ad_id` = {$ad_id} AND `ad_date` = '{$todays_date}'; ");
+              } 
+              else {
+                $wpdb->insert($wpdb->prefix.'quads_single_stats', array('ad_id' => $ad_id, 'ad_thetime' => 0, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_date' => $todays_date, 'date_click' => 0, 'date_impression' => 1 ));
+              }
+            }
 
 }
 
@@ -383,7 +388,7 @@ public function quads_get_client_ip() {
       $id_array = explode('quads-ad', $ad_id );
 
       $ad_id = $id_array[1]; 
-      $today_date = 'clicks_'.date("d_m_Y");
+      $todays_date = date('Y-m-d');
 
       $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d AND `ad_device_name` = %d AND `ad_thetime` = %d AND `referrer` = %d AND `ip_address` = %d AND `url` = %d AND `browser` = %d ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
       if( $stats == NULL ){
@@ -392,23 +397,25 @@ public function quads_get_client_ip() {
       if($stats > 0) {
               $wpdb->query("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_clicks` = `ad_clicks` + 1 WHERE `id` = {$stats};");
 
-         if( function_exists('quads_is_pro_active') && quads_is_pro_active() ){
-         $quads_stats_getrow = $wpdb->get_row(" SELECT * FROM `{$wpdb->prefix}quads_stats` ");
-
-         if(!isset($quads_stats_getrow->$today_date)){
-          $wpdb->query("ALTER TABLE `{$wpdb->prefix}quads_stats` ADD $today_date INT(1) NOT NULL DEFAULT 1");
-        }
-        if(isset($quads_stats_getrow->$today_date)){
-        $wpdb->query("UPDATE `{$wpdb->prefix}quads_stats` SET $today_date = $today_date + 1 WHERE `id` = {$stats};");
-        }
-      }
-
       } else {
         
               $wpdb->insert($wpdb->prefix.'quads_stats', array('ad_id' => $ad_id, 'ad_thetime' => $today, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_device_name' => trim($device_name),'referrer' => trim($referrer_url),'ip_address' => trim($user_ip),'browser' => trim($browser),'url' => trim($actual_link) ));
-           
 
             }        
+
+            if( function_exists('quads_is_pro_active') && quads_is_pro_active() ){
+
+            $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_single_stats` WHERE `ad_id` = %d ", $ad_id ) );
+            if($stats > 0) {
+              
+              $wpdb->query("UPDATE `{$wpdb->prefix}quads_single_stats` SET `ad_clicks` = `ad_clicks` + 1 WHERE `ad_id` = {$ad_id} AND `ad_date` = '{$todays_date}';");
+              $wpdb->query("UPDATE `{$wpdb->prefix}quads_single_stats` SET `date_click` = `date_click` + 1 WHERE `ad_id` = {$ad_id} AND `ad_date` = '{$todays_date}'; ");
+
+            } else {
+              $wpdb->insert($wpdb->prefix.'quads_single_stats', array('ad_id' => $ad_id, 'ad_thetime' => 0, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_date' => $todays_date, 'date_click' => 0, 'date_impression' => 1 ));
+            }
+
+          }
         
     }
     

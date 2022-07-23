@@ -328,6 +328,24 @@ public function quads_database_install() {
 		) ".$charset_collate.$engine.";");
                 
 	}
+    
+    if(!in_array("{$wpdb->prefix}quads_single_stats", $found_tables)) {
+            
+		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_single_stats` (
+			`id` bigint(9) unsigned NOT NULL auto_increment,
+			`ad_id` int(50) unsigned NOT NULL default '0',			
+			`ad_thetime` int(15) unsigned NOT NULL default '0',
+			`ad_clicks` int(15) unsigned NOT NULL default '0',
+			`ad_impressions` int(15) unsigned NOT NULL default '0',
+                        `ad_date` varchar(20) NOT NULL default '',
+                        `date_impression` varchar(20) NOT NULL default '',
+                        `date_click` varchar(255) NOT NULL default '',
+			PRIMARY KEY  (`id`),
+			INDEX `ad_id` (`ad_id`),
+			INDEX `ad_thetime` (`ad_thetime`)
+		) ".$charset_collate.$engine.";");
+                
+	}
 
 }
 
