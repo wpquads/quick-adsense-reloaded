@@ -2935,3 +2935,21 @@ if($repeat_paragraph){
     $content =$doc->saveHTML();
     return $content;  
 }
+
+if (defined( 'WP_CACHE') && WP_CACHE==true) {
+    add_action( 'template_redirect', 'wpquads_append_cache_flag' );      
+}
+
+function wpquads_append_cache_flag() {
+    if(!quads_is_amp_endpoint() && is_singular('post')){
+        if( ! isset( $_GET, $_GET['quad_cc']) ) {
+            
+            wp_safe_redirect(
+                add_query_arg( array(
+                    'quad_cc'        => '',
+                ), get_permalink() )
+            );
+            exit();
+        }
+    }
+}

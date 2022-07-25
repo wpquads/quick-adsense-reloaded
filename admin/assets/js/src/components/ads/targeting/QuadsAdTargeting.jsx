@@ -204,7 +204,8 @@ class QuadsAdTargeting extends Component {
                 post_meta.ad_type == 'outbrain' ||
                 post_meta.ad_type == 'infolinks' ||
                 post_meta.ad_type == 'skip_ads' ||
-                post_meta.ad_type == 'loop_ads'
+                post_meta.ad_type == 'loop_ads' ||
+                post_meta.ad_type == 'carousel_ads'
               ) ?
               <>
                 <div>{__('Position', 'quick-adsense-reloaded')}</div>  

@@ -84,6 +84,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_loopad( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_loopad_async( $id ),$id );
     }
+    if( true === quads_is_carousel_ads( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_carousel_ads_async( $id ),$id );
+    }
     // Return empty string
     return '';
 }
@@ -807,6 +810,94 @@ function quads_render_loopad_async( $id ) {
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_loopad_async', $html );
 }
+
+/**
+ * Carousel ads which can be enabled from general settings
+ *
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_carousel_ads_async($id) {
+
+    //var_dump($id);    
+    global $quads_options;
+    //echo '<pre>'; 
+    //var_dump($quads_options['ads']);
+    //var_dump($quads_options['ads'][$id]);
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Carousel AD --> \n\n";
+    $ads_list = $quads_options['ads'][$id]['ads_list'];
+    $org_ad_id = $quads_options['ads'][$id]['ad_id'];
+    $carousel_type = isset($quads_options['ads'][$id]['carousel_type'])?$quads_options['ads'][$id]['carousel_type']:'slide';
+    $carousel_width = isset($quads_options['ads'][$id]['carousel_width'])?$quads_options['ads'][$id]['carousel_width']:450;
+    $carousel_height = isset($quads_options['ads'][$id]['carousel_height'])?$quads_options['ads'][$id]['carousel_height']:350;
+    $carousel_speed = isset($quads_options['ads'][$id]['carousel_speed'])?$quads_options['ads'][$id]['carousel_speed']:1;
+    if($carousel_type=="slide")
+    {
+        $html.='<div class="m3-content m3-section" style="max-width:'.$carousel_width.'px;min-height:'. $carousel_height.'px;overflow:hidden;">';
+    }
+    else
+    {
+        $html.='<div class="m3-slider-container sc-'.$org_ad_id.'"><div class="m3-inner-slider is-'.$org_ad_id.'">';
+    }
+   
+
+    $total_slides=count($ads_list);
+    foreach($ads_list as $ad)
+    {
+        if(isset($ad['value']))
+        {   
+           
+            if($carousel_type=="slide")
+            {
+                $html.='<div class="m3-slides-'.$org_ad_id.' m3-animate-right" style="width:100%">';
+            }
+            else
+            {
+                $html.="<div class='m3-card c-".$org_ad_id."'>";
+            }
+
+            $ad_id="ad".$ad['value'];
+            $ad_meta=get_post_meta($ad['value']);
+         
+            if(isset($ad_meta['ad_type']) && isset($ad_meta['ad_type'][0]) && $ad_meta['ad_type'][0]=='ad_image' && isset($ad_meta['image_src'][0]) && isset($ad_meta['image_redirect_url'][0]) )
+            {
+                $html .='<a imagebanner class="im-'.$org_ad_id.'" target="_blank" href="'.esc_attr($ad_meta['image_redirect_url'][0]). '" rel="nofollow"><img  src="'.esc_attr($ad_meta['image_src'][0]).'" > </a>';  
+            }
+        
+            if(isset($ad_meta['ad_type']) && isset($ad_meta['ad_type'][0]) && $ad_meta['ad_type'][0]=='plain_text')
+            {
+                if(isset($ad_meta['code']) && isset($ad_meta['code'][0]))
+                {
+                    $html .=$ad_meta['code'][0];
+                }   
+            }
+
+            
+                $html.='</div>';
+            
+           
+            
+        }
+    }
+
+    if($carousel_type=="slide")
+    {
+        $html.='</div><style>.m3-slides-'.$org_ad_id.'{display:none}.m3-container:after,.m3-container:before{content:"";display:table;clear:both}.m3-container{padding:.01em 16px}.m3-content{margin-left:auto;margin-right:auto;max-width:'.$carousel_width.'px}.m3-section{margin-top:16px!important;margin-bottom:16px!important}.m3-animate-right{position:relative;animation: animateright 0.5s}@keyframes animateright{from{right:-300px;opacity:0}to{right:0;opacity:1}}</style>
+        <script>var myIndex = 0;m3_carousel();function m3_carousel() {var i;var x = document.getElementsByClassName("m3-slides-'.$org_ad_id.'");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}myIndex++;if (myIndex > x.length) {myIndex = 1}    x[myIndex-1].style.display = "block";setTimeout(m3_carousel, '.($carousel_speed*1000).');}</script>';
+    }
+    else
+    {
+       
+        
+        
+        $html.='</div></div><style>.m3-card{height:'.$carousel_height.'px;width:auto;border-radius:5px}.m3-slider-container{width:'.$carousel_width.'px;height:'.($carousel_height+50).'px;position:relative;top:50%;left:50%;transform:translate(-50%,0);overflow:hidden}.m3-inner-slider{width:250%;display:flex;gap:10px;pointer-events:none;position:absolute;top:0;left:0}</style>
+        <script>let sliderContainer'.$org_ad_id.'=document.querySelector(".sc-'.$org_ad_id.'"),innerSlider'.$org_ad_id.'=document.querySelector(".is-'.$org_ad_id.'"),imageLink'.$org_ad_id.'=document.querySelector(".is-'.$org_ad_id.'"),pressed=!1,startX,x;sliderContainer'.$org_ad_id.'.addEventListener("mousedown",a=>{pressed=!0,startX=a.offsetX-innerSlider'.$org_ad_id.'.offsetLeft,sliderContainer'.$org_ad_id.'.style.cursor="grabbing"}),sliderContainer'.$org_ad_id.'.addEventListener("mouseenter",()=>{sliderContainer'.$org_ad_id.'.style.cursor="grab"}),sliderContainer'.$org_ad_id.'.addEventListener("mouseleave",()=>{sliderContainer'.$org_ad_id.'.style.cursor="default"}),sliderContainer'.$org_ad_id.'.addEventListener("mouseup",()=>{sliderContainer'.$org_ad_id.'.style.cursor="grab",pressed=!1}),window.addEventListener("mouseup",()=>{}),sliderContainer'.$org_ad_id.'.addEventListener("mousemove",a=>{pressed&&(a.preventDefault(),x=a.offsetX,innerSlider'.$org_ad_id.'.style.left=`${x-startX}px`,checkBoundary())});const checkBoundary=()=>{let a=sliderContainer'.$org_ad_id.'.getBoundingClientRect(),b=innerSlider'.$org_ad_id.'.getBoundingClientRect();parseInt(innerSlider'.$org_ad_id.'.style.left)>0&&(innerSlider'.$org_ad_id.'.style.left="0px"),b.right<a.right&&(innerSlider'.$org_ad_id.'.style.left=`-${b.width-a.width}px`)};</script>';
+    }
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_carousel_ads_async', $html );
+
+}
 function quads_load_loading_script(){
     global $quads_options;
     $script = '';
@@ -1157,7 +1248,6 @@ function quads_is_propeller( $id, $string ) {
  */
 function quads_is_ad_image( $id, $string ) {
     global $quads_options;
-
     if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'ad_image') {
         return true;
     }
@@ -1242,6 +1332,21 @@ function quads_is_loopad( $id, $string ) {
     global $quads_options;
 
     if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'loop_ads') {
+        return true;
+    }
+    return false;
+}
+/**
+ * Check if ad code is Carousel ad
+ *
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_carousel_ads( $id, $string ) {
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'carousel_ads') {
         return true;
     }
     return false;

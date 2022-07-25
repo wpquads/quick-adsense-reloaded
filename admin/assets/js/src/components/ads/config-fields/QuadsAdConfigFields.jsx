@@ -1151,7 +1151,75 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                      </table>
                      </div>);
      
-                   break;
+                  break;
+                  case 'carousel_ads':
+                  ad_type_name = 'Carousel';
+                    comp_html.push(<div key="carousel_ads">
+                      <table>
+                        <tbody>
+                        <tr><td>
+                          <label>{__('Carousel Type', 'quick-adsense-reloaded')}</label></td><td>
+                            <select onChange={this.props.adFormChangeHandler} value={post_meta.carousel_type} id="carousel_type" name="carousel_type" placeholder="Carousel Type">
+                              <option value="slider">Single Slide</option>
+                              <option value="carousel">Multiple Slide</option>
+                            </select>
+                          {(show_form_error && post_meta.carousel_type == '') ? <div className="quads_form_msg"><span className="material-icons">
+                          error_outline</span>Select Carousel Type</div> :''}
+                          </td></tr>
+                       <tr><td> <label>{__('Carousel Width ', 'quick-adsense-reloaded')}</label></td><td>
+                        <input className='carousel_width small-text' min="1" step="1" id="carousel_width" value={post_meta.carousel_width} name="carousel_width" onChange={this.props.adFormChangeHandler} type="number"/>
+                         </td></tr>
+                         <tr><td> <label>{__('Carousel height ', 'quick-adsense-reloaded')}</label></td><td>
+                        <input className='carousel_height small-text' min="1" step="1" id="carousel_height" value={post_meta.carousel_height} name="carousel_height" onChange={this.props.adFormChangeHandler} type="number"/>
+                         </td></tr>
+                       {post_meta.carousel_type == 'slider' ? 
+                         <tr><td> <label>{__('Carousel Speed', 'quick-adsense-reloaded')}</label></td><td>
+                        <input className='carousel_speed small-text' min="1" step="1" id="carousel_speed" value={post_meta.carousel_speed} name="carousel_speed" onChange={this.props.adFormChangeHandler} type="number"/>
+                         </td></tr>:''}
+                         <tr><td><label>{__('Select Ads ', 'quick-adsense-reloaded')}</label></td><td><a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a></td></tr>
+                        <tr><td colSpan={'2'}></td></tr>
+                        </tbody>
+                      </table>
+
+
+                      <div className="quads-target-item-list">
+                          {
+                              this.state.ads_list ?
+                                  this.state.ads_list.map( (item, index) => (
+                                      <div key={index} className="quads-target-item">
+                                          <span className="quads-target-label">{item.label}</span>
+                                          <span className="quads-target-icon" onClick={this.removeSeleted_list} data-index={index}><Icon>close</Icon></span>
+                                      </div>
+                                  ) )
+                                  :''}
+                          <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+                      </div>
+
+                      {this.state.adsToggle_list ?
+                          <div className="quads-targeting-selection">
+                              <table className="form-table">
+                                  <tbody>
+                                  <tr>
+                                      <td>
+                                          <Select
+                                              name="userTargetingIncludedType"
+                                              placeholder="Select Ads"
+                                              options= {this.state.getallads_data_temp}
+                                              value  = {this.multiTypeLeftIncludedValue}
+                                              onChange={this.selectAdchange}
+                                          />
+                                      </td>
+                                      <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+                                  </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          : ''}
+
+
+                      </div>);
+      
+                    break;
             default:
               comp_html.push(<div key="noads" >{__('Ad not found', 'quick-adsense-reloaded')}</div>);
               break;

@@ -129,6 +129,11 @@ class QuadsAdCreateRouter extends Component {
             loop_add_title            :'',
             loop_add_description      :'',
             loop_add_link             :'',
+            carousel_ads              :[],
+            carousel_type             :'slide',
+            carousel_width            :450,
+            carousel_height           :350,
+            carousel_speed            :5,
             },
             quads_form_errors : {
               g_data_ad_slot       : '',
@@ -665,6 +670,13 @@ class QuadsAdCreateRouter extends Component {
             }else{
               this.setState({show_form_error:true});
             }
+          break;
+          case 'carousel_ads':
+            if(validation_flag  && quads_post_meta.ads_list.length > 0 && quads_post_meta.carousel_type && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
           break;    
         default:
           break;
@@ -911,6 +923,13 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             } 
             break;
+            case 'carousel_ads':
+              if(quads_post_meta.ads_list.length > 0 && quads_post_meta.carousel_type){
+                this.props.history.push(new_url); 
+              }else{
+                this.setState({show_form_error:true});
+              } 
+              break;
           default:
             break;
         }
