@@ -30,6 +30,7 @@ class Quads_single_report extends Component {
             getallads_data_temp: [],
             getallads_data: [],
             ad_ids_temp: [],
+            report_url:quads_localize_data.get_admin_url+'?page=quads-settings&path=reports',
             report : {
                 adsense_code: '',
                 adsense_code_data :[
@@ -51,7 +52,7 @@ class Quads_single_report extends Component {
         };
         this.QuadsRedirectToWizard = this.QuadsRedirectToWizard.bind(this);
     }
-     display_report_stats = (response) => {
+     display_report_stats_imp_click = (response) => {
 
         let imp_report = response.impressions
         let click_report = response.clicks
@@ -59,11 +60,12 @@ class Quads_single_report extends Component {
         let day_ranges_imp = response.individual_impr_day_counts
         let day_ranges_click = response.individual_click_day_counts
         let ad_imp_individual_dates = response.ad_imp_individual_dates
-        let individual_ad_dates = response.individual_ad_dates
 
         if( ad_day === "last_7_days" ){
+            let tot = document.getElementById("quads_report_table_total")
+                tot.style.display = "none";
 
-            var imp_day_ranges_to_num = day_ranges_imp.map(Number)
+                var imp_day_ranges_to_num = day_ranges_imp.map(Number)
                 var click_day_ranges_to_num = day_ranges_click.map(Number)
                 var data = {
                     labels: ad_imp_individual_dates,
@@ -87,6 +89,8 @@ class Quads_single_report extends Component {
                   };
                 }
         if( ad_day === "this_month" ){
+            let tot = document.getElementById("quads_report_table_total")
+                tot.style.display = "block";
 
             var imp_day_ranges_to_num = day_ranges_imp.map(Number)
             var click_day_ranges_to_num = day_ranges_click.map(Number)
@@ -112,6 +116,8 @@ class Quads_single_report extends Component {
                   };
                 }
         if( ad_day === "last_month" ){
+            let tot = document.getElementById("quads_report_table_total")
+                tot.style.display = "none";
 
             var imp_day_ranges_to_num = day_ranges_imp.map(Number)
             var click_day_ranges_to_num = day_ranges_click.map(Number)
@@ -136,13 +142,42 @@ class Quads_single_report extends Component {
 
                   };
                 }
-        if( ad_day === "all_time" ){
-
+        if( ad_day === "this_year" ){
+            
+            let tot = document.getElementById("quads_report_table_total")
+                tot.style.display = "none";
             var imp_day_ranges_to_num = day_ranges_imp.map(Number)
             var click_day_ranges_to_num = day_ranges_click.map(Number)
 
             var data = {
-                    labels: individual_ad_dates,
+                    labels: ['January','February','March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    datasets: [
+                        {
+                      label: 'Impressions',
+                      data: imp_day_ranges_to_num,
+                      fill: false,
+                      borderColor: 'rgb(75, 192, 192)',
+                      tension: 0.1
+                    },
+                    {
+                      label: 'Clicks',
+                      data: click_day_ranges_to_num,
+                      fill: false,
+                      borderColor: 'rgb(63, 0, 15)',
+                      tension: 0.1
+                    }
+                  ]
+
+                  };
+                }
+        if( ad_day === "all_time" ){
+            let tot = document.getElementById("quads_report_table_total")
+                tot.style.display = "none";
+            var imp_day_ranges_to_num = day_ranges_imp.map(Number)
+            var click_day_ranges_to_num = day_ranges_click.map(Number)
+
+            var data = {
+                    labels: ad_imp_individual_dates,
                     datasets: [
                         {
                       label: 'Impressions',
@@ -163,6 +198,9 @@ class Quads_single_report extends Component {
                   };
                 }
         if( ad_day === 'custom' ){
+
+            let tot = document.getElementById("quads_report_table_total")
+                tot.style.display = "none";
 
             var imp_day_ranges_to_num = day_ranges_imp.map(Number)
             var click_day_ranges_to_num = day_ranges_click.map(Number)
@@ -212,6 +250,8 @@ class Quads_single_report extends Component {
                   };
                 }
             if( ad_day == "today" ){
+                let tot = document.getElementById("quads_report_table_total")
+                tot.style.display = "none";
                 
                 var data = {
                 labels: [ad_imp_individual_dates,ad_imp_individual_dates],
@@ -234,6 +274,8 @@ class Quads_single_report extends Component {
                   }
                 }
             if( ad_day == "yesterday" ){
+                let tot = document.getElementById("quads_report_table_total")
+                tot.style.display = "none";
 
                     var data = {
                         labels: [ad_imp_individual_dates,ad_imp_individual_dates],
@@ -258,6 +300,11 @@ class Quads_single_report extends Component {
             const config = {
                 type: 'line',
                 data: data,
+                options: {
+                legend: {
+                    position: 'bottom',
+                }
+            }
               };
         drawChart(config);
     
@@ -346,7 +393,7 @@ class Quads_single_report extends Component {
                     }
                     else{
                         console.log(response);
-                        this.display_report_stats(response)
+                        this.display_report_stats_imp_click(response)
                         render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
                         get_table.innerHTML = render_data
 
@@ -379,14 +426,142 @@ class Quads_single_report extends Component {
             .then( (response) => {
                 if(response!=null){
                     var render_data
+                    var render_data_total
                     var get_table = document.getElementById("quads_report_table")
+                    var get_table_tot = document.getElementById("quads_report_table_total")
                     if(response.clicks == null || response.impressions == null ){
                         get_table.innerHTML = 'No data Found'
+                        get_table_tot.innerHTML = 'No data Found'
+                    }
+                    if( quads_localize_data.is_pro == undefined && response.ad_day == "this_year_free" || response.ad_day == "all_time_free" || response.ad_day == "custom_free" ){
+                        let pro_notify = '<div id="pro_" class="pro_"><div id="quads_get_pro" style="font-size: 15px;color: #000;line-height: 50px;padding-left: 14px;">This feature is available in PRO version <a class="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Upgrade to PRO to unlock the data in the Reports</a></div></div>'
+                        let canva = document.getElementById('quads_reports_pro_notify')
+                        get_table.innerHTML = ''
+                        canva.innerHTML = pro_notify
+                        let q_rc = document.getElementById("quads_reports_canvas")
+                        q_rc.innerHTML = ''
+                        let q_rtt = document.getElementById("quads_report_table_total")
+                        q_rtt.innerHTML = ''
                     }
                     else{
                         console.log(response);
-                        this.display_report_stats(response)
-                        render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+                        let pro_not = document.getElementById('quads_reports_pro_notify')
+                        if(pro_not){
+                            pro_not.innerHTML = ''
+                        }
+                        this.display_report_stats_imp_click(response)
+                        var ad_day = response.ad_day
+                        let ad_imp_individual_dates = response.ad_imp_individual_dates
+
+                        if( ad_day == "last_7_days" || ad_day == "last_month" || ad_day == "all_time" || ad_day == "this_year" ){
+                            let pass_var
+                            let pass_Date
+                            if( ad_day == "this_year" ){
+                                ad_imp_individual_dates = ['January','February','March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                                pass_Date = 'Month'
+                            }
+                            else if( ad_day == "all_time" ){ pass_Date = 'Year' }
+                            else{
+                                ad_imp_individual_dates = response.ad_imp_individual_dates
+                                pass_Date = 'Date'
+                            }
+
+        render_data = `<table>
+                        <tbody>
+                        <tr>
+                        <td><b>${pass_Date}</b></td>
+                        </tr>
+                        ${ ad_imp_individual_dates.map( (item) =>  {
+                            return `
+                            <tr><td>${item}</td></tr>`
+                        }).join('')
+                        }
+                        <tr><td>Total</td></tr>
+                        </tbody>
+                        </table>
+
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Impressions</b></td>
+                        </tr>
+
+                        ${ response.individual_impr_day_counts.map( (item3, index3) =>  {
+                            return `
+                            <tr><td>${item3}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td>${response.impressions}</td></tr>
+                        </tbody>
+                        </table>
+                        
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Clicks</b></td>
+                        </tr>
+
+                        ${ response.individual_click_day_counts.map( (item2, index2) =>  {
+                            return `
+                            <tr><td>${item2}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td>${response.clicks}</td></tr>
+                        </tbody>
+                        </table>`;
+                    }
+                    else if( ad_day == "this_month" ){
+                        let pass_Date_ = 'Date'
+                        render_data = `<table>
+                        <tbody>
+                        <tr>
+                        <td><b>${pass_Date_}</b></td>
+                        </tr>
+                        ${ ad_imp_individual_dates.map( (item) =>  {
+                            return `
+                            <tr><td>${item}</td></tr>`
+                        }).join('')
+                        }
+
+                        </tbody>
+                        </table>
+
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Impressions</b></td>
+                        </tr>
+
+                        ${ response.individual_impr_day_counts.map( (item3, index3) =>  {
+                            return `
+                            <tr><td>${item3}</td></tr>`
+                        } ).join('')
+                        }
+
+                        </tbody>
+                        </table>
+                        
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Clicks</b></td>
+                        </tr>
+
+                        ${ response.individual_click_day_counts.map( (item2, index2) =>  {
+                            return `
+                            <tr><td>${item2}</td></tr>`
+                        } ).join('')
+                        }
+
+                        </tbody>
+                        </table>`;
+
+                        render_data_total = "<table><tbody><tr><td>Total</td><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+                        get_table_tot.innerHTML = render_data_total
+                    }
+                    else{
+                            render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+                        }
                         get_table.innerHTML = render_data
 
                     }
@@ -426,7 +601,7 @@ class Quads_single_report extends Component {
                     }
                     else{
                         console.log(response);
-                        this.display_report_stats(response)
+                        this.display_report_stats_imp_click(response)
                         render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
                         get_table.innerHTML = render_data
 
@@ -502,14 +677,78 @@ class Quads_single_report extends Component {
             .then( (response) => {
                 if(response!=null){
                     var render_data
+                    var render_data_total
                     var get_table = document.getElementById("quads_report_table")
+                    var get_table_tot = document.getElementById("quads_report_table_total")
                     if(response.clicks == null || response.impressions == null ){
                         get_table.innerHTML = 'No data Found'
+                        get_table_tot.innerHTML = 'No data Found'
                     }
                     else{
+                        
                         console.log(response);
-                        this.display_report_stats(response)
-                        render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+                        this.display_report_stats_imp_click(response)
+                        var ad_day = response.ad_day
+
+                        if( ad_day == "custom" ){
+                            let pass_var
+                            let pass_Date
+                            if( ad_day == "all_time" || ad_day == "this_year" ){
+                                pass_var = ['January','February','March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                                pass_Date = 'Month'
+                            }
+                            else{
+                                pass_var = response.ad_imp_individual_dates
+                                pass_Date = 'Date'
+                            }
+
+        render_data = `<table>
+                        <tbody>
+                        <tr>
+                        <td><b>${pass_Date}</b></td>
+                        </tr>
+                        ${ pass_var.map( (item) =>  {
+                            return `
+                            <tr><td>${item}</td></tr>`
+                        }).join('')
+                        }
+                        <tr><td>Total</td></tr>
+                        </tbody>
+                        </table>
+
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Impressions</b></td>
+                        </tr>
+
+                        ${ response.individual_impr_day_counts.map( (item3, index3) =>  {
+                            return `
+                            <tr><td>${item3}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td>${response.impressions}</td></tr>
+                        </tbody>
+                        </table>
+                        
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Clicks</b></td>
+                        </tr>
+
+                        ${ response.individual_click_day_counts.map( (item2, index2) =>  {
+                            return `
+                            <tr><td>${item2}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td>${response.clicks}</td></tr>
+                        </tbody>
+                        </table>`;
+
+                    }else{
+                            render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+                        }
                         get_table.innerHTML = render_data
 
                     }
@@ -629,21 +868,16 @@ class Quads_single_report extends Component {
                 {this.state.isLoading ? <div className="quads-cover-spin"></div>
                     : null}
 
-                        <div>  <h3>{__('Reports', 'quick-adsense-reloaded')}</h3>
-                        </div>
                 
                 <Fragment>
                     <div>
                         <nav aria-label="breadcrumb">
                         <ol className="breadcrumb">
-                            <li className="breadcrumb-item"><a> Report</a></li>
+                            <li className="breadcrumb-item"><a style={{textDecoration: "unset"}} href={this.state.report_url}> Report</a></li>
                             <li className="breadcrumb-item active" aria-current="page">Stats Report</li>
                         </ol>
                     </nav>
                     <div className="quads-report-networks">
-                        <div className={'stats_rep'}>
-                        <h1>Stats Report</h1>
-                        </div>
                         <div className={'quads-select-menu'} >
                         <div className={'quads-select view_statsreport'} onClick={this.adsToggle_list}>
                         <select name="view_stats_report" onChange={this.view_report_stats_form_ChangeHandler} id={'view_stats_report'} placeholder="Select Ads">
@@ -658,11 +892,12 @@ class Quads_single_report extends Component {
                         <select name="report_period" id={'report_period'} onChange={this.view_report_stats_form_ChangeHandler}>
                         <option value="today">Today</option>
                         <option value="yesterday">Yesterday</option>
-                        <option value="last_7_days">Last 7 days</option>
-                        <option value="this_month">This month</option>
-                        <option value="last_month">Last month</option>
-                        <option value="all_time">All time</option>
-                        <option value="custom">Custom</option>
+                        <option value="last_7_days">Last Seven Days</option>
+                        <option value="this_month">This Month</option>
+                        <option value="last_month">Last Month</option>
+                        <option value={ quads_localize_data_is_pro ? "this_year" : "this_year_free"}>This Year</option>
+                    <option value={ quads_localize_data_is_pro ? "all_time" : "all_time_free"}>All Time</option>
+                    <option value={ quads_localize_data_is_pro ? "custom" : "custom_free"}>Custom</option>
                     </select>
                     
                     { this.state.custom_period == true  ? <>
@@ -674,8 +909,12 @@ class Quads_single_report extends Component {
                     }
                         </div>
                         </div>
+                        <div id='quads_reports_pro_notify' class='quads_reports_pro_notify' style={{marginTop: "20px"}}  ></div>
                         <div id='quads_reports_canvas' class='report_single' ></div>
                         <div id={'quads_report_table'}></div>
+                        <div id={'quads_report_table_total'}
+                        style={{ display: this.state.custom_period ? 'block' : ''}} >
+                        </div>
                         </div>
                         </div>
                         </Fragment>

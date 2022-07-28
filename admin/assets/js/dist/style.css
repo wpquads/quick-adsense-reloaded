@@ -327,7 +327,6 @@ a.view_reports_ {
 
 select#view_stats_report {
   width: 200px;
-  margin-left: 18px;
   margin-top: -4px; }
 
 #quads_report_table {
@@ -336,8 +335,11 @@ select#view_stats_report {
 .stats_rep {
   margin-left: 19px; }
 
-#quads_reports_canvas {
-  padding-top: 35px; }
+div#quads_report_table {
+  display: flex; }
+
+select#report_type {
+  margin-top: 20px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -2642,7 +2644,7 @@ a.quads-btn-cancel:hover {
   display: grid;
   width: 100%;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-gap: 30px 30px;
+  grid-gap: 30px 15px;
   margin: 0; }
 
 .quads-side-part {
@@ -2825,6 +2827,29 @@ and open the template in the editor.
   line-height: 2;
   font-weight: 600; }
 
+#quads_report_table_total {
+  padding-left: 40px; }
+
+#quads_report_table_total table {
+  border-collapse: collapse; }
+
+#quads_report_table_total table th {
+  border: 1px solid #b4b4b4;
+  padding: 5px 13px; }
+
+#quads_report_table_total table td {
+  border: 1px solid #b4b4b4;
+  padding: 5px 13px;
+  padding-right: 52px; }
+
+#quads_report_table table tr {
+  display: inherit; }
+
+#quads_report_table_total table b {
+  font-weight: 700;
+  line-height: 2;
+  font-weight: 600; }
+
 .quads-report-networks h1 {
   font-size: 15px; }
 
@@ -2874,7 +2899,12 @@ and open the template in the editor.
   cursor: pointer; }
 
 .quads-select.view_statsreport {
-  display: -webkit-box; }
+  display: -webkit-box;
+  margin-top: 20px; }
+
+.quads-select {
+  display: -webkit-box;
+  margin-top: 20px; }
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle, .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow,
 .react-datepicker__month-year-read-view--down-arrow {
