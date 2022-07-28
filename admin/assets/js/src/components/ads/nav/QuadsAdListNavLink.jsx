@@ -39,7 +39,7 @@ class QuadsAdListNavLink extends Component {
                     {ad_type:'ab_testing',ad_type_name:'AB Testing',pro:'true'},
                     {ad_type:'loop_ads',ad_type_name:'Loop Ads'},
                     {ad_type:'carousel_ads',ad_type_name:'Carousel Ads'},
-                    {ad_type:'sticky_scroll',ad_type_name:'Hold on Scroll Ads'},
+                    {ad_type:'sticky_scroll',ad_type_name:'Hold on Scroll Ads',pro:'true'},
            ]
         };
         this.getSettings();
