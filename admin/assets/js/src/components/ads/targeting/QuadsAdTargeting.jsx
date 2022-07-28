@@ -174,7 +174,7 @@ class QuadsAdTargeting extends Component {
     const {__} = wp.i18n;    
     const page = queryString.parse(window.location.search); 
     const post_meta = this.props.parentState.quads_post_meta;
-    if(post_meta.ad_type == "group_insertion" && post_meta.position == "beginning_of_post") {
+    if((post_meta.ad_type == "group_insertion" || post_meta.ad_type == "sticky_scroll") && post_meta.position == "beginning_of_post") {
         this.props.adFormChangeHandler({target: {name: 'position', value: 'after_paragraph'}});
     }
     if(post_meta.ad_type == "loop_ads")
@@ -205,7 +205,8 @@ class QuadsAdTargeting extends Component {
                 post_meta.ad_type == 'infolinks' ||
                 post_meta.ad_type == 'skip_ads' ||
                 post_meta.ad_type == 'loop_ads' ||
-                post_meta.ad_type == 'carousel_ads'
+                post_meta.ad_type == 'carousel_ads' ||
+                post_meta.ad_type == 'sticky_scroll'
               ) ?
               <>
                 <div>{__('Position', 'quick-adsense-reloaded')}</div>  
@@ -217,7 +218,7 @@ class QuadsAdTargeting extends Component {
                     <tr className="quads-tr-position">
                     <td><label>{__('Where will the AD appear?', 'quick-adsense-reloaded')}</label></td>
                     { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" ?  "" : 
-                        <td>{post_meta.ad_type != "group_insertion" ? (<QuadsAdvancePosition parentState={this.props.parentState} adFormChangeHandler = {this.props.adFormChangeHandler}/>
+                        <td>{post_meta.ad_type != "group_insertion" || post_meta.ad_type != "sticky_scroll" ? (<QuadsAdvancePosition parentState={this.props.parentState} adFormChangeHandler = {this.props.adFormChangeHandler}/>
                         ):<div><select  value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                             <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
                         </select>

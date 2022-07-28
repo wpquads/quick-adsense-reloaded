@@ -1236,6 +1236,29 @@ function quads_filter_default_ads_new( $content ) {
                                             $paragraphs[$index] .= $cusads;
                                         }
                                 }
+                            }else if($ads['ad_type']== 'sticky_scroll'){
+                                $p_count =$p_count -1;
+                                $cusads = '<!--CusSS'.$ads['ad_id'].'-->';
+                              $next_insert_val = $insert_after;
+                              $displayed_ad =1;
+                                foreach ($paragraphs as $index => $paragraph) {
+                                    $addstart = false;
+                                    if ( trim( $paragraph ) ) {
+                                        $paragraphs[$index] .= $closing_p;
+                                    }
+
+                                    if((!empty($paragraph_limit) && $paragraph_limit < $displayed_ad) || ($index == $p_count )){
+                                        break;
+                                    }
+                                        if($index+1 == $next_insert_val){
+                                            $displayed_ad +=1;
+                                          $next_insert_val = $next_insert_val+$insert_after;
+                                          $addstart = true;
+                                      }
+                                        if($addstart){
+                                            $paragraphs[$index] .= $cusads;
+                                        }
+                                }
                             }else{
 
                               foreach ($paragraphs as $index => $paragraph) {

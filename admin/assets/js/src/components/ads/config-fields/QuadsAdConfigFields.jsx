@@ -1176,13 +1176,9 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                          <tr><td> <label>{__('Carousel Speed', 'quick-adsense-reloaded')}</label></td><td>
                         <input className='carousel_speed small-text' min="1" step="1" id="carousel_speed" value={post_meta.carousel_speed} name="carousel_speed" onChange={this.props.adFormChangeHandler} type="number"/>
                          </td></tr>:''}
-                         <tr><td><label>{__('Select Ads ', 'quick-adsense-reloaded')}</label></td><td><a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a></td></tr>
-                        <tr><td colSpan={'2'}></td></tr>
-                        </tbody>
-                      </table>
-
-
-                      <div className="quads-target-item-list">
+                         <tr style={{marginBottom: 0 + 'px'}}><td><label>{__('Select Ads ', 'quick-adsense-reloaded')}</label></td><td><a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a></td></tr>
+                        <tr><td colSpan={'2'}>
+                        <div className="quads-target-item-list">
                           {
                               this.state.ads_list ?
                                   this.state.ads_list.map( (item, index) => (
@@ -1193,7 +1189,12 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                                   ) )
                                   :''}
                           <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
-                      </div>
+                      </div></td></tr>
+                        </tbody>
+                      </table>
+
+
+                     
 
                       {this.state.adsToggle_list ?
                           <div className="quads-targeting-selection">
@@ -1220,6 +1221,68 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                       </div>);
       
                     break;
+                    case 'sticky_scroll':
+                  ad_type_name = 'Hold on Scroll ';
+                  if(!quads_localize_data.is_pro){
+                      comp_html.push(<div key="sticky_scroll" className="quads-user-targeting">
+                          This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+                      </div>);
+                      break;
+                  }
+                  comp_html.push(<div key="sticky_scroll" className="quads-user-targeting">
+                    <table>
+                    <tbody>
+                          <tr style={{marginBottom: 0 + 'px'}}><td><label>{__('Select Ads', 'quick-adsense-reloaded')} </label></td> <td><a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a> </td></tr>
+                          <tr><td colSpan={2}>
+                            <div className="quads-target-item-list">
+                          {
+                              this.state.ads_list ?
+                                  this.state.ads_list.map( (item, index) => (
+                                      <div key={index} className="quads-target-item">
+                                          <span className="quads-target-label">{item.label}</span>
+                                          <span className="quads-target-icon" onClick={this.removeSeleted_list} data-index={index}><Icon>close</Icon></span>
+                                      </div>
+                                  ) )
+                                  :''}
+                                  
+                                  </div>
+                          <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+                          
+                      </td></tr>
+                      </tbody>
+                      </table>
+                      {this.state.adsToggle_list ?
+                          <div className="quads-targeting-selection">
+                              <table className="form-table">
+                                  <tbody>
+                                  <tr>
+                                      <td>
+                                          <Select
+                                              name="userTargetingIncludedType"
+                                              placeholder="Select Ads"
+                                              options= {this.state.getallads_data_temp}
+                                              value  = {this.multiTypeLeftIncludedValue}
+                                              onChange={this.selectAdchange}
+                                          />
+                                      </td>
+                                      <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+                                  </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          : ''}
+                      
+                      <table>
+                        <tbody>
+                      <tr>
+                          <td><label>{__('Scroll Height', 'quick-adsense-reloaded')}  </label></td>
+                          <td><input className='small-text' value={post_meta.sticky_scroll_height ? post_meta.sticky_scroll_height:'350'} onChange={this.props.adFormChangeHandler} type="number" id="sticky_scroll_height" name="sticky_scroll_height" />
+                          </td></tr>
+                          </tbody>
+                      </table>
+                    
+                  </div>);
+                  break;
             default:
               comp_html.push(<div key="noads" >{__('Ad not found', 'quick-adsense-reloaded')}</div>);
               break;

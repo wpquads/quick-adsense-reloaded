@@ -39,6 +39,7 @@ class QuadsAdListNavLink extends Component {
                     {ad_type:'ab_testing',ad_type_name:'AB Testing',pro:'true'},
                     {ad_type:'loop_ads',ad_type_name:'Loop Ads'},
                     {ad_type:'carousel_ads',ad_type_name:'Carousel Ads'},
+                    {ad_type:'sticky_scroll',ad_type_name:'Hold on Scroll Ads'},
            ]
         };
         this.getSettings();
@@ -147,6 +148,9 @@ class QuadsAdListNavLink extends Component {
               case 'carousel_ads':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/carousel_ads.png';
               break;
+              case 'sticky_scroll':
+                img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/sticky_scroll_ads.png';
+                break;
             default:
               break;
           }
@@ -228,7 +232,7 @@ class QuadsAdListNavLink extends Component {
             <ul>
                 <li><Link to={'admin.php?page=quads-settings'} className={current == 'ads' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Ads', 'quick-adsense-reloaded')}</Link></li>
                 <li><Link to={'admin.php?page=quads-settings&path=settings'} className={current == 'settings' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Settings', 'quick-adsense-reloaded')}</Link></li>
-                { this.state.displayReports ?
+                {quads_localize_data.is_pro && this.state.displayReports ?
                 <li><Link to={'admin.php?page=quads-settings&path=reports'} className={current == 'reports' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Reports', 'quick-adsense-reloaded')}</Link></li>
                 : null }
                 {quads_localize_data.is_pro && this.state.displayad_logging ?
