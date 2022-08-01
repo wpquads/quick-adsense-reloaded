@@ -1102,10 +1102,10 @@ drawChart(config);
                 { this.state.current_page == 'report' ?
                     <Fragment>
                         <div>
-                            <div className="quads-ad-networks">
+                            <div className="quads-ad-networks-reports">
                                 <ul key={'quads-ad-networks'}>
                                 {quads_localize_data_is_pro ? this.state.All_report_list.map(item => (
-                                    <li key={item.id} data-adtype={item.ad_type} id={item.id}><a className="quads-nav-link" onClick={() => this.quads_adsense_report(this.state.adsense_pub_id)} >
+                                    <li key={item.id} data-adtype={item.ad_type} id={item.id}><a className="quads-nav-link-reports" onClick={() => this.quads_adsense_report(this.state.adsense_pub_id)} >
                                             {this.getImageByAdType(item.ad_type)}
                                             {item.ad_type=='adsense' ? <div style={{color: "rgb(0, 90, 240)"}}>
                                             <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>Google Adsense</p>

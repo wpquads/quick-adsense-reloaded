@@ -919,16 +919,6 @@ and open the template in the editor.
   background-color: black;
   background-color: rgba(0, 0, 0, 0.4); }
 
-.quads-full-page-modal {
-  position: fixed;
-  z-index: 10000;
-  left: 160px;
-  top: 0;
-  width: 100%;
-  overflow: hidden;
-  background-color: black;
-  background-color: rgba(0, 0, 0, 0.4); }
-
 /* Modal Content */
 .quads-modal-popup-content {
   background-color: #fefefe;
@@ -2632,7 +2622,8 @@ a.quads-btn-cancel:hover {
   margin-bottom: 0px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
   transition: 0.3s;
-  padding: 0px 0px 6px 10px; }
+  padding: 0px 0px 6px 10px;
+  cursor: pointer; }
 
 .quads-ad-networks li:hover {
   box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 15px; }
@@ -2664,7 +2655,10 @@ a.quads-nav-link:focus {
   right: 0px;
   z-index: 9;
   overflow-x: hidden;
-  overflow-y: auto; }
+  overflow-y: auto;
+  width: 100%;
+  background-color: #fff;
+  z-index: 99; }
 
 .quads-full-page-modal-content {
   max-width: 100%;
@@ -2736,8 +2730,16 @@ a.quads-nav-link:focus {
 .gopropopup .quads-modal-content {
   padding: 38px 20px; }
 
-a.quads-nav-link {
-  text-decoration: unset; }
+a.vendor {
+  display: block;
+  background: #fff;
+  text-decoration: unset;
+  border-radius: 10px;
+  border: 1px solid #e2e2e2;
+  margin-bottom: 0px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+  transition: 0.3s;
+  padding: 0px 0px 6px 10px; }
 
 span.ad_type_name_ {
   color: #333;
@@ -2757,6 +2759,40 @@ span.ad_type_name_ {
   z-index: 99;
   text-align: center;
   padding-bottom: 8px; }
+
+.quads-ad-networks-reports {
+  padding: 60px 50px;
+  max-width: 100%;
+  background: #fff;
+  z-index: 9;
+  position: relative; }
+
+.quads-ad-networks-reports ul {
+  padding: 0px;
+  list-style-type: none;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 30px 30px;
+  margin: 0; }
+
+.quads-ad-networks-reports li {
+  text-align: center;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 1px solid #e2e2e2;
+  margin-bottom: 0px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+  transition: 0.3s; }
+
+.quads_main_ {
+  padding: 0px;
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 21px 9px;
+  margin: 0; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -2777,9 +2813,6 @@ and open the template in the editor.
   font-size: 25px;
   cursor: pointer;
   padding: 10px; }
-
-.quads-full-page-modal {
-  height: 100%; }
 .quads-large-popup {
   position: absolute; }
 

@@ -28,17 +28,19 @@ class QuadsAdListNavLink extends Component {
                     {ad_type:'infolinks',ad_type_name:'Infolinks'},
                   ],
            All_ad_network_format: [
-                    {ad_type:'video_ads',ad_type_name:'Video Ad'},
                     {ad_type:'background_ad',ad_type_name:'Background ad'},
-                    {ad_type:'rotator_ads',ad_type_name:'Rotator Ads',pro:'true'},
+                    {ad_type:'video_ads',ad_type_name:'Video Ad'},
+                    {ad_type:'plain_text',ad_type_name:'Plain Text / HTML / JS'},
+                    {ad_type:'ad_image',ad_type_name:'Banner Ad'},
                     {ad_type:'random_ads',ad_type_name:'Random Ads'},
                     {ad_type:'popup_ads',ad_type_name:'Popup Ads'},
+                    {ad_type:'loop_ads',ad_type_name:'Loop Ads'},
+                    {ad_type:'carousel_ads',ad_type_name:'Carousel Ads'},
+                    {ad_type:'rotator_ads',ad_type_name:'Rotator Ads',pro:'true'},
                     {ad_type:'group_insertion',ad_type_name:'Group Insertion',pro:'true'},
                     {ad_type:'skip_ads',ad_type_name:'Skip Ads',pro:'true'},
                     {ad_type:'ad_blindness',ad_type_name:'Ad Blindness',pro:'true'},
                     {ad_type:'ab_testing',ad_type_name:'AB Testing',pro:'true'},
-                    {ad_type:'loop_ads',ad_type_name:'Loop Ads'},
-                    {ad_type:'carousel_ads',ad_type_name:'Carousel Ads'},
                     {ad_type:'sticky_scroll',ad_type_name:'Hold on Scroll Ads',pro:'true'},
            ]
         };

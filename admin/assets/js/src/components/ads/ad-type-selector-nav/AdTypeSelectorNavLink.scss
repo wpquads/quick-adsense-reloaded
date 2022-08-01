@@ -7,6 +7,7 @@
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
   transition: 0.3s;
   padding: 0px 0px 6px 10px;
+  cursor: pointer;
 }
 .quads-ad-networks li:hover {
     box-shadow: rgba(0, 0, 0, 0.20) 0px 3px 15px;
@@ -40,6 +41,9 @@ a.quads-nav-link:focus {
     z-index: 9;
     overflow-x: hidden;
     overflow-y: auto;
+    width: 100%;
+    background-color: #fff;
+    z-index: 99;
 }
 .quads-full-page-modal-content {
     max-width: 100%;
@@ -131,8 +135,16 @@ border: none;
 
     }
     }
-a.quads-nav-link {
+a.vendor {
+      display: block;
+      background: #fff;
       text-decoration: unset;
+      border-radius: 10px;
+      border: 1px solid #e2e2e2;
+      margin-bottom: 0px;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+      transition: 0.3s;
+      padding: 0px 0px 6px 10px;
   }
 span.ad_type_name_ {
     color: #333;
@@ -152,4 +164,35 @@ span.ad_type_name_ {
   z-index: 99;
   text-align: center;
   padding-bottom: 8px;
+}.quads-ad-networks-reports {
+  padding: 60px 50px;
+  max-width: 100%;
+  background: #fff;
+  z-index: 9;
+  position: relative;
+}.quads-ad-networks-reports ul {
+  padding: 0px;
+  list-style-type: none;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 30px 30px;
+  margin: 0;
+}.quads-ad-networks-reports li {
+  text-align: center;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 1px solid #e2e2e2;
+  margin-bottom: 0px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+  transition: 0.3s;
+}
+.quads_main_ {
+  padding: 0px;
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 21px 9px;
+  margin: 0;
 }
