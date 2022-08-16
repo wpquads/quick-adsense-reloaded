@@ -60,7 +60,7 @@ and open the template in the editor.
   margin: 0;
 }
 a.quads-nav-link-active {
-  border-bottom: 3px solid #005af0;
+  border-bottom: 3px solid #005af0 !important;
   position: relative;
   padding: 19px 20px;
   color: #005af0 !important;

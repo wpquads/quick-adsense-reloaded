@@ -7,6 +7,7 @@ import {Chart} from 'react-charts'
 import DatePicker from "react-datepicker";
 import queryString from 'query-string'
 
+
 import "react-datepicker/dist/react-datepicker.css";
 
 class QuadsAdReport extends Component {
@@ -748,6 +749,12 @@ drawChart(config);
         this.setState({
             current_page:'view_reports_stats'
         })
+        setTimeout(() => {
+            document.getElementById("view_stats_report").value='all';
+            document.getElementById("report_period").value='last_7_days';
+          this.view_report_stats_form_ChangeHandler_main_report_tab();
+        }, 500);
+              
     }
     quads_adsense_report  =(pub_id='') =>{
         const {report} = this.state;
@@ -790,6 +797,11 @@ drawChart(config);
 
         }
 
+    }
+
+    goToSingleAd()
+    {
+        console.log('Single Ads');
     }
 
     view_report_stats_form_ChangeHandler_main_report_tab = (eve) => {
@@ -852,6 +864,7 @@ drawChart(config);
                         this.display_report_stats_main_report(response)
                         var ad_day = response.ad_day
                         let ad_imp_individual_dates = response.ad_imp_individual_dates
+                        var top5_ads = response.top5_ads
 
                         if( ad_day == "last_7_days" || ad_day == "last_month" || ad_day == "all_time" || ad_day == "this_year" ){
                             let pass_var
@@ -865,21 +878,47 @@ drawChart(config);
                                 ad_imp_individual_dates = response.ad_imp_individual_dates
                                 pass_Date = 'Date'
                             }
+                if(id=="all")
+                {
+                    
+                       render_data = `<table>
+                        <tbody>
+                        <tr><td colspan="3" align="center"><b>Top 5 Performing Ads</b></td></tr>
+                        <tr>
+                        <td><b>Ad Name</b></td>
+                        <td><b>Impressions</b></td>
+                        <td><b>Clicks</b></td>
+                        </tr>
+                        ${  
+                            top5_ads.map( ads =>  {
+                            return `
+                            <tr class="top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();"  data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
+                        }).join('')
+                        }
 
-        render_data = `<table>
+                        </tbody>
+                        </table>
+                       
+                            `;
+                           
+                }
+                else
+                {
+                    
+        render_data = `<table ><tr><td colspan="3" align="center"><b>Perfomance report for `+ad_day.charAt(0).toUpperCase() + ad_day.slice(1).replace(/_/g,' ')+`</b></td></tr>
+        <tr><td class="main_td"><table>
                         <tbody>
                         <tr>
                         <td><b>${pass_Date}</b></td>
                         </tr>
-                        ${ ad_imp_individual_dates.map( (item) =>  {
+                        ${ ad_imp_individual_dates.map( (item,index) =>  {
                             return `
                             <tr><td>${item}</td></tr>`
                         }).join('')
                         }
                         <tr><td>Total</td></tr>
                         </tbody>
-                        </table>
-
+                        </table></td><td class="main_td">
                         <table>
                         <tbody>
                         <tr>
@@ -894,7 +933,8 @@ drawChart(config);
                         <tr><td>${response.impressions}</td></tr>
                         </tbody>
                         </table>
-                        
+                        </td>
+                        <td class="main_td">
                         <table>
                         <tbody>
                         <tr>
@@ -908,11 +948,38 @@ drawChart(config);
                         }
                         <tr><td>${response.clicks}</td></tr>
                         </tbody>
-                        </table>`;
+                        </table></td></tr></table>`;
+                    }
+
+
                     }
                     else if( ad_day == "this_month" ){
+
+                        if(id=="all")
+                        {
+                            render_data = `<table>
+                                <tbody>
+                                <tr><td colspan="3" align="center"><b>Top 5 Performing Ads</b></td></tr>
+                                <tr>
+                                <td><b>Ad Name</b></td>
+                                <td><b>Impressions</b></td>
+                                <td><b>Clicks</b></td>
+                                </tr>
+                                ${  
+                                    top5_ads.map( ads =>  {
+                                    return `
+                                    <tr class="top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
+                                }).join('')
+                                }
+                                </tbody>
+                                </table>
+                                    `;
+                        }
+                        else
+                        {
                         let pass_Date_ = 'Date'
-                        render_data = `<table>
+                        render_data = `<table ><tr><td colspan="3" align="center"><b>Perfomance report for `+ad_day.charAt(0).toUpperCase() + ad_day.slice(1).replace(/_/g,' ')+`</b></td></tr>
+                        <tr><td class="main_td"><table>
                         <tbody>
                         <tr>
                         <td><b>${pass_Date_}</b></td>
@@ -924,7 +991,7 @@ drawChart(config);
                         }
 
                         </tbody>
-                        </table>
+                        </table></td><td class="main_td">
 
                         <table>
                         <tbody>
@@ -939,8 +1006,8 @@ drawChart(config);
                         }
 
                         </tbody>
-                        </table>
-                        
+                        </table></td>
+                        <td class="main_td">
                         <table>
                         <tbody>
                         <tr>
@@ -954,13 +1021,40 @@ drawChart(config);
                         }
 
                         </tbody>
-                        </table>`;
+                        </table></td><tr></table>`;
 
                         render_data_total = "<table><tbody><tr><td>Total</td><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
                         get_table_tot.innerHTML = render_data_total
                     }
+                    }
                     else{
-                            render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+
+                        if(id=="all")
+                        {
+                            render_data = `<table>
+                                <tbody>
+                                <tr><td colspan="3" align="center"><b>Top 5 Performing Ads</b></td></tr>
+                                <tr>
+                                <td><b>Ad Name</b></td>
+                                <td><b>Impressions</b></td>
+                                <td><b>Clicks</b></td>
+                                </tr>
+                                ${  
+                                    top5_ads.map( ads =>  {
+                                    return `
+                                    <tr class="top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}"   ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
+                                }).join('')
+                                }
+        
+                                </tbody>
+                                </table>
+                                    `;
+                                
+                        }
+                        else{
+                            render_data = "<table><tbody><tr><td colspan='3' align='center'><b>Perfomance report for "+ad_day.charAt(0).toUpperCase() + ad_day.slice(1).replace(/_/g,' ')+"</b></td></tr><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+                        }
+                            
                         }
                         get_table.innerHTML = render_data
 
@@ -1001,8 +1095,33 @@ drawChart(config);
                     }
                     else{
                         console.log(response);
+                        var top5_ads = response.top5_ads
                         this.display_report_stats_main_report(response)
-                        render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+                        if(id=="all")
+                        {
+                            render_data = `<table>
+                                <tbody>
+                                <tr><td colspan="3" align="center"><b>Top 5 Performing Ads</b></td></tr>
+                                <tr>
+                                <td><b>Ad Name</b></td>
+                                <td><b>Impressions</b></td>
+                                <td><b>Clicks</b></td>
+                                </tr>
+                                ${  
+                                    top5_ads.map( ads =>  {
+                                    return `
+                                    <tr class="top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}" ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
+                                }).join('')
+                                }
+        
+                                </tbody>
+                                </table>
+                                    `;
+                        }
+                        else
+                        {
+                        render_data = "<table><tbody><tr><td colspan='3' align='center'><b>Perfomance report for "+ad_day.charAt(0).toUpperCase() + ad_day.slice(1).replace(/_/g,' ')+"</b></td></tr><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+                        }
                         get_table.innerHTML = render_data
 
                     }
@@ -1011,6 +1130,89 @@ drawChart(config);
         }
         else{
             this.setState( { custom_period: false } )
+        }
+
+    }
+
+
+    view_report_stats_init_main_report_tab = (eve) => {
+        let id = 'all'
+        let newdate = 'this_month'
+        let day_val = 'this_month'
+       
+
+        let qrt = document.getElementById("quads_report_table")
+        let qrtt = document.getElementById("quads_report_table_total")
+        let qrc = document.getElementById("quads_reports_canvas")
+       
+        qrt.style.display = "flex";
+        qrtt.style.display = "flex";
+        qrc.style.display = "flex";
+        
+       if( day_val!='custom' && day_val!='select_duration' && id!='select_duration' ){
+        var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id+'&date='+newdate+'&day='+day_val;
+
+            fetch(url,{
+                method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': quads_localize_data.nonce,
+            },
+            } )
+            .then(res => res.json())
+            .then( (response) => {
+                if(response!=null){
+                    var render_data
+                    var render_data_total
+                    var get_table = document.getElementById("quads_report_table")
+                    var get_table_tot = document.getElementById("quads_report_table_total")
+                    if(response.clicks == null || response.impressions == null ){
+                        get_table.innerHTML = 'No data Found'
+                    }
+                    if( quads_localize_data.is_pro == undefined && response.ad_day == "this_year_free" || response.ad_day == "all_time_free" || response.ad_day == "custom_free" ){
+                        let pro_notify_main = '<div id="pro_" class="pro_"><div id="quads_get_pro" style="font-size: 15px;color: #000;line-height: 50px;padding-left: 14px;">This feature is available in PRO version <a class="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Upgrade to PRO to unlock the data in the Reports</a></div></div>'
+                        let canva = document.getElementById('quads_reports_pro_notify_main')
+                        get_table.innerHTML = ''
+                        canva.innerHTML = pro_notify_main
+                        let q_rc = document.getElementById("quads_reports_canvas")
+                        q_rc.innerHTML = ''
+                        let q_rtt = document.getElementById("quads_report_table_total")
+                        q_rtt.innerHTML = ''
+                    }
+                    else{
+                        console.log(response);
+                        let pro_not = document.getElementById('quads_reports_pro_notify_main')
+                        if(pro_not){
+                            pro_not.innerHTML = ''
+                        }
+                        this.display_report_stats_main_report(response)
+                        var ad_day = response.ad_day
+                        let ad_imp_individual_dates = response.ad_imp_individual_dates
+                        var top5_ads=response.top5_ads
+                        render_data = `<table>
+                        <tbody>
+                        <tr><td colspan="3" align="center"><b>Top 5 Performing Ads</b></td></tr>
+                        <tr>
+                        <td><b>Ad Name</b></td>
+                        <td><b>Impressions</b></td>
+                        <td><b>Clicks</b></td>
+                        </tr>
+                        ${  
+                            top5_ads.map( ads =>  {
+                            return `
+                            <tr><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
+                        }).join('')
+                        }
+
+                        </tbody>
+                        </table>
+                            `;
+                        get_table.innerHTML = render_data
+
+                    }
+            }
+            } )
         }
 
     }
@@ -1151,7 +1353,7 @@ drawChart(config);
                                     <div id="view_report_view_stats_report" style={{color: "#005af0"}} onClick={ () =>{
                                         this.view_stats_report_handler()
                                     } }>
-                                    <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>Ad Impressions/Count</p>
+                                    <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>Impression &amp; Clicks</p>
                                     <p>View Report</p>
                                     </div>
                                     </li>
@@ -1204,25 +1406,27 @@ drawChart(config);
                     <div className={'quads-select-menu'} >
                     <div className={'quads-select view_statsreport'} onClick={this.adsToggle_list}>
                     
-                    <select name="view_stats_report" onChange={this.view_report_stats_form_ChangeHandler_main_report_tab} id={'view_stats_report'} placeholder="Select Ads">
+                    <select name="view_stats_report" onChange={this.view_report_stats_form_ChangeHandler_main_report_tab} id={'view_stats_report'} placeholder="Select Ads" >
                         <option value="select">Select Ad</option>
+                        <option value="all">All Ads</option>
                         {this.state.getallads_data_temp ? this.state.getallads_data_temp.map( item => (
                             <option key={item.value} value={item.value}>{item.label}</option>
                         ) )
                         : 'No Options' }
                         </select>
+                        
                     <select name="report_period" id={'report_period'} onChange={this.view_report_stats_form_ChangeHandler_main_report_tab}>
                     <option value="select_duration">Select Duration</option>
                     <option value="today">Today</option>
                     <option value="yesterday">Yesterday</option>
-                    <option value="last_7_days">Last Seven Days</option>
+                    <option value="last_7_days">Last 7 Days</option>
                     <option value="this_month">This Month</option>
                     <option value="last_month">Last Month</option>
                     <option value={ quads_localize_data_is_pro ? "this_year" : "this_year_free"}>This Year</option>
                     <option value={ quads_localize_data_is_pro ? "all_time" : "all_time_free"}>All Time</option>
                     <option value={ quads_localize_data_is_pro ? "custom" : "custom_free"}>Custom</option>
                 </select>
-                
+                <button id="ajaxSubmitButton" style={{display:'none'}} onClick={this.view_report_stats_form_ChangeHandler_main_report_tab}>Submit</button>
                 { this.state.custom_period == true  ? <>
                     <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_fromdate_main_report} />
                     <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_todate_main_report} />

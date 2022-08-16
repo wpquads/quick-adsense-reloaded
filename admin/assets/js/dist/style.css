@@ -398,6 +398,11 @@ and open the template in the editor.
   display: block;
   padding-bottom: 20px;
   max-width: 100%; }
+
+.quads-docs-link {
+  text-decoration: none;
+  font-size: 14px;
+  float: right; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -1078,12 +1083,12 @@ input:checked + .quads-slider:before {
   left: 5px; }
 
 a.quads-nav-link-active {
-  border-bottom: 3px solid #005af0;
+  border-bottom: 3px solid #005af0 !important;
   position: relative;
   padding: 19px 20px;
   color: #005af0 !important; }
 
-.quads-ad-tab ul li .quads-nav-link-active {
+.quads-ad-tab ul li .quads-nav-link .quads-nav-link-active {
   color: #1A73E8;
   border-bottom: 3px solid #1A73E8; }
 
@@ -1478,9 +1483,9 @@ a.quads-nav-link-active {
   line-height: 2.27272727;
   margin: 0; }
 
-.quads-large-popup * {
-  /* box-sizing: content-box;*/ }
-
+/*.quads-large-popup * {
+    box-sizing: content-box;
+}*/
 .quads-large-content {
   border-bottom: none;
   bottom: 0;
@@ -1570,6 +1575,9 @@ input:checked + .quads-slider {
 
 input#grid_data_ad_column, input#grid_data_ad_row {
   width: 100px; }
+
+.quads-ad-tab .quads-nav-link {
+  border-bottom: 3px solid transparent; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -1631,7 +1639,7 @@ and open the template in the editor.
   margin: 0; }
 
 a.quads-nav-link-active {
-  border-bottom: 3px solid #005af0;
+  border-bottom: 3px solid #005af0 !important;
   position: relative;
   padding: 19px 20px;
   color: #005af0 !important; }
@@ -2514,6 +2522,10 @@ a.delete_ad {
 
 a.ad_draft {
   padding-left: 12px; }
+
+.quad-ad-network-list li img {
+  max-width: 40px;
+  top: 0; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -2622,18 +2634,26 @@ a.quads-btn-cancel:hover {
   margin-bottom: 0px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
   transition: 0.3s;
-  padding: 0px 0px 6px 10px;
+  padding: 3px 0px 3px 10px;
   cursor: pointer; }
 
 .quads-ad-networks li:hover {
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 15px; }
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #e2e2e2;
+  margin-bottom: 0px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 3px 6px;
+  transition: 0.4s;
+  padding: 3px 0px 3px 10px;
+  margin: 0 0 0px 0;
+  cursor: pointer; }
 
 .quads-ad-networks ul {
   padding: 0px;
   list-style-type: none;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: 21px 9px;
+  grid-gap: 15px 17px;
   margin: 0; }
 
 .quads-side-part {
@@ -2651,14 +2671,15 @@ a.quads-nav-link:focus {
 .quads-full-page-modal {
   position: absolute;
   left: 0;
-  top: -18px;
+  /* top: -18px; */
   right: 0px;
   z-index: 9;
   overflow-x: hidden;
   overflow-y: auto;
   width: 100%;
   background-color: #fff;
-  z-index: 99; }
+  z-index: 99;
+  padding-bottom: 100px; }
 
 .quads-full-page-modal-content {
   max-width: 100%;
@@ -2678,12 +2699,16 @@ a.quads-nav-link:focus {
   top: 35px; }
 
 .quads-ad-networks {
-  padding: 50px 50px;
-  width: 32%; }
+  padding: 1% 2% 2% 2%;
+  margin: 70px 10px 0 20px;
+  width: 40%;
+  border: 1px solid #eee; }
 
 @media (max-width: 1199px) {
   .quads-ad-networks ul {
-    grid-template-columns: 1fr 1fr 1fr 1fr; } }
+    grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .quad-ad-network-list {
+    width: 85%; } }
 
 @media (max-width: 768px) {
   .quads-ad-networks ul {
@@ -2742,23 +2767,25 @@ a.vendor {
   padding: 0px 0px 6px 10px; }
 
 span.ad_type_name_ {
-  color: #333;
+  color: #000;
   font-size: 15px;
   position: absolute;
-  margin: 13px 0px 0px 12px; }
+  margin: 12px 0px 0px 12px;
+  font-weight: 500; }
 
 .quads-ad-type-link {
   padding: 0px 0px 2px 10px; }
 
 .ad_vendor, .ad_format {
-  font-weight: normal;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-size: 15px;
+  font-size: 14px;
   margin: 0;
   z-index: 99;
   text-align: center;
-  padding-bottom: 8px; }
+  padding-bottom: 18px;
+  padding-top: 5px; }
 
 .quads-ad-networks-reports {
   padding: 60px 50px;
@@ -2793,6 +2820,60 @@ span.ad_type_name_ {
   grid-template-columns: 1fr 1fr;
   grid-gap: 21px 9px;
   margin: 0; }
+
+.quads-ad-networks li:hover span {
+  color: #1A73E8; }
+
+.quad-ad-network-list {
+  display: inline-block;
+  /* width: 100%; */ }
+
+.quad-ad-network-heading {
+  position: relative;
+  top: 50px;
+  left: 20px;
+  font-size: 25px;
+  text-align: center;
+  width: 80%;
+  margin: 0 0 10px 0; }
+
+.quads-nav-link {
+  display: block;
+  font-size: 12px;
+  top: 10px;
+  position: relative; }
+
+.quads-ad-networks .quads_ad_pro {
+  background: linear-gradient(to right, #eb3349, #f45c43);
+  color: #fff;
+  position: relative; }
+
+.quads-ad-networks .quads_ad_pro:after {
+  content: "PRO";
+  position: absolute;
+  top: -4px;
+  right: 0px;
+  border-radius: 74px;
+  background: white;
+  color: #ec3c48;
+  font-size: 10px;
+  padding: 0 5px;
+  box-shadow: 1px 1px 4px #00000026; }
+
+.quads-ad-networks .quads_ad_pro img {
+  background: #fff;
+  border-radius: 35px;
+  position: relative;
+  top: 2px; }
+
+.quads-ad-networks .quads_ad_pro span {
+  color: #fff; }
+
+.quads-settings-tab .quads-nav-link, .quads-ad-tab-wrapper .quads-nav-link {
+  top: 0; }
+
+.quads-ad-tab-wrapper .quads-nav-link {
+  font-size: 22px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -2813,6 +2894,12 @@ and open the template in the editor.
   font-size: 25px;
   cursor: pointer;
   padding: 10px; }
+
+.quads-ad-header {
+  height: 27px; }
+
+.quads-settings-tab ul {
+  padding: 0; }
 .quads-large-popup {
   position: absolute; }
 
@@ -2956,6 +3043,21 @@ and open the template in the editor.
 .quads-select {
   display: -webkit-box;
   margin-top: 20px; }
+
+#wpbody {
+  background-color: white; }
+
+#report_period {
+  position: absolute;
+  right: 0; }
+
+tr.top5_ads_click {
+  cursor: pointer;
+  color: #005af0; }
+
+.main_td {
+  padding: 0 !important;
+  border: 0 !important; }
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle, .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow,
 .react-datepicker__month-year-read-view--down-arrow {

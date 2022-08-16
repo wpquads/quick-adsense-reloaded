@@ -889,10 +889,10 @@ class Quads_single_report extends Component {
                          } )
                         : 'No Options' }
                         </select>
-                        <select name="report_period" id={'report_period'} onChange={this.view_report_stats_form_ChangeHandler}>
+                        <select name="report_period" id={'report_period'}  onChange={this.view_report_stats_form_ChangeHandler}>
                         <option value="today">Today</option>
                         <option value="yesterday">Yesterday</option>
-                        <option value="last_7_days">Last Seven Days</option>
+                        <option value="last_7_days">Last 7 Days</option>
                         <option value="this_month">This Month</option>
                         <option value="last_month">Last Month</option>
                         <option value={ quads_localize_data_is_pro ? "this_year" : "this_year_free"}>This Year</option>

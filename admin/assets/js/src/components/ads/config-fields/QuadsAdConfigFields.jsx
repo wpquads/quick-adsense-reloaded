@@ -1161,23 +1161,16 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                           <label>{__('Carousel Type', 'quick-adsense-reloaded')}</label></td><td>
                             <select onChange={this.props.adFormChangeHandler} value={post_meta.carousel_type} id="carousel_type" name="carousel_type" placeholder="Carousel Type">
                               <option value="slider">Single Slide</option>
-                              <option value="carousel">Multiple Slide</option>
                             </select>
                           {(show_form_error && post_meta.carousel_type == '') ? <div className="quads_form_msg"><span className="material-icons">
                           error_outline</span>Select Carousel Type</div> :''}
                           </td></tr>
-                       <tr><td> <label>{__('Carousel Width ', 'quick-adsense-reloaded')}</label></td><td>
-                        <input className='carousel_width small-text' min="1" step="1" id="carousel_width" value={post_meta.carousel_width} name="carousel_width" onChange={this.props.adFormChangeHandler} type="number"/>
-                         </td></tr>
-                         <tr><td> <label>{__('Carousel height ', 'quick-adsense-reloaded')}</label></td><td>
-                        <input className='carousel_height small-text' min="1" step="1" id="carousel_height" value={post_meta.carousel_height} name="carousel_height" onChange={this.props.adFormChangeHandler} type="number"/>
-                         </td></tr>
-                       {post_meta.carousel_type == 'slider' ? 
+                          
                          <tr><td> <label>{__('Carousel Speed', 'quick-adsense-reloaded')}</label></td><td>
-                        <input className='carousel_speed small-text' min="1" step="1" id="carousel_speed" value={post_meta.carousel_speed} name="carousel_speed" onChange={this.props.adFormChangeHandler} type="number"/>
-                         </td></tr>:''}
+                        <div className="quads-adsense-width-heigth"><label>Seconds<input className='carousel_speed small-text' min="1" step="1" id="carousel_speed" value={post_meta.carousel_speed} name="carousel_speed" onChange={this.props.adFormChangeHandler} type="number"/></label></div>
+                         </td></tr>
                          <tr style={{marginBottom: 0 + 'px'}}><td><label>{__('Select Ads ', 'quick-adsense-reloaded')}</label></td><td><a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a></td></tr>
-                        <tr><td colSpan={'2'}>
+                        <tr><td colSpan={'2'} style={{width:'100%'}}>
                         <div className="quads-target-item-list">
                           {
                               this.state.ads_list ?
@@ -1233,7 +1226,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                     <table>
                     <tbody>
                           <tr style={{marginBottom: 0 + 'px'}}><td><label>{__('Select Ads', 'quick-adsense-reloaded')} </label></td> <td><a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a> </td></tr>
-                          <tr><td colSpan={2}>
+                          <tr><td colSpan={'2'} style={{width:'100%'}}>
                             <div className="quads-target-item-list">
                           {
                               this.state.ads_list ?
@@ -1305,6 +1298,21 @@ Do not enter AdSense page level ads or Auto ads! Learn how to create <a  target=
                     </div>
                   }/>
                 </div> : ''}
+                {this.props.ad_type == 'background_ad' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-background-ad-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'plain_text' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-custom-code-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'adsense' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-adsense-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'yandex' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-yandexdirect-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'mgid' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-mgid-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'taboola' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-taboola-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'media_net' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-media-net-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'outbrain' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-outbrain-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'mediavine' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-mediavine-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'rotator_ads' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-rotator-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'group_insertion' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'infolinks' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-infolinks-ad-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'skip_ads' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/what-is-skippable-ad-and-how-to-use-it/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'propeller' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-setup-propeller-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                
                 <div className="quads-panel">
                  <div className="quads-panel-body">{comp_html}</div>
               </div>

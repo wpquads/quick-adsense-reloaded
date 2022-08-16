@@ -218,6 +218,7 @@ class QuadsAdListNavLink extends Component {
                 this.state.ad_type_toggle || this.props.ad_type_toggle ?
                 <div className="quads-full-page-modal">
                 <div className="quads-full-page-modal-content">
+                <h4 className='quad-ad-network-heading'>{__('Which type of AD would you like to insert?', 'quick-adsense-reloaded')}</h4>
                 <div className="material-icons quads-close-create-page"><a onClick={this.hideAddTypeSelector} className="quads-full-page-modal-close">close</a></div>
                  <div>
                   <AdTypeSelectorNavLink
@@ -234,7 +235,7 @@ class QuadsAdListNavLink extends Component {
             <ul>
                 <li><Link to={'admin.php?page=quads-settings'} className={current == 'ads' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Ads', 'quick-adsense-reloaded')}</Link></li>
                 <li><Link to={'admin.php?page=quads-settings&path=settings'} className={current == 'settings' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Settings', 'quick-adsense-reloaded')}</Link></li>
-                {quads_localize_data.is_pro && this.state.displayReports ?
+                {this.state.displayReports ?
                 <li><Link to={'admin.php?page=quads-settings&path=reports'} className={current == 'reports' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Reports', 'quick-adsense-reloaded')}</Link></li>
                 : null }
                 {quads_localize_data.is_pro && this.state.displayad_logging ?

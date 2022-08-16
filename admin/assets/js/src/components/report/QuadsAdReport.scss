@@ -146,3 +146,20 @@ margin: 0px;
   display: -webkit-box;
   margin-top: 20px;
 }
+#wpbody{
+  background-color: white;
+}
+#report_period{
+  position: absolute;
+  right: 0;
+}
+
+tr.top5_ads_click
+{
+  cursor:pointer;
+  color:#005af0;
+}
+.main_td{
+  padding:0 !important;
+  border: 0 !important;
+}
