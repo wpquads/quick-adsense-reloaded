@@ -3049,7 +3049,8 @@ and open the template in the editor.
 
 #report_period {
   position: absolute;
-  right: 0; }
+  right: 0;
+  margin-top: -4px; }
 
 tr.top5_ads_click {
   cursor: pointer;
