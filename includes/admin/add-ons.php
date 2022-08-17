@@ -148,6 +148,7 @@ height: 250px;
     top: -16px;
     border: 1px solid #eee;
     padding-bottom: 40px;
+	background: white;
 }
 .ext{
     display: grid;
@@ -710,6 +711,35 @@ fieldset#redux_builder_amp-AMPforWP_cache_mode .description.field-desc {
 .redux-sidebar .redux-group-menu .ampforwp-setup-not-tt + li a{
     padding: 15px 8px 15px 10px;
 }
+#wpcontent {
+    padding-left: 0 !important;
+}
+.quads-btn{border:none;color:white;padding:9px 18px;text-align:center;text-decoration:none;display:inline-block;font-size:16px;margin:4px 2px;cursor:pointer;}
+.quads-btn:hover{color:#fff;}
+.quads-btn-primary{background-color:#005aef;font-size:16px;border-radius:4px;padding:10px 20px;}
+a.quads-nav-link-active{border-bottom:3px solid #005af0!important;position:relative;padding:19px 20px;color:#005af0!important;}
+.quads-logo{height:42px;}
+.quads-ad-header{display:flex;padding:17px 0% 17px 2%;align-items:center;height:35px;background:#fff;align-items:center;justify-content:space-between;border-bottom:1px solid #D8D8D8;box-shadow:rgba(0, 0, 0, 0.04) 0px 3px 6px 0px;}
+.quads-ad-menu{display:flex;}
+.quads-ad-tab ul li{font-size:22px;font-weight:400;}
+.quads-ad-tab ul{margin:0;}
+.quads-ad-tab ul li a{color:#111111;text-decoration:none;padding:20px 30px;}
+.quads-ad-tab ul li a:focus{box-shadow:none;}
+.quads-ad-tab ul li{display:inline-block;margin-bottom:0;}
+.quads-ad-tab ul li a.quads-btn{border:1px solid #1A73E8;background:none;padding:11px 16px 11px 43px;border-radius:50px;font-size:18px;position:relative;margin:0px 30px 0px 15px;position:relative;top:0px;}
+.quads-ad-tab ul li a.quads-btn span{font-size:32px;color:#1A73E8;position:absolute;top:4px;left:5px;}
+.quads-ad-tab ul li a.quads-btn:hover{background:#1873e8;color:#fff;}
+.quads-ad-tab ul li a.quads-btn:hover span{color:#fff;}
+.quads-got_pro{font-size:13px!important;padding:6px 12px;border-radius:60px;background:-webkit-linear-gradient(to right, #eb3349, #f45c43);background:linear-gradient(to right, #eb3349, #f45c43);color:#fff!important;box-shadow:0em 0.15em 0.65em 0em rgba(0, 0, 0, 0.25);margin:0 auto 0 23px;text-decoration:none;font-weight:500;}
+.quads-ad-tab .quads-nav-link{color:#1A73E8;border-bottom:3px solid transparent;}
+a.quads-nav-link-active{border-bottom:3px solid #005af0!important;position:relative;padding:19px 20px;color:#005af0!important;}
+a.quads-nav-link:focus{box-shadow:none;}
+.quads-nav-link{display:block;font-size:12px;top:10px;position:relative;}
+.quads-ad-tab-wrapper .quads-nav-link{top:0;}
+.quads-ad-tab-wrapper .quads-nav-link{font-size:22px;}
+.quads-ad-header{height:27px;}
+}
+
 </style>
   ';
 }
@@ -724,7 +754,23 @@ fieldset#redux_builder_amp-AMPforWP_cache_mode .description.field-desc {
  */
 function quads_add_ons_page() {
     ob_start();
+	
     $freepro_listing = '
+	<div class="quads-ad-header">
+		<div class="quads-logo"><img height="42" width="175" src="'.QUADS_PLUGIN_URL.'admin/assets/js/src/images/quads-v2-logo.png"></div>
+		<a class="quads-got_pro premium_features_btn" href="'.admin_url('admin.php?page=quads-addons#upgrade_to_premium').'">Upgrade to Premium</a>
+		<div class="quads-ad-menu">
+				<div class="quads-ad-tab-wrapper">
+					<div class="quads-ad-tab">
+						<ul>
+							<li><a class="quads-nav-link" href="'.admin_url('admin.php?page=quads-settings').'">Ads</a></li>
+							<li><a class="quads-nav-link" href="'.admin_url('admin.php?page=quads-settings&amp;path=settings').'">Settings</a></li>
+							<li class="current"><a class="quads-nav-link" href="'.admin_url('admin.php?page=quads-settings&amp;path=reports').'">Reports</a></li>
+						</ul>
+					</div>
+				</div>
+		</div>
+	</div>
 <div id="quads_freevspro">
     <div class="fp-wr">
         <div class="fp-cnt">
@@ -888,7 +934,7 @@ function quads_add_ons_page() {
                 </div>
                 <div class="pri-lst">
                     <div class="pri-tb">
-                        <a href="https://wpquads.com/checkout?edd_action=add_to_cart&amp;download_id=11&amp;edd_options[price_id]=1">
+                        <a target="_blank" href="https://wpquads.com/checkout?edd_action=add_to_cart&amp;download_id=11&amp;edd_options[price_id]=1">
                             <h5>PERSONAL</h5>
                             <span class="d-amt"><sup>$</sup>89</span>
                             <span class="amt"><sup>$</sup>89</span>
@@ -902,7 +948,7 @@ function quads_add_ons_page() {
                         </a>
                     </div>
                     <div class="pri-tb rec">
-                        <a href="https://wpquads.com/checkout?edd_action=add_to_cart&amp;download_id=11&amp;edd_options[price_id]=2">
+                        <a target="_blank" href="https://wpquads.com/checkout?edd_action=add_to_cart&amp;download_id=11&amp;edd_options[price_id]=2">
                             <h5>MULTIPLE</h5>
                             <span class="d-amt"><sup>$</sup>139</span>
                             <span class="amt"><sup>$</sup>139</span>
@@ -917,7 +963,7 @@ function quads_add_ons_page() {
                         </a>
                     </div>
                     <div class="pri-tb ">
-                        <a href="https://wpquads.com/checkout?edd_action=add_to_cart&amp;download_id=11&amp;edd_options[price_id]=3">
+                        <a target="_blank" href="https://wpquads.com/checkout?edd_action=add_to_cart&amp;download_id=11&amp;edd_options[price_id]=3">
                             <h5>WEBMASTER</h5>
                             <span class="d-amt"><sup>$</sup>199</span>
                             <span class="amt"><sup>$</sup>199</span>
@@ -932,7 +978,7 @@ function quads_add_ons_page() {
                         </a>
                     </div>
                     <div class="pri-tb">
-                        <a href="https://wpquads.com/checkout?edd_action=add_to_cart&amp;download_id=11&amp;edd_options[price_id]=4">
+                        <a target="_blank" href="https://wpquads.com/checkout?edd_action=add_to_cart&amp;download_id=11&amp;edd_options[price_id]=4">
                             <h5>FREELANCER</h5>
                             <span class="d-amt"><sup>$</sup>449</span>
                             <span class="amt"><sup>$</sup>449</span>

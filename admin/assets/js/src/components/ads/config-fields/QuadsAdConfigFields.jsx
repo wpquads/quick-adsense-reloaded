@@ -1151,7 +1151,131 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                      </table>
                      </div>);
      
-                   break;
+                  break;
+                  case 'carousel_ads':
+                  ad_type_name = 'Carousel';
+                    comp_html.push(<div key="carousel_ads">
+                      <table>
+                        <tbody>
+                        <tr><td>
+                          <label>{__('Carousel Type', 'quick-adsense-reloaded')}</label></td><td>
+                            <select onChange={this.props.adFormChangeHandler} value={post_meta.carousel_type} id="carousel_type" name="carousel_type" placeholder="Carousel Type">
+                              <option value="slider">Single Slide</option>
+                            </select>
+                          {(show_form_error && post_meta.carousel_type == '') ? <div className="quads_form_msg"><span className="material-icons">
+                          error_outline</span>Select Carousel Type</div> :''}
+                          </td></tr>
+                          
+                         <tr><td> <label>{__('Carousel Speed', 'quick-adsense-reloaded')}</label></td><td>
+                        <div className="quads-adsense-width-heigth"><label>Seconds<input className='carousel_speed small-text' min="1" step="1" id="carousel_speed" value={post_meta.carousel_speed} name="carousel_speed" onChange={this.props.adFormChangeHandler} type="number"/></label></div>
+                         </td></tr>
+                         <tr style={{marginBottom: 0 + 'px'}}><td><label>{__('Select Ads ', 'quick-adsense-reloaded')}</label></td><td><a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a></td></tr>
+                        <tr><td colSpan={'2'} style={{width:'100%'}}>
+                        <div className="quads-target-item-list">
+                          {
+                              this.state.ads_list ?
+                                  this.state.ads_list.map( (item, index) => (
+                                      <div key={index} className="quads-target-item">
+                                          <span className="quads-target-label">{item.label}</span>
+                                          <span className="quads-target-icon" onClick={this.removeSeleted_list} data-index={index}><Icon>close</Icon></span>
+                                      </div>
+                                  ) )
+                                  :''}
+                          <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+                      </div></td></tr>
+                        </tbody>
+                      </table>
+
+
+                     
+
+                      {this.state.adsToggle_list ?
+                          <div className="quads-targeting-selection">
+                              <table className="form-table">
+                                  <tbody>
+                                  <tr>
+                                      <td>
+                                          <Select
+                                              name="userTargetingIncludedType"
+                                              placeholder="Select Ads"
+                                              options= {this.state.getallads_data_temp}
+                                              value  = {this.multiTypeLeftIncludedValue}
+                                              onChange={this.selectAdchange}
+                                          />
+                                      </td>
+                                      <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+                                  </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          : ''}
+
+
+                      </div>);
+      
+                    break;
+                    case 'sticky_scroll':
+                  ad_type_name = 'Hold on Scroll ';
+                  if(!quads_localize_data.is_pro){
+                      comp_html.push(<div key="sticky_scroll" className="quads-user-targeting">
+                          This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+                      </div>);
+                      break;
+                  }
+                  comp_html.push(<div key="sticky_scroll" className="quads-user-targeting">
+                    <table>
+                    <tbody>
+                          <tr style={{marginBottom: 0 + 'px'}}><td><label>{__('Select Ads', 'quick-adsense-reloaded')} </label></td> <td><a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a> </td></tr>
+                          <tr><td colSpan={'2'} style={{width:'100%'}}>
+                            <div className="quads-target-item-list">
+                          {
+                              this.state.ads_list ?
+                                  this.state.ads_list.map( (item, index) => (
+                                      <div key={index} className="quads-target-item">
+                                          <span className="quads-target-label">{item.label}</span>
+                                          <span className="quads-target-icon" onClick={this.removeSeleted_list} data-index={index}><Icon>close</Icon></span>
+                                      </div>
+                                  ) )
+                                  :''}
+                                  
+                                  </div>
+                          <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+                          
+                      </td></tr>
+                      </tbody>
+                      </table>
+                      {this.state.adsToggle_list ?
+                          <div className="quads-targeting-selection">
+                              <table className="form-table">
+                                  <tbody>
+                                  <tr>
+                                      <td>
+                                          <Select
+                                              name="userTargetingIncludedType"
+                                              placeholder="Select Ads"
+                                              options= {this.state.getallads_data_temp}
+                                              value  = {this.multiTypeLeftIncludedValue}
+                                              onChange={this.selectAdchange}
+                                          />
+                                      </td>
+                                      <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+                                  </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                          : ''}
+                      
+                      <table>
+                        <tbody>
+                      <tr>
+                          <td><label>{__('Scroll Height', 'quick-adsense-reloaded')}  </label></td>
+                          <td><input className='small-text' value={post_meta.sticky_scroll_height ? post_meta.sticky_scroll_height:'350'} onChange={this.props.adFormChangeHandler} type="number" id="sticky_scroll_height" name="sticky_scroll_height" />
+                          </td></tr>
+                          </tbody>
+                      </table>
+                    
+                  </div>);
+                  break;
             default:
               comp_html.push(<div key="noads" >{__('Ad not found', 'quick-adsense-reloaded')}</div>);
               break;
@@ -1174,6 +1298,21 @@ Do not enter AdSense page level ads or Auto ads! Learn how to create <a  target=
                     </div>
                   }/>
                 </div> : ''}
+                {this.props.ad_type == 'background_ad' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-background-ad-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'plain_text' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-custom-code-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'adsense' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-adsense-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'yandex' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-yandexdirect-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'mgid' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-mgid-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'taboola' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-taboola-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'media_net' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-media-net-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'outbrain' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-outbrain-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'mediavine' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-mediavine-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'rotator_ads' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-rotator-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'group_insertion' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'infolinks' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-infolinks-ad-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'skip_ads' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/what-is-skippable-ad-and-how-to-use-it/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'propeller' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-setup-propeller-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                
                 <div className="quads-panel">
                  <div className="quads-panel-body">{comp_html}</div>
               </div>

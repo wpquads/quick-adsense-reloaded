@@ -84,6 +84,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_loopad( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_loopad_async( $id ),$id );
     }
+    if( true === quads_is_carousel_ads( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_carousel_ads_async( $id ),$id );
+    }
     // Return empty string
     return '';
 }
@@ -807,6 +810,69 @@ function quads_render_loopad_async( $id ) {
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_loopad_async', $html );
 }
+
+/**
+ * Carousel ads which can be enabled from general settings
+ *
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_carousel_ads_async($id) {
+    
+    global $quads_options;
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Carousel AD --> \n\n";
+    $ads_list = $quads_options['ads'][$id]['ads_list'];
+    $org_ad_id = $quads_options['ads'][$id]['ad_id'];
+    $carousel_type = isset($quads_options['ads'][$id]['carousel_type'])?$quads_options['ads'][$id]['carousel_type']:'slide';
+    $carousel_width = isset($quads_options['ads'][$id]['carousel_width'])?$quads_options['ads'][$id]['carousel_width']:450;
+    $carousel_height = isset($quads_options['ads'][$id]['carousel_height'])?$quads_options['ads'][$id]['carousel_height']:350;
+    $carousel_speed = isset($quads_options['ads'][$id]['carousel_speed'])?$quads_options['ads'][$id]['carousel_speed']:1;
+    if($carousel_type=="slider")
+    {
+        $html.='<div class="quads-content quads-section" style="max-width:100%;overflow:hidden;">';
+    }
+   
+    $total_slides=count($ads_list);
+    foreach($ads_list as $ad)
+    {
+        if(isset($ad['value']))
+        {   
+            if($carousel_type=="slider")
+            {
+                $html.='<div class="quads-location quads-slides-'.$org_ad_id.' quads-animate-right" id="quads-ad'.$ad['value'].'" style="width:100%">';
+            }
+           
+
+            $ad_id="ad".$ad['value'];
+            $ad_meta=get_post_meta($ad['value']);
+         
+            if(isset($ad_meta['ad_type']) && isset($ad_meta['ad_type'][0]) && $ad_meta['ad_type'][0]=='ad_image' && isset($ad_meta['image_src'][0]) && isset($ad_meta['image_redirect_url'][0]) )
+            {
+                $html .='<a imagebanner class="im-'.$org_ad_id.'" target="_blank" href="'.esc_attr($ad_meta['image_redirect_url'][0]). '" rel="nofollow"><img  src="'.esc_attr($ad_meta['image_src'][0]).'" > </a>';  
+            }
+        
+            if(isset($ad_meta['ad_type']) && isset($ad_meta['ad_type'][0]) && $ad_meta['ad_type'][0]=='plain_text')
+            {
+                if(isset($ad_meta['code']) && isset($ad_meta['code'][0]))
+                {
+                    $html .=$ad_meta['code'][0];
+                }   
+            }
+                $html.='</div>';
+        }
+    }
+
+    if($carousel_type=="slider")
+    {
+        $html.='</div><style>.quads-slides-'.$org_ad_id.'{display:none}.quads-container:after,.quads-container:before{content:"";display:table;clear:both}.quads-container{padding:.01em 16px}.quads-content{margin-left:auto;margin-right:auto;max-width:100%}.quads-section{margin-top:16px!important;margin-bottom:16px!important}.quads-animate-right{position:relative;animation: animateright 0.5s}@keyframes animateright{from{right:-300px;opacity:0}to{right:0;opacity:1}}</style>
+        <script>var myIndex = 0;quads_carousel();function quads_carousel() {var i;var x = document.getElementsByClassName("quads-slides-'.$org_ad_id.'");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}myIndex++;if (myIndex > x.length) {myIndex = 1} x[myIndex-1].style.display = "block"; var nid= x[myIndex-1].id;      setTimeout(quads_carousel, '.($carousel_speed*1000).');}</script>';
+    }
+   
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_carousel_ads_async', $html );
+
+}
 function quads_load_loading_script(){
     global $quads_options;
     $script = '';
@@ -1157,7 +1223,6 @@ function quads_is_propeller( $id, $string ) {
  */
 function quads_is_ad_image( $id, $string ) {
     global $quads_options;
-
     if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'ad_image') {
         return true;
     }
@@ -1242,6 +1307,21 @@ function quads_is_loopad( $id, $string ) {
     global $quads_options;
 
     if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'loop_ads') {
+        return true;
+    }
+    return false;
+}
+/**
+ * Check if ad code is Carousel ad
+ *
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_carousel_ads( $id, $string ) {
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'carousel_ads') {
         return true;
     }
     return false;
@@ -1451,6 +1531,54 @@ layout="responsive"
                             </div>
                          </div>
                          <style>.quads-ad'.$quads_options['ads'][$id]['ad_id'].' { flex-basis: calc(33.33% - 30px); } @media (max-width: 425px){.quads-ad'.$quads_options['ads'][$id]['ad_id'].' {flex-basis: calc(100% - 0px);margin: 15px 0px;}</style>';
+                }
+        
+
+            }else if($quads_options['ads'][$id]['ad_type'] == 'carousel_ads'){
+                
+                if(isset($quads_options['ads'][$id]['ads_list']) && !empty($quads_options['ads'][$id]['ads_list']))
+                {   
+                    $carousel_type = isset($quads_options['ads'][$id]['carousel_type'])?$quads_options['ads'][$id]['carousel_type']:'slide';
+                    $carousel_speed = isset($quads_options['ads'][$id]['carousel_speed'])?$quads_options['ads'][$id]['carousel_speed']:1;    
+                    $carousel_width = isset($quads_options['ads'][$id]['carousel_width'])?$quads_options['ads'][$id]['carousel_width']:450;
+                    $carousel_height = isset($quads_options['ads'][$id]['carousel_height'])?$quads_options['ads'][$id]['carousel_height']:350;
+                $html = '<amp-carousel '.($carousel_type=='slide'?'width='.$carousel_width:'').'  height="'.$carousel_height.'"     layout="'.($carousel_type=='slide'?'responsive':'fixed-height').'"      type="'.($carousel_type=='slide'?'slides':'carousel').'" '.($carousel_type=='slide'?'autoplay delay="'.($carousel_speed*2000).'"':'').' role="region" aria-label="Carousel Ads">'; 
+                if(isset($quads_options['ads'][$id]['image_src']) && !empty($quads_options['ads'][$id]['image_src'])){
+                    list($carousel_width, $carousel_height) = getimagesize($quads_options['ads'][$id]['image_src']);
+                }
+                $ads_list = $quads_options['ads'][$id]['ads_list'];
+                 
+                foreach($ads_list as $ad)
+                {
+                    if(isset($ad['value']))
+                    { 
+                        $ad_meta=get_post_meta($ad['value']);
+                        if(isset($ad_meta['ad_type']) && isset($ad_meta['ad_type'][0]) && $ad_meta['ad_type'][0]=='ad_image' && isset($ad_meta['image_src'][0]) && isset($ad_meta['image_redirect_url'][0]))
+                        {
+                            $html .='
+                            <a  href="'.$ad_meta['image_redirect_url'][0].'" target="_blank">
+                            <amp-img
+                                    alt="'.esc_attr($ad_meta['quads_ad_old_id'][0]).'"
+                                    src="'.esc_attr($ad_meta['image_src'][0]).'"
+                                    width="'.esc_attr($carousel_width).'"
+                                    height="'.esc_attr($carousel_height).'"
+                                    layout="responsive"
+                                    >
+                                    </amp-img>    
+                            </a>';
+                        }
+
+                        else
+                        {
+                            $html.="<div>".$ad_meta['code'][0]."</div>";
+                        }
+                    
+                    }
+                    
+                }
+            
+                
+                $html .='</amp-carousel>';
                 }
         
 

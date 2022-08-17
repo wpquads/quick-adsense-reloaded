@@ -62,12 +62,21 @@ class AdTypeSelectorNavLink extends Component {
     const { __ } = wp.i18n;
     const page = queryString.parse(window.location.search);
     return (
-
-
-      <div className="quads-ad-networks">
-        <ul>
+      <div>
+      <div className="quads-ad-networks quad-ad-network-list" style={{float:"left"}}>
+      <p className='ad_vendor'>{__('AD Vendors', 'quick-adsense-reloaded')}</p>
+      <ul>
           {this.props.All_ad_network.map((item, index) =>
-            <li key={item.ad_type} style={(item.ad_type == 'skip_ads' && !this.state.skippable_ads) || (item.ad_type == 'ad_blindness' && !this.state.blindness_settings) || (item.ad_type == 'ab_testing' && !this.state.ab_testing_settings) || (item.ad_type == 'rotator_ads' && !this.state.rotator_ads_status) ? ({ display: 'none' }) : {}}><div className="quads-ad-type-link">{!item.pro || quads_localize_data.is_pro ?<Link to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.ad_type}`} className="quads-nav-link">{this.props.getImageByAdType(item.ad_type, index)}</Link> :<div onClick={() => this.changepopupState(item.ad_type_name)}>  {this.props.getImageByAdType(item.ad_type, index)} </div>}</div></li>)}
+             <li title={item.ad_type} key={item.ad_type} ><Link to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.ad_type}`} className="quads-nav-link" >{this.props.getImageByAdType(item.ad_type, index)}<span className="ad_type_name_">{item.ad_type_name}</span></Link></li>  )}
+        </ul>
+      </div>
+
+
+      <div className="quads-ad-networks quad-ad-network-list" style={{float:"left"}}>
+      <p className='ad_format'>{__('AD Format', 'quick-adsense-reloaded')}</p>
+        <ul>
+          {this.props.All_ad_network_format.map((item, index) =>
+            <li title={item.ad_type} className={!quads_localize_data.is_pro && (item.ad_type == 'group_insertion' || item.ad_type == 'skip_ads' || item.ad_type == 'ad_blindness' || item.ad_type == 'ab_testing'  || item.ad_type == 'rotator_ads' || item.ad_type == 'sticky_scroll') ?'quads_ad_pro':''} key={item.ad_type} style={(item.ad_type == 'skip_ads' && !this.state.skippable_ads) || (item.ad_type == 'ad_blindness' && !this.state.blindness_settings) || (item.ad_type == 'ab_testing' && !this.state.ab_testing_settings) || (item.ad_type == 'rotator_ads' && !this.state.rotator_ads_status) ? ({ display: 'none' }) : {}}> {!item.pro || quads_localize_data.is_pro ?<Link to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.ad_type}`} className="quads-nav-link">{this.props.getImageByAdType(item.ad_type, index)}<span className="ad_type_name_ part1">{item.ad_type_name}</span></Link> :<div onClick={() => this.changepopupState(item.ad_type_name)}>  {this.props.getImageByAdType(item.ad_type, index)}<span className="ad_type_name_ part2">{item.ad_type_name}</span> </div>}</li>)}
         </ul>
         {this.state.showGoProPopup ?
           <>
@@ -87,6 +96,7 @@ class AdTypeSelectorNavLink extends Component {
             </div>
  </> : null
         }
+      </div>
       </div>
 
     );

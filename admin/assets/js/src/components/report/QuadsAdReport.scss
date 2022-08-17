@@ -64,6 +64,29 @@
   line-height: 2;
   font-weight: 600;
 }
+#quads_report_table_total{
+  padding-left: 40px;
+}
+#quads_report_table_total table{
+  border-collapse: collapse;
+}
+#quads_report_table_total table th{
+  border: 1px solid #b4b4b4;
+  padding: 5px 13px;
+}
+#quads_report_table_total table td{
+  border: 1px solid #b4b4b4;
+  padding: 5px 13px;
+  padding-right: 52px;
+}
+#quads_report_table table tr{
+  display: inherit;
+}
+#quads_report_table_total table b{
+  font-weight: 700;
+  line-height: 2;
+  font-weight: 600;
+}
 
 .quads-report-networks h1{
   font-size: 15px;
@@ -117,4 +140,27 @@ margin: 0px;
 }
 .quads-select.view_statsreport {
   display: -webkit-box;
+  margin-top: 20px;
+}
+.quads-select {
+  display: -webkit-box;
+  margin-top: 20px;
+}
+#wpbody{
+  background-color: white;
+}
+#report_period{
+  position: absolute;
+  right: 0;
+  margin-top:-4px;
+}
+
+tr.top5_ads_click
+{
+  cursor:pointer;
+  color:#005af0;
+}
+.main_td{
+  padding:0 !important;
+  border: 0 !important;
 }

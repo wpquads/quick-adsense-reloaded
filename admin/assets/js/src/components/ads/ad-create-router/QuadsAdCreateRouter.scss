@@ -375,13 +375,14 @@ input#margin_bottom {
 }
 select#view_stats_report {
   width: 200px;
-  margin-left: 18px;
   margin-top: -4px;
 }#quads_report_table {
   padding-left: 40px;
 }.stats_rep{
   margin-left: 19px;
 }
-#quads_reports_canvas{
-  padding-top: 35px;
+div#quads_report_table {
+  display: flex;
+}select#report_type {
+  margin-top: 20px;
 }

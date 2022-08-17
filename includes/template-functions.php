@@ -1236,6 +1236,29 @@ function quads_filter_default_ads_new( $content ) {
                                             $paragraphs[$index] .= $cusads;
                                         }
                                 }
+                            }else if($ads['ad_type']== 'sticky_scroll'){
+                                $p_count =$p_count -1;
+                                $cusads = '<!--CusSS'.$ads['ad_id'].'-->';
+                              $next_insert_val = $insert_after;
+                              $displayed_ad =1;
+                                foreach ($paragraphs as $index => $paragraph) {
+                                    $addstart = false;
+                                    if ( trim( $paragraph ) ) {
+                                        $paragraphs[$index] .= $closing_p;
+                                    }
+
+                                    if((!empty($paragraph_limit) && $paragraph_limit < $displayed_ad) || ($index == $p_count )){
+                                        break;
+                                    }
+                                        if($index+1 == $next_insert_val){
+                                            $displayed_ad +=1;
+                                          $next_insert_val = $next_insert_val+$insert_after;
+                                          $addstart = true;
+                                      }
+                                        if($addstart){
+                                            $paragraphs[$index] .= $cusads;
+                                        }
+                                }
                             }else{
 
                               foreach ($paragraphs as $index => $paragraph) {
@@ -2934,4 +2957,22 @@ if($repeat_paragraph){
     }
     $content =$doc->saveHTML();
     return $content;  
+}
+
+if (defined( 'WP_CACHE') && WP_CACHE==true) {
+    add_action( 'template_redirect', 'wpquads_append_cache_flag' );      
+}
+
+function wpquads_append_cache_flag() {
+    if(!quads_is_amp_endpoint() && is_singular('post')){
+        if( ! isset( $_GET, $_GET['quad_cc']) ) {
+            
+            wp_safe_redirect(
+                add_query_arg( array(
+                    'quad_cc'        => '',
+                ), get_permalink() )
+            );
+            exit();
+        }
+    }
 }

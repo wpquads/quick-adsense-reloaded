@@ -422,6 +422,9 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	$day = $_GET['day'];
 	$date_timestamp = strtotime($mydate);
 	$new_date = date('d_m_Y', $date_timestamp);
+	$todays_date = date("Y-m-d");
+	$individual_ad_dates = '';
+	$array_top5=array();
 
 
 		$col_name_imprsn = 'impressions_'.$new_date;
@@ -433,144 +436,533 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$month= date("m");
 			$date_= date("d");
 			$year= date("Y");
-			$dates_i = '';
+			$dates_i = array() ;
 			$dates_c = '';
-			$dates_imp_S = '';
-			$dates_click_S = '';
 			for( $i=0; $i<=$loop; $i++ ){
-			$dates_i .= 'impressions_'.date( 'd_m_Y', mktime(0,0,0,$month,( $date_-$i ) , $year ) ).',';
+			$dates_i[] = ''.date('Y-m-d', mktime(0,0,0,$month,( $date_-$i ) , $year ) );
 			}
-			$dates_imp_S = substr($dates_i, 0, -1);
-			$results_impresn_S = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp_S FROM `{$wpdb->prefix}quads_stats`  WHERE `ad_id` = $ad_id "));
+			
+			sort($dates_i);
+			$from_date = $todays_date;
+			$to_date = $dates_i[0];
+			if($ad_id=='all') {
+				$results_impresn_S = $wpdb->get_results($wpdb->prepare("SELECT date_impression,ad_date FROM 
+			`{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN '$to_date' AND '$from_date'"));
+			}
+			else
+			{
+				$results_impresn_S = $wpdb->get_results($wpdb->prepare("SELECT date_impression,ad_date FROM 
+			`{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN '$to_date' AND '$from_date' AND `ad_id` = $ad_id "));
+			}
+			
 			$array = array_values($results_impresn_S);
 			$ad_imprsn = 0;
-			foreach ($array[0] as $key => $value) {
-				$ad_imprsn += $value;
-			}
+			$ad_imprsn_values = array(0,0,0,0,0,0,0) ;
 			
-			for( $i=0; $i<=$loop; $i++ ){
-				$dates_c .= 'clicks_'.date( 'd_m_Y', mktime(0,0,0,$month,( $date_-$i ) , $year ) ).',';
-			}
-			$dates_click_S = substr($dates_c, 0, -1);
-			$results_click_S = $wpdb->get_results($wpdb->prepare("SELECT $dates_click_S FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
-			$array_c = array_values($results_click_S);
-			$ad_clicks = 0;
-			foreach ($array_c[0] as $key => $value) {
-				$ad_clicks += $value;
-			}
+				$dates_i_chart = array() ;
+		for( $i=0; $i<=$loop; $i++ ){
+			$dates_i_chart[] = ''.date('Y-m-d', mktime(0,0,0,$month,( $date_-$i ) , $year ) );
 		}
-		else if( $day == "last_15_days" ){
+		sort($dates_i_chart);
+		$get_impressions_specific_dates = str_replace('-','/',$dates_i_chart);
 			
-			$loop = 15 ;
+			foreach ($array as $key => $value) {
+				$ad_imprsn += $value->date_impression;
+				$key_ = array_search($value->ad_date, $dates_i_chart);
+				$ad_imprsn_values[$key_] += $value->date_impression;
+			}
+			
+		$individual_impr_day_counts = $ad_imprsn_values;
+		
+	
+			if($ad_id=='all') {
+				$results_click_S = $wpdb->get_results($wpdb->prepare("SELECT date_click,ad_date FROM 
+			`{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN '$to_date' AND '$from_date' "));
+			}
+			else
+			{
+				$results_click_S = $wpdb->get_results($wpdb->prepare("SELECT date_click,ad_date FROM 
+			`{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN '$to_date' AND '$from_date' AND `ad_id` = $ad_id "));
+			}
+			
+			$array_c = array_values($results_click_S);
+		
+			$ad_clicks = 0;
+			$ad_click_values = array(0,0,0,0,0,0,0) ;
+
+			foreach ($array_c as $key => $value) {
+				$ad_clicks += $value->date_click;
+				$key_ = array_search($value->ad_date, $dates_i_chart);
+				$ad_click_values[$key_] += $value->date_click;
+			}
+			$individual_click_day_counts = $ad_click_values;
+			
+			if($ad_id=="all")
+			{
+				$results_top5 = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,`{$wpdb->prefix}posts`.post_title,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression ,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_` INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id WHERE `{$wpdb->prefix}quads_single_stats_`.ad_date BETWEEN '$to_date' AND '$from_date'   GROUP BY `{$wpdb->prefix}posts`.post_title ORDER BY `{$wpdb->prefix}quads_single_stats_`.date_click DESC  LIMIT 5"));
+				$array_top5 = array_values($results_top5);
+				
+			}
+			
+
+		}
+		else if( $day == "this_month" ){
+			
+			$loop = 30 ;
 			$month= date("m");
 			$date_= date("d");
 			$year= date("Y");
-			$dates_i_F = '';
-			$dates_c_F = '';
-			$dates_imp_F = '';
-			$dates_click_F = '';
-			for( $i=0; $i<=$loop; $i++ ){
-			$dates_i_F .= 'impressions_'.date( 'd_m_Y', mktime(0,0,0,$month,( $date_-$i ) , $year ) ).',';
-		}
-		$dates_imp_F = substr($dates_i_F, 0, -1);
-		$results_impresn_F = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp_F FROM `{$wpdb->prefix}quads_stats`  WHERE `ad_id` = $ad_id "));
-		$array = array_values($results_impresn_F);
-		$ad_imprsn = 0;
-		foreach ($array[0] as $key => $value) {
-			$ad_imprsn += $value;
+			$first_date_ = date('Y-m-d',strtotime('first day of this month'));
+			$current_date_month_ = date('Y-m-d');
+			if($ad_id=='all') {
+				$results_impresn_F = $wpdb->get_results($wpdb->prepare(" SELECT date_impression,ad_date FROM `{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN '$first_date_' AND '$current_date_month_'"));
+			}
+			else
+			{
+				$results_impresn_F = $wpdb->get_results($wpdb->prepare(" SELECT date_impression,ad_date FROM `{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN '$first_date_' AND '$current_date_month_' AND `ad_id` = $ad_id "));
+			}
+		
+			$array = array_values($results_impresn_F);
+			$ad_imprsn = 0;
+			$ad_imprsn_values = array() ;
+			
+				
+			$dates_i_chart = array();
+		$first_date = date('Y-m-d',strtotime('first day of this month'));
+		
+		$first__date = $first_date; 
+		$last_date_month = date("Y-m-t", strtotime($first__date));
+		$begin = new DateTime( $first__date );
+		$end   = new DateTime( $last_date_month );
+		
+		for($i = $begin; $i <= $end; $i->modify('+1 day')){
+			$dates_i_chart[] =  $i->format("Y-m-d");
+			$ad_imprsn_values[]=0;
+			$ad_click_values[] =0;
 		}
 
-		for( $i=0; $i<=$loop; $i++ ){
-			$dates_c_F .= 'clicks_'.date( 'd_m_Y', mktime(0,0,0,$month,( $date_-$i ) , $year ) ).',';
+			foreach ($array as $key => $value) {
+				$ad_imprsn += $value->date_impression;
+				$key_ = array_search($value->ad_date, $dates_i_chart);
+				$ad_imprsn_values[$key_] += $value->date_impression;
+			}
+		
+		$individual_impr_day_counts = $ad_imprsn_values;
+
+		$_to_slash = $dates_i_chart;
+		$get_impressions_specific_dates = str_replace('-','/',$_to_slash);
+		if($ad_id=='all') {
+			$results_click_F = $wpdb->get_results($wpdb->prepare(" SELECT date_click,ad_date FROM `{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN '$first_date_' AND '$current_date_month_' "));
 		}
-		$dates_click_F = substr($dates_c_F, 0, -1);
-		$results_click_F = $wpdb->get_results($wpdb->prepare("SELECT $dates_click_F FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+		else
+		{
+			$results_click_F = $wpdb->get_results($wpdb->prepare(" SELECT date_click,ad_date FROM `{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN '$first_date_' AND '$current_date_month_' AND `ad_id` = $ad_id "));
+		}
+		
 		$array_c = array_values($results_click_F);
 		$ad_clicks = 0;
-		foreach ($array_c[0] as $key => $value) {
-			$ad_clicks += $value;
+		
+
+		foreach ($array_c as $key => $value) {
+			$ad_clicks += $value->date_click;
+			$key_ = array_search($value->ad_date, $dates_i_chart);
+			$ad_click_values[$key_] += $value->date_click;
 		}
+		
+		$individual_click_day_counts = $ad_click_values;
+		if($ad_id=="all")
+			{
+				$results_top5 = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,`{$wpdb->prefix}posts`.post_title,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression ,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_` INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id WHERE `{$wpdb->prefix}quads_single_stats_`.ad_date BETWEEN '$first_date_' AND '$current_date_month_'  GROUP BY `{$wpdb->prefix}posts`.post_title ORDER BY `{$wpdb->prefix}quads_single_stats_`.date_click DESC  LIMIT 5"));
+				$array_top5 = array_values($results_top5);
+				
+			}
+	}
+		else if( $day == "last_month" ){
+			
+			$loop = 30 ;
+			$year = date("Y");
+			if($ad_id=='all') {
+				$results_impresn_F = $wpdb->get_results($wpdb->prepare(" SELECT date_impression,ad_date from `{$wpdb->prefix}quads_single_stats_` WHERE month(ad_date)=month(now())-1 AND year(ad_date) = '$year' "));
+			}
+			else
+			{
+				$results_impresn_F = $wpdb->get_results($wpdb->prepare(" SELECT date_impression,ad_date from `{$wpdb->prefix}quads_single_stats_` WHERE month(ad_date)=month(now())-1 AND year(ad_date) = '$year' AND `ad_id`=$ad_id "));
+			}
+			
+			$array = array_values($results_impresn_F);
+			$ad_imprsn = 0;
+			$ad_imprsn_values = array() ;
+			$ad_click_values = array();
+			
+			$dates_i_chart= array();
+			$year = date("Y",strtotime("-1 month"));
+			$month = date("m",strtotime("-1 month"));
+			
+			for($d=1; $d<=31; $d++){
+				$time=mktime(12, 0, 0, $month, $d, $year);          
+				if (date('m', $time)==$month)       
+					$dates_i_chart[] =date('Y-m-d', $time);
+					$ad_imprsn_values[]=0;
+					$ad_click_values[]=0;
+			}
+
+			foreach ($array as $key => $value) {
+				$ad_imprsn += $value->date_impression;
+				$key_ = array_search($value->ad_date, $dates_i_chart);
+				$ad_imprsn_values[$key_] += $value->date_impression;
+			}
+			$individual_impr_day_counts = $ad_imprsn_values;
+
+	
+
+		$_to_slash = $dates_i_chart;
+		$get_impressions_specific_dates = str_replace('-','/',$_to_slash);
+		if($ad_id=='all') {
+		$results_click_F = $wpdb->get_results($wpdb->prepare(" SELECT date_click,ad_date from `{$wpdb->prefix}quads_single_stats_` WHERE month(ad_date)=month(now())-1 AND year(ad_date) = '$year' "));
+		}
+		else
+		{
+		$results_click_F = $wpdb->get_results($wpdb->prepare(" SELECT date_click,ad_date from `{$wpdb->prefix}quads_single_stats_` WHERE month(ad_date)=month(now())-1 AND year(ad_date) = '$year' AND `ad_id`=$ad_id "));	
+		}
+		
+		$array_c = array_values($results_click_F);
+		$ad_clicks = 0;
+		
+
+		foreach ($array_c as $key => $value) {
+			$ad_clicks += $value->date_click;
+			$key_ = array_search($value->ad_date, $dates_i_chart);
+			$ad_click_values[$key_] += $value->date_click;
+		}
+
+		$individual_click_day_counts = $ad_click_values;
+		
+		if($ad_id=="all")
+			{
+				$results_top5 = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,`{$wpdb->prefix}posts`.post_title,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression ,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_` INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id WHERE month(`{$wpdb->prefix}quads_single_stats_`.ad_date)=month(now())-1 AND year(`{$wpdb->prefix}quads_single_stats_`.ad_date) = '$year'  GROUP BY `{$wpdb->prefix}posts`.post_title ORDER BY `{$wpdb->prefix}quads_single_stats_`.date_click DESC  LIMIT 5"));
+				$array_top5 = array_values($results_top5);	
+			}
+	}
+		else if( $day == "all_time" ){
+			
+			$loop = 30 ;
+			$month= date("m");
+			$date_= date("d");
+			$year= date("Y");
+			$first_date_ = date('Y-m-d',strtotime('first day of this month'));
+			$current_date_month_ = date('Y-m-d');
+			if($ad_id=="all"){
+				$results_impresn_F = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) as date_impression, ad_year FROM `{$wpdb->prefix}quads_single_stats_`  group by ad_year ;"));
+			}
+			else
+			{
+			 $results_impresn_F = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) as date_impression, ad_year FROM `{$wpdb->prefix}quads_single_stats_` where ad_id = $ad_id group by ad_year ;"));	
+			}
+			
+			
+			$array = array_values($results_impresn_F);
+			$ad_imprsn = 0;
+			$ad_imprsn_values = array() ;
+			$ad_imprsn_values_ = array() ;
+
+			foreach ($array as $key => $value) {
+				$ad_imprsn += $value->date_impression;
+				$ad_imprsn_values[] = $value->ad_year;
+				$ad_imprsn_values_[] = $value->date_impression;
+			}
+			$individual_impr_day_counts = $ad_imprsn_values_;
+			// individual_impr_day_counts
+			$get_impressions_specific_dates = $ad_imprsn_values;
+			if($ad_id=="all"){
+				$results_click_F = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) as date_click, ad_year FROM `{$wpdb->prefix}quads_single_stats_`  group by ad_year; "));
+			}
+			else{
+				$results_click_F = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) as date_click, ad_year FROM `{$wpdb->prefix}quads_single_stats_` where ad_id = $ad_id group by ad_year; "));
+			}
+			
+		$array_c = array_values($results_click_F);
+		$ad_clicks = 0;
+		$ad_click_values = array();
+		$ad_click_values_ = array();
+
+		foreach ($array_c as $key => $value) {
+			$ad_clicks += $value->date_click;
+			$ad_click_values[] = $value->ad_year;
+			$ad_click_values_[] = $value->date_click;
+		}
+			$individual_click_day_counts = $ad_click_values_;
+			
+			if($ad_id=="all")
+			{
+				$results_top5 = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,`{$wpdb->prefix}posts`.post_title,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression ,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_` INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id   GROUP BY `{$wpdb->prefix}posts`.post_title ORDER BY `{$wpdb->prefix}quads_single_stats_`.date_click DESC  LIMIT 5"));
+				$array_top5 = array_values($results_top5);	
+			}
+		
+		}
+
+		else if( $day == "this_year" ){
+			
+			$loop = 30 ;
+			$month= date("m");
+			$date_= date("d");
+			$year= date("Y");
+			$first_date_ = date('Y-m-d',strtotime('first day of this month'));
+			$current_date_month_ = date('Y-m-d');
+			if($ad_id=="all")
+			{
+			$jan = $wpdb->get_results($wpdb->prepare(" SELECT SUM(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 1 AND year(ad_date) = $year ; "));
+			$feb = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 2 AND year(ad_date) = $year ;"));
+			$mar = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 3 AND year(ad_date) = $year  ;"));
+			$apr = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 4 AND year(ad_date) = $year ;"));
+			$may = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 5 AND year(ad_date) = $year ;"));
+			$jun = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 6 AND year(ad_date) = $year ;"));
+			$july = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 7 AND year(ad_date) = $year ;"));
+			$aug = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 8 AND year(ad_date) = $year ;"));
+			$sep = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 9 AND year(ad_date) = $year ;"));
+			$oct = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 10 AND year(ad_date) = $year ;"));
+			$nov = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 11 AND year(ad_date) = $year ;"));
+			$dec = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 12 AND year(ad_date) = $year ;"));
+			}
+			
+			else
+			{
+			$jan = $wpdb->get_results($wpdb->prepare(" SELECT SUM(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 1 AND year(ad_date) = $year AND `ad_id`=$ad_id ; "));
+			$feb = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 2 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$mar = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 3 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$apr = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 4 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$may = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 5 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$jun = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 6 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$july = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 7 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$aug = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 8 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$sep = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 9 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$oct = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 10 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$nov = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 11 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$dec = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 12 AND year(ad_date) = $year AND ad_id=$ad_id ;"));	
+				
+			}
+
+			$jan = $jan[0]->date_impression;
+			$feb = $feb[0]->date_impression;
+			$mar = $mar[0]->date_impression;
+			$apr = $apr[0]->date_impression;
+			$may = $may[0]->date_impression;
+			$jun = $jun[0]->date_impression;
+			$july = $july[0]->date_impression;
+			$aug = $aug[0]->date_impression;
+			$sep = $sep[0]->date_impression;
+			$oct = $oct[0]->date_impression;
+			$nov = $nov[0]->date_impression;
+			$dec = $dec[0]->date_impression;
+
+			if($jan== NULL){$jan = 0;}if($feb== NULL){$feb = 0;}if($mar== NULL){$mar = 0;}
+			if($apr== NULL){$apr = 0;}if($may== NULL){$may = 0;}if($jun== NULL){$jun = 0;}
+			if($july== NULL){$july = 0;}if($aug== NULL){$aug = 0;}if($sep== NULL){$sep = 0;}
+			if($oct== NULL){$oct = 0;}if($nov== NULL){$nov = 0;}if($dec== NULL){$dec = 0;}
+
+			$ad_imprsn_values = array();
+			$ad_imprsn_values = [$jan,$feb, $mar,$apr,$may,$jun,$july,$aug,$sep,$oct,$nov,$dec];
+			$ad_imprsn = $jan+$feb+ $mar+$apr+$may+$jun+$july+$aug+$sep+$oct+$nov+$dec;
+			$individual_impr_day_counts = $ad_imprsn_values;
+			$individual_ad_dates = [1];
+			if($ad_id=="all")
+			{
+				$jan = $wpdb->get_results($wpdb->prepare(" SELECT SUM(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 1 AND year(ad_date) = $year  ;"));
+			$feb = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 2 AND year(ad_date) = $year ;"));
+			$mar = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 3 AND year(ad_date) = $year ;"));
+			$apr = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 4 AND year(ad_date) = $year ;"));
+			$may = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 5 AND year(ad_date) = $year ;"));
+			$jun = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 6 AND year(ad_date) = $year ;"));
+			$july = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 7 AND year(ad_date) = $year ;"));
+			$aug = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 8 AND year(ad_date) = $year ;"));
+			$sep = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 9 AND year(ad_date) = $year ;"));
+			$oct = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 10 AND year(ad_date) = $year ;"));
+			$nov = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 11 AND year(ad_date) = $year ;"));
+			$dec = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 12 AND year(ad_date) = $year ;"));
+			}
+			else
+			{
+			$jan = $wpdb->get_results($wpdb->prepare(" SELECT SUM(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 1 AND year(ad_date) = $year AND `ad_id`=$ad_id ;"));
+			$feb = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 2 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$mar = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 3 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$apr = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 4 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$may = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 5 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$jun = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 6 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$july = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 7 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$aug = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 8 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$sep = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 9 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$oct = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 10 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$nov = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 11 AND year(ad_date) = $year AND ad_id=$ad_id ;"));
+			$dec = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = 12 AND year(ad_date) = $year AND ad_id=$ad_id ;"));	
+			}
+			
+			
+			$jan = $jan[0]->date_click;$feb = $feb[0]->date_click;$mar = $mar[0]->date_click;$apr = $apr[0]->date_click;$may = $may[0]->date_click;$jun = $jun[0]->date_click;$july = $july[0]->date_click;$aug = $aug[0]->date_click;$sep = $sep[0]->date_click;$oct = $oct[0]->date_click;$nov = $nov[0]->date_click;$dec = $dec[0]->date_click;
+			
+			if($jan== NULL){$jan = 0;}if($feb== NULL){$feb = 0;}if($mar== NULL){$mar = 0;}
+			if($apr== NULL){$apr = 0;}if($may== NULL){$may = 0;}if($jun== NULL){$jun = 0;}
+			if($july== NULL){$july = 0;}if($aug== NULL){$aug = 0;}if($sep== NULL){$sep = 0;}
+			if($oct== NULL){$oct = 0;}if($nov== NULL){$nov = 0;}if($dec== NULL){$dec = 0;}
+			
+			$ad_click_values = array();
+			$ad_clicks = $jan+$feb+ $mar+$apr+$may+$jun+$july+$aug+$sep+$oct+$nov+$dec;
+			$ad_click_values = [$jan,$feb, $mar,$apr,$may,$jun,$july,$aug,$sep,$oct,$nov,$dec];
+			$individual_click_day_counts = $ad_click_values;
+			
+			if($ad_id=="all")
+			{
+				$results_top5 = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,`{$wpdb->prefix}posts`.post_title,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression ,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_` INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id   WHERE year(`{$wpdb->prefix}quads_single_stats_`.ad_date) = $year GROUP BY `{$wpdb->prefix}posts`.post_title ORDER BY `{$wpdb->prefix}quads_single_stats_`.date_click DESC  LIMIT 5"));
+				$array_top5 = array_values($results_top5);	
+			}
 	}
 	else if( $day == "yesterday" ){
 		
-		$dates_imp = "impressions_".date( 'd_m_Y',strtotime("-1 days") )."";
-		$results_impresn = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+		$yesterday_date = date('Y-m-d',strtotime("-1 days"));
+		if($ad_id=="all")
+		{
+			$results_impresn = $wpdb->get_results($wpdb->prepare("SELECT date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE `ad_date` = '{$yesterday_date}' " ));
+		}
+		else
+		{
+			$results_impresn = $wpdb->get_results($wpdb->prepare("SELECT date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE `ad_id` = $ad_id AND `ad_date` = '{$yesterday_date}' " ));
+		}
+		
 		$array = array_values($results_impresn);
 		$ad_imprsn = 0;		
-		foreach ($array[0] as $key => $value) {
-			$ad_imprsn = $value;
+		
+		foreach ($array as $key => $value) {
+			$ad_imprsn += $value->date_impression;
 		}
-
-		$dates_clk = "clicks_".date( 'd_m_Y',strtotime("-1 days") )."";
-		$results_click = $wpdb->get_results($wpdb->prepare("SELECT $dates_clk FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+		$get_impressions_specific_dates = str_replace('-','/',$yesterday_date);
+		if($ad_id=="all")
+		{	
+			$results_click = $wpdb->get_results($wpdb->prepare("SELECT date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE `ad_date` = '{$yesterday_date}' " ));
+		}
+		else
+		{
+			$results_click = $wpdb->get_results($wpdb->prepare("SELECT date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE `ad_id` = $ad_id AND `ad_date` = '{$yesterday_date}' " ));
+		}
+		
 		$array_c = array_values($results_click);
 		$ad_clicks = 0;
-		foreach ($array_c[0] as $key => $value) {
-			$ad_clicks = $value;
+		foreach ($array_c as $key => $value) {
+			$ad_clicks += $value->date_click;
 		}
+		
+		if($ad_id=="all")
+			{
+				$results_top5 = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,`{$wpdb->prefix}posts`.post_title,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression ,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_` INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id   WHERE `{$wpdb->prefix}quads_single_stats_`.`ad_date` = '{$yesterday_date}'  GROUP BY `{$wpdb->prefix}posts`.post_title ORDER BY `{$wpdb->prefix}quads_single_stats_`.date_click DESC  LIMIT 5"));
+				$array_top5 = array_values($results_top5);	
+			}
 	}
 	else if( $day == "today" ) {
-
-		$dates_imp_t = "`impressions_".date("d_m_Y")."`";
-		$results_impresn_t = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp_t FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+		if($ad_id=="all")
+			{
+			$results_impresn_t = $wpdb->get_results($wpdb->prepare("SELECT date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE `ad_date` = '{$todays_date}' " ));	
+			}
+			else
+			{
+			$results_impresn_t = $wpdb->get_results($wpdb->prepare("SELECT date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE `ad_id` = $ad_id AND `ad_date` = '{$todays_date}' " ));	
+			}
+		
 		$array_i_t = array_values($results_impresn_t);
 		$ad_imprsn = 0;		
-		foreach ($array_i_t[0] as $key => $value) {
-			$ad_imprsn = $value;
+		foreach ($array_i_t as $key => $value) {
+			$ad_imprsn += $value->date_impression;
 		}
-
-		$dates_clk_t = "clicks_".date("d_m_Y")."";
-		$results_click_t = $wpdb->get_results($wpdb->prepare("SELECT $dates_clk_t FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
+		$get_impressions_specific_dates = str_replace('-','/',$todays_date);		
+		if($ad_id=="all")
+		{
+			$results_click_t = $wpdb->get_results($wpdb->prepare("SELECT date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE `ad_date` = '{$todays_date}' " ));
+		}
+		else
+		{
+			$results_click_t = $wpdb->get_results($wpdb->prepare("SELECT date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE `ad_id` = $ad_id AND `ad_date` = '{$todays_date}' " ));
+		}
+		
 		$array_c_t = array_values($results_click_t);
 		$ad_clicks = 0;
-		foreach ($array_c_t[0] as $key => $value) {
-			$ad_clicks = $value;
+		foreach ($array_c_t as $key => $value) {
+			$ad_clicks += $value->date_click;
 		}
+		
+		if($ad_id=="all")
+			{
+				//$results_top5 = $wpdb->get_results($wpdb->prepare("SELECT p.post_title,SUM(s.date_impression) as total_impression ,SUM(s.date_click) as total_click FROM {$wpdb->prefix}quads_single_stats_ as s INNER JOIN {$wpdb->prefix}posts as p ON p.ID=s.ad_id   WHERE s.ad_date = {$todays_date} GROUP BY p.post_title ORDER BY total_click DESC  LIMIT 5"));
+				$results_top5 = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,`{$wpdb->prefix}posts`.post_title,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression ,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_` INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id  WHERE `{$wpdb->prefix}quads_single_stats_`.`ad_date` = '{$todays_date}'  GROUP BY `{$wpdb->prefix}posts`.post_title ORDER BY `{$wpdb->prefix}quads_single_stats_`.date_click DESC  LIMIT 5"));
+				$array_top5 = array_values($results_top5);	
+			}
 
 	}
 	else if( $day == "custom" ) {
 		$fromdate = $_GET["fromdate"];
 		$todate = $_GET["todate"];
-		$get_from = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$3_$2_$1', $fromdate);
-		$get_to = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$3_$2_$1', $todate);
+		$get_from = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$1-$2-$3', $fromdate);
+		$get_to = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$1-$2-$3', $todate);
+		if($ad_id=="all")
+			{
+				$results_impresn_C_ = $wpdb->get_results($wpdb->prepare(" SELECT date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN '$get_from' AND '$get_to' "));
+			}
+			else
+			{
+				$results_impresn_C_ = $wpdb->get_results($wpdb->prepare(" SELECT date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN '$get_from' AND '$get_to' AND `ad_id` = $ad_id "));
+			}
 		
-		$get_from_d = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$3-$2-$1', $fromdate);
-		$get_to_d = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$3-$2-$1', $todate);
-
-		$dates_imp__ = '';
-		$period = new DatePeriod(new DateTime($get_from_d), new DateInterval('P1D'), 
-		new DateTime(' '.$get_to_d.' +1 day'));
-		foreach ($period as $date) {
-			$dates_imp__ .= 'impressions_'.$date->format("d_m_Y").',';
-		}
-		$dates_imp_c = substr($dates_imp__, 0, -1);
-
-		$results_impresn_C = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp_c FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
-		$array_i_c = array_values($results_impresn_C);
+		$array_i_c = array_values($results_impresn_C_);
 		$ad_imprsn = 0;		
-		foreach ($array_i_c[0] as $key => $value) {
-			$ad_imprsn += $value;
+		$ad_imprsn_values = '';		
+		foreach ($array_i_c as $key => $value) {
+			$ad_imprsn += $value->date_impression;
+				$ad_imprsn_values .= $value->date_impression.',';
+			}
+			
+		$remove_comma = substr($ad_imprsn_values, 0, -1);
+		$individual_impr_day_counts = explode(",",$remove_comma);
+
+		$period = new DatePeriod(new DateTime(''.$get_from.''), new DateInterval('P1D'), new DateTime(''.$get_to.''.' +1 day'));
+		$dates_i_chart = '';
+    foreach ($period as $date) {
+        $dates_i_chart .= $date->format("Y-m-d").',';
+    }
+	
+	$remove_comma_d = substr($dates_i_chart, 0, -1);
+		$_to_slash = explode(",",$remove_comma_d);
+		$get_impressions_specific_dates = str_replace('-','/',$_to_slash);
+		if($ad_id=="all")
+		{
+			$results_click_S = $wpdb->get_results($wpdb->prepare(" SELECT date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN '$get_from' AND '$get_to' "));
+		}
+		else
+		{
+		 $results_click_S = $wpdb->get_results($wpdb->prepare(" SELECT date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN '$get_from' AND '$get_to' AND `ad_id` = $ad_id "));	
 		}
 		
-		$dates_click__ = '';
-		$period_click = new DatePeriod(new DateTime($get_from_d), new DateInterval('P1D'), 
-		new DateTime(' '.$get_to_d.' +1 day'));
-		foreach ($period_click as $date) {
-			$dates_click__ .= 'clicks_'.$date->format("d_m_Y").',';
-		}
-		$dates_imp_c = substr($dates_click__, 0, -1);
+		$array_c = array_values($results_click_S);
+		$ad_clicks = 0;
+		$ad_click_values = '';
 
-		$results_click_C = $wpdb->get_results($wpdb->prepare("SELECT $dates_imp_c FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = $ad_id "));
-		$array_c_c = array_values($results_click_C);
-		$ad_clicks = 0;		
-		foreach ($array_c_c[0] as $key => $value) {
-			$ad_clicks += $value;
+		foreach ($array_c as $key => $value) {
+			$ad_clicks += $value->date_click;
+			$ad_click_values .= $value->date_click.',';
 		}
+		$remove_comma_click = substr($ad_click_values, 0, -1);
+		$individual_click_day_counts = explode(",",$remove_comma_click);
+		
+		if($ad_id=="all")
+			{
+				$results_top5 = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,`{$wpdb->prefix}posts`.post_title,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression ,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_` INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id   WHERE `{$wpdb->prefix}quads_single_stats_`.`ad_date` BETWEEN '$get_from' AND '$get_to'  GROUP BY `{$wpdb->prefix}posts`.post_title ORDER BY `{$wpdb->prefix}quads_single_stats_`.date_click DESC  LIMIT 5"));
+				$array_top5 = array_values($results_top5);	
+			}
 		
 	}
 			
 			$ad_stats['impressions'] = $ad_imprsn;
             $ad_stats['clicks']      = $ad_clicks;
+            $ad_stats['ad_day']      = $day;
+            $ad_stats['individual_impr_day_counts']  = $individual_impr_day_counts;
+            $ad_stats['ad_imp_individual_dates']  = $get_impressions_specific_dates;
+            $ad_stats['individual_click_day_counts']  = $individual_click_day_counts;
+            $ad_stats['individual_ad_dates']  = $individual_ad_dates;
+			$ad_stats['top5_ads']  = $array_top5;
 			return $ad_stats;
                                     
 }
