@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.0
 Requires PHP: 5.4
-Stable tag: 2.0.57
+Stable tag: 2.0.57.1
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & Banner ads on your site. Innovative features, Active Development & Fast Support.
 
@@ -206,6 +206,14 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.57.1 ( 17 August 2022 ) =
+* Added: Add Carousal ads #272
+* Added: Hold & Scroll - View onScroll Ad #586
+* Added: Docs links after all vendors and formats Ad #586
+* Updated: Improve the Reports UI & UX #578
+* Updated: Changed "Add New" UI to Vendors and format #573
+* Fixed: In classic interface If we add an AD by using short-code then getting a warning notice #596
 
 = 2.0.57 ( 20 July 2022 ) =
 * Added: Parallax option for Image Banner Ad #272
