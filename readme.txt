@@ -206,6 +206,8 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.58 ( 18 August 2022 ) =
+* Fixed: Removing quad_cc from query string when cache plugin is present
 
 = 2.0.57.1 ( 17 August 2022 ) =
 * Added: Add Carousal ads #272
