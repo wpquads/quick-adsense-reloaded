@@ -2959,6 +2959,7 @@ if($repeat_paragraph){
     return $content;  
 }
 
+/*
 if (defined( 'WP_CACHE') && WP_CACHE==true) {
     add_action( 'template_redirect', 'wpquads_append_cache_flag' );      
 }
@@ -2976,3 +2977,4 @@ function wpquads_append_cache_flag() {
         }
     }
 }
+*/
