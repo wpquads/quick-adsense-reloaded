@@ -207,7 +207,7 @@ Alternative Installation:
 
 == Changelog ==
 
-= 2.0.58 ( 20 August 2022 ) =
+= 2.0.58.1 ( 20 August 2022 ) =
 * Fixed: Blank spaces created in BoomBox Theme
 
 = 2.0.58 ( 18 August 2022 ) =
