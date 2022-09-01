@@ -2420,7 +2420,7 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
             $adscode =
                 "\n".'<!-- WP QUADS Content Ad Plugin v. '.QUADS_VERSION .' -->'."\n".
                 '<div class="'.$wpimage_quads.'-location quads-ad' .esc_attr($id). ' '.$dev_name.'" id="quads-ad' .esc_attr($id). '" style="'.esc_attr($style).'">'."\n".
-                quads_render_ad($ad_meta['quads_ad_old_id'][0], $code,'',$ampsupport)."\n".
+                $output."\n".
                 '</div>'. "\n";
         }
               
@@ -2903,7 +2903,14 @@ function remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_
        $paragraphs = array();
      $doc =  new DOMDocument( '1.0', $wp_charset );
      libxml_use_internal_errors( true );
-     $doc->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
+     if($content)
+     {
+        $doc->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
+     }
+     else
+     {
+        return '';
+     }
       $xpath = new DOMXPath( $doc );
       $items = $xpath->query( '/html/body/' . $tag );
       $whitespaces = json_decode( '"\t\n\r \u00A0"' );
@@ -2958,23 +2965,3 @@ if($repeat_paragraph){
     $content =$doc->saveHTML();
     return $content;  
 }
-
-/*
-if (defined( 'WP_CACHE') && WP_CACHE==true) {
-    add_action( 'template_redirect', 'wpquads_append_cache_flag' );      
-}
-
-function wpquads_append_cache_flag() {
-    if(!quads_is_amp_endpoint() && is_singular('post')){
-        if( ! isset( $_GET, $_GET['quad_cc']) ) {
-            
-            wp_safe_redirect(
-                add_query_arg( array(
-                    'quad_cc'        => '',
-                ), get_permalink() )
-            );
-            exit();
-        }
-    }
-}
-*/

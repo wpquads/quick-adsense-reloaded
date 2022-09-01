@@ -255,7 +255,7 @@ function quads_options_page_new() {
         wp_register_script( 'quads-admin-ad-script', QUADS_PLUGIN_URL . 'admin/assets/js/dist/adminscript.js', array( 'wp-i18n' ), QUADS_VERSION );
 
         wp_localize_script( 'quads-admin-ad-script', 'quads_localize_data', $data );
-        wp_enqueue_script( 'quads-admin-ad-script-child', QUADS_PLUGIN_URL . 'admin/react/sample.js', array( 'wp-i18n' ), QUADS_VERSION );
+        
         wp_enqueue_script('quads-admin-ad-script');
                     
         echo '<div id="quads-ad-content"></div>';

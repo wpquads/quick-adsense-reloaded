@@ -12,7 +12,7 @@ jQuery(document).ready(function ($) {
     quads_deactivate_link.click(function (e) {
         e.preventDefault();
 
-        // only show feedback form once per 30 days
+        // only show feedback form once per day
         var c_value = quads_admin_get_cookie("quads_hide_deactivate_feedback");
 
         if (c_value === undefined) {
@@ -30,9 +30,9 @@ jQuery(document).ready(function ($) {
     // send form or close it
     $('#quick-adsense-reloaded-feedback-content .button').click(function (e) {
         e.preventDefault();
-        // set cookie for 30 days
+        // set cookie for 1 day
         var exdate = new Date();
-        exdate.setSeconds(exdate.getSeconds() + 2592000);
+        exdate.setSeconds(exdate.getSeconds() + 86400);
         document.cookie = "quads_hide_deactivate_feedback=1; expires=" + exdate.toUTCString() + "; path=/";
 
         $('#quick-adsense-reloaded-feedback-overlay').hide();
