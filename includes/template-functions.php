@@ -1354,6 +1354,9 @@ function quads_filter_default_ads_new( $content ) {
                             if($paragraph_no <= $p_count){
 
                                 foreach ($paragraphs as $index => $paragraph) {
+                                    if($p_count==($index+1)){ 
+                                        continue;
+                                    }
                                     if ( trim( $paragraph ) ) {
                                         $paragraphs[$index] .= $closing_p;
                                     }
@@ -1416,16 +1419,16 @@ function quads_filter_default_ads_new( $content ) {
                                        if($paragraph_no <= $p_count){
                                            foreach ($paragraphs as $index => $paragraph) {
                                                $opening_p        = isset($finalmatch[0][$index]) ? $finalmatch[0][$index] : null;
-                                               if ( trim( $paragraph ) ) {
+                                               if ( trim( $paragraph ) || $index==0) {
                                                    $paragraphs[$index] .= '<'.$tag.'>';
                                                }
                                                if ( $paragraph_no == $index+1  ) {
-                                                $index = ($index>0) ? $index-1 : $index;
+                                                //$index = ($index>0) ? $index-1 : $index;
                                                 if( strpos( $paragraphs[$index] , $opening_p ) > -1 ) {
                                                     $ad_c = $cusads.$opening_p;
                                                     $paragraphs[$index] = str_replace($opening_p,$ad_c,$paragraphs[$index]);
                                                    }else{
-                                                    $paragraphs[$index] .= $cusads;
+                                                    $paragraphs[$index] .= $opening_p;
                                                    }
                                                    if($repeat_paragraph){
                                                     $paragraph_no =  $original_paragraph_no+$paragraph_no; 
