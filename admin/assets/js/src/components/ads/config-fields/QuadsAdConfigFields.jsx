@@ -20,6 +20,8 @@ class QuadsAdConfigFields extends Component {
     getallads_data: [],
     getallads_data_temp: [],
     ad_ids_temp: [],
+    floating_slides_flag :false,
+    floating_slides:[{'slide':'#','link':'#'}],
     currentselectedvalue: "",
     currentselectedlabel : "",              
     };       
@@ -67,6 +69,10 @@ class QuadsAdConfigFields extends Component {
     if(!state.adsToggle_list){
       alldata.ads_list= props.parentState.quads_post_meta.ads_list;
     }
+  
+    if(!state.floating_slides_flag &&  props.parentState.quads_post_meta.floating_slides.length>0 ){
+      alldata.floating_slides= props.parentState.quads_post_meta.floating_slides;
+    }
     return alldata;
     
   }
@@ -79,6 +85,10 @@ class QuadsAdConfigFields extends Component {
      const ads_list = this.state.ads_list; 
     if(ads_list && ads_list.length > 0 ){
       this.props.updateAdsList(ads_list);
+    }
+    const floating_slides = this.state.floating_slides; 
+    if(floating_slides && floating_slides.length > 0 ){
+     this.props.updateFloatingList(floating_slides);
     }
     
   }
@@ -279,11 +289,118 @@ removeSeleted_list = (e) => {
   
 }
 
+floatingLinkChange = (event,key)=>{
+  let tmp_slides=this.state.floating_slides;
+tmp_slides[key].link = event.target.value;
+this.setState({ floating_slides: tmp_slides,floating_slides_flag :true })
+}
+
+selectFloatingSlides = (event,key)=>{
+  let tmp_slides=this.state.floating_slides;
+  let self=this;
+  let image_frame;
+  if(image_frame){
+   image_frame.open();
+  }
+
+  // Define image_frame as wp.media object
+  image_frame = wp.media({
+             library : {
+                  type : 'image',
+              }
+         });
+  image_frame.on('close',function() {
+              // On close, get selections and save to the hidden input
+              // plus other AJAX stuff to refresh the image preview
+              var selection =  image_frame.state().get('selection');
+              var id = '';
+              var src = '';
+              selection.each(function(attachment) {
+                 id = attachment['id'];
+                 src = attachment.attributes.sizes.full.url;
+              });
+
+              tmp_slides[key].slide = src; 
+              self.setState({ floating_slides: tmp_slides ,floating_slides_flag :true})  
+                       
+           });   
+  image_frame.on('open',function() {
+          // On open, get the id from the hidden input
+          // and select the appropiate images in the media manager
+          var selection =  image_frame.state().get('selection');
+
+        });
+      image_frame.open();
+
+          
+}
+
+deleteFloatingSlide= (key)=>{
+let tmp_slides=this.state.floating_slides;
+let filtered = tmp_slides.filter((value,tkey) => {
+  return tkey !== key;
+});
+this.setState({ floating_slides: filtered,floating_slides_flag :true })
+}
+
+removeSlideImage= (key)=>{
+  let tmp_slides=this.state.floating_slides;
+  tmp_slides[key].slide = '#';
+  this.setState({ floating_slides: tmp_slides ,floating_slides_flag :true})
+  }
+
+
+
+addFloatingSlide = (type) =>{
+ let float_final_key=0;
+ let tmp_slides =this.state.floating_slides;
+ let slides_count =this.state.floating_slides.length;
+ return (
+  <table style={{width:'100%',marginTop:'10px'}}>
+    <tbody>
+      {
+      tmp_slides.map((value,index) => {
+        float_final_key++;
+        
+        var del_btn_show= ((slides_count-1)!=index) && index!=5;
+        return (
+        <tr key={"key_"+index}>
+          <td> <label>Slide {index+1}</label></td>
+          <td style={{width:'25%'}}>
+         { value.slide == '#' ? <div><a className="button" data-slideid={index} onClick={(event) => {this.selectFloatingSlides(event,index)}}> Upload Image</a>
+         </div>
+         : <div>
+         <div>
+         <img src={value.slide} className="banner_image" style={{width:'150px'}}/>
+         <a className="button" onClick={() => {this.removeSlideImage(index)}}>Remove Image</a></div>
+
+         </div>
+        }
+           </td>
+           <td>
+          <label>Link {index+1}</label>
+          <input value={value.link} onChange={(event) => {this.floatingLinkChange(event,index)}} type="text" id={"floating_link_"+index} name={"floating_link_"+index} placeholder="Ad Anchor link" />
+          {(value.link == '') ? <div className="quads_form_msg"><span className="material-icons">
+          error_outline</span>Enter Ad Anchor link</div> :''}
+          
+            {(del_btn_show==true || index==5)? <a className="quads-btn quads-btn-primary" onClick={()=>{this.deleteFloatingSlide(index)} } >Remove</a>: <a className="quads-btn quads-btn-primary add_slider" onClick={()=>{this.addFloatingSlide('add')} } >Add</a>}
+           </td>
+           </tr>
+        );
+           
+        
+      })}     
+{
+  type=='add'?(float_final_key<6) ? this.setState({ floating_slides: [...this.state.floating_slides, {"slide":"#","link":"#"} ] ,floating_slides_flag :true}) : alert('You can add 6 slides only'):<tr></tr>
+}
+</tbody> 
+</table>
+  );
+ 
+     
+}
   addselected_list = (e) => {
-
-  
     e.preventDefault();  
-
     let value  = this.state.currentselectedvalue;  
     let label  = this.state.currentselectedlabel;  
   
@@ -295,7 +412,7 @@ removeSeleted_list = (e) => {
       this.setState({ads_list: newData,adsToggle_list : false});    
          
     }       
-  
+
 }
    componentDidMount() {  
           this.getallads(); 
@@ -641,9 +758,7 @@ error_outline
                    <a className="button" onClick={this.remove_image}>{__('Remove Banner', 'quick-adsense-reloaded')}</a></div>
 
                    </div>
-                  }
-                     
-                      
+                  } 
                     {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>Upload Ad Image</div> :''}
                      </td></tr>
@@ -670,7 +785,6 @@ error_outline
                          </td></tr>
                         : ''
                       }
-                    
                      <tr><td>
                     <label>{__('Ad Anchor link', 'quick-adsense-reloaded')}</label></td><td>
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
@@ -714,16 +828,13 @@ error_outline
                    </div>                   
 
                    </div>
-                  }
-                     
-                      
+                  } 
                     {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>Upload A Video</div> :''}
                      </td></tr>
                   </tbody>
                 </table>
                 </div>);
-
               break;
               case 'propeller':
              ad_type_name = 'Propeller';  
@@ -759,7 +870,8 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                       this.state.ads_list.map((item, index) => (
                         <div key={index} className="quads-target-item">
                           <span className="quads-target-label">{item.label}</span>
-                          <span className="quads-target-icon" onClick={this.removeSeleted_list} data-index={index}><Icon>close</Icon></span>
+                          <span className="quads-target-icon" onClick=
+                          {this.removeSeleted_list} data-index={index}><Icon>close</Icon></span>
                         </div>
                       ))
                       : ''}
@@ -1276,6 +1388,35 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                     
                   </div>);
                   break;
+                  case 'floating_cubes':
+                  ad_type_name = '3D Cube Banner';
+                    comp_html.push(<div key="floating_cubes">
+                      <table >
+                        <tbody>
+                          <tr><td>
+                          <label>{__('Floating Position ', 'quick-adsense-reloaded')}</label></td><td>
+                            <select onChange={this.props.adFormChangeHandler} value={post_meta.floating_position} id="floating_position" name="floating_position" placeholder="Floating Position">
+                              <option value="top-left">Top Left</option>
+                              <option value="top-right">Top Right</option>
+                              <option value="bottom-left">Bottom Left</option>
+                              <option value="bottom-right">Bottom Right</option>
+                            </select>
+                          {(show_form_error && post_meta.floating_position == '') ? <div className="quads_form_msg"><span className="material-icons">
+                          error_outline</span>Select Floating Position</div> :''}
+                          </td></tr>
+                          <tr>
+                          <td><label>{__('3D Cube Size', 'quick-adsense-reloaded')}  </label></td>
+                          <td><input className='small-text' value={post_meta.floating_cubes_size ? post_meta.floating_cubes_size:'200'} onChange={this.props.adFormChangeHandler} type="number" id="floating_cubes_size" name="floating_cubes_size" />PX
+                          </td></tr>
+                        </tbody>
+                      </table>
+                        {  this.addFloatingSlide('init') }
+
+                        {(show_form_error && post_meta.floating_slides.length != 6 ) ? <div className="quads_form_msg"><span className="material-icons">
+                          error_outline</span>Atleast two slides are  required</div> :''}
+                      </div>);
+      
+                    break;
             default:
               comp_html.push(<div key="noads" >{__('Ad not found', 'quick-adsense-reloaded')}</div>);
               break;

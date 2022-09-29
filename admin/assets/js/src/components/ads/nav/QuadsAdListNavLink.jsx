@@ -36,6 +36,7 @@ class QuadsAdListNavLink extends Component {
                     {ad_type:'popup_ads',ad_type_name:'Popup Ads'},
                     {ad_type:'loop_ads',ad_type_name:'Loop Ads'},
                     {ad_type:'carousel_ads',ad_type_name:'Carousel Ads'},
+                    {ad_type:'floating_cubes',ad_type_name:'3D Cube Banner'},
                     {ad_type:'rotator_ads',ad_type_name:'Rotator Ads',pro:'true'},
                     {ad_type:'group_insertion',ad_type_name:'Group Insertion',pro:'true'},
                     {ad_type:'skip_ads',ad_type_name:'Skip Ads',pro:'true'},
@@ -153,6 +154,9 @@ class QuadsAdListNavLink extends Component {
               case 'sticky_scroll':
                 img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/sticky_scroll_icon.png';
                 break;
+                case 'floating_cubes':
+                  img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/floating_ads.png';
+                  break;
             default:
               break;
           }

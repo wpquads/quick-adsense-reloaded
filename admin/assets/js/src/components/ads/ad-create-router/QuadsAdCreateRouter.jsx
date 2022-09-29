@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import ReactDOM from 'react-dom';
-
 import './QuadsAdCreateRouter.scss';
 
 import QuadsAdConfig from '../config/QuadsAdConfig';
@@ -137,6 +136,10 @@ class QuadsAdCreateRouter extends Component {
             sticky_scroll_height      :350,
             sticky_scroll_text        :'',
             carousel_slides           :2,
+            floating_slides           :[],
+            floating_position         :'bottom-right',
+            floating_cubes_size       :'200',
+            floating_cubes_type       :'flip',
 
             },
             quads_form_errors : {
@@ -147,7 +150,8 @@ class QuadsAdCreateRouter extends Component {
               position             : '',
               visibility_include   : [],
               random_ads_list      : [],
-              ads_list     : [],   
+              ads_list            : [],
+              floating_slides     : [],   
             }                    
         };       
      this.include_timer = null;      
@@ -172,8 +176,12 @@ class QuadsAdCreateRouter extends Component {
     }
     updateAdsList = (ads_list) => {     
         this.ads_list = ads_list;
-
     }
+
+    updateFloatingList = (floating_slides) => {   
+      this.state.quads_post_meta.floating_slides = floating_slides;
+
+   }
 
     getAdDataById =  (ad_id) => {
 
@@ -393,6 +401,7 @@ class QuadsAdCreateRouter extends Component {
       body_json.quads_post_meta.popup_ads =body_json['popup_ads'];
       body_json.quads_post_meta.video_ads =body_json['video_ads'];
       body_json.quads_post_meta.ads_list = this.ads_list; 
+      body_json.quads_post_meta.floating_slides = body_json['floating_slides']; 
       let url = quads_localize_data.rest_url + 'quads-route/update-ad';
       fetch(url,{
         method: "post",
@@ -688,7 +697,14 @@ class QuadsAdCreateRouter extends Component {
             }else{
               this.setState({show_form_error:true});
             }
-            break;    
+            break;
+            case 'floating_cubes':
+              if(validation_flag && quads_post_meta.floating_slides.length >=1 && quads_post_meta.floating_cubes_type && quads_post_meta.visibility_include.length > 0){
+                this.saveAdFormData('publish');
+              }else{
+                this.setState({show_form_error:true});
+              }
+              break;    
         default:
           break;
       }
@@ -949,6 +965,13 @@ class QuadsAdCreateRouter extends Component {
                   this.setState({show_form_error:true});
                 }
                 break;
+                case 'floating_cubes':
+                if(quads_post_meta.floating_slides.length >=1  && quads_post_meta.floating_cubes_type){
+                  this.props.history.push(new_url);
+                }else{
+                  this.setState({show_form_error:true});
+                }
+                break;
           default:
             break;
         }
@@ -1122,6 +1145,7 @@ class QuadsAdCreateRouter extends Component {
                               closeModal    = {this.closeModal}
                               updateRandomAds    = {this.updateRandomAds}  
                               updateAdsList    = {this.updateAdsList} 
+                              updateFloatingList    = {this.updateFloatingList} 
                               />;
                           case "wizard_target":
                               return <QuadsAdTargeting  

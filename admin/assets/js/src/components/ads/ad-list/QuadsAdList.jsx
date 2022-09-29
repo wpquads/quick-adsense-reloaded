@@ -171,6 +171,10 @@ class QuadsAdList extends Component {
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/sticky_scroll_icon.png';
           type = "Hold on Scroll  Ads";
           break;
+          case 'floating_cubes':
+            img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/floating_ads_icon.png';
+            type = "3D Cube Banner";
+            break;
         default:
           break;
       }

@@ -520,6 +520,7 @@ if($license_info){
                 $post_meta['ad_id'] = $ad_id;
 
                 foreach($post_meta as $key => $val){
+                  
 
                     $filterd_meta = sanitize_post_meta($key, $val);
                     if($key == 'ad_blindness'){
@@ -532,6 +533,9 @@ if($license_info){
                       $filterd_meta =$val;
                     }
                     if($key == 'video_ads'){
+                      $filterd_meta =$val;
+                    }
+                    if($key == 'floating_slides'){
                       $filterd_meta =$val;
                     }
 
