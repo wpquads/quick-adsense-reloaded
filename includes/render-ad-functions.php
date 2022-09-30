@@ -468,7 +468,7 @@ function quads_render_infolinks_async( $id ) {
                                     var infolinks_pid = '.esc_attr($quads_options['ads'][$id]['infolinks_pid']).';
                                     var infolinks_wsid = '.esc_attr($quads_options['ads'][$id]['infolinks_wsid']).';
                                   </script>
-                                <script type="text/javascript" src="http://resources.infolinks.com/js/infolinks_main.js"></script>';
+                                <script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>';
 
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_infolinks_async', $html );
