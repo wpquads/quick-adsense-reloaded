@@ -361,7 +361,6 @@ addFloatingSlide = (type) =>{
       {
       tmp_slides.map((value,index) => {
         float_final_key++;
-        
         var del_btn_show= ((slides_count-1)!=index) && index!=5;
         return (
         <tr key={"key_"+index}>

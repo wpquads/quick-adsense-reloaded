@@ -180,7 +180,7 @@ class QuadsAdCreateRouter extends Component {
 
     updateFloatingList = (floating_slides) => {   
       this.state.quads_post_meta.floating_slides = floating_slides;
-
+      this.floating_slides = floating_slides;
    }
 
     getAdDataById =  (ad_id) => {
@@ -401,7 +401,8 @@ class QuadsAdCreateRouter extends Component {
       body_json.quads_post_meta.popup_ads =body_json['popup_ads'];
       body_json.quads_post_meta.video_ads =body_json['video_ads'];
       body_json.quads_post_meta.ads_list = this.ads_list; 
-      body_json.quads_post_meta.floating_slides = body_json['floating_slides']; 
+      body_json.quads_post_meta.floating_slides = this.floating_slides; 
+ 
       let url = quads_localize_data.rest_url + 'quads-route/update-ad';
       fetch(url,{
         method: "post",
