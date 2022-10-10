@@ -352,6 +352,7 @@ removeSlideImage= (key)=>{
 
 
 addFloatingSlide = (type) =>{
+const {__} = wp.i18n;
  let float_final_key=0;
  let tmp_slides =this.state.floating_slides;
  let slides_count =this.state.floating_slides.length;
@@ -366,23 +367,23 @@ addFloatingSlide = (type) =>{
         <tr key={"key_"+index}>
           <td> <label>Slide {index+1}</label></td>
           <td style={{width:'25%'}}>
-         { value.slide == '#' ? <div><a className="button" data-slideid={index} onClick={(event) => {this.selectFloatingSlides(event,index)}}> Upload Image</a>
+         { value.slide == '#' ? <div><a className="button" data-slideid={index} onClick={(event) => {this.selectFloatingSlides(event,index)}}> {__('Upload Image', 'quick-adsense-reloaded')}</a>
          </div>
          : <div>
          <div>
          <img src={value.slide} className="banner_image" style={{width:'150px'}}/>
-         <a className="button" onClick={() => {this.removeSlideImage(index)}}>Remove Image</a></div>
+         <a className="button" onClick={() => {this.removeSlideImage(index)}}>{__('Upload Image', 'quick-adsense-reloaded')}</a></div>
 
          </div>
         }
            </td>
            <td>
           <label>Link {index+1}</label>
-          <input value={value.link} onChange={(event) => {this.floatingLinkChange(event,index)}} type="text" id={"floating_link_"+index} name={"floating_link_"+index} placeholder="Ad Anchor link" />
+          <input value={value.link} onChange={(event) => {this.floatingLinkChange(event,index)}} type="text" id={"floating_link_"+index} name={"floating_link_"+index} placeholder={__('Ad Anchor link', 'quick-adsense-reloaded')} />
           {(value.link == '') ? <div className="quads_form_msg"><span className="material-icons">
           error_outline</span>Enter Ad Anchor link</div> :''}
           
-            {(del_btn_show==true || index==5)? <a className="quads-btn quads-btn-primary" onClick={()=>{this.deleteFloatingSlide(index)} } >Remove</a>: <a className="quads-btn quads-btn-primary add_slider" onClick={()=>{this.addFloatingSlide('add')} } >Add</a>}
+            {(del_btn_show==true || index==5)? <a className="quads-btn quads-btn-primary" onClick={()=>{this.deleteFloatingSlide(index)} } >{__('Remove', 'quick-adsense-reloaded')}</a>: <a className="quads-btn quads-btn-primary add_slider" onClick={()=>{this.addFloatingSlide('add')} } >{__('Add', 'quick-adsense-reloaded')}</a>}
            </td>
            </tr>
         );
@@ -1395,10 +1396,10 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                           <tr><td>
                           <label>{__('Floating Position ', 'quick-adsense-reloaded')}</label></td><td>
                             <select onChange={this.props.adFormChangeHandler} value={post_meta.floating_position} id="floating_position" name="floating_position" placeholder="Floating Position">
-                              <option value="top-left">Top Left</option>
-                              <option value="top-right">Top Right</option>
-                              <option value="bottom-left">Bottom Left</option>
-                              <option value="bottom-right">Bottom Right</option>
+                              <option value="top-left">{__('Top Left', 'quick-adsense-reloaded')}</option>
+                              <option value="top-right">{__('Top Right', 'quick-adsense-reloaded')}</option>
+                              <option value="bottom-left">{__('Bottom Left', 'quick-adsense-reloaded')}</option>
+                              <option value="bottom-right">{__('Bottom Right', 'quick-adsense-reloaded')}</option>
                             </select>
                           {(show_form_error && post_meta.floating_position == '') ? <div className="quads_form_msg"><span className="material-icons">
                           error_outline</span>Select Floating Position</div> :''}
