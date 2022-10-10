@@ -173,7 +173,7 @@ class QuadsAdList extends Component {
           break;
           case 'floating_cubes':
             img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/floating_ads_icon.png';
-            type = "3D Cube Banner";
+            type = "Floating Ads";
             break;
         default:
           break;

@@ -36,7 +36,7 @@ class QuadsAdListNavLink extends Component {
                     {ad_type:'popup_ads',ad_type_name:'Popup Ads'},
                     {ad_type:'loop_ads',ad_type_name:'Loop Ads'},
                     {ad_type:'carousel_ads',ad_type_name:'Carousel Ads'},
-                    {ad_type:'floating_cubes',ad_type_name:'3D Cube Banner'},
+                    {ad_type:'floating_cubes',ad_type_name:'Floating Ads',pro:'true'},
                     {ad_type:'rotator_ads',ad_type_name:'Rotator Ads',pro:'true'},
                     {ad_type:'group_insertion',ad_type_name:'Group Insertion',pro:'true'},
                     {ad_type:'skip_ads',ad_type_name:'Skip Ads',pro:'true'},

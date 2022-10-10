@@ -1389,7 +1389,13 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                   </div>);
                   break;
                   case 'floating_cubes':
-                  ad_type_name = '3D Cube Banner';
+                  ad_type_name = 'Floating';
+                  if(!quads_localize_data.is_pro){
+                    comp_html.push(<div key="floating_cubes" className="quads-user-targeting">
+                        This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+                    </div>);
+                    break;
+                }
                     comp_html.push(<div key="floating_cubes">
                       <table >
                         <tbody>
