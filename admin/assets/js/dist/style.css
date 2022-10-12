@@ -2679,7 +2679,8 @@ a.quads-nav-link:focus {
   width: 100%;
   background-color: #fff;
   z-index: 99;
-  padding-bottom: 100px; }
+  padding-bottom: 100px;
+  height: 100%; }
 
 .quads-full-page-modal-content {
   max-width: 100%;
