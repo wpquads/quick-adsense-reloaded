@@ -2725,7 +2725,8 @@ function wp_quads_quick_tag() {
          dataObj = JSON.parse(data);
          dataObj.forEach( ad_data => {
          var ad_id = ad_data.replace('[',' ').replace(']','').replace('"','').replace('"','').replace('ad','')
-         QTags.addButton( ad_data , ad_data, "[quads id="+ad_id+"]", '', '' );
+         //QTags.addButton( ad_data , ad_data, "[quads id="+ad_id+"]", '', '' );
+         QTags.addButton( ad_data , ad_data, "<!--Ads"+ad_id+"-->", '', '' );
          });
 		} )
 } )();
