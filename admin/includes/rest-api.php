@@ -1772,7 +1772,7 @@ return array('status' => 't');
             $numberOfPosts = $post_Types->found_posts;
             $key = key($quads_options['ads']);
             if(!empty($key)){
-                if (strpos($key, 'ads_wp_qu') !== false) {
+                if (strpos($key, 'ads_wp_qu') !== false || strpos($key, 'ads_excl_user_roles') !== false) {
                     $key = "ad".$numberOfPosts;
                     $key_array =   explode("ad",$key);
                     if( $key_array ){
@@ -1791,7 +1791,7 @@ return array('status' => 't');
                     if( $key_array ){
                     $ad_count = (isset($key_array[1]) && !empty($key_array[1]))?$key_array[1]+1:1;
                 }
-            }
+            }    
         }
     }
         $args['id'] = $ad_count;
