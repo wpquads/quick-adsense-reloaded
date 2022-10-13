@@ -22,6 +22,9 @@ class QuadsAdmin extends Component {
         e.preventDefault();
         this.setState({ad_type_toggle:true});    
     }
+    setStateOfToggle = (toggle) => {
+      this.setState({ad_type_toggle: toggle});
+    }
     switchToOld = () => {
 
     const json_data = {
@@ -75,6 +78,7 @@ class QuadsAdmin extends Component {
                               <QuadsAdListNavLink
                               ad_type_toggle ={this.state.ad_type_toggle}
                               settings = {this.state.settings}
+                              setStateOfToggle ={this.setStateOfToggle}
                                />                   
                           </div>
                           
@@ -131,6 +135,7 @@ class QuadsAdmin extends Component {
                                 return <QuadsAdListBody
                                 settings = {this.state.settings}
                                  nodatashowAddTypeSelector ={this.nodatashowAddTypeSelector}
+                                 setStateOfToggle ={this.setStateOfToggle}
                                  />;                                
                             }
                             if(pagePath.includes('reports')){

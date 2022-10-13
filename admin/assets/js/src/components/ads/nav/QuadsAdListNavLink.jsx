@@ -172,12 +172,15 @@ class QuadsAdListNavLink extends Component {
 
         e.preventDefault();
         this.setState({ad_type_toggle:true});
+        
     }
     hideAddTypeSelector = (e) => {
         e.preventDefault();
         this.setState({ad_type_toggle:false});
+        this.props.setStateOfToggle(false);
     }
     componentDidMount(){
+
         this.state.All_ad_network.map((item, index ) => {
             var link = document.createElement('link');
               link.rel = "preload";
@@ -186,6 +189,8 @@ class QuadsAdListNavLink extends Component {
               document.head.appendChild(link);
             })
     }
+  
+  
   render() {
     const {__} = wp.i18n;
     const page = queryString.parse(window.location.search);
