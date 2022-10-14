@@ -9,10 +9,16 @@ class QuadsAdListSearch extends Component {
   constructor(props) {  
       
     super(props);
-    this.state = {         
+    this.state = {      
+      posts_found:0   
     };       
   }
-  
+   
+  static getDerivedStateFromProps(props, state) {   
+    return {
+        posts_found : props.ad_list.posts_found
+    };
+}
   render() {
     const page = queryString.parse(window.location.search);
     const {__} = wp.i18n;      
@@ -31,6 +37,7 @@ class QuadsAdListSearch extends Component {
 <input
      style = {{ backgroundImage: `url(${searchIcon})`,          
      backgroundRepeat: 'no-repeat',
+     visibility:(this.state.posts_found>0)?'visible':'hidden'
    }}
       onChange={this.props.triggerSearch} placeholder={__('Search by ad unit, id, format, etc', 'quick-adsense-reloaded')} type="text"/>
   }

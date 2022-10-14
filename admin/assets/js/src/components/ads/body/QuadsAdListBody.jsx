@@ -35,7 +35,7 @@ class QuadsAdListBody extends Component {
       static_box_index    : null,
       delete_modal      : false,
       delete_modal_id   : null,
-      display_pagination:false,            
+      display_pagination:false,          
     };                   
   }
   showDeleteModal =(e) => {
@@ -193,18 +193,17 @@ class QuadsAdListBody extends Component {
       })
       .then(res => res.json())
       .then(
-        (result) => {                
-          this.setState({
+        (result) => {
+          let state_vars={       
             isLoaded: true,
             items: result.posts_data,
-            posts_found: result.posts_found
-          });
+            posts_found: result.posts_found,
+          };
           if(result.posts_found>20)
           {
-            this.setState({
-              display_pagination: true,
-            });
-          }
+            state_vars.display_pagination=true;
+          }              
+          this.setState(state_vars);
         },        
         (error) => {
           this.setState({
@@ -267,7 +266,7 @@ class QuadsAdListBody extends Component {
               : ''}  
               </div>         
               <div className="quads-search-box-panel">                
-                <div className="quads-search-box"><QuadsAdListSearch triggerSearch={this.QuadsSearchAd} /></div>                
+                <div className="quads-search-box"><QuadsAdListSearch ad_list={this.state} triggerSearch={this.QuadsSearchAd} /></div>                
               </div>              
               <div className="quads-list-ads">
                 <QuadsAdList 
