@@ -40,13 +40,13 @@ class QUADS_Ad_Migration {
                 if(!empty($key)){
                     $key_array =   explode("ad",$key);
                     if(is_array($key_array)){
-                        $ad_count = (isset($key_array[1]) && !empty($key_array[1]))?$key_array[1]:1;
+                        $ad_count = (isset($key_array[1]) && !empty($key_array[1]))?($key_array[1]+1):1;
                     }
                 }
             }
             $new_data['quads_ad_old_id'] ='ad'.$ad_count;
-            $old_ads['ad'.$ad_count] = $new_data;
-            $quads_settings['ads'] = $old_ads;
+            $old_ads['ads']['ad'.$ad_count] = $new_data;
+            $quads_settings= $old_ads;
             update_post_meta($ad_id, 'quads_ad_old_id', 'ad'.$ad_count);
 
             }
