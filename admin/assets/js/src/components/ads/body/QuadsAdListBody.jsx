@@ -34,7 +34,8 @@ class QuadsAdListBody extends Component {
       static_box_id       : null,
       static_box_index    : null,
       delete_modal      : false,
-      delete_modal_id   : null,            
+      delete_modal_id   : null,
+      display_pagination:false,            
     };                   
   }
   showDeleteModal =(e) => {
@@ -198,6 +199,12 @@ class QuadsAdListBody extends Component {
             items: result.posts_data,
             posts_found: result.posts_found
           });
+          if(result.posts_found>20)
+          {
+            this.setState({
+              display_pagination: true,
+            });
+          }
         },        
         (error) => {
           this.setState({
@@ -284,7 +291,7 @@ class QuadsAdListBody extends Component {
                   settings = {this.props.settings}
                 />
               </div>            
-              <div className="quads-list-pagination" style={{display:'none'}} >
+              <div className="quads-list-pagination" style={{visibility:this.state.display_pagination?'visible':'hidden'}} >
                 <QuadsAdListPagination ad_list={this.state} triggerPagination={this.QuadsPaginateAd} />
               </div>
               </div>                        

@@ -1808,7 +1808,7 @@ return array('status' => 't');
             $offset       =  0;
             $post_type    = 'quads-ads';
 
-            if(isset($_GET['page'])){
+            if(isset($_GET['pageno'])){
                 $paged    = sanitize_text_field($_GET['pageno']);
             }
             if(isset($_GET['posts_per_page'])){
