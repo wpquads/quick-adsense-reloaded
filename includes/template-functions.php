@@ -1839,11 +1839,11 @@ function quads_sanitize_content($content){
  */
 function quads_parse_random_quicktag_ads($content){
     global $adsArray, $visibleContentAds, $quads_options;
-    
     $maxAds = isset($quads_options['maxads']) ? $quads_options['maxads'] : 10;
     /*
      * Replace RndAds Random Ads
      */
+    if(!is_array($adsArray)) { $adsArray = [];}
     $content=  str_replace('[quads id=RndAds]', '<!--RndAds-->', $content);
     if( strpos( $content, '<!--RndAds-->' ) !== false && is_singular() ) {
         $adsArrayTmp = array();

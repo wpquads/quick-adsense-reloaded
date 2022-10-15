@@ -34,7 +34,8 @@ class QuadsAdListBody extends Component {
       static_box_id       : null,
       static_box_index    : null,
       delete_modal      : false,
-      delete_modal_id   : null,            
+      delete_modal_id   : null,
+      display_pagination:false,          
     };                   
   }
   showDeleteModal =(e) => {
@@ -192,12 +193,17 @@ class QuadsAdListBody extends Component {
       })
       .then(res => res.json())
       .then(
-        (result) => {                
-          this.setState({
+        (result) => {
+          let state_vars={       
             isLoaded: true,
             items: result.posts_data,
-            posts_found: result.posts_found
-          });
+            posts_found: result.posts_found,
+          };
+          if(result.posts_found>20)
+          {
+            state_vars.display_pagination=true;
+          }              
+          this.setState(state_vars);
         },        
         (error) => {
           this.setState({
@@ -260,7 +266,7 @@ class QuadsAdListBody extends Component {
               : ''}  
               </div>         
               <div className="quads-search-box-panel">                
-                <div className="quads-search-box"><QuadsAdListSearch triggerSearch={this.QuadsSearchAd} /></div>                
+                <div className="quads-search-box"><QuadsAdListSearch ad_list={this.state} triggerSearch={this.QuadsSearchAd} /></div>                
               </div>              
               <div className="quads-list-ads">
                 <QuadsAdList 
@@ -284,7 +290,7 @@ class QuadsAdListBody extends Component {
                   settings = {this.props.settings}
                 />
               </div>            
-              <div className="quads-list-pagination" style={{display:'none'}} >
+              <div className="quads-list-pagination" style={{visibility:this.state.display_pagination?'visible':'hidden'}} >
                 <QuadsAdListPagination ad_list={this.state} triggerPagination={this.QuadsPaginateAd} />
               </div>
               </div>                        

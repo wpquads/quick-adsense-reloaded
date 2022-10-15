@@ -364,7 +364,8 @@ class QUADS_Ad_Setup_Api_Service {
                   );
         }
         $response['posts_data']  = $posts_data;
-        $response['posts_found'] = count($query_data);
+        $response['posts_found'] = $this->getTotalAds();
+         
         $this->amp_front_loop = $response;
       }else{
         $response = $this->amp_front_loop;
@@ -631,6 +632,18 @@ if($license_info){
       $response[] = array('value' => 'buddypress', 'label' => 'buddypress');
       return $response;
 
+    }
+
+    private function getTotalAds()
+    {
+      global $wpdb;
+      $query = "SELECT COUNT(ID) as total_posts FROM $wpdb->posts Where post_type='quads-ads' AND (post_status='publish' OR post_status='draft')";
+      $total_result = $wpdb->get_var($query,0,0);
+       if($total_result)
+       {
+        return (int) $total_result;
+       }
+       return 0;
     }
 
 }
