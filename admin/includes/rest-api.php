@@ -510,7 +510,7 @@ class QUADS_Ad_Setup_Api {
         public function importadvance_ads(){
 
             $placements      = Advanced_Ads::get_ad_placements_array();
-            $get_Advanced_Ads      = Advanced_Ads::get_ads();
+            $get_Advanced_Ads      = Advanced_Ads::get_ads(array('post_status'=>array( 'publish', 'pending', 'future', 'private' )));
             foreach ($get_Advanced_Ads  as $advanced_Ad) {
                 $name = 'shortcode_'.$advanced_Ad->ID;
                 $placements[$name] = array('item' => 'ad_'.$advanced_Ad->ID,'advanced_ads'=>true);
@@ -540,7 +540,10 @@ class QUADS_Ad_Setup_Api {
                         'post_name'   => $post['post_name'],
                         'post_type'   => 'quads-ads'
                     );
-
+                    if(in_array($ads_post['post_status'],array('pending', 'future', 'private' )))
+                    {
+                        $ads_post['post_status']="draft";
+                    }
                     $post_id          = wp_insert_post($ads_post);
 
                     $adsense_type = 'responsive';
