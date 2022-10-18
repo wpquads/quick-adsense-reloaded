@@ -409,7 +409,7 @@ class QUADS_Ad_Setup_Api_Service {
                   if (!file_exists($content_url)) {
                     copy($sourc,$content_url);
                   }
-              }else if($key == 'quads_wp_quads_pro_license_key' && !empty($val) && strpos($val, '****************') === false){
+              }else if($key == 'quads_wp_quads_pro_license_key' && !empty($val) && (strpos($val, '****************') === false || $parameters['refresh_license']==true)){
                         $item_shortname='quads_wp_quads_pro';
                         $item_name ='WP QUADS PRO';
                         $license = sanitize_text_field($val );
@@ -420,7 +420,12 @@ class QUADS_Ad_Setup_Api_Service {
                           'item_name'  => urlencode( $item_name ),
                           'url'        => home_url()
                         );
-
+                        if($parameters['refresh_license']==true)
+                        {
+                          $api_params['edd_action']='check_license';
+                          $api_params['license'] = $quads_options['quads_wp_quads_pro_license_key'];
+                        }
+                        //check_license 
                         // Call the API
                         $response = wp_remote_post(
                           'http://wpquads.com/edd-sl-api/',
@@ -433,14 +438,17 @@ class QUADS_Ad_Setup_Api_Service {
 
                         // Make sure there are no errors
                         if ( is_wp_error( $response ) ) {    
-                          $response = array('status' => 't','license'=>$response, 'msg' =>  __( 'Settings has been saved successfullyc', 'quick-adsense-reloaded' ));
+                          $response = array('status' => 't','license'=>$response, 'msg' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
                         }
                         // Decode license data
                         $license_data = json_decode( wp_remote_retrieve_body( $response ) );
                         if($license_data){
                             $license_info = array('license'=>$license_data->license);
+                            if($parameters['refresh_license']==true)
+                            {
+                              update_option( 'quads_wp_quads_pro_license_active', $license_data );
+                            }
                         }
-                    
               }
               if ($key != 'quads_wp_quads_pro_license_key' || ($key == 'quads_wp_quads_pro_license_key'  && !empty($val) &&  strpos($val, '****************') === false)) {
                 $quads_options[$key] = $val;
@@ -449,6 +457,7 @@ class QUADS_Ad_Setup_Api_Service {
 
           }
          $response =  update_option( 'quads_settings', $quads_options );
+         
         }
 if($license_info){
   $response =$license_info;

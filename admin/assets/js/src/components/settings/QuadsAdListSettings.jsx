@@ -782,7 +782,7 @@ handleMultiPluginsChange = (option) => {
         document.getElementById("ad_log_").style.display = 'none';
         document.getElementsByClassName("lazy_loader_al")[0].style.display = 'block';
       }
-      if( namer_data == 'reports_settings' ){
+      if( namer_data == 'reports_settings' && document.getElementById("reports_settings_")){
         document.getElementById("reports_settings_").style.display = 'none';
         document.getElementsByClassName("lazy_loader_rs")[0].style.display = 'block';
       }
@@ -983,6 +983,9 @@ handleMultiPluginsChange = (option) => {
         formData.append("quads_settings[quads_wp_quads_pro_license_key]", this.state.quads_wp_quads_pro_license_key);
         formData.append("quads_settings[quads_wp_quads_pro_license_key-nonce]", quads_localize_data.licenses_nonce);
       }
+      if(status == 'refresh'){
+        formData.append("refresh_license", true);
+      }
       let url = quads_localize_data.rest_url + 'quads-route/update-settings';
       fetch(url,{
         method: "post",
@@ -1011,6 +1014,11 @@ handleMultiPluginsChange = (option) => {
       e.preventDefault();
       this.setState({button_spinner_toggle:true,quads_wp_quads_pro_license_key_deactivate:'Deactivate License'});
       this.licensesaveSettings('deactivate');
+    }
+    pro_license_key_refresh = (e) =>{
+      e.preventDefault();
+      this.setState({button_spinner_toggle:true});
+      this.licensesaveSettings('refresh');
     }
     validateAdstxt = (e) => {
       e.preventDefault();
@@ -1818,8 +1826,7 @@ handleMultiPluginsChange = (option) => {
                     </td>
                   </tr>
                 
-                      {quads_setting_pro_items.map((item, index) => ( <QuadsAdSettingsProTemplate display_pro_alert_msg={this.state.display_pro_alert_msg} item={item} display_pro_alert_fun={this.display_pro_alert_fun} 
-                         display_pro_alert_msg={this.state.display_pro_alert_msg} quads_pro_list_selected={this.state.quads_pro_list_selected} formChangeHandler={this.formChangeHandler} settings={settings} />  ) )}
+                      {quads_setting_pro_items.map((item, index) => ( <QuadsAdSettingsProTemplate display_pro_alert_msg={this.state.display_pro_alert_msg} item={item} display_pro_alert_fun={this.display_pro_alert_fun} quads_pro_list_selected={this.state.quads_pro_list_selected} formChangeHandler={this.formChangeHandler} settings={settings} />  ) )}
                  
                      </tbody></table>
                 </div>
@@ -2048,23 +2055,24 @@ handleMultiPluginsChange = (option) => {
                    <div className="">
             {this.state.button_spinner_toggle ?
             <a className="quads-btn quads-btn-primary">
-            <span className="quads-btn-spinner"></span>Saving...
+            <span className="quads-btn-spinner"></span>{__('Updating...', 'quick-adsense-reloaded')}
             </a> :
             //<div style={{width: "199px";float: "left";}}>
             <div class="pro_key_btn">
             <a onClick={this.pro_license_key_deactivate} className="quads-btn quads-btn-primary">
-            Deactivate License</a>
+            {__('Deactivate License', 'quick-adsense-reloaded')}</a>
             </div>
+            
           }
           </div> : null}
           {quads_localize_data.licenses.license !== "valid" ?  
           <div className="">
             {this.state.button_spinner_toggle ?
             <a className="quads-btn quads-btn-primary">
-            <span className="quads-btn-spinner"></span>Saving...
+            <span className="quads-btn-spinner"></span>{__('Saving...', 'quick-adsense-reloaded')}
             </a> :
             <a onClick={this.saveSettingsHandler} className="quads-btn quads-btn-primary" id="act_license" >
-            Activate License
+            {__('Activate License', 'quick-adsense-reloaded')}
             </a>
           }
           </div> : null}
@@ -2079,7 +2087,7 @@ handleMultiPluginsChange = (option) => {
           </div> : null}
           {
             quads_localize_data.licenses.error == "expired" ? 
-            <div className='exp_msg' style={{display:'none'}}> You are entering an Expired License Key </div> : ''
+            <div className='exp_msg' style={{display:'none'}}> {__('You are entering an Expired License Key', 'quick-adsense-reloaded')} </div> : ''
           }
           
           </div>
@@ -2099,10 +2107,10 @@ handleMultiPluginsChange = (option) => {
             <div className="quads-save-settings">
             {this.state.button_spinner_toggle ?
             <a className="quads-btn quads-btn-primary">
-            <span className="quads-btn-spinner"></span>Saving...
+            <span className="quads-btn-spinner"></span> {__('Saving...', 'quick-adsense-reloaded')}
             </a> :
             <a onClick={this.saveSettingsHandler} className="quads-btn quads-btn-primary">
-            Save Settings
+            {__('Save Settings', 'quick-adsense-reloaded')}
             </a>
           }
           </div>
@@ -2115,18 +2123,18 @@ handleMultiPluginsChange = (option) => {
           <div class="quads-Page-col-main">
           <div class="quads-Page-inner">
           <div class="quads-optionHeader">
-          <h3 class="quads-title2">My Account</h3>
+          <h3 class="quads-title2"> {__('My Account', 'quick-adsense-reloaded')}</h3>
           </div>
           <div class="quads-field quads-field-account">
           <div class="quads-flex">
           <div class="quads-infoAccount-License">
-          <span class="quads-title3">License Key is</span>
-          <span class="quads-infoAccountt quads-isValids" id="quads-account-data">Activated</span>          
-          <p>Hey! You're enjoying all the PRO benefits of the WP QUADS along with regular updates & Technical Support.</p>
+          <span class="quads-title3">{__('License Key is', 'quick-adsense-reloaded')}</span>
+          <span class="quads-infoAccountt quads-isValids" id="quads-account-data"> {__('Activated', 'quick-adsense-reloaded')}</span>          
+          <p>{__('Hey! You\'re enjoying all the PRO benefits of the WP QUADS along with regular updates & Technical Support.', 'quick-adsense-reloaded')}</p>
           <p class="">
-          { quads_localize_data.licenses.expires>0 ? <span class="quads-title3">Your License is valid for {quads_localize_data.licenses.expires} days<span class="quads-infoAccount quads-isValid" id="quads-expiration-data"></span></span> : <span class="quads-title3">Your <span className="lifetime">License is valid for {quads_localize_data.licenses.expires}</span><span class="quads-infoAccount quads-isValid" id="quads-expiration-data"></span></span> }
+          { quads_localize_data.licenses.expires>0 ? <span class="quads-title3">Your License is valid for {quads_localize_data.licenses.expires} days<span class="quads-refresh quads-isValid material-icons MuiIcon-root" onClick={this.pro_license_key_refresh} id="quads-expiration-data" title="refresh">refresh</span></span> : <span class="quads-title3">Your <span className="lifetime">License is valid for {quads_localize_data.licenses.expires}</span><span class="quads-refresh quads-isValid material-icons MuiIcon-root" onClick={this.pro_license_key_refresh} title="refresh" id="quads-expiration-data">refresh</span></span> }
           </p>
-          <a href="https://wpquads.com/your-account/" target="_blank" class="quads-button quads-button-btn quads-button--small quads-icon-user">Extend License</a>
+          <a href="https://wpquads.com/your-account/" target="_blank" class="quads-button quads-button-btn quads-button--small ">{__('Extend License', 'quick-adsense-reloaded')} <span class="quads-user material-icons MuiIcon-root">person</span></a>
           </div>
           </div>
           </div>
@@ -2145,15 +2153,15 @@ handleMultiPluginsChange = (option) => {
           <div class="quads-Page-col-main">
           <div class="quads-Page-inner">
           <div class="quads-optionHeader">
-          <h3 class="quads-title2">My Account</h3>
+          <h3 class="quads-title2">{__('My Account', 'quick-adsense-reloaded')}</h3>
           </div>
           <div class="quads-field quads-field-account">
           <div class="quads-flex">
           <div class="quads-infoAccount-License">
-          <span class="quads-title3">License Key is</span>
-          <span class="quads-infoAccountt quads-isinValid" id="quads-account-data">Expired</span>          
-          <p>Extend the License to receive the further updates & support.</p>
-          <a href="https://wpquads.com/your-account/" target="_blank" class="quads-button quads-button-btn quads-button--small quads-icon-user">Extend License</a>
+          <span class="quads-title3">{__('License Key is', 'quick-adsense-reloaded')}</span>
+          <span class="quads-infoAccountt quads-isinValid" id="quads-account-data">{__('Expired', 'quick-adsense-reloaded')}</span>          
+          <p>{__('Extend the License to receive the further updates & support.', 'quick-adsense-reloaded')}</p>
+          <a href="https://wpquads.com/your-account/" target="_blank" class="quads-button quads-button-btn quads-button--small quads-icon-user">{__('Extend License', 'quick-adsense-reloaded')}</a>
           </div>
           </div>
           </div>

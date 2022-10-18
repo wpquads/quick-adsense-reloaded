@@ -1428,7 +1428,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
       }
 
       $size = ( isset( $args['size'] ) && !is_null( $args['size'] ) ) ? $args['size'] : 'regular';
-      
+      $html="";
       if( ( is_object( $license ) && 'valid' == $license->license ) || 'valid' == $license ) {
 
          $html = '<div class="quads-after-actv"><span class="after_activation">Congratulations!</span><span class="after_activation_in"> WP QUADS PRO is now activated and working for you. This enables the Advanced Settings and High Performance for your ADS!</span></div>';
@@ -1437,7 +1437,8 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
       $html .= '<input type="text" class="' . sanitize_html_class( $size ) . '-text" id="quads_settings[' . quads_sanitize_key( $args['id'] ) . ']" name="quads_settings[' . quads_sanitize_key( $args['id'] ) . ']" value="' . esc_attr( $value ) . '"/>';
         
       if( ( is_object( $license ) && 'valid' == $license->license ) || 'valid' == $license ) {
-         $html .= '<input type="submit" class="button-secondary" name="' . $args['id'] . '_deactivate" value="' . __( 'Deactivate License', 'quick-adsense-reloaded' ) . '"/>';
+         $html .= '&nbsp;<input type="submit" class="button-secondary" name="' . $args['id'] . '_deactivate" value="' . __( 'Deactivate License', 'quick-adsense-reloaded' ) . '"/>';
+         $html .= '&nbsp;<input type="submit" class="button-secondary" name="' . $args['id'] . '_refresh" value="' . __( 'Refresh Info', 'quick-adsense-reloaded' ) . '"/>';
       }
 
       $html .= '<label for="quads_settings[' . quads_sanitize_key( $args['id'] ) . ']"> ' . wp_kses_post( $args['desc'] ) . '</label>';

@@ -1892,7 +1892,14 @@ return array('status' => 't');
 
             }else{
                 if(isset($parameters['settings'])){
-                    $result      = $this->api_service->updateSettings(json_decode($parameters['settings'], true));
+                    $param_array=json_decode($parameters['settings'], true);
+                    $param_array['refresh_license']=false;
+                    if(isset($parameters['settings']) && isset($parameters['refresh_license']) && $parameters['refresh_license']==true)
+                    {
+                        $param_array['refresh_license']=true;
+                    }
+            
+                    $result      = $this->api_service->updateSettings($param_array);
                     if($result){
                         $response = array('status' => 'tp', 'msg' =>  __( 'Settings has been saved successfullycv', 'quick-adsense-reloaded' ));
                         if(is_array($result)){

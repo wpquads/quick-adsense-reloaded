@@ -688,7 +688,7 @@ function quads_show_license_expired() {
     echo sprintf(
             __( '<p>Oh No! <strong>WP Quads Pro</strong> license key is not activated or has been expired. It expires on %s. Renew or activate your license key to make sure that your (AdSense) ads are shown properly with your WordPress, version ' . $wp_version . '<br>'
                     . '<a href="%s" target="_blank" title="Renew your license key" class="button"><strong>Renew Your License Key Now</strong></a> | <a href="%s" title="Renew your license key">I am aware of possible issues and want to hide this reminder</a>'
-                    , 'quick-adsense-reloaded' ), date_i18n( get_option( 'date_format' ), strtotime( $lic->expires, current_time( 'timestamp' ) ) ), 'http://wpquads.com/checkout/?edd_license_key=' . $licKey . '&utm_campaign=adminnotic123e&utm_source=adminnotice123&utm_medium=admin&utm_content=license-expired', admin_url() . 'admin.php?page=quads-settings&tab=licenses&quads-action=hide_license_expired_notice'
+                    , 'quick-adsense-reloaded' ), date_i18n( get_option( 'date_format' ), strtotime( isset($lic->expires)?$lic->expires:null, current_time( 'timestamp' ) ) ), 'http://wpquads.com/checkout/?edd_license_key=' . $licKey . '&utm_campaign=adminnotic123e&utm_source=adminnotice123&utm_medium=admin&utm_content=license-expired', admin_url() . 'admin.php?page=quads-settings&tab=licenses&quads-action=hide_license_expired_notice'
     );
     echo '</p></div>';
 }

@@ -2064,7 +2064,7 @@ input.quads-premium-cus {
 
 .quads-button-btn {
   padding-left: 10px;
-  padding-right: 33px;
+  padding-right: 10px;
   text-align: left;
   background: #005aef; }
 
@@ -2242,6 +2242,22 @@ tr.b_in_ {
 
 select#abtesting_report {
   margin: 0px 0px 5px 0px; }
+
+.quads-refresh {
+  margin-left: 5px;
+  background: #005aef;
+  color: #fff;
+  font-size: 16px !important;
+  padding: 2px;
+  border-radius: 4px;
+  vertical-align: bottom;
+  cursor: pointer; }
+
+.quads-user {
+  margin-left: 5px;
+  color: #fff;
+  padding: 2px;
+  vertical-align: bottom; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
