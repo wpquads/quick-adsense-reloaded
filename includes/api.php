@@ -153,7 +153,10 @@ function quads_ad( $args ) {
 		quads_set_ad_count_custom(); // increase amount of Custom ads
 
 		// $location_settings = quads_get_ad_location_settings( $args['location'] );
-        $location_settings['ad'] = $wp_quads_custom_ad_id["api-".$args['location'].""];
+        if(isset($wp_quads_custom_ad_id["api-".$args['location'].""]))
+        {
+            $location_settings['ad'] = $wp_quads_custom_ad_id["api-".$args['location'].""];
+        }
         if($location_settings['ad'])
         {
             $modify = str_replace("ad","",$location_settings['ad']);
