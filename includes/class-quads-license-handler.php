@@ -480,8 +480,6 @@ class QUADS_License {
 		if( empty( $license ) ) {
 			return;
 		}
-
-		
 			$license_exp = date('Y-m-d', strtotime($details->expires));
 			$license_exp_d = date('d F Y', strtotime($details->expires));
 			$license_info_lifetime = $details->expires;
@@ -529,9 +527,6 @@ class QUADS_License {
 
 		// Decode license data
 		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-
-		var_dump($license_data);
-		
 
 		update_option( $this->item_shortname . '_license_active', $license_data );
 
