@@ -512,7 +512,7 @@ position: fixed;
 }
 .quads-button-btn {
     padding-left: 10px;
-    padding-right: 33px;
+    padding-right: 10px;
     text-align: left;
     background: #005aef;
 }
@@ -670,4 +670,20 @@ span.blocked_ids{
 }
 select#abtesting_report {
   margin: 0px 0px 5px 0px;
+}
+.quads-refresh {
+  margin-left: 5px;
+  background: #005aef;
+  color: #fff;
+  font-size: 16px !important;
+  padding: 2px;
+  border-radius: 4px;
+  vertical-align: bottom;
+  cursor: pointer;
+}
+.quads-user {
+  margin-left: 5px;
+  color: #fff;
+  padding: 2px;
+  vertical-align: bottom;
 }

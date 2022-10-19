@@ -251,7 +251,7 @@ class QUADS_License {
 		}
 	
 		if ( $details ) {
-		if ( $days <=7 ) {
+		if ( isset($days) && $days <=7 ) {
 			if( isset( $_GET["page"] ) && !empty( $_GET ) ) {
 				$quads_mode = get_option('quads-mode');
 				if( $quads_mode !== "old" && $_GET['page'] == 'quads-settings' ){
@@ -442,17 +442,17 @@ class QUADS_License {
 				$days = -$days;
 			}
 		}
-
+		
 		if ( ! isset( $_REQUEST[ $this->item_shortname . '_license_key-nonce'] ) || ! wp_verify_nonce( $_REQUEST[ $this->item_shortname . '_license_key-nonce'], $this->item_shortname . '_license_key-nonce' ) ) {
 
 			return;
 
 		}                
-
+		
                if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
-
+		
 		if ( empty( $_POST['quads_settings'][ $this->item_shortname . '_license_key'] ) ) {
 		
 			delete_option( $this->item_shortname . '_license_active' );
@@ -460,22 +460,23 @@ class QUADS_License {
 			return;
 
 		}
-                
+		 	   
 		foreach ( $_POST as $key => $value ) {
 			if( false !== strpos( $key, 'license_key_deactivate' ) ) {
 				// Don't activate a key when deactivating a different key
 				return;
 			}
 		}
-
+		
 		$details = get_option( $this->item_shortname . '_license_active' );
+		$refresh = isset($_POST[$this->item_shortname . '_license_key_refresh'])?true:false;
 
-		if ( is_object( $details ) && 'valid' === $details->license ) {
+		if ( (is_object( $details ) && 'valid' === $details->license) && !$refresh) {
 			return;
 		}
-
+		
 		$license = sanitize_text_field( $_POST['quads_settings'][ $this->item_shortname . '_license_key'] );
-
+		
 		if( empty( $license ) ) {
 			return;
 		}

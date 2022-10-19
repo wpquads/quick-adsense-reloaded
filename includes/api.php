@@ -153,16 +153,21 @@ function quads_ad( $args ) {
 		quads_set_ad_count_custom(); // increase amount of Custom ads
 
 		// $location_settings = quads_get_ad_location_settings( $args['location'] );
-        $location_settings['ad'] = $wp_quads_custom_ad_id["api-".$args['location'].""];
-        if($location_settings['ad'])
+         $location_settings['ad']='';
+        if(isset($wp_quads_custom_ad_id["api-".$args['location'].""]))
         {
-            $modify = str_replace("ad","",$location_settings['ad']);
-            $location_settings['ad'] = $modify; 
-            $code .= "\n".'<!-- WP QUADS Custom Ad v. ' . QUADS_VERSION .' -->'."\n";
-            $code .= '<div class="quads-location quads-ad' .esc_html($location_settings['ad']). '" id="quads-ad' .esc_html($location_settings['ad']). '" style="'.  quads_get_inline_ad_style( $location_settings['ad'] ).'">'."\n";
-            $code .= quads_render_ad( 'ad' . $location_settings['ad'], $quads_options['ads'][ 'ad' . $location_settings['ad'] ]['code'] );
-            $code .= '</div>';
+            $location_settings['ad'] = $wp_quads_custom_ad_id["api-".$args['location'].""];
+            if($location_settings['ad'])
+            {
+                $modify = str_replace("ad","",$location_settings['ad']);
+                $location_settings['ad'] = $modify; 
+                $code .= "\n".'<!-- WP QUADS Custom Ad v. ' . QUADS_VERSION .' -->'."\n";
+                $code .= '<div class="quads-location quads-ad' .esc_html($location_settings['ad']). '" id="quads-ad' .esc_html($location_settings['ad']). '" style="'.  quads_get_inline_ad_style( $location_settings['ad'] ).'">'."\n";
+                $code .= quads_render_ad( 'ad' . $location_settings['ad'], $quads_options['ads'][ 'ad' . $location_settings['ad'] ]['code'] );
+                $code .= '</div>';
+            }
         }
+       
 	}elseif ($quads_mode == 'new'){
 
 		require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
