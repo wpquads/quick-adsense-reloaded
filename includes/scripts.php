@@ -392,7 +392,8 @@ function quads_inline_styles() {
     .quads-popupad {
         position: fixed;
         top: 0px;
-        width: 68em;
+        left:0px;
+        width: 100%;
         height: 100em;
         background-color: rgba(0,0,0,0.6);
         z-index: 999;
