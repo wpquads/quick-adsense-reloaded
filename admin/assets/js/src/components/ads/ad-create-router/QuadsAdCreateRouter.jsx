@@ -140,6 +140,9 @@ class QuadsAdCreateRouter extends Component {
             floating_position         :'bottom-right',
             floating_cubes_size       :'200',
             floating_cubes_type       :'flip',
+            video_autoplay            : false,
+            video_height              : 450,
+            video_width               : 350,
 
             },
             quads_form_errors : {
@@ -593,7 +596,7 @@ class QuadsAdCreateRouter extends Component {
             }
           break;
           case 'video_ads':
-            if(validation_flag && quads_post_meta.image_src && quads_post_meta.image_width && quads_post_meta.image_height && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.image_src && quads_post_meta.image_redirect_url && quads_post_meta.video_width && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
@@ -881,7 +884,7 @@ class QuadsAdCreateRouter extends Component {
           } 
           break;
             case 'video_ads':
-          if(true){
+           if(quads_post_meta.image_src && quads_post_meta.image_redirect_url && quads_post_meta.video_width){
             this.props.history.push(new_url); 
           }else{
             this.setState({show_form_error:true});
