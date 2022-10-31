@@ -2107,6 +2107,8 @@ function quads_parse_popup_ads($content) {
                 'outbrain_widget_ids'       => $ad_meta_group['outbrain_widget_ids'],
                 'image_redirect_url'        => $ad_meta_group['image_redirect_url'],
                 'ad_image'                  => $ad_meta_group['image_src'],
+                'mobile_ad_image'           => $ad_meta_group['image_mobile_src'],
+                
             ) ;
         }
         $response['quads_group_id'] = $ad_id;
