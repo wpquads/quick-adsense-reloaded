@@ -1258,7 +1258,6 @@ function quads_filter_default_ads_new( $content ) {
                                         if($addstart){
                                             $paragraphs[$index] .= $cusads;
                                         }
-                                        
                                         if(!$repeat_paragraph)
                                         {
                                             break;
