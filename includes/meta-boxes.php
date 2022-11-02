@@ -101,7 +101,7 @@ class Quads_Meta_Box {
             return $post_id;
         }
         // Verify nonce
-        if (!check_admin_referer('quads_config', 'quads_config_nonce')) {
+        if (!empty($_POST['quads_config']) && !check_admin_referer('quads_config', 'quads_config_nonce')) {
             wp_die(__('Nonce incorrect!', 'quads'));
         }
         $config = isset($_POST[$this->config_key]) ? $_POST[$this->config_key] : array();
