@@ -804,8 +804,8 @@ function quads_render_loopad_async( $id ) {
                 }
         if(isset($quads_options['ads'][$id]['loop_add_description'])){    
             $html .='<div class="entry-content">
-                        <p>'.$quads_options['ads'][$id]['loop_add_description'].'
-                        <a class="more-link" href="'.esc_attr($quads_options['ads'][$id]['loop_add_link']).'">Learn More <span class="screen-reader-text">'.$quads_options['ads'][$id]['loop_add_title'].'</span></a></p>
+                        <p>'.$quads_options['ads'][$id]['loop_add_description'].'</p>
+                        <p><a class="more-link" href="'.esc_attr($quads_options['ads'][$id]['loop_add_link']).'">Learn More <span class="screen-reader-text">'.$quads_options['ads'][$id]['loop_add_title'].'</span></a></p>
                      </div><!-- .entry-content -->';
                 }
     $html.='</div><!-- .entry-container -->
