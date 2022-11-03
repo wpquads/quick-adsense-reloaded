@@ -840,8 +840,8 @@ error_outline
                      </td></tr>
                      <tr><td>
                     <label>{__('Video Size', 'quick-adsense-reloaded')}</label></td><td>
-                          <label>{__('Width(PX)', 'quick-adsense-reloaded')}
-                          <input value={post_meta.video_width} onChange={this.props.adFormChangeHandler} type="number" id="video_width" name="video_width" /> 
+                          <label>
+                          <input value={post_meta.video_width} onChange={this.props.adFormChangeHandler} type="number" id="video_width" name="video_width" /> {__('Width(PX)', 'quick-adsense-reloaded')}
                           </label>
                      </td></tr>
                   </tbody>
