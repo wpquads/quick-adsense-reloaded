@@ -1471,6 +1471,7 @@ Do not enter AdSense page level ads or Auto ads! Learn how to create <a  target=
                 {this.props.ad_type == 'infolinks' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-infolinks-ad-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
                 {this.props.ad_type == 'skip_ads' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/what-is-skippable-ad-and-how-to-use-it/">View Documentation on {ad_type_name} AD</a>:''}
                 {this.props.ad_type == 'propeller' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-setup-propeller-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'ab_testing' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-ab-testing/">View Documentation on {ad_type_name} AD</a>:''}
                 
                 <div className="quads-panel">
                  <div className="quads-panel-body">{comp_html}</div>
