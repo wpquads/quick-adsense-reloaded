@@ -828,9 +828,21 @@ error_outline
                    </div>                   
 
                    </div>
-                  } 
+                  }
                     {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>Upload A Video</div> :''}
+                     </td></tr>
+                     <tr><td>
+                    <label>{__('Ad Anchor link', 'quick-adsense-reloaded')}</label></td><td>
+                    <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
+                    {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline</span>Enter Ad Anchor link</div> :''}
+                     </td></tr>
+                     <tr><td>
+                    <label>{__('Video Size', 'quick-adsense-reloaded')}</label></td><td>
+                          <label>
+                          <input value={post_meta.video_width} onChange={this.props.adFormChangeHandler} type="number" id="video_width" name="video_width" /> {__('Width(PX)', 'quick-adsense-reloaded')}
+                          </label>
                      </td></tr>
                   </tbody>
                 </table>
@@ -1459,6 +1471,7 @@ Do not enter AdSense page level ads or Auto ads! Learn how to create <a  target=
                 {this.props.ad_type == 'infolinks' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-infolinks-ad-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
                 {this.props.ad_type == 'skip_ads' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/what-is-skippable-ad-and-how-to-use-it/">View Documentation on {ad_type_name} AD</a>:''}
                 {this.props.ad_type == 'propeller' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-setup-propeller-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'ab_testing' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-ab-testing/">View Documentation on {ad_type_name} AD</a>:''}
                 
                 <div className="quads-panel">
                  <div className="quads-panel-body">{comp_html}</div>

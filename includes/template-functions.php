@@ -1258,6 +1258,10 @@ function quads_filter_default_ads_new( $content ) {
                                         if($addstart){
                                             $paragraphs[$index] .= $cusads;
                                         }
+                                        if(!$repeat_paragraph)
+                                        {
+                                            break;
+                                        }
                                 }
                             }else{
 
@@ -2107,6 +2111,8 @@ function quads_parse_popup_ads($content) {
                 'outbrain_widget_ids'       => $ad_meta_group['outbrain_widget_ids'],
                 'image_redirect_url'        => $ad_meta_group['image_redirect_url'],
                 'ad_image'                  => $ad_meta_group['image_src'],
+                'mobile_ad_image'           => $ad_meta_group['image_mobile_src'],
+                
             ) ;
         }
         $response['quads_group_id'] = $ad_id;
@@ -2186,8 +2192,9 @@ function quads_parse_video_ads($content) {
     $position =  (isset($ad_meta['video_ad_type_position'][0]) && !empty($ad_meta['video_ad_type_position'][0])) ? $ad_meta['video_ad_type_position'][0] : 0;
     $on_scroll_video_percentage       =  (isset($ad_meta['on_scroll_video_percentage'][0]) && !empty($ad_meta['on_scroll_video_percentage'][0])) ? $ad_meta['on_scroll_video_percentage'][0] : 0;
     $V_image_src       =  (isset($ad_meta['image_src'][0]) && !empty($ad_meta['image_src'][0])) ? $ad_meta['image_src'][0] : 0;
-    $V_image_width       =  (isset($ad_meta['image_width'][0]) && !empty($ad_meta['image_width'][0])) ? $ad_meta['image_width'][0] : 0;
-    $V_image_height       =  (isset($ad_meta['image_height'][0]) && !empty($ad_meta['image_height'][0])) ? $ad_meta['image_height'][0] : 0;
+    $V_redirect       =  (isset($ad_meta['image_redirect_url'][0]) && !empty($ad_meta['image_redirect_url'][0])) ? $ad_meta['image_redirect_url'][0] : '';
+    $V_image_width       =  (isset($ad_meta['video_width'][0]) && !empty($ad_meta['video_width'][0])) ? $ad_meta['video_width'][0] : '350';
+    $V_image_height       =  (isset($ad_meta['video_height'][0]) && !empty($ad_meta['video_height'][0])) ? $ad_meta['video_height'][0] :'auto';
 
     
     $adsresultset = array();
@@ -2208,7 +2215,7 @@ function quads_parse_video_ads($content) {
         $response['specific_time_interval_sec_video']           = $specific_time_interval_sec_video;
         $response['on_scroll_video_percentage']           = $on_scroll_video_percentage;
         $response['viedo_url']           = $V_image_src;
-        $response['viedo_height']           = $V_image_height;
+        //$response['viedo_height']           = $V_image_height;
         $response['viedo_width']           = $V_image_width;
         $response['viedo_position']           = $position;
         $response['ads'] = $adsresultset;
@@ -2236,7 +2243,7 @@ function quads_parse_video_ads($content) {
         }
 
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
-            '<div class="video_main"><div class="quads-location quads-video ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" '.$videoad_data.' data-videotype="'.$video_ad_type.'" style="' . $style . '">' . "\n";
+            '<div class="video_main"><div class="quads-location quads-video ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" '.$videoad_data.' data-videotype="'.$video_ad_type.'" data-redirect="'.esc_url($V_redirect).'" style="' . $style . '">' . "\n";
         $code .='<div class="quads-video-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
         $code .='</div>';
 
