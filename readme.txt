@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 6.0
+Tested up to: 6.1
 Requires PHP: 5.4
-Stable tag: 2.0.62
+Stable tag: 2.0.63
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & Banner ads on your site. Innovative features, Active Development & Fast Support.
 
@@ -206,6 +206,17 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.63 ( 03 November 2022 ) =
+* Fixed: Video ad should be clickable #625
+* Fixed: Video ad  size should be controllable #625
+* Fixed: Video ad  should play in loop #625
+* Fixed: Lightbox alignment issues #625
+* Fixed: Popup ads not showing mobile version ad image #625
+* Fixed: Carousel ads are not working in AMP #626
+* Fixed: Need alt attribute for ad image #628
+* Fixed: Cube ads have some issue related to accessibility lighthouse test report #632
+* Fixed: Link expired message coming when editing yoast field in the post #629
 
 = 2.0.62 ( 19 October 2022 ) =
 * Fixed: License key renewed but not updating, neither there's an option to refresh the key  #615
