@@ -218,7 +218,7 @@ class QuadsAdList extends Component {
       return (
         <div>         
         <div>  
-        <div className="quads-ad-list-table-div">  
+        <div className="quads-ad-list-table-div" onClick={this.checkClickForMenu}>  
         { items && items.length > 0 ?      
         <table className="quads-ad-table">
           <thead>
@@ -314,6 +314,13 @@ class QuadsAdList extends Component {
       );
     }
   }
+
+  checkClickForMenu = (e) => {
+    if(this.props.more_box_id)
+    {
+      this.props.hideMoreIconBox();
+    }
+} 
 }
 
 
