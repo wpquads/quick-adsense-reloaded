@@ -29,10 +29,13 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( empty( $id ) ) {
         return '';
     }
-
-
+    /*  Removing duplicate db calls by directly passing post_id 
+        to quads_render_ad filter functions (quads_render_ad_label_new) 
+        and (quads_render_ad_text_around_ad_new)
+    */
+    $post_id= quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $id);
     if (quads_is_amp_endpoint()){
-        return apply_filters( 'quads_render_ad', quads_render_amp($id,$ampsupport),$id );
+        return apply_filters( 'quads_render_ad', quads_render_amp($id,$ampsupport),$post_id );
     }
 
 
@@ -41,54 +44,54 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
         // allow use of shortcodes in ad plain text content
         $string = quadsCleanShortcode('quads', $string);
         //wp_die('t1');
-        return apply_filters( 'quads_render_ad', $string,$id );
+        return apply_filters( 'quads_render_ad', $string,$post_id );
     }
 
     // Return the adsense ad code
     if( true === quads_is_adsense( $id, $string ) ) {
         if($quads_mode == 'new'){
 
-            return apply_filters( 'quads_render_ad', quads_render_google_async_new( $id ),$id );
+            return apply_filters( 'quads_render_ad', quads_render_google_async_new( $id ),$post_id );
 
         }else{
-            return apply_filters( 'quads_render_ad', quads_render_google_async( $id ),$id );
+            return apply_filters( 'quads_render_ad', quads_render_google_async( $id ),$post_id );
           }
     }
     if( true === quads_is_double_click( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_double_click_async( $id ),$id );
+        return apply_filters( 'quads_render_ad', quads_render_double_click_async( $id ),$post_id );
     }
     if( true === quads_is_yandex( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_yandex_async( $id ),$id );
+        return apply_filters( 'quads_render_ad', quads_render_yandex_async( $id ),$post_id );
     }
     if( true === quads_is_mgid( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_mgid_async( $id ),$id );
+        return apply_filters( 'quads_render_ad', quads_render_mgid_async( $id ),$post_id );
     }
     if( true === quads_is_propeller( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_propeller_async( $id ),$id );
+        return apply_filters( 'quads_render_ad', quads_render_propeller_async( $id ),$post_id );
     }
     if( true === quads_is_ad_image( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_ad_image_async( $id ),$id );
+        return apply_filters( 'quads_render_ad', quads_render_ad_image_async( $id ),$post_id );
     }
     if( true === quads_is_taboola( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_taboola_async( $id ),$id );
+        return apply_filters( 'quads_render_ad', quads_render_taboola_async( $id ),$post_id );
     }
     if( true === quads_is_media_net( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_media_net_async( $id ),$id );
+        return apply_filters( 'quads_render_ad', quads_render_media_net_async( $id ),$post_id );
     }
     if( true === quads_is_outbrain( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_outbrain_async( $id ),$id );
+        return apply_filters( 'quads_render_ad', quads_render_outbrain_async( $id ),$post_id );
     }
     if( true === quads_is_infolinks( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_infolinks_async( $id ),$id );
+        return apply_filters( 'quads_render_ad', quads_render_infolinks_async( $id ),$post_id );
     }
     if( true === quads_is_loopad( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_loopad_async( $id ),$id );
+        return apply_filters( 'quads_render_ad', quads_render_loopad_async( $id ),$post_id );
     }
     if( true === quads_is_carousel_ads( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_carousel_ads_async( $id ),$id );
+        return apply_filters( 'quads_render_ad', quads_render_carousel_ads_async( $id ),$post_id );
     }
     if( true === quads_is_floating_ads( $id, $string ) ) {
-        return apply_filters( 'quads_render_ad', quads_render_floating_ads_async( $id ),$id );
+        return apply_filters( 'quads_render_ad', quads_render_floating_ads_async( $id ),$post_id );
     }
     // Return empty string
     return '';
@@ -111,9 +114,9 @@ function quads_common_head_code(){
             }
         }
     }
-    require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-    $api_service = new QUADS_Ad_Setup_Api_Service();
-    $quads_ads = $api_service->getAdDataByParam('quads-ads');
+    //require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+    //$api_service = new QUADS_Ad_Setup_Api_Service();
+    //$quads_ads = $api_service->getAdDataByParam('quads-ads');
     if(isset($quads_ads['posts_data'])){
         $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
         foreach($quads_ads['posts_data'] as $key => $value){
@@ -509,9 +512,9 @@ function quads_render_propeller_async( $id ) {
     return apply_filters( 'quads_render_propeller_async', $html );
 }
 function quads_adsense_auto_ads_amp_script(){
-        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-    $api_service = new QUADS_Ad_Setup_Api_Service();
-    $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        //require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+    //$api_service = new QUADS_Ad_Setup_Api_Service();
+    //$quads_ads = $api_service->getAdDataByParam('quads-ads');
     if(isset($quads_ads['posts_data'])){
 
         foreach($quads_ads['posts_data'] as $key => $value){
@@ -545,9 +548,9 @@ function quads_adsense_auto_ads_amp_script(){
 }
 
 function quads_adsense_auto_ads_amp_tag(){
-        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-    $api_service = new QUADS_Ad_Setup_Api_Service();
-    $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        //require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+   // $api_service = new QUADS_Ad_Setup_Api_Service();
+    //$quads_ads = $api_service->getAdDataByParam('quads-ads');
      $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
     if(isset($quads_ads['posts_data'])){
 
@@ -1731,10 +1734,10 @@ function quads_is_amp_endpoint(){
 
 
 
-function quads_render_ad_label_new( $adcode,$id='') {
+function quads_render_ad_label_new( $adcode,$post_id='') {
    global $quads_options,$quads_mode;
-
-   $post_id= quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $id);
+   //Function will get post_id in params #631
+   //$post_id= quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $id);
     $ad_meta = get_post_meta($post_id, '',true);
     if (quads_is_amp_endpoint()){
         if(!isset($ad_meta['enabled_on_amp'][0]) || (isset($ad_meta['enabled_on_amp'][0]) && (empty($ad_meta['enabled_on_amp'][0])|| !$ad_meta['enabled_on_amp'][0]) )){
@@ -1769,10 +1772,10 @@ function quads_render_ad_label_new( $adcode,$id='') {
 
 add_filter( 'quads_render_ad', 'quads_render_ad_label_new',99,2 );
 add_filter( 'quads_render_ad', 'quads_render_ad_text_around_ad_new',99,2 );
-function quads_render_ad_text_around_ad_new( $adcode,$id='') {
+function quads_render_ad_text_around_ad_new( $adcode,$post_id='') {
     global $quads_options,$quads_mode;
- 
-    $post_id= quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $id);
+    //Function will get post_id in params #631
+    //$post_id= quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $id);
      $ad_meta = get_post_meta($post_id, '',true);
      if (quads_is_amp_endpoint()){
          if(!isset($ad_meta['enabled_on_amp'][0]) || (isset($ad_meta['enabled_on_amp'][0]) && (empty($ad_meta['enabled_on_amp'][0])|| !$ad_meta['enabled_on_amp'][0]) )){

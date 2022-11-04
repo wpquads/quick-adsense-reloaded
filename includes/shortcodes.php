@@ -52,7 +52,9 @@ function quads_shortcode_display_ad( $atts ) {
     $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
 
             $ad_checker = '';
-            $ad_checker = quads_get_ad( $id ) ? quads_get_ad( $id ) : '' ;
+            // Removing duplicate db calls by saving function output in variable passing 
+            $quads_ad_var = quads_get_ad( $id ); 
+            $ad_checker = $quads_ad_var ? $quads_ad_var : '' ;
             if ( isset($ad_checker) ) {
                 if ( strpos( $ad_checker, 'quads-rotatorad')!==false) { 
                     $margin = 'text-align: center';
@@ -66,14 +68,14 @@ function quads_shortcode_display_ad( $atts ) {
     $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
     if(function_exists('quads_hide_markup') && quads_hide_markup()) {
         $code = "\n" . '<div style="' . $style . '">' . "\n";
-        $code .= do_shortcode( quads_get_ad( $id ) );
+        $code .= do_shortcode( $quads_ad_var );
         $code .= '</div>' . "\n";
     }else{
         $idof_ad_id = '';
         $idof_ad_id = $ad_id;
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
             '<div class="quads-location quads-ad' . $idof_ad_id . '" id="quads-ad' . $idof_ad_id . '" style="' . $style . '">' . "\n";
-        $code .= do_shortcode( quads_get_ad( $id ) );
+        $code .= do_shortcode( $quads_ad_var );
         $code .= '</div>' . "\n";
     }
 
