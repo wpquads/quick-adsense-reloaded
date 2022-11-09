@@ -99,7 +99,7 @@ public function quads_insert_ad_impression(){
         $device_name  = 'mobile';
       }
 
-      $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d AND `ad_device_name` = %d AND `ad_thetime` = %d AND `referrer` = %d AND `ip_address` = %d AND `url` = %d AND `browser` = %d ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
+      $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d AND `ad_device_name` = %s AND `ad_thetime` = %d AND `referrer` = %s AND `ip_address` = %d AND `url` = %s AND `browser` = %s ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
       if($stats > 0) {
               $wpdb->query("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_impressions` = `ad_impressions` + 1 WHERE `id` = {$stats};");
       } else {
@@ -390,9 +390,9 @@ public function quads_get_client_ip() {
       $todays_date = date('Y-m-d');
       $year = date("Y");
 
-      $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d AND `ad_device_name` = %d AND `ad_thetime` = %d AND `referrer` = %d AND `ip_address` = %d AND `url` = %d AND `browser` = %d ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
+      $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d AND `ad_device_name` = %s AND `ad_thetime` = %d AND `referrer` = %s AND `ip_address` = %d AND `url` = %s AND `browser` = %s ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
       if( $stats == NULL ){
-        $stats =  $wpdb->get_var( $wpdb->prepare( "SELECT `id` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d AND `ad_device_name` = %d", $ad_id, $device_name ) )  ;
+        $stats =  $wpdb->get_var( $wpdb->prepare( "SELECT `id` FROM `{$wpdb->prefix}quads_stats` WHERE `ad_id` = %d AND `ad_device_name` = %s", $ad_id, $device_name ) )  ;
       }
       if($stats > 0) {
               $wpdb->query("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_clicks` = `ad_clicks` + 1 WHERE `id` = {$stats};");

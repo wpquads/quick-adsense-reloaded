@@ -121,7 +121,7 @@ class QuadsAdListBody extends Component {
      this.setState({static_box_id:null});
   }
   hideMoreIconBox = (e) => {
-    e.preventDefault();
+    if(e){e.preventDefault();}
     this.setState({more_box_id:null});
   }
   hideStaticIconBox = (e) => {
