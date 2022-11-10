@@ -207,6 +207,9 @@ Alternative Installation:
 
 == Changelog ==
 
+= 2.0.64.1 ( 10 November 2022 ) =
+* Fixed: Background Ad not working after update
+
 = 2.0.64 ( 09 November 2022 ) =
 * Fixed: Kebab Menu Enhancement  #630
 * Fixed: Multiple duplicate queries  #631
