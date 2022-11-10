@@ -114,9 +114,12 @@ function quads_common_head_code(){
             }
         }
     }
-    //require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-    //$api_service = new QUADS_Ad_Setup_Api_Service();
-    //$quads_ads = $api_service->getAdDataByParam('quads-ads');
+    if(!isset($quads_ads)|| empty($quads_ads))
+    {
+        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        $api_service = new QUADS_Ad_Setup_Api_Service();
+        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+    }
     if(isset($quads_ads['posts_data'])){
         $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
         foreach($quads_ads['posts_data'] as $key => $value){
@@ -512,9 +515,12 @@ function quads_render_propeller_async( $id ) {
     return apply_filters( 'quads_render_propeller_async', $html );
 }
 function quads_adsense_auto_ads_amp_script(){
-        //require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-    //$api_service = new QUADS_Ad_Setup_Api_Service();
-    //$quads_ads = $api_service->getAdDataByParam('quads-ads');
+    if(!isset($quads_ads)|| empty($quads_ads))
+    {
+        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        $api_service = new QUADS_Ad_Setup_Api_Service();
+        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+    }
     if(isset($quads_ads['posts_data'])){
 
         foreach($quads_ads['posts_data'] as $key => $value){
@@ -548,9 +554,12 @@ function quads_adsense_auto_ads_amp_script(){
 }
 
 function quads_adsense_auto_ads_amp_tag(){
-        //require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-   // $api_service = new QUADS_Ad_Setup_Api_Service();
-    //$quads_ads = $api_service->getAdDataByParam('quads-ads');
+    if(!isset($quads_ads)|| empty($quads_ads))
+    {
+        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        $api_service = new QUADS_Ad_Setup_Api_Service();
+        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+    }
      $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
     if(isset($quads_ads['posts_data'])){
 

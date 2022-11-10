@@ -72,9 +72,12 @@ function quads_bbp_template_before_replies_loop(){
  
 
 function quads_load_ads_common($user_position,$html=''){
-    // require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-    //$api_service = new QUADS_Ad_Setup_Api_Service();
-    //$quads_ads = $api_service->getAdDataByParam('quads-ads');
+    if(!isset($quads_ads)|| empty($quads_ads))
+    {
+        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        $api_service = new QUADS_Ad_Setup_Api_Service();
+        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+    }
 
     if(isset($quads_ads['posts_data'])){        
         foreach($quads_ads['posts_data'] as $key => $value){
@@ -1023,9 +1026,12 @@ function quads_filter_default_ads_new( $content ) {
     if( $off_default_ads ) { // If default ads are disabled 
         return $content;
     }    
-     //require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-     //$api_service = new QUADS_Ad_Setup_Api_Service();
-     //$quads_ads = $api_service->getAdDataByParam('quads-ads');
+    if(!isset($quads_ads)|| empty($quads_ads))
+    {
+        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        $api_service = new QUADS_Ad_Setup_Api_Service();
+        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+    }
     // Default Ads
     $adsArrayCus = array();
     if(isset($quads_ads['posts_data'])){        
@@ -2698,9 +2704,12 @@ function quads_del_element($array, $idx) {
 
      function quads_background_ad_last($content){
 
-      //require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-      //$api_service = new QUADS_Ad_Setup_Api_Service();
-      //$quads_ads = $api_service->getAdDataByParam('quads-ads');
+        if(!isset($quads_ads)|| empty($quads_ads))
+        {
+            require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+            $api_service = new QUADS_Ad_Setup_Api_Service();
+            $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        }
 
         if(isset($quads_ads['posts_data'])){        
             foreach($quads_ads['posts_data'] as $key => $value){
@@ -2734,8 +2743,7 @@ function quads_del_element($array, $idx) {
             if($is_on && $is_visitor_on && $post_status=='publish'){
                 if($ads['ad_type'] == 'background_ad'){
 
-                      $after_body=''
-                . '<div class="quads-bg-wrapper">
+                      $after_body='<div class="quads-bg-wrapper">
                    <a style="background-image: url('.esc_attr($ads['image_src']).')" class="quads-bg-ad" target="_blank" href="'.esc_attr($ads['image_redirect_url']).'">'
                 . '</a>'                               
                 . '<div class="quads-bg-content">';   
