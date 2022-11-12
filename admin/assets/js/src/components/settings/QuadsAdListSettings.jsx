@@ -90,6 +90,8 @@ class QuadsAdListSettings extends Component {
                 multiPluginsValue  : [],
                 notice_type        : 'ad_blocker_message',
                 notice_behaviour   : 2,
+                notice_bar         : 2,
+                notice_bar_sticky  : '',
                 notice_description : 'Our website is made possible by displaying online advertisements to our visitors. Please consider supporting us by whitelisting our website.',
                 notice_title       : 'Adblock Detected!',
                 notice_close_btn   : '',
@@ -1488,6 +1490,23 @@ handleMultiPluginsChange = (option) => {
                                 <td><input value={settings.notice_title} onChange={this.formChangeHandler} name="notice_title" type="text" placeholder="Adblock Detected!" className="quads-premium-cus" />
                                 </td>
                               </tr>
+                            ) : null    }
+                            {settings.notice_type == 'bar' ? ( 
+                              <>
+                                <tr>
+                                  <th>Notice Bar</th>
+                                  <td>
+                                    <select value={settings.notice_bar} onChange={this.formChangeHandler} name="notice_bar" id="notice_bar">
+                                    <option value="2">{__('Top Bar', 'quick-adsense-reloaded')}</option>
+                                    <option value="1">{__('Bottom Bar', 'quick-adsense-reloaded')}</option>
+                                  </select>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>Sticky Notice Bar</th>
+                                  <td><input id="notice_bar_sticky" type="checkbox" name="notice_bar_sticky" onChange={this.formChangeHandler} checked={settings.notice_bar_sticky} /></td>
+                                </tr>
+                              </>
                             ) : null    }
                               <tr>
                                 <th>Description</th>

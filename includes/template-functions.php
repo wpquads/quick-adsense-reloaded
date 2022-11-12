@@ -72,9 +72,12 @@ function quads_bbp_template_before_replies_loop(){
  
 
 function quads_load_ads_common($user_position,$html=''){
-    // require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-    //$api_service = new QUADS_Ad_Setup_Api_Service();
-    //$quads_ads = $api_service->getAdDataByParam('quads-ads');
+    if(!isset($quads_ads)|| empty($quads_ads))
+    {
+        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        $api_service = new QUADS_Ad_Setup_Api_Service();
+        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+    }
 
     if(isset($quads_ads['posts_data'])){        
         foreach($quads_ads['posts_data'] as $key => $value){
@@ -468,6 +471,9 @@ function quads_adblocker_notice_bar(){
       $background_color = sanitize_hex_color($settings['notice_bg_color']);
       $btn_txt_color = sanitize_hex_color($settings['notice_btn_txt_color']);
       $btn_background_color = sanitize_hex_color($settings['notice_btn_bg_color']);
+      $notice_bar = $settings['notice_bar'];
+      $notice_bar_sticky = $settings['notice_bar_sticky'];
+
   ?>
   
   <div id="quads-myModal" class="quads-adblocker-notice-bar">
@@ -482,6 +488,8 @@ function quads_adblocker_notice_bar(){
       <button class="quads-button quads-closebtn quads-cls-notice"><?php echo $button_txt;?></button>  
     <?php } ?>
     </div>
+    <input type="hidden" id="quads_notice_bar" value="<?php echo $notice_bar;?>">
+    <input type="hidden" id="quads_notice_bar_sticky" value="<?php echo $notice_bar_sticky;?>">
   </div>
   <style type="text/css">
     .quads-adblocker-message{
@@ -495,8 +503,8 @@ function quads_adblocker_notice_bar(){
       padding: 0.5em 1em;
       font-size: 16px;
       line-height: 1.8;
-      position: relative;
-      z-index: 99;
+      position: fixed;
+      z-index: 999999;
     }
     .quads-adblocker-notice-bar strong {
       color: inherit; /* some themes change strong tag to make it darker */
@@ -592,11 +600,58 @@ function quads_adblocker_ad_block(){
 var curr_url = window.location.href;
 var red_ulr = localStorage.getItem('curr');
 var modal = document.getElementById("quads-myModal");
+var quadsClosebtn = document.getElementsByClassName("quads-closebtn")[0];
+var quadsModalContent = document.getElementsByClassName("quads-modal-content")[0];
+var quads_model_  = document.getElementById("quads-myModal_");
 var quadsAllowedCookie =  quadsgetCookie('quadsAllowedCookie');
+var quadsNotice_bar = document.getElementById("quads_notice_bar");
+var quadsNotice_bar_sticky = document.getElementById("quads_notice_bar_sticky");
 
-if(typeof quadsOptions !== 'undefined' && typeof wpquads_adblocker_check_2 
-  === 'undefined' ){
+if (quadsClosebtn) {
+    quadsClosebtn.addEventListener("click", function(){
+        if( quadsClosebtn ){
+            quads_model_.style.display = "none";
+        }
+    })
+} 
 
+window.onclick = function(event) {
+  if (event.target == quads_model_) {
+    quads_model_.style.display = "none";
+    document.cookie = "quads_prompt_close="+new Date();
+    quadssetCookie('quadsCookie', 'true', 1, '/');
+  }
+}
+
+if(quadsNotice_bar.value == 2){
+    modal.style.top = "0";
+} else {
+    modal.style.bottom = "0";
+}
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+    var currentScrollPos = window.pageYOffset;
+    if(prevScrollpos > currentScrollPos){
+        if(quadsNotice_bar.value == 2){
+            modal.style.top = "0px";
+        }
+        if(quadsNotice_bar.value == 1){
+            modal.style.bottom = "0px";
+        }
+    } else{
+        if(quadsNotice_bar_sticky.value != 1 && quadsNotice_bar.value == 2){
+            modal.style.top = "-90px";
+        }
+        if(quadsNotice_bar_sticky.value != 1 && quadsNotice_bar.value == 1){
+            modal.style.bottom = "-90px";
+        }
+    }
+    prevScrollpos = currentScrollPos;
+}
+
+console.log("quadsNotice_bar_sticky: ", quadsNotice_bar_sticky);
+
+if(typeof quadsOptions !== 'undefined'){
     var quads_model_  = document.getElementById("quads-myModal_");
     if(quads_model_){ quads_model_.style.display = "block"; }
 
@@ -631,9 +686,8 @@ if(typeof quadsOptions !== 'undefined' && typeof wpquads_adblocker_check_2
       modal.style.display = "none";
     }
   }
+
 }
-
-
 
 var span = document.getElementsByClassName("quads-cls-notice")[0];
 if(span){
@@ -644,23 +698,6 @@ if(span){
   }
 }
 
-var quads_closebtn = document.getElementsByClassName("quads-closebtn")[0]
-var quads_modal = document.getElementById("quads-myModal")
-if (quads_closebtn) {
-    quads_closebtn.addEventListener('click', function(){
-        if( quads_closebtn ){
-        quads_modal.style.display = "none"
-    }
-} )
-}
-
-window.onclick = function(event) {
-  if (event.target == modal) {
-    // modal.style.display = "none";
-    document.cookie = "quads_prompt_close="+new Date();
-    quadssetCookie('quadsCookie', 'true', 1, '/');
-  }
-}
 })();
 function quadsgetCookie(cname){
     var name = cname + '=';
@@ -1023,9 +1060,12 @@ function quads_filter_default_ads_new( $content ) {
     if( $off_default_ads ) { // If default ads are disabled 
         return $content;
     }    
-     //require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-     //$api_service = new QUADS_Ad_Setup_Api_Service();
-     //$quads_ads = $api_service->getAdDataByParam('quads-ads');
+    if(!isset($quads_ads)|| empty($quads_ads))
+    {
+        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        $api_service = new QUADS_Ad_Setup_Api_Service();
+        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+    }
     // Default Ads
     $adsArrayCus = array();
     if(isset($quads_ads['posts_data'])){        
@@ -2698,9 +2738,12 @@ function quads_del_element($array, $idx) {
 
      function quads_background_ad_last($content){
 
-      //require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-      //$api_service = new QUADS_Ad_Setup_Api_Service();
-      //$quads_ads = $api_service->getAdDataByParam('quads-ads');
+        if(!isset($quads_ads)|| empty($quads_ads))
+        {
+            require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+            $api_service = new QUADS_Ad_Setup_Api_Service();
+            $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        }
 
         if(isset($quads_ads['posts_data'])){        
             foreach($quads_ads['posts_data'] as $key => $value){
@@ -2734,8 +2777,7 @@ function quads_del_element($array, $idx) {
             if($is_on && $is_visitor_on && $post_status=='publish'){
                 if($ads['ad_type'] == 'background_ad'){
 
-                      $after_body=''
-                . '<div class="quads-bg-wrapper">
+                      $after_body='<div class="quads-bg-wrapper">
                    <a style="background-image: url('.esc_attr($ads['image_src']).')" class="quads-bg-ad" target="_blank" href="'.esc_attr($ads['image_redirect_url']).'">'
                 . '</a>'                               
                 . '<div class="quads-bg-content">';   
