@@ -34,7 +34,7 @@ class QuadsAdSettingsNavLink extends Component {
           {quads_localize_data.is_pro ? 
            <li><h2><Link to={'admin.php?page=quads-settings&path=settings_google_autoads'} className={current == 'settings_google_autoads' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'}>{__('Google Auto Ads', 'quick-adsense-reloaded')}</Link></h2></li>     :''} 
           {quads_localize_data.is_pro ? 
-           <li><h2><Link to={'admin.php?page=quads-settings&path=settings_licenses'} className={current == 'settings_licenses' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'}>{quads_localize_data.licenses.price_id <=30 || quads_localize_data.licenses.price_id =='expired' ? <span class="quads_pro_icon dashicons dashicons-warning quads_pro_alert"></span> : ''}{__('Licenses', 'quick-adsense-reloaded')}</Link></h2></li>     :''}                                                  
+           <li><h2><Link to={'admin.php?page=quads-settings&path=settings_licenses'} className={current == 'settings_licenses' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'}>{quads_localize_data.licenses.price_id <=30 || quads_localize_data.licenses.price_id =='expired' ? <span className="quads_pro_icon dashicons dashicons-warning quads_pro_alert"></span> : ''}{__('Licenses', 'quick-adsense-reloaded')}</Link></h2></li>     :''}                                                  
         </ul>                          
         </div>        
         );

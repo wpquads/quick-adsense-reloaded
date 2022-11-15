@@ -297,7 +297,7 @@ renderSwitch(param='') {
             <tr key={index}>
                 <td> <Link to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.ad_type}&action=edit&post=${item.ad_id}`} target="_blank"  className="quads-edit-btn"><Tooltip title={item.label} placement="right" arrow ><span>{item.ad_id}</span></Tooltip> </Link></td>
                 <td>{this.timeConverter(item.ad_thetime)}</td>
-                <td className={'quads_no_transform'}> <a target="_blank" href={item.url}  target="_blank"  className="quads-edit-btn"> {item.url}</a></td>
+                <td className={'quads_no_transform'}> <a target="_blank" href={item.url} className="quads-edit-btn"> {item.url}</a></td>
                 <td>{item.browser}</td>
                 <td className={'quads_no_transform'}>{item.referrer}</td>
                 <td>{item.ip_address}</td>

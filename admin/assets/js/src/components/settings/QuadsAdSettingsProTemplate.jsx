@@ -45,11 +45,8 @@ class QuadsAdSettingsProTemplate extends Component {
           load_symbol = 'lazy_loader_rs'
         }
 
-      return (
-        
-        <tr>  <th><label htmlFor={data.id}>{data.title} </label></th>
-          <td>
-          
+      return (<tr><th><label htmlFor={data.id}>{data.title} </label></th>
+          <td>          
             <label className="quads-switch">
               <input type="checkbox" name={data.id} onChange={this.props.formChangeHandler} checked={settings[data.id]} value={data.id} />
               <span id={data.id+'_'} className="quads-slider"></span>
@@ -60,8 +57,7 @@ class QuadsAdSettingsProTemplate extends Component {
         </tr>
       );
     } else {
-      return (
-      <tr>  <th><label htmlFor={data.id}>{data.title} <span className={'getprocheckbox'}><a className={'quads_pro_link'} target="blank" href="https://wpquads.com/#buy-wpquads">PRO</a></span></label></th>
+      return (<tr><th><label htmlFor={data.id}>{data.title} <span className={'getprocheckbox'}><a className={'quads_pro_link'} target="blank" href="https://wpquads.com/#buy-wpquads">PRO</a></span></label></th>
         <td>
           <label className="quads-switch">
             <input type="checkbox" name={data.id} onChange={this.props.display_pro_alert_fun} value={data.id} />

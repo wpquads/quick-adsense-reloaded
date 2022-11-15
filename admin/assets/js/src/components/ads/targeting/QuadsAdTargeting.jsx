@@ -326,7 +326,7 @@ class QuadsAdTargeting extends Component {
                                 <option value="on_interval">Auto Rotate</option>
                                 </select></td>
                                 {post_meta.ad_type == 'rotator_ads' && post_meta.refresh_type == 'on_interval' ?
-                                <td><a class="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-auto-rotation-how-to-set-it-up/"></a></td> : '' }
+                                <td><a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-auto-rotation-how-to-set-it-up/"></a></td> : '' }
                                 </tr>
                         : null}
                     {post_meta.ad_type == 'rotator_ads' && post_meta.refresh_type == 'on_interval' ?
@@ -359,7 +359,7 @@ class QuadsAdTargeting extends Component {
                               <input id={'grid_data_ad_row'} placeholder='Row'
                               name={'grid_data_ad_row'} type="number"
                               value={post_meta.grid_data_ad_row }  onChange={this.props.adFormChangeHandler}    />
-                              <a class="quads-general-helper quads-general-helper-new ad_rotator_grid" target="_blank" href="https://wpquads.com/documentation/how-to-setup-grid-in-ad-rotator/"></a>
+                              <a className="quads-general-helper quads-general-helper-new ad_rotator_grid" target="_blank" href="https://wpquads.com/documentation/how-to-setup-grid-in-ad-rotator/"></a>
                             </td>
                               : ''}
                             </tr>

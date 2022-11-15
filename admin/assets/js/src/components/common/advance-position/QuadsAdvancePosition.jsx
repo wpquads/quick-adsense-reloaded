@@ -36,7 +36,7 @@ check_plugin_exist = (event) => {
                 (result) => {
                     let ad_extra_position =  Object.entries(result).map(([key, value]) => {
                         return (
-                            <option  value={'api-'+value.location}>{value.description}</option>
+                            <option key={key} value={'api-'+value.location}>{value.description}</option>
                         )
                     });
                     this.setState({ad_extra_position:ad_extra_position});

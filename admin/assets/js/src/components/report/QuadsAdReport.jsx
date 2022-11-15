@@ -407,9 +407,8 @@ class QuadsAdReport extends Component {
                         <tr>
                         <td><b>${pass_Date}</b></td>
                         </tr>
-                        ${ pass_var.map( (item) =>  {
-                            return `
-                            <tr><td>${item}</td></tr>`
+                        ${ pass_var.map( (item, index) =>  {
+                            return `<tr key=${index}><td>${item}</td></tr>`
                         }).join('')
                         }
                         <tr><td>Total</td></tr>
@@ -423,8 +422,7 @@ class QuadsAdReport extends Component {
                         </tr>
 
                         ${ response.individual_impr_day_counts.map( (item3, index3) =>  {
-                            return `
-                            <tr><td>${item3}</td></tr>`
+                            return `<tr key=${index3}><td>${item3}</td></tr>`
                         } ).join('')
                         }
                         <tr><td>${response.impressions}</td></tr>
@@ -438,8 +436,7 @@ class QuadsAdReport extends Component {
                         </tr>
 
                         ${ response.individual_click_day_counts.map( (item2, index2) =>  {
-                            return `
-                            <tr><td>${item2}</td></tr>`
+                            return `<tr key=${index2}><td>${item2}</td></tr>`
                         } ).join('')
                         }
                         <tr><td>${response.clicks}</td></tr>
@@ -846,7 +843,7 @@ drawChart(config);
                         get_table.innerHTML = 'No data Found'
                     }
                     if( quads_localize_data.is_pro == undefined && response.ad_day == "this_year_free" || response.ad_day == "all_time_free" || response.ad_day == "custom_free" ){
-                        let pro_notify_main = '<div id="pro_" class="pro_"><div id="quads_get_pro" style="font-size: 15px;color: #000;line-height: 50px;padding-left: 14px;">This feature is available in PRO version <a class="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Upgrade to PRO to unlock the data in the Reports</a></div></div>'
+                        let pro_notify_main = '<div id="pro_" "pro_"><div id="quads_get_pro" style="font-size: 15px;color: #000;line-height: 50px;padding-left: 14px;">This feature is available in PRO version <a "quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Upgrade to PRO to unlock the data in the Reports</a></div></div>'
                         let canva = document.getElementById('quads_reports_pro_notify_main')
                         get_table.innerHTML = ''
                         canva.innerHTML = pro_notify_main
@@ -890,9 +887,8 @@ drawChart(config);
                         <td><b>Clicks</b></td>
                         </tr>
                         ${  
-                            top5_ads.map( ads =>  {
-                            return `
-                            <tr class="top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();"  data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
+                            top5_ads.map( (ads, index) =>  {
+                            return `<tr key=${index} "top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();"  data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
                         }).join('')
                         }
 
@@ -906,19 +902,18 @@ drawChart(config);
                 {
                     
         render_data = `<table ><tr><td colspan="3" align="center"><b>Perfomance report for `+ad_day.charAt(0).toUpperCase() + ad_day.slice(1).replace(/_/g,' ')+`</b></td></tr>
-        <tr><td class="main_td"><table>
+        <tr><td "main_td"><table>
                         <tbody>
                         <tr>
                         <td><b>${pass_Date}</b></td>
                         </tr>
                         ${ ad_imp_individual_dates.map( (item,index) =>  {
-                            return `
-                            <tr><td>${item}</td></tr>`
+                            return `<tr key=${index}><td>${item}</td></tr>`
                         }).join('')
                         }
                         <tr><td>Total</td></tr>
                         </tbody>
-                        </table></td><td class="main_td">
+                        </table></td><td "main_td">
                         <table>
                         <tbody>
                         <tr>
@@ -926,15 +921,14 @@ drawChart(config);
                         </tr>
 
                         ${ response.individual_impr_day_counts.map( (item3, index3) =>  {
-                            return `
-                            <tr><td>${item3}</td></tr>`
+                            return `<tr key=${index3}><td>${item3}</td></tr>`
                         } ).join('')
                         }
                         <tr><td>${response.impressions}</td></tr>
                         </tbody>
                         </table>
                         </td>
-                        <td class="main_td">
+                        <td "main_td">
                         <table>
                         <tbody>
                         <tr>
@@ -942,8 +936,7 @@ drawChart(config);
                         </tr>
 
                         ${ response.individual_click_day_counts.map( (item2, index2) =>  {
-                            return `
-                            <tr><td>${item2}</td></tr>`
+                            return `<tr key=${index2}><td>${item2}</td></tr>`
                         } ).join('')
                         }
                         <tr><td>${response.clicks}</td></tr>
@@ -966,9 +959,8 @@ drawChart(config);
                                 <td><b>Clicks</b></td>
                                 </tr>
                                 ${  
-                                    top5_ads.map( ads =>  {
-                                    return `
-                                    <tr class="top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
+                                    top5_ads.map( (ads, index) =>  {
+                                    return `<tr key=${index} "top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
                                 }).join('')
                                 }
                                 </tbody>
@@ -979,19 +971,18 @@ drawChart(config);
                         {
                         let pass_Date_ = 'Date'
                         render_data = `<table ><tr><td colspan="3" align="center"><b>Perfomance report for `+ad_day.charAt(0).toUpperCase() + ad_day.slice(1).replace(/_/g,' ')+`</b></td></tr>
-                        <tr><td class="main_td"><table>
+                        <tr><td "main_td"><table>
                         <tbody>
                         <tr>
                         <td><b>${pass_Date_}</b></td>
                         </tr>
-                        ${ ad_imp_individual_dates.map( (item) =>  {
-                            return `
-                            <tr><td>${item}</td></tr>`
+                        ${ ad_imp_individual_dates.map( (item, index) =>  {
+                            return `<tr key=${index}><td>${item}</td></tr>`
                         }).join('')
                         }
 
                         </tbody>
-                        </table></td><td class="main_td">
+                        </table></td><td "main_td">
 
                         <table>
                         <tbody>
@@ -1000,14 +991,13 @@ drawChart(config);
                         </tr>
 
                         ${ response.individual_impr_day_counts.map( (item3, index3) =>  {
-                            return `
-                            <tr><td>${item3}</td></tr>`
+                            return `<tr key=${index3}><td>${item3}</td></tr>`
                         } ).join('')
                         }
 
                         </tbody>
                         </table></td>
-                        <td class="main_td">
+                        <td "main_td">
                         <table>
                         <tbody>
                         <tr>
@@ -1015,8 +1005,7 @@ drawChart(config);
                         </tr>
 
                         ${ response.individual_click_day_counts.map( (item2, index2) =>  {
-                            return `
-                            <tr><td>${item2}</td></tr>`
+                            return `<tr key=${index2}><td>${item2}</td></tr>`
                         } ).join('')
                         }
 
@@ -1040,9 +1029,8 @@ drawChart(config);
                                 <td><b>Clicks</b></td>
                                 </tr>
                                 ${  
-                                    top5_ads.map( ads =>  {
-                                    return `
-                                    <tr class="top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}"   ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
+                                    top5_ads.map( (ads, index) =>  {
+                                    return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}"   ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
                                 }).join('')
                                 }
         
@@ -1108,9 +1096,8 @@ drawChart(config);
                                 <td><b>Clicks</b></td>
                                 </tr>
                                 ${  
-                                    top5_ads.map( ads =>  {
-                                    return `
-                                    <tr class="top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}" ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
+                                    top5_ads.map( (ads,index) =>  {
+                                    return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}" ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
                                 }).join('')
                                 }
         
@@ -1171,7 +1158,7 @@ drawChart(config);
                         get_table.innerHTML = 'No data Found'
                     }
                     if( quads_localize_data.is_pro == undefined && response.ad_day == "this_year_free" || response.ad_day == "all_time_free" || response.ad_day == "custom_free" ){
-                        let pro_notify_main = '<div id="pro_" class="pro_"><div id="quads_get_pro" style="font-size: 15px;color: #000;line-height: 50px;padding-left: 14px;">This feature is available in PRO version <a class="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Upgrade to PRO to unlock the data in the Reports</a></div></div>'
+                        let pro_notify_main = '<div id="pro_" "pro_"><div id="quads_get_pro" style="font-size: 15px;color: #000;line-height: 50px;padding-left: 14px;">This feature is available in PRO version <a "quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Upgrade to PRO to unlock the data in the Reports</a></div></div>'
                         let canva = document.getElementById('quads_reports_pro_notify_main')
                         get_table.innerHTML = ''
                         canva.innerHTML = pro_notify_main
@@ -1199,9 +1186,8 @@ drawChart(config);
                         <td><b>Clicks</b></td>
                         </tr>
                         ${  
-                            top5_ads.map( ads =>  {
-                            return `
-                            <tr><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
+                            top5_ads.map( (ads, index) =>  {
+                            return `<tr key=${index}><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
                         }).join('')
                         }
 
@@ -1347,7 +1333,7 @@ drawChart(config);
                                     <li data-adtype="view_stats_report" id="quads-adsense-view_stats_report" onClick={ () =>{
                                         this.view_stats_report_handler()
                                     } }  >
-                                    <a class="quads-nav-linkforview_stats_report">
+                                    <a className="quads-nav-linkforview_stats_report">
                                     <img style={{marginTop: "20px"}} src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/view_stats.png'}/>
                                     </a>
                                     <div id="view_report_view_stats_report" style={{color: "#005af0"}} onClick={ () =>{
@@ -1436,8 +1422,8 @@ drawChart(config);
                 }
                     </div>
                     </div>
-                    <div id='quads_reports_pro_notify_main' class='quads_reports_pro_notify_main' style={{marginTop: "20px"}}  ></div>
-                    <div id='quads_reports_canvas' class='report_single' ></div>
+                    <div id='quads_reports_pro_notify_main' className='quads_reports_pro_notify_main' style={{marginTop: "20px"}}  ></div>
+                    <div id='quads_reports_canvas' className='report_single' ></div>
                     <div id={'quads_report_table'}></div>
                     <div id={'quads_report_table_total'}
                     style={{ display: this.state.custom_period ? 'block' : ''}} >
