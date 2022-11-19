@@ -172,6 +172,7 @@ class QuadsAdConfigFields extends Component {
               var selection =  video_frame.state().get('selection');
 
             });
+            console.log("video_frame.open");
           video_frame.open();
 
     }
@@ -513,6 +514,42 @@ const {__} = wp.i18n;
                   </tbody></table>
                   </div>);      
               break;
+
+              case 'parallax_ads':                
+                ad_type_name = 'Parallax Ads';
+                comp_html.push(<div key="parallax_ads">
+                  <table><tbody>
+                    <tr><td>
+                      <label>{__('Ad Title', 'quick-adsense-reloaded')}</label></td><td>
+                      <input value={post_meta.parallax_ad_title} type="text" onChange={this.props.adFormChangeHandler} name="parallax_ad_title" placeholder="Ad Title" />
+                      {(show_form_error && post_meta.parallax_ad_title == '') ? <div className="quads_form_msg"><span className="material-icons">
+                      error_outline</span>Enter Ad Title</div> :''}
+                    </td></tr>
+                    <tr>
+                      <td><label>{__('Upload Ad Image', 'quick-adsense-reloaded')}</label></td>
+                      <td>{post_meta.image_src == '' ? <div><div><a className="button" onClick={this.selectimages}>{__(' Upload Image',   'quick-adsense-reloaded')}</a></div></div>
+                      : <div><div><img src={post_meta.image_src} className="banner_image" /><a className="button" onClick={this.remove_image}>{__('Remove Image', 'quick-adsense-reloaded')}</a></div></div>
+                      } 
+                      {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
+                      error_outline</span>Upload Ad Image</div> :''}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><label>{__('Ad Description', 'quick-adsense-reloaded')}</label></td> 
+                      <td><textarea className={(show_form_error && post_meta.parallax_ad_desc == '') ? 'quads_form_error' : ''}  cols="50" rows="5" value={post_meta.parallax_ad_desc} onChange={this.props.adFormChangeHandler} id="parallax_ad_desc" name="parallax_ad_desc" />
+                      {(show_form_error && post_meta.parallax_ad_desc == '') ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>Ad Description</div> : ''}</td>
+                    </tr>
+                    <tr><td>
+                      <label>{__('Ad Button link', 'quick-adsense-reloaded')}</label></td>
+                      <td><input value={post_meta.parallax_btn_url} onChange={this.props.adFormChangeHandler} type="text" id="parallax_btn_url" name="parallax_btn_url" placeholder="Ad Button link" />
+                        {(show_form_error && post_meta.parallax_btn_url == '') ? <div className="quads_form_msg"><span className="material-icons">
+                        error_outline</span>Enter Ad Button link</div> :''}
+                      </td>
+                    </tr>
+                  </tbody></table>
+                </div>);      
+              break;
+
               case 'rotator_ads':
                  ad_type_name = 'Rotator Ads';
                  if(!quads_localize_data.is_pro){

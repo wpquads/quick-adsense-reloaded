@@ -205,6 +205,7 @@ class QuadsAdTargeting extends Component {
                 post_meta.ad_type == 'infolinks' ||
                 post_meta.ad_type == 'skip_ads' ||
                 post_meta.ad_type == 'loop_ads' ||
+                post_meta.ad_type == 'parallax_ads' ||
                 post_meta.ad_type == 'carousel_ads' ||
                 post_meta.ad_type == 'sticky_scroll'
               ) ?
@@ -214,10 +215,10 @@ class QuadsAdTargeting extends Component {
                 <div className="quads-panel-body"> 
                 <table>
                   <tbody>
-                  { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" || post_meta.ad_type == "loop_ads" ?  "" : 
+                  { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" || post_meta.ad_type == "parallax_ads" || post_meta.ad_type == "loop_ads" ?  "" : 
                     <tr className="quads-tr-position">
                     <td><label>{__('Where will the AD appear?', 'quick-adsense-reloaded')}</label></td>
-                    { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" ?  "" : 
+                    { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" || post_meta.ad_type == "parallax_ads" ?  "" : 
                         <td>{post_meta.ad_type != "group_insertion" || post_meta.ad_type != "sticky_scroll" ? (<QuadsAdvancePosition parentState={this.props.parentState} adFormChangeHandler = {this.props.adFormChangeHandler}/>
                         ):<div><select  value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                             <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
@@ -445,6 +446,49 @@ class QuadsAdTargeting extends Component {
                         <tr className='video_ad_positiontable'>
                             <td><label>{__('Position', 'quick-adsense-reloaded')}</label></td>
                             <td><select value={post_meta.video_ad_type_position} name="video_ad_type_position" onChange={this.props.adFormChangeHandler} >
+                                <option value="select">Select</option>
+                                <option value="v_left">Left</option>
+                                <option value="v_right">Right</option>
+                                </select></td>                                 
+                                </tr>
+                         : ''
+                        }
+                        { post_meta.ad_type == 'parallax_ads' ?
+                        <tr className='parallax_ads_table'>
+                            <td><label>{__('Parallax Type', 'quick-adsense-reloaded')}</label></td>
+                            <td><select value={post_meta.parallax_ads_type} name="parallax_ads_type" onChange={this.props.adFormChangeHandler} >
+                                <option value="select">Select</option>
+                                <option value="specific_time_parallax_ads">After Specific Time</option>
+                                <option value="after_scroll_parallax_ads">On Scroll</option>
+                                </select></td>                                 
+                                </tr>
+                         : ''
+                        }
+                        {post_meta.ad_type == 'parallax_ads' && post_meta.parallax_ads_type == 'specific_time_parallax_ads' ?
+                          <tr>
+                          <td></td>
+                            <td>
+                                <input id={'specific_time_interval_sec_parallax_ads'}
+                                       name={'specific_time_interval_sec_parallax_ads'} type="number"
+                                       value={post_meta.specific_time_interval_sec_parallax_ads} onChange={this.props.adFormChangeHandler}  /> milliseconds
+                            </td>
+                        </tr>
+                        :null}
+                        {post_meta.ad_type == 'parallax_ads' && post_meta.parallax_ads_type == 'after_scroll_parallax_ads' ?
+                          <tr>
+                            <td></td>
+                            <td>
+                                <input id={'on_scroll_parallax_ads_percentage'}
+                                       name={'on_scroll_parallax_ads_percentage'} type="number"
+                                       value={post_meta.on_scroll_parallax_ads_percentage} onChange={this.props.adFormChangeHandler}  /> Scroll percentage
+                            </td>
+                        </tr>
+                        :null}
+                        
+                        { post_meta.ad_type == 'parallax_ads' ?
+                        <tr className='parallax_ads_positiontable'>
+                            <td><label>{__('Position', 'quick-adsense-reloaded')}</label></td>
+                            <td><select value={post_meta.parallax_ads_type_position} name="parallax_ads_type_position" onChange={this.props.adFormChangeHandler} >
                                 <option value="select">Select</option>
                                 <option value="v_left">Left</option>
                                 <option value="v_right">Right</option>

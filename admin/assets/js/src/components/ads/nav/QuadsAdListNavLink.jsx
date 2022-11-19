@@ -36,6 +36,7 @@ class QuadsAdListNavLink extends Component {
                     {ad_type:'popup_ads',ad_type_name:'Popup Ads'},
                     {ad_type:'loop_ads',ad_type_name:'Loop Ads'},
                     {ad_type:'carousel_ads',ad_type_name:'Carousel Ads'},
+                    {ad_type:'parallax_ads',ad_type_name:'Parallax Ads'},
                     {ad_type:'floating_cubes',ad_type_name:'Floating Ads',pro:'true'},
                     {ad_type:'rotator_ads',ad_type_name:'Rotator Ads',pro:'true'},
                     {ad_type:'group_insertion',ad_type_name:'Group Insertion',pro:'true'},
@@ -151,6 +152,9 @@ class QuadsAdListNavLink extends Component {
               case 'carousel_ads':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/carousel_ads_icon.png';
               break;
+              case 'parallax_ads':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/parallax_ads_icon.png';
+              break;
               case 'sticky_scroll':
                 img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/sticky_scroll_icon.png';
                 break;
@@ -184,6 +188,7 @@ class QuadsAdListNavLink extends Component {
         this.state.All_ad_network.map((item, index ) => {
             var link = document.createElement('link');
               link.rel = "preload";
+              link.key = index;
               link.href = this.getImageByAdType(item.ad_type, index,'image_url');
               link.as = "image";
               document.head.appendChild(link);

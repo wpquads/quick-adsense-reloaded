@@ -167,6 +167,10 @@ class QuadsAdList extends Component {
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/carousel_ads_icon.png';
           type = "Carousel Ads";
           break;
+          case 'parallax_ads':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/parallax_ads_icon.png';
+          type = "Parallax Ads";
+          break;
           case 'sticky_scroll':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/sticky_scroll_icon.png';
           type = "Hold on Scroll  Ads";
@@ -242,7 +246,7 @@ class QuadsAdList extends Component {
                 <div className="quads-action-div">
                 {this.props.static_box_id ==  item.post_meta.ad_id ?
                 <div className="quads-more-icon-box">
-                  <div className="quads-more-icon-box-close" onClick={this.props.hideStaticIconBox}><Icon>close</Icon></div>
+                  <div className="quads-more-icon-box-close" onClick={this.props.hideStaticIconBox}><Icon>close</Icon></div>                  
                   <ul>
                 <li role="presentation"><span className="static_num">{item.post_meta?.analytics?.impressions ? item.post_meta.analytics.impressions : 0}</span> <span>{__('Impression ', 'quick-adsense-reloaded')}</span></li>
                     <li role="presentation"><span className="static_num">{item.post_meta?.analytics?.clicks ? item.post_meta.analytics.clicks : 0}</span> <span>{__('Clicks ', 'quick-adsense-reloaded')}</span></li>

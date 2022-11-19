@@ -418,7 +418,7 @@ function quads_inline_styles() {
 		transition: all 0.5s ease;
 		border-radius: 50%;
 	}
-    #btn_close_video{
+    #btn_close_video, #btn_close_parallax{
 		background-color: #fff;
 		width: 25px;
 		height: 25px;
@@ -436,6 +436,15 @@ function quads_inline_styles() {
         .quads.quads_ad_container_ {
             left: 10px;
         }
+        .quads-parallax {
+            left: 0;
+            right: 0;
+        }
+    }
+    @media screen and (max-width: 520px) {
+        #btn_close_parallax {
+            right: 30px;
+        }
     }
     
     .quads-video {
@@ -445,6 +454,46 @@ function quads_inline_styles() {
     }
     quads_ad_container_video{
         max-width:220px;
+    }
+    .quads-parallax {
+        position: fixed;
+        bottom: 0px;
+        z-index: 9999999;
+        font-size: 14px;
+        background: #fff;
+        border-radius: 4px 0 0 0;
+        border: 1px solid #ddd;
+        border-bottom: none;
+        bottom: 0;
+        padding: 1.6em;
+        width: 350px;
+    }
+    #parallax_popup_title {
+        font-size: 16px;
+        color: #777;
+        text-align: center;
+    }
+    .parallax_popup_img {
+        width: 100px;
+        text-align: center;
+        margin: 0 auto;
+    }
+    .parallax_popup_desc blockquote {
+        margin: 12px 0 8px 0 !important;
+        border-left: 0 !important;
+        padding: 0 !important;
+        line-height: 1.4em;
+        text-align: center;
+    } 
+    .parallax_popup_button{
+        text-align: center;
+    }
+    .parallax_popup_button a {
+        text-decoration: none;
+        background: #1e73be;
+        padding: 8px 12px;
+        color: #fff;
+        font-weight: 600;
     }
     .quads_click_impression { display: none;}
     
