@@ -16,7 +16,8 @@ class QuadsAdmin extends Component {
                 switchToOld: false,
                 ad_type_toggle: false,
                 settings  : []          
-            };     
+            };  
+            this.quads_cll_method();   
       }
       nodatashowAddTypeSelector = (e) => {
         e.preventDefault();
@@ -55,7 +56,37 @@ class QuadsAdmin extends Component {
        
       }
     );         
-    }   
+    }  
+    
+    quads_cll_method() {
+      function quads_set_admin_occasional_ads_pop_up_cookie(){
+        var o = new Date;
+        o.setFullYear(o.getFullYear() + 1), document.cookie = "quads_hide_admin_occasional_ads_pop_up_cookie_feedback=1; expires=" + o.toUTCString() + "; path=/"
+        }
+        
+        function quads_delete_admin_occasional_ads_pop_up_cookie() {
+            document.cookie = "quads_hide_admin_occasional_ads_pop_up_cookie_feedback=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;"
+        }
+        
+        function quads_get_admin_occasional_ads_pop_up_cookie() {
+            for (var o = "quads_hide_admin_occasional_ads_pop_up_cookie_feedback=", a = decodeURIComponent(document.cookie).split(";"), e = 0; e < a.length; e++) {
+                for (var c = a[e];
+                    " " == c.charAt(0);) c = c.substring(1);
+                if (0 == c.indexOf(o)) return c.substring(o.length, c.length)
+            }
+            return ""
+        }
+      jQuery(function(o) {
+          var a = quads_get_admin_occasional_ads_pop_up_cookie();
+          void 0 !== a && "" !== a && o("details#quads-ocassional-pop-up-container").attr("open", !1), o("details#quads-ocassional-pop-up-container span.quads-promotion-close-btn").click(function(a) {
+              o("details#quads-ocassional-pop-up-container summary").click()
+          }), o("details#quads-ocassional-pop-up-container summary").click(function(a) {
+              var e = o(this).parents("details#quads-ocassional-pop-up-container"),
+                  c = o(e).attr("open");
+              void 0 !== c && !1 !== c ? quads_set_admin_occasional_ads_pop_up_cookie() : quads_delete_admin_occasional_ads_pop_up_cookie()
+          })
+      });
+    }
 
   render() {
         const {__} = wp.i18n; 
@@ -127,7 +158,7 @@ class QuadsAdmin extends Component {
                         
                         
                         <div className="quads-segment">                
-                        {(() => {
+                          {(() => {
                             if(pagePath.includes('settings')){
                                 return <QuadsAdListSettings/>;                                
                             }
@@ -147,9 +178,23 @@ class QuadsAdmin extends Component {
                             }
                             if(pagePath.includes('ad_logging')){
                               return <QuadsAdLogging      />;
-                          }
-                        })()}
-                    </div>
+                            }
+                          })()}
+                        </div>
+                        { !quads_localize_data.is_pro ? 
+                         ( <details id="quads-ocassional-pop-up-container" open>
+                            <summary class="quads-ocassional-pop-up-open-close-button">40% OFF - Limited Time Only <img height="25" width="25" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/sale.png'} /></summary>
+                            <span class="quads-promotion-close-btn">  &times;  </span>
+                            <div class="quads-ocassional-pop-up-contents">
+                        
+                                <img src="https://cdn-icons-png.flaticon.com/512/2349/2349820.png" class="quads-promotion-surprise-icon" />
+                                <p class="quads-ocassional-pop-up-headline">40% OFF on<span>Easy TOC PRO</span></p>
+                                <p class="quads-ocassional-pop-up-second-headline">Upgrade the PRO version during this festive season and get our biggest discount of all time on New Purchases, Renewals &amp; Upgrades</p>
+                                <a class="quads-ocassional-pop-up-offer-btn" href="https://wpquads.com/november-deal/" target="_blank">Get This Offer Now</a>
+                                <p class="quads-ocassional-pop-up-last-line">Black Friday, Cyber Monday, Christmas &amp; New year are the only times we offer discounts this big.</p>
+                            </div>
+                        </details>)
+                      : ''}
                     </div>                                                                
             );
     }
