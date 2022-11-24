@@ -1126,17 +1126,17 @@ function quads_filter_default_ads_new( $content ) {
                 else{
                        $cusads = '<!--CusAds'.esc_html($ads['ad_id']).'-->';
                 }
+               
                 switch ($position) {
 
                     case 'beginning_of_post':                          
                         if(strpos( $content, '<!--OffBegin-->' ) === false ) {
                            $content = $cusads.$content;   
                         }                    
-                        break;
+                    break;
 
                     case 'middle_of_post':
-                        
-                            // Check if ad is middle one
+                        // Check if ad is middle one
                         if(strpos( $content, '<!--OffMiddle-->' ) === false ) {
                             $closing_p        = '</p>';
                             $paragraphs       = explode( $closing_p, $content );       
@@ -1159,13 +1159,13 @@ function quads_filter_default_ads_new( $content ) {
                                 }
                         }
 
-                        break;                            
+                    break;                            
                     case 'end_of_post':           
                         if(strpos( $content, '<!--OffEnd-->' ) === false ) {
                            $content = $content.$cusads;   
                         }                     
                         # code...
-                        break;
+                    break;
 
                     case 'ad_sticky_ad':
                         $sticky_cookie =   (isset( $_COOKIE['quads_sticky'] ) && $_COOKIE['quads_sticky']!== NULL ) ? $_COOKIE['quads_sticky'] : '' ;
@@ -1179,14 +1179,14 @@ function quads_filter_default_ads_new( $content ) {
                                 $q_close = '</div>';
                                 $content = $content.$q_main_open.$cusads.$q_close;}                                 
                             }
-                        break;                                
+                    break;                                
                     case 'after_more_tag':
                         // Check if ad is after "More Tag"
                         if(strpos( $content, '<!--OffAfMore-->' ) === false ) {                           
                             $postid  = get_the_ID();
                             $content = str_replace( '<span id="more-' . $postid . '"></span>', $cusads, $content );
                         }
-                        break;
+                    break;
                     case 'before_last_paragraph':
 
                         if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
@@ -1208,7 +1208,7 @@ function quads_filter_default_ads_new( $content ) {
                             }                                                        
                         }                                                
 
-                        break;
+                    break;
                     case 'after_word_count':
                         
                         if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
@@ -1252,8 +1252,8 @@ function quads_filter_default_ads_new( $content ) {
                         }
                         }
 
-                        break;
-                                        case 'after_paragraph':
+                    break;
+                    case 'after_paragraph':
 
                         if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
                           $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
@@ -1372,13 +1372,47 @@ function quads_filter_default_ads_new( $content ) {
                             $content = implode( $imgtag, $imagesArray );
                         }
 
-                    break;    
-                     case 'after_the_percentage':
+                    break; 
+                    
+                    case 'before_image':
+                        // Sanitation
+                        $imgtag = "<img";
+                        $delimiter = ">";
+                        $caption = "[/caption]";
+                        $atag = "</a>";
+                        $content = str_replace( "<IMG", $imgtag, $content );
+                        $content = str_replace( "</A>", $atag, $content );
+                        // Get all images in content
+                        $imagesArray = explode( $imgtag, $content );
+                        // Modify Image ad
+                        if( ( int ) $imageNo < count( $imagesArray ) ) {
+                            //Get all tags
+                            $tagsArray = explode( $delimiter, $imagesArray[$imageNo] );
+                            if( count( $tagsArray ) > 1 ) {
+                                $captionArray = explode( $caption, $imagesArray[$imageNo] );
+                                $ccp = ( count( $captionArray ) > 1 ) ? strpos( strtolower( $captionArray[0] ), '[caption ' ) === false : false;
+                                $imagesArrayAtag = explode( $atag, $imagesArray[$imageNo] );
+                                $cdu = ( count( $imagesArrayAtag ) > 1 ) ? strpos( strtolower( $imagesArrayAtag[0] ), '<a href' ) === false : false;
+                                // Show ad before caption
+                                if( $imageCaption && $ccp ) {
+                                    $imagesArray[$imageNo] = $caption . "\r\n" .$cusads. "\r\n" .implode( $caption, array_slice( $captionArray, 0, 1 ) ) . '<img '.implode( $caption, array_slice( $captionArray, 1 ) );
+                                } else if( $cdu ) {
+                                    $imagesArray[$imageNo] = $atag . "\r\n" . $cusads . "\r\n" . implode( $atag, array_slice( $imagesArrayAtag, 0, 1 ) ) .'<img '.implode( $atag, array_slice( $imagesArrayAtag, 1 ) );
+                                } else {
+                                    $imagesArray[$imageNo] = $delimiter . "\r\n" .$cusads . "\r\n" . implode( $delimiter, array_slice( $tagsArray, 1 ) ).'<img '.implode( $delimiter, array_slice( $tagsArray, 0, 1 ) );
+                                }
+                            }
+                            $content = implode( $imgtag, $imagesArray);
+                        }
+
+                    break;
+
+                    case 'after_the_percentage':
                     
                         $content =  remove_ad_from_content($content,$cusads,$ads);
 
-                     break;
-                     case 'ad_after_html_tag':
+                    break;
+                    case 'ad_after_html_tag':
                         $tag = 'p';
                         switch ( $ads['count_as_per']) {
                             case 'p_tag':
@@ -1501,8 +1535,8 @@ function quads_filter_default_ads_new( $content ) {
                                        }
                                 }
                             }                                                     
-                            break;
-                            case 'amp_after_paragraph':
+                        break;
+                        case 'amp_after_paragraph':
                         if( function_exists('quads_is_amp_endpoint') && quads_is_amp_endpoint()){
                             if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
                                 $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
