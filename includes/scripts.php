@@ -230,6 +230,7 @@ if(is_object($screens)){
     }
     
     // These have to be global
+    wp_enqueue_script( 'quads-on-load-ads', $js_dir . 'onload_ads.js', array('jquery'), QUADS_VERSION, false );
     wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
     wp_enqueue_script( 'quads-jscolor', $js_dir . 'jscolor' . $suffix . '.js', array(), QUADS_VERSION, false );
     wp_enqueue_script( 'jquery-chosen', $js_dir . 'chosen.jquery' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
@@ -432,6 +433,45 @@ function quads_inline_styles() {
 		border-radius: 50%;
         z-index:100;
 	}
+    .post_onLoad_ad{
+        visibility: hidden;
+        transition: all 0.5s;
+        position: fixed;
+        top: 0;
+        right: 0;
+    }
+    #post_onLoad_openClose {
+        -webkit-transform: rotate(90deg);
+        -webkit-transform-origin: left top;
+        -moz-transform: rotate(90deg);
+        -moz-transform-origin: left top;
+        -o-transform: rotate(90deg);
+        -o-transform-origin: left top;
+        -ms-transform: rotate(90deg);
+        -ms-transform-origin: left top;
+        -transform: rotate(90deg);
+        -transform-origin: left top;
+        position: absolute;
+        left: -4px;
+        top: 0%;
+        cursor: pointer;
+        z-index: 999999;
+        display: none;
+    }
+    #post_onLoadVertical-text {
+        background: #000000;
+        text-align: center;
+        z-index: 999999;
+        cursor: pointer;
+        color: #FFFFFF;
+        float: left;
+        font-size: 13pt;
+        padding: 5px;
+        font-weight: bold;
+        width: 618px;
+        font-family: verdana;
+        text-transform: uppercase;
+    }
     @media screen and (max-width: 480px) {
         .quads.quads_ad_container_ {
             left: 10px;

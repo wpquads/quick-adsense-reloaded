@@ -62,6 +62,7 @@ check_plugin_exist = (event) => {
                                 <>
                                 <optgroup label="Full Support ( AMP &amp; NON AMP )">
                                     <option value="">{__('Select Position', 'quick-adsense-reloaded')}</option>
+                                    <option value="on_load_of_page">{__('On Load', 'quick-adsense-reloaded')}</option>
                                     <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>
                                     <option value="middle_of_post">{__('Middle of Post', 'quick-adsense-reloaded')}</option>
                                     <option value="end_of_post">{__('End of Post', 'quick-adsense-reloaded')}</option>
@@ -103,6 +104,7 @@ check_plugin_exist = (event) => {
                             </>                            
                             : <select className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                                 <option value="">{__('Select Position', 'quick-adsense-reloaded')}</option>
+                                <option value="on_load_of_page">{__('On Load', 'quick-adsense-reloaded')}</option>
                                 <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>
                                 <option value="middle_of_post">{__('Middle of Post', 'quick-adsense-reloaded')}</option>
                                 <option value="end_of_post">{__('End of Post', 'quick-adsense-reloaded')}</option>

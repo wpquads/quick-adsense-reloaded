@@ -928,6 +928,7 @@ function quads_process_content( $content ) {
         $content = quads_parse_popup_ads( $content );
         $content = quads_parse_video_ads( $content );       
         $content = quads_parse_parallax_ads( $content ); 
+        $content = quads_parse_on_load_page_ads( $content ); 
         
         return do_shortcode( $content );   
     }else{
@@ -1128,6 +1129,12 @@ function quads_filter_default_ads_new( $content ) {
                 }
                
                 switch ($position) {
+
+                    case 'on_load_of_page':                          
+                        if(strpos( $content, '<!--On Load-->' ) === false ) {
+                           $content = '<div class="post_onLoad_ad"><div id="post_onLoad_openClose"><div id="post_onLoadVertical-text">'.__( 'Click Here To Open/Close', 'quick-adsense-reloaded' ).'</div></div>'.$cusads.'</div>'.$content;   
+                        }                    
+                    break;
 
                     case 'beginning_of_post':                          
                         if(strpos( $content, '<!--OffBegin-->' ) === false ) {
@@ -2452,6 +2459,37 @@ function quads_parse_parallax_ads($content) {
 }
     return  $content ;
 }
+
+function quads_parse_on_load_page_ads($content) {
+
+    global $quads_options, $adsArrayCus;   
+    $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
+    if( $off_default_ads ) { // If default ads are disabled 
+        return $content;
+    }    
+    if(!isset($quads_ads)|| empty($quads_ads))
+    {
+        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        $api_service = new QUADS_Ad_Setup_Api_Service();
+        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+    }
+    if(!empty($quads_ads['posts_data'])){
+        $i = 1;
+        foreach($quads_ads['posts_data'] as $key => $value){
+            $ads =$value['post_meta'];
+            $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
+            if($position !='' && $position == 'on_load_of_page'){
+                $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
+                // Use minified libraries if SCRIPT_DEBUG is turned off
+                $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
+                // These have to be global
+                wp_enqueue_script( 'wp_qds_onload_ads', $js_dir . 'wp_qds_onload_ads' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+            }
+        }
+    }
+    return  $content ;
+}
+
 function quads_parse_default_ads_new( $content ) {
     global $adsArrayCus, $adsRandom, $adsArray;
      
