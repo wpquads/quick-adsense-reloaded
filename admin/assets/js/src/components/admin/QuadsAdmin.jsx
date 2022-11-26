@@ -183,15 +183,15 @@ class QuadsAdmin extends Component {
                         </div>
                         { !quads_localize_data.is_pro ? 
                          ( <details id="quads-ocassional-pop-up-container" open>
-                            <summary class="quads-ocassional-pop-up-open-close-button">40% OFF - Limited Time Only <img height="25" width="25" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/sale.png'} /></summary>
-                            <span class="quads-promotion-close-btn">  &times;  </span>
-                            <div class="quads-ocassional-pop-up-contents">
+                            <summary className="quads-ocassional-pop-up-open-close-button">40% OFF - Limited Time Only <img height="25" width="25" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/sale.png'} /></summary>
+                            <span className="quads-promotion-close-btn">  &times;  </span>
+                            <div className="quads-ocassional-pop-up-contents">
                         
-                                <img src="https://cdn-icons-png.flaticon.com/512/2349/2349820.png" class="quads-promotion-surprise-icon" />
-                                <p class="quads-ocassional-pop-up-headline">40% OFF on <span>WP QUADS PRO</span></p>
-                                <p class="quads-ocassional-pop-up-second-headline">Upgrade the PRO version during this festive season and get our biggest discount of all time on New Purchases, Renewals &amp; Upgrades</p>
-                                <a class="quads-ocassional-pop-up-offer-btn" href="https://wpquads.com/november-deal/" target="_blank">Get This Offer Now</a>
-                                <p class="quads-ocassional-pop-up-last-line">Black Friday, Cyber Monday, Christmas &amp; New year are the only times we offer discounts this big.</p>
+                                <img src="https://cdn-icons-png.flaticon.com/512/2349/2349820.png" className="quads-promotion-surprise-icon" />
+                                <p className="quads-ocassional-pop-up-headline">40% OFF on <span>WP QUADS PRO</span></p>
+                                <p className="quads-ocassional-pop-up-second-headline">Upgrade the PRO version during this festive season and get our biggest discount of all time on New Purchases, Renewals &amp; Upgrades</p>
+                                <a className="quads-ocassional-pop-up-offer-btn" href="https://wpquads.com/november-deal/" target="_blank">Get This Offer Now</a>
+                                <p className="quads-ocassional-pop-up-last-line">Black Friday, Cyber Monday, Christmas &amp; New year are the only times we offer discounts this big.</p>
                             </div>
                         </details>)
                       : ''}
