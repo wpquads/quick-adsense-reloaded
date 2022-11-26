@@ -17,7 +17,7 @@ class QuadsAdmin extends Component {
                 ad_type_toggle: false,
                 settings  : []          
             };  
-            this.quads_cll_method();   
+            this.quads_occasional_ads_method();   
       }
       nodatashowAddTypeSelector = (e) => {
         e.preventDefault();
@@ -58,7 +58,7 @@ class QuadsAdmin extends Component {
     );         
     }  
     
-    quads_cll_method() {
+    quads_occasional_ads_method() {
       function quads_set_admin_occasional_ads_pop_up_cookie(){
         var o = new Date;
         o.setFullYear(o.getFullYear() + 1), document.cookie = "quads_hide_admin_occasional_ads_pop_up_cookie_feedback=1; expires=" + o.toUTCString() + "; path=/"
@@ -188,7 +188,7 @@ class QuadsAdmin extends Component {
                             <div class="quads-ocassional-pop-up-contents">
                         
                                 <img src="https://cdn-icons-png.flaticon.com/512/2349/2349820.png" class="quads-promotion-surprise-icon" />
-                                <p class="quads-ocassional-pop-up-headline">40% OFF on<span>Easy TOC PRO</span></p>
+                                <p class="quads-ocassional-pop-up-headline">40% OFF on <span>WP QUADS PRO</span></p>
                                 <p class="quads-ocassional-pop-up-second-headline">Upgrade the PRO version during this festive season and get our biggest discount of all time on New Purchases, Renewals &amp; Upgrades</p>
                                 <a class="quads-ocassional-pop-up-offer-btn" href="https://wpquads.com/november-deal/" target="_blank">Get This Offer Now</a>
                                 <p class="quads-ocassional-pop-up-last-line">Black Friday, Cyber Monday, Christmas &amp; New year are the only times we offer discounts this big.</p>
