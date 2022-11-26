@@ -500,7 +500,7 @@ function quads_adblocker_notice_bar(){
       width: 100%;
       background: <?php echo $background_color;?>;
       color: <?php echo $content_color;?>;
-      padding: 0.5em 1em;
+      padding: 0.5em 0px;
       font-size: 16px;
       line-height: 1.8;
       position: fixed;
@@ -534,7 +534,7 @@ function quads_adblocker_notice_bar(){
       text-decoration: none;
       display: inline-block;
       font-size: 14px;
-      margin: 0px 2px;
+      margin-right: 5px;
       cursor: pointer;
       float: right;
     }
