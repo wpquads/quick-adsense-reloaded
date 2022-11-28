@@ -451,7 +451,7 @@ function quads_inline_styles() {
         -transform: rotate(90deg);
         -transform-origin: left top;
         position: absolute;
-        left: -4px;
+        left: 4px;
         top: 0%;
         cursor: pointer;
         z-index: 999999;
