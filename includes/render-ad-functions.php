@@ -847,21 +847,12 @@ function quads_render_parallaxad_async( $id ) {
 	<div class="post-item">';
        
         $html .='<div class="entry-container">';    
-        if(isset($quads_options['ads'][$id]['loop_add_title'])){    
-	        $html .='<header class="entry-header">
-				<h2 class="entry-title default-max-width">'.$quads_options['ads'][$id]['parallax_ad_title'].'</h2>
-            </header><!-- .entry-header -->';
-        }
-        if(isset($quads_options['ads'][$id]['image_src'])  && !empty($quads_options['ads'][$id]['image_src'])){
+        if(isset($quads_options['ads'][$id]['image_src']) && !empty($quads_options['ads'][$id]['image_src']) && isset($quads_options['ads'][$id]['parallax_btn_url'])){
             $html .='<div class="featured-image">
-                        <img src="'.esc_attr($quads_options['ads'][$id]['image_src']).'" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" loading="lazy" style="width:100%;height:66.57%;max-width:350px;">
+                        <a target="_blank" class="more-link" href="'.esc_attr($quads_options['ads'][$id]['parallax_btn_url']).'">
+                            <img src="'.esc_attr($quads_options['ads'][$id]['image_src']).'" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" loading="lazy" style="width:100%;height:66.57%;max-width:350px;">
+                        </div>
                 </div><!-- .featured-image -->';
-        }
-        if(isset($quads_options['ads'][$id]['parallax_ad_desc']) || isset($quads_options['ads'][$id]['parallax_btn_url'])){    
-            $html .='<div class="entry-content">
-                        <p>'.$quads_options['ads'][$id]['parallax_ad_desc'].'</p>
-                        <p><a class="more-link" href="'.esc_attr($quads_options['ads'][$id]['parallax_btn_url']).'">'.__( 'Learn More', 'quick-adsense-reloaded' ).' <span class="screen-reader-text">'.esc_attr($quads_options['ads'][$id]['loop_add_title']).'</span></a></p>
-                     </div><!-- .entry-content -->';
         }
     $html.='</div><!-- .entry-container -->
     </div><!-- .post-item -->

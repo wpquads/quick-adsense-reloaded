@@ -143,8 +143,6 @@ class QuadsAdCreateRouter extends Component {
             video_autoplay            : false,
             video_height              : 450,
             video_width               : 350,
-            parallax_ad_title         : '',
-            parallax_ad_desc          : '',
             parallax_btn_url          : '',
             },
             quads_form_errors : {
@@ -698,7 +696,7 @@ class QuadsAdCreateRouter extends Component {
             }
           break;
           case 'parallax_ads':
-            if(validation_flag && quads_post_meta.parallax_ad_title && quads_post_meta.parallax_ad_desc && quads_post_meta.parallax_btn_url && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.parallax_btn_url && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
@@ -972,7 +970,7 @@ class QuadsAdCreateRouter extends Component {
             break;
 
             case 'parallax_ads':
-              if(quads_post_meta.parallax_ad_title && quads_post_meta.parallax_ad_desc && quads_post_meta.parallax_btn_url){
+              if(quads_post_meta.parallax_btn_url){
                
                 this.props.history.push(new_url); 
               }else{

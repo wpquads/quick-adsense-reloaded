@@ -458,22 +458,11 @@ class QuadsAdTargeting extends Component {
                             <td><label>{__('Parallax Type', 'quick-adsense-reloaded')}</label></td>
                             <td><select value={post_meta.parallax_ads_type} name="parallax_ads_type" onChange={this.props.adFormChangeHandler} >
                                 <option value="select">Select</option>
-                                <option value="specific_time_parallax_ads">After Specific Time</option>
                                 <option value="after_scroll_parallax_ads">On Scroll</option>
                                 </select></td>                                 
                                 </tr>
                          : ''
                         }
-                        {post_meta.ad_type == 'parallax_ads' && post_meta.parallax_ads_type == 'specific_time_parallax_ads' ?
-                          <tr>
-                          <td></td>
-                            <td>
-                                <input id={'specific_time_interval_sec_parallax_ads'}
-                                       name={'specific_time_interval_sec_parallax_ads'} type="number"
-                                       value={post_meta.specific_time_interval_sec_parallax_ads} onChange={this.props.adFormChangeHandler}  /> milliseconds
-                            </td>
-                        </tr>
-                        :null}
                         {post_meta.ad_type == 'parallax_ads' && post_meta.parallax_ads_type == 'after_scroll_parallax_ads' ?
                           <tr>
                             <td></td>
@@ -484,18 +473,6 @@ class QuadsAdTargeting extends Component {
                             </td>
                         </tr>
                         :null}
-                        
-                        { post_meta.ad_type == 'parallax_ads' ?
-                        <tr className='parallax_ads_positiontable'>
-                            <td><label>{__('Position', 'quick-adsense-reloaded')}</label></td>
-                            <td><select value={post_meta.parallax_ads_type_position} name="parallax_ads_type_position" onChange={this.props.adFormChangeHandler} >
-                                <option value="select">Select</option>
-                                <option value="v_left">Left</option>
-                                <option value="v_right">Right</option>
-                                </select></td>                                 
-                                </tr>
-                         : ''
-                        }
                   </tbody>
                 </table>                                 
                 </div>  

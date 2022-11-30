@@ -2374,14 +2374,10 @@ function quads_parse_parallax_ads($content) {
             $ad_meta = get_post_meta($ad_id, '',true);
         }
         $parallax_ad_type                    =  isset($ad_meta['parallax_ads_type'][0]) ? $ad_meta['parallax_ads_type'][0] : '';
-    $specific_time_interval_sec_parallax       =  (isset($ad_meta['specific_time_interval_sec_parallax_ads'][0]) && !empty($ad_meta['specific_time_interval_sec_parallax_ads'][0])) ? $ad_meta['specific_time_interval_sec_parallax_ads'][0] : 0;
-    $position =  (isset($ad_meta['parallax_ads_type_position'][0]) && !empty($ad_meta['parallax_ads_type_position'][0])) ? $ad_meta['parallax_ads_type_position'][0] : 0;
     $on_scroll_parallax_ads_percentage       =  (isset($ad_meta['on_scroll_parallax_ads_percentage'][0]) && !empty($ad_meta['on_scroll_parallax_ads_percentage'][0])) ? $ad_meta['on_scroll_parallax_ads_percentage'][0] : 0;
-    $parallax_ad_title       =  (isset($ad_meta['parallax_ad_title'][0]) && !empty($ad_meta['parallax_ad_title'][0])) ? $ad_meta['parallax_ad_title'][0] : 0;
     $parallax_image_src       =  (isset($ad_meta['image_src'][0]) && !empty($ad_meta['image_src'][0])) ? $ad_meta['image_src'][0] : 0;
     $parallax_btn_url       =  (isset($ad_meta['parallax_btn_url'][0]) && !empty($ad_meta['parallax_btn_url'][0])) ? $ad_meta['parallax_btn_url'][0] : '';
-    $parallax_ad_desc       =  (isset($ad_meta['parallax_ad_desc'][0]) && !empty($ad_meta['parallax_ad_desc'][0])) ? $ad_meta['parallax_ad_desc'][0] : '';
-    $parallax_image_width       =  (isset($ad_meta['parallax_ads_width'][0]) && !empty($ad_meta['parallax_ads_width'][0])) ? $ad_meta['parallax_ads_width'][0] : '350';
+    $parallax_image_width       =  (isset($ad_meta['parallax_ads_width'][0]) && !empty($ad_meta['parallax_ads_width'][0])) ? $ad_meta['parallax_ads_width'][0] : '800';
     $parallax_image_height       =  (isset($ad_meta['parallax_ads_height'][0]) && !empty($ad_meta['parallax_ads_height'][0])) ? $ad_meta['parallax_ads_height'][0] :'auto';
 
     
@@ -2400,14 +2396,10 @@ function quads_parse_parallax_ads($content) {
         }
         $response['quads_group_id'] = $ad_id;
         $response['quads_parallax_ads_type']           = 'parallax_ads';
-        $response['specific_time_interval_sec_parallax_ads']           = $specific_time_interval_sec_parallax;
         $response['on_scroll_parallax_ads_percentage']           = $on_scroll_parallax_ads_percentage;
-        $response['parallax_ad_title']           = $parallax_ad_title;
         $response['parallax_btn_url']           = $parallax_btn_url;
         $response['parallax_image_src']           = $parallax_image_src;
-        $response['parallax_ad_desc']           = $parallax_ad_desc;
         $response['parallax_ads_width']           = $parallax_image_width;
-        $response['parallax_ads_position']           = $position;
         $response['ads'] = $adsresultset;
 
         $arr = array(
@@ -2423,25 +2415,20 @@ function quads_parse_parallax_ads($content) {
         // Do not create any inline style on AMP site
         $style = '' ;
         $parallax_ads_data = '';
-        if( $parallax_ad_type == "specific_time_parallax_ads" ){
-            $style = "display:none";
-            $parallax_ads_data = "data-position=".$position." data-timer=".$specific_time_interval_sec_parallax."";
-        }
         if( $parallax_ad_type == "after_scroll_parallax_ads" ){
             $style = "display:none";
-            $parallax_ads_data = "data-position=".$position." data-percent=".$on_scroll_parallax_ads_percentage."";
+            $parallax_ads_data = "data-percent=".$on_scroll_parallax_ads_percentage."";
         }
 
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
-            '<div class="parallax_main"><div class="quads-location quads-parallax ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" '.$parallax_ads_data.' data-parallaxtype="'.$parallax_ad_type.'" data-position="'.$parallax_ad_type.'" data-redirect="'.esc_url($parallax_btn_url).'" style="' . $style . '">' . "\n";
+            '<div class="parallax_main"><div class="quads_parallax_scroll_text">Keep Scrolling</div><div class="quads-parallax-spacer"></div><div class="quads-location quads-parallax ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" '.$parallax_ads_data.' data-parallaxtype="'.$parallax_ad_type.'" data-position="'.$parallax_ad_type.'" data-redirect="'.esc_url($parallax_btn_url).'" style="' . $style . '">' . "\n";
         $code .='<div class="quads-parallax-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
         $code .='</div>';
 
         $code .='<div data-id="'.esc_attr($ad_id).'" class="quads quads_ad_container_parallax">
         
         </div>';
-
-        $code .= '</div>' . "\n";
+        $code .= '</div><div class="quads-parallax-spacer"></div>' . "\n";
         $code .= '</div>' . "\n";
 
         $cont = explode('<!--CusRot'.$ad_id.'-->', $content, 2);

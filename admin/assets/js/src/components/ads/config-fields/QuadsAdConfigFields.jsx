@@ -519,12 +519,6 @@ const {__} = wp.i18n;
                 ad_type_name = 'Parallax Ads';
                 comp_html.push(<div key="parallax_ads">
                   <table><tbody>
-                    <tr><td>
-                      <label>{__('Ad Title', 'quick-adsense-reloaded')}</label></td><td>
-                      <input value={post_meta.parallax_ad_title} type="text" onChange={this.props.adFormChangeHandler} name="parallax_ad_title" placeholder="Ad Title" />
-                      {(show_form_error && post_meta.parallax_ad_title == '') ? <div className="quads_form_msg"><span className="material-icons">
-                      error_outline</span>Enter Ad Title</div> :''}
-                    </td></tr>
                     <tr>
                       <td><label>{__('Upload Ad Image', 'quick-adsense-reloaded')}</label></td>
                       <td>{post_meta.image_src == '' ? <div><div><a className="button" onClick={this.selectimages}>{__(' Upload Image',   'quick-adsense-reloaded')}</a></div></div>
@@ -533,11 +527,6 @@ const {__} = wp.i18n;
                       {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
                       error_outline</span>Upload Ad Image</div> :''}
                       </td>
-                    </tr>
-                    <tr>
-                      <td><label>{__('Ad Description', 'quick-adsense-reloaded')}</label></td> 
-                      <td><textarea className={(show_form_error && post_meta.parallax_ad_desc == '') ? 'quads_form_error' : ''}  cols="50" rows="5" value={post_meta.parallax_ad_desc} onChange={this.props.adFormChangeHandler} id="parallax_ad_desc" name="parallax_ad_desc" />
-                      {(show_form_error && post_meta.parallax_ad_desc == '') ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>Ad Description</div> : ''}</td>
                     </tr>
                     <tr><td>
                       <label>{__('Ad Button link', 'quick-adsense-reloaded')}</label></td>
