@@ -65,7 +65,7 @@ function quads_bbp_template_after_replies_loop(){
 function quads_bbp_template_before_replies_loop(){
   quads_load_ads_common('bbpress_before_reply');
 }
-
+session_start();
 unset($_SESSION['tmp_quads_ads']);
 function quads_api_services_cllbck()
 {
