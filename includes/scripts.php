@@ -526,7 +526,53 @@ function quads_inline_styles() {
         .quads.quads_ad_container_ {
             left: 10px;
         }
-    }    
+    } 
+    .wpquads-3d-container {
+        border-radius:3px;
+        position:relative;
+        -webkit-perspective:1000px;
+        -moz-perspective:1000px;
+        -ms-perspective:1000px;
+        -o-perspective:1000px;
+        perspective:1000px;
+        z-index:999999;
+    }
+    .wpquads-3d-cube{
+        width:100%;
+        height:100%;
+        position:absolute;
+        -webkit-transition:-webkit-transform 1s;
+        -moz-transition:-moz-transform 1s;
+        -o-transition:-o-transform 1s;
+        transition:transform 1s;
+        -webkit-transform-style:preserve-3d;
+        -moz-transform-style:preserve-3d;
+        -ms-transform-style:preserve-3d;
+        -o-transform-style:preserve-3d;
+        transform-style:preserve-3d;
+    }
+    .wpquads-3d-cube .wpquads-3d-item{
+        position:absolute;
+        border:3px inset;
+        border-style:outset
+    }
+    .wpquads-3d-close{
+        text-align:right;
+    }
+    #wpquads-close-btn{
+        text-decoration:none !important;
+        cursor:pointer;
+    }
+    .wpquads-3d-cube .wpquads-3d-item, .wpquads-3d-cube .wpquads-3d-item img{
+        display:block;
+        margin:0;
+        width:100%;
+        height:100%;
+        background:#fff;
+    }
+    .ewd-ufaq-faqs .wpquads-3d-container {
+        display: none;
+    }   
     .quads-video {
         position: fixed;
         bottom: 0px;
