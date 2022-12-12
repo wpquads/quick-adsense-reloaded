@@ -134,9 +134,6 @@ function quads_common_head_code(){
     }
     if(!isset($quads_ads)|| empty($quads_ads))
     {
-        // require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        // $api_service = new QUADS_Ad_Setup_Api_Service();
-        // $quads_ads = $api_service->getAdDataByParam('quads-ads');
         $quads_ads = quads_api_services_render_cllbck();
     }
     if(isset($quads_ads['posts_data'])){
@@ -474,7 +471,6 @@ function quads_render_outbrain_async( $id ) {
     $html .= '<div class="quads_ad_amp_outbrain" data-widget-id="'.esc_attr($quads_options['ads'][$id]['outbrain_widget_ids']).'"></div>
 ';
 
-
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_outbrain_async', $html );
 }
@@ -536,9 +532,6 @@ function quads_render_propeller_async( $id ) {
 function quads_adsense_auto_ads_amp_script(){
     if(!isset($quads_ads)|| empty($quads_ads))
     {
-        // require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        // $api_service = new QUADS_Ad_Setup_Api_Service();
-        // $quads_ads = $api_service->getAdDataByParam('quads-ads');
         $quads_ads = quads_api_services_render_cllbck();
     }
     if(isset($quads_ads['posts_data'])){
@@ -576,9 +569,6 @@ function quads_adsense_auto_ads_amp_script(){
 function quads_adsense_auto_ads_amp_tag(){
     if(!isset($quads_ads)|| empty($quads_ads))
     {
-        // require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        // $api_service = new QUADS_Ad_Setup_Api_Service();
-        // $quads_ads = $api_service->getAdDataByParam('quads-ads');
         $quads_ads = quads_api_services_render_cllbck();
     }
      $revenue_sharing = quads_get_pub_id_on_revenue_percentage();

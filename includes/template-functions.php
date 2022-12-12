@@ -65,17 +65,9 @@ function quads_bbp_template_after_replies_loop(){
 function quads_bbp_template_before_replies_loop(){
   quads_load_ads_common('bbpress_before_reply');
 }
-// class QUADS_Ad_Setup_Api_Service_QUADS_AD {
-//     public function __construct() {
-//         // Global $quads_ads variable to reduce db calls #631
-//         require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-//         // global $api_service, $quads_ads;
-//         $api_service = new QUADS_Ad_Setup_Api_Service();
-//         $quads_ads = $api_service->getAdDataByParam('quads-ads');
-//     }
-// }
+
 unset($_SESSION['tmp_quads_ads']);
-function globFun()
+function quads_api_services_cllbck()
 {
     // Global $quads_ads variable to reduce db calls #631
     if(empty($_SESSION['tmp_quads_ads'])){
@@ -87,13 +79,7 @@ function globFun()
         return $_SESSION['tmp_quads_ads'];
 }
 function quads_load_ads_common($user_position,$html=''){
-    // if(!isset($quads_ads)|| empty($quads_ads))
-    // {
-    //     require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-    //     $api_service = new QUADS_Ad_Setup_Api_Service();
-    //     $quads_ads = $api_service->getAdDataByParam('quads-ads');
-    // }
-    $quads_ads = globFun();
+    $quads_ads = quads_api_services_cllbck();
     if(isset($quads_ads['posts_data'])){        
         foreach($quads_ads['posts_data'] as $key => $value){
           $ads =$value['post_meta'];
@@ -1068,8 +1054,7 @@ function quads_get_max_allowed_post_ads( $content ) {
  */
 function quads_filter_default_ads_new( $content ) {
     
-    // print_r("Pradip");
-    // print_r($quads_ads);
+ 
     global $quads_options, $adsArrayCus;   
     
     $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
@@ -1077,15 +1062,8 @@ function quads_filter_default_ads_new( $content ) {
     if( $off_default_ads ) { // If default ads are disabled 
         return $content;
     }   
-    $quads_ads = globFun(); 
-    // print_r($quads_ads);
-    // if(!isset($quads_ads)|| empty($quads_ads))
-    // {
-    //     require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-    //     $api_service = new QUADS_Ad_Setup_Api_Service();
-    //     $quads_ads = $api_service->getAdDataByParam('quads-ads');
-        
-    // }
+    $quads_ads = quads_api_services_cllbck(); 
+
     // Default Ads
     $adsArrayCus = array();
     if(isset($quads_ads['posts_data'])){        
@@ -2126,13 +2104,6 @@ function quads_parse_default_ads( $content ) {
     // Create the array which contains the random ads
     $adsRandom = $adsArray;
 
-//        echo '<pre>';
-//        echo 'adsArrayCus: ';
-//        print_r($adsArrayCus);
-//        echo 'adsArray: ';
-//        print_r( $adsArray );
-//        echo '</pre>';
-
     for ( $i = 0; $i <= count( $adsArrayCus ); $i++ ) {
         
         if( isset( $adsArrayCus[$i] ) && strpos( $content, '<!--CusAds' . $adsArrayCus[$i] . '-->' ) !== false && in_array( $adsArrayCus[$i], $adsArray ) ) {
@@ -2193,9 +2164,7 @@ function quads_parse_popup_ads($content) {
     if( $ads_list ){
         foreach ($temp_array as $post_ad_id){
             $ad_meta_group = get_post_meta($post_ad_id, '',true);
-            if( get_post_status($post_ad_id) !== 'publish' ) {
-                continue;
-            }
+            
             $adsresultset[] = array(
                 'ad_id'                     => $post_ad_id,
                 'ad_type'                   => $ad_meta_group['ad_type'],
@@ -2308,10 +2277,7 @@ function quads_parse_video_ads($content) {
     if( $ad_meta ){
         foreach ($ad_meta as $post_ad_id){
             $ad_meta_group = get_post_meta($post_ad_id, '',true);
-
-            // if( get_post_status($post_ad_id) !== 'publish' ) {
-            //     continue;
-            // }
+            
             if($post_ad_id[0] == 'video_ads'){
                 $adsresultset[] = array(
                     'ad_id'                     => $post_ad_id,
@@ -2909,9 +2875,7 @@ function quads_del_element($array, $idx) {
           }
           else
           {
-            require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-            $api_service = new QUADS_Ad_Setup_Api_Service();
-            $quads_new_interface_ads = $api_service->getAdDataByParam('quads-ads');
+            $quads_ads = quads_api_services_cllbck();
           }
           
         }else{
@@ -2959,14 +2923,7 @@ function quads_del_element($array, $idx) {
 
      function quads_background_ad_last($content){
 
-        // if(!isset($quads_ads)|| empty($quads_ads))
-        // {
-        //     require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        //     $api_service = new QUADS_Ad_Setup_Api_Service();
-        //     $quads_ads = $api_service->getAdDataByParam('quads-ads');
-        // }
-
-        $quads_ads = globFun();
+        $quads_ads = quads_api_services_cllbck();
         if(isset($quads_ads['posts_data'])){        
             foreach($quads_ads['posts_data'] as $key => $value){
                 $ads =$value['post_meta'];
