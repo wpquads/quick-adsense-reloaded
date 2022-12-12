@@ -1723,6 +1723,9 @@ details#quads-ocassional-pop-up-container summary svg {
   width: 25px;
   margin-left: 5px;
   vertical-align: baseline; }
+
+summary.quads-ocassional-pop-up-open-close-button img {
+  margin-left: 5px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
