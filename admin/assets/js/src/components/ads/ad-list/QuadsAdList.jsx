@@ -90,7 +90,7 @@ class QuadsAdList extends Component {
           break;
           case 'random_ads':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/random_ad_icon.png';
-          type = "random ads";
+          type = "random ad";
           case 'popup_ads':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/popup_ads.png';
           type = "Popup Ad";
@@ -157,27 +157,31 @@ class QuadsAdList extends Component {
           break;
           case 'skip_ads':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/skip_ads_icon.png';
-          type = "Skip Ads";
+          type = "Skip Ad";
           break;
           case 'loop_ads':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/loop_ads_icon.png';
-          type = "Loop Ads";
+          type = "Loop Ad";
           break;
           case 'carousel_ads':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/carousel_ads_icon.png';
-          type = "Carousel Ads";
+          type = "Carousel Ad";
           break;
           case 'parallax_ads':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/parallax_ads_icon.png';
-          type = "Parallax Ads";
+          type = "Parallax Ad";
+          break;
+          case 'half_page_ads':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/halfpage_ads_icon.png';
+          type = "Half Page Slider Ad";
           break;
           case 'sticky_scroll':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/sticky_scroll_icon.png';
-          type = "Hold on Scroll  Ads";
+          type = "Hold on Scroll  Ad";
           break;
           case 'floating_cubes':
             img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/floating_ads_icon.png';
-            type = "Floating Ads";
+            type = "Floating Ad";
             break;
         default:
           break;

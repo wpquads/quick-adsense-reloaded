@@ -702,6 +702,13 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             }
           break;
+          case 'half_page_ads':
+            if(validation_flag && quads_post_meta.half_page_ads_btn_url && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;
           case 'sticky_scroll':
             if(validation_flag && quads_post_meta.ads_list.length > 0 && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');
@@ -971,6 +978,15 @@ class QuadsAdCreateRouter extends Component {
 
             case 'parallax_ads':
               if(quads_post_meta.parallax_btn_url){
+               
+                this.props.history.push(new_url); 
+              }else{
+                this.setState({show_form_error:true});
+              }
+            break;
+
+            case 'half_page_ads':
+              if(quads_post_meta.half_page_ads_btn_url){
                
                 this.props.history.push(new_url); 
               }else{

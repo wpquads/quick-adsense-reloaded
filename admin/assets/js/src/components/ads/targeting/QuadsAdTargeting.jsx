@@ -206,6 +206,7 @@ class QuadsAdTargeting extends Component {
                 post_meta.ad_type == 'skip_ads' ||
                 post_meta.ad_type == 'loop_ads' ||
                 post_meta.ad_type == 'parallax_ads' ||
+                post_meta.ad_type == 'half_page_ads' ||
                 post_meta.ad_type == 'carousel_ads' ||
                 post_meta.ad_type == 'sticky_scroll'
               ) ?
@@ -215,10 +216,10 @@ class QuadsAdTargeting extends Component {
                 <div className="quads-panel-body"> 
                 <table>
                   <tbody>
-                  { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" || post_meta.ad_type == "parallax_ads" || post_meta.ad_type == "loop_ads" ?  "" : 
+                  { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" || post_meta.ad_type == "parallax_ads" || post_meta.ad_type == "half_page_ads" || post_meta.ad_type == "loop_ads" ?  "" : 
                     <tr className="quads-tr-position">
                     <td><label>{__('Where will the AD appear?', 'quick-adsense-reloaded')}</label></td>
-                    { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" || post_meta.ad_type == "parallax_ads" ?  "" : 
+                    { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" || post_meta.ad_type == "parallax_ads" || post_meta.ad_type == "half_page_ads" ?  "" : 
                         <td>{post_meta.ad_type != "group_insertion" || post_meta.ad_type != "sticky_scroll" ? (<QuadsAdvancePosition parentState={this.props.parentState} adFormChangeHandler = {this.props.adFormChangeHandler}/>
                         ):<div><select  value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                             <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
@@ -400,7 +401,7 @@ class QuadsAdTargeting extends Component {
                         </tr>
                         :null}
                     {post_meta.ad_type == 'popup_ads' && post_meta.popup_type == 'on_scroll_popup' ?
-                    <tr>
+                      <tr>
                     
                             <td></td>
                             <td>
@@ -473,6 +474,50 @@ class QuadsAdTargeting extends Component {
                             </td>
                         </tr>
                         :null}
+
+                        {post_meta.ad_type == 'half_page_ads' ?
+                          <tr>
+                          <td><label>{__('Open/Close Text', 'quick-adsense-reloaded')}</label></td>
+                            <td>
+                              <input id={'half_page_ads_page_vertical_text'} name={'half_page_ads_page_vertical_text'} type="text" value={post_meta.half_page_ads_page_vertical_text ? post_meta.half_page_ads_page_vertical_text : 'Click Here To Open/Close'} onChange={this.props.adFormChangeHandler}  /> 
+                            </td>
+                        </tr>
+                      :null}
+
+                      { post_meta.ad_type == 'half_page_ads' ?
+                        <tr className='half_page_ads_table_position'>
+                          <td><label>{__('Where Will The AD Appear?', 'quick-adsense-reloaded')}</label></td>
+                          <td><select value={post_meta.half_page_ads_type_position} name="half_page_ads_type_position" onChange={this.props.adFormChangeHandler} >
+                              <option value="select">Select</option>
+                              <option value="half_page_ads_type_position_left">Left</option>
+                              <option value="half_page_ads_type_position_right">Right</option>
+                              </select></td>                                 
+                              </tr>
+                        : ''
+                      }
+
+                      { post_meta.ad_type == 'half_page_ads' ?
+                        <tr className='half_page_ads_table'>
+                            <td><label>{__('Ad Close Type', 'quick-adsense-reloaded')}</label></td>
+                            <td><select value={post_meta.half_page_ads_type} name="half_page_ads_type" onChange={this.props.adFormChangeHandler} >
+                                <option value="select">Select</option>
+                                <option value="half_page_ads_type_specific_time_sec">After Specific Time</option>
+                                <option value="half_page_ads_type_on_click">On Click</option>
+                                </select></td>                                 
+                        </tr>
+                         : ''
+                      }
+
+                      {post_meta.ad_type == 'half_page_ads' && post_meta.half_page_ads_type == 'half_page_ads_type_specific_time_sec' ?
+                        <tr>
+                          <td></td>
+                            <td>
+                                <input id={'half_page_ads_type_specific_time_num'}
+                                       name={'half_page_ads_type_specific_time_num'} type="number"
+                                       value={post_meta.half_page_ads_type_specific_time_num ? post_meta.half_page_ads_type_specific_time_num : 5000} onChange={this.props.adFormChangeHandler}  /> milliseconds
+                            </td>
+                        </tr>
+                      :null}
                   </tbody>
                 </table>                                 
                 </div>  

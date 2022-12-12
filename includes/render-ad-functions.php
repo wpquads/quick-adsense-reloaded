@@ -90,6 +90,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_parallaxad( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_parallaxad_async( $id ),$post_id );
     }
+    if( true === quads_is_half_page_ads( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_halfpagead_async( $id ),$post_id );
+    }
     if( true === quads_is_carousel_ads( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_carousel_ads_async( $id ),$post_id );
     }
@@ -98,6 +101,18 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     }
     // Return empty string
     return '';
+}
+unset($_SESSION['tmp_quads_ads']);
+function quads_api_services_render_cllbck()
+{
+    // Global $quads_ads variable to reduce db calls #631
+    if(empty($_SESSION['tmp_quads_ads'])){
+        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        // global $api_service, $quads_ads;
+        $api_service = new QUADS_Ad_Setup_Api_Service();
+        $_SESSION['tmp_quads_ads'] = $quads_ads = $api_service->getAdDataByParam('quads-ads');
+    }
+        return $_SESSION['tmp_quads_ads'];
 }
 function quads_common_head_code(){
     if(quads_is_amp_endpoint()){
@@ -119,9 +134,10 @@ function quads_common_head_code(){
     }
     if(!isset($quads_ads)|| empty($quads_ads))
     {
-        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        $api_service = new QUADS_Ad_Setup_Api_Service();
-        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        // require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        // $api_service = new QUADS_Ad_Setup_Api_Service();
+        // $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        $quads_ads = quads_api_services_render_cllbck();
     }
     if(isset($quads_ads['posts_data'])){
         $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
@@ -520,9 +536,10 @@ function quads_render_propeller_async( $id ) {
 function quads_adsense_auto_ads_amp_script(){
     if(!isset($quads_ads)|| empty($quads_ads))
     {
-        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        $api_service = new QUADS_Ad_Setup_Api_Service();
-        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        // require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        // $api_service = new QUADS_Ad_Setup_Api_Service();
+        // $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        $quads_ads = quads_api_services_render_cllbck();
     }
     if(isset($quads_ads['posts_data'])){
 
@@ -559,9 +576,10 @@ function quads_adsense_auto_ads_amp_script(){
 function quads_adsense_auto_ads_amp_tag(){
     if(!isset($quads_ads)|| empty($quads_ads))
     {
-        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        $api_service = new QUADS_Ad_Setup_Api_Service();
-        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        // require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        // $api_service = new QUADS_Ad_Setup_Api_Service();
+        // $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        $quads_ads = quads_api_services_render_cllbck();
     }
      $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
     if(isset($quads_ads['posts_data'])){
@@ -859,6 +877,37 @@ function quads_render_parallaxad_async( $id ) {
 </article>';
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_parallaxad_async', $html );
+}
+
+/**
+ * Render Parallax ad
+ *
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_halfpagead_async( $id ) {
+    global $quads_options;
+    $image_render_src = $useragent = '';
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Half Page AD --> \n\n";
+    $useragent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '' ;
+    
+        $html.='<article class="post type-post status-publish format-standard has-post-thumbnail">
+	<div class="post-item">';
+       
+        $html .='<div class="entry-container">';    
+        if(isset($quads_options['ads'][$id]['image_src']) && !empty($quads_options['ads'][$id]['image_src']) && isset($quads_options['ads'][$id]['half_page_ads_btn_url'])){
+            $html .='<div class="featured-image">
+                        <a target="_blank" class="more-link" href="'.esc_attr($quads_options['ads'][$id]['half_page_ads_btn_url']).'">
+                            <img src="'.esc_attr($quads_options['ads'][$id]['image_src']).'" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" loading="lazy" style="width:100%;height:66.57%;max-width:350px;">
+                        </div>
+                </div><!-- .featured-image -->';
+        }
+    $html.='</div><!-- .entry-container -->
+    </div><!-- .post-item -->
+</article>';
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_halfpagead_async', $html );
 }
 
 /**
@@ -1359,14 +1408,7 @@ function quads_is_ad_video( $id, $string ) {
     }
     return false;
 }
-function quads_is_ad_parallax( $id, $string ) {
-    global $quads_options;
 
-    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'parallax_ads') {
-        return true;
-    }
-    return false;
-}
 /**
  * Check if ad code is Taboola
  *
@@ -1458,6 +1500,23 @@ function quads_is_parallaxad( $id, $string ) {
     }
     return false;
 }
+
+/**
+ * Check if ad code is On Load Ads
+ *
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_half_page_ads( $id, $string ) {
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'half_page_ads') {
+        return true;
+    }
+    return false;
+}
+
 /**
  * Check if ad code is Carousel ad
  *

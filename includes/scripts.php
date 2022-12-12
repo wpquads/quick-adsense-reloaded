@@ -432,14 +432,13 @@ function quads_inline_styles() {
 		border-radius: 50%;
         z-index:100;
 	}
-    .post_onLoad_ad{
-        visibility: hidden;
-        transition: all 0.5s;
+    .post_half_page_ad{
+        visibility: visible;
         position: fixed;
         top: 0;
-        right: 0;
+        right: -200vw;
     }
-    #post_onLoad_openClose {
+    #post_half_page_openClose {
         -webkit-transform: rotate(90deg);
         -webkit-transform-origin: left top;
         -moz-transform: rotate(90deg);
@@ -457,7 +456,7 @@ function quads_inline_styles() {
         z-index: 999999;
         display: none;
     }
-    #post_onLoadVertical-text {
+    #post_half_pageVertical-text {
         background: #000000;
         text-align: center;
         z-index: 999999;
@@ -467,9 +466,61 @@ function quads_inline_styles() {
         font-size: 13pt;
         padding: 5px;
         font-weight: bold;
-        width: 618px;
+        width: 85vh;
         font-family: verdana;
         text-transform: uppercase;
+    }
+    .half-page-arrow-left {
+        position: absolute;
+        cursor: pointer;
+        width: 0;
+        height: 0;
+        border-right: 15px solid #FFFFFF;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        left: -27px;
+        z-index: 9999999;
+        top: 8vh;
+    }
+    .half-page-arrow-right {
+        position: absolute;
+        cursor: pointer;
+        width: 0;
+        height: 0;
+        border-left: 15px solid #FFFFFF;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        left: -25px;
+        z-index: 9999999;
+        bottom: 30vh;
+    }
+    @media screen and (max-width: 520px) {
+        .post_half_page_ad {
+            display: none;
+        }
+        #post_half_pageVertical-text {
+            width: 100%;
+            font-size: 14px;
+        }
+        .half-page-arrow-left{
+            left: 12px;
+            bottom: 8px;
+            top: 12px;
+            border-left: 10px solid #ffffff00;
+            border-top: none;
+            border-bottom: 10px solid white;
+            border-right: 10px solid #ffffff00;
+        }
+        .half-page-arrow-right {
+            border-left: 10px solid #ffffff00;
+            border-top: 10px solid white;
+            border-bottom: none;
+            border-right: 10px solid #ffffff00;
+            right: 12px;
+            left: unset;
+            top: 13px;
+            bottom: 8px;
+        }
     }
     @media screen and (max-width: 480px) {
         .quads.quads_ad_container_ {

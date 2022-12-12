@@ -25,6 +25,7 @@ add_action('amp_post_template_footer','quads_adsense_auto_ads_amp_tag');
 add_action( 'plugins_loaded', 'quads_plugins_loaded_bbpress', 20 );
 
 add_action( 'init', 'remove_ads_for_wp_shortcodes',999 );
+
 function quads_get_complete_html( $content_buffer ) {
     $content_buffer = apply_filters('wp_quads_content_html_last_filter', $content_buffer);
     return  $content_buffer;
@@ -64,21 +65,35 @@ function quads_bbp_template_after_replies_loop(){
 function quads_bbp_template_before_replies_loop(){
   quads_load_ads_common('bbpress_before_reply');
 }
-
- // Global $quads_ads variable to reduce db calls #631
- require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
- $api_service = new QUADS_Ad_Setup_Api_Service();
- $quads_ads = $api_service->getAdDataByParam('quads-ads');
- 
-
-function quads_load_ads_common($user_position,$html=''){
-    if(!isset($quads_ads)|| empty($quads_ads))
-    {
+// class QUADS_Ad_Setup_Api_Service_QUADS_AD {
+//     public function __construct() {
+//         // Global $quads_ads variable to reduce db calls #631
+//         require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+//         // global $api_service, $quads_ads;
+//         $api_service = new QUADS_Ad_Setup_Api_Service();
+//         $quads_ads = $api_service->getAdDataByParam('quads-ads');
+//     }
+// }
+unset($_SESSION['tmp_quads_ads']);
+function globFun()
+{
+    // Global $quads_ads variable to reduce db calls #631
+    if(empty($_SESSION['tmp_quads_ads'])){
         require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        // global $api_service, $quads_ads;
         $api_service = new QUADS_Ad_Setup_Api_Service();
-        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        $_SESSION['tmp_quads_ads'] = $quads_ads = $api_service->getAdDataByParam('quads-ads');
     }
-
+        return $_SESSION['tmp_quads_ads'];
+}
+function quads_load_ads_common($user_position,$html=''){
+    // if(!isset($quads_ads)|| empty($quads_ads))
+    // {
+    //     require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+    //     $api_service = new QUADS_Ad_Setup_Api_Service();
+    //     $quads_ads = $api_service->getAdDataByParam('quads-ads');
+    // }
+    $quads_ads = globFun();
     if(isset($quads_ads['posts_data'])){        
         foreach($quads_ads['posts_data'] as $key => $value){
           $ads =$value['post_meta'];
@@ -928,8 +943,7 @@ function quads_process_content( $content ) {
         $content = quads_parse_popup_ads( $content );
         $content = quads_parse_video_ads( $content );       
         $content = quads_parse_parallax_ads( $content ); 
-        $content = quads_parse_on_load_page_ads( $content ); 
-        
+        $content = quads_parse_half_page_ads( $content );        
         return do_shortcode( $content );   
     }else{
         $content = quads_filter_default_ads( $content );    
@@ -1053,20 +1067,25 @@ function quads_get_max_allowed_post_ads( $content ) {
  * @return string content
  */
 function quads_filter_default_ads_new( $content ) {
-
+    
+    // print_r("Pradip");
+    // print_r($quads_ads);
     global $quads_options, $adsArrayCus;   
     
     $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
 
     if( $off_default_ads ) { // If default ads are disabled 
         return $content;
-    }    
-    if(!isset($quads_ads)|| empty($quads_ads))
-    {
-        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        $api_service = new QUADS_Ad_Setup_Api_Service();
-        $quads_ads = $api_service->getAdDataByParam('quads-ads');
-    }
+    }   
+    $quads_ads = globFun(); 
+    // print_r($quads_ads);
+    // if(!isset($quads_ads)|| empty($quads_ads))
+    // {
+    //     require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+    //     $api_service = new QUADS_Ad_Setup_Api_Service();
+    //     $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        
+    // }
     // Default Ads
     $adsArrayCus = array();
     if(isset($quads_ads['posts_data'])){        
@@ -1117,25 +1136,19 @@ function quads_filter_default_ads_new( $content ) {
                     $cusads = '<!--pop_up_ads'.esc_html($ads['ad_id']).'-->';
                 }
                 else if($ads['ad_type']== 'video_ads'){
-                    // print_r($ads);
                     $cusads = '<!--video_ad'.esc_html($ads['ad_id']).'-->';
                 }
                 else if($ads['ad_type']== 'parallax_ads'){
-                    // print_r($ads);
                     $cusads = '<!--parallax_ad'.esc_html($ads['ad_id']).'-->';
                 }
+                else if($ads['ad_type']== 'half_page_ads'){
+                    $cusads = '<!--half_page_ad'.esc_html($ads['ad_id']).'-->';
+                }
                 else{
-                       $cusads = '<!--CusAds'.esc_html($ads['ad_id']).'-->';
+                    $cusads = '<!--CusAds'.esc_html($ads['ad_id']).'-->';
                 }
                
                 switch ($position) {
-
-                    case 'on_load_of_page':                          
-                        if(strpos( $content, '<!--On Load-->' ) === false ) {
-                           $content = '<div class="post_onLoad_ad"><div id="post_onLoad_openClose"><div id="post_onLoadVertical-text">'.__( 'Click Here To Open/Close', 'quick-adsense-reloaded' ).'</div></div>'.$cusads.'</div>'.$content;   
-                        }                    
-                    break;
-
                     case 'beginning_of_post':                          
                         if(strpos( $content, '<!--OffBegin-->' ) === false ) {
                            $content = $cusads.$content;   
@@ -2271,6 +2284,7 @@ function quads_parse_popup_ads($content) {
 }
 function quads_parse_video_ads($content) {
     if(!isset($_COOKIE['quads_video'])){
+        
         preg_match("#<!--video_ad(.+?)-->#si", $content, $match);
         if (!isset($match['1'])) {
             return $content;
@@ -2295,13 +2309,15 @@ function quads_parse_video_ads($content) {
         foreach ($ad_meta as $post_ad_id){
             $ad_meta_group = get_post_meta($post_ad_id, '',true);
 
-            if( get_post_status($post_ad_id) !== 'publish' ) {
-                continue;
+            // if( get_post_status($post_ad_id) !== 'publish' ) {
+            //     continue;
+            // }
+            if($post_ad_id[0] == 'video_ads'){
+                $adsresultset[] = array(
+                    'ad_id'                     => $post_ad_id,
+                    'ad_type'                   => 'video_ads',
+                );
             }
-            $adsresultset[] = array(
-                'ad_id'                     => $post_ad_id,
-                'ad_type'                   => 'video_ads',
-            ) ;
         }
         $response['quads_group_id'] = $ad_id;
         $response['quads_video_type']           = 'videoads';
@@ -2385,14 +2401,12 @@ function quads_parse_parallax_ads($content) {
     if( $ad_meta ){
         foreach ($ad_meta as $post_ad_id){
             $ad_meta_group = get_post_meta($post_ad_id, '',true);
-
-            if( get_post_status($post_ad_id) !== 'publish' ) {
-                continue;
+            if($post_ad_id[0] == 'parallax_ads'){
+                $adsresultset[] = array(
+                    'ad_id'                     => $post_ad_id,
+                    'ad_type'                   => 'parallax_ads',
+                ) ;
             }
-            $adsresultset[] = array(
-                'ad_id'                     => $post_ad_id,
-                'ad_type'                   => 'parallax_ads',
-            ) ;
         }
         $response['quads_group_id'] = $ad_id;
         $response['quads_parallax_ads_type']           = 'parallax_ads';
@@ -2447,33 +2461,78 @@ function quads_parse_parallax_ads($content) {
     return  $content ;
 }
 
-function quads_parse_on_load_page_ads($content) {
-
-    global $quads_options, $adsArrayCus;   
-    $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
-    if( $off_default_ads ) { // If default ads are disabled 
-        return $content;
-    }    
-    if(!isset($quads_ads)|| empty($quads_ads))
-    {
-        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        $api_service = new QUADS_Ad_Setup_Api_Service();
-        $quads_ads = $api_service->getAdDataByParam('quads-ads');
-    }
-    if(!empty($quads_ads['posts_data'])){
-        $i = 1;
-        foreach($quads_ads['posts_data'] as $key => $value){
-            $ads =$value['post_meta'];
-            $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
-            if($position !='' && $position == 'on_load_of_page'){
-                $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
-                // Use minified libraries if SCRIPT_DEBUG is turned off
-                $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
-                // These have to be global
-                wp_enqueue_script( 'wp_qds_onload_ads', $js_dir . 'wp_qds_onload_ads' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+function quads_parse_half_page_ads($content) {
+    if(!isset($_COOKIE['quads_half_page_ads'])){
+        preg_match("#<!--half_page_ad(.+?)-->#si", $content, $match);
+        if (!isset($match['1'])) {           
+            return $content;
+        }
+        $ad_id = $match['1'];
+        if(!empty($ad_id)){
+            $ad_meta = get_post_meta($ad_id, '',true);
+        }
+        $half_page_ads_type =  isset($ad_meta['half_page_ads_type'][0]) ? $ad_meta['half_page_ads_type'][0] : '';
+        $half_page_ads_type_position =  isset($ad_meta['half_page_ads_type_position'][0]) ? $ad_meta['half_page_ads_type_position'][0] : '';
+        $half_page_ads_type_specific_time_num =  isset($ad_meta['half_page_ads_type_specific_time_num'][0]) ? $ad_meta['half_page_ads_type_specific_time_num'][0] : '5000';
+        $half_page_ads_image_src =  (isset($ad_meta['image_src'][0]) && !empty($ad_meta['image_src'][0])) ? $ad_meta['image_src'][0] : 0;
+        $half_page_ads_btn_url =  (isset($ad_meta['half_page_ads_btn_url'][0]) && !empty($ad_meta['half_page_ads_btn_url'][0])) ? $ad_meta['half_page_ads_btn_url'][0] : '';
+        $half_page_ads_page_vertical_text =  isset($ad_meta['half_page_ads_page_vertical_text'][0]) ? $ad_meta['half_page_ads_page_vertical_text'][0] : 'Click Here To Open/Close';
+    $adsresultset = array();
+    if( $ad_meta ){
+        foreach ($ad_meta as $post_ad_id){
+            if($post_ad_id[0] == 'half_page_ads'){
+                $adsresultset[] = array(
+                    'ad_id'                     => $post_ad_id,
+                    'ad_type'                   => 'half_page_ads',
+                ) ;
             }
         }
+        $response['quads_group_id'] = $ad_id;
+        $response['half_page_ads_type']           = 'half_page_ads';
+        $response['half_page_ads_btn_url']            = $half_page_ads_btn_url;
+        $response['half_page_ads_image_src']          = $half_page_ads_image_src;
+        $response['ads'] = $adsresultset;
+
+        // Do not create any inline style on AMP site
+        $half_page_ads_data = '';
+        if( $half_page_ads_type == "half_page_ads_type_specific_time_sec" ){
+            if($half_page_ads_type_specific_time_num){
+                $half_page_ads_data = "data-timer=".$half_page_ads_type_specific_time_num."";
+            }
+        }
+
+        $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
+            '<div class="post_half_page_ad">
+            <div class="post_half_page_openClose_box">
+            <div id="post_half_page_openClose">
+            <div id="post_half_pageVertical-text">'.__( $half_page_ads_page_vertical_text, 'quick-adsense-reloaded' ).'</div>
+            </div>
+            <div class="half-page-arrow-left" id="half-page-arrow-left"></div>
+            <div class="half-page-arrow-right" id="half-page-arrow-right"></div>
+            </div>
+            <div class="quads-location quads-half_page ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" '.$half_page_ads_data.' data-half-page-type="'.$half_page_ads_type.'" data-position="'.$half_page_ads_type_position.'" data-redirect="'.esc_url($half_page_ads_btn_url).'">' . "\n";
+        $code .='<div class="quads-half-page-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
+        $code .='</div>';
+
+        $code .='<div data-id="'.esc_attr($ad_id).'" class="quads quads_ad_container_half_page">
+        
+        </div>';
+        $code .= '</div>' . "\n";
+        $code .= '</div>' . "\n";
+
+        $cont = explode('<!--CusRot'.$ad_id.'-->', $content, 2);
+
+        $content =  $cont[0].$code;
+        $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
+
+        // Use minified libraries if SCRIPT_DEBUG is turned off
+        $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
+
+        // These have to be global
+        wp_enqueue_script( 'wp_qds_onload_ads', $js_dir . 'wp_qds_onload_ads' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+
     }
+}
     return  $content ;
 }
 
@@ -2900,13 +2959,14 @@ function quads_del_element($array, $idx) {
 
      function quads_background_ad_last($content){
 
-        if(!isset($quads_ads)|| empty($quads_ads))
-        {
-            require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-            $api_service = new QUADS_Ad_Setup_Api_Service();
-            $quads_ads = $api_service->getAdDataByParam('quads-ads');
-        }
+        // if(!isset($quads_ads)|| empty($quads_ads))
+        // {
+        //     require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        //     $api_service = new QUADS_Ad_Setup_Api_Service();
+        //     $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        // }
 
+        $quads_ads = globFun();
         if(isset($quads_ads['posts_data'])){        
             foreach($quads_ads['posts_data'] as $key => $value){
                 $ads =$value['post_meta'];

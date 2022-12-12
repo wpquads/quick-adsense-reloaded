@@ -15,7 +15,6 @@ class QuadsAdvancePositionMuti extends Component {
             check_plugin_exist: true,
             ad_blindness_temp: {},
             position_list: [
-                { label: 'On Load', value: 'on_load_of_page' },
                 { label: 'Beginning of Post', value: 'beginning_of_post' },
                 { label: 'middle_of_post', value: 'Middle of Post' },
                 { label: 'end_of_post', value: 'End of Post' },
@@ -94,7 +93,6 @@ class QuadsAdvancePositionMuti extends Component {
                                             <select className={(show_form_error && position_data.ad_blindness.length <= 0) ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.adFormChangeHandlerstate} >
                                                 <optgroup label="Full Support ( AMP &amp; NON AMP )">
                                                     <option value="">{__('Select Position', 'quick-adsense-reloaded')}</option>
-                                                    <option value="on_load_of_page">{__('On Load', 'quick-adsense-reloaded')}</option>
                                                     <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>
                                                     <option value="middle_of_post">{__('Middle of Post', 'quick-adsense-reloaded')}</option>
                                                     <option value="end_of_post">{__('End of Post', 'quick-adsense-reloaded')}</option>
@@ -127,7 +125,6 @@ class QuadsAdvancePositionMuti extends Component {
                                             </select>
                                             : <select className={(show_form_error && position_data.ad_blindness.length <= 0) ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.adFormChangeHandlerstate} >
                                                 <option value="">{__('Select Position', 'quick-adsense-reloaded')}</option>
-                                                <option value="on_load_of_page">{__('On Load', 'quick-adsense-reloaded')}</option>
                                                 <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>
                                                 <option value="middle_of_post">{__('Middle of Post', 'quick-adsense-reloaded')}</option>
                                                 <option value="end_of_post">{__('End of Post', 'quick-adsense-reloaded')}</option>
