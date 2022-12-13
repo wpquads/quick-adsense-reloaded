@@ -458,13 +458,12 @@ class QuadsAdTargeting extends Component {
                         <tr className='parallax_ads_table'>
                             <td><label>{__('Parallax Type', 'quick-adsense-reloaded')}</label></td>
                             <td><select value={post_meta.parallax_ads_type} name="parallax_ads_type" onChange={this.props.adFormChangeHandler} >
-                                <option value="select">Select</option>
                                 <option value="after_scroll_parallax_ads">On Scroll</option>
                                 </select></td>                                 
                                 </tr>
                          : ''
                         }
-                        {post_meta.ad_type == 'parallax_ads' && post_meta.parallax_ads_type == 'after_scroll_parallax_ads' ?
+                        {post_meta.ad_type == 'parallax_ads' ?
                           <tr>
                             <td></td>
                             <td>

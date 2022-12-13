@@ -2355,8 +2355,8 @@ function quads_parse_parallax_ads($content) {
         if(!empty($ad_id)){
             $ad_meta = get_post_meta($ad_id, '',true);
         }
-        $parallax_ad_type                    =  isset($ad_meta['parallax_ads_type'][0]) ? $ad_meta['parallax_ads_type'][0] : '';
-    $on_scroll_parallax_ads_percentage       =  (isset($ad_meta['on_scroll_parallax_ads_percentage'][0]) && !empty($ad_meta['on_scroll_parallax_ads_percentage'][0])) ? $ad_meta['on_scroll_parallax_ads_percentage'][0] : 0;
+        $parallax_ad_type                    =  'after_scroll_parallax_ads';
+    $on_scroll_parallax_ads_percentage       =  (isset($ad_meta['on_scroll_parallax_ads_percentage'][0]) && !empty($ad_meta['on_scroll_parallax_ads_percentage'][0])) ? $ad_meta['on_scroll_parallax_ads_percentage'][0] : 20;
     $parallax_image_src       =  (isset($ad_meta['image_src'][0]) && !empty($ad_meta['image_src'][0])) ? $ad_meta['image_src'][0] : 0;
     $parallax_btn_url       =  (isset($ad_meta['parallax_btn_url'][0]) && !empty($ad_meta['parallax_btn_url'][0])) ? $ad_meta['parallax_btn_url'][0] : '';
     $parallax_image_width       =  (isset($ad_meta['parallax_ads_width'][0]) && !empty($ad_meta['parallax_ads_width'][0])) ? $ad_meta['parallax_ads_width'][0] : '800';
@@ -2395,7 +2395,7 @@ function quads_parse_parallax_ads($content) {
         // Do not create any inline style on AMP site
         $style = '' ;
         $parallax_ads_data = '';
-        if( $parallax_ad_type == "after_scroll_parallax_ads" ){
+        if( !empty($on_scroll_parallax_ads_percentage)){
             $style = "display:none";
             $parallax_ads_data = "data-percent=".$on_scroll_parallax_ads_percentage."";
         }
