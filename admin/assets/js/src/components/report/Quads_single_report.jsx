@@ -434,7 +434,7 @@ class Quads_single_report extends Component {
                         get_table_tot.innerHTML = 'No data Found'
                     }
                     if( quads_localize_data.is_pro == undefined && response.ad_day == "this_year_free" || response.ad_day == "all_time_free" || response.ad_day == "custom_free" ){
-                        let pro_notify = '<div id="pro_" class="pro_"><div id="quads_get_pro" style="font-size: 15px;color: #000;line-height: 50px;padding-left: 14px;">This feature is available in PRO version <a class="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Upgrade to PRO to unlock the data in the Reports</a></div></div>'
+                        let pro_notify = '<div id="pro_" "pro_"><div id="quads_get_pro" style="font-size: 15px;color: #000;line-height: 50px;padding-left: 14px;">This feature is available in PRO version <a "quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Upgrade to PRO to unlock the data in the Reports</a></div></div>'
                         let canva = document.getElementById('quads_reports_pro_notify')
                         get_table.innerHTML = ''
                         canva.innerHTML = pro_notify
@@ -471,9 +471,8 @@ class Quads_single_report extends Component {
                         <tr>
                         <td><b>${pass_Date}</b></td>
                         </tr>
-                        ${ ad_imp_individual_dates.map( (item) =>  {
-                            return `
-                            <tr><td>${item}</td></tr>`
+                        ${ ad_imp_individual_dates.map( (item, index) =>  {
+                            return `<tr key=${index}><td>${item}</td></tr>`
                         }).join('')
                         }
                         <tr><td>Total</td></tr>
@@ -488,7 +487,7 @@ class Quads_single_report extends Component {
 
                         ${ response.individual_impr_day_counts.map( (item3, index3) =>  {
                             return `
-                            <tr><td>${item3}</td></tr>`
+                            <tr key=${index3}><td>${item3}</td></tr>`
                         } ).join('')
                         }
                         <tr><td>${response.impressions}</td></tr>
@@ -503,7 +502,7 @@ class Quads_single_report extends Component {
 
                         ${ response.individual_click_day_counts.map( (item2, index2) =>  {
                             return `
-                            <tr><td>${item2}</td></tr>`
+                            <tr key=${index2}><td>${item2}</td></tr>`
                         } ).join('')
                         }
                         <tr><td>${response.clicks}</td></tr>
@@ -517,9 +516,8 @@ class Quads_single_report extends Component {
                         <tr>
                         <td><b>${pass_Date_}</b></td>
                         </tr>
-                        ${ ad_imp_individual_dates.map( (item) =>  {
-                            return `
-                            <tr><td>${item}</td></tr>`
+                        ${ ad_imp_individual_dates.map( (item, index) =>  {
+                            return `<tr key=${index}><td>${item}</td></tr>`
                         }).join('')
                         }
 
@@ -533,8 +531,7 @@ class Quads_single_report extends Component {
                         </tr>
 
                         ${ response.individual_impr_day_counts.map( (item3, index3) =>  {
-                            return `
-                            <tr><td>${item3}</td></tr>`
+                            return `<tr key=${index3}><td>${item3}</td></tr>`
                         } ).join('')
                         }
 
@@ -548,8 +545,7 @@ class Quads_single_report extends Component {
                         </tr>
 
                         ${ response.individual_click_day_counts.map( (item2, index2) =>  {
-                            return `
-                            <tr><td>${item2}</td></tr>`
+                            return `<tr key=${index2}><td>${item2}</td></tr>`
                         } ).join('')
                         }
 
@@ -707,9 +703,8 @@ class Quads_single_report extends Component {
                         <tr>
                         <td><b>${pass_Date}</b></td>
                         </tr>
-                        ${ pass_var.map( (item) =>  {
-                            return `
-                            <tr><td>${item}</td></tr>`
+                        ${ pass_var.map( (item, index) =>  {
+                            return `<tr key=${index}><td>${item}</td></tr>`
                         }).join('')
                         }
                         <tr><td>Total</td></tr>
@@ -723,8 +718,7 @@ class Quads_single_report extends Component {
                         </tr>
 
                         ${ response.individual_impr_day_counts.map( (item3, index3) =>  {
-                            return `
-                            <tr><td>${item3}</td></tr>`
+                            return `<tr key=${index3}><td>${item3}</td></tr>`
                         } ).join('')
                         }
                         <tr><td>${response.impressions}</td></tr>
@@ -738,8 +732,7 @@ class Quads_single_report extends Component {
                         </tr>
 
                         ${ response.individual_click_day_counts.map( (item2, index2) =>  {
-                            return `
-                            <tr><td>${item2}</td></tr>`
+                            return `<tr key=${index2}><td>${item2}</td></tr>`
                         } ).join('')
                         }
                         <tr><td>${response.clicks}</td></tr>
@@ -881,7 +874,7 @@ class Quads_single_report extends Component {
                         <div className={'quads-select-menu'} >
                         <div className={'quads-select view_statsreport'} onClick={this.adsToggle_list}>
                         <select name="view_stats_report" onChange={this.view_report_stats_form_ChangeHandler} id={'view_stats_report'} placeholder="Select Ads">
-                        {this.state.getallads_data_temp ? this.state.getallads_data_temp.map( item => {
+                        {this.state.getallads_data_temp ? this.state.getallads_data_temp.map( (item,index) => {
                             const sel = item.value                    
                             return (
                                 <option data-attr={q_id} data-selected={item.value == q_id ? "selected" : ''} selected={sel == q_id} key={item.value} value={item.value}>{item.label}</option>
@@ -909,8 +902,8 @@ class Quads_single_report extends Component {
                     }
                         </div>
                         </div>
-                        <div id='quads_reports_pro_notify' class='quads_reports_pro_notify' style={{marginTop: "20px"}}  ></div>
-                        <div id='quads_reports_canvas' class='report_single' ></div>
+                        <div id='quads_reports_pro_notify' className='quads_reports_pro_notify' style={{marginTop: "20px"}}  ></div>
+                        <div id='quads_reports_canvas' className='report_single' ></div>
                         <div id={'quads_report_table'}></div>
                         <div id={'quads_report_table_total'}
                         style={{ display: this.state.custom_period ? 'block' : ''}} >

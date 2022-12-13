@@ -94,6 +94,11 @@ class QUADS_Ad_Setup {
                                     $position           .= ',beginning_of_post';
                                 }
                             }
+                            if(isset($quads_settings['pos11']['OnLoadAds']) && $quads_settings['pos11']['OnLoadAds'] ){
+                                if(isset($quads_settings['pos11']['OnLoadRnd']) && $quads_settings['pos11']['OnLoadRnd']== $i){
+                                    $position           .= ',on_load_of_page';
+                                }
+                            }
                             if(isset($quads_settings['pos2']['MiddAds']) && $quads_settings['pos2']['MiddAds'] ){
                                 if(isset($quads_settings['pos2']['MiddRnd']) && $quads_settings['pos2']['MiddRnd']== $i){
                                     $position           .= ',middle_of_post';
@@ -203,12 +208,40 @@ class QUADS_Ad_Setup {
                                         $value2['paragraph_number']      = $quads_settings['pos9']['Img1Nup'];
                                         $value2['enable_on_end_of_post'] = $quads_settings['pos9']['Img1Con'];
                                         $value2['visibility_include'] = $visibility_include;
-                                        $value2['position']              = 'after_paragraph';
+                                        $value2['position']              = 'after_image';
                                         $parameters['quads_post_meta']   = $value2;                                        
                                         $this->api_service->updateAdData($parameters);
                                 }
 
                             }
+
+                            if(isset($quads_settings['pos10']['Img2Ads']) &&  $quads_settings['pos10']['Img2Ads']){
+                                if(isset($quads_settings['pos10']['Img2Rnd']) && $quads_settings['pos10']['Img2Rnd']== $i){
+
+                                        $value2 =array();
+                                        $value2 = $value;
+                                        $flag_adddefault = false;
+                                        if($post_id){                            
+                                            $value2['ad_id']                      = $post_id;                             
+                                        }else{
+                                            if($flag_key_used){
+                                                $value2['quads_ad_old_id']            =  'ad'.$ad_count; 
+                                                $ad_count++;  
+                                            }else{
+                                                $flag_key_used = true;
+                                                $value2['quads_ad_old_id']            =  $key;
+                                            }                                   
+                                        }
+                                        $value2['paragraph_number']      = $quads_settings['pos10']['Img2Nup'];
+                                        $value2['enable_on_end_of_post'] = $quads_settings['pos10']['Img2Con'];
+                                        $value2['visibility_include'] = $visibility_include;
+                                        $value2['position']              = 'before_image';
+                                        $parameters['quads_post_meta']   = $value2;                                        
+                                        $this->api_service->updateAdData($parameters);
+                                }
+
+                            }
+
                             for ($extra_ads=1; $extra_ads < 9; $extra_ads++) { 
 
                                 if(isset($quads_settings['extra'.$extra_ads]['ParAds']) &&  $quads_settings['extra'.$extra_ads]['ParAds']){
@@ -352,6 +385,7 @@ public function quads_database_install() {
 
 public function quadsSyncRandomAdsInNewDesign(){
     $quads_settings = get_option('quads_settings_backup');
+    $random_on_load_of_page = true;
     $random_beginning_of_post = true;
     $random_middle_of_post = true;
     $random_end_of_post = true;
@@ -361,6 +395,7 @@ public function quadsSyncRandomAdsInNewDesign(){
     $random_after_paragraph2 = true;
     $random_after_paragraph3 = true;
     $random_after_image = true;  
+    $random_before_image = true;  
     $quads_ads = $this->api_service->getAdDataByParam('quads-ads');
    if(isset($quads_ads['posts_data'])){
    $random_ads_list =array();
@@ -407,6 +442,9 @@ foreach($quads_settings['ads'] as $key2 => $value2){
                 $random_ads_list[] = array('value'=>$value['post_meta']['ad_id'],'label'=>$value['post_meta']['quads_ad_old_id']);
             }
 
+            if($value['post_meta']['position'] == 'on_load_of_page' && $value['post_meta']['ad_type'] == 'random_ads'){
+                $random_on_load_of_page = false;
+            }
             if($value['post_meta']['position'] == 'beginning_of_post' && $value['post_meta']['ad_type'] == 'random_ads'){
                 $random_beginning_of_post = false;
             }
@@ -434,7 +472,9 @@ foreach($quads_settings['ads'] as $key2 => $value2){
             if($value['post_meta']['position'] == 'after_image' && $value['post_meta']['ad_type'] == 'random_ads'){
                 $random_after_image = false;
             }                    
-
+            if($value['post_meta']['position'] == 'before_image' && $value['post_meta']['ad_type'] == 'random_ads'){
+                $random_before_image = false;
+            }
         }
 
 
@@ -630,6 +670,48 @@ foreach($quads_settings['ads'] as $key2 => $value2){
             }
         }
 
+        if(isset($quads_settings['pos10'])){ 
+            if(isset($quads_settings['pos10']['Img2Ads']) &&  $quads_settings['pos10']['Img2Ads'] && $random_before_image){
+                if(isset($quads_settings['pos10']['Img2Rnd']) && $quads_settings['pos10']['Img2Rnd']== 0){ 
+                    $visibility_include[0]['type']['label'] = 'Post Type';
+                    $visibility_include[0]['type']['value'] = 'post_type';
+                    $visibility_include[0]['value']['label'] = 'post';
+                    $visibility_include[0]['value']['value'] = 'post';
+                    $value['visibility_include'] = $visibility_include;
+                    $value['ad_type']       = 'random_ads';
+                    $value['random_ads_list']   = $random_ads_list;
+                    $value['position']      = 'before_image'; 
+                    $value['paragraph_number']  = $quads_settings['pos10']['Img2Nup'];
+                    $value['image_number']   = $quads_settings['pos10']['Img2Con']; 
+                    $value['label']         = 'Random ads before image';  
+                    $value['random']        = true; 
+                    $value['quads_ad_old_id']         = 'ad'.$ad_count;
+                     $ad_count++;
+                    $parameters['quads_post_meta']  = $value;
+                    $this->api_service->updateAdData($parameters);  
+                }
+            }
+        }
+
+        if(isset($quads_settings['pos11'])){ 
+            if(isset($quads_settings['pos11']['OnLoadAds']) && $quads_settings['pos11']['OnLoadAds'] && $random_on_load_of_page){
+                if(isset($quads_settings['pos11']['OnLoadRnd']) && $quads_settings['pos11']['OnLoadRnd']== 0){ 
+                    $visibility_include[0]['type']['label'] = 'Post Type';
+                    $visibility_include[0]['type']['value'] = 'post_type';
+                    $visibility_include[0]['value']['label'] = 'post';
+                    $visibility_include[0]['value']['value'] = 'post';
+                    $value['visibility_include'] = $visibility_include;
+                    $value['ad_type']       = 'random_ads';
+                    $value['random_ads_list']   = $random_ads_list;
+                    $value['position']      = 'on_load_of_page';  
+                    $value['label']         = 'Random ads On Load';         
+                    $value['quads_ad_old_id']         = 'ad'.$ad_count;
+                     $ad_count++;
+                    $parameters['quads_post_meta']  = $value;
+                    $this->api_service->updateAdData($parameters);   
+                }
+            }
+        } 
     }
         update_option('quads_import_classic_ads_popup', 'no'); 
 

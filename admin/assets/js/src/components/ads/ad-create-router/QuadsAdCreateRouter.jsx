@@ -143,7 +143,7 @@ class QuadsAdCreateRouter extends Component {
             video_autoplay            : false,
             video_height              : 450,
             video_width               : 350,
-
+            parallax_btn_url          : '',
             },
             quads_form_errors : {
               g_data_ad_slot       : '',
@@ -695,6 +695,20 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             }
           break;
+          case 'parallax_ads':
+            if(validation_flag && quads_post_meta.parallax_btn_url && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;
+          case 'half_page_ads':
+            if(validation_flag && quads_post_meta.half_page_ads_btn_url && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+          break;
           case 'sticky_scroll':
             if(validation_flag && quads_post_meta.ads_list.length > 0 && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
               this.saveAdFormData('publish');
@@ -719,7 +733,6 @@ class QuadsAdCreateRouter extends Component {
 
     }
     componentDidMount(){ 
-             
       var page = queryString.parse(window.location.search);        
       
       if(this.state.quads_is_reload && page.action == 'edit'){   
@@ -732,7 +745,7 @@ class QuadsAdCreateRouter extends Component {
       document.body.classList.add('quads_addpage');    
       }
       
-      
+  
       
       this.setState(Object.assign(this.state.quads_post_meta,{ad_type:page.ad_type}));
       this.setState({quads_is_loaded : false});
@@ -780,6 +793,7 @@ class QuadsAdCreateRouter extends Component {
       let page    = queryString.parse(window.location.search);          
       let new_url = this.props.location.pathname + this.removePartofQueryString(this.props.location.search, 'path=wizard');      
       const {quads_post_meta} = this.state;
+  
       if(page.path == 'wizard'){
 
         new_url += 'path=wizard_target';
@@ -960,7 +974,26 @@ class QuadsAdCreateRouter extends Component {
               }else{
                 this.setState({show_form_error:true});
               } 
-              break;
+            break;
+
+            case 'parallax_ads':
+              if(quads_post_meta.parallax_btn_url){
+               
+                this.props.history.push(new_url); 
+              }else{
+                this.setState({show_form_error:true});
+              }
+            break;
+
+            case 'half_page_ads':
+              if(quads_post_meta.half_page_ads_btn_url){
+               
+                this.props.history.push(new_url); 
+              }else{
+                this.setState({show_form_error:true});
+              }
+            break;
+
               case 'sticky_scroll':
 
                 if(quads_post_meta.ads_list.length > 0 ){

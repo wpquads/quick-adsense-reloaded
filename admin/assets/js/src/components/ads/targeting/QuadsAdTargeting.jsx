@@ -205,6 +205,8 @@ class QuadsAdTargeting extends Component {
                 post_meta.ad_type == 'infolinks' ||
                 post_meta.ad_type == 'skip_ads' ||
                 post_meta.ad_type == 'loop_ads' ||
+                post_meta.ad_type == 'parallax_ads' ||
+                post_meta.ad_type == 'half_page_ads' ||
                 post_meta.ad_type == 'carousel_ads' ||
                 post_meta.ad_type == 'sticky_scroll'
               ) ?
@@ -214,10 +216,10 @@ class QuadsAdTargeting extends Component {
                 <div className="quads-panel-body"> 
                 <table>
                   <tbody>
-                  { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" || post_meta.ad_type == "loop_ads" ?  "" : 
+                  { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" || post_meta.ad_type == "parallax_ads" || post_meta.ad_type == "half_page_ads" || post_meta.ad_type == "loop_ads" ?  "" : 
                     <tr className="quads-tr-position">
                     <td><label>{__('Where will the AD appear?', 'quick-adsense-reloaded')}</label></td>
-                    { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" ?  "" : 
+                    { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" || post_meta.ad_type == "parallax_ads" || post_meta.ad_type == "half_page_ads" ?  "" : 
                         <td>{post_meta.ad_type != "group_insertion" || post_meta.ad_type != "sticky_scroll" ? (<QuadsAdvancePosition parentState={this.props.parentState} adFormChangeHandler = {this.props.adFormChangeHandler}/>
                         ):<div><select  value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                             <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
@@ -326,7 +328,7 @@ class QuadsAdTargeting extends Component {
                                 <option value="on_interval">Auto Rotate</option>
                                 </select></td>
                                 {post_meta.ad_type == 'rotator_ads' && post_meta.refresh_type == 'on_interval' ?
-                                <td><a class="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-auto-rotation-how-to-set-it-up/"></a></td> : '' }
+                                <td><a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-auto-rotation-how-to-set-it-up/"></a></td> : '' }
                                 </tr>
                         : null}
                     {post_meta.ad_type == 'rotator_ads' && post_meta.refresh_type == 'on_interval' ?
@@ -359,7 +361,7 @@ class QuadsAdTargeting extends Component {
                               <input id={'grid_data_ad_row'} placeholder='Row'
                               name={'grid_data_ad_row'} type="number"
                               value={post_meta.grid_data_ad_row }  onChange={this.props.adFormChangeHandler}    />
-                              <a class="quads-general-helper quads-general-helper-new ad_rotator_grid" target="_blank" href="https://wpquads.com/documentation/how-to-setup-grid-in-ad-rotator/"></a>
+                              <a className="quads-general-helper quads-general-helper-new ad_rotator_grid" target="_blank" href="https://wpquads.com/documentation/how-to-setup-grid-in-ad-rotator/"></a>
                             </td>
                               : ''}
                             </tr>
@@ -399,7 +401,7 @@ class QuadsAdTargeting extends Component {
                         </tr>
                         :null}
                     {post_meta.ad_type == 'popup_ads' && post_meta.popup_type == 'on_scroll_popup' ?
-                    <tr>
+                      <tr>
                     
                             <td></td>
                             <td>
@@ -452,6 +454,69 @@ class QuadsAdTargeting extends Component {
                                 </tr>
                          : ''
                         }
+                        { post_meta.ad_type == 'parallax_ads' ?
+                        <tr className='parallax_ads_table'>
+                            <td><label>{__('Parallax Type', 'quick-adsense-reloaded')}</label></td>
+                            <td><select value={post_meta.parallax_ads_type} name="parallax_ads_type" onChange={this.props.adFormChangeHandler} >
+                                <option value="after_scroll_parallax_ads">On Scroll</option>
+                                </select></td>                                 
+                                </tr>
+                         : ''
+                        }
+                        {post_meta.ad_type == 'parallax_ads' ?
+                          <tr>
+                            <td></td>
+                            <td>
+                                <input id={'on_scroll_parallax_ads_percentage'}
+                                       name={'on_scroll_parallax_ads_percentage'} type="number"
+                                       value={post_meta.on_scroll_parallax_ads_percentage} onChange={this.props.adFormChangeHandler}  /> Scroll percentage
+                            </td>
+                        </tr>
+                        :null}
+
+                        {post_meta.ad_type == 'half_page_ads' ?
+                          <tr>
+                          <td><label>{__('Open/Close Text', 'quick-adsense-reloaded')}</label></td>
+                            <td>
+                              <input id={'half_page_ads_page_vertical_text'} name={'half_page_ads_page_vertical_text'} type="text" value={post_meta.half_page_ads_page_vertical_text ? post_meta.half_page_ads_page_vertical_text : 'Click Here To Open/Close'} onChange={this.props.adFormChangeHandler}  /> 
+                            </td>
+                        </tr>
+                      :null}
+
+                      { post_meta.ad_type == 'half_page_ads' ?
+                        <tr className='half_page_ads_table_position'>
+                          <td><label>{__('Where Will The AD Appear?', 'quick-adsense-reloaded')}</label></td>
+                          <td><select value={post_meta.half_page_ads_type_position} name="half_page_ads_type_position" onChange={this.props.adFormChangeHandler} >
+                              <option value="select">Select</option>
+                              <option value="half_page_ads_type_position_left">Left</option>
+                              <option value="half_page_ads_type_position_right">Right</option>
+                              </select></td>                                 
+                              </tr>
+                        : ''
+                      }
+
+                      { post_meta.ad_type == 'half_page_ads' ?
+                        <tr className='half_page_ads_table'>
+                            <td><label>{__('Ad Close Type', 'quick-adsense-reloaded')}</label></td>
+                            <td><select value={post_meta.half_page_ads_type} name="half_page_ads_type" onChange={this.props.adFormChangeHandler} >
+                                <option value="select">Select</option>
+                                <option value="half_page_ads_type_specific_time_sec">After Specific Time</option>
+                                <option value="half_page_ads_type_on_click">On Click</option>
+                                </select></td>                                 
+                        </tr>
+                         : ''
+                      }
+
+                      {post_meta.ad_type == 'half_page_ads' && post_meta.half_page_ads_type == 'half_page_ads_type_specific_time_sec' ?
+                        <tr>
+                          <td></td>
+                            <td>
+                                <input id={'half_page_ads_type_specific_time_num'}
+                                       name={'half_page_ads_type_specific_time_num'} type="number"
+                                       value={post_meta.half_page_ads_type_specific_time_num ? post_meta.half_page_ads_type_specific_time_num : 5000} onChange={this.props.adFormChangeHandler}  /> milliseconds
+                            </td>
+                        </tr>
+                      :null}
                   </tbody>
                 </table>                                 
                 </div>  

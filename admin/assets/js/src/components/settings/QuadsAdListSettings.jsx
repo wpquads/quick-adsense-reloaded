@@ -90,6 +90,8 @@ class QuadsAdListSettings extends Component {
                 multiPluginsValue  : [],
                 notice_type        : 'ad_blocker_message',
                 notice_behaviour   : 2,
+                notice_bar         : 2,
+                notice_bar_sticky  : '',
                 notice_description : 'Our website is made possible by displaying online advertisements to our visitors. Please consider supporting us by whitelisting our website.',
                 notice_title       : 'Adblock Detected!',
                 notice_close_btn   : '',
@@ -908,7 +910,7 @@ handleMultiPluginsChange = (option) => {
               createDiv.className = "quads_response-suc-wrap bottom-left";
               document.body.appendChild(createDiv);
               var quads_response_suc = document.getElementsByClassName("quads_response-suc-wrap bottom-left")[0];
-    quads_response_suc.innerHTML += "<div class='quads_response-suc-single quads_response-suc-success'><span class='quads_response-suc-loader quads_response-suc-loaded'></span>Settings Saved</div>";
+    quads_response_suc.innerHTML += "<div className='quads_response-suc-single quads_response-suc-success'><span className='quads_response-suc-loader quads_response-suc-loaded'></span>Settings Saved</div>";
               setTimeout(() => {
                 var quads_response_suc_ = document.getElementsByClassName("quads_response-suc-wrap bottom-left")[0];
                 quads_response_suc_.remove();
@@ -1255,13 +1257,13 @@ handleMultiPluginsChange = (option) => {
 
           if(settings.auto_ads_get_post_types){
             Object.entries(settings.auto_ads_get_post_types).map(([meta_key, meta_val]) => {
-            auto_ads_get_post_types.push(<option value={meta_key}>{meta_val}</option>);
+            auto_ads_get_post_types.push(<option key={meta_key} value={meta_key}>{meta_val}</option>);
             })
             }
           let autoads_excl_user_roles = [];
           if(settings.autoads_excl_user_roles){
             Object.entries(settings.autoads_excl_user_roles).map(([meta_key, meta_val]) => {
-            autoads_excl_user_roles.push(<option value={meta_key}>{meta_val}</option>);
+            autoads_excl_user_roles.push(<option key={meta_key} value={meta_key}>{meta_val}</option>);
             })
             }
           return (
@@ -1277,13 +1279,13 @@ handleMultiPluginsChange = (option) => {
             <div className="quads-large-popup-content">
              <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
               <div className="quads-large-popup-title">
-             <h1>Ad Txt</h1>
+             <h1>{__('Ad Txt', 'quick-adsense-reloaded')}</h1>
              </div>
              <div className="quads-large-description"></div>
 
              <div className="quads-large-content">
                <textarea cols="80" rows="15" name="adsTxtText" onChange={this.formChangeHandler} value={settings.adsTxtText} />
-               To know more about ads.txt  you can <a  target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/">view this tutorial</a>
+               {__('To know more about ads.txt  you can', 'quick-adsense-reloaded')} <a  target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/">{__('view this tutorial', 'quick-adsense-reloaded')}</a>
                {settings.adtxt_errors ?
              <div className="quads-modal-error">
                <ul>
@@ -1295,7 +1297,7 @@ handleMultiPluginsChange = (option) => {
               </ul>
              </div>
             :null}
-               <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>Validate</a>
+               <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>{__('Validate', 'quick-adsense-reloaded')}</a>
              </div>
              </div>
             </div> </>: null
@@ -1304,18 +1306,18 @@ handleMultiPluginsChange = (option) => {
            <div className="quads-modal-popup">
             <div className="quads-modal-popup-content">
              <span className="quads-modal-close" onClick={this.closeModal}>&times;</span>
-             <h3>Ads For wp Setting</h3>
+             <h3>{__('Ads For wp Setting', 'quick-adsense-reloaded')}</h3>
              <div className="quads-modal-description"></div>
              <div className="quads-modal-content adsforwp-quads-popup">
              <div className="quads-modal">
-             Change adsforwp Short code to quads
+             {__('Change adsforwp Short code to quads', 'quick-adsense-reloaded')}
               <label className="quads-switch">
                          <input id="adsforwp_quads_shortcode" type="checkbox" name="adsforwp_quads_shortcode" onChange={this.formChangeHandler} checked={settings.adsforwp_quads_shortcode} />
                          <span className="quads-slider"></span>
                        </label>
             </div>
             <div className="quads-modal">
-             Change adsforwp Gutenberg to quads
+            {__('Change adsforwp Gutenberg to quads', 'quick-adsense-reloaded')}
               <label className="quads-switch">
                          <input id="adsforwp_quads_gutenberg" type="checkbox" name="adsforwp_quads_gutenberg" onChange={this.formChangeHandler} checked={settings.adsforwp_quads_gutenberg} />
                          <span className="quads-slider"></span>
@@ -1329,11 +1331,11 @@ handleMultiPluginsChange = (option) => {
            <div className="quads-modal-popup">
             <div className="quads-modal-popup-content">
              <span className="quads-modal-close" onClick={this.closeModal}>&times;</span>
-             <h3>Advance Ads Setting</h3>
+             <h3>{__('Advance Ads Setting', 'quick-adsense-reloaded')}</h3>
              <div className="quads-modal-description"></div>
              <div className="quads-modal-content adsforwp-quads-popup">
              <div className="quads-modal">
-             Change Advance Ads Short code to quads
+             {__('Change Advance Ads Short code to quads', 'quick-adsense-reloaded')}
               <label className="quads-switch">
                          <input id="advance_ads_to_quads" type="checkbox" name="advance_ads_to_quads" onChange={this.formChangeHandler} checked={settings.advance_ads_to_quads} />
                          <span className="quads-slider"></span>
@@ -1351,13 +1353,13 @@ handleMultiPluginsChange = (option) => {
             <div className="quads-large-popup-content">
              <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
                 <div className="quads-large-popup-title">
-                    <h1>Global Excluder</h1>
+                    <h1>{__('Global Excluder', 'quick-adsense-reloaded')}</h1>
                 </div>
                 <div className="quads-large-description"></div>
 
                 <div className="quads-large-content">
              <table className="form-table" role="presentation"><tbody><tr>
-                                  <th>Hide Ads for User Roles</th>
+                                  <th>{__('Hide Ads for User Roles', 'quick-adsense-reloaded')}</th>
                                   <td>
                                   <Select
                                     isMulti
@@ -1370,7 +1372,7 @@ handleMultiPluginsChange = (option) => {
                                   </td>
                                 </tr>
                                 <tr>
-                                  <th>Hide Ads for Tags</th>
+                                  <th>{__('Hide Ads for Tags', 'quick-adsense-reloaded')}</th>
                                   <td>
                                   <Select
                                     isMulti
@@ -1385,7 +1387,7 @@ handleMultiPluginsChange = (option) => {
                                   </td>
                                 </tr>
                                 <tr>
-                                  <th>Hide Ads for Plugins</th>
+                                  <th>{__('Hide Ads for Plugins', 'quick-adsense-reloaded')}</th>
                                   <td>
                                   <Select
                                     isMulti
@@ -1416,7 +1418,7 @@ handleMultiPluginsChange = (option) => {
              </div>
              <div className="quads-large-content">
              <table className="form-table" role="presentation"><tbody><tr>
-                                  <th>Administrator</th>
+                                  <th>{__('Administrator', 'quick-adsense-reloaded')}</th>
                                   <td>
                                      <input type="number" min={0} max={100} placeholder="Percentage"  name="ad_owner_revenue_per" value={settings.ad_owner_revenue_per}  onChange={this.formChangeHandler} />
                                   </td>
@@ -1429,8 +1431,8 @@ handleMultiPluginsChange = (option) => {
                                </tbody></table>
 
                                           <div className="quads-save-close">
-                                          Enter the percentage of revenue that you would like to share
-                            <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveRevenueSharing}>Save Changes</a>
+                                          {__('Enter the percentage of revenue that you would like to share', 'quick-adsense-reloaded')}
+                            <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveRevenueSharing}>{__('Save Changes', 'quick-adsense-reloaded')}</a>
                             </div>
              </div>
              </div>
@@ -1448,7 +1450,7 @@ handleMultiPluginsChange = (option) => {
             </div>
              <div className="quads-large-content">
              <table className="form-table" role="presentation"><tbody><tr>
-                                  <th>Notice Type</th>
+                                  <th>{__('Notice Type', 'quick-adsense-reloaded')}</th>
                                   <td className="notice_type">
                                   <span>
                                    <input id="bar" type="radio" value="bar" checked={settings.notice_type =='bar'} name="notice_type" onChange={this.formChangeHandler} />
@@ -1463,11 +1465,11 @@ handleMultiPluginsChange = (option) => {
                                    <input id="ad_blocker_message" type="radio" checked={settings.notice_type =='ad_blocker_message'} name="notice_type" value="ad_blocker_message"  onChange={this.formChangeHandler} />
                                     <label htmlFor="ad_blocker_message"> {__('Block Message ', 'quick-adsense-reloaded')} </label>
                                    </span>
-                                   <div className="quads-message bottom">If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker. <a href="http://wpquads.com/docs/customize-ad-blocker-notice/" target="_blank">Read here</a> how to customize colors and text.</div>
+                                   <div className="quads-message bottom">{__('If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker.', 'quick-adsense-reloaded')} <a href="http://wpquads.com/docs/customize-ad-blocker-notice/" target="_blank">{__('Read here', 'quick-adsense-reloaded')}</a> {__('how to customize colors and text.', 'quick-adsense-reloaded')}</div>
                                   </td>
                                 </tr>
                                 <tr>
-                                  <th>Notice Behaviour</th>
+                                  <th>{__('Notice Behaviour', 'quick-adsense-reloaded')}</th>
                                   <td>
                                    <select value={settings.notice_behaviour} onChange={this.formChangeHandler} name="notice_behaviour" id="notice_behaviour">
                                     <option value="2">{__('Show on Every Visit', 'quick-adsense-reloaded')}</option>
@@ -1478,19 +1480,36 @@ handleMultiPluginsChange = (option) => {
                             {settings.notice_type == 'bar' || settings.notice_type == 'popup' ?
                             <>
                               <tr>
-                                <th><b>Notice Content</b></th>
+                                <th><b>{__('Notice Content', 'quick-adsense-reloaded')}</b></th>
                                 <td>
                                 </td>
                               </tr>
                               {settings.notice_type == 'popup' ? (
                               <tr>
-                                <th>Title</th>
+                                <th>{__('Title', 'quick-adsense-reloaded')}</th>
                                 <td><input value={settings.notice_title} onChange={this.formChangeHandler} name="notice_title" type="text" placeholder="Adblock Detected!" className="quads-premium-cus" />
                                 </td>
                               </tr>
                             ) : null    }
+                            {settings.notice_type == 'bar' ? ( 
+                              <>
+                                <tr>
+                                  <th>{__('Notice Bar', 'quick-adsense-reloaded')}</th>
+                                  <td>
+                                    <select value={settings.notice_bar} onChange={this.formChangeHandler} name="notice_bar" id="notice_bar">
+                                    <option value="2">{__('Top Bar', 'quick-adsense-reloaded')}</option>
+                                    <option value="1">{__('Bottom Bar', 'quick-adsense-reloaded')}</option>
+                                  </select>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th>{__('Sticky Notice Bar', 'quick-adsense-reloaded')}</th>
+                                  <td><input id="notice_bar_sticky" type="checkbox" name="notice_bar_sticky" onChange={this.formChangeHandler} checked={settings.notice_bar_sticky} /></td>
+                                </tr>
+                              </>
+                            ) : null    }
                               <tr>
-                                <th>Description</th>
+                                <th>{__('Description', 'quick-adsense-reloaded')}</th>
                                 <td>
                                   <textarea  name="notice_description" value={settings.notice_description } onChange={this.formChangeHandler}  cols="60" rows="5" className="quads-premium-cus" />
                                 </td>
@@ -1502,22 +1521,22 @@ handleMultiPluginsChange = (option) => {
                               <td><input id="notice_close_btn" type="checkbox" name="notice_close_btn" onChange={this.formChangeHandler} checked={settings.notice_close_btn} /></td>
                               </tr>
                               <tr>
-                              <th>Button Text</th>
+                              <th>{__('Button Text', 'quick-adsense-reloaded')}</th>
                               <td><input value={settings.btn_txt} onChange={this.formChangeHandler} name="btn_txt" type="text" placeholder="Email" className="quads-premium-cus" /></td>
                               </tr>
                                <tr>
-                                <th><b>Notice Design</b></th>
+                                <th><b>{__('Notice Design', 'quick-adsense-reloaded')}</b></th>
                                 <td>
                                 </td>
                               </tr>
                               <tr>
-                              <th>Content Color</th>
+                              <th>{__('Content Color', 'quick-adsense-reloaded')}</th>
                               <td>
                                  <div>
                                     <div className="color-pick-swatch" onClick={ this.handleClick_notice_txt_color }>
                                       <div >
                                         <div style={ styles.notice_txt_color } className="color-pick-color" /></div>
-                                        <span className="wp-color-result-text">Select Color</span>
+                                        <span className="wp-color-result-text">{__('Select Color', 'quick-adsense-reloaded')}</span>
                                       </div>
                                     { this.state.notice_txt_color_picker ? <div className="color-pick-popover">
                                       <div className="color-pick-cover" onClick={ this.handleClose }/>
@@ -1527,13 +1546,13 @@ handleMultiPluginsChange = (option) => {
                                 </td>
                               </tr>
                               <tr>
-                              <th>Background Color</th>
+                              <th>{__('Background Color', 'quick-adsense-reloaded')}</th>
                               <td>
                                  <div>
                                     <div className="color-pick-swatch" onClick={ this.handleClick_notice_bg_color }>
                                       <div >
                                         <div style={ styles.notice_bg_color } className="color-pick-color" /></div>
-                                        <span className="wp-color-result-text">Select Color</span>
+                                        <span className="wp-color-result-text">{__('Select Color', 'quick-adsense-reloaded')}</span>
                                       </div>
                                     { this.state.notice_bg_color_picker ? <div className="color-pick-popover">
                                       <div className="color-pick-cover" onClick={ this.handleClose }/>
@@ -1543,13 +1562,13 @@ handleMultiPluginsChange = (option) => {
                                 </td>
                               </tr>
                               <tr>
-                              <th>Button Text Color</th>
+                              <th>{__('Button Text Color', 'quick-adsense-reloaded')}</th>
                               <td>
                                  <div>
                                     <div className="color-pick-swatch" onClick={ this.handleClick_notice_btn_txt_color }>
                                       <div >
                                         <div style={ styles.notice_btn_txt_color } className="color-pick-color" /></div>
-                                        <span className="wp-color-result-text">Select Color</span>
+                                        <span className="wp-color-result-text">{__('Select Color', 'quick-adsense-reloaded')}</span>
                                       </div>
                                     { this.state.notice_btn_txt_color_picker ? <div className="color-pick-popover">
                                       <div className="color-pick-cover" onClick={ this.handleClose }/>
@@ -1559,7 +1578,7 @@ handleMultiPluginsChange = (option) => {
                                 </td>
                               </tr>
                               <tr>
-                              <th>Button Background Color</th>
+                              <th>{__('Button Background Color', 'quick-adsense-reloaded')}</th>
                               <td>
                                  <div>
                                     <div className="color-pick-swatch" onClick={ this.handleClick_notice_btn_bg_color }>
@@ -1578,7 +1597,7 @@ handleMultiPluginsChange = (option) => {
                                 : null }
                             {settings.notice_type == 'page_redirect' ?
                                  <tr>
-                                  <th>Target Page</th>
+                                  <th>{__('Target Page', 'quick-adsense-reloaded')}</th>
                                   <td>
                                   <Select
                                     name="page_redirect_path"
@@ -1646,7 +1665,7 @@ handleMultiPluginsChange = (option) => {
                               return (
                                 <tbody className="b_inspan">
                                 { (value!=="") &&
-                                <tr className="b_in">
+                                <tr key={`${value}_${index}`} className="b_in">
                               <td className="b_in">{index+1}</td>
                               <td className="b_in">{value.time}</td>
                               <td className="b_in">{value.ip}</td>
@@ -1734,7 +1753,7 @@ handleMultiPluginsChange = (option) => {
                        <label className="quads-switch">
                          <input id="ad_blocker_support" type="checkbox" name="ad_blocker_support" onChange={this.formChangeHandler} checked={settings.ad_blocker_support} />
                          <span id="ad_blocker_support_" className="quads-slider"></span>
-                         <div class="lazy_loader_a"></div>
+                         <div className="lazy_loader_a"></div>
                        </label>
                        {settings.ad_blocker_support ? <span onClick={this.ad_blocker_support} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-blocker-support-in-wp-quads/"></a>
@@ -1826,7 +1845,7 @@ handleMultiPluginsChange = (option) => {
                     </td>
                   </tr>
                 
-                      {quads_setting_pro_items.map((item, index) => ( <QuadsAdSettingsProTemplate display_pro_alert_msg={this.state.display_pro_alert_msg} item={item} display_pro_alert_fun={this.display_pro_alert_fun} quads_pro_list_selected={this.state.quads_pro_list_selected} formChangeHandler={this.formChangeHandler} settings={settings} />  ) )}
+                      {quads_setting_pro_items.map((item, index) => ( <QuadsAdSettingsProTemplate key={index} display_pro_alert_msg={this.state.display_pro_alert_msg} item={item} display_pro_alert_fun={this.display_pro_alert_fun} quads_pro_list_selected={this.state.quads_pro_list_selected} formChangeHandler={this.formChangeHandler} settings={settings} />  ) )}
                  
                      </tbody></table>
                 </div>
@@ -2037,15 +2056,15 @@ handleMultiPluginsChange = (option) => {
                 <div className="quads-settings-tab-container">
                 <div className="quads-help-support">
         {( quads_localize_data.licenses.license == "valid" &&quads_localize_data.licenses.price_id != 0 ) && 
-        <span class="activated_messg">Congratulations!</span>
+        <span className="activated_messg">Congratulations!</span>
         }
         {( quads_localize_data.licenses.license == "valid" &&quads_localize_data.licenses.price_id != 0 ) && 
-        <p class="activated_p"> WP QUADS PRO is now activated and working for you. This enables the Advanced Settings and High Performance for your ADS!</p>
+        <p className="activated_p"> WP QUADS PRO is now activated and working for you. This enables the Advanced Settings and High Performance for your ADS!</p>
         }
                     <div>
                     {quads_localize_data.licenses.license !== "valid" ? <h3>{__('Activate Your License', 'quick-adsense-reloaded')}</h3> : null}
                     </div>
-                    <div class="Key_msg">
+                    <div className="Key_msg">
                       {/*__('WP QUADS PRO License Key', 'quick-adsense-reloaded')*/}
                     </div>
                    <div>
@@ -2058,7 +2077,7 @@ handleMultiPluginsChange = (option) => {
             <span className="quads-btn-spinner"></span>{__('Updating...', 'quick-adsense-reloaded')}
             </a> :
             //<div style={{width: "199px";float: "left";}}>
-            <div class="pro_key_btn">
+            <div className="pro_key_btn">
             <a onClick={this.pro_license_key_deactivate} className="quads-btn quads-btn-primary">
             {__('Deactivate License', 'quick-adsense-reloaded')}</a>
             </div>
@@ -2082,7 +2101,7 @@ handleMultiPluginsChange = (option) => {
             <a className="">
             <span className=""></span>
             </a> :
-            <div class="inv_msg" style={{display: "none"}}>Enter a Valid License Key</div>
+            <div className="inv_msg" style={{display: "none"}}>Enter a Valid License Key</div>
           }
           </div> : null}
           {
@@ -2120,21 +2139,21 @@ handleMultiPluginsChange = (option) => {
             {( quads_localize_data.licenses.license == "valid" && quads_localize_data.licenses.price_id != 0 ) &&
             <div className="quads-renew-message-main">
             { quads_localize_data.is_pro ?
-          <div class="quads-Page-col-main">
-          <div class="quads-Page-inner">
-          <div class="quads-optionHeader">
-          <h3 class="quads-title2"> {__('My Account', 'quick-adsense-reloaded')}</h3>
+          <div className="quads-Page-col-main">
+          <div className="quads-Page-inner">
+          <div className="quads-optionHeader">
+          <h3 className="quads-title2"> {__('My Account', 'quick-adsense-reloaded')}</h3>
           </div>
-          <div class="quads-field quads-field-account">
-          <div class="quads-flex">
-          <div class="quads-infoAccount-License">
-          <span class="quads-title3">{__('License Key is', 'quick-adsense-reloaded')}</span>
-          <span class="quads-infoAccountt quads-isValids" id="quads-account-data"> {__('Activated', 'quick-adsense-reloaded')}</span>          
+          <div className="quads-field quads-field-account">
+          <div className="quads-flex">
+          <div className="quads-infoAccount-License">
+          <span className="quads-title3">{__('License Key is', 'quick-adsense-reloaded')}</span>
+          <span className="quads-infoAccountt quads-isValids" id="quads-account-data"> {__('Activated', 'quick-adsense-reloaded')}</span>          
           <p>{__('Hey! You\'re enjoying all the PRO benefits of the WP QUADS along with regular updates & Technical Support.', 'quick-adsense-reloaded')}</p>
-          <p class="">
-          { quads_localize_data.licenses.expires>0 ? <span class="quads-title3">Your License is valid for {quads_localize_data.licenses.expires} days<span class="quads-refresh quads-isValid material-icons MuiIcon-root" onClick={this.pro_license_key_refresh} id="quads-expiration-data" title="refresh">refresh</span></span> : <span class="quads-title3">Your <span className="lifetime">License is valid for {quads_localize_data.licenses.expires}</span><span class="quads-refresh quads-isValid material-icons MuiIcon-root" onClick={this.pro_license_key_refresh} title="refresh" id="quads-expiration-data">refresh</span></span> }
+          <p className="">
+          { quads_localize_data.licenses.expires>0 ? <span className="quads-title3">Your License is valid for {quads_localize_data.licenses.expires} days<span className="quads-refresh quads-isValid material-icons MuiIcon-root" onClick={this.pro_license_key_refresh} id="quads-expiration-data" title="refresh">refresh</span></span> : <span className="quads-title3">Your <span className="lifetime">License is valid for {quads_localize_data.licenses.expires}</span><span className="quads-refresh quads-isValid material-icons MuiIcon-root" onClick={this.pro_license_key_refresh} title="refresh" id="quads-expiration-data">refresh</span></span> }
           </p>
-          <a href="https://wpquads.com/your-account/" target="_blank" class="quads-button quads-button-btn quads-button--small ">{__('Extend License', 'quick-adsense-reloaded')} <span class="quads-user material-icons MuiIcon-root">person</span></a>
+          <a href="https://wpquads.com/your-account/" target="_blank" className="quads-button quads-button-btn quads-button--small ">{__('Extend License', 'quick-adsense-reloaded')} <span className="quads-user material-icons MuiIcon-root">person</span></a>
           </div>
           </div>
           </div>
@@ -2150,18 +2169,18 @@ handleMultiPluginsChange = (option) => {
         {( quads_localize_data.licenses.price_id == 0 ) &&
           <div className="quads-renew-message-main">
             { quads_localize_data.is_pro ?
-          <div class="quads-Page-col-main">
-          <div class="quads-Page-inner">
-          <div class="quads-optionHeader">
-          <h3 class="quads-title2">{__('My Account', 'quick-adsense-reloaded')}</h3>
+          <div className="quads-Page-col-main">
+          <div className="quads-Page-inner">
+          <div className="quads-optionHeader">
+          <h3 className="quads-title2">{__('My Account', 'quick-adsense-reloaded')}</h3>
           </div>
-          <div class="quads-field quads-field-account">
-          <div class="quads-flex">
-          <div class="quads-infoAccount-License">
-          <span class="quads-title3">{__('License Key is', 'quick-adsense-reloaded')}</span>
-          <span class="quads-infoAccountt quads-isinValid" id="quads-account-data">{__('Expired', 'quick-adsense-reloaded')}</span>          
+          <div className="quads-field quads-field-account">
+          <div className="quads-flex">
+          <div className="quads-infoAccount-License">
+          <span className="quads-title3">{__('License Key is', 'quick-adsense-reloaded')}</span>
+          <span className="quads-infoAccountt quads-isinValid" id="quads-account-data">{__('Expired', 'quick-adsense-reloaded')}</span>          
           <p>{__('Extend the License to receive the further updates & support.', 'quick-adsense-reloaded')}</p>
-          <a href="https://wpquads.com/your-account/" target="_blank" class="quads-button quads-button-btn quads-button--small quads-icon-user">{__('Extend License', 'quick-adsense-reloaded')}</a>
+          <a href="https://wpquads.com/your-account/" target="_blank" className="quads-button quads-button-btn quads-button--small quads-icon-user">{__('Extend License', 'quick-adsense-reloaded')}</a>
           </div>
           </div>
           </div>

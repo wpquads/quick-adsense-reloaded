@@ -1578,6 +1578,154 @@ input#grid_data_ad_column, input#grid_data_ad_row {
 
 .quads-ad-tab .quads-nav-link {
   border-bottom: 3px solid transparent; }
+
+#quads-ocassional-pop-up-container {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  margin-top: 2rem;
+  color: #6b7280;
+  display: flex;
+  flex-direction: column;
+  z-index: 99999; }
+
+details#quads-ocassional-pop-up-container div.quads-ocassional-pop-up-contents {
+  background-color: #1e1e27;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+  padding: 25px 25px 10px;
+  border-radius: 8px;
+  position: absolute;
+  max-height: calc(100vh - 100px);
+  width: 325px;
+  max-width: calc(100vw - 2rem);
+  bottom: calc(100% + 1rem);
+  right: 0;
+  overflow: auto;
+  transform-origin: 100% 100%;
+  color: #95a3b9;
+  margin-bottom: 44px; }
+
+details#quads-ocassional-pop-up-container div.quads-ocassional-pop-up-contents::-webkit-scrollbar {
+  width: 15px;
+  background-color: #1e1e27; }
+
+details#quads-ocassional-pop-up-container div.quads-ocassional-pop-up-contents::-webkit-scrollbar-thumb {
+  width: 5px;
+  border-radius: 99em;
+  background-color: #95a3b9;
+  border: 5px solid #1e1e27; }
+
+details#quads-ocassional-pop-up-container div.quads-ocassional-pop-up-contents > * + * {
+  margin-top: .75em; }
+
+details#quads-ocassional-pop-up-container div.quads-ocassional-pop-up-contents p > code {
+  font-size: 1rem;
+  font-family: monospace; }
+
+details#quads-ocassional-pop-up-container div.quads-ocassional-pop-up-contents pre {
+  white-space: pre-line;
+  border: 1px solid #95a3b9;
+  border-radius: 6px;
+  font-family: monospace;
+  padding: .75em;
+  font-size: .875rem;
+  color: #fff; }
+
+details#quads-ocassional-pop-up-container[open] div.quads-ocassional-pop-up-contents {
+  bottom: 0;
+  -webkit-animation: .25s ez_toc_ocassional_pop_up_scale;
+  animation: .25s ez_toc_ocassional_pop_up_scale; }
+
+details#quads-ocassional-pop-up-container span.quads-promotion-close-btn {
+  font-weight: 400;
+  font-size: 20px;
+  background: #37474f;
+  font-family: sans-serif;
+  border-radius: 30px;
+  color: #fff;
+  position: absolute;
+  right: -10px;
+  z-index: 99999;
+  padding: 0 8px;
+  top: -331px;
+  cursor: pointer;
+  line-height: 28px; }
+
+details#quads-ocassional-pop-up-container div.quads-ocassional-pop-up-contents img.quads-promotion-surprise-icon {
+  width: 40px;
+  float: left;
+  margin-right: 10px; }
+
+details#quads-ocassional-pop-up-container div.quads-ocassional-pop-up-contents p.quads-ocassional-pop-up-headline {
+  font-size: 20px;
+  margin: 0;
+  line-height: 47px;
+  font-weight: 500;
+  color: #fff; }
+
+details#quads-ocassional-pop-up-container div.quads-ocassional-pop-up-contents p.quads-ocassional-pop-up-headline span {
+  color: #eb3349;
+  font-weight: 700; }
+
+details#quads-ocassional-pop-up-container div.quads-ocassional-pop-up-contents p.quads-ocassional-pop-up-second-headline {
+  font-size: 16px;
+  color: #fff; }
+
+details#quads-ocassional-pop-up-container div.quads-ocassional-pop-up-contents a.quads-ocassional-pop-up-offer-btn {
+  background: linear-gradient(to right, #eb3349, #f45c43);
+  padding: 10px 38px 11px;
+  color: #fff;
+  text-align: center;
+  border-radius: 60px;
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 auto 15px;
+  text-decoration: none;
+  line-height: 1.2;
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 20px 5px #0000000f;
+  transition: .3s ease-in-out;
+  box-shadow: 3px 5px .65em 0 #00000026;
+  display: inherit; }
+
+details#quads-ocassional-pop-up-container div.quads-ocassional-pop-up-contents p.quads-ocassional-pop-up-last-line {
+  font-size: 12px;
+  color: #a6a6a6; }
+
+details#quads-ocassional-pop-up-container summary {
+  display: inline-flex;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  padding: .5em 1.25em;
+  border-radius: 99em;
+  color: #fff;
+  background-color: #185adb;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  text-align: center;
+  cursor: pointer;
+  transition: .15s;
+  position: relative;
+  font-size: .9rem;
+  z-index: 99999; }
+
+details#quads-ocassional-pop-up-container summary::-webkit-details-marker {
+  display: none; }
+
+details#quads-ocassional-pop-up-container summary:hover, summary:focus {
+  background-color: #1348af; }
+
+details#quads-ocassional-pop-up-container summary svg {
+  width: 25px;
+  margin-left: 5px;
+  vertical-align: baseline; }
+
+summary.quads-ocassional-pop-up-open-close-button img {
+  margin-left: 5px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

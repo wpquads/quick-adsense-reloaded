@@ -87,6 +87,12 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_loopad( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_loopad_async( $id ),$post_id );
     }
+    if( true === quads_is_parallaxad( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_parallaxad_async( $id ),$post_id );
+    }
+    if( true === quads_is_half_page_ads( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_halfpagead_async( $id ),$post_id );
+    }
     if( true === quads_is_carousel_ads( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_carousel_ads_async( $id ),$post_id );
     }
@@ -95,6 +101,18 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     }
     // Return empty string
     return '';
+}
+unset($_SESSION['tmp_quads_ads']);
+function quads_api_services_render_cllbck()
+{
+    // Global $quads_ads variable to reduce db calls #631
+    if(empty($_SESSION['tmp_quads_ads'])){
+        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        // global $api_service, $quads_ads;
+        $api_service = new QUADS_Ad_Setup_Api_Service();
+        $_SESSION['tmp_quads_ads'] = $quads_ads = $api_service->getAdDataByParam('quads-ads');
+    }
+        return $_SESSION['tmp_quads_ads'];
 }
 function quads_common_head_code(){
     if(quads_is_amp_endpoint()){
@@ -116,9 +134,7 @@ function quads_common_head_code(){
     }
     if(!isset($quads_ads)|| empty($quads_ads))
     {
-        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        $api_service = new QUADS_Ad_Setup_Api_Service();
-        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        $quads_ads = quads_api_services_render_cllbck();
     }
     if(isset($quads_ads['posts_data'])){
         $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
@@ -314,7 +330,7 @@ function quads_render_ad_image_async( $id ) {
             }
             if(isset($quads_options['ads'][$id]['parallax_ads_check']) && $quads_options['ads'][$id]['parallax_ads_check']){
                 $parallax_height=$quads_options['ads'][$id]['parallax_height']?$quads_options['ads'][$id]['parallax_height']:300;
-                $html .=' <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
+                $html .='<a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
                  <div class="quads_parallax parallax_'.$id.'"></div>
                  </a>
                 <style> .quads-ad'.$quads_options['ads'][$id]['ad_id'].' { margin:0 auto !important;} .parallax_'.$id.' {background-image: url("'.esc_attr($image_render_src).'");height:'.$parallax_height.'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
@@ -338,7 +354,7 @@ function quads_render_ad_image_async( $id ) {
             
         }
         else {
-            $html .= '
+            $html .= ' 
         <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
         <img  src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" alt="'.esc_attr($quads_options['ads'][$id]['label']).'"> 
         </a>';
@@ -455,7 +471,6 @@ function quads_render_outbrain_async( $id ) {
     $html .= '<div class="quads_ad_amp_outbrain" data-widget-id="'.esc_attr($quads_options['ads'][$id]['outbrain_widget_ids']).'"></div>
 ';
 
-
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_outbrain_async', $html );
 }
@@ -517,9 +532,7 @@ function quads_render_propeller_async( $id ) {
 function quads_adsense_auto_ads_amp_script(){
     if(!isset($quads_ads)|| empty($quads_ads))
     {
-        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        $api_service = new QUADS_Ad_Setup_Api_Service();
-        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        $quads_ads = quads_api_services_render_cllbck();
     }
     if(isset($quads_ads['posts_data'])){
 
@@ -556,9 +569,7 @@ function quads_adsense_auto_ads_amp_script(){
 function quads_adsense_auto_ads_amp_tag(){
     if(!isset($quads_ads)|| empty($quads_ads))
     {
-        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        $api_service = new QUADS_Ad_Setup_Api_Service();
-        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        $quads_ads = quads_api_services_render_cllbck();
     }
      $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
     if(isset($quads_ads['posts_data'])){
@@ -828,6 +839,68 @@ function quads_render_loopad_async( $id ) {
 }
 
 /**
+ * Render Parallax ad
+ *
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_parallaxad_async( $id ) {
+    global $quads_options;
+    $image_render_src = $useragent = '';
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Parallax AD --> \n\n";
+    $useragent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '' ;
+    
+        $html.='<article class="post type-post status-publish format-standard has-post-thumbnail">
+	<div class="post-item">';
+       
+        $html .='<div class="entry-container">';    
+        if(isset($quads_options['ads'][$id]['image_src']) && !empty($quads_options['ads'][$id]['image_src']) && isset($quads_options['ads'][$id]['parallax_btn_url'])){
+            $html .='<div class="featured-image">
+                        <a target="_blank" class="more-link" href="'.esc_attr($quads_options['ads'][$id]['parallax_btn_url']).'">
+                            <img src="'.esc_attr($quads_options['ads'][$id]['image_src']).'" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" loading="lazy" style="width:100%;height:66.57%;max-width:350px;">
+                        </div>
+                </div><!-- .featured-image -->';
+        }
+    $html.='</div><!-- .entry-container -->
+    </div><!-- .post-item -->
+</article>';
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_parallaxad_async', $html );
+}
+
+/**
+ * Render Parallax ad
+ *
+ * @global array $quads_options
+ * @param int $id
+ * @return html
+ */
+function quads_render_halfpagead_async( $id ) {
+    global $quads_options;
+    $image_render_src = $useragent = '';
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Half Page AD --> \n\n";
+    $useragent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '' ;
+    
+        $html.='<article class="post type-post status-publish format-standard has-post-thumbnail">
+	<div class="post-item">';
+       
+        $html .='<div class="entry-container">';    
+        if(isset($quads_options['ads'][$id]['image_src']) && !empty($quads_options['ads'][$id]['image_src']) && isset($quads_options['ads'][$id]['half_page_ads_btn_url'])){
+            $html .='<div class="featured-image">
+                        <a target="_blank" class="more-link" href="'.esc_attr($quads_options['ads'][$id]['half_page_ads_btn_url']).'">
+                            <img src="'.esc_attr($quads_options['ads'][$id]['image_src']).'" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" loading="lazy" style="width:100%;height:66.57%;max-width:350px;">
+                        </div>
+                </div><!-- .featured-image -->';
+        }
+    $html.='</div><!-- .entry-container -->
+    </div><!-- .post-item -->
+</article>';
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_halfpagead_async', $html );
+}
+
+/**
  * Carousel ads which can be enabled from general settings
  *
  * @global array $quads_options
@@ -866,7 +939,7 @@ function quads_render_carousel_ads_async($id) {
             if(isset($ad_meta['ad_type']) && isset($ad_meta['ad_type'][0]) && $ad_meta['ad_type'][0]=='ad_image' && isset($ad_meta['image_src'][0]) && isset($ad_meta['image_redirect_url'][0]) )
             {	$image=$ad_meta['image_src'][0];
 		        $useragent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '' ;
-				 if(preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$useragent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($useragent,0,4)) && isset( $ad_meta['image_mobile_src'] ) && !empty($ad_meta['image_mobile_src'] )){
+				 if(isset($ad_meta['mobile_image_check'][0]) &&  ($ad_meta['mobile_image_check'][0]=='1') && preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$useragent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($useragent,0,4)) && isset( $ad_meta['image_mobile_src'] ) && !empty($ad_meta['image_mobile_src'] )){
 					 $image=$ad_meta['image_mobile_src'][0];
 				 }
                 $html .='<a imagebanner class="im-'.esc_attr($org_ad_id).'" target="_blank" href="'.esc_attr($ad_meta['image_redirect_url'][0]). '" rel="nofollow"><img  class="quads_carousel_img" src="'.esc_attr($image).'" alt="'.esc_attr($ad_meta['label'][0]).'"> </a>';  
@@ -913,8 +986,9 @@ function quads_render_floating_ads_async($id) {
     $floating_position = isset($quads_options['ads'][$id]['floating_position'])?$quads_options['ads'][$id]['floating_position']:'bottom-right';
     $position_array =['top-left'=>'position:fixed !important;top:0px;left:10px;','top-right'=>'position:fixed !important;top:0px;right:10px;','bottom-left'=>'position:fixed !important;bottom:40px;left:10px;','bottom-right'=>'position:fixed !important;bottom:40px;right:10px;'];
     
-        $html.='<section class="wpquads-3d-container" id="con-'.esc_attr($id).'">
-        <div class="wpquads-3d-close"><a href="javascript:void(0);" id="wpquads-close-btn">&times;</a></div>
+        $html.='<section class="wpquads-3d-container" id="con-'.esc_attr($id).'" style="'.esc_attr($position_array[$floating_position]).'width:'.esc_attr($floating_size).'px;height:'.esc_attr($floating_size).'px;">
+        <div class="wpquads-3d-close"><span id="wpquads-close-btn">&times;</span></div>
+        <input type="hidden" value="'.esc_attr($floating_size).'" id="floatingSizeValue">
         <div class="wpquads-3d-cube" id="wpquads-3d-cube">';
    
    
@@ -922,9 +996,7 @@ function quads_render_floating_ads_async($id) {
     foreach($ads_list as $key=>$ad)
     {
         if(isset($ad['slide']))
-        { 
-            
-            
+        {             
             if(isset($ad['slide']) && isset($ad['link']))
             {
             $html.='	<figure class="wpquads-3d-item ">
@@ -954,10 +1026,18 @@ function quads_render_floating_ads_async($id) {
     }
 
  
-        $html.='</div></section><style>.wpquads-3d-close{text-align:right;}#wpquads-close-btn{text-decoration:none !important;cursor:pointer;}.wpquads-3d-cube .wpquads-3d-item,.wpquads-3d-cube .wpquads-3d-item img{display:block;margin:0;width:100%;height:100%;background:#fff;}.wpquads-3d-container{'.esc_attr($position_array[$floating_position]).'width:'.esc_attr($floating_size).'px;height:'.esc_attr($floating_size).'px;border-radius:3px;position:relative;-webkit-perspective:1000px;-moz-perspective:1000px;-ms-perspective:1000px;-o-perspective:1000px;perspective:1000px;z-index:999999;}.wpquads-3d-cube{width:100%;height:100%;position:absolute;-webkit-transition:-webkit-transform 1s;-moz-transition:-moz-transform 1s;-o-transition:-o-transform 1s;transition:transform 1s;-webkit-transform-style:preserve-3d;-moz-transform-style:preserve-3d;-ms-transform-style:preserve-3d;-o-transform-style:preserve-3d;transform-style:preserve-3d;-webkit-transform:translateZ(-'.esc_attr($floating_size/2).'px);-moz-transform:translateZ(-'.esc_attr($floating_size/2).'px);-ms-transform:translateZ(-'.esc_attr($floating_size/2).'px);-o-transform:translateZ(-'.esc_attr($floating_size/2).'px);transform:translateZ(-'.esc_attr($floating_size/2).'px)}.wpquads-3d-cube .wpquads-3d-item{position:absolute;border:3px inset;border-style:outset}.wpquads-3d-item:first-child{-webkit-transform:rotateY(0) translateZ('.esc_attr($floating_size/2).'px);-moz-transform:rotateY(0) translateZ('.esc_attr($floating_size/2).'px);-ms-transform:rotateY(0) translateZ('.esc_attr($floating_size/2).'px);-o-transform:rotateY(0) translateZ('.esc_attr($floating_size/2).'px);transform:rotateY(0) translateZ('.esc_attr($floating_size/2).'px)}.wpquads-3d-item:nth-child(2){-webkit-transform:rotateX(180deg) translateZ('.esc_attr($floating_size/2).'px);-moz-transform:rotateX(180deg) translateZ('.esc_attr($floating_size/2).'px);-ms-transform:rotateX(180deg) translateZ('.esc_attr($floating_size/2).'px);-o-transform:rotateX(180deg) translateZ(150px);transform:rotateX(180deg) translateZ('.esc_attr($floating_size/2).'px)}.wpquads-3d-item:nth-child(3){-webkit-transform:rotateY(90deg) translateZ('.esc_attr($floating_size/2).'px);-moz-transform:rotateY(90deg) translateZ('.esc_attr($floating_size/2).'px);-ms-transform:rotateY(90deg) translateZ('.esc_attr($floating_size/2).'px);-o-transform:rotateY(90deg) translateZ('.esc_attr($floating_size/2).'px);transform:rotateY(90deg) translateZ('.esc_attr($floating_size/2).'px)}.wpquads-3d-item:nth-child(4){-webkit-transform:rotateY(-90deg) translateZ('.esc_attr($floating_size/2).'px);-moz-transform:rotateY(-90deg) translateZ('.esc_attr($floating_size/2).'px);-ms-transform:rotateY(-90deg) translateZ('.esc_attr($floating_size/2).'px);-o-transform:rotateY(-90deg) translateZ('.esc_attr($floating_size/2).'px);transform:rotateY(-90deg) translateZ('.esc_attr($floating_size/2).'px)}.wpquads-3d-item:nth-child(5){-webkit-transform:rotateX(90deg) translateZ('.esc_attr($floating_size/2).'px);-moz-transform:rotateX(90deg) translateZ('.esc_attr($floating_size/2).'px);-ms-transform:rotateX(90deg) translateZ('.esc_attr($floating_size/2).'px);-o-transform:rotateX(90deg) translateZ('.esc_attr($floating_size/2).'px);transform:rotateX(90deg) translateZ('.esc_attr($floating_size/2).'px)}.wpquads-3d-item:nth-child(6){-webkit-transform:rotateX(-90deg) translateZ('.esc_attr($floating_size/2).'px);-moz-transform:rotateX(-90deg) translateZ('.esc_attr($floating_size/2).'px);-ms-transform:rotateX(-90deg) translateZ('.esc_attr($floating_size/2).'px);-o-transform:rotateX(-90deg) translateZ('.esc_attr($floating_size/2).'px);transform:rotateX(-90deg) translateZ('.esc_attr($floating_size/2).'px)}.wpquads-slide0-active{-webkit-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateY(0);-moz-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateY(0);-ms-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateY(0);-o-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateY(0);transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateY(0)}.wpquads-slide1-active{-webkit-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateX(-180deg);-moz-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateX(-180deg);-ms-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateX(-180deg);-o-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateX(-180deg);transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateX(-180deg)}.wpquads-slide2-active{-webkit-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateY(-90deg);-moz-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateY(-90deg);-ms-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateY(-90deg);-o-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateY(-90deg);transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateY(-90deg)}.wpquads-slide3-active{-webkit-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateY(90deg);-moz-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateY(90deg);-ms-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateY(90deg);-o-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateY(90deg);transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateY(90deg)}.wpquads-slide4-active{-webkit-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateX(-90deg);-moz-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateX(-90deg);-ms-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateX(-90deg);-o-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateX(-90deg);transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateX(-90deg)}.wpquads-slide5-active{-webkit-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateX(90deg);-moz-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateX(90deg);-ms-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateX(90deg);-o-transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateX(90deg);transform:translateZ(-'.esc_attr($floating_size/2).'px) rotateX(90deg)}</style>
-        <script>const wpquads_3d_slides=document.querySelectorAll(".wpquads-3d-item"),wpquads_3d_slider=document.getElementById("wpquads-3d-cube");let activeSlide=0;function changeSlide(){wpquads_3d_slider.classList.remove("wpquads-slide"+activeSlide+"-active"),++activeSlide>=wpquads_3d_slides.length&&(activeSlide=0),wpquads_3d_slider.classList.add("wpquads-slide"+activeSlide+"-active")}setInterval(changeSlide,5e3);const close_element = document.getElementById("wpquads-close-btn");close_element.addEventListener("click", function() {document.getElementById("con-'.esc_attr($id).'").style.display = "none";});</script>';
+        $html.='</div></section>';
    
     $html .= "\n <!-- end WP QUADS --> \n\n";
+
+    $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
+
+    // Use minified libraries if SCRIPT_DEBUG is turned off
+    $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
+
+    // These have to be global
+    wp_enqueue_script( 'wp_qds_floating', $js_dir . 'wp_qds_floating' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+
     return apply_filters( 'quads_render_floating__ads_async', $html );
 
 }
@@ -1325,6 +1405,7 @@ function quads_is_ad_video( $id, $string ) {
     }
     return false;
 }
+
 /**
  * Check if ad code is Taboola
  *
@@ -1400,6 +1481,39 @@ function quads_is_loopad( $id, $string ) {
     }
     return false;
 }
+
+/**
+ * Check if ad code is Parallax ad
+ *
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_parallaxad( $id, $string ) {
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'parallax_ads') {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Check if ad code is On Load Ads
+ *
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_half_page_ads( $id, $string ) {
+    global $quads_options;
+
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'half_page_ads') {
+        return true;
+    }
+    return false;
+}
+
 /**
  * Check if ad code is Carousel ad
  *

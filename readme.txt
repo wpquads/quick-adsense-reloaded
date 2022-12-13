@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 6.1
+Tested up to: 6.1.1
 Requires PHP: 5.4
-Stable tag: 2.0.64.1
+Stable tag: 2.0.65
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & Banner ads on your site. Innovative features, Active Development & Fast Support.
 
@@ -206,6 +206,16 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.65 ( 12 December 2022 ) =
+* Fixed: When any warning is on quads dashboard, It does not show ads list #637
+* Fixed: Warning: Invalid DOM property class. Did you mean className? #638
+* Added: aggresive paralaax ad #585
+* Added: Mukuls request #580
+* Added: Add new options for Ad blockers' "Bar". #558
+* Added: ad format #579
+* Added: BFCM internal offer #642
+* Fixed: Ads appear inside ultimate faq's answers #656
+* Fixed: Duplicate Queries issue #647
 
 = 2.0.64.1 ( 10 November 2022 ) =
 * Fixed: Background Ad not working after update

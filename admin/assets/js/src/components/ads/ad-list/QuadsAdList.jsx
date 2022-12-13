@@ -90,7 +90,7 @@ class QuadsAdList extends Component {
           break;
           case 'random_ads':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/random_ad_icon.png';
-          type = "random ads";
+          type = "random ad";
           case 'popup_ads':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/popup_ads.png';
           type = "Popup Ad";
@@ -157,23 +157,31 @@ class QuadsAdList extends Component {
           break;
           case 'skip_ads':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/skip_ads_icon.png';
-          type = "Skip Ads";
+          type = "Skip Ad";
           break;
           case 'loop_ads':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/loop_ads_icon.png';
-          type = "Loop Ads";
+          type = "Loop Ad";
           break;
           case 'carousel_ads':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/carousel_ads_icon.png';
-          type = "Carousel Ads";
+          type = "Carousel Ad";
+          break;
+          case 'parallax_ads':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/parallax_ads_icon.png';
+          type = "Parallax Ad";
+          break;
+          case 'half_page_ads':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/halfpage_ads_icon.png';
+          type = "Half Page Slider Ad";
           break;
           case 'sticky_scroll':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/sticky_scroll_icon.png';
-          type = "Hold on Scroll  Ads";
+          type = "Hold on Scroll  Ad";
           break;
           case 'floating_cubes':
             img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/floating_ads_icon.png';
-            type = "Floating Ads";
+            type = "Floating Ad";
             break;
         default:
           break;
@@ -242,7 +250,7 @@ class QuadsAdList extends Component {
                 <div className="quads-action-div">
                 {this.props.static_box_id ==  item.post_meta.ad_id ?
                 <div className="quads-more-icon-box">
-                  <div className="quads-more-icon-box-close" onClick={this.props.hideStaticIconBox}><Icon>close</Icon></div>
+                  <div className="quads-more-icon-box-close" onClick={this.props.hideStaticIconBox}><Icon>close</Icon></div>                  
                   <ul>
                 <li role="presentation"><span className="static_num">{item.post_meta?.analytics?.impressions ? item.post_meta.analytics.impressions : 0}</span> <span>{__('Impression ', 'quick-adsense-reloaded')}</span></li>
                     <li role="presentation"><span className="static_num">{item.post_meta?.analytics?.clicks ? item.post_meta.analytics.clicks : 0}</span> <span>{__('Clicks ', 'quick-adsense-reloaded')}</span></li>
@@ -257,14 +265,14 @@ class QuadsAdList extends Component {
                 {this.props.settings.ad_performance_tracking ?<Link className="quads-edit-btn" onMouseEnter={this.props.AdLogHoverIn} onMouseLeave={this.props.AdLogHoverOut} data-index={index} data-id={item.post_meta.ad_id} to={'admin.php?page=quads-settings&path=ad_logging&ad_id='+item.post_meta.ad_id} ><img height="20" width="20" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ad_log.png'} ></img></Link>              
                 : null }
                 { item.post_meta.ad_id && this.props.adlog_hover_id ==  item.post_meta.ad_id ?
-                  <div role="tooltip" class="MuiTooltip-popper MuiTooltip-popperArrow" id="tooltip_2" x-placement="bottom"><div class="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >Ad log<span class="MuiTooltip-arrow" style={ttp_1_}></span></div></div> : '' }
+                  <div role="tooltip" className="MuiTooltip-popper MuiTooltip-popperArrow" id="tooltip_2" x-placement="bottom"><div className="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >Ad log<span className="MuiTooltip-arrow" style={ttp_1_}></span></div></div> : '' }
                 
                 <Link onMouseEnter={this.props.EditHoverIn} onMouseLeave={this.props.EditHoverOut} data-index={index} data-id={item.post_meta.ad_id} to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.post_meta.ad_type}&action=edit&post=${item.post.post_id}`} className="quads-edit-btn"><Icon>edit_icon</Icon> </Link> 
                   
                 { item.post_meta.ad_id && this.props.edit_hover_id ==  item.post_meta.ad_id ?
                   
             
-                  <div style={t_main} class="MuiTooltip-popper MuiTooltip-popperArrow" id="tooltip" x-placement="bottom"><div class="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >Edit Ad<span class="MuiTooltip-arrow" style={ttp_1_}></span></div></div>
+                  <div style={t_main} className="MuiTooltip-popper MuiTooltip-popperArrow" id="tooltip" x-placement="bottom"><div className="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >Edit Ad<span className="MuiTooltip-arrow" style={ttp_1_}></span></div></div>
                    : '' }
                 {item.post_meta.ad_id && this.props.more_box_id ==  item.post_meta.ad_id ?
                 <div className="quads-more-icon-box">
@@ -276,7 +284,7 @@ class QuadsAdList extends Component {
                   </ul>
                   </div> : ''  } 
                 { item.post_meta.ad_id && this.props.more_hover_box_id ==  item.post_meta.ad_id ?
-                  <div role="tooltip" style={t_main_more} id="tooltip_3" class="MuiTooltip-popper MuiTooltip-popperArrow" x-placement="bottom"><div class="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >More Options<span class="MuiTooltip-arrow" style={ttp_1_}></span></div></div> : '' }
+                  <div role="tooltip" style={t_main_more} id="tooltip_3" className="MuiTooltip-popper MuiTooltip-popperArrow" x-placement="bottom"><div className="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >More Options<span className="MuiTooltip-arrow" style={ttp_1_}></span></div></div> : '' }
                   
                 <a onMouseEnter={this.props.showMoreHoverIn} onMouseLeave={this.props.showMoreHoverOut} className="quads-edit-btn" data-index={index} data-id={item.post_meta.ad_id} onClick={this.props.showMoreIconBox}><Icon>more_vert_icon</Icon></a>       
         
