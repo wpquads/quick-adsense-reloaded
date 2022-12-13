@@ -139,7 +139,7 @@ class QuadsAdListBody extends Component {
       action: action,
     }        
     const url = quads_localize_data.rest_url + "quads-route/ad-more-action";
-    
+  
     fetch(url, {
       method: "post",
       headers: {    
@@ -154,7 +154,7 @@ class QuadsAdListBody extends Component {
       (result) => {   
         this.setState({actionPerform:false});
         if(result.status){
-            
+          
             let items = [...this.state.items];
             let item = { ...items[this.state.more_box_index] };
                                 
@@ -189,6 +189,7 @@ class QuadsAdListBody extends Component {
       fetch(url, {
         headers: {                    
           'X-WP-Nonce': quads_localize_data.nonce,
+          "Content-Type": "application/json"
         }
       })
       .then(res => res.json())
@@ -205,7 +206,7 @@ class QuadsAdListBody extends Component {
           }              
           this.setState(state_vars);
         },        
-        (error) => {
+        (error) => {       
           this.setState({
             isLoaded: true,
            
@@ -269,7 +270,7 @@ class QuadsAdListBody extends Component {
                 <div className="quads-search-box"><QuadsAdListSearch ad_list={this.state} triggerSearch={this.QuadsSearchAd} /></div>                
               </div>              
               <div className="quads-list-ads">
-                <QuadsAdList 
+                <QuadsAdList
                   {...this.state}
                   ad_list={this.state}
                   showMoreIconBox ={this.showMoreIconBox}

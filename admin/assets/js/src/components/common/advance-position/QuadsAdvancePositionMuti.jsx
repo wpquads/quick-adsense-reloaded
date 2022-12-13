@@ -22,6 +22,7 @@ class QuadsAdvancePositionMuti extends Component {
                 { label: 'before_last_paragraph', value: 'Right before the last Paragraph' },
                 { label: 'after_paragraph', value: 'After Paragraph' },
                 { label: 'after_image', value: 'After Image' },
+                { label: 'before_image', value: 'Before Image' },
                 { label: 'after_word_count', value: 'By Word Count' },
                 { label: 'after_the_percentage', value: 'After the Percentage' },
                 { label: 'ad_after_html_tag', value: 'Ad After HTML Tag' },
@@ -99,6 +100,7 @@ class QuadsAdvancePositionMuti extends Component {
                                                     <option value="before_last_paragraph">{__('Right before the last Paragraph', 'quick-adsense-reloaded')}</option>
                                                     <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
                                                     <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>
+                                                    <option value="before_image">{__('Before Image', 'quick-adsense-reloaded')}</option>
                                                     <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
                                                     <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
                                                     <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
@@ -130,6 +132,7 @@ class QuadsAdvancePositionMuti extends Component {
                                                 <option value="before_last_paragraph">{__('Right before the last Paragraph', 'quick-adsense-reloaded')}</option>
                                                 <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
                                                 <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>
+                                                <option value="before_image">{__('Before Image', 'quick-adsense-reloaded')}</option>
                                                 <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
                                                 <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
                                                 <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
@@ -150,6 +153,9 @@ class QuadsAdvancePositionMuti extends Component {
                                     <div className='position_content'>
                                         <div>
                                             {post_meta.position == 'after_image' ? <input min="1" onChange={this.adFormChangeHandlerstate} name="image_number" value={post_meta.image_number} type="number" /> : ''}
+                                        </div>
+                                        <div>
+                                            {post_meta.position == 'before_image' ? <input min="1" onChange={this.adFormChangeHandlerstate} name="image_number" value={post_meta.image_number} type="number" /> : ''}
                                         </div>
                                         <div>
                                             {post_meta.position == 'bbpress_before_reply' || post_meta.position == 'bbpress_after_reply' ?
@@ -204,6 +210,12 @@ class QuadsAdvancePositionMuti extends Component {
                                                 <label>
                                                     <input checked={post_meta.image_caption} name="image_caption" onChange={this.adFormChangeHandlerstate} type="checkbox" />
                                                     {__('after', 'quick-adsense-reloaded')} <strong>{__('Image\'s outer', 'quick-adsense-reloaded')} &lt;div&gt; wp-caption</strong> {__('if any.', 'quick-adsense-reloaded')}
+                                                </label> : ''}
+
+                                            {post_meta.position == 'before_image' ?
+                                                <label>
+                                                    <input checked={post_meta.image_caption} name="image_caption" onChange={this.adFormChangeHandlerstate} type="checkbox" />
+                                                    {__('before', 'quick-adsense-reloaded')} <strong>{__('Image\'s outer', 'quick-adsense-reloaded')} &lt;div&gt; wp-caption</strong> {__('if any.', 'quick-adsense-reloaded')}
                                                 </label> : ''}
 
                                             {post_meta.position == 'ad_shortcode' && post_meta.quads_ad_old_id ?

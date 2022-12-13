@@ -32,17 +32,19 @@ class QuadsAdListNavLink extends Component {
                     {ad_type:'video_ads',ad_type_name:'Video Ad'},
                     {ad_type:'plain_text',ad_type_name:'Plain Text / HTML / JS'},
                     {ad_type:'ad_image',ad_type_name:'Banner Ad'},
-                    {ad_type:'random_ads',ad_type_name:'Random Ads'},
-                    {ad_type:'popup_ads',ad_type_name:'Popup Ads'},
-                    {ad_type:'loop_ads',ad_type_name:'Loop Ads'},
-                    {ad_type:'carousel_ads',ad_type_name:'Carousel Ads'},
-                    {ad_type:'floating_cubes',ad_type_name:'Floating Ads',pro:'true'},
-                    {ad_type:'rotator_ads',ad_type_name:'Rotator Ads',pro:'true'},
+                    {ad_type:'random_ads',ad_type_name:'Random Ad'},
+                    {ad_type:'popup_ads',ad_type_name:'Popup Ad'},
+                    {ad_type:'loop_ads',ad_type_name:'Loop Ad'},
+                    {ad_type:'carousel_ads',ad_type_name:'Carousel Ad'},
+                    {ad_type:'parallax_ads',ad_type_name:'Parallax Ad'},
+                    {ad_type:'half_page_ads',ad_type_name:'Half Page Slider Ad'},
+                    {ad_type:'floating_cubes',ad_type_name:'Floating Ad',pro:'true'},
+                    {ad_type:'rotator_ads',ad_type_name:'Rotator Ad',pro:'true'},
                     {ad_type:'group_insertion',ad_type_name:'Group Insertion',pro:'true'},
-                    {ad_type:'skip_ads',ad_type_name:'Skip Ads',pro:'true'},
+                    {ad_type:'skip_ads',ad_type_name:'Skip Ad',pro:'true'},
                     {ad_type:'ad_blindness',ad_type_name:'Ad Blindness',pro:'true'},
                     {ad_type:'ab_testing',ad_type_name:'AB Testing',pro:'true'},
-                    {ad_type:'sticky_scroll',ad_type_name:'Hold on Scroll Ads',pro:'true'},
+                    {ad_type:'sticky_scroll',ad_type_name:'Hold on Scroll Ad',pro:'true'},
            ]
         };
         this.getSettings();
@@ -151,6 +153,12 @@ class QuadsAdListNavLink extends Component {
               case 'carousel_ads':
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/carousel_ads_icon.png';
               break;
+              case 'parallax_ads':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/parallax_ads_icon.png';
+              break;
+              case 'half_page_ads':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/halfpage_ads_icon.png';
+              break;
               case 'sticky_scroll':
                 img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/sticky_scroll_icon.png';
                 break;
@@ -184,6 +192,7 @@ class QuadsAdListNavLink extends Component {
         this.state.All_ad_network.map((item, index ) => {
             var link = document.createElement('link');
               link.rel = "preload";
+              link.key = index;
               link.href = this.getImageByAdType(item.ad_type, index,'image_url');
               link.as = "image";
               document.head.appendChild(link);

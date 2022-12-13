@@ -31,8 +31,8 @@ class QuadsAdFieldsGenerator extends Component {
                     break; 
                 case 'select':
                                       
-                    var option = Object.keys(item.options).map(function(key) {
-                        return <option key={key} value={key}>{item.options[key]}</option>
+                    var option = Object.keys(item.options).map(function(key, index) {
+                        return <option key={index} value={key}>{item.options[key]}</option>
                     });
 
                     ad_field.push( 

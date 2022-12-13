@@ -545,6 +545,12 @@ if($license_info){
                     if($key == 'video_ads'){
                       $filterd_meta =$val;
                     }
+                    if($key == 'parallax_ads'){
+                      $filterd_meta =$val;
+                    }
+                    if($key == 'half_page_ads'){
+                      $filterd_meta =$val;
+                    }
                     if($key == 'floating_slides'){
                       $filterd_meta =$val;
                     }
