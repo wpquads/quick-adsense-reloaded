@@ -134,13 +134,7 @@ function quads_common_head_code(){
     }
     if(!isset($quads_ads)|| empty($quads_ads))
     {
-<<<<<<< HEAD
-        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        $api_service = new QUADS_Ad_Setup_Api_Service();
-        $quads_ads = $api_service->getAdDataByParam('quads-ads');
-=======
         $quads_ads = quads_api_services_render_cllbck();
->>>>>>> 2.0.65
     }
     if(isset($quads_ads['posts_data'])){
         $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
@@ -538,13 +532,7 @@ function quads_render_propeller_async( $id ) {
 function quads_adsense_auto_ads_amp_script(){
     if(!isset($quads_ads)|| empty($quads_ads))
     {
-<<<<<<< HEAD
-        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        $api_service = new QUADS_Ad_Setup_Api_Service();
-        $quads_ads = $api_service->getAdDataByParam('quads-ads');
-=======
         $quads_ads = quads_api_services_render_cllbck();
->>>>>>> 2.0.65
     }
     if(isset($quads_ads['posts_data'])){
 
@@ -581,13 +569,7 @@ function quads_adsense_auto_ads_amp_script(){
 function quads_adsense_auto_ads_amp_tag(){
     if(!isset($quads_ads)|| empty($quads_ads))
     {
-<<<<<<< HEAD
-        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        $api_service = new QUADS_Ad_Setup_Api_Service();
-        $quads_ads = $api_service->getAdDataByParam('quads-ads');
-=======
         $quads_ads = quads_api_services_render_cllbck();
->>>>>>> 2.0.65
     }
      $revenue_sharing = quads_get_pub_id_on_revenue_percentage();
     if(isset($quads_ads['posts_data'])){
