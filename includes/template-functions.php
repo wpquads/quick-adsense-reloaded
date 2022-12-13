@@ -1063,7 +1063,6 @@ function quads_filter_default_ads_new( $content ) {
         return $content;
     }   
     $quads_ads = quads_api_services_cllbck(); 
-
     // Default Ads
     $adsArrayCus = array();
     if(isset($quads_ads['posts_data'])){        
@@ -2922,7 +2921,6 @@ function quads_del_element($array, $idx) {
 
 
      function quads_background_ad_last($content){
-
         $quads_ads = quads_api_services_cllbck();
         if(isset($quads_ads['posts_data'])){        
             foreach($quads_ads['posts_data'] as $key => $value){

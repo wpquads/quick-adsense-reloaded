@@ -206,7 +206,6 @@ Alternative Installation:
 
 
 == Changelog ==
-
 = 2.0.65 ( 12 December 2022 ) =
 * Fixed: When any warning is on quads dashboard, It does not show ads list #637
 * Fixed: Warning: Invalid DOM property class. Did you mean className? #638
