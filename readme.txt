@@ -207,7 +207,7 @@ Alternative Installation:
 
 == Changelog ==
 
-= 2.0.65.1 ( 13 December 2022 ) =
+= 2.0.65.1 ( 14 December 2022 ) =
 * Fixed: Warnings in Site Health #664
 
 = 2.0.65 ( 12 December 2022 ) =
