@@ -643,13 +643,13 @@ function quads_inline_styles() {
     .quads_click_impression { display: none;}
     .quads-sticky {
         width: 100% !important;
-        background-color: hsla(0,0%,100%,.7);
         position: fixed;
         max-width: 100%!important;
         bottom:0;
         margin:0;
         text-align: center;
-    }.quads-sticky .quads-location {
+    }
+    .quads-sticky .quads-location {
         text-align: center;
     }.quads-sticky .wp_quads_dfp {
         display: contents;
