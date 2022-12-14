@@ -102,17 +102,13 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     // Return empty string
     return '';
 }
-unset($_SESSION['tmp_quads_ads']);
 function quads_api_services_render_cllbck()
 {
     // Global $quads_ads variable to reduce db calls #631
-    if(empty($_SESSION['tmp_quads_ads'])){
         require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        // global $api_service, $quads_ads;
         $api_service = new QUADS_Ad_Setup_Api_Service();
-        $_SESSION['tmp_quads_ads'] = $quads_ads = $api_service->getAdDataByParam('quads-ads');
-    }
-        return $_SESSION['tmp_quads_ads'];
+        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        return $quads_ads;
 }
 function quads_common_head_code(){
     if(quads_is_amp_endpoint()){
