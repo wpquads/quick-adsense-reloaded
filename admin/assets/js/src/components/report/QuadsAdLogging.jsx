@@ -190,7 +190,7 @@ open_ad = (ad_id) => {
         this.setState({
             isLoading: false,
           items: result.posts_data,
-          posts_found: result.posts_found,
+          posts_found: result?.posts_found,
 
         });
       },        

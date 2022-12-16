@@ -198,9 +198,9 @@ class QuadsAdListBody extends Component {
           let state_vars={       
             isLoaded: true,
             items: result.posts_data,
-            posts_found: result.posts_found,
+            posts_found: result?.posts_found,
           };
-          if(result.posts_found>20)
+          if(result?.posts_found>20)
           {
             state_vars.display_pagination=true;
           }              

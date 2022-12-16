@@ -15,14 +15,14 @@ class QuadsAdListPagination extends Component {
   
   static getDerivedStateFromProps(props, state) { 
         let page_count = 0;        
-        if(props.ad_list.posts_found > 20){
+        if(props.ad_list?.posts_found > 20){
             
-            page_count = Math.ceil(props.ad_list.posts_found / 20);
+            page_count = Math.ceil(props.ad_list?.posts_found / 20);
         }
               
         return {
             page_count:page_count,
-            ad_count : props.ad_list.posts_found
+            ad_count : props.ad_list?.posts_found
         };
   }
 
