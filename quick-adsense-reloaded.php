@@ -101,7 +101,9 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
       public $vi;
 
       public function __construct() {
-
+        
+        
+        
       }
 
       /**
@@ -584,4 +586,8 @@ function quads_settings_update_title(){
 function quads_settings_update_license_t_name($q_array){
   $q_array['licenses_header']['name'] = '';
   return $q_array;
+}
+
+if(!empty($_COOKIE['quads_add_count'])){ 
+   setcookie('quads_add_count', '', time());
 }
