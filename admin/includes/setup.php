@@ -94,11 +94,6 @@ class QUADS_Ad_Setup {
                                     $position           .= ',beginning_of_post';
                                 }
                             }
-                            if(isset($quads_settings['pos11']['OnLoadAds']) && $quads_settings['pos11']['OnLoadAds'] ){
-                                if(isset($quads_settings['pos11']['OnLoadRnd']) && $quads_settings['pos11']['OnLoadRnd']== $i){
-                                    $position           .= ',on_load_of_page';
-                                }
-                            }
                             if(isset($quads_settings['pos2']['MiddAds']) && $quads_settings['pos2']['MiddAds'] ){
                                 if(isset($quads_settings['pos2']['MiddRnd']) && $quads_settings['pos2']['MiddRnd']== $i){
                                     $position           .= ',middle_of_post';
@@ -357,6 +352,11 @@ public function quads_database_install() {
                         `referrer` varchar(255) NOT NULL default '',
 			PRIMARY KEY  (`id`),
 			INDEX `ad_id` (`ad_id`),
+            INDEX `ad_device_name` (`ad_device_name`),
+            INDEX `referrer` (`referrer`),
+            INDEX `ip_address` (`ip_address`),
+            INDEX `url` (`url`),
+            INDEX `browser` (`browser`),
 			INDEX `ad_thetime` (`ad_thetime`)
 		) ".$charset_collate.$engine.";");
                 
@@ -385,7 +385,6 @@ public function quads_database_install() {
 
 public function quadsSyncRandomAdsInNewDesign(){
     $quads_settings = get_option('quads_settings_backup');
-    $random_on_load_of_page = true;
     $random_beginning_of_post = true;
     $random_middle_of_post = true;
     $random_end_of_post = true;
@@ -440,10 +439,6 @@ foreach($quads_settings['ads'] as $key2 => $value2){
             }
              if($value['post_meta']['code']  || $value['post_meta']['g_data_ad_slot']){
                 $random_ads_list[] = array('value'=>$value['post_meta']['ad_id'],'label'=>$value['post_meta']['quads_ad_old_id']);
-            }
-
-            if($value['post_meta']['position'] == 'on_load_of_page' && $value['post_meta']['ad_type'] == 'random_ads'){
-                $random_on_load_of_page = false;
             }
             if($value['post_meta']['position'] == 'beginning_of_post' && $value['post_meta']['ad_type'] == 'random_ads'){
                 $random_beginning_of_post = false;
@@ -692,26 +687,6 @@ foreach($quads_settings['ads'] as $key2 => $value2){
                 }
             }
         }
-
-        if(isset($quads_settings['pos11'])){ 
-            if(isset($quads_settings['pos11']['OnLoadAds']) && $quads_settings['pos11']['OnLoadAds'] && $random_on_load_of_page){
-                if(isset($quads_settings['pos11']['OnLoadRnd']) && $quads_settings['pos11']['OnLoadRnd']== 0){ 
-                    $visibility_include[0]['type']['label'] = 'Post Type';
-                    $visibility_include[0]['type']['value'] = 'post_type';
-                    $visibility_include[0]['value']['label'] = 'post';
-                    $visibility_include[0]['value']['value'] = 'post';
-                    $value['visibility_include'] = $visibility_include;
-                    $value['ad_type']       = 'random_ads';
-                    $value['random_ads_list']   = $random_ads_list;
-                    $value['position']      = 'on_load_of_page';  
-                    $value['label']         = 'Random ads On Load';         
-                    $value['quads_ad_old_id']         = 'ad'.$ad_count;
-                     $ad_count++;
-                    $parameters['quads_post_meta']  = $value;
-                    $this->api_service->updateAdData($parameters);   
-                }
-            }
-        } 
     }
         update_option('quads_import_classic_ads_popup', 'no'); 
 
