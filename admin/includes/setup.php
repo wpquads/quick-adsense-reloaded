@@ -352,11 +352,6 @@ public function quads_database_install() {
                         `referrer` varchar(255) NOT NULL default '',
 			PRIMARY KEY  (`id`),
 			INDEX `ad_id` (`ad_id`),
-            INDEX `ad_device_name` (`ad_device_name`),
-            INDEX `referrer` (`referrer`),
-            INDEX `ip_address` (`ip_address`),
-            INDEX `url` (`url`),
-            INDEX `browser` (`browser`),
 			INDEX `ad_thetime` (`ad_thetime`)
 		) ".$charset_collate.$engine.";");
                 
