@@ -654,8 +654,8 @@ if($license_info){
     private function getTotalAds()
     {
       global $wpdb;
-      if(!empty($_COOKIE['quads_add_count'])){
-        return $_COOKIE['quads_add_count'];
+      if(defined('quads_add_count')){
+        return quads_add_count;
       }else{
         $query = "SELECT COUNT(ID) as total_posts FROM $wpdb->posts Where post_type='quads-ads' AND (post_status='publish' OR post_status='draft') ";
         $total_result = $wpdb->get_var($query,0,0);
@@ -665,7 +665,8 @@ if($license_info){
         }else{
           $total_result = 0;
         }
-        setcookie("quads_add_count", $total_result, time() + (60 * 5));
+        // setcookie("quads_add_count", $total_result, time() + (60 * 5));
+        define('quads_add_count', $total_result);
         return $total_result;
       }
     }
