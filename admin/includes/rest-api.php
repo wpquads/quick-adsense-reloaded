@@ -1833,7 +1833,9 @@ return array('status' => 't');
                 }
                 $result['posts_data'] = $new_result;
             }
-            return $result;
+            if(!empty($result)){
+                return $result;
+            }
 
         }
         public function getAdloggingData($request){
