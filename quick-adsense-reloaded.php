@@ -587,3 +587,21 @@ function quads_settings_update_license_t_name($q_array){
   $q_array['licenses_header']['name'] = '';
   return $q_array;
 }
+
+function quads_quads_stats_alter_table_query(){
+   global $wpdb;
+   if(empty($_COOKIE['ad_clicks_index'])){
+      setcookie('ad_clicks_index', 1);
+      $index_query = $wpdb->get_results($wpdb->prepare("SHOW INDEXES IN `{$wpdb->prefix}quads_stats`"));
+      $is_index = false;
+      foreach ($index_query as $key => $value) {
+         if($value['Key_name'] =='ad_clicks' || $value['Key_name'] =='ad_impressions')
+         $is_index = true;
+      }
+      if($is_index== false){
+         $wpdb->query($wpdb->prepare("ALTER TABLE `{$wpdb->prefix}quads_stats` ADD INDEX (`ad_clicks`)"));
+         $wpdb->query($wpdb->prepare("ALTER TABLE `{$wpdb->prefix}quads_stats` ADD INDEX (`ad_impressions`)"));
+      }
+   }
+}
+add_action('init','quads_quads_stats_alter_table_query');
