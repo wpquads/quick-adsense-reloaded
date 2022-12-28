@@ -1639,12 +1639,14 @@ return array('status' => 't');
         public function sendCustomerQuery($request){
 
              $parameters = $request->get_params();
-
-
+			 $nonce      =  $request->get_header('X-WP-Nonce');
+			 if (isset($nonce) && !empty($nonce) && wp_verify_nonce($nonce,'wp_rest'))
+			 {
              $customer_type  = 'Are you a premium customer ? No';
              $message        = sanitize_textarea_field($parameters['message']);
              $email          = sanitize_text_field($parameters['email']);
              $premium_cus    = sanitize_text_field($parameters['type']);
+			 
 
              if($premium_cus == 'yes'){
                 $customer_type  = 'Are you a premium customer ? Yes';
@@ -1679,7 +1681,9 @@ return array('status' => 't');
              }else{
                 return array('status'=>'f', 'msg' => 'Please provide message and email');
              }
-        }
+        }else{
+		return array('status'=>'f', 'msg' => 'Invalid Request');
+		}}
         public function validateAdsTxt($request){
 
             $response = array();
