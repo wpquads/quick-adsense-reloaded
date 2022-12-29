@@ -594,7 +594,7 @@ function quads_quads_stats_alter_table_query(){
       setcookie('ad_clicks_index', 1);
       $index_query = $wpdb->get_results($wpdb->prepare("SHOW INDEXES IN `{$wpdb->prefix}quads_stats`"));
       $is_index = false;
-      foreach ($index_query as $key => $value) {
+      foreach ($index_query[0] as $key => $value) {
          if($value['Key_name'] =='ad_clicks' || $value['Key_name'] =='ad_impressions')
          $is_index = true;
       }
