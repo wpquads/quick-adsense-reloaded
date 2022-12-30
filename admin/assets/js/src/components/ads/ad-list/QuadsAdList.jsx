@@ -252,8 +252,8 @@ class QuadsAdList extends Component {
                 <div className="quads-more-icon-box">
                   <div className="quads-more-icon-box-close" onClick={this.props.hideStaticIconBox}><Icon>close</Icon></div>                  
                   <ul>
-                <li role="presentation"><span className="static_num">{item.post_meta?.analytics?.impressions ? item.post_meta.analytics.impressions : 0}</span> <span>{__('Impression ', 'quick-adsense-reloaded')}</span></li>
-                    <li role="presentation"><span className="static_num">{item.post_meta?.analytics?.clicks ? item.post_meta.analytics.clicks : 0}</span> <span>{__('Clicks ', 'quick-adsense-reloaded')}</span></li>
+                <li role="presentation"><span className="static_num">{this.props.analytics_impressions? this.props.analytics_impressions : 0}</span> <span>{__('Impression ', 'quick-adsense-reloaded')}</span></li>
+                    <li role="presentation"><span className="static_num">{this.props.analytics_clicks ? this.props.analytics_clicks : 0}</span> <span>{__('Clicks ', 'quick-adsense-reloaded')}</span></li>
                   {
                     quads_localize_data.is_pro ? <li><Link to={'admin.php?page=quads-settings&path=view_report&id='+item.post_meta.ad_id+'&ad='+item.post_meta.label+''} id={item.post_meta.ad_id} className='view_reports_'> {__('View Full Report', 'quick-adsense-reloaded')}</Link></li> : ''
                   }

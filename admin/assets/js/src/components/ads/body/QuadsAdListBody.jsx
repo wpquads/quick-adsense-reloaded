@@ -35,7 +35,9 @@ class QuadsAdListBody extends Component {
       static_box_index    : null,
       delete_modal      : false,
       delete_modal_id   : null,
-      display_pagination:false,          
+      display_pagination:false,
+      analytics_impressions:0,
+      analytics_clicks:0,          
     };                   
   }
   showDeleteModal =(e) => {
@@ -116,9 +118,15 @@ class QuadsAdListBody extends Component {
     const id = e.currentTarget.dataset.id;  
     const index = e.currentTarget.dataset.index;        
     if(this.state.static_box_index != index || this.state.static_box_id == null)  
-     this.setState({static_box_id:id, static_box_index:index});
-    else   
+     {
+      this.setState({analytics_impressions:0, analytics_clicks:0});
+      this.getAdAnalytics(id);
+      this.setState({static_box_id:id, static_box_index:index});
+    }
+    else
+    {   
      this.setState({static_box_id:null});
+    }
   }
   hideMoreIconBox = (e) => {
     if(e){e.preventDefault();}
@@ -213,7 +221,34 @@ class QuadsAdListBody extends Component {
           });
         }
       );            
-  }  
+  } 
+  
+  getAdAnalytics = (ad_id) => { 
+    let url = quads_localize_data.rest_url + "quads-route/get-ads-analytics?ad_id="+ad_id;
+    if(quads_localize_data.rest_url.includes('?')){
+       url = quads_localize_data.rest_url + "quads-route/get-ads-analytics&ad_id="+ad_id;  
+    }
+    fetch(url, {
+      headers: {                    
+        'X-WP-Nonce': quads_localize_data.nonce,
+        "Content-Type": "application/json"
+      }
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {
+        let state_vars={      
+          analytics_impressions: result.impressions, 
+          analytics_clicks: result.clicks,
+        };
+                   
+        this.setState(state_vars);
+      },        
+      (error) => {   
+        console.log(error);    
+      }
+    );            
+} 
 
   componentDidMount() {    
           this.mainSearchMethod(this.state.search_text, this.state.page); 
