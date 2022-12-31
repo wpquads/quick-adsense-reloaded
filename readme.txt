@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 6.1.1
+Tested up to: 6.1
 Requires PHP: 5.4
-Stable tag: 2.0.65
+Stable tag: 2.0.66
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & Banner ads on your site. Innovative features, Active Development & Fast Support.
 
@@ -206,6 +206,21 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.66 ( 31 December 2022 ) =
+* Fixed: All Ads should appear after 3-4 seconds of loading the page. #646
+* Fixed: There is an issue while adding the code for  the webplayer in Plan text, HTML, or JS, target the position as "sticky ads." #645
+* Fixed: Slow queries due to WP-Quads #652
+* Fixed: Duplicate Queries #665
+* Fixed: Log Tab (Pro) on click shows blank page #666
+* Fixed: Some slow queries which causing the server slowdown #649
+* Fixed: Close(X) button not working of Video ad #681
+* Fixed: Nonce missing inside ajax call handler quads_send_feedback #670
+
+
+= 2.0.65.1 ( 14 December 2022 ) =
+* Fixed: Warnings in Site Health #664
+
 = 2.0.65 ( 12 December 2022 ) =
 * Fixed: When any warning is on quads dashboard, It does not show ads list #637
 * Fixed: Warning: Invalid DOM property class. Did you mean className? #638

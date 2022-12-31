@@ -364,7 +364,9 @@ class QUADS_Ad_Setup_Api_Service {
                   );
         }
         $response['posts_data']  = $posts_data;
-        $response['posts_found'] = $this->getTotalAds();
+        // if($posts_data[0]['post']['post_status'] == 'publish'){
+          $response['posts_found'] = $this->getTotalAds();
+        // }
          
         $this->amp_front_loop = $response;
       }else{
@@ -652,13 +654,21 @@ if($license_info){
     private function getTotalAds()
     {
       global $wpdb;
-      $query = "SELECT COUNT(ID) as total_posts FROM $wpdb->posts Where post_type='quads-ads' AND (post_status='publish' OR post_status='draft')";
-      $total_result = $wpdb->get_var($query,0,0);
-       if($total_result)
-       {
-        return (int) $total_result;
-       }
-       return 0;
+      if(defined('quads_add_count')){
+        return quads_add_count;
+      }else{
+        $query = "SELECT COUNT(ID) as total_posts FROM $wpdb->posts Where post_type='quads-ads' AND (post_status='publish' OR post_status='draft') ";
+        $total_result = $wpdb->get_var($query,0,0);
+        if($total_result)
+        {
+          $total_result = (int) $total_result;
+        }else{
+          $total_result = 0;
+        }
+        // setcookie("quads_add_count", $total_result, time() + (60 * 5));
+        define('quads_add_count', $total_result);
+        return $total_result;
+      }
     }
 
 }

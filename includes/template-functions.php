@@ -65,18 +65,14 @@ function quads_bbp_template_after_replies_loop(){
 function quads_bbp_template_before_replies_loop(){
   quads_load_ads_common('bbpress_before_reply');
 }
-session_start();
-unset($_SESSION['tmp_quads_ads']);
+
 function quads_api_services_cllbck()
 {
     // Global $quads_ads variable to reduce db calls #631
-    if(empty($_SESSION['tmp_quads_ads'])){
         require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
-        // global $api_service, $quads_ads;
         $api_service = new QUADS_Ad_Setup_Api_Service();
-        $_SESSION['tmp_quads_ads'] = $quads_ads = $api_service->getAdDataByParam('quads-ads');
-    }
-        return $_SESSION['tmp_quads_ads'];
+        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        return $quads_ads;
 }
 function quads_load_ads_common($user_position,$html=''){
     $quads_ads = quads_api_services_cllbck();
@@ -1063,6 +1059,7 @@ function quads_filter_default_ads_new( $content ) {
         return $content;
     }   
     $quads_ads = quads_api_services_cllbck(); 
+
     // Default Ads
     $adsArrayCus = array();
     if(isset($quads_ads['posts_data'])){        
@@ -2921,6 +2918,7 @@ function quads_del_element($array, $idx) {
 
 
      function quads_background_ad_last($content){
+
         $quads_ads = quads_api_services_cllbck();
         if(isset($quads_ads['posts_data'])){        
             foreach($quads_ads['posts_data'] as $key => $value){

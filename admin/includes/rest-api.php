@@ -206,6 +206,13 @@ class QUADS_Ad_Setup_Api {
                     return current_user_can( 'manage_options' );
                 }
             ));
+            register_rest_route( 'quads-route', 'get-ads-analytics', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getAdAnalytics'),
+                'permission_callback' => function(){
+                    return current_user_can( 'manage_options' );
+                }
+        ));
         }
         public function quads_register_ad(){
 	        global $_quads_registered_ad_locations;
@@ -1639,12 +1646,14 @@ return array('status' => 't');
         public function sendCustomerQuery($request){
 
              $parameters = $request->get_params();
-
-
+			 $nonce      =  $request->get_header('X-WP-Nonce');
+			 if (isset($nonce) && !empty($nonce) && wp_verify_nonce($nonce,'wp_rest'))
+			 {
              $customer_type  = 'Are you a premium customer ? No';
              $message        = sanitize_textarea_field($parameters['message']);
              $email          = sanitize_text_field($parameters['email']);
              $premium_cus    = sanitize_text_field($parameters['type']);
+			 
 
              if($premium_cus == 'yes'){
                 $customer_type  = 'Are you a premium customer ? Yes';
@@ -1679,7 +1688,9 @@ return array('status' => 't');
              }else{
                 return array('status'=>'f', 'msg' => 'Please provide message and email');
              }
-        }
+        }else{
+		return array('status'=>'f', 'msg' => 'Invalid Request');
+		}}
         public function validateAdsTxt($request){
 
             $response = array();
@@ -1821,20 +1832,29 @@ return array('status' => 't');
                 $search_param = sanitize_text_field($_GET['search_param']);
             }
             $result = $this->api_service->getAdDataByParam($post_type, $attr, $rvcount, $paged, $offset, $search_param);
-            if(isset($quads_options['ad_performance_tracking']) && $quads_options['ad_performance_tracking'] ){
+            // if(isset($quads_options['ad_performance_tracking']) && $quads_options['ad_performance_tracking'] ){
 
-                $new_result =array();
-                foreach ($result['posts_data'] as $key => $value) {
-                    if(isset($value['post_meta']['ad_id'])){
-                    $analytics = quads_get_ad_stats('sumofstats',$value['post_meta']['ad_id']);
-                    $value['post_meta']['analytics'] = $analytics;
-                    $new_result[] = $value;
-                }
-                }
-                $result['posts_data'] = $new_result;
-            }
+            //     $new_result =array();
+            //     foreach ($result['posts_data'] as $key => $value) {
+            //         if(isset($value['post_meta']['ad_id'])){
+            //         $analytics = quads_get_ad_stats('sumofstats',$value['post_meta']['ad_id']);
+            //         $value['post_meta']['analytics'] = $analytics;
+            //         $new_result[] = $value;
+            //     }
+            //     }
+            //     $result['posts_data'] = $new_result;
+            // }
             return $result;
 
+        }
+        public function getAdAnalytics(){
+            $default_return =['impressions'=>0,'clicks'=>0];
+            if(isset($_GET['ad_id'])){
+                $ad_id    = sanitize_text_field($_GET['ad_id']);
+                $ad_analytics= quads_get_ad_stats('sumofstats',$ad_id);
+                return $ad_analytics;
+            }
+            return $default_return;
         }
         public function getAdloggingData($request){
             $parameters = $request->get_params();
