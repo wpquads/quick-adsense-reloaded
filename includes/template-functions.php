@@ -1494,6 +1494,8 @@ function quads_filter_default_ads_new( $content ) {
                                         $p_reg_match = $matches;
                                        }
                                        $finalmatch = $p_reg_match;
+                                       if(isset($finalmatch[0]) && !empty($finalmatch[0]))
+                                       {
                                         foreach ($finalmatch[0] as $key => $value) {
                                             $openingtag =   $value;
                                         }
@@ -1522,12 +1524,14 @@ function quads_filter_default_ads_new( $content ) {
                                            }
                                            $content = implode( '', $paragraphs );
                                         }
+                                        }
+                                        }
                                         else{
                                            if($end_of_post){
                                                $content = $content.$cusads;   
                                            }                                
                                        }
-                                }
+                                
                             }                                                     
                         break;
                         case 'amp_after_paragraph':
