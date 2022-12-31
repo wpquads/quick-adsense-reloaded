@@ -268,14 +268,19 @@ renderSwitch(param='') {
                                                 <option value="all_time">All Time</option>
                                                 <option value="custom">Custom</option>
                                             </select>
-                                            {report.report_period == 'custom' ?[(
+                                           <div className={"custom_date_form"} style={{display: (report.report_period == 'custom' && quads_localize_data_is_pro) ? 'flex' : 'none' }}> <>
+                                                        <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
+                                                        <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_todate:date})} />
+                                                    </>
+                                                    </div>
+                                            {/* {report.report_period == 'custom' ?[(
                                                 quads_localize_data_is_pro ?
                                                     <>
                                                         <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
                                                         <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_todate:date})} />
                                                     </>
                                                     :  null
-                                            )] : null}
+                                            )] : null} */}
                         </div>
               </div> 
                             { items && items.length > 0 ?      
