@@ -783,11 +783,8 @@ drawChart(config);
         .then(res => res.json())
             .then(
                 (response) => {
-                    var newNode = document.createElement("span");
-                    newNode.innerHTML = response.success_msg;
-                    newNode.setAttribute("id", "table_main");
-                    var referenceNode = document.querySelector('#abtesting_report');
-                    referenceNode.after(newNode);
+                    var referenceNode = document.querySelector('#table_main');
+                    referenceNode.innerHTML = response.success_msg;
                 }).catch((error) => {
                     console.log(error)
                   });
@@ -1370,6 +1367,7 @@ drawChart(config);
                         ) )
                         : 'No Options' }
                         </select>
+                        <span id="table_main"></span>
                         </div>
                         </div>
                         </div>

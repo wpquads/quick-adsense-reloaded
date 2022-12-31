@@ -299,14 +299,14 @@ function quads_adsense_get_report_abtesting_data(){
 	<td class="b_in_">After more Tag</td>
   </tr>';
     foreach($results as $row){   
-    $userip = $row->ad_clicks;                
+    $userip = $row->ad_clicks;               
     $quads_table.= '
 	<tr class="b_in">
                               <td class="b_in" >'.$row->id.'</td>
-                              <td class="b_in">'.$row->Beginning_of_post.'</td>
-                              <td class="b_in">'.$row->End_of_post.'</td>
-                              <td class="b_in">'.$row->Middle_of_post.'</td>
-                              <td class="b_in">'.$row->After_more_tag.'</td>
+                              <td class="b_in">'.(isset($row->Beginning_of_post)?$row->Beginning_of_post:'').'</td>
+                              <td class="b_in">'.(isset($row->End_of_post)?$row->End_of_post:'').'</td>
+                              <td class="b_in">'.(isset($row->Middle_of_post)?$row->Middle_of_post:'').'</td>
+                              <td class="b_in">'.(isset($row->After_more_tag)?$row->After_more_tag:'').'</td>
 	</tr>
 	'; 
     }
