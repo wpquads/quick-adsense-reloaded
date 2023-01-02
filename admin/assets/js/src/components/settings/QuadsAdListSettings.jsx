@@ -10,7 +10,8 @@ import QuadsAdSettingsNavLink from './QuadsAdSettingsNavLink';
 import QuadsAdSettingsProTemplate from './QuadsAdSettingsProTemplate';
 import copy from 'copy-to-clipboard';
 import { SketchPicker } from 'react-color';
-import reactCSS from 'reactcss'
+import reactCSS from 'reactcss';
+const {__} = wp.i18n;
 // import {saveAs} from "file-saver";
 class QuadsAdListSettings extends Component {
   constructor(props) {
@@ -711,7 +712,17 @@ handleMultiPluginsChange = (option) => {
       formData.append("settings", JSON.stringify(this.state.settings));
       formData.append("requestfrom",'wpquads2');
       let url = quads_localize_data.rest_url + 'quads-route/update-settings';
-
+      const currentpage = queryString.parse(window.location.search);
+      if(currentpage.path =="settings_licenses")
+      {
+        let lsc_key=document.querySelector("input[name='quads_wp_quads_pro_license_key']").value;
+        if(!lsc_key)
+        {
+          document.getElementById('quads_licensemsg').textContent=__('Please enter valid license!', 'quick-adsense-reloaded');
+          this.setState({button_spinner_toggle:false});
+          return;
+        }
+      }
       // Begin show saving loader
       let namer_data = this.state.settings.namer
       const current_page = queryString.parse(window.location.search);
