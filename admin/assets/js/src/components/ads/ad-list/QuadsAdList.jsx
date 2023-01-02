@@ -275,7 +275,7 @@ class QuadsAdList extends Component {
                   <div style={t_main} className="MuiTooltip-popper MuiTooltip-popperArrow" id="tooltip" x-placement="bottom"><div className="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >Edit Ad<span className="MuiTooltip-arrow" style={ttp_1_}></span></div></div>
                    : '' }
                 {item.post_meta.ad_id && this.props.more_box_id ==  item.post_meta.ad_id ?
-                <div className="quads-more-icon-box">
+                <div className="quads-more-icon-box" style={{left:this.props.settings.ad_performance_tracking ?'0px':'100px'}}>
                   <div className="quads-more-icon-box-close" onClick={this.props.hideMoreIconBox}><Icon>close</Icon></div>
                   <ul>
                     <li role="presentation"><a onClick={this.props.processAction} data-ad={item.post_meta.ad_id} data-id={item.post.post_status == 'publish' ? 'draft' : 'publish'} ><Icon>{item.post.post_status == 'publish' ? 'drafts' : 'publish'}</Icon> <span>{__(item.post.post_status == 'publish' ? 'Set to Draft' : 'Publish', 'quick-adsense-reloaded')}</span></a></li>
