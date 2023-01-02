@@ -10,7 +10,7 @@ window.addEventListener("load", function(){
             wpquads_sticky.style.backgroundColor = 'hsla(0,0%,100%,.7)';
         }
         Array.from(wpquads_location_ad).forEach(elm=>{
-            elm.style.display = "block";
+            elm.style.visibility = "visible";
         })
     }, 2000);
 });
