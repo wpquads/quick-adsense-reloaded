@@ -208,7 +208,7 @@ Alternative Installation:
 == Changelog ==
 
 = 2.0.66.1 ( 02 January 2023 ) =
-* Fixed: Google Ads not displaying for some users. #646
+* Fixed: Google Ads not displaying for some users.
 
 = 2.0.66 ( 31 December 2022 ) =
 * Fixed: All Ads should appear after 3-4 seconds of loading the page. #646
