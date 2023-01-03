@@ -373,13 +373,9 @@ function quads_inline_styles() {
         }
     }
 
-    if ((!is_plugin_active('amp/amp.php') && function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() ) 
-    || 
-    (function_exists('amp_activate') && function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() )) {
-      // amp endpoint is active
-    }
-    else{
-        $css .=" .quads-location {
+    if (!quads_is_amp_endpoint()){
+        $css .="
+        .quads-location {
             visibility: hidden;
         }";
     }
