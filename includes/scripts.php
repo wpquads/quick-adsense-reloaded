@@ -372,12 +372,21 @@ function quads_inline_styles() {
             $css .= quads_render_media_query( $key, $value );
         }
     }
+
+    if ((!is_plugin_active('amp/amp.php') && function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint() ) 
+    || 
+    (function_exists('amp_activate') && function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() )) {
+      // amp endpoint is active
+    }
+    else{
+        $css .=" .quads-location {
+            visibility: hidden;
+        }";
+    }
+
     $css .="
     .quads-location ins.adsbygoogle {
         background: transparent !important;
-    }
-    .quads-location {
-        visibility: hidden;
     }
     .quads.quads_ad_container { display: grid; grid-template-columns: auto; grid-gap: 10px; padding: 10px; }
     .grid_image{animation: fadeIn 0.5s;-webkit-animation: fadeIn 0.5s;-moz-animation: fadeIn 0.5s;
