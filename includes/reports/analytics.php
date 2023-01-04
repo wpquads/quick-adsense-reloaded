@@ -109,13 +109,14 @@ public function quads_insert_ad_impression(){
             
               $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_single_stats_` WHERE `ad_id` = %d ", $ad_id ) );
               if( $stats > 0 ) {
-                $quads_single_date = $wpdb->get_row("SELECT * FROM `{$wpdb->prefix}quads_single_stats_` WHERE `ad_id` = {$ad_id} AND ad_date = '{$todays_date}' " );
+                $quads_single_date = $wpdb->get_row($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}quads_single_stats_` WHERE `ad_id` = %d AND ad_date = %s ",$ad_id,$todays_date ));
                 
                 if(!$quads_single_date){
                   $wpdb->insert($wpdb->prefix.'quads_single_stats_', array('ad_id' => $ad_id, 'ad_thetime' => 0, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_date' => $todays_date, 'date_click' => 0, 'ad_year'=> $year, 'date_impression' => 1 ));
                 }
                 
-                $wpdb->query("UPDATE `{$wpdb->prefix}quads_single_stats_` SET `ad_impressions` = `ad_impressions` + 1 WHERE `ad_id` = {$ad_id} AND `ad_date` = '{$todays_date}';");$wpdb->query("UPDATE `{$wpdb->prefix}quads_single_stats_` SET `date_impression` = `date_impression` + 1 WHERE `ad_id` = {$ad_id} AND `ad_date` = '{$todays_date}'; ");
+                $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}quads_single_stats_` SET `ad_impressions` = `ad_impressions` + 1 WHERE `ad_id` = %d AND `ad_date` = %s;",$ad_id,$todays_date));
+                $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}quads_single_stats_` SET `date_impression` = `date_impression` + 1 WHERE `ad_id` = %d AND `ad_date` = %s; ",$ad_id,$todays_date));
               } 
               else {
                 $wpdb->insert($wpdb->prefix.'quads_single_stats_', array('ad_id' => $ad_id, 'ad_thetime' => 0, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_date' => $todays_date, 'date_click' => 0, 'ad_year'=> $year, 'date_impression' => 1 ));
@@ -277,8 +278,6 @@ public function quads_get_client_ip() {
           
         }   
         
-        $ad_impression_script = ''; 
-        $ad_clicks_script     = '';
         
         $nonce                = wp_create_nonce('quads_ajax_check_front_nonce');        
         $ad_impression_url    = admin_url('admin-ajax.php?action=quads_insert_ad_impression_amp&quads_front_nonce='.$nonce);                              
@@ -287,8 +286,10 @@ public function quads_get_client_ip() {
             require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
             $api_service = new QUADS_Ad_Setup_Api_Service();
             $quads_ads = $api_service->getAdDataByParam('quads-ads');
+            $quads_shortcode_ids=isset($_SESSION['wpquads_shortcode_ids'])?$_SESSION['wpquads_shortcode_ids']:array();
             if(isset($quads_ads['posts_data'])){        
               foreach($quads_ads['posts_data'] as $key => $value){
+               
                 $ads =$value['post_meta'];
                 if($value['post']['post_status']== 'draft'){
                   continue;
@@ -299,28 +300,36 @@ public function quads_get_client_ip() {
                 if(!isset($ads['position'])){
                   continue;
                 }
-      
-                if(isset($ads['ad_id']))
+                if((isset($ads['position']) && $ads['position']=='ad_shortcode') && !in_array($ads['ad_id'],$quads_shortcode_ids))
+                {
+                  continue;
+                }
+                if(isset($ads['ad_id'])){
                   $post_status = get_post_status($ads['ad_id']); 
-                  else
+                }
+                  else{
                     $post_status =  'publish';
-      
-                  if(isset($ads['random_ads_list']))
+                  }
+                  if(isset($ads['random_ads_list'])){
                   $ads['random_ads_list'] = unserialize($ads['random_ads_list']);
-               if(isset($ads['visibility_include']))
+                  }
+               if(isset($ads['visibility_include'])){
                    $ads['visibility_include'] = unserialize($ads['visibility_include']);
-               if(isset($ads['visibility_exclude']))
+               }
+               if(isset($ads['visibility_exclude'])){
                    $ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);
-      
+               }
                if(isset($ads['targeting_include']))
                    $ads['targeting_include'] = unserialize($ads['targeting_include']);
       
-               if(isset($ads['targeting_exclude']))
+               if(isset($ads['targeting_exclude'])){
                    $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
+               }
                   $is_on         = quads_is_visibility_on($ads);
                   $is_visitor_on = quads_is_visitor_on($ads);
                   if($is_on && $is_visitor_on && $post_status=='publish'){
-                    $ad_impression_script .= '<amp-analytics><script type="application/json">
+
+                    echo '<amp-analytics><script type="application/json">
                     {
                       "requests": {
                         "event": "'.esc_url($ad_impression_url).'&event=${eventId}"
@@ -343,7 +352,7 @@ public function quads_get_client_ip() {
                     }</script></amp-analytics>                                  
                   ';     
               
-              $ad_clicks_script .='<amp-analytics>
+              echo '<amp-analytics>
                                   <script type="application/json">
                                     {
                                       "requests": {
@@ -369,8 +378,6 @@ public function quads_get_client_ip() {
               }
             }
                          
-          echo $ad_impression_script; 
-          echo $ad_clicks_script;
          }
     }
     
@@ -413,8 +420,8 @@ public function quads_get_client_ip() {
 
             $stats = $wpdb->get_var($wpdb->prepare("SELECT `id` FROM `{$wpdb->prefix}quads_single_stats_` WHERE `ad_id` = %d ", $ad_id ) );
             if($stats > 0) {
-              $wpdb->query("UPDATE `{$wpdb->prefix}quads_single_stats_` SET `ad_clicks` = `ad_clicks` + 1 WHERE `ad_id` = {$ad_id} AND `ad_date` = '{$todays_date}';");
-              $wpdb->query("UPDATE `{$wpdb->prefix}quads_single_stats_` SET `date_click` = `date_click` + 1 WHERE `ad_id` = {$ad_id} AND `ad_date` = '{$todays_date}'; ");
+              $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}quads_single_stats_` SET `ad_clicks` = `ad_clicks` + 1 WHERE `ad_id` = %d AND `ad_date` = %s;",$ad_id,$todays_date));
+              $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}quads_single_stats_` SET `date_click` = `date_click` + 1 WHERE `ad_id` = %d AND `ad_date` = %s; ",$ad_id,$todays_date));
 
             } else {
               $ad_thetime = 0; //%s

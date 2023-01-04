@@ -63,7 +63,11 @@ function quads_shortcode_display_ad( $atts ) {
             else{
                 $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
             }
-
+            if(isset($_SESSION['wpquads_shortcode_ids']) && !empty($_SESSION['wpquads_shortcode_ids'])){
+                $_SESSION['wpquads_shortcode_ids']=array_push($_SESSION['wpquads_shortcode_ids'],$ad_id);
+            }else{ 
+                $_SESSION['wpquads_shortcode_ids']=array($ad_id);
+            }
     // Do not create any inline style on AMP site
     $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
     if(function_exists('quads_hide_markup') && quads_hide_markup()) {

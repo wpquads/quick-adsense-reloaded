@@ -1757,12 +1757,11 @@ layout="responsive"
                     $carousel_speed = isset($quads_options['ads'][$id]['carousel_speed'])?$quads_options['ads'][$id]['carousel_speed']:1;    
                     $carousel_width = isset($quads_options['ads'][$id]['carousel_width'])?$quads_options['ads'][$id]['carousel_width']:450;
                     $carousel_height = isset($quads_options['ads'][$id]['carousel_height'])?$quads_options['ads'][$id]['carousel_height']:350;
-                $html = '<amp-carousel '.esc_attr($carousel_type=='slider'?'width='.$carousel_width:'').'  height="'.esc_attr($carousel_height).'"     layout="'.esc_attr($carousel_type=='slider'?'responsive':'fixed-height').'"      type="'.($carousel_type=='slider'?'slides':'carousel').'" '.esc_attr($carousel_type=='slider'?'autoplay delay="'.esc_attr($carousel_speed*1000).'"':'').' role="region" aria-label="Carousel Ads">'; 
+                $html = '<amp-carousel '.esc_attr($carousel_type=='slider'?'width='.$carousel_width:'').'  height="'.esc_attr($carousel_height).'"     layout="'.esc_attr($carousel_type=='slider'?'responsive':'fixed-height').'"      type="'.($carousel_type=='slider'?'slides':'carousel').'" '.esc_attr($carousel_type=='slider'?'autoplay delay='.esc_attr($carousel_speed*1000):'').' role="region" aria-label="Carousel Ads">'; 
                 if(isset($quads_options['ads'][$id]['image_src']) && !empty($quads_options['ads'][$id]['image_src'])){
                     list($carousel_width, $carousel_height) = getimagesize($quads_options['ads'][$id]['image_src']);
                 }
                 $ads_list = $quads_options['ads'][$id]['ads_list'];
-                 
                 foreach($ads_list as $ad)
                 {
                     if(isset($ad['value']))
@@ -1771,7 +1770,7 @@ layout="responsive"
                         if(isset($ad_meta['ad_type']) && isset($ad_meta['ad_type'][0]) && $ad_meta['ad_type'][0]=='ad_image' && isset($ad_meta['image_src'][0]) && isset($ad_meta['image_redirect_url'][0]))
                         {
                             $html .='
-                            <a  href="'.$ad_meta['image_redirect_url'][0].'" target="_blank">
+                            <a  href="'.$ad_meta['image_redirect_url'][0].'" class="quads-ad'.esc_attr($ad['value']).'" target="_blank">
                             <amp-img
                                     alt="'.esc_attr($ad_meta['quads_ad_old_id'][0]).'"
                                     src="'.esc_attr($ad_meta['image_src'][0]).'"
@@ -1794,6 +1793,43 @@ layout="responsive"
             
                 
                 $html .='</amp-carousel>';
+                }
+        
+
+            }
+            else if($quads_options['ads'][$id]['ad_type'] == 'floating_cubes'){
+                
+                if(isset($quads_options['ads'][$id]['floating_slides']) && !empty($quads_options['ads'][$id]['floating_slides']))
+                {       
+                    $floating_size = isset($quads_options['ads'][$id]['floating_cubes_size'])?$quads_options['ads'][$id]['floating_cubes_size']:'200';
+                    $floating_position = isset($quads_options['ads'][$id]['floating_position'])?$quads_options['ads'][$id]['floating_position']:'bottom-right';
+                    $position_array =['top-left'=>'position:fixed;top:0px;left:10px;','top-right'=>'position:fixed;top:0px;right:10px;','bottom-left'=>'position:fixed;bottom:40px;left:10px;','bottom-right'=>'position:fixed;bottom:40px;right:10px;'];
+                    
+                $html = '<div style="z-index:99999;width:'.esc_attr($floating_size).'px;'.esc_attr($position_array[ $floating_position]).'"><button style="float:right" id="floating_cubes_close_'.esc_attr($id).'" on="tap:floating_cubes_'.esc_attr($id).'.hide,floating_cubes_close_'.esc_attr($id).'.hide">X</button><amp-carousel id="floating_cubes_'.esc_attr($id).'" width="'.esc_attr($floating_size).'"  height="'.esc_attr($floating_size).'"   layout="fixed"     type="slides" autoplay delay="4000"  role="region" aria-label="Floating Cube Ads">'; 
+               
+                $ads_list = $quads_options['ads'][$id]['floating_slides'];
+                 
+                foreach($ads_list as $key=>$ad)
+                {
+                    
+                        if(isset($ad['slide']) && isset($ad['link']))
+                        {
+                            $html .='
+                            <a  href="'.$ad['link'].'" target="_blank">
+                            <amp-img
+                                    alt="'.esc_attr($quads_options['ads'][$id]['label'].' - Slide '.($key+1)).'"
+                                    src="'.esc_attr($ad['slide']).'"
+                                    width="'.esc_attr($floating_size).'"
+                                    height="'.esc_attr($floating_size).'"
+                                    layout="fixed"
+                                    >
+                                    </amp-img>    
+                            </a>';
+                        }
+                }
+            
+                
+                $html .='</amp-carousel></div>';
                 }
         
 
