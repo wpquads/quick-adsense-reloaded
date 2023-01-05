@@ -34,6 +34,12 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
         and (quads_render_ad_text_around_ad_new)
     */
     $post_id= quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $id);
+
+    /* check total adcount and stop ads from displaying when maxads limit is reached */
+    if(!quads_adcount_check($quads_mode)){ 
+        return '';
+    }
+
     if (quads_is_amp_endpoint()){
         return apply_filters( 'quads_render_ad', quads_render_amp($id,$ampsupport),$post_id );
     }
@@ -1991,6 +1997,23 @@ function quads_render_ad_text_around_ad_new( $adcode,$post_id='') {
             return $author_adsense_ids;
         }
     }
+
+    /**
+     * This function checks if processed ads are less than max allowed ads if not then removed the ads
+     */
+    function quads_adcount_check($mode='old'){
+        if($mode=='new')
+        {
+            global $quads_options,$quads_total_ads;
+            $quads_total_ads=$quads_total_ads+1;
+            $maxAds = isset( $quads_options['maxads'] ) ? $quads_options['maxads'] : 9999;
+            if($quads_total_ads>$maxAds)
+            {
+                return false;
+            }
+        }
+        return true;
+  }
 
 
     

@@ -64,6 +64,8 @@ $ad_count_custom = 0; // Number of active custom ads which are shown on the site
 $ad_count_widget = 0; // Number of active ads in widgets
 $AdsId = array(); // Array of active ad id's
 $maxWidgets = 10; // number of widgets
+$quads_shortcode_ids=array(); // array of active shortcode ids (new mode)
+$quads_total_ads=0; // Total ads to display (new mode)
 
 
 if( !class_exists( 'QuickAdsenseReloaded' ) ) :
