@@ -25,7 +25,7 @@ add_shortcode( 'quads', 'quads_shortcode_display_ad', 1); // Important use a ver
  * @param array $atts
  */
 function quads_shortcode_display_ad( $atts ) {
-    global $quads_options;
+    global $quads_options,$quads_shortcode_ids;
 
     // Display Condition is false and ignoreShortcodeCond is empty or not true
     if( !quads_ad_is_allowed() && !isset($quads_options['ignoreShortcodeCond']) )
@@ -63,10 +63,10 @@ function quads_shortcode_display_ad( $atts ) {
             else{
                 $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
             }
-            if(isset($_SESSION['wpquads_shortcode_ids']) && !empty($_SESSION['wpquads_shortcode_ids'])){
-                $_SESSION['wpquads_shortcode_ids']=array_push($_SESSION['wpquads_shortcode_ids'],$ad_id);
+            if(!empty($quads_shortcode_ids)){
+                $quads_shortcode_ids=array_push($quads_shortcode_ids,$ad_id);
             }else{ 
-                $_SESSION['wpquads_shortcode_ids']=array($ad_id);
+                $quads_shortcode_ids=array($ad_id);
             }
     // Do not create any inline style on AMP site
     $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';

@@ -267,6 +267,7 @@ public function quads_get_client_ip() {
      * Here, We are adding amp analytics tag for every ad serve on page
      */
     public function quads_add_analytics_amp_tags(){
+      global $quads_shortcode_ids;
                          
         if ((function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint()) || function_exists( 'is_amp_endpoint' ) && is_amp_endpoint()) {
             
@@ -286,7 +287,6 @@ public function quads_get_client_ip() {
             require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
             $api_service = new QUADS_Ad_Setup_Api_Service();
             $quads_ads = $api_service->getAdDataByParam('quads-ads');
-            $quads_shortcode_ids=isset($_SESSION['wpquads_shortcode_ids'])?$_SESSION['wpquads_shortcode_ids']:array();
             if(isset($quads_ads['posts_data'])){        
               foreach($quads_ads['posts_data'] as $key => $value){
                
