@@ -40,7 +40,7 @@ function sanitize_post_meta($key, $meta){
 
     global $wpdb;
 
-    $results = $wpdb->get_results( "select post_id from $wpdb->postmeta where meta_key='".$meta_key."' &&  meta_value = '".$meta_value."' ", ARRAY_A );
+    $results = $wpdb->get_results( $wpdb->prepare("select post_id from $wpdb->postmeta where meta_key=%s &&  meta_value = %s ",$meta_key,$meta_value), ARRAY_A );
     
     if(isset($results[0]['post_id'])){
         $response = $results[0]['post_id'];

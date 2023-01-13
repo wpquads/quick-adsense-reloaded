@@ -598,7 +598,7 @@ if($license_info){
 
           $new_post_id = wp_insert_post( $args );
 
-          $post_metas = $wpdb->get_results("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$ad_id");
+          $post_metas = $wpdb->get_results($wpdb->prepare("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=%d",$ad_id));
 
           if ( count( $post_metas )!=0 ) {
 
@@ -657,7 +657,7 @@ if($license_info){
       if(defined('quads_add_count')){
         return quads_add_count;
       }else{
-        $query = "SELECT COUNT(ID) as total_posts FROM $wpdb->posts Where post_type='quads-ads' AND (post_status='publish' OR post_status='draft') ";
+        $query = $wpdb->prepare("SELECT COUNT(ID) as total_posts FROM $wpdb->posts Where post_type=%s AND (post_status=%s OR post_status=%s) ",'quads-ads','publish','draft');
         $total_result = $wpdb->get_var($query,0,0);
         if($total_result)
         {
