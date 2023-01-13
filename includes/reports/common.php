@@ -273,7 +273,7 @@ function quads_save_token_from_data( $token, $details, $args = array() ) {
 	update_option( 'quads_adsense_api_data', $options );
 }
 
-function has_token( $adsense_id = '' ) {
+function quads_has_token( $adsense_id = '' ) {
 	if ( empty( $adsense_id ) ) {
 		return false;
 	}

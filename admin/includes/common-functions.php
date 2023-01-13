@@ -2,7 +2,7 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-function sanitize_post_meta($key, $meta){
+function quads_sanitize_post_meta($key, $meta){
 
     $response = null;
 

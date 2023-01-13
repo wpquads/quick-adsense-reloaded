@@ -25,9 +25,9 @@ if( function_exists( quads_is_pro_active() ) ) {
 
 add_action( 'admin_print_footer_scripts', 'quads_check_ad_blocker' );
 add_action( 'wp_enqueue_scripts', 'click_fraud_protection' );
-add_action( 'wp_enqueue_scripts', 'tcf_2_integration' );
+add_action( 'wp_enqueue_scripts', 'quads_tcf_2_integration' );
 
-function tcf_2_integration(){
+function quads_tcf_2_integration(){
     if(quads_is_amp_endpoint()){
         return;
     }

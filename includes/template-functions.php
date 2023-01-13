@@ -24,7 +24,7 @@ add_action('amp_post_template_head','quads_adsense_auto_ads_amp_script',1);
 add_action('amp_post_template_footer','quads_adsense_auto_ads_amp_tag');
 add_action( 'plugins_loaded', 'quads_plugins_loaded_bbpress', 20 );
 
-add_action( 'init', 'remove_ads_for_wp_shortcodes',999 );
+add_action( 'init', 'quads_remove_ads_for_wp_shortcodes',999 );
 
 function quads_get_complete_html( $content_buffer ) {
     $content_buffer = apply_filters('wp_quads_content_html_last_filter', $content_buffer);
@@ -41,8 +41,8 @@ function quads_plugins_loaded_bbpress(){
   add_action( 'bbp_theme_after_reply_content', 'quads_bbp_template_after_replies_loop' );
   add_action( 'bbp_theme_before_reply_content', 'quads_bbp_template_before_replies_loop' );
 }
-add_filter('wp_quads_content_html_last_filter','wpquads_content_modifier');
-function wpquads_content_modifier( $content_buffer ){
+add_filter('wp_quads_content_html_last_filter','quads_content_modifier');
+function quads_content_modifier( $content_buffer ){
     $data =    quads_load_ads_common('newspaper_theme',$content_buffer);
     return $data;
     if(empty($data)){
@@ -129,7 +129,7 @@ function quads_load_ads_common($user_position,$html=''){
      return $html;
     }
 }
-function remove_ads_for_wp_shortcodes() {
+function quads_remove_ads_for_wp_shortcodes() {
     $quads_settings = get_option( 'quads_settings' );
     if(isset($quads_settings['adsforwp_quads_shortcode']) && $quads_settings['adsforwp_quads_shortcode']){
         remove_shortcode( 'adsforwp' );
@@ -1107,7 +1107,7 @@ function quads_filter_default_ads_new( $content ) {
                             $paragraph_id     = floor($total_paragraphs /2);  
                             if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
                                 $ads_data['after_the_percentage_value'] = 50;
-                               $content =  remove_ad_from_content($content,$cusads,$ads_data);
+                               $content =  quads_remove_ad_from_content($content,$cusads,$ads_data);
 
                               }else{                            
                                     foreach ($paragraphs as $index => $paragraph) {
@@ -1185,7 +1185,7 @@ function quads_filter_default_ads_new( $content ) {
                             $flag= false;                                   
                             if($word_count_number <= $p_count){
                                 if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
-                                    $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no);
+                                    $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no);
                                   }else{
 
                                 foreach ($paragraphs as $index => $paragraph) {
@@ -1372,7 +1372,7 @@ function quads_filter_default_ads_new( $content ) {
 
                     case 'after_the_percentage':
                     
-                        $content =  remove_ad_from_content($content,$cusads,$ads);
+                        $content =  quads_remove_ad_from_content($content,$cusads,$ads);
 
                     break;
                     case 'ad_after_html_tag':
@@ -1399,7 +1399,7 @@ function quads_filter_default_ads_new( $content ) {
                                                                                        
                             $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
                             if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
-                          $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
+                          $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
                         }else{
                                 $closing_p        = '</'.$tag.'>';
                             $paragraphs       = explode( $closing_p, $content );
@@ -1454,7 +1454,7 @@ function quads_filter_default_ads_new( $content ) {
                                                                                            
                                 $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
                                 if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
-                              $content =  remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
+                              $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
                             }else{
                                 $string_data = $content;
                                 $pattern_ = "/<".$tag."(.*?)>/i";
@@ -3105,7 +3105,7 @@ function quads_del_element($array, $idx) {
         }
 
 
-function remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_paragraph=false){
+function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_paragraph=false){
 
     $wp_charset = get_bloginfo( 'charset' );
      $tag = 'p[not(parent::blockquote)]|p[not(parent::table)]';

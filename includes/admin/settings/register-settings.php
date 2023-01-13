@@ -1820,7 +1820,7 @@ function quads_ajax_add_ads(){
    $args = array();
    // subtract 10 widget ads
    //$args['id'] = $count-10;
-   $args['id'] = $count-getTotalWidgets();
+   $args['id'] = $count-quadsGetTotalWidgets();
    $args['name'] = 'Ad ' . $args['id'];
 
    quads_ajax_add_ads_new($args);
@@ -1843,7 +1843,7 @@ add_action( 'wp_ajax_quads_ajax_add_ads', 'quads_ajax_add_ads' );
  * @global $quads_options $quads_options
  * @return int
  */
-function getTotalWidgets(){
+function quadsGetTotalWidgets(){
       global $quads_options;
 
       $i = 0;

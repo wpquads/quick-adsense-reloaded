@@ -276,7 +276,7 @@ function quads_is_disabled_post_amp() {
     return false;
 }
 
-function getIPAddress() {  
+function quadsGetIPAddress() {  
 $ip = array();
  if(!empty($_SERVER['HTTP_CLIENT_IP'])) {
    $new_ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -303,8 +303,8 @@ function quads_click_fraud_on(){
     $quads_ad_click = json_decode( stripslashes( $_COOKIE['quads_ad_clicks'] ), true );
     $current_time = time();
     if (isset($quads_options['allowed_click']) && isset($quads_options['ban_duration']) && $quads_ad_click['count']  >= $quads_options['allowed_click'] ) {
-    if(function_exists('getIPAddress') ){
-      $ips = getIPAddress();
+    if(function_exists('quadsGetIPAddress') ){
+      $ips = quadsGetIPAddress();
     }
     $final_ip = $ips ;
     update_option( 'add_blocked_ip', $final_ip  );

@@ -534,7 +534,7 @@ if($license_info){
                 foreach($post_meta as $key => $val){
                   
 
-                    $filterd_meta = sanitize_post_meta($key, $val);
+                    $filterd_meta = quads_sanitize_post_meta($key, $val);
                     if($key == 'ad_blindness'){
                       $filterd_meta =$val;
                     }
