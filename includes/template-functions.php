@@ -718,37 +718,6 @@ function quadssetCookie(cname, cvalue, exdays, path){
     }
 }
 }
-/**
- * Show ads before posts
- * @not used at the moment
- */
-//add_action('loop_start', 'quads_inject_ad');
-
-//function quads_inject_ad() {
-//   global $quads_options, $post;
-//   
-//   // Ads are deactivated via post meta settings
-//    if( quads_check_meta_setting( 'NoAds' ) === '1' || quads_check_meta_setting( 'OffBegin' ) === '1'){
-//        return false;
-//    }
-//   
-//   if( !quads_ad_is_allowed( '' ) || !is_main_query() ) {
-//      return false;
-//   }
-//   // Array of ad codes ids
-//   $adsArray = quads_get_active_ads();
-//
-//   // Return no ads are defined
-//   if( count($adsArray) === 0 ) {
-//      return false;
-//   }
-//   
-//   $id = 1;
-//   
-//   $code = !empty($quads_options['ads']['ad' . $id ]['code']) ? $quads_options['ads']['ad' . $id ]['code'] : '';
-//   echo quads_render_ad(1, $code, false);
-//   
-//}
 
 function quads_classic_to_gutenberg($data)
 {
@@ -2119,9 +2088,6 @@ function quads_parse_default_ads( $content ) {
             }
             
             $visibleContentAds += 1;
-            //quads_set_ad_count_content();
-            //if( quads_ad_reach_max_count() || $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
-            //wp_die(quads_get_max_allowed_post_ads( $content ));
 
             if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
              

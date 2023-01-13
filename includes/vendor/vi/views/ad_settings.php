@@ -12,9 +12,6 @@
         $form = new \wpquads\adSettings();
 
         
-        //echo $form->get()->label("quads_vi_ads[ads][1][type]");
-        //echo $form->get()->render("quads_vi_ads[ads][1][type]");
-        //echo '<br>';
         echo $form->get()->label("quads_vi_ads[ads][1][keywords]");
         echo $form->get()->render("quads_vi_ads[ads][1][keywords]");
         echo $form->get()->tooltip("quads_vi_ads[ads][1][keywords]");
@@ -122,8 +119,3 @@
         <p></p>
     </div>
 </div>
-
-
-
-
-

@@ -1,38 +1,4 @@
 <?php
-
-/**
- * API Functions allow creation of custom ad positions
- *
- * @package     QUADS
- * @subpackage  Functions/API
- * @copyright   Copyright (c) 2015, René Hermenau
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       0.9.9
- */
-
-/*
- * Sample function for creating custom ad positions in your template files
- * and option setting in WPQUADS admin settings.
- *
- * Use the code below in your functions.php to register custom ad positions:
-
-
-      <?php if (function_exists('quads_register_ad')){
-            quads_register_ad( array('location' => 'header', 'description' => 'Header position') );
-            quads_register_ad( array('location' => 'footer', 'description' => 'Footer position') );
-            quads_register_ad( array('location' => 'custom', 'description' => 'Custom position') );
-            }
-       ?>
-
-  Use this in your template files wherever you want to show a custom WPQUADS ad position on your site
-
-      <?php if (function_exists('quads_ad'))
-            echo quads_ad( array('location' => 'header') );
-       ?>
- *
- */
-
-
 /**
  * Return ad locations HTML based on new API in general settings
  *

@@ -804,7 +804,4 @@ function quads_comparison_logic_checker($visibility){
 }
 
 return $result;
-}
-
-
-//New Functions in 2.0 ends here
+}//New Functions in 2.0 ends here

@@ -65,15 +65,7 @@ function quads_strip_quicktags ( $content ) {
  */
 function quads_quicktag_list () {
 	return apply_filters( 'quads_quicktag_list', array(
-		/*'NoAds' 		=> __( 'Disable all Ads <!--NoAds-->', 'quick-adsense-reloaded' ),
-		'OffDef'		=> __( '<!--OffDef-->', 'quick-adsense-reloaded' ),
-		'OffWidget'		=> __( '<!--OffWidget-->', 'quick-adsense-reloaded' ),
-		'OffBegin'		=> __( '<!--OffBegin-->', 'quick-adsense-reloaded' ),
-		'OffMiddle'		=> __( '<!--OffMiddle-->', 'quick-adsense-reloaded' ),
-		'OffEnd'		=> __( '<!--OffEnd-->', 'quick-adsense-reloaded' ),
-		'OffAfMore'		=> __( '<!--OffAfMore-->', 'quick-adsense-reloaded' ),
-		'OffBfLastPara'         => __( '<!--OffBfLastPara-->', 'quick-adsense-reloaded' ),*/
-            	'NoAds' 		=> __( 'Hide all ads on page', 'quick-adsense-reloaded' ),
+		'NoAds' 		=> __( 'Hide all ads on page', 'quick-adsense-reloaded' ),
 		'OffDef'		=> __( 'Hide default ads, use manually placed ads', 'quick-adsense-reloaded' ),
 		'OffWidget'		=> __( 'Hide all ads in sidebar', 'quick-adsense-reloaded' ),
 		'OffBegin'		=> __( 'Hide ad on beginning', 'quick-adsense-reloaded' ),

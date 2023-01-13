@@ -13,8 +13,6 @@ $reasons = array(
     );
 shuffle($reasons);
 ?>
-
-
 <div id="quick-adsense-reloaded-feedback-overlay" style="display: none;">
     <div id="quick-adsense-reloaded-feedback-content">
 	<form action="" method="post">

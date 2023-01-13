@@ -2014,6 +2014,3 @@ function quads_render_ad_text_around_ad_new( $adcode,$post_id='') {
         }
         return true;
   }
-
-
-    

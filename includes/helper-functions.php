@@ -82,4 +82,3 @@ function quads_send_feedback() {
     die();
 }
 add_action( 'wp_ajax_quads_send_feedback', 'quads_send_feedback' );
-

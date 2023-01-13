@@ -54,6 +54,3 @@
             <div id="quads_add_err" style="min-height: 40px;"></div>
         </form>
     </div>
-
-
-

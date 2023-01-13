@@ -230,7 +230,7 @@ function quads_check_adblocker() {
     <script type="text/javascript" src="<?php echo QUADS_PLUGIN_URL . 'assets/js/ads.js' ?>"></script>
     <script>
         (function (d, w) {
-            //var jquery_not_detected = typeof jQuery === 'undefined';
+           
 
             var addEvent = function (obj, type, fn) {
                 if (obj.addEventListener)
@@ -272,11 +272,6 @@ function quads_check_adblocker() {
                     hide_fine = true;
                 }
 
-//                if (jQuery_item && jquery_not_detected) {
-//                    // show quads-hidden item
-//                    jQuery_item.className = jQuery_item.className.replace(/quads-hidden/, '');
-//                    hide_fine = true;
-//                }
 
                 if (hide_fine && fine_item) {
                     fine_item.className += ' quads-hidden';

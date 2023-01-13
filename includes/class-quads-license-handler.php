@@ -142,36 +142,9 @@ class QUADS_License {
 			'license'   => $this->license,
 			'author'    => $this->author
 		);
-// 		// data to send in our API request
-// 		$api_params = array(
-// 			'edd_action'=> 'check_license',
-// 			'license' 	=> $this->license,
-// 			'item_name' => urlencode( $this->item_name ),
-// 			'url'       => home_url()
-// 		);
-
-// 		// Call the API
-// 		$response = wp_remote_post(
-// 			$this->api_url,
-// 			array(
-// 				'timeout'   => 15,
-// 				'sslverify' => false,
-// 				'body'      => $api_params
-// 			)
-// 		);
-
-// 		// make sure the response came back okay
-// 		if ( is_wp_error( $response ) ) {
-// 			return false;
-// 		}
-//   $license_data = json_decode( wp_remote_retrieve_body( $response ) );
-
 
   $license_data = get_option( $this->item_shortname . '_license_active' );
 
-  // print_r($license_data);die;
-		// if ($license_data->license == "expired") {
-			// $license_data = get_option( 'quads_wp_quads_pro_license_active' );
   			if (isset($license_data->expires)) {
         $license_exp = date('Y-m-d', strtotime($license_data->expires));
         $license_exp_d = date('d F Y', strtotime($license_data->expires));
@@ -196,12 +169,7 @@ class QUADS_License {
 				$days = -$days;
 			}
     }
-    // print_r($days);die;
-		// }
-		
-    //check the license on 30th day 
-		     // print_r($licenses);die;
-    // print_r($days); die;
+
     if (isset($days)) {
     if ($days>= 0 && $days <= 30   ) {
     if(isset($_GET["path"])&&!empty($_GET)){
@@ -212,8 +180,7 @@ class QUADS_License {
   }
 }
 
-  // $this->weekly_license_check();
-  //end
+ 
   if( ! empty( $this->item_id ) ) {
 			$args['item_id']   = $this->item_id;
 		} else {
@@ -343,13 +310,6 @@ class QUADS_License {
 
 		}
                 
-		// foreach ( $_POST as $key => $value ) {
-		// 	if( false !== strpos( $key, 'license_key_deactivate' ) ) {
-		// 		// Don't activate a key when deactivating a different key
-		// 		return;
-		// 	}
-		// }
-
 		$details = get_option( $this->item_shortname . '_license_active' );
 
 		if ( is_object( $details ) && 'valid' === $details->license ) {
@@ -730,64 +690,6 @@ class QUADS_License {
 }
 
 	}
-
-
-	/**
-	 * Admin notices for errors
-	 *
-	 * @access  public
-	 * @return  void
-	 */
-//	public function notices() {
-//
-//		static $showed_invalid_message;
-//
-//		if( empty( $this->license ) ) {
-//			return;
-//		}
-//
-//                if( ! current_user_can( 'manage_options' ) ) {
-//			return;
-//		}
-//
-//		$messages = array();
-//
-//		$license = get_option( $this->item_shortname . '_license_active' );
-//              
-//              $licensekey = empty( $quads_options['quads_wp_quads_pro_license_key'] ) ? '' : $quads_options['quads_wp_quads_pro_license_key'];
-//
-//
-//		if( is_object( $license ) && 'valid' !== $license->license && empty( $showed_invalid_message ) ) {
-//
-//			if( empty( $_GET['tab'] ) || 'licenses' !== $_GET['tab'] ) {
-//
-//				$messages[] = sprintf(
-//					__( 'You have invalid or expired license keys for WPQUADS PRO. WP QUADS Pro will not work properly until you have resolved this. Go to the <a href="%s" title="Go to Licenses page">Licenses page</a> to correct this issue or <a href="%1s" target="_new">Renew your license key</a>.', 'quick-adsense-reloaded' ),
-//					admin_url( 'admin.php?page=quads-settings&tab=licenses' ),
-//					'https://wpquads.com/checkout/?edd_license_key=' . $licensekey . '&download_id=11'
-//                                    
-//				);
-//
-//				$showed_invalid_message = true;
-//
-//			}
-//
-//		}
-//
-//		if( ! empty( $messages ) ) {
-//
-//			foreach( $messages as $message ) {
-//
-//			echo '<div class="error">';
-//				echo '<p>' . $message . '</p>';
-//			echo '</div>';
-//
-//		}
-//
-//		}
-//
-//	}
-        
        /**
 	 * Displays message inline on plugin row that the license key is missing
 	 *

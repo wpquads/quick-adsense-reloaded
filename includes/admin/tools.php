@@ -707,7 +707,3 @@ function quads_str_replace_json($search, $replace, $subject){
      
      return quads_object_to_array($stdClass);
 }
-
-
-
-

@@ -12,7 +12,6 @@
 if( !defined( 'ABSPATH' ) )
     exit;
 
-//add_action( 'wp_enqueue_scripts', 'quads_register_styles', 10 );
 add_action( 'wp_print_styles', 'quads_inline_styles', 9999 );
 add_action('amp_post_template_css','quads_inline_styles_amp', 11);
 
@@ -331,26 +330,6 @@ function quads_load_admin_fonts( $hook ) {
         echo $font_styles ;
     } 
 }
-
-
-/**
- * Register CSS Styles
- *
- * Checks the styles option and hooks the required filter.
- *
- * @since 1.0
- * @global $mashsb_options
- * @return void
- */
-//function quads_register_styles( $hook ) {
-//    global $quads_options;
-//
-//    // Register empty quads.css to be able to register quads_inline_styles()
-//    //$url = QUADS_PLUGIN_URL . 'assets/css/quads.css';
-//
-//    //wp_enqueue_style( 'quads-styles', $url, array(), QUADS_VERSION );
-//    wp_enqueue_style( 'quads-styles', false );
-//}
 
 /**
  * Add dynamic CSS to write media queries for removing unwanted ads without the need to use any cache busting method

@@ -155,5 +155,3 @@ function quads_close_ads_txt_error() {
     delete_transient('quads_ads_txt_error');
 }
 add_action('quads_close_ads_txt_error', 'quads_close_ads_txt_error');
-
-

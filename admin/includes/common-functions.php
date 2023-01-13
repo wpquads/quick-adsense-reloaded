@@ -188,4 +188,3 @@ function quads_change_mode() {
 
 }
 add_action('wp_ajax_quads_change_mode', 'quads_change_mode');
-///

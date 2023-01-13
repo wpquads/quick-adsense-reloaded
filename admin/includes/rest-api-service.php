@@ -670,5 +670,4 @@ if($license_info){
         return $total_result;
       }
     }
-
 }

@@ -139,8 +139,6 @@ function quads_get_ad($id = 0) {
             }else{
                 // Count how often the shortcode is used - Important
                 quads_set_ad_count_shortcode();
-                //$code = "\n".'<!-- WP QUADS Shortcode Ad v. ' . QUADS_VERSION .' -->'."\n";
-                //return $code . $quads_options['ad' . $id]['code'];
                 return quads_render_ad('ad' . $id, $quads_options['ads']['ad' . $id]['code']);
             }
 
@@ -152,8 +150,6 @@ function quads_get_ad($id = 0) {
 
             // Count how often the shortcode is used - Important
             quads_set_ad_count_shortcode();
-            //$code = "\n".'<!-- WP QUADS Shortcode Ad v. ' . QUADS_VERSION .' -->'."\n";
-            //return $code . $quads_options['ad' . $id]['code'];
             return quads_render_ad('ad' . $id, $quads_options['ads']['ad' . $id]['code']);
         }
     }
@@ -204,4 +200,3 @@ function quadsCleanShortcode( $code, $content ) {
 
     return do_shortcode( $content );
 }
-

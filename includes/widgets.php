@@ -147,8 +147,6 @@ class quads_widgets_1 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
-            //$codetxt = $quads_options['ad' . $this->adsID . '_widget'];
             $style = quads_get_inline_widget_ad_style($this->adsID);
             $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
@@ -196,18 +194,14 @@ class quads_widgets_2 extends WP_Widget {
         extract( $args );
 
         $cont = quads_post_settings_to_quicktags( get_the_content() );
-        //if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_ad_reach_max_count() ) {
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
             $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
-            //if (array_key_exists('before_widget', $args))
             echo $args['before_widget'];
             echo '<div id="quads-ad' . $this->adsID . '_widget">';
             echo $code;
             echo '</div>';
-            //if (array_key_exists('after_widget', $args))
             echo $args['after_widget'];
         };
     }
@@ -247,7 +241,6 @@ class quads_widgets_3 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
             $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
@@ -296,7 +289,6 @@ class quads_widgets_4 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
             $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
@@ -344,7 +336,6 @@ class quads_widgets_5 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
             $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
@@ -442,7 +433,6 @@ class quads_widgets_7 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
             $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
@@ -491,7 +481,6 @@ class quads_widgets_8 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
             $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
@@ -540,7 +529,6 @@ class quads_widgets_9 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
             $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
@@ -589,7 +577,6 @@ class quads_widgets_10 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage()) {
 
-            //quads_set_ad_count_widget();
             $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
@@ -602,6 +589,4 @@ class quads_widgets_10 extends WP_Widget {
         };
     }
 
-}
-
-// class My_Widget10
+}// class My_Widget10
