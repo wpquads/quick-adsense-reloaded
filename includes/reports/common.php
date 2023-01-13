@@ -287,7 +287,7 @@ function quads_has_token( $adsense_id = '' ) {
 
 function quads_adsense_get_report_abtesting_data(){
 	global $wpdb;
-	$results = $wpdb->get_results( "SELECT * FROM `wp_quads_stats` ");
+	$results = $wpdb->get_results( "SELECT * FROM `{$wpdb->prefix}quads_stats` ");
 	if(!empty($results)) {    
     $quads_table = "<table id=\"blocked_id_table\">"; 
     $quads_table.= "<tbody>";
