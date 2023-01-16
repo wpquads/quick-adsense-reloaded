@@ -98,7 +98,7 @@ public function quads_insert_ad_impression(){
         $device_name  = 'mobile';
       }
      
-    $result =  $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_impressions` = `ad_impressions` + 1 WHERE `ad_id` = %d AND `ad_device_name` = %s AND `ad_thetime` = %d AND `referrer` = %s AND `ip_address` = %d AND `url` = %s AND `browser` = %s ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
+    $result =  $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_impressions` = `ad_impressions` + 1 WHERE `ad_id` = %d AND `ad_device_name` = %s AND `ad_thetime` = %d AND `referrer` = %s AND `ip_address` = %s AND `url` = %s AND `browser` = %s ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
     
     //If nothing found to update, it will try and create the record.
     if ($result === FALSE || $result < 1) {
@@ -398,7 +398,7 @@ public function quads_get_client_ip() {
       $todays_date = date('Y-m-d');
       $year = date("Y"); 
 
-      $result = $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_clicks` = `ad_clicks` + 1 WHERE `id` = %d AND `ad_device_name` = %s AND `ad_thetime` = %d AND `referrer` = %s AND `ip_address` = %d AND `url` = %s AND `browser` = %s ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
+      $result = $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_clicks` = `ad_clicks` + 1 WHERE `id` = %d AND `ad_device_name` = %s AND `ad_thetime` = %d AND `referrer` = %s AND `ip_address` = %s AND `url` = %s AND `browser` = %s ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
 
       if ($result === FALSE || $result < 1) {
 
