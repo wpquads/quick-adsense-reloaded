@@ -384,13 +384,12 @@ public function quads_get_client_ip() {
       $ad_id = $id_array[1]; 
       $todays_date = date('Y-m-d');
       $year = date("Y"); 
-
-      $result = $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_clicks` = `ad_clicks` + 1 WHERE `id` = %d AND `ad_device_name` = %s AND `ad_thetime` = %d AND `referrer` = %s AND `ip_address` = %s AND `url` = %s AND `browser` = %s ", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link),trim($browser)));
-
+      $device_name=substr($device_name, 0, 20);
+      $result = $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_clicks` = `ad_clicks` + 1 WHERE `ad_id` = %d AND `ad_device_name` = %s AND `ad_thetime` = %d AND `referrer` = %s AND `ip_address` = %s AND `url` = %s", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link)));
       if ($result === FALSE || $result < 1) {
 
         $ad_thetime = $today; //%s
-        $ad_clicks = 0; //%d
+        $ad_clicks = 1; //%d
         $ad_impressions = 1; //%d
         $ad_device_name = trim($device_name); //%s
         $referrer = trim($referrer_url);
@@ -398,7 +397,7 @@ public function quads_get_client_ip() {
         $browser = trim($browser); //%s
         $url = trim($actual_link); //%s
 
-        $sql = $wpdb->prepare("INSERT INTO `{$wpdb->prefix}quads_stats` (`ad_id`, `ad_thetime`, `ad_clicks`, `ad_impressions`, `ad_device_name`, `referrer`, `ip_address`, `browser`, `url`) values (%d, %s, %d, %d, %s, %s, %s, %s, %s)", $ad_id, $ad_thetime, $ad_clicks, $ad_impressions, $ad_device_name, $referrer, $ip_address, $browser, $url);
+        $sql = $wpdb->prepare("INSERT INTO `{$wpdb->prefix}quads_stats` (`ad_id`, `ad_thetime`, `ad_clicks`, `ad_impressions`, `ad_device_name`, `referrer`, `ip_address`, `browser`, `url`) values (%d, %d, %d, %d, %s, %s, %s, %s, %s)", $ad_id, $ad_thetime, $ad_clicks, $ad_impressions, $ad_device_name, $referrer, $ip_address, $browser, $url);
         $wpdb->query($sql);
       }
 
@@ -406,7 +405,7 @@ public function quads_get_client_ip() {
             if($stats === FALSE || $stats < 1) {
               
               $ad_thetime = 0; //%s
-              $ad_clicks = 0; //%d
+              $ad_clicks = 1; //%d
               $ad_impressions = 1; //%d
               $ad_date = $todays_date; //%s
               $date_click = 0;
