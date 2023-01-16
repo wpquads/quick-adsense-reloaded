@@ -582,11 +582,11 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$loop = 30 ;
 			$year = date("Y");
 			if($ad_id=='all') {
-				$results_impresn_F = $wpdb->get_results($wpdb->prepare(" SELECT date_impression,ad_date from `{$wpdb->prefix}quads_single_stats_` WHERE month(ad_date)=month(now())-1 AND year(ad_date) = %d ",array($year)));
+				$results_impresn_F = $wpdb->get_results($wpdb->prepare(" SELECT date_impression,ad_date from `{$wpdb->prefix}quads_single_stats_` WHERE month(ad_date)=month(now())-1 AND year(ad_date) = %s ",array($year)));
 			}
 			else
 			{
-				$results_impresn_F = $wpdb->get_results($wpdb->prepare(" SELECT date_impression,ad_date from `{$wpdb->prefix}quads_single_stats_` WHERE month(ad_date)=month(now())-1 AND year(ad_date) = %d AND `ad_id`=%d ",array($year,$ad_id)));
+				$results_impresn_F = $wpdb->get_results($wpdb->prepare(" SELECT date_impression,ad_date from `{$wpdb->prefix}quads_single_stats_` WHERE month(ad_date)=month(now())-1 AND year(ad_date) = %s AND `ad_id`=%d ",array($year,$ad_id)));
 			}
 			
 			$array = array_values($results_impresn_F);
@@ -618,11 +618,11 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		$_to_slash = $dates_i_chart;
 		$get_impressions_specific_dates = str_replace('-','/',$_to_slash);
 		if($ad_id=='all') {
-		$results_click_F = $wpdb->get_results($wpdb->prepare(" SELECT date_click,ad_date from `{$wpdb->prefix}quads_single_stats_` WHERE month(ad_date)=month(now())-1 AND year(ad_date) = %d ",array($year)));
+		$results_click_F = $wpdb->get_results($wpdb->prepare(" SELECT date_click,ad_date from `{$wpdb->prefix}quads_single_stats_` WHERE month(ad_date)=month(now())-1 AND year(ad_date) = %s ",array($year)));
 		}
 		else
 		{
-		$results_click_F = $wpdb->get_results($wpdb->prepare(" SELECT date_click,ad_date from `{$wpdb->prefix}quads_single_stats_` WHERE month(ad_date)=month(now())-1 AND year(ad_date) = %d AND `ad_id`=%d ",array($year,$ad_id)));	
+		$results_click_F = $wpdb->get_results($wpdb->prepare(" SELECT date_click,ad_date from `{$wpdb->prefix}quads_single_stats_` WHERE month(ad_date)=month(now())-1 AND year(ad_date) = %s AND `ad_id`=%d ",array($year,$ad_id)));	
 		}
 		
 		$array_c = array_values($results_click_F);
@@ -710,34 +710,34 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$current_date_month_ = date('Y-m-d');
 			if($ad_id=="all")
 			{
-			$jan = $wpdb->get_results($wpdb->prepare(" SELECT SUM(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ; ",array(1,$year)));
-			$feb = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(2,$year)));
-			$mar = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d  ;",array(3,$year)));
-			$apr = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(4,$year)));
-			$may = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(5,$year)));
-			$jun = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(6,$year)));
-			$july = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(7,$year)));
-			$aug = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(8,$year)));
-			$sep = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(9,$year)));
-			$oct = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(10,$year)));
-			$nov = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(11,$year)));
-			$dec = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(12,$year)));
+			$jan = $wpdb->get_results($wpdb->prepare(" SELECT SUM(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ; ",array(1,$year)));
+			$feb = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(2,$year)));
+			$mar = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s  ;",array(3,$year)));
+			$apr = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(4,$year)));
+			$may = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(5,$year)));
+			$jun = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(6,$year)));
+			$july = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(7,$year)));
+			$aug = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(8,$year)));
+			$sep = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(9,$year)));
+			$oct = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(10,$year)));
+			$nov = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(11,$year)));
+			$dec = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(12,$year)));
 			}
 			
 			else
 			{
-			$jan = $wpdb->get_results($wpdb->prepare(" SELECT SUM(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND `ad_id`=%d ; ",array(1,$year,$ad_id)));
-			$feb = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=%d ;",array(2,$year,$ad_id)));
-			$mar = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=%d ;",array(3,$year,$ad_id)));
-			$apr = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=%d ;",array(4,$year,$ad_id)));
-			$may = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=%d ;",array(5,$year,$ad_id)));
-			$jun = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=%d ;",array(6,$year,$ad_id)));
-			$july = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=%d ;",array(7,$year,$ad_id)));
-			$aug = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=%d ;",array(8,$year,$ad_id)));
-			$sep = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=%d ;",array(9,$year,$ad_id)));
-			$oct = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=%d ;",array(10,$year,$ad_id)));
-			$nov = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=%d ;",array(11,$year,$ad_id)));
-			$dec = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = $%d AND ad_id=%d ;",array(12,$year,$ad_id)));	
+			$jan = $wpdb->get_results($wpdb->prepare(" SELECT SUM(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=%d ; ",array(1,$year,$ad_id)));
+			$feb = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=%d ;",array(2,$year,$ad_id)));
+			$mar = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=%d ;",array(3,$year,$ad_id)));
+			$apr = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=%d ;",array(4,$year,$ad_id)));
+			$may = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=%d ;",array(5,$year,$ad_id)));
+			$jun = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=%d ;",array(6,$year,$ad_id)));
+			$july = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=%d ;",array(7,$year,$ad_id)));
+			$aug = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=%d ;",array(8,$year,$ad_id)));
+			$sep = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=%d ;",array(9,$year,$ad_id)));
+			$oct = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=%d ;",array(10,$year,$ad_id)));
+			$nov = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=%d ;",array(11,$year,$ad_id)));
+			$dec = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_impression) AS date_impression FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=%d ;",array(12,$year,$ad_id)));	
 				
 			}
 
@@ -766,33 +766,33 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$individual_ad_dates = [1];
 			if($ad_id=="all")
 			{
-				$jan = $wpdb->get_results($wpdb->prepare(" SELECT SUM(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d  ;",array(1,$year)));
-			$feb = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(2,$year)));
-			$mar = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(3,$year)));
-			$apr = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(4,$year)));
-			$may = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(5,$year)));
-			$jun = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(6,$year)));
-			$july = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(7,$year)));
-			$aug = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(8,$year)));
-			$sep = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(9,$year)));
-			$oct = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(10,$year)));
-			$nov = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(11,$year)));
-			$dec = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d ;",array(12,$year)));
+				$jan = $wpdb->get_results($wpdb->prepare(" SELECT SUM(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s  ;",array(1,$year)));
+			$feb = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(2,$year)));
+			$mar = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(3,$year)));
+			$apr = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(4,$year)));
+			$may = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(5,$year)));
+			$jun = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(6,$year)));
+			$july = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(7,$year)));
+			$aug = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(8,$year)));
+			$sep = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(9,$year)));
+			$oct = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(10,$year)));
+			$nov = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(11,$year)));
+			$dec = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s ;",array(12,$year)));
 			}
 			else
 			{
-			$jan = $wpdb->get_results($wpdb->prepare(" SELECT SUM(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND `ad_id`=$ad_id ;",array(1,$year,$ad_id)));
-			$feb = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=$ad_id ;",array(2,$year,$ad_id)));
-			$mar = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=$ad_id ;",array(3,$year,$ad_id)));
-			$apr = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=$ad_id ;",array(4,$year,$ad_id)));
-			$may = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=$ad_id ;",array(5,$year,$ad_id)));
-			$jun = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=$ad_id ;",array(6,$year,$ad_id)));
-			$july = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=$ad_id ;",array(7,$year,$ad_id)));
-			$aug = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=$ad_id ;",array(8,$year,$ad_id)));
-			$sep = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=$ad_id ;",array(9,$year,$ad_id)));
-			$oct = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=$ad_id ;",array(10,$year,$ad_id)));
-			$nov = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=$ad_id ;",array(11,$year,$ad_id)));
-			$dec = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %d AND ad_id=$ad_id ;",array(12,$year,$ad_id)));	
+			$jan = $wpdb->get_results($wpdb->prepare(" SELECT SUM(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND `ad_id`=$ad_id ;",array(1,$year,$ad_id)));
+			$feb = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=$ad_id ;",array(2,$year,$ad_id)));
+			$mar = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=$ad_id ;",array(3,$year,$ad_id)));
+			$apr = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=$ad_id ;",array(4,$year,$ad_id)));
+			$may = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=$ad_id ;",array(5,$year,$ad_id)));
+			$jun = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=$ad_id ;",array(6,$year,$ad_id)));
+			$july = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=$ad_id ;",array(7,$year,$ad_id)));
+			$aug = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=$ad_id ;",array(8,$year,$ad_id)));
+			$sep = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=$ad_id ;",array(9,$year,$ad_id)));
+			$oct = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=$ad_id ;",array(10,$year,$ad_id)));
+			$nov = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=$ad_id ;",array(11,$year,$ad_id)));
+			$dec = $wpdb->get_results($wpdb->prepare(" SELECT sum(date_click) AS date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE MONTH(ad_date) = %d AND year(ad_date) = %s AND ad_id=$ad_id ;",array(12,$year,$ad_id)));	
 			}
 			
 			
