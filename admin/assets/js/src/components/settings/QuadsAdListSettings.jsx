@@ -10,7 +10,8 @@ import QuadsAdSettingsNavLink from './QuadsAdSettingsNavLink';
 import QuadsAdSettingsProTemplate from './QuadsAdSettingsProTemplate';
 import copy from 'copy-to-clipboard';
 import { SketchPicker } from 'react-color';
-import reactCSS from 'reactcss'
+import reactCSS from 'reactcss';
+const {__} = wp.i18n;
 // import {saveAs} from "file-saver";
 class QuadsAdListSettings extends Component {
   constructor(props) {
@@ -711,7 +712,17 @@ handleMultiPluginsChange = (option) => {
       formData.append("settings", JSON.stringify(this.state.settings));
       formData.append("requestfrom",'wpquads2');
       let url = quads_localize_data.rest_url + 'quads-route/update-settings';
-
+      const currentpage = queryString.parse(window.location.search);
+      if(currentpage.path =="settings_licenses")
+      {
+        let lsc_key=document.querySelector("input[name='quads_wp_quads_pro_license_key']").value;
+        if(!lsc_key)
+        {
+          document.getElementById('quads_licensemsg').textContent=__('Please enter valid license!', 'quick-adsense-reloaded');
+          this.setState({button_spinner_toggle:false});
+          return;
+        }
+      }
       // Begin show saving loader
       let namer_data = this.state.settings.namer
       const current_page = queryString.parse(window.location.search);
@@ -773,8 +784,10 @@ handleMultiPluginsChange = (option) => {
         document.getElementsByClassName("lazy_loader_o")[0].style.display = 'block';
       }
       if( namer_data == "hide_quads_markup" ){
-        document.getElementById("hide_quads_markup_").style.display = 'none';
-        document.getElementsByClassName("lazy_loader_h")[0].style.display = 'block';
+        var quads_hide_markup_= document.getElementById("hide_quads_markup_");
+        if(quads_hide_markup_){quads_hide_markup_.style.display = 'none';}
+        var quads_loader_h_= document.getElementsByClassName("lazy_loader_h");
+        if(quads_loader_h_.length){quads_loader_h_[0].style.display = 'block';}
       }
       if( namer_data == 'global_excluder' ){
         document.getElementById("global_excluder_").style.display = 'none';
@@ -809,14 +822,14 @@ handleMultiPluginsChange = (option) => {
         if(result.status == "lic_not_valid" && result.license == "invalid" && quads_localize_data.licenses.error != "expired" ){
             setTimeout(function(){ 
             var elementsArray = document.getElementsByClassName("inv_msg");
-            elementsArray[0].style.display = 'block'  
+            if(elementsArray){elementsArray[0].style.display = 'block';}  
            }, 100);
         }
         if( quads_localize_data.licenses.error == "expired" && quads_localize_data.licenses.expires < 0 ){
             setTimeout(function(){ 
             var elementsArray = document.getElementsByClassName("exp_msg");
-            elementsArray[0].style.display = 'block'
-            elementsArray[0].style.color = 'red'
+            if(elementsArray){elementsArray[0].style.display = 'block';}
+            if(elementsArray){elementsArray[0].style.color = 'red';}
            }, 100);
         }
             if(result.status === 't'){
@@ -888,8 +901,10 @@ handleMultiPluginsChange = (option) => {
                 document.getElementsByClassName("lazy_loader_o")[0].style.display = 'none';
               }
               if( namer_data == "hide_quads_markup" ){
-                document.getElementById("hide_quads_markup_").style.display = 'block';
-                document.getElementsByClassName("lazy_loader_h")[0].style.display = 'none';
+                var quads_hide_markup_= document.getElementById("hide_quads_markup_");
+                if(quads_hide_markup_){quads_hide_markup_.style.display = 'block';}
+                var quads_loader_h_= document.getElementsByClassName("lazy_loader_h");
+                if(quads_loader_h_.length){quads_loader_h_[0].style.display = 'none';}
               }
               if( namer_data == 'global_excluder' ){
                 document.getElementById("global_excluder_").style.display = 'block';

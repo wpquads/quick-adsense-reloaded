@@ -144,6 +144,7 @@ class QuadsAdCreateRouter extends Component {
             video_height              : 450,
             video_width               : 350,
             parallax_btn_url          : '',
+            block_id                  : '',
             },
             quads_form_errors : {
               g_data_ad_slot       : '',

@@ -34,6 +34,12 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
         and (quads_render_ad_text_around_ad_new)
     */
     $post_id= quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $id);
+
+    /* check total adcount and stop ads from displaying when maxads limit is reached */
+    if(!quads_adcount_check($quads_mode)){ 
+        return '';
+    }
+
     if (quads_is_amp_endpoint()){
         return apply_filters( 'quads_render_ad', quads_render_amp($id,$ampsupport),$post_id );
     }
@@ -217,7 +223,7 @@ function quads_common_head_code(){
                     <script>
                  window.googletag = window.googletag || {cmd: []};
                   googletag.cmd.push(function() {
-                  ".$data_slot." 
+                  ".esc_attr($data_slot)." 
                     googletag.pubads().enableSingleRequest();
                     googletag.enableServices();
                   });
@@ -327,9 +333,9 @@ function quads_render_ad_image_async( $id ) {
             if(isset($quads_options['ads'][$id]['parallax_ads_check']) && $quads_options['ads'][$id]['parallax_ads_check']){
                 $parallax_height=$quads_options['ads'][$id]['parallax_height']?$quads_options['ads'][$id]['parallax_height']:300;
                 $html .='<a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
-                 <div class="quads_parallax parallax_'.$id.'"></div>
+                 <div class="quads_parallax parallax_'.esc_attr($id).'"></div>
                  </a>
-                <style> .quads-ad'.$quads_options['ads'][$id]['ad_id'].' { margin:0 auto !important;} .parallax_'.$id.' {background-image: url("'.esc_attr($image_render_src).'");height:'.$parallax_height.'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
+                <style> .quads-ad'.esc_attr($quads_options['ads'][$id]['ad_id']).' { margin:0 auto !important;} .parallax_'.esc_attr($id).' {background-image: url("'.esc_attr($image_render_src).'");height:'.esc_attr($parallax_height).'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
             }
             else {
             $html .= '
@@ -344,9 +350,9 @@ function quads_render_ad_image_async( $id ) {
         if(isset($quads_options['ads'][$id]['parallax_ads_check']) && $quads_options['ads'][$id]['parallax_ads_check']){
             $parallax_height=$quads_options['ads'][$id]['parallax_height']?$quads_options['ads'][$id]['parallax_height']:300;
             $html .='<a  imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
-             <div class="quads_parallax parallax_'.$id.'"></div>
+             <div class="quads_parallax parallax_'.esc_attr($id).'"></div>
              </a>
-             <style> .quads-ad'.$quads_options['ads'][$id]['ad_id'].' { margin:0 auto !important;} .parallax_'.$id.' {background-image: url("'.esc_attr($quads_options['ads'][$id]['image_src']).'");height:'.$parallax_height.'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
+             <style> .quads-ad'.esc_attr($quads_options['ads'][$id]['ad_id']).' { margin:0 auto !important;} .parallax_'.esc_attr($id).' {background-image: url("'.esc_attr($quads_options['ads'][$id]['image_src']).'");height:'.esc_attr($parallax_height).'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
             
         }
         else {
@@ -360,8 +366,8 @@ function quads_render_ad_image_async( $id ) {
         if(isset($quads_options['ads'][$id]['parallax_ads_check']) && $quads_options['ads'][$id]['parallax_ads_check']){
             
             $parallax_height=$quads_options['ads'][$id]['parallax_height']?$quads_options['ads'][$id]['parallax_height']:300;
-            $html .='<div class="quads_parallax parallax_'.$id.'"></div>
-            <style>  .quads-ad'.$quads_options['ads'][$id]['ad_id'].' { margin:0 auto !important;} .parallax_'.$id.' {background-image: url("'.esc_attr($image_render_src).'");height:'.$parallax_height.'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
+            $html .='<div class="quads_parallax parallax_'.esc_attr($id).'"></div>
+            <style>  .quads-ad'.esc_attr($quads_options['ads'][$id]['ad_id']).' { margin:0 auto !important;} .parallax_'.$id.' {background-image: url("'.esc_attr($image_render_src).'");height:'.esc_attr($parallax_height).'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
         
     }
         else{
@@ -382,13 +388,13 @@ function quads_render_ad_video_async( $id ) {
     $vid_height = isset($quads_options['ads'][$id]['image_height']) ? $quads_options['ads'][$id]['image_height'] : '' ;
     if(isset($quads_options['ads'][$id]['image_src'])  && !empty($quads_options['ads'][$id]['image_src'])){
         $html .= '
-        <iframe width="'.$vid_width.'" height="'.$vid_height.'" src="'.$quads_options['ads'][$id]['image_src'].'" 
+        <iframe width="'.esc_attr($vid_width).'" height="'.esc_attr($vid_height).'" src="'.esc_url($quads_options['ads'][$id]['image_src']).'" 
             frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
             allowfullscreen></iframe>
         ';
     }
     else{
-        $html .= '<iframe width="560" height="315" src="'.$quads_options['ads'][$id]['image_src'].'" 
+        $html .= '<iframe width="560" height="315" src="'.esc_url($quads_options['ads'][$id]['image_src']).'" 
         frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen></iframe>';
     }
@@ -409,14 +415,14 @@ function quads_render_taboola_async( $id ) {
 
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Taboola --> \n\n";
 
-        $html .= '<div id="quads_taboola_'.$id.'"></div>';
+        $html .= '<div id="quads_taboola_'.esc_attr($id)    .'"></div>';
 
           $html .= '<script type="text/javascript">
                         window._taboola = window._taboola || [];
                         _taboola.push({
                             mode:"thumbnails-a", 
-                            container:"quads_taboola_'.$id.'", 
-                            placement:"quads_taboola_'.$id.'", 
+                            container:"quads_taboola_'.esc_attr($id).'", 
+                            placement:"quads_taboola_'.esc_attr($id).'", 
                             target_type: "mix"
                         });</script>';
 
@@ -811,7 +817,7 @@ function quads_render_loopad_async( $id ) {
         $html .='<div class="entry-container">';    
         if(isset($quads_options['ads'][$id]['loop_add_link']) && isset($quads_options['ads'][$id]['loop_add_title'])){    
 	$html .='<header class="entry-header">
-				<h2 class="entry-title default-max-width"><a href="'.$quads_options['ads'][$id]['loop_add_link'].'" rel="sponsored">'.$quads_options['ads'][$id]['loop_add_title'].'</a></h2>
+				<h2 class="entry-title default-max-width"><a href="'.esc_url($quads_options['ads'][$id]['loop_add_link']).'" rel="sponsored">'.esc_html($quads_options['ads'][$id]['loop_add_title']).'</a></h2>
             </header><!-- .entry-header -->';
         }
         if(isset($quads_options['ads'][$id]['loop_add_link'])  && !empty($quads_options['ads'][$id]['loop_add_link']) && isset($quads_options['ads'][$id]['image_src'])  && !empty($quads_options['ads'][$id]['image_src'])){
@@ -823,7 +829,7 @@ function quads_render_loopad_async( $id ) {
                 }
         if(isset($quads_options['ads'][$id]['loop_add_description'])){    
             $html .='<div class="entry-content">
-                        <p>'.$quads_options['ads'][$id]['loop_add_description'].'</p>
+                        <p>'.esc_attr($quads_options['ads'][$id]['loop_add_description']).'</p>
                         <p><a class="more-link" href="'.esc_attr($quads_options['ads'][$id]['loop_add_link']).'">'.__( 'Learn More', 'quick-adsense-reloaded' ).' <span class="screen-reader-text">'.esc_attr($quads_options['ads'][$id]['loop_add_title']).'</span></a></p>
                      </div><!-- .entry-content -->';
                 }
@@ -853,7 +859,7 @@ function quads_render_parallaxad_async( $id ) {
         $html .='<div class="entry-container">';    
         if(isset($quads_options['ads'][$id]['image_src']) && !empty($quads_options['ads'][$id]['image_src']) && isset($quads_options['ads'][$id]['parallax_btn_url'])){
             $html .='<div class="featured-image">
-                        <a target="_blank" class="more-link" href="'.esc_attr($quads_options['ads'][$id]['parallax_btn_url']).'">
+                        <a target="_blank" class="more-link" href="'.esc_url($quads_options['ads'][$id]['parallax_btn_url']).'">
                             <img src="'.esc_attr($quads_options['ads'][$id]['image_src']).'" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" loading="lazy" style="width:100%;height:66.57%;max-width:350px;">
                         </div>
                 </div><!-- .featured-image -->';
@@ -885,7 +891,7 @@ function quads_render_halfpagead_async( $id ) {
         if(isset($quads_options['ads'][$id]['image_src']) && !empty($quads_options['ads'][$id]['image_src']) && isset($quads_options['ads'][$id]['half_page_ads_btn_url'])){
             $html .='<div class="featured-image">
                         <a target="_blank" class="more-link" href="'.esc_attr($quads_options['ads'][$id]['half_page_ads_btn_url']).'">
-                            <img src="'.esc_attr($quads_options['ads'][$id]['image_src']).'" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" loading="lazy" style="width:100%;height:66.57%;max-width:350px;">
+                            <img src="'.esc_url($quads_options['ads'][$id]['image_src']).'" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" loading="lazy" style="width:100%;height:66.57%;max-width:350px;">
                         </div>
                 </div><!-- .featured-image -->';
         }
@@ -938,7 +944,7 @@ function quads_render_carousel_ads_async($id) {
 				 if(isset($ad_meta['mobile_image_check'][0]) &&  ($ad_meta['mobile_image_check'][0]=='1') && preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$useragent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($useragent,0,4)) && isset( $ad_meta['image_mobile_src'] ) && !empty($ad_meta['image_mobile_src'] )){
 					 $image=$ad_meta['image_mobile_src'][0];
 				 }
-                $html .='<a imagebanner class="im-'.esc_attr($org_ad_id).'" target="_blank" href="'.esc_attr($ad_meta['image_redirect_url'][0]). '" rel="nofollow"><img  class="quads_carousel_img" src="'.esc_attr($image).'" alt="'.esc_attr($ad_meta['label'][0]).'"> </a>';  
+                $html .='<a imagebanner class="im-'.esc_attr($org_ad_id).'" target="_blank" href="'.esc_url($ad_meta['image_redirect_url'][0]). '" rel="nofollow"><img  class="quads_carousel_img" src="'.esc_url($image).'" alt="'.esc_attr($ad_meta['label'][0]).'"> </a>';  
             }
         
             if(isset($ad_meta['ad_type']) && isset($ad_meta['ad_type'][0]) && $ad_meta['ad_type'][0]=='plain_text')
@@ -954,8 +960,8 @@ function quads_render_carousel_ads_async($id) {
 
     if($carousel_type=="slider")
     {
-        $html.='</div><style>@media only screen and (max-width: 480px) {.quads_carousel_img { width:100%}}.quads_carousel_img { width:auto;}.quads-slides-'.$org_ad_id.'{display:none}.quads-container:after,.quads-container:before{content:"";display:table;clear:both}.quads-container{padding:.01em 16px}.quads-content{margin-left:auto;margin-right:auto;max-width:100%}.quads-section{margin-top:16px!important;margin-bottom:16px!important}.quads-animate-right{position:relative;animation: animateright 0.5s}@keyframes animateright{from{right:-300px;opacity:0}to{right:0;opacity:1}}</style>
-        <script>var myIndex_'.$org_ad_id.' = 0;setTimeout(quads_carousel_'.$org_ad_id.', 1000);function quads_carousel_'.$org_ad_id.'() {var i;var x = document.getElementsByClassName("quads-slides-'.$org_ad_id.'");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}myIndex_'.$org_ad_id.'++;if (myIndex_'.$org_ad_id.' > x.length) {myIndex_'.$org_ad_id.' = 1} x[myIndex_'.$org_ad_id.'-1].style.display = "block"; var nid= x[myIndex_'.$org_ad_id.'-1].id;    if(x.length>1) { setTimeout(quads_carousel_'.$org_ad_id.', '.($carousel_speed*1000).');} }</script>';
+        $html.='</div><style>@media only screen and (max-width: 480px) {.quads_carousel_img { width:100%}}.quads_carousel_img { width:auto;}.quads-slides-'.esc_attr($org_ad_id).'{display:none}.quads-container:after,.quads-container:before{content:"";display:table;clear:both}.quads-container{padding:.01em 16px}.quads-content{margin-left:auto;margin-right:auto;max-width:100%}.quads-section{margin-top:16px!important;margin-bottom:16px!important}.quads-animate-right{position:relative;animation: animateright 0.5s}@keyframes animateright{from{right:-300px;opacity:0}to{right:0;opacity:1}}</style>
+        <script>var myIndex_'.esc_attr($org_ad_id).' = 0;setTimeout(quads_carousel_'.esc_attr($org_ad_id).', 1000);function quads_carousel_'.esc_attr($org_ad_id).'() {var i;var x = document.getElementsByClassName("quads-slides-'.esc_attr($org_ad_id).'");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}myIndex_'.esc_attr($org_ad_id).'++;if (myIndex_'.esc_attr($org_ad_id).' > x.length) {myIndex_'.esc_attr($org_ad_id).' = 1} x[myIndex_'.esc_attr($org_ad_id).'-1].style.display = "block"; var nid= x[myIndex_'.esc_attr($org_ad_id).'-1].id;    if(x.length>1) { setTimeout(quads_carousel_'.esc_attr($org_ad_id).', '.esc_attr($carousel_speed*1000).');} }</script>';
     }
    
     $html .= "\n <!-- end WP QUADS --> \n\n";
@@ -996,8 +1002,8 @@ function quads_render_floating_ads_async($id) {
             if(isset($ad['slide']) && isset($ad['link']))
             {
             $html.='	<figure class="wpquads-3d-item ">
-            <a href="'.esc_attr($ad['link']).'" target="_blank" rel="nofollow" >
-                <img src="'.esc_attr($ad['slide']).'" alt="'.esc_attr($quads_options['ads'][$id]['label'].' - Slide '.($key+1)).'">
+            <a href="'.esc_url($ad['link']).'" target="_blank" rel="nofollow" >
+                <img src="'.esc_url($ad['slide']).'" alt="'.esc_attr($quads_options['ads'][$id]['label'].' - Slide '.($key+1)).'">
                 </a>
         </figure>';
             }
@@ -1013,8 +1019,8 @@ function quads_render_floating_ads_async($id) {
             if(isset($ads_list[$new]['slide']))
         {
             $html.='	<figure class="wpquads-3d-item ">
-            <a href="'.esc_attr($ads_list[$new]['link']).'" target="_blank" rel="nofollow">
-                <img src="'.esc_attr($ads_list[$new]['slide']).'" alt="'.esc_attr($quads_options['ads'][$id]['label'].' - Slide '.($total_slides+$i+1)).'">
+            <a href="'.esc_url($ads_list[$new]['link']).'" target="_blank" rel="nofollow">
+                <img src="'.esc_url($ads_list[$new]['slide']).'" alt="'.esc_attr($quads_options['ads'][$id]['label'].' - Slide '.($total_slides+$i+1)).'">
                 </a>
         </figure>';
         }
@@ -1074,7 +1080,7 @@ function quads_render_desktop_js( $id, $default_ad_sizes,$id_name='' ) {
 
         $height = $default_ad_sizes[$id][$adtype.'_height'];
 
-        $normal_style = 'display:inline-block;width:' . $width . 'px;height:' . $height . 'px;' . $backgroundcolor;
+        $normal_style = 'display:inline-block;width:' . esc_attr($width) . 'px;height:' . esc_attr($height) . 'px;' . esc_attr($backgroundcolor);
 
         $style = isset( $quads_options['ads'][$id]['adsense_type'] ) && $quads_options['ads'][$id]['adsense_type'] === 'responsive' && (isset( $quads_options['ads'][$id][$adtype.'_size'] ) && $quads_options['ads'][$id][$adtype.'_size'] === 'Auto') ? $responsive_style : $normal_style;
     } else {
@@ -1082,16 +1088,16 @@ function quads_render_desktop_js( $id, $default_ad_sizes,$id_name='' ) {
 
         $height = empty( $quads_options['ads'][$id]['g_data_ad_height'] ) ? $default_ad_sizes[$id][$adtype.'_height'] : $quads_options['ads'][$id]['g_data_ad_height'];
 
-        $normal_style = 'display:inline-block;width:' . $width . 'px;height:' . $height . 'px;' . $backgroundcolor;
+        $normal_style = 'display:inline-block;width:' . esc_attr($width) . 'px;height:' . esc_attr($height) . 'px;' . esc_attr($backgroundcolor);
 
         $style = isset( $quads_options['ads'][$id]['adsense_type'] ) && $quads_options['ads'][$id]['adsense_type'] === 'responsive' ? $responsive_style : $normal_style;
     }
 
     $ad_format = (isset( $quads_options['ads'][$id]['adsense_type'] ) && $quads_options['ads'][$id]['adsense_type'] === 'responsive') && (isset( $quads_options['ads'][$id][$adtype.'_size'] ) && $quads_options['ads'][$id][$adtype.'_size'] === 'Auto') ? 'data-ad-format="auto"' : '';
 
-    $html = '<ins class="adsbygoogle" style="' . $style . '"';
-    $html .= ' data-ad-client="' . $quads_options['ads'][$id]['g_data_ad_client'] . '"';
-    $html .= ' data-ad-slot="' . $quads_options['ads'][$id]['g_data_ad_slot'] . '" ' . $ad_format . '></ins>';
+    $html = '<ins class="adsbygoogle" style="' . esc_attr($style) . '"';
+    $html .= ' data-ad-client="' . esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '"';
+    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . esc_attr($ad_format) . '></ins>';
 
     if (!quads_is_extra() && !empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'])){
             $js = 'if ( quads_screen_width >= 1140 ) {';
@@ -1134,7 +1140,7 @@ function quads_render_tablet_landscape_js( $id, $default_ad_sizes,$id_name='' ) 
 
         $height = $default_ad_sizes[$id][$adtype.'_height'];
 
-        $normal_style = 'display:inline-block;width:' . $width . 'px;height:' . $height . 'px;' . $backgroundcolor;
+        $normal_style = 'display:inline-block;width:' . esc_attr($width ). 'px;height:' . esc_attr($height) . 'px;' . esc_attr($backgroundcolor);
 
         $style = isset( $quads_options['ads'][$id]['adsense_type'] ) && $quads_options['ads'][$id]['adsense_type'] === 'responsive' && (isset( $quads_options['ads'][$id][$adtype_short.'_size'] ) && $quads_options['ads'][$id][$adtype_short.'_size'] === 'Auto') ? $responsive_style : $normal_style;
     } else {
@@ -1142,7 +1148,7 @@ function quads_render_tablet_landscape_js( $id, $default_ad_sizes,$id_name='' ) 
 
         $height = empty( $quads_options['ads'][$id]['g_data_ad_height'] ) ? $default_ad_sizes[$id][$adtype.'_height'] : $quads_options['ads'][$id]['g_data_ad_height'];
 
-        $normal_style = 'display:inline-block;width:' . $width . 'px;height:' . $height . 'px;' . $backgroundcolor;
+        $normal_style = 'display:inline-block;width:' . esc_attr($width) . 'px;height:' . esc_attr($height) . 'px;' . esc_attr($backgroundcolor);
 
         $style = isset( $quads_options['ads'][$id]['adsense_type'] ) && $quads_options['ads'][$id]['adsense_type'] === 'responsive' ? $responsive_style : $normal_style;
     }
@@ -1150,9 +1156,9 @@ function quads_render_tablet_landscape_js( $id, $default_ad_sizes,$id_name='' ) 
     $ad_format = (isset( $quads_options['ads'][$id]['adsense_type'] ) && $quads_options['ads'][$id]['adsense_type'] === 'responsive') && (isset( $quads_options['ads'][$id][$adtype_short.'_size'] ) && $quads_options['ads'][$id][$adtype_short.'_size'] === 'Auto') ? 'data-ad-format="auto"' : '';
 
 
-    $html = '<ins class="adsbygoogle" style="' . $style . '"';
-    $html .= ' data-ad-client="' . $quads_options['ads'][$id]['g_data_ad_client'] . '"';
-    $html .= ' data-ad-slot="' . $quads_options['ads'][$id]['g_data_ad_slot'] . '" ' . $ad_format . '></ins>';
+    $html = '<ins class="adsbygoogle" style="' . esc_attr($style) . '"';
+    $html .= ' data-ad-client="' . esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '"';
+    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . esc_attr($ad_format) . '></ins>';
 
         if( !quads_is_extra() && ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
             $js = 'if ( quads_screen_width >= 1024  && quads_screen_width < 1140 ) {';
@@ -1195,7 +1201,7 @@ function quads_render_tablet_portrait_js( $id, $default_ad_sizes,$id_name='' ) {
 
         $height = $default_ad_sizes[$id][$adtype.'_height'];
 
-        $normal_style = 'display:inline-block;width:' . $width . 'px;height:' . $height . 'px;' . $backgroundcolor;
+        $normal_style = 'display:inline-block;width:' . esc_attr($width) . 'px;height:' . esc_attr($height) . 'px;' . esc_attr($backgroundcolor);
 
         $style = isset( $quads_options['ads'][$id]['adsense_type'] ) && $quads_options['ads'][$id]['adsense_type'] === 'responsive' && (isset( $quads_options['ads'][$id][$adtype_short.'_size'] ) && $quads_options['ads'][$id][$adtype_short.'_size'] === 'Auto') ? $responsive_style : $normal_style;
     } else {
@@ -1203,16 +1209,16 @@ function quads_render_tablet_portrait_js( $id, $default_ad_sizes,$id_name='' ) {
 
         $height = empty( $quads_options['ads'][$id]['g_data_ad_height'] ) ? $default_ad_sizes[$id][$adtype.'_height'] : $quads_options['ads'][$id]['g_data_ad_height'];
 
-        $normal_style = 'display:inline-block;width:' . $width . 'px;height:' . $height . 'px;' . $backgroundcolor;
+        $normal_style = 'display:inline-block;width:' . esc_attr($width) . 'px;height:' . esc_attr($height) . 'px;' . esc_attr($backgroundcolor);
 
         $style = isset( $quads_options['ads'][$id]['adsense_type'] ) && $quads_options['ads'][$id]['adsense_type'] === 'responsive' ? $responsive_style : $normal_style;
     }
 
     $ad_format = (isset( $quads_options['ads'][$id]['adsense_type'] ) && $quads_options['ads'][$id]['adsense_type'] === 'responsive') && (isset( $quads_options['ads'][$id][$adtype_short.'_size'] ) && $quads_options['ads'][$id][$adtype_short.'_size'] === 'Auto') ? 'data-ad-format="auto"' : '';
 
-    $html = '<ins class="adsbygoogle" style="' . $style . '"';
-    $html .= ' data-ad-client="' . $quads_options['ads'][$id]['g_data_ad_client'] . '"';
-    $html .= ' data-ad-slot="' . $quads_options['ads'][$id]['g_data_ad_slot'] . '" ' . $ad_format . '></ins>';
+    $html = '<ins class="adsbygoogle" style="' . esc_attr($style) . '"';
+    $html .= ' data-ad-client="' . esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '"';
+    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . esc_attr($ad_format) . '></ins>';
 
         if( !quads_is_extra() and !empty( $default_ad_sizes[$id]['tbl_portrait_width'] ) and !empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
             $js = 'if ( quads_screen_width >= 768  && quads_screen_width < 1024 ) {';
@@ -1253,7 +1259,7 @@ function quads_render_phone_js( $id, $default_ad_sizes,$id_name='' ) {
 
         $height = $default_ad_sizes[$id][$adtype.'_height'];
 
-        $normal_style = 'display:inline-block;width:' . $width . 'px;height:' . $height . 'px;' . $backgroundcolor;
+        $normal_style = 'display:inline-block;width:' . esc_attr($width) . 'px;height:' . esc_attr($height) . 'px;' . esc_attr($backgroundcolor);
 
         $style = isset( $quads_options['ads'][$id]['adsense_type'] ) && $quads_options['ads'][$id]['adsense_type'] === 'responsive' && (isset( $quads_options['ads'][$id][$adtype.'_size'] ) && $quads_options['ads'][$id][$adtype.'_size'] === 'Auto') ? $responsive_style : $normal_style;
     } else {
@@ -1261,16 +1267,16 @@ function quads_render_phone_js( $id, $default_ad_sizes,$id_name='' ) {
 
         $height = empty( $quads_options['ads'][$id]['g_data_ad_height'] ) ? $default_ad_sizes[$id][$adtype.'_height'] : $quads_options['ads'][$id]['g_data_ad_height'];
 
-        $normal_style = 'display:inline-block;width:' . $width . 'px;height:' . $height . 'px;' . $backgroundcolor;
+        $normal_style = 'display:inline-block;width:' . esc_attr($width) . 'px;height:' . esc_attr($height) . 'px;' . esc_attr($backgroundcolor);
 
         $style = isset( $quads_options['ads'][$id]['adsense_type'] ) && $quads_options['ads'][$id]['adsense_type'] === 'responsive' ? $responsive_style : $normal_style;
     }
 
     $ad_format = (isset( $quads_options['ads'][$id]['adsense_type'] ) && $quads_options['ads'][$id]['adsense_type'] === 'responsive') && (isset( $quads_options['ads'][$id][$adtype.'_size'] ) && $quads_options['ads'][$id][$adtype.'_size'] === 'Auto') ? 'data-ad-format="auto"' : '';
 
-    $html = '<ins class="adsbygoogle" style="' . $style . '"';
-    $html .= ' data-ad-client="' . $quads_options['ads'][$id]['g_data_ad_client'] . '"';
-    $html .= ' data-ad-slot="' . $quads_options['ads'][$id]['g_data_ad_slot'] . '" ' . $ad_format . '></ins>';
+    $html = '<ins class="adsbygoogle" style="' . esc_attr($style) . '"';
+    $html .= ' data-ad-client="' . esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '"';
+    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . esc_attr($ad_format) . '></ins>';
 
         if( !quads_is_extra() and ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
             $js = 'if ( quads_screen_width < 768 ) {';
@@ -1630,7 +1636,7 @@ function quads_render_amp($id,$ampsupport=''){
                 $html .= '
                     <a target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">';
                     if($parallax){
-                        $html .=' <amp-fx-flying-carpet height="'.$parallax_height.'px">';       
+                        $html .=' <amp-fx-flying-carpet height="'.esc_attr($parallax_height).'px">';       
                     }
                     $html .=' <amp-img
 src="'.esc_attr($quads_options['ads'][$id]['image_src']). '"
@@ -1645,7 +1651,7 @@ layout="responsive"
             $html .='</a>';
                 }else{
                     if($parallax){
-                        $html .=' <amp-fx-flying-carpet height="'.$parallax_height.'px">';       
+                        $html .=' <amp-fx-flying-carpet height="'.esc_attr($parallax_height).'px">';       
                     }
                     $html .= '                        <amp-img
                     src="'.esc_attr($quads_options['ads'][$id]['image_src']). '"
@@ -1659,14 +1665,14 @@ layout="responsive"
                 }
                 }
         }else if($quads_options['ads'][$id]['ad_type'] == 'taboola'){
-                        $html = '<div id="quads_taboola_'.$id.'"></div>';
+                        $html = '<div id="quads_taboola_'.esc_attr($id).'"></div>';
                           $html .= ' <amp-embed width="100" height="283"
                                          type=taboola
                                          layout=responsive
                                          heights="(min-width:1907px) 39%, (min-width:1200px) 46%, (min-width:780px) 64%, (min-width:480px) 98%, (min-width:460px) 167%, 196%"
                                          data-publisher="'.esc_attr($quads_options['ads'][$id]['taboola_publisher_id']).'"
                                          data-mode="thumbnails-a"
-                                         data-placement="quads_taboola_'.$id.'"
+                                         data-placement="quads_taboola_'.esc_attr($id).'"
                                          data-article="auto">
                                     </amp-embed>
                                   </div>
@@ -1728,7 +1734,7 @@ layout="responsive"
                     list($width, $height) = getimagesize($quads_options['ads'][$id]['image_src']);
                 $html .='<div class="fsp-img">
                             <div class="loop-img image-container">
-                                <a href="'.$quads_options['ads'][$id]['loop_add_link'].'" title="'.esc_attr($quads_options['ads'][$id]['loop_add_title']).'">
+                                <a href="'.esc_url($quads_options['ads'][$id]['loop_add_link']).'" title="'.esc_attr($quads_options['ads'][$id]['loop_add_title']).'">
                                 <amp-img
                                         alt="'.esc_attr($quads_options['ads'][$id]['loop_add_title']).'"
                                         src="'.esc_attr($quads_options['ads'][$id]['image_src']).'"
@@ -1740,12 +1746,12 @@ layout="responsive"
                                 </a></div> </div>';
                 }
                 $html .='     <div class="fsp-cnt">
-                                <h2 class="loop-title"><a href="'.$quads_options['ads'][$id]['loop_add_link'].'">'.$quads_options['ads'][$id]['loop_add_title'].'</a></h2>
-                                <p class="loop-excerpt">'.$quads_options['ads'][$id]['loop_add_description'].'</p> 
+                                <h2 class="loop-title"><a href="'.esc_url($quads_options['ads'][$id]['loop_add_link']).'">'.esc_attr($quads_options['ads'][$id]['loop_add_title']).'</a></h2>
+                                <p class="loop-excerpt">'.esc_attr($quads_options['ads'][$id]['loop_add_description']).'</p> 
                                 <div class="pt-dt"> &nbsp; </div> 
                             </div>
                          </div>
-                         <style>.quads-ad'.$quads_options['ads'][$id]['ad_id'].' { flex-basis: calc(33.33% - 30px); } @media (max-width: 425px){.quads-ad'.$quads_options['ads'][$id]['ad_id'].' {flex-basis: calc(100% - 0px);margin: 15px 0px;}</style>';
+                         <style>.quads-ad'.esc_attr($quads_options['ads'][$id]['ad_id']).' { flex-basis: calc(33.33% - 30px); } @media (max-width: 425px){.quads-ad'.esc_attr($quads_options['ads'][$id]['ad_id']).' {flex-basis: calc(100% - 0px);margin: 15px 0px;}</style>';
                 }
         
 
@@ -1757,12 +1763,11 @@ layout="responsive"
                     $carousel_speed = isset($quads_options['ads'][$id]['carousel_speed'])?$quads_options['ads'][$id]['carousel_speed']:1;    
                     $carousel_width = isset($quads_options['ads'][$id]['carousel_width'])?$quads_options['ads'][$id]['carousel_width']:450;
                     $carousel_height = isset($quads_options['ads'][$id]['carousel_height'])?$quads_options['ads'][$id]['carousel_height']:350;
-                $html = '<amp-carousel '.esc_attr($carousel_type=='slider'?'width='.$carousel_width:'').'  height="'.esc_attr($carousel_height).'"     layout="'.esc_attr($carousel_type=='slider'?'responsive':'fixed-height').'"      type="'.($carousel_type=='slider'?'slides':'carousel').'" '.esc_attr($carousel_type=='slider'?'autoplay delay="'.esc_attr($carousel_speed*1000).'"':'').' role="region" aria-label="Carousel Ads">'; 
+                $html = '<amp-carousel '.esc_attr($carousel_type=='slider'?'width='.$carousel_width:'').'  height="'.esc_attr($carousel_height).'"     layout="'.esc_attr($carousel_type=='slider'?'responsive':'fixed-height').'"      type="'.esc_attr($carousel_type=='slider'?'slides':'carousel').'" '.esc_attr($carousel_type=='slider'?'autoplay delay='.esc_attr($carousel_speed*1000):'').' role="region" aria-label="Carousel Ads">'; 
                 if(isset($quads_options['ads'][$id]['image_src']) && !empty($quads_options['ads'][$id]['image_src'])){
                     list($carousel_width, $carousel_height) = getimagesize($quads_options['ads'][$id]['image_src']);
                 }
                 $ads_list = $quads_options['ads'][$id]['ads_list'];
-                 
                 foreach($ads_list as $ad)
                 {
                     if(isset($ad['value']))
@@ -1771,7 +1776,7 @@ layout="responsive"
                         if(isset($ad_meta['ad_type']) && isset($ad_meta['ad_type'][0]) && $ad_meta['ad_type'][0]=='ad_image' && isset($ad_meta['image_src'][0]) && isset($ad_meta['image_redirect_url'][0]))
                         {
                             $html .='
-                            <a  href="'.$ad_meta['image_redirect_url'][0].'" target="_blank">
+                            <a  href="'.esc_url($ad_meta['image_redirect_url'][0]).'" class="quads-ad'.esc_attr($ad['value']).'" target="_blank">
                             <amp-img
                                     alt="'.esc_attr($ad_meta['quads_ad_old_id'][0]).'"
                                     src="'.esc_attr($ad_meta['image_src'][0]).'"
@@ -1794,6 +1799,43 @@ layout="responsive"
             
                 
                 $html .='</amp-carousel>';
+                }
+        
+
+            }
+            else if($quads_options['ads'][$id]['ad_type'] == 'floating_cubes'){
+                
+                if(isset($quads_options['ads'][$id]['floating_slides']) && !empty($quads_options['ads'][$id]['floating_slides']))
+                {       
+                    $floating_size = isset($quads_options['ads'][$id]['floating_cubes_size'])?$quads_options['ads'][$id]['floating_cubes_size']:'200';
+                    $floating_position = isset($quads_options['ads'][$id]['floating_position'])?$quads_options['ads'][$id]['floating_position']:'bottom-right';
+                    $position_array =['top-left'=>'position:fixed;top:0px;left:10px;','top-right'=>'position:fixed;top:0px;right:10px;','bottom-left'=>'position:fixed;bottom:40px;left:10px;','bottom-right'=>'position:fixed;bottom:40px;right:10px;'];
+                    
+                $html = '<div style="z-index:99999;width:'.esc_attr($floating_size).'px;'.esc_attr($position_array[ $floating_position]).'"><button style="float:right" id="floating_cubes_close_'.esc_attr($id).'" on="tap:floating_cubes_'.esc_attr($id).'.hide,floating_cubes_close_'.esc_attr($id).'.hide">X</button><amp-carousel id="floating_cubes_'.esc_attr($id).'" width="'.esc_attr($floating_size).'"  height="'.esc_attr($floating_size).'"   layout="fixed"     type="slides" autoplay delay="4000"  role="region" aria-label="Floating Cube Ads">'; 
+               
+                $ads_list = $quads_options['ads'][$id]['floating_slides'];
+                 
+                foreach($ads_list as $key=>$ad)
+                {
+                    
+                        if(isset($ad['slide']) && isset($ad['link']))
+                        {
+                            $html .='
+                            <a  href="'.$ad['link'].'" target="_blank">
+                            <amp-img
+                                    alt="'.esc_attr($quads_options['ads'][$id]['label'].' - Slide '.($key+1)).'"
+                                    src="'.esc_attr($ad['slide']).'"
+                                    width="'.esc_attr($floating_size).'"
+                                    height="'.esc_attr($floating_size).'"
+                                    layout="fixed"
+                                    >
+                                    </amp-img>    
+                            </a>';
+                        }
+                }
+            
+                
+                $html .='</amp-carousel></div>';
                 }
         
 
@@ -1956,5 +1998,19 @@ function quads_render_ad_text_around_ad_new( $adcode,$post_id='') {
         }
     }
 
-
-    
+    /**
+     * This function checks if processed ads are less than max allowed ads if not then removed the ads
+     */
+    function quads_adcount_check($mode='old'){
+        if($mode=='new')
+        {
+            global $quads_options,$quads_total_ads;
+            $quads_total_ads=$quads_total_ads+1;
+            $maxAds = isset( $quads_options['maxads'] ) ? $quads_options['maxads'] : 9999;
+            if($quads_total_ads>$maxAds)
+            {
+                return false;
+            }
+        }
+        return true;
+  }

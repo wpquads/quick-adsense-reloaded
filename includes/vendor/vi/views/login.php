@@ -29,6 +29,3 @@
             <a href="<?php echo $signupURL; ?>?email=<?php echo bloginfo('admin_email'); ?>&domain=<?php echo get_site_url(); ?>" class="button button-primary" id="quads-vi-signup"> Signup </a> 
         </div>
     </div>
-
-
-

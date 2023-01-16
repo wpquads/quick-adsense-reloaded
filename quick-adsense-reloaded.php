@@ -6,7 +6,7 @@
  * Description: Insert Google AdSense and other ad formats fully automatic into your website
  * Author: WP Quads
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
- * Version: 2.0.66.1
+ * Version: 2.0.67
  * Text Domain: quick-adsense-reloaded
  * Domain Path: languages
  * Credits: WP QUADS - Quick AdSense Reloaded is a fork of Quick AdSense
@@ -38,7 +38,7 @@ if( !defined( 'ABSPATH' ) )
 
 // Plugin version
 if( !defined( 'QUADS_VERSION' ) ) {
-  define( 'QUADS_VERSION', '2.0.66.1' );
+  define( 'QUADS_VERSION', '2.0.67' );
 }
 
 // Plugin name
@@ -64,6 +64,8 @@ $ad_count_custom = 0; // Number of active custom ads which are shown on the site
 $ad_count_widget = 0; // Number of active ads in widgets
 $AdsId = array(); // Array of active ad id's
 $maxWidgets = 10; // number of widgets
+$quads_shortcode_ids=array(); // array of active shortcode ids (new mode)
+$quads_total_ads=0; // Total ads to display (new mode)
 
 
 if( !class_exists( 'QuickAdsenseReloaded' ) ) :
@@ -128,7 +130,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             self::$instance->includes();
             self::$instance->load_textdomain();
             self::$instance->load_hooks();
-            self::$instance->update_data();
             self::$instance->logger = new quadsLogger( "quick_adsense_log_" . date( "Y-m-d" ) . ".log", quadsLogger::INFO );
             self::$instance->html = new QUADS_HTML_Elements();
             self::$instance->vi = new wpquads\vi();
@@ -163,18 +164,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          // Unserializing instances of the class is forbidden
          _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'QUADS' ), '1.0' );
       }
-
-      public function update_data(){
-
-            $quads_settings = get_option('quads_settings');
-            $quads_mode = get_option('quads-mode');
-            if($quads_mode && $quads_mode == 'new' && isset($quads_settings['ad_blocker_message']) && $quads_settings['ad_blocker_message'] && !isset($quads_settings['ad_blocker_support']) && !isset($quads_settings['notice_type'])){
-                $quads_settings['ad_blocker_support'] = true;
-                $quads_settings['notice_type'] = 'ad_blocker_message';
-                // update_option( 'quads_settings', $quads_settings );
-            }
-
-          }
 
       /**
        * Setup plugin constants

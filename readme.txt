@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.1
 Requires PHP: 5.4
-Stable tag: 2.0.66.1
+Stable tag: 2.0.67
 
 Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & Banner ads on your site. Innovative features, Active Development & Fast Support.
 
@@ -206,6 +206,27 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.67 ( 16 January 2023 ) =
+* Fixed: Limit Amount Of Ads option is not working #648
+* Fixed: Function name must start with a proper prefix #669
+* Fixed: Table prefix should be there in any get results from database table #66
+* Fixed: Ads are not working in AMP and need some improvement #644
+* Fixed: Switch button is not working on label click for some options #673
+* Fixed: Yandex ad type required field does not show any message on next button click #679
+* Fixed: When we select ad from A/B testing. Its keep adding report box infinitely #683
+* Fixed: Warnings #685
+* Fixed: Selection of custom from dropdown inside Log Tab throw console warning #677
+* Fixed: Pro version is activated than more option popup selection far away from kebab menu #676
+* Fixed: Mark license key as required and display response message. #667
+* Fixed: For the first time without changing any option, Save Settings keep spinning infinite #675
+* Fixed: Code Improvement as per WP guidlines #690
+* Fixed: Deprecated error messages when activated the plugin #698
+* Fixed: The Ad targeting option "Country" is not working properly. #691
+* Updated: Remove Limited time offer banner #696
+
+= 2.0.66.2 ( 03 January 2023 ) =
+* Fixed: Ads not displaying with AMP.
 
 = 2.0.66.1 ( 02 January 2023 ) =
 * Fixed: Google Ads not displaying for some users.

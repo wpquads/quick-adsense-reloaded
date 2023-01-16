@@ -224,5 +224,4 @@ if(class_exists('QUADS_Ad_Migration')){
     $quadsAdMigration->quadsAdReset();
 	$quadsAdMigration->quadsAdResetDeleted();
     $quadsAdMigration->quadsAdReset_optionsDeleted();
-
 }

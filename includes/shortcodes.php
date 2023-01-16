@@ -25,7 +25,7 @@ add_shortcode( 'quads', 'quads_shortcode_display_ad', 1); // Important use a ver
  * @param array $atts
  */
 function quads_shortcode_display_ad( $atts ) {
-    global $quads_options;
+    global $quads_options,$quads_shortcode_ids;
 
     // Display Condition is false and ignoreShortcodeCond is empty or not true
     if( !quads_ad_is_allowed() && !isset($quads_options['ignoreShortcodeCond']) )
@@ -63,7 +63,11 @@ function quads_shortcode_display_ad( $atts ) {
             else{
                 $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
             }
-
+            if(!empty($quads_shortcode_ids)){
+                $quads_shortcode_ids=array_push($quads_shortcode_ids,$ad_id);
+            }else{ 
+                $quads_shortcode_ids=array($ad_id);
+            }
     // Do not create any inline style on AMP site
     $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
     if(function_exists('quads_hide_markup') && quads_hide_markup()) {
@@ -135,8 +139,6 @@ function quads_get_ad($id = 0) {
             }else{
                 // Count how often the shortcode is used - Important
                 quads_set_ad_count_shortcode();
-                //$code = "\n".'<!-- WP QUADS Shortcode Ad v. ' . QUADS_VERSION .' -->'."\n";
-                //return $code . $quads_options['ad' . $id]['code'];
                 return quads_render_ad('ad' . $id, $quads_options['ads']['ad' . $id]['code']);
             }
 
@@ -148,8 +150,6 @@ function quads_get_ad($id = 0) {
 
             // Count how often the shortcode is used - Important
             quads_set_ad_count_shortcode();
-            //$code = "\n".'<!-- WP QUADS Shortcode Ad v. ' . QUADS_VERSION .' -->'."\n";
-            //return $code . $quads_options['ad' . $id]['code'];
             return quads_render_ad('ad' . $id, $quads_options['ads']['ad' . $id]['code']);
         }
     }
@@ -200,4 +200,3 @@ function quadsCleanShortcode( $code, $content ) {
 
     return do_shortcode( $content );
 }
-

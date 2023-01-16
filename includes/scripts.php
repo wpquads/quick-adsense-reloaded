@@ -12,7 +12,6 @@
 if( !defined( 'ABSPATH' ) )
     exit;
 
-//add_action( 'wp_enqueue_scripts', 'quads_register_styles', 10 );
 add_action( 'wp_print_styles', 'quads_inline_styles', 9999 );
 add_action('amp_post_template_css','quads_inline_styles_amp', 11);
 
@@ -26,9 +25,9 @@ if( function_exists( quads_is_pro_active() ) ) {
 
 add_action( 'admin_print_footer_scripts', 'quads_check_ad_blocker' );
 add_action( 'wp_enqueue_scripts', 'click_fraud_protection' );
-add_action( 'wp_enqueue_scripts', 'tcf_2_integration' );
+add_action( 'wp_enqueue_scripts', 'quads_tcf_2_integration' );
 
-function tcf_2_integration(){
+function quads_tcf_2_integration(){
     if(quads_is_amp_endpoint()){
         return;
     }
@@ -332,26 +331,6 @@ function quads_load_admin_fonts( $hook ) {
     } 
 }
 
-
-/**
- * Register CSS Styles
- *
- * Checks the styles option and hooks the required filter.
- *
- * @since 1.0
- * @global $mashsb_options
- * @return void
- */
-//function quads_register_styles( $hook ) {
-//    global $quads_options;
-//
-//    // Register empty quads.css to be able to register quads_inline_styles()
-//    //$url = QUADS_PLUGIN_URL . 'assets/css/quads.css';
-//
-//    //wp_enqueue_style( 'quads-styles', $url, array(), QUADS_VERSION );
-//    wp_enqueue_style( 'quads-styles', false );
-//}
-
 /**
  * Add dynamic CSS to write media queries for removing unwanted ads without the need to use any cache busting method
  * (Cache busting could affect performance and lead to lot of support tickets so lets follow the css approach)
@@ -372,12 +351,17 @@ function quads_inline_styles() {
             $css .= quads_render_media_query( $key, $value );
         }
     }
+
+    if (!quads_is_amp_endpoint()){
+        $css .="
+        .quads-location {
+            visibility: hidden;
+        }";
+    }
+
     $css .="
     .quads-location ins.adsbygoogle {
         background: transparent !important;
-    }
-    .quads-location {
-        visibility: hidden;
     }
     .quads.quads_ad_container { display: grid; grid-template-columns: auto; grid-gap: 10px; padding: 10px; }
     .grid_image{animation: fadeIn 0.5s;-webkit-animation: fadeIn 0.5s;-moz-animation: fadeIn 0.5s;

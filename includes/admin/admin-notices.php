@@ -739,12 +739,12 @@ function quads_licene_acivation_notice(){
 /**
  * Hide GDPR notice
  * 
- * @global array $mashsb_options
+ * @global array $quads_options
  */
-function mashsb_hide_auto_ads_notice() {
+function quads_hide_auto_ads_notice() {
     global $quads_options;
     // Get all settings
     update_option( 'quads_show_notice_auto_ads', 'no' );
 }
 
-add_action( 'quads_hide_auto_ads_notice', 'mashsb_hide_auto_ads_notice' );
+add_action( 'quads_hide_auto_ads_notice', 'quads_hide_auto_ads_notice' );

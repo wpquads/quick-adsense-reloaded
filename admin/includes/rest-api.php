@@ -505,7 +505,7 @@ class QUADS_Ad_Setup_Api {
                 'hide_empty' => false,
             ]);
 
-            return new WP_Query( array(
+            return get_posts( array(
                 'post_type'      => "advanced_ads" ,
                 'post_status'    => array( 'publish', 'pending', 'future', 'private' ),
                 'taxonomy'       => $group[0]->taxonomy,
@@ -579,7 +579,7 @@ class QUADS_Ad_Setup_Api {
                             'hide_empty' => false,
                         ]);
                         // $get_single_ads_from_Groupad get_safg
-                    $get_safg = $this->get_single_adsGroup($group)->posts;
+                    $get_safg = $this->get_single_adsGroup($group);
                     $ads_list_arr = array() ;
                     foreach ($get_safg as $key => $get_safg_value) {
                         $ads_list_arr[$key]['value'] = $get_safg_value->ID;

@@ -3,9 +3,6 @@
  * WP QUADS Notices
  */
 ?>
-
-
-
 <div class="quads-banner-wrapper notice <?php echo $type; ?>">
   <section class="quads-banner-content">
     <div class="quads-banner-columns">

@@ -46,29 +46,3 @@ function quads_premium_plugin_action_links( $links, $file ){
 	}
 
 add_filter('plugin_action_links', 'quads_premium_plugin_action_links', 10, 2);
-
-
-/**
- * Plugin row meta links
- *
- * @author Michael Cannon <mc@aihr.us>
- * @since 0.0.9
- * @param array $input already defined meta links
- * @param string $file plugin file path and name being processed
- * @return array $input
- */
-//function quads_plugin_row_meta( $input, $file ) {
-//	if ( $file != 'quick-adsense-reloaded/quick-adsense-reloaded.php' && $file != 'quads-pro/wpquads-pro.php' ){
-//		return $input;
-//        }
-//
-//	$links = array(
-//		'<a href="' . admin_url( 'options-general.php?page=quads-settings' ) . '">' . esc_html__( 'Getting Started', 'quick-adsense-reloaded' ) . '</a>',
-//	);
-//        
-//
-//	$input = array_merge( $input, $links );
-//
-//	return $input;
-//}
-//add_filter( 'plugin_row_meta', 'quads_plugin_row_meta', 10, 2 );

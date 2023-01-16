@@ -283,7 +283,7 @@ class quads_output_amp_condition_display{
     }
         
   }
-if (class_exists('quads_output_amp_condition_display')) {   
+if (class_exists('quads_output_amp_condition_display')) {
     
         add_action('amp_init', 'quads_amp_hooks_call');
         
@@ -293,4 +293,4 @@ if (class_exists('quads_output_amp_condition_display')) {
             $quads_condition_obj->quads_amp_condition_hooks();   
         
         }        	
-};
+}

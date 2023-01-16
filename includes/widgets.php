@@ -25,54 +25,54 @@ function quads_get_inline_widget_ad_style( $id ) {
         'float:none;margin:%1$dpx;');
     
     // Alignment
-    $adsalign = ( int )$quads_options['ads']['ad' . $id . '_widget']['align'];
+    $adsalign = ( int )$quads_options['ads']['ad' . esc_attr($id) . '_widget']['align'];
     
     // Margin
     $adsmargin = '0';
     $padding = 'padding:';
-     if(isset( $quads_options['ads']['ad' . $id . '_widget']['margin'] )){ 
-       $adsmargin = $quads_options['ads']['ad' . $id . '_widget']['margin'] ;
+     if(isset( $quads_options['ads']['ad' . esc_attr($id) . '_widget']['margin'] )){ 
+       $adsmargin = $quads_options['ads']['ad' . esc_attr($id) . '_widget']['margin'] ;
         $margin = sprintf( $styleArray[$adsalign], $adsmargin );
      }else{
           $margin = 'margin:';
-          if(isset( $quads_options['ads']['ad' . $id . '_widget']['margintop'] )){ 
-           $margin .=$quads_options['ads']['ad' . $id . '_widget']['margintop'] ."px " ;
+          if(isset( $quads_options['ads']['ad' . esc_attr($id) . '_widget']['margintop'] )){ 
+           $margin .=$quads_options['ads']['ad' . esc_attr($id) . '_widget']['margintop'] ."px " ;
          }else{
             $margin .= "0px ";
          }
-          if(isset( $quads_options['ads']['ad' . $id . '_widget']['marginright'] )){ 
-           $margin .=$quads_options['ads']['ad' . $id . '_widget']['marginright'] ."px " ;
+          if(isset( $quads_options['ads']['ad' . esc_attr($id) . '_widget']['marginright'] )){ 
+           $margin .=$quads_options['ads']['ad' . esc_attr($id) . '_widget']['marginright'] ."px " ;
          }else{
             $margin .= "0px ";
          }
-          if(isset( $quads_options['ads']['ad' . $id . '_widget']['marginbottom'] )){ 
-          $margin .=$quads_options['ads']['ad' . $id . '_widget']['marginbottom'] ."px " ;
+          if(isset( $quads_options['ads']['ad' . esc_attr($id) . '_widget']['marginbottom'] )){ 
+          $margin .=$quads_options['ads']['ad' . esc_attr($id) . '_widget']['marginbottom'] ."px " ;
          }else{
             $margin .= "0px ";
          }
-          if(isset( $quads_options['ads']['ad' . $id . '_widget']['marginleft'] )){ 
-          $margin .=$quads_options['ads']['ad' . $id . '_widget']['marginleft'] ."px" ;
+          if(isset( $quads_options['ads']['ad' . esc_attr($id) . '_widget']['marginleft'] )){ 
+          $margin .=$quads_options['ads']['ad' . esc_attr($id) . '_widget']['marginleft'] ."px" ;
          }else{
             $margin .= "0px ";
          }
      }
-        if(isset( $quads_options['ads']['ad' . $id . '_widget']['paddingtop'] )){ 
-           $padding .=$quads_options['ads']['ad' . $id . '_widget']['paddingtop'] ."px " ;
+        if(isset( $quads_options['ads']['ad' . esc_attr($id) . '_widget']['paddingtop'] )){ 
+           $padding .=$quads_options['ads']['ad' . esc_attr($id) . '_widget']['paddingtop'] ."px " ;
          }else{
             $padding .= "0px ";
          }
-          if(isset( $quads_options['ads']['ad' . $id . '_widget']['paddingright'] )){ 
-           $padding .=$quads_options['ads']['ad' . $id . '_widget']['paddingright'] ."px " ;
+          if(isset( $quads_options['ads']['ad' . esc_attr($id ). '_widget']['paddingright'] )){ 
+           $padding .=$quads_options['ads']['ad' . esc_attr($id) . '_widget']['paddingright'] ."px " ;
          }else{
             $padding .= "0px ";
          }
-          if(isset( $quads_options['ads']['ad' . $id . '_widget']['paddingbottom'] )){ 
-          $padding .=$quads_options['ads']['ad' . $id . '_widget']['paddingbottom'] ."px " ;
+          if(isset( $quads_options['ads']['ad' . esc_attr($id) . '_widget']['paddingbottom'] )){ 
+          $padding .=$quads_options['ads']['ad' . esc_attr($id) . '_widget']['paddingbottom'] ."px " ;
          }else{
             $padding .= "0px ";
          }
-          if(isset( $quads_options['ads']['ad' . $id . '_widget']['paddingleft'] )){ 
-          $padding .=$quads_options['ads']['ad' . $id . '_widget']['paddingleft'] ."px" ;
+          if(isset( $quads_options['ads']['ad' . esc_attr($id) . '_widget']['paddingleft'] )){ 
+          $padding .=$quads_options['ads']['ad' . esc_attr($id) . '_widget']['paddingleft'] ."px" ;
          }else{
             $padding .= "0px ";
          }
@@ -80,7 +80,7 @@ function quads_get_inline_widget_ad_style( $id ) {
         $css =$margin.'; '.$padding .'; ';
 
     // Do not create any inline style on AMP site
-    $style =  !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_widget_margins', $css, 'ad' . $id . '_widget') : '';
+    $style =  !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_widget_margins', $css, 'ad' . esc_attr($id) . '_widget') : '';
     
     return $style;
 }
@@ -113,16 +113,14 @@ class quads_widgets_1 extends WP_Widget {
      */
     function __construct() {
         $this->adsID = '1';
-        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', $this->adsID );
-        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
-        
-        
+        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', esc_attr($this->adsID) );
+        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', sanitize_title($this->AdsWidName) ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
-                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
     }
@@ -147,15 +145,12 @@ class quads_widgets_1 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
-            //$codetxt = $quads_options['ad' . $this->adsID . '_widget'];
             $style = quads_get_inline_widget_ad_style($this->adsID);
-            $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
-            echo '<div id="quads-ad' . $this->adsID . '_widget" style="'.$style.'">';
-            echo $code;
+            echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget" style="'.sanitize_html_class($style).'">';
+            echo quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
@@ -174,14 +169,14 @@ class quads_widgets_2 extends WP_Widget {
     function __construct() {
         $this->adsID = '2';
 
-        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', $this->adsID );
-        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
+        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', esc_attr($this->adsID) );
+        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', sanitize_title($this->AdsWidName) ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
-                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
     }
@@ -196,18 +191,13 @@ class quads_widgets_2 extends WP_Widget {
         extract( $args );
 
         $cont = quads_post_settings_to_quicktags( get_the_content() );
-        //if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_ad_reach_max_count() ) {
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
-            $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
-            //if (array_key_exists('before_widget', $args))
             echo $args['before_widget'];
-            echo '<div id="quads-ad' . $this->adsID . '_widget">';
-            echo $code;
+            echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
-            //if (array_key_exists('after_widget', $args))
             echo $args['after_widget'];
         };
     }
@@ -224,14 +214,14 @@ class quads_widgets_3 extends WP_Widget {
 
         $this->adsID = '3';
 
-        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', $this->adsID );
-        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
+        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', esc_attr($this->adsID) );
+        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', sanitize_title($this->AdsWidName) ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
-                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
     }
@@ -247,13 +237,12 @@ class quads_widgets_3 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
-            $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
+            
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
-            echo '<div id="quads-ad' . $this->adsID . '_widget">';
-            echo $code;
+            echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            echo quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
@@ -272,14 +261,14 @@ class quads_widgets_4 extends WP_Widget {
     function __construct() {
 
         $this->adsID = '4';
-        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', $this->adsID );
-        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
+        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', esc_attr($this->adsID) );
+        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', sanitize_title($this->AdsWidName) ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
-                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
     }
@@ -296,13 +285,11 @@ class quads_widgets_4 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
-            $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
-            echo '<div id="quads-ad' . $this->adsID . '_widget">';
-            echo $code;
+            echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            echo  quads_render_ad( 'ad' . esc_att($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
@@ -321,14 +308,14 @@ class quads_widgets_5 extends WP_Widget {
     function __construct() {
 
         $this->adsID = '5';
-        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', $this->adsID );
-        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
+        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', esc_attr($this->adsID) );
+        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', sanitize_title($this->AdsWidName) ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
-                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
     }
@@ -344,13 +331,11 @@ class quads_widgets_5 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
-            $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
-            echo '<div id="quads-ad' . $this->adsID . '_widget">';
-            echo $code;
+            echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            echo  quads_render_ad( 'ad' . esc_att($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
@@ -369,14 +354,14 @@ class quads_widgets_6 extends WP_Widget {
     function __construct() {
 
         $this->adsID = '6';
-        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', $this->adsID );
-        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
+        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', esc_attr($this->adsID) );
+        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', sanitize_title($this->AdsWidName) ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
-                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
     }
@@ -393,13 +378,11 @@ class quads_widgets_6 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
-            $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
-            echo '<div id="quads-ad' . $this->adsID . '_widget">';
-            echo $code;
+            echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            echo  quads_render_ad( 'ad' . esc_att($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
@@ -418,14 +401,14 @@ class quads_widgets_7 extends WP_Widget {
     function __construct() {
 
         $this->adsID = '7';
-        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', $this->adsID );
-        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
+        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', esc_attr($this->adsID) );
+        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', sanitize_title($this->AdsWidName) ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
-                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
     }
@@ -442,13 +425,11 @@ class quads_widgets_7 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
-            $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
-            echo '<div id="quads-ad' . $this->adsID . '_widget">';
-            echo $code;
+            echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            echo  quads_render_ad( 'ad' . esc_att($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
@@ -467,14 +448,14 @@ class quads_widgets_8 extends WP_Widget {
     function __construct() {
 
         $this->adsID = '8';
-        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', $this->adsID );
-        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
+        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', esc_attr($this->adsID) );
+        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', sanitize_title($this->AdsWidName) ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
-                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
     }
@@ -491,13 +472,11 @@ class quads_widgets_8 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
-            $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
-            echo '<div id="quads-ad' . $this->adsID . '_widget">';
-            echo $code;
+            echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            echo  quads_render_ad( 'ad' . esc_att($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
@@ -516,14 +495,14 @@ class quads_widgets_9 extends WP_Widget {
     function __construct() {
 
         $this->adsID = '9';
-        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', $this->adsID );
-        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
+        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', esc_attr($this->adsID) );
+        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', sanitize_title($this->AdsWidName) ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
-                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
     }
@@ -540,13 +519,11 @@ class quads_widgets_9 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
-            //quads_set_ad_count_widget();
-            $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
-            echo '<div id="quads-ad' . $this->adsID . '_widget">';
-            echo $code;
+            echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            echo  quads_render_ad( 'ad' . esc_att($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
@@ -565,14 +542,14 @@ class quads_widgets_10 extends WP_Widget {
     function __construct() {
 
         $this->adsID = '10';
-        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', $this->adsID );
-        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', $this->AdsWidName ) );
+        $this->AdsWidName = sprintf( 'AdsWidget%d (Quick Adsense Reloaded)', esc_attr($this->adsID) );
+        $this->AdsWidID = sanitize_title( str_replace( array('(', ')'), '', sanitize_title($this->AdsWidName) ) );
         parent::__construct(
                 $this->AdsWidID, // Base ID
-                str_replace('Quick Adsense Reloaded', 'WP QUADS', $this->AdsWidName) , // Name
+                str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
                     'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
-                    'classname' => 'quads-ad'.$this->adsID.'_widget'
+                    'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
     }
@@ -589,19 +566,15 @@ class quads_widgets_10 extends WP_Widget {
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage()) {
 
-            //quads_set_ad_count_widget();
-            $code = quads_render_ad( 'ad' . $this->adsID . '_widget', $quads_options['ads']['ad' . $this->adsID . '_widget']['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
-            echo '<div id="quads-ad' . $this->adsID . '_widget">';
-            echo $code;
+            echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            echo  quads_render_ad( 'ad' . esc_att($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
         };
     }
 
-}
-
-// class My_Widget10
+}// class My_Widget10
