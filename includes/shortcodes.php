@@ -64,7 +64,17 @@ function quads_shortcode_display_ad( $atts ) {
                 $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
             }
             if(!empty($quads_shortcode_ids)){
-                $quads_shortcode_ids=array_push($quads_shortcode_ids,$ad_id);
+                if(is_array($quads_shortcode_ids))
+                {
+                    $quads_shortcode_ids=array_push($quads_shortcode_ids,$ad_id);
+                }
+                else if($quads_shortcode_ids>0 && $quads_shortcode_ids!=$ad_id){
+                    $quads_shortcode_ids=array($quads_shortcode_ids,$ad_id);
+                }
+                else{
+                    $quads_shortcode_ids=array($ad_id);
+                }
+                
             }else{ 
                 $quads_shortcode_ids=array($ad_id);
             }
