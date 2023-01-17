@@ -289,7 +289,7 @@ class quads_widgets_4 extends WP_Widget {
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
-            echo  quads_render_ad( 'ad' . esc_att($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
+            echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
@@ -335,7 +335,7 @@ class quads_widgets_5 extends WP_Widget {
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
-            echo  quads_render_ad( 'ad' . esc_att($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
+            echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
@@ -382,7 +382,7 @@ class quads_widgets_6 extends WP_Widget {
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
-            echo  quads_render_ad( 'ad' . esc_att($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
+            echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
@@ -429,7 +429,7 @@ class quads_widgets_7 extends WP_Widget {
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
-            echo  quads_render_ad( 'ad' . esc_att($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
+            echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
@@ -476,7 +476,7 @@ class quads_widgets_8 extends WP_Widget {
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
-            echo  quads_render_ad( 'ad' . esc_att($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
+            echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
@@ -523,7 +523,7 @@ class quads_widgets_9 extends WP_Widget {
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
-            echo  quads_render_ad( 'ad' . esc_att($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
+            echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
@@ -570,7 +570,7 @@ class quads_widgets_10 extends WP_Widget {
             if( array_key_exists( 'before_widget', $args ) )
                 echo $args['before_widget'];
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
-            echo  quads_render_ad( 'ad' . esc_att($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
+            echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
                 echo $args['after_widget'];
