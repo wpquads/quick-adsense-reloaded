@@ -207,8 +207,9 @@ Alternative Installation:
 
 == Changelog ==
 
-= 2.0.67.1 ( 16 January 2023 ) =
+= 2.0.67.1 ( 17 January 2023 ) =
 * Fixed: AD impressions slow query. #700
+* Fixed: Fatal error after latest update #701
 
 = 2.0.67 ( 16 January 2023 ) =
 * Fixed: Limit Amount Of Ads option is not working #648
