@@ -34,7 +34,7 @@ class quads_admin_analytics{
 * @return type void
 */
 public function quads_insert_ad_impression(){  
-  
+
   if ( ! isset( $_POST['quads_front_nonce'] ) ){
       return; 
    }
@@ -104,7 +104,7 @@ public function quads_insert_ad_impression(){
       $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_stats SET ad_impressions = %d  WHERE id = %d", array($updated_impression,$current_ad_stat['id'])));
      }
      else{
-      $wpdb->insert($wpdb->prefix.'quads_stats', array('ad_id' => $ad_id, 'ad_thetime' => $today, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_device_name' => trim($device_name),'referrer' => trim($referrer_url),'ip_address' => trim($user_ip),'browser' => trim($browser), 'url'=>$actual_link ));
+      $wpdb->insert($wpdb->prefix.'quads_stats', array('ad_id' => $ad_id, 'ad_thetime' => $today, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_device_name' => trim($device_name),'referrer' => trim($referrer_url),'ip_address' => trim($user_ip),'browser' => trim($browser), 'url'=>$actual_link ),array('%d','%d','%d','%d','%s','%s','%s','%s','%s'));
      }
     
      $current_adstat_single = $wpdb->get_row($wpdb->prepare("SELECT id,ad_impressions,date_impression FROM  {$wpdb->prefix}quads_single_stats_  WHERE ad_id = %d AND ad_date = %s",array($ad_id, $todays_date)),ARRAY_A);
@@ -115,8 +115,8 @@ public function quads_insert_ad_impression(){
       $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_single_stats_ SET ad_impressions = %d , date_impression = %d  WHERE id = %d", array($updated_ad_impression,$updated_date_impression,$current_adstat_single['id'])));
      }
      else{
-      $wpdb->insert($wpdb->prefix.'quads_single_stats_', array('ad_id' => $ad_id, 'ad_thetime' => 0, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_date' => $todays_date, 'date_click' => 0, 'ad_year'=> $year, 'date_impression' => 1 ));
-     }      
+      $wpdb->insert($wpdb->prefix.'quads_single_stats_', array('ad_id' => $ad_id, 'ad_thetime' => 0, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_date' => $todays_date, 'date_click' => 0, 'ad_year'=> $year, 'date_impression' => 1 ),array('%d','%d','%d','%d','%s','%s','%s','%s'));
+     }
 }
 
 public function quads_get_client_ip() {
@@ -409,7 +409,7 @@ public function quads_get_client_ip() {
         $ip_address = trim($user_ip); //%s
         $browser = trim($browser); //%s
         $url = trim($actual_link); //%s
-        $wpdb->insert($wpdb->prefix.'quads_stats', array('ad_id' => $ad_id, 'ad_thetime' => $ad_thetime, 'ad_clicks' => $ad_clicks, 'ad_impressions' => $ad_impressions, 'ad_device_name' => $ad_device_name,'referrer' => $referrer,'ip_address' => $ip_address,'browser' => $browser, 'url'=>$url ));
+        $wpdb->insert($wpdb->prefix.'quads_stats', array('ad_id' => $ad_id, 'ad_thetime' => $ad_thetime, 'ad_clicks' => $ad_clicks, 'ad_impressions' => $ad_impressions, 'ad_device_name' => $ad_device_name,'referrer' => $referrer,'ip_address' => $ip_address,'browser' => $browser, 'url'=>$url ),array('%d','%d','%d','%d','%s','%s','%s','%s','%s'));
       }
 
 
@@ -428,7 +428,7 @@ public function quads_get_client_ip() {
               $date_click = 1; //%d
               $ad_year = $year; //%s
               $date_impression = 1; //%s
-              $wpdb->insert($wpdb->prefix.'quads_single_stats_', array('ad_id' => $ad_id, 'ad_thetime' => $ad_thetime, 'ad_clicks' => $ad_clicks, 'ad_impressions' => $ad_impressions, 'ad_date' => $ad_date, 'date_click' => $date_click, 'ad_year'=> $ad_year, 'date_impression' => $date_impression ));
+              $wpdb->insert($wpdb->prefix.'quads_single_stats_', array('ad_id' => $ad_id, 'ad_thetime' => $ad_thetime, 'ad_clicks' => $ad_clicks, 'ad_impressions' => $ad_impressions, 'ad_date' => $ad_date, 'date_click' => $date_click, 'ad_year'=> $ad_year, 'date_impression' => $date_impression ),array('%d','%d','%d','%d','%s','%s','%s','%s'));
             }
     }
     
