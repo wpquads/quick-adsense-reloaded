@@ -1097,7 +1097,7 @@ function quads_render_desktop_js( $id, $default_ad_sizes,$id_name='' ) {
 
     $html = '<ins class="adsbygoogle" style="' . esc_attr($style) . '"';
     $html .= ' data-ad-client="' . esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '"';
-    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . esc_attr($ad_format) . '></ins>';
+    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . $ad_format . '></ins>';
 
     if (!quads_is_extra() && !empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'])){
             $js = 'if ( quads_screen_width >= 1140 ) {';
@@ -1158,7 +1158,7 @@ function quads_render_tablet_landscape_js( $id, $default_ad_sizes,$id_name='' ) 
 
     $html = '<ins class="adsbygoogle" style="' . esc_attr($style) . '"';
     $html .= ' data-ad-client="' . esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '"';
-    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . esc_attr($ad_format) . '></ins>';
+    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . $ad_format . '></ins>';
 
         if( !quads_is_extra() && ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
             $js = 'if ( quads_screen_width >= 1024  && quads_screen_width < 1140 ) {';
@@ -1218,7 +1218,7 @@ function quads_render_tablet_portrait_js( $id, $default_ad_sizes,$id_name='' ) {
 
     $html = '<ins class="adsbygoogle" style="' . esc_attr($style) . '"';
     $html .= ' data-ad-client="' . esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '"';
-    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . esc_attr($ad_format) . '></ins>';
+    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . $ad_format . '></ins>';
 
         if( !quads_is_extra() and !empty( $default_ad_sizes[$id]['tbl_portrait_width'] ) and !empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
             $js = 'if ( quads_screen_width >= 768  && quads_screen_width < 1024 ) {';
@@ -1276,7 +1276,7 @@ function quads_render_phone_js( $id, $default_ad_sizes,$id_name='' ) {
 
     $html = '<ins class="adsbygoogle" style="' . esc_attr($style) . '"';
     $html .= ' data-ad-client="' . esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '"';
-    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . esc_attr($ad_format) . '></ins>';
+    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . $ad_format . '></ins>';
 
         if( !quads_is_extra() and ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
             $js = 'if ( quads_screen_width < 768 ) {';
