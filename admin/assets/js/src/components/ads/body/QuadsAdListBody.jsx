@@ -37,7 +37,8 @@ class QuadsAdListBody extends Component {
       delete_modal_id   : null,
       display_pagination:false,
       analytics_impressions:0,
-      analytics_clicks:0,          
+      analytics_clicks:0, 
+      analytics_loader:false,          
     };                   
   }
   showDeleteModal =(e) => {
@@ -119,7 +120,7 @@ class QuadsAdListBody extends Component {
     const index = e.currentTarget.dataset.index;        
     if(this.state.static_box_index != index || this.state.static_box_id == null)  
      {
-      this.setState({analytics_impressions:0, analytics_clicks:0});
+      this.setState({analytics_loader:true,analytics_impressions:0, analytics_clicks:0});
       this.getAdAnalytics(id);
       this.setState({static_box_id:id, static_box_index:index});
     }
@@ -228,6 +229,7 @@ class QuadsAdListBody extends Component {
     if(quads_localize_data.rest_url.includes('?')){
        url = quads_localize_data.rest_url + "quads-route/get-ads-analytics&ad_id="+ad_id;  
     }
+
     fetch(url, {
       headers: {                    
         'X-WP-Nonce': quads_localize_data.nonce,
@@ -240,12 +242,14 @@ class QuadsAdListBody extends Component {
         let state_vars={      
           analytics_impressions: result.impressions, 
           analytics_clicks: result.clicks,
+          analytics_loader:false
         };
                    
         this.setState(state_vars);
       },        
       (error) => {   
-        console.log(error);    
+        console.log(error); 
+        this.setState({analytics_loader:false});   
       }
     );            
 } 
