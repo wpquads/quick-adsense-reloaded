@@ -148,6 +148,7 @@ add_action('wp_head', 'quads_adblocker_detector');
 add_action('wp_footer', 'quads_adblocker_popup_notice');
 add_action('wp_footer', 'quads_adblocker_notice_jsondata');
 add_action('wp_body_open', 'quads_adblocker_notice_bar');
+add_action('wp_body_open', 'quads_search_and_archive_ads');
 add_action('wp_footer', 'quads_adblocker_ad_block');
 
 function quads_from_advance_manual_ads($atts ){
@@ -874,6 +875,7 @@ function quads_process_content( $content ) {
         return $content;
     }
 
+    $quads_ad_is_allowed=apply_filters('quads_show_ads',quads_ad_is_allowed( $content ));
     // Do not do anything if ads are not allowed or process is not in the main query
     if( !$quads_ad_is_allowed || !is_main_query() || !is_singular()) {
         $content = quads_clean_tags( $content );
@@ -3103,6 +3105,49 @@ function quads_del_element($array, $idx) {
            return $content;
         }
 
+        function quads_search_and_archive_ads(){
+            if(is_singular()){
+                return;
+            }
+            $quads_ads = quads_api_services_cllbck();
+            if(isset($quads_ads['posts_data'])){        
+                foreach($quads_ads['posts_data'] as $key => $value){
+                    $ads =$value['post_meta'];
+                    if($value['post']['post_status']== 'draft'){
+                        continue;
+                    }
+    
+             if(isset($ads['visibility_include']))
+                 $ads['visibility_include'] = unserialize($ads['visibility_include']);
+             if(isset($ads['visibility_exclude']))
+                 $ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);
+    
+             if(isset($ads['targeting_include']))
+                 $ads['targeting_include'] = unserialize($ads['targeting_include']);
+    
+             if(isset($ads['targeting_exclude']))
+                 $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
+                $is_on         = quads_is_visibility_on($ads);
+                $is_visitor_on = quads_is_visitor_on($ads);
+                if(isset($ads['ad_id']))
+                $post_status = get_post_status($ads['ad_id']); 
+                else
+                  $post_status =  'publish';
+    
+                if(!isset($ads['position']) || isset($ads['ad_type']) && $ads['ad_type']== 'random_ads'){
+                    
+                    $is_on = true;
+                }           
+                if($is_on && $is_visitor_on && $post_status=='publish'){
+                    if(in_array($ads['ad_type'],array('floating_cubes','video_ads'))){
+                       echo quads_render_ad($ads['quads_ad_old_id'], $ads['code']);
+                    } 
+                  }
+    
+                }
+            }
+
+            }
 
 function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_paragraph=false){
 
