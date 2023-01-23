@@ -875,7 +875,7 @@ function quads_process_content( $content ) {
     }
 
     // Do not do anything if ads are not allowed or process is not in the main query
-    if( !quads_ad_is_allowed( $content ) || !is_main_query()) {
+    if( !$quads_ad_is_allowed || !is_main_query() || !is_singular()) {
         $content = quads_clean_tags( $content );
         return $content;
     }
@@ -908,7 +908,6 @@ function quads_process_content( $content ) {
         return do_shortcode( $content );
     }    
 }
-
 
 /**
  * Return number of active widget ads
