@@ -24,7 +24,7 @@ if( !defined( 'ABSPATH' ) )
  * @return string HTML js adsense code
  */
 function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
-    global $quads_mode;
+    global $quads_mode,$quads_options;
     // Return empty string
     if( empty( $id ) ) {
         return '';
@@ -33,7 +33,12 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
         to quads_render_ad filter functions (quads_render_ad_label_new) 
         and (quads_render_ad_text_around_ad_new)
     */
+   if(isset($quads_options['ads'][$id]['ad_id'])){
+    $post_id= $quads_options['ads'][$id]['ad_id'];
+   }else{
     $post_id= quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $id);
+   }
+    
 
     /* check total adcount and stop ads from displaying when maxads limit is reached */
     if(!quads_adcount_check($quads_mode)){ 
