@@ -59,7 +59,10 @@ function quads_send_feedback() {
     if( isset( $_POST['data'] ) ) {
         parse_str( $_POST['data'], $form );
     }
-
+    if ( ! wp_verify_nonce( $form['quads_feedback_nonce'] , 'quads_feedback_nonce' ) ) {
+        die( __( 'Invalid nonce', 'quick-adsense-reloaded' ) ); 
+    }
+    
     $text = '';
     if( isset( $form['quads_disable_text'] ) ) {
         $text = implode( "\n\r", $form['quads_disable_text'] );
@@ -77,8 +80,7 @@ function quads_send_feedback() {
 
     $success = wp_mail( 'team@magazine3.in', $subject, $text, $headers );
 
-    //error_log(print_r($success, true));
-    //error_log($from . $subject . var_dump($form));
+   // error_log(print_r($success, true));
     die();
 }
 add_action( 'wp_ajax_quads_send_feedback', 'quads_send_feedback' );
