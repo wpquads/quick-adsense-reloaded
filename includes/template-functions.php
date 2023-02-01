@@ -20,7 +20,7 @@ add_filter('the_content', 'quads_change_adsbygoogle_to_amp',11);
 add_action('wp_head',  'quads_common_head_code');
 add_action( 'the_post', 'quads_in_between_loop' , 20, 2 );
 add_action( 'init', 'quads_background_ad' );
-add_action( 'loop_start', 'quads_search_and_archive_ads_callback' );
+add_action( 'loop_start', 'quads_search_and_archive_ads' );
 add_action('amp_post_template_head','quads_adsense_auto_ads_amp_script',1);
 add_action('amp_post_template_footer','quads_adsense_auto_ads_amp_tag');
 add_action( 'plugins_loaded', 'quads_plugins_loaded_bbpress', 20 );
@@ -3106,13 +3106,8 @@ function quads_del_element($array, $idx) {
         }
            return $content;
         }
+
         function quads_search_and_archive_ads(){
-            if(!is_admin()){   
-              ob_start( "quads_search_and_archive_ads_callback");  
-            }
-    
-        }
-        function quads_search_and_archive_ads_callback(){
             if(!(is_search() || is_archive())){
                 return '';
             }
