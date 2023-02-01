@@ -24,7 +24,7 @@ if( !defined( 'ABSPATH' ) )
  * @return string HTML js adsense code
  */
 function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
-    global $quads_mode;
+    global $quads_mode,$quads_options;
     // Return empty string
     if( empty( $id ) ) {
         return '';
@@ -33,7 +33,12 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
         to quads_render_ad filter functions (quads_render_ad_label_new) 
         and (quads_render_ad_text_around_ad_new)
     */
+   if(isset($quads_options['ads'][$id]['ad_id'])){
+    $post_id= $quads_options['ads'][$id]['ad_id'];
+   }else{
     $post_id= quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $id);
+   }
+    
 
     /* check total adcount and stop ads from displaying when maxads limit is reached */
     if(!quads_adcount_check($quads_mode)){ 
@@ -1097,7 +1102,7 @@ function quads_render_desktop_js( $id, $default_ad_sizes,$id_name='' ) {
 
     $html = '<ins class="adsbygoogle" style="' . esc_attr($style) . '"';
     $html .= ' data-ad-client="' . esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '"';
-    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . esc_attr($ad_format) . '></ins>';
+    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . $ad_format . '></ins>';
 
     if (!quads_is_extra() && !empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'])){
             $js = 'if ( quads_screen_width >= 1140 ) {';
@@ -1158,7 +1163,7 @@ function quads_render_tablet_landscape_js( $id, $default_ad_sizes,$id_name='' ) 
 
     $html = '<ins class="adsbygoogle" style="' . esc_attr($style) . '"';
     $html .= ' data-ad-client="' . esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '"';
-    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . esc_attr($ad_format) . '></ins>';
+    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . $ad_format . '></ins>';
 
         if( !quads_is_extra() && ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
             $js = 'if ( quads_screen_width >= 1024  && quads_screen_width < 1140 ) {';
@@ -1218,7 +1223,7 @@ function quads_render_tablet_portrait_js( $id, $default_ad_sizes,$id_name='' ) {
 
     $html = '<ins class="adsbygoogle" style="' . esc_attr($style) . '"';
     $html .= ' data-ad-client="' . esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '"';
-    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . esc_attr($ad_format) . '></ins>';
+    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . $ad_format . '></ins>';
 
         if( !quads_is_extra() and !empty( $default_ad_sizes[$id]['tbl_portrait_width'] ) and !empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
             $js = 'if ( quads_screen_width >= 768  && quads_screen_width < 1024 ) {';
@@ -1276,7 +1281,7 @@ function quads_render_phone_js( $id, $default_ad_sizes,$id_name='' ) {
 
     $html = '<ins class="adsbygoogle" style="' . esc_attr($style) . '"';
     $html .= ' data-ad-client="' . esc_attr($quads_options['ads'][$id]['g_data_ad_client']) . '"';
-    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . esc_attr($ad_format) . '></ins>';
+    $html .= ' data-ad-slot="' . esc_attr($quads_options['ads'][$id]['g_data_ad_slot']) . '" ' . $ad_format . '></ins>';
 
         if( !quads_is_extra() and ! empty( $default_ad_sizes[$id][$adtype.'_width'] ) and ! empty( $default_ad_sizes[$id][$adtype.'_height'] ) ) {
             $js = 'if ( quads_screen_width < 768 ) {';

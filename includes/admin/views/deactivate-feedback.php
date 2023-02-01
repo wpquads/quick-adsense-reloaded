@@ -16,6 +16,7 @@ shuffle($reasons);
 <div id="quick-adsense-reloaded-feedback-overlay" style="display: none;">
     <div id="quick-adsense-reloaded-feedback-content">
 	<form action="" method="post">
+	<input type="hidden" name="quads_feedback_nonce" value="<?php echo wp_create_nonce( 'quads_feedback_nonce');?>">
 	    <h3><strong><?php _e('If you have a moment, please let us know why you are deactivating:', 'quick-adsense-reloaded'); ?></strong></h3>
 	    <ul>
                 <?php 

@@ -20,6 +20,7 @@ add_filter('the_content', 'quads_change_adsbygoogle_to_amp',11);
 add_action('wp_head',  'quads_common_head_code');
 add_action( 'the_post', 'quads_in_between_loop' , 20, 2 );
 add_action( 'init', 'quads_background_ad' );
+add_action( 'loop_start', 'quads_search_and_archive_ads' );
 add_action('amp_post_template_head','quads_adsense_auto_ads_amp_script',1);
 add_action('amp_post_template_footer','quads_adsense_auto_ads_amp_tag');
 add_action( 'plugins_loaded', 'quads_plugins_loaded_bbpress', 20 );
@@ -874,8 +875,9 @@ function quads_process_content( $content ) {
         return $content;
     }
 
+    $quads_ad_is_allowed=apply_filters('quads_show_ads',quads_ad_is_allowed( $content ));
     // Do not do anything if ads are not allowed or process is not in the main query
-    if( !quads_ad_is_allowed( $content ) || !is_main_query()) {
+    if( !$quads_ad_is_allowed || !is_main_query() || !is_singular()) {
         $content = quads_clean_tags( $content );
         return $content;
     }
@@ -908,7 +910,6 @@ function quads_process_content( $content ) {
         return do_shortcode( $content );
     }    
 }
-
 
 /**
  * Return number of active widget ads
@@ -1968,11 +1969,13 @@ function quads_parse_random_quicktag_ads($content){
         }
         $random_ads_list_after =  array_diff($temp_array, $selected_ads);
         $keys = array_keys($random_ads_list_after); 
-        shuffle($keys); 
-        $randomid = $random_ads_list_after[$keys[0]]; 
-        $selected_ads[] = $randomid;
-        $enabled_on_amp = (isset($ad_meta['enabled_on_amp'][0]))? $ad_meta['enabled_on_amp'][0]: '';
-        $content = quads_replace_ads_new( $content, 'CusRnd' . $ad_id, $randomid,$enabled_on_amp);
+        if(is_array($keys) && isset($keys[0])){
+            shuffle($keys); 
+            $randomid = $random_ads_list_after[$keys[0]]; 
+            $selected_ads[] = $randomid;
+            $enabled_on_amp = (isset($ad_meta['enabled_on_amp'][0]))? $ad_meta['enabled_on_amp'][0]: '';
+            $content = quads_replace_ads_new( $content, 'CusRnd' . $ad_id, $randomid,$enabled_on_amp);
+        }
     }
     return $content;
 
@@ -3104,6 +3107,52 @@ function quads_del_element($array, $idx) {
            return $content;
         }
 
+        function quads_search_and_archive_ads(){
+            if(!(is_search() || is_archive())){
+                return '';
+            }
+            $quads_ads = quads_api_services_cllbck();
+            if(isset($quads_ads['posts_data'])){        
+                foreach($quads_ads['posts_data'] as $key => $value){
+                    $ads =$value['post_meta'];
+                    if($value['post']['post_status']== 'draft'){
+                        continue;
+                    }
+    
+             if(isset($ads['visibility_include']))
+                 $ads['visibility_include'] = unserialize($ads['visibility_include']);
+             if(isset($ads['visibility_exclude']))
+                 $ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);
+    
+             if(isset($ads['targeting_include']))
+                 $ads['targeting_include'] = unserialize($ads['targeting_include']);
+    
+             if(isset($ads['targeting_exclude']))
+                 $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
+                $is_on         = quads_is_visibility_on($ads);
+                $is_visitor_on = quads_is_visitor_on($ads);
+                if(isset($ads['ad_id']))
+                $post_status = get_post_status($ads['ad_id']); 
+                else
+                  $post_status =  'publish';
+    
+                if(!isset($ads['position']) || isset($ads['ad_type']) && $ads['ad_type']== 'random_ads'){
+                    
+                    $is_on = true;
+                } 
+                if($is_on && $is_visitor_on && $post_status=='publish' && isset($ads['visibility_include'][0]['value']['value']) && $ads['visibility_include'][0]['value']['value']=='show_globally'){
+                    if(in_array($ads['ad_type'],array('floating_cubes','ad_image','adsense','plain_text'))){
+                        //echo quads_render_ad($ads['quads_ad_old_id'], $ads['code']);
+                        echo "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n"
+                        .'<div class="quads-location quads-ad' .esc_html($ads['ad_id']). '" id="quads-ad' .esc_html($ads['ad_id']). '">'."\n"
+                        .quads_render_ad($ads['quads_ad_old_id'], $ads['code'])."\n"
+                        .'</div>'. "\n";
+                    } 
+                  }
+    
+                }
+            }
+            }
 
 function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_paragraph=false){
 

@@ -34,7 +34,7 @@ class quads_admin_analytics{
 * @return type void
 */
 public function quads_insert_ad_impression(){  
-  
+
   if ( ! isset( $_POST['quads_front_nonce'] ) ){
       return; 
    }
@@ -97,18 +97,26 @@ public function quads_insert_ad_impression(){
       }else if($isMobile && !$isTablet){ // Only for mobile
         $device_name  = 'mobile';
       }
-     
-    $result =  $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_impressions` = `ad_impressions` + 1 WHERE `ad_id` = %d AND `ad_device_name` = %s AND `ad_thetime` = %d AND `referrer` = %s AND `ip_address` = %s AND `url` = %s", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link)));
-    //If nothing found to update, it will try and create the record.
-    if ($result === FALSE || $result < 1) {
-      $wpdb->insert($wpdb->prefix.'quads_stats', array('ad_id' => $ad_id, 'ad_thetime' => $today, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_device_name' => trim($device_name),'referrer' => trim($referrer_url),'ip_address' => trim($user_ip),'browser' => trim($browser), 'url'=>$actual_link ));
-    }
+     $current_ad_stat = $wpdb->get_row($wpdb->prepare("SELECT id,ad_impressions FROM  {$wpdb->prefix}quads_stats  WHERE ad_id = %d AND ad_device_name = %s AND ad_thetime = %d AND referrer = %s AND ip_address = %s AND url = %s",array($ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link))),ARRAY_A);
+     if(isset($current_ad_stat['id']) && !empty($current_ad_stat['id']))
+     {
+      $updated_impression=$current_ad_stat['ad_impressions']+1;
+      $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_stats SET ad_impressions = %d  WHERE id = %d", array($updated_impression,$current_ad_stat['id'])));
+     }
+     else{
+      $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_stats (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_device_name,ip_address,url,browser,referrer) VALUES (%d,%d,%d,%d,%s,%s,%s,%s,%s);"),array( $ad_id, $today, 0, 1,  trim($device_name), trim($referrer_url), trim($user_ip), trim($browser), $actual_link ));
+     }
     
-    $stats = $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}quads_single_stats_` SET `ad_impressions` = `ad_impressions` + 1 , `date_impression` = `date_impression` + 1  WHERE `ad_id` = %d AND `ad_date` = %s;",$ad_id,$todays_date));
-    if( $stats=== FALSE || $stats < 1 ) {
-        $wpdb->insert($wpdb->prefix.'quads_single_stats_', array('ad_id' => $ad_id, 'ad_thetime' => 0, 'ad_clicks' => 0, 'ad_impressions' => 1, 'ad_date' => $todays_date, 'date_click' => 0, 'ad_year'=> $year, 'date_impression' => 1 ));
-    } 
-      
+     $current_adstat_single = $wpdb->get_row($wpdb->prepare("SELECT id,ad_impressions,date_impression FROM  {$wpdb->prefix}quads_single_stats_  WHERE ad_id = %d AND ad_date = %s",array($ad_id, $todays_date)),ARRAY_A);
+     if(isset($current_adstat_single['id']) && !empty($current_adstat_single['id']))
+     {
+      $updated_ad_impression=$current_adstat_single['ad_impressions']+1;
+      $updated_date_impression=$current_adstat_single['date_impression']+1;
+      $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_single_stats_ SET ad_impressions = %d , date_impression = %d  WHERE id = %d", array($updated_ad_impression,$updated_date_impression,$current_adstat_single['id'])));
+     }
+     else{
+      $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_single_stats_ (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_date,date_click,ad_year,date_impression) VALUES (%d,%d,%d,%d,%s,%s,%s,%s);"),array($ad_id,0,0,1,$todays_date,0,$year,1));
+     }
 }
 
 public function quads_get_client_ip() {
@@ -385,9 +393,14 @@ public function quads_get_client_ip() {
       $todays_date = date('Y-m-d');
       $year = date("Y"); 
       $device_name=substr($device_name, 0, 20);
-      $result = $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}quads_stats` SET `ad_clicks` = `ad_clicks` + 1 WHERE `ad_id` = %d AND `ad_device_name` = %s AND `ad_thetime` = %d AND `referrer` = %s AND `ip_address` = %s AND `url` = %s", $ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link)));
-      if ($result === FALSE || $result < 1) {
 
+      $current_click_stat = $wpdb->get_row($wpdb->prepare("SELECT id,ad_clicks FROM  {$wpdb->prefix}quads_stats  WHERE ad_id = %d AND ad_device_name = %s AND ad_thetime = %d AND referrer = %s AND ip_address = %s AND url = %s",array($ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link))),ARRAY_A);
+      if(isset($current_click_stat['id']) && !empty($current_click_stat['id']))
+      {
+       $updated_clicks=$current_click_stat['ad_clicks']+1;
+       $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_stats SET ad_clicks = %d  WHERE id = %d", array($updated_clicks,$current_click_stat['id'])));
+      }
+      else{
         $ad_thetime = $today; //%s
         $ad_clicks = 1; //%d
         $ad_impressions = 1; //%d
@@ -396,24 +409,26 @@ public function quads_get_client_ip() {
         $ip_address = trim($user_ip); //%s
         $browser = trim($browser); //%s
         $url = trim($actual_link); //%s
-
-        $sql = $wpdb->prepare("INSERT INTO `{$wpdb->prefix}quads_stats` (`ad_id`, `ad_thetime`, `ad_clicks`, `ad_impressions`, `ad_device_name`, `referrer`, `ip_address`, `browser`, `url`) values (%d, %d, %d, %d, %s, %s, %s, %s, %s)", $ad_id, $ad_thetime, $ad_clicks, $ad_impressions, $ad_device_name, $referrer, $ip_address, $browser, $url);
-        $wpdb->query($sql);
+        $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_stats (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_device_name,ip_address,url,browser,referrer) VALUES (%d,%d,%d,%d,%s,%s,%s,%s,%s);"),array( $ad_id, $ad_thetime,  $ad_clicks,  $ad_impressions,  $ad_device_name, $referrer, $ip_address, $browser, $url ));
       }
 
-            $stats = $wpdb->query($wpdb->prepare("UPDATE `{$wpdb->prefix}quads_single_stats_` SET `ad_clicks` = `ad_clicks` + 1 , `date_click` = `date_click` + 1 WHERE `ad_id` = %d AND `ad_date` = %s;",$ad_id,$todays_date));
-            if($stats === FALSE || $stats < 1) {
-              
+
+      $current_clicks_single = $wpdb->get_row($wpdb->prepare("SELECT id,ad_clicks,date_click FROM  {$wpdb->prefix}quads_single_stats_  WHERE ad_id = %d AND ad_date = %s",array($ad_id, $todays_date)),ARRAY_A);
+      if(isset($current_clicks_single['id']) && !empty($current_clicks_single['id']))
+      {
+       $updated_ad_clicks=$current_clicks_single['ad_clicks']+1;
+       $updated_date_clicks=$current_clicks_single['date_click']+1;
+       $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_single_stats_ SET ad_clicks = %d , date_click = %d  WHERE id = %d", array($updated_ad_clicks,$updated_date_clicks,$current_clicks_single['id'])));
+      }
+      else{
               $ad_thetime = 0; //%s
               $ad_clicks = 1; //%d
               $ad_impressions = 1; //%d
               $ad_date = $todays_date; //%s
-              $date_click = 0;
+              $date_click = 1; //%d
               $ad_year = $year; //%s
               $date_impression = 1; //%s
-
-              $sql = $wpdb->prepare("INSERT INTO `{$wpdb->prefix}quads_single_stats_` (`ad_id`, `ad_thetime`, `ad_clicks`, `ad_impressions`, `ad_date`, `date_click`, `ad_year`, `date_impression`) values (%d, %s, %d, %d, %s, %s, %s, %s, %s)", $ad_id, $ad_thetime, $ad_clicks, $ad_impressions, $ad_date, $date_click, $ad_year, $date_impression);
-              $wpdb->query($sql);
+              $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_single_stats_ (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_date,date_click,ad_year,date_impression) VALUES (%d,%d,%d,%d,%s,%s,%s,%s);"),array($ad_id,$ad_thetime,$ad_clicks,$ad_impressions,$ad_date,$date_click,$ad_year,$date_impression));
             }
     }
     
