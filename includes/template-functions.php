@@ -1969,11 +1969,13 @@ function quads_parse_random_quicktag_ads($content){
         }
         $random_ads_list_after =  array_diff($temp_array, $selected_ads);
         $keys = array_keys($random_ads_list_after); 
-        shuffle($keys); 
-        $randomid = $random_ads_list_after[$keys[0]]; 
-        $selected_ads[] = $randomid;
-        $enabled_on_amp = (isset($ad_meta['enabled_on_amp'][0]))? $ad_meta['enabled_on_amp'][0]: '';
-        $content = quads_replace_ads_new( $content, 'CusRnd' . $ad_id, $randomid,$enabled_on_amp);
+        if(is_array($keys) && isset($keys[0])){
+            shuffle($keys); 
+            $randomid = $random_ads_list_after[$keys[0]]; 
+            $selected_ads[] = $randomid;
+            $enabled_on_amp = (isset($ad_meta['enabled_on_amp'][0]))? $ad_meta['enabled_on_amp'][0]: '';
+            $content = quads_replace_ads_new( $content, 'CusRnd' . $ad_id, $randomid,$enabled_on_amp);
+        }
     }
     return $content;
 
