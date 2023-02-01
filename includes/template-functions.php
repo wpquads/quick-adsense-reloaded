@@ -3113,7 +3113,7 @@ function quads_del_element($array, $idx) {
     
         }
         function quads_search_and_archive_ads_callback(){
-            if(is_singular() && !is_main_query()){
+            if(!is_search() || !is_archive()){
                 return '';
             }
             $quads_ads = quads_api_services_cllbck();
@@ -3144,10 +3144,14 @@ function quads_del_element($array, $idx) {
                 if(!isset($ads['position']) || isset($ads['ad_type']) && $ads['ad_type']== 'random_ads'){
                     
                     $is_on = true;
-                }           
-                if($is_on && $is_visitor_on && $post_status=='publish'){
+                } 
+                if($is_on && $is_visitor_on && $post_status=='publish' && isset($ads['visibility_include'][0]['value']['value']) && $ads['visibility_include'][0]['value']['value']=='show_globally'){
                     if(in_array($ads['ad_type'],array('floating_cubes','ad_image','adsense','plain_text'))){
-                        echo quads_render_ad($ads['quads_ad_old_id'], $ads['code']);
+                        //echo quads_render_ad($ads['quads_ad_old_id'], $ads['code']);
+                        echo "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n"
+                        .'<div class="quads-location quads-ad' .esc_html($ads['ad_id']). '" id="quads-ad' .esc_html($ads['ad_id']). '">'."\n"
+                        .quads_render_ad($ads['quads_ad_old_id'], $ads['code'])."\n"
+                        .'</div>'. "\n";
                     } 
                   }
     
