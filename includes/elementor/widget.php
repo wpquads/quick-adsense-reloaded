@@ -35,7 +35,7 @@ class Plugin {
 	public function __construct() {
 		// Register widgets
 		if(defined('ELEMENTOR_VERSION') && version_compare(ELEMENTOR_VERSION, '3.5.0') >= 0 ) {
-			add_action( 'elementor/widgets/registered', [ $this, 'register' ] );
+			add_action( 'elementor/widgets/register ', [ $this, 'register' ] );
 		}
 		else{
 			add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widgets' ] );
