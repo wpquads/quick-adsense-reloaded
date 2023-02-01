@@ -20,6 +20,7 @@ add_filter('the_content', 'quads_change_adsbygoogle_to_amp',11);
 add_action('wp_head',  'quads_common_head_code');
 add_action( 'the_post', 'quads_in_between_loop' , 20, 2 );
 add_action( 'init', 'quads_background_ad' );
+add_action( 'init', 'quads_search_and_archive_ads' );
 add_action('amp_post_template_head','quads_adsense_auto_ads_amp_script',1);
 add_action('amp_post_template_footer','quads_adsense_auto_ads_amp_tag');
 add_action( 'plugins_loaded', 'quads_plugins_loaded_bbpress', 20 );
@@ -148,7 +149,6 @@ add_action('wp_head', 'quads_adblocker_detector');
 add_action('wp_footer', 'quads_adblocker_popup_notice');
 add_action('wp_footer', 'quads_adblocker_notice_jsondata');
 add_action('wp_body_open', 'quads_adblocker_notice_bar');
-add_action('wp_body_open', 'quads_search_and_archive_ads');
 add_action('wp_footer', 'quads_adblocker_ad_block');
 
 function quads_from_advance_manual_ads($atts ){
@@ -3106,10 +3106,16 @@ function quads_del_element($array, $idx) {
         }
            return $content;
         }
-
         function quads_search_and_archive_ads(){
+            if(!is_admin()){   
+              ob_start( "quads_search_and_archive_ads_callback");  
+            }
+    
+        }
+        function quads_search_and_archive_ads_callback($content){
+
             if(is_singular()){
-                return;
+                return $content;
             }
             $quads_ads = quads_api_services_cllbck();
             if(isset($quads_ads['posts_data'])){        
@@ -3141,14 +3147,15 @@ function quads_del_element($array, $idx) {
                     $is_on = true;
                 }           
                 if($is_on && $is_visitor_on && $post_status=='publish'){
-                    if(in_array($ads['ad_type'],array('floating_cubes','video_ads'))){
-                       echo quads_render_ad($ads['quads_ad_old_id'], $ads['code']);
+                    if(in_array($ads['ad_type'],array('floating_cubes','ad_image','adsense','plain_text'))){
+                        $after_body = quads_render_ad($ads['quads_ad_old_id'], $ads['code']);
+                       $content = preg_replace("/(\<header.*\>)/", "$1".$after_body, $content,1);
                     } 
                   }
     
                 }
             }
-
+            return $content;
             }
 
 function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_paragraph=false){
