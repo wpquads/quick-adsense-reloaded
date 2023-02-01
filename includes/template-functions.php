@@ -3113,7 +3113,7 @@ function quads_del_element($array, $idx) {
     
         }
         function quads_search_and_archive_ads_callback(){
-            if(!is_search() || !is_archive()){
+            if(!(is_search() || is_archive())){
                 return '';
             }
             $quads_ads = quads_api_services_cllbck();
