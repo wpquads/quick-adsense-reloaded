@@ -104,7 +104,7 @@ public function quads_insert_ad_impression(){
       $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_stats SET ad_impressions = %d  WHERE id = %d", array($updated_impression,$current_ad_stat['id'])));
      }
      else{
-      $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_stats (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_device_name,ip_address,url,browser,referrer) VALUES (%d,%d,%d,%d,%s,%s,%s,%s,%s);"),array( $ad_id, $today, 0, 1,  trim($device_name), trim($referrer_url), trim($user_ip), trim($browser), $actual_link ));
+      $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_stats (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_device_name,ip_address,url,browser,referrer) VALUES (%d,%d,%d,%d,%s,%s,%s,%s,%s);",array( $ad_id, $today, 0, 1,  trim($device_name), trim($user_ip) ,trim($referrer_url),trim($browser), $actual_link )));
      }
     
      $current_adstat_single = $wpdb->get_row($wpdb->prepare("SELECT id,ad_impressions,date_impression FROM  {$wpdb->prefix}quads_single_stats_  WHERE ad_id = %d AND ad_date = %s",array($ad_id, $todays_date)),ARRAY_A);
@@ -115,7 +115,7 @@ public function quads_insert_ad_impression(){
       $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_single_stats_ SET ad_impressions = %d , date_impression = %d  WHERE id = %d", array($updated_ad_impression,$updated_date_impression,$current_adstat_single['id'])));
      }
      else{
-      $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_single_stats_ (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_date,date_click,ad_year,date_impression) VALUES (%d,%d,%d,%d,%s,%s,%s,%s);"),array($ad_id,0,0,1,$todays_date,0,$year,1));
+      $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_single_stats_ (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_date,date_click,ad_year,date_impression) VALUES (%d,%d,%d,%d,%s,%s,%s,%s);",array($ad_id,0,0,1,$todays_date,0,$year,1)));
      }
 }
 
@@ -409,7 +409,7 @@ public function quads_get_client_ip() {
         $ip_address = trim($user_ip); //%s
         $browser = trim($browser); //%s
         $url = trim($actual_link); //%s
-        $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_stats (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_device_name,ip_address,url,browser,referrer) VALUES (%d,%d,%d,%d,%s,%s,%s,%s,%s);"),array( $ad_id, $ad_thetime,  $ad_clicks,  $ad_impressions,  $ad_device_name, $referrer, $ip_address, $browser, $url ));
+        $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_stats (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_device_name,ip_address,url,browser,referrer) VALUES (%d,%d,%d,%d,%s,%s,%s,%s,%s);",array( $ad_id, $ad_thetime,  $ad_clicks,  $ad_impressions,  $ad_device_name, $ip_address , $referrer, $browser, $url )));
       }
 
 
@@ -428,7 +428,7 @@ public function quads_get_client_ip() {
               $date_click = 1; //%d
               $ad_year = $year; //%s
               $date_impression = 1; //%s
-              $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_single_stats_ (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_date,date_click,ad_year,date_impression) VALUES (%d,%d,%d,%d,%s,%s,%s,%s);"),array($ad_id,$ad_thetime,$ad_clicks,$ad_impressions,$ad_date,$date_click,$ad_year,$date_impression));
+              $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_single_stats_ (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_date,date_click,ad_year,date_impression) VALUES (%d,%d,%d,%d,%s,%s,%s,%s);",array($ad_id,$ad_thetime,$ad_clicks,$ad_impressions,$ad_date,$date_click,$ad_year,$date_impression)));
             }
     }
     
