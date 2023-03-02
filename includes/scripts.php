@@ -389,7 +389,7 @@ function quads_inline_styles() {
     .quads.quads_ad_container_ {
         position: fixed;
         top: 40%;
-        left: 36%;
+        left: 33%;
     }
     #btn_close{
 		background-color: #fff;
