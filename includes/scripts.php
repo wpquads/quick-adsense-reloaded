@@ -549,6 +549,9 @@ function quads_inline_styles() {
         text-decoration:none !important;
         cursor:pointer;
     }
+    #wpquads-close-btn svg{
+        padding: 5px;
+    }
     .wpquads-3d-cube .wpquads-3d-item, .wpquads-3d-cube .wpquads-3d-item img{
         display:block;
         margin:0;
