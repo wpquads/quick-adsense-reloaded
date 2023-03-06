@@ -3111,6 +3111,9 @@ function quads_del_element($array, $idx) {
             if(!(is_search() || is_archive())){
                 return '';
             }
+            if((function_exists( 'ampforwp_is_amp_endpoint' ) && ampforwp_is_amp_endpoint()) || (function_exists( 'amp_is_request' ) && amp_is_request())){
+                return '';
+            }
             $quads_ads = quads_api_services_cllbck();
             if(isset($quads_ads['posts_data'])){        
                 foreach($quads_ads['posts_data'] as $key => $value){
@@ -3142,10 +3145,11 @@ function quads_del_element($array, $idx) {
                 } 
                 if($is_on && $is_visitor_on && $post_status=='publish' && isset($ads['visibility_include'][0]['value']['value']) && $ads['visibility_include'][0]['value']['value']=='show_globally'){
                     if(in_array($ads['ad_type'],array('floating_cubes','ad_image','adsense','plain_text'))){
-                        //echo quads_render_ad($ads['quads_ad_old_id'], $ads['code']);
+                        $quads_ads_output = quads_render_ad($ads['quads_ad_old_id'], $ads['code']);
+                        if(empty($quads_ads_output)){ return '';}
                         echo "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n"
                         .'<div class="quads-location quads-ad' .esc_html($ads['ad_id']). '" id="quads-ad' .esc_html($ads['ad_id']). '">'."\n"
-                        .quads_render_ad($ads['quads_ad_old_id'], $ads['code'])."\n"
+                        .$quads_ads_output."\n"
                         .'</div>'. "\n";
                     } 
                   }
