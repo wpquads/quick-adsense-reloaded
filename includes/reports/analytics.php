@@ -104,7 +104,7 @@ public function quads_insert_ad_impression(){
       $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_stats SET ad_impressions = %d  WHERE id = %d", array($updated_impression,$current_ad_stat['id'])));
      }
      else{
-      $wpdb->insert($wpdb->prefix.'quads_stats', array('ad_id' => $ad_id, 'ad_thetime' => 0, 'ad_clicks' => 0, 'ad_impressions' => 1,'ad_device_name'=>trim($device_name),'ip_address'=>trim($user_ip),'url'=> trim($actual_link), 'browser' => trim($browser), 'referrer' => trim($referrer_url)),array('%d','%d','%d','%d','%s','%s','%s','%s','%s'));
+      $wpdb->insert($wpdb->prefix.'quads_stats', array('ad_id' => $ad_id, 'ad_thetime' => 0, 'ad_clicks' => 0, 'ad_impressions' => 1,'ad_device_name'=>$device_name,'ip_address'=>$user_ip,'url'=> $actual_link, 'browser' => $browser, 'referrer' => $referrer_url),array('%d','%d','%d','%d','%s','%s','%s','%s','%s'));
      }
     
      $current_adstat_single = $wpdb->get_row($wpdb->prepare("SELECT id,ad_impressions,date_impression FROM  {$wpdb->prefix}quads_single_stats_  WHERE ad_id = %d AND ad_date = %s",array($ad_id, $todays_date)),ARRAY_A);
