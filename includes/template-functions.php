@@ -2710,7 +2710,7 @@ function quads_get_inline_ad_style_new( $id ) {
         'padding:%1$dpx %1$dpx %1$dpx 0;',
         'padding:%1$dpx 0 %1$dpx 0;',
         'padding:%1$dpx 0 %1$dpx %1$dpx;',
-        'padding:%1$dpx;');
+        'padding:%1$dpx %2$dpx %3$dpx %4$dpx;');
     
     // Alignment
     $adsalign = ( int )$ad_meta['align'][0];
@@ -2725,7 +2725,10 @@ function quads_get_inline_ad_style_new( $id ) {
 
     // Padding
     $adspadding = isset( $ad_meta['padding'][0] ) ? $ad_meta['padding'][0] : '0'; // default option = 0
-    $padding = sprintf( $padding_styleArray[$adsalign], $adspadding );    
+    $adspadding_right = isset( $ad_meta['padding_right'][0] ) ? $ad_meta['padding_right'][0] : '0'; // default option = 0
+    $adspadding_bottom = isset( $ad_meta['padding_bottom'][0] ) ? $ad_meta['padding_bottom'][0] : '0'; // default option = 0
+    $adspadding_left = isset( $ad_meta['padding_left'][0] ) ? $ad_meta['padding_left'][0] : '0'; // default option = 0
+    $padding = sprintf( $padding_styleArray[$adsalign], $adspadding, $adspadding_right, $adspadding_bottom, $adspadding_left );
     
     // Do not create any inline style on AMP site
     $style =  apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) ;
