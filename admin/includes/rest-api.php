@@ -1921,7 +1921,9 @@ return array('status' => 't');
                     {
                         $param_array['refresh_license']=true;
                     }
-            
+                    if(isset($param_array['QckTags'])){
+                        $param_array['quicktags']['QckTags']=$param_array['QckTags']?'1':'0';
+                    }
                     $result      = $this->api_service->updateSettings($param_array);
                     if($result){
                         $response = array('status' => 'tp', 'msg' =>  __( 'Settings has been saved successfullycv', 'quick-adsense-reloaded' ));
