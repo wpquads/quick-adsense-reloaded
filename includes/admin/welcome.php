@@ -43,7 +43,9 @@ class quads_Welcome {
 
 	
 	private function hooks_exist() {
+		global $quads_options;
 		if (
+			( isset( $quads_options['quicktags']['QckTags'] ) && $quads_options['quicktags']['QckTags'] ) && 
 			(
 				has_action( 'wp_tiny_mce_init', array( $this, 'print_shortcode_plugin' ) )
 				|| add_action( 'print_default_editor_scripts', array( $this, 'print_shortcode_plugin' ) )
