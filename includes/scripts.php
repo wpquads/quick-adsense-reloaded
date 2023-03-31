@@ -12,7 +12,6 @@
 if( !defined( 'ABSPATH' ) )
     exit;
 
-add_action( 'wp_print_styles', 'quads_inline_styles', 9999 );
 add_action('amp_post_template_css','quads_inline_styles_amp', 11);
 
 add_action( 'admin_enqueue_scripts', 'quads_load_admin_scripts', 100 );
@@ -229,7 +228,9 @@ if(is_object($screens)){
     }
     
     // These have to be global
-    wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
+    if(is_admin()){
+        wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
+    }
     wp_enqueue_script( 'quads-jscolor', $js_dir . 'jscolor' . $suffix . '.js', array(), QUADS_VERSION, false );
     wp_enqueue_script( 'jquery-chosen', $js_dir . 'chosen.jquery' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
     wp_enqueue_script( 'jquery-form' );
@@ -389,7 +390,7 @@ function quads_inline_styles() {
     .quads.quads_ad_container_ {
         position: fixed;
         top: 40%;
-        left: 36%;
+        left: 33%;
     }
     #btn_close{
 		background-color: #fff;
@@ -548,6 +549,9 @@ function quads_inline_styles() {
     #wpquads-close-btn{
         text-decoration:none !important;
         cursor:pointer;
+    }
+    #wpquads-close-btn svg{
+        padding: 5px;
     }
     .wpquads-3d-cube .wpquads-3d-item, .wpquads-3d-cube .wpquads-3d-item img{
         display:block;

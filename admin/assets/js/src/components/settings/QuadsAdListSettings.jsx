@@ -1870,18 +1870,18 @@ handleMultiPluginsChange = (option) => {
                   <table className="form-table" role="presentation">
                     <tbody>{quads_localize_data.is_pro ?<tr>
                        <th><label   htmlFor="analytics">{__('Google Analytics Integration', 'quick-adsense-reloaded')}</label></th>
-                        <td><input  id="analytics" type="checkbox" onChange={this.formChangeHandler} name="analytics" checked={settings.analytics} />
+                        <td><label className="quads-switch"><input  id="analytics" type="checkbox" onChange={this.formChangeHandler} name="analytics" checked={settings.analytics} /><span className="quads-slider"></span></label>
                         <a className="quads-general-helper quads-general-helper-new" href="#"></a><div className="quads-message bottom" >Check how many visitors are using ad blockers in your Google Analytics account from the event tracking in <i>Google Analytics-&gt;Behavior-&gt;Events</i>. This only works if your visitors are using regular ad blockers like 'adBlock'. There are browser plugins which block all external requests like the  software uBlock origin. This also block google analytics and as a result you do get any analytics data at all.</div></td>
                       </tr>
                        :null}<tr>
                        <th><label htmlFor="uninstall_on_delete">{__('Delete Data on Uninstall?', 'quick-adsense-reloaded')}</label></th>
-                        <td><input id="uninstall_on_delete" type="checkbox" onChange={this.formChangeHandler} name="uninstall_on_delete" checked={settings.uninstall_on_delete} />
+                        <td><label className="quads-switch"><input id="uninstall_on_delete" type="checkbox" onChange={this.formChangeHandler} name="uninstall_on_delete" checked={settings.uninstall_on_delete} /><span className="quads-slider"></span></label>
                         <a className="quads-general-helper quads-general-helper-new" href="#"></a><div className="quads-message bottom" >Check this box if you would like <strong>Settings-&gt;WPQUADS</strong> to completely remove all of its data when the plugin is deleted.</div>
                         </td>
                       </tr>
                       <tr>
                        <th><label htmlFor="debug_mode">{__('Debug Mode', 'quick-adsense-reloaded')}</label></th>
-                        <td><input id="debug_mode" type="checkbox" onChange={this.formChangeHandler} name="debug_mode" checked={settings.debug_mode} /></td>
+                        <td><label className="quads-switch"><input id="debug_mode" type="checkbox" onChange={this.formChangeHandler} name="debug_mode" checked={settings.debug_mode} /><span className="quads-slider"></span></label></td>
                       </tr>
                       <tr>
                        <th><label htmlFor="copy_system_info">{__('Copy System info', 'quick-adsense-reloaded')}</label></th>
@@ -2004,14 +2004,14 @@ handleMultiPluginsChange = (option) => {
                   <tr>
                     <th scope="row"><label htmlFor="hide_ajax">{__('Hide Ads From Ajax Requests', 'quick-adsense-reloaded')}</label></th>
                     <td>
-                      <input id="hide_ajax" type="checkbox" name="hide_ajax" checked={settings.hide_ajax} onChange={this.formChangeHandler} />
+                      <label className="quads-switch"><input id="hide_ajax" type="checkbox" name="hide_ajax" checked={settings.hide_ajax} onChange={this.formChangeHandler} /><span className="quads-slider"></span></label>
                       <p>{__('If your site is using ajax based infinite loading it might happen that ads are loaded without any further post content. Disable this here.', 'quick-adsense-reloaded')}</p>
                     </td>
                   </tr>
                   <tr>
                     <th scope="row"><label htmlFor="QckTags">{__('Quicktags', 'quick-adsense-reloaded')}</label></th>
                     <td>
-                      <input id="QckTags" type="checkbox" name="QckTags" checked={settings.QckTags} onChange={this.formChangeHandler} />{__('Show Quicktag Buttons on the HTML Post Editor', 'quick-adsense-reloaded')}
+                      <label className="quads-switch"><input id="QckTags" type="checkbox" name="QckTags" checked={settings.QckTags} onChange={this.formChangeHandler} /><span className="quads-slider"></span></label>{__('Show Quicktag Buttons on the HTML Post Editor', 'quick-adsense-reloaded')}
                       <p>{__('Tags can be inserted into a post via the additional Quicktag Buttons at the HTML Edit Post SubPanel.', 'quick-adsense-reloaded')}</p>
                       <p><strong>Optional:</strong>{__('Insert Ads into a post, on-the-fly using below tags', 'quick-adsense-reloaded')}</p>
                       <p>{__('1. Insert', 'quick-adsense-reloaded')} &lt;!--Ads1--&gt;, &lt;!--Ads2--&gt;, {__('etc. into a post to show the Particular Ads at specific location.', 'quick-adsense-reloaded')}</p>

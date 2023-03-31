@@ -39,7 +39,10 @@ class QuadsLayout extends Component {
                         <td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="margin_left" name="margin_left" placeholder="Left" value={post_meta.margin_left}/></td>
                       </tr>
                       <tr>
-                        <td><label>{__('Padding', 'quick-adsense-reloaded')}</label></td><td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="padding" name="padding" value={post_meta.padding}/></td>
+                        <td><label>{__('Padding', 'quick-adsense-reloaded')}</label></td><td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="padding" name="padding" placeholder="Top" value={post_meta.padding}/></td>
+                        <td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="padding_right" name="padding_right" placeholder="Right" value={post_meta.padding_right}/></td>
+                        <td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="padding_bottom" name="padding_bottom" placeholder="Bottom" value={post_meta.padding_bottom}/></td>
+                        <td> <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="" className="small-text" id="padding_left" name="padding_left" placeholder="Left" value={post_meta.padding_left}/></td>
                       </tr>
                       <tr>
                         <td><label htmlFor="ad_label_check">{__('Ad label', 'quick-adsense-reloaded')}</label></td>
