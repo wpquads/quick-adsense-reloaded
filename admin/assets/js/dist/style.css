@@ -316,7 +316,7 @@ and open the template in the editor.
   font-size: 20px;
   cursor: pointer; }
 
-input#margin_bottom,input#padding_bottom {
+input#margin_bottom, input#padding_bottom {
   width: 79px; }
 
 a.view_reports_ {
@@ -987,8 +987,8 @@ and open the template in the editor.
 .quads-switch {
   position: relative;
   display: inline-block;
-  width: 45px;
-  height: 22px;
+  width: 30px;
+  height: 16px;
   border: 20px; }
 
 .quads-slider {
@@ -1005,16 +1005,13 @@ and open the template in the editor.
 .quads-slider:before {
   position: absolute;
   content: "";
-  height: 17px;
-  width: 17px;
-  left: 4px;
-  bottom: 2.5px;
+  height: 10px;
+  width: 10px;
+  left: 2px;
+  bottom: 3px;
   background-color: #fff;
   transition: .4s;
   border-radius: 20px; }
-
-input:checked + .quads-slider:before {
-  left: 10px; }
 
 input:checked + .quads-slider {
   background-color: #005af0;
