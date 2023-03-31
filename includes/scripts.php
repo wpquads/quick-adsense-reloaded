@@ -228,6 +228,9 @@ if(is_object($screens)){
     }
     
     // These have to be global
+    if(is_admin()){
+        wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
+    }
     wp_enqueue_script( 'quads-jscolor', $js_dir . 'jscolor' . $suffix . '.js', array(), QUADS_VERSION, false );
     wp_enqueue_script( 'jquery-chosen', $js_dir . 'chosen.jquery' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
     wp_enqueue_script( 'jquery-form' );
