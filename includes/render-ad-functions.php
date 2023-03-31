@@ -1768,11 +1768,20 @@ layout="responsive"
                     $carousel_speed = isset($quads_options['ads'][$id]['carousel_speed'])?$quads_options['ads'][$id]['carousel_speed']:1;    
                     $carousel_width = isset($quads_options['ads'][$id]['carousel_width'])?$quads_options['ads'][$id]['carousel_width']:450;
                     $carousel_height = isset($quads_options['ads'][$id]['carousel_height'])?$quads_options['ads'][$id]['carousel_height']:350;
+                    $ads_list = $quads_options['ads'][$id]['ads_list'];
+                    if(isset($ads_list[0]['value']) && !empty($ads_list[0]['value'])){
+                        $ad_meta_0=get_post_meta($ads_list[0]['value']);
+                        if(isset($ad_meta_0['mobile_image_check'][0]) && $ad_meta_0['mobile_image_check'][0]==1 && isset($ad_meta_0['image_mobile_src'][0]) && !empty($ad_meta_0['image_mobile_src'][0]))
+                        {
+                            list($carousel_width, $carousel_height) = getimagesize($ad_meta_0['image_mobile_src'][0]);
+                        }else if(isset($ad_meta_0['image_src'][0]) && !empty($ad_meta_0['image_src'][0])){
+                            list($carousel_width, $carousel_height) = getimagesize($ad_meta_0['image_src'][0]);
+                        }
+                        
+                    }
                 $html = '<amp-carousel '.esc_attr($carousel_type=='slider'?'width='.$carousel_width:'').'  height="'.esc_attr($carousel_height).'"     layout="'.esc_attr($carousel_type=='slider'?'responsive':'fixed-height').'"      type="'.esc_attr($carousel_type=='slider'?'slides':'carousel').'" '.esc_attr($carousel_type=='slider'?'autoplay delay='.esc_attr($carousel_speed*1000):'').' role="region" aria-label="Carousel Ads">'; 
-                if(isset($quads_options['ads'][$id]['image_src']) && !empty($quads_options['ads'][$id]['image_src'])){
-                    list($carousel_width, $carousel_height) = getimagesize($quads_options['ads'][$id]['image_src']);
-                }
-                $ads_list = $quads_options['ads'][$id]['ads_list'];
+                
+                
                 foreach($ads_list as $ad)
                 {
                     if(isset($ad['value']))
@@ -1784,7 +1793,7 @@ layout="responsive"
                             <a  href="'.esc_url($ad_meta['image_redirect_url'][0]).'" class="quads-ad'.esc_attr($ad['value']).'" target="_blank">
                             <amp-img
                                     alt="'.esc_attr($ad_meta['quads_ad_old_id'][0]).'"
-                                    src="'.esc_attr($ad_meta['image_src'][0]).'"
+                                    src="'.esc_attr(($ad_meta['mobile_image_check'][0]==1 && !empty($ad_meta['mobile_image_check'][0]))?$ad_meta['image_mobile_src'][0]:$ad_meta['image_src'][0]).'"
                                     width="'.esc_attr($carousel_width).'"
                                     height="'.esc_attr($carousel_height).'"
                                     layout="responsive"

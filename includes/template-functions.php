@@ -2242,6 +2242,18 @@ function quads_parse_video_ads($content) {
     $V_image_width       =  (isset($ad_meta['video_width'][0]) && !empty($ad_meta['video_width'][0])) ? $ad_meta['video_width'][0] : '350';
     $V_image_height       =  (isset($ad_meta['video_height'][0]) && !empty($ad_meta['video_height'][0])) ? $ad_meta['video_height'][0] :'auto';
 
+    if(quads_is_amp_endpoint())
+    {
+        $position_array =['v_left'=>'position:fixed;bottom:10px;left:10px;','v_right'=>'position:fixed;bottom:10px;right:10px;'];
+        $amp_code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
+                    '<div class="quads-video ad_' . esc_attr($ad_id) . ' quads-ad'. esc_attr($ad_id) .'" id="quads-ad'. esc_attr($ad_id) .'" style="z-index:99999;width:'.esc_attr($V_image_width).'px;height:'.esc_attr($V_image_width*0.75).'px;'.esc_attr($position_array[$position]).'">
+                    <button style="float:right" id="video_close_'.esc_attr($ad_id).'" on="tap:video_close_'.esc_attr($ad_id).'.hide,video_amp_'.esc_attr($ad_id).'.hide">X</button>';
+    
+        $amp_code .= '<amp-video layout="intrinsic" id="video_amp_'.esc_attr($ad_id).'" width="'.esc_attr($V_image_width).'" height="'.esc_attr($V_image_width*0.75).'" src="'.esc_url($V_image_src).'" autoplay></amp-video></div>';
+        $cont = explode('<!--CusRot'.$ad_id.'-->', $content, 2);
+        $content =  $cont[0].$amp_code;
+        return $content;
+    }
     
     $adsresultset = array();
     if( $ad_meta ){
@@ -2289,6 +2301,7 @@ function quads_parse_video_ads($content) {
 
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
             '<div class="video_main"><div class="quads-location quads-video ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" '.$videoad_data.' data-videotype="'.$video_ad_type.'" data-redirect="'.esc_url($V_redirect).'" style="' . $style . '">' . "\n";
+
         $code .='<div class="quads-video-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
         $code .='</div>';
 
@@ -2300,7 +2313,6 @@ function quads_parse_video_ads($content) {
         $code .= '</div>' . "\n";
 
         $cont = explode('<!--CusRot'.$ad_id.'-->', $content, 2);
-
         $content =  $cont[0].$code;
         $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
 
