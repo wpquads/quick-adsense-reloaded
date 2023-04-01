@@ -290,7 +290,7 @@ function quads_adblocker_detector(){
     if(!quads_is_amp_endpoint())
     {
         $js_dir  = QUADS_PLUGIN_URL . 'assets/js/';
-        wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array(), QUADS_VERSION, false );
+        wp_enqueue_script( 'quads-ads', $js_dir . 'ads.js', array(), QUADS_VERSION, false );
     }
 
 }
@@ -2211,6 +2211,7 @@ function quads_parse_popup_ads($content) {
         // Use minified libraries if SCRIPT_DEBUG is turned off
         $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
+        add_action( 'wp_print_styles', 'quads_inline_styles', 9999 );
         // These have to be global
         wp_enqueue_script( 'wp_qds_popup', $js_dir . 'wp_qds_popup' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
 
@@ -2721,7 +2722,7 @@ function quads_get_inline_ad_style_new( $id ) {
         'padding:%1$dpx %1$dpx %1$dpx 0;',
         'padding:%1$dpx 0 %1$dpx 0;',
         'padding:%1$dpx 0 %1$dpx %1$dpx;',
-        'padding:%1$dpx;');
+        'padding:%1$dpx %2$dpx %3$dpx %4$dpx;');
     
     // Alignment
     $adsalign = ( int )$ad_meta['align'][0];
@@ -2736,7 +2737,10 @@ function quads_get_inline_ad_style_new( $id ) {
 
     // Padding
     $adspadding = isset( $ad_meta['padding'][0] ) ? $ad_meta['padding'][0] : '0'; // default option = 0
-    $padding = sprintf( $padding_styleArray[$adsalign], $adspadding );    
+    $adspadding_right = isset( $ad_meta['padding_right'][0] ) ? $ad_meta['padding_right'][0] : '0'; // default option = 0
+    $adspadding_bottom = isset( $ad_meta['padding_bottom'][0] ) ? $ad_meta['padding_bottom'][0] : '0'; // default option = 0
+    $adspadding_left = isset( $ad_meta['padding_left'][0] ) ? $ad_meta['padding_left'][0] : '0'; // default option = 0
+    $padding = sprintf( $padding_styleArray[$adsalign], $adspadding, $adspadding_right, $adspadding_bottom, $adspadding_left );
     
     // Do not create any inline style on AMP site
     $style =  apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) ;

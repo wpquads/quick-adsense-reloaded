@@ -12,7 +12,6 @@
 if( !defined( 'ABSPATH' ) )
     exit;
 
-add_action( 'wp_print_styles', 'quads_inline_styles', 9999 );
 add_action('amp_post_template_css','quads_inline_styles_amp', 11);
 
 add_action( 'admin_enqueue_scripts', 'quads_load_admin_scripts', 100 );
@@ -229,7 +228,9 @@ if(is_object($screens)){
     }
     
     // These have to be global
-    wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
+    if(is_admin()){
+        wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
+    }
     wp_enqueue_script( 'quads-jscolor', $js_dir . 'jscolor' . $suffix . '.js', array(), QUADS_VERSION, false );
     wp_enqueue_script( 'jquery-chosen', $js_dir . 'chosen.jquery' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
     wp_enqueue_script( 'jquery-form' );
@@ -402,7 +403,7 @@ function quads_inline_styles() {
     .quads-text-around-ad-label-text_around_right {
         width: 50%;
         float: right;
-    }
+    } 
     .quads_click_impression { display: none;}";
     if(in_array("popup_ads", $ads_types)){
             $css .=".quads-popupad {
