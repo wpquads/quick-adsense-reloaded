@@ -11,7 +11,7 @@
 // Exit if accessed directly
 if( !defined( 'ABSPATH' ) )
     exit;
-
+add_action( 'wp_print_styles', 'quads_inline_styles', 9999 );
 add_action('amp_post_template_css','quads_inline_styles_amp', 11);
 
 add_action( 'admin_enqueue_scripts', 'quads_load_admin_scripts', 100 );

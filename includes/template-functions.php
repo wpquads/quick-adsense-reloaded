@@ -2211,7 +2211,6 @@ function quads_parse_popup_ads($content) {
         // Use minified libraries if SCRIPT_DEBUG is turned off
         $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
-        add_action( 'wp_print_styles', 'quads_inline_styles', 9999 );
         // These have to be global
         wp_enqueue_script( 'wp_qds_popup', $js_dir . 'wp_qds_popup' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
 
