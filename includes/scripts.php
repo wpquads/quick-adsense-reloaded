@@ -343,16 +343,44 @@ function quads_load_admin_fonts( $hook ) {
  * @return string
  */
 function quads_inline_styles() {
-    global $quads_options;
-
+    $quads_ads = quads_api_services_cllbck();
+    $ad_loaded=false;
+    $ads_types=[];
     $css = '';
 
-    if( isset( $quads_options['ads'] ) ) {
-        foreach ( $quads_options['ads'] as $key => $value ) {
+    if( isset( $quads_ads['posts_data'] ) ) {
+        foreach ( $quads_ads['posts_data'] as $key => $value ) {
             $css .= quads_render_media_query( $key, $value );
+            $ads =$value['post_meta'];
+            if($value['post']['post_status']== 'draft'){
+                continue;
+            }
+            if(isset($ads['visibility_include'])){$ads['visibility_include'] = unserialize($ads['visibility_include']);}
+            if(isset($ads['visibility_exclude'])){$ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);}
+            if(isset($ads['targeting_include'])){$ads['targeting_include'] = unserialize($ads['targeting_include']);}
+            if(isset($ads['targeting_exclude'])){$ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);}
+            $is_on         = quads_is_visibility_on($ads);
+            $is_visitor_on = quads_is_visitor_on($ads);
+           if(isset($ads['ad_id'])){$post_status = get_post_status($ads['ad_id']);}else{$post_status =  'publish';}
+           if(!isset($ads['position']) || isset($ads['ad_type']) && $ads['ad_type']== 'random_ads'){
+               $is_on = true;
+           } 
+           if($is_on && $is_visitor_on && $post_status=='publish'){
+            $ad_loaded = true;
+            $ads_types[]=$ads['ad_type'];
+           }
+            
+        }
+        if(!$ad_loaded){
+            return ''; 
         }
     }
-
+    else{
+        return '';
+    }
+    if(is_array($ads_types) && !empty($ads_types)){
+        $ads_types=array_unique($ads_types);
+    }
     if (!quads_is_amp_endpoint()){
         $css .="
         .quads-location {
@@ -375,289 +403,300 @@ function quads_inline_styles() {
     .quads-text-around-ad-label-text_around_right {
         width: 50%;
         float: right;
-    }
-    .quads-popupad {
-        position: fixed;
-        top: 0px;
-        left:0px;
-        width: 100%;
-        height: 100em;
-        background-color: rgba(0,0,0,0.6);
-        z-index: 999;
-        max-width: 100em !important;
-        margin: 0 auto;
-    }
-    .quads.quads_ad_container_ {
-        position: fixed;
-        top: 40%;
-        left: 33%;
-    }
-    #btn_close{
-		background-color: #fff;
-		width: 25px;
-		height: 25px;
-		text-align: center;
-		line-height: 22px;
-		position: absolute;
-		right: -10px;
-		top: -10px;
-		cursor: pointer;
-		transition: all 0.5s ease;
-		border-radius: 50%;
-	}
-    #btn_close_video{
-		background-color: #fff;
-		width: 25px;
-		height: 25px;
-		text-align: center;
-		line-height: 22px;
-		position: absolute;
-		right: -10px;
-		top: -10px;
-		cursor: pointer;
-		transition: all 0.5s ease;
-		border-radius: 50%;
-        z-index:100;
-	}
-    .post_half_page_ad{
-        visibility: visible;
-        position: fixed;
-        top: 0;
-        right: -200vw;
-    }
-    #post_half_page_openClose {
-        -webkit-transform: rotate(90deg);
-        -webkit-transform-origin: left top;
-        -moz-transform: rotate(90deg);
-        -moz-transform-origin: left top;
-        -o-transform: rotate(90deg);
-        -o-transform-origin: left top;
-        -ms-transform: rotate(90deg);
-        -ms-transform-origin: left top;
-        -transform: rotate(90deg);
-        -transform-origin: left top;
-        position: absolute;
-        left: 4px;
-        top: 0%;
-        cursor: pointer;
-        z-index: 999999;
-        display: none;
-    }
-    #post_half_pageVertical-text {
-        background: #000000;
-        text-align: center;
-        z-index: 999999;
-        cursor: pointer;
-        color: #FFFFFF;
-        float: left;
-        font-size: 13pt;
-        padding: 5px;
-        font-weight: bold;
-        width: 85vh;
-        font-family: verdana;
-        text-transform: uppercase;
-    }
-    .half-page-arrow-left {
-        position: absolute;
-        cursor: pointer;
-        width: 0;
-        height: 0;
-        border-right: 15px solid #FFFFFF;
-        border-top: 15px solid transparent;
-        border-bottom: 15px solid transparent;
-        left: -27px;
-        z-index: 9999999;
-        top: 8vh;
-    }
-    .half-page-arrow-right {
-        position: absolute;
-        cursor: pointer;
-        width: 0;
-        height: 0;
-        border-left: 15px solid #FFFFFF;
-        border-top: 15px solid transparent;
-        border-bottom: 15px solid transparent;
-        left: -25px;
-        z-index: 9999999;
-        bottom: 30vh;
-    }
-    @media screen and (max-width: 520px) {
-        .post_half_page_ad {
-            display: none;
-        }
-        #post_half_pageVertical-text {
-            width: 100%;
-            font-size: 14px;
-        }
-        .half-page-arrow-left{
-            left: 12px;
-            bottom: 8px;
-            top: 12px;
-            border-left: 10px solid #ffffff00;
-            border-top: none;
-            border-bottom: 10px solid white;
-            border-right: 10px solid #ffffff00;
-        }
-        .half-page-arrow-right {
-            border-left: 10px solid #ffffff00;
-            border-top: 10px solid white;
-            border-bottom: none;
-            border-right: 10px solid #ffffff00;
-            right: 12px;
-            left: unset;
-            top: 13px;
-            bottom: 8px;
-        }
-    }
-    @media screen and (max-width: 480px) {
-        .quads.quads_ad_container_ {
-            left: 10px;
-        }
     } 
-    .wpquads-3d-container {
-        border-radius:3px;
-        position:relative;
-        -webkit-perspective:1000px;
-        -moz-perspective:1000px;
-        -ms-perspective:1000px;
-        -o-perspective:1000px;
-        perspective:1000px;
-        z-index:999999;
+    .quads_click_impression { display: none;}";
+    if(in_array("popup_ads", $ads_types)){
+            $css .=".quads-popupad {
+                position: fixed;
+                top: 0px;
+                left:0px;
+                width: 100%;
+                height: 100em;
+                background-color: rgba(0,0,0,0.6);
+                z-index: 999;
+                max-width: 100em !important;
+                margin: 0 auto;
+            }
+            .quads.quads_ad_container_ {
+                position: fixed;
+                top: 40%;
+                left: 33%;
+            }
+            #btn_close{
+                background-color: #fff;
+                width: 25px;
+                height: 25px;
+                text-align: center;
+                line-height: 22px;
+                position: absolute;
+                right: -10px;
+                top: -10px;
+                cursor: pointer;
+                transition: all 0.5s ease;
+                border-radius: 50%;
+            } @media screen and (max-width: 480px) {
+                .quads.quads_ad_container_ {
+                    left: 10px;
+                }
+            }"; 
     }
-    .wpquads-3d-cube{
-        width:100%;
-        height:100%;
-        position:absolute;
-        -webkit-transition:-webkit-transform 1s;
-        -moz-transition:-moz-transform 1s;
-        -o-transition:-o-transform 1s;
-        transition:transform 1s;
-        -webkit-transform-style:preserve-3d;
-        -moz-transform-style:preserve-3d;
-        -ms-transform-style:preserve-3d;
-        -o-transform-style:preserve-3d;
-        transform-style:preserve-3d;
+
+    if(in_array("video_ads", $ads_types)){
+            $css .="#btn_close_video{
+                background-color: #fff;
+                width: 25px;
+                height: 25px;
+                text-align: center;
+                line-height: 22px;
+                position: absolute;
+                right: -10px;
+                top: -10px;
+                cursor: pointer;
+                transition: all 0.5s ease;
+                border-radius: 50%;
+                z-index:100;
+            }
+            .quads-video {
+                position: fixed;
+                bottom: 0px;
+                z-index: 9999999;
+            }
+            .quads_ad_container_video{
+                max-width:220px;
+            }";
     }
-    .wpquads-3d-cube .wpquads-3d-item{
-        position:absolute;
-        border:3px inset;
-        border-style:outset
+    if(in_array("half_page_ads", $ads_types)){ 
+            $css .=".post_half_page_ad{
+                visibility: visible;
+                position: fixed;
+                top: 0;
+                right: -200vw;
+            }
+            #post_half_page_openClose {
+                -webkit-transform: rotate(90deg);
+                -webkit-transform-origin: left top;
+                -moz-transform: rotate(90deg);
+                -moz-transform-origin: left top;
+                -o-transform: rotate(90deg);
+                -o-transform-origin: left top;
+                -ms-transform: rotate(90deg);
+                -ms-transform-origin: left top;
+                -transform: rotate(90deg);
+                -transform-origin: left top;
+                position: absolute;
+                left: 4px;
+                top: 0%;
+                cursor: pointer;
+                z-index: 999999;
+                display: none;
+            }
+            #post_half_pageVertical-text {
+                background: #000000;
+                text-align: center;
+                z-index: 999999;
+                cursor: pointer;
+                color: #FFFFFF;
+                float: left;
+                font-size: 13pt;
+                padding: 5px;
+                font-weight: bold;
+                width: 85vh;
+                font-family: verdana;
+                text-transform: uppercase;
+            }
+            .half-page-arrow-left {
+                position: absolute;
+                cursor: pointer;
+                width: 0;
+                height: 0;
+                border-right: 15px solid #FFFFFF;
+                border-top: 15px solid transparent;
+                border-bottom: 15px solid transparent;
+                left: -27px;
+                z-index: 9999999;
+                top: 8vh;
+            }
+            .half-page-arrow-right {
+                position: absolute;
+                cursor: pointer;
+                width: 0;
+                height: 0;
+                border-left: 15px solid #FFFFFF;
+                border-top: 15px solid transparent;
+                border-bottom: 15px solid transparent;
+                left: -25px;
+                z-index: 9999999;
+                bottom: 30vh;
+            }
+            @media screen and (max-width: 520px) {
+                .post_half_page_ad {
+                    display: none;
+                }
+                #post_half_pageVertical-text {
+                    width: 100%;
+                    font-size: 14px;
+                }
+                .half-page-arrow-left{
+                    left: 12px;
+                    bottom: 8px;
+                    top: 12px;
+                    border-left: 10px solid #ffffff00;
+                    border-top: none;
+                    border-bottom: 10px solid white;
+                    border-right: 10px solid #ffffff00;
+                }
+                .half-page-arrow-right {
+                    border-left: 10px solid #ffffff00;
+                    border-top: 10px solid white;
+                    border-bottom: none;
+                    border-right: 10px solid #ffffff00;
+                    right: 12px;
+                    left: unset;
+                    top: 13px;
+                    bottom: 8px;
+                }
+            }";
     }
-    .wpquads-3d-close{
-        text-align:right;
+    if(in_array("floating_cubes", $ads_types)){ 
+            $css .=".wpquads-3d-container {
+                border-radius:3px;
+                position:relative;
+                -webkit-perspective:1000px;
+                -moz-perspective:1000px;
+                -ms-perspective:1000px;
+                -o-perspective:1000px;
+                perspective:1000px;
+                z-index:999999;
+            }
+            .wpquads-3d-cube{
+                width:100%;
+                height:100%;
+                position:absolute;
+                -webkit-transition:-webkit-transform 1s;
+                -moz-transition:-moz-transform 1s;
+                -o-transition:-o-transform 1s;
+                transition:transform 1s;
+                -webkit-transform-style:preserve-3d;
+                -moz-transform-style:preserve-3d;
+                -ms-transform-style:preserve-3d;
+                -o-transform-style:preserve-3d;
+                transform-style:preserve-3d;
+            }
+            .wpquads-3d-cube .wpquads-3d-item{
+                position:absolute;
+                border:3px inset;
+                border-style:outset
+            }
+            .wpquads-3d-close{
+                text-align:right;
+            }
+            #wpquads-close-btn{
+                text-decoration:none !important;
+                cursor:pointer;
+            }
+            #wpquads-close-btn svg{
+                padding: 5px;
+            }
+            .wpquads-3d-cube .wpquads-3d-item, .wpquads-3d-cube .wpquads-3d-item img{
+                display:block;
+                margin:0;
+                width:100%;
+                height:100%;
+                background:#fff;
+            }
+            .ewd-ufaq-faqs .wpquads-3d-container {
+                display: none;
+            }  ";
+    } 
+    if(in_array("parallax_ads", $ads_types)){ 
+            $css .=".parallax_main {
+                padding-left: 3px;
+                padding-right: 3px;
+            }
+            .parallax_main {
+                display:none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                background: #00000070;
+                overflow-y: auto;
+                background-attachment: fixed;
+                background-position: center;
+                -moz-transition: all 0.3s ease-in-out;
+                -o-transition: all 0.3s ease-in-out;
+                -ms-transition: all 0.3s ease-in-out;
+                -webkit-transition: all 0.3s ease-in-out;
+                transition: all 03s ease-in-out;
+            }
+            .parallax_main .quads-parallax-spacer {
+                display: block;
+                padding-top: 100vh;
+                position: relative;
+                pointer-events: none;
+            }
+            .quads-parallax {
+                bottom: 0px;
+                z-index: 9999999;
+                bottom: 0;
+                left: 0;
+                right: 0; 
+                margin: 0 auto;
+                position:relative;
+                -moz-transition: all 0.3s ease;
+                -o-transition: all 0.3s ease;
+                -ms-transition: all 0.3s ease;
+                -webkit-transition: all 0.3s ease;
+                transition: all 0.3s ease;
+            }
+            .parallax_popup_img {
+                text-align: center;
+                margin: 0 auto;
+            }
+            .quads_parallax_scroll_text{
+                display: none;
+                position: fixed;
+                left: 0;
+                z-index: 1;
+                color: #989898;
+                right: 0;
+                text-align: center;
+                font-weight: 600;
+                font-size: 15px;
+                background: #fff;
+                padding: 6px;
+                top: 5px;
+            }";
     }
-    #wpquads-close-btn{
-        text-decoration:none !important;
-        cursor:pointer;
+    if(in_array("sticky_scroll", $ads_types)){ 
+            $css .=".quads-sticky {
+                width: 100% !important;
+                position: fixed;
+                max-width: 100%!important;
+                bottom:0;
+                margin:0;
+                text-align: center;
+            }
+            .quads-sticky .quads-location {
+                text-align: center;
+            }.quads-sticky .wp_quads_dfp {
+                display: contents;
+            }
+            a.quads-sticky-ad-close {
+                background-color: #fff;
+                width: 25px;
+                height: 25px;
+                text-align: center;
+                line-height: 22px;
+                position: absolute;
+                right: 0px;
+                top: -15px;
+                cursor: pointer;
+                transition: all 0.5s ease;
+                border-radius: 50%;
+            }";
     }
-    #wpquads-close-btn svg{
-        padding: 5px;
-    }
-    .wpquads-3d-cube .wpquads-3d-item, .wpquads-3d-cube .wpquads-3d-item img{
-        display:block;
-        margin:0;
-        width:100%;
-        height:100%;
-        background:#fff;
-    }
-    .ewd-ufaq-faqs .wpquads-3d-container {
-        display: none;
-    }   
-    .quads-video {
-        position: fixed;
-        bottom: 0px;
-        z-index: 9999999;
-    }
-    quads_ad_container_video{
-        max-width:220px;
-    }
-    .parallax_main {
-        padding-left: 3px;
-        padding-right: 3px;
-    }
-    .parallax_main {
-        display:none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        background: #00000070;
-        overflow-y: auto;
-        background-attachment: fixed;
-        background-position: center;
-        -moz-transition: all 0.3s ease-in-out;
-        -o-transition: all 0.3s ease-in-out;
-        -ms-transition: all 0.3s ease-in-out;
-        -webkit-transition: all 0.3s ease-in-out;
-        transition: all 03s ease-in-out;
-    }
-    .parallax_main .quads-parallax-spacer {
-        display: block;
-        padding-top: 100vh;
-        position: relative;
-        pointer-events: none;
-    }
-    .quads-parallax {
-        bottom: 0px;
-        z-index: 9999999;
-        bottom: 0;
-        left: 0;
-        right: 0; 
-        margin: 0 auto;
-        position:relative;
-        -moz-transition: all 0.3s ease;
-        -o-transition: all 0.3s ease;
-        -ms-transition: all 0.3s ease;
-        -webkit-transition: all 0.3s ease;
-        transition: all 0.3s ease;
-    }
-    .parallax_popup_img {
-        text-align: center;
-        margin: 0 auto;
-    }
-    .quads_parallax_scroll_text{
-        display: none;
-        position: fixed;
-        left: 0;
-        z-index: 1;
-        color: #989898;
-        right: 0;
-        text-align: center;
-        font-weight: 600;
-        font-size: 15px;
-        background: #fff;
-        padding: 6px;
-        top: 5px;
-    }
-    .quads_click_impression { display: none;}
-    .quads-sticky {
-        width: 100% !important;
-        position: fixed;
-        max-width: 100%!important;
-        bottom:0;
-        margin:0;
-        text-align: center;
-    }
-    .quads-sticky .quads-location {
-        text-align: center;
-    }.quads-sticky .wp_quads_dfp {
-        display: contents;
-    }
-    a.quads-sticky-ad-close {
-        background-color: #fff;
-        width: 25px;
-        height: 25px;
-        text-align: center;
-        line-height: 22px;
-        position: absolute;
-        right: 0px;
-        top: -15px;
-        cursor: pointer;
-        transition: all 0.5s ease;
-        border-radius: 50%;
-    }
-    ";
     // Register empty style so we do not need an external css file
     wp_register_style( 'quads-styles', false );
     // Enque empty style
