@@ -239,6 +239,14 @@ class QuadsAdTargeting extends Component {
                           }
                     </tr>
                         }
+                      {post_meta.position == 'ad_after_class' ? (
+                        <>
+                      <tr>
+                        <td><label>{__('Enter Class Name', 'quick-adsense-reloaded')}</label></td>
+                        <td><input  onChange={this.props.adFormChangeHandler} name="after_class_name" value={post_meta.after_class_name}  type="text" placeholder="Class name" /></td>
+                      </tr>
+                    </>)
+                      : null}    
                     {post_meta.position == 'ad_after_html_tag' ? (
                       <>
                     <tr>

@@ -1376,6 +1376,19 @@ function quads_filter_default_ads_new( $content ) {
                         $content =  quads_remove_ad_from_content($content,$cusads,$ads);
 
                     break;
+                    case 'ad_after_class':
+                        $class_name = $ads['after_class_name'] ?? '';
+                        $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
+                        if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
+                            $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
+                        }else{
+                            if(!empty($class_name)){
+                                $class_name = '"'.$class_name.'"';
+                                $content = quads_after_class_ad_creator($content,$class_name,$cusads,$repeat_paragraph);
+                                $content = str_replace('afterClassAd', $cusads, $content);
+                            }
+                        }
+                    break; 
                     case 'ad_after_html_tag':
                         $tag = 'p';
                         switch ( $ads['count_as_per']) {
@@ -3239,3 +3252,32 @@ if($repeat_paragraph){
     $content =$doc->saveHTML();
     return $content;  
 }
+
+function quads_after_class_ad_creator($content,$class_name,$cusads,$repeat_paragraph=false){
+
+    $dom = new \DOMDocument();
+    if(function_exists('mb_convert_encoding')){
+        $dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
+    }else{
+        $dom->loadHTML( $content );
+    }
+    $finder = new DomXPath($dom);
+    $classes = $finder->query("//*[contains(@class, $class_name)]");
+
+    for ($i=0; $i < $classes->length ; $i++) {
+        if($classes){
+            $p = $classes->item($i);
+            $div = $dom->createTextNode('afterClassAd');
+            if($p->nextSibling === null) {
+                $p->parentNode->appendChild($div);
+            } else {
+                $p->parentNode->insertBefore($div, $p->nextSibling);
+            }
+        }
+    }
+
+    $content = $dom->saveHTML();
+
+    return $content;
+
+} 
