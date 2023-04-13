@@ -1197,6 +1197,9 @@ function quads_filter_default_ads_new( $content ) {
                                      if($flag && preg_match("/<[^<]+>/",$paragraphs[$index])){
                                         $pattern = "#<\s*?li\b[^>]*>(.*?)#s"; //  to find the tag name
                                         preg_match($pattern, $paragraphs[$index], $matches);
+                                        if(empty($matches)){
+                                            preg_match("#<\s*?span\b[^>]*(.*?)#s", $paragraphs[$index], $matches);
+                                        }
                                      if(isset($matches[0])){
                                         $tagname =$matches[0];
                                         $stringarray= explode($tagname,$paragraphs[$index]);
