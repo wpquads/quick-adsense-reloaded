@@ -344,8 +344,8 @@ function quads_load_admin_fonts( $hook ) {
  */
 function quads_inline_styles() {
     $quads_ads = quads_api_services_cllbck();
-    $ad_loaded=false;
-    $ads_types=[];
+    $ad_loaded = $is_sticky_loaded = false;
+    $ads_types = [];
     $css = '';
 
     if( isset( $quads_ads['posts_data'] ) ) {
@@ -368,6 +368,9 @@ function quads_inline_styles() {
            if($is_on && $is_visitor_on && $post_status=='publish'){
             $ad_loaded = true;
             $ads_types[]=$ads['ad_type'];
+            if($ads['position'] == 'ad_sticky_ad'){
+                $is_sticky_loaded = true;
+            }
            }
             
         }
@@ -669,7 +672,7 @@ function quads_inline_styles() {
                 top: 5px;
             }";
     }
-    if(in_array("sticky_scroll", $ads_types)){ 
+    if(in_array("sticky_scroll", $ads_types) || $is_sticky_loaded){ 
             $css .=".quads-sticky {
                 width: 100% !important;
                 position: fixed;
@@ -690,7 +693,7 @@ function quads_inline_styles() {
                 text-align: center;
                 line-height: 22px;
                 position: absolute;
-                right: 0px;
+                right: 35px;
                 top: -15px;
                 cursor: pointer;
                 transition: all 0.5s ease;

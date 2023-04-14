@@ -2691,6 +2691,17 @@ a.ad_draft {
   max-width: 40px;
   top: 0; }
 
+a.quads-prv-img-wrpr {
+  position: relative;
+  display: block; }
+
+.quads-prv-ad {
+  font-size: 15px;
+  position: absolute;
+  top: -25px;
+  right: 10px;
+  color: #ccc; }
+
 .quads_ajax_loader {
   border: 5px solid #f3f3f3;
   text-align: center;

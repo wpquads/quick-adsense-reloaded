@@ -57,6 +57,55 @@ class AdTypeSelectorNavLink extends Component {
         }
       );
   }
+
+  getImageUrlByAdType = (type, index) =>{
+    let img_url  = '';
+      switch (type) {
+          case 'plain_text':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/html_ad_prv.jpg';
+          break;
+          case 'popup_ads':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/popup_ad_prv.jpg';
+          break;
+          case 'ad_image':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/banner_ad_prv.jpg';
+          break;
+          case 'video_ads':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/video_ad_prv.jpg';
+          break;
+          case 'background_ad':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/background_ad_prv.png';
+          break;
+          case 'skip_ads':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/skip_ad_prv.jpg';
+          break;
+          case 'carousel_ads':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/carousel_ad_prv.jpg';
+          break;
+          case 'parallax_ads':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/parallax_ad_prv.jpg';
+          break;
+          case 'half_page_ads':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/half_page_slider_ad_prv.jpg';
+          break;
+          case 'floating_cubes':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/floating_ad_prv.gif';
+          break;
+          case 'ad_blindness':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ad_blindness_prv.gif';
+          break;
+          case 'group_insertion':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/group_insertion_prv.gif';
+          break;
+          case 'rotator_ads':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/rotator_ad_prv.gif';
+          break;
+        default:
+          break;
+      }    
+    return img_url;
+  }
+
   render() {
 
     const { __ } = wp.i18n;
@@ -76,7 +125,7 @@ class AdTypeSelectorNavLink extends Component {
       <p className='ad_format'>{__('AD Format', 'quick-adsense-reloaded')}</p>
         <ul>
           {this.props.All_ad_network_format.map((item, index) =>
-            <li title={item.ad_type} className={!quads_localize_data.is_pro && (item.ad_type == 'group_insertion' || item.ad_type == 'skip_ads' || item.ad_type == 'ad_blindness' || item.ad_type == 'ab_testing'  || item.ad_type == 'rotator_ads' || item.ad_type == 'sticky_scroll' || item.ad_type == 'floating_cubes') ?'quads_ad_pro':''} key={item.ad_type} style={(item.ad_type == 'skip_ads' && !this.state.skippable_ads) || (item.ad_type == 'ad_blindness' && !this.state.blindness_settings) || (item.ad_type == 'ab_testing' && !this.state.ab_testing_settings) || (item.ad_type == 'rotator_ads' && !this.state.rotator_ads_status) ? ({ display: 'none' }) : {}}> {!item.pro || quads_localize_data.is_pro ?<Link to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.ad_type}`} className="quads-nav-link">{this.props.getImageByAdType(item.ad_type, index)}<span className="ad_type_name_ part1">{item.ad_type_name}</span></Link> :<div onClick={() => this.changepopupState(item.ad_type_name)}>  {this.props.getImageByAdType(item.ad_type, index)}<span className="ad_type_name_ part2">{item.ad_type_name}</span> </div>}</li>)}
+            <li title={item.ad_type} className={!quads_localize_data.is_pro && (item.ad_type == 'group_insertion' || item.ad_type == 'skip_ads' || item.ad_type == 'ad_blindness' || item.ad_type == 'ab_testing'  || item.ad_type == 'rotator_ads' || item.ad_type == 'sticky_scroll' || item.ad_type == 'floating_cubes') ?'quads_ad_pro':''} key={item.ad_type} style={(item.ad_type == 'skip_ads' && !this.state.skippable_ads) || (item.ad_type == 'ad_blindness' && !this.state.blindness_settings) || (item.ad_type == 'ab_testing' && !this.state.ab_testing_settings) || (item.ad_type == 'rotator_ads' && !this.state.rotator_ads_status) ? ({ display: 'none' }) : {}}> {!item.pro || quads_localize_data.is_pro ?<Link to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.ad_type}`} className="quads-nav-link w-prv">{this.props.getImageByAdType(item.ad_type, index)}<span className="ad_type_name_ part1">{item.ad_type_name}</span></Link> :<div onClick={() => this.changepopupState(item.ad_type_name)}>  {this.props.getImageByAdType(item.ad_type, index)}<span className="ad_type_name_ part2">{item.ad_type_name}</span> </div>} <a href={this.getImageUrlByAdType(item.ad_type, index)} className="material-icons quads-prv-img-wrpr" target="_blank"><span className="quads-prv-ad">remove_red_eye </span></a></li>)}
         </ul>
         {this.state.showGoProPopup ?
           <>
