@@ -1380,7 +1380,7 @@ function quads_filter_default_ads_new( $content ) {
 
                     break;
                     case 'ad_after_class':
-                        $class_name = $ads['after_class_name'] ?? '';
+                        $class_name = isset($ads['after_class_name']) ? $ads['after_class_name'] : '';
                         $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
                         if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
                             $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
