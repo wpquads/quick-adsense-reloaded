@@ -621,30 +621,32 @@ window.onclick = function(event) {
   }
 }
 
-if(quadsNotice_bar.value == 2){
-    modal.style.top = "0";
-} else {
-    modal.style.bottom = "0";
-}
-var prevScrollpos = window.pageYOffset;
-window.onscroll = function() {
-    var currentScrollPos = window.pageYOffset;
-    if(prevScrollpos > currentScrollPos){
-        if(quadsNotice_bar.value == 2){
-            modal.style.top = "0px";
-        }
-        if(quadsNotice_bar.value == 1){
-            modal.style.bottom = "0px";
-        }
-    } else{
-        if(quadsNotice_bar_sticky.value != 1 && quadsNotice_bar.value == 2){
-            modal.style.top = "-90px";
-        }
-        if(quadsNotice_bar_sticky.value != 1 && quadsNotice_bar.value == 1){
-            modal.style.bottom = "-90px";
-        }
+if(quadsOptions.quadsChoice == 'bar'){
+    if(quadsNotice_bar.value == 2){
+        modal.style.top = "0";
+    } else {
+        modal.style.bottom = "0";
     }
-    prevScrollpos = currentScrollPos;
+    var prevScrollpos = window.pageYOffset;
+    window.onscroll = function() {
+        var currentScrollPos = window.pageYOffset;
+        if(prevScrollpos > currentScrollPos){
+            if(quadsNotice_bar.value == 2){
+                modal.style.top = "0px";
+            }
+            if(quadsNotice_bar.value == 1){
+                modal.style.bottom = "0px";
+            }
+        } else{
+            if(quadsNotice_bar_sticky.value != 1 && quadsNotice_bar.value == 2){
+                modal.style.top = "-90px";
+            }
+            if(quadsNotice_bar_sticky.value != 1 && quadsNotice_bar.value == 1){
+                modal.style.bottom = "-90px";
+            }
+        }
+        prevScrollpos = currentScrollPos;
+    }
 }
 
 if(typeof quadsOptions !== 'undefined'){
