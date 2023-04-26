@@ -723,13 +723,16 @@ and open the template in the editor.
 .quads-panel-body {
   padding: 40px; }
 
-.quads-panel-body .quads-adsense-width-heigth label {
+.quads-banner-width-heigth {
+  display: inline-flex; }
+
+.quads-panel-body .quads-adsense-width-heigth label, .quads-panel-body .quads-banner-width-heigth label {
   font-size: 12px;
   DISPLAY: block;
   WIDTH: 52PX;
   margin-right: 10px; }
 
-.quads-panel-body .quads-adsense-width-heigth input {
+.quads-panel-body .quads-adsense-width-heigth input, .quads-panel-body .quads-banner-width-heigth input {
   width: 52PX;
   font-size: 16px;
   padding: 0; }
