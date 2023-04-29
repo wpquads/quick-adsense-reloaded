@@ -2532,13 +2532,20 @@ function quads_parse_default_ads_new( $content ) {
  * @return type
  */
 function quads_replace_ads($content, $quicktag, $id) {
-        global $quads_options;
-   
+    global $quads_options, $quads_mode;
 
     if( strpos($content,'<!--'.$quicktag.'-->')===false ) { 
             return $content; 
         }
 
+    if(isset($quads_mode) && $quads_mode == 'old'){
+        if(isset($quads_options['ads']['ad'.$id]['phone']) || isset($quads_options['ads']['ad'.$id]['desktop'])){
+            $get_device = function_exists('quads_check_my_device') ? quads_check_my_device() : '';
+            if(isset($quads_options['ads']['ad'.$id][$get_device]) && $quads_options['ads']['ad'.$id][$get_device] == 1){
+                return $content;
+            }
+        }
+    }
         
     if ($id != -1) {
                 
