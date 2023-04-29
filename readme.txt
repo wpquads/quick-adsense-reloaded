@@ -12,7 +12,7 @@ Tested up to: 6.2
 Requires PHP: 5.4
 Stable tag: 2.0.71
 
-Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & Banner ads on your site. Innovative features, Active Development & Fast Support.
+Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 
 == Description ==
 The legendary [WPQuads Ads](https://wpquads.com/)  plugin is back with the modern approach for an Ads solution. WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
