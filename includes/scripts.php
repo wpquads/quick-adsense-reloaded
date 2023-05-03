@@ -368,7 +368,7 @@ function quads_inline_styles() {
            if($is_on && $is_visitor_on && $post_status=='publish'){
             $ad_loaded = true;
             $ads_types[]=$ads['ad_type'];
-            if($ads['position'] == 'ad_sticky_ad'){
+            if(isset($ads['position']) && $ads['position'] == 'ad_sticky_ad'){
                 $is_sticky_loaded = true;
             }
            }
