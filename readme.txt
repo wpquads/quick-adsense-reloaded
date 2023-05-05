@@ -1,4 +1,4 @@
-=== Ads by WPQuads – Adsense Ads, Banner Ads, Popup Ads & more ===
+=== Ads by WPQuads – Adsense Ads, Banner Ads, Popup Ads ===
 
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
