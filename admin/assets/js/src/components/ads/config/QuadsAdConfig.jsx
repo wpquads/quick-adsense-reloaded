@@ -25,7 +25,7 @@ class QuadsAdConfig extends Component {
       return ( 
            <QuadsPageNotFound />
        );   
-    }else if(this.props.parentState.ad_id != page.post) {
+    }else if(typeof(page.action) != "undefined" && (this.props.parentState.ad_id != page.post)) {
       return <div className="quads-cover-spin"></div>;
     }else{
            return ( 
