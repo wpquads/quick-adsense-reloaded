@@ -207,8 +207,15 @@ Alternative Installation:
 
 == Changelog ==
 
-= 2.0.71 ( 21 April 2023 ) =
-* Fixed: Do not use null coalescing operator (??) anywhere in WP Quads. #744
+= 2.0.71 ( 06 May 2023 ) =
+* Added: Rotator / group should show which ads are added without going into any settings #512
+* Added: Loader should be there till content fully loaded when edit ad is click #662
+* Added: Need to add default width and height for the ads #680
+* Fixed: There is an error in the console while using the WPQUADS plugin #717
+* Fixed: When we disable the ads on mobile and desktop in the classic view, they are still showing #738
+* Fixed: Do not use null coalescing operator (??) anywhere in WP Quads #744
+* Fixed: Warning showing #745
+* Fixed: Ad disappears after 2.0.53 update #746
 
 = 2.0.70 ( 14 April 2023 ) =
 * Added: An eye icon while adding a new ad to see what it is #651
