@@ -18,6 +18,8 @@ class QuadsAdList extends Component {
         this.state = { 
            redirect:false,
            ad_id:null,
+           adListsId : null,
+           toggleAdsLists : false,
            importquadsclassicmsgprocessing : "",  
            importquadsclassiccss : false,
            importquadsclassicalertcss : false,
@@ -37,6 +39,9 @@ class QuadsAdList extends Component {
   handleClickOutside(event) {
     if( this.wrapperRef.current && !this.wrapperRef.current.contains(event.target) && this.props.more_box_id ) {
         this.props.hideMoreIconBox();
+    }
+    if( this.wrapperRef.current && !this.wrapperRef.current.contains(event.target) && this.state.adListsId ) {
+        this.setState({toggleAdsLists: false});
     }
   }
 
@@ -207,6 +212,20 @@ class QuadsAdList extends Component {
       
     return type_img;
   }   
+
+  getActiveAdsLists = (lists, index) =>{
+    const rows = [];
+    if(typeof(lists) != 'undefined'){
+      for (let i = 0; i < lists.length; i++) {
+          rows.push(<span>{lists[i].label}</span>);
+      }
+    }
+    return <span className="quads-ads-selected-lists" ref={this.wrapperRef}>{rows}</span>;
+  }
+
+  showInfoAds = (cAdId) => {
+    this.setState({adListsId: cAdId, toggleAdsLists: !this.state.toggleAdsLists});
+  }
    
   render() {    
     
@@ -258,7 +277,7 @@ class QuadsAdList extends Component {
           {items.map((item, index) => ( item.post_meta.ad_id &&(    
                    
             <tr key={index}>
-                <td>{item.post_meta.label} {item.post.post_status == 'draft' ? <span className="quads-ad-label-draft">draft</span> : ''}</td>
+                <td>{item.post_meta.label} {item.post_meta.ad_type == 'rotator_ads' || item.post_meta.ad_type == 'carousel_ads' ? <span className="quads-adlists info-wrpr"><span className="material-icons info" aria-hidden="true" onClick={() => this.showInfoAds(item.post_meta.ad_id)}>info</span>{ item.post_meta.ad_id == this.state.adListsId && this.state.toggleAdsLists ? this.getActiveAdsLists(item.post_meta.ads_list, index) : '' }</span> : ''} {item.post.post_status == 'draft' ? <span className="quads-ad-label-draft">draft</span> : ''}</td>
                 <td>{this.getImageByAdType(item.post_meta.ad_type, index)} {this.getAmpLogoByEnabled(item.post_meta.enabled_on_amp, index)}</td>
                 <td>{item.post.post_modified}</td>
                 {/* <td>{item.post.post_status}</td> */}

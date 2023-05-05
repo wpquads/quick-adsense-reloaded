@@ -53,6 +53,40 @@ and open the template in the editor.
     color: #5f6368;
     font-weight: 600;
 }
+.quads-adlists.info-wrpr {
+    position: relative;
+}
+.material-icons.info {
+    font-size: 0.85em;
+    cursor: pointer;
+}
+.quads-ads-selected-lists {
+    position: absolute;
+    top: -58px;
+    left: 0;
+    float: left;
+    width: max-content;
+    padding: 10px;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+.quads-ads-selected-lists span {
+    font-size: 0.75em;
+    font-family: Roboto,Arial,sans-serif;
+    letter-spacing: .025em;
+}
+.quads-ads-selected-lists span:after {
+    content: "|";
+    margin: 6px;
+}
+.quads-ads-selected-lists span:last-child:after {
+    content: " ";
+    margin: 0;
+}
 .quads-ad-label-draft{
     color: #5f6368;
     font-family: Roboto,Arial,sans-serif;

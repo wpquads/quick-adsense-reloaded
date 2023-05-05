@@ -355,7 +355,12 @@ class QUADS_Ad_Setup_Api_Service {
           $post_meta             = get_post_meta($data['post_id'], '', true);
           if($post_meta){
             foreach($post_meta as $key => $val ){
-                $post_meta[$key] = $val[0];
+                if($key == 'ads_list'){
+                  //$post_meta[$key] = $val[0];
+                  $post_meta[$key] = unserialize($val[0]);
+                }else{
+                  $post_meta[$key] = $val[0];
+                }
             }
           }
           $posts_data[] = array(
