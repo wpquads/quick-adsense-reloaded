@@ -812,6 +812,23 @@ error_outline
                     {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>Upload Ad Image</div> :''}
                      </td></tr>
+                      {post_meta.image_src == '' ? '' : <tr>
+                      <td><label>{__('Size', 'quick-adsense-reloaded')}</label></td>
+                      <td>
+                      <div className="quads-banner-width-heigth">
+                        <div className="quads-banner-width">
+                          <label>{__('Width', 'quick-banner-reloaded')}
+                          <input value={post_meta.banner_ad_width ? post_meta.banner_ad_width:'300'} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_width" name="banner_ad_width" /> 
+                          </label>
+                        </div>
+                        <div className="quads-banner-height">
+                          <label>{__('Height', 'quick-banner-reloaded')}
+                          <input value={post_meta.banner_ad_height  ? post_meta.banner_ad_height:'250'} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_height" name="banner_ad_height" />  
+                          </label>
+                        </div>
+                      </div>
+                     </td></tr>
+                     }
                      <tr>
                      <td><label className='q_img_ma_lab' htmlFor="mobile_image_check">{__('Mobile specific Banner', 'quick-adsense-reloaded')}</label></td>
                      <td>

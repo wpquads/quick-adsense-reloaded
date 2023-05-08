@@ -639,6 +639,18 @@ function quads_visitor_comparison_logic_checker($visibility){
 return $result;
 }
 
+function quads_check_my_device(){
+    $is_device = '';
+    if(preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|palm|phone|pie|up\.browser|up\.link|webos|wos)/i", strtolower($_SERVER['HTTP_USER_AGENT']))){
+        $is_device = 'phone';        
+    }elseif (preg_match('/(tablet|ipad|playbook)|(android(?!.*(mobi|opera mini)))/i', strtolower($_SERVER['HTTP_USER_AGENT']))) {
+        $is_device = 'tablet_landscape';
+    }else{
+        $is_device = 'desktop';
+    }
+    return $is_device;
+}
+
 function quads_detect_user_agent( ){
         $user_agent_name ='others';
         if(strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') || strpos($user_agent_name, 'OPR/')) $user_agent_name = 'opera';

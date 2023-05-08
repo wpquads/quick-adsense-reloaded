@@ -361,9 +361,11 @@ function quads_render_ad_image_async( $id ) {
             
         }
         else {
+        $bnr_wdt=$quads_options['ads'][$id]['banner_ad_width']?$quads_options['ads'][$id]['banner_ad_width']:300;
+        $bnr_hgt=$quads_options['ads'][$id]['banner_ad_height']?$quads_options['ads'][$id]['banner_ad_height']:300;    
             $html .= ' 
         <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
-        <img  src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" alt="'.esc_attr($quads_options['ads'][$id]['label']).'"> 
+        <img width="'.esc_attr($bnr_wdt). '" height="'.esc_attr($bnr_hgt). '" src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" alt="'.esc_attr($quads_options['ads'][$id]['label']).'"> 
         </a>';
         }
         

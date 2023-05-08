@@ -621,30 +621,32 @@ window.onclick = function(event) {
   }
 }
 
-if(quadsNotice_bar.value == 2){
-    modal.style.top = "0";
-} else {
-    modal.style.bottom = "0";
-}
-var prevScrollpos = window.pageYOffset;
-window.onscroll = function() {
-    var currentScrollPos = window.pageYOffset;
-    if(prevScrollpos > currentScrollPos){
-        if(quadsNotice_bar.value == 2){
-            modal.style.top = "0px";
-        }
-        if(quadsNotice_bar.value == 1){
-            modal.style.bottom = "0px";
-        }
-    } else{
-        if(quadsNotice_bar_sticky.value != 1 && quadsNotice_bar.value == 2){
-            modal.style.top = "-90px";
-        }
-        if(quadsNotice_bar_sticky.value != 1 && quadsNotice_bar.value == 1){
-            modal.style.bottom = "-90px";
-        }
+if(quadsOptions.quadsChoice == 'bar'){
+    if(quadsNotice_bar.value == 2){
+        modal.style.top = "0";
+    } else {
+        modal.style.bottom = "0";
     }
-    prevScrollpos = currentScrollPos;
+    var prevScrollpos = window.pageYOffset;
+    window.onscroll = function() {
+        var currentScrollPos = window.pageYOffset;
+        if(prevScrollpos > currentScrollPos){
+            if(quadsNotice_bar.value == 2){
+                modal.style.top = "0px";
+            }
+            if(quadsNotice_bar.value == 1){
+                modal.style.bottom = "0px";
+            }
+        } else{
+            if(quadsNotice_bar_sticky.value != 1 && quadsNotice_bar.value == 2){
+                modal.style.top = "-90px";
+            }
+            if(quadsNotice_bar_sticky.value != 1 && quadsNotice_bar.value == 1){
+                modal.style.bottom = "-90px";
+            }
+        }
+        prevScrollpos = currentScrollPos;
+    }
 }
 
 if(typeof quadsOptions !== 'undefined'){
@@ -1380,7 +1382,7 @@ function quads_filter_default_ads_new( $content ) {
 
                     break;
                     case 'ad_after_class':
-                        $class_name = $ads['after_class_name'] ?? '';
+                        $class_name = isset($ads['after_class_name']) ? $ads['after_class_name'] : '';
                         $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
                         if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
                             $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
@@ -2530,13 +2532,20 @@ function quads_parse_default_ads_new( $content ) {
  * @return type
  */
 function quads_replace_ads($content, $quicktag, $id) {
-        global $quads_options;
-   
+    global $quads_options, $quads_mode;
 
     if( strpos($content,'<!--'.$quicktag.'-->')===false ) { 
             return $content; 
         }
 
+    if(isset($quads_mode) && $quads_mode == 'old'){
+        if(isset($quads_options['ads']['ad'.$id]['phone']) || isset($quads_options['ads']['ad'.$id]['desktop'])){
+            $get_device = function_exists('quads_check_my_device') ? quads_check_my_device() : '';
+            if(isset($quads_options['ads']['ad'.$id][$get_device]) && $quads_options['ads']['ad'.$id][$get_device] == 1){
+                return $content;
+            }
+        }
+    }
         
     if ($id != -1) {
                 

@@ -25,7 +25,7 @@ add_shortcode( 'quads', 'quads_shortcode_display_ad', 1); // Important use a ver
  * @param array $atts
  */
 function quads_shortcode_display_ad( $atts ) {
-    global $quads_options,$quads_shortcode_ids;
+    global $quads_options,$quads_shortcode_ids,$quads_mode;
 
     // Display Condition is false and ignoreShortcodeCond is empty or not true
     if( !quads_ad_is_allowed() && !isset($quads_options['ignoreShortcodeCond']) )
@@ -40,6 +40,15 @@ function quads_shortcode_display_ad( $atts ) {
     // The ad id
     $id = isset( $atts['id'] ) ? ( int ) $atts['id'] : 0;
     $ad_id = isset($quads_options['ads']['ad'.$id.'']) && $quads_options['ads']['ad'.$id.'']!==NULL ? (isset($quads_options['ads']['ad'.$id.'']['ad_id'])?$quads_options['ads']['ad'.$id.'']['ad_id']:NULL ): NULL ;
+
+    if(isset($quads_mode) && $quads_mode == 'old'){
+        if(isset($quads_options['ads']['ad'.$id]['phone']) || isset($quads_options['ads']['ad'.$id]['tablet_landscape']) || isset($quads_options['ads']['ad'.$id]['desktop'])){
+            $get_device = function_exists('quads_check_my_device') ? quads_check_my_device() : '';
+            if(isset($quads_options['ads']['ad'.$id][$get_device]) && $quads_options['ads']['ad'.$id][$get_device] == 1){
+                return;
+            }
+        }
+    }
 
     $arr = array(
         'float:left;margin:%1$dpx %1$dpx %1$dpx 0;',

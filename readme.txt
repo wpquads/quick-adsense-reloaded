@@ -1,4 +1,4 @@
-=== Ads by WPQuads – Adsense Ads, Banner Ads, Popup Ads & more ===
+=== Ads by WPQuads – Adsense Ads, Banner Ads, Popup Ads ===
 
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
@@ -10,9 +10,9 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.2
 Requires PHP: 5.4
-Stable tag: 2.0.70
+Stable tag: 2.0.71
 
-Ads & AdSense Ad Plugin is the quickest way to insert Google AdSense & Banner ads on your site. Innovative features, Active Development & Fast Support.
+Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 
 == Description ==
 The legendary [WPQuads Ads](https://wpquads.com/)  plugin is back with the modern approach for an Ads solution. WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
@@ -206,6 +206,16 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.71 ( 06 May 2023 ) =
+* Added: Rotator / group should show which ads are added without going into any settings #512
+* Added: Loader should be there till content fully loaded when edit ad is click #662
+* Added: Need to add default width and height for the ads #680
+* Fixed: There is an error in the console while using the WPQUADS plugin #717
+* Fixed: When we disable the ads on mobile and desktop in the classic view, they are still showing #738
+* Fixed: Do not use null coalescing operator (??) anywhere in WP Quads #744
+* Fixed: Warning showing #745
+* Fixed: Ad disappears after 2.0.53 update #746
 
 = 2.0.70 ( 14 April 2023 ) =
 * Added: An eye icon while adding a new ad to see what it is #651
