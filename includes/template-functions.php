@@ -3158,6 +3158,9 @@ function quads_del_element($array, $idx) {
                     if($value['post']['post_status']== 'draft'){
                         continue;
                     }
+                    if($ads['position'] == 'ad_shortcode'){
+                        continue;
+                    }
     
              if(isset($ads['visibility_include']))
                  $ads['visibility_include'] = unserialize($ads['visibility_include']);

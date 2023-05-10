@@ -571,7 +571,7 @@ function quads_visitor_comparison_logic_checker($visibility){
 
         case 'url_parameter':
               $url = esc_url($_SERVER['REQUEST_URI']);
-              if ( strpos($url,$v_id) !== false ) {
+              if ( strpos($v_id,$url) !== false ) {
                 $result = true;
               }
         break;
