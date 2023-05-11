@@ -2604,7 +2604,12 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
                     $id_name = "quads-".esc_attr($id)."-place";
                     $code .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
                 }
-                $code .=   $ad_meta['code'][0];
+                if(isset($ad_meta['mobile_html_check'][0]) && $ad_meta['mobile_html_check'][0] == true && isset($ad_meta['mob_code'][0])){
+                    $get_device = function_exists('quads_check_my_device') ? quads_check_my_device() : '';
+                    $code .= $get_device == 'phone' ? $ad_meta['mob_code'][0] : $ad_meta['code'][0];
+                }else{
+                    $code .=   $ad_meta['code'][0];
+                }
                 if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true && strpos($ad_meta['code'][0], 'class="adsbygoogle"') !== false) {
                     $check_script_tag =    preg_match('#<script(.*?)src=(.*?)>(.*?)</script>#is', $code);
                     if($check_script_tag){
