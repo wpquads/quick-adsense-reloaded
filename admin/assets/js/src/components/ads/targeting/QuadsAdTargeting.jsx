@@ -267,7 +267,7 @@ class QuadsAdTargeting extends Component {
                      {post_meta.count_as_per == 'custom_tag' ? 
                     <tr>
                     <td><label>{__('Enter Your Tag', 'quick-adsense-reloaded')}</label></td>
-                      <td><input  onChange={this.props.adFormChangeHandler} name="enter_your_tag" value={post_meta.enter_your_tag}  type="text" placeholder='"div"' /></td>
+                      <td><input  onChange={this.props.adFormChangeHandler} name="enter_your_tag" value={post_meta.enter_your_tag}  type="text" placeholder="div" /></td>
                     </tr>
                     : null}
                     <tr>
@@ -309,7 +309,7 @@ class QuadsAdTargeting extends Component {
                      {post_meta.count_as_per == 'custom_tag' ? 
                     <tr>
                     <td><label>{__('Enter Your Tag', 'quick-adsense-reloaded')}</label></td>
-                      <td><input  onChange={this.props.adFormChangeHandler} name="enter_your_tag" value={post_meta.enter_your_tag}  type="text" placeholder='"div"' /></td>
+                      <td><input  onChange={this.props.adFormChangeHandler} name="enter_your_tag" value={post_meta.enter_your_tag}  type="text" placeholder="div" /></td>
                     </tr>
                     : null}
                     <tr>
