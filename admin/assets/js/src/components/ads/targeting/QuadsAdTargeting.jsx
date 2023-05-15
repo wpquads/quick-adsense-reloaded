@@ -282,7 +282,7 @@ class QuadsAdTargeting extends Component {
                    { post_meta.position == 'ad_sticky_ad' ? 
                     <>
                   <tr>
-                  <td> <label htmlFor="sticy_ad_closebtn"> {__('Add close Button? ', 'quick-adsense-reloaded')}{post_meta.add_close_btn}</label> </td>
+                  <td> <label htmlFor="cls_btn"> {__('Add close Button? ', 'quick-adsense-reloaded')}{post_meta.add_close_btn}</label> </td>
                     <td><input id='cls_btn' checked={post_meta.cls_btn} name="cls_btn" onChange={this.props.adFormChangeHandler} type="checkbox"/></td>
                   </tr>
 
