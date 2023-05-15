@@ -2421,7 +2421,7 @@ and open the template in the editor.
 .quads-ad-search-box input {
   width: 100%;
   max-width: 100%;
-  height: 60px;
+  height: 50px;
   vertical-align: top;
   border: 1px solid #E1E1E1;
   border-radius: 0px;
@@ -3262,7 +3262,13 @@ and open the template in the editor.
   line-height: 32px; }
 
 .quads-ad-networks.ad_logging {
-  padding: 0px; }
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0; }
+
+.ad_logging .quads-ad-table {
+  border: 1px solid #eee; }
 
 .show_btn {
   padding: 4px 10px 6px 10px;
@@ -3289,6 +3295,10 @@ and open the template in the editor.
   position: absolute;
   right: 0;
   margin-top: -4px; }
+
+.ad_logging #report_period {
+  position: relative;
+  margin: 0; }
 
 tr.top5_ads_click {
   cursor: pointer;
