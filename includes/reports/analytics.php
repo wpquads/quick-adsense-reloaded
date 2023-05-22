@@ -290,7 +290,7 @@ public function quads_get_client_ip() {
                 if(!isset($ads['position'])){
                   continue;
                 }
-                if((isset($ads['position']) && $ads['position']=='ad_shortcode') && !in_array($ads['ad_id'],$quads_shortcode_ids))
+                if((isset($ads['position']) && $ads['position']=='ad_shortcode') && is_array($quads_shortcode_ids) && !in_array($ads['ad_id'],$quads_shortcode_ids))
                 {
                   continue;
                 }
