@@ -30,22 +30,24 @@ add_action( 'init', 'quads_remove_ads_for_wp_shortcodes',999 );
 //Change Status of Ad here
 add_action( 'wp_loaded', 'quads_update_ads_status' );
 function quads_update_ads_status(){
-    if ( ! current_user_can( 'manage_options' ) ) {
-        return;
-    }
-    $adsArray = quads_get_active_ads_ids();
-    foreach($adsArray as $ad){
-        $ad_meta = get_post_meta($ad, '',true);
-        if( isset($ad_meta['check_exp_date'][0]) && $ad_meta['check_exp_date'][0] == 1 && isset($ad_meta['exp_date_from'][0]) && isset($ad_meta['exp_date_to'][0]) ){
-            $current_date = date("Y-m-d");
-            if($ad_meta['exp_date_to'][0] < $current_date){
-                 wp_update_post(array(
-                    'ID'            =>  $ad,
-                    'post_status'   =>  'draft'
-                )); 
-             }
+    if(function_exists('quads_is_pro_active') && quads_is_pro_active()){
+        if ( ! current_user_can( 'manage_options' ) ) {
+            return;
         }
-    }     
+        $adsArray = quads_get_active_ads_ids();
+        foreach($adsArray as $ad){
+            $ad_meta = get_post_meta($ad, '',true);
+            if( isset($ad_meta['check_exp_date'][0]) && $ad_meta['check_exp_date'][0] == 1 && isset($ad_meta['exp_date_from'][0]) && isset($ad_meta['exp_date_to'][0]) ){
+                $current_date = date("Y-m-d");
+                if($ad_meta['exp_date_to'][0] < $current_date){
+                     wp_update_post(array(
+                        'ID'            =>  $ad,
+                        'post_status'   =>  'draft'
+                    )); 
+                }
+            }
+        }
+    }
 }
 
 function quads_get_complete_html( $content_buffer ) {
@@ -1064,6 +1066,11 @@ function quads_filter_default_ads_new( $content ) {
     }   
     $quads_ads = quads_api_services_cllbck(); 
 
+    $check_is_pro = false;
+    if(function_exists('quads_is_pro_active') && quads_is_pro_active()){
+        $check_is_pro = true;
+    }
+
     // Default Ads
     $adsArrayCus = array();
     if(isset($quads_ads['posts_data'])){        
@@ -1075,7 +1082,7 @@ function quads_filter_default_ads_new( $content ) {
                 continue;
             }
             //Check Spec Day
-            if(isset($value['post_meta']['check_spec_day']) && $value['post_meta']['check_spec_day'] == 1){
+            if($check_is_pro && isset($value['post_meta']['check_spec_day']) && $value['post_meta']['check_spec_day'] == 1){
                 if(isset($value['post_meta']['set_spec_day']) && $value['post_meta']['set_spec_day'] !== strtolower(date('D'))){
                     continue;
                 }
