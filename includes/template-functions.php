@@ -27,6 +27,27 @@ add_action( 'plugins_loaded', 'quads_plugins_loaded_bbpress', 20 );
 
 add_action( 'init', 'quads_remove_ads_for_wp_shortcodes',999 );
 
+//Change Status of Ad here
+add_action( 'wp_loaded', 'quads_update_ads_status' );
+function quads_update_ads_status(){
+    if ( ! current_user_can( 'manage_options' ) ) {
+        return;
+    }
+    $adsArray = quads_get_active_ads_ids();
+    foreach($adsArray as $ad){
+        $ad_meta = get_post_meta($ad, '',true);
+        if( isset($ad_meta['check_exp_date'][0]) && $ad_meta['check_exp_date'][0] == 1 && isset($ad_meta['exp_date_from'][0]) && isset($ad_meta['exp_date_to'][0]) ){
+            $current_date = date("Y-m-d");
+            if($ad_meta['exp_date_to'][0] < $current_date){
+                 wp_update_post(array(
+                    'ID'            =>  $ad,
+                    'post_status'   =>  'draft'
+                )); 
+             }
+        }
+    }     
+}
+
 function quads_get_complete_html( $content_buffer ) {
     $content_buffer = apply_filters('wp_quads_content_html_last_filter', $content_buffer);
     return  $content_buffer;
@@ -957,6 +978,17 @@ function quads_get_active_ads() {
     return (isset($adsArray) && count($adsArray) > 0) ? $adsArray : 0;
 }
 
+function quads_get_active_ads_ids() {
+    global $quads_options;
+    if (empty($quads_options['ads'])){
+       return 0;
+    }
+    foreach ( $quads_options['ads'] as $ads) {
+        $adsArray[] = $ads['ad_id'];
+    }
+    return (isset($adsArray) && count($adsArray) > 0) ? $adsArray : 0;
+}
+
 /**
  * Get list of valid ad ids's where either the plain text code field or the adsense ad slot and the ad client id is populated.
  * @global arr $quads_options
@@ -1041,6 +1073,12 @@ function quads_filter_default_ads_new( $content ) {
             $ads =$value['post_meta'];
             if($value['post']['post_status']== 'draft'){
                 continue;
+            }
+            //Check Spec Day
+            if(isset($value['post_meta']['check_spec_day']) && $value['post_meta']['check_spec_day'] == 1){
+                if(isset($value['post_meta']['set_spec_day']) && $value['post_meta']['set_spec_day'] !== strtolower(date('D'))){
+                    continue;
+                }
             }
             if(isset($ads['random_ads_list']))
             $ads['random_ads_list'] = unserialize($ads['random_ads_list']);
