@@ -407,7 +407,7 @@ function quads_render_ad_video_async( $id ) {
     }
 
     $html .= "\n <!-- end WP QUADS --> \n\n";
-    return apply_filters( 'quads_render_ad_image_async', $html );
+    return apply_filters( 'quads_render_ad_video_async', $html );
 }
 
 /**

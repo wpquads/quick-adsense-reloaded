@@ -420,7 +420,7 @@ function quads_is_visitor_on($ads){
       }
     }
   }
-    return $response;
+      return $response;
 
 }
 
@@ -571,9 +571,9 @@ function quads_visitor_comparison_logic_checker($visibility){
 
         case 'url_parameter':
               $url = esc_url($_SERVER['REQUEST_URI']);
-              if ( strpos($v_id,$url) !== false ) {
+              if ( strpos($url, $v_id) !== false ) {
                 $result = true;
-              }
+              }              
         break;
 
         case 'cookie':
