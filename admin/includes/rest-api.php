@@ -1968,7 +1968,7 @@ public function quads_get_user_roles_api() {
    $roles = array();
 
    foreach ( $wp_roles->roles as $role ) {
-      $value = str_replace( ' ', null, strtolower( $role["name"] ) );
+      $value = str_replace( ' ', '', strtolower( $role["name"] ) );
       $roles[$value] = $role["name"];
    }
    return $roles;
