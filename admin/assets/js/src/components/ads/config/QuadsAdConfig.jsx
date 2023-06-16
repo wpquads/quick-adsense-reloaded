@@ -59,6 +59,8 @@ class QuadsAdConfig extends Component {
               ad_type={page.ad_type} 
               parentState={this.props.parentState} 
               adFormChangeHandler={this.props.adFormChangeHandler} 
+              updateSetdaysList   = {this.props.updateSetdaysList} 
+              
               />
               </div>
               :''}

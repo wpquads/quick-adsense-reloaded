@@ -561,6 +561,9 @@ if($license_info){
                     if($key == 'floating_slides'){
                       $filterd_meta =$val;
                     }
+                    if($key == 'set_spec_day'){
+                      $filterd_meta =$val;
+                    }
 
                     update_post_meta($ad_id, $key, $filterd_meta);
                 }
