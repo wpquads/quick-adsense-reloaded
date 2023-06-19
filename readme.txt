@@ -207,7 +207,7 @@ Alternative Installation:
 
 == Changelog ==
 
-= 2.0.72 ( 19 May 2023 ) =
+= 2.0.72 ( 19 June 2023 ) =
 * Added: New Option to set expiry date #747
 * Fixed: Some errors in Apache error log #750
 * Fixed: Option "Ad after HTML tag" is not working #748
