@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.2
 Requires PHP: 5.4
-Stable tag: 2.0.71
+Stable tag: 2.0.72
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -206,6 +206,22 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.72 ( 19 June 2023 ) =
+* Added: New Option to set expiry date #747
+* Fixed: Some errors in Apache error log #750
+* Fixed: Option "Ad after HTML tag" is not working #748
+* Fixed: Some issues are occurring with vide ads #719
+* Fixed: There is a need to make a feature where users can add mobile device-specific ads. #725
+* Fixed: Improvement requirement in Impression and click counts #724
+* Fixed: Ad Logging UI is broken (pro) #684
+* Fixed: Toggle to disable "All Ads should appear after 3-4 seconds of loading the page" #704
+* Fixed: Checkbox selection should work on every respective label click #751
+* Fixed: Newspaper theme ad options should only be available if the theme is activated #753
+* Fixed: Banner Ads are appearing on the Store page even if not configured #752
+* Fixed: URL Parameter inside targeting is not working. #754
+* Fixed: Wrong parameters passed to impressions and clicks functionality #755
+* Fixed: When we enable the ad performance tracking option, a lot of requests are sent to the server. #763
 
 = 2.0.71 ( 06 May 2023 ) =
 * Added: Rotator / group should show which ads are added without going into any settings #512

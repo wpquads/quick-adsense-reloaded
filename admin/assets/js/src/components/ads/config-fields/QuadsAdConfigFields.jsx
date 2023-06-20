@@ -511,6 +511,22 @@ const {__} = wp.i18n;
                   <td><textarea className={(show_form_error && post_meta.code == '') ? 'quads_form_error' : ''}  cols="50" rows="5" value={post_meta.code} onChange={this.props.adFormChangeHandler} id="code" name="code" />
                   {(show_form_error && post_meta.code == '') ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>Enter Plain Text / HTML / JS</div> : ''}</td>
                   </tr>
+                  <tr>
+                  <td><label className='q_img_ma_lab' htmlFor="mobile_image_check">{__('Mobile specific Ad', 'quick-adsense-reloaded')}</label></td>
+                  <td>
+                  <label className="quads-switch mob_ads_html">
+                  <input className='mob_html_check' id="mobile_html_check" checked={post_meta.mobile_html_check} name="mobile_html_check" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                         <span className="quads-slider"></span>
+                       </label>
+                  </td>
+                  </tr>
+                   { post_meta.mobile_html_check && post_meta.mobile_html_check == 1 ? <tr><td>
+                     <label>{__('Mobile Plain Text / HTML / JS ', 'quick-adsense-reloaded')}</label></td>
+                     <td><textarea className={(show_form_error && post_meta.mob_code == '') ? 'quads_form_error' : ''}  cols="50" rows="5" value={post_meta.mob_code} onChange={this.props.adFormChangeHandler} id="mob_code" name="mob_code" />
+                     {(show_form_error && post_meta.mob_code == '') ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>Enter Plain Text / HTML / JS</div> : ''}</td>
+                      </tr>
+                     : ''
+                   }
                   </tbody></table>
                   </div>);      
               break;

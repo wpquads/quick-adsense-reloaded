@@ -957,6 +957,17 @@ function quads_get_active_ads() {
     return (isset($adsArray) && count($adsArray) > 0) ? $adsArray : 0;
 }
 
+function quads_get_active_ads_ids() {
+    global $quads_options;
+    if (empty($quads_options['ads'])){
+       return 0;
+    }
+    foreach ( $quads_options['ads'] as $ads) {
+        $adsArray[] = $ads['ad_id'];
+    }
+    return (isset($adsArray) && count($adsArray) > 0) ? $adsArray : 0;
+}
+
 /**
  * Get list of valid ad ids's where either the plain text code field or the adsense ad slot and the ad client id is populated.
  * @global arr $quads_options
@@ -1032,6 +1043,7 @@ function quads_filter_default_ads_new( $content ) {
     }   
     $quads_ads = quads_api_services_cllbck(); 
 
+
     // Default Ads
     $adsArrayCus = array();
     if(isset($quads_ads['posts_data'])){        
@@ -1040,6 +1052,10 @@ function quads_filter_default_ads_new( $content ) {
         foreach($quads_ads['posts_data'] as $key => $value){
             $ads =$value['post_meta'];
             if($value['post']['post_status']== 'draft'){
+                continue;
+            }
+            $quads_visibilty = apply_filters('wpquads_ad_conditional_visibility', $value['post_meta']);
+            if(!$quads_visibilty){
                 continue;
             }
             if(isset($ads['random_ads_list']))
@@ -2604,7 +2620,12 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
                     $id_name = "quads-".esc_attr($id)."-place";
                     $code .= '<div id="'.esc_attr($id_name).'" class="quads-ll">' ;
                 }
-                $code .=   $ad_meta['code'][0];
+                if(isset($ad_meta['mobile_html_check'][0]) && $ad_meta['mobile_html_check'][0] == true && isset($ad_meta['mob_code'][0])){
+                    $get_device = function_exists('quads_check_my_device') ? quads_check_my_device() : '';
+                    $code .= $get_device == 'phone' ? $ad_meta['mob_code'][0] : $ad_meta['code'][0];
+                }else{
+                    $code .=   $ad_meta['code'][0];
+                }
                 if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true && strpos($ad_meta['code'][0], 'class="adsbygoogle"') !== false) {
                     $check_script_tag =    preg_match('#<script(.*?)src=(.*?)>(.*?)</script>#is', $code);
                     if($check_script_tag){
@@ -3156,6 +3177,9 @@ function quads_del_element($array, $idx) {
                 foreach($quads_ads['posts_data'] as $key => $value){
                     $ads =$value['post_meta'];
                     if($value['post']['post_status']== 'draft'){
+                        continue;
+                    }
+                    if($ads['position'] == 'ad_shortcode'){
                         continue;
                     }
     

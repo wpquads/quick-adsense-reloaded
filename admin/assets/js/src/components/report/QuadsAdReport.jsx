@@ -386,7 +386,7 @@ class QuadsAdReport extends Component {
                     }
                     else{
                         
-                        console.log(response);
+    
                         this.display_report_stats_main_report(response)
                         var ad_day = response.ad_day
 
@@ -401,7 +401,7 @@ class QuadsAdReport extends Component {
                                 pass_var = response.ad_imp_individual_dates
                                 pass_Date = 'Date'
                             }
-
+                       
         render_data = `<table>
                         <tbody>
                         <tr>
@@ -418,7 +418,35 @@ class QuadsAdReport extends Component {
                         <table>
                         <tbody>
                         <tr>
-                        <td><b>Impressions</b></td>
+                        <td><b>Mobile Impressions</b></td>
+                        </tr>
+
+                        ${ response.mob_indi_impr_day_counts.map( (item3, index3) =>  {
+                            return `<tr key=${index3}><td>${item3}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td>${response.mob_impressions?response.mob_impressions:0}</td></tr>
+                        </tbody>
+                        </table>
+
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Desktop Impressions</b></td>
+                        </tr>
+
+                        ${ response.desk_indi_impr_day_counts.map( (item3, index3) =>  {
+                            return `<tr key=${index3}><td>${item3}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td>${response.desk_impressions}</td></tr>
+                        </tbody>
+                        </table>
+
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Total Impressions</b></td>
                         </tr>
 
                         ${ response.individual_impr_day_counts.map( (item3, index3) =>  {
@@ -432,7 +460,35 @@ class QuadsAdReport extends Component {
                         <table>
                         <tbody>
                         <tr>
-                        <td><b>Clicks</b></td>
+                        <td><b>Mobile Clicks</b></td>
+                        </tr>
+
+                        ${ response.mob_indi_click_day_counts.map( (item2, index2) =>  {
+                            return `<tr key=${index2}><td>${item2}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td>${response.mob_clicks?response.mob_clicks:0}</td></tr>
+                        </tbody>
+                        </table>
+
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Desktop Clicks</b></td>
+                        </tr>
+
+                        ${ response.desk_indi_click_day_counts.map( (item2, index2) =>  {
+                            return `<tr key=${index2}><td>${item2}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td>${response.desk_clicks}</td></tr>
+                        </tbody>
+                        </table>
+
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Total Clicks</b></td>
                         </tr>
 
                         ${ response.individual_click_day_counts.map( (item2, index2) =>  {
@@ -850,7 +906,6 @@ drawChart(config);
                         q_rtt.innerHTML = ''
                     }
                     else{
-                        console.log(response);
                         let pro_not = document.getElementById('quads_reports_pro_notify_main')
                         if(pro_not){
                             pro_not.innerHTML = ''
@@ -877,15 +932,19 @@ drawChart(config);
                     
                        render_data = `<table>
                         <tbody>
-                        <tr><td colspan="3" align="center"><b>Top 5 Performing Ads</b></td></tr>
+                        <tr><td colspan="7" align="center"><b>Top 5 Performing Ads</b></td></tr>
                         <tr>
                         <td><b>Ad Name</b></td>
-                        <td><b>Impressions</b></td>
-                        <td><b>Clicks</b></td>
+                        <td><b>Mobile Impressions</b></td>
+                        <td><b>Desktop Impressions</b></td>
+                        <td><b>Total Impressions</b></td>
+                        <td><b>Mobile Clicks</b></td>
+                        <td><b>Desktop Clicks</b></td>
+                        <td><b>Total Clicks</b></td>
                         </tr>
                         ${  
                             top5_ads.map( (ads, index) =>  {
-                            return `<tr key=${index} "top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();"  data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
+                            return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();"  data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.mob_imprsn?ads.mob_imprsn:0}</td><td>${ads.desk_imprsn}</td><td>${ads.total_impression}</td><td>${ads.mob_click?ads.mob_click:0}</td><td>${ads.desk_clicks}</td><td>${ads.total_click}</td></tr>`
                         }).join('')
                         }
 
@@ -898,7 +957,7 @@ drawChart(config);
                 else
                 {
                     
-        render_data = `<table ><tr><td colspan="3" align="center"><b>Perfomance report for `+ad_day.charAt(0).toUpperCase() + ad_day.slice(1).replace(/_/g,' ')+`</b></td></tr>
+        render_data = `<table ><tr><td colspan="7" align="center"><b>Perfomance report for `+ad_day.charAt(0).toUpperCase() + ad_day.slice(1).replace(/_/g,' ')+`</b></td></tr>
         <tr><td "main_td"><table>
                         <tbody>
                         <tr>
@@ -910,11 +969,40 @@ drawChart(config);
                         }
                         <tr><td>Total</td></tr>
                         </tbody>
-                        </table></td><td "main_td">
+                        </table></td>
+                        <td "main_td">
                         <table>
                         <tbody>
                         <tr>
-                        <td><b>Impressions</b></td>
+                        <td><b>Mobile Impressions</b></td>
+                        </tr>
+                        ${ response.mob_indi_impr_day_counts.map( (item3, index3) =>  {
+                            return `<tr key=${index3}><td>${item3}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td>${response.mob_impressions}</td></tr>
+                        </tbody>
+                        </table>
+                        </td>
+                        <td "main_td">
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Desktop Impressions</b></td>
+                        </tr>
+                        ${ response.desk_indi_impr_day_counts.map( (item3, index3) =>  {
+                            return `<tr key=${index3}><td>${item3}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td>${response.desk_impressions}</td></tr>
+                        </tbody>
+                        </table>
+                        </td>
+                        <td "main_td">
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Total Impressions</b></td>
                         </tr>
 
                         ${ response.individual_impr_day_counts.map( (item3, index3) =>  {
@@ -929,7 +1017,35 @@ drawChart(config);
                         <table>
                         <tbody>
                         <tr>
-                        <td><b>Clicks</b></td>
+                        <td><b>Mobile Clicks</b></td>
+                        </tr>
+                        ${ response.mob_indi_click_day_counts.map( (item2, index2) =>  {
+                            return `<tr key=${index2}><td>${item2}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td>${response.mob_clicks?response.mob_clicks:0}</td></tr>
+                        </tbody>
+                        </table>
+                        </td>
+                        <td "main_td">
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Desktop Clicks</b></td>
+                        </tr>
+                        ${ response.desk_indi_click_day_counts.map( (item2, index2) =>  {
+                            return `<tr key=${index2}><td>${item2}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td>${response.desk_clicks}</td></tr>
+                        </tbody>
+                        </table>
+                        </td>
+                        <td "main_td">
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Total Clicks</b></td>
                         </tr>
 
                         ${ response.individual_click_day_counts.map( (item2, index2) =>  {
@@ -949,15 +1065,19 @@ drawChart(config);
                         {
                             render_data = `<table>
                                 <tbody>
-                                <tr><td colspan="3" align="center"><b>Top 5 Performing Ads</b></td></tr>
+                                <tr><td colspan="7" align="center"><b>Top 5 Performing Ads</b></td></tr>
                                 <tr>
                                 <td><b>Ad Name</b></td>
-                                <td><b>Impressions</b></td>
-                                <td><b>Clicks</b></td>
+                                <td><b>Mobile Impressions</b></td>
+                                <td><b>Desktop Impressions</b></td>
+                                <td><b>Total Impressions</b></td>
+                                <td><b>Mobile Clicks</b></td>
+                                <td><b>Desktop Clicks</b></td>
+                                <td><b>Total Clicks</b></td>
                                 </tr>
                                 ${  
                                     top5_ads.map( (ads, index) =>  {
-                                    return `<tr key=${index} "top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
+                                    return `<tr key=${index} "top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.mob_imprsn?ads.mob_imprsn:0}</td><td>${ads.desk_imprsn}</td><td>${ads.total_impression}</td><td>${ads.mob_clicks?ads.mob_clicks:0}</td><td>${ads.desk_clicks}</td><td>${ads.total_click}</td></tr>`
                                 }).join('')
                                 }
                                 </tbody>
@@ -967,7 +1087,7 @@ drawChart(config);
                         else
                         {
                         let pass_Date_ = 'Date'
-                        render_data = `<table ><tr><td colspan="3" align="center"><b>Perfomance report for `+ad_day.charAt(0).toUpperCase() + ad_day.slice(1).replace(/_/g,' ')+`</b></td></tr>
+                        render_data = `<table ><tr><td colspan="7" align="center"><b>Perfomance report for `+ad_day.charAt(0).toUpperCase() + ad_day.slice(1).replace(/_/g,' ')+`</b></td></tr>
                         <tr><td "main_td"><table>
                         <tbody>
                         <tr>
@@ -977,57 +1097,118 @@ drawChart(config);
                             return `<tr key=${index}><td>${item}</td></tr>`
                         }).join('')
                         }
-
-                        </tbody>
-                        </table></td><td "main_td">
-
-                        <table>
-                        <tbody>
-                        <tr>
-                        <td><b>Impressions</b></td>
-                        </tr>
-
-                        ${ response.individual_impr_day_counts.map( (item3, index3) =>  {
-                            return `<tr key=${index3}><td>${item3}</td></tr>`
-                        } ).join('')
-                        }
-
+                        <tr><td><b>Total</b></td></tr>
                         </tbody>
                         </table></td>
                         <td "main_td">
                         <table>
                         <tbody>
                         <tr>
-                        <td><b>Clicks</b></td>
+                        <td><b>Mobile Impressions</b></td>
+                        </tr>
+
+                        ${ response.mob_indi_impr_day_counts.map( (item3, index3) =>  {
+                            return `<tr key=${index3}><td>${item3}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td><b>${response.mob_impressions}</b></td></tr>
+                        </tbody>
+                        </table></td>
+                        <td "main_td">
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Desktop Impressions</b></td>
+                        </tr>
+
+                        ${ response.desk_indi_impr_day_counts.map( (item3, index3) =>  {
+                            return `<tr key=${index3}><td>${item3}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td><b>${response.desk_impressions}</b></td></tr>
+                        </tbody>
+                        </table></td>
+                        <td "main_td">
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Total Impressions</b></td>
+                        </tr>
+
+                        ${ response.individual_impr_day_counts.map( (item3, index3) =>  {
+                            return `<tr key=${index3}><td>${item3}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td><b>${response.impressions}</b></td></tr>
+                        </tbody>
+                        </table></td>
+                        <td "main_td">
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Mobile Clicks</b></td>
+                        </tr>
+
+                        ${ response.mob_indi_click_day_counts.map( (item2, index2) =>  {
+                            return `<tr key=${index2}><td>${item2}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td><b>${response.mob_clicks}</b></td></tr>
+                        </tbody>
+                        </table></td>
+                        <td "main_td">
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Desktop Clicks</b></td>
+                        </tr>
+
+                        ${ response.desk_indi_click_day_counts.map( (item2, index2) =>  {
+                            return `<tr key=${index2}><td>${item2}</td></tr>`
+                        } ).join('')
+                        }
+                        <tr><td><b>${response.desk_clicks}</b></td></tr>
+                        </tbody>
+                        </table></td>
+                        <td "main_td">
+                        <table>
+                        <tbody>
+                        <tr>
+                        <td><b>Total Clicks</b></td>
                         </tr>
 
                         ${ response.individual_click_day_counts.map( (item2, index2) =>  {
                             return `<tr key=${index2}><td>${item2}</td></tr>`
                         } ).join('')
                         }
-
+                        <tr><td><b>${response.clicks}</b></td></tr>
                         </tbody>
                         </table></td><tr></table>`;
 
-                        render_data_total = "<table><tbody><tr><td>Total</td><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
-                        get_table_tot.innerHTML = render_data_total
+                        //render_data_total = "<table><tbody><tr><td>Total</td><td>"+response.mob_impressions+"</td><td>"+response.desk_impressions+"</td><td>"+response.impressions+"</td><td>"+response.mob_clicks+"</td><td>"+response.desk_clicks+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+                        //get_table_tot.innerHTML = render_data_total
                     }
                     }
                     else{
 
                         if(id=="all")
                         {
+        
                             render_data = `<table>
                                 <tbody>
-                                <tr><td colspan="3" align="center"><b>Top 5 Performing Ads</b></td></tr>
+                                <tr><td colspan="7" align="center"><b>Top 5 Performing Ads</b></td></tr>
                                 <tr>
                                 <td><b>Ad Name</b></td>
-                                <td><b>Impressions</b></td>
-                                <td><b>Clicks</b></td>
+                                <td><b>Mobile Impressions</b></td>
+                                <td><b>Desktop Impressions</b></td>
+                                <td><b>Total Impressions</b></td>
+                                <td><b>Mobile Clicks</b></td>
+                                <td><b>Desktop Clicks</b></td>
+                                <td><b>Total Clicks</b></td>
                                 </tr>
                                 ${  
                                     top5_ads.map( (ads, index) =>  {
-                                    return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}"   ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
+                                    return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}"   ><td>${ads.post_title}</td><td>${ads.mob_imprsn?ads.mob_imprsn:0}</td><td>${ads.desk_imprsn}</td><td>${ads.total_impression}</td><td>${ads.mob_clicks?ads.mob_clicks:0}</td><td>${ads.desk_clicks}</td><td>${ads.total_click}</td></tr>`
                                 }).join('')
                                 }
         
@@ -1037,7 +1218,7 @@ drawChart(config);
                                 
                         }
                         else{
-                            render_data = "<table><tbody><tr><td colspan='3' align='center'><b>Perfomance report for "+ad_day.charAt(0).toUpperCase() + ad_day.slice(1).replace(/_/g,' ')+"</b></td></tr><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
+                            render_data = "<table><tbody><tr><td colspan='7' align='center'><b>Perfomance report for "+ad_day.charAt(0).toUpperCase() + ad_day.slice(1).replace(/_/g,' ')+"</b></td></tr><tr><td><b>Mobile Impressions</b></td><td><b>Desktop Impressions</b></td><td><b>Total Impressions</b></td><td><b>Mobile Clicks</b></td><td><b>Desktop Clicks</b></td><td><b>Total Clicks</b></td></tr><tr><td>"+response.mob_impressions+"</td><td>"+response.desk_impressions+"</td><td>"+response.impressions+"</td><td>"+response.mob_clicks+"</td><td>"+response.desk_clicks+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
                         }
                             
                         }
@@ -1079,7 +1260,6 @@ drawChart(config);
                         get_table.innerHTML = 'No data Found'
                     }
                     else{
-                        console.log(response);
                         var top5_ads = response.top5_ads
                         this.display_report_stats_main_report(response)
                         if(id=="all")
@@ -1089,12 +1269,16 @@ drawChart(config);
                                 <tr><td colspan="3" align="center"><b>Top 5 Performing Ads</b></td></tr>
                                 <tr>
                                 <td><b>Ad Name</b></td>
-                                <td><b>Impressions</b></td>
-                                <td><b>Clicks</b></td>
+                                <td><b>Mobile Impressions</b></td>
+                                <td><b>Desktop Impressions</b></td>
+                                <td><b>Total Impressions</b></td>
+                                <td><b>Mobile Clicks</b></td>
+                                <td><b>Desktop Clicks</b></td>
+                                <td><b>Total Clicks</b></td>
                                 </tr>
                                 ${  
                                     top5_ads.map( (ads,index) =>  {
-                                    return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}" ><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
+                                    return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}" ><td>${ads.post_title}</td><td>${ads.mob_imprsn?ads.mob_imprsn:0}</td><td>${ads.desk_imprsn}</td><td>${ads.total_impression}</td><td>${ads.mob_clicks?ads.mob_clicks:0}</td><td>${ads.desk_clicks}</td><td>${ads.total_click}</td></tr>`
                                 }).join('')
                                 }
         
@@ -1165,7 +1349,7 @@ drawChart(config);
                         q_rtt.innerHTML = ''
                     }
                     else{
-                        console.log(response);
+                    
                         let pro_not = document.getElementById('quads_reports_pro_notify_main')
                         if(pro_not){
                             pro_not.innerHTML = ''
@@ -1173,18 +1357,22 @@ drawChart(config);
                         this.display_report_stats_main_report(response)
                         var ad_day = response.ad_day
                         let ad_imp_individual_dates = response.ad_imp_individual_dates
-                        var top5_ads=response.top5_ads
+                        var top5_ads=response.top5_ads;
                         render_data = `<table>
                         <tbody>
                         <tr><td colspan="3" align="center"><b>Top 5 Performing Ads</b></td></tr>
                         <tr>
                         <td><b>Ad Name</b></td>
-                        <td><b>Impressions</b></td>
-                        <td><b>Clicks</b></td>
+                        <td><b>Mobile Impressions</b></td>
+                        <td><b>Desktop Impressions</b></td>
+                        <td><b>Total Impressions</b></td>
+                        <td><b>Mobile Clicks</b></td>
+                        <td><b>Desktop Clicks</b></td>
+                        <td><b>Total Clicks</b></td>
                         </tr>
                         ${  
                             top5_ads.map( (ads, index) =>  {
-                            return `<tr key=${index}><td>${ads.post_title}</td><td>${ads.total_impression}</td><td>${ads.total_click}</td></tr>`
+                            return `<tr key=${index}><td>${ads.post_title}</td><td>${ads.mob_imprsn?ads.mob_imprsn:0}</td><td>${ads.desk_imprsn}</td><td>${ads.total_impression}</td><td>${ads.mob_clicks?ads.mob_clicks:0}</td><td>${ads.desk_clicks}</td><td>${ads.total_click}</td></tr>`
                         }).join('')
                         }
 
@@ -1424,7 +1612,7 @@ drawChart(config);
                     <div id='quads_reports_canvas' className='report_single' ></div>
                     <div id={'quads_report_table'}></div>
                     <div id={'quads_report_table_total'}
-                    style={{ display: this.state.custom_period ? 'block' : ''}} >
+                    style={{ display:'none'}} >
                     </div>
                     </div>
 

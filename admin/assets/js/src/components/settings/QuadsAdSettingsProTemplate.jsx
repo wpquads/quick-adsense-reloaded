@@ -41,6 +41,9 @@ class QuadsAdSettingsProTemplate extends Component {
         if(data.id == "ad_log"){
           load_symbol = 'lazy_loader_al'
         }
+        if(data.id == "delay_ad_sec"){
+          load_symbol = 'lazy_loader_das'
+        }
         if(data.id == "reports_settings"){
           load_symbol = 'lazy_loader_rs'
         }

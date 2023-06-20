@@ -9,27 +9,27 @@
            ad_ids[index]= ($(this).attr('id'));
         });  
         
-        if($.isEmptyObject( ad_ids ) == false){           
+        if($.isEmptyObject( ad_ids ) == false){      
+         var currentLocation = window.location.href;         
         $.ajax({
                     type: "POST",    
                     url:quads_analytics.ajax_url,                    
                     dataType: "json",
-                    data:{action:"quads_insert_ad_impression", ad_ids:ad_ids, quads_front_nonce:quads_analytics.quads_front_nonce},                    
+                    data:{action:"quads_insert_ad_impression", ad_ids:ad_ids, quads_front_nonce:quads_analytics.quads_front_nonce,currentLocation:currentLocation},                    
                     error: function(response){                    
                     console.log(response);
                     }
                 });     
         } 
              $(".quads-location").on("click",function(){
-         var ad_id = $(this).attr('id');
-         var currentLocation = window.location.href;
-                       var referrer = document.referrer;
-         if(ad_id){
-            $.post(quads_analytics.ajax_url, 
-                  { action:"quads_insert_ad_clicks", ad_id:ad_id, quads_front_nonce:quads_analytics.quads_front_nonce,currentLocation:currentLocation,referrer:referrer},
-                    function(response){
-                    console.log(response);                
-       });  
+                        var ad_id = $(this).attr('id');
+                        var currentLocation = window.location.href;                        
+                  if(ad_id){
+                     $.post(quads_analytics.ajax_url, 
+                           { action:"quads_insert_ad_clicks", ad_id:ad_id, quads_front_nonce:quads_analytics.quads_front_nonce,currentLocation:currentLocation},
+                           function(response){
+                           console.log(response);                
+               });  
              }         
         });                  
         }, 1000);

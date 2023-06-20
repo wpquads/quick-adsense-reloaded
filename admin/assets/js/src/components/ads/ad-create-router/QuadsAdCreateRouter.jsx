@@ -106,9 +106,9 @@ class QuadsAdCreateRouter extends Component {
             random_ads_list            : [], 
             ads_list                   : [],
             image_src                  : '',
-            image_width                  : '',
-            image_height                  : '',
-            image_mobile_src                  : '',
+            image_width                : '',
+            image_height               : '',
+            image_mobile_src           : '',
             image_src_id               : '' ,     
             image_redirect_url         : '' ,  
             taboola_publisher_id       : '' ,   
@@ -145,6 +145,14 @@ class QuadsAdCreateRouter extends Component {
             video_width               : 350,
             parallax_btn_url          : '',
             block_id                  : '',
+            banner_ad_width           : '',
+            banner_ad_height          : '',
+            exp_date_from             : '',
+            exp_date_to               : '',
+            set_spec_day              : [],
+            check_exp_date            :false,
+            check_spec_day            :false
+
             },
             quads_form_errors : {
               g_data_ad_slot       : '',
@@ -186,6 +194,10 @@ class QuadsAdCreateRouter extends Component {
       this.state.quads_post_meta.floating_slides = floating_slides;
       this.floating_slides = floating_slides;
    }
+   updateSetdaysList = (set_days) => {   
+    this.state.quads_post_meta.set_spec_day = set_days;
+    this.set_spec_day = set_days;
+ }
 
     getAdDataById =  (ad_id) => {
 
@@ -405,7 +417,8 @@ class QuadsAdCreateRouter extends Component {
       body_json.quads_post_meta.popup_ads =body_json['popup_ads'];
       body_json.quads_post_meta.video_ads =body_json['video_ads'];
       body_json.quads_post_meta.ads_list = this.ads_list; 
-      body_json.quads_post_meta.floating_slides = this.floating_slides; 
+      body_json.quads_post_meta.floating_slides = this.floating_slides;
+      body_json.quads_post_meta.set_spec_day = this.set_spec_day;
  
       let url = quads_localize_data.rest_url + 'quads-route/update-ad';
       fetch(url,{
@@ -452,7 +465,7 @@ class QuadsAdCreateRouter extends Component {
     adFormChangeHandler = (event) => {
    
       const name = event.target.name;
-      const value = event.target.type === 'checkbox' ?  event.target.checked : event.target.value;   
+      const value = event.target.type === 'checkbox' ?  event.target.checked : event.target.value;  
       if(name == 'position' && value == 'amp_story_ads'){
         let url = quads_localize_data.rest_url+'quads-route/check_plugin_exist?plugin_name=amp_story';   
         fetch(url,{
@@ -499,10 +512,6 @@ class QuadsAdCreateRouter extends Component {
           this.setState({quads_ad_status:'draft'});
         } 
       }
-
-
-
-
     }
     saveAsDraft = (event) => {      
       event.preventDefault();            
@@ -1184,6 +1193,7 @@ class QuadsAdCreateRouter extends Component {
                               updateRandomAds    = {this.updateRandomAds}  
                               updateAdsList    = {this.updateAdsList} 
                               updateFloatingList    = {this.updateFloatingList} 
+                              updateSetdaysList   = {this.updateSetdaysList} 
                               />;
                           case "wizard_target":
                               return <QuadsAdTargeting  

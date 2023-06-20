@@ -71,10 +71,7 @@ public function quads_insert_ad_impression(){
       $id_array = explode('quads-ad', $ad_id );
       $ad_id = $id_array[1]; 
       
-      $referrer_url  = (isset($_POST['referrer'])) ? esc_url($_POST['referrer']):'';
-      if(empty($referrer_url) && isset($_SERVER['HTTP_REFERER'])){
-        $referrer_url  =  esc_url($_SERVER['HTTP_REFERER']);
-      }
+      $referrer_url  = wp_get_referer();      
       $todays_date = '';
       $todays_date = date('Y-m-d');
       $year = date("Y");
@@ -83,7 +80,9 @@ public function quads_insert_ad_impression(){
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
         $actual_link = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
       }
-
+      
+      $browser = $_SERVER['HTTP_USER_AGENT'];
+      
       require_once QUADS_PLUGIN_DIR . '/admin/includes/mobile-detect.php';
       $device_name ='';
       $mobile_detect = $isTablet = '';
@@ -104,7 +103,7 @@ public function quads_insert_ad_impression(){
       $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_stats SET ad_impressions = %d  WHERE id = %d", array($updated_impression,$current_ad_stat['id'])));
      }
      else{
-      $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_stats (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_device_name,ip_address,url,browser,referrer) VALUES (%d,%d,%d,%d,%s,%s,%s,%s,%s);",array( $ad_id, $today, 0, 1,  trim($device_name), trim($user_ip) ,trim($referrer_url),trim($browser), $actual_link )));
+      $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_stats (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_device_name,ip_address,referrer,browser,url) VALUES (%d,%d,%d,%d,%s,%s,%s,%s,%s);",array( $ad_id, $today, 0, 1,  trim($device_name), trim($user_ip) ,trim($referrer_url),trim($browser), $actual_link )));
      }
     
      $current_adstat_single = $wpdb->get_row($wpdb->prepare("SELECT id,ad_impressions,date_impression FROM  {$wpdb->prefix}quads_single_stats_  WHERE ad_id = %d AND ad_date = %s",array($ad_id, $todays_date)),ARRAY_A);
@@ -152,12 +151,8 @@ public function quads_get_client_ip() {
          return;  
       }      
       
-      $ad_id = sanitize_text_field($_POST['ad_id']);  
-      $referrer_url  = (isset($_POST['referrer'])) ? esc_url($_POST['referrer']):'';         
-    if(empty($referrer_url) && isset($_SERVER['HTTP_REFERER'])){
-      $referrer_url  =  esc_url($_SERVER['HTTP_REFERER']);
-
-    }
+      $ad_id = sanitize_text_field($_POST['ad_id']); 
+      $referrer_url  = wp_get_referer();        
       $user_ip       =  $this->quads_get_client_ip();
       $actual_link  = (isset($_POST['currentLocation'])) ? esc_url($_POST['currentLocation']):'';      
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
@@ -295,7 +290,7 @@ public function quads_get_client_ip() {
                 if(!isset($ads['position'])){
                   continue;
                 }
-                if((isset($ads['position']) && $ads['position']=='ad_shortcode') && !in_array($ads['ad_id'],$quads_shortcode_ids))
+                if((isset($ads['position']) && $ads['position']=='ad_shortcode') && is_array($quads_shortcode_ids) && !in_array($ads['ad_id'],$quads_shortcode_ids))
                 {
                   continue;
                 }
@@ -409,7 +404,7 @@ public function quads_get_client_ip() {
         $ip_address = trim($user_ip); //%s
         $browser = trim($browser); //%s
         $url = trim($actual_link); //%s
-        $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_stats (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_device_name,ip_address,url,browser,referrer) VALUES (%d,%d,%d,%d,%s,%s,%s,%s,%s);",array( $ad_id, $ad_thetime,  $ad_clicks,  $ad_impressions,  $ad_device_name, $ip_address , $referrer, $browser, $url )));
+        $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_stats (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_device_name,ip_address,referrer,browser,url) VALUES (%d,%d,%d,%d,%s,%s,%s,%s,%s);",array( $ad_id, $ad_thetime,  $ad_clicks,  $ad_impressions,  $ad_device_name, $ip_address , $referrer, $browser, $url )));
       }
 
 

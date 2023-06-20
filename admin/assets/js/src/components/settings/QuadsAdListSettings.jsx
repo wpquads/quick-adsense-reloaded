@@ -797,6 +797,10 @@ handleMultiPluginsChange = (option) => {
         document.getElementById("ad_log_").style.display = 'none';
         document.getElementsByClassName("lazy_loader_al")[0].style.display = 'block';
       }
+      if( namer_data == 'delay_ad_sec' ){
+        document.getElementById("delay_ad_sec_").style.display = 'none';
+        document.getElementsByClassName("lazy_loader_das")[0].style.display = 'block';
+      }
       if( namer_data == 'reports_settings' && document.getElementById("reports_settings_")){
         document.getElementById("reports_settings_").style.display = 'none';
         document.getElementsByClassName("lazy_loader_rs")[0].style.display = 'block';
@@ -913,6 +917,10 @@ handleMultiPluginsChange = (option) => {
               if( namer_data == 'ad_log' ){
                 document.getElementById("ad_log_").style.display = 'block';
                 document.getElementsByClassName("lazy_loader_al")[0].style.display = 'none';
+              }
+              if( namer_data == 'delay_ad_sec' ){
+                document.getElementById("delay_ad_sec_").style.display = 'block';
+                document.getElementsByClassName("lazy_loader_das")[0].style.display = 'none';
               }
               if( namer_data == 'reports_settings' ){
                 document.getElementById("reports_settings_").style.display = 'block';
@@ -1092,7 +1100,7 @@ handleMultiPluginsChange = (option) => {
      if(name == 'tcf_2_integration'){
       this.saveSettings();
      }
-     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking' || name == 'ad_logging' || name == 'skippable_ads'){
+     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking' || name == 'ad_logging' || name == 'delay_ad_sec' || name == 'skippable_ads'){
       this.saveSettings();
     }
     if(name == 'adsforwp_quads_shortcode'|| name == 'adsforwp_quads_gutenberg' || name == 'advance_ads_to_quads'){
@@ -1246,6 +1254,7 @@ handleMultiPluginsChange = (option) => {
       {id:'hide_quads_markup',title:'Hide Quads Markup',url:'https://wpquads.com/documentation/how-to-globally-exclude-or-hide-ads-for-user-roles-with-wp-quads-pro/'},
       {id:'global_excluder',title:'Global Excluder',url:'https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/'},
       {id:'ad_log',title:'AD Logging',url:'https://wpquads.com/documentation/how-to-track-ad-performance/'},
+      {id:'delay_ad_sec',title:'Load Ad after 3-4 seconds'},
      ];
 
    const styles = reactCSS({

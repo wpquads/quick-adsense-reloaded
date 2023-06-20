@@ -384,7 +384,7 @@ function quads_inline_styles() {
     if(is_array($ads_types) && !empty($ads_types)){
         $ads_types=array_unique($ads_types);
     }
-    if (!quads_is_amp_endpoint()){
+    if ((function_exists('quads_delay_ad_sec') && quads_delay_ad_sec()) && !quads_is_amp_endpoint()){
         $css .="
         .quads-location {
             visibility: hidden;

@@ -351,7 +351,6 @@ function quads_render_ad_image_async( $id ) {
         }
     }
     else if (isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
-        
         if(isset($quads_options['ads'][$id]['parallax_ads_check']) && $quads_options['ads'][$id]['parallax_ads_check']){
             $parallax_height=$quads_options['ads'][$id]['parallax_height']?$quads_options['ads'][$id]['parallax_height']:300;
             $html .='<a  imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
@@ -361,8 +360,8 @@ function quads_render_ad_image_async( $id ) {
             
         }
         else {
-        $bnr_wdt=$quads_options['ads'][$id]['banner_ad_width']?$quads_options['ads'][$id]['banner_ad_width']:300;
-        $bnr_hgt=$quads_options['ads'][$id]['banner_ad_height']?$quads_options['ads'][$id]['banner_ad_height']:300;    
+        $bnr_wdt=$quads_options['ads'][$id]['banner_ad_width']?$quads_options['ads'][$id]['banner_ad_width']:($quads_options['ads'][$id]['image_width']?$quads_options['ads'][$id]['image_width']:300);
+        $bnr_hgt=$quads_options['ads'][$id]['banner_ad_height']?$quads_options['ads'][$id]['banner_ad_height']:($quads_options['ads'][$id]['image_height']?$quads_options['ads'][$id]['image_height']:300);
             $html .= ' 
         <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
         <img width="'.esc_attr($bnr_wdt). '" height="'.esc_attr($bnr_hgt). '" src="'.esc_attr($quads_options['ads'][$id]['image_src']). '" alt="'.esc_attr($quads_options['ads'][$id]['label']).'"> 
@@ -407,7 +406,7 @@ function quads_render_ad_video_async( $id ) {
     }
 
     $html .= "\n <!-- end WP QUADS --> \n\n";
-    return apply_filters( 'quads_render_ad_image_async', $html );
+    return apply_filters( 'quads_render_ad_video_async', $html );
 }
 
 /**

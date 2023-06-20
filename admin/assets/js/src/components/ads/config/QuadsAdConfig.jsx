@@ -3,6 +3,7 @@ import React, { Component, Fragment } from 'react';
 import './QuadsAdConfig.scss';
 import QuadsAdConfigFields from  '../config-fields/QuadsAdConfigFields';
 import QuadsAMPCompatibility from  '../../common/amp-compatibility/QuadsAMPCompatibility';
+import QuadsAdsAdvancedSettings from  '../../common/advanced/QuadsAdsAdvancedSettings';
 import queryString from 'query-string';
 import QuadsPageNotFound from  '../../common/404/QuadsPageNotFound'
 import QuadsLayout from  '../../common/layout/QuadsLayout'
@@ -52,6 +53,17 @@ class QuadsAdConfig extends Component {
               />
               </div> 
               :''}   
+              {quads_localize_data.is_pro ?
+              <div className="quads-settings-group">
+              <QuadsAdsAdvancedSettings 
+              ad_type={page.ad_type} 
+              parentState={this.props.parentState} 
+              adFormChangeHandler={this.props.adFormChangeHandler} 
+              updateSetdaysList   = {this.props.updateSetdaysList} 
+              
+              />
+              </div>
+              :''}
               {this.props.parentState.ad_type !="random_ads" && this.props.parentState.ad_type !="rotator_ads" && this.props.parentState.ad_type != 'background_ad' ?
               <div className="quads-settings-group">
               <QuadsLayout 

@@ -78,10 +78,12 @@ check_plugin_exist = (event) => {
                                     <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
                                     {this.state.ad_extra_position}
                                 </optgroup>
+                                {quads_localize_data.is_newsPapertheme_exist ?
                                 <optgroup label="Newspaper Theme support">
                                 <option value="before_header">{__('Before the Header', 'quick-adsense-reloaded')}</option>
                                 <option value="after_header">{__('After the Header', 'quick-adsense-reloaded')}</option>
                                     </optgroup>
+                                : ''}    
                                 </>
                                 : ''}  
                                </>                                  
@@ -128,10 +130,12 @@ check_plugin_exist = (event) => {
                                     
                                 {this.state.ad_extra_position}
                                 <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
+                                {quads_localize_data.is_newsPapertheme_exist ?
                                 <optgroup label="Newspaper Theme support">
                                 <option value="before_header">{__('Before the Header', 'quick-adsense-reloaded')}</option>
                                 <option value="after_header">{__('After the Header', 'quick-adsense-reloaded')}</option>
                                     </optgroup>
+                                : ''}    
                             </select>  }
                         <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select Where Will The AD Appear</div></span> : ''}</div>
                     </div>

@@ -267,7 +267,7 @@ class QuadsAdTargeting extends Component {
                      {post_meta.count_as_per == 'custom_tag' ? 
                     <tr>
                     <td><label>{__('Enter Your Tag', 'quick-adsense-reloaded')}</label></td>
-                      <td><input  onChange={this.props.adFormChangeHandler} name="enter_your_tag" value={post_meta.enter_your_tag}  type="text" placeholder='"div"' /></td>
+                      <td><input  onChange={this.props.adFormChangeHandler} name="enter_your_tag" value={post_meta.enter_your_tag}  type="text" placeholder="div" /></td>
                     </tr>
                     : null}
                     <tr>
@@ -282,7 +282,7 @@ class QuadsAdTargeting extends Component {
                    { post_meta.position == 'ad_sticky_ad' ? 
                     <>
                   <tr>
-                  <td> <label htmlFor="sticy_ad_closebtn"> {__('Add close Button? ', 'quick-adsense-reloaded')}{post_meta.add_close_btn}</label> </td>
+                  <td> <label htmlFor="cls_btn"> {__('Add close Button? ', 'quick-adsense-reloaded')}{post_meta.add_close_btn}</label> </td>
                     <td><input id='cls_btn' checked={post_meta.cls_btn} name="cls_btn" onChange={this.props.adFormChangeHandler} type="checkbox"/></td>
                   </tr>
 
@@ -309,7 +309,7 @@ class QuadsAdTargeting extends Component {
                      {post_meta.count_as_per == 'custom_tag' ? 
                     <tr>
                     <td><label>{__('Enter Your Tag', 'quick-adsense-reloaded')}</label></td>
-                      <td><input  onChange={this.props.adFormChangeHandler} name="enter_your_tag" value={post_meta.enter_your_tag}  type="text" placeholder='"div"' /></td>
+                      <td><input  onChange={this.props.adFormChangeHandler} name="enter_your_tag" value={post_meta.enter_your_tag}  type="text" placeholder="div" /></td>
                     </tr>
                     : null}
                     <tr>
