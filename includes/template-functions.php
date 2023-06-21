@@ -962,10 +962,12 @@ function quads_get_active_ads_ids() {
     if (empty($quads_options['ads'])){
        return 0;
     }
-    foreach ( $quads_options['ads'] as $ads) {
-        $adsArray[] = $ads['ad_id'];
+    foreach ( $quads_options['ads'] as $key =>$single_ad_options) {
+		if((!empty( $quads_options['ads'][$key]['ad_id'] ) && !empty( $quads_options['ads'][$key]['ad_id'] ) ) ) {
+			$adsArrayActive[] = $quads_options['ads'][$key]['ad_id'];
+        }
     }
-    return (isset($adsArray) && count($adsArray) > 0) ? $adsArray : 0;
+    return (isset($adsArrayActive) && count($adsArrayActive) > 0) ? $adsArrayActive : 0;
 }
 
 /**
