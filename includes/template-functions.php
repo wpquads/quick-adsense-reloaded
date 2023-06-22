@@ -732,6 +732,7 @@ function quads_classic_to_gutenberg($data)
 }
 function quads_change_adsbygoogle_to_amp($content){
     if (quads_is_amp_endpoint()){
+        libxml_use_internal_errors(true);
         $dom = new DOMDocument();
          if( function_exists( 'mb_convert_encoding' ) ){
           $content = mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8');     
