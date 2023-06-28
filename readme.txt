@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.2
 Requires PHP: 5.4
-Stable tag: 2.0.72
+Stable tag: 2.0.72.1
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -206,6 +206,9 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.72.1 ( 21 June 2023 ) =
+* Cannot access offset of type string on string #768
 
 = 2.0.72 ( 19 June 2023 ) =
 * Added: New Option to set expiry date #747
