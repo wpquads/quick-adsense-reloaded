@@ -133,7 +133,8 @@ function quads_ad( $args ) {
         }
         $code .= "\n".'<!-- WP QUADS Custom Ad v. ' . QUADS_VERSION .' -->'."\n";
         $code .= '<div class="quads-location quads-ad' .esc_html($location_settings['ad']). '" id="quads-ad' .esc_html($location_settings['ad']). '" style="'.  quads_get_inline_ad_style( $location_settings['ad'] ).'">'."\n";
-        $code .= quads_render_ad( 'ad' . $location_settings['ad'], $quads_options['ads'][ 'ad' . $location_settings['ad'] ]['code'] );
+        $quadsoptions_code = isset($quads_options['ads'][ 'ad' . $location_settings['ad'] ]['code'])?$quads_options['ads'][ 'ad' . $location_settings['ad'] ]['code']:'';
+        $code .= quads_render_ad( 'ad' . $location_settings['ad'], $quadsoptions_code );
         $code .= '</div>';
        
 	}elseif ($quads_mode == 'new'){
