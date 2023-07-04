@@ -393,14 +393,27 @@ class QuadsAdTargeting extends Component {
                                 <option value="everytime_popup">Load instantly</option>
                                 <option value="specific_time_popup">After Specific Time</option>
                                 <option value="on_scroll_popup">On Scroll</option>
+                                <option value="load_on_top">Load on Top</option>
+                                <option value="load_on_bottom">Load on Bottom</option>
                                 </select></td>
                                  
                                 </tr>
                         : null}
-                    {post_meta.ad_type == 'popup_ads' && post_meta.popup_type == 'specific_time_popup' ?
+                    {post_meta.ad_type == 'popup_ads' && post_meta.popup_type == 'specific_time_popup'  ?
                     <tr>
                     
                             <td></td>
+                            <td>
+                                <input id={'specific_time_interval_sec'}
+                                       name={'specific_time_interval_sec'} type="number"
+                                       value={post_meta.specific_time_interval_sec} onChange={this.props.adFormChangeHandler}  /> milliseconds
+                            </td>
+                        </tr>
+                        :null}
+                          {post_meta.ad_type == 'popup_ads' && (post_meta.popup_type == 'load_on_top'|| post_meta.popup_type == 'load_on_bottom')  ?
+                    <tr>
+                    
+                            <td><label>{__('Popup delay', 'quick-adsense-reloaded')}</label></td>
                             <td>
                                 <input id={'specific_time_interval_sec'}
                                        name={'specific_time_interval_sec'} type="number"

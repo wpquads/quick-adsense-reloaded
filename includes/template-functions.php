@@ -2139,7 +2139,7 @@ function quads_parse_default_ads( $content ) {
 }
 function quads_parse_popup_ads($content) {
     if(!isset($_COOKIE['quads_popup'])){
-
+    global $quads_options;
     preg_match("#<!--pop_up_ads(.+?)-->#si", $content, $match);
     if (!isset($match['1'])) {
         return $content;
@@ -2164,13 +2164,11 @@ function quads_parse_popup_ads($content) {
     $everytime_popup       =  (isset($ad_meta['everytime_popup'][0]) && !empty($ad_meta['everytime_popup'][0])) ? $ad_meta['everytime_popup'][0] : 0;
     $specific_time_interval_sec       =  (isset($ad_meta['specific_time_interval_sec'][0]) && !empty($ad_meta['specific_time_interval_sec'][0])) ? $ad_meta['specific_time_interval_sec'][0] : 0;
     $on_scroll_popup_percentage       =  (isset($ad_meta['on_scroll_popup_percentage'][0]) && !empty($ad_meta['on_scroll_popup_percentage'][0])) ? $ad_meta['on_scroll_popup_percentage'][0] : 0;
-
     
     $adsresultset = array();
     if( $ads_list ){
         foreach ($temp_array as $post_ad_id){
             $ad_meta_group = get_post_meta($post_ad_id, '',true);
-            
             $adsresultset[] = array(
                 'ad_id'                     => $post_ad_id,
                 'ad_type'                   => $ad_meta_group['ad_type'],
@@ -2216,11 +2214,12 @@ function quads_parse_popup_ads($content) {
         // Do not create any inline style on AMP site
         $style = '' ;
         $popups_data = '';
+        $addl_class='';
         if( $popup_type == "everytime_popup" ){
             $style = "display:block";
             $popups_data = '';
         }
-        if( $popup_type == "specific_time_popup" ){
+        if( $popup_type == "specific_time_popup" || $popup_type == "load_on_top" || $popup_type == "load_on_bottom"){
             $style = "display:none";
             $popups_data = "data-timer=".$specific_time_interval_sec."";
         }
@@ -2229,8 +2228,12 @@ function quads_parse_popup_ads($content) {
             $popups_data = "data-percent=".$on_scroll_popup_percentage."";
         }
 
+        if(  $popup_type == "load_on_top" || $popup_type == "load_on_bottom"){
+            $addl_class='quads_'.$popup_type;
+        }
+
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
-            '<div class="quads-location quads-popupad ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" '.$popups_data.' data-popuptype="'.$popup_type.'" style="' . $style . '">' . "\n";
+            '<div class="quads-location quads-popupad ad_' . esc_attr($ad_id) . ' '.esc_attr($addl_class).'" id="quads-ad'. esc_attr($ad_id) .'" '.$popups_data.' data-popuptype="'.$popup_type.'" style="' . $style . '">' . "\n";
         $code .='<div class="quads-groups-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
         $code .='</div>';
 
@@ -2249,7 +2252,8 @@ function quads_parse_popup_ads($content) {
         $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
         // These have to be global
-        wp_enqueue_script( 'wp_qds_popup', $js_dir . 'wp_qds_popup' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+        //wp_enqueue_script( 'wp_qds_popup', $js_dir . 'wp_qds_popup' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+        wp_enqueue_script( 'wp_qds_popup', $js_dir . 'wp_qds_popup.js', array('jquery'), QUADS_VERSION, false );
 
     }else{
         $content = quads_replace_ads_new( $content, 'CusRot' . $ad_id, $temp_array[$ad_code],$enabled_on_amp);

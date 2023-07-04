@@ -422,9 +422,37 @@ function quads_inline_styles() {
             }
             .quads.quads_ad_container_ {
                 position: fixed;
-                top: 40%;
-                left: 33%;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
             }
+            .quads_load_on_top .quads_ad_container_{
+                position: fixed;
+                top: 10px;
+                left: 50%;
+                transform: translate(-50%, 0);
+
+            }
+            .quads_load_on_bottom .quads_ad_container_{
+                position: fixed;
+                bottom: 5px;
+                left: 50%;
+                transform: translate(-50%, 0);
+
+            }
+            .quads_load_on_top .quads_ad_container_{
+                animation:animatetop 0.5s
+            }
+            @keyframes animatetop{from{top:-300px;opacity:0} to{top:0;opacity:1}}
+            .quads_load_on_bottom .quads_ad_container_{
+                animation:animatebottom 0.5s
+            }
+
+            .quads_load_on_top , .quads_load_on_bottom{
+                height:auto;
+            }
+            @keyframes animatebottom{from{bottom:-300px;opacity:1} to{bottom:0;opacity:1}}
+
             #btn_close{
                 background-color: #fff;
                 width: 25px;
