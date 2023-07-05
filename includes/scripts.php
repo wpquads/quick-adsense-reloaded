@@ -365,6 +365,7 @@ function quads_inline_styles() {
            if(!isset($ads['position']) || isset($ads['ad_type']) && $ads['ad_type']== 'random_ads'){
                $is_on = true;
            } 
+           $is_on=apply_filters('quads_show_ads',quads_ad_is_allowed());
            if($is_on && $is_visitor_on && $post_status=='publish'){
             $ad_loaded = true;
             $ads_types[]=$ads['ad_type'];
