@@ -28,7 +28,7 @@ function quads_shortcode_display_ad( $atts ) {
     global $quads_options,$quads_shortcode_ids,$quads_mode;
 
     // Display Condition is false and ignoreShortcodeCond is empty or not true
-    if( !quads_ad_is_allowed() && !isset($quads_options['ignoreShortcodeCond']) )
+    if( !apply_filters('quads_show_ads',quads_ad_is_allowed()) && !isset($quads_options['ignoreShortcodeCond']) )
         return;
 
 
