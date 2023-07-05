@@ -925,19 +925,20 @@ function quads_render_carousel_ads_async($id) {
     $carousel_width = isset($quads_options['ads'][$id]['carousel_width'])?$quads_options['ads'][$id]['carousel_width']:450;
     $carousel_height = isset($quads_options['ads'][$id]['carousel_height'])?$quads_options['ads'][$id]['carousel_height']:350;
     $carousel_speed = isset($quads_options['ads'][$id]['carousel_speed'])?$quads_options['ads'][$id]['carousel_speed']:1;
+     $total_slides=count($ads_list);
     if($carousel_type=="slider")
     {
-        $html.='<div class="quads-content quads-section" style="max-width:100%;overflow:hidden;">';
+        $html.='<div class="quads-content quads-section" style="max-width:100%;overflow:hidden;" data-speed="'.esc_attr($carousel_speed*1000).'"  data-slides="'.esc_attr($total_slides).'">';
     }
    
-    $total_slides=count($ads_list);
+   
     foreach($ads_list as $ad)
     {
         if(isset($ad['value']))
         {   
             if($carousel_type=="slider")
             {
-                $html.='<div class="quads-location quads-slides-'.esc_attr($org_ad_id).' quads-animate-right" id="quads-ad'.esc_attr($ad['value']).'" style="width:100%">';
+                $html.='<div class="quads-location quads-slides quads-slides-'.esc_attr($org_ad_id).' quads-animate-right" id="quads-ad'.esc_attr($ad['value']).'" style="width:100%">';
             }
            
 
@@ -966,7 +967,7 @@ function quads_render_carousel_ads_async($id) {
 
     if($carousel_type=="slider")
     {
-        $html.='</div><style>@media only screen and (max-width: 480px) {.quads_carousel_img { width:100%}}.quads_carousel_img { width:auto;}.quads-slides-'.esc_attr($org_ad_id).'{display:none}.quads-container:after,.quads-container:before{content:"";display:table;clear:both}.quads-container{padding:.01em 16px}.quads-content{margin-left:auto;margin-right:auto;max-width:100%}.quads-section{margin-top:16px!important;margin-bottom:16px!important}.quads-animate-right{position:relative;animation: animateright 0.5s}@keyframes animateright{from{right:-300px;opacity:0}to{right:0;opacity:1}}</style>
+        $html.='</div>
         <script>var myIndex_'.esc_attr($org_ad_id).' = 0;setTimeout(quads_carousel_'.esc_attr($org_ad_id).', 1000);function quads_carousel_'.esc_attr($org_ad_id).'() {var i;var x = document.getElementsByClassName("quads-slides-'.esc_attr($org_ad_id).'");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}myIndex_'.esc_attr($org_ad_id).'++;if (myIndex_'.esc_attr($org_ad_id).' > x.length) {myIndex_'.esc_attr($org_ad_id).' = 1} x[myIndex_'.esc_attr($org_ad_id).'-1].style.display = "block"; var nid= x[myIndex_'.esc_attr($org_ad_id).'-1].id;    if(x.length>1) { setTimeout(quads_carousel_'.esc_attr($org_ad_id).', '.esc_attr($carousel_speed*1000).');} }</script>';
     }
    

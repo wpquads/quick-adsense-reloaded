@@ -728,6 +728,51 @@ function quads_inline_styles() {
                 border-radius: 50%;
             }";
     }
+    if(in_array("carousel_ads", $ads_types)){ 
+        $css .="@media only screen and (max-width: 480px) {
+            .quads_carousel_img {
+                 width:100%
+            }
+        }
+         .quads_carousel_img {
+             width:auto;
+        }
+         .quads-slides{
+            display:none
+        }
+         .quads-container:after,.quads-container:before {
+            content:'';
+            display:table;
+            clear:both
+        }
+         .quads-container{
+            padding:.01em 16px
+        }
+         .quads-content{
+            margin-left:auto;
+            margin-right:auto;
+            max-width:100%
+        }
+         .quads-section{
+            margin-top:16px!important;
+            margin-bottom:16px!important
+        }
+         .quads-animate-right{
+            position:relative;
+            animation: animateright 0.5s
+        }
+         @keyframes animateright{
+            from{
+                right:-300px;
+                opacity:0
+            }
+            to{
+                right:0;
+                opacity:1
+            }
+        }
+        ";
+}
     // Register empty style so we do not need an external css file
     wp_register_style( 'quads-styles', false );
     // Enque empty style
