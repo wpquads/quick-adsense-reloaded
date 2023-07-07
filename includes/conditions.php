@@ -41,13 +41,13 @@ function quads_ad_is_allowed( $content = null ) {
     $hide_ads = apply_filters('quads_hide_ads', false);
 
     if(isset($quads_mode) && $quads_mode == 'new'){
-
+      $content_condition = !empty($content)?$content:'';
          if(
             (is_feed()) ||
             (is_search()) ||
             (is_404() ) ||
-            (strpos( $content, '<!--NoAds-->' ) !== false) ||
-            (strpos( $content, '<!--OffAds-->' ) !== false) ||
+            (strpos( $content_condition, '<!--NoAds-->' ) !== false) ||
+            (strpos( $content_condition, '<!--OffAds-->' ) !== false) ||
             true === $hide_ads
     ) {
         return false;
