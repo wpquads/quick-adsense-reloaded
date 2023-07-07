@@ -2210,6 +2210,7 @@ function quads_parse_popup_ads($content) {
         $adsalign = isset($quads_options['ads']['ad' . $ad_id]['align']) ? $quads_options['ads']['ad' . $ad_id]['align'] : 0; // default
         $adsmargin = isset( $quads_options['ads']['ad' . $ad_id]['margin'] ) ? $quads_options['ads']['ad' . $ad_id]['margin'] : '0'; // default
         $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
+        $enabled_on_amp =  isset( $quads_options['ads']['ad' . $ad_id]['enabled_on_amp'] ) ? $quads_options['ads']['ad' . $ad_id]['enabled_on_amp'] : 0; // default
 
         // Do not create any inline style on AMP site
         $style = '' ;
@@ -2252,8 +2253,7 @@ function quads_parse_popup_ads($content) {
         $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
         // These have to be global
-        //wp_enqueue_script( 'wp_qds_popup', $js_dir . 'wp_qds_popup' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
-        wp_enqueue_script( 'wp_qds_popup', $js_dir . 'wp_qds_popup.js', array('jquery'), QUADS_VERSION, false );
+        wp_enqueue_script( 'wp_qds_popup', $js_dir . 'wp_qds_popup' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
 
     }else{
         $content = quads_replace_ads_new( $content, 'CusRot' . $ad_id, $temp_array[$ad_code],$enabled_on_amp);
