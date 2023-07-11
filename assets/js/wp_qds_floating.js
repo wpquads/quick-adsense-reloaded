@@ -56,7 +56,7 @@ window.addEventListener("load", function(){
         setInterval(changeSlide,5e3);
         const close_element = s_cube.querySelector(".wpquads-close-btn");
         close_element.addEventListener("click", function() {
-            document.getElementsById(wpquadsAdId).style.display = "none";
+            document.getElementById(wpquadsAdId).style.display = "none";
         });
     
     });

@@ -24,7 +24,7 @@ add_action( 'loop_start', 'quads_search_and_archive_ads' );
 add_action('amp_post_template_head','quads_adsense_auto_ads_amp_script',1);
 add_action('amp_post_template_footer','quads_adsense_auto_ads_amp_tag');
 add_action( 'plugins_loaded', 'quads_plugins_loaded_bbpress', 20 );
-
+add_action( 'wp_footer', 'quads_parse_floating_cubes_ads' );
 add_action( 'init', 'quads_remove_ads_for_wp_shortcodes',999 );
 
 function quads_get_complete_html( $content_buffer ) {
@@ -880,13 +880,12 @@ function quads_process_content( $content ) {
 
     $quads_ad_is_allowed=apply_filters('quads_show_ads',quads_ad_is_allowed( $content ));
     // Do not do anything if ads are not allowed or process is not in the main query
-    if( !$quads_ad_is_allowed || !is_main_query() || !is_singular()) {
+    if( !$quads_ad_is_allowed || !is_main_query() || !is_singular() || !in_the_loop()) {
         $content = quads_clean_tags( $content );
         return $content;
     }
 
     $content = quads_sanitize_content( $content );
-    
     if($quads_mode == 'new'){
         $content = quads_filter_default_ads_new( $content );
         $content = '<!--EmptyClear-->' . $content . "\n";
@@ -1050,7 +1049,6 @@ function quads_filter_default_ads_new( $content ) {
     // Default Ads
     $adsArrayCus = array();
     if(isset($quads_ads['posts_data'])){        
-
         $i = 1;
         foreach($quads_ads['posts_data'] as $key => $value){
             $ads =$value['post_meta'];
@@ -1109,7 +1107,10 @@ function quads_filter_default_ads_new( $content ) {
                 else if($ads['ad_type']== 'half_page_ads'){
                     $cusads = '<!--half_page_ad'.esc_html($ads['ad_id']).'-->';
                 }
-                else{
+                else if($ads['ad_type']== 'floating_cubes'){
+                    $cusads = '<!--floating_cubes_ad'.esc_html($ads['ad_id']).'-->';
+                }
+                else{                   
                     $cusads = '<!--CusAds'.esc_html($ads['ad_id']).'-->';
                 }
                
@@ -2538,7 +2539,6 @@ function quads_parse_default_ads_new( $content ) {
          preg_match("#<!--CusAds(.+?)-->#si", $content, $match);
          $ad_id = isset($match['1'])?$match['1']:'';
         if( strpos( $content, '<!--CusAds' . $ad_id . '-->' ) !== false )  {
-
             $content = quads_replace_ads_new( $content, 'CusAds' . $ad_id, $ad_id );
         }
     }
@@ -3212,7 +3212,7 @@ function quads_del_element($array, $idx) {
                     $is_on = true;
                 } 
                 if($is_on && $is_visitor_on && $post_status=='publish' && isset($ads['visibility_include'][0]['value']['value']) && $ads['visibility_include'][0]['value']['value']=='show_globally'){
-                    if(in_array($ads['ad_type'],array('floating_cubes','ad_image','adsense','plain_text'))){
+                    if(in_array($ads['ad_type'],array('ad_image','adsense','plain_text'))){
                         //echo quads_render_ad($ads['quads_ad_old_id'], $ads['code']);
                         echo "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n"
                         .'<div class="quads-location quads-ad' .esc_html($ads['ad_id']). '" id="quads-ad' .esc_html($ads['ad_id']). '">'."\n"
@@ -3324,3 +3324,43 @@ function quads_after_class_ad_creator($content,$class_name,$cusads,$repeat_parag
     return $content;
 
 } 
+
+function quads_parse_floating_cubes_ads() {
+    $quads_ads = quads_api_services_cllbck();
+    if(isset($quads_ads['posts_data'])){        
+        foreach($quads_ads['posts_data'] as $key => $value){
+            $ads =$value['post_meta'];
+            if($value['post']['post_status']== 'draft'){
+                continue;
+            }
+            if($ads['position'] == 'ad_shortcode' || $ads['ad_type'] !='floating_cubes'){
+                continue;
+            }
+
+     if(isset($ads['visibility_include']))
+         $ads['visibility_include'] = unserialize($ads['visibility_include']);
+     if(isset($ads['visibility_exclude']))
+         $ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);
+
+     if(isset($ads['targeting_include']))
+         $ads['targeting_include'] = unserialize($ads['targeting_include']);
+
+     if(isset($ads['targeting_exclude']))
+         $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
+        $is_on         = quads_is_visibility_on($ads);
+        $is_visitor_on = quads_is_visitor_on($ads);
+        if(isset($ads['ad_id']))
+        $post_status = get_post_status($ads['ad_id']); 
+        else
+          $post_status =  'publish';
+
+        if($is_on && $is_visitor_on && $post_status=='publish'){
+                echo "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n"
+                .'<div class="quads-location quads-ad' .esc_html($ads['ad_id']). '" id="quads-ad' .esc_html($ads['ad_id']). '">'."\n"
+                .quads_render_ad($ads['quads_ad_old_id'], $ads['code'])."\n"
+                .'</div>'. "\n";
+          }
+
+        }
+    }
+}
