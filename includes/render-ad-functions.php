@@ -928,7 +928,8 @@ function quads_render_carousel_ads_async($id) {
      $total_slides=count($ads_list);
     if($carousel_type=="slider")
     {
-        $html.='<div class="quads-content quads-section" style="max-width:100%;overflow:hidden;" data-speed="'.esc_attr($carousel_speed*1000).'"  data-slides="'.esc_attr($total_slides).'">';
+        $html.='<div class="quads-content quads-section" style="max-width:100%;overflow:hidden;">';
+        $html.='<div class="quads-carousel-container" id="carousel-container-'.esc_attr($org_ad_id).'" data-speed="'.esc_attr($carousel_speed*1000).'"  data-slide="1" data-adid="'.esc_attr($org_ad_id).'"><span class="quads_carousel_back"><</span>';
     }
    
    
@@ -967,11 +968,18 @@ function quads_render_carousel_ads_async($id) {
 
     if($carousel_type=="slider")
     {
-        $html.='</div>
-        <script>var myIndex_'.esc_attr($org_ad_id).' = 0;setTimeout(quads_carousel_'.esc_attr($org_ad_id).', 1000);function quads_carousel_'.esc_attr($org_ad_id).'() {var i;var x = document.getElementsByClassName("quads-slides-'.esc_attr($org_ad_id).'");for (i = 0; i < x.length; i++) {x[i].style.display = "none";}myIndex_'.esc_attr($org_ad_id).'++;if (myIndex_'.esc_attr($org_ad_id).' > x.length) {myIndex_'.esc_attr($org_ad_id).' = 1} x[myIndex_'.esc_attr($org_ad_id).'-1].style.display = "block"; var nid= x[myIndex_'.esc_attr($org_ad_id).'-1].id;    if(x.length>1) { setTimeout(quads_carousel_'.esc_attr($org_ad_id).', '.esc_attr($carousel_speed*1000).');} }</script>';
+        $html.='<span class="quads_carousel_next">></span></div></div>';
     }
    
     $html .= "\n <!-- end WP QUADS --> \n\n";
+
+    $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
+
+    // Use minified libraries if SCRIPT_DEBUG is turned off
+    $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
+
+    // These have to be global
+    wp_enqueue_script('wp_qds_carousel', $js_dir . 'wp_qds_carousel'.$suffix .'.js', array(), QUADS_VERSION, false );    
     return apply_filters( 'quads_render_carousel_ads_async', $html );
 
 }

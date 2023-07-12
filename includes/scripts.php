@@ -762,6 +762,40 @@ function quads_inline_styles() {
             position:relative;
             animation: animateright 0.5s
         }
+        .quads-animate-left{
+            position:relative;
+            animation: animateleft 0.5s
+        }
+        .quads_carousel_back {
+            background: #000;
+            color: #fff;
+            padding: 0 6px;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 999;
+            top: 45%;
+            left:5px;
+            cursor: pointer;
+            font-weight:bold;
+        }
+        .quads-carousel-container{
+            position:relative;
+        }
+       .quads_carousel_next{
+            background: #000;
+            color: #fff;
+            padding: 0 6px;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 999;
+            top: 45%;
+            right:5px;
+            cursor: pointer;
+            font-weight:bold;
+        }
+        .quads-slides:first-of-type{
+            display:block;
+        }
          @keyframes animateright{
             from{
                 right:-300px;
@@ -769,6 +803,16 @@ function quads_inline_styles() {
             }
             to{
                 right:0;
+                opacity:1
+            }
+        }
+        @keyframes animateleft{
+            from{
+                left:-300px;
+                opacity:0
+            }
+            to{
+                left:0;
                 opacity:1
             }
         }
