@@ -1004,18 +1004,15 @@ function quads_render_floating_ads_async($id) {
     $actual_counter =0;
     foreach($ads_list as $key=>$ad)
     {
-        if(isset($ad['slide']))
-        {             
-            if(isset($ad['slide']) && isset($ad['link']))
-            {
+        if(isset($ad['slide']) && isset($ad['link'])){
             $html.='	<figure class="wpquads-3d-item " style="'.esc_attr(quads_get_float_transform($actual_counter,$floating_size)).'">
             <a href="'.esc_url($ad['link']).'" target="_blank" rel="nofollow" >
                 <img src="'.esc_url($ad['slide']).'" alt="'.esc_attr($quads_options['ads'][$id]['label'].' - Slide '.($key+1)).'">
                 </a>
         </figure>';
         $actual_counter++;
-            }
-        }
+         }
+        
     }
 
     if($total_slides<6)
@@ -1025,13 +1022,13 @@ function quads_render_floating_ads_async($id) {
         {
             $new=(int) $i/$total_slides;
             if(isset($ads_list[$new]['slide']))
-        {
-            $html.='	<figure class="wpquads-3d-item " style="'.esc_attr(quads_get_float_transform($new,$floating_size)).'">
-            <a href="'.esc_url($ads_list[$new]['link']).'" target="_blank" rel="nofollow">
-                <img src="'.esc_url($ads_list[$new]['slide']).'" alt="'.esc_attr($quads_options['ads'][$id]['label'].' - Slide '.($total_slides+$i+1)).'">
-                </a>
-        </figure>';
-        }
+                {
+                    $html.='	<figure class="wpquads-3d-item " style="'.esc_attr(quads_get_float_transform(($actual_counter+$new),$floating_size)).'">
+                    <a href="'.esc_url($ads_list[$new]['link']).'" target="_blank" rel="nofollow">
+                        <img src="'.esc_url($ads_list[$new]['slide']).'" alt="'.esc_attr($quads_options['ads'][$id]['label'].' - Slide '.($total_slides+$i+1)).'">
+                        </a>
+                    </figure>';
+                }
         }
     }
 
