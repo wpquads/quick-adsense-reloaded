@@ -1809,6 +1809,11 @@ function quads_quicktags_callback( $args ) {
  * @global array $quads_options
  */
 function quads_ajax_add_ads(){
+
+   check_ajax_referer( 'quads_ajax_nonce', 'nonce' );
+   
+	if( ! current_user_can( 'manage_options' ) ) { return false; }
+
    global $quads_options;
 
    $postCount = !empty($_POST['count']) ? $_POST['count'] : 1;

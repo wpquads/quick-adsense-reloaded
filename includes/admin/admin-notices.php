@@ -173,6 +173,7 @@ function quads_show_rate_div(){
  */
 
 function quads_hide_rating_div() {
+    if( ! current_user_can( 'manage_options' ) ) { return; }
     update_option( 'quads_rating_div', 'yes' );
     delete_option( 'quads_date_next_notice' );
     echo json_encode( array("success") );
@@ -185,6 +186,7 @@ add_action( 'wp_ajax_quads_hide_rating', 'quads_hide_rating_div' );
  * Write the timestamp when rating notice will be opened again
  */
 function quads_hide_rating_notice_week() {
+    if( ! current_user_can( 'manage_options' ) ) { return; }
     $nextweek   = time() + (7 * 24 * 60 * 60);
     $human_date = date( 'Y-m-d h:i:s', $nextweek );
     update_option( 'quads_date_next_notice', $human_date );
