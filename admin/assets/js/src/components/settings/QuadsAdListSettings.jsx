@@ -727,7 +727,7 @@ handleMultiPluginsChange = (option) => {
       let namer_data = this.state.settings.namer
       const current_page = queryString.parse(window.location.search);
 
-      if( namer_data == "adsTxtEnabled" ){
+      if( namer_data == "adsTxtEnabled" && document.getElementById("adsTxtEnabled_")){
         document.getElementById("adsTxtEnabled_").style.display = 'none';
         document.getElementsByClassName("lazy_loader")[0].style.display = 'block';
       }
@@ -848,7 +848,7 @@ handleMultiPluginsChange = (option) => {
               // Begin show saving loader
               let namer_data = this.state.settings.namer
 
-              if( namer_data == "adsTxtEnabled" ){
+              if( namer_data == "adsTxtEnabled" && document.getElementById("adsTxtEnabled_")){
                 document.getElementById("adsTxtEnabled_").style.display = 'block';
                 document.getElementsByClassName("lazy_loader")[0].style.display = 'none';
                 }
