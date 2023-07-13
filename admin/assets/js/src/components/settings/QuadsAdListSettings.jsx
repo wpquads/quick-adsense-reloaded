@@ -1321,7 +1321,7 @@ handleMultiPluginsChange = (option) => {
               </ul>
              </div>
             :null}
-               <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>{__('Validate', 'quick-adsense-reloaded')}</a>
+               <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>{__('Validate & Save', 'quick-adsense-reloaded')}</a>
              </div>
              </div>
             </div> </>: null
