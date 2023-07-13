@@ -923,13 +923,17 @@ function quads_render_carousel_ads_async($id) {
     $org_ad_id = $quads_options['ads'][$id]['ad_id'];
     $carousel_type = isset($quads_options['ads'][$id]['carousel_type'])?$quads_options['ads'][$id]['carousel_type']:'slider';
     $carousel_width = isset($quads_options['ads'][$id]['carousel_width'])?$quads_options['ads'][$id]['carousel_width']:450;
-    $carousel_height = isset($quads_options['ads'][$id]['carousel_height'])?$quads_options['ads'][$id]['carousel_height']:350;
+    $carousel_arrows = isset($quads_options['ads'][$id]['carousel_arrows'])?$quads_options['ads'][$id]['carousel_arrows']:false;
     $carousel_speed = isset($quads_options['ads'][$id]['carousel_speed'])?$quads_options['ads'][$id]['carousel_speed']:1;
      $total_slides=count($ads_list);
     if($carousel_type=="slider")
     {
         $html.='<div class="quads-content quads-section" style="max-width:100%;overflow:hidden;">';
-        $html.='<div class="quads-carousel-container" id="carousel-container-'.esc_attr($org_ad_id).'" data-speed="'.esc_attr($carousel_speed*1000).'"  data-slide="1" data-adid="'.esc_attr($org_ad_id).'"><span class="quads_carousel_back"><</span>';
+        $html.='<div class="quads-carousel-container" id="carousel-container-'.esc_attr($org_ad_id).'" data-speed="'.esc_attr($carousel_speed*1000).'"  data-slide="1" data-adid="'.esc_attr($org_ad_id).'">';
+        if($carousel_arrows){
+            $html.='<span class="quads_carousel_back"><</span>';
+        }
+        
     }
    
    
@@ -968,7 +972,10 @@ function quads_render_carousel_ads_async($id) {
 
     if($carousel_type=="slider")
     {
-        $html.='<span class="quads_carousel_next">></span></div></div>';
+        if($carousel_arrows){
+            $html.='<span class="quads_carousel_next">></span>';
+        }
+        $html.='</div></div>';
     }
    
     $html .= "\n <!-- end WP QUADS --> \n\n";

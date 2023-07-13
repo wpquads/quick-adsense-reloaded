@@ -769,11 +769,11 @@ function quads_inline_styles() {
         .quads_carousel_back {
             background: #000;
             color: #fff;
-            padding: 0 6px;
+            padding: 0 8px;
             border-radius: 50%;
             position: absolute;
             z-index: 999;
-            top: 45%;
+            top: 48%;
             left:5px;
             cursor: pointer;
             font-weight:bold;
@@ -784,11 +784,11 @@ function quads_inline_styles() {
        .quads_carousel_next{
             background: #000;
             color: #fff;
-            padding: 0 6px;
+            padding: 0 8px;
             border-radius: 50%;
             position: absolute;
             z-index: 999;
-            top: 45%;
+            top: 48%;
             right:5px;
             cursor: pointer;
             font-weight:bold;

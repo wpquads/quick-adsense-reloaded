@@ -1376,6 +1376,15 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                          <tr><td> <label>{__('Carousel Speed', 'quick-adsense-reloaded')}</label></td><td>
                         <div className="quads-adsense-width-heigth"><label>Seconds<input className='carousel_speed small-text' min="1" step="1" id="carousel_speed" value={post_meta.carousel_speed} name="carousel_speed" onChange={this.props.adFormChangeHandler} type="number"/></label></div>
                          </td></tr>
+                         <tr>
+                        <td><label className='carousel_arrows' htmlFor="carousel_arrows">{__('Navigation Arrows', 'quick-adsense-reloaded')}</label></td>
+                        <td>
+                        <label className="quads-switch exp_date">
+                        <input className='exp_date_check' id="carousel_arrows" checked={post_meta.carousel_arrows} name="carousel_arrows" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                            <span className="quads-slider"></span>
+                          </label>
+                        </td>
+                        </tr>
                          <tr style={{marginBottom: 0 + 'px'}}><td><label>{__('Select Ads ', 'quick-adsense-reloaded')}</label></td><td><a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a></td></tr>
                         <tr><td colSpan={'2'} style={{width:'100%'}}>
                         <div className="quads-target-item-list">
