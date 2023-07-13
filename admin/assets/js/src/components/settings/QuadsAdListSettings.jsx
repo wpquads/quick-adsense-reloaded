@@ -428,7 +428,7 @@ handleMultiPluginsChange = (option) => {
   
   handleRoleBasedAccess = (option) => {
     const { settings } = this.state; 
-    if(settings.RoleBasedAccess?.length != 1 ){
+    if(option?.length >= 1 ){
     settings.RoleBasedAccess = option;
     this.setState(settings);
     this.saveSettings();
@@ -1860,7 +1860,7 @@ handleMultiPluginsChange = (option) => {
                       name="RoleBasedAccess"
                       className={'RoleBasedAccess'}
                       placeholder="Role Based Access"
-                      value={settings.RoleBasedAccess}
+                      value={this.state.settings.RoleBasedAccess}
                       options={this.state.multiUserOptions}
                       onChange={this.handleRoleBasedAccess}
                     />
