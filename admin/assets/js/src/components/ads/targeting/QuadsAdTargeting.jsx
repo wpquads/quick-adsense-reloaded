@@ -252,15 +252,15 @@ class QuadsAdTargeting extends Component {
                     <tr>
                     <td><label>{__('Count As Per The', 'quick-adsense-reloaded')}</label></td>
                       <td><select value={post_meta.count_as_per} name="count_as_per" onChange={this.props.adFormChangeHandler} >
-                      <option value="p_tag">p (default)</option>
-                      <option value="div_tag">div</option>
-                      <option value="img_tag">img</option>
-                      <option value="h1">H1</option>
-                      <option value="h2">H2</option>
-                      <option value="h3">H3</option>
-                      <option value="h4">H4</option>
-                      <option value="h5">H5</option>
-                      <option value="h6">H6</option>
+                      <option value="p_tag">{__('p (default)', 'quick-adsense-reloaded')}</option>
+                      <option value="div_tag">{__('div', 'quick-adsense-reloaded')}</option>
+                      <option value="img_tag">{__('img', 'quick-adsense-reloaded')}</option>
+                      <option value="h1">{__('H1', 'quick-adsense-reloaded')}</option>
+                      <option value="h2">{__('H2', 'quick-adsense-reloaded')}</option>
+                      <option value="h3">{__('H3', 'quick-adsense-reloaded')}</option>
+                      <option value="h4">{__('H4', 'quick-adsense-reloaded')}</option>
+                      <option value="h5">{__('H5', 'quick-adsense-reloaded')}</option>
+                      <option value="h6">{__('H6', 'quick-adsense-reloaded')}</option>
                       <option value="custom_tag">{__('Custom', 'quick-adsense-reloaded')}</option>
                       </select></td>
                     </tr>
@@ -294,15 +294,15 @@ class QuadsAdTargeting extends Component {
                     <tr>
                     <td><label>{__('Count As Per The', 'quick-adsense-reloaded')}</label></td>
                       <td><select value={post_meta.count_as_per} name="count_as_per" onChange={this.props.adFormChangeHandler} >
-                      <option value="p_tag">p (default)</option>
-                      <option value="div_tag">div</option>
-                      <option value="img_tag">img</option>
-                      <option value="h1">H1</option>
-                      <option value="h2">H2</option>
-                      <option value="h3">H3</option>
-                      <option value="h4">H4</option>
-                      <option value="h5">H5</option>
-                      <option value="h6">H6</option>
+                      <option value="p_tag">{__('p (default)', 'quick-adsense-reloaded')}</option>
+                      <option value="div_tag">{__('div', 'quick-adsense-reloaded')}</option>
+                      <option value="img_tag">{__('img', 'quick-adsense-reloaded')}</option>
+                      <option value="h1">{__('H1', 'quick-adsense-reloaded')}</option>
+                      <option value="h2">{__('H2', 'quick-adsense-reloaded')}</option>
+                      <option value="h3">{__('H3', 'quick-adsense-reloaded')}</option>
+                      <option value="h4">{__('H4', 'quick-adsense-reloaded')}</option>
+                      <option value="h5">{__('H5', 'quick-adsense-reloaded')}</option>
+                      <option value="h6">{__('H6', 'quick-adsense-reloaded')}</option>
                       <option value="custom_tag">{__('Custom', 'quick-adsense-reloaded')}</option>
                       </select></td>
                     </tr>
@@ -390,11 +390,11 @@ class QuadsAdTargeting extends Component {
                         <tr className='popup_table'>
                             <td><label>{__('Popup Type', 'quick-adsense-reloaded')}</label></td>
                             <td><select value={post_meta.popup_type} name="popup_type" onChange={this.props.adFormChangeHandler} >
-                                <option value="everytime_popup">Load instantly</option>
-                                <option value="specific_time_popup">After Specific Time</option>
-                                <option value="on_scroll_popup">On Scroll</option>
-                                <option value="load_on_top">Load on Top</option>
-                                <option value="load_on_bottom">Load on Bottom</option>
+                                <option value="everytime_popup">{__('Load instantly', 'quick-adsense-reloaded')}</option>
+                                <option value="specific_time_popup">{__('After Specific Time', 'quick-adsense-reloaded')}</option>
+                                <option value="on_scroll_popup">{__('On Scroll', 'quick-adsense-reloaded')}</option>
+                                <option value="load_on_top">{__('Load on Top', 'quick-adsense-reloaded')}</option>
+                                <option value="load_on_bottom">{__('Load on Bottom', 'quick-adsense-reloaded')}</option>
                                 </select></td>
                                  
                                 </tr>
@@ -436,9 +436,9 @@ class QuadsAdTargeting extends Component {
                         <tr className='video_ad_table'>
                             <td><label>{__('Video Type', 'quick-adsense-reloaded')}</label></td>
                             <td><select value={post_meta.video_ad_type} name="video_ad_type" onChange={this.props.adFormChangeHandler} >
-                                <option value="select">Select</option>
-                                <option value="specific_time_video">After Specific Time</option>
-                                <option value="after_scroll_video">On Scroll</option>
+                                <option value="select">{__('Select', 'quick-adsense-reloaded')}</option>
+                                <option value="specific_time_video">{__('After Specific Time', 'quick-adsense-reloaded')}</option>
+                                <option value="after_scroll_video">{__('On Scroll', 'quick-adsense-reloaded')}</option>
                                 </select></td>                                 
                                 </tr>
                          : ''
@@ -449,7 +449,7 @@ class QuadsAdTargeting extends Component {
                             <td>
                                 <input id={'specific_time_interval_sec_video'}
                                        name={'specific_time_interval_sec_video'} type="number"
-                                       value={post_meta.specific_time_interval_sec_video} onChange={this.props.adFormChangeHandler}  /> milliseconds
+                                       value={post_meta.specific_time_interval_sec_video} onChange={this.props.adFormChangeHandler}  /> {__('milliseconds', 'quick-adsense-reloaded')}
                             </td>
                         </tr>
                         :null}
@@ -459,7 +459,7 @@ class QuadsAdTargeting extends Component {
                             <td>
                                 <input id={'on_scroll_video_percentage'}
                                        name={'on_scroll_video_percentage'} type="number"
-                                       value={post_meta.on_scroll_video_percentage} onChange={this.props.adFormChangeHandler}  /> Scroll percentage
+                                       value={post_meta.on_scroll_video_percentage} onChange={this.props.adFormChangeHandler}  /> {__('Scroll percentage', 'quick-adsense-reloaded')}
                             </td>
                         </tr>
                         :null}
@@ -468,9 +468,9 @@ class QuadsAdTargeting extends Component {
                         <tr className='video_ad_positiontable'>
                             <td><label>{__('Position', 'quick-adsense-reloaded')}</label></td>
                             <td><select value={post_meta.video_ad_type_position} name="video_ad_type_position" onChange={this.props.adFormChangeHandler} >
-                                <option value="select">Select</option>
-                                <option value="v_left">Left</option>
-                                <option value="v_right">Right</option>
+                                <option value="select">{__('Select', 'quick-adsense-reloaded')}</option>
+                                <option value="v_left">{__('Left', 'quick-adsense-reloaded')}</option>
+                                <option value="v_right">{__('Right', 'quick-adsense-reloaded')}</option>
                                 </select></td>                                 
                                 </tr>
                          : ''
@@ -479,7 +479,7 @@ class QuadsAdTargeting extends Component {
                         <tr className='parallax_ads_table'>
                             <td><label>{__('Parallax Type', 'quick-adsense-reloaded')}</label></td>
                             <td><select value={post_meta.parallax_ads_type} name="parallax_ads_type" onChange={this.props.adFormChangeHandler} >
-                                <option value="after_scroll_parallax_ads">On Scroll</option>
+                                <option value="after_scroll_parallax_ads">{__('On Scroll', 'quick-adsense-reloaded')}</option>
                                 </select></td>                                 
                                 </tr>
                          : ''
@@ -490,7 +490,7 @@ class QuadsAdTargeting extends Component {
                             <td>
                                 <input id={'on_scroll_parallax_ads_percentage'}
                                        name={'on_scroll_parallax_ads_percentage'} type="number"
-                                       value={post_meta.on_scroll_parallax_ads_percentage} onChange={this.props.adFormChangeHandler}  /> Scroll percentage
+                                       value={post_meta.on_scroll_parallax_ads_percentage} onChange={this.props.adFormChangeHandler}  /> {__('Scroll percentage', 'quick-adsense-reloaded')}
                             </td>
                         </tr>
                         :null}
@@ -508,9 +508,9 @@ class QuadsAdTargeting extends Component {
                         <tr className='half_page_ads_table_position'>
                           <td><label>{__('Where Will The AD Appear?', 'quick-adsense-reloaded')}</label></td>
                           <td><select value={post_meta.half_page_ads_type_position} name="half_page_ads_type_position" onChange={this.props.adFormChangeHandler} >
-                              <option value="select">Select</option>
-                              <option value="half_page_ads_type_position_left">Left</option>
-                              <option value="half_page_ads_type_position_right">Right</option>
+                              <option value="select">{__('Select', 'quick-adsense-reloaded')}</option>
+                              <option value="half_page_ads_type_position_left">{__('Left', 'quick-adsense-reloaded')}</option>
+                              <option value="half_page_ads_type_position_right">{__('Right', 'quick-adsense-reloaded')}</option>
                               </select></td>                                 
                               </tr>
                         : ''
@@ -520,9 +520,9 @@ class QuadsAdTargeting extends Component {
                         <tr className='half_page_ads_table'>
                             <td><label>{__('Ad Close Type', 'quick-adsense-reloaded')}</label></td>
                             <td><select value={post_meta.half_page_ads_type} name="half_page_ads_type" onChange={this.props.adFormChangeHandler} >
-                                <option value="select">Select</option>
-                                <option value="half_page_ads_type_specific_time_sec">After Specific Time</option>
-                                <option value="half_page_ads_type_on_click">On Click</option>
+                                <option value="select">{__('Select', 'quick-adsense-reloaded')}</option>
+                                <option value="half_page_ads_type_specific_time_sec">{__('After Specific Time', 'quick-adsense-reloaded')}</option>
+                                <option value="half_page_ads_type_on_click">{__('On Click', 'quick-adsense-reloaded')}</option>
                                 </select></td>                                 
                         </tr>
                          : ''
@@ -534,7 +534,7 @@ class QuadsAdTargeting extends Component {
                             <td>
                                 <input id={'half_page_ads_type_specific_time_num'}
                                        name={'half_page_ads_type_specific_time_num'} type="number"
-                                       value={post_meta.half_page_ads_type_specific_time_num ? post_meta.half_page_ads_type_specific_time_num : 5000} onChange={this.props.adFormChangeHandler}  /> milliseconds
+                                       value={post_meta.half_page_ads_type_specific_time_num ? post_meta.half_page_ads_type_specific_time_num : 5000} onChange={this.props.adFormChangeHandler}  /> {__('milliseconds', 'quick-adsense-reloaded')}
                             </td>
                         </tr>
                       :null}
