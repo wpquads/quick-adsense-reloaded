@@ -119,6 +119,9 @@ add_action('wp_ajax_quads_save_vi_token', 'quads_save_vi_token');
 
 add_action('wp_ajax_quads_id_delete', 'quads_id_delete');
 function quads_id_delete(){
+    check_ajax_referer( 'quads_ajax_nonce', 'nonce' );
+   
+	if( ! current_user_can( 'manage_options' ) ) { return false; }
     delete_option('add_blocked_ip');
     echo 'Operation success';
     exit;
@@ -129,7 +132,8 @@ function quads_id_delete(){
  */
 function quads_save_vi_ads() {
     global $quads;
-
+    check_ajax_referer( 'quads_ajax_nonce', 'nonce' );
+    if( ! current_user_can( 'manage_options' ) ) { return; }
     $return = $quads->vi->setAdCode();
 
     if ($return) {

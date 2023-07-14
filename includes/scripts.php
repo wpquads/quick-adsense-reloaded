@@ -365,6 +365,7 @@ function quads_inline_styles() {
            if(!isset($ads['position']) || isset($ads['ad_type']) && $ads['ad_type']== 'random_ads'){
                $is_on = true;
            } 
+           $is_on=apply_filters('quads_show_ads',quads_ad_is_allowed());
            if($is_on && $is_visitor_on && $post_status=='publish'){
             $ad_loaded = true;
             $ads_types[]=$ads['ad_type'];
@@ -422,9 +423,37 @@ function quads_inline_styles() {
             }
             .quads.quads_ad_container_ {
                 position: fixed;
-                top: 40%;
-                left: 33%;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
             }
+            .quads_load_on_top .quads_ad_container_{
+                position: fixed;
+                top: 10px;
+                left: 50%;
+                transform: translate(-50%, 0);
+
+            }
+            .quads_load_on_bottom .quads_ad_container_{
+                position: fixed;
+                bottom: 5px;
+                left: 50%;
+                transform: translate(-50%, 0);
+
+            }
+            .quads_load_on_top .quads_ad_container_{
+                animation:animatetop 0.5s
+            }
+            @keyframes animatetop{from{top:-300px;opacity:0} to{top:0;opacity:1}}
+            .quads_load_on_bottom .quads_ad_container_{
+                animation:animatebottom 0.5s
+            }
+
+            .quads_load_on_top , .quads_load_on_bottom{
+                height:auto;
+            }
+            @keyframes animatebottom{from{bottom:-300px;opacity:1} to{bottom:0;opacity:1}}
+
             #btn_close{
                 background-color: #fff;
                 width: 25px;
@@ -700,6 +729,95 @@ function quads_inline_styles() {
                 border-radius: 50%;
             }";
     }
+    if(in_array("carousel_ads", $ads_types)){ 
+        $css .="@media only screen and (max-width: 480px) {
+            .quads_carousel_img {
+                 width:100%
+            }
+        }
+         .quads_carousel_img {
+             width:auto;
+        }
+         .quads-slides{
+            display:none
+        }
+         .quads-container:after,.quads-container:before {
+            content:'';
+            display:table;
+            clear:both
+        }
+         .quads-container{
+            padding:.01em 16px
+        }
+         .quads-content{
+            margin-left:auto;
+            margin-right:auto;
+            max-width:100%
+        }
+         .quads-section{
+            margin-top:16px!important;
+            margin-bottom:16px!important
+        }
+         .quads-animate-right{
+            position:relative;
+            animation: animateright 0.5s
+        }
+        .quads-animate-left{
+            position:relative;
+            animation: animateleft 0.5s
+        }
+        .quads_carousel_back {
+            background: #000;
+            color: #fff;
+            padding: 0 8px;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 999;
+            top: 48%;
+            left:5px;
+            cursor: pointer;
+            font-weight:bold;
+        }
+        .quads-carousel-container{
+            position:relative;
+        }
+       .quads_carousel_next{
+            background: #000;
+            color: #fff;
+            padding: 0 8px;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 999;
+            top: 48%;
+            right:5px;
+            cursor: pointer;
+            font-weight:bold;
+        }
+        .quads-slides:first-of-type{
+            display:block;
+        }
+         @keyframes animateright{
+            from{
+                right:-300px;
+                opacity:0
+            }
+            to{
+                right:0;
+                opacity:1
+            }
+        }
+        @keyframes animateleft{
+            from{
+                left:-300px;
+                opacity:0
+            }
+            to{
+                left:0;
+                opacity:1
+            }
+        }
+        ";
+}
     // Register empty style so we do not need an external css file
     wp_register_style( 'quads-styles', false );
     // Enque empty style

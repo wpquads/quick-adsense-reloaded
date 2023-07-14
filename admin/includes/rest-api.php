@@ -1702,6 +1702,15 @@ return array('status' => 't');
                 if($result['errors']){
                     $response['errors'] = $result['errors'];
                 }else{
+                    $settings = quads_defaultSettings();
+                    if($settings['adsTxtEnabled']){
+                        if (false !== file_put_contents(ABSPATH . 'ads.txt', $parameters[0])) {
+                            // show notice that ads.txt has been created
+                            set_transient('quads_vi_ads_txt_notice', true, 300);
+                        }else{
+                          set_transient('quads_vi_ads_txt_error', true, 300);
+                        }
+                      }
                     $response['valid'] = true;
                 }
             }

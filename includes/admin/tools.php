@@ -564,6 +564,11 @@ add_action('wp_ajax_quads_import_quick_adsense', 'quads_import_quick_adsense_pro
  * @return boolean true when it is installed and version matches
  */
 function quads_clear_cache(){
+
+	check_ajax_referer( 'quads_ajax_nonce', 'nonce' );
+
+	if( ! current_user_can( 'manage_options' ) ) { return false; }
+
 	if ( function_exists( 'rocket_clean_domain' ) ) {
 		rocket_clean_domain();
 	}

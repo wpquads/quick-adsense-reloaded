@@ -457,17 +457,17 @@ const {__} = wp.i18n;
                     {post_meta.adsense_ad_type == 'in_feed_ads' ? 
                     <tr><td><label>{__('Data Layout Key', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_layout_key == '') ? 'quads_form_error' : ''} value={post_meta.data_layout_key} placeholder="-ez+4v+7r-fc+65" onChange={this.props.adFormChangeHandler} type="text" id="data_layout_key" name="data_layout_key" />
                     {(show_form_error && post_meta.data_layout_key == '') ? <div className="quads_form_msg"><span className="material-icons">
-                      error_outline</span>Enter Data Layout Key</div> :''} </td></tr>
+                      error_outline</span>{__('Enter Data Layout Key', 'quick-adsense-reloaded')}</div> :''} </td></tr>
                       : null }
                     <tr><td><label>{__('Data Client ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.g_data_ad_client == '') ? 'quads_form_error' : ''} value={post_meta.g_data_ad_client} placeholder="ca-pub-2005XXXXXXXXX342" onChange={this.props.adFormChangeHandler} type="text" id="g_data_ad_client" name="g_data_ad_client" />
                     {(show_form_error && post_meta.g_data_ad_client == '') ? <div className="quads_form_msg"><span className="material-icons">
-                      error_outline</span>Enter Data Client ID</div> :''} </td></tr>
+                      error_outline</span>{__('Enter Data Client ID', 'quick-adsense-reloaded')}</div> :''} </td></tr>
 
                      {post_meta.adsense_ad_type != 'adsense_auto_ads' ? 
                     <tr><td><label>{__('Data Slot ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.g_data_ad_slot == '') ? 'quads_form_error' : ''}  value={post_meta.g_data_ad_slot} onChange={this.props.adFormChangeHandler} type="text" id="g_data_ad_slot" name="g_data_ad_slot" placeholder="70XXXXXX12" />
                     {(show_form_error && post_meta.g_data_ad_slot == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline
-                    </span>Enter Data Slot ID</div> :''}</td></tr>
+                    </span>{__('Enter Data Slot ID', 'quick-adsense-reloaded')}</div> :''}</td></tr>
                       : null }
                       { !post_meta.adsense_ad_type || post_meta.adsense_ad_type == 'display_ads' || post_meta.adsense_ad_type == 'matched_content' || post_meta.adsense_ad_type == 'adsense_sticky_ads' ? (
                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
@@ -509,7 +509,7 @@ const {__} = wp.i18n;
                   <tr>
                   <td><label>{__('Plain Text / HTML / JS', 'quick-adsense-reloaded')}</label></td> 
                   <td><textarea className={(show_form_error && post_meta.code == '') ? 'quads_form_error' : ''}  cols="50" rows="5" value={post_meta.code} onChange={this.props.adFormChangeHandler} id="code" name="code" />
-                  {(show_form_error && post_meta.code == '') ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>Enter Plain Text / HTML / JS</div> : ''}</td>
+                  {(show_form_error && post_meta.code == '') ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Enter Plain Text / HTML / JS', 'quick-adsense-reloaded')}</div> : ''}</td>
                   </tr>
                   <tr>
                   <td><label className='q_img_ma_lab' htmlFor="mobile_image_check">{__('Mobile specific Ad', 'quick-adsense-reloaded')}</label></td>
@@ -523,7 +523,7 @@ const {__} = wp.i18n;
                    { post_meta.mobile_html_check && post_meta.mobile_html_check == 1 ? <tr><td>
                      <label>{__('Mobile Plain Text / HTML / JS ', 'quick-adsense-reloaded')}</label></td>
                      <td><textarea className={(show_form_error && post_meta.mob_code == '') ? 'quads_form_error' : ''}  cols="50" rows="5" value={post_meta.mob_code} onChange={this.props.adFormChangeHandler} id="mob_code" name="mob_code" />
-                     {(show_form_error && post_meta.mob_code == '') ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>Enter Plain Text / HTML / JS</div> : ''}</td>
+                     {(show_form_error && post_meta.mob_code == '') ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Enter Plain Text / HTML / JS', 'quick-adsense-reloaded')}</div> : ''}</td>
                       </tr>
                      : ''
                    }
@@ -541,14 +541,14 @@ const {__} = wp.i18n;
                       : <div><div><img src={post_meta.image_src} className="banner_image" /><a className="button" onClick={this.remove_image}>{__('Remove Image', 'quick-adsense-reloaded')}</a></div></div>
                       } 
                       {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
-                      error_outline</span>Upload Ad Image</div> :''}
+                      error_outline</span>{__('Upload Ad Image', 'quick-adsense-reloaded')}</div> :''}
                       </td>
                     </tr>
                     <tr><td>
                       <label>{__('Ad Button link', 'quick-adsense-reloaded')}</label></td>
                       <td><input value={post_meta.parallax_btn_url} onChange={this.props.adFormChangeHandler} type="text" id="parallax_btn_url" name="parallax_btn_url" placeholder="Ad Button link" />
                         {(show_form_error && post_meta.parallax_btn_url == '') ? <div className="quads_form_msg"><span className="material-icons">
-                        error_outline</span>Enter Ad Button link</div> :''}
+                        error_outline</span>{__('Enter Ad Button link', 'quick-adsense-reloaded')}</div> :''}
                       </td>
                     </tr>
                   </tbody></table>
@@ -565,14 +565,14 @@ const {__} = wp.i18n;
                       : <div><div><img src={post_meta.image_src} className="banner_image" /><a className="button" onClick={this.remove_image}>{__('Remove Image', 'quick-adsense-reloaded')}</a></div></div>
                       } 
                       {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
-                      error_outline</span>Upload Ad Image</div> :''}
+                      error_outline</span>{__('Upload Ad Image', 'quick-adsense-reloaded')}</div> :''}
                       </td>
                     </tr>
                     <tr><td>
                       <label>{__('Ad Button link', 'quick-adsense-reloaded')}</label></td>
                       <td><input value={post_meta.half_page_ads_btn_url} onChange={this.props.adFormChangeHandler} type="text" id="half_page_ads_btn_url" name="half_page_ads_btn_url" placeholder="Ad Button link" />
                         {(show_form_error && post_meta.half_page_ads_btn_url == '') ? <div className="quads_form_msg"><span className="material-icons">
-                        error_outline</span>Enter Ad Button link</div> :''}
+                        error_outline</span>{__('Enter Ad Button link', 'quick-adsense-reloaded')}</div> :''}
                       </td>
                     </tr>
                   </tbody></table>
@@ -583,12 +583,12 @@ const {__} = wp.i18n;
                  ad_type_name = 'Rotator Ads';
                  if(!quads_localize_data.is_pro){
                   comp_html.push(<div key="rotator_ads" className="quads-user-targeting"> 
-This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+{__('This feature is available in PRO version', 'quick-adsense-reloaded')} <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">{__('Unlock this feature', 'quick-adsense-reloaded')}</a>
 </div>);
                  break;
                  }
                 comp_html.push(<div key="rotator_ads" className="quads-user-targeting"> 
-       <h2>Select Ads<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
+       <h2>{__('Select Ads', 'quick-adsense-reloaded')}<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
 
                 
              <div className="quads-target-item-list">
@@ -608,7 +608,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                 }
               })
               :''}
-              <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+              <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Select at least one Ad', 'quick-adsense-reloaded')}</div></span> : ''}</div>
              </div>             
         
 
@@ -626,7 +626,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
               onChange={this.selectAdchange}                                                 
             />             
            </td>
-           <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+           <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">{__('Add', 'quick-adsense-reloaded')}</a></td>
            </tr>
          </tbody> 
         </table>
@@ -640,12 +640,12 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                   ad_type_name = 'Group Insertion';
                   if(!quads_localize_data.is_pro){
                       comp_html.push(<div key="group_insertion" className="quads-user-targeting">
-                          This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+                         {__('This feature is available in PRO version', 'quick-adsense-reloaded')}  <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">{__('Unlock this feature', 'quick-adsense-reloaded')}</a>
                       </div>);
                       break;
                   }
                   comp_html.push(<div key="group_insertion" className="quads-user-targeting">
-                      <h2>Select Ads<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
+                      <h2>{__('Select Ads', 'quick-adsense-reloaded')}<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
 
 
                       <div className="quads-target-item-list">
@@ -658,7 +658,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                                       </div>
                                   ) )
                                   :''}
-                          <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+                          <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Select at least one Ad', 'quick-adsense-reloaded')}</div></span> : ''}</div>
                       </div>
 
 
@@ -676,7 +676,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                                               onChange={this.selectAdchange}
                                           />
                                       </td>
-                                      <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+                                      <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">{__('Add', 'quick-adsense-reloaded')}</a></td>
                                   </tr>
                                   </tbody>
                               </table>
@@ -690,7 +690,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                case 'random_ads':
                  ad_type_name = 'Random Ads';
                 comp_html.push(<div key="random_ads" className="quads-user-targeting"> 
-       <h2>Select Ads<a onClick={this.adsToggle}><Icon>add_circle</Icon></a>  </h2>
+       <h2>{__('Select Ads', 'quick-adsense-reloaded')}<a onClick={this.adsToggle}><Icon>add_circle</Icon></a>  </h2>
 
                 
              <div className="quads-target-item-list">
@@ -703,7 +703,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                 </div>
                ) )
               :''}
-              <div>{ (this.state.random_ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+              <div>{ (this.state.random_ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Select at least one Ad', 'quick-adsense-reloaded')}</div></span> : ''}</div>
              </div>             
         
 
@@ -721,7 +721,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
               onChange={this.selectAdchange}                                                 
             />             
            </td>
-           <td><a onClick={this.addselected} className="quads-btn quads-btn-primary">Add</a></td>
+           <td><a onClick={this.addselected} className="quads-btn quads-btn-primary">{__('Add', 'quick-adsense-reloaded')}</a></td>
            </tr>
          </tbody> 
         </table>
@@ -737,12 +737,12 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                     <tr><td>
                     <label>{__('Network Code', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.network_code == '') ? 'quads_form_error' : ''} value={post_meta.network_code} onChange={this.props.adFormChangeHandler} type="text" id="network_code" name="network_code" placeholder="Network Code" />
                     {(show_form_error && post_meta.network_code == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Network Code</div> :''}
+                    error_outline</span>{__('Enter Network Code', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                     <tr><td><label>{__('AD Unit Name', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.ad_unit_name == '') ? 'quads_form_error' : ''}  value={post_meta.ad_unit_name} onChange={this.props.adFormChangeHandler} type="text" placeholder="AD Unit Name" id="ad_unit_name" name="ad_unit_name" />
                     {(show_form_error && post_meta.ad_unit_name == '') ? <div className="quads_form_msg"><span className="material-icons">
 error_outline
-</span>Enter AD Unit Name</div> :''}</td></tr>
+</span>{__('Enter AD Unit Name', 'quick-adsense-reloaded')}</div> :''}</td></tr>
                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
                         <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
@@ -781,7 +781,7 @@ error_outline
                     <tr><td>
                     <label>{__('Block Id', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.block_id == '') ? 'quads_form_error' : ''} value={post_meta.block_id} onChange={this.props.adFormChangeHandler} type="text" id="block_id" name="block_id" placeholder="Block Id" />
                     {(show_form_error && post_meta.block_id == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Block Id</div> :''}
+                    error_outline</span>{__('Enter Block Id', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                   </tbody>
                 </table>
@@ -796,12 +796,12 @@ error_outline
                        <tr><td>
                     <label>{__('Data Container', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_container == '') ? 'quads_form_error' : ''} value={post_meta.data_container} onChange={this.props.adFormChangeHandler} type="text" id="data_container" name="data_container" placeholder="M87ScriptRootC123645" />
                     {(show_form_error && post_meta.data_container == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Data Container</div> :''}
+                    error_outline</span>{__('Enter Data Container', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                            <tr><td>
                     <label>{__('Data Js Src', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_js_src == '') ? 'quads_form_error' : ''} value={post_meta.data_js_src} onChange={this.props.adFormChangeHandler} type="text" id="data_js_src" name="data_js_src" placeholder="//jsc.mgid.com/a/m/quads.com.123645.js" />
                     {(show_form_error && post_meta.data_js_src == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Data Js Src</div> :''}
+                    error_outline</span>{__('Enter Data Js Src', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                   </tbody>
                 </table>
@@ -826,7 +826,7 @@ error_outline
                    </div>
                   } 
                     {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Upload Ad Image</div> :''}
+                    error_outline</span>{__('Upload Ad Image', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                       {post_meta.image_src == '' ? '' : <tr>
                       <td><label>{__('Size', 'quick-adsense-reloaded')}</label></td>
@@ -864,7 +864,7 @@ error_outline
                          
                           
                         {(show_form_error && post_meta.image_mobile_src == '') ? <div className="quads_form_msg"><span className="material-icons">
-                        error_outline</span>Upload Mobile AD Banner </div> :''}
+                        error_outline</span>{__('Upload Mobile AD Banner', 'quick-adsense-reloaded')} </div> :''}
                          </td></tr>
                         : ''
                       }
@@ -872,7 +872,7 @@ error_outline
                     <label>{__('Ad Anchor link', 'quick-adsense-reloaded')}</label></td><td>
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
                     {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Ad Anchor link</div> :''}
+                    error_outline</span>{__('Enter Ad Anchor link', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                     <tr>
                       <td><label className='q_img_ma_lab' htmlFor="parallax_ads_check">{__('Parallax Effect', 'quick-adsense-reloaded')} </label></td>
@@ -907,19 +907,19 @@ error_outline
                    <div>
                    <video src={post_meta.image_src} className="banner_image" />
                    <a className="button" onClick={this.remove_image}>{__('Remove Video', 'quick-adsense-reloaded')}</a>
-                   <p className={'p_q_video'}>We recommend try keeping videos to under 15 seconds as much as possible & if size's smaller please donot upload HD Quality</p>
+                   <p className={'p_q_video'}>{__('We recommend try keeping videos to under 15 seconds as much as possible & if size\'s smaller please donot upload HD Quality', 'quick-adsense-reloaded')}</p>
                    </div>                   
 
                    </div>
                   }
                     {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Upload A Video</div> :''}
+                    error_outline</span>{__('Upload A Video', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                      <tr><td>
                     <label>{__('Ad Anchor link', 'quick-adsense-reloaded')}</label></td><td>
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
                     {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Ad Anchor link</div> :''}
+                    error_outline</span>{__('Enter Ad Anchor link', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                      <tr><td>
                     <label>{__('Video Size', 'quick-adsense-reloaded')}</label></td><td>
@@ -939,7 +939,7 @@ error_outline
                            <tr><td>
                     <label>{__('Propeller AD Script', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.propeller_js == '') ? 'quads_form_error' : ''} value={post_meta.propeller_js} onChange={this.props.adFormChangeHandler} type="text" id="propeller_js" name="propeller_js" placeholder="" />
                     {(show_form_error && post_meta.propeller_js == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter AD Script</div> :''}
+                    error_outline</span>{__('Enter AD Script', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                   </tbody>
                 </table>
@@ -950,14 +950,14 @@ error_outline
               ad_type_name = 'AB Testing';
               if(!quads_localize_data.is_pro){
                 comp_html.push(<div key="ab_testing" className="quads-user-targeting"> 
-This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+{__('This feature is available in PRO version', 'quick-adsense-reloaded')} <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">{__('Unlock this feature', 'quick-adsense-reloaded')} </a>
 </div>);
                break;
                }
 
               comp_html.push(<div key="ab_testing" className="quads-user-targeting">
                 {this.state.ads_list.length == 0  ?
-                <h2>Select Ads<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
+                <h2>{__('Select Ads', 'quick-adsense-reloaded')}<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
                 :null}
                 <div className="quads-target-item-list">
                   {
@@ -970,7 +970,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                         </div>
                       ))
                       : ''}
-                  <div>{(this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+                  <div>{(this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Select at least one Ad', 'quick-adsense-reloaded')}</div></span> : ''}</div>
                 </div>
                 {this.state.adsToggle_list ?
                   <div className="quads-targeting-selection">
@@ -986,7 +986,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                               onChange={this.selectAdchange}
                             />
                           </td>
-                          <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+                          <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">{__('Add', 'quick-adsense-reloaded')}</a></td>
                         </tr>
                       </tbody>
                     </table>
@@ -998,7 +998,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
               ad_type_name = 'popup ads';
               comp_html.push(<div key="popup_ads" className="quads-user-targeting">
                 {this.state.ads_list.length == 0  ?
-                <h2>Select Ads<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
+                <h2>{__('Select Ads', 'quick-adsense-reloaded')}<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
                 :null}
                 <div className="quads-target-item-list">
                   {
@@ -1010,7 +1010,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                         </div>
                       ))
                       : ''}
-                  <div>{(this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+                  <div>{(this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Select at least one Ad', 'quick-adsense-reloaded')}</div></span> : ''}</div>
                 </div>
                 {this.state.adsToggle_list ?
                   <div className="quads-targeting-selection">
@@ -1026,7 +1026,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                               onChange={this.selectAdchange}
                             />
                           </td>
-                          <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+                          <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">{__('Add', 'quick-adsense-reloaded')}</a></td>
                         </tr>
                       </tbody>
                     </table>
@@ -1038,14 +1038,14 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
               ad_type_name = 'Ad Blindness';
               if(!quads_localize_data.is_pro){
                 comp_html.push(<div key="ad_blindness" className="quads-user-targeting"> 
-This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+{__('This feature is available in PRO version', 'quick-adsense-reloaded')} <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">{__('Unlock this feature', 'quick-adsense-reloaded')}</a>
 </div>);
                break;
                }
 
               comp_html.push(<div key="ad_blindness" className="quads-user-targeting">
                 {this.state.ads_list.length == 0  ?
-                <h2>Select Ads<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
+                <h2>{__('Select Ads', 'quick-adsense-reloaded')}<a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a>  </h2>
                 :null}
                 <div className="quads-target-item-list">
                   {
@@ -1057,7 +1057,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                         </div>
                       ))
                       : ''}
-                  <div>{(this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+                  <div>{(this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Select at least one Ad', 'quick-adsense-reloaded')}</div></span> : ''}</div>
                 </div>
                 {this.state.adsToggle_list ?
                   <div className="quads-targeting-selection">
@@ -1073,7 +1073,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                               onChange={this.selectAdchange}
                             />
                           </td>
-                          <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+                          <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">{__('Add', 'quick-adsense-reloaded')}</a></td>
                         </tr>
                       </tbody>
                     </table>
@@ -1091,7 +1091,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                    <div> <input value={post_meta.taboola_publisher_id} onChange={this.props.adFormChangeHandler} type="text" id="taboola_publisher_id" name="taboola_publisher_id" placeholder="123456" /></div>
                                    
                     {(show_form_error && post_meta.taboola_publisher_id == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Data Publisher Id</div> :''}
+                    error_outline</span>{__('Enter Data Publisher Id', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                   </tbody>
                 </table>
@@ -1106,12 +1106,12 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                       <tr><td>
                     <label>{__('Data CID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_cid == '') ? 'quads_form_error' : ''} value={post_meta.data_cid} onChange={this.props.adFormChangeHandler} type="text" id="data_cid" name="data_cid" placeholder="8XXXXX74" />
                     {(show_form_error && post_meta.data_cid == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Data CID</div> :''}
+                    error_outline</span>{__('Enter Data CID', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                      <tr><td>
                     <label>{__('Data CRID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.data_crid == '') ? 'quads_form_error' : ''} value={post_meta.data_crid} onChange={this.props.adFormChangeHandler} type="text" id="data_crid" name="data_crid" placeholder="1XXXXXX82" />
                     {(show_form_error && post_meta.data_crid == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Data CRID</div> :''}
+                    error_outline</span>{__('Enter Data CRID', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                      <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
@@ -1152,12 +1152,12 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                       <tr><td>
                     <label>{__('Adpushup Site ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.adpushup_site_id == '') ? 'quads_form_error' : ''} value={post_meta.adpushup_site_id} onChange={this.props.adFormChangeHandler} type="text" id="adpushup_site_id" name="adpushup_site_id" placeholder="42844" />
                     {(show_form_error && post_meta.adpushup_site_id == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Adpushup Site ID</div> :''}
+                    error_outline</span>{__('Enter Adpushup Site ID', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                      <tr><td>
                     <label>{__('Adpushup Slot ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.adpushup_slot_id == '') ? 'quads_form_error' : ''} value={post_meta.adpushup_slot_id} onChange={this.props.adFormChangeHandler} type="text" id="adpushup_slot_id" name="adpushup_slot_id" placeholder="/103512698/AMP_COMPONENT_TEST_1" />
                     {(show_form_error && post_meta.adpushup_slot_id == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Adpushup Slot ID</div> :''}
+                    error_outline</span>{__('Enter Adpushup Slot ID', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                      <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
@@ -1200,7 +1200,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                    <div> <input value={post_meta.mediavine_site_id} onChange={this.props.adFormChangeHandler} type="text" id="mediavine_site_id" name="mediavine_site_id" placeholder="123456" /></div>
                                    
                     {(show_form_error && post_meta.mediavine_site_id == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Data Site Id</div> :''}
+                    error_outline</span>{__('Enter Data Site Id', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                   </tbody>
                 </table>
@@ -1216,7 +1216,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                    <div> <input value={post_meta.outbrain_widget_ids} onChange={this.props.adFormChangeHandler} type="text" id="outbrain_widget_ids" name="outbrain_widget_ids" placeholder="widget_1,widget_2" /></div>
                                    
                     {(show_form_error && post_meta.outbrain_widget_ids == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Widget Id's</div> :''}
+                    error_outline</span>{__('Enter Widget Id\'s', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                   </tbody>
                 </table>
@@ -1231,13 +1231,13 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                     <label>{__('Infolinks P ID', 'quick-adsense-reloaded')}</label></td><td>
                    <div> <input value={post_meta.infolinks_pid} onChange={this.props.adFormChangeHandler} type="text" id="infolinks_pid" name="infolinks_pid" /></div>
                     {(show_form_error && post_meta.infolinks_pid == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Infolinks P ID</div> :''}
+                    error_outline</span>{__('Enter Infolinks P ID', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                       <tr><td>
                     <label>{__('Infolinks W S ID', 'quick-adsense-reloaded')}</label></td><td>
                    <div> <input value={post_meta.infolinks_wsid} onChange={this.props.adFormChangeHandler} type="text" id="infolinks_wsid" name="infolinks_wsid" /></div>
                     {(show_form_error && post_meta.infolinks_wsid == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Infolinks W S ID</div> :''}
+                    error_outline</span>{__('Enter Infolinks W S ID', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                   </tbody>
                 </table>
@@ -1255,13 +1255,13 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                    <img src={post_meta.image_src} className="banner_image" />
                    <a className="button" onClick={this.remove_image}>{__('Remove Banner', 'quick-adsense-reloaded')}</a></div>}                      
                     {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Upload Ad Image</div> :''}
+                    error_outline</span>{__('Upload Ad Image', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                      <tr><td>
                     <label>{__('Ad Anchor link', 'quick-adsense-reloaded')}</label></td><td>
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
                     {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Ad Anchor link</div> :''}
+                    error_outline</span>{__('Enter Ad Anchor link', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                   </tbody>
                 </table>
@@ -1297,19 +1297,19 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                      
                       
                     {(show_form_error && post_meta.image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Upload Ad Image</div> :''}
+                    error_outline</span>{__('Upload Ad Image', 'quick-adsense-reloaded')}Upload Ad Image</div> :''}
                      </td></tr>
                      <tr><td>
                     <label>{__('Ad Anchor link', 'quick-adsense-reloaded')}</label></td><td>
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
                     {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
-                    error_outline</span>Enter Ad Anchor link</div> :''}
+                    error_outline</span>{__('Enter Ad Anchor link', 'quick-adsense-reloaded')}</div> :''}
                      </td></tr>
                      </>
                      :<><tr>
                      <td><label>{__('Plain Text / HTML / JS', 'quick-adsense-reloaded')}</label></td> 
                      <td><textarea className={(show_form_error && post_meta.code == '') ? 'quads_form_error' : ''}  cols="50" rows="5" value={post_meta.code} onChange={this.props.adFormChangeHandler} id="code" name="code" />
-                     {(show_form_error && post_meta.code == '') ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>Enter Plain Text / HTML / JS</div> : ''}</td>
+                     {(show_form_error && post_meta.code == '') ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Enter Plain Text / HTML / JS', 'quick-adsense-reloaded')}</div> : ''}</td>
                      </tr></>
                       }
                      
@@ -1340,19 +1340,19 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                          <label>{__('Ad Title', 'quick-adsense-reloaded')}</label></td><td>
                          <input value={post_meta.loop_add_title} onChange={this.props.adFormChangeHandler} type="text" id="loop_add_title" name="loop_add_title" placeholder="Ad title" />
                          {(show_form_error && post_meta.loop_add_title == '') ? <div className="quads_form_msg"><span className="material-icons">
-                         error_outline</span>Enter Ad Title</div> :''}
+                         error_outline</span>{__('Enter Ad Title', 'quick-adsense-reloaded')}</div> :''}
                           </td></tr>
                           <tr><td>
                          <label>{__('Ad Short Description', 'quick-adsense-reloaded')}</label></td><td>
                          <textarea rows="5" cols="50" onChange={this.props.adFormChangeHandler}  id="loop_add_description" name="loop_add_description" placeholder="Ad Short Description" value={post_meta.loop_add_description}></textarea>
                          {(show_form_error && post_meta.loop_add_description == '') ? <div className="quads_form_msg"><span className="material-icons">
-                         error_outline</span>Enter Ad Description</div> :''}
+                         error_outline</span>{__('Enter Ad Description', 'quick-adsense-reloaded')}</div> :''}
                           </td></tr>
                           <tr><td>
                          <label>{__('Ad Anchor link', 'quick-adsense-reloaded')}</label></td><td>
                          <input value={post_meta.loop_add_link} onChange={this.props.adFormChangeHandler} type="text" id="loop_add_link" name="loop_add_link" placeholder="Ad Anchor link" />
                          {(show_form_error && post_meta.loop_add_link == '') ? <div className="quads_form_msg"><span className="material-icons">
-                         error_outline</span>Enter Ad Anchor link</div> :''}
+                         error_outline</span>{__('Enter Ad Anchor link', 'quick-adsense-reloaded')}</div> :''}
                           </td></tr>
                        </tbody>
                      </table>
@@ -1367,15 +1367,24 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                         <tr><td>
                           <label>{__('Carousel Type', 'quick-adsense-reloaded')}</label></td><td>
                             <select onChange={this.props.adFormChangeHandler} value={post_meta.carousel_type} id="carousel_type" name="carousel_type" placeholder="Carousel Type">
-                              <option value="slider">Single Slide</option>
+                              <option value="slider">{__('Single Slide', 'quick-adsense-reloaded')}</option>
                             </select>
                           {(show_form_error && post_meta.carousel_type == '') ? <div className="quads_form_msg"><span className="material-icons">
-                          error_outline</span>Select Carousel Type</div> :''}
+                          error_outline</span>{__('Select Carousel Type', 'quick-adsense-reloaded')}</div> :''}
                           </td></tr>
                           
                          <tr><td> <label>{__('Carousel Speed', 'quick-adsense-reloaded')}</label></td><td>
-                        <div className="quads-adsense-width-heigth"><label>Seconds<input className='carousel_speed small-text' min="1" step="1" id="carousel_speed" value={post_meta.carousel_speed} name="carousel_speed" onChange={this.props.adFormChangeHandler} type="number"/></label></div>
+                        <div className="quads-adsense-width-heigth"><label>{__('Seconds', 'quick-adsense-reloaded')}<input className='carousel_speed small-text' min="1" step="1" id="carousel_speed" value={post_meta.carousel_speed} name="carousel_speed" onChange={this.props.adFormChangeHandler} type="number"/></label></div>
                          </td></tr>
+                         <tr>
+                        <td><label className='carousel_arrows' htmlFor="carousel_arrows">{__('Navigation Arrows', 'quick-adsense-reloaded')}</label></td>
+                        <td>
+                        <label className="quads-switch exp_date">
+                        <input className='exp_date_check' id="carousel_arrows" checked={post_meta.carousel_arrows} name="carousel_arrows" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                            <span className="quads-slider"></span>
+                          </label>
+                        </td>
+                        </tr>
                          <tr style={{marginBottom: 0 + 'px'}}><td><label>{__('Select Ads ', 'quick-adsense-reloaded')}</label></td><td><a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a></td></tr>
                         <tr><td colSpan={'2'} style={{width:'100%'}}>
                         <div className="quads-target-item-list">
@@ -1388,14 +1397,11 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                                       </div>
                                   ) )
                                   :''}
-                          <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+                          <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Select at least one Ad', 'quick-adsense-reloaded')}</div></span> : ''}</div>
                       </div></td></tr>
                         </tbody>
                       </table>
-
-
-                     
-
+            
                       {this.state.adsToggle_list ?
                           <div className="quads-targeting-selection">
                               <table className="form-table">
@@ -1410,7 +1416,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                                               onChange={this.selectAdchange}
                                           />
                                       </td>
-                                      <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+                                      <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">{__('Add', 'quick-adsense-reloaded')}</a></td>
                                   </tr>
                                   </tbody>
                               </table>
@@ -1425,7 +1431,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                   ad_type_name = 'Hold on Scroll ';
                   if(!quads_localize_data.is_pro){
                       comp_html.push(<div key="sticky_scroll" className="quads-user-targeting">
-                          This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+                          {__('This feature is available in PRO version', 'quick-adsense-reloaded')} <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">{__('Unlock this feature', 'quick-adsense-reloaded')}</a>
                       </div>);
                       break;
                   }
@@ -1446,7 +1452,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                                   :''}
                                   
                                   </div>
-                          <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div>
+                          <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Select at least one Ad', 'quick-adsense-reloaded')}</div></span> : ''}</div>
                           
                       </td></tr>
                       </tbody>
@@ -1465,7 +1471,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                                               onChange={this.selectAdchange}
                                           />
                                       </td>
-                                      <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">Add</a></td>
+                                      <td><a onClick={this.addselected_list} className="quads-btn quads-btn-primary">{__('Add', 'quick-adsense-reloaded')}</a></td>
                                   </tr>
                                   </tbody>
                               </table>
@@ -1487,7 +1493,7 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                   ad_type_name = 'Floating';
                   if(!quads_localize_data.is_pro){
                     comp_html.push(<div key="floating_cubes" className="quads-user-targeting">
-                        This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+                        {__('This feature is available in PRO version', 'quick-adsense-reloaded')} <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">{__('Unlock this feature', 'quick-adsense-reloaded')}</a>
                     </div>);
                     break;
                 }
@@ -1503,18 +1509,18 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                               <option value="bottom-right">{__('Bottom Right', 'quick-adsense-reloaded')}</option>
                             </select>
                           {(show_form_error && post_meta.floating_position == '') ? <div className="quads_form_msg"><span className="material-icons">
-                          error_outline</span>Select Floating Position</div> :''}
+                          error_outline</span>{__('Select Floating Position', 'quick-adsense-reloaded')}</div> :''}
                           </td></tr>
                           <tr>
                           <td><label>{__('3D Cube Size', 'quick-adsense-reloaded')}  </label></td>
-                          <td><input className='small-text' value={post_meta.floating_cubes_size ? post_meta.floating_cubes_size:'200'} onChange={this.props.adFormChangeHandler} type="number" id="floating_cubes_size" name="floating_cubes_size" />PX
+                          <td><input className='small-text' value={post_meta.floating_cubes_size ? post_meta.floating_cubes_size:'200'} onChange={this.props.adFormChangeHandler} type="number" id="floating_cubes_size" name="floating_cubes_size" />{__('PX', 'quick-adsense-reloaded')}
                           </td></tr>
                         </tbody>
                       </table>
                         {  this.addFloatingSlide('init') }
 
                         {(show_form_error && post_meta.floating_slides.length != 6 ) ? <div className="quads_form_msg"><span className="material-icons">
-                          error_outline</span>Atleast two slides are  required</div> :''}
+                          error_outline</span>{__('Atleast two slides are  required', 'quick-adsense-reloaded')}</div> :''}
                       </div>);
       
                     break;
@@ -1535,26 +1541,26 @@ This feature is available in PRO version <a className="quads-got_pro premium_fea
                     <div>
                       <div><textarea className="quads-auto-fill-textarea" cols="80" rows="15" onChange={this.props.modalValue} value={this.props.quads_modal_value}/></div>
                       <div>
-Do not enter AdSense page level ads or Auto ads! Learn how to create <a  target="_blank" href="https://wpquads.com/documentation/how-to-find-data-client-id-data-slot-id-for-adsense-integration/"> AdSense ad code </a>
+Do not enter AdSense page level ads or Auto ads! Learn how to create <a  target="_blank" href="https://wpquads.com/documentation/how-to-find-data-client-id-data-slot-id-for-adsense-integration/"> {__('AdSense ad coded', 'quick-adsense-reloaded')} </a>
                       <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.props.getAdsenseCode}>{__('Get Code', 'quick-adsense-reloaded')}</a></div>
                     </div>
                   }/>
                 </div> : ''}
-                {this.props.ad_type == 'background_ad' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-background-ad-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
-                {this.props.ad_type == 'plain_text' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-custom-code-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
-                {this.props.ad_type == 'adsense' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-adsense-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
-                {this.props.ad_type == 'yandex' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-yandexdirect-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
-                {this.props.ad_type == 'mgid' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-mgid-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
-                {this.props.ad_type == 'taboola' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-taboola-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
-                {this.props.ad_type == 'media_net' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-media-net-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
-                {this.props.ad_type == 'outbrain' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-outbrain-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
-                {this.props.ad_type == 'mediavine' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-mediavine-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
-                {this.props.ad_type == 'rotator_ads' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-rotator-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
-                {this.props.ad_type == 'group_insertion' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
-                {this.props.ad_type == 'infolinks' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-infolinks-ad-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
-                {this.props.ad_type == 'skip_ads' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/what-is-skippable-ad-and-how-to-use-it/">View Documentation on {ad_type_name} AD</a>:''}
-                {this.props.ad_type == 'propeller' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-setup-propeller-ads-in-wp-quads/">View Documentation on {ad_type_name} AD</a>:''}
-                {this.props.ad_type == 'ab_testing' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-ab-testing/">View Documentation on {ad_type_name} AD</a>:''}
+                {this.props.ad_type == 'background_ad' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-background-ad-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'plain_text' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-custom-code-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'adsense' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-adsense-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')}{ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'yandex' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-yandexdirect-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'mgid' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-mgid-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')}{ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'taboola' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-taboola-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'media_net' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-media-net-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'outbrain' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-outbrain-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'mediavine' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-mediavine-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'rotator_ads' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-rotator-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'group_insertion' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-group-insertion-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'infolinks' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-infolinks-ad-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'skip_ads' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/what-is-skippable-ad-and-how-to-use-it/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'propeller' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-setup-propeller-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'ab_testing' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-ab-testing/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
                 
                 <div className="quads-panel">
                  <div className="quads-panel-body">{comp_html}</div>

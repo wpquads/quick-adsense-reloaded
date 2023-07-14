@@ -133,6 +133,7 @@ class QuadsAdCreateRouter extends Component {
             carousel_width            :450,
             carousel_height           :350,
             carousel_speed            :4,
+            carousel_arrows           :false,
             sticky_scroll_height      :350,
             sticky_scroll_text        :'',
             carousel_slides           :2,

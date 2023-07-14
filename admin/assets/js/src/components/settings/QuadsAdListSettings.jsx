@@ -428,7 +428,7 @@ handleMultiPluginsChange = (option) => {
   
   handleRoleBasedAccess = (option) => {
     const { settings } = this.state; 
-    if(settings.RoleBasedAccess?.length != 1 ){
+    if(option?.length >= 1 ){
     settings.RoleBasedAccess = option;
     this.setState(settings);
     this.saveSettings();
@@ -727,7 +727,7 @@ handleMultiPluginsChange = (option) => {
       let namer_data = this.state.settings.namer
       const current_page = queryString.parse(window.location.search);
 
-      if( namer_data == "adsTxtEnabled" ){
+      if( namer_data == "adsTxtEnabled" && document.getElementById("adsTxtEnabled_")){
         document.getElementById("adsTxtEnabled_").style.display = 'none';
         document.getElementsByClassName("lazy_loader")[0].style.display = 'block';
       }
@@ -848,7 +848,7 @@ handleMultiPluginsChange = (option) => {
               // Begin show saving loader
               let namer_data = this.state.settings.namer
 
-              if( namer_data == "adsTxtEnabled" ){
+              if( namer_data == "adsTxtEnabled" && document.getElementById("adsTxtEnabled_")){
                 document.getElementById("adsTxtEnabled_").style.display = 'block';
                 document.getElementsByClassName("lazy_loader")[0].style.display = 'none';
                 }
@@ -1321,7 +1321,7 @@ handleMultiPluginsChange = (option) => {
               </ul>
              </div>
             :null}
-               <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>{__('Validate', 'quick-adsense-reloaded')}</a>
+               <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>{__('Validate & Save', 'quick-adsense-reloaded')}</a>
              </div>
              </div>
             </div> </>: null
@@ -1860,7 +1860,7 @@ handleMultiPluginsChange = (option) => {
                       name="RoleBasedAccess"
                       className={'RoleBasedAccess'}
                       placeholder="Role Based Access"
-                      value={settings.RoleBasedAccess}
+                      value={this.state.settings.RoleBasedAccess}
                       options={this.state.multiUserOptions}
                       onChange={this.handleRoleBasedAccess}
                     />
