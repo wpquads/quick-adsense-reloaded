@@ -8,11 +8,16 @@ window.addEventListener("load", function(){
         const wpquads_adid = carousel.getAttribute("data-adid")?carousel.getAttribute("data-adid"):0;
         current_carousel_id=wpquads_adid;
         quads_move = 'next';
-        quads_carousel_intervals[wpquads_adid]= setInterval(quadsCarousel,wpquads_slider_speed);   
+        quads_carousel_intervals[wpquads_adid]= quadsCarouselInterval(current_carousel_id,quads_move,wpquads_slider_speed);   
     });
 
+    function quadsCarouselInterval(id,move,delay){
+        setInterval(() => {
+            quadsCarousel(id,move);
+          }, delay);
+    }
 
-    function quadsCarousel(){
+    function quadsCarousel(current_carousel_id,quads_move){
         if(!current_carousel_id){
             return;
         }
@@ -23,7 +28,6 @@ window.addEventListener("load", function(){
         var cur_slide = car_con.getAttribute('data-slide')?car_con.getAttribute('data-slide'):1;
         var x = document.getElementsByClassName("quads-slides-"+current_carousel_id);
         for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
-
         if(quads_move=='back'){
             cur_slide--;
             if (cur_slide < 1) {cur_slide = x.length;}
@@ -32,6 +36,7 @@ window.addEventListener("load", function(){
             cur_slide++;
             if (cur_slide > x.length) {cur_slide = 1;}
         }
+        
         x[cur_slide-1].style.display = "block";
         car_con.setAttribute('data-slide',cur_slide);
 
@@ -51,8 +56,7 @@ window.addEventListener("load", function(){
                     element.className=element.className.replace('quads-animate-right','quads-animate-left')
                 });
                 quads_move ='back';
-                current_carousel_id = temp_id;
-                quadsCarousel();
+                quadsCarousel(temp_id,quads_move);
             }
         });
     });
@@ -68,8 +72,7 @@ window.addEventListener("load", function(){
                     element.className=element.className.replace('quads-animate-left','quads-animate-right')
                 });
                 quads_move ='next';
-                current_carousel_id = temp_id;
-                quadsCarousel();
+                quadsCarousel(temp_id,quads_move);
             }
         });
     });
