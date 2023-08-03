@@ -3186,7 +3186,7 @@ function quads_del_element($array, $idx) {
                     if($value['post']['post_status']== 'draft'){
                         continue;
                     }
-                    if($ads['position'] == 'ad_shortcode'){
+                    if(isset($ads['position']) && $ads['position'] == 'ad_shortcode'){
                         continue;
                     }
     
