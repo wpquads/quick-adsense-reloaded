@@ -194,8 +194,8 @@ class quads_output_amp_condition_display{
           }else if($ads['position'] =='amp_doubleclick_sticky_ad' && $condition == 'quads_sticky_ad_doubleclick'){
                 global $quads_options;
                 $ads_id = $ads['quads_ad_old_id'];
-                $width        = ( isset($quads_options['ads'][$ads_id]['g_data_ad_width']) ) ? $quads_options['ads'][$ads_id]['g_data_ad_width'] : '300';
-                $height        = ( isset($quads_options['ads'][$ads_id]['g_data_ad_height']) ) ? $quads_options['ads'][$ads_id]['g_data_ad_height'] : '250';
+                $width        = ( isset($quads_options['ads'][$ads_id]['g_data_ad_width']) && !empty($quads_options['ads'][$ads_id]['g_data_ad_width']) ) ? $quads_options['ads'][$ads_id]['g_data_ad_width'] : 300;
+                $height        = ( isset($quads_options['ads'][$ads_id]['g_data_ad_height']) && !empty($quads_options['ads'][$ads_id]['g_data_ad_height']) ) ? $quads_options['ads'][$ads_id]['g_data_ad_height'] : 250;
                 $network_code  = $quads_options['ads'][$ads_id]['network_code'];
                 $ad_unit_name  = $quads_options['ads'][$ads_id]['ad_unit_name'];
 		             add_filter('amp_post_template_data',array($this, 'quads_enque_ads_specific_amp_script'));
