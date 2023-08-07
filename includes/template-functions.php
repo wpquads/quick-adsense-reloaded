@@ -880,7 +880,7 @@ function quads_process_content( $content ) {
 
     $quads_ad_is_allowed=apply_filters('quads_show_ads',quads_ad_is_allowed( $content ));
     // Do not do anything if ads are not allowed or process is not in the main query
-    if( !$quads_ad_is_allowed || !is_main_query() || !is_singular() || !in_the_loop()) {
+    if( !$quads_ad_is_allowed || !is_main_query() || !is_singular() ) {
         $content = quads_clean_tags( $content );
         return $content;
     }
