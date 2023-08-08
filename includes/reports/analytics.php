@@ -317,7 +317,8 @@ public function quads_get_client_ip() {
                }
                   $is_on         = quads_is_visibility_on($ads);
                   $is_visitor_on = quads_is_visitor_on($ads);
-                  if($is_on && $is_visitor_on && $post_status=='publish'){
+                  $is_click_fraud_on = quads_click_fraud_on();
+                  if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish'){
 
                     echo '<amp-analytics><script type="application/json">
                     {
