@@ -67,12 +67,14 @@ function quads_ad_is_allowed( $content = null ) {
        return true;
     }
 
+    $content_condition = !empty($content)?$content:'';
+
     if(
             (is_feed()) ||
             (is_search()) ||
             (is_404() ) ||
-            (strpos( $content, '<!--NoAds-->' ) !== false) ||
-            (strpos( $content, '<!--OffAds-->' ) !== false) ||
+            (strpos( $content_condition, '<!--NoAds-->' ) !== false) ||
+            (strpos( $content_condition, '<!--OffAds-->' ) !== false) ||
             (is_front_page() && !isset( $quads_options['visibility']['AppHome'] ) ) ||
             (is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
             (is_archive() && !( isset( $quads_options['visibility']['AppArch'] ) ) ) ||
@@ -119,12 +121,14 @@ function quads_widget_ad_is_allowed( $content = null ) {
        return true;
     }
 
+    $content_condition = !empty($content)?$content:'';
+
     if(
             (is_feed()) ||
             (is_search()) ||
             (is_404() ) ||
-            (strpos( $content, '<!--NoAds-->' ) !== false) ||
-            (strpos( $content, '<!--OffAds-->' ) !== false) ||
+            (strpos( $content_condition, '<!--NoAds-->' ) !== false) ||
+            (strpos( $content_condition, '<!--OffAds-->' ) !== false) ||
             (is_category() && !(isset( $quads_options['visibility']['AppCate'] ) ) ) ||
             (is_archive() && !( isset( $quads_options['visibility']['AppArch'] ) ) ) ||
             (is_tag() && !( isset( $quads_options['visibility']['AppTags'] ) ) ) ||
