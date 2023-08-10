@@ -2166,6 +2166,11 @@ function quads_parse_popup_ads($content) {
     $specific_time_interval_sec       =  (isset($ad_meta['specific_time_interval_sec'][0]) && !empty($ad_meta['specific_time_interval_sec'][0])) ? $ad_meta['specific_time_interval_sec'][0] : 0;
     $on_scroll_popup_percentage       =  (isset($ad_meta['on_scroll_popup_percentage'][0]) && !empty($ad_meta['on_scroll_popup_percentage'][0])) ? $ad_meta['on_scroll_popup_percentage'][0] : 0;
     
+    //cookie
+    $popup_set_cookie_type       =  (isset($ad_meta['popup_set_cookie_type'][0]) && !empty($ad_meta['popup_set_cookie_type'][0])) ? $ad_meta['popup_set_cookie_type'][0] : 'withcookieexp';
+    $pop_set_cookie_indays       =  (isset($ad_meta['pop_set_cookie_indays'][0]) && !empty($ad_meta['pop_set_cookie_indays'][0])) ? $ad_meta['pop_set_cookie_indays'][0] : 1;
+    $data_cke = $popup_set_cookie_type == 'withcookieexp' ? $pop_set_cookie_indays : 'no';
+    
     $adsresultset = array();
     if( $ads_list ){
         foreach ($temp_array as $post_ad_id){
@@ -2235,7 +2240,7 @@ function quads_parse_popup_ads($content) {
         }
 
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
-            '<div class="quads-location quads-popupad ad_' . esc_attr($ad_id) . ' '.esc_attr($addl_class).'" id="quads-ad'. esc_attr($ad_id) .'" '.$popups_data.' data-popuptype="'.$popup_type.'" style="' . $style . '">' . "\n";
+            '<div class="quads-location quads-popupad ad_' . esc_attr($ad_id) . ' '.esc_attr($addl_class).'" id="quads-ad'. esc_attr($ad_id) .'" '.$popups_data.' data-popuptype="'.$popup_type.'" data-cke="'.$data_cke.'" style="' . $style . '">' . "\n";
         $code .='<div class="quads-groups-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
         $code .='</div>';
 

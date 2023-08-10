@@ -1028,6 +1028,32 @@ error_outline
                         </div>
                       ))
                       : ''}
+                  {this.state.ads_list.length == 0  ? '' :
+                  <div className="quads-popup-cookie">
+                    <table className="form-table">
+                      <tbody>
+                        <tr style={{marginBottom: 0 + 'px'}}>
+                          <td><label className='popup_cookie_type' htmlFor="popup_set_cookie_type">{__('Cookie Setup', 'quick-adsense-reloaded')}</label></td>
+                          <td style={{width:'150px'}}>
+                             <select value={post_meta.popup_set_cookie_type} defaultValue="withcookieexp" onChange={this.props.adFormChangeHandler} name="popup_set_cookie_type" id="popup_set_cookie_type">
+                              <option value="withcookieexp">{__('Expiry', 'quick-adsense-reloaded')}</option>
+                              <option value="withoutcookieexp">{__('No Expiry', 'quick-adsense-reloaded')}</option> 
+                            </select>
+                          </td>
+                        </tr>
+                        { post_meta.popup_set_cookie_type && post_meta.popup_set_cookie_type == 'withoutcookieexp' ? '' :
+                        <tr>
+                          <td></td>
+                          <td style={{width:'315px'}}>
+                            <input id={'pop_set_cookie_indays'}
+                                   name={'pop_set_cookie_indays'} type="number"
+                                   value={post_meta.pop_set_cookie_indays} onChange={this.props.adFormChangeHandler}  /> days
+                          </td>
+                        </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>}
                   <div>{(this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Select at least one Ad', 'quick-adsense-reloaded')}</div></span> : ''}</div>
                 </div>
                 {this.state.adsToggle_list ?

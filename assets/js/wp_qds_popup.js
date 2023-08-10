@@ -34,7 +34,11 @@ jQuery( document ).ready(function($) {
     setTimeout(() => {
         $("#btn_close").click(function() {  
             $(".quads-popupad").css("display", "none");
-            set_quads_Cookie('quads_popup','popup_ad',1);
+            let cketimer = $(".quads-popupad").attr('data-cke');
+            if (cketimer == 'no') {
+                cketimer = 365;
+            }
+            set_quads_Cookie('quads_popup','popup_ad',cketimer);
           });
     }, 500);
     // showing popup after respective time as per settings
