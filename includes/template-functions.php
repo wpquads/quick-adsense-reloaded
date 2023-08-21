@@ -1313,18 +1313,17 @@ function quads_filter_default_ads_new( $content ) {
                                   }
                                   if ( $paragraph_no == $index + 1 ) {
                                       $paragraphs[$index] .= $cusads;
-                                      if($repeat_paragraph){
+                                      if($repeat_paragraph && ($paragraph_no < $p_count-$original_paragraph_no)){
                                        $paragraph_no =  $original_paragraph_no+$paragraph_no; 
                                       }
                                   }
                               }
                             }
                               $content = implode( '', $paragraphs ); 
-                          }else{
-                              if($end_of_post){
-                                  $content = $content.$cusads;   
-                              }                                
                           }
+                          if($end_of_post){
+                              $content = $content.$cusads;   
+                          }                                
                       }
                         break;
                     
