@@ -1250,7 +1250,7 @@ function quads_filter_default_ads_new( $content ) {
                           $insert_after         = isset($ads['insert_after']) ? $ads['insert_after'] : 1;
 
                           $closing_p        = '</p>';
-                          $paragraphs       = explode( $closing_p, $content );
+                          $paragraphs       = array_filter(explode( $closing_p, $content ));
                           $p_count          = count($paragraphs);
                           $original_paragraph_no = $paragraph_no;                                                             
                           
@@ -1321,7 +1321,7 @@ function quads_filter_default_ads_new( $content ) {
                             }
                               $content = implode( '', $paragraphs ); 
                           }
-                          if($end_of_post){
+                          if($end_of_post && $p_count < 3 ){
                               $content = $content.$cusads;   
                           }                                
                       }
