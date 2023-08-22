@@ -208,8 +208,8 @@ Alternative Installation:
 == Changelog ==
 
 = 2.0.74 ( 22 August 2023 ) =
-* Added: Need to exclude impression count of the admin #757
-* Added: Need to add size option for mobile specific banner #789
+* Added: Exclude impression count of the admin #757
+* Added: Add size option for mobile specific banner #789
 * Added: Cookies time option for popup ad #791
 * Fixed: Undefined array key "position" #774
 * Fixed: Height and width is not applied in sticky ads(AMP) #779
