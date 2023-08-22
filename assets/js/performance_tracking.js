@@ -9,9 +9,6 @@
            ad_ids[index]= ($(this).attr('id'));
         });  
         
-        var checkIsAdmin = document.getElementById('wpadminbar');
-
-        if(checkIsAdmin === null){
         if($.isEmptyObject( ad_ids ) == false){      
          var currentLocation = window.location.href;         
         $.ajax({
@@ -35,7 +32,6 @@
                });  
              }         
         });                  
-        }
         }, 1000);
         
    
