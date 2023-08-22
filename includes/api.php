@@ -131,11 +131,14 @@ function quads_ad( $args ) {
         }else{
             $location_settings = quads_get_ad_location_settings( $args['location'] );
         }
-        $code .= "\n".'<!-- WP QUADS Custom Ad v. ' . QUADS_VERSION .' -->'."\n";
-        $code .= '<div class="quads-location quads-ad' .esc_html($location_settings['ad']). '" id="quads-ad' .esc_html($location_settings['ad']). '" style="'.  quads_get_inline_ad_style( $location_settings['ad'] ).'">'."\n";
-        $quadsoptions_code = isset($quads_options['ads'][ 'ad' . $location_settings['ad'] ]['code'])?$quads_options['ads'][ 'ad' . $location_settings['ad'] ]['code']:'';
-        $code .= quads_render_ad( 'ad' . $location_settings['ad'], $quadsoptions_code );
-        $code .= '</div>';
+
+        if(isset($location_settings['ad']) && !empty($location_settings['ad'])){
+            $code .= "\n".'<!-- WP QUADS Custom Ad v. ' . QUADS_VERSION .' -->'."\n";
+            $code .= '<div class="quads-location quads-ad' .esc_html($location_settings['ad']). '" id="quads-ad' .esc_html($location_settings['ad']). '" style="'.  quads_get_inline_ad_style( $location_settings['ad'] ).'">'."\n";
+            $quadsoptions_code = isset($quads_options['ads'][ 'ad' . $location_settings['ad'] ]['code'])?$quads_options['ads'][ 'ad' . $location_settings['ad'] ]['code']:'';
+            $code .= quads_render_ad( 'ad' . $location_settings['ad'], $quadsoptions_code );
+            $code .= '</div>';
+        }
        
 	}elseif ($quads_mode == 'new'){
 

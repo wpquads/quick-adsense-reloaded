@@ -642,7 +642,7 @@ handleMultiPluginsChange = (option) => {
     var blocked_ips = quads_localize_data.quads_get_ips;
     var q_admin_url = quads_localize_data.ajax_url;
 
-    if( blocked_ips.length>1 ){
+    if( blocked_ips.length > 0 ){
       this.setState({ blocked_ips: blocked_ips });
       // console.log('blocked_ipsInner'+ blocked_ips.length);
     }else{
@@ -1685,7 +1685,7 @@ handleMultiPluginsChange = (option) => {
                               <td className="b_in_">IP</td>
                             </tr>
                             </tbody>
-                            { (this.state.blocked_ips && this.state.blocked_ips.length > 0 ) ? this.state.blocked_ips.map( (value, index) => {
+                            { (this.state.blocked_ips && this.state.blocked_ips.length > 0 && Array.isArray(this.state.blocked_ips)) ? this.state.blocked_ips.map( (value, index) => {
                               return (
                                 <tbody className="b_inspan">
                                 { (value!=="") &&

@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 6.2
+Tested up to: 6.3
 Requires PHP: 5.4
-Stable tag: 2.0.73
+Stable tag: 2.0.74
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -206,6 +206,18 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.74 ( 22 August 2023 ) =
+* Added: Exclude impression count of the admin #757
+* Added: Add size option for mobile specific banner #789
+* Added: Cookies time option for popup ad #791
+* Fixed: Undefined array key "position" #774
+* Fixed: Height and width is not applied in sticky ads(AMP) #779
+* Fixed: Error in browser console while adding Adsense Ads #781
+* Fixed: The Fraud Protection option is not working properly #782
+* Fixed: Ads are not working on the AMP #785
+* Fixed: A Deprecated warning reported #786
+* Fixed: Fix for ad container adding at every ad position in boombox theme
 
 = 2.0.73 ( 14 July 2023 ) =
 * Fixed: Undefined array key "ad" #761

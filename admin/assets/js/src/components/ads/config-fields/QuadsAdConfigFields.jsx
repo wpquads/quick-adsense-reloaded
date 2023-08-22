@@ -855,7 +855,7 @@ error_outline
                      </td>
                      </tr>
                      
-                      { post_meta.mobile_image_check && post_meta.mobile_image_check == 1 ? <tr><td>
+                      { post_meta.mobile_image_check && post_meta.mobile_image_check == 1 ? <><tr><td>
                         <label>{__('Upload Mobile AD Banner ', 'quick-adsense-reloaded')}</label></td><td>
                        {post_meta.image_mobile_src == '' ? <div><a className="button" onClick={this.selectimages_2}>{__(' Upload Banner', 'quick-adsense-reloaded')}</a></div>
                        : <div>
@@ -866,6 +866,24 @@ error_outline
                         {(show_form_error && post_meta.image_mobile_src == '') ? <div className="quads_form_msg"><span className="material-icons">
                         error_outline</span>{__('Upload Mobile AD Banner', 'quick-adsense-reloaded')} </div> :''}
                          </td></tr>
+                        {(post_meta.image_mobile_src != '') ?
+                        <tr>
+                         <td><label>{__('Mobile Size', 'quick-adsense-reloaded')}</label></td>
+                         <td>
+                         <div className="quads-banner-width-heigth">
+                           <div className="quads-banner-width">
+                             <label>{__('Width', 'quick-banner-reloaded')}
+                             <input value={post_meta.mob_banner_ad_width ? post_meta.mob_banner_ad_width:'300'} onChange={this.props.adFormChangeHandler} type="number" id="mob_banner_ad_width" name="mob_banner_ad_width" /> 
+                             </label>
+                           </div>
+                           <div className="quads-banner-height">
+                             <label>{__('Height', 'quick-banner-reloaded')}
+                             <input value={post_meta.mob_banner_ad_height  ? post_meta.mob_banner_ad_height:'250'} onChange={this.props.adFormChangeHandler} type="number" id="mob_banner_ad_height" name="mob_banner_ad_height" />  
+                             </label>
+                           </div>
+                         </div>
+                        </td></tr> : '' }
+                        </>
                         : ''
                       }
                      <tr><td>
@@ -1010,6 +1028,32 @@ error_outline
                         </div>
                       ))
                       : ''}
+                  {this.state.ads_list.length == 0  ? '' :
+                  <div className="quads-popup-cookie">
+                    <table className="form-table">
+                      <tbody>
+                        <tr style={{marginBottom: 0 + 'px'}}>
+                          <td><label className='popup_cookie_type' htmlFor="popup_set_cookie_type">{__('Cookie Setup', 'quick-adsense-reloaded')}</label></td>
+                          <td style={{width:'150px'}}>
+                             <select value={post_meta.popup_set_cookie_type} defaultValue="withcookieexp" onChange={this.props.adFormChangeHandler} name="popup_set_cookie_type" id="popup_set_cookie_type">
+                              <option value="withcookieexp">{__('Expiry', 'quick-adsense-reloaded')}</option>
+                              <option value="withoutcookieexp">{__('No Expiry', 'quick-adsense-reloaded')}</option> 
+                            </select>
+                          </td>
+                        </tr>
+                        { post_meta.popup_set_cookie_type && post_meta.popup_set_cookie_type == 'withoutcookieexp' ? '' :
+                        <tr>
+                          <td></td>
+                          <td style={{width:'315px'}}>
+                            <input id={'pop_set_cookie_indays'}
+                                   name={'pop_set_cookie_indays'} type="number"
+                                   value={post_meta.pop_set_cookie_indays} onChange={this.props.adFormChangeHandler}  /> days
+                          </td>
+                        </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>}
                   <div>{(this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Select at least one Ad', 'quick-adsense-reloaded')}</div></span> : ''}</div>
                 </div>
                 {this.state.adsToggle_list ?

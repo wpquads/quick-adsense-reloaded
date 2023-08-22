@@ -343,9 +343,13 @@ function quads_render_ad_image_async( $id ) {
                 <style> .quads-ad'.esc_attr($quads_options['ads'][$id]['ad_id']).' { margin:0 auto !important;} .parallax_'.esc_attr($id).' {background-image: url("'.esc_attr($image_render_src).'");height:'.esc_attr($parallax_height).'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
             }
             else {
+
+            $mob_bnr_wdt = $quads_options['ads'][$id]['mob_banner_ad_width']?$quads_options['ads'][$id]['mob_banner_ad_width']:($quads_options['ads'][$id]['image_width']?$quads_options['ads'][$id]['image_width']:300);
+            $mob_bnr_hgt = $quads_options['ads'][$id]['mob_banner_ad_height']?$quads_options['ads'][$id]['mob_banner_ad_height']:($quads_options['ads'][$id]['image_height']?$quads_options['ads'][$id]['image_height']:300);
+                
             $html .= '
             <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
-            <img  src="'.esc_attr($image_render_src).'" alt="'.esc_attr($quads_options['ads'][$id]['label']).'"> 
+            <img width="'.esc_attr($mob_bnr_wdt). '" height="'.esc_attr($mob_bnr_hgt). '" src="'.esc_attr($image_render_src).'" alt="'.esc_attr($quads_options['ads'][$id]['label']).'"> 
             </a>';
             }
         }

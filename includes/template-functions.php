@@ -880,7 +880,7 @@ function quads_process_content( $content ) {
 
     $quads_ad_is_allowed=apply_filters('quads_show_ads',quads_ad_is_allowed( $content ));
     // Do not do anything if ads are not allowed or process is not in the main query
-    if( !$quads_ad_is_allowed || !is_main_query() || !is_singular() || !in_the_loop()) {
+    if( !$quads_ad_is_allowed || !is_main_query() || !is_singular() ) {
         $content = quads_clean_tags( $content );
         return $content;
     }
@@ -1250,7 +1250,7 @@ function quads_filter_default_ads_new( $content ) {
                           $insert_after         = isset($ads['insert_after']) ? $ads['insert_after'] : 1;
 
                           $closing_p        = '</p>';
-                          $paragraphs       = explode( $closing_p, $content );
+                          $paragraphs       = array_filter(explode( $closing_p, $content ));
                           $p_count          = count($paragraphs);
                           $original_paragraph_no = $paragraph_no;                                                             
                           
@@ -1313,14 +1313,14 @@ function quads_filter_default_ads_new( $content ) {
                                   }
                                   if ( $paragraph_no == $index + 1 ) {
                                       $paragraphs[$index] .= $cusads;
-                                      if($repeat_paragraph){
+                                      if($repeat_paragraph && ($paragraph_no < $p_count-$original_paragraph_no)){
                                        $paragraph_no =  $original_paragraph_no+$paragraph_no; 
                                       }
                                   }
                               }
                             }
                               $content = implode( '', $paragraphs ); 
-                          }else{
+                          }else{                        
                               if($end_of_post){
                                   $content = $content.$cusads;   
                               }                                
@@ -2166,6 +2166,11 @@ function quads_parse_popup_ads($content) {
     $specific_time_interval_sec       =  (isset($ad_meta['specific_time_interval_sec'][0]) && !empty($ad_meta['specific_time_interval_sec'][0])) ? $ad_meta['specific_time_interval_sec'][0] : 0;
     $on_scroll_popup_percentage       =  (isset($ad_meta['on_scroll_popup_percentage'][0]) && !empty($ad_meta['on_scroll_popup_percentage'][0])) ? $ad_meta['on_scroll_popup_percentage'][0] : 0;
     
+    //cookie
+    $popup_set_cookie_type       =  (isset($ad_meta['popup_set_cookie_type'][0]) && !empty($ad_meta['popup_set_cookie_type'][0])) ? $ad_meta['popup_set_cookie_type'][0] : 'withcookieexp';
+    $pop_set_cookie_indays       =  (isset($ad_meta['pop_set_cookie_indays'][0]) && !empty($ad_meta['pop_set_cookie_indays'][0])) ? $ad_meta['pop_set_cookie_indays'][0] : 1;
+    $data_cke = $popup_set_cookie_type == 'withcookieexp' ? $pop_set_cookie_indays : 'no';
+    
     $adsresultset = array();
     if( $ads_list ){
         foreach ($temp_array as $post_ad_id){
@@ -2235,7 +2240,7 @@ function quads_parse_popup_ads($content) {
         }
 
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
-            '<div class="quads-location quads-popupad ad_' . esc_attr($ad_id) . ' '.esc_attr($addl_class).'" id="quads-ad'. esc_attr($ad_id) .'" '.$popups_data.' data-popuptype="'.$popup_type.'" style="' . $style . '">' . "\n";
+            '<div class="quads-location quads-popupad ad_' . esc_attr($ad_id) . ' '.esc_attr($addl_class).'" id="quads-ad'. esc_attr($ad_id) .'" '.$popups_data.' data-popuptype="'.$popup_type.'" data-cke="'.$data_cke.'" style="' . $style . '">' . "\n";
         $code .='<div class="quads-groups-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
         $code .='</div>';
 
@@ -3186,7 +3191,7 @@ function quads_del_element($array, $idx) {
                     if($value['post']['post_status']== 'draft'){
                         continue;
                     }
-                    if($ads['position'] == 'ad_shortcode'){
+                    if(isset($ads['position']) && $ads['position'] == 'ad_shortcode'){
                         continue;
                     }
     
