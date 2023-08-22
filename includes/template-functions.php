@@ -1320,10 +1320,11 @@ function quads_filter_default_ads_new( $content ) {
                               }
                             }
                               $content = implode( '', $paragraphs ); 
+                          }else{                        
+                              if($end_of_post){
+                                  $content = $content.$cusads;   
+                              }                                
                           }
-                          if($end_of_post && $p_count < 3 ){
-                              $content = $content.$cusads;   
-                          }                                
                       }
                         break;
                     
