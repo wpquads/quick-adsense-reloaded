@@ -344,8 +344,8 @@ function quads_render_ad_image_async( $id ) {
             }
             else {
 
-            $mob_bnr_wdt = $quads_options['ads'][$id]['mob_banner_ad_width']?$quads_options['ads'][$id]['mob_banner_ad_width']:($quads_options['ads'][$id]['image_width']?$quads_options['ads'][$id]['image_width']:300);
-            $mob_bnr_hgt = $quads_options['ads'][$id]['mob_banner_ad_height']?$quads_options['ads'][$id]['mob_banner_ad_height']:($quads_options['ads'][$id]['image_height']?$quads_options['ads'][$id]['image_height']:300);
+            $mob_bnr_wdt = isset($quads_options['ads'][$id]['mob_banner_ad_width'])?$quads_options['ads'][$id]['mob_banner_ad_width']:(isset($quads_options['ads'][$id]['image_width'])?$quads_options['ads'][$id]['image_width']:300);
+            $mob_bnr_hgt = isset($quads_options['ads'][$id]['mob_banner_ad_height'])?$quads_options['ads'][$id]['mob_banner_ad_height']:(isset($quads_options['ads'][$id]['image_height'])?$quads_options['ads'][$id]['image_height']:300);
                 
             $html .= '
             <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
