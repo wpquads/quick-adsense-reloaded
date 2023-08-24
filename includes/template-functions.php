@@ -2996,7 +2996,7 @@ function quads_del_element($array, $idx) {
             }           
             
             if($is_on && $is_visitor_on && $post_status=='publish'){
-                if($ads['ad_type'] == 'background_ad'){
+                if(isset($ads['ad_type']) && $ads['ad_type'] == 'background_ad'){
 
                       $after_body='<div class="quads-bg-wrapper">
                    <a style="background-image: url('.esc_attr($ads['image_src']).')" class="quads-bg-ad" target="_blank" href="'.esc_attr($ads['image_redirect_url']).'">'
@@ -3045,7 +3045,7 @@ function quads_del_element($array, $idx) {
                                }</style>';
                   $before_body = $style.'</div></div>';
                   $content = preg_replace("/(\<body.*\>)/", $before_body."$1".$after_body, $content);
-                } else if($ads['ad_type'] == 'skip_ads'){
+                } else if(isset($ads['ad_type']) && $ads['ad_type'] == 'skip_ads'){
                 
                     if(!isset($_COOKIE['skip_ads_delay'])) {
                         setcookie('skip_ads_delay', esc_attr($ads['freq_page_view']),-1, "/"); // 86400 = 1 day
