@@ -344,9 +344,11 @@ function quads_load_admin_fonts( $hook ) {
  */
 function quads_inline_styles() {
     $quads_ads = quads_api_services_cllbck();
-    $ad_loaded = $is_sticky_loaded = false;
+    $ad_loaded = $is_sticky_loaded = $sticky_show_hide = $is_sticky_anim = false;
     $ads_types = [];
     $css = '';
+    $is_sticky_pos = 'bottom';
+    $is_sticky_cls_pos = 'top';
 
     if( isset( $quads_ads['posts_data'] ) ) {
         foreach ( $quads_ads['posts_data'] as $key => $value ) {
@@ -371,6 +373,16 @@ function quads_inline_styles() {
             $ads_types[]=$ads['ad_type'];
             if(isset($ads['position']) && $ads['position'] == 'ad_sticky_ad'){
                 $is_sticky_loaded = true;
+                if(isset($ads['sticky_slide_ad']) && $ads['sticky_slide_ad'] == 'sticky_ad_top'){
+                    $is_sticky_pos = 'top';
+                    $is_sticky_cls_pos = 'bottom';
+                }
+                if(isset($ads['sticky_ad_show_hide']) && $ads['sticky_ad_show_hide'] == 1){
+                    $sticky_show_hide = true;
+                }
+                if(isset($ads['sticky_ad_anim']) && $ads['sticky_ad_anim'] == 1){
+                    $is_sticky_anim = true;
+                }
             }
            }
             
@@ -706,9 +718,13 @@ function quads_inline_styles() {
                 width: 100% !important;
                 position: fixed;
                 max-width: 100%!important;
-                bottom:0;
+                ".$is_sticky_pos.":0;
                 margin:0;
                 text-align: center;
+                opacity: 0;
+            }
+            .quads-sticky.active {
+                opacity: 1;
             }
             .quads-sticky .quads-location {
                 text-align: center;
@@ -723,11 +739,47 @@ function quads_inline_styles() {
                 line-height: 22px;
                 position: absolute;
                 right: 35px;
-                top: -15px;
+                ".$is_sticky_cls_pos.": -15px;
                 cursor: pointer;
                 transition: all 0.5s ease;
                 border-radius: 50%;
             }";
+        if($is_sticky_anim){
+            $css .=".quads-sticky {
+                transition: .5s;
+                -webkit-transform: translate(0,100%);
+                -moz-transform: translate(0,100%);
+                -ms-transform: translate(0,100%);
+                -o-transform: translate(0,100%);
+                transform: translate(0,100%);
+            }
+            .quads-sticky.active {
+                -webkit-transform: translate(0,0);
+                -moz-transform: translate(0,0);
+                -ms-transform: translate(0,0);
+                -o-transform: translate(0,0);
+                transform: translate(0,0);
+            }";
+        }
+        if($sticky_show_hide){
+            $css .= '.quads-sticky-show-btn.active {
+                font-size: 10px;
+                position: fixed;
+                text-align: center;
+                cursor: pointer;
+                border-radius: 50%;
+                background-color: #000;
+                color: #fff;
+                right: 20px;
+                '.$is_sticky_pos.': -8px;
+                width: 20px;
+                padding: 9px 16px;
+                line-height: 17px;
+                text-transform: uppercase;
+                opacity: 0.7;
+                z-index: 99;
+            }';
+        }
     }
     if(in_array("carousel_ads", $ads_types)){ 
         $css .="@media only screen and (max-width: 480px) {

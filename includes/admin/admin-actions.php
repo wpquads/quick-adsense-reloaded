@@ -79,19 +79,23 @@ add_action('quads_show_vi_notice_later', 'quads_show_vi_notice_later');
 function quads_save_vi_token() {
     global $quads_options;
 
-    if (empty($_POST['token'])) {
+    $vi_token = '';
+    if(isset($_POST['token'])){
+        $vi_token = sanitize_text_field($_POST['token']);
+    }
+    if (empty($vi_token)) {
         echo json_encode(array("status" => "failed"));
         wp_die();
     }
 
     // Save token before trying to create ads.txt
-    update_option('quads_vi_token', $_POST['token']);
+    update_option('quads_vi_token', $vi_token);
 
     if (!isset($quads_options['adsTxtEnabled'])) {
         set_transient('quads_vi_ads_txt_disabled', true, 300);
         delete_transient('quads_vi_ads_txt_error');
         delete_transient('quads_vi_ads_txt_notice');
-        echo json_encode(array("status" => "success", "token" => $_POST['token'], "adsTxt" => 'disabled'));
+        echo json_encode(array("status" => "success", "token" => $vi_token, "adsTxt" => 'disabled'));
         wp_die();
     }
 
@@ -111,7 +115,7 @@ function quads_save_vi_token() {
     $adsense->writeAdsTxt();
 
     //sleep(5);
-    echo json_encode(array("status" => "success", "token" => $_POST['token']));
+    echo json_encode(array("status" => "success", "token" => $vi_token));
     wp_die();
 }
 

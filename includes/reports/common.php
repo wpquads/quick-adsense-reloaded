@@ -417,8 +417,12 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	global $wpdb;
     $ad_stats = array();
 	
-	$ad_id = $_GET['id'];
-	$day = $_GET['day'];
+	if(isset($_GET['id'])){
+	    $ad_id = sanitize_text_field($_GET['id']);
+	}
+	if(isset($_GET['day'])){
+	    $day = sanitize_text_field($_GET['day']);
+	}
 	$todays_date = date("Y-m-d");
 	$individual_ad_dates = '';
 	$array_top5=array();
@@ -1155,8 +1159,12 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 
 	}
 	else if( $day == "custom" ) {
-		$fromdate = $_GET["fromdate"];
-		$todate = $_GET["todate"];
+		if(isset($_GET['fromdate'])){
+		    $fromdate = sanitize_text_field($_GET['fromdate']);
+		}
+		if(isset($_GET['todate'])){
+		    $todate = sanitize_text_field($_GET['todate']);
+		}
 		$get_from = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$1-$2-$3', $fromdate);
 		$get_to = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$1-$2-$3', $todate);
 		if($ad_id=="all")

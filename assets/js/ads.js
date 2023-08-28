@@ -14,3 +14,27 @@ window.addEventListener("load", function(){
         })
     }, 2000);
 });
+
+jQuery(document).ready(function($){
+setTimeout(() =>
+{
+  let animate = document.querySelectorAll('.quads-sticky');
+  animate.forEach(item => item.classList.add('active'));
+}
+,1000);
+
+var stickyHide = document.querySelector(".quads-sticky-ad-close");
+stickyHide.addEventListener( 'click', function() {  
+    let close = document.querySelectorAll('.quads-sticky');
+    close.forEach(item => item.classList.remove('active'));
+    let shbtn = document.querySelectorAll('.quads-sticky-show-btn');
+    shbtn.forEach(item => item.classList.add('active'));
+});
+var stickyShow = document.querySelector(".quads-sticky-show-btn");
+stickyShow.addEventListener( 'click', function() {  
+    let close = document.querySelectorAll('.quads-sticky');
+    close.forEach(item => item.classList.add('active'));
+    let shbtn = document.querySelectorAll('.quads-sticky-show-btn');
+    shbtn.forEach(item => item.classList.remove('active'));
+});
+});
