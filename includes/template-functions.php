@@ -1086,6 +1086,8 @@ function quads_filter_default_ads_new( $content ) {
                 $cls_btn     = (isset($ads['cls_btn']) && $ads['cls_btn'] !='') ? $ads['cls_btn'] : '';
                 $sticky_show_hide     = (isset($ads['sticky_ad_show_hide']) && $ads['sticky_ad_show_hide'] !='') ? $ads['sticky_ad_show_hide'] : '';
                 $sticky_show_hide_txt     = (isset($ads['sticky_show_hide_txt']) && $ads['sticky_show_hide_txt'] !='') ? $ads['sticky_show_hide_txt'] : 'Slide Up';
+                $sticky_ad_anim = (isset($ads['sticky_ad_anim']) && $ads['sticky_ad_anim'] !='') ? $ads['sticky_ad_anim'] : '';
+                $sticky_ad_anim_text = (isset($ads['sticky_ad_anim_txt']) && $ads['sticky_ad_anim_txt'] !='') ? $ads['sticky_ad_anim_txt'] : '1000';
                 $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;
                 $word_count_number = (isset($ads['word_count_number']) && $ads['word_count_number'] !='') ? $ads['word_count_number'] : 1;
                 $imageNo      = (isset($ads['image_number']) && $ads['image_number'] !='') ? $ads['image_number'] : 1;
@@ -1166,7 +1168,8 @@ function quads_filter_default_ads_new( $content ) {
                                 if( isset($sticky_show_hide) && $sticky_show_hide == 1 ){
                                     $btn_tag = '<div class="quads-sticky-show-btn">'.esc_attr($sticky_show_hide_txt).'</div>';
                                 }
-                                $q_main_open = ''.$btn_tag.'<div class="quads-sticky">'.$a_tag.'';
+                                $anim_attr = ( isset($sticky_ad_anim) && $sticky_ad_anim == 1 ) ? ' data-anim-tod='.$sticky_ad_anim_text.'' : '';
+                                $q_main_open = ''.$btn_tag.'<div class="quads-sticky"'.$anim_attr.'>'.$a_tag.'';
                                 $q_close = '</div>';
                                 $content = $content.$q_main_open.$cusads.$q_close;}                                 
                             }

@@ -296,6 +296,12 @@ class QuadsAdTargeting extends Component {
                    <td> <label htmlFor="sticky_ad_anim"> {__('Animation? ', 'quick-adsense-reloaded')}{post_meta.add_sticky_anim}</label> </td>
                      <td><input id='sticky_ad_anim' checked={post_meta.sticky_ad_anim} name="sticky_ad_anim" onChange={this.props.adFormChangeHandler} type="checkbox"/></td>
                    </tr>
+                    { post_meta.sticky_ad_anim == 1 ?
+                    <tr>
+                    <td> <label htmlFor="sticky_ad_anim_txt"> {__('Anim Delay', 'quick-adsense-reloaded')}{post_meta.add_sticky_ad_anim_txt}</label> </td>
+                       <td><input name="sticky_ad_anim_txt" value={post_meta.sticky_ad_anim_txt} onChange={this.props.adFormChangeHandler} type="number" placeholder={__('1000', 'quick-adsense-reloaded') }/>milliseconds</td>
+                    </tr>
+                   : '' }
                    <tr>
                    <td> <label htmlFor="sticky_ad_show_hide"> {__('Add Button to Show Ad? ', 'quick-adsense-reloaded')}{post_meta.add_sticky_show_hide}</label> </td>
                      <td><input id='sticky_ad_show_hide' checked={post_meta.sticky_ad_show_hide} name="sticky_ad_show_hide" onChange={this.props.adFormChangeHandler} type="checkbox"/></td>
