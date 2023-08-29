@@ -101,6 +101,8 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
        * Public vi class
        */
       public $vi;
+      
+      public $adsense;
 
       public function __construct() {
         
