@@ -1164,7 +1164,7 @@ function quads_filter_default_ads_new( $content ) {
                                     $a_tag = '<a class="quads-sticky-ad-close">x</a>';
                                 }
                                 if( isset($sticky_show_hide) && $sticky_show_hide == 1 ){
-                                    $btn_tag = '<div class="quads-sticky-show-btn">'.$sticky_show_hide_txt.'</div>';
+                                    $btn_tag = '<div class="quads-sticky-show-btn">'.esc_attr($sticky_show_hide_txt).'</div>';
                                 }
                                 $q_main_open = ''.$btn_tag.'<div class="quads-sticky">'.$a_tag.'';
                                 $q_close = '</div>';
