@@ -16,6 +16,7 @@ window.addEventListener("load", function(){
 });
 
 jQuery(document).ready(function($){
+var animTime = $('.quads-sticky').attr("data-anim-tod");
 setTimeout(() =>
 {
   let animate = document.querySelectorAll('.quads-sticky');
@@ -23,7 +24,7 @@ setTimeout(() =>
     animate.forEach(item => item.classList.add('active'));
   }
 }
-,1000);
+,animTime);
 
 var stickyHide = document.querySelector(".quads-sticky-ad-close");
 stickyHide.addEventListener( 'click', function() {  
