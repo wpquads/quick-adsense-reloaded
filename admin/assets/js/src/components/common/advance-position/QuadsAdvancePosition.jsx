@@ -76,6 +76,7 @@ check_plugin_exist = (event) => {
                                     <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
                                     <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
                                     <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
+                                    <option value="ad_sticky_ad">{__('Sticky Ad (NON AMP ONLY)', 'quick-adsense-reloaded')}</option>
                                     {this.state.ad_extra_position}
                                 </optgroup>
                                 {quads_localize_data.is_newsPapertheme_exist ?

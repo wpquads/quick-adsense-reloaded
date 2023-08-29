@@ -281,10 +281,31 @@ class QuadsAdTargeting extends Component {
 
                    { post_meta.position == 'ad_sticky_ad' ? 
                     <>
+                   <tr>
+                   <td><label>{__('Postion', 'quick-adsense-reloaded')}</label></td>
+                     <td><select value={post_meta.sticky_slide_ad} name="sticky_slide_ad" onChange={this.props.adFormChangeHandler}>
+                     <option value="sticky_ad_bot">{__('Bottom (default)', 'quick-adsense-reloaded')}</option>
+                     <option value="sticky_ad_top">{__('Top', 'quick-adsense-reloaded')}</option>
+                     </select></td>
+                   </tr>
                   <tr>
                   <td> <label htmlFor="cls_btn"> {__('Add close Button? ', 'quick-adsense-reloaded')}{post_meta.add_close_btn}</label> </td>
                     <td><input id='cls_btn' checked={post_meta.cls_btn} name="cls_btn" onChange={this.props.adFormChangeHandler} type="checkbox"/></td>
                   </tr>
+                   <tr>
+                   <td> <label htmlFor="sticky_ad_anim"> {__('Animation? ', 'quick-adsense-reloaded')}{post_meta.add_sticky_anim}</label> </td>
+                     <td><input id='sticky_ad_anim' checked={post_meta.sticky_ad_anim} name="sticky_ad_anim" onChange={this.props.adFormChangeHandler} type="checkbox"/></td>
+                   </tr>
+                   <tr>
+                   <td> <label htmlFor="sticky_ad_show_hide"> {__('Add Button to Show Ad? ', 'quick-adsense-reloaded')}{post_meta.add_sticky_show_hide}</label> </td>
+                     <td><input id='sticky_ad_show_hide' checked={post_meta.sticky_ad_show_hide} name="sticky_ad_show_hide" onChange={this.props.adFormChangeHandler} type="checkbox"/></td>
+                   </tr>
+                   { post_meta.sticky_ad_show_hide == 1 ?
+                   <tr>
+                   <td> <label htmlFor="sticky_show_hide_txt"> {__('Button Text', 'quick-adsense-reloaded')}{post_meta.add_sticky_show_hide_txt}</label> </td>
+                      <td><input name="sticky_show_hide_txt" value={post_meta.sticky_show_hide_txt} onChange={this.props.adFormChangeHandler} type="text" placeholder={__('Slide Up', 'quick-adsense-reloaded') }/></td>
+                   </tr>
+                  : '' }
 
                 </>
                   : '' }

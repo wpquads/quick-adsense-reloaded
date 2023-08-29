@@ -560,9 +560,16 @@ function wpquads_send_query_message(){
         return;
     }
     $customer_type  = 'Are you a premium customer ? No';
-    $message        = sanitize_textarea_field($_POST['message']);
-    $email          = sanitize_email($_POST['email']);
-    $premium_cus    = sanitize_text_field($_POST['premium_cus']);
+    $message = $email = $premium_cus = '';
+    if(isset($_POST['message'])){
+        $message = sanitize_textarea_field($_POST['message']);
+    }
+    if(isset($_POST['email'])){
+        $email = sanitize_email($_POST['email']);
+    }
+    if(isset($_POST['premium_cus'])){
+        $premium_cus = sanitize_text_field($_POST['premium_cus']);
+    }
     $user           = wp_get_current_user();
 
     if($premium_cus == 'yes'){
@@ -2649,7 +2656,7 @@ function quads_save_extra_user_profile_fields( $user_id ) {
     if ( !current_user_can( 'edit_user', $user_id ) ) {
         return false;
     }
-    $adsense_pub_id     = sanitize_text_field($_POST['quads_adsense_pub_id']);
+    $adsense_pub_id = isset($_POST['quads_adsense_pub_id']) ? sanitize_text_field($_POST['quads_adsense_pub_id']) : '';
     update_user_meta( $user_id, 'quads_adsense_pub_id', $adsense_pub_id );
 }
 

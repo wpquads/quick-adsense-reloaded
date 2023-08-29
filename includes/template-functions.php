@@ -1084,6 +1084,8 @@ function quads_filter_default_ads_new( $content ) {
 
                 $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
                 $cls_btn     = (isset($ads['cls_btn']) && $ads['cls_btn'] !='') ? $ads['cls_btn'] : '';
+                $sticky_show_hide     = (isset($ads['sticky_ad_show_hide']) && $ads['sticky_ad_show_hide'] !='') ? $ads['sticky_ad_show_hide'] : '';
+                $sticky_show_hide_txt     = (isset($ads['sticky_show_hide_txt']) && $ads['sticky_show_hide_txt'] !='') ? $ads['sticky_show_hide_txt'] : 'Slide Up';
                 $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;
                 $word_count_number = (isset($ads['word_count_number']) && $ads['word_count_number'] !='') ? $ads['word_count_number'] : 1;
                 $imageNo      = (isset($ads['image_number']) && $ads['image_number'] !='') ? $ads['image_number'] : 1;
@@ -1157,11 +1159,14 @@ function quads_filter_default_ads_new( $content ) {
                         $sticky_cookie =   (isset( $_COOKIE['quads_sticky'] ) && $_COOKIE['quads_sticky']!== NULL ) ? $_COOKIE['quads_sticky'] : '' ;
                         if( $sticky_cookie !== "sticky_ad" ){
                             if(strpos( $content, '<!--OffEnd-->' ) === false ) {
-                                $a_tag = '';
+                                $a_tag = $btn_tag = '';
                                 if( isset($cls_btn) && $cls_btn == 1 ){
                                     $a_tag = '<a class="quads-sticky-ad-close">x</a>';
                                 }
-                                $q_main_open = '<div class="quads-sticky">'.$a_tag.'';
+                                if( isset($sticky_show_hide) && $sticky_show_hide == 1 ){
+                                    $btn_tag = '<div class="quads-sticky-show-btn">'.esc_attr($sticky_show_hide_txt).'</div>';
+                                }
+                                $q_main_open = ''.$btn_tag.'<div class="quads-sticky">'.$a_tag.'';
                                 $q_close = '</div>';
                                 $content = $content.$q_main_open.$cusads.$q_close;}                                 
                             }
@@ -2996,7 +3001,7 @@ function quads_del_element($array, $idx) {
             }           
             
             if($is_on && $is_visitor_on && $post_status=='publish'){
-                if($ads['ad_type'] == 'background_ad'){
+                if(isset($ads['ad_type']) && $ads['ad_type'] == 'background_ad'){
 
                       $after_body='<div class="quads-bg-wrapper">
                    <a style="background-image: url('.esc_attr($ads['image_src']).')" class="quads-bg-ad" target="_blank" href="'.esc_attr($ads['image_redirect_url']).'">'
@@ -3045,7 +3050,7 @@ function quads_del_element($array, $idx) {
                                }</style>';
                   $before_body = $style.'</div></div>';
                   $content = preg_replace("/(\<body.*\>)/", $before_body."$1".$after_body, $content);
-                } else if($ads['ad_type'] == 'skip_ads'){
+                } else if(isset($ads['ad_type']) && $ads['ad_type'] == 'skip_ads'){
                 
                     if(!isset($_COOKIE['skip_ads_delay'])) {
                         setcookie('skip_ads_delay', esc_attr($ads['freq_page_view']),-1, "/"); // 86400 = 1 day

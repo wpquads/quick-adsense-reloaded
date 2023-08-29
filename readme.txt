@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.3
 Requires PHP: 5.4
-Stable tag: 2.0.74
+Stable tag: 2.0.75
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -206,6 +206,14 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.75 ( 29 August 2023 ) =
+* Added: An option to show Sticky ad on top or bottom of the page #731
+* Fixed: Undefined array key "ad-type" #777
+* Fixed: Warning foreach() argument must be of type array|object, int given #787
+* Fixed: Undefined property #790
+* Fixed: Changes needed in feedback form #792
+* Fixed: Undefined array key "mob_banner_ad_width" #793
 
 = 2.0.74 ( 22 August 2023 ) =
 * Added: Exclude impression count of the admin #757
