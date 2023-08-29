@@ -745,13 +745,17 @@ function quads_inline_styles() {
                 border-radius: 50%;
             }";
         if($is_sticky_anim){
+            $per_anim = '100%';
+            if($is_sticky_pos == 'top'){
+                $per_anim = '-50%';
+            }
             $css .=".quads-sticky {
                 transition: .5s;
-                -webkit-transform: translate(0,100%);
-                -moz-transform: translate(0,100%);
-                -ms-transform: translate(0,100%);
-                -o-transform: translate(0,100%);
-                transform: translate(0,100%);
+                -webkit-transform: translate(0,".$per_anim.");
+                -moz-transform: translate(0,".$per_anim.");
+                -ms-transform: translate(0,".$per_anim.");
+                -o-transform: translate(0,".$per_anim.");
+                transform: translate(0,".$per_anim.");
             }
             .quads-sticky.active {
                 -webkit-transform: translate(0,0);
