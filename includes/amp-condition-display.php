@@ -194,12 +194,40 @@ class quads_output_amp_condition_display{
           }else if($ads['position'] =='amp_doubleclick_sticky_ad' && $condition == 'quads_sticky_ad_doubleclick'){
                 global $quads_options;
                 $ads_id = $ads['quads_ad_old_id'];
-                $width        = ( isset($quads_options['ads'][$ads_id]['g_data_ad_width']) && !empty($quads_options['ads'][$ads_id]['g_data_ad_width']) ) ? $quads_options['ads'][$ads_id]['g_data_ad_width'] : 300;
-                $height        = ( isset($quads_options['ads'][$ads_id]['g_data_ad_height']) && !empty($quads_options['ads'][$ads_id]['g_data_ad_height']) ) ? $quads_options['ads'][$ads_id]['g_data_ad_height'] : 250;
+                $width = ( isset($quads_options['ads'][$ads_id]['g_data_ad_width']) && !empty($quads_options['ads'][$ads_id]['g_data_ad_width']) ) ? $quads_options['ads'][$ads_id]['g_data_ad_width'] : 300;
+                $height = ( isset($quads_options['ads'][$ads_id]['g_data_ad_height']) && !empty($quads_options['ads'][$ads_id]['g_data_ad_height']) ) ? $quads_options['ads'][$ads_id]['g_data_ad_height'] : 250;
                 $network_code  = $quads_options['ads'][$ads_id]['network_code'];
                 $ad_unit_name  = $quads_options['ads'][$ads_id]['ad_unit_name'];
+                if($quads_options['ads'][$ads_id]['ad_type'] == 'double_click'){
 		             add_filter('amp_post_template_data',array($this, 'quads_enque_ads_specific_amp_script'));
-		             $output = '<amp-sticky-ad layout="nodisplay"><amp-ad class="amp-sticky-ads" width='.$width.' height='.$height.' type="doubleclick" data-slot="'.$network_code.'" ></amp-ad></amp-sticky-ad>';
+		             $output = '<amp-sticky-ad layout="nodisplay"><amp-ad class="amp-sticky-ads" width='.esc_attr($width).' height='.esc_attr($height).' type="doubleclick" data-slot="'.esc_attr($network_code).'" ></amp-ad></amp-sticky-ad>';
+                }elseif($quads_options['ads'][$ads_id]['ad_type'] == 'adsense'){
+                     $output  = '<amp-sticky-ad layout="nodisplay"><amp-ad class="amp-sticky-ads" type="adsense" width='. esc_attr($width) .' height='. esc_attr($height) . ' data-ad-client="'. esc_attr($ads["g_data_ad_client"]) .'" data-ad-slot="'.  esc_attr($ads["g_data_ad_slot"]) .'" data-enable-refresh="10">';
+                     $output    .=  '</amp-ad></amp-sticky-ad>';
+                }else{
+                    $tag = '<!--CusAds'.$ads['ad_id'].'-->'; 
+                    $output = '<div class="quads-sticky" data-amp-bind-hidden="quadsAmpSticky"><span class="quads-sticky-ad-close" on="tap:AMP.setState({ quadsAmpSticky: true })" role="button" tabindex=0>x</span>';
+                    $output .= quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
+                    $output .= '</div>';
+                    if(class_exists('\AMPFORWP_Content')){
+                        $sanitizer_obj = new \AMPFORWP_Content( $output,
+                                            array(), 
+                                            apply_filters( 'amp_content_sanitizers', 
+                                                array( 'AMP_Img_Sanitizer' => array(), 
+                                                    'AMP_Blacklist_Sanitizer' => array(),
+                                                    'AMP_Style_Sanitizer' => array(), 
+                                                    'AMP_Video_Sanitizer' => array(),
+                                                    'AMP_Audio_Sanitizer' => array(),
+                                                    'AMP_Iframe_Sanitizer' => array(
+                                                         'add_placeholder' => true,
+                                                     ),
+                                                ) 
+                                            ) 
+                                        );
+                        $output = $sanitizer_obj->get_amp_content();
+                        $GLOBALS['quadsampstickyInCss'] = $sanitizer_obj->get_amp_styles();
+                    }
+                }
                  echo $output;
           }else if($ads['position'] =='amp_below_the_footer' && $condition == 'quads_below_the_footer'){
             $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
@@ -293,4 +321,45 @@ if (class_exists('quads_output_amp_condition_display')) {
             $quads_condition_obj->quads_amp_condition_hooks();   
         
         }        	
+}
+
+add_action('amp_post_template_css', 'quads_amp_sticky_ad_css');
+function quads_amp_sticky_ad_css(){
+    echo ".quads-sticky {
+        width: 100%;
+        position: fixed;
+        max-width: 100%;
+        bottom:0;
+        margin:0;
+        text-align: center;
+        background-color: #fff;
+    }
+    .quads-sticky .quads-location {
+        text-align: center;
+    }.quads-sticky .wp_quads_dfp {
+        display: contents;
+    }
+    span.quads-sticky-ad-close {
+        background-color: #fff;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        line-height: 22px;
+        position: absolute;
+        right: 35px;
+        top: -15px;
+        cursor: pointer;
+        transition: all 0.5s ease;
+        border-radius: 50%;
+    }";
+}
+
+add_filter('ampforwp_the_content_last_filter','quads_amp_sticky_ad_insert_css');
+function quads_amp_sticky_ad_insert_css($content){
+    $css = '';
+    foreach ($GLOBALS['quadsampstickyInCss'] as $key => $value) {
+        $css .= $key.'{'.$value[0].'}';
+    }
+    $content = preg_replace('/<style\samp-custom>/', '<style amp-custom>'.$css, $content);
+    return $content;
 }

@@ -1647,9 +1647,10 @@ function quads_render_amp($id,$ampsupport=''){
                                 >
                                 </amp-ad>';
             }else if($quads_options['ads'][$id]['ad_type'] == 'ad_image'){
+                //list($width, $height) = getimagesize($quads_options['ads'][$id]['image_src']);
                 $html = '';$parallax = false;$parallax_height=300;
-                
-                list($width, $height) = getimagesize($quads_options['ads'][$id]['image_src']);
+                $width = $quads_options['ads'][$id]['banner_ad_width']?$quads_options['ads'][$id]['banner_ad_width']:($quads_options['ads'][$id]['image_width']?$quads_options['ads'][$id]['image_width']:300);
+                $height = $quads_options['ads'][$id]['banner_ad_height']?$quads_options['ads'][$id]['banner_ad_height']:($quads_options['ads'][$id]['image_height']?$quads_options['ads'][$id]['image_height']:300);
                 if(isset($quads_options['ads'][$id]['parallax_ads_check'])  && $quads_options['ads'][$id]['parallax_ads_check']){
                     $parallax=true;
                     $parallax_height=($quads_options['ads'][$id]['parallax_height']>1)?$quads_options['ads'][$id]['parallax_height']:300;
@@ -1665,7 +1666,7 @@ function quads_render_amp($id,$ampsupport=''){
 src="'.esc_attr($quads_options['ads'][$id]['image_src']). '"
 width="'.esc_attr($width).'"
 height="'.esc_attr($height).'"
-layout="responsive"
+layout="intrinsic"
 >
 </amp-img>';
         if($parallax){
