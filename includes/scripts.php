@@ -948,6 +948,12 @@ function quadsIsDebugMode() {
     return $debug_mode;
 }
 
+function quads_delay_ad_sec() {
+    global $quads_options;
+    $delay_ad_sec = (isset( $quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? true : false;
+    return $delay_ad_sec;
+}
+
 /**
  * Create ad buttons for editor
  * 

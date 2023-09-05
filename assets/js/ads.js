@@ -12,7 +12,7 @@ window.addEventListener("load", function(){
         Array.from(wpquads_location_ad).forEach(elm=>{
             elm.style.visibility = "visible";
         })
-    }, 2000);
+    }, 3000);
 });
 
 jQuery(document).ready(function($){
