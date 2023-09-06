@@ -5,6 +5,7 @@ import QuadsLargeAdModal from '../../common/modal/QuadsLargeAdModal';
 
 import Icon from '@material-ui/core/Icon';
 import Select from "react-select";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 class QuadsAdConfigFields extends Component {
   constructor(props) {
@@ -93,6 +94,15 @@ class QuadsAdConfigFields extends Component {
     
   }
   
+  handleDrop = (droppedItem) => {
+    // Ignore drop outside droppable container
+    if (!droppedItem.destination) return;
+    var updatedList = { ...this.state };
+    const [reorderedItem] = updatedList.ads_list.splice(droppedItem.source.index, 1);
+    updatedList.ads_list.splice(droppedItem.destination.index, 0, reorderedItem);
+    this.setState(updatedList);
+  };
+
   selectimages  = (event) => {
       var image_frame;
 
@@ -1431,18 +1441,38 @@ error_outline
                         </tr>
                          <tr style={{marginBottom: 0 + 'px'}}><td><label>{__('Select Ads ', 'quick-adsense-reloaded')}</label></td><td><a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a></td></tr>
                         <tr><td colSpan={'2'} style={{width:'100%'}}>
-                        <div className="quads-target-item-list">
-                          {
-                              this.state.ads_list ?
-                                  this.state.ads_list.map( (item, index) => (
-                                      <div key={index} className="quads-target-item">
+                        {this.state.ads_list ?
+                        <DragDropContext onDragEnd={this.handleDrop}>
+                          <Droppable droppableId="quads-target-item-list">
+                              {(provided) => (
+                                <div
+                                  className="quads-target-item-list"
+                                  {...provided.droppableProps}
+                                  ref={provided.innerRef}
+                                >
+                                  {this.state.ads_list.map((item, index) => (
+                                    <Draggable key={index} draggableId={'ad'+index} index={index}>
+                                      {(provided) => (
+                                        <div
+                                          className="quads-target-item"
+                                          ref={provided.innerRef}
+                                          {...provided.dragHandleProps}
+                                          {...provided.draggableProps}
+                                        >
                                           <span className="quads-target-label">{item.label}</span>
                                           <span className="quads-target-icon" onClick={this.removeSeleted_list} data-index={index}><Icon>close</Icon></span>
-                                      </div>
-                                  ) )
-                                  :''}
-                          <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Select at least one Ad', 'quick-adsense-reloaded')}</div></span> : ''}</div>
-                      </div></td></tr>
+                                        </div>
+                                      )}
+                                      </Draggable>
+                                  ))}
+                                  {provided.placeholder}
+                                </div>
+                              )}
+                          </Droppable>
+                        </DragDropContext>
+                      :''}
+                      <div>{ (this.state.ads_list.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Select at least one Ad', 'quick-adsense-reloaded')}</div></span> : ''}</div>
+                      </td></tr>
                         </tbody>
                       </table>
             
