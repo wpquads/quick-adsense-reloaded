@@ -929,7 +929,14 @@ function quads_render_carousel_ads_async($id) {
     $carousel_width = isset($quads_options['ads'][$id]['carousel_width'])?$quads_options['ads'][$id]['carousel_width']:450;
     $carousel_arrows = isset($quads_options['ads'][$id]['carousel_arrows'])?$quads_options['ads'][$id]['carousel_arrows']:false;
     $carousel_speed = isset($quads_options['ads'][$id]['carousel_speed'])?$quads_options['ads'][$id]['carousel_speed']:1;
+    $crsl_rnd = isset($quads_options['ads'][$id]['carousel_rndms'])?$quads_options['ads'][$id]['carousel_rndms']:false;
      $total_slides=count($ads_list);
+    if($crsl_rnd){
+        $check = array_rand($ads_list, 1);
+        $tmp = $ads_list[$check]; 
+        unset($ads_list[$check]);
+        array_unshift($ads_list, $tmp);
+    }
     if($carousel_type=="slider")
     {
         $html.='<div class="quads-content quads-section" style="max-width:100%;overflow:hidden;">';
