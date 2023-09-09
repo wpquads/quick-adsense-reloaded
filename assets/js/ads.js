@@ -27,6 +27,7 @@ setTimeout(() =>
 ,animTime);
 
 var stickyHide = document.querySelector(".quads-sticky-ad-close");
+if(stickyHide !== null){
 stickyHide.addEventListener( 'click', function() {  
     let close = document.querySelectorAll('.quads-sticky');
     if(typeof close != undefined){
@@ -37,7 +38,9 @@ stickyHide.addEventListener( 'click', function() {
         shbtn.forEach(item => item.classList.add('active'));
     }
 });
+}
 var stickyShow = document.querySelector(".quads-sticky-show-btn");
+if(stickyShow !== null){
 stickyShow.addEventListener( 'click', function() {  
     let close = document.querySelectorAll('.quads-sticky');
     if(typeof close != undefined){
@@ -48,4 +51,5 @@ stickyShow.addEventListener( 'click', function() {
         shbtn.forEach(item => item.classList.remove('active'));
     }
 });
+}
 });
