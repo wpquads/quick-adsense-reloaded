@@ -1658,6 +1658,7 @@ function quads_render_amp($id,$ampsupport=''){
                 $html = '';$parallax = false;$parallax_height=300;
                 $width = $quads_options['ads'][$id]['banner_ad_width']?$quads_options['ads'][$id]['banner_ad_width']:($quads_options['ads'][$id]['image_width']?$quads_options['ads'][$id]['image_width']:300);
                 $height = $quads_options['ads'][$id]['banner_ad_height']?$quads_options['ads'][$id]['banner_ad_height']:($quads_options['ads'][$id]['image_height']?$quads_options['ads'][$id]['image_height']:300);
+                $label = $quads_options['ads'][$id]['quads_ad_old_id'] ? $quads_options['ads'][$id]['quads_ad_old_id'] : '';
                 if(isset($quads_options['ads'][$id]['parallax_ads_check'])  && $quads_options['ads'][$id]['parallax_ads_check']){
                     $parallax=true;
                     $parallax_height=($quads_options['ads'][$id]['parallax_height']>1)?$quads_options['ads'][$id]['parallax_height']:300;
@@ -1670,6 +1671,7 @@ function quads_render_amp($id,$ampsupport=''){
                         $html .=' <amp-fx-flying-carpet height="'.esc_attr($parallax_height).'px">';       
                     }
                     $html .=' <amp-img
+alt="'.esc_attr($label).'"
 src="'.esc_attr($quads_options['ads'][$id]['image_src']). '"
 width="'.esc_attr($width).'"
 height="'.esc_attr($height).'"
@@ -1685,6 +1687,7 @@ layout="intrinsic"
                         $html .=' <amp-fx-flying-carpet height="'.esc_attr($parallax_height).'px">';       
                     }
                     $html .= '                        <amp-img
+                    alt="'.esc_attr($label).'"
                     src="'.esc_attr($quads_options['ads'][$id]['image_src']). '"
                     width="'.esc_attr($width).'"
                     height="'.esc_attr($height).'"
