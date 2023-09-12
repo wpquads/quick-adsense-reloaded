@@ -1043,6 +1043,9 @@ function quads_filter_default_ads_new( $content ) {
     if( $off_default_ads ) { // If default ads are disabled 
         return $content;
     }   
+
+    $load_sticky_js = false;
+
     $quads_ads = quads_api_services_cllbck(); 
 
 
@@ -1162,6 +1165,7 @@ function quads_filter_default_ads_new( $content ) {
                         if( $sticky_cookie !== "sticky_ad" ){
                             if(strpos( $content, '<!--OffEnd-->' ) === false ) {
                                 $a_tag = $btn_tag = '';
+                                $load_sticky_js = true;
                                 if( isset($cls_btn) && $cls_btn == 1 ){
                                     $a_tag = '<a class="quads-sticky-ad-close">x</a>';
                                 }
@@ -1617,8 +1621,18 @@ function quads_filter_default_ads_new( $content ) {
         }
         
     }
+
+    if($load_sticky_js){
+        add_action( 'wp_enqueue_scripts', 'quads_add_sticky_script' );
+    }
     
     return $content;
+}
+
+function quads_add_sticky_script(){
+    $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
+    $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
+    wp_enqueue_script('wp_qds_sticky', $js_dir . 'wp_qds_sticky'.$suffix .'.js', array(), QUADS_VERSION, false );
 }
 
 /**

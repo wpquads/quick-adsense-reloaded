@@ -766,7 +766,10 @@ function quads_inline_styles() {
             }";
         }
         if($sticky_show_hide){
-            $css .= '.quads-sticky-show-btn.active {
+            $css .= '.quads-sticky-show-btn {
+                visibility: hidden;
+            }
+            .quads-sticky-show-btn.active {
                 font-size: 10px;
                 position: fixed;
                 text-align: center;
@@ -782,6 +785,7 @@ function quads_inline_styles() {
                 text-transform: uppercase;
                 opacity: 0.7;
                 z-index: 99;
+                visibility: visible;
             }';
         }
     }
