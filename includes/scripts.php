@@ -955,7 +955,7 @@ function quadsIsDebugMode() {
 function quads_delay_ad_sec() {
     global $quads_options;
     $delay_ad_sec = (isset( $quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? true : false;
-    return $delay_ad_sec;
+    return apply_filters('quads_delay_ad_sec_filter', $delay_ad_sec);
 }
 
 /**
