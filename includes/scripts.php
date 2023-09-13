@@ -766,7 +766,10 @@ function quads_inline_styles() {
             }";
         }
         if($sticky_show_hide){
-            $css .= '.quads-sticky-show-btn.active {
+            $css .= '.quads-sticky-show-btn {
+                visibility: hidden;
+            }
+            .quads-sticky-show-btn.active {
                 font-size: 10px;
                 position: fixed;
                 text-align: center;
@@ -782,6 +785,7 @@ function quads_inline_styles() {
                 text-transform: uppercase;
                 opacity: 0.7;
                 z-index: 99;
+                visibility: visible;
             }';
         }
     }
@@ -946,6 +950,12 @@ function quadsIsDebugMode() {
 
     $debug_mode = (isset( $quads_options['debug_mode'] ) && $quads_options['debug_mode'] ) ? true : false;
     return $debug_mode;
+}
+
+function quads_delay_ad_sec() {
+    global $quads_options;
+    $delay_ad_sec = (isset( $quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? true : false;
+    return apply_filters('quads_delay_ad_sec_filter', $delay_ad_sec);
 }
 
 /**

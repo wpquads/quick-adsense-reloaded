@@ -430,6 +430,7 @@ handleMultiPluginsChange = (option) => {
     const { settings } = this.state; 
     if(option?.length >= 1 ){
     settings.RoleBasedAccess = option;
+    this.state.settings.namer = 'RoleBasedAccess';
     this.setState(settings);
     this.saveSettings();
   }
@@ -1100,7 +1101,7 @@ handleMultiPluginsChange = (option) => {
      if(name == 'tcf_2_integration'){
       this.saveSettings();
      }
-     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking' || name == 'ad_logging' || name == 'delay_ad_sec' || name == 'skippable_ads'){
+     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking' || name == 'ad_log' || name == 'global_excluder' || name == 'delay_ad_sec' || name == 'skippable_ads'){
       this.saveSettings();
     }
     if(name == 'adsforwp_quads_shortcode'|| name == 'adsforwp_quads_gutenberg' || name == 'advance_ads_to_quads'){

@@ -46,8 +46,8 @@ window.addEventListener("load", function(){
     wpquads_carousel_back_btns.forEach(element => {
         element.addEventListener('click',function(){
             var temp_id = element.parentNode.getAttribute('data-adid')?element.parentNode.getAttribute('data-adid'):0;
-            if(temp_id && quads_carousel_intervals[temp_id]){
-                clearInterval(quads_carousel_intervals[temp_id]);
+            clearInterval(quads_carousel_intervals[temp_id]);
+            if(temp_id){
                 
                 let car_slides = document.querySelectorAll("#carousel-container-"+temp_id+" .quads-slides");
                 
@@ -64,8 +64,8 @@ window.addEventListener("load", function(){
     wpquads_carousel_next_btns.forEach(element => {
         element.addEventListener('click',function(){
             var temp_id = element.parentNode.getAttribute('data-adid')?element.parentNode.getAttribute('data-adid'):0;
-            if(temp_id && quads_carousel_intervals[temp_id]){
-                clearInterval(quads_carousel_intervals[temp_id]);
+            clearInterval(quads_carousel_intervals[temp_id]);
+            if(temp_id){
                 let car_slides = document.querySelectorAll("#carousel-container-"+temp_id+" .quads-slides");
                 
                 car_slides.forEach(element => {

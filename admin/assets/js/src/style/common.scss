@@ -466,6 +466,7 @@ input:checked + .quads-slider {
   margin-top: 10px;
   vertical-align: top;
   padding: 5px 25px 5px 10px;
+  cursor: pointer;
 }
 
 .quads-user-targeting {
@@ -524,7 +525,7 @@ a.quads-nav-link-active {
 .quads-target-label{
   border-bottom-right-radius: 2px;
   border-top-right-radius: 2px;
-  cursor: default;
+  cursor: pointer;
   padding: 2px 5px;
 }
 .quads-targeting-selection {

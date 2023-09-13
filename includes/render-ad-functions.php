@@ -929,7 +929,14 @@ function quads_render_carousel_ads_async($id) {
     $carousel_width = isset($quads_options['ads'][$id]['carousel_width'])?$quads_options['ads'][$id]['carousel_width']:450;
     $carousel_arrows = isset($quads_options['ads'][$id]['carousel_arrows'])?$quads_options['ads'][$id]['carousel_arrows']:false;
     $carousel_speed = isset($quads_options['ads'][$id]['carousel_speed'])?$quads_options['ads'][$id]['carousel_speed']:1;
+    $crsl_rnd = isset($quads_options['ads'][$id]['carousel_rndms'])?$quads_options['ads'][$id]['carousel_rndms']:false;
      $total_slides=count($ads_list);
+    if($crsl_rnd){
+        $check = array_rand($ads_list, 1);
+        $tmp = $ads_list[$check]; 
+        unset($ads_list[$check]);
+        array_unshift($ads_list, $tmp);
+    }
     if($carousel_type=="slider")
     {
         $html.='<div class="quads-content quads-section" style="max-width:100%;overflow:hidden;">';
@@ -1647,9 +1654,11 @@ function quads_render_amp($id,$ampsupport=''){
                                 >
                                 </amp-ad>';
             }else if($quads_options['ads'][$id]['ad_type'] == 'ad_image'){
+                //list($width, $height) = getimagesize($quads_options['ads'][$id]['image_src']);
                 $html = '';$parallax = false;$parallax_height=300;
-                
-                list($width, $height) = getimagesize($quads_options['ads'][$id]['image_src']);
+                $width = $quads_options['ads'][$id]['banner_ad_width']?$quads_options['ads'][$id]['banner_ad_width']:($quads_options['ads'][$id]['image_width']?$quads_options['ads'][$id]['image_width']:300);
+                $height = $quads_options['ads'][$id]['banner_ad_height']?$quads_options['ads'][$id]['banner_ad_height']:($quads_options['ads'][$id]['image_height']?$quads_options['ads'][$id]['image_height']:300);
+                $label = $quads_options['ads'][$id]['quads_ad_old_id'] ? $quads_options['ads'][$id]['quads_ad_old_id'] : '';
                 if(isset($quads_options['ads'][$id]['parallax_ads_check'])  && $quads_options['ads'][$id]['parallax_ads_check']){
                     $parallax=true;
                     $parallax_height=($quads_options['ads'][$id]['parallax_height']>1)?$quads_options['ads'][$id]['parallax_height']:300;
@@ -1662,10 +1671,11 @@ function quads_render_amp($id,$ampsupport=''){
                         $html .=' <amp-fx-flying-carpet height="'.esc_attr($parallax_height).'px">';       
                     }
                     $html .=' <amp-img
+alt="'.esc_attr($label).'"
 src="'.esc_attr($quads_options['ads'][$id]['image_src']). '"
 width="'.esc_attr($width).'"
 height="'.esc_attr($height).'"
-layout="responsive"
+layout="intrinsic"
 >
 </amp-img>';
         if($parallax){
@@ -1677,6 +1687,7 @@ layout="responsive"
                         $html .=' <amp-fx-flying-carpet height="'.esc_attr($parallax_height).'px">';       
                     }
                     $html .= '                        <amp-img
+                    alt="'.esc_attr($label).'"
                     src="'.esc_attr($quads_options['ads'][$id]['image_src']). '"
                     width="'.esc_attr($width).'"
                     height="'.esc_attr($height).'"

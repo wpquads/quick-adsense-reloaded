@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 6.3
+Tested up to: 6.3.1
 Requires PHP: 5.4
-Stable tag: 2.0.75
+Stable tag: 2.0.76
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -206,6 +206,19 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.76 ( 13 September 2023 ) =
+* Added: In carousel ad, the selected ads should be draggable #798
+* Added: Need to add an option for random carousel banner ads #799
+* Fixed: Warning after recent update #796
+* Fixed: The Position option Sticky Ad (AMP) is not working #797
+* Fixed: Load Ad after 3-4 seconds option is not working for banners #807
+* Fixed: One selecting role based access other setting option is being changed #810
+* Fixed: Loading is missing for few checkbox #811
+* Fixed: Carousel ad Navigation Arrows do not work #813
+* Fixed: Uncaught TypeError: Cannot read properties of null #815
+* Fixed: Add Alt Tag Field for Custom Image Ad in WP QUADS AMP #816
+* Fixed: Sticky Ad code improvement.
 
 = 2.0.75 ( 29 August 2023 ) =
 * Added: An option to show Sticky ad on top or bottom of the page #731
