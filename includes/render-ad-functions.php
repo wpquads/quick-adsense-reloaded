@@ -933,9 +933,12 @@ function quads_render_carousel_ads_async($id) {
      $total_slides=count($ads_list);
     if($crsl_rnd){
         $check = array_rand($ads_list, 1);
-        $tmp = $ads_list[$check]; 
-        unset($ads_list[$check]);
-        array_unshift($ads_list, $tmp);
+        $temp_ar = array_splice($ads_list, $check, $total_slides);
+        for ( $i = $total_slides - 1; $i >= 0; $i-- ) {
+            if(is_array($temp_ar[$i])){
+                array_unshift($ads_list, $temp_ar[$i]);
+            }
+        }
     }
     if($carousel_type=="slider")
     {
