@@ -357,10 +357,10 @@ function quads_inline_styles() {
             if($value['post']['post_status']== 'draft'){
                 continue;
             }
-            if(isset($ads['visibility_include'])){$ads['visibility_include'] = unserialize($ads['visibility_include']);}
-            if(isset($ads['visibility_exclude'])){$ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);}
-            if(isset($ads['targeting_include'])){$ads['targeting_include'] = unserialize($ads['targeting_include']);}
-            if(isset($ads['targeting_exclude'])){$ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);}
+            if(isset($ads['visibility_include']) && !is_array($ads['visibility_include'])){$ads['visibility_include'] = unserialize($ads['visibility_include']);}
+            if(isset($ads['visibility_exclude']) && !is_array($ads['visibility_exclude'])){$ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);}
+            if(isset($ads['targeting_include']) && !is_array($ads['targeting_include'])){$ads['targeting_include'] = unserialize($ads['targeting_include']);}
+            if(isset($ads['targeting_exclude']) && !is_array($ads['targeting_exclude'])){$ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);}
             $is_on         = quads_is_visibility_on($ads);
             $is_visitor_on = quads_is_visitor_on($ads);
            if(isset($ads['ad_id'])){$post_status = get_post_status($ads['ad_id']);}else{$post_status =  'publish';}
