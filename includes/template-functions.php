@@ -3360,7 +3360,7 @@ function quads_parse_floating_cubes_ads() {
             if($value['post']['post_status']== 'draft'){
                 continue;
             }
-            if((isset($ads['position']) && $ads['position'] == 'ad_shortcode') || $ads['ad_type'] !='floating_cubes'){
+            if((isset($ads['position']) && $ads['position'] == 'ad_shortcode') || (isset($ads['ad_type']) && $ads['ad_type'] !='floating_cubes')){
                 continue;
             }
 

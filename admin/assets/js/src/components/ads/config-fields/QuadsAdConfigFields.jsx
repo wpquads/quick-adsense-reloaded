@@ -849,7 +849,7 @@ error_outline
                         </div>
                         <div className="quads-banner-height">
                           <label>{__('Height', 'quick-banner-reloaded')}
-                          <input value={post_meta.banner_ad_height  ? post_meta.banner_ad_height:'250'} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_height" name="banner_ad_height" />  
+                          <input value={post_meta.banner_ad_height  ? post_meta.banner_ad_height:'300'} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_height" name="banner_ad_height" />  
                           </label>
                         </div>
                       </div>
@@ -888,7 +888,7 @@ error_outline
                            </div>
                            <div className="quads-banner-height">
                              <label>{__('Height', 'quick-banner-reloaded')}
-                             <input value={post_meta.mob_banner_ad_height  ? post_meta.mob_banner_ad_height:'250'} onChange={this.props.adFormChangeHandler} type="number" id="mob_banner_ad_height" name="mob_banner_ad_height" />  
+                             <input value={post_meta.mob_banner_ad_height  ? post_meta.mob_banner_ad_height:'300'} onChange={this.props.adFormChangeHandler} type="number" id="mob_banner_ad_height" name="mob_banner_ad_height" />  
                              </label>
                            </div>
                          </div>

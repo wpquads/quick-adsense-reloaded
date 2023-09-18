@@ -370,7 +370,9 @@ function quads_inline_styles() {
            $is_on=apply_filters('quads_show_ads',quads_ad_is_allowed());
            if($is_on && $is_visitor_on && $post_status=='publish'){
             $ad_loaded = true;
-            $ads_types[]=$ads['ad_type'];
+            if(isset($ads['ad_type'])){
+                $ads_types[]=$ads['ad_type'];
+            }
             if(isset($ads['position']) && $ads['position'] == 'ad_sticky_ad'){
                 $is_sticky_loaded = true;
                 if(isset($ads['sticky_slide_ad']) && $ads['sticky_slide_ad'] == 'sticky_ad_top'){
