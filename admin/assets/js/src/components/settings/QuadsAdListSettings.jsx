@@ -29,6 +29,7 @@ class QuadsAdListSettings extends Component {
             multiPluginsOptions: [],
             file_uploaded :false,
             settings_saved :false,
+            quadsIsAdmin :false,
             settings_error :'',
             adtxt_modal :false,
             global_excluder_modal :false,
@@ -379,6 +380,27 @@ if(this.state.importadsforwpmsgprocessing !=''){
       }
     );
   }
+  getCurrentUser = () => {
+    const url = quads_localize_data.rest_url + 'quads-route/get-current-user';
+    fetch(url,{
+      method: "get",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-WP-Nonce': quads_localize_data.nonce,
+      }
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {
+            if(result.status === 't'){
+              this.setState({quadsIsAdmin:true});
+            }
+      },
+      (error) => {
+      }
+    );
+  }
   getUserRole = () => {
     const url = quads_localize_data.rest_url + 'quads-route/get-user-role';
     fetch(url,{
@@ -660,6 +682,7 @@ handleMultiPluginsChange = (option) => {
   componentDidMount(){
     this.get_blocked_ips();
     this.getSettings();
+    this.getCurrentUser();
     this.getUserRole();
     this.getTags('');
     this.getPlugins('');
@@ -1853,6 +1876,7 @@ handleMultiPluginsChange = (option) => {
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/ad-performance-tracking-in-wp-quads/"></a>
                      </td>
                  </tr>
+                 {this.state.quadsIsAdmin ?
                  <tr>
                     <th scope="row"><label htmlFor="RoleBasedAccess">{__('Role Based Access', 'quick-adsense-reloaded')}</label></th>
                     <td>
@@ -1868,7 +1892,7 @@ handleMultiPluginsChange = (option) => {
                        <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-access-quads-rolebase/"></a>
 
                     </td>
-                  </tr>
+                  </tr>:null}
                 
                       {quads_setting_pro_items.map((item, index) => ( <QuadsAdSettingsProTemplate key={index} display_pro_alert_msg={this.state.display_pro_alert_msg} item={item} display_pro_alert_fun={this.display_pro_alert_fun} quads_pro_list_selected={this.state.quads_pro_list_selected} formChangeHandler={this.formChangeHandler} settings={settings} />  ) )}
                  
