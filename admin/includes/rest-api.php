@@ -31,6 +31,9 @@ class QUADS_Ad_Setup_Api {
 
         protected function quads_current_user_can() {
             global $quads_options;
+            if(function_exists('current_user_can') && current_user_can( 'manage_options' )){
+                return true;
+            }
             $roles = wp_get_current_user()->roles;
             $get_roles = isset($quads_options['RoleBasedAccess']) ? $quads_options['RoleBasedAccess'] : array();
             if(is_array($get_roles)){    
@@ -1547,8 +1550,7 @@ class QUADS_Ad_Setup_Api {
         }
 
         public function getCurrentUser($request){
-            $roles = wp_get_current_user()->roles;
-            if(is_array($roles) && in_array('administrator', $roles)){
+            if(function_exists('current_user_can') && current_user_can( 'administrator' )){
                 return array('status' => 't');
             }
             return array('status' => 'f');
