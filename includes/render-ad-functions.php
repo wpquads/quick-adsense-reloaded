@@ -932,11 +932,25 @@ function quads_render_carousel_ads_async($id) {
     $crsl_rnd = isset($quads_options['ads'][$id]['carousel_rndms'])?$quads_options['ads'][$id]['carousel_rndms']:false;
      $total_slides=count($ads_list);
     if($crsl_rnd){
-        $check = array_rand($ads_list, 1);
-        $temp_ar = array_splice($ads_list, $check, $total_slides);
-        for ( $i = $total_slides - 1; $i >= 0; $i-- ) {
-            if(is_array($temp_ar[$i])){
-                array_unshift($ads_list, $temp_ar[$i]);
+        if(isset($_COOKIE['wp_quads_carousel_ads_seq4'])){
+            $cookie_arr  = json_decode(stripslashes($_COOKIE['wp_quads_carousel_ads_seq4']), true);
+            if(!empty($cookie_arr) && is_array($cookie_arr)){
+                $ads_list    =  $cookie_arr;
+                $shifted     = array_shift($cookie_arr);
+                $cads_list   = array();
+                $cads_list   = $cookie_arr; 
+                $cads_list[] = $shifted;        
+                setcookie('wp_quads_carousel_ads_seq4', json_encode($cads_list), time() + (86400 * 30), "/"); // 86400 = 1 day
+            }
+        }else{
+            if(!empty($ads_list) && is_array($ads_list)){
+
+                $cads_list   = array();
+                $cookie_arr  = $ads_list;
+                $shifted     = array_shift($cookie_arr);
+                $cads_list   = $cookie_arr; 
+                $cads_list[] = $shifted;    
+                setcookie('wp_quads_carousel_ads_seq4', json_encode($cads_list), time() + (86400 * 30), "/"); // 86400 = 1 day
             }
         }
     }
