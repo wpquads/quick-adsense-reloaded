@@ -844,12 +844,12 @@ error_outline
                       <div className="quads-banner-width-heigth">
                         <div className="quads-banner-width">
                           <label>{__('Width', 'quick-banner-reloaded')}
-                          <input value={post_meta.banner_ad_width ? post_meta.banner_ad_width:'300'} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_width" name="banner_ad_width" /> 
+                          <input value={post_meta.banner_ad_width} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_width" name="banner_ad_width" placeholder="300"/> 
                           </label>
                         </div>
                         <div className="quads-banner-height">
                           <label>{__('Height', 'quick-banner-reloaded')}
-                          <input value={post_meta.banner_ad_height  ? post_meta.banner_ad_height:'300'} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_height" name="banner_ad_height" />  
+                          <input value={post_meta.banner_ad_height} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_height" name="banner_ad_height" placeholder="300"/>  
                           </label>
                         </div>
                       </div>
@@ -883,12 +883,12 @@ error_outline
                          <div className="quads-banner-width-heigth">
                            <div className="quads-banner-width">
                              <label>{__('Width', 'quick-banner-reloaded')}
-                             <input value={post_meta.mob_banner_ad_width ? post_meta.mob_banner_ad_width:'300'} onChange={this.props.adFormChangeHandler} type="number" id="mob_banner_ad_width" name="mob_banner_ad_width" /> 
+                             <input value={post_meta.mob_banner_ad_width} onChange={this.props.adFormChangeHandler} type="number" id="mob_banner_ad_width" name="mob_banner_ad_width" placeholder="300"/> 
                              </label>
                            </div>
                            <div className="quads-banner-height">
                              <label>{__('Height', 'quick-banner-reloaded')}
-                             <input value={post_meta.mob_banner_ad_height  ? post_meta.mob_banner_ad_height:'300'} onChange={this.props.adFormChangeHandler} type="number" id="mob_banner_ad_height" name="mob_banner_ad_height" />  
+                             <input value={post_meta.mob_banner_ad_height} onChange={this.props.adFormChangeHandler} type="number" id="mob_banner_ad_height" name="mob_banner_ad_height" placeholder="300"/>  
                              </label>
                            </div>
                          </div>

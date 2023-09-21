@@ -336,7 +336,7 @@ function quads_render_ad_image_async( $id ) {
                 $image_render_src = $quads_options['ads'][$id]['image_src'];
             }
             if(isset($quads_options['ads'][$id]['parallax_ads_check']) && $quads_options['ads'][$id]['parallax_ads_check']){
-                $parallax_height=$quads_options['ads'][$id]['parallax_height']?$quads_options['ads'][$id]['parallax_height']:300;
+                $parallax_height=isset($quads_options['ads'][$id]['parallax_height'])?$quads_options['ads'][$id]['parallax_height']:300;
                 $html .='<a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
                  <div class="quads_parallax parallax_'.esc_attr($id).'"></div>
                  </a>
@@ -356,7 +356,7 @@ function quads_render_ad_image_async( $id ) {
     }
     else if (isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
         if(isset($quads_options['ads'][$id]['parallax_ads_check']) && $quads_options['ads'][$id]['parallax_ads_check']){
-            $parallax_height=$quads_options['ads'][$id]['parallax_height']?$quads_options['ads'][$id]['parallax_height']:300;
+            $parallax_height=isset($quads_options['ads'][$id]['parallax_height'])?$quads_options['ads'][$id]['parallax_height']:300;
             $html .='<a  imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
              <div class="quads_parallax parallax_'.esc_attr($id).'"></div>
              </a>
@@ -375,7 +375,7 @@ function quads_render_ad_image_async( $id ) {
     }else{
         if(isset($quads_options['ads'][$id]['parallax_ads_check']) && $quads_options['ads'][$id]['parallax_ads_check']){
             
-            $parallax_height=$quads_options['ads'][$id]['parallax_height']?$quads_options['ads'][$id]['parallax_height']:300;
+            $parallax_height=isset($quads_options['ads'][$id]['parallax_height'])?$quads_options['ads'][$id]['parallax_height']:300;
             $html .='<div class="quads_parallax parallax_'.esc_attr($id).'"></div>
             <style>  .quads-ad'.esc_attr($quads_options['ads'][$id]['ad_id']).' { margin:0 auto !important;} .parallax_'.$id.' {background-image: url("'.esc_attr($image_render_src).'");height:'.esc_attr($parallax_height).'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
         
@@ -1678,7 +1678,7 @@ function quads_render_amp($id,$ampsupport=''){
                 $label = $quads_options['ads'][$id]['quads_ad_old_id'] ? $quads_options['ads'][$id]['quads_ad_old_id'] : '';
                 if(isset($quads_options['ads'][$id]['parallax_ads_check'])  && $quads_options['ads'][$id]['parallax_ads_check']){
                     $parallax=true;
-                    $parallax_height=($quads_options['ads'][$id]['parallax_height']>1)?$quads_options['ads'][$id]['parallax_height']:300;
+                    $parallax_height=(isset($quads_options['ads'][$id]['parallax_height']) && $quads_options['ads'][$id]['parallax_height']>1)?$quads_options['ads'][$id]['parallax_height']:300;
                 }
             if(isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
                
