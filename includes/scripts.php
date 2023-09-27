@@ -414,14 +414,6 @@ function quads_inline_styles() {
     .grid_image{animation: fadeIn 0.5s;-webkit-animation: fadeIn 0.5s;-moz-animation: fadeIn 0.5s;
         -o-animation: fadeIn 0.5s;-ms-animation: fadeIn 0.5s;}
     .quads-ad-label { font-size: 12px; text-align: center; color: #333;}
-    .quads-text-around-ad-label-text_around_left {
-        width: 50%;
-        float: left;
-    }
-    .quads-text-around-ad-label-text_around_right {
-        width: 50%;
-        float: right;
-    } 
     .quads_click_impression { display: none;}";
     if(in_array("popup_ads", $ads_types)){
             $css .=".quads-popupad {
