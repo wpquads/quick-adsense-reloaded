@@ -50,11 +50,16 @@ class QuadsAdSettingsProTemplate extends Component {
 
       return (<tr><th><label htmlFor={data.id}>{data.title} </label></th>
           <td>          
+          {this.props.selectedBtnOpt == data.id ?
+            <div className="quads-spin-cntr">
+              <div className="quads-set-spin"></div>
+            </div> :
             <label className="quads-switch">
               <input type="checkbox" name={data.id} id={data.id} onChange={this.props.formChangeHandler} checked={settings[data.id]} value={data.id} />
               <span id={data.id+'_'} className="quads-slider"></span>
               <div className={load_symbol}></div>
             </label>
+          }  
             <a className="quads-general-helper quads-general-helper-new" target="_blank" href={data.url}></a>
           </td>
         </tr>
