@@ -789,11 +789,11 @@ handleMultiPluginsChange = (option) => {
               createDiv.className = "quads_response-suc-wrap bottom-left";
               document.body.appendChild(createDiv);
               var quads_response_suc = document.getElementsByClassName("quads_response-suc-wrap bottom-left")[0];
-    quads_response_suc.innerHTML += "<div className='quads_response-suc-single quads_response-suc-success'><span className='quads_response-suc-loader quads_response-suc-loaded'></span>Settings Saved</div>";
+    quads_response_suc.innerHTML += "<div class='quads_response-suc-single quads_response-suc-success'><span class='quads_response-suc-loader quads_response-suc-loaded'></span>Settings Saved</div>";
               setTimeout(() => {
                 var quads_response_suc_ = document.getElementsByClassName("quads_response-suc-wrap bottom-left")[0];
                 quads_response_suc_.remove();
-              }, 500);
+              }, 1000);
 
               this.setState({settings_error:result.msg, button_spinner_toggle:false, selectedBtnOpt:null});
             }
