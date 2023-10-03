@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.3.1
 Requires PHP: 5.4
-Stable tag: 2.0.76
+Stable tag: 2.0.77
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -206,6 +206,16 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.77 ( 03 October 2023 ) =
+* Fixed: Text around Ads code removed #519
+* Fixed: Banner ad issue #805
+* Fixed: Already created carousel ad should not be shown inside ad selection dropdown #814
+* Fixed: All created ads and saved settings does not display for allowed role based access users #817
+* Fixed: Error when updating php to version 8.1 #818
+* Fixed: Improvement Requirement in carousel random option #822
+* Fixed: Invalid argument supplied for foreach() #824
+* Fixed: Settings Spiner Code improvement.
 
 = 2.0.76 ( 13 September 2023 ) =
 * Added: In carousel ad, the selected ads should be draggable #798
