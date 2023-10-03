@@ -357,10 +357,10 @@ function quads_inline_styles() {
             if($value['post']['post_status']== 'draft'){
                 continue;
             }
-            if(isset($ads['visibility_include'])){$ads['visibility_include'] = unserialize($ads['visibility_include']);}
-            if(isset($ads['visibility_exclude'])){$ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);}
-            if(isset($ads['targeting_include'])){$ads['targeting_include'] = unserialize($ads['targeting_include']);}
-            if(isset($ads['targeting_exclude'])){$ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);}
+            if(isset($ads['visibility_include']) && is_string($ads['visibility_include'])){$ads['visibility_include'] = unserialize($ads['visibility_include']);}
+            if(isset($ads['visibility_exclude']) && is_string($ads['visibility_exclude'])){$ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);}
+            if(isset($ads['targeting_include']) && is_string($ads['targeting_include'])){$ads['targeting_include'] = unserialize($ads['targeting_include']);}
+            if(isset($ads['targeting_exclude']) && is_string($ads['targeting_exclude'])){$ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);}
             $is_on         = quads_is_visibility_on($ads);
             $is_visitor_on = quads_is_visitor_on($ads);
            if(isset($ads['ad_id'])){$post_status = get_post_status($ads['ad_id']);}else{$post_status =  'publish';}
@@ -370,7 +370,9 @@ function quads_inline_styles() {
            $is_on=apply_filters('quads_show_ads',quads_ad_is_allowed());
            if($is_on && $is_visitor_on && $post_status=='publish'){
             $ad_loaded = true;
-            $ads_types[]=$ads['ad_type'];
+            if(isset($ads['ad_type'])){
+                $ads_types[]=$ads['ad_type'];
+            }
             if(isset($ads['position']) && $ads['position'] == 'ad_sticky_ad'){
                 $is_sticky_loaded = true;
                 if(isset($ads['sticky_slide_ad']) && $ads['sticky_slide_ad'] == 'sticky_ad_top'){
@@ -412,14 +414,6 @@ function quads_inline_styles() {
     .grid_image{animation: fadeIn 0.5s;-webkit-animation: fadeIn 0.5s;-moz-animation: fadeIn 0.5s;
         -o-animation: fadeIn 0.5s;-ms-animation: fadeIn 0.5s;}
     .quads-ad-label { font-size: 12px; text-align: center; color: #333;}
-    .quads-text-around-ad-label-text_around_left {
-        width: 50%;
-        float: left;
-    }
-    .quads-text-around-ad-label-text_around_right {
-        width: 50%;
-        float: right;
-    } 
     .quads_click_impression { display: none;}";
     if(in_array("popup_ads", $ads_types)){
             $css .=".quads-popupad {

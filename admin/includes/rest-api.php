@@ -29,188 +29,212 @@ class QUADS_Ad_Setup_Api {
 		    return self::$instance;
         }
 
+        protected function quads_current_user_can() {
+            global $quads_options;
+            if(function_exists('current_user_can') && current_user_can( 'manage_options' )){
+                return true;
+            }
+            $roles = wp_get_current_user()->roles;
+            $get_roles = isset($quads_options['RoleBasedAccess']) ? $quads_options['RoleBasedAccess'] : array();
+            if(is_array($get_roles)){    
+                foreach ($get_roles as $get_role => $role_val) {
+                    if ( count(array_intersect( $role_val, $roles )) >= 1 ){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         public function registerRoute(){
 
             register_rest_route( 'quads-route', 'get-ads-list', array(
                     'methods'    => 'GET',
                     'callback'   => array($this, 'getAdList'),
                     'permission_callback' => function(){
-                        return current_user_can( 'manage_options' );
+                        return $this->quads_current_user_can();
                     }
             ));
             register_rest_route( 'quads-route', 'change-mode', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'changeMode'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'ad-more-action', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'adMoreAction'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'update-ad', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'updateAd'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'update-settings', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'updateSettings'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'validate-ads-txt', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'validateAdsTxt'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'send-customer-query', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'sendCustomerQuery'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'get-ad-by-id', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getAdById'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'get-settings', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getSettings'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'get-condition-list', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getConditionList'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'export-settings', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'exportSettings') ,
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'import-settings', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'importSettings') ,
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'get-quads-info', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getQuadsInfo'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'get-user-role', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getUserRole'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'get-tags', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getTags'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'get-plugins', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getPlugins'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
              register_rest_route( 'quads-route', 'get-add-next-id', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'getAddNextId'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
              register_rest_route( 'quads-route', 'quads_subscribe_newsletter', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'quadsSubscribeNewsletter'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
                register_rest_route( 'quads-route', 'import-ampforwp-ads', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'importampforwp_ads'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
                register_rest_route( 'quads-route', 'import-advance-ads', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'importadvance_ads'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
                register_rest_route( 'quads-route', 'import-adsforwp-ads', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'importadsforwp_ads'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'reports-adsense-confcode', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'reportsAdsenseConfcode'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
 	        register_rest_route( 'quads-route', 'quads_register_ad', array(
 		        'methods'    => 'POST',
 		        'callback'   => array($this, 'quads_register_ad'),
 		        'permission_callback' => function(){
-			        return current_user_can( 'manage_options' );
+			        return $this->quads_current_user_can();
 		        }
 	        ));
             register_rest_route( 'quads-route', 'check_plugin_exist', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'check_plugin_exist'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
+                }
+            ));
+            register_rest_route( 'quads-route', 'get-current-user', array(
+                'methods'    => 'GET',
+                'callback'   => array($this, 'getCurrentUser'),
+                'permission_callback' => function(){
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'getAdloggingData', array(
                 'methods'    => 'POST',
                 'callback'   => array($this, 'getAdloggingData'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
             ));
             register_rest_route( 'quads-route', 'get-ads-analytics', array(
                 'methods'    => 'GET',
                 'callback'   => array($this, 'getAdAnalytics'),
                 'permission_callback' => function(){
-                    return current_user_can( 'manage_options' );
+                    return $this->quads_current_user_can();
                 }
         ));
         }
@@ -1521,6 +1545,13 @@ class QUADS_Ad_Setup_Api {
                 if (defined('WEBSTORIES_VERSION')) {
                     return array('status' => 't');
                 }     
+            }
+            return array('status' => 'f');
+        }
+
+        public function getCurrentUser($request){
+            if(function_exists('current_user_can') && current_user_can( 'administrator' )){
+                return array('status' => 't');
             }
             return array('status' => 'f');
         }

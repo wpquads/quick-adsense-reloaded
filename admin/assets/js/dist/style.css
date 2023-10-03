@@ -704,6 +704,21 @@ and open the template in the editor.
   -webkit-animation: spin .8s linear infinite;
   animation: spin .8s linear infinite; }
 
+.quads-spin-cntr {
+  position: relative;
+  display: inline-block; }
+
+.quads-set-spin {
+  width: 12px;
+  height: 12px;
+  border-style: solid;
+  border-color: #005af0;
+  border-top-color: transparent;
+  border-width: 3px;
+  border-radius: 50%;
+  -webkit-animation: spin .8s linear infinite;
+  animation: spin .8s linear infinite; }
+
 .quads-small-spinner {
   border: 5px solid #f3f3f3;
   -webkit-animation: spin 1s linear infinite;

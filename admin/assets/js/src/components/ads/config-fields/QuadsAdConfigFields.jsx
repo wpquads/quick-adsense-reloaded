@@ -262,9 +262,9 @@ removeSeleted_list = (e) => {
           let getallads_data =[];
           let ad_ids_temp =[];
           Object.entries(result.posts_data).map(([key, value]) => {
-          if(value.post_meta['ad_type'] != "random_ads" && value.post_meta['ad_type'] != "rotator_ads" && value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] != "draft")
+          if(value.post_meta['ad_type'] != "random_ads" && value.post_meta['ad_type'] != "rotator_ads" && value.post_meta['ad_type'] != "carousel_ads" && value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] != "draft")
             getallads_data.push({label: value.post['post_title'], value: value.post['post_id']});
-          if(value.post_meta['ad_type'] != "random_ads" && value.post_meta['ad_type'] != "rotator_ads" && value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] == "publish")
+          if(value.post_meta['ad_type'] != "random_ads" && value.post_meta['ad_type'] != "rotator_ads" && value.post_meta['ad_type'] != "carousel_ads" && value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] == "publish")
             ad_ids_temp.push(value.post['post_id']);
           })      
             this.setState({
@@ -844,12 +844,12 @@ error_outline
                       <div className="quads-banner-width-heigth">
                         <div className="quads-banner-width">
                           <label>{__('Width', 'quick-banner-reloaded')}
-                          <input value={post_meta.banner_ad_width ? post_meta.banner_ad_width:'300'} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_width" name="banner_ad_width" /> 
+                          <input value={post_meta.banner_ad_width} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_width" name="banner_ad_width" placeholder="300"/> 
                           </label>
                         </div>
                         <div className="quads-banner-height">
                           <label>{__('Height', 'quick-banner-reloaded')}
-                          <input value={post_meta.banner_ad_height  ? post_meta.banner_ad_height:'250'} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_height" name="banner_ad_height" />  
+                          <input value={post_meta.banner_ad_height} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_height" name="banner_ad_height" placeholder="300"/>  
                           </label>
                         </div>
                       </div>
@@ -883,12 +883,12 @@ error_outline
                          <div className="quads-banner-width-heigth">
                            <div className="quads-banner-width">
                              <label>{__('Width', 'quick-banner-reloaded')}
-                             <input value={post_meta.mob_banner_ad_width ? post_meta.mob_banner_ad_width:'300'} onChange={this.props.adFormChangeHandler} type="number" id="mob_banner_ad_width" name="mob_banner_ad_width" /> 
+                             <input value={post_meta.mob_banner_ad_width} onChange={this.props.adFormChangeHandler} type="number" id="mob_banner_ad_width" name="mob_banner_ad_width" placeholder="300"/> 
                              </label>
                            </div>
                            <div className="quads-banner-height">
                              <label>{__('Height', 'quick-banner-reloaded')}
-                             <input value={post_meta.mob_banner_ad_height  ? post_meta.mob_banner_ad_height:'250'} onChange={this.props.adFormChangeHandler} type="number" id="mob_banner_ad_height" name="mob_banner_ad_height" />  
+                             <input value={post_meta.mob_banner_ad_height} onChange={this.props.adFormChangeHandler} type="number" id="mob_banner_ad_height" name="mob_banner_ad_height" placeholder="300"/>  
                              </label>
                            </div>
                          </div>
