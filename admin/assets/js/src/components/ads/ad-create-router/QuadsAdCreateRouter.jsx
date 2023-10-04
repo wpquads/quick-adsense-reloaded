@@ -530,7 +530,7 @@ class QuadsAdCreateRouter extends Component {
 
         case 'plain_text':
 
-          if(validation_flag && quads_post_meta.code  && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+          if(validation_flag && quads_post_meta.code  && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
             this.saveAdFormData('publish');  
           }else{
             this.setState({show_form_error:true});
@@ -539,7 +539,7 @@ class QuadsAdCreateRouter extends Component {
           break;
 
           case 'adsense':
-            if(validation_flag && (quads_post_meta.adsense_ad_type == 'adsense_auto_ads' || quads_post_meta.g_data_ad_slot) && quads_post_meta.g_data_ad_client && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && (quads_post_meta.adsense_ad_type == 'adsense_auto_ads' || quads_post_meta.g_data_ad_slot) && quads_post_meta.g_data_ad_client && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
@@ -547,49 +547,49 @@ class QuadsAdCreateRouter extends Component {
             
           break;
           case 'random_ads':
-            if(validation_flag && quads_post_meta.random_ads_list.length > 0 && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.random_ads_list.length > 0 && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
           case 'rotator_ads':
-            if(validation_flag && quads_post_meta.ads_list.length > 0 && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.ads_list.length > 0 && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
         case 'group_insertion':
-          if(validation_flag && quads_post_meta.ads_list.length > 0 && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+          if(validation_flag && quads_post_meta.ads_list.length > 0 && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
             this.saveAdFormData('publish');
           }else{
             this.setState({show_form_error:true});
           }
           break;
            case 'double_click':
-            if(validation_flag && quads_post_meta.ad_unit_name && quads_post_meta.network_code && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.ad_unit_name && quads_post_meta.network_code && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
             case 'yandex':
-            if(validation_flag && quads_post_meta.block_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.block_id && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
               case 'mgid':
-            if(validation_flag && quads_post_meta.data_js_src && quads_post_meta.data_container && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.data_js_src && quads_post_meta.data_container && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
               case 'propeller':
-            if(validation_flag && quads_post_meta.propeller_js && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.propeller_js && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
@@ -597,28 +597,28 @@ class QuadsAdCreateRouter extends Component {
           break;
 
           case 'ad_image':
-            if(validation_flag && quads_post_meta.image_src && quads_post_meta.image_redirect_url && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.image_src && quads_post_meta.image_redirect_url && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
           case 'video_ads':
-            if(validation_flag && quads_post_meta.image_src && quads_post_meta.image_redirect_url && quads_post_meta.video_width && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.image_src && quads_post_meta.image_redirect_url && quads_post_meta.video_width && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
           case 'ad_blindness':
-            if(validation_flag && quads_post_meta.ads_list.length > 0 && quads_post_meta.ad_blindness.length > 0 && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.ads_list.length > 0 && quads_post_meta.ad_blindness.length > 0 && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
           case 'ab_testing':
-            if(validation_flag && quads_post_meta.ads_list.length > 0 && quads_post_meta.ab_testing.length > 0 && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.ads_list.length > 0 && quads_post_meta.ab_testing.length > 0 && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
@@ -631,7 +631,7 @@ class QuadsAdCreateRouter extends Component {
             this.saveAdFormData('publish');
           break;
           case 'taboola':
-            if(validation_flag && quads_post_meta.taboola_publisher_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.taboola_publisher_id && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
@@ -639,7 +639,7 @@ class QuadsAdCreateRouter extends Component {
           break;
         case 'media_net':
             if(validation_flag && quads_post_meta.data_cid && quads_post_meta.data_crid
- && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+ && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
@@ -655,77 +655,77 @@ class QuadsAdCreateRouter extends Component {
           // break;
           
           case 'mediavine':
-            if(validation_flag && quads_post_meta.mediavine_site_id && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.mediavine_site_id && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
           case 'outbrain':
-            if(validation_flag && quads_post_meta.outbrain_widget_ids && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.outbrain_widget_ids && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break; 
            case 'infolinks':
-            if(validation_flag && quads_post_meta.infolinks_wsid && quads_post_meta.infolinks_pid && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.infolinks_wsid && quads_post_meta.infolinks_pid && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
           case 'background_ad':
-            if(validation_flag && quads_post_meta.image_src && quads_post_meta.image_redirect_url && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.image_src && quads_post_meta.image_redirect_url && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break; 
           case 'skip_ads':
-            if(validation_flag && quads_post_meta.skip_ads_type && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.skip_ads_type && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
           case 'loop_ads':
-            if(validation_flag  && quads_post_meta.loop_add_title && quads_post_meta.loop_add_description && quads_post_meta.loop_add_link && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag  && quads_post_meta.loop_add_title && quads_post_meta.loop_add_description && quads_post_meta.loop_add_link && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
           case 'carousel_ads':
-            if(validation_flag  && quads_post_meta.ads_list.length > 0 && quads_post_meta.carousel_type && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag  && quads_post_meta.ads_list.length > 0 && quads_post_meta.carousel_type && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
           case 'parallax_ads':
-            if(validation_flag && quads_post_meta.parallax_btn_url && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.parallax_btn_url && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
           case 'half_page_ads':
-            if(validation_flag && quads_post_meta.half_page_ads_btn_url && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.half_page_ads_btn_url && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
             }else{
               this.setState({show_form_error:true});
             }
           break;
           case 'sticky_scroll':
-            if(validation_flag && quads_post_meta.ads_list.length > 0 && quads_post_meta.position && quads_post_meta.visibility_include.length > 0){
+            if(validation_flag && quads_post_meta.ads_list.length > 0 && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');
             }else{
               this.setState({show_form_error:true});
             }
             break;
             case 'floating_cubes':
-              if(validation_flag && quads_post_meta.floating_slides.length >=1 && quads_post_meta.floating_cubes_type && quads_post_meta.visibility_include.length > 0){
+              if(validation_flag && quads_post_meta.floating_slides.length >=1 && quads_post_meta.floating_cubes_type && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
                 this.saveAdFormData('publish');
               }else{
                 this.setState({show_form_error:true});
