@@ -1413,7 +1413,22 @@ function quads_filter_default_ads_new( $content ) {
                         $content =  quads_remove_ad_from_content($content,$cusads,$ads);
 
                     break;
+                    case 'ad_after_id':
+                        $type_name = 'id';
+                        $id_name = isset($ads['after_id_name']) ? $ads['after_id_name'] : '';
+                        $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
+                        if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
+                            $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
+                        }else{
+                            if(!empty($id_name)){
+                                $id_name = '"'.$id_name.'"';
+                                $content = quads_after_id_class_ad_creator($content,$id_name,$type_name);
+                                $content = str_replace('afterIdAd', $cusads, $content);
+                            }
+                        }
+                    break;
                     case 'ad_after_class':
+                        $type_name = 'class';
                         $class_name = isset($ads['after_class_name']) ? $ads['after_class_name'] : '';
                         $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
                         if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
@@ -1421,8 +1436,22 @@ function quads_filter_default_ads_new( $content ) {
                         }else{
                             if(!empty($class_name)){
                                 $class_name = '"'.$class_name.'"';
-                                $content = quads_after_class_ad_creator($content,$class_name,$cusads,$repeat_paragraph);
+                                $content = quads_after_id_class_ad_creator($content,$class_name,$type_name);
                                 $content = str_replace('afterClassAd', $cusads, $content);
+                            }
+                        }
+                    break;
+                    case 'ad_after_customq':
+                        $type_name = 'custom';
+                        $custom_name = isset($ads['after_customq_name']) ? $ads['after_customq_name'] : '';
+                        $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
+                        if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
+                            $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
+                        }else{
+                            if(!empty($custom_name)){
+                                $custom_name = '//*'.$custom_name;
+                                $content = quads_after_id_class_ad_creator($content,$custom_name,$type_name);
+                                $content = str_replace('afterCustomQAd', $cusads, $content);
                             }
                         }
                     break; 
@@ -3323,7 +3352,7 @@ if($repeat_paragraph){
     return $content;  
 }
 
-function quads_after_class_ad_creator($content,$class_name,$cusads,$repeat_paragraph=false){
+function quads_after_id_class_ad_creator($content,$srch_name,$type_name){
 
     $dom = new \DOMDocument();
     if(function_exists('mb_convert_encoding')){
@@ -3332,12 +3361,22 @@ function quads_after_class_ad_creator($content,$class_name,$cusads,$repeat_parag
         $dom->loadHTML( $content );
     }
     $finder = new DomXPath($dom);
-    $classes = $finder->query("//*[contains(@class, $class_name)]");
-
-    for ($i=0; $i < $classes->length ; $i++) {
-        if($classes){
-            $p = $classes->item($i);
-            $div = $dom->createTextNode('afterClassAd');
+    if($type_name == 'id'){
+        $after_ad = 'afterIdAd';
+        $sel_data = $finder->query("//*[contains(@id, $srch_name)]");
+    }
+    if($type_name == 'class'){
+        $after_ad = 'afterClassAd';
+        $sel_data = $finder->query("//*[contains(@class, $srch_name)]");
+    }
+    if($type_name == 'custom'){
+        $after_ad = 'afterCustomQAd';
+        $sel_data = $finder->query($srch_name);
+    }
+    for ($i=0; $i < $sel_data->length ; $i++) {
+        if($sel_data){
+            $p = $sel_data->item($i);
+            $div = $dom->createTextNode($after_ad);
             if($p->nextSibling === null) {
                 $p->parentNode->appendChild($div);
             } else {

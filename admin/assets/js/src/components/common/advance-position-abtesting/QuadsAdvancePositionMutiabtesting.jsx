@@ -25,7 +25,9 @@ class QuadsAdvancePositionMutiabtesting extends Component {
                 { label: 'before_image', value: 'Before Image' },
                 { label: 'after_word_count', value: 'By Word Count' },
                 { label: 'after_the_percentage', value: 'After the Percentage' },
+                { label: 'ad_after_id', value: 'Ad After Id' },
                 { label: 'ad_after_class', value: 'Ad After Class' },
+                { label: 'ad_after_customq', value: 'Ad After Advance Selector' },
                 { label: 'ad_after_html_tag', value: 'Ad After HTML Tag' },
                 { label: 'amp_ads_in_loops', value: 'Ads Inbetween Loop' },
                 { label: 'ad_shortcode', value: 'Shortcode (Manual)' },
@@ -104,7 +106,9 @@ class QuadsAdvancePositionMutiabtesting extends Component {
                                                     <option value="before_image">{__('Before Image', 'quick-adsense-reloaded')}</option>
                                                     <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
                                                     <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
+                                                    <option value="ad_after_id">{__('Ad After Id', 'quick-adsense-reloaded')}</option>
                                                     <option value="ad_after_class">{__('Ad After Class', 'quick-adsense-reloaded')}</option>
+                                                    <option value="ad_after_customq">{__('Ad After Advance Selector', 'quick-adsense-reloaded')}</option>
                                                     <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
                                                     <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
                                                     <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
@@ -137,7 +141,9 @@ class QuadsAdvancePositionMutiabtesting extends Component {
                                                 <option value="before_image">{__('Before Image', 'quick-adsense-reloaded')}</option>
                                                 <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
                                                 <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
+                                                <option value="ad_after_id">{__('Ad After Id', 'quick-adsense-reloaded')}</option>
                                                 <option value="ad_after_class">{__('Ad After Class', 'quick-adsense-reloaded')}</option>
+                                                <option value="ad_after_customq">{__('Ad After Advance Selector', 'quick-adsense-reloaded')}</option>
                                                 <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
                                                 <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
                                                 {quads_localize_data.is_bbpress_exist ?

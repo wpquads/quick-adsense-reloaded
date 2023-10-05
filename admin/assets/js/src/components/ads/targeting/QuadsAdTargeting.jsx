@@ -239,6 +239,12 @@ class QuadsAdTargeting extends Component {
                           }
                     </tr>
                         }
+                      {post_meta.position == 'ad_after_id' ? (
+                      <tr>
+                        <td><label>{__('Enter Id Name', 'quick-adsense-reloaded')}</label></td>
+                        <td><input  onChange={this.props.adFormChangeHandler} name="after_id_name" value={post_meta.after_id_name}  type="text" placeholder="Id name" /></td>
+                      </tr>)
+                      : null}
                       {post_meta.position == 'ad_after_class' ? (
                         <>
                       <tr>
@@ -247,6 +253,12 @@ class QuadsAdTargeting extends Component {
                       </tr>
                     </>)
                       : null}    
+                      {post_meta.position == 'ad_after_customq' ? (
+                      <tr>
+                        <td><label>{__('Enter Selector', 'quick-adsense-reloaded')}</label></td>
+                        <td><input  onChange={this.props.adFormChangeHandler} name="after_customq_name" value={post_meta.after_customq_name}  type="text" placeholder="[@class='classname']//child::*[2]" /><div style={{fontSize: "12px",marginTop: "12px"}}>Eg: [@class='classname']//child::*[1] or [@id='idname']//child::*[1]</div></td>
+                      </tr>)
+                      : null}
                     {post_meta.position == 'ad_after_html_tag' ? (
                       <>
                     <tr>
