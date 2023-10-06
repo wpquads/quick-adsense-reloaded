@@ -623,6 +623,12 @@ function quads_visitor_comparison_logic_checker($visibility){
               $result = true;
             }
       break;
+      case 'geo_location_city':
+        $user_city = function_exists('quads_geo_location_city') ? trim(quads_geo_location_city()) : '';
+        if ( $user_city == $v_id ) {
+            $result = true;
+        }
+      break;
       case 'user_type':
         if ( in_array( $v_id, (array) $user->roles ) ) {
             $result = true;
@@ -672,6 +678,33 @@ function quads_detect_user_agent( ){
         return $user_agent_name;
 }
 
+function quads_geo_location_city(){
+    if(function_exists('quads_get_ip_address') ){
+      $ip = quads_get_ip_address();
+    }
+    if(empty($ip)) return "";
+    $user_city = file_get_contents("http://ipinfo.io/{$ip}/city");
+    return $user_city;
+}
+
+function quads_get_ip_address() {
+    $ip_address = '';
+    if (getenv('HTTP_CLIENT_IP'))
+        $ip_address = getenv('HTTP_CLIENT_IP');
+    else if(getenv('HTTP_X_FORWARDED_FOR'))
+        $ip_address = getenv('HTTP_X_FORWARDED_FOR');
+    else if(getenv('HTTP_X_FORWARDED'))
+        $ip_address = getenv('HTTP_X_FORWARDED');
+    else if(getenv('HTTP_FORWARDED_FOR'))
+        $ip_address = getenv('HTTP_FORWARDED_FOR');
+    else if(getenv('HTTP_FORWARDED'))
+       $ip_address = getenv('HTTP_FORWARDED');
+    else if(getenv('REMOTE_ADDR'))
+        $ip_address = getenv('REMOTE_ADDR');
+    else
+        $ip_address = '';
+    return $ip_address;
+}
 
 function quads_comparison_logic_checker($visibility){
 
