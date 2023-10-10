@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.3.1
 Requires PHP: 5.4
-Stable tag: 2.0.77
+Stable tag: 2.0.78
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -206,6 +206,12 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.78 ( 10 October 2023 ) =
+* Added: After ID field in "Where Will The AD Appear" option #766
+* Added: After Advance Selector field in "Where Will The AD Appear" option #766
+* Fixed: Visibility validation should not work if we select shortcode(Manual) option #802	
+* Fixed: Targetting city wise to show the ads on frontend is not working #830
 
 = 2.0.77 ( 03 October 2023 ) =
 * Fixed: Text around Ads code removed #519
