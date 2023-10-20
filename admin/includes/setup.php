@@ -378,6 +378,87 @@ public function quads_database_install() {
                 
 	}
 
+    if(!in_array("{$wpdb->prefix}quads_logs", $found_tables)) {
+            
+		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_logs` (
+			`id` bigint(10) NOT NULL AUTO_INCREMENT,
+            `ad_id` int(50) NOT NULL,
+            `log_date` int(15) NOT NULL,
+            `log_clicks` int(15) NOT NULL DEFAULT 0,
+            `ip_address` varchar(20) DEFAULT NULL,
+            `log_url` varchar(255) DEFAULT NULL,
+            `browser` varchar(20) DEFAULT NULL,
+            `referrer` varchar(255) DEFAULT NULL,
+            PRIMARY KEY  (`id`),
+            KEY  `clk_desk_adid` (`ad_id`),
+            KEY  `clk_desk_date` (`log_date`)
+		)
+        ".$charset_collate.$engine.";");
+                
+	}
+    if(!in_array("{$wpdb->prefix}quads_clicks_mobile", $found_tables)) {
+            
+		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_clicks_mobile` (
+			`id` bigint(10) NOT NULL AUTO_INCREMENT,
+            `ad_id` int(50) NOT NULL,
+            `stats_date` int(15) NOT NULL,
+            `stats_clicks` int(15) NOT NULL DEFAULT 0,
+            `stats_year` int(4) NOT NULL,
+            PRIMARY KEY  (`id`),
+            KEY `clk_mob_adid` (`ad_id`),
+            KEY `clk_mob_date` (`stats_date`)
+		)
+        ".$charset_collate.$engine.";");
+                
+	}
+
+    if(!in_array("{$wpdb->prefix}quads_impressions_mobile", $found_tables)) {
+            
+		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_impressions_mobile` (
+			 `id` bigint(10) NOT NULL AUTO_INCREMENT,
+            `ad_id` int(50) NOT NULL,
+            `stats_date` int(15) NOT NULL,
+            `stats_impressions` int(15) NOT NULL DEFAULT 0,
+            `stats_year` int(4) NOT NULL,
+            PRIMARY KEY  (`id`),
+            KEY `impr_mob_adid` (`ad_id`),
+            KEY `impr_mob_date` (`stats_date`)
+		)
+        ".$charset_collate.$engine.";");
+                
+	}
+    if(!in_array("{$wpdb->prefix}quads_clicks_desktop", $found_tables)) {
+            
+		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_clicks_desktop` (
+			 `id` bigint(10) NOT NULL AUTO_INCREMENT,
+            `ad_id` int(50) NOT NULL,
+            `stats_date` int(15) NOT NULL,
+            `stats_clicks` int(15) NOT NULL DEFAULT 0,
+            `stats_year` int(4) NOT NULL,
+            PRIMARY KEY  (`id`),
+            KEY `clk_desk_adid` (`ad_id`),
+            KEY `clk_desk_date` (`stats_date`)
+		)
+        ".$charset_collate.$engine.";");
+                
+	}
+
+    if(!in_array("{$wpdb->prefix}quads_impressions_desktop", $found_tables)) {
+            
+		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_impressions_desktop` (
+			 `id` bigint(10) NOT NULL AUTO_INCREMENT,
+            `ad_id` int(50) NOT NULL,
+            `stats_date` int(15) NOT NULL,
+            `stats_impressions` int(15) NOT NULL DEFAULT 0,
+            `stats_year` int(4) NOT NULL,
+            PRIMARY KEY  (`id`),
+            KEY `impr_desk_adid` (`ad_id`),
+            KEY `impr_desk_date` (`stats_date`)
+		)
+        ".$charset_collate.$engine.";");
+                
+	}
+
 }
 
 public function quadsSyncRandomAdsInNewDesign(){

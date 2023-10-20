@@ -60,7 +60,7 @@ class QuadsAdListSettings extends Component {
                 skippable_ads : true,
                 ad_performance_tracking : false,
                 reports_settings : true,
-                ad_logging : true,
+                ad_logging : false,
                 ad_owner_revenue_per:50,
                 ad_author_revenue_per:50,
                 notice_bg_color : '#1e73be',
