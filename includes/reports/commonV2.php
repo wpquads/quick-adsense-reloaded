@@ -1,6 +1,5 @@
 <?php
-if( !defined( 'ABSPATH' ) )
-	exit;
+if( !defined( 'ABSPATH' ) ) exit;
 add_action( 'admin_enqueue_scripts', 'quads_load_adsnese_scripts', 100 );
 define('client_id','434993230199-hk6lg7d10mi9lja7euvqckef6ji2i4n0.apps.googleusercontent.com');
 define('client_secret','LTUkw1OpRaL4S-kvDaS7tMU_');
@@ -1418,7 +1417,7 @@ function quads_get_ad_stats($condition, $ad_id='', $date=null,$parameters ='') {
 			$ad_thetime = '';
 			$items_per_page = 20;
 			$page = (isset($parameters['page'])&& !empty($parameters['page']))?$parameters['page'] :1;
-
+			$page = intval($page);
 			$offset = ($page - 1) * $items_per_page;
 
 			if($parameters){
@@ -1431,20 +1430,6 @@ function quads_get_ad_stats($condition, $ad_id='', $date=null,$parameters ='') {
 							break;
 						case 'last_30days':
 							$startDate = strtotime("-29 day");
-							break;
-						case 'last_6months':
-							$startDate = strtotime("-6 month");
-							break;
-						case 'last_1year':
-				
-							$startDate = strtotime('-1 year');
-							break;
-						case 'custom':  
-							$startDate = (isset($parameters['cust_fromdate'])&& !empty($parameters['cust_fromdate']))?strtotime($parameters['cust_fromdate']) :strtotime("now");
-							$endDate = (isset($parameters['cust_todate'])&& !empty($parameters['cust_todate']))?strtotime($parameters['cust_todate']) :strtotime('now');;
-							break;
-						case 'all_time':
-							$startDate = strtotime('-3 year');
 							break;
 						default:
 							$startDate = strtotime(" -6 day");
@@ -1516,28 +1501,26 @@ function wpquadsSumArrays(array $a = [], array $b = []) {
 	return $b;
 }
 
-function wpquadsRemoveNullElement($val){
-	$val = $val?$val:0;
-	return $val;
+/*
+* Clear log entries older than 30days to keep DB size small
+*/
+function wpquads_logs_weekly_clear( $schedules ) {
+	// add a 'weekly' schedule to the existing set
+	$schedules['wpquads_logs_weekly'] = array(
+		'interval' => 604800,
+		'display' => __('Clear Wpquads Logs Weekly')
+	);
+	return $schedules;
+}
+add_filter( 'cron_schedules', 'wpquads_logs_weekly_clear' );
+
+if ( ! wp_next_scheduled( 'wpquads_logs_weekly_clear' ) ) {
+	wp_schedule_event( time(), 'wpquads_logs_weekly', 'wpquads_logs_weekly_clear' );
 }
 
-/*
-* Create a function to merge two arrays with same key
-*/
-function wpquadsMergeArrays($array1, $array2) {
-	$merged = $array1;
-
-	foreach($array2 as $key => &$value) {
-		if(is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {	
-			$merged[$key] = wpquadsMergeArrays($merged[$key], $value);
-		} else if(is_numeric($key)) {
-			if(!in_array($value, $merged)) {
-				$merged[] = $value;
-			}
-		} else {
-			$merged[$key] = $value;
-		}
-	}
-
-	return $merged;
+add_action( 'wpquads_logs_weekly_clear', 'wpquads_logs_weekly_clear_cb' );
+function wpquads_logs_weekly_clear_cb() {
+	global $wpdb;
+	$offset_time = strtotime("-29 day");
+    $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}quads_logs WHERE log_date < %d",array($offset_time)));
 }
