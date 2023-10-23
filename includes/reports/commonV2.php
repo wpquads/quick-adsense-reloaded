@@ -55,6 +55,13 @@ function quads_registerRoute($hook){
 			return current_user_can( 'manage_options' );
 		}
 	));
+	register_rest_route( 'quads-adsense', 'import_old_db', array(
+		'methods'    => 'POST',
+		'callback'   => 'quads_adsense_import_old_db',
+		'permission_callback' => function(){
+			return current_user_can( 'manage_options' );
+		}
+	));
 }
 function quads_adsense_revoke_adsense_link($request_data){
 	$parameters = $request_data->get_params();
@@ -1502,7 +1509,7 @@ function wpquadsSumArrays(array $a = [], array $b = []) {
 }
 
 /*
-* Clear log entries older than 30days to keep DB size small
+* Clear log entries older than 30 days to keep DB size small
 */
 function wpquads_logs_weekly_clear( $schedules ) {
 	// add a 'weekly' schedule to the existing set
@@ -1523,4 +1530,166 @@ function wpquads_logs_weekly_clear_cb() {
 	global $wpdb;
 	$offset_time = strtotime("-29 day");
     $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}quads_logs WHERE log_date < %d",array($offset_time)));
+}
+
+
+function quads_adsense_import_old_db(){
+$default  = array('status' => 'inactive','current_table'=>'quads_stats','sub_table'=>'','offset'=> 100,'imported' => 0,'total' => 0);
+$nonce = isset($_POST['quads_import_nonce'])?$_POST['quads_import_nonce']:false;
+$verify_nonce = ($nonce && wp_verify_nonce( $nonce, 'quads_import_nonce' ))?true:false;
+$initiate_import = isset($_POST['start'])?($_POST['start'] == 'true'):false;
+$import_details = get_option('quads_import_data',$default);
+if($verify_nonce && $initiate_import && ($import_details['status'] == 'inactive')){
+	$import_details['status']  = 'active';
+	update_option('quads_import_data' ,$import_details);
+}
+
+if($import_details['status'] == 'active'){
+	if($import_details['current_table'] == 'quads_stats'){
+		quads_import_log_table($import_details);
+	}else if($import_details['current_table'] == 'quads_single_stats_'){
+		quads_import_reports($import_details);
+	}else if(!$import_details['sub_table']){
+		$reset  = array('status' => 'inactive','current_table'=>'quads_stats','sub_table'=>'','offset'=> 100,'imported' => 0,'total' => 0);
+		update_option('quads_import_data' ,$reset);
+	}
+}
+}
+
+
+function quads_import_log_table($data = null){
+	if($data && isset($data['status']) && $data['status'] == 'active')
+	{
+		if(isset($data['current_table']) && $data['current_table'] == 'quads_stats'){
+			ignore_user_abort(true);
+            set_time_limit(0);
+			global $wpdb;
+			$old_db = $wpdb->prefix.'quads_stats';
+			$new_db = $wpdb->prefix.'quads_logs';
+			$since = strtotime("-30 day");
+			$offset = isset($data['offset'])?intval($data['offset']):100;
+			$imported = isset($data['imported'])?intval($data['imported']):0;
+			$total_records = isset($data['total'])?intval($data['total']):0;
+			if(!$total_records){
+				$total_records = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM %i WHERE  ad_thetime > %d",array($old_db,$since)));
+			}
+			$loop_no = ceil($total_records/$imported);
+			for($i=0;$i<$loop_no;$i++){
+			$old_db_results = $wpdb->get_results($wpdb->prepare("SELECT ad_id,ad_thetime,ad_clicks,ip_address,URL,browser,referrer FROM %i WHERE  ad_thetime > %d LIMIT %d,%d",array($old_db,$imported,$data['imported'],$offset)));
+			if(is_array($old_db_results ) && count($old_db_results) > 0){
+				$insertQuery = "INSERT INTO %i (ad_id,log_date,log_clicks,ip_address,log_url,browser,referrer) VALUES";
+				$insertQueryValues = array();
+				foreach($old_db_results as $odb_res){
+					array_push( $insertQueryValues, "(" . $odb_res->ad_id .",".$odb_res->ad_thetime.",".$odb_res->ad_clicks.",".$odb_res->ip_address.",".$odb_res->URL.",".$odb_res->browser.",".$odb_res->referrer. ")" );
+				}
+				$insertQuery .= implode( ",", $insertQueryValues );
+				$status = $wpdb->query($wpdb->prepare($insertQuery,array($new_db)));
+				if($status !== false){
+					$imported = $imported+$offset;
+					$data['imported'] = $imported;
+					$data['total'] = $total_records;
+					update_option('quads_import_data',$data);	
+				}
+			}
+			sleep(1);
+		  }
+
+		  if($imported >= $total_records){
+			$data['current_table'] = 'quads_single_stats_';
+			$data['sub_table'] = 'impr_mobile';
+			$data['imported'] = 0;
+			$data['total'] = 0;
+			quads_adsense_import_old_db();
+		}
+		}
+	}
+}
+
+
+function quads_import_reports($data = null){
+	if($data && isset($data['status']) && $data['status'] == 'active')
+	{
+		if(isset($data['current_table']) && $data['current_table'] == 'quads_single_stats_'){
+			ignore_user_abort(true);
+            set_time_limit(0);
+			$device = 'mobile'; 
+			$type = 'impressions'; 
+			if(isset($data['sub_table']) && !empty($data['sub_table']))
+			{
+				$tmp =  explode('_', $data['sub_table']);
+				$device = isset($tmp[1])?$tmp[1]:'mobile';
+				$type = isset($tmp[0])?$tmp[0]:'impressions';
+			}
+
+			global $wpdb;
+			$old_db = $wpdb->prefix.'wp_quads_stats';
+			$new_db = $wpdb->prefix.'quads_'.$type.'_'.$device;
+
+			$offset = isset($data['offset'])?intval($data['offset']):100;
+			$imported = isset($data['imported'])?intval($data['imported']):0;
+			$total_records = isset($data['total'])?intval($data['total']):0;
+			if(!$total_records){
+				$total_records = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM %i WHERE ad_device_name = %s AND ad_impressions > 0 ",array($old_db,$device)));
+			}
+			$loop_no = ceil($total_records/$imported);
+			
+			for($i=0;$i<$loop_no;$i++){
+				$res_array=[];
+				$old_db_results = $wpdb->get_results($wpdb->prepare("SELECT ad_id,%i,ad_thetime FROM %i WHERE ad_device_name = %s LIMIT %d,%d;",array('ad_'.$type,$old_db,$device,$imported,$offset)));
+				if(is_array($old_db_results ) && count($old_db_results) > 0){
+					foreach($old_db_results as $result){
+						if(isset($res_array[$result->ad_id.'|'.$result->ad_thetime][$type]) && $res_array[$result->ad_id.'|'.$result->ad_thetime][$type] > 0 &&  $res_array[$result->ad_id.'|'.$result->ad_thetime]['ad_thetime'] == $result->ad_thetime && $res_array[$result->ad_id.'|'.$result->ad_thetime]['ad_id'] == $result->ad_id){
+							$res_array[$result->ad_id.'|'.$result->ad_thetime][$type] += $result->ad_impressions;
+						}else{
+							$res_array[$result->ad_id.'|'.$result->ad_thetime][$type] = $result->ad_impressions;
+							$res_array[$result->ad_id.'|'.$result->ad_thetime]['ad_id'] = $result->ad_impressions;
+							$res_array[$result->ad_id.'|'.$result->ad_thetime]['ad_thetime'] = $result->ad_thetime;
+						}
+					}
+					$insertQuery = "INSERT INTO %i (ad_id,%i,stats_date,stats_year) VALUES";
+					$insertQueryValues = array();
+					foreach($res_array as $r){
+							array_push( $insertQueryValues, "(" . $r['ad_id'] .",".$r[$type].",".$r['ad_thetime'].",".date('Y',$r['ad_thetime']). ")" );
+					}
+					$insertQuery .= implode( ",", $insertQueryValues );
+					$status = $wpdb->query($wpdb->prepare($insertQuery,array($new_db,'stats_'.$type)));
+					if($status !== false){
+						$imported = $imported+$offset;
+						$data['imported'] = $imported;
+						$data['total'] = $total_records;
+						update_option('quads_import_data',$data);	
+					}
+
+				}
+
+			 sleep(1);
+			}
+
+			if($imported >= $total_records){
+				$data['current_table'] = 'quads_single_stats_';
+				$data['sub_table'] = quads_getnext_table($data['sub_table']);
+				$data['imported'] = 0;
+				$data['total'] = 0;
+				quads_adsense_import_old_db();
+			}
+		
+		}
+
+	}
+}
+
+function quads_getnext_table($current = null){
+	if($current)
+	{
+		if($current == 'impressions_mobile'){
+			return 'impressions_desktop';
+		}else if($current == 'impressions_desktop'){
+			return 'clicks_mobile';
+		}else if($current == 'clicks_mobile'){
+			return 'clicks_desktop';
+		}else {
+			return false;
+		}
+	}
+	return false;
 }

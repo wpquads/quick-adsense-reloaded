@@ -13,8 +13,8 @@ class QuadsAdListPagination extends Component {
 
   static getDerivedStateFromProps(props, state) { 
         let page_count = 0;        
-        if(props.ad_list?.posts_found > 2){  
-          page_count = Math.ceil(props.ad_list?.posts_found / 2);
+        if(props.ad_list?.posts_found > 20){  
+          page_count = Math.ceil(props.ad_list?.posts_found / 20);
         }
               
         return {
@@ -93,11 +93,10 @@ class QuadsAdListPagination extends Component {
   }
 
   render() {
-    if(this.state.ad_count > 2){   
-        
+    if(this.state.ad_count > 20){   
         const paginate = [];
         let pagination = [];
-        pagination = this.paginationRange(this.state.ad_count, 2, 1 , this.props.ad_list.clicked_btn_id);
+        pagination = this.paginationRange(this.state.ad_count, 20, 1 , this.props.ad_list.clicked_btn_id);
         pagination.map(pageNumber => {
           if (pageNumber === 'DOTS') {
             paginate.push(<a  key={pageNumber} data-index={pageNumber} data-id={pageNumber} href="#">&#8230;</a>);  
