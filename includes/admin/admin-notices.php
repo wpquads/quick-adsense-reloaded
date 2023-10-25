@@ -84,6 +84,75 @@ function quads_admin_messages_new(){
         echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="wpquads-adblock-notice">' . sprintf( __( '<strong><p>Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup</strong></p>', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
     }
 }
+
+function quads_admin_newdb_upgrade(){
+    if( quads_is_admin_page() ) {
+
+        $import_done = get_option( 'quads_db_import',false);
+        $import_details = get_option('quads_import_data');
+        $import_status = (isset($import_details['status']) && $import_details['status'] == 'active')?true:false;
+        $import_nonce = wp_create_nonce( 'quads_import_nonce' );
+        $tb_style = '';
+        $upgrade_percent = 2;
+        if($import_status ){
+            if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_stats' && $import_details['sub_table'] == ''){
+                $upgrade_percent = 10;
+            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'impr_mobile'){
+                $upgrade_percent = 25;
+            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'impr_desktop'){
+                $upgrade_percent = 50;
+            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'click_mobile'){
+                $upgrade_percent = 75;
+            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'click_desktop'){
+                $upgrade_percent = 100;
+            }
+            
+        }else{
+            $tb_style = 'display:none';
+        }
+        
+
+
+        echo '<div class="quads_db_upgrade updated " style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;font-size:16px;">
+        <p style="font-size:18px;">We have improved the <b><u>Ad performance tracking</u></b> and <b><u>Ad logging</u></b> feature.To complete the process please click on upgrade button. It may take sometime depending upson size of your website. Your Ads Data will be safe and you can revert to old tracking using setting option if you want.
+        <ul class="dbupgrade_link">
+            <li><a href="javascript:void(0);" class="quads_db_upgrade_button" title="Upgrade Performance Tracking" style="font-weight:bold;">Upgrade Performance Tracking</a></li>
+            <li class="spinner" style="float:none;display:list-item;margin:0px;"></li>        
+        </ul>
+        <table class="dbupgrade_infotable" style="padding: 10px;'.esc_attr($tb_style).'">
+        <tr>
+        <th>Upgrade Status</th>
+        <td> '.esc_attr($upgrade_percent).'% </td>
+        </tr></table>
+
+    </div>
+    <script>
+    jQuery( document ).ready(function( $ ) {
+
+    jQuery(\'.quads_db_upgrade_button\').click(function(){
+    jQuery(".spinner").addClass("is-active");
+        var data={\'quads_import_nonce\':\''.esc_attr($import_nonce).'\',
+                    \'start\':\'true\'}
+             jQuery.ajax({
+        
+        url: "' . site_url( '/wp-json/quads-adsense/import_old_db' ) . '",
+        type: "post",
+        data: data,
+        dataType: "json",
+        async: !0,
+        success: function(e) {
+            console.log(e);
+               jQuery(".spinner").removeClass("is-active");
+               jQuery(\'.dbupgrade_infotable\').show();
+               jQuery(\'.dbupgrade_link\').hide();
+               
+        }
+         });
+        })    
+    });
+    </script>';
+    }  
+}
 function quads_show_rate_div(){
 
 

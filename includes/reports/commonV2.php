@@ -59,7 +59,7 @@ function quads_registerRoute($hook){
 		'methods'    => 'POST',
 		'callback'   => 'quads_adsense_import_old_db',
 		'permission_callback' => function(){
-			return current_user_can( 'manage_options' );
+			return true;
 		}
 	));
 }
@@ -1535,11 +1535,11 @@ function wpquads_logs_weekly_clear_cb() {
 
 function quads_adsense_import_old_db(){
 $default  = array('status' => 'inactive','current_table'=>'quads_stats','sub_table'=>'','offset'=> 100,'imported' => 0,'total' => 0);
-$nonce = isset($_POST['quads_import_nonce'])?$_POST['quads_import_nonce']:false;
+$nonce = isset($_REQUEST['quads_import_nonce'])?$_REQUEST['quads_import_nonce']:false;
 $verify_nonce = ($nonce && wp_verify_nonce( $nonce, 'quads_import_nonce' ))?true:false;
-$initiate_import = isset($_POST['start'])?($_POST['start'] == 'true'):false;
+$initiate_import = isset($_REQUEST['start'])?($_REQUEST['start'] == 'true'):false;
 $import_details = get_option('quads_import_data',$default);
-if($verify_nonce && $initiate_import && ($import_details['status'] == 'inactive')){
+if($verify_nonce && $initiate_import && ($import_details['status'] == 'inactive') && current_user_can( 'manage_options' )){
 	$import_details['status']  = 'active';
 	update_option('quads_import_data' ,$import_details);
 }
@@ -1552,8 +1552,10 @@ if($import_details['status'] == 'active'){
 	}else if(!$import_details['sub_table']){
 		$reset  = array('status' => 'inactive','current_table'=>'quads_stats','sub_table'=>'','offset'=> 100,'imported' => 0,'total' => 0);
 		update_option('quads_import_data' ,$reset);
+		update_option('quads_db_import' ,true);
 	}
 }
+return json_encode(array('status' => 'success'));
 }
 
 
