@@ -87,23 +87,28 @@ function quads_admin_messages_new(){
 
 function quads_admin_newdb_upgrade(){
     if( quads_is_admin_page() ) {
-
-        $import_done = get_option( 'quads_db_import',false);
+        global $quads_options;
         $import_details = get_option('quads_import_data');
         $import_status = (isset($import_details['status']) && $import_details['status'] == 'active')?true:false;
-        $import_nonce = wp_create_nonce( 'wp_rest' );
+        $import_nonce = wp_create_nonce( 'quads_newdb_nonce' );
+        $import_done = get_option('quads_db_import',false);
         $tb_style = $ul_style = '';
         $upgrade_percent = 2;
+        
+        $mode_check = (isset($quads_options['new_performance_tracking']) && $quads_options['new_performance_tracking'] ==1)?false:true;
+        if($import_done || $mode_check){
+            return '';
+        }
         if($import_status ){
             if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_stats' && $import_details['sub_table'] == ''){
                 $upgrade_percent = 10;
-            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'impr_mobile'){
+            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'impressions_mobile'){
                 $upgrade_percent = 25;
-            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'impr_desktop'){
+            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'impressions_desktop'){
                 $upgrade_percent = 50;
-            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'click_mobile'){
+            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'clicks_mobile'){
                 $upgrade_percent = 75;
-            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'click_desktop'){
+            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'clicks_desktop'){
                 $upgrade_percent = 100;
             }
             $ul_style = 'display:none';
@@ -131,25 +136,29 @@ function quads_admin_newdb_upgrade(){
 
     jQuery(\'.quads_db_upgrade_button\').click(function(){
     jQuery(".spinner").addClass("is-active");
-        var data={\'start\':\'true\'}
-             jQuery.ajax({
-        
-        url: "' . site_url( '/wp-json/quads-adsense/import_old_db' ).'",
-        type: "post",
-        beforeSend: function ( xhr ) {
-            xhr.setRequestHeader( \'X-WP-Nonce\', \''.esc_attr($import_nonce ).'\' );
-        },
-        data: data,
-        dataType: "json",
-        async: !0,
-        success: function(e) {
-            console.log(e);
-               jQuery(".spinner").removeClass("is-active");
-               jQuery(\'.dbupgrade_infotable\').show();
-               jQuery(\'.dbupgrade_link\').hide();
-               
-        }
-         });
+        var data={\'start\':\'true\',
+                 \'action\':\'quads_start_newdb_migration\',
+                 \'nonce\':\''.esc_attr($import_nonce ).'\'}
+                jQuery.ajax({
+                    url: "' . admin_url( 'admin-ajax.php').'",
+                    type: "post",
+                    data: data,
+                    dataType: "json",
+                    async: !0,
+                    success: function(e) {
+                        console.log(e);
+                        jQuery(".spinner").removeClass("is-active");
+                        jQuery(\'.dbupgrade_infotable\').show();
+                        jQuery(\'.dbupgrade_link\').hide();
+                        
+                    },
+                    error: function(e) {
+                        jQuery(".spinner").removeClass("is-active");
+                        jQuery(\'.dbupgrade_infotable\').hide();
+                        jQuery(\'.dbupgrade_link\').show();
+                        alert(\'Error Occured, please refresh the page and try again\');
+                    }
+                });
         })    
     });
     </script>';

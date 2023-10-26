@@ -59,6 +59,7 @@ class QuadsAdListSettings extends Component {
                 ab_testing_settings : true,
                 skippable_ads : true,
                 ad_performance_tracking : false,
+                new_performance_tracking : true,
                 reports_settings : true,
                 ad_logging : false,
                 ad_owner_revenue_per:50,
@@ -958,7 +959,7 @@ handleMultiPluginsChange = (option) => {
      if(name == 'tcf_2_integration'){
       this.saveSettings();
      }
-     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking' || name == 'ad_log' || name == 'global_excluder' || name == 'delay_ad_sec' || name == 'skippable_ads'){
+     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking'|| name == 'new_performance_tracking' || name == 'ad_log' || name == 'global_excluder' || name == 'delay_ad_sec' || name == 'skippable_ads'){
       this.saveSettings();
     }
     if(name == 'adsforwp_quads_shortcode'|| name == 'adsforwp_quads_gutenberg' || name == 'advance_ads_to_quads'){
@@ -1766,6 +1767,26 @@ handleMultiPluginsChange = (option) => {
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/ad-performance-tracking-in-wp-quads/"></a>
                      </td>
                  </tr>
+                 {settings.ad_performance_tracking ?
+                 <tr>
+                     <th><label htmlFor="new_performance_tracking">{__('New Updated Tracking', 'quick-adsense-reloaded')}</label></th>
+                     <td>
+                      {this.state.selectedBtnOpt == 'new_performance_tracking' ?
+                         <div className="quads-spin-cntr">
+                          <div className="quads-set-spin"></div>
+                         </div> :
+                        <label className="quads-switch">
+                             <input id="new_performance_tracking" type="checkbox" name="new_performance_tracking" onChange={this.formChangeHandler} checked={settings.new_performance_tracking} />
+                             <span id="new_performance_tracking_" className="quads-slider"></span>
+                             <div className="lazy_loader_ap"></div>
+                         </label>
+                       
+                      
+                      }
+                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/ad-performance-tracking-in-wp-quads/"></a>
+                     </td>
+                 </tr>
+                 :''}
                  {this.state.quadsIsAdmin ?
                  <tr>
                     <th scope="row"><label htmlFor="RoleBasedAccess">{__('Role Based Access', 'quick-adsense-reloaded')}</label></th>
