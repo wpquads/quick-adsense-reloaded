@@ -1523,7 +1523,7 @@ if ( ! wp_next_scheduled( 'wpquads_logs_weekly_clear' ) ) {
 	wp_schedule_event( time(), 'wpquads_logs_weekly', 'wpquads_logs_weekly_clear' );
 }
 
-function wpquads_cron_import( $schedules ) {
+function wpquads_cron_import_schedule( $schedules ) {
 	// add a 'weekly' schedule to the existing set
 	$schedules['wpquads_cron_import'] = array(
 		'interval' => 1000,
@@ -1531,10 +1531,14 @@ function wpquads_cron_import( $schedules ) {
 	);
 	return $schedules;
 }
-add_filter( 'cron_schedules', 'wpquads_cron_import' );
+add_filter( 'cron_schedules', 'wpquads_cron_import_schedule' );
 
 if ( ! wp_next_scheduled( 'wpquads_cron_import' ) ) {
-	wp_schedule_event( time(), 'wpquads_cron_import', 'wpquads_cron_import_action' );
+	$import_details = get_option('quads_import_data');
+	if(isset($import_details['status']) && $import_details['status'] == 'active'){
+		wp_schedule_event( time(), 'wpquads_cron_import', 'wpquads_cron_import_action' );
+	}
+	
 }
 
 add_action( 'wpquads_cron_import_action', 'wpquads_cron_import_action_cb' );
