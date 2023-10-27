@@ -1044,7 +1044,6 @@ function quads_filter_default_ads_new( $content ) {
         return $content;
     }   
 
-    $load_sticky_js = false;
 
     $quads_ads = quads_api_services_cllbck(); 
 
@@ -1165,7 +1164,6 @@ function quads_filter_default_ads_new( $content ) {
                         if( $sticky_cookie !== "sticky_ad" ){
                             if(strpos( $content, '<!--OffEnd-->' ) === false ) {
                                 $a_tag = $btn_tag = '';
-                                $load_sticky_js = true;
                                 if( isset($cls_btn) && $cls_btn == 1 ){
                                     $a_tag = '<a class="quads-sticky-ad-close">x</a>';
                                 }
@@ -1650,18 +1648,61 @@ function quads_filter_default_ads_new( $content ) {
         }
         
     }
-
-    if($load_sticky_js){
-        add_action( 'wp_enqueue_scripts', 'quads_add_sticky_script' );
-    }
     
     return $content;
 }
 
+add_action( 'wp_enqueue_scripts', 'quads_add_sticky_script' );
+
 function quads_add_sticky_script(){
-    $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
-    $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
-    wp_enqueue_script('wp_qds_sticky', $js_dir . 'wp_qds_sticky'.$suffix .'.js', array(), QUADS_VERSION, false );
+
+    $quads_ads = quads_api_services_cllbck(); 
+    if(isset($quads_ads['posts_data'])){        
+        foreach($quads_ads['posts_data'] as $key => $value){
+            $ads =$value['post_meta'];
+            if($value['post']['post_status']== 'draft'){continue;}
+            $quads_visibilty = apply_filters('wpquads_ad_conditional_visibility', $value['post_meta']);
+            if(!$quads_visibilty){continue;}
+            if(isset($ads['random_ads_list']))
+            $ads['random_ads_list'] = unserialize($ads['random_ads_list']);
+         if(isset($ads['visibility_include']))
+             $ads['visibility_include'] = unserialize($ads['visibility_include']);
+         if(isset($ads['visibility_exclude']))
+             $ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);
+
+         if(isset($ads['targeting_include']))
+             $ads['targeting_include'] = unserialize($ads['targeting_include']);
+
+         if(isset($ads['targeting_exclude']))
+             $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
+            $is_on         = quads_is_visibility_on($ads);
+            $is_visitor_on = quads_is_visitor_on($ads);
+            $is_click_fraud_on = quads_click_fraud_on();
+            if(isset($ads['ad_id']))
+            $post_status = get_post_status($ads['ad_id']); 
+            else
+              $post_status =  'publish';
+            if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish'){
+                $ads  = apply_filters( 'quads_default_filter_position_data', $ads);
+                $ads  = apply_filters( 'quads_default_filter_position_data_ab_testing', $ads);
+
+                $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
+                if($position == 'ad_sticky_ad')
+                {
+                    $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
+                    $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
+                    wp_enqueue_script('wp_qds_sticky', $js_dir . 'wp_qds_sticky'.$suffix .'.js', array('jquery'), QUADS_VERSION, false );
+                    break;
+                }
+                else{
+                    continue;
+                }
+            }
+        }
+        
+    }
+
+       
 }
 
 /**
