@@ -958,6 +958,9 @@ function quads_render_carousel_ads_async($id) {
     {
         if(isset($ad['value']))
         {   
+            if(get_post_status($ad['value']) !== 'publish'){
+                continue;
+            }
             if($carousel_type=="slider")
             {
                 $html.='<div class="quads-location quads-slides quads-slides-'.esc_attr($org_ad_id).' quads-animate-right" id="quads-ad'.esc_attr($ad['value']).'" style="width:100%">';

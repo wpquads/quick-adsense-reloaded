@@ -2052,7 +2052,7 @@ function quads_parse_random_quicktag_ads($content){
         if (!is_array($random_ads_list)) return $content; 
         $temp_array =array();
         foreach ($random_ads_list as $radom_ad ) {
-            if (isset($radom_ad['value'])){
+            if (isset($radom_ad['value']) && get_post_status($radom_ad['value']) == 'publish'){
                 $temp_array[] = $radom_ad['value'];
             }
         }
