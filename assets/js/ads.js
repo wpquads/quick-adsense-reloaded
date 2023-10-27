@@ -10,6 +10,11 @@ window.addEventListener("load", function(){
             wpquads_sticky.style.backgroundColor = 'hsla(0,0%,100%,.7)';
         }
         Array.from(wpquads_location_ad).forEach(elm=>{
+            elm.querySelectorAll("img").forEach(img=>{
+                if(img.dataset && img.dataset.src){
+                    img.src = img.dataset.src;
+                }
+            });
             elm.style.visibility = "visible";
         })
     }, 3000);
