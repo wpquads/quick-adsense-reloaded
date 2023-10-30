@@ -227,7 +227,7 @@ function quads_common_head_code(){
                     <script>
                  window.googletag = window.googletag || {cmd: []};
                   googletag.cmd.push(function() {
-                  ".esc_attr($data_slot)." 
+                  ".$data_slot." 
                     googletag.pubads().enableSingleRequest();
                     googletag.enableServices();
                   });
