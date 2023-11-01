@@ -95,7 +95,7 @@ function quads_admin_newdb_upgrade(){
         $tb_style = $ul_style = '';
         $upgrade_percent = 2;
         
-        $mode_check = (isset($quads_options['new_performance_tracking']) && $quads_options['new_performance_tracking'] ==1)?false:true;
+        $mode_check = (isset($quads_options['report_logging']) && !empty($quads_options['report_logging']))?false:true;
         if($import_done || $mode_check){
             return '';
         }

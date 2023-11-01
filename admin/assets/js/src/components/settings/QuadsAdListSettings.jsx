@@ -59,7 +59,6 @@ class QuadsAdListSettings extends Component {
                 ab_testing_settings : true,
                 skippable_ads : true,
                 ad_performance_tracking : false,
-                new_performance_tracking : true,
                 reports_settings : true,
                 ad_logging : false,
                 ad_owner_revenue_per:50,
@@ -87,6 +86,7 @@ class QuadsAdListSettings extends Component {
                 debug_mode         : '',
                 ip_geolocation_api : '',
                 ad_blocker_message : false,
+                report_logging     : 'combined_legacy',
                 analytics          : false,
                 multiUserValue     : [],
                 RoleBasedAccess    : [{label: "Administrator", value: "administrator"}],
@@ -118,7 +118,8 @@ class QuadsAdListSettings extends Component {
             blocked_ips:'',
             q_admin_url:'',
             black: true,
-            checked: false
+            checked: false,
+            logging_toggle:false,
         };
   }
   onFileChange = (event) => {
@@ -931,6 +932,15 @@ handleMultiPluginsChange = (option) => {
         }
       );
     }
+    selectLoggingChangeHandler = (event) => {
+      let select_value  = event.target.value;
+      
+      if(select_value == 'combined_legacy'){
+        this.setState({'logging_toggle':false});
+      }else{
+        this.setState({'logging_toggle':true});
+      }
+    }
   formChangeHandler = (event) => {
     let name  = event.target.name;
     //spin
@@ -959,7 +969,7 @@ handleMultiPluginsChange = (option) => {
      if(name == 'tcf_2_integration'){
       this.saveSettings();
      }
-     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking'|| name == 'new_performance_tracking' || name == 'ad_log' || name == 'global_excluder' || name == 'delay_ad_sec' || name == 'skippable_ads'){
+     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking'|| name == 'report_logging' || name == 'ad_log' || name == 'global_excluder' || name == 'delay_ad_sec' || name == 'skippable_ads'){
       this.saveSettings();
     }
     if(name == 'adsforwp_quads_shortcode'|| name == 'adsforwp_quads_gutenberg' || name == 'advance_ads_to_quads'){
@@ -1768,26 +1778,6 @@ handleMultiPluginsChange = (option) => {
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/ad-performance-tracking-in-wp-quads/"></a>
                      </td>
                  </tr>
-                 {settings.ad_performance_tracking ?
-                 <tr>
-                     <th><label htmlFor="new_performance_tracking">{__('New Updated Tracking', 'quick-adsense-reloaded')}</label></th>
-                     <td>
-                      {this.state.selectedBtnOpt == 'new_performance_tracking' ?
-                         <div className="quads-spin-cntr">
-                          <div className="quads-set-spin"></div>
-                         </div> :
-                        <label className="quads-switch">
-                             <input id="new_performance_tracking" type="checkbox" name="new_performance_tracking" onChange={this.formChangeHandler} checked={settings.new_performance_tracking} />
-                             <span id="new_performance_tracking_" className="quads-slider"></span>
-                             <div className="lazy_loader_ap"></div>
-                         </label>
-                       
-                      
-                      }
-                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/ad-performance-tracking-in-wp-quads/"></a>
-                     </td>
-                 </tr>
-                 :''}
                  {this.state.quadsIsAdmin ?
                  <tr>
                     <th scope="row"><label htmlFor="RoleBasedAccess">{__('Role Based Access', 'quick-adsense-reloaded')}</label></th>
@@ -1819,7 +1809,22 @@ handleMultiPluginsChange = (option) => {
               case "settings_tools": return(
                 <div className="quads-settings-tab-container">
                   <table className="form-table" role="presentation">
-                    <tbody>{quads_localize_data.is_pro ?<tr>
+                    <tbody>
+                    <tr>
+                       <th><label htmlFor="report_logging">{__('Report Logging Method', 'quick-adsense-reloaded')}</label></th>
+                        <td>
+                          <select name="report_logging" id="report_logging" onChange={e =>this.selectLoggingChangeHandler(e)} value={settings.report_logging} >
+                            <option value="combined_legacy">Combined Data (Legacy)</option>
+                            <option value="improved_v2">Separate Data (Improved V2)</option>
+                          </select>
+                          {this.state.logging_toggle?
+                          <p>You are now using new improved report tracking. Tracking will start afresh if you need your old data you can import the old data to new system </p>
+                          :
+                          <p>You are using Legacy report tracking.Tracking will get slower as the Datebase size increases. We recommedng switching to Separate Data (Improved V2) for better performance</p>
+                        }
+                        </td>
+                      </tr>
+                      {quads_localize_data.is_pro ?<tr>
                        <th><label   htmlFor="analytics">{__('Google Analytics Integration', 'quick-adsense-reloaded')}</label></th>
                         <td><label className="quads-switch"><input  id="analytics" type="checkbox" onChange={this.formChangeHandler} name="analytics" checked={settings.analytics} /><span className="quads-slider"></span></label>
                         <a className="quads-general-helper quads-general-helper-new" href="#"></a><div className="quads-message bottom" >Check how many visitors are using ad blockers in your Google Analytics account from the event tracking in <i>Google Analytics-&gt;Behavior-&gt;Events</i>. This only works if your visitors are using regular ad blockers like 'adBlock'. There are browser plugins which block all external requests like the  software uBlock origin. This also block google analytics and as a result you do get any analytics data at all.</div></td>
