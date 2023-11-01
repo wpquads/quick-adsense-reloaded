@@ -1449,22 +1449,23 @@ function quads_get_ad_stats($condition, $ad_id='', $date=null,$parameters ='') {
 				if(empty($ad_thetime)){
 					$search_param = $wpdb->prepare("where ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
 					ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-					url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
+					log_url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
 					browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
 					referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%'   "); 
 				}else {
 				
 					$search_param = $wpdb->prepare("and ( ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
 					ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-					url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
+					log_url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
 					browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
 					referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' )  "); 
 				}
 
 			}
-				$results = $wpdb->get_results($wpdb->prepare("SELECT ad_id , log_date as ad_thetime,log_clicks ,ip_address,log_url as url,browser,referrer FROM `{$wpdb->prefix}quads_logs` ". esc_sql($ad_thetime) ." ".esc_sql($search_param)." LIMIT %d, %d",array($offset,$items_per_page)), ARRAY_A);
-				$ad_stats = $results;	
-				$result_total = $wpdb->get_row($wpdb->prepare("SELECT count(*) as total FROM `{$wpdb->prefix}quads_logs` ". esc_sql($ad_thetime) ." ".esc_sql($search_param)), ARRAY_A);
+		
+				$results = $wpdb->get_results($wpdb->prepare("SELECT ad_id , log_date as ad_thetime,log_clicks ,ip_address,log_url as url,browser,referrer FROM `{$wpdb->prefix}quads_logs` ". $ad_thetime ." ".$search_param." LIMIT %d, %d",array($offset,$items_per_page)), ARRAY_A);
+				$ad_stats = $results;
+				$result_total = $wpdb->get_row($wpdb->prepare("SELECT count(*) as total FROM `{$wpdb->prefix}quads_logs` ". $ad_thetime ." ".$search_param), ARRAY_A);
 				$log_array = array();
 				foreach($results as $result){
 					$ad_id = $result['ad_id'];
@@ -1477,6 +1478,7 @@ function quads_get_ad_stats($condition, $ad_id='', $date=null,$parameters ='') {
 				}
 				$response['posts_data']  = $log_array;
 				$response['posts_found'] = ($result_total['total']);
+				$response['search_param'] = $search_param;
 
 				return $response;
 

@@ -55,10 +55,8 @@ class QuadsAdLogging extends Component {
         var year = a.getFullYear();
         var month = months[a.getMonth()];
         var date = a.getDate();
-        // var hour = a.getHours();
-        // var min = a.getMinutes();
-        // var sec = a.getSeconds();
-        var time = date + '/' + month + '/' + year + ' ' +  a.toLocaleString('en-US', { hour: 'numeric', hour12: true }) ;
+        //var time = date + '/' + month + '/' + year + ' ' +  a.toLocaleString('en-US', { hour: 'numeric', hour12: true }) ;
+        var time = date + '/' + month + '/' + year ;
         return time;
       }
   report_formChangeHandler = (event) => {
@@ -234,11 +232,11 @@ renderSwitch(param='') {
                 { this.state.current_page == 'ad_logging' ?
                     <Fragment>
                         <div>  <h1>{__('AD Logging', 'quick-adsense-reloaded')}</h1>
-                        <h3>{__('Here you can see the total performance and behaviour  of your ads', 'quick-adsense-reloaded')}</h3>
+                        <h3>{__('Logs will be stored for last 30 days only ', 'quick-adsense-reloaded')}</h3>
                         <p> Showing all the recent data  {this.renderSwitch()}</p>
                             <div className="quads-ad-networks ad_logging">
                             <div className="quads-search-box-panel">                
-                            <div className="quads-search-box"><QuadsAdListSearch triggerSearch={this.QuadslogSearchAd} /></div>                
+                            <div className="quads-search-box"><QuadsAdListSearch triggerSearch={e =>this.QuadslogSearchAd(e)} /></div>                
 
                             <div className={'quads-select-menu'} >
                         <select name="report_period" id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>

@@ -255,9 +255,9 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/reports/commonV2.php'; 
       }else{
          require_once QUADS_PLUGIN_DIR . 'includes/reports/common.php';
-      }         
+      }        
          //Add reports
-            if((isset($quads_options['ad_performance_tracking']) && $quads_options['ad_performance_tracking']) || isset($quads_options['ad_logging']) && $quads_options['ad_logging'] ){
+            if((isset($quads_options['ad_performance_tracking']) && $quads_options['ad_performance_tracking']) || isset($quads_options['ad_log']) && $quads_options['ad_log'] ){
                if(isset($quads_options['new_performance_tracking']) && $quads_options['new_performance_tracking'] ==1){
                   require_once QUADS_PLUGIN_DIR . 'includes/reports/analyticsV2.php';
                }else{

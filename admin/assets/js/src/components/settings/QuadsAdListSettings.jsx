@@ -1107,12 +1107,12 @@ handleMultiPluginsChange = (option) => {
   render() {
     const quads_setting_pro_items =[
       {id:'skippable_ads',title:'Skippable Ad',url:'https://wpquads.com/documentation/how-to-ad-skippable-ads/'},
-      {id:'blindness_settings',title:'Ad Blindness',url:'https://wpquads.com/documentation/how-to-add-ad-blindness'},
+      {id:'blindness_settings',title:'Ad Blindness',url:'https://wpquads.com/documentation/how-to-enable-ad-blindness-2/'},
       {id:'ab_testing_settings',title:'AB Testing',url:'https://wpquads.com/documentation/how-to-add-ab-testing'},
-      {id:'optimize_core_vitals',title:'Optimize for Core Web Vitals',url:'https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/'},
-      {id:'hide_quads_markup',title:'Hide Quads Markup',url:'https://wpquads.com/documentation/how-to-globally-exclude-or-hide-ads-for-user-roles-with-wp-quads-pro/'},
-      {id:'global_excluder',title:'Global Excluder',url:'https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/'},
-      {id:'ad_log',title:'AD Logging',url:'https://wpquads.com/documentation/how-to-track-ad-performance/'},
+      {id:'optimize_core_vitals',title:'Optimize for Core Web Vitals',url:'https://wpquads.com/documentation/how-to-optimize-core-web-vitals-with-wp-quads-plugin/'},
+      {id:'hide_quads_markup',title:'Hide Quads Markup',url:'https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/'},
+      {id:'global_excluder',title:'Global Excluder',url:'https://wpquads.com/documentation/how-to-globally-exclude-or-hide-ads-for-user-roles-with-wp-quads-pro/'},
+      {id:'ad_log',title:'AD Logging',url:'https://wpquads.com/documentation/how-to-enable-ad-logging/'},
       {id:'delay_ad_sec',title:'Load Ad after 3-4 seconds'},
      ];
 
@@ -1630,9 +1630,10 @@ handleMultiPluginsChange = (option) => {
                        </label>
                        
                       } 
-                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/"></a>
+                         
 
                          {settings.global_excluder_enabled ? <span onClick={this.open_global_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-globally-exclude-or-hide-ads-for-user-roles-with-wp-quads-pro/"></a>
                      </td>
                      </tr>:null}
                     <tr>
@@ -1805,7 +1806,7 @@ handleMultiPluginsChange = (option) => {
                       onChange={this.handleRoleBasedAccess}
                     />
                     }
-                       <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-access-quads-rolebase/"></a>
+                       {/* <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-access-quads-rolebase/"></a> */}
 
                     </td>
                   </tr>:null}

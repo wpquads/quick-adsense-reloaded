@@ -285,7 +285,7 @@ public function quads_add_analytics_amp_tags(){
 */
 private function quads_insert_impression($ad_id){ 
   global $wpdb,$quads_options;
-  $log_enabled = $quads_options['ad_logging'];
+  $log_enabled = $quads_options['ad_log'];
   $performance_tracking = $quads_options['ad_performance_tracking'];
   $todays_date = date('Y-m-d');
   $todays_date = strtotime($todays_date);
@@ -325,7 +325,7 @@ if($performance_tracking){
 private  function quads_insert_clicks($ad_id){
 
   global $wpdb,$quads_options;
-  $log_enabled = $quads_options['ad_logging'];
+  $log_enabled = $quads_options['ad_log'];
   $performance_tracking = $quads_options['ad_performance_tracking'];
   $todays_date = date('Y-m-d');
   $todays_date = strtotime($todays_date);
@@ -406,8 +406,8 @@ public function quads_get_browser()
         '/Edg/i' => 'Edge',
         '/YaBrowser/'=>'Yandex',
         '/firefox/i' => 'Firefox',
-        '/safari/i' => 'Safari',
         '/chrome/i' => 'Chrome',
+        '/safari/i' => 'Safari',
         '/edge/i' => 'Edge',
         '/opera/i' => 'Opera',
         '/mobile/i' => 'Mobile browser',

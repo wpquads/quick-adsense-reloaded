@@ -10,13 +10,13 @@ class QuadsAdListSearch extends Component {
       
     super(props);
     this.state = {      
-      posts_found:0   
+      posts_found:0,  
     };       
   }
    
   static getDerivedStateFromProps(props, state) {   
     return {
-        posts_found : props.ad_list?.posts_found
+        posts_found : props.ad_list?.posts_found,
     };
 }
   render() {
@@ -29,15 +29,16 @@ class QuadsAdListSearch extends Component {
      <input
      style = {{ backgroundImage: `url(${searchIcon})`,          
      backgroundRepeat: 'no-repeat',
+     visibility:'hidden'
    }}
-      onChange={this.props.triggerSearch} value={page.ad_id} placeholder={__('Search by ad unit, id, format, etc', 'quick-adsense-reloaded')} type="text"/>
+      onChange={e =>this.props.triggerSearch(e)} value={page.ad_id} placeholder={__('Search by ad unit, id, format, etc', 'quick-adsense-reloaded')} type="text"/>
 :
 
 
 <input
      style = {{ backgroundImage: `url(${searchIcon})`,          
      backgroundRepeat: 'no-repeat',
-     visibility:(this.state?.posts_found>0)?'visible':'hidden'
+     visibility:'visible'
    }}
       onChange={this.props.triggerSearch} placeholder={__('Search by ad unit, id, format, etc', 'quick-adsense-reloaded')} type="text"/>
   }
