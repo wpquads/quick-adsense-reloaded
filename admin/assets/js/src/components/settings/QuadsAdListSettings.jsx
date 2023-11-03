@@ -934,11 +934,10 @@ handleMultiPluginsChange = (option) => {
     }
     selectLoggingChangeHandler = (event) => {
       let select_value  = event.target.value;
-      
       if(select_value == 'combined_legacy'){
-        this.setState({'logging_toggle':false});
+        this.setState({logging_toggle:false,settings:{report_logging:select_value}});
       }else{
-        this.setState({'logging_toggle':true});
+        this.setState({logging_toggle:true,settings:{report_logging:select_value}});
       }
     }
   formChangeHandler = (event) => {
@@ -1820,7 +1819,7 @@ handleMultiPluginsChange = (option) => {
                           {this.state.logging_toggle?
                           <p>You are now using new improved report tracking. Tracking will start afresh if you need your old data you can import the old data to new system </p>
                           :
-                          <p>You are using Legacy report tracking.Tracking will get slower as the Datebase size increases. We recommedng switching to Separate Data (Improved V2) for better performance</p>
+                          <p>You are using Legacy report tracking.Tracking will get slower as the Datebase size increases. We recommend switching to Separate Data (Improved V2) for better performance</p>
                         }
                         </td>
                       </tr>

@@ -258,11 +258,11 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
       }        
          //Add reports
             if((isset($quads_options['ad_performance_tracking']) && $quads_options['ad_performance_tracking']) || isset($quads_options['ad_log']) && $quads_options['ad_log'] ){
-               if(isset($quads_options['report_logging']) && $quads_options['report_logging'] == 'improved_v2'){
+               //if(isset($quads_options['report_logging']) && $quads_options['report_logging'] == 'improved_v2'){
                   require_once QUADS_PLUGIN_DIR . 'includes/reports/analyticsV2.php';
-               }else{
-                  require_once QUADS_PLUGIN_DIR . 'includes/reports/analytics.php';
-               }
+               // }else{
+               //    require_once QUADS_PLUGIN_DIR . 'includes/reports/analytics.php';
+               // }
             }
         if ( function_exists('has_blocks')) {
             require_once QUADS_PLUGIN_DIR . 'includes/gutenberg/src/init.php';

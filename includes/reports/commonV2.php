@@ -531,33 +531,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 				WHERE posts.post_type='quads-ads' AND posts.post_status='publish'
 				GROUP BY posts.ID
 				ORDER BY total_click DESC , total_impression DESC
-				LIMIT %d;",array($to_date,$from_date,$to_date,$from_date,$to_date,$from_date,$to_date,$from_date,5)));
-
-
-				// $results_top5_by_clicks =  $wpdb->get_results($wpdb->prepare("SELECT clicks_desk.ad_id as ad_id,SUM(IFNULL(clicks_desk.stats_clicks,0)) as desk_clicks,SUM(IFNULL(clicks_mob.stats_clicks,0)) as mob_clicks  FROM {$wpdb->prefix}quads_clicks_desktop as clicks_desk LEFT JOIN  {$wpdb->prefix}quads_clicks_mobile as clicks_mob ON clicks_desk.ad_id=clicks_mob.ad_id WHERE clicks_desk.stats_date BETWEEN %d AND %d GROUP BY clicks_desk.ad_id UNION SELECT clicks_mob.ad_id as ad_id,SUM(IFNULL(clicks_desk.stats_clicks,0)) as desk_clicks,SUM(IFNULL(clicks_mob.stats_clicks,0)) as mob_clicks FROM {$wpdb->prefix}quads_clicks_desktop as clicks_desk RIGHT JOIN {$wpdb->prefix}quads_clicks_mobile as clicks_mob ON clicks_desk.ad_id=clicks_mob.ad_id WHERE clicks_desk.ad_id IS NULL AND clicks_desk.stats_date BETWEEN %d AND %d GROUP BY clicks_mob.ad_id ORDER BY mob_clicks,desk_clicks DESC LIMIT %d;",array($to_date,$from_date,$to_date,$from_date,5)));
-				// $results_top5_by_imprs =  $wpdb->get_results($wpdb->prepare("SELECT impressions_desk.ad_id as ad_id,SUM(IFNULL(impressions_desk.stats_impressions,0)) as desk_impressions,SUM(IFNULL(impressions_mob.stats_impressions,0)) as mob_impressions  FROM {$wpdb->prefix}quads_impressions_desktop as impressions_desk LEFT JOIN  {$wpdb->prefix}quads_impressions_mobile as impressions_mob ON impressions_desk.ad_id=impressions_mob.ad_id WHERE impressions_desk.stats_date BETWEEN %d AND %d GROUP BY impressions_desk.ad_id UNION SELECT impressions_mob.ad_id as ad_id,SUM(IFNULL(impressions_desk.stats_impressions,0)) as desk_impressions,SUM(IFNULL(impressions_mob.stats_impressions,0)) as mob_impressions FROM {$wpdb->prefix}quads_impressions_desktop as impressions_desk RIGHT JOIN {$wpdb->prefix}quads_impressions_mobile as impressions_mob ON impressions_desk.ad_id=impressions_mob.ad_id WHERE impressions_desk.ad_id IS NULL AND impressions_desk.stats_date BETWEEN %d AND %d GROUP BY impressions_mob.ad_id ORDER BY mob_impressions,desk_impressions DESC LIMIT %d;",array($to_date,$from_date,$to_date,$from_date,5)));
-				// if(!empty($results_top5_by_clicks) && !empty($results_top5_by_imprs)){
-					
-				// 	foreach ($results_top5_by_clicks as $value) {
-				// 		$row = array();
-				// 		$row['ID']=$value->ad_id;
-				// 		$row['post_title']=get_the_title($value->ad_id);
-				// 		$row['desk_clicks']= intval($value->desk_clicks);
-				// 		$row['mob_clicks']=intval($value->mob_clicks);
-				// 		$row['total_click']=$row['desk_clicks']+$row['mob_clicks'];
-				// 		$row['desk_imprsn'] = 0;
-				// 		$row['mob_imprsn'] = 0;
-				// 		$row['total_impression'] = 0;
-				// 		foreach ($results_top5_by_imprs as  $value2) {
-				// 			if($value2->ad_id == $value->ad_id){
-				// 				$row['desk_imprsn']=intval($value2->desk_impressions);
-				// 				$row['mob_imprsn']=intval($value2->mob_impressions);
-				// 				$row['total_impression']=$row['desk_imprsn']+$row['mob_imprsn'];
-				// 			}
-				// 		}
-				// 		$array_top5[]=(object) $row;
-				// 	}
-				// }			
+				LIMIT %d;",array($to_date,$from_date,$to_date,$from_date,$to_date,$from_date,$to_date,$from_date,5)));			
 			}
 			
 

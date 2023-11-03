@@ -95,7 +95,7 @@ function quads_admin_newdb_upgrade(){
         $tb_style = $ul_style = '';
         $upgrade_percent = 2;
         
-        $mode_check = (isset($quads_options['report_logging']) && !empty($quads_options['report_logging']))?false:true;
+        $mode_check = (isset($quads_options['report_logging']) && $quads_options['report_logging'] == 'improved_v2')?false:true;
         if($import_done || $mode_check){
             return '';
         }
@@ -118,10 +118,10 @@ function quads_admin_newdb_upgrade(){
         
 
 
-        echo '<div class="quads_db_upgrade updated " style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;font-size:16px;">
-        <p style="font-size:18px;">We have improved the <b><u>Ad performance tracking</u></b> and <b><u>Ad logging</u></b> feature.To complete the process please click on upgrade button. It may take sometime depending upson size of your website. Your Ads Data will be safe and you can revert to old tracking using setting option if you want.
+        echo '<div class="quads_db_upgrade updated " style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;font-size:16px;"> 
+        <p style="font-size:18px;">You are using new improved <b><u>Ad performance tracking</u></b> and <b><u>Ad logging</u></b> feature.To import your old tracking data click on import. It may take sometime depending upon size of your website. Your Ads Data will be safe and you can revert to old tracking using <b><u>Report Logging Method</u></b> option in tools tab.
         <ul class="dbupgrade_link" style="'.esc_attr($ul_style).'">
-            <li><a href="javascript:void(0);" class="quads_db_upgrade_button" title="Upgrade Performance Tracking" style="font-weight:bold;">Upgrade Performance Tracking</a></li>
+            <li><a href="javascript:void(0);" class="quads_db_upgrade_button" title="Upgrade Performance Tracking" style="font-weight:bold;">Import Tracking Data</a></li>
             <li class="spinner" style="float:none;display:list-item;margin:0px;"></li>        
         </ul>
         <table class="dbupgrade_infotable" style="padding: 10px;'.esc_attr($tb_style).'">
