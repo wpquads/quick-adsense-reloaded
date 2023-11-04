@@ -32,6 +32,7 @@ if( quads_get_option_uninstall( 'uninstall_on_delete' ) ) {
    /** Delete all the Plugin Options */
    delete_option( 'quads_settings' );
    delete_option( 'quads_install_date' );
+   delete_option( 'quads_install_date_flag' );
    delete_option( 'quads_rating_div' );
    delete_option( 'quads_version' );
    delete_option( 'quads_version_upgraded_from' );
@@ -39,6 +40,7 @@ if( quads_get_option_uninstall( 'uninstall_on_delete' ) ) {
    delete_option( 'quads_show_update_notice' );
    delete_option( 'quads_settings_1_5_2' );
    delete_option( 'quads_show_update_notice_1_5_2' );
+   delete_option( 'quads_v2_db_no_import' );
    
    /**
     * Delete all vi settings

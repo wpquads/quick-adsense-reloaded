@@ -250,20 +250,18 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/admin/adsTxt.php';
         require_once QUADS_PLUGIN_DIR . 'includes/elementor/widget.php';
         require_once QUADS_PLUGIN_DIR . 'includes/amp-condition-display.php';
+        
+      quads_check_for_newinstall();
 
       if(isset($quads_options['report_logging']) && $quads_options['report_logging'] == 'improved_v2'){
          require_once QUADS_PLUGIN_DIR . 'includes/reports/commonV2.php'; 
       }else{
          require_once QUADS_PLUGIN_DIR . 'includes/reports/common.php';
       }        
-         //Add reports
-            if((isset($quads_options['ad_performance_tracking']) && $quads_options['ad_performance_tracking']) || isset($quads_options['ad_log']) && $quads_options['ad_log'] ){
-               //if(isset($quads_options['report_logging']) && $quads_options['report_logging'] == 'improved_v2'){
-                  require_once QUADS_PLUGIN_DIR . 'includes/reports/analyticsV2.php';
-               // }else{
-               //    require_once QUADS_PLUGIN_DIR . 'includes/reports/analytics.php';
-               // }
-            }
+      //Add reports
+         if((isset($quads_options['ad_performance_tracking']) && $quads_options['ad_performance_tracking']) || isset($quads_options['ad_log']) && $quads_options['ad_log'] ){
+               require_once QUADS_PLUGIN_DIR . 'includes/reports/analyticsV2.php';
+         }
         if ( function_exists('has_blocks')) {
             require_once QUADS_PLUGIN_DIR . 'includes/gutenberg/src/init.php';
         }
@@ -587,4 +585,21 @@ function quads_settings_update_title(){
 function quads_settings_update_license_t_name($q_array){
   $q_array['licenses_header']['name'] = '';
   return $q_array;
+}
+
+function quads_check_for_newinstall(){
+   global $quads_options;
+   $quads_install_date = get_option('quads_install_date',false);
+   $quads_install_date_flag = get_option('quads_install_date_flag',false);
+   if($quads_install_date && !$quads_install_date_flag){
+      $quads_today = date('Y-m-d');
+      if($quads_install_date){
+         $quads_install_date = date('Y-m-d',strtotime($quads_install_date));
+      }
+      if($quads_install_date == $quads_today){
+         update_option('quads_install_date_flag',true);
+         $quads_options['report_logging'] = 'improved_v2';
+         update_option('quads_settings',$quads_options);
+      }
+   }
 }

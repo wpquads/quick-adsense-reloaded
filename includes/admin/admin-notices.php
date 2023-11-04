@@ -96,6 +96,10 @@ function quads_admin_newdb_upgrade(){
         $upgrade_percent = 2;
         
         $mode_check = (isset($quads_options['report_logging']) && $quads_options['report_logging'] == 'improved_v2')?false:true;
+        $new_check = get_option('quads_v2_db_no_import',false);
+        if($new_check){
+            return '';
+        }
         if($import_done || $mode_check){
             return '';
         }
@@ -119,9 +123,9 @@ function quads_admin_newdb_upgrade(){
 
 
         echo '<div class="quads_db_upgrade updated " style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;font-size:16px;"> 
-        <p style="font-size:18px;">You are using new improved <b><u>Ad performance tracking</u></b> and <b><u>Ad logging</u></b> feature.To import your old tracking data click on import. It may take sometime depending upon size of your website. Your Ads Data will be safe and you can revert to old tracking using <b><u>Report Logging Method</u></b> option in tools tab.
+        <p style="font-size:18px;">You have selected <b>Report Logging Method</b>  to <b>"Separate Data (Improved V2)"</b> .To import your old tracking data click on import. It may take sometime depending upon size of your website. <b>Once you have imported the old data we recommend that you do not  select <u>Combined Data (Legacy)</u> to avoid duplication of data.</b>
         <ul class="dbupgrade_link" style="'.esc_attr($ul_style).'">
-            <li><a href="javascript:void(0);" class="quads_db_upgrade_button" title="Upgrade Performance Tracking" style="font-weight:bold;">Import Tracking Data</a></li>
+            <li><a href="javascript:void(0);" class="quads_db_upgrade_button" title="Upgrade Performance Tracking" style="font-weight:bold;">Import Tracking Data</a> &nbsp;<a href="javascript:void(0);" style="color:#000" class="quads_db_not_upgrade" title="Do Not import Data" style="font-weight:bold;">Do Not import Data</a></li>
             <li class="spinner" style="float:none;display:list-item;margin:0px;"></li>        
         </ul>
         <table class="dbupgrade_infotable" style="padding: 10px;'.esc_attr($tb_style).'">
@@ -131,6 +135,11 @@ function quads_admin_newdb_upgrade(){
         </tr></table>
 
     </div>
+    <div id="quads-conform-dialog" class="hidden" style="max-width:800px; position: fixed;top: 35%;left: 25%;background: #fff;padding: 40px;z-index: 999;border: 1px solid;">
+  <h3>Are you sure you want to continue ?</h3>
+  <h4>Are you sure that you want to continue without old tracking data and start with fresh tracking?</h4>
+  <button id="quads_db_confirm" class="quads-btn">Yes, Continue</button> &nbsp; <button class="quads-btn quads_db_cancel quads-btn-default">No,Take me back</button>
+</div>
     <script>
     jQuery( document ).ready(function( $ ) {
 
@@ -159,7 +168,51 @@ function quads_admin_newdb_upgrade(){
                         alert(\'Error Occured, please refresh the page and try again\');
                     }
                 });
-        })    
+        }) 
+        
+        jQuery(\'#quads_db_confirm\').click(function(){
+            jQuery(".spinner").addClass("is-active");
+                var data={\'start\':\'true\',
+                         \'action\':\'quads_hide_newdb_migration\',
+                         \'nonce\':\''.esc_attr($import_nonce ).'\'}
+                        jQuery.ajax({
+                            url: "' . admin_url( 'admin-ajax.php').'",
+                            type: "post",
+                            data: data,
+                            dataType: "json",
+                            async: !0,
+                            success: function(e) {
+                                console.log(e);
+                                jQuery(".spinner").removeClass("is-active");
+                                jQuery(\'.quads_db_upgrade\').hide();
+                                jQuery(\'.dbupgrade_link\').hide();
+                                jQuery(\'#quads-conform-dialog\').hide();
+                                
+                            },
+                            error: function(e) {
+                                jQuery(".spinner").removeClass("is-active");
+                                jQuery(\'.dbupgrade_infotable\').hide();
+                                jQuery(\'.dbupgrade_link\').show();
+                                jQuery(\'#quads-conform-dialog\').hide();
+                                alert(\'Error Occured, please refresh the page and try again\');
+
+                            }
+                        });
+                })    
+
+                jQuery(\'.quads_db_cancel\').click(function(){
+                    jQuery(".spinner").removeClass("is-active");
+                    jQuery(\'.quads_db_upgrade\').show();
+                    jQuery(\'.dbupgrade_link\').show();
+                    jQuery(\'#quads-conform-dialog\').hide();
+                    
+                        }); 
+                        
+                jQuery(\'.quads_db_not_upgrade\').click(function(){
+                    jQuery(\'#quads-conform-dialog\').show();
+                    
+                }); 
+
     });
     </script>';
     }  
