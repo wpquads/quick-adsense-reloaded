@@ -303,7 +303,7 @@ class QuadsAdList extends Component {
                   {this.props.settings.ad_performance_tracking ? <a className="quads-edit-btn" onMouseEnter={this.props.AdImp_Count_HoverIn} onMouseLeave={this.props.AdImp_Count_HoverOut} data-index={index} data-id={item.post_meta.ad_id} onClick={this.props.showStaticIconBox}><Icon>stacked_bar_chart</Icon></a>                
                 : null }
                 
-                {this.props.settings.ad_performance_tracking ?<Link className="quads-edit-btn" onMouseEnter={this.props.AdLogHoverIn} onMouseLeave={this.props.AdLogHoverOut} data-index={index} data-id={item.post_meta.ad_id} to={'admin.php?page=quads-settings&path=ad_logging&ad_id='+item.post_meta.ad_id} ><img height="20" width="20" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ad_log.png'} ></img></Link>              
+                {(this.props.settings.ad_log && quads_localize_data.is_pro) ?<Link className="quads-edit-btn" onMouseEnter={this.props.AdLogHoverIn} onMouseLeave={this.props.AdLogHoverOut} data-index={index} data-id={item.post_meta.ad_id} to={'admin.php?page=quads-settings&path=ad_logging&ad_id='+item.post_meta.ad_id} ><img height="20" width="20" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ad_log.png'} ></img></Link>              
                 : null }
                 { item.post_meta.ad_id && this.props.adlog_hover_id ==  item.post_meta.ad_id ?
                   <div role="tooltip" className="MuiTooltip-popper MuiTooltip-popperArrow" id="tooltip_2" x-placement="bottom"><div className="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >Ad log<span className="MuiTooltip-arrow" style={ttp_1_}></span></div></div> : '' }

@@ -201,7 +201,10 @@ if(is_object($screens)){
         // Use minified libraries if SCRIPT_DEBUG is turned off
     $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
     wp_enqueue_script( 'quads-admin-scripts', $js_dir . 'quads-admin' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
-    $signupURL = $quads->vi->getSettings()->data->signupURL;
+    $quads_vi_settings = $quads->vi->getSettings();
+    if($quads_vi_settings && isset($quads_vi_settings->data->signupURL)){
+        $signupURL = $quads_vi_settings->data->signupURL;
+    }
          $quads_import_classic_ads_popup = false;
         $classic_ads_status = get_option( 'quads_import_classic_ads_popup' );
         if($classic_ads_status === false && $quads_mode === false){

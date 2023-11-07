@@ -600,6 +600,8 @@ function quads_check_for_newinstall(){
          update_option('quads_install_date_flag',true);
          $quads_options['report_logging'] = 'improved_v2';
          update_option('quads_settings',$quads_options);
+         update_option('quads_v2_db_no_import',true);
+         
       }
    }
 }
