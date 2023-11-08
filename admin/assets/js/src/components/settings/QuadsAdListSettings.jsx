@@ -1818,7 +1818,7 @@ handleMultiPluginsChange = (option) => {
                             <option value="combined_legacy">Combined Data (Legacy)</option>
                             <option value="improved_v2">Separate Data (Improved V2)</option>
                           </select>
-                          {settings.logging_toggle == 'improved_v2'?
+                          {settings.report_logging == 'improved_v2'?
                           <p>You are now using new improved report tracking. Tracking will start afresh if you need your old data you can import the old data to new system </p>
                           :
                           <p>You are using Legacy report tracking.Tracking will get slower as the Datebase size increases. We recommend switching to Separate Data (Improved V2) for better performance</p>
