@@ -448,7 +448,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 
 			if($ad_id=='all') {
 				$results_impresn_desk = $wpdb->get_results($wpdb->prepare("SELECT stats_impressions,DATE(FROM_UNIXTIME(stats_date)) as stats_date  FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE stats_date BETWEEN %d AND %d",array($to_date,$from_date)));
-				$results_impresn_mob = $wpdb->get_results($wpdb->prepare("SELECT stats_impressions,DATE(FROM_UNIXTIME(stats_date)  as stats_date  FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date BETWEEN %d AND %d",array($to_date,$from_date)));
+				$results_impresn_mob = $wpdb->get_results($wpdb->prepare("SELECT stats_impressions,DATE(FROM_UNIXTIME(stats_date))  as stats_date  FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date BETWEEN %d AND %d",array($to_date,$from_date)));
 			}
 			else{
 				$results_impresn_desk = $wpdb->get_results($wpdb->prepare("SELECT stats_impressions,DATE(FROM_UNIXTIME(stats_date)) as stats_date FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE stats_date BETWEEN %d AND %d AND ad_id = %d",array($to_date,$from_date,$ad_id)));

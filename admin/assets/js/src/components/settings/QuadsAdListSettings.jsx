@@ -87,6 +87,7 @@ class QuadsAdListSettings extends Component {
                 ip_geolocation_api : '',
                 ad_blocker_message : false,
                 report_logging     : 'combined_legacy',
+                logging_toggle     : false,
                 analytics          : false,
                 multiUserValue     : [],
                 RoleBasedAccess    : [{label: "Administrator", value: "administrator"}],
@@ -119,7 +120,6 @@ class QuadsAdListSettings extends Component {
             q_admin_url:'',
             black: true,
             checked: false,
-            logging_toggle:false,
         };
   }
   onFileChange = (event) => {
@@ -935,9 +935,9 @@ handleMultiPluginsChange = (option) => {
     selectLoggingChangeHandler = (event) => {
       let select_value  = event.target.value;
       if(select_value == 'combined_legacy'){
-        this.setState({logging_toggle:false,settings:{report_logging:select_value}});
+        this.setState({settings:{report_logging:select_value,logging_toggle:false}});
       }else{
-        this.setState({logging_toggle:true,settings:{report_logging:select_value}});
+        this.setState({settings:{report_logging:select_value,logging_toggle:true}});
       }
       const { settings } = this.state;
       settings.report_logging = select_value;
@@ -1818,11 +1818,11 @@ handleMultiPluginsChange = (option) => {
                             <option value="combined_legacy">Combined Data (Legacy)</option>
                             <option value="improved_v2">Separate Data (Improved V2)</option>
                           </select>
-                          {settings.report_logging == 'improved_v2'?
+                          {settings.logging_toggle?settings.report_logging == 'improved_v2'?
                           <p>You are now using new improved report tracking. Tracking will start afresh if you need your old data you can import the old data to new system </p>
                           :
                           <p>You are using Legacy report tracking.Tracking will get slower as the Datebase size increases. We recommend switching to Separate Data (Improved V2) for better performance</p>
-                        }
+                        :''}
                         </td>
                       </tr>
                       {quads_localize_data.is_pro ?<tr>

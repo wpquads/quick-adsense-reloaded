@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 6.3.1
+Tested up to: 6.4
 Requires PHP: 5.4
-Stable tag: 2.0.78
+Stable tag: 2.0.79
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 

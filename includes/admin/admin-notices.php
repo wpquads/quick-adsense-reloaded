@@ -114,6 +114,7 @@ function quads_admin_newdb_upgrade(){
                 $upgrade_percent = 75;
             }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'clicks_desktop'){
                 $upgrade_percent = 100;
+                update_option('quads_v2_db_no_import',true);
             }
             $ul_style = 'display:none';
         }else{
