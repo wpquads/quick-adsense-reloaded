@@ -60,7 +60,7 @@ class QuadsAdListSettings extends Component {
                 skippable_ads : true,
                 ad_performance_tracking : false,
                 reports_settings : true,
-                ad_logging : true,
+                ad_logging : false,
                 ad_owner_revenue_per:50,
                 ad_author_revenue_per:50,
                 notice_bg_color : '#1e73be',
@@ -86,6 +86,8 @@ class QuadsAdListSettings extends Component {
                 debug_mode         : '',
                 ip_geolocation_api : '',
                 ad_blocker_message : false,
+                report_logging     : 'combined_legacy',
+                logging_toggle     : false,
                 analytics          : false,
                 multiUserValue     : [],
                 RoleBasedAccess    : [{label: "Administrator", value: "administrator"}],
@@ -117,7 +119,7 @@ class QuadsAdListSettings extends Component {
             blocked_ips:'',
             q_admin_url:'',
             black: true,
-            checked: false
+            checked: false,
         };
   }
   onFileChange = (event) => {
@@ -930,6 +932,16 @@ handleMultiPluginsChange = (option) => {
         }
       );
     }
+    selectLoggingChangeHandler = (event) => {
+      let select_value  = event.target.value;
+      if(select_value == 'combined_legacy'){
+        this.setState({settings:{report_logging:select_value,logging_toggle:false}});
+      }else{
+        this.setState({settings:{report_logging:select_value,logging_toggle:true}});
+      }
+      const { settings } = this.state;
+      settings.report_logging = select_value;
+    }
   formChangeHandler = (event) => {
     let name  = event.target.name;
     //spin
@@ -958,7 +970,7 @@ handleMultiPluginsChange = (option) => {
      if(name == 'tcf_2_integration'){
       this.saveSettings();
      }
-     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking' || name == 'ad_log' || name == 'global_excluder' || name == 'delay_ad_sec' || name == 'skippable_ads'){
+     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking'|| name == 'report_logging' || name == 'ad_log' || name == 'global_excluder' || name == 'delay_ad_sec' || name == 'skippable_ads'){
       this.saveSettings();
     }
     if(name == 'adsforwp_quads_shortcode'|| name == 'adsforwp_quads_gutenberg' || name == 'advance_ads_to_quads'){
@@ -1106,12 +1118,12 @@ handleMultiPluginsChange = (option) => {
   render() {
     const quads_setting_pro_items =[
       {id:'skippable_ads',title:'Skippable Ad',url:'https://wpquads.com/documentation/how-to-ad-skippable-ads/'},
-      {id:'blindness_settings',title:'Ad Blindness',url:'https://wpquads.com/documentation/how-to-add-ad-blindness'},
+      {id:'blindness_settings',title:'Ad Blindness',url:'https://wpquads.com/documentation/how-to-enable-ad-blindness-2/'},
       {id:'ab_testing_settings',title:'AB Testing',url:'https://wpquads.com/documentation/how-to-add-ab-testing'},
-      {id:'optimize_core_vitals',title:'Optimize for Core Web Vitals',url:'https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/'},
-      {id:'hide_quads_markup',title:'Hide Quads Markup',url:'https://wpquads.com/documentation/how-to-globally-exclude-or-hide-ads-for-user-roles-with-wp-quads-pro/'},
-      {id:'global_excluder',title:'Global Excluder',url:'https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/'},
-      {id:'ad_log',title:'AD Logging',url:'https://wpquads.com/documentation/how-to-track-ad-performance/'},
+      {id:'optimize_core_vitals',title:'Optimize for Core Web Vitals',url:'https://wpquads.com/documentation/how-to-optimize-core-web-vitals-with-wp-quads-plugin/'},
+      {id:'hide_quads_markup',title:'Hide Quads Markup',url:'https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/'},
+      {id:'global_excluder',title:'Global Excluder',url:'https://wpquads.com/documentation/how-to-globally-exclude-or-hide-ads-for-user-roles-with-wp-quads-pro/'},
+      {id:'ad_log',title:'AD Logging',url:'https://wpquads.com/documentation/how-to-enable-ad-logging/'},
       {id:'delay_ad_sec',title:'Load Ad after 3-4 seconds'},
      ];
 
@@ -1629,9 +1641,10 @@ handleMultiPluginsChange = (option) => {
                        </label>
                        
                       } 
-                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/"></a>
+                         
 
                          {settings.global_excluder_enabled ? <span onClick={this.open_global_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-globally-exclude-or-hide-ads-for-user-roles-with-wp-quads-pro/"></a>
                      </td>
                      </tr>:null}
                     <tr>
@@ -1784,7 +1797,7 @@ handleMultiPluginsChange = (option) => {
                       onChange={this.handleRoleBasedAccess}
                     />
                     }
-                       <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-access-quads-rolebase/"></a>
+                       {/* <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-access-quads-rolebase/"></a> */}
 
                     </td>
                   </tr>:null}
@@ -1797,7 +1810,22 @@ handleMultiPluginsChange = (option) => {
               case "settings_tools": return(
                 <div className="quads-settings-tab-container">
                   <table className="form-table" role="presentation">
-                    <tbody>{quads_localize_data.is_pro ?<tr>
+                    <tbody>
+                    <tr>
+                       <th><label htmlFor="report_logging">{__('Report Logging Method', 'quick-adsense-reloaded')}</label></th>
+                        <td>
+                          <select name="report_logging" id="report_logging" onChange={e =>this.selectLoggingChangeHandler(e)} value={settings.report_logging} >
+                            <option value="combined_legacy">{__('Combined Data (Legacy)', 'quick-adsense-reloaded')}</option>
+                            <option value="improved_v2">{__('Separate Data (Improved V2)', 'quick-adsense-reloaded')}</option>
+                          </select>
+                          {(settings.logging_toggle != 'off')?settings.report_logging == 'improved_v2'?
+                          <p>{__('You are now using new improved report tracking.', 'quick-adsense-reloaded')} </p>
+                          :
+                          <p>{__('You are using Legacy report tracking.Tracking will get slower as the Datebase size increases. We recommend switching to Separate Data (Improved V2) for better performance', 'quick-adsense-reloaded')}</p>
+                        :''}
+                        </td>
+                      </tr>
+                      {quads_localize_data.is_pro ?<tr>
                        <th><label   htmlFor="analytics">{__('Google Analytics Integration', 'quick-adsense-reloaded')}</label></th>
                         <td><label className="quads-switch"><input  id="analytics" type="checkbox" onChange={this.formChangeHandler} name="analytics" checked={settings.analytics} /><span className="quads-slider"></span></label>
                         <a className="quads-general-helper quads-general-helper-new" href="#"></a><div className="quads-message bottom" >Check how many visitors are using ad blockers in your Google Analytics account from the event tracking in <i>Google Analytics-&gt;Behavior-&gt;Events</i>. This only works if your visitors are using regular ad blockers like 'adBlock'. There are browser plugins which block all external requests like the  software uBlock origin. This also block google analytics and as a result you do get any analytics data at all.</div></td>

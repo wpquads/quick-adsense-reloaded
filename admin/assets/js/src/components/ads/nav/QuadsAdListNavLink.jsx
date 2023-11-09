@@ -63,7 +63,7 @@ class QuadsAdListNavLink extends Component {
                     Object.entries(result).map(([meta_key, meta_val]) => {
                         if(meta_key=='reports_settings'){
                             this.setState({displayReports:meta_val});
-                        }else if(meta_key=='ad_logging'){
+                        }else if(meta_key=='ad_log'){
                           this.setState({displayad_logging:meta_val});
                       }
                         settings[meta_key] =    meta_val;

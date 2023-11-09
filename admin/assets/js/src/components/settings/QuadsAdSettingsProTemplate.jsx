@@ -37,6 +37,7 @@ class QuadsAdSettingsProTemplate extends Component {
         }
         if(data.id == "global_excluder"){
           load_symbol = 'lazy_loader_ge'
+          return ('')
         }
         if(data.id == "ad_log"){
           load_symbol = 'lazy_loader_al'
@@ -60,7 +61,8 @@ class QuadsAdSettingsProTemplate extends Component {
               <div className={load_symbol}></div>
             </label>
           }  
-            <a className="quads-general-helper quads-general-helper-new" target="_blank" href={data.url}></a>
+           {data.url?
+           <a className="quads-general-helper quads-general-helper-new" target="_blank" href={data.url}></a>:''} 
           </td>
         </tr>
       );

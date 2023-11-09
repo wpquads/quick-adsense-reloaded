@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 6.3.1
+Tested up to: 6.4
 Requires PHP: 5.4
-Stable tag: 2.0.78
+Stable tag: 2.0.79
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -206,6 +206,16 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.79 ( 10 November 2023 ) =
+* Improvement:Improved reporting db structure #834
+* Improvement: Improvement in Ad delay feature #839
+* Fixed: Ad loggin pagination need to correct. #840
+* Fixed: Version 2.0.76 and Above Breaking Sticky Ads Functionality #842
+* Fixed: Draft Ads in Random Spot Issue: Ads Continue Displaying #844
+* Fixed: The “Unexptected token error” shows in browser console #845
+* Fixed: Warning appears #846
+* Fixed: Add default width and height for the ads #680
 
 = 2.0.78 ( 10 October 2023 ) =
 * Added: After ID field in "Where Will The AD Appear" option #766

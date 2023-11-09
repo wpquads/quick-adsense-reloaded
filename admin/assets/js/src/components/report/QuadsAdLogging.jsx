@@ -20,8 +20,6 @@ class QuadsAdLogging extends Component {
             adsense_modal :false,
             current_page : 'ad_logging',
             isLoading : true,
-            cust_fromdate:new Date(),
-            cust_todate:new Date(),
             search_text       : '',
             clicked_btn_id    : 1,
             page              : 1,
@@ -57,10 +55,8 @@ class QuadsAdLogging extends Component {
         var year = a.getFullYear();
         var month = months[a.getMonth()];
         var date = a.getDate();
-        // var hour = a.getHours();
-        // var min = a.getMinutes();
-        // var sec = a.getSeconds();
-        var time = date + '/ ' + month + '/ ' + year + ' ' +  a.toLocaleString('en-US', { hour: 'numeric', hour12: true }) ;
+        //var time = date + '/' + month + '/' + year + ' ' +  a.toLocaleString('en-US', { hour: 'numeric', hour12: true }) ;
+        var time = date + '/' + month + '/' + year ;
         return time;
       }
   report_formChangeHandler = (event) => {
@@ -164,8 +160,6 @@ open_ad = (ad_id) => {
 }
   logMainSearchMethod = (report_period='',search_text='', page=1) => { 
     let url = quads_localize_data.rest_url + "quads-route/getAdloggingData";
-    let cust_fromdate =this.state.cust_fromdate;
-    let cust_todate =this.state.cust_todate;
     const {report} = this.state;
     if(report_period == ''){
         report_period = report.report_period;
@@ -182,7 +176,7 @@ open_ad = (ad_id) => {
             'Content-Type': 'application/json',
             'X-WP-Nonce': quads_localize_data.nonce,
         },
-        body: JSON.stringify({'report_period':report_period,'cust_fromdate':cust_fromdate,'cust_todate':cust_todate,'search_param':search_text,'page':page})
+        body: JSON.stringify({'report_period':report_period,'search_param':search_text,'page':page})
     })
     .then(res => res.json())
     .then(
@@ -210,21 +204,7 @@ renderSwitch(param='') {
         return 'from Last 15 days';
     case 'last_30days':
         return 'from Last 30 days';
-    case 'last_6months':
-        return 'from Last 6 months';
-    case 'last_1year':
-        return 'from Last 1 Year';
-    case 'all_time':
-        return '';
-    case 'custom':
-        let cust_fromdate = new Date(this.state.cust_fromdate);
-        cust_fromdate = cust_fromdate.getDate()+"/"+cust_fromdate.getMonth()+"/"+cust_fromdate.getFullYear();
-        let cust_todate = new Date(this.state.cust_todate);
-        cust_todate = cust_todate.getDate()+"/"+cust_todate.getMonth()+"/"+cust_todate.getFullYear();
- 
-        
-        return 'from '+cust_fromdate+' to '+ cust_todate;
-      default:
+    default:
         return 'from Last 7 days';
     }
   }
@@ -252,35 +232,18 @@ renderSwitch(param='') {
                 { this.state.current_page == 'ad_logging' ?
                     <Fragment>
                         <div>  <h1>{__('AD Logging', 'quick-adsense-reloaded')}</h1>
-                        <h3>{__('Here you can see the total performance and behaviour  of your ads', 'quick-adsense-reloaded')}</h3>
+                        <h3>{__('Logs will be stored for last 30 days only ', 'quick-adsense-reloaded')}</h3>
                         <p> Showing all the recent data  {this.renderSwitch()}</p>
                             <div className="quads-ad-networks ad_logging">
                             <div className="quads-search-box-panel">                
-                            <div className="quads-search-box"><QuadsAdListSearch triggerSearch={this.QuadslogSearchAd} /></div>                
+                            <div className="quads-search-box"><QuadsAdListSearch triggerSearch={e =>this.QuadslogSearchAd(e)} /></div>                
 
                             <div className={'quads-select-menu'} >
                         <select name="report_period" id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
-                                                <option value="last_7days">Last 7 days</option>
-                                                <option value="last_15days">Last 15 days</option>
-                                                <option value="last_30days">Last 30 days</option>
-                                                <option value="last_6months">Last 6 months</option>
-                                                <option value="last_1year">Last 1 year</option>
-                                                <option value="all_time">All Time</option>
-                                                <option value="custom">Custom</option>
-                                            </select>
-                                           <div className={"custom_date_form"} style={{display: (report.report_period == 'custom' && quads_localize_data_is_pro) ? 'flex' : 'none' }}> <>
-                                                        <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
-                                                        <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_todate:date})} />
-                                                    </>
-                                                    </div>
-                                            {/* {report.report_period == 'custom' ?[(
-                                                quads_localize_data_is_pro ?
-                                                    <>
-                                                        <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
-                                                        <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_todate:date})} />
-                                                    </>
-                                                    :  null
-                                            )] : null} */}
+                          <option value="last_7days">Last 7 days</option>
+                          <option value="last_15days">Last 15 days</option>
+                          <option value="last_30days">Last 30 days</option>
+                         </select>          
                         </div>
               </div> 
                             { items && items.length > 0 ?      

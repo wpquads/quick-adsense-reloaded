@@ -6,7 +6,7 @@
  * Description: Insert Google AdSense and other ad formats fully automatic into your website
  * Author: WP Quads
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
- * Version: 2.0.78
+ * Version: 2.0.79
  * Text Domain: quick-adsense-reloaded
  * Domain Path: languages
  * Credits: WP QUADS - Quick AdSense Reloaded is a fork of Quick AdSense
@@ -38,7 +38,7 @@ if( !defined( 'ABSPATH' ) )
 
 // Plugin version
 if( !defined( 'QUADS_VERSION' ) ) {
-  define( 'QUADS_VERSION', '2.0.78' );
+  define( 'QUADS_VERSION', '2.0.79' );
 }
 
 // Plugin name
@@ -250,19 +250,17 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/admin/adsTxt.php';
         require_once QUADS_PLUGIN_DIR . 'includes/elementor/widget.php';
         require_once QUADS_PLUGIN_DIR . 'includes/amp-condition-display.php';
+        
+      quads_check_for_newinstall();
+
+      if(isset($quads_options['report_logging']) && $quads_options['report_logging'] == 'improved_v2'){
+         require_once QUADS_PLUGIN_DIR . 'includes/reports/commonV2.php'; 
+      }else{
          require_once QUADS_PLUGIN_DIR . 'includes/reports/common.php';
-         
-         //Add reports
-         $add_analytic_file = true;
-         if(function_exists('is_user_logged_in') && is_user_logged_in()){
-            if (current_user_can( 'administrator' )) {
-               $add_analytic_file = false;
-            }
-         }
-         if($add_analytic_file){
-            if((isset($quads_options['ad_performance_tracking']) && $quads_options['ad_performance_tracking']) || isset($quads_options['ad_logging']) && $quads_options['ad_logging'] ){
-            require_once QUADS_PLUGIN_DIR . 'includes/reports/analytics.php';
-            }
+      }        
+      //Add reports
+         if((isset($quads_options['ad_performance_tracking']) && $quads_options['ad_performance_tracking']) || isset($quads_options['ad_log']) && $quads_options['ad_log'] ){
+               require_once QUADS_PLUGIN_DIR . 'includes/reports/analyticsV2.php';
          }
         if ( function_exists('has_blocks')) {
             require_once QUADS_PLUGIN_DIR . 'includes/gutenberg/src/init.php';
@@ -587,4 +585,24 @@ function quads_settings_update_title(){
 function quads_settings_update_license_t_name($q_array){
   $q_array['licenses_header']['name'] = '';
   return $q_array;
+}
+
+function quads_check_for_newinstall(){
+   global $quads_options,$wpdb;            
+   $quads_install_date = get_option('quads_install_date',false);
+   $quads_install_date_flag = get_option('quads_install_date_flag',false);
+   if($quads_install_date && !$quads_install_date_flag){
+      $quads_today = date('Y-m-d');
+      if($quads_install_date){
+         $quads_install_date = date('Y-m-d',strtotime($quads_install_date));
+      }
+      if($quads_install_date == $quads_today){
+         update_option('quads_install_date_flag',true);
+         $quads_options['report_logging'] = 'improved_v2';
+         $quads_options['logging_toggle'] = 'off';
+         update_option('quads_settings',$quads_options);
+         update_option('quads_v2_db_no_import',true);
+         
+      }
+   }
 }

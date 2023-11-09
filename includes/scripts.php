@@ -157,7 +157,8 @@ if(is_object($screens)){
         remove_all_actions('admin_notices');
         if($quads_mode == 'new'){
              add_action( 'admin_notices', 'quads_show_rate_div' );
-             add_action( 'admin_notices', 'quads_admin_messages_new' );             
+             add_action( 'admin_notices', 'quads_admin_messages_new' );
+             add_action( 'admin_notices', 'quads_admin_newdb_upgrade' );               
         }
         wp_enqueue_media();
         //To add page
@@ -200,7 +201,10 @@ if(is_object($screens)){
         // Use minified libraries if SCRIPT_DEBUG is turned off
     $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
     wp_enqueue_script( 'quads-admin-scripts', $js_dir . 'quads-admin' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
-    $signupURL = $quads->vi->getSettings()->data->signupURL;
+    $quads_vi_settings = $quads->vi->getSettings();
+    if($quads_vi_settings && isset($quads_vi_settings->data->signupURL)){
+        $signupURL = $quads_vi_settings->data->signupURL;
+    }
          $quads_import_classic_ads_popup = false;
         $classic_ads_status = get_option( 'quads_import_classic_ads_popup' );
         if($classic_ads_status === false && $quads_mode === false){
@@ -714,14 +718,21 @@ function quads_inline_styles() {
                 max-width: 100%!important;
                 ".$is_sticky_pos.":0;
                 margin:0;
+                left:0;
                 text-align: center;
                 opacity: 0;
+                z-index:999;
+                background-color: rgb(0 0 0 / 70%);
             }
             .quads-sticky.active {
                 opacity: 1;
             }
+            .quads-sticky.active .quads-ad-label-new {
+                color:#fff
+            }
             .quads-sticky .quads-location {
                 text-align: center;
+                background-color: unset !important;
             }.quads-sticky .wp_quads_dfp {
                 display: contents;
             }
@@ -773,9 +784,9 @@ function quads_inline_styles() {
                 color: #fff;
                 right: 20px;
                 '.$is_sticky_pos.': -8px;
-                width: 20px;
-                padding: 9px 16px;
-                line-height: 17px;
+                width: 50px;
+                padding: 15px;
+                line-height: 12px;
                 text-transform: uppercase;
                 opacity: 0.7;
                 z-index: 99;

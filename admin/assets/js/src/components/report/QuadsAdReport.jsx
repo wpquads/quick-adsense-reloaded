@@ -944,7 +944,7 @@ drawChart(config);
                         </tr>
                         ${  
                             top5_ads.map( (ads, index) =>  {
-                            return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();"  data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.mob_imprsn?ads.mob_imprsn:0}</td><td>${ads.desk_imprsn}</td><td>${ads.total_impression}</td><td>${ads.mob_click?ads.mob_click:0}</td><td>${ads.desk_clicks}</td><td>${ads.total_click}</td></tr>`
+                            return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();"  data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.mob_imprsn?ads.mob_imprsn:0}</td><td>${ads.desk_imprsn}</td><td>${ads.total_impression}</td><td>${ads.mob_clicks?ads.mob_clicks:0}</td><td>${ads.desk_clicks}</td><td>${ads.total_click}</td></tr>`
                         }).join('')
                         }
 

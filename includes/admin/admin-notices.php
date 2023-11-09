@@ -84,6 +84,145 @@ function quads_admin_messages_new(){
         echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="wpquads-adblock-notice">' . sprintf( __( '<strong><p>Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup</strong></p>', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
     }
 }
+
+function quads_admin_newdb_upgrade(){
+    if( quads_is_admin_page() ) {
+        global $quads_options;
+        $import_details = get_option('quads_import_data');
+        $import_status = (isset($import_details['status']) && $import_details['status'] == 'active')?true:false;
+        $import_nonce = wp_create_nonce( 'quads_newdb_nonce' );
+        $import_done = get_option('quads_db_import',false);
+        $tb_style = $ul_style = '';
+        $upgrade_percent = 2;
+        
+        $mode_check = (isset($quads_options['report_logging']) && $quads_options['report_logging'] == 'improved_v2')?false:true;
+        $new_check = get_option('quads_v2_db_no_import',false);
+        if($new_check){
+            return '';
+        }
+        if($import_done || $mode_check){
+            return '';
+        }
+        if($import_status ){
+            if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_stats' && $import_details['sub_table'] == ''){
+                $upgrade_percent = 10;
+            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'impressions_mobile'){
+                $upgrade_percent = 25;
+            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'impressions_desktop'){
+                $upgrade_percent = 50;
+            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'clicks_mobile'){
+                $upgrade_percent = 75;
+            }else if(isset($import_details['current_table']) && isset($import_details['sub_table']) && $import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table'] == 'clicks_desktop'){
+                $upgrade_percent = 100;
+                update_option('quads_v2_db_no_import',true);
+            }
+            $ul_style = 'display:none';
+        }else{
+            $tb_style = 'display:none';
+        }
+        
+
+
+        echo '<div class="quads_db_upgrade updated " style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;font-size:16px;"> 
+        <p style="font-size:18px;">'.esc_html('You have selected').' <b>'.esc_html('Report Logging Method').'</b>  to <b>'.esc_html('"Separate Data (Improved V2)"').'</b>.'.esc_html('To import your old tracking data click on import. It may take sometime depending upon size of your website. ').'<b>'.esc_html('Once you have imported the old data we recommend that you do not  select ').'<u>'.esc_html('Combined Data (Legacy)').'</u> '.esc_html('to avoid duplication of data.').'</b>
+        <ul class="dbupgrade_link" style="'.esc_attr($ul_style).'">
+            <li><a href="javascript:void(0);" class="quads_db_upgrade_button" title="Upgrade Performance Tracking" style="font-weight:bold;">Import Tracking Data</a> &nbsp;<a href="javascript:void(0);" style="color:#000" class="quads_db_not_upgrade" title="Do Not import Data" style="font-weight:bold;">Do Not import Data</a></li>
+            <li class="spinner" style="float:none;display:list-item;margin:0px;"></li>        
+        </ul>
+        <table class="dbupgrade_infotable" style="padding: 10px;'.esc_attr($tb_style).'">
+        <tr>
+        <th>'.esc_html('Upgrade Status').'</th>
+        <td> '.esc_attr($upgrade_percent).'% </td>
+        </tr></table>
+
+    </div>
+    <div id="quads-conform-dialog" class="hidden" style="max-width:800px; position: fixed;top: 35%;left: 25%;background: #fff;padding: 40px;z-index: 999;border: 1px solid;">
+  <h3>'.esc_html('Are you sure you want to continue ?').'</h3>
+  <h4>'.esc_html('Are you sure that you want to continue without old tracking data and start with fresh tracking?').'</h4>
+  <button id="quads_db_confirm" class="quads-btn quads-btn-primary">'.esc_html('Yes, Continue').'</button> &nbsp; <button class="quads-btn quads_db_cancel quads-btn-default">'.esc_html('No,Take me back').'</button>
+</div>
+    <script>
+    jQuery( document ).ready(function( $ ) {
+
+    jQuery(\'.quads_db_upgrade_button\').click(function(){
+    jQuery(".spinner").addClass("is-active");
+        var data={\'start\':\'true\',
+                 \'action\':\'quads_start_newdb_migration\',
+                 \'nonce\':\''.esc_attr($import_nonce ).'\'}
+                jQuery.ajax({
+                    url: "' . admin_url( 'admin-ajax.php').'",
+                    type: "post",
+                    data: data,
+                    dataType: "json",
+                    async: !0,
+                    success: function(e) {
+                        console.log(e);
+                        jQuery(".spinner").removeClass("is-active");
+                        jQuery(\'.dbupgrade_infotable\').show();
+                        jQuery(\'.dbupgrade_link\').hide();
+                        
+                    },
+                    error: function(e) {
+                        jQuery(".spinner").removeClass("is-active");
+                        jQuery(\'.dbupgrade_infotable\').hide();
+                        jQuery(\'.dbupgrade_link\').show();
+                        alert(\'Error Occured, please refresh the page and try again\');
+                    }
+                });
+        }) 
+        
+        jQuery(\'#quads_db_confirm\').click(function(){
+            jQuery(".spinner").addClass("is-active");
+                var data={\'start\':\'true\',
+                         \'action\':\'quads_hide_newdb_migration\',
+                         \'nonce\':\''.esc_attr($import_nonce ).'\'}
+                        jQuery.ajax({
+                            url: "' . admin_url( 'admin-ajax.php').'",
+                            type: "post",
+                            data: data,
+                            dataType: "json",
+                            async: !0,
+                            success: function(e) {
+                                console.log(e);
+                                if(e.status == "success"){
+                                jQuery(".spinner").removeClass("is-active");
+                                jQuery(\'.quads_db_upgrade\').hide();
+                                jQuery(\'.dbupgrade_link\').hide();
+                                jQuery(\'#quads-conform-dialog\').hide();
+                                }
+                                else{
+                                    alert(\'Error Occured, please refresh the page and try again\');
+                                }
+                                
+                            },
+                            error: function(e) {
+                                jQuery(".spinner").removeClass("is-active");
+                                jQuery(\'.dbupgrade_infotable\').hide();
+                                jQuery(\'.dbupgrade_link\').show();
+                                jQuery(\'#quads-conform-dialog\').hide();
+                                alert(\'Error Occured, please refresh the page and try again\');
+
+                            }
+                        });
+                })    
+
+                jQuery(\'.quads_db_cancel\').click(function(){
+                    jQuery(".spinner").removeClass("is-active");
+                    jQuery(\'.quads_db_upgrade\').show();
+                    jQuery(\'.dbupgrade_link\').show();
+                    jQuery(\'#quads-conform-dialog\').hide();
+                    
+                        }); 
+                        
+                jQuery(\'.quads_db_not_upgrade\').click(function(){
+                    jQuery(\'#quads-conform-dialog\').show();
+                    
+                }); 
+
+    });
+    </script>';
+    }  
+}
 function quads_show_rate_div(){
 
 

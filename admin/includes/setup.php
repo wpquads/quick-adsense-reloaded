@@ -336,45 +336,85 @@ public function quads_database_install() {
 	}
 
 	$found_tables = $wpdb->get_col("SHOW TABLES LIKE '{$wpdb->prefix}quads%';");	
-        
-	if(!in_array("{$wpdb->prefix}quads_stats", $found_tables)) {
+
+    if(!in_array("{$wpdb->prefix}quads_logs", $found_tables)) {
             
-		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_stats` (
-			`id` bigint(9) unsigned NOT NULL auto_increment,
-			`ad_id` int(50) unsigned NOT NULL default '0',			
-			`ad_thetime` int(15) unsigned NOT NULL default '0',
-			`ad_clicks` int(15) unsigned NOT NULL default '0',
-			`ad_impressions` int(15) unsigned NOT NULL default '0',
-                        `ad_device_name` varchar(20) NOT NULL default '',
-                        `ip_address` varchar(20) NOT NULL default '',
-                        `URL` varchar(255) NOT NULL default '',
-                        `browser` varchar(20) NOT NULL default '',
-                        `referrer` varchar(255) NOT NULL default '',
-			PRIMARY KEY  (`id`),
-			INDEX `ad_id` (`ad_id`),
-            INDEX `ad_clicks` (`ad_clicks`),
-            INDEX `ad_impressions` (`ad_impressions`),
-			INDEX `ad_thetime` (`ad_thetime`)
-		) ".$charset_collate.$engine.";");
+		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_logs` (
+			`id` bigint(10) NOT NULL AUTO_INCREMENT,
+            `ad_id` int(50) NOT NULL,
+            `log_date` int(15) NOT NULL,
+            `log_clicks` int(15) NOT NULL DEFAULT 0,
+            `ip_address` varchar(20) DEFAULT NULL,
+            `log_url` varchar(255) DEFAULT NULL,
+            `browser` varchar(20) DEFAULT NULL,
+            `referrer` varchar(255) DEFAULT NULL,
+            PRIMARY KEY  (`id`),
+            KEY  `clk_desk_adid` (`ad_id`),
+            KEY  `clk_desk_date` (`log_date`)
+		)
+        ".$charset_collate.$engine.";");
                 
 	}
-    
-    if(!in_array("{$wpdb->prefix}quads_single_stats_", $found_tables)) {
+    if(!in_array("{$wpdb->prefix}quads_clicks_mobile", $found_tables)) {
             
-		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_single_stats_` (
-			`id` bigint(9) unsigned NOT NULL auto_increment,
-			`ad_id` int(50) unsigned NOT NULL default '0',			
-			`ad_thetime` int(15) unsigned NOT NULL default '0',
-			`ad_clicks` int(15) unsigned NOT NULL default '0',
-			`ad_impressions` int(15) unsigned NOT NULL default '0',
-                        `ad_date` varchar(20) NOT NULL default '',
-                        `date_impression` varchar(20) NOT NULL default '',
-                        `date_click` varchar(255) NOT NULL default '',
-                        `ad_year` varchar(255) NOT NULL default '',
-			PRIMARY KEY  (`id`),
-			INDEX `ad_id` (`ad_id`),
-			INDEX `ad_thetime` (`ad_thetime`)
-		) ".$charset_collate.$engine.";");
+		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_clicks_mobile` (
+			`id` bigint(10) NOT NULL AUTO_INCREMENT,
+            `ad_id` int(50) NOT NULL,
+            `stats_date` int(15) NOT NULL,
+            `stats_clicks` int(15) NOT NULL DEFAULT 0,
+            `stats_year` int(4) NOT NULL,
+            PRIMARY KEY  (`id`),
+            KEY `clk_mob_adid` (`ad_id`),
+            KEY `clk_mob_date` (`stats_date`)
+		)
+        ".$charset_collate.$engine.";");
+                
+	}
+
+    if(!in_array("{$wpdb->prefix}quads_impressions_mobile", $found_tables)) {
+            
+		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_impressions_mobile` (
+			 `id` bigint(10) NOT NULL AUTO_INCREMENT,
+            `ad_id` int(50) NOT NULL,
+            `stats_date` int(15) NOT NULL,
+            `stats_impressions` int(15) NOT NULL DEFAULT 0,
+            `stats_year` int(4) NOT NULL,
+            PRIMARY KEY  (`id`),
+            KEY `impr_mob_adid` (`ad_id`),
+            KEY `impr_mob_date` (`stats_date`)
+		)
+        ".$charset_collate.$engine.";");
+                
+	}
+    if(!in_array("{$wpdb->prefix}quads_clicks_desktop", $found_tables)) {
+            
+		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_clicks_desktop` (
+			 `id` bigint(10) NOT NULL AUTO_INCREMENT,
+            `ad_id` int(50) NOT NULL,
+            `stats_date` int(15) NOT NULL,
+            `stats_clicks` int(15) NOT NULL DEFAULT 0,
+            `stats_year` int(4) NOT NULL,
+            PRIMARY KEY  (`id`),
+            KEY `clk_desk_adid` (`ad_id`),
+            KEY `clk_desk_date` (`stats_date`)
+		)
+        ".$charset_collate.$engine.";");
+                
+	}
+
+    if(!in_array("{$wpdb->prefix}quads_impressions_desktop", $found_tables)) {
+            
+		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_impressions_desktop` (
+			 `id` bigint(10) NOT NULL AUTO_INCREMENT,
+            `ad_id` int(50) NOT NULL,
+            `stats_date` int(15) NOT NULL,
+            `stats_impressions` int(15) NOT NULL DEFAULT 0,
+            `stats_year` int(4) NOT NULL,
+            PRIMARY KEY  (`id`),
+            KEY `impr_desk_adid` (`ad_id`),
+            KEY `impr_desk_date` (`stats_date`)
+		)
+        ".$charset_collate.$engine.";");
                 
 	}
 
