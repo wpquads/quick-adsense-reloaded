@@ -208,14 +208,14 @@ Alternative Installation:
 == Changelog ==
 
 = 2.0.79 ( 10 November 2023 ) =
-* Improvement: Need to improve the db structure #834
+* Improvement:Improved reporting db structure #834
 * Improvement: Improvement in Ad delay feature #839
 * Fixed: Ad loggin pagination need to correct. #840
 * Fixed: Version 2.0.76 and Above Breaking Sticky Ads Functionality #842
 * Fixed: Draft Ads in Random Spot Issue: Ads Continue Displaying #844
 * Fixed: The “Unexptected token error” shows in browser console #845
 * Fixed: Warning appears #846
-* Fixed: Need to add default width and height for the ads #680
+* Fixed: Add default width and height for the ads #680
 
 = 2.0.78 ( 10 October 2023 ) =
 * Added: After ID field in "Where Will The AD Appear" option #766
