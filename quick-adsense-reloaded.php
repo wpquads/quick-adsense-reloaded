@@ -599,7 +599,7 @@ function quads_check_for_newinstall(){
       if($quads_install_date == $quads_today){
          update_option('quads_install_date_flag',true);
          $quads_options['report_logging'] = 'improved_v2';
-         $quads_options['logging_toggle'] = true;
+         $quads_options['logging_toggle'] = 'off';
          update_option('quads_settings',$quads_options);
          update_option('quads_v2_db_no_import',true);
          

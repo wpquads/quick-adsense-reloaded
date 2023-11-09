@@ -1818,8 +1818,8 @@ handleMultiPluginsChange = (option) => {
                             <option value="combined_legacy">{__('Combined Data (Legacy)', 'quick-adsense-reloaded')}</option>
                             <option value="improved_v2">{__('Separate Data (Improved V2)', 'quick-adsense-reloaded')}</option>
                           </select>
-                          {settings.logging_toggle?settings.report_logging == 'improved_v2'?
-                          <p>{__('You are now using new improved report tracking. Tracking will start afresh if you need your old data you can import the old data to new system', 'quick-adsense-reloaded')} </p>
+                          {(settings.logging_toggle != 'off')?settings.report_logging == 'improved_v2'?
+                          <p>{__('You are now using new improved report tracking.', 'quick-adsense-reloaded')} </p>
                           :
                           <p>{__('You are using Legacy report tracking.Tracking will get slower as the Datebase size increases. We recommend switching to Separate Data (Improved V2) for better performance', 'quick-adsense-reloaded')}</p>
                         :''}

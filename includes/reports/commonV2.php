@@ -1842,7 +1842,7 @@ function quads_insert_reports_newdb($params){
  add_action('wp_ajax_quads_hide_newdb_migration', 'quads_hide_newdb_migration');
 
  function quads_hide_newdb_migration(){
-	 $quads_res=['status'=>'fail','msg'=>'Invalid Action'];
+	 $quads_res=['status'=>'fail'];
 	 if(current_user_can('manage_options') && isset($_POST['nonce']) && wp_verify_nonce($_POST['nonce'], 'quads_newdb_nonce')){
 	 
 		if(update_option('quads_v2_db_no_import',true)){

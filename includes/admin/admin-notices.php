@@ -139,7 +139,7 @@ function quads_admin_newdb_upgrade(){
     <div id="quads-conform-dialog" class="hidden" style="max-width:800px; position: fixed;top: 35%;left: 25%;background: #fff;padding: 40px;z-index: 999;border: 1px solid;">
   <h3>'.esc_html('Are you sure you want to continue ?').'</h3>
   <h4>'.esc_html('Are you sure that you want to continue without old tracking data and start with fresh tracking?').'</h4>
-  <button id="quads_db_confirm " class="quads-btn quads-btn-primary">'.esc_html('Yes, Continue').'</button> &nbsp; <button class="quads-btn quads_db_cancel quads-btn-default">'.esc_html('No,Take me back').'</button>
+  <button id="quads_db_confirm" class="quads-btn quads-btn-primary">'.esc_html('Yes, Continue').'</button> &nbsp; <button class="quads-btn quads_db_cancel quads-btn-default">'.esc_html('No,Take me back').'</button>
 </div>
     <script>
     jQuery( document ).ready(function( $ ) {
@@ -184,10 +184,15 @@ function quads_admin_newdb_upgrade(){
                             async: !0,
                             success: function(e) {
                                 console.log(e);
+                                if(e.status == "success"){
                                 jQuery(".spinner").removeClass("is-active");
                                 jQuery(\'.quads_db_upgrade\').hide();
                                 jQuery(\'.dbupgrade_link\').hide();
                                 jQuery(\'#quads-conform-dialog\').hide();
+                                }
+                                else{
+                                    alert(\'Error Occured, please refresh the page and try again\');
+                                }
                                 
                             },
                             error: function(e) {
