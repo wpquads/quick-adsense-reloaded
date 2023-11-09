@@ -3148,7 +3148,7 @@ function quads_del_element($array, $idx) {
     
                         }
                         global $quads_options;
-                        $delay_src = (isset($quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src';
+                    
                     $html = '<div style="bottom: 0px; height: 8px; background: rgb(210, 210, 210);" id="progressContainer" class="progressContainer">
                     <div id="progressAd" class="progressAd" style="background-color: rgb(221, 51, 51); width: 0%; height: 8px;"></div>
                     </div>
@@ -3161,10 +3161,10 @@ function quads_del_element($array, $idx) {
                         if(isset($ads['image_redirect_url'])  && !empty($ads['image_redirect_url'])){
                             $html .= '
                             <a target="_blank" href="'.esc_attr($ads['image_redirect_url']). '" rel="nofollow">
-                            <img class="aligncenter" '.$delay_src.'="'.esc_attr($ads['image_src']). '" > 
+                            <img class="aligncenter" '.((isset($quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($ads['image_src']). '" > 
                             </a>';
                         }else{
-                            $html .= '<img class="aligncenter" '.$delay_src.'="'.esc_attr($ads['image_src']). '" >';
+                            $html .= '<img class="aligncenter" '.((isset($quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($ads['image_src']). '" >';
                         }
                     }else{
                         $html .= $ads['code'];

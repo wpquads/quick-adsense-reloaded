@@ -1815,13 +1815,13 @@ handleMultiPluginsChange = (option) => {
                        <th><label htmlFor="report_logging">{__('Report Logging Method', 'quick-adsense-reloaded')}</label></th>
                         <td>
                           <select name="report_logging" id="report_logging" onChange={e =>this.selectLoggingChangeHandler(e)} value={settings.report_logging} >
-                            <option value="combined_legacy">Combined Data (Legacy)</option>
-                            <option value="improved_v2">Separate Data (Improved V2)</option>
+                            <option value="combined_legacy">{__('Combined Data (Legacy)', 'quick-adsense-reloaded')}</option>
+                            <option value="improved_v2">{__('Separate Data (Improved V2)', 'quick-adsense-reloaded')}</option>
                           </select>
                           {settings.logging_toggle?settings.report_logging == 'improved_v2'?
-                          <p>You are now using new improved report tracking. Tracking will start afresh if you need your old data you can import the old data to new system </p>
+                          <p>{__('You are now using new improved report tracking. Tracking will start afresh if you need your old data you can import the old data to new system', 'quick-adsense-reloaded')} </p>
                           :
-                          <p>You are using Legacy report tracking.Tracking will get slower as the Datebase size increases. We recommend switching to Separate Data (Improved V2) for better performance</p>
+                          <p>{__('You are using Legacy report tracking.Tracking will get slower as the Datebase size increases. We recommend switching to Separate Data (Improved V2) for better performance', 'quick-adsense-reloaded')}</p>
                         :''}
                         </td>
                       </tr>
