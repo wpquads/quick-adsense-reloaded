@@ -917,7 +917,7 @@ function quads_inline_styles_amp() {
  */
 function quads_render_media_query( $key, $value ) {
     $lic = get_option( 'quads_wp_quads_pro_license_active' );
-    if( !$lic || (is_object( $lic ) && $lic->success !== true) ) {
+    if( !$lic || (is_object( $lic ) && isset($lic->success) && $lic->success !== true) ) {
         return '';
     }
 
