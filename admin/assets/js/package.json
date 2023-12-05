@@ -14,7 +14,8 @@
  },
  "scripts": {
   "build": "webpack",
-  "watch": "webpack --watch"
+  "watch": "webpack --watch",
+  "release":"webpack -p --watch"
  },
  "author": "",
  "license": "ISC",

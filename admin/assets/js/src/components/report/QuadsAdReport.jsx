@@ -6,6 +6,7 @@ import '../../components/report/QuadsAdReport.scss'
 import {Chart} from 'react-charts'
 import DatePicker from "react-datepicker";
 import queryString from 'query-string'
+const {__} = wp.i18n;
 
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -854,6 +855,39 @@ drawChart(config);
         console.log('Single Ads');
     }
 
+    download_report_stats = (eve) => {
+        let date = ''
+        let newdate = ''
+        let day_val = ''
+
+        let id = document.getElementById('view_stats_report').value
+        newdate = document.getElementById('report_period').value
+        day_val = document.getElementById('report_period').value
+       if( day_val!='custom' && day_val!='select_duration' && id!='select' ){
+        var url =  quads_localize_data.rest_url + 'quads-adsense/download_report_stats?id='+id+'&date='+newdate+'&day='+day_val;
+
+            fetch(url,{
+                method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': quads_localize_data.nonce,
+            },
+            } )
+            .then(res => res.json())
+            .then( (response) => {
+                if(response!=null){
+                    const element = document.createElement("a");
+                    element.style.visibility = 'hidden';
+                    const file = new Blob([response], {type: 'text/csv'});
+                    element.href = URL.createObjectURL(file);
+                    element.download = "Reports-"+newdate+".csv";
+                    document.body.appendChild(element); // Required for this to work in FireFox
+                    element.click();
+                }});
+
+            } 
+}
     view_report_stats_form_ChangeHandler_main_report_tab = (eve) => {
         let date = ''
         let newdate = ''
@@ -1579,8 +1613,8 @@ drawChart(config);
                     <div className={'quads-select view_statsreport'} onClick={this.adsToggle_list}>
                     
                     <select name="view_stats_report" onChange={this.view_report_stats_form_ChangeHandler_main_report_tab} id={'view_stats_report'} placeholder="Select Ads" >
-                        <option value="select">Select Ad</option>
-                        <option value="all">All Ads</option>
+                        <option value="select">{__('Select Ad', 'quick-adsense-reloaded')}</option>
+                        <option value="all">{__('All Ads', 'quick-adsense-reloaded')}</option>
                         {this.state.getallads_data_temp ? this.state.getallads_data_temp.map( item => (
                             <option key={item.value} value={item.value}>{item.label}</option>
                         ) )
@@ -1588,21 +1622,22 @@ drawChart(config);
                         </select>
                         
                     <select name="report_period" id={'report_period'} onChange={this.view_report_stats_form_ChangeHandler_main_report_tab}>
-                    <option value="select_duration">Select Duration</option>
-                    <option value="today">Today</option>
-                    <option value="yesterday">Yesterday</option>
-                    <option value="last_7_days">Last 7 Days</option>
-                    <option value="this_month">This Month</option>
-                    <option value="last_month">Last Month</option>
-                    <option value={ quads_localize_data_is_pro ? "this_year" : "this_year_free"}>This Year</option>
-                    <option value={ quads_localize_data_is_pro ? "all_time" : "all_time_free"}>All Time</option>
-                    <option value={ quads_localize_data_is_pro ? "custom" : "custom_free"}>Custom</option>
+                    <option value="select_duration">{__('Select Duration')}</option>
+                    <option value="today">{__('Today', 'quick-adsense-reloaded')}</option>
+                    <option value="yesterday">{__('Yesterday', 'quick-adsense-reloaded')}</option>
+                    <option value="last_7_days">{__('Last 7 Days', 'quick-adsense-reloaded')}</option>
+                    <option value="this_month">{__('This Month', 'quick-adsense-reloaded')}</option>
+                    <option value="last_month">{__('Last Month', 'quick-adsense-reloaded')}</option>
+                    <option value={ quads_localize_data_is_pro ? "this_year" : "this_year_free"}>{__('This Year', 'quick-adsense-reloaded')}</option>
+                    <option value={ quads_localize_data_is_pro ? "all_time" : "all_time_free"}>{__('All Time', 'quick-adsense-reloaded')}</option>
+                    <option value={ quads_localize_data_is_pro ? "custom" : "custom_free"}>{__('Custom', 'quick-adsense-reloaded')}</option>
                 </select>
                 <button id="ajaxSubmitButton" style={{display:'none'}} onClick={this.view_report_stats_form_ChangeHandler_main_report_tab}>Submit</button>
+                {quads_localize_data_is_pro ?<a className='quads-btn quads-btn-primary quads-reports-download' onClick={this.download_report_stats}>{__(' Export as CSV ', 'quick-adsense-reloaded')} </a>:''}
                 { this.state.custom_period == true  ? <>
                     <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_fromdate_main_report} />
                     <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_todate_main_report} />
-                    <button className="show_btn" onClick={this.get_data_dates_main_report}>Show data</button>
+                    <button className="show_btn" onClick={this.get_data_dates_main_report}>{__('Show data','quick-adsense-reloaded')}</button>
                 </> : '' 
 
                 }
