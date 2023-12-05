@@ -321,9 +321,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
 
 
       public function load_hooks() {
-         if( is_admin() && quads_is_plugins_page() ) {
             add_filter( 'admin_footer', 'quads_add_deactivation_feedback_modal' );
-         }
       }
 
       /**

@@ -22,9 +22,15 @@ if( !defined( 'ABSPATH' ) )
  * @return bool
  */
 function quads_is_plugins_page() {
-    global $pagenow;
-
-    return ( 'plugins.php' === $pagenow );
+    if(function_exists('get_current_screen')){
+        $screen = get_current_screen();
+            if(is_object($screen)){
+                if($screen->id == 'plugins' || $screen->id == 'plugins-network'){
+                    return true;
+                }
+            }
+    }
+    return false;
 }
 
 /**
