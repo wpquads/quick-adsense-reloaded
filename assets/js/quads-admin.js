@@ -104,123 +104,7 @@ $('a[href$="quads_switch_to_old"]').removeAttr("href").attr('onClick', "quads_sw
     $('.quads-tooltip-message').click(function (e) {
         e.stopPropagation();
     });
-
-    
-// vi login process
-$("#quads_vi_login_submit").click(function(e){
-e.preventDefault();
-        username = $("#quads-vi-email").val();
-        password = $("#quads-vi-password").val();
-
-        var data = '{"email":"' + username + '", "password":"' + password + '"}';
-
-        $.ajax({
-        type: "POST",
-                //url: "https://dashboard-api-test.vidint.net/v1/api/authenticate",
-                url: quads.vi_login_url,
-                contentType: 'application/json',
-                data: data,
-                statusCode: {
-                        502: function () {
-                        $("#quads_add_err").html("502 Bad Gateway. Contact support[at]vi.ai");
-                        console.log('502 Bad Gateway.');
-                        return false;
-                        },
-                        500: function () {
-                        $("#quads_add_err").html("500 Bad Gateway. Contact support[at]vi.ai");
-                        console.log('500 Bad Gateway.');
-                        return false;
-                        }
-                },
-                success: function(response){
-                        $("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
-                        $("#quads_add_err").hide();
-                        if (typeof response.data !== 'undefined')    {
-                            $("#quads_add_err").html("We are logging you in");
-                            console.log('We are logging you in' + response);
-                            saveViToken(response.data);
-                }
-                else    {
-                        $("#quads_add_err").html("No valid API response. Can not log you in. Contact support[at]vi.ai");
-                        console.log('no valid api response' + response);
-                }
-                },
-                error: function(response){
-                            // check if xhr.status is defined in $.ajax.statusCode
-                            // if true, return false to stop this function
-                            if (typeof this.statusCode[response.status] != 'undefined') {
-                                return false;
-                            }
-                    
-                    var result = typeof response.responseText !== 'undefined' ? JSON.parse(response.responseText) : '';
-                    $("#quads_add_err").html(result.error.message + ' ' + result.error.description);
-                    $("#quads_add_err").css('display', 'inline', 'important').css('visibility', 'visible');
-                    $("#quads_add_err").show();
-                    $("#quads_add_err").removeClass('quads-spinner');
-                    console.log(result);
-                    //exit;
-                },
-                beforeSend:function()
-                {
-                $("#quads_vi_loading").css('display', 'inline', 'important').css('visibility', 'visible');
-                $("#quads_add_err").show();
-                },
-
-                complete:function()
-                {
-                    $("#quads_vi_loading").css('display', 'none', 'important').css('visibility', 'hidden');
-                }
-
-        });
-        return false;
-        });
-    
-        /**
-         * Save vi token
-         */
-                function saveViToken(token){
-                var data = {
-                        'action': 'quads_save_vi_token',
-                        'token': token
-                };
-                        $.ajax({
-                        type: "POST",
-                                url: ajaxurl,
-                                dataType: "json",
-                                data: data,
-                                //contentType: 'application/json;charset=utf-8',
-                                success: function(response){
-                                //response = JSON.stringify(response);
-                                console.log(response.status);
-
-                                        $("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
-                                        $("#quads_add_err").hide();
-                                if (typeof response.status != 'undefined' && response.status == 'success')    {
-                                            console.log('Success, login succesfull, token stored' + response);
-                                            window.location.href = quads.path + '/wp-admin/?page=quads-settings&tab=general#quads_settingsvi_header';                                  
-                                            return false;
-                                    }
-                                else    {
-                                            console.log("Can not store token");
-                                            window.location.href = quads.path + '/wp-admin/?page=quads-settings&tab=general#quads_settingsvi_header';
-                                            return false;
-                                    }
-                                },
-                                beforeSend:function()
-                                {
-                                $("#quads_add_err").css('display', 'inline', 'important').css('visibility', 'visible');
-                                        $("#quads_add_err").show();
-                                },
-                                complete:function()
-                                {
-                                $("#quads_add_err").css('display', 'none', 'important').css('visibility', 'hidden');
-                                        $("#quads_add_err").hide();
-                                }
-
-                        });
-                        }
                         
-                            
 
     
     // Remove several unused elements from vi page
@@ -246,23 +130,6 @@ e.preventDefault();
             }
     });
 
-
-
-    
-    
-    // VI signup form
-    $('#quads-vi-signup').click(function(e){
-        e.preventDefault();
-        // scroll to top
-        $(window).scrollTop(0);
-        // hide save button
-        $('#quads-submit-button').hide();
-        $('#quads-vi-signup-fullscreen').fadeIn();
-    });
-    $('#quads-vi-close').click(function(e){
-        e.preventDefault();
-        $('#quads-vi-signup-fullscreen').fadeOut();
-    });
      
     /**
      * General Tab
