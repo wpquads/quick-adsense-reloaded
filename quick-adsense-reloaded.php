@@ -391,9 +391,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          $cron = new quadsCron();
          $cron->schedule_event();
 
-         // Create vi api endpints and settings
-         self::instance()->vi->setSettings();
-
          // Add Upgraded From Option
          $current_version = get_option( 'quads_version' );
          if( $current_version ) {

@@ -2515,7 +2515,6 @@ function quads_adsense_code_callback( $args ) {
         if(is_file('ads.txt') || !isset($quads_options['adsTxtEnabled'])){
             return false;
         }
-        $quads->vi->createAdsTxt();
         $adsense = new wpquads\adsense($quads_options);
         $adsense->writeAdsTxt();
     }
