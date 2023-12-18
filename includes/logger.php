@@ -10,7 +10,7 @@
 *
 **/
 class quadsLogger {
-  var $file, $path, $level, $stream;
+  var $file, $path, $level, $stream,$folder;
   const INFO  = 4;
   const DEBUG = 3;
   const WARN  = 2;
@@ -22,7 +22,7 @@ class quadsLogger {
 		$this->file = $file;
 		$this->level = $level;
 		$this->path = QUADS_PLUGIN_DIR . "logs/$this->file";
-                $this->folder = QUADS_PLUGIN_DIR . "logs";
+        $this->folder = QUADS_PLUGIN_DIR . "logs";
 		$this->start();
 	}
 	

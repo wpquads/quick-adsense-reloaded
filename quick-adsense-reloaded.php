@@ -134,7 +134,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             self::$instance->load_hooks();
             self::$instance->logger = new quadsLogger( "quick_adsense_log_" . date( "Y-m-d" ) . ".log", quadsLogger::INFO );
             self::$instance->html = new QUADS_HTML_Elements();
-            self::$instance->vi = new wpquads\vi();
             self::$instance->adsense = new wpquads\adsense(get_option('quads_settings'));
          }
          return self::$instance;
@@ -242,9 +241,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/conditions.php';
          require_once QUADS_PLUGIN_DIR . 'includes/frontend-checks.php';
          require_once QUADS_PLUGIN_DIR . 'includes/Cron/Cron.php';
-         require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/conditions.php';
-         require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/vi.php';
-         require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/render.php';
          require_once QUADS_PLUGIN_DIR . 'includes/vendor/google/adsense.php';
          require_once QUADS_PLUGIN_DIR . 'includes/class-template.php';
          require_once QUADS_PLUGIN_DIR . 'includes/admin/adsTxt.php';
@@ -282,7 +278,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             require_once QUADS_PLUGIN_DIR . 'includes/admin/upgrades/upgrade-functions.php';
             require_once QUADS_PLUGIN_DIR . 'includes/Forms/Form.php';
             require_once QUADS_PLUGIN_DIR . 'includes/Autoloader.php';
-            require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/views/Forms/adSettings.php';
             $this->registerNamespaces();
 
          }
@@ -308,8 +303,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
               QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms',
               QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms' . DIRECTORY_SEPARATOR . 'Elements',
               QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms' . DIRECTORY_SEPARATOR . 'Elements' . DIRECTORY_SEPARATOR . 'Interfaces',
-              QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'vi',
-              QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'vi' . DIRECTORY_SEPARATOR . 'views',
               )
       ) );
 
