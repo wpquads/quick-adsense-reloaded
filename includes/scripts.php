@@ -201,10 +201,6 @@ if(is_object($screens)){
         // Use minified libraries if SCRIPT_DEBUG is turned off
     $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
     wp_enqueue_script( 'quads-admin-scripts', $js_dir . 'quads-admin' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
-    $quads_vi_settings = $quads->vi->getSettings();
-    if($quads_vi_settings && isset($quads_vi_settings->data->signupURL)){
-        $signupURL = $quads_vi_settings->data->signupURL;
-    }
          $quads_import_classic_ads_popup = false;
         $classic_ads_status = get_option( 'quads_import_classic_ads_popup' );
         if($classic_ads_status === false && $quads_mode === false){
@@ -218,10 +214,6 @@ if(is_object($screens)){
         'error'         => __( "error", 'quick-adsense-reloaded' ),
         'path'          => get_option( 'siteurl' ),
         'plugin_url'    => QUADS_PLUGIN_URL,
-        'vi_revenue'    => !empty( $quads->vi->getRevenue()->mtdReport ) ? $quads->vi->getRevenue()->mtdReport : '',
-        'vi_login_url'  => $quads->vi->getLoginURL(),
-        'vi_signup_url' => !empty( $signupURL ) ? $signupURL : '',
-        'domain'        => $quads->vi->getDomain(),
         'email'         => get_option( 'admin_email' ),
         'aid'           => 'WP_Quads',
         'quads_import_classic_ads_popup' => $quads_import_classic_ads_popup,
@@ -238,9 +230,6 @@ if(is_object($screens)){
     wp_enqueue_script( 'quads-jscolor', $js_dir . 'jscolor' . $suffix . '.js', array(), QUADS_VERSION, false );
     wp_enqueue_script( 'jquery-chosen', $js_dir . 'chosen.jquery' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
     wp_enqueue_script( 'jquery-form' );
-
-    $vi_dir = QUADS_PLUGIN_URL . 'includes/vendor/vi/public/js/';
-    wp_enqueue_script( 'quads-vi', $vi_dir . 'vi.js', array(), QUADS_VERSION, false );
     wp_enqueue_style( 'quads-admin', $css_dir . 'quads-admin' . $suffix . '.css',array(), QUADS_VERSION );
     wp_enqueue_style( 'jquery-chosen', $css_dir . 'chosen' . $suffix . '.css',array(), QUADS_VERSION );
 

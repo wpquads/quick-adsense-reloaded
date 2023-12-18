@@ -46,13 +46,6 @@ function quads_admin_messages() {
 
     quads_update_notice_1_5_3();
 
-    quads_show_vi_api_error();
-
-
-    // echo quads_get_vi_notice();
-
-    echo quads_show_vi_notices();
-
     quads_show_ads_txt_notice();
 
     quads_show_license_expired();
@@ -61,17 +54,6 @@ function quads_admin_messages() {
     if( quads_is_admin_page() ) {
         echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="wpquads-adblock-notice">' . sprintf( __( '<strong><p>Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup</strong></p>', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
     }
-
-//    if( !quads_is_any_ad_activated() && quads_is_admin_page() ) {
-//        echo '<div class="notice notice-warning">' . sprintf( __( '<strong>No ads are activated!</strong> You need to assign at least 1 ad to an ad spot. Fix this in <a href="%s">General Settings</a>! Alternatively you need to use a shortcode in your posts or no ads are shown at all.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
-//    }
-//    if( quads_get_active_ads() === 0 && quads_is_admin_page() ) {
-//        echo '<div class="notice notice-warning">' . sprintf( __( '<strong>No ads defined!</strong> You need to create at least one ad code. Fix this in <a href="%s">ADSENSE CODE</a>.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsadsense_header' ) . '</div>';
-//    }
-
-    // if( !quads_is_post_type_activated() && quads_is_admin_page() ) {
-    //     echo '<div class="notice notice-warning">' . sprintf( __( '<strong>No ads are shown - No post type chosen!</strong> You need to select at least 1 post type like <i>blog</i> or <i>page</i>. Fix this in <a href="%s">General Settings</a> or no ads are shown at all.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
-    // }
 
     if( isset( $_GET['quads-action'] ) && $_GET['quads-action'] === 'validate' && quads_is_admin_page() && quads_is_any_ad_activated() && quads_is_post_type_activated() && quads_get_active_ads() > 0 ) {
         echo '<div class="notice notice-success">' . sprintf( __( '<strong>No errors detected in WP QUADS settings.</strong> If ads are still not shown read the <a href="%s" target="_blank">troubleshooting guide</a>' ), 'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink' ) . '</div>';
@@ -665,81 +647,6 @@ function quads_show_vi_notice_again() {
 }
 
 /**
- * Show all vi notices
- */
-function quads_show_vi_notices() {
-    global $quads, $quads_options;
-
-    if( !quads_is_admin_page() ) {
-        return false;
-    }
-
-
-    // adsense ads.txt content
-    $adsense             = new wpquads\adsense( $quads_options );
-    $adsensePublisherIds = $adsense->getPublisherIds();
-
-    $adsenseAdsTxtText = '';
-    if( !empty( $adsensePublisherIds ) ) {
-        foreach ( $adsensePublisherIds as $adsensePublisherId ) {
-            $adsenseAdsTxtText .= "google.com, " . str_replace( 'ca-', '', $adsensePublisherId ) . ", DIRECT, f08c47fec0942fa0\r\n";
-        }
-    }
-
-    // vi ads.txt content
-    $viAdsTxtText = '';
-    if( $quads->vi->getPublisherId() ) {
-        $viAdsTxtText = $quads->vi->getAdsTxtContent();
-    }
-
-    // Show ads.txt warning if logged into vi and ads.txt option is disabled
-    if( get_transient( 'quads_vi_ads_txt_disabled' ) && get_option( 'quads_vi_token' ) ) {
-        // ads.txt content
-        $notice['message'] = sprintf( '<p><strong>ADS.TXT couldn\'t be updated automatically.</strong><br><br>You need the ads.txt to display vi video ads. <br>If you want WP QUADS to create an ads.txt automatically you can enable the ads.txt option at <a href="%1$s">General & Position</a>. Alternatively you can also enter the following line manually into <strong>' . get_site_url() . '/ads.txt</strong>:'
-                . "<p>"
-                . "<pre>" . $viAdsTxtText . "<br>"
-                . $adsenseAdsTxtText
-                . "</pre></p>"
-                . 'If the file does not exist you need to create it first. <a href="%2$s" target="_blank">Learn More</a></p>'
-                , admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header'
-                , 'https://wpquads.com/make-more-revenue-by-using-an-ads-txt-in-your-website-root-domain/'
-        );
-        $notice['type']    = 'update-nag';
-        $adsTxtDisabled    = new wpquads\template( '/includes/vendor/vi/views/notices', $notice );
-        echo $adsTxtDisabled->render();
-        return false;
-    }
-
-    // show ad.txt update notice
-    if( get_transient( 'quads_vi_ads_txt_notice' ) ) {
-        $notice['message'] = '<strong>ADS.TXT has been added</strong><br><br><strong>WP QUADS</strong> has updated your ads.txt '
-                . 'file with lines that declare video inteligence as a legitmate seller of your inventory and enables you to make more money through video inteligence. <a href="https://www.vi.ai/publisher-video-monetization/?utm_source=WordPress&utm_medium=Plugin%20blurb&utm_campaign=wpquads" target="blank" rel="external nofollow">FAQ</a>';
-        $notice['type']    = 'update-nag';
-        $notice['transient']    = 'quads_vi_ads_txt_notice';
-        $adsUpdated        = new wpquads\template( '/includes/vendor/vi/views/notices', $notice );
-        // echo $adsUpdated->render();
-    }
-
-    // show ad.txt update notice
-    if( get_transient( 'quads_vi_ads_txt_error' ) ) {
-
-
-        // ads.txt content
-        $notice['message'] = "<p><strong>ADS.TXT couldn't be added</strong><br><br>Important note: WP QUADS hasn't been able to update your ads.txt file automatically. Please make sure to enter the following line manually into <br><strong>" . get_home_path() . "ads.txt</strong>:"
-                . "<p>"
-                . "<pre>vi.ai " . $quads->vi->getPublisherId() . " DIRECT # 41b5eef6<br>"
-                . $adsenseAdsTxtText
-                . "</pre></p>"
-                . "Only by doing so you are able to make more money through video inteligence.</p>";
-        $notice['type']    = 'error';
-
-        // render blurb
-        $adsTxtError = new wpquads\template( '/includes/vendor/vi/views/notices', $notice );
-        echo $adsTxtError->render();
-    }
-}
-
-/**
  * Show a ads.txt notices if WP QUADS has permission to update or create an ads.txt
  */
 function quads_show_ads_txt_notice() {
@@ -782,24 +689,6 @@ function quads_show_ads_txt_notice() {
         // render blurb
         $adsTxtError = new wpquads\template( '/includes/admin/views/notices', $notice );
         echo $adsTxtError->render();
-    }
-}
-
-/**
- * Show api errors
- */
-function quads_show_vi_api_error() {
-    if( !quads_is_admin_page() ) {
-        return false;
-    }
-
-    if( false !== get_option( 'quads_vi_api_error' ) ) {
-        $notice['message'] = 'WP QUADS - Can not retrive ad settings from vi API. Error: ' . get_option( 'quads_vi_api_error' );
-        $notice['type']    = 'error';
-        $notice['action']  = '';
-        // render blurb
-        $blurb             = new wpquads\template( '/includes/admin/views/notices', $notice );
-        echo $blurb->render();
     }
 }
 

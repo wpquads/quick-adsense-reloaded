@@ -178,20 +178,6 @@ function quads_get_registered_settings() {
     * section to allow extensions and other plugins to add their own settings
     */
     global $quads, $quads_options;
-
-    $vi_ads = array(
-          'id' => 'vi_header',
-          'name' => '<strong>' . __( 'vi ads', 'quick-adsense-reloaded' ) . '</strong>',
-          'desc' => '<strong>Native video ad units powered by video intelligence</strong>',
-          'type' => 'header'
-     ); 
-
-     $vi_ads_not_loggedin = array(
-          'id' => '',
-          'type' => ''
-     );
-
-    $vi_ads_final = ( false === $quads->vi->setRevenue() ) ? $vi_ads_not_loggedin :  $vi_ads;
    
    $quads_settings = array(
        /** General Settings */
@@ -289,18 +275,6 @@ function quads_get_registered_settings() {
                'desc' => __( '', 'quick-adsense-reloaded' ),
                'type' => 'quicktags'
            ),
-          $vi_ads_final,
-           array(
-               'id' => 'vi_signup',
-               'name' =>__( '', 'quick-adsense-reloaded' ) . '</strong>',
-               'type' => 'vi_signup'
-           ),
-           /* 'load_scripts_footer' => array(
-             'id' => 'load_scripts_footer',
-             'name' => __( 'JS Load Order', 'quick-adsense-reloaded' ),
-             'desc' => __( 'Enable this to load all *.js files into footer. Make sure your theme uses the wp_footer() template tag in the appropriate place. Default: Disabled', 'quick-adsense-reloaded' ),
-             'type' => 'checkbox'
-             ), */
            'adsense_header' => array(
                'id' => 'adsense_header',
                'name' => '<strong>' . __( 'Ads', 'quick-adsense-reloaded' ) . '</strong>',
@@ -2499,63 +2473,6 @@ function quads_adsense_code_callback( $args ) {
        }
        echo '</select>';
     }
-
-    /**
-     * VI Integration
-     * @global type $quads
-     *
-     */
-    function quads_vi_signup_callback() {
-    global $quads, $quads_options;
-
-            //$adsense = new \wpquads\adsense($quads_options);
-            //var_dump($adsense->getPublisherIds());
-            //echo 'test' . $adsense->getPublisherIds() . $adsense->writeAdsTxt();
-
-    $header = new \wpquads\template('/includes/vendor/vi/views/partials/header', array());
-    $footer = new \wpquads\template('/includes/vendor/vi/views/partials/footer', array());
-    $error = new \wpquads\template('/includes/vendor/vi/views/error', array());
-
-    // Try to initially load vi settings
-    $settings = $quads->vi->getSettings();
-    if ( false === $settings || empty($settings)){
-        if (!$quads->vi->setSettings()) {
-            echo $header->render();
-            echo $error->render();
-            echo $footer->render();
-            return true;
-        }
-    }
-
-
-    $data = !empty($quads->vi->getSettings()->data) ? (array) $quads->vi->getSettings()->data : array();
-
-    $data['jsTag'] = $quads->vi->getAdCode();
-
-    $logged_in = new \wpquads\template('/includes/vendor/vi/views/logged_in', $data);
-    $not_logged_in = new \wpquads\template('/includes/vendor/vi/views/not_logged_in', $data);
-    $adform = new \wpquads\template('/includes/vendor/vi/views/ad_settings', $data);
-    $revenue = new \wpquads\template('/includes/vendor/vi/views/revenue', $data);
-
-    // header
-    echo $header->render();
-
-
-    // Not logged in
-    if (empty($data) || false === $quads->vi->setRevenue()) {
-        return false;
-    } else {
-    // Is logged in
-    //if ($quads->vi->setRevenue()) {
-        echo $revenue->render();
-        echo $adform->render();
-    }
-
-    // footer
-    echo $footer->render();
-
-
-}
 
 /**
  * Create ads.txt for Google AdSense when saving settings
