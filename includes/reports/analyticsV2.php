@@ -285,7 +285,6 @@ public function quads_add_analytics_amp_tags(){
 */
 private function quads_insert_impression($ad_id){ 
   global $wpdb,$quads_options;
-  $log_enabled = $quads_options['ad_log'];
   $performance_tracking = $quads_options['ad_performance_tracking'];
   $todays_date = date('Y-m-d');
   $todays_date = strtotime($todays_date);
@@ -325,8 +324,8 @@ if($performance_tracking){
 private  function quads_insert_clicks($ad_id){
 
   global $wpdb,$quads_options;
-  $log_enabled = $quads_options['ad_log'];
-  $performance_tracking = $quads_options['ad_performance_tracking'];
+  $log_enabled = isset($quads_options['ad_log'])?$quads_options['ad_log']:false;
+  $performance_tracking = isset($quads_options['ad_performance_tracking'])?$quads_options['ad_performance_tracking']:false;
   $todays_date = date('Y-m-d');
   $todays_date = strtotime($todays_date);
   $year = intval(date('Y'));
