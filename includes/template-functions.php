@@ -441,7 +441,7 @@ function quads_adblocker_notice_jsondata(){
     $output = '';
     $quads_mode = get_option('quads-mode');
     if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support'] && !empty($settings['notice_type']) || ($quads_mode && $quads_mode == 'old' && isset($settings['ad_blocker_message'])  && $settings['ad_blocker_message'])){
-      $output    .= '<script type="text/javascript">';
+      $output    .= '<script>';
       $output    .= '/* <![CDATA[ */';
       $output    .= 'var quadsOptions =' .
         json_encode(
@@ -559,7 +559,7 @@ function quads_adblocker_ad_block(){
     if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support'] && !empty($settings['notice_type']) || ($quads_mode && $quads_mode == 'old' && isset($settings['ad_blocker_message'])  && $settings['ad_blocker_message'])){
 
         ?>
-<script type="text/javascript">
+<script>
 
    if(typeof quadsOptions !== 'undefined' && typeof wpquads_adblocker_check_2 
   === 'undefined' && quadsOptions.quadsChoice == 'ad_blocker_message'){

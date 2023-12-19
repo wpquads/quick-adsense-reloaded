@@ -194,7 +194,7 @@ function quads_common_head_code(){
 
             }
             if($ads['ad_type']== 'taboola'){
-               echo '<script type="text/javascript">window._taboola = window._taboola || [];
+               echo '<script>window._taboola = window._taboola || [];
               _taboola.push({article:"auto"});
               !function (e, f, u) {
                 e.async = 1;
@@ -204,9 +204,9 @@ function quads_common_head_code(){
               </script>';
             }else if($ads['ad_type']== 'mediavine'){
                echo '<link rel="dns-prefetch" href="//scripts.mediavine.com" />
-                  <script type="text/javascript" async="async" data-noptimize="1" data-cfasync="false" src="//scripts.mediavine.com/tags/'.esc_attr($ads['mediavine_site_id']).'.js?ver=5.2.3"></script>';
+                  <script async="async" data-noptimize="1" data-cfasync="false" src="//scripts.mediavine.com/tags/'.esc_attr($ads['mediavine_site_id']).'.js?ver=5.2.3"></script>';
             }else if($ads['ad_type']== 'outbrain'){
-               echo '<script type="text/javascript" async="async" src="http://widgets.outbrain.com/outbrain.js "></script>';
+               echo '<script async="async" src="http://widgets.outbrain.com/outbrain.js "></script>';
             }else if($ads['ad_type']== 'adpushup'){
                 echo '<script data-cfasync="false" type="text/javascript">
                 (function(w, d) {
@@ -285,7 +285,7 @@ function quads_render_yandex_async( $id ) {
 
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Yandex async --> \n\n";
     $html .= '<div id="yandex_rtb_'.esc_attr($quads_options['ads'][$id]['block_id']). '" ></div>
-                       <script type="text/javascript">
+                       <script>
     (function(w, d, n, s, t) {
         w[n] = w[n] || [];
         w[n].push(function() {
@@ -421,7 +421,7 @@ function quads_render_taboola_async( $id ) {
 
         $html .= '<div id="quads_taboola_'.esc_attr($id)    .'"></div>';
 
-          $html .= '<script type="text/javascript">
+          $html .= '<script>
                         window._taboola = window._taboola || [];
                         _taboola.push({
                             mode:"thumbnails-a", 
@@ -491,12 +491,12 @@ function quads_render_infolinks_async( $id ) {
     global $quads_options;
 
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Infolinks --> \n\n";
-    $html .= ' <script type="text/javascript">
+    $html .= ' <script>
                                     var infolinks_pid = '.esc_attr($quads_options['ads'][$id]['infolinks_pid']).';
                                     var infolinks_wsid = '.esc_attr($quads_options['ads'][$id]['infolinks_wsid']).';
                                     var infolinks_adid = '.esc_attr($quads_options['ads'][$id]['ad_id']).';
                                   </script>
-                                <script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>';
+                                <script src="//resources.infolinks.com/js/infolinks_main.js"></script>';
 
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_infolinks_async', $html );
@@ -528,7 +528,7 @@ function quads_render_propeller_async( $id ) {
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content propeller --> \n\n";
     $html .= '                             
                 <div id="'.$id.' propeller-ad">
-                <script type="text/javascript"> '.esc_attr($quads_options['ads'][$id]['propeller_js']).'"
+                <script> '.esc_attr($quads_options['ads'][$id]['propeller_js']).'"
                 </script>
                 </div>
             ';
@@ -773,7 +773,7 @@ function quads_render_google_async( $id ) {
     }
 
     //google async script
-    $html .= "\n".'<script type="text/javascript" >' . "\n";
+    $html .= "\n".'<script >' . "\n";
     $html .= 'var quads_screen_width = document.body.clientWidth;' . "\n";
 
 

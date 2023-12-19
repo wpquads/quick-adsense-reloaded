@@ -519,7 +519,7 @@ function quads_is_visibility_on($ads){
 add_action('wp_head', 'quads_set_browser_width_script');
 function quads_set_browser_width_script(){
   if(!is_admin() && !quads_is_amp_endpoint()){
-    echo "<script type='text/javascript'>document.cookie = 'quads_browser_width='+screen.width;</script>";
+    echo "<script>document.cookie = 'quads_browser_width='+screen.width;</script>";
   }
 }
 

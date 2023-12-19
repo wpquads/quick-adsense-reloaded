@@ -99,7 +99,7 @@ function quads_check_ad_blocker() {
         return false;
     }
     ?>
-    <script type="text/javascript">
+    <script>
         window.onload = function(){
         if (typeof wpquads_adblocker_check === 'undefined' || false === wpquads_adblocker_check) {
         if (document.getElementById('wpquads-adblock-notice')){
@@ -965,7 +965,7 @@ function quads_ads_head_script() {
 
     if( isset( $quads_options['quicktags']['QckTags'] ) ) {
         ?>
-        <script type="text/javascript">
+        <script>
         wpvcomp = <?php echo (($wpvcomp == 1) ? "true " : "false"); ?>;
         edaddID = new Array();
         edaddNm = new Array();
