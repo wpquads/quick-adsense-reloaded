@@ -362,7 +362,7 @@ function quads_adblocker_popup_notice(){
         ?>
       </div>
     </div>
-    <style type="text/css">
+    <style>
     .quads-modal {
       display: block; /* Hidden by default */
       position: fixed; /* Stay in place */
@@ -489,7 +489,7 @@ function quads_adblocker_notice_bar(){
     <input type="hidden" id="quads_notice_bar" value="<?php echo $notice_bar;?>">
     <input type="hidden" id="quads_notice_bar_sticky" value="<?php echo $notice_bar_sticky;?>">
   </div>
-  <style type="text/css">
+  <style>
     .quads-adblocker-message{
       display: inline-block;
     }

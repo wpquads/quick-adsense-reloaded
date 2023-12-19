@@ -4,7 +4,7 @@ jQuery(document).ready(function ($) {
     if(quadsnewsletter.do_tour){
         var content = '<h3>Thanks for using WP QUADS!</h3>';
         content += '<p>Do you want the latest on <b>WP QUADS update</b> before others and some best resources on monetization in a single email? - Free just for users of WP QUADS!</p>';
-        content += '<style type="text/css">';
+        content += '<style>';
         content += '.wp-pointer-buttons{ padding:0; overflow: hidden; }';
         content += '.wp-pointer-content .button-secondary{  left: -25px;background: transparent;top: 5px; border: 0;position: relative; padding: 0; box-shadow: none;margin: 0;color: #0085ba;} .wp-pointer-content .button-primary{ display:none}  #afw_mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }';
         content += '</style>';                        
