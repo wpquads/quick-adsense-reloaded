@@ -185,7 +185,7 @@ function quads_get_registered_settings() {
            array(
                'id' => 'general_header',
                'name' => '<strong>' . __( 'General & Position', 'quick-adsense-reloaded' ) . '</strong>',
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'header'
            ),
            'maxads' => array(
@@ -228,7 +228,7 @@ function quads_get_registered_settings() {
            array(
                'id' => 'visibility',
                'name' => __( 'Visibility', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'visibility'
            ),
            array(
@@ -249,7 +249,7 @@ function quads_get_registered_settings() {
            array(
                'id' => 'quicktags',
                'name' => __( 'Quicktags', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'quicktags'
            ),
            array(
@@ -272,7 +272,7 @@ function quads_get_registered_settings() {
            array(
                'id' => 'quicktags',
                'name' => __( 'Quicktags', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'quicktags'
            ),
            'adsense_header' => array(
@@ -290,12 +290,12 @@ function quads_get_registered_settings() {
            ),
            array(
                'id' => 'quads_ads',
-               'name' => __( '', 'quick-adsense-reloaded' ),
+               'name' => '',
                'type' => 'ad_code'
            ),
            array(
                'id' => 'new_ad',
-               'name' => __( '', 'quick-adsense-reloaded' ),
+               'name' => '',
                'type' => 'new_ad',
            ),
            'widget_header' => array(
@@ -307,77 +307,77 @@ function quads_get_registered_settings() {
            'ad1_widget' => array(
                'id' => 'ad1_widget',
                'name' => __( 'Ad widget 1', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad2_widget' => array(
                'id' => 'ad2_widget',
                'name' => __( 'Ad widget 2', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad3_widget' => array(
                'id' => 'ad3_widget',
                'name' => __( 'Ad widget 3', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad4_widget' => array(
                'id' => 'ad4_widget',
                'name' => __( 'Ad widget 4', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad5_widget' => array(
                'id' => 'ad5_widget',
                'name' => __( 'Ad widget 5', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad6_widget' => array(
                'id' => 'ad6_widget',
                'name' => __( 'Ad widget 6', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad7_widget' => array(
                'id' => 'ad7_widget',
                'name' => __( 'Ad widget 7', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad8_widget' => array(
                'id' => 'ad8_widget',
                'name' => __( 'Ad widget 8', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad9_widget' => array(
                'id' => 'ad9_widget',
                'name' => __( 'Ad widget 9', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad10_widget' => array(
                'id' => 'ad10_widget',
                'name' => __( 'Ad widget 10', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            array(
                'id' => 'plugin_header',
                'name' => '<strong>' . __( 'Plugin Settings', 'quick-adsense-reloaded' ) . '</strong>',
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'header'
            ),
            'priority' => array(
@@ -441,8 +441,8 @@ function quads_get_registered_settings() {
        'addons' => apply_filters( 'quads_settings_addons', array(
            'addons' => array(
                'id' => 'addons',
-               'name' => __( '', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'name' => '',
+               'desc' => '',
                'type' => 'addons'
            ),
                )
@@ -450,8 +450,8 @@ function quads_get_registered_settings() {
        'imexport' => apply_filters( 'quads_settings_imexport', array(
            'imexport' => array(
                'id' => 'imexport',
-               'name' => __( '', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'name' => '',
+               'desc' => '',
                'type' => 'imexport'
            )
                )
@@ -461,13 +461,13 @@ function quads_get_registered_settings() {
             'support' => array(
                'id' => 'wpquads_support',
                'name' => __( 'Get help from our development team', 'quick-adsense-reloaded' ),
-                'desc' => __( '', 'quick-adsense-reloaded' ),
+                'desc' => '',
                'type' => 'header'
            ),
            'systeminfo' => array(
                'id' => 'systeminfo',
                'name' => __( 'Systeminfo', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'systeminfo'
            )
                )

@@ -121,7 +121,7 @@ class QuadsAdmin extends Component {
                         <div className="quads-renewal-banner">
                           <div className="quads-renew-message">
                         {/*<p>After installing <a href="https://wpquads.com/" >WP Quads Pro</a>, you need to activate your license. Please add the License key.</p>*/}
-                        <p>Thank you for installing <a href="https://wpquads.com/" >WP QUADS PRO</a>, please <Link to={`admin.php?page=quads-settings&path=settings_licenses`} >ACTIVATE</Link> the license key to receive regular updates.</p>
+                        <p>{__('Thank you for installing','quick-adsence-reloaded')} <a href="https://wpquads.com/" >WP QUADS PRO</a>, please <Link to={`admin.php?page=quads-settings&path=settings_licenses`} >ACTIVATE</Link> the license key to receive regular updates.</p>
                         </div>
                         </div>
                         </div>

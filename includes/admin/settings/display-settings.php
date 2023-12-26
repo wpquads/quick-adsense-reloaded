@@ -257,7 +257,9 @@ function quads_options_page_new() {
         wp_localize_script( 'quads-admin-ad-script', 'quads_localize_data', $data );
         
         wp_enqueue_script('quads-admin-ad-script');
-                    
+
+        wp_set_script_translations( 'quads-admin-ad-script','quick-adsense-reloaded', QUADS_PLUGIN_DIR . 'languages' );
+
         echo '<div id="quads-ad-content"></div>';
 
         echo '<div class="quads-admin-debug">'.quads_get_debug_messages().'</div>';
