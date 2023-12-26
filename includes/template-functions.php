@@ -3161,10 +3161,10 @@ function quads_del_element($array, $idx) {
                         if(isset($ads['image_redirect_url'])  && !empty($ads['image_redirect_url'])){
                             $html .= '
                             <a target="_blank" href="'.esc_attr($ads['image_redirect_url']). '" rel="nofollow">
-                            <img class="aligncenter" '.((isset($quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($ads['image_src']). '" > 
+                            <img class="aligncenter" '.(quads_is_lazyload_template($quads_options,$ads) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($ads['image_src']). '" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'"> 
                             </a>';
                         }else{
-                            $html .= '<img class="aligncenter" '.((isset($quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($ads['image_src']). '" >';
+                            $html .= '<img class="aligncenter" '.(quads_is_lazyload_template($quads_options,$ads) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($ads['image_src']). '" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'">';
                         }
                     }else{
                         $html .= $ads['code'];
@@ -3471,3 +3471,16 @@ function quads_parse_floating_cubes_ads() {
         }
     }
 }
+function quads_is_lazyload_template($options, $ads){
+    if((isset($options['delay_ad_sec'] ) && $options['delay_ad_sec']) || (isset($ads['check_lazy_load'] ) && $ads['check_lazy_load'])){
+        return true;
+    }
+    return false;
+  }
+
+  function quads_lazyload_delay_template($ads){
+    if(isset($ads['check_lazy_load'] ) && isset($ads['check_lazy_load_delay']) && $ads['check_lazy_load_delay'] > 0 ){
+        return (intval($ads['check_lazy_load_delay'])*1000);
+    }
+    return 3000;
+  }

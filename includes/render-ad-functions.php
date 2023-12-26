@@ -315,7 +315,6 @@ function quads_render_yandex_async( $id ) {
  */
 function quads_render_ad_image_async( $id ) {
     global $quads_options;
-
     $image_render_src = $useragent = '';
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content ImageBanner AD --> \n\n";
     $useragent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '' ;
@@ -342,7 +341,7 @@ function quads_render_ad_image_async( $id ) {
             
             $html .= '
             <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
-            <img width="'.esc_attr($mob_bnr_wdt). '" height="'.esc_attr($mob_bnr_hgt). '" '.((isset($quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($image_render_src).'" alt="'.esc_attr($quads_options['ads'][$id]['label']).'"> 
+            <img width="'.esc_attr($mob_bnr_wdt). '" height="'.esc_attr($mob_bnr_hgt). '" '.(quads_is_lazyload_render($quads_options,$id) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($image_render_src).'" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"> 
             </a>';
             }
         }
@@ -362,7 +361,7 @@ function quads_render_ad_image_async( $id ) {
 
             $html .= ' 
         <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
-        <img width="'.esc_attr($bnr_wdt). '" height="'.esc_attr($bnr_hgt). '" '.((isset($quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($quads_options['ads'][$id]['image_src']). '" alt="'.esc_attr($quads_options['ads'][$id]['label']).'"> 
+        <img width="'.esc_attr($bnr_wdt). '" height="'.esc_attr($bnr_hgt). '" '.(quads_is_lazyload_render($quads_options,$id) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($quads_options['ads'][$id]['image_src']). '" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"> 
         </a>';
         }
         
@@ -375,7 +374,7 @@ function quads_render_ad_image_async( $id ) {
         
     }
         else{
-            $html .= '<img '.((isset($quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($quads_options['ads'][$id]['image_src']). '"  alt="'.esc_attr($quads_options['ads'][$id]['label']).'">';
+            $html .= '<img '.(quads_is_lazyload_render($quads_options,$id) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($quads_options['ads'][$id]['image_src']). '"  alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'">';
         }
         
     }
@@ -811,7 +810,6 @@ function quads_render_google_async( $id ) {
  */
 function quads_render_loopad_async( $id ) {
     global $quads_options;
-    $image_render_src = $useragent = '';
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Loop AD --> \n\n";
     $useragent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '' ;
     
@@ -827,7 +825,7 @@ function quads_render_loopad_async( $id ) {
         if(isset($quads_options['ads'][$id]['loop_add_link'])  && !empty($quads_options['ads'][$id]['loop_add_link']) && isset($quads_options['ads'][$id]['image_src'])  && !empty($quads_options['ads'][$id]['image_src'])){
             $html .='<div class="featured-image">
                         <a href="'.esc_attr($quads_options['ads'][$id]['loop_add_link']).'" class="post-thumbnail-link"  rel="sponsored">
-                        <img '.((isset($quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($quads_options['ads'][$id]['image_src']).'" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" loading="lazy" style="width:100%;height:66.57%;max-width:350px;">
+                        <img '.(quads_is_lazyload_render($quads_options,$id) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($quads_options['ads'][$id]['image_src']).'" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" loading="lazy" style="width:100%;height:66.57%;max-width:350px;" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'">
                         </a>
                 </div><!-- .featured-image -->';
                 }
@@ -853,7 +851,6 @@ function quads_render_loopad_async( $id ) {
  */
 function quads_render_parallaxad_async( $id ) {
     global $quads_options;
-    $image_render_src = $useragent = '';
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Parallax AD --> \n\n";
     $useragent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '' ;
     
@@ -864,7 +861,7 @@ function quads_render_parallaxad_async( $id ) {
         if(isset($quads_options['ads'][$id]['image_src']) && !empty($quads_options['ads'][$id]['image_src']) && isset($quads_options['ads'][$id]['parallax_btn_url'])){
             $html .='<div class="featured-image">
                         <a target="_blank" class="more-link" href="'.esc_url($quads_options['ads'][$id]['parallax_btn_url']).'">
-                            <img '. ((isset($quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($quads_options['ads'][$id]['image_src']).'" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" loading="lazy" style="width:100%;height:66.57%;max-width:350px;">
+                            <img '. (quads_is_lazyload_render($quads_options,$id) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($quads_options['ads'][$id]['image_src']).'" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" loading="lazy" style="width:100%;height:66.57%;max-width:350px;" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'">
                         </div>
                 </div><!-- .featured-image -->';
         }
@@ -981,7 +978,7 @@ function quads_render_carousel_ads_async($id) {
 					 $image=$ad_meta['image_mobile_src'][0];
 				 }
                  list($carousel_width, $carousel_height) = getimagesize($image);
-                $html .='<a imagebanner class="im-'.esc_attr($org_ad_id).'" target="_blank" href="'.esc_url($ad_meta['image_redirect_url'][0]). '" rel="nofollow"><img  class="quads_carousel_img" '.((isset($quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($image).'" alt="'.esc_attr($ad_meta['label'][0]).'" width="'.esc_attr($carousel_width).'px" height="'.esc_attr($carousel_height).'px"> </a>';  
+                $html .='<a imagebanner class="im-'.esc_attr($org_ad_id).'" target="_blank" href="'.esc_url($ad_meta['image_redirect_url'][0]). '" rel="nofollow"><img  class="quads_carousel_img" '.( quads_is_lazyload_render($quads_options,$id)? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($image).'" alt="'.esc_attr($ad_meta['label'][0]).'" width="'.esc_attr($carousel_width).'px" height="'.esc_attr($carousel_height).'px" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"> </a>';  
             }
         
             if(isset($ad_meta['ad_type']) && isset($ad_meta['ad_type'][0]) && $ad_meta['ad_type'][0]=='plain_text')
@@ -1046,7 +1043,7 @@ function quads_render_floating_ads_async($id) {
         if(isset($ad['slide']) && isset($ad['link'])){
             $html.='	<figure class="wpquads-3d-item " style="'.esc_attr(quads_get_float_transform($actual_counter,$floating_size)).'">
             <a href="'.esc_url($ad['link']).'" target="_blank" rel="nofollow" >
-                <img '.((isset($quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($ad['slide']).'" alt="'.esc_attr($quads_options['ads'][$id]['label'].' - Slide '.($key+1)).'">
+                <img '.(quads_is_lazyload_render($quads_options,$id) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($ad['slide']).'" alt="'.esc_attr($quads_options['ads'][$id]['label'].' - Slide '.($key+1)).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'">
                 </a>
         </figure>';
         $actual_counter++;
@@ -1064,7 +1061,7 @@ function quads_render_floating_ads_async($id) {
                 {
                     $html.='	<figure class="wpquads-3d-item " style="'.esc_attr(quads_get_float_transform(($actual_counter+$new),$floating_size)).'">
                     <a href="'.esc_url($ads_list[$new]['link']).'" target="_blank" rel="nofollow">
-                        <img '.((isset($quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($ads_list[$new]['slide']).'" alt="'.esc_attr($quads_options['ads'][$id]['label'].' - Slide '.($total_slides+$i+1)).'">
+                        <img '.(quads_is_lazyload_render($quads_options,$id)  ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($ads_list[$new]['slide']).'" alt="'.esc_attr($quads_options['ads'][$id]['label'].' - Slide '.($total_slides+$i+1)).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'">
                         </a>
                     </figure>';
                 }
@@ -2042,4 +2039,18 @@ add_filter( 'quads_render_ad', 'quads_render_ad_label_new',99,2 );
 
     }
     return '';
+  }
+
+  function quads_is_lazyload_render($options, $id){
+    if((isset($options['delay_ad_sec'] ) && $options['delay_ad_sec']) || (isset($options['ads'][$id]['check_lazy_load'] ) && $options['ads'][$id]['check_lazy_load'])){
+        return true;
+    }
+    return false;
+  }
+
+  function quads_lazyload_delay_render($options, $id){
+    if(isset($options['ads'][$id]['check_lazy_load'] ) && isset($options['ads'][$id]['check_lazy_load_delay']) && $options['ads'][$id]['check_lazy_load_delay'] > 0 ){
+        return (intval($options['ads'][$id]['check_lazy_load_delay'])*1000);
+    }
+    return 3000;
   }

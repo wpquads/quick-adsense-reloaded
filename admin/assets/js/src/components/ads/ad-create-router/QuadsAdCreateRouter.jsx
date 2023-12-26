@@ -149,7 +149,9 @@ class QuadsAdCreateRouter extends Component {
             exp_date_to               : '',
             set_spec_day              : [],
             check_exp_date            :false,
-            check_spec_day            :false
+            check_spec_day            :false,
+            check_lazy_load           :false,
+            check_lazy_load_delay     :1
 
             },
             quads_form_errors : {
