@@ -59,6 +59,7 @@ class QuadsAdListSettings extends Component {
                 ab_testing_settings : true,
                 skippable_ads : true,
                 ad_performance_tracking : false,
+                exclude_admin_tracking : false,
                 reports_settings : true,
                 ad_logging : false,
                 ad_owner_revenue_per:50,
@@ -970,7 +971,7 @@ handleMultiPluginsChange = (option) => {
      if(name == 'tcf_2_integration'){
       this.saveSettings();
      }
-     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking'|| name == 'report_logging' || name == 'ad_log' || name == 'global_excluder' || name == 'delay_ad_sec' || name == 'skippable_ads'){
+     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking'|| name == 'report_logging' || name == 'ad_log' || name == 'global_excluder' || name == 'delay_ad_sec' || name == 'skippable_ads' || name == 'exclude_admin_tracking'){
       this.saveSettings();
     }
     if(name == 'adsforwp_quads_shortcode'|| name == 'adsforwp_quads_gutenberg' || name == 'advance_ads_to_quads'){
@@ -1777,6 +1778,21 @@ handleMultiPluginsChange = (option) => {
                          </label>
                       }
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/ad-performance-tracking-in-wp-quads/"></a>
+                     </td>
+                 </tr>
+                 <tr>
+                     <th><label htmlFor="exclude_admin_tracking">{__('Exclude Admin from tracking', 'quick-adsense-reloaded')}</label></th>
+                     <td>
+                      {this.state.selectedBtnOpt == 'exclude_admin_tracking' ?
+                         <div className="quads-spin-cntr">
+                          <div className="quads-set-spin"></div>
+                         </div> :
+                         <label className="quads-switch">
+                             <input id="exclude_admin_tracking" type="checkbox" name="exclude_admin_tracking" onChange={this.formChangeHandler} checked={settings.exclude_admin_tracking} />
+                             <span id="exclude_admin_tracking_" className="quads-slider"></span>
+                             <div className="lazy_loader_at"></div>
+                         </label>
+                      }
                      </td>
                  </tr>
                  {this.state.quadsIsAdmin ?

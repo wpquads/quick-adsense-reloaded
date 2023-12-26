@@ -285,7 +285,11 @@ public function quads_add_analytics_amp_tags(){
 */
 private function quads_insert_impression($ad_id){ 
   global $wpdb,$quads_options;
-  $performance_tracking = $quads_options['ad_performance_tracking'];
+  $performance_tracking = isset($quads_options['ad_performance_tracking'])?$quads_options['ad_performance_tracking']:false;
+  $exclude_admin = isset($quads_options['exclude_admin_tracking'])?$quads_options['exclude_admin_tracking']:false;
+  if($exclude_admin && current_user_can('administrator')){
+    return ;
+  }
   $todays_date = date('Y-m-d');
   $todays_date = strtotime($todays_date);
   $year = intval(date('Y'));
@@ -326,6 +330,10 @@ private  function quads_insert_clicks($ad_id){
   global $wpdb,$quads_options;
   $log_enabled = isset($quads_options['ad_log'])?$quads_options['ad_log']:false;
   $performance_tracking = isset($quads_options['ad_performance_tracking'])?$quads_options['ad_performance_tracking']:false;
+  $exclude_admin = isset($quads_options['exclude_admin_tracking'])?$quads_options['exclude_admin_tracking']:false;
+  if($exclude_admin && current_user_can('administrator')){
+    return ;
+  }
   $todays_date = date('Y-m-d');
   $todays_date = strtotime($todays_date);
   $year = intval(date('Y'));
