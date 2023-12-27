@@ -358,7 +358,10 @@ class QuadsAdReport extends Component {
         let date = ''
         let newdate = ''
         let day_val = ''
-
+        let qrt = document.getElementById("quads_report_table")
+        let qrtt = document.getElementById("quads_report_table_total")
+        let qrc = document.getElementById("quads_reports_canvas")
+        let qsc = document.getElementById("quads-spinner-container")
         let id_ = document.getElementById('view_stats_report').value
         newdate = document.getElementById('report_period').value
         day_val = document.getElementById('report_period').value
@@ -366,6 +369,11 @@ class QuadsAdReport extends Component {
         let to_date = new Date(this.state.cust_todate).toISOString()
         
         var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id_+'&fromdate='+from_date+'&todate='+to_date+'&day='+day_val;
+
+        qrt.style.display = "none";
+        qrtt.style.display = "none";
+        qrc.style.display = "none";
+        qsc.style.display = "grid";
         fetch(url,{
                 method: "post",
             headers: {
@@ -503,6 +511,12 @@ class QuadsAdReport extends Component {
                             render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
                         }
                         get_table.innerHTML = render_data
+                        qrc.style.display = "flex";
+                        qsc.style.display = "none";
+                        setTimeout(() => {
+                            qrtt.style.display = "flex";
+                            qrt.style.display = "flex";
+                          }, "1000");
 
                     }
             }
@@ -1611,8 +1625,8 @@ drawChart(config);
                 { this.state.custom_period == true  ? <>
                     <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_fromdate_main_report} />
                     <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_todate_main_report} />
-                    <button className="show_btn" onClick={this.get_data_dates_main_report}>Show data</button>
-                </> : '' 
+                    <button className="show_btn" onClick={this.get_data_dates_main_report}>{__('Show data','quick-adsense-reloaded')}</button>
+                </> : <button className="show_btn" onClick={this.get_data_dates_main_report}>{__('Refresh','quick-adsense-reloaded')}</button>
 
                 }
                     </div>
