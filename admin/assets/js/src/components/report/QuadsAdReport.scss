@@ -174,3 +174,26 @@ tr.top5_ads_click
   padding:0 !important;
   border: 0 !important;
 }
+@keyframes quads-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.quads-loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 10px solid #1873e8; /* Light grey */
+  border-top: 10px solid #ffffff; /* Blue */
+  border-radius: 50%;
+  animation: quads-spinner 1.5s linear infinite;
+}
+
+#quads-spinner-container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 350px;
+}

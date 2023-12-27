@@ -865,6 +865,7 @@ drawChart(config);
         let qrt = document.getElementById("quads_report_table")
         let qrtt = document.getElementById("quads_report_table_total")
         let qrc = document.getElementById("quads_reports_canvas")
+        let qsc = document.getElementById("quads-spinner-container")
         if( day_val=='select_duration' || id=='select' ){
             qrt.style.display = "none";
             qrtt.style.display = "none";
@@ -876,7 +877,10 @@ drawChart(config);
         }
        if( day_val!='custom' && day_val!='select_duration' && id!='select' ){
         var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id+'&date='+newdate+'&day='+day_val;
-
+        qrt.style.display = "none";
+        qrtt.style.display = "none";
+        qrc.style.display = "none";
+        qsc.style.display = "grid";
             fetch(url,{
                 method: "post",
             headers: {
@@ -1226,7 +1230,14 @@ drawChart(config);
 
                     }
             }
-            } )
+            qrc.style.display = "flex";
+            qsc.style.display = "none";
+            setTimeout(() => {
+                qrtt.style.display = "flex";
+                qrt.style.display = "flex";
+              }, "1000");
+            
+    } )
         }
         
         if( day_val == 'custom' ){
@@ -1299,7 +1310,7 @@ drawChart(config);
         else{
             this.setState( { custom_period: false } )
         }
-
+     
     }
 
 
@@ -1470,8 +1481,6 @@ drawChart(config);
 
         return (
             <>
-                {this.state.isLoading ? <div className="quads-cover-spin"></div>
-                    : null}
                 { this.state.current_page == 'report' ?
                     <Fragment>
                         <div>
@@ -1609,7 +1618,8 @@ drawChart(config);
                     </div>
                     </div>
                     <div id='quads_reports_pro_notify_main' className='quads_reports_pro_notify_main' style={{marginTop: "20px"}}  ></div>
-                    <div id='quads_reports_canvas' className='report_single' ></div>
+                    <div id={'quads-spinner-container'}>  <div className={'quads-loading-spinner'}></div></div>
+                    <div id='quads_reports_canvas' className='report_single' ></div> 
                     <div id={'quads_report_table'}></div>
                     <div id={'quads_report_table_total'}
                     style={{ display:'none'}} >
