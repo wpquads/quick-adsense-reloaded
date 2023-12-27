@@ -3333,10 +3333,10 @@ tr.top5_ads_click {
 .quads-loading-spinner {
   width: 50px;
   height: 50px;
-  border: 10px solid #1873e8;
-  /* Light grey */
-  border-top: 10px solid #ffffff;
+  border: 4px solid #1873e8;
   /* Blue */
+  border-top: 4px solid #ffffff;
+  /* White */
   border-radius: 50%;
   animation: quads-spinner 1.5s linear infinite; }
 
@@ -3345,6 +3345,11 @@ tr.top5_ads_click {
   justify-content: center;
   align-items: center;
   height: 350px; }
+
+.export_btn {
+  margin-left: 2px;
+  background-color: #005af0;
+  color: #ffffff; }
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle, .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow,
 .react-datepicker__month-year-read-view--down-arrow {

@@ -355,13 +355,8 @@ class QuadsAdReport extends Component {
     }
 
     get_data_dates_main_report = (eve) => {
-        let date = ''
         let newdate = ''
         let day_val = ''
-        let qrt = document.getElementById("quads_report_table")
-        let qrtt = document.getElementById("quads_report_table_total")
-        let qrc = document.getElementById("quads_reports_canvas")
-        let qsc = document.getElementById("quads-spinner-container")
         let id_ = document.getElementById('view_stats_report').value
         newdate = document.getElementById('report_period').value
         day_val = document.getElementById('report_period').value
@@ -370,10 +365,7 @@ class QuadsAdReport extends Component {
         
         var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id_+'&fromdate='+from_date+'&todate='+to_date+'&day='+day_val;
 
-        qrt.style.display = "none";
-        qrtt.style.display = "none";
-        qrc.style.display = "none";
-        qsc.style.display = "grid";
+        this.showReportsLoader();
         fetch(url,{
                 method: "post",
             headers: {
@@ -511,17 +503,105 @@ class QuadsAdReport extends Component {
                             render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
                         }
                         get_table.innerHTML = render_data
-                        qrc.style.display = "flex";
-                        qsc.style.display = "none";
-                        setTimeout(() => {
-                            qrtt.style.display = "flex";
-                            qrt.style.display = "flex";
-                          }, "1000");
+                        this.hideReportsLoader();
 
                     }
             }
             } )
 
+    }
+
+    get_report_export_csv = (eve) => {
+        this.showReportsLoader();
+        let csv_data = [];
+        let target_div = document.getElementById("quads_report_table");
+        let target_table = target_div.querySelector('table');
+        let nested_tables = target_table.querySelectorAll('table');
+        let rows = target_table.querySelectorAll('tr');
+        
+        if (nested_tables.length === 0) {
+            for (let i = 0; i < rows.length; i++) {
+                let cols = rows[i].querySelectorAll('td,th');
+                let csvrow = [];
+                for (let j = 0; j < cols.length; j++) {
+                    csvrow.push(cols[j].textContent);
+                }
+                csv_data.push(csvrow.join(","));
+            }
+            csv_data = csv_data.join('\n');
+        } else {
+            let rowise_data = [];
+            let data_csv ="";
+            let arr_length = 0;
+            for (let t = 0; t < nested_tables.length; t++) {
+                let nested_rows = nested_tables[t].querySelectorAll('tr');
+                for (let i = 0; i < nested_rows.length; i++) {
+                    let cols = nested_rows[i].querySelectorAll('td,th');
+                    let csvrow = [];
+                    for (let j = 0; j < cols.length; j++) {
+                        csvrow.push(cols[j].textContent);
+                    }
+                    csv_data.push(csvrow.join(","));
+                }
+                csv_data.push("$$");
+            }
+
+            let csv_data_txt = csv_data.join('|') 
+            rowise_data = csv_data_txt.split("|$$|");
+            let matrix_arr = [];
+            for (let t = 0; t < rowise_data.length; t++) {
+                if(rowise_data[t]){
+                    
+                    let inner_arr = rowise_data[t].replace('$$','').split('|');
+                    arr_length = inner_arr.length;
+                    matrix_arr[t]=inner_arr;
+                }
+                
+            }
+            for(let a=0; a<arr_length;a++){
+            for (let t = 0; t < matrix_arr.length; t++) {
+                    if(matrix_arr[t] && matrix_arr[t][a]){
+                        data_csv +=matrix_arr[t][a]+',';
+                    }
+                }
+                data_csv +='\n';
+            }
+            csv_data = data_csv;
+        }
+        
+        var CSVFile = new Blob([csv_data], { type: "text/csv" });
+        let temp_link = document.createElement('a');
+        temp_link.download = "wpquads_reports.csv";
+        let csvurl = window.URL.createObjectURL(CSVFile);
+        temp_link.href = csvurl;
+        temp_link.style.display = "none";
+        document.body.appendChild(temp_link);
+        temp_link.click();
+        document.body.removeChild(temp_link);
+        this.hideReportsLoader();
+       
+    }
+    showReportsLoader = () => {
+        let qrt = document.getElementById("quads_report_table")
+        let qrtt = document.getElementById("quads_report_table_total")
+        let qrc = document.getElementById("quads_reports_canvas")
+        let qsc = document.getElementById("quads-spinner-container")
+        qrt.style.display = "none";
+        qrtt.style.display = "none";
+        qrc.style.display = "none";
+        qsc.style.display = "grid";
+    }
+    hideReportsLoader = () => {
+        let qrt = document.getElementById("quads_report_table")
+        let qrtt = document.getElementById("quads_report_table_total")
+        let qrc = document.getElementById("quads_reports_canvas")
+        let qsc = document.getElementById("quads-spinner-container")
+        qrc.style.display = "flex";
+        qsc.style.display = "none";
+        setTimeout(() => {
+            qrtt.style.display = "flex";
+            qrt.style.display = "flex";
+            }, "1000");
     }
 
     drawChart = (config) => {
@@ -1626,9 +1706,10 @@ drawChart(config);
                     <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_fromdate_main_report} />
                     <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_todate_main_report} />
                     <button className="show_btn" onClick={this.get_data_dates_main_report}>{__('Show data','quick-adsense-reloaded')}</button>
-                </> : <button className="show_btn" onClick={this.get_data_dates_main_report}>{__('Refresh','quick-adsense-reloaded')}</button>
+                </> : <button className="show_btn" onClick={this.view_report_stats_form_ChangeHandler_main_report_tab}>{__('Refresh','quick-adsense-reloaded')}</button>
 
                 }
+                {quads_localize_data.is_pro?<button className="export_btn show_btn" onClick={this.get_report_export_csv}>{__('Export Report','quick-adsense-reloaded')}</button>:null}
                     </div>
                     </div>
                     <div id='quads_reports_pro_notify_main' className='quads_reports_pro_notify_main' style={{marginTop: "20px"}}  ></div>
