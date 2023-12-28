@@ -1639,6 +1639,97 @@ function quads_filter_default_ads_new( $content ) {
                             }                    
                         }
                         break;
+                        case 'random_ad_placement':
+
+                            if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
+                              $repeat_paragraph = true;
+                              $paragraph_limit  = isset($ads['paragraph_limit']) ? $ads['paragraph_limit'] : '';
+                              $closing_p        = '</p>';
+                              $paragraphs       = array_filter(explode( $closing_p, $content ));
+                              $p_count          = count($paragraphs);
+                              $original_paragraph_no = $paragraph_no; 
+                              $max_p_after = intval($original_paragraph_no/2);
+                              if($max_p_after<=2){
+                                $max_p_after += 2; 
+                              }                                                            
+                              $insert_after     = mt_rand(2,$max_p_after);
+                              if($paragraph_no <= $p_count){
+                                if($ads['ad_type']== 'group_insertion'){
+                                    $p_count =$p_count -1;
+                                    $cusads = '<!--CusGI'.$ads['ad_id'].'-->';
+                                  $next_insert_val = $insert_after;
+                                  $displayed_ad =1;
+                                    foreach ($paragraphs as $index => $paragraph) {
+                                        $addstart = false;
+                                        if ( trim( $paragraph ) ) {
+                                            $paragraphs[$index] .= $closing_p;
+                                        }
+    
+                                        if((!empty($paragraph_limit) && $paragraph_limit < $displayed_ad) || ($index == $p_count )){
+                                            break;
+                                        }
+                                            if($index+1 == $next_insert_val){
+                                                $displayed_ad +=1;
+                                              $next_insert_val = $next_insert_val+$insert_after;
+                                              $addstart = true;
+                                          }
+                                            if($addstart){
+                                                $paragraphs[$index] .= $cusads;
+                                            }
+                                    }
+                                }else if($ads['ad_type']== 'sticky_scroll'){
+                                    $p_count =$p_count -1;
+                                    $cusads = '<!--CusSS'.$ads['ad_id'].'-->';
+                                  $next_insert_val = $insert_after;
+                                  $displayed_ad =1;
+                                    foreach ($paragraphs as $index => $paragraph) {
+                                        $addstart = false;
+                                        if ( trim( $paragraph ) ) {
+                                            $paragraphs[$index] .= $closing_p;
+                                        }
+    
+                                        if((!empty($paragraph_limit) && $paragraph_limit < $displayed_ad) || ($index == $p_count )){
+                                            break;
+                                        }
+                                            if($index+1 == $next_insert_val){
+                                                $displayed_ad +=1;
+                                              $next_insert_val = $next_insert_val+$insert_after;
+                                              $addstart = true;
+                                          }
+                                            if($addstart){
+                                                $paragraphs[$index] .= $cusads;
+                                            }
+                                            if(!$repeat_paragraph)
+                                            {
+                                                break;
+                                            }
+                                    }
+                                }else{
+                                    $next_insert_val = $insert_after;
+                                    $displayed_ad =1;
+                                  foreach ($paragraphs as $index => $paragraph) {
+                                    $addstart = false;
+                                      if ( trim( $paragraph ) ) {
+                                          $paragraphs[$index] .= $closing_p;
+                                      }
+                                      if ( $next_insert_val == $index + 1 ) {
+                                        $displayed_ad +=1;
+                                        $next_insert_val = $next_insert_val+$insert_after;
+                                        $addstart = true;
+                                      }
+                                      if($addstart){
+                                        $paragraphs[$index] .= $cusads;
+                                    }
+                                  }
+                                }
+                                  $content = implode( '', $paragraphs ); 
+                              }else{                        
+                                  if($end_of_post){
+                                      $content = $content.$cusads;   
+                                  }                                
+                              }
+                          }
+                            break;
                 }
 
                 $adsArrayCus[] = $i;   
