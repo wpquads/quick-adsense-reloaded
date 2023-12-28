@@ -1,0 +1,1796 @@
+{
+   "domain": "quick-adsense-reloaded",
+   "locale_data": {
+      "quick-adsense-reloaded": {
+         "1000": [
+            ""
+         ],
+         "": {
+            "domain": "quick-adsense-reloaded",
+            "lang": ""
+         },
+         "Settings": [
+            ""
+         ],
+         "General Settings": [
+            ""
+         ],
+         "For more information:": [
+            ""
+         ],
+         "General": [
+            ""
+         ],
+         "This screen provides the most basic settings for configuring Quick AdSense Reloaded.": [
+            ""
+         ],
+         "Debug mode": [
+            ""
+         ],
+         "Position": [
+            ""
+         ],
+         "Top": [
+            ""
+         ],
+         "Post Types": [
+            ""
+         ],
+         "Settings updated.": [
+            ""
+         ],
+         "Visual": [
+            ""
+         ],
+         "Licenses": [
+            ""
+         ],
+         "The callback function used for the <strong>%s</strong> setting is missing.": [
+            ""
+         ],
+         "Upload File": [
+            ""
+         ],
+         "Deactivate License": [
+            ""
+         ],
+         "Select Image": [
+            ""
+         ],
+         "Transient Cache disabled! Enable it for performance increase.": [
+            ""
+         ],
+         "%1$s License Key": [
+            ""
+         ],
+         "AdSense Integration WP QUADS": [
+            ""
+         ],
+         "https://wordpress.org/plugins/quick-adsense-reloaded/": [
+            ""
+         ],
+         "Insert Google AdSense and other ad formats fully automatic into your website": [
+            ""
+         ],
+         "WP Quads": [
+            ""
+         ],
+         "Settings has been saved successfully": [
+            ""
+         ],
+         "Please upload a valid .json file": [
+            ""
+         ],
+         "Please upload a file to import": [
+            ""
+         ],
+         "file uploaded successfully": [
+            ""
+         ],
+         "Settings has been saved successfullycv": [
+            ""
+         ],
+         "Settings has been saved successfullyvf": [
+            ""
+         ],
+         "WP QUADS ADS": [
+            ""
+         ],
+         "Widget to display Ads": [
+            ""
+         ],
+         "Ad title or group title": [
+            ""
+         ],
+         "ads list to be display": [
+            ""
+         ],
+         "Ads:": [
+            ""
+         ],
+         "<strong>Please do us a BIG favor and give us a 5 star rating <a href=\"%1$s\" target=\"_blank\">here</a>. If you have issues, open a <a href=\"%2s\" target=\"_blank\">support ticket</a>, so that we can sort it out. Thank you!</strong>": [
+            ""
+         ],
+         "<strong><p>Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup</strong></p>": [
+            ""
+         ],
+         "<strong>Extend the": [
+            ""
+         ],
+         "<strong>WP QUADS ": [
+            ""
+         ],
+         "You need to update <strong>WP QUADS PRO to version 1.3.6</strong> or higher. Your version of <strong>WP QUADS Pro</strong> is ": [
+            ""
+         ],
+         "This is a huge update! The data structure of WP QUADS has been modified and improved for better performance and great new features. <br> For the case you'd experience issues, we made a <a href=\"%1s\" target=\"_self\">backup of previous WP QUADS data</a>. So you can <a href=\"%2s\" target=\"_new\">switch back to the previous version</a> anytime. <br><br>Please <a href=\"%3s\" target=\"_new\">open first a support ticket</a> if you experience any issue.": [
+            ""
+         ],
+         "Close Notice": [
+            ""
+         ],
+         "<p>Oh No! <strong>WP Quads Pro</strong> license key is not activated or has been expired. It expires on %s. Renew or activate your license key to make sure that your (AdSense) ads are shown properly with your WordPress, version ": [
+            ""
+         ],
+         "Activate the License of <a href=\"": [
+            ""
+         ],
+         "WP QUADS Settings": [
+            ""
+         ],
+         "WPQUADS": [
+            ""
+         ],
+         "Ads": [
+            ""
+         ],
+         "Reports": [
+            ""
+         ],
+         "Return to Classic view": [
+            ""
+         ],
+         "Ad Settings": [
+            ""
+         ],
+         "Switch to New Interface": [
+            ""
+         ],
+         "Get Add-On": [
+            ""
+         ],
+         "Premium Features": [
+            ""
+         ],
+         "Support": [
+            ""
+         ],
+         "Visit the <a href=\"%s\">documentation</a> on the Quick AdSense Reloaded website.": [
+            ""
+         ],
+         "<a href=\"%s\">Post an issue</a> on <a href=\"%s\">Quick AdSense Reloaded</a>. View <a href=\"%s\">extensions</a>.": [
+            ""
+         ],
+         "<strong>If you like this plugin please do us a BIG favor and give us a 5 star rating <a href=\"%s\" target=\"_blank\">here</a> . If you have issues, open a <a href=\"%2s\" target=\"_blank\">support ticket</a>, so that we can sort it out. Thank you!</strong>": [
+            ""
+         ],
+         "<strong>Ads are not showing? Read the <a href=\"%s\" target=\"_blank\">troubleshooting guide</a> to find out how to resolve it": [
+            ""
+         ],
+         "Tweet": [
+            ""
+         ],
+         "Share": [
+            ""
+         ],
+         "Enter <a ahref=\"https://wpquads.com/docs/how-to-create-and-where-to-get-adsense-code/\" target=\"_blank\">AdSense text & display ad code</a> here": [
+            ""
+         ],
+         "Do not enter <a href=\"https://wpquads.com/docs/integrate-page-level-ads-wordpress/\" target=\"_blank\">AdSense page level ads</a> or <a href=\"https://wpquads.com/introducing-new-adsense-auto-ads/\" target=\"_blank\">Auto ads!</a> <br> <a href=\"https://wpquads.com/docs/how-to-create-and-where-to-get-adsense-code/\" target=\"_blank\">Learn how to create AdSense ad code</a>": [
+            ""
+         ],
+         "Get Code": [
+            ""
+         ],
+         "Close": [
+            ""
+         ],
+         "If you have any query, please write the query in below box or email us at": [
+            ""
+         ],
+         "We will reply to your email address shortly": [
+            ""
+         ],
+         "Message sent successfully, Please wait we will get back to you shortly": [
+            ""
+         ],
+         "Message not sent. please check your network connection": [
+            ""
+         ],
+         "Are you a premium customer ?": [
+            ""
+         ],
+         "Select": [
+            ""
+         ],
+         "Yes": [
+            ""
+         ],
+         "No": [
+            ""
+         ],
+         "Send Message": [
+            ""
+         ],
+         "General & Position": [
+            ""
+         ],
+         "Limit Amount of ads:": [
+            ""
+         ],
+         " ads on a page.": [
+            ""
+         ],
+         "<a href=\"%s\" target=\"_blank\">Read here</a> to learn how many AdSense ads are allowed. If you are unsure set the value to unlimited.": [
+            ""
+         ],
+         "Position - Default Ads": [
+            ""
+         ],
+         "Assign and activate ads on specific ad places": [
+            ""
+         ],
+         "Visibility": [
+            ""
+         ],
+         "Select post types where ads are visible.": [
+            ""
+         ],
+         "Select Post Type": [
+            ""
+         ],
+         "Hide Ads From Ajax Requests": [
+            ""
+         ],
+         "If your site is using ajax based infinite loading it might happen that ads are loaded without any further post content. Disable this here.": [
+            ""
+         ],
+         "Quicktags": [
+            ""
+         ],
+         "ads.txt - Automatic Creation": [
+            ""
+         ],
+         "Create an ads.txt file": [
+            ""
+         ],
+         "Allow WP QUADS to generate automatically the ads.txt file in root of your website domain. After enabling and saving settings, check if your ads.txt is correct by opening: <a href=\"%1$s\" target=\"_blank\">%1$s</a> <br><a href=\"%2$s\" target=\"_blank\">Read here</a> to learn more about ads.txt": [
+            ""
+         ],
+         "Lazy Loading for Adsense": [
+            ""
+         ],
+         "Enter your ads below:</div><ul style=\"margin-top:10px;\"><li style=\"font-weight:600;\">- <i>AdSense</i> for using <span style=\"font-weight:600;\">AdSense Text & display Ads</span>!</li><li style=\"font-weight:600;\">- <i>Plain Text / HTML / JS</i> for all other ads! <br><strong>Caution:</strong> Adding AdSense code into <i>Plain Text</i> option can result in non-displayed ads!</li></ul>": [
+            ""
+         ],
+         "<strong>Ads are not showing? Read the <a href=\"%s\" target=\"_blank\">troubleshooting guide</a> to find out how to resolve it.": [
+            ""
+         ],
+         "Open All Ads": [
+            ""
+         ],
+         "Widget Ads": [
+            ""
+         ],
+         "After creating your ads here go to <a href=\"%s\" target=\"_self\">Appearance->Widgets</a> and drag the WP QUADS widget into place.": [
+            ""
+         ],
+         "Ad widget 1": [
+            ""
+         ],
+         "Ad widget 2": [
+            ""
+         ],
+         "Ad widget 3": [
+            ""
+         ],
+         "Ad widget 4": [
+            ""
+         ],
+         "Ad widget 5": [
+            ""
+         ],
+         "Ad widget 6": [
+            ""
+         ],
+         "Ad widget 7": [
+            ""
+         ],
+         "Ad widget 8": [
+            ""
+         ],
+         "Ad widget 9": [
+            ""
+         ],
+         "Ad widget 10": [
+            ""
+         ],
+         "Plugin Settings": [
+            ""
+         ],
+         "Load Priority": [
+            ""
+         ],
+         "Do not change this until you know what you are doing. Usually the default value 20 is working fine. Changing this value can lead to unexpected results like ads not showing or loaded on wrong order. <strong>Default:</strong> 20": [
+            ""
+         ],
+         "Remove menu button": [
+            ""
+         ],
+         "Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar": [
+            ""
+         ],
+         "Disable AMP script": [
+            ""
+         ],
+         "Disable duplicate AMP ad script integration if your AMP plugin is already loading the script https://cdn.ampproject.org/v0/amp-ad-0.1.js into your site": [
+            ""
+         ],
+         "Delete Data on Uninstall?": [
+            ""
+         ],
+         "Check this box if you would like <strong>Settings->WPQUADS</strong> to completely remove all of its data when the plugin is deleted.": [
+            ""
+         ],
+         "Hide Shortcode after Deactivate": [
+            ""
+         ],
+         "Check this box if you would like to Hide [quads] shortcode from the content after deactivating the plugin.": [
+            ""
+         ],
+         "Check this to not minify JavaScript and CSS files. This makes debugging much easier and is recommended setting for inspecting issues on your site": [
+            ""
+         ],
+         "Activate Your License": [
+            ""
+         ],
+         "Get help from our development team": [
+            ""
+         ],
+         "Systeminfo": [
+            ""
+         ],
+         "Add-On Setting": [
+            ""
+         ],
+         "Import/Export": [
+            ""
+         ],
+         "Help": [
+            ""
+         ],
+         "Your license key expired on %s. Please <a href=\"%s\" target=\"_blank\" title=\"Renew your license key\">renew your license key</a>.": [
+            ""
+         ],
+         "Invalid license. Please <a href=\"%s\" target=\"_blank\" title=\"Visit account page\">visit your account page</a> and verify it.": [
+            ""
+         ],
+         "Your %s is not active for this URL. Please <a href=\"%s\" target=\"_blank\" title=\"Visit account page\">visit your account page</a> to manage your license key URLs.": [
+            ""
+         ],
+         "This is not a %s.": [
+            ""
+         ],
+         "Your license key has reached its activation limit. <a href=\"%s\" target=\"_blank\">View possible upgrades</a> now.": [
+            ""
+         ],
+         " Your <span class=\"lifetime\">License key is Valid for Lifetime</span> ": [
+            ""
+         ],
+         "Your license key expires soon! It expires on %s. <a class=\"license_expiring\" href=\"%s\" target=\"_blank\" title=\"Renew license\">Renew your license key</a>.": [
+            ""
+         ],
+         "Your license key expires on %s.": [
+            ""
+         ],
+         "<span class=\"expired_license_main\">Your <span class=\"expired_license\">License key has been Expired.</span></span> <a class=\"lic_is_expired\" href=\"%s\" target=\"_blank\" title=\"Renew license\">Renew Now</a>": [
+            ""
+         ],
+         "Your license key has been disabled! <a href=\"%s\" target=\"_blank\" title=\"Renew license\">Renew your license key</a>.": [
+            ""
+         ],
+         "Refresh Info": [
+            ""
+         ],
+         "Log file directory not writable! Set FTP permission to 755 or 777 for /wp-content/plugins/quadssharer/logs/": [
+            ""
+         ],
+         "Random Ads": [
+            ""
+         ],
+         "Homepage ": [
+            ""
+         ],
+         "Categories ": [
+            ""
+         ],
+         "Archives ": [
+            ""
+         ],
+         "Tags": [
+            ""
+         ],
+         "Hide Ad Widgets on Homepage": [
+            ""
+         ],
+         "Hide Ads when user is logged in.": [
+            ""
+         ],
+         "Assign": [
+            ""
+         ],
+         "to <strong>Beginning of Post</strong>": [
+            ""
+         ],
+         "to <strong>Middle of Post</strong>": [
+            ""
+         ],
+         "to <strong>End of Post</strong>": [
+            ""
+         ],
+         "right after <strong>the <span style=\"font-family:Courier New,Courier,Fixed;\">&lt;!--more--&gt;</span> tag</strong>": [
+            ""
+         ],
+         "right before <strong>the last Paragraph</strong>": [
+            ""
+         ],
+         "<strong>After Paragraph</strong>": [
+            ""
+         ],
+         "→": [
+            ""
+         ],
+         "to <strong>End of Post</strong> if fewer paragraphs are found.": [
+            ""
+         ],
+         "<strong>After Image</strong>": [
+            ""
+         ],
+         "after <b>Image's outer</b><b><span style=\"font-family:Courier New,Courier,Fixed;\"> &lt;div&gt; wp-caption</span></b> if any.": [
+            ""
+         ],
+         " Insert Ads into a post, on-the-fly": [
+            ""
+         ],
+         "Insert <span class=\"quads-quote-docs\">&lt;!--Ads1--&gt;</span>, <span class=\"quads-quote-docs\">&lt;!--Ads2--&gt;</span>, etc. into a post to show the <b>Particular Ads</b> at specific location.": [
+            ""
+         ],
+         "Insert <span class=\"quads-quote-docs\">&lt;!--RndAds--&gt;</span> into a post to show the <b>Random Ads</b> at specific location": [
+            ""
+         ],
+         "Show Quicktag Buttons on the HTML Post Editor": [
+            ""
+         ],
+         "Tags can be inserted into a post via the additional Quicktag Buttons at the HTML Edit Post SubPanel.": [
+            ""
+         ],
+         "Add New Ad": [
+            ""
+         ],
+         "Install <a href=\"%s\" target=\"_blank\">WP QUADS PRO</a> to fully support AdSense Responsive ads.": [
+            ""
+         ],
+         "Margin": [
+            ""
+         ],
+         "Padding": [
+            ""
+         ],
+         "System Info": [
+            ""
+         ],
+         "Export Settings": [
+            ""
+         ],
+         "Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.": [
+            ""
+         ],
+         "Export": [
+            ""
+         ],
+         "Import Settings": [
+            ""
+         ],
+         "Import the Quick AdSense Reloaded settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.": [
+            ""
+         ],
+         "Import": [
+            ""
+         ],
+         "Backup data from WP QUADS 1.5.2": [
+            ""
+         ],
+         "Import from Quick AdSense": [
+            ""
+         ],
+         "Import the settings for Quick AdSense Reloaded from Quick AdSense v. 1.9.2.": [
+            ""
+         ],
+         "Start Import process": [
+            ""
+         ],
+         "Most of the settings have been sucessfully imported from Quick AdSense <br> but due to some inconsistencies there are still some options which needs your attention and manual adjusting.": [
+            ""
+         ],
+         "Most of settings have been already imported successfully! (If not we probably have an unknown issue here)": [
+            ""
+         ],
+         "It is only temporary": [
+            ""
+         ],
+         "I stopped showing ads on my site": [
+            ""
+         ],
+         "I miss a feature": [
+            ""
+         ],
+         "Technical Issue": [
+            ""
+         ],
+         "Can we help? Please describe your problem": [
+            ""
+         ],
+         "I switched to another plugin": [
+            ""
+         ],
+         "Other reason": [
+            ""
+         ],
+         "Please specify, if possible": [
+            ""
+         ],
+         "If you have a moment, please let us know why you are deactivating:": [
+            ""
+         ],
+         "Submit & Deactivate": [
+            ""
+         ],
+         "Only Deactivate": [
+            ""
+         ],
+         "Don't deactivate": [
+            ""
+         ],
+         "Enter your extension license keys here to receive updates for purchased extensions. If your license key has expired, please <a href=\"%s\" target=\"_blank\" title=\"License renewal FAQ\">renew your license</a>.": [
+            ""
+         ],
+         "Nonce verification failed": [
+            ""
+         ],
+         "Error": [
+            ""
+         ],
+         "Enter valid license key for automatic updates.": [
+            ""
+         ],
+         "Ad Check": [
+            ""
+         ],
+         "- JavaScript / jQuery error": [
+            ""
+         ],
+         "- Ad blocker enabled": [
+            ""
+         ],
+         "- <em>the_content</em> filter does not exist": [
+            ""
+         ],
+         "- All Ads are disabled on this page": [
+            ""
+         ],
+         "- Default Ads disabled in content of this page": [
+            ""
+         ],
+         "- Current post ID is 0 ": [
+            ""
+         ],
+         "Ads are disabled on 404 pages": [
+            ""
+         ],
+         "Ads are disabled on non singular pages": [
+            ""
+         ],
+         "The %s extension(s) is not loaded": [
+            ""
+         ],
+         "WP QUADS is working fine": [
+            ""
+         ],
+         "debug DFP ads": [
+            ""
+         ],
+         "Show Adverts": [
+            ""
+         ],
+         "Invalid nonce": [
+            ""
+         ],
+         "WP QUADS - Hide Ads": [
+            ""
+         ],
+         "Hide all ads on page": [
+            ""
+         ],
+         "Hide default ads, use manually placed ads": [
+            ""
+         ],
+         "Hide all ads in sidebar": [
+            ""
+         ],
+         "Hide ad on beginning": [
+            ""
+         ],
+         "Hide ad in middle": [
+            ""
+         ],
+         "Hide ad on end": [
+            ""
+         ],
+         "Hide ad after MoreTag": [
+            ""
+         ],
+         "Hide ad before last paragraph": [
+            ""
+         ],
+         "Learn More": [
+            ""
+         ],
+         "No token provided. Token data needed to get account details.": [
+            ""
+         ],
+         "Get 30+ ad networks to compete for your ad inventory with Google Certified Publishing partner AdPushup.": [
+            ""
+         ],
+         "error": [
+            ""
+         ],
+         "Widget contains ad code": [
+            ""
+         ],
+         "Name your ad unit": [
+            ""
+         ],
+         "Configuration": [
+            ""
+         ],
+         "Targeting": [
+            ""
+         ],
+         "Publish": [
+            ""
+         ],
+         "Name": [
+            ""
+         ],
+         "Type": [
+            ""
+         ],
+         "Last Modified": [
+            ""
+         ],
+         "Impression ": [
+            ""
+         ],
+         "Clicks ": [
+            ""
+         ],
+         "View Full Report": [
+            ""
+         ],
+         "Delete": [
+            ""
+         ],
+         "Duplicate": [
+            ""
+         ],
+         "AD Vendors": [
+            ""
+         ],
+         "AD Format": [
+            ""
+         ],
+         "Go PRO": [
+            ""
+         ],
+         "Are you sure you want to": [
+            ""
+         ],
+         " DELETE  ": [
+            ""
+         ],
+         "this ad?": [
+            ""
+         ],
+         "It will permenently removed and you won't be able to see the ad again. You cannot undo this action.": [
+            ""
+         ],
+         "Cancel": [
+            ""
+         ],
+         "Upload Image": [
+            ""
+         ],
+         "Ad Anchor link": [
+            ""
+         ],
+         "Remove": [
+            ""
+         ],
+         "Add": [
+            ""
+         ],
+         "AdSense Type": [
+            ""
+         ],
+         "Display Ads": [
+            ""
+         ],
+         "In-Feed Ads": [
+            ""
+         ],
+         "In-Article Ads": [
+            ""
+         ],
+         "Auto Ads": [
+            ""
+         ],
+         "Sticky (Only AMP)": [
+            ""
+         ],
+         "Matched content": [
+            ""
+         ],
+         "Data Layout Key": [
+            ""
+         ],
+         "Enter Data Layout Key": [
+            ""
+         ],
+         "Data Client ID": [
+            ""
+         ],
+         "Enter Data Client ID": [
+            ""
+         ],
+         "Data Slot ID": [
+            ""
+         ],
+         "Enter Data Slot ID": [
+            ""
+         ],
+         "Size": [
+            ""
+         ],
+         "Fixed Size": [
+            ""
+         ],
+         "Responsive": [
+            ""
+         ],
+         "Width": [
+            ""
+         ],
+         "Height": [
+            ""
+         ],
+         "Plain Text / HTML / JS": [
+            ""
+         ],
+         "Enter Plain Text / HTML / JS": [
+            ""
+         ],
+         "Mobile specific Ad": [
+            ""
+         ],
+         "Mobile Plain Text / HTML / JS ": [
+            ""
+         ],
+         "Upload Ad Image": [
+            ""
+         ],
+         " Upload Image": [
+            ""
+         ],
+         "Remove Image": [
+            ""
+         ],
+         "Ad Button link": [
+            ""
+         ],
+         "Enter Ad Button link": [
+            ""
+         ],
+         "This feature is available in PRO version": [
+            ""
+         ],
+         "Unlock this feature": [
+            ""
+         ],
+         "Select Ads": [
+            ""
+         ],
+         "Select at least one Ad": [
+            ""
+         ],
+         "Network Code": [
+            ""
+         ],
+         "Enter Network Code": [
+            ""
+         ],
+         "AD Unit Name": [
+            ""
+         ],
+         "Enter AD Unit Name": [
+            ""
+         ],
+         "Block Id": [
+            ""
+         ],
+         "Enter Block Id": [
+            ""
+         ],
+         "Data Container": [
+            ""
+         ],
+         "Enter Data Container": [
+            ""
+         ],
+         "Data Js Src": [
+            ""
+         ],
+         "Enter Data Js Src": [
+            ""
+         ],
+         "Upload Ad Banner": [
+            ""
+         ],
+         " Upload Banner": [
+            ""
+         ],
+         "Remove Banner": [
+            ""
+         ],
+         "Mobile specific Banner": [
+            ""
+         ],
+         "Upload Mobile AD Banner ": [
+            ""
+         ],
+         "Upload Mobile AD Banner": [
+            ""
+         ],
+         "Mobile Size": [
+            ""
+         ],
+         "Enter Ad Anchor link": [
+            ""
+         ],
+         "Add rel=\"NoFollow\"": [
+            ""
+         ],
+         "Parallax Effect": [
+            ""
+         ],
+         "Banner height ": [
+            ""
+         ],
+         "Upload A Video": [
+            ""
+         ],
+         " Upload Video": [
+            ""
+         ],
+         "Remove Video": [
+            ""
+         ],
+         "We recommend try keeping videos to under 15 seconds as much as possible & if size's smaller please donot upload HD Quality": [
+            ""
+         ],
+         "Video Size": [
+            ""
+         ],
+         "Width(PX)": [
+            ""
+         ],
+         "Propeller AD Script": [
+            ""
+         ],
+         "Enter AD Script": [
+            ""
+         ],
+         "Cookie Setup": [
+            ""
+         ],
+         "Expiry": [
+            ""
+         ],
+         "No Expiry": [
+            ""
+         ],
+         "Data Publisher Id": [
+            ""
+         ],
+         "Enter Data Publisher Id": [
+            ""
+         ],
+         "Data CID": [
+            ""
+         ],
+         "Enter Data CID": [
+            ""
+         ],
+         "Data CRID": [
+            ""
+         ],
+         "Enter Data CRID": [
+            ""
+         ],
+         "Adpushup Site ID": [
+            ""
+         ],
+         "Enter Adpushup Site ID": [
+            ""
+         ],
+         "Adpushup Slot ID": [
+            ""
+         ],
+         "Enter Adpushup Slot ID": [
+            ""
+         ],
+         "Data Site Id": [
+            ""
+         ],
+         "Enter Data Site Id": [
+            ""
+         ],
+         "Widget Id's": [
+            ""
+         ],
+         "Enter Widget Id's": [
+            ""
+         ],
+         "Infolinks P ID": [
+            ""
+         ],
+         "Enter Infolinks P ID": [
+            ""
+         ],
+         "Infolinks W S ID": [
+            ""
+         ],
+         "Enter Infolinks W S ID": [
+            ""
+         ],
+         "Skip Ads Type": [
+            ""
+         ],
+         "Image Banner": [
+            ""
+         ],
+         "Custom HTML": [
+            ""
+         ],
+         "Frequency by page view": [
+            ""
+         ],
+         "Ad Waiting Time": [
+            ""
+         ],
+         "Ad Title": [
+            ""
+         ],
+         "Enter Ad Title": [
+            ""
+         ],
+         "Ad Short Description": [
+            ""
+         ],
+         "Enter Ad Description": [
+            ""
+         ],
+         "Carousel Type": [
+            ""
+         ],
+         "Single Slide": [
+            ""
+         ],
+         "Select Carousel Type": [
+            ""
+         ],
+         "Carousel Speed": [
+            ""
+         ],
+         "Seconds": [
+            ""
+         ],
+         "Navigation Arrows": [
+            ""
+         ],
+         "Show Randomly?": [
+            ""
+         ],
+         "Select Ads ": [
+            ""
+         ],
+         "Scroll Height": [
+            ""
+         ],
+         "Floating Position ": [
+            ""
+         ],
+         "Top Left": [
+            ""
+         ],
+         "Top Right": [
+            ""
+         ],
+         "Bottom Left": [
+            ""
+         ],
+         "Bottom Right": [
+            ""
+         ],
+         "Select Floating Position": [
+            ""
+         ],
+         "3D Cube Size": [
+            ""
+         ],
+         "PX": [
+            ""
+         ],
+         "Atleast two slides are  required": [
+            ""
+         ],
+         "Ad not found": [
+            ""
+         ],
+         "Ad Configuration": [
+            ""
+         ],
+         "Autofill": [
+            ""
+         ],
+         "Enter AdSense text and display ad code here": [
+            ""
+         ],
+         "AdSense ad coded": [
+            ""
+         ],
+         "View Documentation on": [
+            ""
+         ],
+         "AD": [
+            ""
+         ],
+         "Next": [
+            ""
+         ],
+         "Popular Integration": [
+            ""
+         ],
+         "AD Integrations": [
+            ""
+         ],
+         "Which type of AD would you like to insert?": [
+            ""
+         ],
+         "Log": [
+            ""
+         ],
+         "Create Ad": [
+            ""
+         ],
+         "Prev": [
+            ""
+         ],
+         "Return to Dashboard": [
+            ""
+         ],
+         "Where will the AD appear?": [
+            ""
+         ],
+         "After Paragraph": [
+            ""
+         ],
+         "Limit The Insertion Till Nth Ad": [
+            ""
+         ],
+         "Enter Id Name": [
+            ""
+         ],
+         "Enter Class Name": [
+            ""
+         ],
+         "Enter Selector": [
+            ""
+         ],
+         "Count As Per The": [
+            ""
+         ],
+         "p (default)": [
+            ""
+         ],
+         "div": [
+            ""
+         ],
+         "img": [
+            ""
+         ],
+         "H1": [
+            ""
+         ],
+         "H2": [
+            ""
+         ],
+         "H3": [
+            ""
+         ],
+         "H4": [
+            ""
+         ],
+         "H5": [
+            ""
+         ],
+         "H6": [
+            ""
+         ],
+         "Custom": [
+            ""
+         ],
+         "Enter Your Tag": [
+            ""
+         ],
+         "Display After": [
+            ""
+         ],
+         "Display After Every ": [
+            ""
+         ],
+         "Postion": [
+            ""
+         ],
+         "Bottom (default)": [
+            ""
+         ],
+         "Add close Button? ": [
+            ""
+         ],
+         "Animation? ": [
+            ""
+         ],
+         "Anim Delay": [
+            ""
+         ],
+         "Add Button to Show Ad? ": [
+            ""
+         ],
+         "Button Text": [
+            ""
+         ],
+         "Slide Up": [
+            ""
+         ],
+         "Display Before": [
+            ""
+         ],
+         "Display Before Every ": [
+            ""
+         ],
+         "Rotation Type": [
+            ""
+         ],
+         "Grid": [
+            ""
+         ],
+         "Number Of Ads to Show": [
+            ""
+         ],
+         "Popup Type": [
+            ""
+         ],
+         "Load instantly": [
+            ""
+         ],
+         "After Specific Time": [
+            ""
+         ],
+         "On Scroll": [
+            ""
+         ],
+         "Load on Top": [
+            ""
+         ],
+         "Load on Bottom": [
+            ""
+         ],
+         "Popup delay": [
+            ""
+         ],
+         "Video Type": [
+            ""
+         ],
+         "milliseconds": [
+            ""
+         ],
+         "Scroll percentage": [
+            ""
+         ],
+         "Left": [
+            ""
+         ],
+         "Right": [
+            ""
+         ],
+         "Parallax Type": [
+            ""
+         ],
+         "Open/Close Text": [
+            ""
+         ],
+         "Where Will The AD Appear?": [
+            ""
+         ],
+         "Ad Close Type": [
+            ""
+         ],
+         "On Click": [
+            ""
+         ],
+         "Page not found. Redirect to home": [
+            ""
+         ],
+         "Select Position": [
+            ""
+         ],
+         "Beginning of Post": [
+            ""
+         ],
+         "Middle of Post": [
+            ""
+         ],
+         "End of Post": [
+            ""
+         ],
+         "Right after the": [
+            ""
+         ],
+         "tag": [
+            ""
+         ],
+         "Right before the last Paragraph": [
+            ""
+         ],
+         "After Image": [
+            ""
+         ],
+         "Before Image": [
+            ""
+         ],
+         "By Word Count": [
+            ""
+         ],
+         "After the Percentage": [
+            ""
+         ],
+         "Ad After Id": [
+            ""
+         ],
+         "Ad After Class": [
+            ""
+         ],
+         "Ad After Advance Selector": [
+            ""
+         ],
+         "Ad After HTML Tag": [
+            ""
+         ],
+         "Shortcode (Manual)": [
+            ""
+         ],
+         "to": [
+            ""
+         ],
+         "if fewer paragraphs": [
+            ""
+         ],
+         "after": [
+            ""
+         ],
+         "Image's outer": [
+            ""
+         ],
+         "if any.": [
+            ""
+         ],
+         "before": [
+            ""
+         ],
+         "Before the Header": [
+            ""
+         ],
+         "After the Header": [
+            ""
+         ],
+         "Random Ad Placement": [
+            ""
+         ],
+         "Sticky Ad (NON AMP ONLY)": [
+            ""
+         ],
+         "Ad Before HTML Tag": [
+            ""
+         ],
+         "Sticky Ad": [
+            ""
+         ],
+         "Monday": [
+            ""
+         ],
+         "Tuesday": [
+            ""
+         ],
+         "Webnesday": [
+            ""
+         ],
+         "Thursday": [
+            ""
+         ],
+         "Friday": [
+            ""
+         ],
+         "Saturday": [
+            ""
+         ],
+         "Sunday": [
+            ""
+         ],
+         "Advanced Configuration": [
+            ""
+         ],
+         "Set Expire Date": [
+            ""
+         ],
+         "From ": [
+            ""
+         ],
+         "To ": [
+            ""
+         ],
+         "Set Specific Day": [
+            ""
+         ],
+         "Days ": [
+            ""
+         ],
+         "Lazy Load": [
+            ""
+         ],
+         "Lazy Load Delay ": [
+            ""
+         ],
+         "seconds": [
+            ""
+         ],
+         "AMP Configuration": [
+            ""
+         ],
+         "AMP Compatibility": [
+            ""
+         ],
+         "Layout": [
+            ""
+         ],
+         "Align": [
+            ""
+         ],
+         "Default": [
+            ""
+         ],
+         "Center": [
+            ""
+         ],
+         "Ad label": [
+            ""
+         ],
+         "Ad Label Text": [
+            ""
+         ],
+         "Ad Label Position": [
+            ""
+         ],
+         "Above Ad": [
+            ""
+         ],
+         "Below Ad": [
+            ""
+         ],
+         "Search by ad unit, id, format, etc": [
+            ""
+         ],
+         " should the ad display?": [
+            ""
+         ],
+         " pages would you like to display?": [
+            ""
+         ],
+         "AD Logging": [
+            ""
+         ],
+         "Logs will be stored for last 30 days only ": [
+            ""
+         ],
+         "Ad id": [
+            ""
+         ],
+         "Time Stamp": [
+            ""
+         ],
+         "URL": [
+            ""
+         ],
+         "Browser": [
+            ""
+         ],
+         "Referrer": [
+            ""
+         ],
+         "IP Address": [
+            ""
+         ],
+         "Show data": [
+            ""
+         ],
+         "Refresh": [
+            ""
+         ],
+         "Export Report": [
+            ""
+         ],
+         "Please enter valid license!": [
+            ""
+         ],
+         "Invalid record": [
+            ""
+         ],
+         "Third field should be RESELLER or DIRECT": [
+            ""
+         ],
+         "%s does not appear to be a valid subdomain": [
+            ""
+         ],
+         "%s does not appear to be a valid exchange domain": [
+            ""
+         ],
+         "%s does not appear to be a valid TAG-ID": [
+            ""
+         ],
+         "Ad Txt": [
+            ""
+         ],
+         "To know more about ads.txt  you can": [
+            ""
+         ],
+         "view this tutorial": [
+            ""
+         ],
+         "Validate & Save": [
+            ""
+         ],
+         "Ads For wp Setting": [
+            ""
+         ],
+         "Change adsforwp Short code to quads": [
+            ""
+         ],
+         "Change adsforwp Gutenberg to quads": [
+            ""
+         ],
+         "Advance Ads Setting": [
+            ""
+         ],
+         "Change Advance Ads Short code to quads": [
+            ""
+         ],
+         "Global Excluder": [
+            ""
+         ],
+         "Hide Ads for User Roles": [
+            ""
+         ],
+         "Hide Ads for Tags": [
+            ""
+         ],
+         "Hide Ads for Plugins": [
+            ""
+         ],
+         "Administrator": [
+            ""
+         ],
+         "Enter the percentage of revenue that you would like to share": [
+            ""
+         ],
+         "Save Changes": [
+            ""
+         ],
+         "Notice Type": [
+            ""
+         ],
+         "Bar": [
+            ""
+         ],
+         "Popup": [
+            ""
+         ],
+         "Page Redirection": [
+            ""
+         ],
+         "Block Message ": [
+            ""
+         ],
+         "If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker.": [
+            ""
+         ],
+         "Read here": [
+            ""
+         ],
+         "how to customize colors and text.": [
+            ""
+         ],
+         "Notice Behaviour": [
+            ""
+         ],
+         "Show on Every Visit": [
+            ""
+         ],
+         "Show Only Once": [
+            ""
+         ],
+         "Notice Content": [
+            ""
+         ],
+         "Title": [
+            ""
+         ],
+         "Notice Bar": [
+            ""
+         ],
+         "Top Bar": [
+            ""
+         ],
+         "Bottom Bar": [
+            ""
+         ],
+         "Sticky Notice Bar": [
+            ""
+         ],
+         "Description": [
+            ""
+         ],
+         "Notice Design": [
+            ""
+         ],
+         "Content Color": [
+            ""
+         ],
+         "Select Color": [
+            ""
+         ],
+         "Background Color": [
+            ""
+         ],
+         "Button Text Color": [
+            ""
+         ],
+         "Button Background Color": [
+            ""
+         ],
+         "Target Page": [
+            ""
+         ],
+         "Automatic Creation": [
+            ""
+         ],
+         "Ad Blocker Support": [
+            ""
+         ],
+         "Click Fraud Protection": [
+            ""
+         ],
+         "Revenue Sharing": [
+            ""
+         ],
+         "TCF v2.0 integration ": [
+            ""
+         ],
+         "Rotator Ads": [
+            ""
+         ],
+         "Group Insertion Ads": [
+            ""
+         ],
+         "Ad Performance Tracking": [
+            ""
+         ],
+         "Exclude Admin from tracking": [
+            ""
+         ],
+         "Role Based Access": [
+            ""
+         ],
+         "Report Logging Method": [
+            ""
+         ],
+         "Combined Data (Legacy)": [
+            ""
+         ],
+         "Separate Data (Improved V2)": [
+            ""
+         ],
+         "You are now using new improved report tracking.": [
+            ""
+         ],
+         "You are using Legacy report tracking.Tracking will get slower as the Datebase size increases. We recommend switching to Separate Data (Improved V2) for better performance": [
+            ""
+         ],
+         "Google Analytics Integration": [
+            ""
+         ],
+         "Debug Mode": [
+            ""
+         ],
+         "Copy System info": [
+            ""
+         ],
+         "Copy System Info": [
+            ""
+         ],
+         "System info copied to clipboard": [
+            ""
+         ],
+         "Import the Quick AdSense Reloaded settings for this site from a .json file. This allows you to easily import the configuration into another site.": [
+            ""
+         ],
+         "Quads Classic view Ads": [
+            ""
+         ],
+         "AMP for WP Ads": [
+            ""
+         ],
+         "ADS for WP Ads": [
+            ""
+         ],
+         "Advanced Ads": [
+            ""
+         ],
+         "Google Auto Ads": [
+            ""
+         ],
+         "Enter Google Auto Ads code below": [
+            ""
+         ],
+         "Status": [
+            ""
+         ],
+         "Auto Ads Disabled": [
+            ""
+         ],
+         "Auto Ads Enabled": [
+            ""
+         ],
+         "Exclude Auto Ads From Post Types": [
+            ""
+         ],
+         "Exclude Auto Ads From Extra pages": [
+            ""
+         ],
+         "Exclude nothing": [
+            ""
+         ],
+         "homepage": [
+            ""
+         ],
+         "Exclude Auto Ads From User Roles": [
+            ""
+         ],
+         "Limit Amount of ads": [
+            ""
+         ],
+         "ads on a page": [
+            ""
+         ],
+         "to learn how many AdSense ads are allowed. If you are unsure set the value to unlimited.": [
+            ""
+         ],
+         "Insert Ads into a post, on-the-fly using below tags": [
+            ""
+         ],
+         "1. Insert": [
+            ""
+         ],
+         "etc. into a post to show the Particular Ads at specific location.": [
+            ""
+         ],
+         "2. Insert": [
+            ""
+         ],
+         "into a post to show the Random Ads at specific location": [
+            ""
+         ],
+         "Ask for technical Support": [
+            ""
+         ],
+         "We are always available to help you with anything related to ads": [
+            ""
+         ],
+         "Are you existing Premium Customer?": [
+            ""
+         ],
+         "Send": [
+            ""
+         ],
+         "Updating...": [
+            ""
+         ],
+         "Saving...": [
+            ""
+         ],
+         "Activate License": [
+            ""
+         ],
+         "You are entering an Expired License Key": [
+            ""
+         ],
+         "Save Settings": [
+            ""
+         ],
+         "My Account": [
+            ""
+         ],
+         "License Key is": [
+            ""
+         ],
+         "Activated": [
+            ""
+         ],
+         "Hey! You're enjoying all the PRO benefits of the WP QUADS along with regular updates & Technical Support.": [
+            ""
+         ],
+         "Extend License": [
+            ""
+         ],
+         "Expired": [
+            ""
+         ],
+         "Extend the License to receive the further updates & support.": [
+            ""
+         ],
+         "Features": [
+            ""
+         ],
+         "Tools": [
+            ""
+         ],
+         "Importer": [
+            ""
+         ],
+         "Legacy": [
+            ""
+         ],
+         "Help & Support": [
+            ""
+         ]
+      }
+   }
+}

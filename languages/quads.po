@@ -1,96 +1,32 @@
-# Copyright (C) 2014 
-# This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version:  \n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/quadssharer\n"
-"POT-Creation-Date: 2014-10-27 14:22:51+00:00\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2014-10-27 14:22:51+00:00\n"
 "PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 
-#: includes/admin/add-ons.php:27
-msgid "Add Ons for Quick AdSense Reloaded"
-msgstr ""
-
-#: includes/admin/add-ons.php:28
-msgid "Visit Website"
-msgstr ""
-
-#: includes/admin/add-ons.php:28
-msgid "See Details"
-msgstr ""
-
-#: includes/admin/add-ons.php:30
-msgid "These add-ons extend the functionality of Quick AdSense Reloaded."
-msgstr ""
-
-#: includes/admin/add-ons.php:54
-msgid ""
-"There was an error retrieving the Quick AdSense Reloaded addon list from the server. "
-"Please try again later."
-msgstr ""
-
-#: includes/admin/admin-footer.php:27
-msgid ""
-"Thank you for using <a href=\"%1$s\" target=\"_blank\">Quick AdSense Reloaded</a>! Please "
-"<a href=\"%2$s\" target=\"_blank\">rate us</a> on <a href=\"%2$s\" target="
-"\"_blank\">WordPress.org</a> and help to support this project."
-msgstr ""
-
-#: includes/admin/admin-notices.php:46
-msgid ""
-"There seems to be an issue with the server. Please try again in a few "
-"minutes."
-msgstr ""
-
-#: includes/admin/admin-pages.php:33
-msgid "Quick AdSense Reloaded"
-msgstr ""
-
-#: includes/admin/admin-pages.php:34
-msgid "Quick AdSense Reloaded Settings"
-msgstr ""
-
-#: includes/admin/admin-pages.php:34
+#: includes/admin/admin-pages.php:68
+#: includes/admin/admin-pages.php:72
+#: admin/assets/js/src/components/ads/nav/QuadsAdListNavLink.jsx:255
 msgid "Settings"
-msgstr ""
-
-#: includes/admin/admin-pages.php:35
-msgid "Quick AdSense Reloaded Add Ons"
-msgstr ""
-
-#: includes/admin/admin-pages.php:35 includes/admin/plugins.php:51
-msgid "Add Ons"
 msgstr ""
 
 #: includes/admin/plugins.php:27
 msgid "General Settings"
 msgstr ""
 
-#: includes/admin/plugins.php:50
-msgid "Getting Started"
-msgstr ""
-
 #: includes/admin/settings/contextual-help.php:29
 msgid "For more information:"
 msgstr ""
 
-#: includes/admin/settings/contextual-help.php:30
-msgid "Visit the <a href=\"%s\">documentation</a> on the quadsare website."
-msgstr ""
-
-#: includes/admin/settings/contextual-help.php:32
-msgid ""
-"<a href=\"%s\">Post an issue</a> on <a href=\"%s\">quadsare</a>. View <a href="
-"\"%s\">extensions</a>."
-msgstr ""
-
 #: includes/admin/settings/contextual-help.php:41
-#: includes/admin/settings/register-settings.php:498
+#: includes/admin/settings/register-settings.php:694
 msgid "General"
 msgstr ""
 
@@ -98,392 +34,2761 @@ msgstr ""
 msgid "This screen provides the most basic settings for configuring Quick AdSense Reloaded."
 msgstr ""
 
-#: includes/admin/settings/display-settings.php:32
-msgid "Welcome to Quick AdSense Reloaded "
-msgstr ""
-
-#: includes/admin/settings/display-settings.php:34
-msgid "Thank you for updating to the latest version!"
-msgstr ""
-
-#: includes/admin/settings/display-settings.php:36
-msgid "Quick AdSense Reloaded is ready to increase your Shares!"
-msgstr ""
-
-#: includes/admin/settings/display-settings.php:37
-msgid ""
-"php_curl is not working on your server. </span><a href=\"http://us."
-"informatiweb.net/programmation/32--enable-curl-extension-of-php-on-windows."
-"html\" target=\"_blank\">Please enable it.</a>"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:130
-msgid "Cache expire"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:131
-msgid ""
-"The amount of shares are updated after time of \"cache expire\". Notice that "
-"Sharedcount.com uses his own cache (30 - 60min) so it does not update "
-"immediately when expire time is very low, e.g. 5 minutes."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:137
-msgid "API Key - Important"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:138
-msgid ""
-"Get it FREE at <a href=\"https://admin.sharedcount.com/admin/signup.php\" "
-"target=\"_blank\">SharedCount.com</a> for 10.000 free daily requests. It´s "
-"essential for accurate function of this plugin. Make sure Curl is working on "
-"your server."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:144
-msgid "Disable Sharecount"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:145
-msgid ""
-"Use this when you can not enable curl_exec and share counts stays zero on "
-"your site. In this mode the plugin do not calls the database and no SQL "
-"queries are done. (Gives just a very little performance boost because all "
-"database requests are cached in any case.)"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:150
-msgid "Hide Sharecount"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:151
-msgid ""
-"Optional: If you fill in any number here, the shares for a specific post are "
-"not shown until the share count of this number is reached."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:157
-msgid "Exclude from"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:158
-msgid ""
-"Exclude share buttons from a list of specific posts and pages. Put in the "
-"page id seperated by a comma, e.g. 23, 63, 114 "
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:164
-msgid "Execution Order"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:165
-msgid ""
-"If you use other content plugins you can define here the execution order. "
-"Lower numbers mean earlier execution. E.g. Say \"0\" and Quick AdSense Reloaded is "
-"executed before any other plugin (When the other plugin is not overwriting "
-"our execution order). Default is \"1000\""
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:172
-msgid "Disable Transient Cache"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:178
-msgid "Delete DB Cache"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:184
+#: includes/admin/settings/register-settings.php:426
 msgid "Debug mode"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:185
-msgid ""
-"<strong>Note: </strong> Check this box this before you get in contact with "
-"our support team. This allows us to check publically hidden debug messages "
-"on your website. Do not forget to disable it thereafter!"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:190
-msgid "Fake Share counts"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:191
-msgid ""
-"This number will be aggregated to all your share counts multiplied with a "
-"post specific factor based on title word count divided 10."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:197
-msgid "Remove Data on Uninstall?"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:198
-msgid ""
-"Check this box if you would like Quick AdSense Reloaded to completely remove all of its "
-"data when the plugin is deleted."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:207
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:214
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:508
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:88
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:88
 msgid "Position"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:208
-msgid ""
-"Choose where you would like the social icons to appear, before or after the "
-"main content. If set to Manual, you can use this code to place your Social "
-"links anywhere you like in your templates files: <strong>&lt;?php do_action"
-"(\"quadsshare\"); ?&gt;</strong> or use the shortcode: [quadsshare] in your "
-"posts. Optional: <strong>[quadsshare shares=\"off\"]</strong> if you like to "
-"disable the share number."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:211
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:300
 msgid "Top"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:212
-msgid "Bottom"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:213
-msgid "Top and Bottom"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:214
-msgid "Manual"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:220
+#: includes/admin/settings/register-settings.php:236
 msgid "Post Types"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:221
-msgid ""
-"Select on which post_types the share buttons appear. This values will be "
-"ignored when position is specified \"manual\"."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:226
-msgid "Frontpage"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:227
-msgid "Enable share buttons on frontpage"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:232
-msgid "Round Shares"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:233
-msgid "Share counts more than 1000 are shown as 1k. More than 1 Million as 1M"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:238
-msgid "Animate Shares"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:239
-msgid ""
-"Count up the shares on page loading with a nice looking and fast jQuery "
-"animation. This only works on singular pages and not with shortcodes "
-"generated buttons."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:244
-msgid "Twitter Handle"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:245
-msgid ""
-"Optional: Using your twitter username, e.g. 'Quick AdSense Reloaded' results in via "
-"@Quick AdSense Reloaded"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:251
-msgid "Share color"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:252
-msgid "Choose color of the share number in hex format, e.g. #7FC04C: "
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:259
-msgid "Border Radius"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:260
-msgid ""
-"Specify the border radius of all buttons in pixel. A border radius of 20px "
-"results in circle buttons. Default value is zero."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:291
-msgid "Style"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:292
-msgid ""
-"Load another style to change visual appearance of the share buttons. <br>if "
-"you created a custom style and you want to make it available for the "
-"community here, <a href=\"https://www.quadsshare.net/contact-support/\" "
-"target=\"_blank\"> get in contact with me.</a>"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:304
-msgid "Subscribe behavior"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:305
-msgid ""
-"Specify behavior of the subscribe button and decide if you like to link the "
-"button directly to any content or to have a toggled content slider below the "
-"button."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:316
-msgid "Subscribe Link"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:317
-msgid "The link to any place on your site, e.g. http://yoursite.com/subscribe"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:324
-msgid "Subscribe content"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:325
-msgid ""
-"Define your subscribe content here. Forms, like button, links or any other "
-"text. Shortcodes are also supported, e.g.: [contact-form-7]"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:332
-msgid "Custom CSS"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:333
-msgid "Put in some custom styles here"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:344
-msgid "Large Buttons"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:345
-msgid ""
-"Specify how many services and social networks are visible before the \"Plus"
-"\" Button is shown. This buttons turn into large prominent buttons."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:351
-msgid "Services"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:352
-msgid ""
-"Drag and drop the Share Buttons to sort them and specify which ones should "
-"be enabled. If you enable more services than the specified value \"Large "
-"Buttons\", the plus sign is automatically added to the last visible big "
-"share button.<br><strong>No Share Services visible after update?</strong> "
-"Disable and enable the Quick AdSense Reloaded Plugin solves this. "
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:368
-#: includes/admin/settings/register-settings.php:515
-msgid "Add-Ons"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:369
-msgid "All Quick AdSense Reloaded Add-Ons at a glance"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:441
+#: includes/admin/settings/register-settings.php:650
 msgid "Settings updated."
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:501
+#: includes/admin/settings/register-settings.php:697
 msgid "Visual"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:505
-#: includes/admin/settings/register-settings.php:1042
-msgid "Social Networks"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:509
-msgid "Extensions"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:513
+#: includes/admin/settings/register-settings.php:710
+#: admin/assets/js/src/components/settings/QuadsAdSettingsNavLink.jsx:36
 msgid "Licenses"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:807
-msgid ""
-"The callback function used for the <strong>%s</strong> setting is missing."
+#: includes/admin/settings/register-settings.php:1004
+msgid "The callback function used for the <strong>%s</strong> setting is missing."
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:938
+#: includes/admin/settings/register-settings.php:1145
 msgid "Upload File"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:994
+#: includes/admin/settings/register-settings.php:1401
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2070
 msgid "Deactivate License"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:1043
-msgid "Enable"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:1044
-msgid "Custom name"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:1097
+#: includes/admin/settings/register-settings.php:1483
 msgid "Select Image"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:1170
-msgid "All Services"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:1187
-msgid ""
-"DB cache deleted. Do not forget to uncheck this box for performance increase."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:1200
+#: includes/admin/settings/register-settings.php:1569
 msgid "Transient Cache disabled! Enable it for performance increase."
 msgstr ""
 
-#: includes/class-quads-html-elements.php:43
-msgctxt "all dropdown items"
-msgid "All"
-msgstr ""
-
-#: includes/class-quads-html-elements.php:44
-msgctxt "no dropdown items"
-msgid "None"
-msgstr ""
-
-#: includes/class-quads-html-elements.php:232
-msgid "Enter username"
-msgstr ""
-
-#: includes/class-quads-license-handler.php:133
+#: includes/class-quads-license-handler.php:251
 msgid "%1$s License Key"
 msgstr ""
 
-#: includes/template-functions.php:210
-msgid "Subscribe"
+#. Plugin Name of the plugin
+msgid "AdSense Integration WP QUADS"
 msgstr ""
 
-#: includes/template-functions.php:393 includes/template-functions.php:448
-msgid "SHARES"
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://wordpress.org/plugins/quick-adsense-reloaded/"
 msgstr ""
 
-#: quadsshare.php:99 quadsshare.php:111
-msgid "Cheatin&#8217; huh?"
+#. Description of the plugin
+msgid "Insert Google AdSense and other ad formats fully automatic into your website"
+msgstr ""
+
+#. Author of the plugin
+msgid "WP Quads"
+msgstr ""
+
+#: admin/includes/rest-api-service.php:448
+#: includes/class-quads-license-handler.php:355
+msgid "Settings has been saved successfully"
+msgstr ""
+
+#: admin/includes/rest-api.php:1932
+#: includes/admin/tools.php:221
+msgid "Please upload a valid .json file"
+msgstr ""
+
+#: admin/includes/rest-api.php:1937
+#: includes/admin/tools.php:227
+msgid "Please upload a file to import"
+msgstr ""
+
+#: admin/includes/rest-api.php:1942
+msgid "file uploaded successfully"
+msgstr ""
+
+#: admin/includes/rest-api.php:1957
+msgid "Settings has been saved successfullycv"
+msgstr ""
+
+#: admin/includes/rest-api.php:1960
+#: admin/includes/rest-api.php:1965
+msgid "Settings has been saved successfullyvf"
+msgstr ""
+
+#: admin/includes/widget.php:28
+msgid "WP QUADS ADS"
+msgstr ""
+
+#: admin/includes/widget.php:29
+msgid "Widget to display Ads"
+msgstr ""
+
+#: admin/includes/widget.php:92
+msgid "Ad title or group title"
+msgstr ""
+
+#: admin/includes/widget.php:93
+msgid "ads list to be display"
+msgstr ""
+
+#: admin/includes/widget.php:95
+msgid "Ads:"
+msgstr ""
+
+#: includes/admin/admin-footer.php:27
+msgid "<strong>Please do us a BIG favor and give us a 5 star rating <a href=\"%1$s\" target=\"_blank\">here</a>. If you have issues, open a <a href=\"%2s\" target=\"_blank\">support ticket</a>, so that we can sort it out. Thank you!</strong>"
+msgstr ""
+
+#: includes/admin/admin-notices.php:55
+#: includes/admin/admin-notices.php:66
+msgid "<strong><p>Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup</strong></p>"
+msgstr ""
+
+#: includes/admin/admin-notices.php:373
+msgid "<strong>Extend the"
+msgstr ""
+
+#: includes/admin/admin-notices.php:396
+#: includes/admin/admin-notices.php:405
+msgid "<strong>WP QUADS "
+msgstr ""
+
+#: includes/admin/admin-notices.php:422
+msgid "You need to update <strong>WP QUADS PRO to version 1.3.6</strong> or higher. Your version of <strong>WP QUADS Pro</strong> is "
+msgstr ""
+
+#: includes/admin/admin-notices.php:447
+msgid "This is a huge update! The data structure of WP QUADS has been modified and improved for better performance and great new features. <br> For the case you'd experience issues, we made a <a href=\"%1s\" target=\"_self\">backup of previous WP QUADS data</a>. So you can <a href=\"%2s\" target=\"_new\">switch back to the previous version</a> anytime. <br><br>Please <a href=\"%3s\" target=\"_new\">open first a support ticket</a> if you experience any issue."
+msgstr ""
+
+#: includes/admin/admin-notices.php:452
+msgid "Close Notice"
+msgstr ""
+
+#: includes/admin/admin-notices.php:630
+msgid "<p>Oh No! <strong>WP Quads Pro</strong> license key is not activated or has been expired. It expires on %s. Renew or activate your license key to make sure that your (AdSense) ads are shown properly with your WordPress, version "
+msgstr ""
+
+#: includes/admin/admin-notices.php:670
+#: includes/admin/admin-notices.php:672
+msgid "Activate the License of <a href=\""
+msgstr ""
+
+#: includes/admin/admin-pages.php:33
+msgid "WP QUADS Settings"
+msgstr ""
+
+#: includes/admin/admin-pages.php:33
+msgid "WPQUADS"
+msgstr ""
+
+#: includes/admin/admin-pages.php:42
+#: includes/admin/settings/register-settings.php:280
+#: admin/assets/js/src/components/ads/nav/QuadsAdListNavLink.jsx:254
+msgid "Ads"
+msgstr ""
+
+#: includes/admin/admin-pages.php:75
+#: admin/assets/js/src/components/ads/nav/QuadsAdListNavLink.jsx:257
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1597
+msgid "Reports"
+msgstr ""
+
+#: includes/admin/admin-pages.php:77
+msgid "Return to Classic view"
+msgstr ""
+
+#: includes/admin/admin-pages.php:82
+msgid "Ad Settings"
+msgstr ""
+
+#: includes/admin/admin-pages.php:84
+msgid "Switch to New Interface"
+msgstr ""
+
+#: includes/admin/admin-pages.php:91
+msgid "Get Add-On"
+msgstr ""
+
+#: includes/admin/plugins.php:39
+msgid "Premium Features"
+msgstr ""
+
+#: includes/admin/plugins.php:39
+msgid "Support"
+msgstr ""
+
+#: includes/admin/settings/contextual-help.php:30
+msgid "Visit the <a href=\"%s\">documentation</a> on the Quick AdSense Reloaded website."
+msgstr ""
+
+#: includes/admin/settings/contextual-help.php:32
+msgid "<a href=\"%s\">Post an issue</a> on <a href=\"%s\">Quick AdSense Reloaded</a>. View <a href=\"%s\">extensions</a>."
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:351
+msgid "<strong>If you like this plugin please do us a BIG favor and give us a 5 star rating <a href=\"%s\" target=\"_blank\">here</a> . If you have issues, open a <a href=\"%2s\" target=\"_blank\">support ticket</a>, so that we can sort it out. Thank you!</strong>"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:355
+msgid "<strong>Ads are not showing? Read the <a href=\"%s\" target=\"_blank\">troubleshooting guide</a> to find out how to resolve it"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:427
+msgid "Tweet"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:435
+msgid "Share"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:454
+msgid "Enter <a ahref=\"https://wpquads.com/docs/how-to-create-and-where-to-get-adsense-code/\" target=\"_blank\">AdSense text & display ad code</a> here"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:455
+msgid "Do not enter <a href=\"https://wpquads.com/docs/integrate-page-level-ads-wordpress/\" target=\"_blank\">AdSense page level ads</a> or <a href=\"https://wpquads.com/introducing-new-adsense-auto-ads/\" target=\"_blank\">Auto ads!</a> <br> <a href=\"https://wpquads.com/docs/how-to-create-and-where-to-get-adsense-code/\" target=\"_blank\">Learn how to create AdSense ad code</a>"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:457
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1646
+msgid "Get Code"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:458
+msgid "Close"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:89
+msgid "If you have any query, please write the query in below box or email us at"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:89
+msgid "We will reply to your email address shortly"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:90
+msgid "Message sent successfully, Please wait we will get back to you shortly"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:91
+msgid "Message not sent. please check your network connection"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:100
+msgid "Are you a premium customer ?"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:102
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:478
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:510
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:550
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:562
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2021
+msgid "Select"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:103
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2022
+msgid "Yes"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:104
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2023
+msgid "No"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:107
+msgid "Send Message"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:187
+msgid "General & Position"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:193
+msgid "Limit Amount of ads:"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:194
+msgid " ads on a page."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:195
+msgid "<a href=\"%s\" target=\"_blank\">Read here</a> to learn how many AdSense ads are allowed. If you are unsure set the value to unlimited."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:224
+msgid "Position - Default Ads"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:225
+msgid "Assign and activate ads on specific ad places"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:230
+#: admin/assets/js/src/components/common/visibility/QuadsVisibility.jsx:241
+msgid "Visibility"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:237
+#: includes/admin/settings/register-settings.php:238
+msgid "Select post types where ads are visible."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:241
+msgid "Select Post Type"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:245
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1978
+msgid "Hide Ads From Ajax Requests"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:246
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1981
+msgid "If your site is using ajax based infinite loading it might happen that ads are loaded without any further post content. Disable this here."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:251
+#: includes/admin/settings/register-settings.php:274
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1985
+msgid "Quicktags"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:257
+msgid "ads.txt - Automatic Creation"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:258
+msgid "Create an ads.txt file"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:259
+msgid "Allow WP QUADS to generate automatically the ads.txt file in root of your website domain. After enabling and saving settings, check if your ads.txt is correct by opening: <a href=\"%1$s\" target=\"_blank\">%1$s</a> <br><a href=\"%2$s\" target=\"_blank\">Read here</a> to learn more about ads.txt"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:268
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1652
+msgid "Lazy Loading for Adsense"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:281
+msgid "Enter your ads below:</div><ul style=\"margin-top:10px;\"><li style=\"font-weight:600;\">- <i>AdSense</i> for using <span style=\"font-weight:600;\">AdSense Text & display Ads</span>!</li><li style=\"font-weight:600;\">- <i>Plain Text / HTML / JS</i> for all other ads! <br><strong>Caution:</strong> Adding AdSense code into <i>Plain Text</i> option can result in non-displayed ads!</li></ul>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:286
+msgid "<strong>Ads are not showing? Read the <a href=\"%s\" target=\"_blank\">troubleshooting guide</a> to find out how to resolve it."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:288
+msgid "Open All Ads"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:303
+msgid "Widget Ads"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:304
+msgid "After creating your ads here go to <a href=\"%s\" target=\"_self\">Appearance->Widgets</a> and drag the WP QUADS widget into place."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:309
+msgid "Ad widget 1"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:316
+msgid "Ad widget 2"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:323
+msgid "Ad widget 3"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:330
+msgid "Ad widget 4"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:337
+msgid "Ad widget 5"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:344
+msgid "Ad widget 6"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:351
+msgid "Ad widget 7"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:358
+msgid "Ad widget 8"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:365
+msgid "Ad widget 9"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:372
+msgid "Ad widget 10"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:379
+msgid "Plugin Settings"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:385
+msgid "Load Priority"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:387
+msgid "Do not change this until you know what you are doing. Usually the default value 20 is working fine. Changing this value can lead to unexpected results like ads not showing or loaded on wrong order. <strong>Default:</strong> 20"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:394
+msgid "Remove menu button"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:397
+msgid "Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:402
+msgid "Disable AMP script"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:405
+msgid "Disable duplicate AMP ad script integration if your AMP plugin is already loading the script https://cdn.ampproject.org/v0/amp-ad-0.1.js into your site"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:410
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1850
+msgid "Delete Data on Uninstall?"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:412
+msgid "Check this box if you would like <strong>Settings->WPQUADS</strong> to completely remove all of its data when the plugin is deleted."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:418
+msgid "Hide Shortcode after Deactivate"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:420
+msgid "Check this box if you would like to Hide [quads] shortcode from the content after deactivating the plugin."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:427
+msgid "Check this to not minify JavaScript and CSS files. This makes debugging much easier and is recommended setting for inspecting issues on your site"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:434
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2053
+msgid "Activate Your License"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:463
+msgid "Get help from our development team"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:469
+msgid "Systeminfo"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:705
+msgid "Add-On Setting"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:715
+#: includes/admin/tools.php:68
+msgid "Import/Export"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:717
+msgid "Help"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1253
+msgid "Your license key expired on %s. Please <a href=\"%s\" target=\"_blank\" title=\"Renew your license key\">renew your license key</a>."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1264
+msgid "Invalid license. Please <a href=\"%s\" target=\"_blank\" title=\"Visit account page\">visit your account page</a> and verify it."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1276
+msgid "Your %s is not active for this URL. Please <a href=\"%s\" target=\"_blank\" title=\"Visit account page\">visit your account page</a> to manage your license key URLs."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1286
+msgid "This is not a %s."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1295
+msgid "Your license key has reached its activation limit. <a href=\"%s\" target=\"_blank\">View possible upgrades</a> now."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1316
+msgid " Your <span class=\"lifetime\">License key is Valid for Lifetime</span> "
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1322
+msgid "Your license key expires soon! It expires on %s. <a class=\"license_expiring\" href=\"%s\" target=\"_blank\" title=\"Renew license\">Renew your license key</a>."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1329
+msgid "Your license key expires on %s."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1362
+msgid "<span class=\"expired_license_main\">Your <span class=\"expired_license\">License key has been Expired.</span></span> <a class=\"lic_is_expired\" href=\"%s\" target=\"_blank\" title=\"Renew license\">Renew Now</a>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1371
+msgid "Your license key has been disabled! <a href=\"%s\" target=\"_blank\" title=\"Renew license\">Renew your license key</a>."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1402
+msgid "Refresh Info"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1582
+msgid "Log file directory not writable! Set FTP permission to 755 or 777 for /wp-content/plugins/quadssharer/logs/"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1597
+#: includes/admin/settings/register-settings.php:1613
+msgid "Random Ads"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1663
+msgid "Homepage "
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1664
+msgid "Categories "
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1665
+msgid "Archives "
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1666
+msgid "Tags"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1667
+msgid "Hide Ad Widgets on Homepage"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1668
+msgid "Hide Ads when user is logged in."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1689
+#: includes/admin/settings/register-settings.php:1695
+#: includes/admin/settings/register-settings.php:1701
+#: includes/admin/settings/register-settings.php:1707
+#: includes/admin/settings/register-settings.php:1713
+#: includes/admin/settings/register-settings.php:1719
+#: includes/admin/settings/register-settings.php:1729
+#: includes/admin/settings/register-settings.php:1739
+#: includes/admin/settings/register-settings.php:1751
+#: includes/api.php:21
+msgid "Assign"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1691
+msgid "to <strong>Beginning of Post</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1697
+msgid "to <strong>Middle of Post</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1703
+msgid "to <strong>End of Post</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1709
+msgid "right after <strong>the <span style=\"font-family:Courier New,Courier,Fixed;\">&lt;!--more--&gt;</span> tag</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1715
+msgid "right before <strong>the last Paragraph</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1721
+#: includes/admin/settings/register-settings.php:1731
+#: includes/admin/settings/register-settings.php:1741
+msgid "<strong>After Paragraph</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1723
+#: includes/admin/settings/register-settings.php:1733
+#: includes/admin/settings/register-settings.php:1743
+#: includes/admin/settings/register-settings.php:1755
+msgid "→"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1725
+#: includes/admin/settings/register-settings.php:1735
+#: includes/admin/settings/register-settings.php:1745
+msgid "to <strong>End of Post</strong> if fewer paragraphs are found."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1753
+msgid "<strong>After Image</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1757
+msgid "after <b>Image's outer</b><b><span style=\"font-family:Courier New,Courier,Fixed;\"> &lt;div&gt; wp-caption</span></b> if any."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1776
+msgid " Insert Ads into a post, on-the-fly"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1778
+msgid "Insert <span class=\"quads-quote-docs\">&lt;!--Ads1--&gt;</span>, <span class=\"quads-quote-docs\">&lt;!--Ads2--&gt;</span>, etc. into a post to show the <b>Particular Ads</b> at specific location."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1779
+msgid "Insert <span class=\"quads-quote-docs\">&lt;!--RndAds--&gt;</span> into a post to show the <b>Random Ads</b> at specific location"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1783
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1987
+msgid "Show Quicktag Buttons on the HTML Post Editor"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1784
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1988
+msgid "Tags can be inserted into a post via the additional Quicktag Buttons at the HTML Edit Post SubPanel."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1873
+msgid "Add New Ad"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:2017
+#: includes/admin/settings/register-settings.php:2170
+msgid "Install <a href=\"%s\" target=\"_blank\">WP QUADS PRO</a> to fully support AdSense Responsive ads."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:2044
+#: includes/admin/settings/register-settings.php:2196
+#: admin/assets/js/src/components/common/layout/QuadsLayout.jsx:36
+msgid "Margin"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:2202
+#: admin/assets/js/src/components/common/layout/QuadsLayout.jsx:42
+msgid "Padding"
+msgstr ""
+
+#: includes/admin/tools.php:69
+msgid "System Info"
+msgstr ""
+
+#: includes/admin/tools.php:93
+msgid "Export Settings"
+msgstr ""
+
+#: includes/admin/tools.php:95
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1870
+msgid "Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site."
+msgstr ""
+
+#: includes/admin/tools.php:100
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1867
+msgid "Export"
+msgstr ""
+
+#: includes/admin/tools.php:107
+msgid "Import Settings"
+msgstr ""
+
+#: includes/admin/tools.php:109
+msgid "Import the Quick AdSense Reloaded settings from a .json file. This file can be obtained by exporting the settings on another site using the form above."
+msgstr ""
+
+#: includes/admin/tools.php:117
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1874
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1889
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1897
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1905
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1914
+msgid "Import"
+msgstr ""
+
+#: includes/admin/tools.php:279
+msgid "Backup data from WP QUADS 1.5.2"
+msgstr ""
+
+#: includes/admin/tools.php:504
+msgid "Import from Quick AdSense"
+msgstr ""
+
+#: includes/admin/tools.php:506
+msgid "Import the settings for Quick AdSense Reloaded from Quick AdSense v. 1.9.2."
+msgstr ""
+
+#: includes/admin/tools.php:514
+msgid "Start Import process"
+msgstr ""
+
+#: includes/admin/tools.php:549
+msgid "Most of the settings have been sucessfully imported from Quick AdSense <br> but due to some inconsistencies there are still some options which needs your attention and manual adjusting."
+msgstr ""
+
+#: includes/admin/tools.php:553
+msgid "Most of settings have been already imported successfully! (If not we probably have an unknown issue here)"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:3
+msgid "It is only temporary"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:4
+msgid "I stopped showing ads on my site"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:5
+msgid "I miss a feature"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:7
+msgid "Technical Issue"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:8
+msgid "Can we help? Please describe your problem"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:9
+msgid "I switched to another plugin"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:11
+msgid "Other reason"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:12
+msgid "Please specify, if possible"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:20
+msgid "If you have a moment, please let us know why you are deactivating:"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:31
+msgid "Submit & Deactivate"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:32
+msgid "Only Deactivate"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:33
+msgid "Don't deactivate"
+msgstr ""
+
+#: includes/class-quads-license-handler.php:284
+msgid "Enter your extension license keys here to receive updates for purchased extensions. If your license key has expired, please <a href=\"%s\" target=\"_blank\" title=\"License renewal FAQ\">renew your license</a>."
+msgstr ""
+
+#: includes/class-quads-license-handler.php:512
+msgid "Nonce verification failed"
+msgstr ""
+
+#: includes/class-quads-license-handler.php:512
+msgid "Error"
+msgstr ""
+
+#: includes/class-quads-license-handler.php:708
+msgid "Enter valid license key for automatic updates."
+msgstr ""
+
+#: includes/frontend-checks.php:49
+msgid "Ad Check"
+msgstr ""
+
+#: includes/frontend-checks.php:56
+msgid "- JavaScript / jQuery error"
+msgstr ""
+
+#: includes/frontend-checks.php:68
+msgid "- Ad blocker enabled"
+msgstr ""
+
+#: includes/frontend-checks.php:80
+msgid "- <em>the_content</em> filter does not exist"
+msgstr ""
+
+#: includes/frontend-checks.php:97
+msgid "- All Ads are disabled on this page"
+msgstr ""
+
+#: includes/frontend-checks.php:110
+msgid "- Default Ads disabled in content of this page"
+msgstr ""
+
+#: includes/frontend-checks.php:123
+msgid "- Current post ID is 0 "
+msgstr ""
+
+#: includes/frontend-checks.php:138
+msgid "Ads are disabled on 404 pages"
+msgstr ""
+
+#: includes/frontend-checks.php:152
+msgid "Ads are disabled on non singular pages"
+msgstr ""
+
+#: includes/frontend-checks.php:166
+msgid "The %s extension(s) is not loaded"
+msgstr ""
+
+#: includes/frontend-checks.php:180
+msgid "WP QUADS is working fine"
+msgstr ""
+
+#: includes/frontend-checks.php:189
+msgid "debug DFP ads"
+msgstr ""
+
+#: includes/frontend-checks.php:200
+msgid "Show Adverts"
+msgstr ""
+
+#: includes/helper-functions.php:69
+msgid "Invalid nonce"
+msgstr ""
+
+#: includes/meta-boxes.php:41
+msgid "WP QUADS - Hide Ads"
+msgstr ""
+
+#: includes/quicktags.php:68
+msgid "Hide all ads on page"
+msgstr ""
+
+#: includes/quicktags.php:69
+msgid "Hide default ads, use manually placed ads"
+msgstr ""
+
+#: includes/quicktags.php:70
+msgid "Hide all ads in sidebar"
+msgstr ""
+
+#: includes/quicktags.php:71
+msgid "Hide ad on beginning"
+msgstr ""
+
+#: includes/quicktags.php:72
+msgid "Hide ad in middle"
+msgstr ""
+
+#: includes/quicktags.php:73
+msgid "Hide ad on end"
+msgstr ""
+
+#: includes/quicktags.php:74
+msgid "Hide ad after MoreTag"
+msgstr ""
+
+#: includes/quicktags.php:75
+msgid "Hide ad before last paragraph"
+msgstr ""
+
+#: includes/render-ad-functions.php:835
+msgid "Learn More"
+msgstr ""
+
+#: includes/reports/common.php:161
+#: includes/reports/commonV2.php:165
+msgid "No token provided. Token data needed to get account details."
+msgstr ""
+
+#: includes/scripts.php:125
+msgid "Get 30+ ad networks to compete for your ad inventory with Google Certified Publishing partner AdPushup."
+msgstr ""
+
+#: includes/scripts.php:214
+msgid "error"
+msgstr ""
+
+#: includes/widgets.php:122
+#: includes/widgets.php:178
+#: includes/widgets.php:223
+#: includes/widgets.php:270
+#: includes/widgets.php:317
+#: includes/widgets.php:363
+#: includes/widgets.php:410
+#: includes/widgets.php:457
+#: includes/widgets.php:504
+#: includes/widgets.php:551
+msgid "Widget contains ad code"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/ad-create-router/QuadsAdCreateRouter.jsx:1168
+msgid "Name your ad unit"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/ad-create-router/QuadsAdCreateRouter.jsx:1175
+msgid "Configuration"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/ad-create-router/QuadsAdCreateRouter.jsx:1176
+#: admin/assets/js/src/components/common/user-targeting/QuadsUserTargeting.jsx:572
+msgid "Targeting"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/ad-create-router/QuadsAdCreateRouter.jsx:1177
+msgid "Publish"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/ad-list/QuadsAdList.jsx:269
+msgid "Name"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/ad-list/QuadsAdList.jsx:270
+msgid "Type"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/ad-list/QuadsAdList.jsx:271
+msgid "Last Modified"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/ad-list/QuadsAdList.jsx:292
+msgid "Impression "
+msgstr ""
+
+#: admin/assets/js/src/components/ads/ad-list/QuadsAdList.jsx:293
+msgid "Clicks "
+msgstr ""
+
+#: admin/assets/js/src/components/ads/ad-list/QuadsAdList.jsx:295
+msgid "View Full Report"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/ad-list/QuadsAdList.jsx:323
+#: admin/assets/js/src/components/ads/body/QuadsAdListBody.jsx:302
+msgid "Delete"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/ad-list/QuadsAdList.jsx:324
+msgid "Duplicate"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/ad-type-selector-nav/AdTypeSelectorNavLink.jsx:116
+msgid "AD Vendors"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/ad-type-selector-nav/AdTypeSelectorNavLink.jsx:125
+msgid "AD Format"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/ad-type-selector-nav/AdTypeSelectorNavLink.jsx:142
+msgid "Go PRO"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/body/QuadsAdListBody.jsx:297
+msgid "Are you sure you want to"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/body/QuadsAdListBody.jsx:297
+msgid " DELETE  "
+msgstr ""
+
+#: admin/assets/js/src/components/ads/body/QuadsAdListBody.jsx:297
+msgid "this ad?"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/body/QuadsAdListBody.jsx:298
+msgid "It will permenently removed and you won't be able to see the ad again. You cannot undo this action."
+msgstr ""
+
+#: admin/assets/js/src/components/ads/body/QuadsAdListBody.jsx:301
+msgid "Cancel"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:381
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:386
+msgid "Upload Image"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:393
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:900
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:950
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1322
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1368
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1421
+msgid "Ad Anchor link"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:397
+msgid "Remove"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:397
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:639
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:689
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:734
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1024
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1090
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1137
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1520
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1575
+msgid "Add"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:454
+msgid "AdSense Type"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:458
+msgid "Display Ads"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:459
+msgid "In-Feed Ads"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:460
+msgid "In-Article Ads"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:461
+msgid "Auto Ads"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:462
+msgid "Sticky (Only AMP)"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:463
+msgid "Matched content"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:468
+msgid "Data Layout Key"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:470
+msgid "Enter Data Layout Key"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:472
+msgid "Data Client ID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:474
+msgid "Enter Data Client ID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:477
+msgid "Data Slot ID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:480
+msgid "Enter Data Slot ID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:483
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:756
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:842
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1177
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1223
+#: admin/assets/js/src/components/common/amp-compatibility/QuadsAMPCompatibility.jsx:28
+msgid "Size"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:486
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:759
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1180
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1226
+msgid "Fixed Size"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:487
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:760
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1181
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1227
+msgid "Responsive"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:494
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:767
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1188
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1234
+#: admin/assets/js/src/components/common/amp-compatibility/QuadsAMPCompatibility.jsx:33
+msgid "Width"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:499
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:772
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1193
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1239
+#: admin/assets/js/src/components/common/amp-compatibility/QuadsAMPCompatibility.jsx:38
+msgid "Height"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:520
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1379
+msgid "Plain Text / HTML / JS"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:522
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:536
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1381
+msgid "Enter Plain Text / HTML / JS"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:525
+msgid "Mobile specific Ad"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:534
+msgid "Mobile Plain Text / HTML / JS "
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:549
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:554
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:573
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:578
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:839
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1319
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1365
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1396
+msgid "Upload Ad Image"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:550
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:574
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1397
+msgid " Upload Image"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:551
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:575
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1403
+msgid "Remove Image"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:558
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:582
+msgid "Ad Button link"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:561
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:585
+msgid "Enter Ad Button link"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:596
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:653
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:988
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1102
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1535
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1597
+msgid "This feature is available in PRO version"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:596
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:653
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:988
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1102
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1535
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1597
+msgid "Unlock this feature"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:601
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:658
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:703
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:995
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1036
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1109
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1542
+msgid "Select Ads"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:621
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:671
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:716
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1008
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1074
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1121
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1501
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1556
+msgid "Select at least one Ad"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:748
+msgid "Network Code"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:750
+msgid "Enter Network Code"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:752
+msgid "AD Unit Name"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:755
+msgid "Enter AD Unit Name"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:792
+msgid "Block Id"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:794
+msgid "Enter Block Id"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:807
+msgid "Data Container"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:809
+msgid "Enter Data Container"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:812
+msgid "Data Js Src"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:814
+msgid "Enter Data Js Src"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:827
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1313
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1357
+msgid "Upload Ad Banner"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:828
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:870
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1314
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1358
+msgid " Upload Banner"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:834
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:873
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1317
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1361
+msgid "Remove Banner"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:859
+msgid "Mobile specific Banner"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:869
+msgid "Upload Mobile AD Banner "
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:877
+msgid "Upload Mobile AD Banner"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:881
+msgid "Mobile Size"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:903
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:953
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1325
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1371
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1424
+msgid "Enter Ad Anchor link"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:906
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:957
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1329
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1375
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1427
+msgid "Add rel=\"NoFollow\""
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:909
+msgid "Parallax Effect"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:917
+msgid "Banner height "
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:933
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:947
+msgid "Upload A Video"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:934
+msgid " Upload Video"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:940
+msgid "Remove Video"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:941
+msgid "We recommend try keeping videos to under 15 seconds as much as possible & if size's smaller please donot upload HD Quality"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:960
+msgid "Video Size"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:962
+msgid "Width(PX)"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:975
+msgid "Propeller AD Script"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:977
+msgid "Enter AD Script"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1053
+msgid "Cookie Setup"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1056
+msgid "Expiry"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1057
+msgid "No Expiry"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1151
+msgid "Data Publisher Id"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1155
+msgid "Enter Data Publisher Id"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1168
+msgid "Data CID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1170
+msgid "Enter Data CID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1173
+msgid "Data CRID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1175
+msgid "Enter Data CRID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1214
+msgid "Adpushup Site ID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1216
+msgid "Enter Adpushup Site ID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1219
+msgid "Adpushup Slot ID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1221
+msgid "Enter Adpushup Slot ID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1260
+msgid "Data Site Id"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1264
+msgid "Enter Data Site Id"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1276
+msgid "Widget Id's"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1280
+msgid "Enter Widget Id's"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1292
+msgid "Infolinks P ID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1295
+msgid "Enter Infolinks P ID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1298
+msgid "Infolinks W S ID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1301
+msgid "Enter Infolinks W S ID"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1341
+msgid "Skip Ads Type"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1343
+msgid "Image Banner"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1344
+msgid "Custom HTML"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1348
+msgid "Frequency by page view"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1352
+msgid "Ad Waiting Time"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1409
+msgid "Ad Title"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1412
+msgid "Enter Ad Title"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1415
+msgid "Ad Short Description"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1418
+msgid "Enter Ad Description"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1440
+msgid "Carousel Type"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1442
+msgid "Single Slide"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1445
+msgid "Select Carousel Type"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1448
+msgid "Carousel Speed"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1449
+msgid "Seconds"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1452
+msgid "Navigation Arrows"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1461
+msgid "Show Randomly?"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1469
+msgid "Select Ads "
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1585
+msgid "Scroll Height"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1605
+msgid "Floating Position "
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1607
+msgid "Top Left"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1608
+msgid "Top Right"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1609
+msgid "Bottom Left"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1610
+msgid "Bottom Right"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1613
+msgid "Select Floating Position"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1616
+msgid "3D Cube Size"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1617
+msgid "PX"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1624
+msgid "Atleast two slides are  required"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1629
+msgid "Ad not found"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1633
+msgid "Ad Configuration"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1635
+msgid "Autofill"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1640
+msgid "Enter AdSense text and display ad code here"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1645
+msgid "AdSense ad coded"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1650
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1651
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1652
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1653
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1654
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1655
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1656
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1657
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1658
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1659
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1660
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1661
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1662
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1663
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1664
+msgid "View Documentation on"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1650
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1651
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1652
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1653
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1654
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1655
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1656
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1657
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1658
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1659
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1660
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1661
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1662
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1663
+#: admin/assets/js/src/components/ads/config-fields/QuadsAdConfigFields.jsx:1664
+msgid "AD"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/config/QuadsAdConfig.jsx:77
+msgid "Next"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/create/QuadsAdListCreate.jsx:74
+msgid "Popular Integration"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/create/QuadsAdListCreate.jsx:84
+msgid "AD Integrations"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/nav/QuadsAdListNavLink.jsx:239
+msgid "Which type of AD would you like to insert?"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/nav/QuadsAdListNavLink.jsx:260
+msgid "Log"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/nav/QuadsAdListNavLink.jsx:262
+msgid "Create Ad"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/publish/QuadsAdPublish.jsx:64
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:607
+msgid "Prev"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/publish/QuadsAdPublish.jsx:67
+msgid "Return to Dashboard"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:221
+msgid "Where will the AD appear?"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:225
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:104
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:139
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:70
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:116
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:71
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:120
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:104
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:139
+msgid "After Paragraph"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:233
+msgid "Limit The Insertion Till Nth Ad"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:244
+msgid "Enter Id Name"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:251
+msgid "Enter Class Name"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:258
+msgid "Enter Selector"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:265
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:334
+msgid "Count As Per The"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:267
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:336
+msgid "p (default)"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:268
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:337
+msgid "div"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:269
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:338
+msgid "img"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:270
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:339
+msgid "H1"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:271
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:340
+msgid "H2"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:272
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:341
+msgid "H3"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:273
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:342
+msgid "H4"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:274
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:343
+msgid "H5"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:275
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:344
+msgid "H6"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:276
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:345
+msgid "Custom"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:281
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:350
+msgid "Enter Your Tag"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:286
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:364
+msgid "Display After"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:289
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:367
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:176
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:193
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:160
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:177
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:170
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:187
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:208
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:176
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:193
+msgid "Display After Every "
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:297
+msgid "Postion"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:299
+msgid "Bottom (default)"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:304
+msgid "Add close Button? "
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:308
+msgid "Animation? "
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:313
+msgid "Anim Delay"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:314
+msgid "1000"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:318
+msgid "Add Button to Show Ad? "
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:323
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1419
+msgid "Button Text"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:324
+msgid "Slide Up"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:355
+msgid "Display Before"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:358
+msgid "Display Before Every "
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:372
+msgid "Rotation Type"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:397
+msgid "Grid"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:419
+msgid "Number Of Ads to Show"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:430
+msgid "Popup Type"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:432
+msgid "Load instantly"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:433
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:479
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:563
+msgid "After Specific Time"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:434
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:480
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:521
+msgid "On Scroll"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:435
+msgid "Load on Top"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:436
+msgid "Load on Bottom"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:455
+msgid "Popup delay"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:476
+msgid "Video Type"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:491
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:576
+msgid "milliseconds"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:501
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:532
+msgid "Scroll percentage"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:511
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:551
+#: admin/assets/js/src/components/common/layout/QuadsLayout.jsx:29
+msgid "Left"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:512
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:552
+#: admin/assets/js/src/components/common/layout/QuadsLayout.jsx:31
+msgid "Right"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:519
+msgid "Parallax Type"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:539
+msgid "Open/Close Text"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:548
+msgid "Where Will The AD Appear?"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:560
+msgid "Ad Close Type"
+msgstr ""
+
+#: admin/assets/js/src/components/ads/targeting/QuadsAdTargeting.jsx:564
+msgid "On Click"
+msgstr ""
+
+#: admin/assets/js/src/components/common/404/QuadsPageNotFound.jsx:17
+msgid "Page not found. Redirect to home"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:98
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:133
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:64
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:110
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:64
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:113
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:98
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:133
+msgid "Select Position"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:99
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:134
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:65
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:111
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:66
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:115
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:99
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:134
+msgid "Beginning of Post"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:100
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:135
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:66
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:112
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:67
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:116
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:100
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:135
+msgid "Middle of Post"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:101
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:136
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:189
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:67
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:113
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:173
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:68
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:117
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:183
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:204
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:101
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:136
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:189
+msgid "End of Post"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:102
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:137
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:68
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:114
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:69
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:118
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:102
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:137
+msgid "Right after the"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:102
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:137
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:68
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:114
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:69
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:118
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:102
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:137
+msgid "tag"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:103
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:138
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:69
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:115
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:70
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:119
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:103
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:138
+msgid "Right before the last Paragraph"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:105
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:140
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:71
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:117
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:72
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:121
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:105
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:140
+msgid "After Image"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:106
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:141
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:72
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:118
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:73
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:122
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:106
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:141
+msgid "Before Image"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:107
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:142
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:73
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:119
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:74
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:123
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:107
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:142
+msgid "By Word Count"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:108
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:143
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:74
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:120
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:75
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:124
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:108
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:143
+msgid "After the Percentage"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:109
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:144
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:75
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:121
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:76
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:125
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:109
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:144
+msgid "Ad After Id"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:110
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:145
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:76
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:122
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:77
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:126
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:110
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:145
+msgid "Ad After Class"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:111
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:146
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:77
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:123
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:78
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:127
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:111
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:146
+msgid "Ad After Advance Selector"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:112
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:147
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:78
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:124
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:79
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:128
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:112
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:147
+msgid "Ad After HTML Tag"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:114
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:159
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:80
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:136
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:81
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:142
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:114
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:159
+msgid "Shortcode (Manual)"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:189
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:173
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:183
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:204
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:189
+msgid "to"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:189
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:173
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:183
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:204
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:189
+msgid "if fewer paragraphs"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:221
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:204
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:237
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:221
+msgid "after"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:221
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:227
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:204
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:210
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:237
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:243
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:221
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:227
+msgid "Image's outer"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:221
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:227
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:204
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:210
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:237
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:243
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:221
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:227
+msgid "if any."
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionMutiabtesting.jsx:227
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:210
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:243
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePositionMuti.jsx:227
+msgid "before"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:85
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:139
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:87
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:145
+msgid "Before the Header"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:86
+#: admin/assets/js/src/components/common/advance-position-abtesting/QuadsAdvancePositionn.jsx:140
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:88
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:146
+msgid "After the Header"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:65
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:114
+msgid "Random Ad Placement"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:82
+msgid "Sticky Ad (NON AMP ONLY)"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:129
+msgid "Ad Before HTML Tag"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advance-position/QuadsAdvancePosition.jsx:130
+msgid "Sticky Ad"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:32
+msgid "Monday"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:33
+msgid "Tuesday"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:34
+msgid "Webnesday"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:35
+msgid "Thursday"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:36
+msgid "Friday"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:37
+msgid "Saturday"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:38
+msgid "Sunday"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:42
+msgid "Advanced Configuration"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:48
+msgid "Set Expire Date"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:57
+msgid "From "
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:63
+msgid "To "
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:69
+msgid "Set Specific Day"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:78
+msgid "Days "
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:94
+msgid "Lazy Load"
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:103
+msgid "Lazy Load Delay "
+msgstr ""
+
+#: admin/assets/js/src/components/common/advanced/QuadsAdsAdvancedSettings.jsx:105
+msgid "seconds"
+msgstr ""
+
+#: admin/assets/js/src/components/common/amp-compatibility/QuadsAMPCompatibility.jsx:16
+msgid "AMP Configuration"
+msgstr ""
+
+#: admin/assets/js/src/components/common/amp-compatibility/QuadsAMPCompatibility.jsx:22
+msgid "AMP Compatibility"
+msgstr ""
+
+#: admin/assets/js/src/components/common/layout/QuadsLayout.jsx:20
+msgid "Layout"
+msgstr ""
+
+#: admin/assets/js/src/components/common/layout/QuadsLayout.jsx:25
+msgid "Align"
+msgstr ""
+
+#: admin/assets/js/src/components/common/layout/QuadsLayout.jsx:28
+msgid "Default"
+msgstr ""
+
+#: admin/assets/js/src/components/common/layout/QuadsLayout.jsx:30
+msgid "Center"
+msgstr ""
+
+#: admin/assets/js/src/components/common/layout/QuadsLayout.jsx:48
+msgid "Ad label"
+msgstr ""
+
+#: admin/assets/js/src/components/common/layout/QuadsLayout.jsx:55
+msgid "Ad Label Text"
+msgstr ""
+
+#: admin/assets/js/src/components/common/layout/QuadsLayout.jsx:63
+msgid "Ad Label Position"
+msgstr ""
+
+#: admin/assets/js/src/components/common/layout/QuadsLayout.jsx:66
+msgid "Above Ad"
+msgstr ""
+
+#: admin/assets/js/src/components/common/layout/QuadsLayout.jsx:67
+msgid "Below Ad"
+msgstr ""
+
+#: admin/assets/js/src/components/common/search/QuadsAdListSearch.jsx:34
+#: admin/assets/js/src/components/common/search/QuadsAdListSearch.jsx:43
+msgid "Search by ad unit, id, format, etc"
+msgstr ""
+
+#: admin/assets/js/src/components/common/user-targeting/QuadsUserTargeting.jsx:576
+msgid " should the ad display?"
+msgstr ""
+
+#: admin/assets/js/src/components/common/visibility/QuadsVisibility.jsx:245
+msgid " pages would you like to display?"
+msgstr ""
+
+#: admin/assets/js/src/components/report/QuadsAdLogging.jsx:234
+msgid "AD Logging"
+msgstr ""
+
+#: admin/assets/js/src/components/report/QuadsAdLogging.jsx:235
+msgid "Logs will be stored for last 30 days only "
+msgstr ""
+
+#: admin/assets/js/src/components/report/QuadsAdLogging.jsx:253
+msgid "Ad id"
+msgstr ""
+
+#: admin/assets/js/src/components/report/QuadsAdLogging.jsx:254
+msgid "Time Stamp"
+msgstr ""
+
+#: admin/assets/js/src/components/report/QuadsAdLogging.jsx:255
+msgid "URL"
+msgstr ""
+
+#: admin/assets/js/src/components/report/QuadsAdLogging.jsx:256
+msgid "Browser"
+msgstr ""
+
+#: admin/assets/js/src/components/report/QuadsAdLogging.jsx:257
+msgid "Referrer"
+msgstr ""
+
+#: admin/assets/js/src/components/report/QuadsAdLogging.jsx:258
+msgid "IP Address"
+msgstr ""
+
+#: admin/assets/js/src/components/report/QuadsAdReport.jsx:1708
+msgid "Show data"
+msgstr ""
+
+#: admin/assets/js/src/components/report/QuadsAdReport.jsx:1709
+msgid "Refresh"
+msgstr ""
+
+#: admin/assets/js/src/components/report/QuadsAdReport.jsx:1712
+msgid "Export Report"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:749
+msgid "Please enter valid license!"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1054
+msgid "Invalid record"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1057
+msgid "Third field should be RESELLER or DIRECT"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1060
+msgid "%s does not appear to be a valid subdomain"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1063
+msgid "%s does not appear to be a valid exchange domain"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1066
+msgid "%s does not appear to be a valid TAG-ID"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1177
+msgid "Ad Txt"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1183
+msgid "To know more about ads.txt  you can"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1183
+msgid "view this tutorial"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1195
+msgid "Validate & Save"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1204
+msgid "Ads For wp Setting"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1208
+msgid "Change adsforwp Short code to quads"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1215
+msgid "Change adsforwp Gutenberg to quads"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1229
+msgid "Advance Ads Setting"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1233
+msgid "Change Advance Ads Short code to quads"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1251
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1632
+msgid "Global Excluder"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1257
+msgid "Hide Ads for User Roles"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1270
+msgid "Hide Ads for Tags"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1285
+msgid "Hide Ads for Plugins"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1316
+msgid "Administrator"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1329
+msgid "Enter the percentage of revenue that you would like to share"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1330
+msgid "Save Changes"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1348
+msgid "Notice Type"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1352
+msgid "Bar"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1355
+msgid "Popup"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1358
+msgid "Page Redirection"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1361
+msgid "Block Message "
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1363
+msgid "If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker."
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1363
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1974
+msgid "Read here"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1363
+msgid "how to customize colors and text."
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1367
+msgid "Notice Behaviour"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1370
+msgid "Show on Every Visit"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1371
+msgid "Show Only Once"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1378
+msgid "Notice Content"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1384
+msgid "Title"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1392
+msgid "Notice Bar"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1395
+msgid "Top Bar"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1396
+msgid "Bottom Bar"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1401
+msgid "Sticky Notice Bar"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1407
+msgid "Description"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1423
+msgid "Notice Design"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1428
+msgid "Content Color"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1434
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1450
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1466
+msgid "Select Color"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1444
+msgid "Background Color"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1460
+msgid "Button Text Color"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1476
+msgid "Button Background Color"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1495
+msgid "Target Page"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1613
+msgid "Automatic Creation"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1668
+msgid "Ad Blocker Support"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1685
+msgid "Click Fraud Protection"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1702
+msgid "Revenue Sharing"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1719
+msgid "TCF v2.0 integration "
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1735
+msgid "Rotator Ads"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1751
+msgid "Group Insertion Ads"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1768
+msgid "Ad Performance Tracking"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1784
+msgid "Exclude Admin from tracking"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1800
+msgid "Role Based Access"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1831
+msgid "Report Logging Method"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1834
+msgid "Combined Data (Legacy)"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1835
+msgid "Separate Data (Improved V2)"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1838
+msgid "You are now using new improved report tracking."
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1840
+msgid "You are using Legacy report tracking.Tracking will get slower as the Datebase size increases. We recommend switching to Separate Data (Improved V2) for better performance"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1845
+msgid "Google Analytics Integration"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1856
+msgid "Debug Mode"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1860
+msgid "Copy System info"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1862
+msgid "Copy System Info"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1863
+msgid "System info copied to clipboard"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1878
+msgid "Import the Quick AdSense Reloaded settings for this site from a .json file. This allows you to easily import the configuration into another site."
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1887
+msgid "Quads Classic view Ads"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1895
+msgid "AMP for WP Ads"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1903
+msgid "ADS for WP Ads"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1912
+msgid "Advanced Ads"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1928
+#: admin/assets/js/src/components/settings/QuadsAdSettingsNavLink.jsx:34
+msgid "Google Auto Ads"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1934
+msgid "Enter Google Auto Ads code below"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1938
+msgid "Status"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1941
+msgid "Auto Ads Disabled"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1942
+msgid "Auto Ads Enabled"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1945
+msgid "Exclude Auto Ads From Post Types"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1951
+msgid "Exclude Auto Ads From Extra pages"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1954
+msgid "Exclude nothing"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1955
+msgid "homepage"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1958
+msgid "Exclude Auto Ads From User Roles"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1969
+msgid "Limit Amount of ads"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1973
+msgid "ads on a page"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1974
+msgid "to learn how many AdSense ads are allowed. If you are unsure set the value to unlimited."
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1989
+msgid "Insert Ads into a post, on-the-fly using below tags"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1990
+msgid "1. Insert"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1990
+msgid "etc. into a post to show the Particular Ads at specific location."
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1991
+msgid "2. Insert"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:1991
+msgid "into a post to show the Random Ads at specific location"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2010
+msgid "Ask for technical Support"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2011
+msgid "We are always available to help you with anything related to ads"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2015
+msgid "Are you existing Premium Customer?"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2031
+msgid "Send"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2065
+msgid "Updating..."
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2079
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2117
+msgid "Saving..."
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2082
+msgid "Activate License"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2097
+msgid "You are entering an Expired License Key"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2120
+msgid "Save Settings"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2133
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2163
+msgid "My Account"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2138
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2168
+msgid "License Key is"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2139
+msgid "Activated"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2140
+msgid "Hey! You're enjoying all the PRO benefits of the WP QUADS along with regular updates & Technical Support."
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2144
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2171
+msgid "Extend License"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2169
+msgid "Expired"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdListSettings.jsx:2170
+msgid "Extend the License to receive the further updates & support."
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdSettingsNavLink.jsx:28
+msgid "Features"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdSettingsNavLink.jsx:30
+msgid "Tools"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdSettingsNavLink.jsx:31
+msgid "Importer"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdSettingsNavLink.jsx:32
+msgid "Legacy"
+msgstr ""
+
+#: admin/assets/js/src/components/settings/QuadsAdSettingsNavLink.jsx:37
+msgid "Help & Support"
 msgstr ""
