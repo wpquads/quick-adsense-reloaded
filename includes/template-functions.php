@@ -3158,9 +3158,10 @@ function quads_del_element($array, $idx) {
                             <div class="progresContentArea">';
                     if(isset($ads['skip_ads_type'])  && $ads['skip_ads_type'] == 'image_banner' ){
 
+                        $add_nofollow = (isset($ads['add_url_nofollow']) && $ads['add_url_nofollow'])?true:false;
                         if(isset($ads['image_redirect_url'])  && !empty($ads['image_redirect_url'])){
                             $html .= '
-                            <a target="_blank" href="'.esc_attr($ads['image_redirect_url']). '" rel="nofollow">
+                            <a target="_blank" href="'.esc_attr($ads['image_redirect_url']). '" '.($add_nofollow?'rel=nofollow':'').'>
                             <img class="aligncenter" '.(quads_is_lazyload_template($quads_options,$ads) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($ads['image_src']). '" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'"> 
                             </a>';
                         }else{

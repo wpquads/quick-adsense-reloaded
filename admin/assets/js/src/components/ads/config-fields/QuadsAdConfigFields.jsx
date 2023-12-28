@@ -901,6 +901,9 @@ error_outline
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
                     {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>{__('Enter Ad Anchor link', 'quick-adsense-reloaded')}</div> :''}
+                    <label className="quads-switch quads_url_nofollow">
+                     <input className='add_url_nofollow' id="add_url_nofollow" checked={post_meta.add_url_nofollow} name="add_url_nofollow" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                      <span className="quads-slider"></span></label>  <b>{__('Add rel="NoFollow"', 'quick-adsense-reloaded')}</b>
                      </td></tr>
                     <tr>
                       <td><label className='q_img_ma_lab' htmlFor="parallax_ads_check">{__('Parallax Effect', 'quick-adsense-reloaded')} </label></td>
@@ -948,6 +951,10 @@ error_outline
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
                     {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>{__('Enter Ad Anchor link', 'quick-adsense-reloaded')}</div> :''}
+                    <label className="quads-switch quads_url_nofollow">
+                     <input className='add_url_nofollow' id="add_url_nofollow" checked={post_meta.add_url_nofollow} name="add_url_nofollow" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                            <span className="quads-slider"></span>
+                           </label>  <b>{__('Add rel="NoFollow"', 'quick-adsense-reloaded')}</b>
                      </td></tr>
                      <tr><td>
                     <label>{__('Video Size', 'quick-adsense-reloaded')}</label></td><td>
@@ -1316,6 +1323,10 @@ error_outline
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
                     {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>{__('Enter Ad Anchor link', 'quick-adsense-reloaded')}</div> :''}
+                    <label className="quads-switch quads_url_nofollow">
+                     <input className='add_url_nofollow' id="add_url_nofollow" checked={post_meta.add_url_nofollow} name="add_url_nofollow" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                            <span className="quads-slider"></span>
+                            </label> <b>{__('Add rel="NoFollow"', 'quick-adsense-reloaded')}</b>
                      </td></tr>
                   </tbody>
                 </table>
@@ -1358,6 +1369,10 @@ error_outline
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
                     {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>{__('Enter Ad Anchor link', 'quick-adsense-reloaded')}</div> :''}
+                    <label className="quads-switch quads_url_nofollow">
+                     <input className='add_url_nofollow' id="add_url_nofollow" checked={post_meta.add_url_nofollow} name="add_url_nofollow" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                            <span className="quads-slider"></span>
+                           </label>  <b>{__('Add rel="NoFollow"', 'quick-adsense-reloaded')}</b>
                      </td></tr>
                      </>
                      :<><tr>
@@ -1407,6 +1422,9 @@ error_outline
                          <input value={post_meta.loop_add_link} onChange={this.props.adFormChangeHandler} type="text" id="loop_add_link" name="loop_add_link" placeholder="Ad Anchor link" />
                          {(show_form_error && post_meta.loop_add_link == '') ? <div className="quads_form_msg"><span className="material-icons">
                          error_outline</span>{__('Enter Ad Anchor link', 'quick-adsense-reloaded')}</div> :''}
+                         <label className="quads-switch quads_url_nofollow">
+                            <input className='add_url_nofollow' id="add_url_nofollow" checked={post_meta.add_url_nofollow} name="add_url_nofollow" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                            <span className="quads-slider"></span></label> <b>{__('Add rel="NoFollow"', 'quick-adsense-reloaded')}</b>
                           </td></tr>
                        </tbody>
                      </table>
