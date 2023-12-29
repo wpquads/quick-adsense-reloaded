@@ -240,9 +240,9 @@ renderSwitch(param='') {
 
                             <div className={'quads-select-menu'} >
                         <select name="report_period" id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
-                          <option value="last_7days">Last 7 days</option>
-                          <option value="last_15days">Last 15 days</option>
-                          <option value="last_30days">Last 30 days</option>
+                          <option value="last_7days">{__('Last 7 days', 'quick-adsense-reloaded')}</option>
+                          <option value="last_15days">{__('Last 15 days', 'quick-adsense-reloaded')}</option>
+                          <option value="last_30days">{__('Last 30 days', 'quick-adsense-reloaded')}</option>
                          </select>          
                         </div>
               </div> 

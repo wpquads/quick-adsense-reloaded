@@ -74,9 +74,9 @@ class QuadsAdSettingsProTemplate extends Component {
             <span className="quads-slider"></span>
           </label>
           <a className="quads-general-helper quads-general-helper-new" target="_blank" href={data.url}></a>
-          {quads_pro_list_selected.includes(data.id) ? <Alert severity="error" action={<Icon onClick={this.props.display_pro_alert_fun}>close</Icon>}><div className={'alert_get_pro'}> This feature is available in PRO version <a
+          {quads_pro_list_selected.includes(data.id) ? <Alert severity="error" action={<Icon onClick={this.props.display_pro_alert_fun}>close</Icon>}><div className={'alert_get_pro'}> {__('This feature is available in PRO version', 'quick-adsense-reloaded')} <a
             className="quads-got_pro premium_features_btn"
-            href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a></div></Alert> : null}
+            href="https://wpquads.com/#buy-wpquads" target="_blank">{__('Unlock this feature', 'quick-adsense-reloaded')}</a></div></Alert> : null}
         </td>
       </tr>
    );

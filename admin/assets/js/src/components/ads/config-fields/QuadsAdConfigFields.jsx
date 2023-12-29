@@ -24,7 +24,9 @@ class QuadsAdConfigFields extends Component {
     floating_slides_flag :false,
     floating_slides:[{'slide':'#','link':'#'}],
     currentselectedvalue: "",
-    currentselectedlabel : "",              
+    currentselectedlabel : "",
+    height:"",
+    width:"",              
     };       
   }   
   adsToggle = () => {
@@ -105,7 +107,6 @@ class QuadsAdConfigFields extends Component {
 
   selectimages  = (event) => {
       var image_frame;
-
       var self =this;
       if(image_frame){
        image_frame.open();
@@ -124,9 +125,12 @@ class QuadsAdConfigFields extends Component {
                   var id = '';
                   var src = '';
                   var my_index = 0;
+                
                   selection.each(function(attachment) {
+                    console.log(attachment);
                      id = attachment['id'];
                      src = attachment.attributes.sizes.full.url;
+                     self.setState({height:attachment.attributes.height,width:attachment.attributes.width});
                   });
                   self.props.adFormChangeHandler({ target : { name : 'image_src_id' , value : id } });
                   self.props.adFormChangeHandler({ target : { name : 'image_src' , value : src } });                  
@@ -844,12 +848,12 @@ error_outline
                       <div className="quads-banner-width-heigth">
                         <div className="quads-banner-width">
                           <label>{__('Width', 'quick-banner-reloaded')}
-                          <input value={post_meta.banner_ad_width} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_width" name="banner_ad_width" placeholder="300"/> 
+                          <input value={post_meta.banner_ad_width?post_meta.banner_ad_width:this.state.width} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_width" name="banner_ad_width" placeholder="300"/> 
                           </label>
                         </div>
                         <div className="quads-banner-height">
                           <label>{__('Height', 'quick-banner-reloaded')}
-                          <input value={post_meta.banner_ad_height} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_height" name="banner_ad_height" placeholder="300"/>  
+                          <input value={post_meta.banner_ad_height?post_meta.banner_ad_height:this.state.height} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_height" name="banner_ad_height" placeholder="300"/>  
                           </label>
                         </div>
                       </div>

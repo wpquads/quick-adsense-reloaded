@@ -151,8 +151,9 @@ class QuadsAdCreateRouter extends Component {
             check_exp_date            :false,
             check_spec_day            :false,
             check_lazy_load           :false,
-            check_lazy_load_delay     :1,
-            add_url_nofollow         : false
+            check_lazy_load_delay     :3,
+            add_url_nofollow          : true,
+            delay_ad_sec              :false
 
             },
             quads_form_errors : {
@@ -340,8 +341,7 @@ class QuadsAdCreateRouter extends Component {
             }
 
             // The result can be accessed through the `m`-variable.
-            m.forEach(function(match, index){
-                //console.log(`Found match, group ${groupIndex}: ${match}`);                
+            m.forEach(function(match, index){             
                 result = match;
             });
         }
@@ -394,11 +394,11 @@ class QuadsAdCreateRouter extends Component {
           this.setState(quads_post_meta);
           this.setState({quads_modal_open: false});
         }else{
-          this.setState({quads_modal_error:'Can not parse AdSense Code. Is the code valid?'});
+          this.setState({quads_modal_error:__('Can not parse AdSense Code. Is the code valid?','quick-adsence-reloaded')});
           this.setState({quads_modal_open: true});
         }                
       }else{
-        this.setState({quads_modal_error:'Please provide adsense code'});
+        this.setState({quads_modal_error:__('Please provide adsense code','quick-adsence-reloaded')});
       }                        
     }    
 
@@ -649,13 +649,6 @@ class QuadsAdCreateRouter extends Component {
             }
           break;
 
-          // case 'adpushup':
-          //   if(validation_flag && quads_post_meta.adpushup_site_id){
-          //     this.saveAdFormData('publish');   
-          //   }else{
-          //     this.setState({show_form_error:true});
-          //   }
-          // break;
           
           case 'mediavine':
             if(validation_flag && quads_post_meta.mediavine_site_id && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
@@ -930,13 +923,6 @@ class QuadsAdCreateRouter extends Component {
             }
             break;
 
-          // case 'adpushup':
-          //   if(quads_post_meta.adpushup_site_id){
-          //     this.props.history.push(new_url); 
-          //   }else{
-          //     this.setState({show_form_error:true});
-          //   }
-          //   break; 
           case 'mediavine':
             if(quads_post_meta.mediavine_site_id){
               this.props.history.push(new_url); 
@@ -1162,7 +1148,7 @@ class QuadsAdCreateRouter extends Component {
       <div>  
         {this.state.quads_is_loaded ? <div className="quads-cover-spin"></div> : ''}
         <form id="quads-ad-form"> 
-        <div className="material-icons quads-close-create-page"><a onClick={this.quadsGoBack} >close</a></div>         
+        <div className="material-icons quads-close-create-page"><a onClick={this.quadsGoBack} >{__('close','quick-adsence-reloaded')}</a></div>         
         <div className="quads-ad-config-header"> 
                 <div className="quads-ad-input">
                   <input value={this.state.quads_post_meta.label} type="text" onChange={this.adFormChangeHandler} name="label"  placeholder={__('Name your ad unit', 'quick-adsense-reloaded') }/>

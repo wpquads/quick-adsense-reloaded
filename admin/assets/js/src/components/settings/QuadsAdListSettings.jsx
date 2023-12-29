@@ -486,11 +486,11 @@ handleMultiPluginsChange = (option) => {
     .then(
       (result) => {
         if(result.status === 't'){
-          this.setState({customer_querey_success: 'Thank you for contacting us. We soon will get in touch with you'});
+          this.setState({customer_querey_success: __('Thank you for contacting us. We soon will get in touch with you', 'quick-adsense-reloaded')});
           this.setState({customer_querey_error: ''});
         }else{
           this.setState({customer_querey_success: ''});
-          this.setState({customer_querey_error: 'Something went wrong. Please check your internet connection'});
+          this.setState({customer_querey_error: __('Something went wrong. Please check your internet connection', 'quick-adsense-reloaded')});
         }
       },
       (error) => {
@@ -598,19 +598,19 @@ handleMultiPluginsChange = (option) => {
     let customer_message = this.state.customer_query_message;
     if(customer_type == '' || customer_email == '' || customer_message == ''){
       if(customer_type == ''){
-        this.setState({customer_querey_error: 'Please select customer type'});
+        this.setState({customer_querey_error: __('Please select customer type', 'quick-adsense-reloaded')});
       }
       if(customer_email == ''){
-        this.setState({customer_querey_error: 'Please provide a email'});
+        this.setState({customer_querey_error: __('Please provide a email', 'quick-adsense-reloaded')});
       }
       if(customer_message == ''){
-        this.setState({customer_querey_error: 'Please write your query'});
+        this.setState({customer_querey_error: __('Please write your query', 'quick-adsense-reloaded')});
       }
     }else{
       if(this.validateEmail(customer_email) == true){
         this.sendCustomerMessage();
       }else{
-        this.setState({customer_querey_error: 'Email is not valid. Please provide valid email'});
+        this.setState({customer_querey_error: __('Email is not valid. Please provide valid email', 'quick-adsense-reloaded')});
       }
     }
   }
@@ -671,13 +671,11 @@ handleMultiPluginsChange = (option) => {
 
     if( blocked_ips.length > 0 ){
       this.setState({ blocked_ips: blocked_ips });
-      // console.log('blocked_ipsInner'+ blocked_ips.length);
     }else{
       blocked_ips = 0;
     }
     if(q_admin_url){
       this.setState({ q_admin_url: q_admin_url });
-      // console.log('q_admin_url'+ q_admin_url);
     }else{
       q_admin_url = ''
     }
@@ -693,10 +691,10 @@ handleMultiPluginsChange = (option) => {
     this.getQuadsInfo();
     this.getPageDataMeta('page');
     if(quads_localize_data.licenses == '' && typeof this.state.licensemsg === 'undefined'){
-        this.setState({ licensemsg: 'Please activate your WP QUADS PRO License Key' });
+        this.setState({ licensemsg: __('Please activate your WP QUADS PRO License Key', 'quick-adsense-reloaded') });
     }else  if(quads_localize_data.licenses.license == 'valid'){
     if(quads_localize_data.licenses.expires == "lifetime"){
-        this.setState({ licensemsg: 'License key never expire' });
+        this.setState({ licensemsg: __('License key never expire', 'quick-adsense-reloaded') });
       }
     }
   }
@@ -710,7 +708,7 @@ handleMultiPluginsChange = (option) => {
     for (let i = 1; i <=20; i++) {
       rows.push(<option key={i} value={i}>{i}</option>);
     }
-    rows.push(<option key={100} value="100">Unlimited</option>);
+    rows.push(<option key={100} value="100">{__('Unlimited', 'quick-adsense-reloaded')}</option>);
     return rows;
   }
   saveGlobalExcluder = (e) => {
@@ -995,7 +993,7 @@ handleMultiPluginsChange = (option) => {
   }
 
   formhandler = (e) => {
-    if (window.confirm("You are about to clear Log Data, do you wish to continue?")) {
+    if (window.confirm(__("You are about to clear Log Data, do you wish to continue?", 'quick-adsense-reloaded'))) {
     e.preventDefault();
     console.log( this.state.q_admin_url+'?action=quads_id_delete' );
     fetch( this.state.q_admin_url+'?action=quads_id_delete' , {
@@ -1005,7 +1003,7 @@ handleMultiPluginsChange = (option) => {
           },      
         }).then((response) => response.json())
         setTimeout(() => {
-          document.getElementById("blocked_id_main").innerHTML = 'Data is cleared'
+          document.getElementById("blocked_id_main").innerHTML = __('Data is cleared', 'quick-adsense-reloaded')
         document.getElementById("blocked_id_main").style.fontWeight = '500'
         }, 500);
       }
@@ -2099,11 +2097,8 @@ handleMultiPluginsChange = (option) => {
           
           </div>
             {this.state.licensemsg ?
-            <div id="quads_licensemsg">{/*this.state.licensemsg*/}</div> : null}
-                  {/* <div>
-                    <h3>System Info</h3>
-                    <textarea className="quads-system-info" readOnly={true} value={this.state.textToCopy}/>
-                  </div> */}
+            <div id="quads_licensemsg"></div> : null}
+
                 </div>
                 </div>
                );
@@ -2139,7 +2134,7 @@ handleMultiPluginsChange = (option) => {
           <span className="quads-infoAccountt quads-isValids" id="quads-account-data"> {__('Activated', 'quick-adsense-reloaded')}</span>          
           <p>{__('Hey! You\'re enjoying all the PRO benefits of the WP QUADS along with regular updates & Technical Support.', 'quick-adsense-reloaded')}</p>
           <p className="">
-          { quads_localize_data.licenses.expires>0 ? <span className="quads-title3">Your License is valid for {quads_localize_data.licenses.expires} days<span className="quads-refresh quads-isValid material-icons MuiIcon-root" onClick={this.pro_license_key_refresh} id="quads-expiration-data" title="refresh">refresh</span></span> : <span className="quads-title3">Your <span className="lifetime">License is valid for {quads_localize_data.licenses.expires}</span><span className="quads-refresh quads-isValid material-icons MuiIcon-root" onClick={this.pro_license_key_refresh} title="refresh" id="quads-expiration-data">refresh</span></span> }
+          { quads_localize_data.licenses.expires>0 ? <span className="quads-title3">{__('Your License is valid for', 'quick-adsense-reloaded')} {quads_localize_data.licenses.expires} {__('days', 'quick-adsense-reloaded')}<span className="quads-refresh quads-isValid material-icons MuiIcon-root" onClick={this.pro_license_key_refresh} id="quads-expiration-data" title="refresh">{__('refresh', 'quick-adsense-reloaded')}</span></span> : <span className="quads-title3">{__('Your', 'quick-adsense-reloaded')} <span className="lifetime">{__('License is valid for', 'quick-adsense-reloaded')} {quads_localize_data.licenses.expires}</span><span className="quads-refresh quads-isValid material-icons MuiIcon-root" onClick={this.pro_license_key_refresh} title="refresh" id="quads-expiration-data">{__('refresh', 'quick-adsense-reloaded')}</span></span> }
           </p>
           <a href="https://wpquads.com/your-account/" target="_blank" className="quads-button quads-button-btn quads-button--small ">{__('Extend License', 'quick-adsense-reloaded')} <span className="quads-user material-icons MuiIcon-root">person</span></a>
           </div>

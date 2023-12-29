@@ -25,11 +25,11 @@ class QuadsAdvancePositionMutiabtesting extends Component {
                 { label: 'before_image', value: 'Before Image' },
                 { label: 'after_word_count', value: 'By Word Count' },
                 { label: 'after_the_percentage', value: 'After the Percentage' },
-                { label: 'ad_after_id', value: 'Ad After Id' },
-                { label: 'ad_after_class', value: 'Ad After Class' },
-                { label: 'ad_after_customq', value: 'Ad After Advance Selector' },
-                { label: 'ad_after_html_tag', value: 'Ad After HTML Tag' },
-                { label: 'amp_ads_in_loops', value: 'Ads Inbetween Loop' },
+                { label: 'ad_after_id', value: 'After Id' },
+                { label: 'ad_after_class', value: 'After Class' },
+                { label: 'ad_after_customq', value: 'After Advance Selector' },
+                { label: 'ad_after_html_tag', value: 'After HTML Tag' },
+                { label: 'amp_ads_in_loops', value: 'Inbetween Loop' },
                 { label: 'ad_shortcode', value: 'Shortcode (Manual)' },
             ]
         }
