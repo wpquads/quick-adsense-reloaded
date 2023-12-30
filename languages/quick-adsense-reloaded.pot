@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the AdSense Integration WP QUADS plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: AdSense Integration WP QUADS 2.0.79\n"
+"Project-Id-Version: AdSense Integration WP QUADS 2.0.80\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/quick-adsense-reloaded\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-12-28T15:02:47+01:00\n"
+"POT-Creation-Date: 2023-12-30T14:19:05+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: quick-adsense-reloaded\n"
@@ -1425,6 +1425,10 @@ msgid "Enter AdSense text and display ad code here"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
+msgid "Do not enter AdSense page level ads or Auto ads! Learn how to create"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
 msgid "AdSense ad coded"
 msgstr ""
 
@@ -1693,6 +1697,14 @@ msgid "Rotation Type"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
+msgid "milliseconds"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "On AMP, Ads will be shown only on reload"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
 msgid "Grid"
 msgstr ""
 
@@ -1729,11 +1741,11 @@ msgid "Popup delay"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
-msgid "Video Type"
+msgid "percentage"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
-msgid "milliseconds"
+msgid "Video Type"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
@@ -1777,7 +1789,7 @@ msgid "Select Position"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
-msgid "Random Ad Placement"
+msgid "Random Placement"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
@@ -1821,19 +1833,23 @@ msgid "After the Percentage"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
-msgid "Ad After Id"
+msgid "After Id"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
-msgid "Ad After Class"
+msgid "After Class"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
-msgid "Ad After Advance Selector"
+msgid "After Advance Selector"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
-msgid "Ad After HTML Tag"
+msgid "After HTML Tag"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Inbetween Loop"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
@@ -1841,7 +1857,7 @@ msgid "Shortcode (Manual)"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
-msgid "Sticky Ad (NON AMP ONLY)"
+msgid "Sticky (NON AMP ONLY)"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
@@ -1853,11 +1869,79 @@ msgid "After the Header"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
-msgid "Ad Before HTML Tag"
+msgid "After Featured Image"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
-msgid "Sticky Ad"
+msgid "Below the Header (SiteWide)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Below the Footer (SiteWide)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Above the Footer (SiteWide)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Above the Post Content (Single Post)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Below the Post Content (Single Post)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Below the Title (Single Post)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Above Related Posts (Single Post)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Below the Author Box (Single Post)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "After Paragraph (Single Post)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Sticky (AMP)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "AMP Story"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Before HTML Tag"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Sticky"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "BBpress Before Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "BBpress After Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "BBpress Before Reply"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "BBpress After Reply"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select Where Will The AD Appear"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
@@ -1885,11 +1969,59 @@ msgid "before"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
+msgid "AMP Story Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Share Your"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Precious Feedback!"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
 msgid "Return to Dashboard"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
+msgid "Thank you for contacting us. We soon will get in touch with you"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Something went wrong. Please check your internet connection"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Please select customer type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Please provide a email"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Please write your query"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Email is not valid. Please provide valid email"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Unlimited"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
 msgid "Please enter valid license!"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "You are about to clear Log Data, do you wish to continue?"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Data is cleared"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
@@ -1910,6 +2042,14 @@ msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
 msgid "%s does not appear to be a valid TAG-ID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Please activate your WP QUADS PRO License Key"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "License key never expire"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
@@ -2277,6 +2417,10 @@ msgid "Activate License"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
+msgid "Enter a Valid License Key"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
 msgid "You are entering an Expired License Key"
 msgstr ""
 
@@ -2298,6 +2442,26 @@ msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
 msgid "Hey! You're enjoying all the PRO benefits of the WP QUADS along with regular updates & Technical Support."
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Your License is valid for"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "days"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "refresh"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Your"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "License is valid for"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
@@ -2385,15 +2549,35 @@ msgid "Duplicate"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
+msgid "Let's"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "create our First Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "in 3 simple steps"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Create Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "No Thanks"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Importing Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
 msgid "Which type of AD would you like to insert?"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
 msgid "Log"
-msgstr ""
-
-#: admin/assets/js/dist/adminscript.js:1
-msgid "Create Ad"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
@@ -2405,7 +2589,91 @@ msgid "AD Format"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
+msgid "is a PRO Feature"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
 msgid "Go PRO"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Google Adsense"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "A/B Testing"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "View Report"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Impression & Clicks"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Report"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "A/B Testing Report"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Stats Report"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "All Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select Duration"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Today"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Yesterday"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Last 7 Days"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "This Month"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Last Month"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "This Year"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "All Time"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Submit"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Start Date"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "End Date"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
@@ -2418,6 +2686,82 @@ msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
 msgid "Export Report"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Adsense Report"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select Report"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Earnings"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Earnings Forcast"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Top Earning Device type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Last 7 days"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Last 15 days"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Last 30 days"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Last 6 months"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Last 1 year"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "revenue prediction based on"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "View Type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Day"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Week"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Month"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "year"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Please select Report type and Duration"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Please enter the confirmation code."
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Submit code"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
@@ -2450,4 +2794,8 @@ msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
 msgid "IP Address"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "No Data"
 msgstr ""
