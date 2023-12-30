@@ -1583,13 +1583,12 @@ drawChart(config);
         const series = [
             {showPoints: 'false'}
         ];
-        console.log(this.state.current_page);
 
         let quads_localize_data_is_pro =quads_localize_data.is_pro;
 
         return (
             <>
-                { this.state.current_page == 'reports' ?
+                { this.state.current_page == 'report' ?
                     <Fragment>
                         <div>
                             <div className="quads-ad-networks-reports">
@@ -1688,7 +1687,7 @@ drawChart(config);
                         <ol className="breadcrumb">
                         
                             <li className="breadcrumb-item"><a style={{textDecoration: "unset"}}  href={this.state.report_url}>{__('Report','quick-adsense-reloaded')}</a></li>
-                            <li className="breadcrumb-item active" aria-current="page">{__('v','quick-adsense-reloaded')}</li>
+                            <li className="breadcrumb-item active" aria-current="page">{__('Stats Report','quick-adsense-reloaded')}</li>
                         </ol>
                     </nav>
                     <div className="quads-report-networks">

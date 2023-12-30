@@ -15,7 +15,7 @@
  "scripts": {
   "build": "webpack",
   "watch": "webpack --watch",
-  "build_pro": "webpack  --mode=production"
+  "build_production": "webpack -p"
  },
  "author": "",
  "license": "ISC",

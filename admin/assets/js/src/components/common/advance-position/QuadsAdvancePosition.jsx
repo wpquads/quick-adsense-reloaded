@@ -92,7 +92,7 @@ check_plugin_exist = (event) => {
                                 : ''}  
                                </>                                  
                                 <optgroup label="Partial Support ( AMP Only )">
-                                    <option value="amp_after_featured_image">{__('Ad after Featured Image', 'quick-adsense-reloaded')}</option>
+                                    <option value="amp_after_featured_image">{__('After Featured Image', 'quick-adsense-reloaded')}</option>
                                     <option value="amp_below_the_header">{__('Below the Header (SiteWide)', 'quick-adsense-reloaded')}</option>
                                     <option value="amp_below_the_footer">{__('Below the Footer (SiteWide)', 'quick-adsense-reloaded')}</option>
                                     <option value="amp_above_the_footer">{__('Above the Footer (SiteWide)', 'quick-adsense-reloaded')}</option>
@@ -111,7 +111,7 @@ check_plugin_exist = (event) => {
                             </>                            
                             : <select className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                                 <option value="select_position">{__('Select Position', 'quick-adsense-reloaded')}</option>
-                                <option value="random_ad_placement">{__('Random Ad Placement', 'quick-adsense-reloaded')}</option>
+                                <option value="random_ad_placement">{__('Random Placement', 'quick-adsense-reloaded')}</option>
                                 <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>
                                 <option value="middle_of_post">{__('Middle of Post', 'quick-adsense-reloaded')}</option>
                                 <option value="end_of_post">{__('End of Post', 'quick-adsense-reloaded')}</option>
@@ -122,13 +122,13 @@ check_plugin_exist = (event) => {
                                 <option value="before_image">{__('Before Image', 'quick-adsense-reloaded')}</option>
                                 <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
                                 <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
-                                <option value="ad_after_id">{__('Ad After Id', 'quick-adsense-reloaded')}</option>
-                                <option value="ad_after_class">{__('Ad After Class', 'quick-adsense-reloaded')}</option>
-                                <option value="ad_after_customq">{__('Ad After Advance Selector', 'quick-adsense-reloaded')}</option>
-                                <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
-                                <option value="ad_before_html_tag">{__('Ad Before HTML Tag', 'quick-adsense-reloaded')}</option>
-                                <option value="ad_sticky_ad">{__('Sticky Ad', 'quick-adsense-reloaded')}</option>
-                                <option value="amp_ads_in_loops">{__('Ads Inbetween Loop', 'quick-adsense-reloaded')}</option>
+                                <option value="ad_after_id">{__('After Id', 'quick-adsense-reloaded')}</option>
+                                <option value="ad_after_class">{__('After Class', 'quick-adsense-reloaded')}</option>
+                                <option value="ad_after_customq">{__('After Advance Selector', 'quick-adsense-reloaded')}</option>
+                                <option value="ad_after_html_tag">{__('After HTML Tag', 'quick-adsense-reloaded')}</option>
+                                <option value="ad_before_html_tag">{__('Before HTML Tag', 'quick-adsense-reloaded')}</option>
+                                <option value="ad_sticky_ad">{__('Sticky', 'quick-adsense-reloaded')}</option>
+                                <option value="amp_ads_in_loops">{__('Inbetween Loop', 'quick-adsense-reloaded')}</option>
                                 {quads_localize_data.is_bbpress_exist ?
                                     <>
                                         <option value="bbpress_before_ad">{__('BBpress Before Ad', 'quick-adsense-reloaded')}</option>

@@ -1646,7 +1646,7 @@ error_outline
                     <div>
                       <div><textarea className="quads-auto-fill-textarea" cols="80" rows="15" onChange={this.props.modalValue} value={this.props.quads_modal_value}/></div>
                       <div>
-Do not enter AdSense page level ads or Auto ads! Learn how to create <a  target="_blank" href="https://wpquads.com/documentation/how-to-find-data-client-id-data-slot-id-for-adsense-integration/"> {__('AdSense ad coded', 'quick-adsense-reloaded')} </a>
+                      {__('Do not enter AdSense page level ads or Auto ads! Learn how to create', 'quick-adsense-reloaded')} <a  target="_blank" href="https://wpquads.com/documentation/how-to-find-data-client-id-data-slot-id-for-adsense-integration/"> {__('AdSense ad coded', 'quick-adsense-reloaded')} </a>
                       <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.props.getAdsenseCode}>{__('Get Code', 'quick-adsense-reloaded')}</a></div>
                     </div>
                   }/>

@@ -117,12 +117,12 @@ class QuadsAdsAdvancedSettings extends Component {
               <td>
               <label className="quads-switch lazy_load">
               
-              <input className='lazy_load_check' id="check_lazy_load" checked={post_meta.check_lazy_load|| this.state.delay_ad_sec} name="check_lazy_load" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+              <input className='lazy_load_check' id="check_lazy_load" checked={post_meta.check_lazy_load} name="check_lazy_load" onChange={this.props.adFormChangeHandler} type="checkbox"/>
                   <span className="quads-slider"></span>
                 </label>
               </td>
               </tr>:''}
-              { (post_meta.check_lazy_load|| this.state.delay_ad_sec) && (post_meta.ad_type!='adsense' && post_meta.ad_type!='double_click') ? <tr>
+              { (post_meta.check_lazy_load) && (post_meta.ad_type!='adsense' && post_meta.ad_type!='double_click') ? <tr>
               <td><label>{__('Lazy Load Delay ', 'quick-adsense-reloaded')}</label></td>
               <td>
               <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="1" className="small-text" id="check_lazy_load_delay" name="check_lazy_load_delay" placeholder="" value={post_meta.check_lazy_load_delay}/> <small>{__('seconds','quick-adsense-reloaded')}</small>

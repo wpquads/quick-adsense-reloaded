@@ -1123,7 +1123,7 @@ handleMultiPluginsChange = (option) => {
       {id:'hide_quads_markup',title:'Hide Quads Markup',url:'https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/'},
       {id:'global_excluder',title:'Global Excluder',url:'https://wpquads.com/documentation/how-to-globally-exclude-or-hide-ads-for-user-roles-with-wp-quads-pro/'},
       {id:'ad_log',title:'AD Logging',url:'https://wpquads.com/documentation/how-to-enable-ad-logging/'},
-      {id:'delay_ad_sec',title:'Load Ad after 3-4 seconds'},
+      {id:'delay_ad_sec',title:'Lazy Load'},
      ];
 
    const styles = reactCSS({
@@ -2087,7 +2087,7 @@ handleMultiPluginsChange = (option) => {
             <a className="">
             <span className=""></span>
             </a> :
-            <div className="inv_msg" style={{display: "none"}}>Enter a Valid License Key</div>
+            <div className="inv_msg" style={{display: "none"}}>{__('Enter a Valid License Key', 'quick-adsense-reloaded')}</div>
           }
           </div> : null}
           {

@@ -285,7 +285,7 @@ class QuadsAdList extends Component {
                 <li role="presentation"><span className="static_num">{this.props.analytics_impressions? this.props.analytics_impressions : 0}</span> <span>{__('Impression ', 'quick-adsense-reloaded')}</span></li>
                     <li role="presentation"><span className="static_num">{this.props.analytics_clicks ? this.props.analytics_clicks : 0}</span> <span>{__('Clicks ', 'quick-adsense-reloaded')}</span></li>
                   {
-                    quads_localize_data.is_pro ? <li><Link to={'admin.php?page=quads-settings&path=reports&id='+item.post_meta.ad_id} id={item.post_meta.ad_id} className='view_reports_'> {__('View Full Report', 'quick-adsense-reloaded')}</Link></li> : ''
+                    quads_localize_data.is_pro ? <li><Link to={'admin.php?page=quads-settings&path=view_report&id='+item.post_meta.ad_id+'&ad='+item.post_meta.label+''} id={item.post_meta.ad_id} className='view_reports_'> {__('View Full Report', 'quick-adsense-reloaded')}</Link></li> : ''
                   }
                   </ul>
                   :<ul>
@@ -329,8 +329,8 @@ class QuadsAdList extends Component {
             </tbody>
         </table> : <div className="nodatadiv"><div className="first_ad_main">
                       <h3>{__('Thank you for using WP Quads','quick-adsence-reloaded')}</h3>
-                      <div className="first_ad">Let's <strong>create our First Ad</strong>, in 3 simple steps. </div>
-                      <div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.props.nodatashowAddTypeSelector}><Icon>add_circle</Icon>Create Ad</a></div>
+                      <div className="first_ad">{__('Let\'s', 'quick-adsense-reloaded') } <strong>{__('create our First Ad', 'quick-adsense-reloaded') } </strong>, {__('in 3 simple steps', 'quick-adsense-reloaded') }. </div>
+                      <div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.props.nodatashowAddTypeSelector}><Icon>add_circle</Icon>{__('Create Ad', 'quick-adsense-reloaded') }</a></div>
                   </div>
                   {quads.quads_import_classic_ads_popup && quads.quads_get_active_ads !=="0" ?
                     <div className="fakebox" >
@@ -338,10 +338,10 @@ class QuadsAdList extends Component {
                         <div><h3>{__('This is your first time on New Interface','quick-adsence-reloaded')}</h3></div>
                         <div className="text">{__('Would you like to import your ads from the classic view?','quick-adsence-reloaded')} </div>
                         {!this.state.importquadsclassicalertcss?
-                        <div className="quads-add-btn"><a className="quads-btn quads-btn-primary yes" onClick={() => this.quads_classic_ads('yes')}>Yes, Import</a><a className="quads-btn quads-btn-primary no" onClick={() => this.quads_classic_ads('no')}>No Thanks</a></div>
+                        <div className="quads-add-btn"><a className="quads-btn quads-btn-primary yes" onClick={() => this.quads_classic_ads('yes')}>Yes, Import</a><a className="quads-btn quads-btn-primary no" onClick={() => this.quads_classic_ads('no')}>{__('No Thanks', 'quick-adsense-reloaded') }</a></div>
                          : ''}
 
-                        <div style={{display: this.state.importquadsclassiccss ? 'block' : 'none' }} className='updating-message importquadsclassicmsgprocessing'>Importing Ads</div>
+                        <div style={{display: this.state.importquadsclassiccss ? 'block' : 'none' }} className='updating-message importquadsclassicmsgprocessing'>{__('Importing Ads', 'quick-adsense-reloaded') }</div>
 
                         <div style={{display: this.state.importquadsclassicalertcss ? 'block' : 'none' }}><Alert severity="success" action={<Icon onClick={() => this.quads_classic_ads('no')}>close</Icon>}>{this.state.importquadsclassicmsg}</Alert> </div>
                     </div>

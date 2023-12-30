@@ -135,7 +135,7 @@ class AdTypeSelectorNavLink extends Component {
             <span className="quads-large-close" onClick={this.changepopupState}>&times;</span>
 
               <div className="quads-modal-popup-txt">      
-              <div className="quads-modal-popup-heading"> {this.state.feature_name} is a PRO Feature</div>    
+              <div className="quads-modal-popup-heading"> {this.state.feature_name} {__('is a PRO Feature', 'quick-adsense-reloaded') }</div>    
               <p>{__("We're sorry, the "+this.state.feature_name+" is not available on your plan. Please upgrade to the PRO plan to unlock all these awesome features.", 'quick-adsense-reloaded')}</p>
               </div>           
              <div className="quads-modal-content">
