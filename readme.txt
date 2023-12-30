@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.4
 Requires PHP: 5.4
-Stable tag: 2.0.79
+Stable tag: 2.0.80
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -206,6 +206,20 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.80 ( 30 December 2023 ) =
+* Fixed: Compatibility with the plugin Loco Translate #861
+* Fixed: Plugin is not being deactivated in multisite #857
+* Fixed: Geo location is not working properly #856
+* Fixed: PHP warning is showing on the user end. #851 #855 #838
+* Improvement:The type attribute is unnecessary for JavaScript resources #859
+* Improvement: The type attribute for the style element is not needed and should be omitted. #858
+* Improvement: option of LazyLoading for all ad units separately. #854
+* Improvement: Option for turn off admin impression and clicks #850
+* Improvement: Follow, unfollow required, as we have given the option for Ad Anchor Link. #843
+* Improvement: new placement option for "Random Ad Placement" #829
+* Improvement: spinning loader in reports dashboard until data not fetched #828
+* New: Option to export reports.(PRO) #833
 
 = 2.0.79 ( 10 November 2023 ) =
 * Improvement:Improved reporting db structure #834
