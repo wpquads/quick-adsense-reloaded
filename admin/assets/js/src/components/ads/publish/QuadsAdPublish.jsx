@@ -55,7 +55,7 @@ class QuadsAdPublish extends Component {
                 </div>
                 <div className="live-two-right">
                   <a href="https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/" target="_blank">
-                    <span>Share Your</span> Precious Feedback!
+                    <span>{__('Share Your', 'quick-adsense-reloaded') }</span> {__('Precious Feedback!', 'quick-adsense-reloaded') }
                   </a>
                 </div>
                 <div className="clear"></div>

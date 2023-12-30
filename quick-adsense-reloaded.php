@@ -6,7 +6,7 @@
  * Description: Insert Google AdSense and other ad formats fully automatic into your website
  * Author: WP Quads
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
- * Version: 2.0.79
+ * Version: 2.0.80
  * Text Domain: quick-adsense-reloaded
  * Domain Path: languages
  * Credits: WP QUADS - Quick AdSense Reloaded is a fork of Quick AdSense
@@ -38,7 +38,7 @@ if( !defined( 'ABSPATH' ) )
 
 // Plugin version
 if( !defined( 'QUADS_VERSION' ) ) {
-  define( 'QUADS_VERSION', '2.0.79' );
+  define( 'QUADS_VERSION', '2.0.80' );
 }
 
 // Plugin name
@@ -134,7 +134,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             self::$instance->load_hooks();
             self::$instance->logger = new quadsLogger( "quick_adsense_log_" . date( "Y-m-d" ) . ".log", quadsLogger::INFO );
             self::$instance->html = new QUADS_HTML_Elements();
-            self::$instance->vi = new wpquads\vi();
             self::$instance->adsense = new wpquads\adsense(get_option('quads_settings'));
          }
          return self::$instance;
@@ -242,9 +241,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/conditions.php';
          require_once QUADS_PLUGIN_DIR . 'includes/frontend-checks.php';
          require_once QUADS_PLUGIN_DIR . 'includes/Cron/Cron.php';
-         require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/conditions.php';
-         require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/vi.php';
-         require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/render.php';
          require_once QUADS_PLUGIN_DIR . 'includes/vendor/google/adsense.php';
          require_once QUADS_PLUGIN_DIR . 'includes/class-template.php';
          require_once QUADS_PLUGIN_DIR . 'includes/admin/adsTxt.php';
@@ -282,7 +278,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             require_once QUADS_PLUGIN_DIR . 'includes/admin/upgrades/upgrade-functions.php';
             require_once QUADS_PLUGIN_DIR . 'includes/Forms/Form.php';
             require_once QUADS_PLUGIN_DIR . 'includes/Autoloader.php';
-            require_once QUADS_PLUGIN_DIR . 'includes/vendor/vi/views/Forms/adSettings.php';
             $this->registerNamespaces();
 
          }
@@ -308,8 +303,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
               QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms',
               QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms' . DIRECTORY_SEPARATOR . 'Elements',
               QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms' . DIRECTORY_SEPARATOR . 'Elements' . DIRECTORY_SEPARATOR . 'Interfaces',
-              QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'vi',
-              QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'vi' . DIRECTORY_SEPARATOR . 'views',
               )
       ) );
 
@@ -321,9 +314,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
 
 
       public function load_hooks() {
-         if( is_admin() && quads_is_plugins_page() ) {
             add_filter( 'admin_footer', 'quads_add_deactivation_feedback_modal' );
-         }
       }
 
       /**
@@ -399,9 +390,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once plugin_dir_path( __FILE__ ) . 'includes/Cron/Cron.php';
          $cron = new quadsCron();
          $cron->schedule_event();
-
-         // Create vi api endpints and settings
-         self::instance()->vi->setSettings();
 
          // Add Upgraded From Option
          $current_version = get_option( 'quads_version' );

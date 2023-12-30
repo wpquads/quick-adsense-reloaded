@@ -215,7 +215,7 @@ class QuadsAdListNavLink extends Component {
             jQuery('.wp-submenu li').removeClass('current');
             jQuery('a[href$="quads-settings&path=reports"]').parent().addClass('current');
             current = 'reports';
-        }else if(page.path == 'view_report'){
+        }else if(page.path == 'view_report' || page.path == 'view_reports_stats'){
           jQuery('.wp-submenu li').removeClass('current');
           jQuery('a[href$="quads-settings&path=reports"]').parent().addClass('current');
             current = 'reports';
@@ -259,7 +259,7 @@ class QuadsAdListNavLink extends Component {
                 {quads_localize_data.is_pro && this.state.displayad_logging ?
                 <li><Link to={'admin.php?page=quads-settings&path=ad_logging'} className={current == 'ad_logging' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Log', 'quick-adsense-reloaded')}</Link></li>
                 : null }
-                <li><div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.showAddTypeSelector}><Icon>add_circle</Icon>Create Ad</a></div></li>
+                <li><div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.showAddTypeSelector}><Icon>add_circle</Icon>{__('Create Ad', 'quick-adsense-reloaded')}</a></div></li>
             </ul>
         </div>
         </div>

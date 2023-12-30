@@ -66,7 +66,9 @@ module.exports = {
         warnings: false,
         parse: {},
         compress: {},
-        mangle: true,
+		mangle: {
+			reserved: ['__'],
+		},
         output: null
       }
     })

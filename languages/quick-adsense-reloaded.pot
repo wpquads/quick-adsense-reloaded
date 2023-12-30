@@ -1,0 +1,2801 @@
+# Copyright (C) 2023 WP Quads
+# This file is distributed under the same license as the AdSense Integration WP QUADS plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: AdSense Integration WP QUADS 2.0.80\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/quick-adsense-reloaded\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-12-30T14:19:05+01:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.9.0\n"
+"X-Domain: quick-adsense-reloaded\n"
+
+#. Plugin Name of the plugin
+msgid "AdSense Integration WP QUADS"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://wordpress.org/plugins/quick-adsense-reloaded/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Insert Google AdSense and other ad formats fully automatic into your website"
+msgstr ""
+
+#. Author of the plugin
+msgid "WP Quads"
+msgstr ""
+
+#: admin/includes/rest-api-service.php:448
+#: includes/class-quads-license-handler.php:355
+msgid "Settings has been saved successfully"
+msgstr ""
+
+#: admin/includes/rest-api.php:1932
+#: includes/admin/tools.php:221
+msgid "Please upload a valid .json file"
+msgstr ""
+
+#: admin/includes/rest-api.php:1937
+#: includes/admin/tools.php:227
+msgid "Please upload a file to import"
+msgstr ""
+
+#: admin/includes/rest-api.php:1942
+msgid "file uploaded successfully"
+msgstr ""
+
+#: admin/includes/rest-api.php:1957
+msgid "Settings has been saved successfullycv"
+msgstr ""
+
+#: admin/includes/rest-api.php:1960
+#: admin/includes/rest-api.php:1965
+msgid "Settings has been saved successfullyvf"
+msgstr ""
+
+#: admin/includes/widget.php:28
+msgid "WP QUADS ADS"
+msgstr ""
+
+#: admin/includes/widget.php:29
+msgid "Widget to display Ads"
+msgstr ""
+
+#: admin/includes/widget.php:92
+msgid "Ad title or group title"
+msgstr ""
+
+#: admin/includes/widget.php:93
+msgid "ads list to be display"
+msgstr ""
+
+#: admin/includes/widget.php:95
+msgid "Ads:"
+msgstr ""
+
+#: includes/admin/admin-footer.php:27
+msgid "<strong>Please do us a BIG favor and give us a 5 star rating <a href=\"%1$s\" target=\"_blank\">here</a>. If you have issues, open a <a href=\"%2s\" target=\"_blank\">support ticket</a>, so that we can sort it out. Thank you!</strong>"
+msgstr ""
+
+#: includes/admin/admin-notices.php:55
+#: includes/admin/admin-notices.php:66
+msgid "<strong><p>Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup</strong></p>"
+msgstr ""
+
+#: includes/admin/admin-notices.php:373
+msgid "<strong>Extend the"
+msgstr ""
+
+#: includes/admin/admin-notices.php:396
+#: includes/admin/admin-notices.php:405
+msgid "<strong>WP QUADS "
+msgstr ""
+
+#: includes/admin/admin-notices.php:422
+msgid "You need to update <strong>WP QUADS PRO to version 1.3.6</strong> or higher. Your version of <strong>WP QUADS Pro</strong> is "
+msgstr ""
+
+#: includes/admin/admin-notices.php:447
+msgid "This is a huge update! The data structure of WP QUADS has been modified and improved for better performance and great new features. <br> For the case you'd experience issues, we made a <a href=\"%1s\" target=\"_self\">backup of previous WP QUADS data</a>. So you can <a href=\"%2s\" target=\"_new\">switch back to the previous version</a> anytime. <br><br>Please <a href=\"%3s\" target=\"_new\">open first a support ticket</a> if you experience any issue."
+msgstr ""
+
+#: includes/admin/admin-notices.php:452
+msgid "Close Notice"
+msgstr ""
+
+#: includes/admin/admin-notices.php:630
+msgid "<p>Oh No! <strong>WP Quads Pro</strong> license key is not activated or has been expired. It expires on %s. Renew or activate your license key to make sure that your (AdSense) ads are shown properly with your WordPress, version "
+msgstr ""
+
+#: includes/admin/admin-notices.php:670
+#: includes/admin/admin-notices.php:672
+msgid "Activate the License of <a href=\""
+msgstr ""
+
+#: includes/admin/admin-pages.php:33
+msgid "WP QUADS Settings"
+msgstr ""
+
+#: includes/admin/admin-pages.php:33
+msgid "WPQUADS"
+msgstr ""
+
+#: includes/admin/admin-pages.php:42
+#: includes/admin/settings/register-settings.php:280
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ads"
+msgstr ""
+
+#: includes/admin/admin-pages.php:68
+#: includes/admin/admin-pages.php:72
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/admin-pages.php:75
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Reports"
+msgstr ""
+
+#: includes/admin/admin-pages.php:77
+msgid "Return to Classic view"
+msgstr ""
+
+#: includes/admin/admin-pages.php:82
+msgid "Ad Settings"
+msgstr ""
+
+#: includes/admin/admin-pages.php:84
+msgid "Switch to New Interface"
+msgstr ""
+
+#: includes/admin/admin-pages.php:91
+msgid "Get Add-On"
+msgstr ""
+
+#: includes/admin/plugins.php:27
+msgid "General Settings"
+msgstr ""
+
+#: includes/admin/plugins.php:39
+msgid "Premium Features"
+msgstr ""
+
+#: includes/admin/plugins.php:39
+msgid "Support"
+msgstr ""
+
+#: includes/admin/settings/contextual-help.php:29
+msgid "For more information:"
+msgstr ""
+
+#: includes/admin/settings/contextual-help.php:30
+msgid "Visit the <a href=\"%s\">documentation</a> on the Quick AdSense Reloaded website."
+msgstr ""
+
+#: includes/admin/settings/contextual-help.php:32
+msgid "<a href=\"%s\">Post an issue</a> on <a href=\"%s\">Quick AdSense Reloaded</a>. View <a href=\"%s\">extensions</a>."
+msgstr ""
+
+#: includes/admin/settings/contextual-help.php:41
+#: includes/admin/settings/register-settings.php:694
+msgid "General"
+msgstr ""
+
+#: includes/admin/settings/contextual-help.php:42
+msgid "This screen provides the most basic settings for configuring Quick AdSense Reloaded."
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:351
+msgid "<strong>If you like this plugin please do us a BIG favor and give us a 5 star rating <a href=\"%s\" target=\"_blank\">here</a> . If you have issues, open a <a href=\"%2s\" target=\"_blank\">support ticket</a>, so that we can sort it out. Thank you!</strong>"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:355
+msgid "<strong>Ads are not showing? Read the <a href=\"%s\" target=\"_blank\">troubleshooting guide</a> to find out how to resolve it"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:427
+msgid "Tweet"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:435
+msgid "Share"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:454
+msgid "Enter <a ahref=\"https://wpquads.com/docs/how-to-create-and-where-to-get-adsense-code/\" target=\"_blank\">AdSense text & display ad code</a> here"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:455
+msgid "Do not enter <a href=\"https://wpquads.com/docs/integrate-page-level-ads-wordpress/\" target=\"_blank\">AdSense page level ads</a> or <a href=\"https://wpquads.com/introducing-new-adsense-auto-ads/\" target=\"_blank\">Auto ads!</a> <br> <a href=\"https://wpquads.com/docs/how-to-create-and-where-to-get-adsense-code/\" target=\"_blank\">Learn how to create AdSense ad code</a>"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:457
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Get Code"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:458
+msgid "Close"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:89
+msgid "If you have any query, please write the query in below box or email us at"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:89
+msgid "We will reply to your email address shortly"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:90
+msgid "Message sent successfully, Please wait we will get back to you shortly"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:91
+msgid "Message not sent. please check your network connection"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:100
+msgid "Are you a premium customer ?"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:102
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:103
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Yes"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:104
+#: admin/assets/js/dist/adminscript.js:1
+msgid "No"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:107
+msgid "Send Message"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:187
+msgid "General & Position"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:193
+msgid "Limit Amount of ads:"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:194
+msgid " ads on a page."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:195
+msgid "<a href=\"%s\" target=\"_blank\">Read here</a> to learn how many AdSense ads are allowed. If you are unsure set the value to unlimited."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:224
+msgid "Position - Default Ads"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:225
+msgid "Assign and activate ads on specific ad places"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:230
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Visibility"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:236
+msgid "Post Types"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:237
+#: includes/admin/settings/register-settings.php:238
+msgid "Select post types where ads are visible."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:241
+msgid "Select Post Type"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:245
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Hide Ads From Ajax Requests"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:246
+#: admin/assets/js/dist/adminscript.js:1
+msgid "If your site is using ajax based infinite loading it might happen that ads are loaded without any further post content. Disable this here."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:251
+#: includes/admin/settings/register-settings.php:274
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Quicktags"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:257
+msgid "ads.txt - Automatic Creation"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:258
+msgid "Create an ads.txt file"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:259
+msgid "Allow WP QUADS to generate automatically the ads.txt file in root of your website domain. After enabling and saving settings, check if your ads.txt is correct by opening: <a href=\"%1$s\" target=\"_blank\">%1$s</a> <br><a href=\"%2$s\" target=\"_blank\">Read here</a> to learn more about ads.txt"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:268
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Lazy Loading for Adsense"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:281
+msgid "Enter your ads below:</div><ul style=\"margin-top:10px;\"><li style=\"font-weight:600;\">- <i>AdSense</i> for using <span style=\"font-weight:600;\">AdSense Text & display Ads</span>!</li><li style=\"font-weight:600;\">- <i>Plain Text / HTML / JS</i> for all other ads! <br><strong>Caution:</strong> Adding AdSense code into <i>Plain Text</i> option can result in non-displayed ads!</li></ul>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:286
+msgid "<strong>Ads are not showing? Read the <a href=\"%s\" target=\"_blank\">troubleshooting guide</a> to find out how to resolve it."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:288
+msgid "Open All Ads"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:303
+msgid "Widget Ads"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:304
+msgid "After creating your ads here go to <a href=\"%s\" target=\"_self\">Appearance->Widgets</a> and drag the WP QUADS widget into place."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:309
+msgid "Ad widget 1"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:316
+msgid "Ad widget 2"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:323
+msgid "Ad widget 3"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:330
+msgid "Ad widget 4"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:337
+msgid "Ad widget 5"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:344
+msgid "Ad widget 6"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:351
+msgid "Ad widget 7"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:358
+msgid "Ad widget 8"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:365
+msgid "Ad widget 9"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:372
+msgid "Ad widget 10"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:379
+msgid "Plugin Settings"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:385
+msgid "Load Priority"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:387
+msgid "Do not change this until you know what you are doing. Usually the default value 20 is working fine. Changing this value can lead to unexpected results like ads not showing or loaded on wrong order. <strong>Default:</strong> 20"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:394
+msgid "Remove menu button"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:397
+msgid "Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:402
+msgid "Disable AMP script"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:405
+msgid "Disable duplicate AMP ad script integration if your AMP plugin is already loading the script https://cdn.ampproject.org/v0/amp-ad-0.1.js into your site"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:410
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Delete Data on Uninstall?"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:412
+msgid "Check this box if you would like <strong>Settings->WPQUADS</strong> to completely remove all of its data when the plugin is deleted."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:418
+msgid "Hide Shortcode after Deactivate"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:420
+msgid "Check this box if you would like to Hide [quads] shortcode from the content after deactivating the plugin."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:426
+msgid "Debug mode"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:427
+msgid "Check this to not minify JavaScript and CSS files. This makes debugging much easier and is recommended setting for inspecting issues on your site"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:434
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Activate Your License"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:463
+msgid "Get help from our development team"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:469
+msgid "Systeminfo"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:650
+msgid "Settings updated."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:697
+msgid "Visual"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:705
+msgid "Add-On Setting"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:710
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Licenses"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:715
+#: includes/admin/tools.php:68
+msgid "Import/Export"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:717
+msgid "Help"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1004
+msgid "The callback function used for the <strong>%s</strong> setting is missing."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1145
+msgid "Upload File"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1253
+msgid "Your license key expired on %s. Please <a href=\"%s\" target=\"_blank\" title=\"Renew your license key\">renew your license key</a>."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1264
+msgid "Invalid license. Please <a href=\"%s\" target=\"_blank\" title=\"Visit account page\">visit your account page</a> and verify it."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1276
+msgid "Your %s is not active for this URL. Please <a href=\"%s\" target=\"_blank\" title=\"Visit account page\">visit your account page</a> to manage your license key URLs."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1286
+msgid "This is not a %s."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1295
+msgid "Your license key has reached its activation limit. <a href=\"%s\" target=\"_blank\">View possible upgrades</a> now."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1316
+msgid " Your <span class=\"lifetime\">License key is Valid for Lifetime</span> "
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1322
+msgid "Your license key expires soon! It expires on %s. <a class=\"license_expiring\" href=\"%s\" target=\"_blank\" title=\"Renew license\">Renew your license key</a>."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1329
+msgid "Your license key expires on %s."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1362
+msgid "<span class=\"expired_license_main\">Your <span class=\"expired_license\">License key has been Expired.</span></span> <a class=\"lic_is_expired\" href=\"%s\" target=\"_blank\" title=\"Renew license\">Renew Now</a>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1371
+msgid "Your license key has been disabled! <a href=\"%s\" target=\"_blank\" title=\"Renew license\">Renew your license key</a>."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1401
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Deactivate License"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1402
+msgid "Refresh Info"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1483
+msgid "Select Image"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1569
+msgid "Transient Cache disabled! Enable it for performance increase."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1582
+msgid "Log file directory not writable! Set FTP permission to 755 or 777 for /wp-content/plugins/quadssharer/logs/"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1597
+#: includes/admin/settings/register-settings.php:1613
+msgid "Random Ads"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1663
+msgid "Homepage "
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1664
+msgid "Categories "
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1665
+msgid "Archives "
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1666
+msgid "Tags"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1667
+msgid "Hide Ad Widgets on Homepage"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1668
+msgid "Hide Ads when user is logged in."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1689
+#: includes/admin/settings/register-settings.php:1695
+#: includes/admin/settings/register-settings.php:1701
+#: includes/admin/settings/register-settings.php:1707
+#: includes/admin/settings/register-settings.php:1713
+#: includes/admin/settings/register-settings.php:1719
+#: includes/admin/settings/register-settings.php:1729
+#: includes/admin/settings/register-settings.php:1739
+#: includes/admin/settings/register-settings.php:1751
+#: includes/api.php:21
+msgid "Assign"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1691
+msgid "to <strong>Beginning of Post</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1697
+msgid "to <strong>Middle of Post</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1703
+msgid "to <strong>End of Post</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1709
+msgid "right after <strong>the <span style=\"font-family:Courier New,Courier,Fixed;\">&lt;!--more--&gt;</span> tag</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1715
+msgid "right before <strong>the last Paragraph</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1721
+#: includes/admin/settings/register-settings.php:1731
+#: includes/admin/settings/register-settings.php:1741
+msgid "<strong>After Paragraph</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1723
+#: includes/admin/settings/register-settings.php:1733
+#: includes/admin/settings/register-settings.php:1743
+#: includes/admin/settings/register-settings.php:1755
+msgid "→"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1725
+#: includes/admin/settings/register-settings.php:1735
+#: includes/admin/settings/register-settings.php:1745
+msgid "to <strong>End of Post</strong> if fewer paragraphs are found."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1753
+msgid "<strong>After Image</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1757
+msgid "after <b>Image's outer</b><b><span style=\"font-family:Courier New,Courier,Fixed;\"> &lt;div&gt; wp-caption</span></b> if any."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1776
+msgid " Insert Ads into a post, on-the-fly"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1778
+msgid "Insert <span class=\"quads-quote-docs\">&lt;!--Ads1--&gt;</span>, <span class=\"quads-quote-docs\">&lt;!--Ads2--&gt;</span>, etc. into a post to show the <b>Particular Ads</b> at specific location."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1779
+msgid "Insert <span class=\"quads-quote-docs\">&lt;!--RndAds--&gt;</span> into a post to show the <b>Random Ads</b> at specific location"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1783
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Show Quicktag Buttons on the HTML Post Editor"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1784
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Tags can be inserted into a post via the additional Quicktag Buttons at the HTML Edit Post SubPanel."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1873
+msgid "Add New Ad"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:2017
+#: includes/admin/settings/register-settings.php:2170
+msgid "Install <a href=\"%s\" target=\"_blank\">WP QUADS PRO</a> to fully support AdSense Responsive ads."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:2044
+#: includes/admin/settings/register-settings.php:2196
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Margin"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:2202
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Padding"
+msgstr ""
+
+#: includes/admin/tools.php:69
+msgid "System Info"
+msgstr ""
+
+#: includes/admin/tools.php:93
+msgid "Export Settings"
+msgstr ""
+
+#: includes/admin/tools.php:95
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site."
+msgstr ""
+
+#: includes/admin/tools.php:100
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Export"
+msgstr ""
+
+#: includes/admin/tools.php:107
+msgid "Import Settings"
+msgstr ""
+
+#: includes/admin/tools.php:109
+msgid "Import the Quick AdSense Reloaded settings from a .json file. This file can be obtained by exporting the settings on another site using the form above."
+msgstr ""
+
+#: includes/admin/tools.php:117
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Import"
+msgstr ""
+
+#: includes/admin/tools.php:279
+msgid "Backup data from WP QUADS 1.5.2"
+msgstr ""
+
+#: includes/admin/tools.php:504
+msgid "Import from Quick AdSense"
+msgstr ""
+
+#: includes/admin/tools.php:506
+msgid "Import the settings for Quick AdSense Reloaded from Quick AdSense v. 1.9.2."
+msgstr ""
+
+#: includes/admin/tools.php:514
+msgid "Start Import process"
+msgstr ""
+
+#: includes/admin/tools.php:549
+msgid "Most of the settings have been sucessfully imported from Quick AdSense <br> but due to some inconsistencies there are still some options which needs your attention and manual adjusting."
+msgstr ""
+
+#: includes/admin/tools.php:553
+msgid "Most of settings have been already imported successfully! (If not we probably have an unknown issue here)"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:3
+msgid "It is only temporary"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:4
+msgid "I stopped showing ads on my site"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:5
+msgid "I miss a feature"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:7
+msgid "Technical Issue"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:8
+msgid "Can we help? Please describe your problem"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:9
+msgid "I switched to another plugin"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:11
+msgid "Other reason"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:12
+msgid "Please specify, if possible"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:20
+msgid "If you have a moment, please let us know why you are deactivating:"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:31
+msgid "Submit & Deactivate"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:32
+msgid "Only Deactivate"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:33
+msgid "Don't deactivate"
+msgstr ""
+
+#: includes/class-quads-license-handler.php:251
+msgid "%1$s License Key"
+msgstr ""
+
+#: includes/class-quads-license-handler.php:284
+msgid "Enter your extension license keys here to receive updates for purchased extensions. If your license key has expired, please <a href=\"%s\" target=\"_blank\" title=\"License renewal FAQ\">renew your license</a>."
+msgstr ""
+
+#: includes/class-quads-license-handler.php:512
+msgid "Nonce verification failed"
+msgstr ""
+
+#: includes/class-quads-license-handler.php:512
+msgid "Error"
+msgstr ""
+
+#: includes/class-quads-license-handler.php:708
+msgid "Enter valid license key for automatic updates."
+msgstr ""
+
+#: includes/frontend-checks.php:49
+msgid "Ad Check"
+msgstr ""
+
+#: includes/frontend-checks.php:56
+msgid "- JavaScript / jQuery error"
+msgstr ""
+
+#: includes/frontend-checks.php:68
+msgid "- Ad blocker enabled"
+msgstr ""
+
+#: includes/frontend-checks.php:80
+msgid "- <em>the_content</em> filter does not exist"
+msgstr ""
+
+#: includes/frontend-checks.php:97
+msgid "- All Ads are disabled on this page"
+msgstr ""
+
+#: includes/frontend-checks.php:110
+msgid "- Default Ads disabled in content of this page"
+msgstr ""
+
+#: includes/frontend-checks.php:123
+msgid "- Current post ID is 0 "
+msgstr ""
+
+#: includes/frontend-checks.php:138
+msgid "Ads are disabled on 404 pages"
+msgstr ""
+
+#: includes/frontend-checks.php:152
+msgid "Ads are disabled on non singular pages"
+msgstr ""
+
+#: includes/frontend-checks.php:166
+msgid "The %s extension(s) is not loaded"
+msgstr ""
+
+#: includes/frontend-checks.php:180
+msgid "WP QUADS is working fine"
+msgstr ""
+
+#: includes/frontend-checks.php:189
+msgid "debug DFP ads"
+msgstr ""
+
+#: includes/frontend-checks.php:200
+msgid "Show Adverts"
+msgstr ""
+
+#: includes/helper-functions.php:69
+msgid "Invalid nonce"
+msgstr ""
+
+#: includes/meta-boxes.php:41
+msgid "WP QUADS - Hide Ads"
+msgstr ""
+
+#: includes/quicktags.php:68
+msgid "Hide all ads on page"
+msgstr ""
+
+#: includes/quicktags.php:69
+msgid "Hide default ads, use manually placed ads"
+msgstr ""
+
+#: includes/quicktags.php:70
+msgid "Hide all ads in sidebar"
+msgstr ""
+
+#: includes/quicktags.php:71
+msgid "Hide ad on beginning"
+msgstr ""
+
+#: includes/quicktags.php:72
+msgid "Hide ad in middle"
+msgstr ""
+
+#: includes/quicktags.php:73
+msgid "Hide ad on end"
+msgstr ""
+
+#: includes/quicktags.php:74
+msgid "Hide ad after MoreTag"
+msgstr ""
+
+#: includes/quicktags.php:75
+msgid "Hide ad before last paragraph"
+msgstr ""
+
+#: includes/render-ad-functions.php:835
+msgid "Learn More"
+msgstr ""
+
+#: includes/reports/common.php:161
+#: includes/reports/commonV2.php:165
+msgid "No token provided. Token data needed to get account details."
+msgstr ""
+
+#: includes/scripts.php:125
+msgid "Get 30+ ad networks to compete for your ad inventory with Google Certified Publishing partner AdPushup."
+msgstr ""
+
+#: includes/scripts.php:214
+msgid "error"
+msgstr ""
+
+#: includes/widgets.php:122
+#: includes/widgets.php:178
+#: includes/widgets.php:223
+#: includes/widgets.php:270
+#: includes/widgets.php:317
+#: includes/widgets.php:363
+#: includes/widgets.php:410
+#: includes/widgets.php:457
+#: includes/widgets.php:504
+#: includes/widgets.php:551
+msgid "Widget contains ad code"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Name your ad unit"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Configuration"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Targeting"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Publish"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Search by ad unit, id, format, etc"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Next"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Upload Image"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ad Anchor link"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Remove"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Add"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "AdSense Type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Display Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "In-Feed Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "In-Article Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Auto Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Sticky (Only AMP)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Matched content"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Data Layout Key"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Data Layout Key"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Data Client ID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Data Client ID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Data Slot ID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Data Slot ID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Size"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Fixed Size"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Responsive"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Width"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Height"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Plain Text / HTML / JS"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Plain Text / HTML / JS"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Mobile specific Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Mobile Plain Text / HTML / JS "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Upload Ad Image"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid " Upload Image"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Remove Image"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ad Button link"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Ad Button link"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "This feature is available in PRO version"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Unlock this feature"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select at least one Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Network Code"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Network Code"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "AD Unit Name"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter AD Unit Name"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Block Id"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Block Id"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Data Container"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Data Container"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Data Js Src"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Data Js Src"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Upload Ad Banner"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid " Upload Banner"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Remove Banner"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Mobile specific Banner"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Upload Mobile AD Banner "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Upload Mobile AD Banner"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Mobile Size"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Ad Anchor link"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Add rel=\"NoFollow\""
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Parallax Effect"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Banner height "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Upload A Video"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid " Upload Video"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Remove Video"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "We recommend try keeping videos to under 15 seconds as much as possible & if size's smaller please donot upload HD Quality"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Video Size"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Width(PX)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Propeller AD Script"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter AD Script"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Cookie Setup"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Expiry"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "No Expiry"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Data Publisher Id"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Data Publisher Id"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Data CID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Data CID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Data CRID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Data CRID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Adpushup Site ID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Adpushup Site ID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Adpushup Slot ID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Adpushup Slot ID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Data Site Id"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Data Site Id"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Widget Id's"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Widget Id's"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Infolinks P ID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Infolinks P ID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Infolinks W S ID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Infolinks W S ID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Skip Ads Type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Image Banner"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Custom HTML"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Frequency by page view"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ad Waiting Time"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ad Title"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Ad Title"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ad Short Description"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Ad Description"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Carousel Type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Single Slide"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select Carousel Type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Carousel Speed"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Seconds"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Navigation Arrows"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Show Randomly?"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select Ads "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Scroll Height"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Floating Position "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Top Left"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Top Right"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Bottom Left"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Bottom Right"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select Floating Position"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "3D Cube Size"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "PX"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Atleast two slides are  required"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ad not found"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ad Configuration"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Autofill"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter AdSense text and display ad code here"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Do not enter AdSense page level ads or Auto ads! Learn how to create"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "AdSense ad coded"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "View Documentation on"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "AD"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "AMP Configuration"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "AMP Compatibility"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Monday"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Tuesday"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Webnesday"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Thursday"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Friday"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Saturday"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Sunday"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Advanced Configuration"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Set Expire Date"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "From "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "To "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Set Specific Day"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Days "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Lazy Load"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Lazy Load Delay "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "seconds"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Page not found. Redirect to home"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Layout"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Align"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Default"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Left"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Center"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Right"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ad label"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ad Label Text"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ad Label Position"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Above Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Below Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Position"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Where will the AD appear?"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "After Paragraph"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Limit The Insertion Till Nth Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Id Name"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Class Name"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Selector"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Count As Per The"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "p (default)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "div"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "img"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "H1"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "H2"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "H3"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "H4"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "H5"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "H6"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Custom"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Your Tag"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Display After"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Display After Every "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Postion"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Bottom (default)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Top"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Add close Button? "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Animation? "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Anim Delay"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "1000"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Add Button to Show Ad? "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Button Text"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Slide Up"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Display Before"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Display Before Every "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Rotation Type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "milliseconds"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "On AMP, Ads will be shown only on reload"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Grid"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Number Of Ads to Show"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Popup Type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Load instantly"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "After Specific Time"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "On Scroll"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Load on Top"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Load on Bottom"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Popup delay"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "percentage"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Video Type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Scroll percentage"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Parallax Type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Open/Close Text"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Where Will The AD Appear?"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ad Close Type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "On Click"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Prev"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid " should the ad display?"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid " pages would you like to display?"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select Position"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Random Placement"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Beginning of Post"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Middle of Post"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "End of Post"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Right after the"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "tag"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Right before the last Paragraph"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "After Image"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Before Image"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "By Word Count"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "After the Percentage"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "After Id"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "After Class"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "After Advance Selector"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "After HTML Tag"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Inbetween Loop"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Shortcode (Manual)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Sticky (NON AMP ONLY)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Before the Header"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "After the Header"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "After Featured Image"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Below the Header (SiteWide)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Below the Footer (SiteWide)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Above the Footer (SiteWide)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Above the Post Content (Single Post)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Below the Post Content (Single Post)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Below the Title (Single Post)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Above Related Posts (Single Post)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Below the Author Box (Single Post)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "After Paragraph (Single Post)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Sticky (AMP)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "AMP Story"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Before HTML Tag"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Sticky"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "BBpress Before Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "BBpress After Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "BBpress Before Reply"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "BBpress After Reply"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select Where Will The AD Appear"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "to"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "if fewer paragraphs"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "after"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Image's outer"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "if any."
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "before"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "AMP Story Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Share Your"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Precious Feedback!"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Return to Dashboard"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Thank you for contacting us. We soon will get in touch with you"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Something went wrong. Please check your internet connection"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Please select customer type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Please provide a email"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Please write your query"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Email is not valid. Please provide valid email"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Unlimited"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Please enter valid license!"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "You are about to clear Log Data, do you wish to continue?"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Data is cleared"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Invalid record"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Third field should be RESELLER or DIRECT"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "%s does not appear to be a valid subdomain"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "%s does not appear to be a valid exchange domain"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "%s does not appear to be a valid TAG-ID"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Please activate your WP QUADS PRO License Key"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "License key never expire"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ad Txt"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "To know more about ads.txt  you can"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "view this tutorial"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Validate & Save"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ads For wp Setting"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Change adsforwp Short code to quads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Change adsforwp Gutenberg to quads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Advance Ads Setting"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Change Advance Ads Short code to quads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Global Excluder"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Hide Ads for User Roles"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Hide Ads for Tags"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Hide Ads for Plugins"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Administrator"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter the percentage of revenue that you would like to share"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Save Changes"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Notice Type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Bar"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Popup"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Page Redirection"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Block Message "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "If visitor is using an ad blocker he will see a message instead of an ad, asking him to deactivate the ad blocker."
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Read here"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "how to customize colors and text."
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Notice Behaviour"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Show on Every Visit"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Show Only Once"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Notice Content"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Title"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Notice Bar"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Top Bar"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Bottom Bar"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Sticky Notice Bar"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Description"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Notice Design"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Content Color"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select Color"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Background Color"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Button Text Color"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Button Background Color"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Target Page"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Automatic Creation"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ad Blocker Support"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Click Fraud Protection"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Revenue Sharing"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "TCF v2.0 integration "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Rotator Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Group Insertion Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ad Performance Tracking"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Exclude Admin from tracking"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Role Based Access"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Report Logging Method"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Combined Data (Legacy)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Separate Data (Improved V2)"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "You are now using new improved report tracking."
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "You are using Legacy report tracking.Tracking will get slower as the Datebase size increases. We recommend switching to Separate Data (Improved V2) for better performance"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Google Analytics Integration"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Debug Mode"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Copy System info"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Copy System Info"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "System info copied to clipboard"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Import the Quick AdSense Reloaded settings for this site from a .json file. This allows you to easily import the configuration into another site."
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Quads Classic view Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "AMP for WP Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "ADS for WP Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Advanced Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Google Auto Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter Google Auto Ads code below"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Status"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Auto Ads Disabled"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Auto Ads Enabled"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Exclude Auto Ads From Post Types"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Exclude Auto Ads From Extra pages"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Exclude nothing"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "homepage"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Exclude Auto Ads From User Roles"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Limit Amount of ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "ads on a page"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "to learn how many AdSense ads are allowed. If you are unsure set the value to unlimited."
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Insert Ads into a post, on-the-fly using below tags"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "1. Insert"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "etc. into a post to show the Particular Ads at specific location."
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "2. Insert"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "into a post to show the Random Ads at specific location"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ask for technical Support"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "We are always available to help you with anything related to ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Are you existing Premium Customer?"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Send"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Updating..."
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Saving..."
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Activate License"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Enter a Valid License Key"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "You are entering an Expired License Key"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Save Settings"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "My Account"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "License Key is"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Activated"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Hey! You're enjoying all the PRO benefits of the WP QUADS along with regular updates & Technical Support."
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Your License is valid for"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "days"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "refresh"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Your"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "License is valid for"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Extend License"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Expired"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Extend the License to receive the further updates & support."
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Features"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Tools"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Importer"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Legacy"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Help & Support"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Are you sure you want to"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid " DELETE  "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "this ad?"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "It will permenently removed and you won't be able to see the ad again. You cannot undo this action."
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Cancel"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Delete"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Name"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Last Modified"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Impression "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Clicks "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "View Full Report"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Duplicate"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Let's"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "create our First Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "in 3 simple steps"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Create Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "No Thanks"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Importing Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Which type of AD would you like to insert?"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Log"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "AD Vendors"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "AD Format"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "is a PRO Feature"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Go PRO"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Google Adsense"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "A/B Testing"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "View Report"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Impression & Clicks"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Report"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "A/B Testing Report"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Stats Report"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select Ad"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "All Ads"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select Duration"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Today"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Yesterday"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Last 7 Days"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "This Month"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Last Month"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "This Year"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "All Time"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Submit"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Start Date"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "End Date"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Show data"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Refresh"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Export Report"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Adsense Report"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select Report"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Earnings"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Earnings Forcast"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Top Earning Device type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Last 7 days"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Last 15 days"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Last 30 days"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Last 6 months"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Last 1 year"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "revenue prediction based on"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "View Type"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Day"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Week"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Month"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "year"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Please select Report type and Duration"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Please enter the confirmation code."
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Submit code"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "AD Logging"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Logs will be stored for last 30 days only "
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ad id"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Time Stamp"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "URL"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Browser"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Referrer"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "IP Address"
+msgstr ""
+
+#: admin/assets/js/dist/adminscript.js:1
+msgid "No Data"
+msgstr ""

@@ -115,14 +115,14 @@ class QuadsAdReportabtesting extends Component {
                             <div className="quads-large-popup-content">
                                 <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
                                 <div className="quads-large-popup-title">
-                                    <h1>Please enter the confirmation code.
+                                    <h1>{__('Please enter the confirmation code.','quick-adsense-reloaded')}
                                     </h1>
                                 </div>
                                 <div className="quads-large-description"></div>
 
                                 <div className="quads-large-content">
                                       
-                                    <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.adsense_submit}>Submit code</a>
+                                    <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.adsense_submit}>{__('Submit code','quick-adsense-reloaded')}</a>
                                 </div>
                             </div>
                         </div> </>: null

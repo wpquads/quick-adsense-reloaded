@@ -61,24 +61,24 @@ check_plugin_exist = (event) => {
                                {post_meta.ad_type != "adpushup" ?                                
                                 <>
                                 <optgroup label="Full Support ( AMP &amp; NON AMP )">
-                                    <option value="">{__('Select Position', 'quick-adsense-reloaded')}</option>
-                                    <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>
-                                    <option value="middle_of_post">{__('Middle of Post', 'quick-adsense-reloaded')}</option>
-                                    <option value="end_of_post">{__('End of Post', 'quick-adsense-reloaded')}</option>
-                                    <option value="after_more_tag">{__('Right after the', 'quick-adsense-reloaded')} &lt;!--more--&gt; {__('tag', 'quick-adsense-reloaded')}</option>
-                                    <option value="before_last_paragraph">{__('Right before the last Paragraph', 'quick-adsense-reloaded')}</option>
-                                    <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
-                                    <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>
-                                    <option value="before_image">{__('Before Image', 'quick-adsense-reloaded')}</option>
-                                    <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
-                                    <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
-                                    <option value="ad_after_id">{__('Ad After Id', 'quick-adsense-reloaded')}</option>
-                                    <option value="ad_after_class">{__('Ad After Class', 'quick-adsense-reloaded')}</option>
-                                    <option value="ad_after_customq">{__('Ad After Advance Selector', 'quick-adsense-reloaded')}</option>
-                                    <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
-                                    <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
-                                    <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
-                                    {this.state.ad_extra_position}
+                                <option value="">{__('Select Position', 'quick-adsense-reloaded')}</option>
+                                                    <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>
+                                                    <option value="middle_of_post">{__('Middle of Post', 'quick-adsense-reloaded')}</option>
+                                                    <option value="end_of_post">{__('End of Post', 'quick-adsense-reloaded')}</option>
+                                                    <option value="after_more_tag">{__('Right after the', 'quick-adsense-reloaded')} &lt;!--more--&gt; {__('tag', 'quick-adsense-reloaded')}</option>
+                                                    <option value="before_last_paragraph">{__('Right before the last Paragraph', 'quick-adsense-reloaded')}</option>
+                                                    <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
+                                                    <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>
+                                                    <option value="before_image">{__('Before Image', 'quick-adsense-reloaded')}</option>
+                                                    <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
+                                                    <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
+                                                    <option value="ad_after_id">{__('After Id', 'quick-adsense-reloaded')}</option>
+                                                    <option value="ad_after_class">{__('After Class', 'quick-adsense-reloaded')}</option>
+                                                    <option value="ad_after_customq">{__('After Advance Selector', 'quick-adsense-reloaded')}</option>
+                                                    <option value="ad_after_html_tag">{__('After HTML Tag', 'quick-adsense-reloaded')}</option>
+                                                    <option value="amp_ads_in_loops">{__('Inbetween Loop', 'quick-adsense-reloaded')} </option>
+                                                    <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
+                                                    {this.state.ad_extra_position}
                                 </optgroup>
                                 {quads_localize_data.is_newsPapertheme_exist ?
                                 <optgroup label="Newspaper Theme support">
@@ -90,45 +90,44 @@ check_plugin_exist = (event) => {
                                 : ''}  
                                </>                                  
                                 <optgroup label="Partial Support ( AMP Only )">
-                                    <option value="amp_after_featured_image">Ad after Featured Image</option>
-                                    <option value="amp_below_the_header">Below the Header (SiteWide)</option>
-                                    <option value="amp_below_the_footer">Below the Footer (SiteWide)</option>
-                                    <option value="amp_above_the_footer">Above the Footer (SiteWide)</option>
-                                    <option value="amp_above_the_post_content">Above the Post Content (Single Post)</option>
-                                    <option value="amp_below_the_post_content">Below the Post Content (Single Post)</option>
-                                    <option value="amp_below_the_title">Below the Title (Single Post)</option>
-                                    <option value="amp_above_related_post">Above Related Posts (Single Post)</option>
-                                    <option value="amp_below_author_box">Below the Author Box (Single Post)</option>
-                                    <option value="amp_doubleclick_sticky_ad">Sticky AD (AMP) </option>
-                                    {post_meta.ad_type =='adsense' || post_meta.ad_type =='double_click' ?  <option value="amp_story_ads">AMP Story Ad</option> : null }
-                                </optgroup>
+                                <option value="amp_after_featured_image">{__('After Featured Image', 'quick-adsense-reloaded')}</option>
+                                                    <option value="amp_below_the_header">{__('Below the Header (SiteWide)', 'quick-adsense-reloaded')}</option>
+                                                    <option value="amp_below_the_footer">{__('Below the Footer (SiteWide)', 'quick-adsense-reloaded')}</option>
+                                                    <option value="amp_above_the_footer">{__('Above the Footer (SiteWide)', 'quick-adsense-reloaded')}</option>
+                                                    <option value="amp_above_the_post_content">{__('Above the Post Content (Single Post)', 'quick-adsense-reloaded')}</option>
+                                                    <option value="amp_below_the_post_content">{__('Below the Post Content (Single Post)', 'quick-adsense-reloaded')}</option>
+                                                    <option value="amp_below_the_title">{__('Below the Title (Single Post)', 'quick-adsense-reloaded')}</option>
+                                                    <option value="amp_above_related_post">{__('Above Related Posts (Single Post)', 'quick-adsense-reloaded')}</option>
+                                                    <option value="amp_below_author_box">{__('Below the Author Box (Single Post)', 'quick-adsense-reloaded')}</option>
+                                                    {post_meta.ad_type == 'adsense' || post_meta.ad_type == 'double_click' ? <option value="amp_story_ads">{__('AMP Story Ad', 'quick-adsense-reloaded')}</option> : null}
+                                                 </optgroup>
 
                             </select>
                             {post_meta.ad_type == "adpushup" ? <p>This selection is just for AMP</p> : ''}
                             </>                            
                             : <select className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                                 <option value="">{__('Select Position', 'quick-adsense-reloaded')}</option>
-                                <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>
-                                <option value="middle_of_post">{__('Middle of Post', 'quick-adsense-reloaded')}</option>
-                                <option value="end_of_post">{__('End of Post', 'quick-adsense-reloaded')}</option>
-                                <option value="after_more_tag">{__('Right after the', 'quick-adsense-reloaded')} &lt;!--more--&gt; {__('tag', 'quick-adsense-reloaded')}</option>
-                                <option value="before_last_paragraph">{__('Right before the last Paragraph', 'quick-adsense-reloaded')}</option>
-                                <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
-                                <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>
-                                <option value="before_image">{__('Before Image', 'quick-adsense-reloaded')}</option>
-                                <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
-                                <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
-                                <option value="ad_after_id">{__('Ad After Id', 'quick-adsense-reloaded')}</option>
-                                <option value="ad_after_class">{__('Ad After Class', 'quick-adsense-reloaded')}</option>
-                                <option value="ad_after_customq">{__('Ad After Advance Selector', 'quick-adsense-reloaded')}</option>
-                                <option value="ad_after_html_tag">{__('Ad After HTML Tag', 'quick-adsense-reloaded')}</option>
-                                <option value="amp_ads_in_loops">Ads Inbetween Loop</option>
+                                                <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>
+                                                <option value="middle_of_post">{__('Middle of Post', 'quick-adsense-reloaded')}</option>
+                                                <option value="end_of_post">{__('End of Post', 'quick-adsense-reloaded')}</option>
+                                                <option value="after_more_tag">{__('Right after the', 'quick-adsense-reloaded')} &lt;!--more--&gt; {__('tag', 'quick-adsense-reloaded')}</option>
+                                                <option value="before_last_paragraph">{__('Right before the last Paragraph', 'quick-adsense-reloaded')}</option>
+                                                <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
+                                                <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>
+                                                <option value="before_image">{__('Before Image', 'quick-adsense-reloaded')}</option>
+                                                <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
+                                                <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
+                                                <option value="ad_after_id">{__('After Id', 'quick-adsense-reloaded')}</option>
+                                                <option value="ad_after_class">{__('After Class', 'quick-adsense-reloaded')}</option>
+                                                <option value="ad_after_customq">{__('After Advance Selector', 'quick-adsense-reloaded')}</option>
+                                                <option value="ad_after_html_tag">{__('After HTML Tag', 'quick-adsense-reloaded')}</option>
+                                                <option value="amp_ads_in_loops">{__('Inbetween Loop', 'quick-adsense-reloaded')}</option>
                                 {quads_localize_data.is_bbpress_exist ?
                                     <>
-                                        <option value="bbpress_before_ad">BBpress Before Ad</option>
-                                        <option value="bbpress_after_ad">BBpress After Ad</option>
-                                        <option value="bbpress_before_reply">BBpress Before Reply</option>
-                                        <option value="bbpress_after_reply">BBpress After Reply</option>
+                                                        <option value="bbpress_before_ad">{__('BBpress Before Ad', 'quick-adsense-reloaded')}</option>
+                                                        <option value="bbpress_after_ad">{__('BBpress After Ad', 'quick-adsense-reloaded')}</option>
+                                                        <option value="bbpress_before_reply">{__('BBpress Before Reply', 'quick-adsense-reloaded')}</option>
+                                                        <option value="bbpress_after_reply">{__('BBpress After Reply', 'quick-adsense-reloaded')}</option>
                                     </>
                                     :null}
                                     

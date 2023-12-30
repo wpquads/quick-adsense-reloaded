@@ -178,20 +178,6 @@ function quads_get_registered_settings() {
     * section to allow extensions and other plugins to add their own settings
     */
     global $quads, $quads_options;
-
-    $vi_ads = array(
-          'id' => 'vi_header',
-          'name' => '<strong>' . __( 'vi ads', 'quick-adsense-reloaded' ) . '</strong>',
-          'desc' => '<strong>Native video ad units powered by video intelligence</strong>',
-          'type' => 'header'
-     ); 
-
-     $vi_ads_not_loggedin = array(
-          'id' => '',
-          'type' => ''
-     );
-
-    $vi_ads_final = ( false === $quads->vi->setRevenue() ) ? $vi_ads_not_loggedin :  $vi_ads;
    
    $quads_settings = array(
        /** General Settings */
@@ -199,7 +185,7 @@ function quads_get_registered_settings() {
            array(
                'id' => 'general_header',
                'name' => '<strong>' . __( 'General & Position', 'quick-adsense-reloaded' ) . '</strong>',
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'header'
            ),
            'maxads' => array(
@@ -242,7 +228,7 @@ function quads_get_registered_settings() {
            array(
                'id' => 'visibility',
                'name' => __( 'Visibility', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'visibility'
            ),
            array(
@@ -263,7 +249,7 @@ function quads_get_registered_settings() {
            array(
                'id' => 'quicktags',
                'name' => __( 'Quicktags', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'quicktags'
            ),
            array(
@@ -286,21 +272,9 @@ function quads_get_registered_settings() {
            array(
                'id' => 'quicktags',
                'name' => __( 'Quicktags', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'quicktags'
            ),
-          $vi_ads_final,
-           array(
-               'id' => 'vi_signup',
-               'name' =>__( '', 'quick-adsense-reloaded' ) . '</strong>',
-               'type' => 'vi_signup'
-           ),
-           /* 'load_scripts_footer' => array(
-             'id' => 'load_scripts_footer',
-             'name' => __( 'JS Load Order', 'quick-adsense-reloaded' ),
-             'desc' => __( 'Enable this to load all *.js files into footer. Make sure your theme uses the wp_footer() template tag in the appropriate place. Default: Disabled', 'quick-adsense-reloaded' ),
-             'type' => 'checkbox'
-             ), */
            'adsense_header' => array(
                'id' => 'adsense_header',
                'name' => '<strong>' . __( 'Ads', 'quick-adsense-reloaded' ) . '</strong>',
@@ -316,12 +290,12 @@ function quads_get_registered_settings() {
            ),
            array(
                'id' => 'quads_ads',
-               'name' => __( '', 'quick-adsense-reloaded' ),
+               'name' => '',
                'type' => 'ad_code'
            ),
            array(
                'id' => 'new_ad',
-               'name' => __( '', 'quick-adsense-reloaded' ),
+               'name' => '',
                'type' => 'new_ad',
            ),
            'widget_header' => array(
@@ -333,77 +307,77 @@ function quads_get_registered_settings() {
            'ad1_widget' => array(
                'id' => 'ad1_widget',
                'name' => __( 'Ad widget 1', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad2_widget' => array(
                'id' => 'ad2_widget',
                'name' => __( 'Ad widget 2', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad3_widget' => array(
                'id' => 'ad3_widget',
                'name' => __( 'Ad widget 3', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad4_widget' => array(
                'id' => 'ad4_widget',
                'name' => __( 'Ad widget 4', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad5_widget' => array(
                'id' => 'ad5_widget',
                'name' => __( 'Ad widget 5', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad6_widget' => array(
                'id' => 'ad6_widget',
                'name' => __( 'Ad widget 6', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad7_widget' => array(
                'id' => 'ad7_widget',
                'name' => __( 'Ad widget 7', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad8_widget' => array(
                'id' => 'ad8_widget',
                'name' => __( 'Ad widget 8', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad9_widget' => array(
                'id' => 'ad9_widget',
                'name' => __( 'Ad widget 9', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            'ad10_widget' => array(
                'id' => 'ad10_widget',
                'name' => __( 'Ad widget 10', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'adsense_widget',
                'size' => 4
            ),
            array(
                'id' => 'plugin_header',
                'name' => '<strong>' . __( 'Plugin Settings', 'quick-adsense-reloaded' ) . '</strong>',
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'header'
            ),
            'priority' => array(
@@ -467,8 +441,8 @@ function quads_get_registered_settings() {
        'addons' => apply_filters( 'quads_settings_addons', array(
            'addons' => array(
                'id' => 'addons',
-               'name' => __( '', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'name' => '',
+               'desc' => '',
                'type' => 'addons'
            ),
                )
@@ -476,8 +450,8 @@ function quads_get_registered_settings() {
        'imexport' => apply_filters( 'quads_settings_imexport', array(
            'imexport' => array(
                'id' => 'imexport',
-               'name' => __( '', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'name' => '',
+               'desc' => '',
                'type' => 'imexport'
            )
                )
@@ -487,13 +461,13 @@ function quads_get_registered_settings() {
             'support' => array(
                'id' => 'wpquads_support',
                'name' => __( 'Get help from our development team', 'quick-adsense-reloaded' ),
-                'desc' => __( '', 'quick-adsense-reloaded' ),
+                'desc' => '',
                'type' => 'header'
            ),
            'systeminfo' => array(
                'id' => 'systeminfo',
                'name' => __( 'Systeminfo', 'quick-adsense-reloaded' ),
-               'desc' => __( '', 'quick-adsense-reloaded' ),
+               'desc' => '',
                'type' => 'systeminfo'
            )
                )
@@ -2500,63 +2474,6 @@ function quads_adsense_code_callback( $args ) {
        echo '</select>';
     }
 
-    /**
-     * VI Integration
-     * @global type $quads
-     *
-     */
-    function quads_vi_signup_callback() {
-    global $quads, $quads_options;
-
-            //$adsense = new \wpquads\adsense($quads_options);
-            //var_dump($adsense->getPublisherIds());
-            //echo 'test' . $adsense->getPublisherIds() . $adsense->writeAdsTxt();
-
-    $header = new \wpquads\template('/includes/vendor/vi/views/partials/header', array());
-    $footer = new \wpquads\template('/includes/vendor/vi/views/partials/footer', array());
-    $error = new \wpquads\template('/includes/vendor/vi/views/error', array());
-
-    // Try to initially load vi settings
-    $settings = $quads->vi->getSettings();
-    if ( false === $settings || empty($settings)){
-        if (!$quads->vi->setSettings()) {
-            echo $header->render();
-            echo $error->render();
-            echo $footer->render();
-            return true;
-        }
-    }
-
-
-    $data = !empty($quads->vi->getSettings()->data) ? (array) $quads->vi->getSettings()->data : array();
-
-    $data['jsTag'] = $quads->vi->getAdCode();
-
-    $logged_in = new \wpquads\template('/includes/vendor/vi/views/logged_in', $data);
-    $not_logged_in = new \wpquads\template('/includes/vendor/vi/views/not_logged_in', $data);
-    $adform = new \wpquads\template('/includes/vendor/vi/views/ad_settings', $data);
-    $revenue = new \wpquads\template('/includes/vendor/vi/views/revenue', $data);
-
-    // header
-    echo $header->render();
-
-
-    // Not logged in
-    if (empty($data) || false === $quads->vi->setRevenue()) {
-        return false;
-    } else {
-    // Is logged in
-    //if ($quads->vi->setRevenue()) {
-        echo $revenue->render();
-        echo $adform->render();
-    }
-
-    // footer
-    echo $footer->render();
-
-
-}
-
 /**
  * Create ads.txt for Google AdSense when saving settings
  * @return boolean
@@ -2598,7 +2515,6 @@ function quads_adsense_code_callback( $args ) {
         if(is_file('ads.txt') || !isset($quads_options['adsTxtEnabled'])){
             return false;
         }
-        $quads->vi->createAdsTxt();
         $adsense = new wpquads\adsense($quads_options);
         $adsense->writeAdsTxt();
     }

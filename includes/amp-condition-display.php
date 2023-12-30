@@ -357,7 +357,7 @@ function quads_amp_sticky_ad_css(){
 add_filter('ampforwp_the_content_last_filter','quads_amp_sticky_ad_insert_css');
 function quads_amp_sticky_ad_insert_css($content){
     $css = '';
-    if(is_array($GLOBALS['quadsampstickyInCss'])){
+    if(isset($GLOBALS['quadsampstickyInCss']) && is_array($GLOBALS['quadsampstickyInCss'])){
         foreach ($GLOBALS['quadsampstickyInCss'] as $key => $value) {
             $css .= $key.'{'.$value[0].'}';
         }

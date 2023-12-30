@@ -65,7 +65,12 @@ public function quads_insert_ad_impression(){
      */
     public function quads_insert_impression($ad_id, $device_name='',$referrer_url='',$user_ip='',$actual_link='', $browser=''){
                   
-      global $wpdb;
+      global $wpdb,$quads_options;
+
+      $exclude_admin = isset($quads_options['exclude_admin_tracking'])?$quads_options['exclude_admin_tracking']:false;
+      if($exclude_admin && current_user_can('administrator')){
+        return ;
+      }
       
       $today = quads_get_date('day');
       $id_array = explode('quads-ad', $ad_id );
@@ -380,7 +385,11 @@ public function quads_get_client_ip() {
      * @param type $device_name
      */
     public function quads_insert_clicks($ad_id, $device_name='',$referrer_url='',$user_ip='',$actual_link='', $browser=''){
-      global $wpdb;
+      global $wpdb ,$quads_options;
+      $exclude_admin = isset($quads_options['exclude_admin_tracking'])?$quads_options['exclude_admin_tracking']:false;
+      if($exclude_admin && current_user_can('administrator')){
+        return ;
+      }
 
       $today = quads_get_date('day');
       $id_array = explode('quads-ad', $ad_id );

@@ -385,8 +385,8 @@ class QuadsAdTargeting extends Component {
                             <td>
                                 <input id={'refresh_type_interval_sec'}
                                        name={'refresh_type_interval_sec'} type="number"
-                                       value={post_meta.refresh_type_interval_sec} onChange={this.props.adFormChangeHandler}  /> milliseconds
-                                       { quads_localize_data.is_amp_enable && post_meta.enabled_on_amp == true ? <p className="description">On AMP, Ads will be shown only on reload.</p> : '' }
+                                       value={post_meta.refresh_type_interval_sec} onChange={this.props.adFormChangeHandler}  /> {__('milliseconds', 'quick-adsense-reloaded') }
+                                       { quads_localize_data.is_amp_enable && post_meta.enabled_on_amp == true ? <p className="description">{__('On AMP, Ads will be shown only on reload', 'quick-adsense-reloaded') }.</p> : '' }
                             </td>
                         </tr>
                         :null}
@@ -445,7 +445,7 @@ class QuadsAdTargeting extends Component {
                             <td>
                                 <input id={'specific_time_interval_sec'}
                                        name={'specific_time_interval_sec'} type="number"
-                                       value={post_meta.specific_time_interval_sec} onChange={this.props.adFormChangeHandler}  /> milliseconds
+                                       value={post_meta.specific_time_interval_sec} onChange={this.props.adFormChangeHandler}  /> {__('milliseconds', 'quick-adsense-reloaded') }
                             </td>
                         </tr>
                         :null}
@@ -456,7 +456,7 @@ class QuadsAdTargeting extends Component {
                             <td>
                                 <input id={'specific_time_interval_sec'}
                                        name={'specific_time_interval_sec'} type="number"
-                                       value={post_meta.specific_time_interval_sec} onChange={this.props.adFormChangeHandler}  /> milliseconds
+                                       value={post_meta.specific_time_interval_sec} onChange={this.props.adFormChangeHandler}  /> {__('milliseconds', 'quick-adsense-reloaded') }
                             </td>
                         </tr>
                         :null}
@@ -467,7 +467,7 @@ class QuadsAdTargeting extends Component {
                             <td>
                                 <input id={'on_scroll_popup_percentage'}
                                        name={'on_scroll_popup_percentage'} type="number"
-                                       value={post_meta.on_scroll_popup_percentage} onChange={this.props.adFormChangeHandler}  /> percentage
+                                       value={post_meta.on_scroll_popup_percentage} onChange={this.props.adFormChangeHandler}  /> {__('percentage', 'quick-adsense-reloaded') }
                             </td>
                         </tr>
                         :null}

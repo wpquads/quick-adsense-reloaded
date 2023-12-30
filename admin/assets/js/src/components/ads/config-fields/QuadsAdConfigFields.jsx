@@ -24,7 +24,9 @@ class QuadsAdConfigFields extends Component {
     floating_slides_flag :false,
     floating_slides:[{'slide':'#','link':'#'}],
     currentselectedvalue: "",
-    currentselectedlabel : "",              
+    currentselectedlabel : "",
+    height:"",
+    width:"",              
     };       
   }   
   adsToggle = () => {
@@ -105,7 +107,6 @@ class QuadsAdConfigFields extends Component {
 
   selectimages  = (event) => {
       var image_frame;
-
       var self =this;
       if(image_frame){
        image_frame.open();
@@ -124,9 +125,12 @@ class QuadsAdConfigFields extends Component {
                   var id = '';
                   var src = '';
                   var my_index = 0;
+                
                   selection.each(function(attachment) {
+                    console.log(attachment);
                      id = attachment['id'];
                      src = attachment.attributes.sizes.full.url;
+                     self.setState({height:attachment.attributes.height,width:attachment.attributes.width});
                   });
                   self.props.adFormChangeHandler({ target : { name : 'image_src_id' , value : id } });
                   self.props.adFormChangeHandler({ target : { name : 'image_src' , value : src } });                  
@@ -844,12 +848,12 @@ error_outline
                       <div className="quads-banner-width-heigth">
                         <div className="quads-banner-width">
                           <label>{__('Width', 'quick-banner-reloaded')}
-                          <input value={post_meta.banner_ad_width} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_width" name="banner_ad_width" placeholder="300"/> 
+                          <input value={post_meta.banner_ad_width?post_meta.banner_ad_width:this.state.width} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_width" name="banner_ad_width" placeholder="300"/> 
                           </label>
                         </div>
                         <div className="quads-banner-height">
                           <label>{__('Height', 'quick-banner-reloaded')}
-                          <input value={post_meta.banner_ad_height} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_height" name="banner_ad_height" placeholder="300"/>  
+                          <input value={post_meta.banner_ad_height?post_meta.banner_ad_height:this.state.height} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_height" name="banner_ad_height" placeholder="300"/>  
                           </label>
                         </div>
                       </div>
@@ -901,6 +905,9 @@ error_outline
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
                     {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>{__('Enter Ad Anchor link', 'quick-adsense-reloaded')}</div> :''}
+                    <label className="quads-switch quads_url_nofollow">
+                     <input className='add_url_nofollow' id="add_url_nofollow" checked={post_meta.add_url_nofollow} name="add_url_nofollow" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                      <span className="quads-slider"></span></label>  <b>{__('Add rel="NoFollow"', 'quick-adsense-reloaded')}</b>
                      </td></tr>
                     <tr>
                       <td><label className='q_img_ma_lab' htmlFor="parallax_ads_check">{__('Parallax Effect', 'quick-adsense-reloaded')} </label></td>
@@ -948,6 +955,10 @@ error_outline
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
                     {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>{__('Enter Ad Anchor link', 'quick-adsense-reloaded')}</div> :''}
+                    <label className="quads-switch quads_url_nofollow">
+                     <input className='add_url_nofollow' id="add_url_nofollow" checked={post_meta.add_url_nofollow} name="add_url_nofollow" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                            <span className="quads-slider"></span>
+                           </label>  <b>{__('Add rel="NoFollow"', 'quick-adsense-reloaded')}</b>
                      </td></tr>
                      <tr><td>
                     <label>{__('Video Size', 'quick-adsense-reloaded')}</label></td><td>
@@ -1316,6 +1327,10 @@ error_outline
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
                     {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>{__('Enter Ad Anchor link', 'quick-adsense-reloaded')}</div> :''}
+                    <label className="quads-switch quads_url_nofollow">
+                     <input className='add_url_nofollow' id="add_url_nofollow" checked={post_meta.add_url_nofollow} name="add_url_nofollow" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                            <span className="quads-slider"></span>
+                            </label> <b>{__('Add rel="NoFollow"', 'quick-adsense-reloaded')}</b>
                      </td></tr>
                   </tbody>
                 </table>
@@ -1358,6 +1373,10 @@ error_outline
                     <input value={post_meta.image_redirect_url} onChange={this.props.adFormChangeHandler} type="text" id="image_redirect_url" name="image_redirect_url" placeholder="Ad Anchor link" />
                     {(show_form_error && post_meta.image_redirect_url == '') ? <div className="quads_form_msg"><span className="material-icons">
                     error_outline</span>{__('Enter Ad Anchor link', 'quick-adsense-reloaded')}</div> :''}
+                    <label className="quads-switch quads_url_nofollow">
+                     <input className='add_url_nofollow' id="add_url_nofollow" checked={post_meta.add_url_nofollow} name="add_url_nofollow" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                            <span className="quads-slider"></span>
+                           </label>  <b>{__('Add rel="NoFollow"', 'quick-adsense-reloaded')}</b>
                      </td></tr>
                      </>
                      :<><tr>
@@ -1407,6 +1426,9 @@ error_outline
                          <input value={post_meta.loop_add_link} onChange={this.props.adFormChangeHandler} type="text" id="loop_add_link" name="loop_add_link" placeholder="Ad Anchor link" />
                          {(show_form_error && post_meta.loop_add_link == '') ? <div className="quads_form_msg"><span className="material-icons">
                          error_outline</span>{__('Enter Ad Anchor link', 'quick-adsense-reloaded')}</div> :''}
+                         <label className="quads-switch quads_url_nofollow">
+                            <input className='add_url_nofollow' id="add_url_nofollow" checked={post_meta.add_url_nofollow} name="add_url_nofollow" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                            <span className="quads-slider"></span></label> <b>{__('Add rel="NoFollow"', 'quick-adsense-reloaded')}</b>
                           </td></tr>
                        </tbody>
                      </table>
@@ -1624,7 +1646,7 @@ error_outline
                     <div>
                       <div><textarea className="quads-auto-fill-textarea" cols="80" rows="15" onChange={this.props.modalValue} value={this.props.quads_modal_value}/></div>
                       <div>
-Do not enter AdSense page level ads or Auto ads! Learn how to create <a  target="_blank" href="https://wpquads.com/documentation/how-to-find-data-client-id-data-slot-id-for-adsense-integration/"> {__('AdSense ad coded', 'quick-adsense-reloaded')} </a>
+                      {__('Do not enter AdSense page level ads or Auto ads! Learn how to create', 'quick-adsense-reloaded')} <a  target="_blank" href="https://wpquads.com/documentation/how-to-find-data-client-id-data-slot-id-for-adsense-integration/"> {__('AdSense ad coded', 'quick-adsense-reloaded')} </a>
                       <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.props.getAdsenseCode}>{__('Get Code', 'quick-adsense-reloaded')}</a></div>
                     </div>
                   }/>

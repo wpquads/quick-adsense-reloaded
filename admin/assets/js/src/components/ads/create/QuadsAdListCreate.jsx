@@ -69,7 +69,7 @@ class QuadsAdListCreate extends Component {
           const {__} = wp.i18n; 
           return (                                                   
                    <div className="quads-ad-networks">
-                     <div className="quads-close-ad-modal material-icons" onClick={this.ad_modal_hide}><a>close</a></div>
+                     <div className="quads-close-ad-modal material-icons" onClick={this.ad_modal_hide}><a>{__('close', 'quick-adsense-reloaded')}</a></div>
                     <div className="quads-popular-network">
                     <h3>{__('Popular Integration', 'quick-adsense-reloaded')}</h3>
                         <div>

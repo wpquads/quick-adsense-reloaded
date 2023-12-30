@@ -29,6 +29,7 @@ class QuadsAdReport extends Component {
             getallads_data_temp: [],
             getallads_data: [],
             ad_ids_temp: [],
+            ad_id:null,
             report_url:quads_localize_data.get_admin_url+'?page=quads-settings&path=reports',
             report : {
                 adsense_code: '',
@@ -355,10 +356,8 @@ class QuadsAdReport extends Component {
     }
 
     get_data_dates_main_report = (eve) => {
-        let date = ''
         let newdate = ''
         let day_val = ''
-
         let id_ = document.getElementById('view_stats_report').value
         newdate = document.getElementById('report_period').value
         day_val = document.getElementById('report_period').value
@@ -366,6 +365,8 @@ class QuadsAdReport extends Component {
         let to_date = new Date(this.state.cust_todate).toISOString()
         
         var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id_+'&fromdate='+from_date+'&todate='+to_date+'&day='+day_val;
+
+        this.showReportsLoader();
         fetch(url,{
                 method: "post",
             headers: {
@@ -503,11 +504,105 @@ class QuadsAdReport extends Component {
                             render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
                         }
                         get_table.innerHTML = render_data
+                        this.hideReportsLoader();
 
                     }
             }
             } )
 
+    }
+
+    get_report_export_csv = (eve) => {
+        this.showReportsLoader();
+        let csv_data = [];
+        let target_div = document.getElementById("quads_report_table");
+        let target_table = target_div.querySelector('table');
+        let nested_tables = target_table.querySelectorAll('table');
+        let rows = target_table.querySelectorAll('tr');
+        
+        if (nested_tables.length === 0) {
+            for (let i = 0; i < rows.length; i++) {
+                let cols = rows[i].querySelectorAll('td,th');
+                let csvrow = [];
+                for (let j = 0; j < cols.length; j++) {
+                    csvrow.push(cols[j].textContent);
+                }
+                csv_data.push(csvrow.join(","));
+            }
+            csv_data = csv_data.join('\n');
+        } else {
+            let rowise_data = [];
+            let data_csv ="";
+            let arr_length = 0;
+            for (let t = 0; t < nested_tables.length; t++) {
+                let nested_rows = nested_tables[t].querySelectorAll('tr');
+                for (let i = 0; i < nested_rows.length; i++) {
+                    let cols = nested_rows[i].querySelectorAll('td,th');
+                    let csvrow = [];
+                    for (let j = 0; j < cols.length; j++) {
+                        csvrow.push(cols[j].textContent);
+                    }
+                    csv_data.push(csvrow.join(","));
+                }
+                csv_data.push("$$");
+            }
+
+            let csv_data_txt = csv_data.join('|') 
+            rowise_data = csv_data_txt.split("|$$|");
+            let matrix_arr = [];
+            for (let t = 0; t < rowise_data.length; t++) {
+                if(rowise_data[t]){
+                    
+                    let inner_arr = rowise_data[t].replace('$$','').split('|');
+                    arr_length = inner_arr.length;
+                    matrix_arr[t]=inner_arr;
+                }
+                
+            }
+            for(let a=0; a<arr_length;a++){
+            for (let t = 0; t < matrix_arr.length; t++) {
+                    if(matrix_arr[t] && matrix_arr[t][a]){
+                        data_csv +=matrix_arr[t][a]+',';
+                    }
+                }
+                data_csv +='\n';
+            }
+            csv_data = data_csv;
+        }
+        
+        var CSVFile = new Blob([csv_data], { type: "text/csv" });
+        let temp_link = document.createElement('a');
+        temp_link.download = "wpquads_reports.csv";
+        let csvurl = window.URL.createObjectURL(CSVFile);
+        temp_link.href = csvurl;
+        temp_link.style.display = "none";
+        document.body.appendChild(temp_link);
+        temp_link.click();
+        document.body.removeChild(temp_link);
+        this.hideReportsLoader();
+       
+    }
+    showReportsLoader = () => {
+        let qrt = document.getElementById("quads_report_table")
+        let qrtt = document.getElementById("quads_report_table_total")
+        let qrc = document.getElementById("quads_reports_canvas")
+        let qsc = document.getElementById("quads-spinner-container")
+        qrt.style.display = "none";
+        qrtt.style.display = "none";
+        qrc.style.display = "none";
+        qsc.style.display = "grid";
+    }
+    hideReportsLoader = () => {
+        let qrt = document.getElementById("quads_report_table")
+        let qrtt = document.getElementById("quads_report_table_total")
+        let qrc = document.getElementById("quads_reports_canvas")
+        let qsc = document.getElementById("quads-spinner-container")
+        qrc.style.display = "flex";
+        qsc.style.display = "none";
+        setTimeout(() => {
+            qrtt.style.display = "flex";
+            qrt.style.display = "flex";
+            }, "1000");
     }
 
     drawChart = (config) => {
@@ -743,6 +838,18 @@ drawChart(config);
     componentDidMount(){
         this.get_report_status();
         this.getallads(); 
+        const page = queryString.parse(window.location.search); 
+        if(page){
+            if(page.id){
+                this.setState({ad_id:page.id});
+                console.log(page.id);
+            }
+            if(page.path){
+                this.setState({current_page:page.path});
+                console.log(page.path);
+            }
+        }
+
     }
 
     get_report_status = () => {
@@ -865,6 +972,7 @@ drawChart(config);
         let qrt = document.getElementById("quads_report_table")
         let qrtt = document.getElementById("quads_report_table_total")
         let qrc = document.getElementById("quads_reports_canvas")
+        let qsc = document.getElementById("quads-spinner-container")
         if( day_val=='select_duration' || id=='select' ){
             qrt.style.display = "none";
             qrtt.style.display = "none";
@@ -876,7 +984,10 @@ drawChart(config);
         }
        if( day_val!='custom' && day_val!='select_duration' && id!='select' ){
         var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id+'&date='+newdate+'&day='+day_val;
-
+        qrt.style.display = "none";
+        qrtt.style.display = "none";
+        qrc.style.display = "none";
+        qsc.style.display = "grid";
             fetch(url,{
                 method: "post",
             headers: {
@@ -1226,7 +1337,14 @@ drawChart(config);
 
                     }
             }
-            } )
+            qrc.style.display = "flex";
+            qsc.style.display = "none";
+            setTimeout(() => {
+                qrtt.style.display = "flex";
+                qrt.style.display = "flex";
+              }, "1000");
+            
+    } )
         }
         
         if( day_val == 'custom' ){
@@ -1299,7 +1417,7 @@ drawChart(config);
         else{
             this.setState( { custom_period: false } )
         }
-
+     
     }
 
 
@@ -1470,8 +1588,6 @@ drawChart(config);
 
         return (
             <>
-                {this.state.isLoading ? <div className="quads-cover-spin"></div>
-                    : null}
                 { this.state.current_page == 'report' ?
                     <Fragment>
                         <div>
@@ -1481,7 +1597,7 @@ drawChart(config);
                                     <li key={item.id} data-adtype={item.ad_type} id={item.id}><a className="quads-nav-link-reports" onClick={() => this.quads_adsense_report(this.state.adsense_pub_id)} >
                                             {this.getImageByAdType(item.ad_type)}
                                             {item.ad_type=='adsense' ? <div style={{color: "rgb(0, 90, 240)"}}>
-                                            <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>Google Adsense</p>
+                                            <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>{__('Google Adsense','quick-adsense-reloaded')}</p>
                                             <p>{report.adsense_code_view ? 'View Report': 'Connect' }</p></div> : '' }
                                             </a>
                                             {item.ad_type=='adsense' ?
@@ -1510,8 +1626,8 @@ drawChart(config);
                                     <div id="view_report_abtesting" style={{color: "#005af0"}} onClick={ () =>{
                                         this.abtesting_handler()
                                     } }>
-                                    <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>A/B Testing</p>
-                                    <p style={{ margin: "0",padding: "0" }}>View Report</p></div>
+                                    <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>{__('A/B Testing','quick-adsense-reloaded')}</p>
+                                    <p style={{ margin: "0",padding: "0" }}>{__('View Report','quick-adsense-reloaded')}</p></div>
                                     </li>
                                     : '' }
 
@@ -1524,8 +1640,8 @@ drawChart(config);
                                     <div id="view_report_view_stats_report" style={{color: "#005af0"}} onClick={ () =>{
                                         this.view_stats_report_handler()
                                     } }>
-                                    <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>Impression &amp; Clicks</p>
-                                    <p>View Report</p>
+                                    <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>{__('Impression & Clicks','quick-adsense-reloaded')}</p>
+                                    <p>{__('View Report','quick-adsense-reloaded')}</p>
                                     </div>
                                     </li>
 
@@ -1540,8 +1656,8 @@ drawChart(config);
                         <div >
                         <nav aria-label="breadcrumb">
                         <ol className="breadcrumb">
-                            <li className="breadcrumb-item"><a style={{textDecoration: "unset"}} href={this.state.report_url}> Report</a></li>
-                            <li className="breadcrumb-item active" aria-current="page">A/B Testing Report</li>
+                            <li className="breadcrumb-item"><a style={{textDecoration: "unset"}} href={this.state.report_url}> {__('Report','quick-adsense-reloaded')}</a></li>
+                            <li className="breadcrumb-item active" aria-current="page">{__('A/B Testing Report','quick-adsense-reloaded')}</li>
                         </ol>
                     </nav>
                     <div className="quads-report-networks">
@@ -1570,8 +1686,8 @@ drawChart(config);
                         <nav aria-label="breadcrumb">
                         <ol className="breadcrumb">
                         
-                            <li className="breadcrumb-item"><a style={{textDecoration: "unset"}}  href={this.state.report_url}> Report</a></li>
-                            <li className="breadcrumb-item active" aria-current="page">Stats Report</li>
+                            <li className="breadcrumb-item"><a style={{textDecoration: "unset"}}  href={this.state.report_url}>{__('Report','quick-adsense-reloaded')}</a></li>
+                            <li className="breadcrumb-item active" aria-current="page">{__('Stats Report','quick-adsense-reloaded')}</li>
                         </ol>
                     </nav>
                     <div className="quads-report-networks">
@@ -1579,8 +1695,8 @@ drawChart(config);
                     <div className={'quads-select view_statsreport'} onClick={this.adsToggle_list}>
                     
                     <select name="view_stats_report" onChange={this.view_report_stats_form_ChangeHandler_main_report_tab} id={'view_stats_report'} placeholder="Select Ads" >
-                        <option value="select">Select Ad</option>
-                        <option value="all">All Ads</option>
+                        <option value="select">{__('Select Ad', 'quick-adsense-reloaded')}</option>
+                        <option value="all">{__('All Ads', 'quick-adsense-reloaded')}</option>
                         {this.state.getallads_data_temp ? this.state.getallads_data_temp.map( item => (
                             <option key={item.value} value={item.value}>{item.label}</option>
                         ) )
@@ -1588,28 +1704,30 @@ drawChart(config);
                         </select>
                         
                     <select name="report_period" id={'report_period'} onChange={this.view_report_stats_form_ChangeHandler_main_report_tab}>
-                    <option value="select_duration">Select Duration</option>
-                    <option value="today">Today</option>
-                    <option value="yesterday">Yesterday</option>
-                    <option value="last_7_days">Last 7 Days</option>
-                    <option value="this_month">This Month</option>
-                    <option value="last_month">Last Month</option>
-                    <option value={ quads_localize_data_is_pro ? "this_year" : "this_year_free"}>This Year</option>
-                    <option value={ quads_localize_data_is_pro ? "all_time" : "all_time_free"}>All Time</option>
-                    <option value={ quads_localize_data_is_pro ? "custom" : "custom_free"}>Custom</option>
+                    <option value="select_duration">{__('Select Duration', 'quick-adsense-reloaded')}</option>
+                    <option value="today">{__('Today', 'quick-adsense-reloaded')}</option>
+                    <option value="yesterday">{__('Yesterday', 'quick-adsense-reloaded')}</option>
+                    <option value="last_7_days">{__('Last 7 Days', 'quick-adsense-reloaded')}</option>
+                    <option value="this_month">{__('This Month', 'quick-adsense-reloaded')}</option>
+                    <option value="last_month">{__('Last Month', 'quick-adsense-reloaded')}</option>
+                    <option value={ quads_localize_data_is_pro ? "this_year" : "this_year_free"}>{__('This Year', 'quick-adsense-reloaded')}</option>
+                    <option value={ quads_localize_data_is_pro ? "all_time" : "all_time_free"}>{__('All Time', 'quick-adsense-reloaded')}</option>
+                    <option value={ quads_localize_data_is_pro ? "custom" : "custom_free"}>{__('Custom', 'quick-adsense-reloaded')}</option>
                 </select>
-                <button id="ajaxSubmitButton" style={{display:'none'}} onClick={this.view_report_stats_form_ChangeHandler_main_report_tab}>Submit</button>
+                <button id="ajaxSubmitButton" style={{display:'none'}} onClick={this.view_report_stats_form_ChangeHandler_main_report_tab}>{__('Submit', 'quick-adsense-reloaded')}</button>
                 { this.state.custom_period == true  ? <>
-                    <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_fromdate_main_report} />
-                    <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy" onChange={this.view_report_todate_main_report} />
-                    <button className="show_btn" onClick={this.get_data_dates_main_report}>Show data</button>
-                </> : '' 
+                    <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText={__('Start Date', 'quick-adsense-reloaded')} dateFormat="dd/MM/yyyy" onChange={this.view_report_fromdate_main_report} />
+                    <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText={__('End Date', 'quick-adsense-reloaded')} dateFormat="dd/MM/yyyy" onChange={this.view_report_todate_main_report} />
+                    <button className="show_btn" onClick={this.get_data_dates_main_report}>{__('Show data','quick-adsense-reloaded')}</button>
+                </> : <button className="show_btn" onClick={this.view_report_stats_form_ChangeHandler_main_report_tab}>{__('Refresh','quick-adsense-reloaded')}</button>
 
                 }
+                {quads_localize_data.is_pro?<button className="export_btn show_btn" onClick={this.get_report_export_csv}>{__('Export Report','quick-adsense-reloaded')}</button>:null}
                     </div>
                     </div>
                     <div id='quads_reports_pro_notify_main' className='quads_reports_pro_notify_main' style={{marginTop: "20px"}}  ></div>
-                    <div id='quads_reports_canvas' className='report_single' ></div>
+                    <div id={'quads-spinner-container'}>  <div className={'quads-loading-spinner'}></div></div>
+                    <div id='quads_reports_canvas' className='report_single' ></div> 
                     <div id={'quads_report_table'}></div>
                     <div id={'quads_report_table_total'}
                     style={{ display:'none'}} >
@@ -1625,7 +1743,7 @@ drawChart(config);
                             <nav aria-label="breadcrumb">
                                 <ol className="breadcrumb">
                                     <li className="breadcrumb-item" onClick={() => this.change_page('report') }><a style={{textDecoration: "unset"}} href={this.state.report_url}>Report</a></li>
-                                    <li className="breadcrumb-item active" aria-current="page">Adsense Report</li>
+                                    <li className="breadcrumb-item active" aria-current="page">{__('Adsense Report','quick-adsense-reloaded')}</li>
                                 </ol>
                             </nav>
                             <div className="quads-report-networks">
@@ -1633,55 +1751,55 @@ drawChart(config);
                                 <div className={'quads-select-menu'} >
                                     <input type={'hidden'} id={'pub_id'} value={this.state.adsense_pub_id} />
                                     <select  name="report_type" id={'report_type'} onChange={this.report_formChangeHandler} >
-                                        <option value="">Select Report</option>
-                                        <option value="earning">Earnings</option>
-                                        <option value="earning_forcast">Earnings Forcast</option>
-                                        <option value="top_device_type">Top Earning Device type</option>
+                                        <option value="">{__('Select Report','quick-adsense-reloaded')}</option>
+                                        <option value="earning">{__('Earnings','quick-adsense-reloaded')}</option>
+                                        <option value="earning_forcast">{__('Earnings Forcast','quick-adsense-reloaded')}</option>
+                                        <option value="top_device_type">{__('Top Earning Device type','quick-adsense-reloaded')}</option>
                                     </select>
                                     {this.state.report.report_type != 'earning_forcast' ?
                                         <>
                                             <select style={{marginTop: "20px"}} name="report_period" id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
-                                                <option value="">Select Duration</option>
-                                                <option value="last_7_days">Last 7 days</option>
-                                                <option value="last_15_days">Last 15 days</option>
-                                                <option value="last_30_days">Last 30 days</option>
-                                                <option value="last_6_months">Last 6 months</option>
-                                                <option value="last_1_year">Last 1 year</option>
-                                                <option value="all_time">All Time</option>
-                                                <option value="custom">Custom</option>
+                                                <option value="">{__('Select Duration','quick-adsense-reloaded')}</option>
+                                                <option value="last_7_days">{__('Last 7 days','quick-adsense-reloaded')}</option>
+                                                <option value="last_15_days">{__('Last 15 days','quick-adsense-reloaded')}</option>
+                                                <option value="last_30_days">{__('Last 30 days','quick-adsense-reloaded')}</option>
+                                                <option value="last_6_months">{__('Last 6 months','quick-adsense-reloaded')}</option>
+                                                <option value="last_1_year">{__('Last 1 year','quick-adsense-reloaded')}</option>
+                                                <option value="all_time">{__('All Time','quick-adsense-reloaded')}</option>
+                                                <option value="custom">{__('Custom','quick-adsense-reloaded')}</option>
                                             </select>
                                             {report.report_period == 'custom' ?[(
                                                 quads_localize_data_is_pro ?
                                                     <>
-                                                        <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
-                                                        <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_todate:date})} />
+                                                        <DatePicker maxDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText={__('Start Date', 'quick-adsense-reloaded')}  dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
+                                                        <DatePicker maxDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText={__('End Date', 'quick-adsense-reloaded')}  dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_todate:date})} />
                                                     </>
                                                     :  null
                                             )] : null}
                                         </>
                                         : [(
                                             quads_localize_data_is_pro ?
-                                                <div>  revenue prediction based on<select name="report_period" style={{marginTop: "20px"}} id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
-                                                    <option value="">Select Duration</option>
-                                                    <option value="last_7_days">Last 7 days</option>
-                                                    <option value="last_15_days">Last 15 days</option>
-                                                    <option value="last_30_days">Last 30 days</option>
-                                                    <option value="last_6_months">Last 6 months</option>
-                                                    <option value="last_1_year">Last 1 year</option>
-                                                    <option value="all_time">All Time</option>
-                                                    <option value="custom">Custom</option>
+                                                <div>  {__('revenue prediction based on','quick-adsense-reloaded')}<select name="report_period" style={{marginTop: "20px"}} id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
+                                                    <option value="">{__('Select Duration','quick-adsense-reloaded')}</option>
+                                                <option value="last_7_days">{__('Last 7 days','quick-adsense-reloaded')}</option>
+                                                <option value="last_15_days">{__('Last 15 days','quick-adsense-reloaded')}</option>
+                                                <option value="last_30_days">{__('Last 30 days','quick-adsense-reloaded')}</option>
+                                                <option value="last_6_months">{__('Last 6 months','quick-adsense-reloaded')}</option>
+                                                <option value="last_1_year">{__('Last 1 year','quick-adsense-reloaded')}</option>
+                                                <option value="all_time">{__('All Time','quick-adsense-reloaded')}</option>
+                                                <option value="custom">{__('Custom','quick-adsense-reloaded')}</option>
                                                 </select> {report.report_period == 'custom' ?
                                                     <>
-                                                        <DatePicker  minDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
-                                                        <DatePicker minDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText="End Date" dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_todate:date})} />
+                                                        <DatePicker  minDate={(new Date())} selected={this.state.cust_fromdate} id={"cust_fromdate"} placeholderText={__('Start Date', 'quick-adsense-reloaded')} dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_fromdate:date})} />
+                                                        <DatePicker minDate={(new Date())} selected={this.state.cust_todate} id={"cust_todate"} placeholderText={__('End Date', 'quick-adsense-reloaded')}  dateFormat="dd/MM/yyyy"  onChange={date => this.setState({cust_todate:date})} />
                                                     </>
                                                     : null} for
                                                     <select name="input_based" id={'input_based'} onChange={this.report_formChangeHandler}>
-                                                        <option value="next_7days">Next 7days</option>
-                                                        <option value="next_15days">Next 15days</option>
-                                                        <option value="next_30days">Next 30days</option>
-                                                        <option value="next_6months">Next 6months</option>
-                                                        <option value="next_1year">Next 1year</option>
+                                                    <option value="last_7_days">{__('Last 7 days','quick-adsense-reloaded')}</option>
+                                                <option value="last_15_days">{__('Last 15 days','quick-adsense-reloaded')}</option>
+                                                <option value="last_30_days">{__('Last 30 days','quick-adsense-reloaded')}</option>
+                                                <option value="last_6_months">{__('Last 6 months','quick-adsense-reloaded')}</option>
+                                                <option value="last_1_year">{__('Last 1 year','quick-adsense-reloaded')}</option>
                                                     </select>
                                                 </div>
                                                 : null
@@ -1690,23 +1808,23 @@ drawChart(config);
                                 <div >
                                     {this.state.report.report_type != 'top_device_type' && report.report_period !='' && report.report_period != '' ?
                                         <select name="report_view_type" id={'report_view_type'}>
-                                            <option value="">View Type</option>
-                                            <option value="day">Day</option>
-                                            <option value="week">Week</option>
-                                            <option value="month">Month</option>
-                                            <option value="year">year</option>
+                                            <option value="">{__('View Type','quick-adsense-reloaded')}</option>
+                                            <option value="day">{__('Day','quick-adsense-reloaded')}</option>
+                                            <option value="week">{__('Week','quick-adsense-reloaded')}</option>
+                                            <option value="month">{__('Month','quick-adsense-reloaded')}</option>
+                                            <option value="year">{__('year','quick-adsense-reloaded')}</option>
                                         </select>
                                         :null}
 
 
                                     {!quads_localize_data_is_pro && this.state.report.report_type != 'earning'?
                                         <div id='quads_reports_canvas' className={'canvas_get_pro'}>
-                                            <h5> Please select Report type and Duration</h5>
-                                            <div id={'quads_get_pro'}>This feature is available in PRO version <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a>
+                                            <h5> {__('Please select Report type and Duration','quick-adsense-reloaded')}</h5>
+                                            <div id={'quads_get_pro'}>{__('This feature is available in PRO version','quick-adsense-reloaded')} <a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">{__('Unlock this feature','quick-adsense-reloaded')} </a>
                                             </div>
                                         </div>
                                         :<div id='quads_reports_canvas'>
-                                            <h5> Please select Report type and Duration</h5>
+                                            <h5> {__('Please select Report type and Duration','quick-adsense-reloaded')}</h5>
                                         </div>}
                                     <div id={'quads_report_table'}></div>
                                 </div>

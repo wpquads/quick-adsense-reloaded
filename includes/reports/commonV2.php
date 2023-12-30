@@ -429,6 +429,8 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	}
 	$todays_date = date("Y-m-d");
 	$individual_ad_dates = '';
+	$get_desk_impr_specific_dates =[];
+	$get_mob_impr_specific_dates =[];
 	$array_top5=array();
 	
 		if( $day == "last_7_days" ){

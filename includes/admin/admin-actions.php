@@ -42,80 +42,13 @@ function quads_close_upgrade_notice() {
 
 add_action('quads_close_upgrade_notice', 'quads_close_upgrade_notice');
 
-/**
- * Close vi welcome notice and do not show again
- */
-function quads_close_vi_welcome_notice() {
-    update_option('quads_close_vi_welcome_notice', 'yes');
-}
 
-add_action('quads_close_vi_welcome_notice', 'quads_close_vi_welcome_notice');
-
-/**
- * Close vi ads txt notice and do not show again
- */
-function quads_close_quads_vi_ads_txt_notice() {
-    
-    delete_transient('quads_vi_ads_txt_notice');
-}
-add_action('quads_close_quads_vi_ads_txt_notice', 'quads_close_quads_vi_ads_txt_notice');
-
-
-/**
- * Close vi update notice and show it one week later again
- */
-function quads_show_vi_notice_later() {
-    $nextweek = time() + (7 * 24 * 60 * 60);
-    $human_date = date('Y-m-d h:i:s', $nextweek);
-    update_option('quads_show_vi_notice_later', $human_date);
-    update_option('quads_close_vi_notice', 'yes');
-}
-
-add_action('quads_show_vi_notice_later', 'quads_show_vi_notice_later');
 
 /**
  * Save vi token
  */
 function quads_save_vi_token() {
-    global $quads_options;
-
-    $vi_token = '';
-    if(isset($_POST['token'])){
-        $vi_token = sanitize_text_field($_POST['token']);
-    }
-    if (empty($vi_token)) {
-        echo json_encode(array("status" => "failed"));
-        wp_die();
-    }
-
-    // Save token before trying to create ads.txt
-    update_option('quads_vi_token', $vi_token);
-
-    if (!isset($quads_options['adsTxtEnabled'])) {
-        set_transient('quads_vi_ads_txt_disabled', true, 300);
-        delete_transient('quads_vi_ads_txt_error');
-        delete_transient('quads_vi_ads_txt_notice');
-        echo json_encode(array("status" => "success", "token" => $vi_token, "adsTxt" => 'disabled'));
-        wp_die();
-    }
-
-    $vi = new wpquads\vi();
-
-    if ($vi->createAdsTxt()) {
-        set_transient('quads_vi_ads_txt_notice', true, 300);
-        delete_transient('quads_vi_ads_txt_error');
-    } else {
-        set_transient('quads_vi_ads_txt_error', true, 300);
-        delete_transient('quads_vi_ads_txt_notice');
-    }
-
-
-    // Create AdSense ads.txt entries
-    $adsense = new \wpquads\adsense($quads_options);
-    $adsense->writeAdsTxt();
-
-    //sleep(5);
-    echo json_encode(array("status" => "success", "token" => $vi_token));
+    echo json_encode(array("status" => "success", "token" => ''));
     wp_die();
 }
 
@@ -131,30 +64,6 @@ function quads_id_delete(){
     exit;
 }
 
-/**
- * Save vi ad settings and create ad code
- */
-function quads_save_vi_ads() {
-    global $quads;
-    check_ajax_referer( 'quads_ajax_nonce', 'nonce' );
-    if( ! current_user_can( 'manage_options' ) ) { return; }
-    $return = $quads->vi->setAdCode();
-
-    if ($return) {
-        wp_die($return);
-    } else {
-        wp_die(array('status' => 'error', 'message' => 'Unknown API Error. Can not get vi ad code'));
-    }
-}
-add_action('wp_ajax_quads_save_vi_ads', 'quads_save_vi_ads');
-
-/**
- * Logout of vi
- */
-function quads_logout_vi() {
-    delete_option('quads_vi_token');
-}
-add_action('quads_logout_vi', 'quads_logout_vi');
 
 /**
  * Hide ads txt error notice

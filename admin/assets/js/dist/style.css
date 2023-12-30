@@ -403,6 +403,9 @@ and open the template in the editor.
   text-decoration: none;
   font-size: 14px;
   float: right; }
+
+.quads_url_nofollow {
+  margin-left: 10px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -3323,6 +3326,33 @@ tr.top5_ads_click {
 .main_td {
   padding: 0 !important;
   border: 0 !important; }
+
+@keyframes quads-spinner {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
+
+.quads-loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #1873e8;
+  /* Blue */
+  border-top: 4px solid #ffffff;
+  /* White */
+  border-radius: 50%;
+  animation: quads-spinner 1.5s linear infinite; }
+
+#quads-spinner-container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 350px; }
+
+.export_btn {
+  margin-left: 2px;
+  background-color: #005af0;
+  color: #ffffff; }
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle, .react-datepicker-popper[data-placement^="top"] .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow,
 .react-datepicker__month-year-read-view--down-arrow {

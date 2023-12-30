@@ -1,96 +1,32 @@
-# Copyright (C) 2014 
-# This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version:  \n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/quadssharer\n"
-"POT-Creation-Date: 2014-10-27 14:22:51+00:00\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2014-10-27 14:22:51+00:00\n"
 "PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 
-#: includes/admin/add-ons.php:27
-msgid "Add Ons for Quick AdSense Reloaded"
-msgstr ""
-
-#: includes/admin/add-ons.php:28
-msgid "Visit Website"
-msgstr ""
-
-#: includes/admin/add-ons.php:28
-msgid "See Details"
-msgstr ""
-
-#: includes/admin/add-ons.php:30
-msgid "These add-ons extend the functionality of Quick AdSense Reloaded."
-msgstr ""
-
-#: includes/admin/add-ons.php:54
-msgid ""
-"There was an error retrieving the Quick AdSense Reloaded addon list from the server. "
-"Please try again later."
-msgstr ""
-
-#: includes/admin/admin-footer.php:27
-msgid ""
-"Thank you for using <a href=\"%1$s\" target=\"_blank\">Quick AdSense Reloaded</a>! Please "
-"<a href=\"%2$s\" target=\"_blank\">rate us</a> on <a href=\"%2$s\" target="
-"\"_blank\">WordPress.org</a> and help to support this project."
-msgstr ""
-
-#: includes/admin/admin-notices.php:46
-msgid ""
-"There seems to be an issue with the server. Please try again in a few "
-"minutes."
-msgstr ""
-
-#: includes/admin/admin-pages.php:33
-msgid "Quick AdSense Reloaded"
-msgstr ""
-
-#: includes/admin/admin-pages.php:34
-msgid "Quick AdSense Reloaded Settings"
-msgstr ""
-
-#: includes/admin/admin-pages.php:34
+#: includes/admin/admin-pages.php:68
+#: includes/admin/admin-pages.php:72
+#: admin/assets/js/dist/adminscript.js:1
 msgid "Settings"
-msgstr ""
-
-#: includes/admin/admin-pages.php:35
-msgid "Quick AdSense Reloaded Add Ons"
-msgstr ""
-
-#: includes/admin/admin-pages.php:35 includes/admin/plugins.php:51
-msgid "Add Ons"
 msgstr ""
 
 #: includes/admin/plugins.php:27
 msgid "General Settings"
 msgstr ""
 
-#: includes/admin/plugins.php:50
-msgid "Getting Started"
-msgstr ""
-
 #: includes/admin/settings/contextual-help.php:29
 msgid "For more information:"
 msgstr ""
 
-#: includes/admin/settings/contextual-help.php:30
-msgid "Visit the <a href=\"%s\">documentation</a> on the quadsare website."
-msgstr ""
-
-#: includes/admin/settings/contextual-help.php:32
-msgid ""
-"<a href=\"%s\">Post an issue</a> on <a href=\"%s\">quadsare</a>. View <a href="
-"\"%s\">extensions</a>."
-msgstr ""
-
 #: includes/admin/settings/contextual-help.php:41
-#: includes/admin/settings/register-settings.php:498
+#: includes/admin/settings/register-settings.php:694
 msgid "General"
 msgstr ""
 
@@ -98,392 +34,901 @@ msgstr ""
 msgid "This screen provides the most basic settings for configuring Quick AdSense Reloaded."
 msgstr ""
 
-#: includes/admin/settings/display-settings.php:32
-msgid "Welcome to Quick AdSense Reloaded "
-msgstr ""
-
-#: includes/admin/settings/display-settings.php:34
-msgid "Thank you for updating to the latest version!"
-msgstr ""
-
-#: includes/admin/settings/display-settings.php:36
-msgid "Quick AdSense Reloaded is ready to increase your Shares!"
-msgstr ""
-
-#: includes/admin/settings/display-settings.php:37
-msgid ""
-"php_curl is not working on your server. </span><a href=\"http://us."
-"informatiweb.net/programmation/32--enable-curl-extension-of-php-on-windows."
-"html\" target=\"_blank\">Please enable it.</a>"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:130
-msgid "Cache expire"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:131
-msgid ""
-"The amount of shares are updated after time of \"cache expire\". Notice that "
-"Sharedcount.com uses his own cache (30 - 60min) so it does not update "
-"immediately when expire time is very low, e.g. 5 minutes."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:137
-msgid "API Key - Important"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:138
-msgid ""
-"Get it FREE at <a href=\"https://admin.sharedcount.com/admin/signup.php\" "
-"target=\"_blank\">SharedCount.com</a> for 10.000 free daily requests. It´s "
-"essential for accurate function of this plugin. Make sure Curl is working on "
-"your server."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:144
-msgid "Disable Sharecount"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:145
-msgid ""
-"Use this when you can not enable curl_exec and share counts stays zero on "
-"your site. In this mode the plugin do not calls the database and no SQL "
-"queries are done. (Gives just a very little performance boost because all "
-"database requests are cached in any case.)"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:150
-msgid "Hide Sharecount"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:151
-msgid ""
-"Optional: If you fill in any number here, the shares for a specific post are "
-"not shown until the share count of this number is reached."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:157
-msgid "Exclude from"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:158
-msgid ""
-"Exclude share buttons from a list of specific posts and pages. Put in the "
-"page id seperated by a comma, e.g. 23, 63, 114 "
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:164
-msgid "Execution Order"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:165
-msgid ""
-"If you use other content plugins you can define here the execution order. "
-"Lower numbers mean earlier execution. E.g. Say \"0\" and Quick AdSense Reloaded is "
-"executed before any other plugin (When the other plugin is not overwriting "
-"our execution order). Default is \"1000\""
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:172
-msgid "Disable Transient Cache"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:178
-msgid "Delete DB Cache"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:184
+#: includes/admin/settings/register-settings.php:426
 msgid "Debug mode"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:185
-msgid ""
-"<strong>Note: </strong> Check this box this before you get in contact with "
-"our support team. This allows us to check publically hidden debug messages "
-"on your website. Do not forget to disable it thereafter!"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:190
-msgid "Fake Share counts"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:191
-msgid ""
-"This number will be aggregated to all your share counts multiplied with a "
-"post specific factor based on title word count divided 10."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:197
-msgid "Remove Data on Uninstall?"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:198
-msgid ""
-"Check this box if you would like Quick AdSense Reloaded to completely remove all of its "
-"data when the plugin is deleted."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:207
-msgid "Position"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:208
-msgid ""
-"Choose where you would like the social icons to appear, before or after the "
-"main content. If set to Manual, you can use this code to place your Social "
-"links anywhere you like in your templates files: <strong>&lt;?php do_action"
-"(\"quadsshare\"); ?&gt;</strong> or use the shortcode: [quadsshare] in your "
-"posts. Optional: <strong>[quadsshare shares=\"off\"]</strong> if you like to "
-"disable the share number."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:211
-msgid "Top"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:212
-msgid "Bottom"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:213
-msgid "Top and Bottom"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:214
-msgid "Manual"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:220
+#: includes/admin/settings/register-settings.php:236
 msgid "Post Types"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:221
-msgid ""
-"Select on which post_types the share buttons appear. This values will be "
-"ignored when position is specified \"manual\"."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:226
-msgid "Frontpage"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:227
-msgid "Enable share buttons on frontpage"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:232
-msgid "Round Shares"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:233
-msgid "Share counts more than 1000 are shown as 1k. More than 1 Million as 1M"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:238
-msgid "Animate Shares"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:239
-msgid ""
-"Count up the shares on page loading with a nice looking and fast jQuery "
-"animation. This only works on singular pages and not with shortcodes "
-"generated buttons."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:244
-msgid "Twitter Handle"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:245
-msgid ""
-"Optional: Using your twitter username, e.g. 'Quick AdSense Reloaded' results in via "
-"@Quick AdSense Reloaded"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:251
-msgid "Share color"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:252
-msgid "Choose color of the share number in hex format, e.g. #7FC04C: "
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:259
-msgid "Border Radius"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:260
-msgid ""
-"Specify the border radius of all buttons in pixel. A border radius of 20px "
-"results in circle buttons. Default value is zero."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:291
-msgid "Style"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:292
-msgid ""
-"Load another style to change visual appearance of the share buttons. <br>if "
-"you created a custom style and you want to make it available for the "
-"community here, <a href=\"https://www.quadsshare.net/contact-support/\" "
-"target=\"_blank\"> get in contact with me.</a>"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:304
-msgid "Subscribe behavior"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:305
-msgid ""
-"Specify behavior of the subscribe button and decide if you like to link the "
-"button directly to any content or to have a toggled content slider below the "
-"button."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:316
-msgid "Subscribe Link"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:317
-msgid "The link to any place on your site, e.g. http://yoursite.com/subscribe"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:324
-msgid "Subscribe content"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:325
-msgid ""
-"Define your subscribe content here. Forms, like button, links or any other "
-"text. Shortcodes are also supported, e.g.: [contact-form-7]"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:332
-msgid "Custom CSS"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:333
-msgid "Put in some custom styles here"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:344
-msgid "Large Buttons"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:345
-msgid ""
-"Specify how many services and social networks are visible before the \"Plus"
-"\" Button is shown. This buttons turn into large prominent buttons."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:351
-msgid "Services"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:352
-msgid ""
-"Drag and drop the Share Buttons to sort them and specify which ones should "
-"be enabled. If you enable more services than the specified value \"Large "
-"Buttons\", the plus sign is automatically added to the last visible big "
-"share button.<br><strong>No Share Services visible after update?</strong> "
-"Disable and enable the Quick AdSense Reloaded Plugin solves this. "
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:368
-#: includes/admin/settings/register-settings.php:515
-msgid "Add-Ons"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:369
-msgid "All Quick AdSense Reloaded Add-Ons at a glance"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:441
+#: includes/admin/settings/register-settings.php:650
 msgid "Settings updated."
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:501
+#: includes/admin/settings/register-settings.php:697
 msgid "Visual"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:505
-#: includes/admin/settings/register-settings.php:1042
-msgid "Social Networks"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:509
-msgid "Extensions"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:513
+#: includes/admin/settings/register-settings.php:710
+#: admin/assets/js/dist/adminscript.js:1
 msgid "Licenses"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:807
-msgid ""
-"The callback function used for the <strong>%s</strong> setting is missing."
+#: includes/admin/settings/register-settings.php:1004
+msgid "The callback function used for the <strong>%s</strong> setting is missing."
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:938
+#: includes/admin/settings/register-settings.php:1145
 msgid "Upload File"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:994
+#: includes/admin/settings/register-settings.php:1401
+#: admin/assets/js/dist/adminscript.js:1
 msgid "Deactivate License"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:1043
-msgid "Enable"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:1044
-msgid "Custom name"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:1097
+#: includes/admin/settings/register-settings.php:1483
 msgid "Select Image"
 msgstr ""
 
-#: includes/admin/settings/register-settings.php:1170
-msgid "All Services"
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:1187
-msgid ""
-"DB cache deleted. Do not forget to uncheck this box for performance increase."
-msgstr ""
-
-#: includes/admin/settings/register-settings.php:1200
+#: includes/admin/settings/register-settings.php:1569
 msgid "Transient Cache disabled! Enable it for performance increase."
 msgstr ""
 
-#: includes/class-quads-html-elements.php:43
-msgctxt "all dropdown items"
-msgid "All"
-msgstr ""
-
-#: includes/class-quads-html-elements.php:44
-msgctxt "no dropdown items"
-msgid "None"
-msgstr ""
-
-#: includes/class-quads-html-elements.php:232
-msgid "Enter username"
-msgstr ""
-
-#: includes/class-quads-license-handler.php:133
+#: includes/class-quads-license-handler.php:251
 msgid "%1$s License Key"
 msgstr ""
 
-#: includes/template-functions.php:210
-msgid "Subscribe"
+#. Plugin Name of the plugin
+msgid "AdSense Integration WP QUADS"
 msgstr ""
 
-#: includes/template-functions.php:393 includes/template-functions.php:448
-msgid "SHARES"
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://wordpress.org/plugins/quick-adsense-reloaded/"
 msgstr ""
 
-#: quadsshare.php:99 quadsshare.php:111
-msgid "Cheatin&#8217; huh?"
+#. Description of the plugin
+msgid "Insert Google AdSense and other ad formats fully automatic into your website"
+msgstr ""
+
+#. Author of the plugin
+msgid "WP Quads"
+msgstr ""
+
+#: admin/includes/rest-api-service.php:448
+#: includes/class-quads-license-handler.php:355
+msgid "Settings has been saved successfully"
+msgstr ""
+
+#: admin/includes/rest-api.php:1932
+#: includes/admin/tools.php:221
+msgid "Please upload a valid .json file"
+msgstr ""
+
+#: admin/includes/rest-api.php:1937
+#: includes/admin/tools.php:227
+msgid "Please upload a file to import"
+msgstr ""
+
+#: admin/includes/rest-api.php:1942
+msgid "file uploaded successfully"
+msgstr ""
+
+#: admin/includes/rest-api.php:1957
+msgid "Settings has been saved successfullycv"
+msgstr ""
+
+#: admin/includes/rest-api.php:1960
+#: admin/includes/rest-api.php:1965
+msgid "Settings has been saved successfullyvf"
+msgstr ""
+
+#: admin/includes/widget.php:28
+msgid "WP QUADS ADS"
+msgstr ""
+
+#: admin/includes/widget.php:29
+msgid "Widget to display Ads"
+msgstr ""
+
+#: admin/includes/widget.php:92
+msgid "Ad title or group title"
+msgstr ""
+
+#: admin/includes/widget.php:93
+msgid "ads list to be display"
+msgstr ""
+
+#: admin/includes/widget.php:95
+msgid "Ads:"
+msgstr ""
+
+#: includes/admin/admin-footer.php:27
+msgid "<strong>Please do us a BIG favor and give us a 5 star rating <a href=\"%1$s\" target=\"_blank\">here</a>. If you have issues, open a <a href=\"%2s\" target=\"_blank\">support ticket</a>, so that we can sort it out. Thank you!</strong>"
+msgstr ""
+
+#: includes/admin/admin-notices.php:55
+#: includes/admin/admin-notices.php:66
+msgid "<strong><p>Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup</strong></p>"
+msgstr ""
+
+#: includes/admin/admin-notices.php:373
+msgid "<strong>Extend the"
+msgstr ""
+
+#: includes/admin/admin-notices.php:396
+#: includes/admin/admin-notices.php:405
+msgid "<strong>WP QUADS "
+msgstr ""
+
+#: includes/admin/admin-notices.php:422
+msgid "You need to update <strong>WP QUADS PRO to version 1.3.6</strong> or higher. Your version of <strong>WP QUADS Pro</strong> is "
+msgstr ""
+
+#: includes/admin/admin-notices.php:447
+msgid "This is a huge update! The data structure of WP QUADS has been modified and improved for better performance and great new features. <br> For the case you'd experience issues, we made a <a href=\"%1s\" target=\"_self\">backup of previous WP QUADS data</a>. So you can <a href=\"%2s\" target=\"_new\">switch back to the previous version</a> anytime. <br><br>Please <a href=\"%3s\" target=\"_new\">open first a support ticket</a> if you experience any issue."
+msgstr ""
+
+#: includes/admin/admin-notices.php:452
+msgid "Close Notice"
+msgstr ""
+
+#: includes/admin/admin-notices.php:630
+msgid "<p>Oh No! <strong>WP Quads Pro</strong> license key is not activated or has been expired. It expires on %s. Renew or activate your license key to make sure that your (AdSense) ads are shown properly with your WordPress, version "
+msgstr ""
+
+#: includes/admin/admin-notices.php:670
+#: includes/admin/admin-notices.php:672
+msgid "Activate the License of <a href=\""
+msgstr ""
+
+#: includes/admin/admin-pages.php:33
+msgid "WP QUADS Settings"
+msgstr ""
+
+#: includes/admin/admin-pages.php:33
+msgid "WPQUADS"
+msgstr ""
+
+#: includes/admin/admin-pages.php:42
+#: includes/admin/settings/register-settings.php:280
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Ads"
+msgstr ""
+
+#: includes/admin/admin-pages.php:75
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Reports"
+msgstr ""
+
+#: includes/admin/admin-pages.php:77
+msgid "Return to Classic view"
+msgstr ""
+
+#: includes/admin/admin-pages.php:82
+msgid "Ad Settings"
+msgstr ""
+
+#: includes/admin/admin-pages.php:84
+msgid "Switch to New Interface"
+msgstr ""
+
+#: includes/admin/admin-pages.php:91
+msgid "Get Add-On"
+msgstr ""
+
+#: includes/admin/plugins.php:39
+msgid "Premium Features"
+msgstr ""
+
+#: includes/admin/plugins.php:39
+msgid "Support"
+msgstr ""
+
+#: includes/admin/settings/contextual-help.php:30
+msgid "Visit the <a href=\"%s\">documentation</a> on the Quick AdSense Reloaded website."
+msgstr ""
+
+#: includes/admin/settings/contextual-help.php:32
+msgid "<a href=\"%s\">Post an issue</a> on <a href=\"%s\">Quick AdSense Reloaded</a>. View <a href=\"%s\">extensions</a>."
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:351
+msgid "<strong>If you like this plugin please do us a BIG favor and give us a 5 star rating <a href=\"%s\" target=\"_blank\">here</a> . If you have issues, open a <a href=\"%2s\" target=\"_blank\">support ticket</a>, so that we can sort it out. Thank you!</strong>"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:355
+msgid "<strong>Ads are not showing? Read the <a href=\"%s\" target=\"_blank\">troubleshooting guide</a> to find out how to resolve it"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:427
+msgid "Tweet"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:435
+msgid "Share"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:454
+msgid "Enter <a ahref=\"https://wpquads.com/docs/how-to-create-and-where-to-get-adsense-code/\" target=\"_blank\">AdSense text & display ad code</a> here"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:455
+msgid "Do not enter <a href=\"https://wpquads.com/docs/integrate-page-level-ads-wordpress/\" target=\"_blank\">AdSense page level ads</a> or <a href=\"https://wpquads.com/introducing-new-adsense-auto-ads/\" target=\"_blank\">Auto ads!</a> <br> <a href=\"https://wpquads.com/docs/how-to-create-and-where-to-get-adsense-code/\" target=\"_blank\">Learn how to create AdSense ad code</a>"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:457
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Get Code"
+msgstr ""
+
+#: includes/admin/settings/display-settings.php:458
+msgid "Close"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:89
+msgid "If you have any query, please write the query in below box or email us at"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:89
+msgid "We will reply to your email address shortly"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:90
+msgid "Message sent successfully, Please wait we will get back to you shortly"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:91
+msgid "Message not sent. please check your network connection"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:100
+msgid "Are you a premium customer ?"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:102
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Select"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:103
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Yes"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:104
+#: admin/assets/js/dist/adminscript.js:1
+msgid "No"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:107
+msgid "Send Message"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:187
+msgid "General & Position"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:193
+msgid "Limit Amount of ads:"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:194
+msgid " ads on a page."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:195
+msgid "<a href=\"%s\" target=\"_blank\">Read here</a> to learn how many AdSense ads are allowed. If you are unsure set the value to unlimited."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:224
+msgid "Position - Default Ads"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:225
+msgid "Assign and activate ads on specific ad places"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:230
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Visibility"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:237
+#: includes/admin/settings/register-settings.php:238
+msgid "Select post types where ads are visible."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:241
+msgid "Select Post Type"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:245
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Hide Ads From Ajax Requests"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:246
+#: admin/assets/js/dist/adminscript.js:1
+msgid "If your site is using ajax based infinite loading it might happen that ads are loaded without any further post content. Disable this here."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:251
+#: includes/admin/settings/register-settings.php:274
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Quicktags"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:257
+msgid "ads.txt - Automatic Creation"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:258
+msgid "Create an ads.txt file"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:259
+msgid "Allow WP QUADS to generate automatically the ads.txt file in root of your website domain. After enabling and saving settings, check if your ads.txt is correct by opening: <a href=\"%1$s\" target=\"_blank\">%1$s</a> <br><a href=\"%2$s\" target=\"_blank\">Read here</a> to learn more about ads.txt"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:268
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Lazy Loading for Adsense"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:281
+msgid "Enter your ads below:</div><ul style=\"margin-top:10px;\"><li style=\"font-weight:600;\">- <i>AdSense</i> for using <span style=\"font-weight:600;\">AdSense Text & display Ads</span>!</li><li style=\"font-weight:600;\">- <i>Plain Text / HTML / JS</i> for all other ads! <br><strong>Caution:</strong> Adding AdSense code into <i>Plain Text</i> option can result in non-displayed ads!</li></ul>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:286
+msgid "<strong>Ads are not showing? Read the <a href=\"%s\" target=\"_blank\">troubleshooting guide</a> to find out how to resolve it."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:288
+msgid "Open All Ads"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:303
+msgid "Widget Ads"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:304
+msgid "After creating your ads here go to <a href=\"%s\" target=\"_self\">Appearance->Widgets</a> and drag the WP QUADS widget into place."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:309
+msgid "Ad widget 1"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:316
+msgid "Ad widget 2"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:323
+msgid "Ad widget 3"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:330
+msgid "Ad widget 4"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:337
+msgid "Ad widget 5"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:344
+msgid "Ad widget 6"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:351
+msgid "Ad widget 7"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:358
+msgid "Ad widget 8"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:365
+msgid "Ad widget 9"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:372
+msgid "Ad widget 10"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:379
+msgid "Plugin Settings"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:385
+msgid "Load Priority"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:387
+msgid "Do not change this until you know what you are doing. Usually the default value 20 is working fine. Changing this value can lead to unexpected results like ads not showing or loaded on wrong order. <strong>Default:</strong> 20"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:394
+msgid "Remove menu button"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:397
+msgid "Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:402
+msgid "Disable AMP script"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:405
+msgid "Disable duplicate AMP ad script integration if your AMP plugin is already loading the script https://cdn.ampproject.org/v0/amp-ad-0.1.js into your site"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:410
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Delete Data on Uninstall?"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:412
+msgid "Check this box if you would like <strong>Settings->WPQUADS</strong> to completely remove all of its data when the plugin is deleted."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:418
+msgid "Hide Shortcode after Deactivate"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:420
+msgid "Check this box if you would like to Hide [quads] shortcode from the content after deactivating the plugin."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:427
+msgid "Check this to not minify JavaScript and CSS files. This makes debugging much easier and is recommended setting for inspecting issues on your site"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:434
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Activate Your License"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:463
+msgid "Get help from our development team"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:469
+msgid "Systeminfo"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:705
+msgid "Add-On Setting"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:715
+#: includes/admin/tools.php:68
+msgid "Import/Export"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:717
+msgid "Help"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1253
+msgid "Your license key expired on %s. Please <a href=\"%s\" target=\"_blank\" title=\"Renew your license key\">renew your license key</a>."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1264
+msgid "Invalid license. Please <a href=\"%s\" target=\"_blank\" title=\"Visit account page\">visit your account page</a> and verify it."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1276
+msgid "Your %s is not active for this URL. Please <a href=\"%s\" target=\"_blank\" title=\"Visit account page\">visit your account page</a> to manage your license key URLs."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1286
+msgid "This is not a %s."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1295
+msgid "Your license key has reached its activation limit. <a href=\"%s\" target=\"_blank\">View possible upgrades</a> now."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1316
+msgid " Your <span class=\"lifetime\">License key is Valid for Lifetime</span> "
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1322
+msgid "Your license key expires soon! It expires on %s. <a class=\"license_expiring\" href=\"%s\" target=\"_blank\" title=\"Renew license\">Renew your license key</a>."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1329
+msgid "Your license key expires on %s."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1362
+msgid "<span class=\"expired_license_main\">Your <span class=\"expired_license\">License key has been Expired.</span></span> <a class=\"lic_is_expired\" href=\"%s\" target=\"_blank\" title=\"Renew license\">Renew Now</a>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1371
+msgid "Your license key has been disabled! <a href=\"%s\" target=\"_blank\" title=\"Renew license\">Renew your license key</a>."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1402
+msgid "Refresh Info"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1582
+msgid "Log file directory not writable! Set FTP permission to 755 or 777 for /wp-content/plugins/quadssharer/logs/"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1597
+#: includes/admin/settings/register-settings.php:1613
+msgid "Random Ads"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1663
+msgid "Homepage "
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1664
+msgid "Categories "
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1665
+msgid "Archives "
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1666
+msgid "Tags"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1667
+msgid "Hide Ad Widgets on Homepage"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1668
+msgid "Hide Ads when user is logged in."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1689
+#: includes/admin/settings/register-settings.php:1695
+#: includes/admin/settings/register-settings.php:1701
+#: includes/admin/settings/register-settings.php:1707
+#: includes/admin/settings/register-settings.php:1713
+#: includes/admin/settings/register-settings.php:1719
+#: includes/admin/settings/register-settings.php:1729
+#: includes/admin/settings/register-settings.php:1739
+#: includes/admin/settings/register-settings.php:1751
+#: includes/api.php:21
+msgid "Assign"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1691
+msgid "to <strong>Beginning of Post</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1697
+msgid "to <strong>Middle of Post</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1703
+msgid "to <strong>End of Post</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1709
+msgid "right after <strong>the <span style=\"font-family:Courier New,Courier,Fixed;\">&lt;!--more--&gt;</span> tag</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1715
+msgid "right before <strong>the last Paragraph</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1721
+#: includes/admin/settings/register-settings.php:1731
+#: includes/admin/settings/register-settings.php:1741
+msgid "<strong>After Paragraph</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1723
+#: includes/admin/settings/register-settings.php:1733
+#: includes/admin/settings/register-settings.php:1743
+#: includes/admin/settings/register-settings.php:1755
+msgid "→"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1725
+#: includes/admin/settings/register-settings.php:1735
+#: includes/admin/settings/register-settings.php:1745
+msgid "to <strong>End of Post</strong> if fewer paragraphs are found."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1753
+msgid "<strong>After Image</strong>"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1757
+msgid "after <b>Image's outer</b><b><span style=\"font-family:Courier New,Courier,Fixed;\"> &lt;div&gt; wp-caption</span></b> if any."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1776
+msgid " Insert Ads into a post, on-the-fly"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1778
+msgid "Insert <span class=\"quads-quote-docs\">&lt;!--Ads1--&gt;</span>, <span class=\"quads-quote-docs\">&lt;!--Ads2--&gt;</span>, etc. into a post to show the <b>Particular Ads</b> at specific location."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1779
+msgid "Insert <span class=\"quads-quote-docs\">&lt;!--RndAds--&gt;</span> into a post to show the <b>Random Ads</b> at specific location"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1783
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Show Quicktag Buttons on the HTML Post Editor"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1784
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Tags can be inserted into a post via the additional Quicktag Buttons at the HTML Edit Post SubPanel."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:1873
+msgid "Add New Ad"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:2017
+#: includes/admin/settings/register-settings.php:2170
+msgid "Install <a href=\"%s\" target=\"_blank\">WP QUADS PRO</a> to fully support AdSense Responsive ads."
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:2044
+#: includes/admin/settings/register-settings.php:2196
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Margin"
+msgstr ""
+
+#: includes/admin/settings/register-settings.php:2202
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Padding"
+msgstr ""
+
+#: includes/admin/tools.php:69
+msgid "System Info"
+msgstr ""
+
+#: includes/admin/tools.php:93
+msgid "Export Settings"
+msgstr ""
+
+#: includes/admin/tools.php:95
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site."
+msgstr ""
+
+#: includes/admin/tools.php:100
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Export"
+msgstr ""
+
+#: includes/admin/tools.php:107
+msgid "Import Settings"
+msgstr ""
+
+#: includes/admin/tools.php:109
+msgid "Import the Quick AdSense Reloaded settings from a .json file. This file can be obtained by exporting the settings on another site using the form above."
+msgstr ""
+
+#: includes/admin/tools.php:117
+#: admin/assets/js/dist/adminscript.js:1
+msgid "Import"
+msgstr ""
+
+#: includes/admin/tools.php:279
+msgid "Backup data from WP QUADS 1.5.2"
+msgstr ""
+
+#: includes/admin/tools.php:504
+msgid "Import from Quick AdSense"
+msgstr ""
+
+#: includes/admin/tools.php:506
+msgid "Import the settings for Quick AdSense Reloaded from Quick AdSense v. 1.9.2."
+msgstr ""
+
+#: includes/admin/tools.php:514
+msgid "Start Import process"
+msgstr ""
+
+#: includes/admin/tools.php:549
+msgid "Most of the settings have been sucessfully imported from Quick AdSense <br> but due to some inconsistencies there are still some options which needs your attention and manual adjusting."
+msgstr ""
+
+#: includes/admin/tools.php:553
+msgid "Most of settings have been already imported successfully! (If not we probably have an unknown issue here)"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:3
+msgid "It is only temporary"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:4
+msgid "I stopped showing ads on my site"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:5
+msgid "I miss a feature"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:7
+msgid "Technical Issue"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:8
+msgid "Can we help? Please describe your problem"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:9
+msgid "I switched to another plugin"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:11
+msgid "Other reason"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:12
+msgid "Please specify, if possible"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:20
+msgid "If you have a moment, please let us know why you are deactivating:"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:31
+msgid "Submit & Deactivate"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:32
+msgid "Only Deactivate"
+msgstr ""
+
+#: includes/admin/views/deactivate-feedback.php:33
+msgid "Don't deactivate"
+msgstr ""
+
+#: includes/class-quads-license-handler.php:284
+msgid "Enter your extension license keys here to receive updates for purchased extensions. If your license key has expired, please <a href=\"%s\" target=\"_blank\" title=\"License renewal FAQ\">renew your license</a>."
+msgstr ""
+
+#: includes/class-quads-license-handler.php:512
+msgid "Nonce verification failed"
+msgstr ""
+
+#: includes/class-quads-license-handler.php:512
+msgid "Error"
+msgstr ""
+
+#: includes/class-quads-license-handler.php:708
+msgid "Enter valid license key for automatic updates."
+msgstr ""
+
+#: includes/frontend-checks.php:49
+msgid "Ad Check"
+msgstr ""
+
+#: includes/frontend-checks.php:56
+msgid "- JavaScript / jQuery error"
+msgstr ""
+
+#: includes/frontend-checks.php:68
+msgid "- Ad blocker enabled"
+msgstr ""
+
+#: includes/frontend-checks.php:80
+msgid "- <em>the_content</em> filter does not exist"
+msgstr ""
+
+#: includes/frontend-checks.php:97
+msgid "- All Ads are disabled on this page"
+msgstr ""
+
+#: includes/frontend-checks.php:110
+msgid "- Default Ads disabled in content of this page"
+msgstr ""
+
+#: includes/frontend-checks.php:123
+msgid "- Current post ID is 0 "
+msgstr ""
+
+#: includes/frontend-checks.php:138
+msgid "Ads are disabled on 404 pages"
+msgstr ""
+
+#: includes/frontend-checks.php:152
+msgid "Ads are disabled on non singular pages"
+msgstr ""
+
+#: includes/frontend-checks.php:166
+msgid "The %s extension(s) is not loaded"
+msgstr ""
+
+#: includes/frontend-checks.php:180
+msgid "WP QUADS is working fine"
+msgstr ""
+
+#: includes/frontend-checks.php:189
+msgid "debug DFP ads"
+msgstr ""
+
+#: includes/frontend-checks.php:200
+msgid "Show Adverts"
+msgstr ""
+
+#: includes/helper-functions.php:69
+msgid "Invalid nonce"
+msgstr ""
+
+#: includes/meta-boxes.php:41
+msgid "WP QUADS - Hide Ads"
+msgstr ""
+
+#: includes/quicktags.php:68
+msgid "Hide all ads on page"
+msgstr ""
+
+#: includes/quicktags.php:69
+msgid "Hide default ads, use manually placed ads"
+msgstr ""
+
+#: includes/quicktags.php:70
+msgid "Hide all ads in sidebar"
+msgstr ""
+
+#: includes/quicktags.php:71
+msgid "Hide ad on beginning"
+msgstr ""
+
+#: includes/quicktags.php:72
+msgid "Hide ad in middle"
+msgstr ""
+
+#: includes/quicktags.php:73
+msgid "Hide ad on end"
+msgstr ""
+
+#: includes/quicktags.php:74
+msgid "Hide ad after MoreTag"
+msgstr ""
+
+#: includes/quicktags.php:75
+msgid "Hide ad before last paragraph"
+msgstr ""
+
+#: includes/render-ad-functions.php:835
+msgid "Learn More"
+msgstr ""
+
+#: includes/reports/common.php:161
+#: includes/reports/commonV2.php:165
+msgid "No token provided. Token data needed to get account details."
+msgstr ""
+
+#: includes/scripts.php:125
+msgid "Get 30+ ad networks to compete for your ad inventory with Google Certified Publishing partner AdPushup."
+msgstr ""
+
+#: includes/scripts.php:214
+msgid "error"
+msgstr ""
+
+#: includes/widgets.php:122
+#: includes/widgets.php:178
+#: includes/widgets.php:223
+#: includes/widgets.php:270
+#: includes/widgets.php:317
+#: includes/widgets.php:363
+#: includes/widgets.php:410
+#: includes/widgets.php:457
+#: includes/widgets.php:504
+#: includes/widgets.php:551
+msgid "Widget contains ad code"
 msgstr ""

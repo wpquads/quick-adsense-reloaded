@@ -47,7 +47,6 @@ class QuadsAdLogging extends Component {
         const page = queryString.parse(window.location.search);
         {page.ad_id ? this.logMainSearchMethod('last_7days',page.ad_id) :this.logMainSearchMethod('last_7days') }
 
-        // this.QuadsRedirectToWizard = this.QuadsRedirectToWizard.bind(this);
     }
      timeConverter = (UNIX_timestamp) => {
         var a = new Date(UNIX_timestamp * 1000);
@@ -55,7 +54,6 @@ class QuadsAdLogging extends Component {
         var year = a.getFullYear();
         var month = months[a.getMonth()];
         var date = a.getDate();
-        //var time = date + '/' + month + '/' + year + ' ' +  a.toLocaleString('en-US', { hour: 'numeric', hour12: true }) ;
         var time = date + '/' + month + '/' + year ;
         return time;
       }
@@ -240,9 +238,9 @@ renderSwitch(param='') {
 
                             <div className={'quads-select-menu'} >
                         <select name="report_period" id={'report_period'} value={report.report_period} onChange={this.report_formChangeHandler}>
-                          <option value="last_7days">Last 7 days</option>
-                          <option value="last_15days">Last 15 days</option>
-                          <option value="last_30days">Last 30 days</option>
+                          <option value="last_7days">{__('Last 7 days', 'quick-adsense-reloaded')}</option>
+                          <option value="last_15days">{__('Last 15 days', 'quick-adsense-reloaded')}</option>
+                          <option value="last_30days">{__('Last 30 days', 'quick-adsense-reloaded')}</option>
                          </select>          
                         </div>
               </div> 
@@ -273,7 +271,7 @@ renderSwitch(param='') {
                  ))} 
                 </tbody>
                
-                </table> : <div> No Data </div> }
+                </table> : <div> {__('No Data', 'quick-adsense-reloaded')}</div> }
                 </div>  
                 <div className="quads-list-pagination">
                 <QuadsAdListPagination ad_list={this.state} triggerPagination={this.QuadsLogPaginateAd} search_text={this.state.search_text} />

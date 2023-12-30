@@ -139,7 +139,7 @@ function quadsShowAdsById(ads_group_id, adbyindex){
             var data_slot ="googletag.defineSlot('"+adbyindex.network_code+"/"+adbyindex.ad_unit_name+"/', ["+width+", "+height+"], 'wp_quads_dfp_"+ads_group_id+"');";
 
             content +='<div id="yandex_rtb_'+adbyindex.block_id+'" ></div>\n' +
-                '                       <script type="text/javascript">\n' +
+                '                       <script>\n' +
                 '    (function(w, d, n, s, t) {\n' +
                 '        w[n] = w[n] || [];\n' +
                 '        w[n].push(function() {\n' +
@@ -164,7 +164,7 @@ function quadsShowAdsById(ads_group_id, adbyindex){
             container.html(content);
             break;
         case "taboola":
-            content +='<script type="text/javascript">window._taboola = window._taboola || [];\n' +
+            content +='<script>window._taboola = window._taboola || [];\n' +
                 '              _taboola.push({article:"auto"});\n' +
                 '              !function (e, f, u) {\n' +
                 '                e.async = 1;\n' +
@@ -189,11 +189,11 @@ function quadsShowAdsById(ads_group_id, adbyindex){
             break;
         case "mediavine":
             content += '<link rel="dns-prefetch" href="//scripts.mediavine.com" />\n' +
-                '                  <script type="text/javascript" async="async" data-noptimize="1" data-cfasync="false" src="//scripts.mediavine.com/tags/'+adbyindex.mediavine_site_id+'.js?ver=5.2.3"></script>';
+                '                  <script async="async" data-noptimize="1" data-cfasync="false" src="//scripts.mediavine.com/tags/'+adbyindex.mediavine_site_id+'.js?ver=5.2.3"></script>';
             container.html(content);
             break;
         case "outbrain":
-            content += '<script type="text/javascript" async="async" src="http://widgets.outbrain.com/outbrain.js "></script>' +
+            content += '<script async="async" src="http://widgets.outbrain.com/outbrain.js "></script>' +
                 '<div class="quads_ad_amp_outbrain" data-widget-id="'+adbyindex.outbrain_widget_ids+'"></div>';
             container.html(content);
             break;

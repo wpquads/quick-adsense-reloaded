@@ -362,7 +362,7 @@ function quads_adblocker_popup_notice(){
         ?>
       </div>
     </div>
-    <style type="text/css">
+    <style>
     .quads-modal {
       display: block; /* Hidden by default */
       position: fixed; /* Stay in place */
@@ -441,7 +441,7 @@ function quads_adblocker_notice_jsondata(){
     $output = '';
     $quads_mode = get_option('quads-mode');
     if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support'] && !empty($settings['notice_type']) || ($quads_mode && $quads_mode == 'old' && isset($settings['ad_blocker_message'])  && $settings['ad_blocker_message'])){
-      $output    .= '<script type="text/javascript">';
+      $output    .= '<script>';
       $output    .= '/* <![CDATA[ */';
       $output    .= 'var quadsOptions =' .
         json_encode(
@@ -489,7 +489,7 @@ function quads_adblocker_notice_bar(){
     <input type="hidden" id="quads_notice_bar" value="<?php echo $notice_bar;?>">
     <input type="hidden" id="quads_notice_bar_sticky" value="<?php echo $notice_bar_sticky;?>">
   </div>
-  <style type="text/css">
+  <style>
     .quads-adblocker-message{
       display: inline-block;
     }
@@ -559,7 +559,7 @@ function quads_adblocker_ad_block(){
     if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support'] && !empty($settings['notice_type']) || ($quads_mode && $quads_mode == 'old' && isset($settings['ad_blocker_message'])  && $settings['ad_blocker_message'])){
 
         ?>
-<script type="text/javascript">
+<script>
 
    if(typeof quadsOptions !== 'undefined' && typeof wpquads_adblocker_check_2 
   === 'undefined' && quadsOptions.quadsChoice == 'ad_blocker_message'){
@@ -1639,6 +1639,97 @@ function quads_filter_default_ads_new( $content ) {
                             }                    
                         }
                         break;
+                        case 'random_ad_placement':
+
+                            if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
+                              $repeat_paragraph = true;
+                              $paragraph_limit  = isset($ads['paragraph_limit']) ? $ads['paragraph_limit'] : '';
+                              $closing_p        = '</p>';
+                              $paragraphs       = array_filter(explode( $closing_p, $content ));
+                              $p_count          = count($paragraphs);
+                              $original_paragraph_no = $paragraph_no; 
+                              $max_p_after = intval($original_paragraph_no/2);
+                              if($max_p_after<=2){
+                                $max_p_after += 2; 
+                              }                                                            
+                              $insert_after     = mt_rand(2,$max_p_after);
+                              if($paragraph_no <= $p_count){
+                                if($ads['ad_type']== 'group_insertion'){
+                                    $p_count =$p_count -1;
+                                    $cusads = '<!--CusGI'.$ads['ad_id'].'-->';
+                                  $next_insert_val = $insert_after;
+                                  $displayed_ad =1;
+                                    foreach ($paragraphs as $index => $paragraph) {
+                                        $addstart = false;
+                                        if ( trim( $paragraph ) ) {
+                                            $paragraphs[$index] .= $closing_p;
+                                        }
+    
+                                        if((!empty($paragraph_limit) && $paragraph_limit < $displayed_ad) || ($index == $p_count )){
+                                            break;
+                                        }
+                                            if($index+1 == $next_insert_val){
+                                                $displayed_ad +=1;
+                                              $next_insert_val = $next_insert_val+$insert_after;
+                                              $addstart = true;
+                                          }
+                                            if($addstart){
+                                                $paragraphs[$index] .= $cusads;
+                                            }
+                                    }
+                                }else if($ads['ad_type']== 'sticky_scroll'){
+                                    $p_count =$p_count -1;
+                                    $cusads = '<!--CusSS'.$ads['ad_id'].'-->';
+                                  $next_insert_val = $insert_after;
+                                  $displayed_ad =1;
+                                    foreach ($paragraphs as $index => $paragraph) {
+                                        $addstart = false;
+                                        if ( trim( $paragraph ) ) {
+                                            $paragraphs[$index] .= $closing_p;
+                                        }
+    
+                                        if((!empty($paragraph_limit) && $paragraph_limit < $displayed_ad) || ($index == $p_count )){
+                                            break;
+                                        }
+                                            if($index+1 == $next_insert_val){
+                                                $displayed_ad +=1;
+                                              $next_insert_val = $next_insert_val+$insert_after;
+                                              $addstart = true;
+                                          }
+                                            if($addstart){
+                                                $paragraphs[$index] .= $cusads;
+                                            }
+                                            if(!$repeat_paragraph)
+                                            {
+                                                break;
+                                            }
+                                    }
+                                }else{
+                                    $next_insert_val = $insert_after;
+                                    $displayed_ad =1;
+                                  foreach ($paragraphs as $index => $paragraph) {
+                                    $addstart = false;
+                                      if ( trim( $paragraph ) ) {
+                                          $paragraphs[$index] .= $closing_p;
+                                      }
+                                      if ( $next_insert_val == $index + 1 ) {
+                                        $displayed_ad +=1;
+                                        $next_insert_val = $next_insert_val+$insert_after;
+                                        $addstart = true;
+                                      }
+                                      if($addstart){
+                                        $paragraphs[$index] .= $cusads;
+                                    }
+                                  }
+                                }
+                                  $content = implode( '', $paragraphs ); 
+                              }else{                        
+                                  if($end_of_post){
+                                      $content = $content.$cusads;   
+                                  }                                
+                              }
+                          }
+                            break;
                 }
 
                 $adsArrayCus[] = $i;   
@@ -3158,13 +3249,14 @@ function quads_del_element($array, $idx) {
                             <div class="progresContentArea">';
                     if(isset($ads['skip_ads_type'])  && $ads['skip_ads_type'] == 'image_banner' ){
 
+                        $add_nofollow = (isset($ads['add_url_nofollow']) && $ads['add_url_nofollow'])?true:false;
                         if(isset($ads['image_redirect_url'])  && !empty($ads['image_redirect_url'])){
                             $html .= '
-                            <a target="_blank" href="'.esc_attr($ads['image_redirect_url']). '" rel="nofollow">
-                            <img class="aligncenter" '.((isset($quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($ads['image_src']). '" > 
+                            <a target="_blank" href="'.esc_attr($ads['image_redirect_url']). '" '.($add_nofollow?'rel=nofollow':'').'>
+                            <img class="aligncenter" '.(quads_is_lazyload_template($quads_options,$ads) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($ads['image_src']). '" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'"> 
                             </a>';
                         }else{
-                            $html .= '<img class="aligncenter" '.((isset($quads_options['delay_ad_sec'] ) && $quads_options['delay_ad_sec'] ) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($ads['image_src']). '" >';
+                            $html .= '<img class="aligncenter" '.(quads_is_lazyload_template($quads_options,$ads) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($ads['image_src']). '" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'">';
                         }
                     }else{
                         $html .= $ads['code'];
@@ -3471,3 +3563,16 @@ function quads_parse_floating_cubes_ads() {
         }
     }
 }
+function quads_is_lazyload_template($options, $ads){
+    if((isset($options['delay_ad_sec'] ) && $options['delay_ad_sec']) || (isset($ads['check_lazy_load'] ) && $ads['check_lazy_load'])){
+        return true;
+    }
+    return false;
+  }
+
+  function quads_lazyload_delay_template($ads){
+    if(isset($ads['check_lazy_load'] ) && isset($ads['check_lazy_load_delay']) && $ads['check_lazy_load_delay'] > 0 ){
+        return (intval($ads['check_lazy_load_delay'])*1000);
+    }
+    return 3000;
+  }
