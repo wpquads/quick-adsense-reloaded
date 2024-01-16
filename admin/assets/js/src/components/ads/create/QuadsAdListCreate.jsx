@@ -75,7 +75,7 @@ class QuadsAdListCreate extends Component {
                         <div>
                         <ul>
                     {this.state.popular_ad_network.map(item => (
-                    <li data-adtype={item.ad_type} onClick={this.QuadsRedirectToWizard} key={item.ad_type}><a className="quads-nav-link">{this.getImageByAdType(item.ad_type)}<div><strong>{item.ad_type_name}</strong></div></a></li>  
+                    <li data-adtype={item.ad_type} onClick={this.QuadsRedirectToWizard} key={item.ad_type}><a className="quads-nav-link">{this.getImageByAdType(item.ad_type)}<div><strong>{__(item.ad_type_name,'quick-adsense-reloaded')}</strong></div></a></li>  
                     ))}
                     </ul>
                         </div>
@@ -84,7 +84,7 @@ class QuadsAdListCreate extends Component {
                     <h3>{__('AD Integrations', 'quick-adsense-reloaded')}</h3>
                     <ul>
                     {this.state.All_ad_network.map(item => (
-                        <li data-adtype={item.ad_type} onClick={this.QuadsRedirectToWizard} key={item.ad_type}><a className="quads-nav-link">{this.getImageByAdType(item.ad_type)}<div><strong>{item.ad_type_name}</strong></div></a></li>  
+                        <li data-adtype={item.ad_type} onClick={this.QuadsRedirectToWizard} key={item.ad_type}><a className="quads-nav-link">{this.getImageByAdType(item.ad_type)}<div><strong>{__(item.ad_type_name,'quick-adsense-reloaded')}</strong></div></a></li>  
                     ))}
                     </ul>
                     </div>

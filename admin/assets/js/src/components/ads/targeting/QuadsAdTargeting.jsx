@@ -603,7 +603,7 @@ class QuadsAdTargeting extends Component {
                 />
                         : ''}
               <div className="quads-btn-navigate">
-                <div className="quads-next"><a onClick={this.props.publish} className="quads-btn quads-btn-primary">{page.action == 'edit' ? 'Update' : 'Publish'}</a></div>
+                <div className="quads-next"><a onClick={this.props.publish} className="quads-btn quads-btn-primary">{__(page.action == 'edit' ? __('Update', 'quick-adsense-reloaded'): __('Publish', 'quick-adsense-reloaded'))}</a></div>
                 <div ><a onClick={this.props.movePrev} className="quads-btn quads-btn-primary">{__('Prev', 'quick-adsense-reloaded')}</a></div>
                 </div>
               </div>

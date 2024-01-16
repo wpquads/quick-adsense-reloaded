@@ -394,11 +394,11 @@ class QuadsAdCreateRouter extends Component {
           this.setState(quads_post_meta);
           this.setState({quads_modal_open: false});
         }else{
-          this.setState({quads_modal_error:__('Can not parse AdSense Code. Is the code valid?','quick-adsence-reloaded')});
+          this.setState({quads_modal_error:__('Can not parse AdSense Code. Is the code valid?','quick-adsense-reloaded')});
           this.setState({quads_modal_open: true});
         }                
       }else{
-        this.setState({quads_modal_error:__('Please provide adsense code','quick-adsence-reloaded')});
+        this.setState({quads_modal_error:__('Please provide adsense code','quick-adsense-reloaded')});
       }                        
     }    
 
@@ -1148,7 +1148,7 @@ class QuadsAdCreateRouter extends Component {
       <div>  
         {this.state.quads_is_loaded ? <div className="quads-cover-spin"></div> : ''}
         <form id="quads-ad-form"> 
-        <div className="material-icons quads-close-create-page"><a onClick={this.quadsGoBack} >{__('close','quick-adsence-reloaded')}</a></div>         
+        <div className="material-icons quads-close-create-page"><a onClick={this.quadsGoBack} >{__('close','quick-adsense-reloaded')}</a></div>         
         <div className="quads-ad-config-header"> 
                 <div className="quads-ad-input">
                   <input value={this.state.quads_post_meta.label} type="text" onChange={this.adFormChangeHandler} name="label"  placeholder={__('Name your ad unit', 'quick-adsense-reloaded') }/>

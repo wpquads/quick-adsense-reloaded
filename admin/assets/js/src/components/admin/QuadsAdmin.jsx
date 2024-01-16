@@ -71,7 +71,7 @@ class QuadsAdmin extends Component {
                         <div className="quads-ad-header">
                           <div className="quads-logo"><img height="42" width="175" src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/quads-v2-logo.png'} /></div>
                           { !quads_localize_data.is_pro ? 
-                            <a className="quads-got_pro premium_features_btn" href={quads_localize_data.get_admin_url+'?page=quads-addons#upgrade_to_premium'} >{__('Upgrade to Premium','quick-adsence-reloaded')}</a>
+                            <a className="quads-got_pro premium_features_btn" href={quads_localize_data.get_admin_url+'?page=quads-addons#upgrade_to_premium'} >{__('Upgrade to Premium','quick-adsense-reloaded')}</a>
                           : ''}   
                          <div>                      
                          
@@ -90,7 +90,7 @@ class QuadsAdmin extends Component {
                         <div className="quads-renew-message-main">
                         <div className="quads-renewal-banner">
                           <div className="quads-renew-message">
-                        <p>{__('Thank you for installing','quick-adsence-reloaded')} <a href="https://wpquads.com/" >WP QUADS PRO</a>, please <Link to={`admin.php?page=quads-settings&path=settings_licenses`} >ACTIVATE</Link> the license key to receive regular updates.</p>
+                        <p>{__('Thank you for installing','quick-adsense-reloaded')} <a href="https://wpquads.com/" >WP QUADS PRO</a>, please <Link to={`admin.php?page=quads-settings&path=settings_licenses`} >ACTIVATE</Link> the license key to receive regular updates.</p>
                         </div>
                         </div>
                         </div>
@@ -101,10 +101,10 @@ class QuadsAdmin extends Component {
                         <div className="quads-renew-message-main">
                         { quads_localize_data.is_pro ? <div className="quads-renewal-banner">
                         <div className="quads-renew-message">
-                        <p>{__('Your WP QUADS PRO license is about to expire in','quick-adsence-reloaded')}  <span className="q-r-m">{quads_localize_data.licenses.price_id} {__('days','quick-adsence-reloaded')}</span>.</p>
+                        <p>{__('Your WP QUADS PRO license is about to expire in','quick-adsense-reloaded')}  <span className="q-r-m">{quads_localize_data.licenses.price_id} {__('days','quick-adsense-reloaded')}</span>.</p>
                         </div>
                         <div className="quads-renew-cta-container">
-                        <a href="https://wpquads.com/your-account/" className="quads-renew-cta" target="_blank" rel="noopener noreferrer">{__('Renew now','quick-adsence-reloaded')}</a>
+                        <a href="https://wpquads.com/your-account/" className="quads-renew-cta" target="_blank" rel="noopener noreferrer">{__('Renew now','quick-adsense-reloaded')}</a>
                         </div>
                         </div>
                           : '' }
@@ -116,10 +116,10 @@ class QuadsAdmin extends Component {
                         { quads_localize_data.is_pro ?
                             <div className="quads-renewal-banner">
                         <div className="quads-renew-message">
-                        <p>{__('Your WP QUADS PRO license Key is','quick-adsence-reloaded')} <span className="q-r-m-e">{__('Expired','quick-adsence-reloaded')}</span>.</p>
+                        <p>{__('Your WP QUADS PRO license Key is','quick-adsense-reloaded')} <span className="q-r-m-e">{__('Expired','quick-adsense-reloaded')}</span>.</p>
                         </div>
                         <div className="quads-renew-cta-container">
-                        <a href="https://wpquads.com/your-account/" className="quads-renew-cta" target="_blank" rel="noopener noreferrer">{__('Renew now','quick-adsence-reloaded')}</a>
+                        <a href="https://wpquads.com/your-account/" className="quads-renew-cta" target="_blank" rel="noopener noreferrer">{__('Renew now','quick-adsense-reloaded')}</a>
                         </div>
                         </div>                        
                           : '' }

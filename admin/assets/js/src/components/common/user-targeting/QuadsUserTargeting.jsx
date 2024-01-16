@@ -20,10 +20,9 @@ class QuadsUserTargeting extends Component {
             excludedToggle  : false,
             includedRightPlaceholder: 'Select Targeting Data',
             excludedRightPlaceholder: 'Select Targeting Data',
-            includedRightTextPlaceholder: 'Enter Targeting Data',
-            excludedRightTextPlaceholder: 'Enter Targeting Data',
+            includedRightTextPlaceholder: 'Select Targeting Data',
+            excludedRightTextPlaceholder: 'Select Targeting Data',
             TargetingConditionIncluded: "AND",
-
             multiTypeIncludedValue:[],
             multiTypeExcludedValue:[],
 
@@ -573,11 +572,11 @@ class QuadsUserTargeting extends Component {
                 <div className="quads-panel">
                     <div className="quads-panel-body">
                         <div className="quads-user-targeting-label">
-                            <b>When</b>  {__(' should the ad display?', 'quick-adsense-reloaded')}
+                            <b>{__('When','quick-adsense-reloaded')}</b>  {__(' should the ad display?', 'quick-adsense-reloaded')}
                         </div>
 
                         <div className="quads-user-targeting">
-                            <h2>Included On <a onClick={this.includedToggle}><Icon>add_circle</Icon></a>  </h2>
+                            <h2> {__('Included On','quick-adsense-reloaded')} <a onClick={this.includedToggle}><Icon>add_circle</Icon></a>  </h2>
 
 
                             <div className="quads-target-item-list">
@@ -620,7 +619,7 @@ class QuadsUserTargeting extends Component {
                                                 />
                                             </td>
                                             <td><a onClick={this.addIncluded_condition}
-                                                   className="quads-btn quads-btn-primary">Add</a></td>
+                                                   className="quads-btn quads-btn-primary">{__('Add','quick-adsense-reloaded')}</a></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -641,7 +640,7 @@ class QuadsUserTargeting extends Component {
                                                     styles={colorStyles}
                                                 />
                                                 {this.state.is_amp_endpoint_inc?
-                                                    <span className="amp-support">AMP does not support Browser Width Targeting</span>
+                                                    <span className="amp-support">{__('AMP does not support Browser Width Targeting','quick-adsense-reloaded')}</span>
                                                     :''}
                                             </td>
                                             {this.state.includedMainToggle ? (
@@ -673,7 +672,7 @@ class QuadsUserTargeting extends Component {
                                                             :''}
                                                     </td>
                                                     <td><a onClick={this.addIncluded} className="quads-btn quads-btn-primary">Add</a></td>
-                                                </>) :<><td className="targeting_get_pro">This feature is available in PRO version </td><td><a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a> </td></>}
+                                                </>) :<><td className="targeting_get_pro">{__('This feature is available in PRO version','quick-adsense-reloaded')} </td><td><a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">{__('Unlock this feature','quick-adsense-reloaded')}</a> </td></>}
                                         </tr>
                                         </tbody>
                                     </table>
@@ -721,7 +720,7 @@ class QuadsUserTargeting extends Component {
                                                 />
                                             </td>
                                             <td><a onClick={this.addExcluded_condition}
-                                                   className="quads-btn quads-btn-primary">Add</a></td>
+                                                   className="quads-btn quads-btn-primary">{__('Add','quick-adsense-reloaded')}</a></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -742,7 +741,7 @@ class QuadsUserTargeting extends Component {
                                                     styles={colorStyles}
                                                 />
                                                 {this.state.is_amp_endpoint_exc?
-                                                    <span className="amp-support">AMP does not support Browser Width Targeting</span>
+                                                    <span className="amp-support">{__('AMP does not support Browser Width Targeting','quick-adsense-reloaded')}</span>
                                                     :''}
                                             </td>
                                             {this.state.excludedMainToggle ? (
@@ -777,7 +776,7 @@ class QuadsUserTargeting extends Component {
                                                             :''}
                                                     </td>
                                                     <td><a onClick={this.addExcluded} className="quads-btn quads-btn-primary">Add</a></td>
-                                                </>) : <><td className="targeting_get_pro">This feature is available in PRO version</td><td><a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a> </td></>}
+                                                </>) : <><td className="targeting_get_pro">{__('This feature is available in PRO version','quick-adsense-reloaded')}</td><td><a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">{__('Unlock this feature','quick-adsense-reloaded')}</a> </td></>}
                                         </tr>
                                         </tbody>
                                     </table>

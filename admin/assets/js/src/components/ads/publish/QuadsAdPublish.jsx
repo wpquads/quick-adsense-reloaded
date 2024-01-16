@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import './QuadsAdPublish.scss';
-import queryString from 'query-string'
+import queryString from 'query-string';
 
 class QuadsAdPublish extends Component {
   constructor(props) {
@@ -45,7 +45,7 @@ class QuadsAdPublish extends Component {
             <div className="quads-settings-group">            
             <div className="quads-panel">
             <div className="quads-panel-body quads-live-wrapper">
-              <div className="quads_live"><p>{__('Your ad is now '+this.state.title, 'quick-adsense-reloaded')}</p></div>
+              <div className="quads_live"><p>{__('Your ad is now Live', 'quick-adsense-reloaded')}</p></div>
               <div className="live-one"><img src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/billboardicon.png'} /></div>
               <div className="live-two">
                 <div className="live-two-left">
