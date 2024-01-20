@@ -65,6 +65,10 @@ class QuadsAdsAdvancedSettings extends Component {
          <div className="quads-panel-body">
           <table>
             <tbody>
+            <tr>
+              <td><label className='q_exp_date' htmlFor="publish_date">{__('Publish Date', 'quick-adsense-reloaded')}</label></td>
+              <td><input className='publish_date' id="publish_date" name="publish_date" min={current_date} onChange={this.props.adFormChangeHandler} type="date" value={post_meta.publish_date}/></td>
+              </tr>
               <tr>
               <td><label className='q_exp_date' htmlFor="check_exp_date">{__('Set Expire Date', 'quick-adsense-reloaded')}</label></td>
               <td>

@@ -153,7 +153,8 @@ class QuadsAdCreateRouter extends Component {
             check_lazy_load           :false,
             check_lazy_load_delay     :3,
             add_url_nofollow          : true,
-            delay_ad_sec              :false
+            delay_ad_sec              :false,
+            publish_date              : ''
 
             },
             quads_form_errors : {

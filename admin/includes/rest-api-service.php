@@ -503,8 +503,13 @@ if($license_info){
             $ad_id          = isset($post_meta['ad_id']) ? $post_meta['ad_id'] : '';
             $post_status    = 'publish';
 
+
             if(isset($parameters['quads_ad_status'])){
               $post_status    = $parameters['quads_ad_status'];
+            }
+           
+            if(isset($post_meta['publish_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $post_meta['publish_date']) && $post_meta['publish_date'] >= date("Y-m-d")){
+              $post_status    = 'draft';
             }
 
             if($mode){

@@ -329,7 +329,7 @@ class QuadsAdList extends Component {
             </tbody>
         </table> : <div className="nodatadiv"><div className="first_ad_main">
                       <h3>{__('Thank you for using WP Quads','quick-adsense-reloaded')}</h3>
-                      <div className="first_ad">{__('Let\'s <strong>create our First Ad </strong> in 3 simple steps', 'quick-adsense-reloaded') }. </div>
+                      <div className="first_ad">{__('Let\'s ', 'quick-adsense-reloaded') } <strong>{__('create our First Ad', 'quick-adsense-reloaded') }</strong> {__(' in 3 simple steps', 'quick-adsense-reloaded') }. </div>
                       <div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.props.nodatashowAddTypeSelector}><Icon>add_circle</Icon>{__('Create Ad', 'quick-adsense-reloaded') }</a></div>
                   </div>
                   {quads.quads_import_classic_ads_popup && quads.quads_get_active_ads !=="0" ?
