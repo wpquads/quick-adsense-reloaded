@@ -16,21 +16,21 @@ class QuadsAdvancePositionMuti extends Component {
             ad_blindness_temp: {},
             position_list: [
                 { label: 'Beginning of Post', value: 'beginning_of_post' },
-                { label: 'middle_of_post', value: 'Middle of Post' },
-                { label: 'end_of_post', value: 'End of Post' },
-                { label: 'after_more_tag', value: 'Right after the <!--more--> tag' },
-                { label: 'before_last_paragraph', value: 'Right before the last Paragraph' },
-                { label: 'after_paragraph', value: 'After Paragraph' },
-                { label: 'after_image', value: 'After Image' },
-                { label: 'before_image', value: 'Before Image' },
-                { label: 'after_word_count', value: 'By Word Count' },
-                { label: 'after_the_percentage', value: 'After the Percentage' },
-                { label: 'ad_after_id', value: 'Ad After Id' },
-                { label: 'ad_after_class', value: 'Ad After Class' },
-                { label: 'ad_after_customq', value: 'Ad After Advance Selector' },
-                { label: 'ad_after_html_tag', value: 'Ad After HTML Tag' },
-                { label: 'amp_ads_in_loops', value: 'Ads Inbetween Loop' },
-                { label: 'ad_shortcode', value: 'Shortcode (Manual)' },
+                { label: 'Middle of Post', value: 'middle_of_post' },
+                { label: 'End of Post', value: 'end_of_post' },
+                { label: 'Right after the <!--more--> tag', value: 'after_more_tag' },
+                { label: 'Right before the last Paragraph', value: 'before_last_paragraph' },
+                { label: 'After Paragraph', value: 'after_paragraph' },
+                { label: 'After Image', value: 'after_image' },
+                { label: 'Before Image', value: 'before_image' },
+                { label: 'By Word Count', value: 'after_word_count' },
+                { label: 'After the Percentage', value: 'after_the_percentage' },
+                { label: 'After Id', value: 'ad_after_id' },
+                { label: 'After Class', value: 'ad_after_class' },
+                { label: 'After Advance Selector', value: 'ad_after_customq' },
+                { label: 'After HTML Tag', value: 'ad_after_html_tag' },
+                { label: 'Inbetween Loop', value: 'amp_ads_in_loops' },
+                { label: 'Shortcode (Manual)', value: 'ad_shortcode' },
             ]
         }
     };
@@ -63,10 +63,7 @@ class QuadsAdvancePositionMuti extends Component {
             this.setState({ ad_blindness_temp: ad_blindness_temp });
         }
     }
-    // check_plugin_exist = (event) => {
-    //     const { quads_post_meta } = { ...this.state };
-    //     this.setState({ quads_post_meta: true });
-    // }
+
     removeSeleted_list = (e) => {
         let index = e.currentTarget.dataset.index;
         const position_data = this.props.parentState.quads_post_meta.ad_blindness;
@@ -169,7 +166,7 @@ class QuadsAdvancePositionMuti extends Component {
                                         <div>
                                             {post_meta.position == 'bbpress_before_reply' || post_meta.position == 'bbpress_after_reply' ?
                                                 <div>
-                                                    <label>  Inject at
+                                                    <label>  {__('Inject at', 'quick-adsense-reloaded')}
                                                         <input min="1" onChange={this.adFormChangeHandlerstate} name="paragraph_number" value={post_meta.paragraph_number} type="number" />
                                                     </label>
                                                     <input id='repeat_paragraph' checked={post_meta.repeat_paragraph} name="repeat_paragraph" onChange={this.adFormChangeHandlerstate} type="checkbox" />
@@ -212,8 +209,8 @@ class QuadsAdvancePositionMuti extends Component {
                                                     </label>
                                                 </div> : ''}
                                             {(show_form_error && post_meta.position == 'after_the_percentage' && (post_meta.g_data_ad_client == '' || parseInt(quads_post_meta.after_the_percentage_value) < 10 || parseInt(quads_post_meta.after_the_percentage_value) > 101)) ? <div className="quads_form_msg"><span className="material-icons">
-                                                error_outline</span>Percentage should be
-                                                between 10 to 100</div> : ''}
+                                                error_outline</span>{__('Percentage should be between 10 to 100', 'quick-adsense-reloaded')}
+                                                </div> : ''}
 
                                             {post_meta.position == 'after_image' ?
                                                 <label>
@@ -231,14 +228,14 @@ class QuadsAdvancePositionMuti extends Component {
 
                                                 <label>
 
-                                                    Post Shortcode: <input name="post_shortcode" id="post_shortcode" type="text" defaultValue={'[quads id=' + (post_meta.quads_ad_old_id).match(/\d+/) + ']'} readOnly />
-                                                    PHP:<input name="php_shortcode" id="post_shortcode_php" type="text" defaultValue={"<?php echo do_shortcode('[quads id=" + (post_meta.quads_ad_old_id).match(/\d+/) + "]'); ?>"} readOnly />
+                                            {__('Post Shortcode', 'quick-adsense-reloaded')}: <input name="post_shortcode" id="post_shortcode" type="text" defaultValue={'[quads id=' + (post_meta.quads_ad_old_id).match(/\d+/) + ']'} readOnly />
+                                            {__('PHP', 'quick-adsense-reloaded')}:<input name="php_shortcode" id="post_shortcode_php" type="text" defaultValue={"<?php echo do_shortcode('[quads id=" + (post_meta.quads_ad_old_id).match(/\d+/) + "]'); ?>"} readOnly />
                                                 </label> : ''}
                                         </div>
                                     </div>
-                                </div><a onClick={this.addposition} className="quads-btn quads-btn-primary">Add</a>
+                                </div><a onClick={this.addposition} className="quads-btn quads-btn-primary">{__('Add', 'quick-adsense-reloaded')}</a>
                             </div> : ''}
-                        <div>{(show_form_error && position_data.ad_blindness.length <= 0) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select Where Will The AD Appear</div></span> : ''}</div>
+                        <div>{(show_form_error && position_data.ad_blindness.length <= 0) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Select Where Will The AD Appear', 'quick-adsense-reloaded')}</div></span> : ''}</div>
 
                         <div className="quads-target-item-list">
                             {
@@ -250,7 +247,6 @@ class QuadsAdvancePositionMuti extends Component {
                                         </div>
                                     ))
                                     : ''}
-                            {/* <div>{ (post_meta.ad_blindness.length <= 0 && show_form_error) ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>Select at least one Ad</div></span> : ''}</div> */}
                         </div>
                     </div></div>
             </div>

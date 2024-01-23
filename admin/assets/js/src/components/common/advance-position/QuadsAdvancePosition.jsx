@@ -107,7 +107,7 @@ check_plugin_exist = (event) => {
                                 </optgroup>
 
                             </select>
-                            {post_meta.ad_type == "adpushup" ? <p>This selection is just for AMP</p> : ''}
+                            {post_meta.ad_type == "adpushup" ? <p>{__('This selection is just for AMP', 'quick-adsense-reloaded')}</p> : ''}
                             </>                            
                             : <select className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                                 <option value="select_position">{__('Select Position', 'quick-adsense-reloaded')}</option>
@@ -132,7 +132,7 @@ check_plugin_exist = (event) => {
                                 {quads_localize_data.is_bbpress_exist ?
                                     <>
                                         <option value="bbpress_before_ad">{__('BBpress Before Ad', 'quick-adsense-reloaded')}</option>
-                                        <option value="bbpress_after_ad">{__('BBpress After Ad', 'quick-adsense-reloaded')} Ad</option>
+                                        <option value="bbpress_after_ad">{__('BBpress After Ad', 'quick-adsense-reloaded')}</option>
                                         <option value="bbpress_before_reply">{__('BBpress Before Reply', 'quick-adsense-reloaded')}</option>
                                         <option value="bbpress_after_reply">{__('BBpress After Reply', 'quick-adsense-reloaded')}</option>
                                     </>
@@ -163,7 +163,7 @@ check_plugin_exist = (event) => {
                         <div>
                             {post_meta.position == 'bbpress_before_reply' || post_meta.position == 'bbpress_after_reply' ?
                                 <div>
-                                    <label>  Inject at
+                                    <label> {__('Inject at', 'quick-adsense-reloaded')} 
                                         <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_number" value={post_meta.paragraph_number}  type="number" />
                                     </label>
                                     <input id='repeat_paragraph' checked={post_meta.repeat_paragraph} name="repeat_paragraph" onChange={this.props.adFormChangeHandler} type="checkbox"/>
@@ -213,7 +213,7 @@ check_plugin_exist = (event) => {
 
                                 }
 
-                                {!post_meta.check_plugin_exist?<Alert severity="error" className={'check_plugin_exist'}><div > AMP stories plugin not exist </div></Alert>:null}
+                                {!post_meta.check_plugin_exist?<Alert severity="error" className={'check_plugin_exist'}><div > {__('AMP stories plugin not exist', 'quick-adsense-reloaded')} </div></Alert>:null}
 
                             {post_meta.position == 'after_word_count' ?
                                 <div>
@@ -228,8 +228,7 @@ check_plugin_exist = (event) => {
                                     </label>
                                 </div> : ''}
                             {(show_form_error && post_meta.position == 'after_the_percentage' && (post_meta.g_data_ad_client == '' || parseInt(quads_post_meta.after_the_percentage_value) < 10 || parseInt(quads_post_meta.after_the_percentage_value) > 101)) ? <div className="quads_form_msg"><span className="material-icons">
-error_outline</span>Percentage should be
-                                between 10 to 100</div> :''}
+error_outline</span>{__('Percentage should be between 10 to 100 ', 'quick-adsense-reloaded')}</div> :''}
 
                             {post_meta.position == 'after_image' ?
                                 <label>
@@ -247,8 +246,8 @@ error_outline</span>Percentage should be
 
                                 <label>
 
-                                    Post Shortcode: <input name="post_shortcode" id="post_shortcode" data-attr={''+(post_meta.quads_ad_old_id).match(/\d+/)+''} type="text" defaultValue={'[quads id='+(post_meta.quads_ad_old_id).match(/\d+/)+']'}  readOnly/>
-                                    PHP:<input name="php_shortcode" id="post_shortcode_php"  type="text" defaultValue={"<?php echo do_shortcode('[quads id="+(post_meta.quads_ad_old_id).match(/\d+/)+"]'); ?>"} readOnly/>
+{__('Post Shortcode:', 'quick-adsense-reloaded')} <input name="post_shortcode" id="post_shortcode" data-attr={''+(post_meta.quads_ad_old_id).match(/\d+/)+''} type="text" defaultValue={'[quads id='+(post_meta.quads_ad_old_id).match(/\d+/)+']'}  readOnly/>
+{__('PHP:', 'quick-adsense-reloaded')}<input name="php_shortcode" id="post_shortcode_php"  type="text" defaultValue={"<?php echo do_shortcode('[quads id="+(post_meta.quads_ad_old_id).match(/\d+/)+"]'); ?>"} readOnly/>
                                 </label> : ''}
                         </div>
                     </div>
