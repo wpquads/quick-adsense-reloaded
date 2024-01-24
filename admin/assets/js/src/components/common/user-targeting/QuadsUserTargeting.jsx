@@ -45,6 +45,7 @@ class QuadsUserTargeting extends Component {
                 {label:'User Role', value:'user_type'},
                 {label:'Country', value:'geo_location_country'},
                 {label:'City', value:'geo_location_city'},
+                {label:'State', value:'geo_location_state'},
                 {label:'Cookie', value:'cookie'},
                 {label:'URL Parameter ', value:'url_parameter'},
                 {label:'Referring URL ', value:'referrer_url'},
@@ -256,7 +257,7 @@ class QuadsUserTargeting extends Component {
     handleMultiIncludedLeftChange = (option) => {
         let type = this.state.multiTypeTargetOption[option.value];
         let self =this;
-        if( !quads_localize_data.is_pro && (option.value==='geo_location_country' || option.value==='geo_location_city')){
+        if( !quads_localize_data.is_pro && (option.value==='geo_location_country' || option.value==='geo_location_city' ||option.value==='geo_location_state')){
             this.setState({includedMainToggle:false});
             return;
         }else{
@@ -264,10 +265,13 @@ class QuadsUserTargeting extends Component {
         }
         var placeholder = 'Search for ' + option.label;
 
-        if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url' || option.value==='geo_location_city'){
+        if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url' || option.value==='geo_location_city'|| option.value==='geo_location_state'){
             placeholder = 'Enter your ' + option.label;
             if(option.value==='geo_location_city'){
                 placeholder = 'Add City name';
+            }
+            if(option.value==='geo_location_state'){
+                placeholder = 'Add State name';
             }
             this.setState({includedTextToggle:false});
             this.setState({multiTypeLeftIncludedValue:option, includedDynamicOptions:type, textTypeRightIncludedValue:'', includedRightPlaceholder:placeholder});
@@ -304,17 +308,20 @@ class QuadsUserTargeting extends Component {
     handleMultiExcludedLeftChange = (option) => {
         let type = this.state.multiTypeTargetOption[option.value];
         let self =this;
-        if( !quads_localize_data.is_pro && (option.value==='geo_location_country' || option.value==='geo_location_city')){
+        if( !quads_localize_data.is_pro && (option.value==='geo_location_country' || option.value==='geo_location_city' ||option.value==='geo_location_state')){
             this.setState({excludedMainToggle:false});
             return;
         }else{
             this.setState({excludedMainToggle:true});
         }
         var placeholder = 'Search for ' + option.label;
-        if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url' || option.value==='geo_location_city'){
+        if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url' || option.value==='geo_location_city' ||option.value==='geo_location_state'){
             placeholder = 'Enter your ' + option.label;
             if(option.value==='geo_location_city'){
                 placeholder = 'Add City name';
+            }
+            if(option.value==='geo_location_state'){
+                placeholder = 'Add State name';
             }
             this.setState({excludedTextToggle:false});
             this.setState({multiTypeLeftExcludedValue:option, excludedDynamicOptions:type, textTypeRightExcludedValue:'', excludedRightPlaceholder:placeholder});
@@ -424,7 +431,7 @@ class QuadsUserTargeting extends Component {
     }
     handleMultiIncludedRightChange = (option) => {
         let type  = this.state.multiTypeLeftIncludedValue;
-        if(type.value==='cookie' || type.value==='url_parameter' || type.value==='referrer_url'  || type.value==='geo_location_city'){
+        if(type.value==='cookie' || type.value==='url_parameter' || type.value==='referrer_url'  || type.value==='geo_location_city' || type.value==='geo_location_state' ){
             this.setState({textTypeRightIncludedValue:option.target.value});
         }else{
             this.setState({multiTypeRightIncludedValue:option});
@@ -439,7 +446,7 @@ class QuadsUserTargeting extends Component {
     }
     handleMultiExcludedRightChange = (option) => {
         let type  = this.state.multiTypeLeftExcludedValue;
-        if(type.value=='cookie' || type.value==='url_parameter' || type.value==='referrer_url'|| type.value==='geo_location_city'){
+        if(type.value=='cookie' || type.value==='url_parameter' || type.value==='referrer_url'|| type.value==='geo_location_city' || type.value==='geo_location_state'){
             this.setState({textTypeRightExcludedValue:option.target.value});
         }else{
             this.setState({multiTypeRightExcludedValue:option});
