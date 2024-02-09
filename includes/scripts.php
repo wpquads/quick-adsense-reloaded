@@ -55,17 +55,20 @@ function click_fraud_protection(){
 
            if (isset($quads_options['click_fraud_protection']) && !empty($quads_options['click_fraud_protection']) && $quads_options['click_fraud_protection']  ) {  
                 $suffix = ( quadsIsDebugMode() ) ? '' : '.min'; 
-                if ( (function_exists( 'ampforwp_is_amp_endpoint' ) && !ampforwp_is_amp_endpoint()) || function_exists( 'is_amp_endpoint' ) && !is_amp_endpoint() ) {
-              wp_enqueue_script( 'quads-scripts', QUADS_PLUGIN_URL . 'assets/js/fraud_protection' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
-                }
-         
-            } 
+                wp_register_script('quads-scripts', QUADS_PLUGIN_URL . 'assets/js/fraud_protection' . $suffix . '.js', array ('jquery'),QUADS_VERSION, false );
                 wp_localize_script( 'quads-scripts', 'quads', array(
                     'version'               => QUADS_VERSION,
                     'allowed_click'         => esc_attr($allowed_click),
                     'quads_click_limit'     => esc_attr($click_limit),
                     'quads_ban_duration'    => esc_attr($ban_duration),
                 ) );
+
+                if ( (!function_exists( 'ampforwp_is_amp_endpoint' ) || !function_exists( 'is_amp_endpoint' )) || (function_exists( 'ampforwp_is_amp_endpoint' ) && !ampforwp_is_amp_endpoint()) || function_exists( 'is_amp_endpoint' ) && !is_amp_endpoint() ) {
+                    wp_enqueue_script( 'quads-scripts');
+                }
+         
+            } 
+               
     }
 }
 

@@ -995,8 +995,7 @@ handleMultiPluginsChange = (option) => {
   formhandler = (e) => {
     if (window.confirm(__("You are about to clear Log Data, do you wish to continue?", 'quick-adsense-reloaded'))) {
     e.preventDefault();
-    console.log( this.state.q_admin_url+'?action=quads_id_delete' );
-    fetch( this.state.q_admin_url+'?action=quads_id_delete' , {
+    fetch( this.state.q_admin_url+'?action=quads_id_delete&nonce='+quads.nonce , {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
