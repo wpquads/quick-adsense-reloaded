@@ -13,7 +13,7 @@ and open the template in the editor.
     max-width: 100%;
     height: 50px;
     vertical-align: top;
-    border: 1px solid #E1E1E1;
+    border: 1px solid #e1e1e1;
     border-radius: 0px;
     margin: 0 0px !important;
     font-size: 16px;
@@ -22,4 +22,16 @@ and open the template in the editor.
     //background: #fff url(../../../images/quads-search.png) no-repeat;
     background-size: 22px;
     background-position: 20px;
+}
+
+.quads-ad-search-box .quads-select-div{
+  display: flex;
+  margin-bottom: 10px;
+
+}
+.quads-select-div select{
+    border: 1px solid #e1e1e1;
+}
+.quads-select-div label{
+    margin-right: 10px;
 }

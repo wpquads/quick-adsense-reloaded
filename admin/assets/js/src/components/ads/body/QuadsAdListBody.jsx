@@ -38,15 +38,77 @@ class QuadsAdListBody extends Component {
       display_pagination:false,
       analytics_impressions:0,
       analytics_clicks:0, 
-      analytics_loader:false,          
+      analytics_loader:false,
+      bulk_ads_ids : [],
+      bulk_ads_index : [],
+      ads_sort_by : '',
+      ads_filter_by: ''          
     };                   
+  }
+  handleBulkCheckbox = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      let arr = this.state.bulk_ads_ids;
+      let arr2 =  this.state.bulk_ads_index;
+
+      arr = arr.concat(value);
+      arr2 = arr2.concat(e.target.dataset.index);
+      this.setState({bulk_ads_ids:arr , bulk_ads_index:arr2});
+      
+    }else{
+      this.state.bulk_ads_ids = this.state.bulk_ads_ids.filter((ele)=> ele !==value);
+      this.state.bulk_ads_index = this.state.bulk_ads_index.filter((ele)=> ele !== e.target.dataset.index);
+    }
+  }
+
+  handleBulkActions = (e) => {
+    const { value } = e.target;
+    const {__} = wp.i18n; 
+  
+    if(!this.state.bulk_ads_ids.length && value){
+      e.target.value = '';
+      alert(__('Please  select at least one Ad', 'quick-adsense-reloaded'));
+      return;
+    }
+  
+    if(value == 'delete'){
+      this.setState({delete_modal:true, more_box_id:this.bulk_ads_index, delete_modal_id:this.state.bulk_ads_ids});
+    }
+    else{
+      this.processStatus(value);
+    }
+  }
+ renderCheckbox = ( ) => {
+      let adlist_checkboxes = document.querySelectorAll('.quads_checkbox_adlist');
+      if(adlist_checkboxes){
+      for(let i=0;i<adlist_checkboxes.length;i++){
+        if(adlist_checkboxes[i].checked){
+          adlist_checkboxes[i].checked = false;
+        }
+      }
+    }
+    let bulk_select = document.querySelector('.quads_bulk_actions');
+    if(bulk_select){
+      bulk_select.value="";
+    } 
+  }
+
+  handleSortBy = (e) => {
+    const { value } = e.target;
+      this.setState({ads_sort_by:value});
+      this.mainSearchMethod(this.state.search_text, this.state.page, value , this.state.ads_filter_by); 
+  }
+  handleFilterBy = (e) => {
+    const { value } = e.target;
+    this.setState({ads_filter_by:value});
+    this.mainSearchMethod(this.state.search_text, this.state.page, this.state.ads_sort_by ,value); 
   }
   showDeleteModal =(e) => {
     const ad_id = e.currentTarget.dataset.ad;
     this.setState({delete_modal:true, more_box_id:null, delete_modal_id:ad_id});
   }
   hideDeleteModal =(e) => {    
-    this.setState({delete_modal:false});
+    this.setState({delete_modal:false, delete_modal_id:null});
   }  
   showMoreIconBox = (e) => {
     e.preventDefault();        
@@ -137,6 +199,52 @@ class QuadsAdListBody extends Component {
     e.preventDefault();
     this.setState({static_box_id:null});
   }
+
+  processStatus = (status) => {
+    this.setState({actionPerform:true}); 
+    const action = status;
+    const ad_id  = this.state.bulk_ads_ids;
+    const json_data = {
+      ad_id : ad_id,
+      action: action,
+    }        
+    const url = quads_localize_data.rest_url + "quads-route/ad-more-action";
+  
+    fetch(url, {
+      method: "post",
+      headers: {    
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',                
+        'X-WP-Nonce': quads_localize_data.nonce,
+      },
+      body: JSON.stringify(json_data)
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {   
+        this.setState({actionPerform:false});
+        if(result.status){
+            let items = this.state.items;
+            let row_indexes = this.state.bulk_ads_index;
+            if(Array.isArray(row_indexes)){
+              for (let i = 0;i< row_indexes.length;i++){
+                let item = { ...items[row_indexes[i]] };
+                item.post.post_status = action;
+                items[row_indexes[i]] = item;
+              }
+            }
+            this.setState({ items: items, more_box_id:null,bulk_ads_ids:[],bulk_ads_index:[]});
+            this.renderCheckbox();
+        }
+      },        
+      (error) => {
+        
+      }
+    );  
+
+  }
+
+
   processAction = (e) => {
 
     e.preventDefault();   
@@ -172,13 +280,22 @@ class QuadsAdListBody extends Component {
               item.post_meta.ad_id = result.data.post.ID;
               items.splice(this.state.more_box_index, 0, item);     
               location.reload();         
-            } else if(action == 'delete'){              
-              items.splice(this.state.more_box_index,1);
+            } else if(action == 'delete'){
+              let row_indexes = this.state.bulk_ads_index;
+              if(Array.isArray(this.state.more_box_index)){
+                for (let i = 0;i< row_indexes.length;i++){
+                  items.splice(row_indexes[i], 1);
+                }
+              }else{
+                items.splice(this.state.more_box_index,1);
+              }              
+             
             } else {
               item.post.post_status = action;
               items[this.state.more_box_index] = item;
             }
-            this.setState({ items: items, more_box_id:null, delete_modal:false});
+            this.setState({ items: items, more_box_id:null, delete_modal:false,bulk_ads_ids:[],bulk_ads_index:[]});
+            this.renderCheckbox();
         }
       },        
       (error) => {
@@ -188,12 +305,12 @@ class QuadsAdListBody extends Component {
 
   }
 
-  mainSearchMethod = (search_text, page) => { 
+  mainSearchMethod = (search_text, page , sort_by = '',filter_by = '') => { 
       this.setState({isLoaded:false})
       let get_eppp = quads_localize_data.num_of_ads_to_display
-      let url = quads_localize_data.rest_url + "quads-route/get-ads-list?search_param="+search_text+"&posts_per_page="+get_eppp+"&pageno="+page;
+      let url = quads_localize_data.rest_url + "quads-route/get-ads-list?search_param="+search_text+"&posts_per_page="+get_eppp+"&pageno="+page+"&sort_by="+sort_by+"&filter_by="+filter_by;
       if(quads_localize_data.rest_url.includes('?')){
-         url = quads_localize_data.rest_url + "quads-route/get-ads-list&search_param="+search_text+"&posts_per_page="+get_eppp+"&pageno="+page;  
+         url = quads_localize_data.rest_url + "quads-route/get-ads-list&search_param="+search_text+"&posts_per_page="+get_eppp+"&pageno="+page+"&sort_by="+sort_by+"&filter_by="+filter_by;  
       }
       fetch(url, {
         headers: {                    
@@ -294,7 +411,7 @@ class QuadsAdListBody extends Component {
               <div className="quads-modal-popup">            
             <div className="quads-modal-popup-content">   
               <div className="quads-modal-popup-txt">          
-              <h3>{__('Are you sure you want to', 'quick-adsense-reloaded')}<span> {__(' DELETE  ', 'quick-adsense-reloaded')} </span>{__( 'this ad?', 'quick-adsense-reloaded')}</h3> 
+              <h3>{__('Are you sure you want to', 'quick-adsense-reloaded')}<span> {__(' DELETE  ', 'quick-adsense-reloaded')} </span>{Array.isArray(this.state.delete_modal_id)?__( 'selected ads?', 'quick-adsense-reloaded'):__( 'this ad?', 'quick-adsense-reloaded')}</h3> 
               <p>{__('It will permenently removed and you won\'t be able to see the ad again. You cannot undo this action.', 'quick-adsense-reloaded')}</p>
               </div>           
              <div className="quads-modal-content">
@@ -306,7 +423,7 @@ class QuadsAdListBody extends Component {
               : ''}  
               </div>         
               <div className="quads-search-box-panel">                
-                <div className="quads-search-box"><QuadsAdListSearch ad_list={this.state} triggerSearch={this.QuadsSearchAd} /></div>                
+                <div className="quads-search-box"><QuadsAdListSearch ad_list={this.state} triggerSearch={this.QuadsSearchAd} handleSortBy={this.handleSortBy} handleFilterBy={this.handleFilterBy}  handleBulkActions={this.handleBulkActions}/></div>                
               </div>              
               <div className="quads-list-ads">
                 <QuadsAdList
@@ -327,6 +444,7 @@ class QuadsAdListBody extends Component {
                   processAction   ={this.processAction}
                   showDeleteModal ={this.showDeleteModal}
                   nodatashowAddTypeSelector ={this.props.nodatashowAddTypeSelector}
+                  handleBulkCheckbox = {this.handleBulkCheckbox}
                   settings = {this.props.settings}
                 />
               </div>            

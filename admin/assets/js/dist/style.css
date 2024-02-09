@@ -2442,7 +2442,7 @@ and open the template in the editor.
   max-width: 100%;
   height: 50px;
   vertical-align: top;
-  border: 1px solid #E1E1E1;
+  border: 1px solid #e1e1e1;
   border-radius: 0px;
   margin: 0 0px !important;
   font-size: 16px;
@@ -2450,6 +2450,16 @@ and open the template in the editor.
   padding-left: 60px;
   background-size: 22px;
   background-position: 20px; }
+
+.quads-ad-search-box .quads-select-div {
+  display: flex;
+  margin-bottom: 10px; }
+
+.quads-select-div select {
+  border: 1px solid #e1e1e1; }
+
+.quads-select-div label {
+  margin-right: 10px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -2552,9 +2562,6 @@ and open the template in the editor.
 
 .ad_logging .quads-ad-table th:nth-child(4) {
   color: #5f6368; }
-
-.quads-ad-table th:nth-child(4) {
-  color: transparent; }
 
 .quads-action-div a.quads-edit-btn, .quads-action-div a.quads-more-btn {
   cursor: pointer;

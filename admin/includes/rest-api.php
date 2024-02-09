@@ -1861,6 +1861,8 @@ return array('status' => 't');
             $paged        =  1;
             $offset       =  0;
             $post_type    = 'quads-ads';
+            $sort_by      = null;
+            $filter_by    = null;
 
             if(isset($_GET['pageno'])){
                 $paged    = sanitize_text_field($_GET['pageno']);
@@ -1871,7 +1873,13 @@ return array('status' => 't');
              if(isset($_GET['search_param'])){
                 $search_param = sanitize_text_field($_GET['search_param']);
             }
-            $result = $this->api_service->getAdDataByParam($post_type, $attr, $rvcount, $paged, $offset, $search_param);
+            if(isset($_GET['sort_by'])){
+                $sort_by = sanitize_text_field($_GET['sort_by']);
+            }
+            if(isset($_GET['filter_by'])){
+                $filter_by = sanitize_text_field($_GET['filter_by']);
+            }
+            $result = $this->api_service->getAdDataByParam($post_type, $attr, $rvcount, $paged, $offset, $search_param , $filter_by , $sort_by);
             return $result;
 
         }

@@ -6,6 +6,7 @@ import QuadsAdCreateRouter from  '../ad-create-router/QuadsAdCreateRouter'
 import Icon from '@material-ui/core/Icon';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Alert } from '@material-ui/lab';
+import QuadsCheckbox from "./QuadsCheckbox";
 
 
 import './QuadsAdList.scss';
@@ -261,6 +262,7 @@ class QuadsAdList extends Component {
         <table className="quads-ad-table">
           <thead>
           <tr>
+          <th>{__('#', 'quick-adsense-reloaded')}</th>
           <th>{__('Name', 'quick-adsense-reloaded')}</th>
           <th>{__('Type', 'quick-adsense-reloaded')}</th>
           <th>{__('Last Modified', 'quick-adsense-reloaded')}</th>
@@ -271,6 +273,7 @@ class QuadsAdList extends Component {
           {items.map((item, index) => ( item.post_meta.ad_id &&(    
                    
             <tr key={index}>
+                <td><QuadsCheckbox index={index} name='quads_ids' value={item.post_meta.ad_id} onClick={this.props.handleBulkCheckbox}/></td>
                 <td>{item.post_meta.label} {item.post_meta.ad_type == 'rotator_ads' || item.post_meta.ad_type == 'carousel_ads' || item.post_meta.ad_type == 'group_insertion' ? <span className="quads-adlists info-wrpr"><span className="material-icons info" aria-hidden="true" onClick={() => this.showInfoAds(item.post_meta.ad_id)}>info</span>{ item.post_meta.ad_id == this.state.adListsId && this.state.toggleAdsLists ? this.getActiveAdsLists(item.post_meta.ads_list, index) : '' }</span> : ''} {item.post.post_status == 'draft' ? <span className="quads-ad-label-draft">{__('draft','quick-adsense-reloaded')}</span> : ''}</td>
                 <td>{this.getImageByAdType(item.post_meta.ad_type, index)} {this.getAmpLogoByEnabled(item.post_meta.enabled_on_amp, index)}</td>
                 <td>{item.post.post_modified}</td>

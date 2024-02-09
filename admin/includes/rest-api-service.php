@@ -287,7 +287,7 @@ class QUADS_Ad_Setup_Api_Service {
 
     }
 
-    public function getAdDataByParam($post_type, $attr = null, $rvcount = null, $paged = null, $offset = null, $search_param=null){
+    public function getAdDataByParam($post_type, $attr = null, $rvcount = null, $paged = null, $offset = null, $search_param=null , $filter_by = null , $sort_by = null){
 
         $response   = array();
         $arg        = array();
@@ -319,22 +319,113 @@ class QUADS_Ad_Setup_Api_Service {
         }
         if($search_param){
 
-            $meta_query_args = array(
-                array(
-                    'relation' => 'OR',
+            // $meta_query_args = array(
+            //     array(
+            //         'relation' => 'OR',
+            //         array(
+            //             'value'   => $search_param,
+            //             'compare' => '='
+            //         ),
+            //         array(
+            //             'value'   => $search_param,
+            //             'compare' => 'LIKE'
+            //         )
+            //         )
+            //     );
+
+                if($filter_by){
+                  $meta_query_args = array(
+                    'relation' => 'AND',
                     array(
-                        'value'   => $search_param,
-                        'compare' => '='
+                      'key'     =>   'ad_type',
+                      'value'   =>   $filter_by
                     ),
                     array(
-                        'value'   => $search_param,
-                        'compare' => 'LIKE'
-                    )
-                    )
-                );
+                      'relation' => 'OR',
+                      array(
+                          'value'   => $search_param,
+                          'compare' => '='
+                      ),
+                      array(
+                          'value'   => $search_param,
+                          'compare' => 'LIKE'
+                      )
+                      )
+                    );
+                }
                 $arg['meta_query']          = $meta_query_args;
                 $arg['paged']               = 1;
+        }else{
+
+          if($filter_by){
+            $meta_query_args = array(
+              array(
+                'key'     =>   'ad_type',
+                'value'   =>   $filter_by
+              )
+              );
+              $arg['meta_query']          = $meta_query_args;
+              $arg['paged']               = 1;
+          }
+         
         }
+
+        if($sort_by){
+          global $wpdb,$quads_options;
+          $array_ids = [];
+          $array_ids_result = [];
+          if($sort_by =='impression'){
+              if(isset($quads_options['report_logging']) && $quads_options['report_logging'] = 'improved_v2'){
+
+                $array_ids_result = $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
+                FROM {$wpdb->prefix}posts as posts
+                LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id
+                LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id
+                WHERE posts.post_type='quads-ads'AND posts.post_status='publish'
+                GROUP BY posts.ID
+                ORDER BY total_impression DESC;"));
+
+              }else{
+                $array_ids_result = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression from `{$wpdb->prefix}quads_single_stats_`
+                 INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id
+                 GROUP BY `{$wpdb->prefix}posts`.ID 
+                 ORDER BY total_impression DESC;"));
+              }
+          }
+
+          if($sort_by =='click'){
+            if(isset($quads_options['report_logging']) && $quads_options['report_logging'] = 'improved_v2'){
+
+              $array_ids_result = $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID,IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click
+              FROM {$wpdb->prefix}posts as posts
+              LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id
+              LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id
+              WHERE posts.post_type='quads-ads'AND posts.post_status='publish'
+              GROUP BY posts.ID
+              ORDER BY total_click DESC;"));
+
+            }else{
+              $array_ids_result = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_`
+               INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id
+               GROUP BY `{$wpdb->prefix}posts`.ID 
+               ORDER BY total_click DESC;"));
+            }
+
+          }
+
+          if(count($array_ids_result)>0){
+            foreach($array_ids_result as $ids){
+              $array_ids[]=$ids->ID;
+            }
+          }
+          if(!empty($array_ids)){
+            $arg['post__in']    = $array_ids;
+            $arg['orderby']    = 'post__in';
+            
+          }
+
+        }
+        
         $response = $this->getPostsByArg($arg);
         return $response;
     }
@@ -586,13 +677,16 @@ if($license_info){
 
     public function changeAdStatus($ad_id, $action){
 
-      $response = wp_update_post(array(
-                    'ID'            =>  $ad_id,
-                    'post_status'   =>  $action
-                  ));
-
-      return $response;
-
+      $adid_array = is_array($ad_id)?$ad_id:explode(',',$ad_id);
+      if($adid_array && !empty($adid_array)){
+        foreach($adid_array as $adid){
+          $response = wp_update_post(array(
+            'ID'            =>  $adid,
+            'post_status'   =>  $action
+          ));
+        }
+        return $response;
+      }
     }
     public function duplicateAd($ad_id){
 
@@ -644,15 +738,17 @@ if($license_info){
 
 	public function deleteAd($ad_id){
 //  current_user_can already checked in class QUADS_Ad_Setup_Api
-		$quads_settings = get_option('quads_settings');
-
-		$old_ad_id      = get_post_meta($ad_id, 'quads_ad_old_id', true);
-
-		unset($quads_settings['ads'][$old_ad_id]);
-		update_option('quads_settings', $quads_settings);
-		$response = wp_delete_post($ad_id, true);
-		return $response;
-
+    $quads_settings = get_option('quads_settings');
+    $ads_ids = is_array($ad_id)?$ad_id:explode(',',$ad_id);
+    if(!empty($ads_ids)){
+      foreach($ads_ids as $adid){
+        $old_ad_id      = get_post_meta($adid, 'quads_ad_old_id', true);
+        unset($quads_settings['ads'][$adid]);
+        $response = wp_delete_post($adid, true);
+      }
+      return $response;
+      update_option('quads_settings', $quads_settings);
+    }	
 	}
 
     public function getPlugins($search){
