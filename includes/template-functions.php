@@ -3429,30 +3429,43 @@ if($repeat_paragraph){
                         $ref_node  = $paragraphs[$offset]->nextSibling;
                         $ad_dom =  new DOMDocument( '1.0', $wp_charset );
                         libxml_use_internal_errors( true );
-                        $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
+                        $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'));
 
-                        foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
-                          $importedNode = $doc->importNode( $importedNode, true );
-                          if($ref_node){
-                            $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
-                          }
+                        $importedNodes = [];
+                        foreach ($ad_dom->childNodes as $importedNode) {
+                            if ($importedNode->nodeType === XML_ELEMENT_NODE) {
+                                $importedNodes[] = $doc->importNode($importedNode, true);
+                            }
+                        }
+                    
+                        foreach ($importedNodes as $importedNode) {
+                            if ($ref_node) {
+                                $ref_node->parentNode->insertBefore($importedNode, $ref_node);
+                            }
                         }
 }
     }else{
-      if(isset($paragraphs[$position])){
-            $ref_node  = $paragraphs[$position];
-      
-            $ad_dom =  new DOMDocument( '1.0', $wp_charset );
-            libxml_use_internal_errors( true );
-       $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
-      
-            foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
-              $importedNode = $doc->importNode( $importedNode, true );
-                if($ref_node){
-                      $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
-                    }
+        if (isset($paragraphs[$position])) {
+            $ref_node = $paragraphs[$position];
+            
+            $ad_dom = new DOMDocument('1.0', $wp_charset);
+            libxml_use_internal_errors(true);
+            $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'));
+            
+            $importedNodes = [];
+            foreach ($ad_dom->childNodes as $importedNode) {
+                if ($importedNode->nodeType === XML_ELEMENT_NODE) {
+                    $importedNodes[] = $doc->importNode($importedNode, true);
+                }
             }
-      }
+        
+            foreach ($importedNodes as $importedNode) {
+                if ($ref_node) {
+                    $ref_node->parentNode->insertBefore($importedNode, $ref_node);
+                }
+            }
+        }
+        
     }
     $content =$doc->saveHTML();
     return $content;  
