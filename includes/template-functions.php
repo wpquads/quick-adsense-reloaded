@@ -3488,6 +3488,7 @@ if($repeat_paragraph){
 function quads_after_id_class_ad_creator($content,$srch_name,$type_name){
 
     $dom = new \DOMDocument();
+    libxml_use_internal_errors(true);
     if(function_exists('mb_convert_encoding')){
         $dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
     }else{
