@@ -9,18 +9,24 @@ window.addEventListener("load", function(){
             wpquads_sticky.style.backgroundColor = 'hsla(0,0%,100%,.7)';
         }
         Array.from(wpquads_location_ad).forEach(elm=>{
-            elm.querySelectorAll("img").forEach(img=>{
-               var wpquads_lazy_delay = 3000;
-               if(img.dataset && img.dataset.lazydelay > 0){
-                wpquads_lazy_delay = img.dataset.lazydelay;
-               }
-               setTimeout(()=>{
-                if(img.dataset && img.dataset.src){
-                    img.src = img.dataset.src;
-                }
-                elm.style.visibility = "visible";
-            }, wpquads_lazy_delay);
-            });
-           
+            var img_elements = elm.querySelectorAll("img");
+            if(img_elements.length){
+                img_elements.forEach(img=>{
+                    var wpquads_lazy_delay = 3000;
+                    if(img.dataset && img.dataset.lazydelay > 0){
+                     wpquads_lazy_delay = img.dataset.lazydelay;
+                    }
+                    setTimeout(()=>{
+                     if(img.dataset && img.dataset.src){
+                         img.src = img.dataset.src;
+                     }
+                     elm.style.visibility = "visible";
+                 }, wpquads_lazy_delay);
+                 }); 
+            }else{
+                setTimeout(()=>{
+                    elm.style.visibility = "visible";
+                }, wpquads_lazy_delay);
+            }
         })
 });
