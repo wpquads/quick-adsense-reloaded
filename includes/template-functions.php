@@ -2801,11 +2801,13 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
         return $content; 
     }
     $flag = true;
+    
+    $ad_meta = get_post_meta($id, '',true);
     // if it was sticky ad return empty
     if (isset($ad_meta['adsense_ad_type'][0]) && $ad_meta['adsense_ad_type'][0] == 'adsense_sticky_ads' ){
         $flag = false;
     }
-    $ad_meta = get_post_meta($id, '',true);
+
     if (isset($ad_meta['code'][0])&& $flag) {
         if(!empty($ad_meta['code'][0])){
 
@@ -2882,8 +2884,8 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
     }
 
             $adscode =
-                "\n".'<!-- WP QUADS Content Ad Plugin v. '.QUADS_VERSION .' -->'."\n".
-                '<div class="'.$wpimage_quads.'-location quads-ad' .esc_attr($id). ' '.$dev_name.'" id="quads-ad' .esc_attr($id). '" style="'.esc_attr($style).'">'."\n".
+                "\n".'<!-- WP QUADS Content 111 Ad Plugin v. '.QUADS_VERSION .' -->'."\n".
+                '<div class="'.$wpimage_quads.'-location quads-ad' .esc_attr($id). ' '.$dev_name.'" id="quads-ad' .esc_attr($id). '" style="'.esc_attr($style).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ad_meta)).'">'."\n".
                 $output."\n".
                 '</div>'. "\n";
         }
@@ -3565,15 +3567,22 @@ function quads_parse_floating_cubes_ads() {
     }
 }
 function quads_is_lazyload_template($options, $ads){
-    if((isset($options['delay_ad_sec'] ) && $options['delay_ad_sec']) || (isset($ads['check_lazy_load'] ) && $ads['check_lazy_load'])){
+    if((function_exists('quads_delay_ad_sec') && quads_delay_ad_sec()) || (isset($ads['check_lazy_load'] ) && $ads['check_lazy_load'])){
         return true;
     }
     return false;
   }
 
   function quads_lazyload_delay_template($ads){
-    if(isset($ads['check_lazy_load'] ) && isset($ads['check_lazy_load_delay']) && $ads['check_lazy_load_delay'] > 0 ){
-        return (intval($ads['check_lazy_load_delay'])*1000);
+    if(isset($ads['check_lazy_load'] ) && $ads['check_lazy_load'] && isset($ads['check_lazy_load_delay']) && $ads['check_lazy_load_delay'] > 0 ){
+        if(is_array($ads['check_lazy_load_delay']) && isset($ads['check_lazy_load_delay'][0])){
+            return (intval($ads['check_lazy_load_delay'][0])*1000); 
+        }else{
+            return (intval($ads['check_lazy_load_delay'])*1000);
+        }
+        
     }
     return 3000;
   }
+
+  

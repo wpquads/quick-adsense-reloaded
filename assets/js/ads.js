@@ -10,9 +10,10 @@ window.addEventListener("load", function(){
         }
         Array.from(wpquads_location_ad).forEach(elm=>{
             var img_elements = elm.querySelectorAll("img");
+            var wpquads_lazy_delay = 3000;
             if(img_elements.length){
                 img_elements.forEach(img=>{
-                    var wpquads_lazy_delay = 3000;
+                    
                     if(img.dataset && img.dataset.lazydelay > 0){
                      wpquads_lazy_delay = img.dataset.lazydelay;
                     }
@@ -24,6 +25,9 @@ window.addEventListener("load", function(){
                  }, wpquads_lazy_delay);
                  }); 
             }else{
+                if(elm.dataset.lazydelay && elm.dataset.lazydelay > 0){
+                    wpquads_lazy_delay=elm.dataset.lazydelay;
+                }
                 setTimeout(()=>{
                     elm.style.visibility = "visible";
                 }, wpquads_lazy_delay);

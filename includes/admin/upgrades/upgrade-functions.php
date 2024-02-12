@@ -146,8 +146,6 @@ function quads_update_settings_1_5_3(){
       update_option('quads_settings_1_5_2', $settings);
    }
    update_option('quads_settings', $new);
-   //wp_die(var_dump($new));
-   //wp_die(var_dump($settings));
 }
 
 /**
@@ -197,7 +195,6 @@ function quads_change_widget_values() {
     }
 
     update_option( 'quads_settings', $new );
-    //wp_die('<pre>' . var_dump($new));
 }
 
 /**

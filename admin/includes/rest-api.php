@@ -896,7 +896,6 @@ class QUADS_Ad_Setup_Api {
                     foreach ($advance_ads_meta_key as $key => $val){
                         update_post_meta($post_id, $key, $val);
                     }
-                    // var_dump($advance_ads_meta_key);
                     require_once QUADS_PLUGIN_DIR . '/admin/includes/migration-service.php';
                     $this->migration_service = new QUADS_Ad_Migration();
                     $this->migration_service->quadsUpdateOldAd($post_id, $advance_ads_meta_key);

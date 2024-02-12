@@ -2043,15 +2043,18 @@ add_filter( 'quads_render_ad', 'quads_render_ad_label_new',99,2 );
   }
 
   function quads_is_lazyload_render($options, $id){
-    if((isset($options['delay_ad_sec'] ) && $options['delay_ad_sec']) || (isset($options['ads'][$id]['check_lazy_load'] ) && $options['ads'][$id]['check_lazy_load'])){
+    if((function_exists('quads_delay_ad_sec') && quads_delay_ad_sec()) || (isset($options['ads'][$id]['check_lazy_load'] ) && $options['ads'][$id]['check_lazy_load'])){
         return true;
     }
     return false;
   }
 
   function quads_lazyload_delay_render($options, $id){
-    if(isset($options['ads'][$id]['check_lazy_load'] ) && isset($options['ads'][$id]['check_lazy_load_delay']) && $options['ads'][$id]['check_lazy_load_delay'] > 0 ){
+    if(isset($options['ads'][$id]['check_lazy_load'] ) && $options['ads'][$id]['check_lazy_load'] && isset($options['ads'][$id]['check_lazy_load_delay']) && $options['ads'][$id]['check_lazy_load_delay'] > 0 ){
         return (intval($options['ads'][$id]['check_lazy_load_delay'])*1000);
     }
-    return 3000;
+    if((function_exists('quads_delay_ad_sec') && quads_delay_ad_sec())){
+        return 3000;
+    }
+    return 0;
   }

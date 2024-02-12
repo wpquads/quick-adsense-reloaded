@@ -625,7 +625,6 @@ function quads_settings_sanitize( $input = array() ) {
       // General filter
       $input[$key] = apply_filters( 'quads_settings_sanitize', $value, $key );
    }
-   //wp_die(var_dump($input));
 
 
    // Loop through the whitelist and unset any that are empty for the tab being saved
