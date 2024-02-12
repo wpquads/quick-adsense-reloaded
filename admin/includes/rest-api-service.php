@@ -318,21 +318,6 @@ class QUADS_Ad_Setup_Api_Service {
             $arg['offset']    = $offset;
         }
         if($search_param){
-
-            // $meta_query_args = array(
-            //     array(
-            //         'relation' => 'OR',
-            //         array(
-            //             'value'   => $search_param,
-            //             'compare' => '='
-            //         ),
-            //         array(
-            //             'value'   => $search_param,
-            //             'compare' => 'LIKE'
-            //         )
-            //         )
-            //     );
-
                 if($filter_by){
                   $meta_query_args = array(
                     'relation' => 'AND',

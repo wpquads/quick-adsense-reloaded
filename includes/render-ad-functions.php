@@ -1056,7 +1056,7 @@ function quads_render_floating_ads_async($id) {
         $fill_loop=6-$total_slides;
         for($i=0;$i<$fill_loop;$i++)
         {
-            $new=(int) $i/$total_slides;
+            $new=ceil($i/$total_slides);
             if(isset($ads_list[$new]['slide']))
                 {
                     $add_nofollow = (isset($ads_list[$new]['add_url_nofollow']) && $ads_list[$new]['add_url_nofollow'])?true:false;
@@ -1435,6 +1435,7 @@ function quads_is_propeller( $id, $string ) {
  */
 function quads_is_ad_image( $id, $string ) {
     global $quads_options;
+    var_dump($quads_options['ads'][$id]['ad_type']);
     if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'ad_image') {
         return true;
     }

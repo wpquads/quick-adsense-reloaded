@@ -45,11 +45,10 @@ function quads_plugins_loaded_bbpress(){
 add_filter('wp_quads_content_html_last_filter','quads_content_modifier');
 function quads_content_modifier( $content_buffer ){
     $data =    quads_load_ads_common('newspaper_theme',$content_buffer);
-    return $data;
     if(empty($data)){
         return $content_buffer;
     }
-  return $data;
+    return $data;
 }
 
 function quads_bbp_template_after_Ads(){
@@ -69,7 +68,7 @@ function quads_bbp_template_before_replies_loop(){
 
 function quads_api_services_cllbck()
 {
-    // Global $quads_ads variable to reduce db calls #631
+       // Global $quads_ads variable to reduce db calls #631
         require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
         $api_service = new QUADS_Ad_Setup_Api_Service();
         $quads_ads = $api_service->getAdDataByParam('quads-ads');
@@ -1410,34 +1409,6 @@ function quads_filter_default_ads_new( $content ) {
                     
                         $content =  quads_remove_ad_from_content($content,$cusads,$ads);
 
-                    break;
-                    case 'ad_after_id':
-                        $type_name = 'id';
-                        $id_name = isset($ads['after_id_name']) ? $ads['after_id_name'] : '';
-                        $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
-                        if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
-                            $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
-                        }else{
-                            if(!empty($id_name)){
-                                $id_name = '"'.$id_name.'"';
-                                $content = quads_after_id_class_ad_creator($content,$id_name,$type_name);
-                                $content = str_replace('afterIdAd', $cusads, $content);
-                            }
-                        }
-                    break;
-                    case 'ad_after_class':
-                        $type_name = 'class';
-                        $class_name = isset($ads['after_class_name']) ? $ads['after_class_name'] : '';
-                        $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
-                        if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
-                            $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
-                        }else{
-                            if(!empty($class_name)){
-                                $class_name = '"'.$class_name.'"';
-                                $content = quads_after_id_class_ad_creator($content,$class_name,$type_name);
-                                $content = str_replace('afterClassAd', $cusads, $content);
-                            }
-                        }
                     break;
                     case 'ad_after_customq':
                         $type_name = 'custom';
@@ -3582,7 +3553,127 @@ function quads_is_lazyload_template($options, $ads){
         }
         
     }
-    return 3000;
+    if((function_exists('quads_delay_ad_sec') && quads_delay_ad_sec())){
+        return 3000;
+    }
+    return 0;
   }
 
-  
+  add_filter('wp_quads_content_html_last_filter','quads_position_insert_advance',11,1);
+  function quads_position_insert_advance($content){
+    $quads_ads = quads_api_services_cllbck();
+    if(isset($quads_ads['posts_data'])){        
+        foreach($quads_ads['posts_data'] as $key => $value){
+            $ads =$value['post_meta'];
+            if($value['post']['post_status']== 'draft'){
+                continue;
+            }
+
+     if(isset($ads['visibility_include']))
+         $ads['visibility_include'] = unserialize($ads['visibility_include']);
+     if(isset($ads['visibility_exclude']))
+         $ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);
+
+     if(isset($ads['targeting_include']))
+         $ads['targeting_include'] = unserialize($ads['targeting_include']);
+
+     if(isset($ads['targeting_exclude']))
+         $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
+
+
+        $is_on         = quads_is_visibility_on($ads);
+        $is_visitor_on = quads_is_visitor_on($ads);
+        $is_click_fraud_on = quads_click_fraud_on();
+
+        if(isset($ads['ad_id'])){
+            $post_status = get_post_status($ads['ad_id']); 
+        }else{
+            $post_status =  'publish';
+        }
+        $quads_enabled_position = array('ad_after_class','ad_after_id');
+            if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish' && in_array($ads['position'],$quads_enabled_position)){
+                $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;
+                // placeholder string for custom ad spots
+                if(isset($ads['random_ads_list']) && !empty($ads['random_ads_list'])){
+                    $cusads = '<!--CusRnd'.esc_html($ads['ad_id']).'-->';
+                }else if($ads['ad_type']== 'rotator_ads' &&isset($ads['ads_list']) && !empty($ads['ads_list'])){
+                    $cusads = '<!--CusRot'.esc_html($ads['ad_id']).'-->';
+                }else if($ads['ad_type']== 'popup_ads' &&isset($ads['ads_list']) && !empty($ads['ads_list'])){
+                    $cusads = '<!--pop_up_ads'.esc_html($ads['ad_id']).'-->';
+                }
+                else if($ads['ad_type']== 'video_ads'){
+                    $cusads = '<!--video_ad'.esc_html($ads['ad_id']).'-->';
+                }
+                else if($ads['ad_type']== 'parallax_ads'){
+                    $cusads = '<!--parallax_ad'.esc_html($ads['ad_id']).'-->';
+                }
+                else if($ads['ad_type']== 'half_page_ads'){
+                    $cusads = '<!--half_page_ad'.esc_html($ads['ad_id']).'-->';
+                }
+                else if($ads['ad_type']== 'floating_cubes'){
+                    $cusads = '<!--floating_cubes_ad'.esc_html($ads['ad_id']).'-->';
+                }
+                else{                   
+                    $cusads = '<!--CusAds'.esc_html($ads['ad_id']).'-->';
+                }
+
+                $quads_ad_style = quads_get_inline_ad_style_new($ads['ad_id']);
+                $datalazydelay = quads_lazyload_delay_template($ads);
+
+              
+                $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
+                if(isset($ads['position'])){
+                    switch($ads['position']){
+                        case 'ad_after_class':
+                            $type_name = 'class';
+                            $class_name = isset($ads['after_class_name']) ? $ads['after_class_name'] : '';  
+                            if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
+                                $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
+                            }else{
+                                if(!empty($class_name)){
+                                    $class_name = '"'.$class_name.'"';
+                                    $quads_ad_to_add =   "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
+                                    '<div class="quads-location quads-ad' .esc_html($ads['ad_id']).
+                                     '" id="quads-ad' .esc_html($ads['ad_id']). '" style="'.esc_html($quads_ad_style).'"';
+                                     if($datalazydelay){
+                                        $quads_ad_to_add .='data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'" \n".';
+                                     }
+                    
+                                    $quads_ad_to_add .='>'.quads_render_ad($ads['quads_ad_old_id'], $ads['code'])."\n".'</div>'. "\n";
+                                    $content = quads_after_id_class_ad_creator($content,$class_name,$type_name);
+                                    $content = str_replace('afterClassAd', $quads_ad_to_add, $content);
+                                
+                                }
+                            }
+                        break;
+                        case 'ad_after_id':
+                            $type_name = 'id';
+                            $id_name = isset($ads['after_id_name']) ? $ads['after_id_name'] : '';
+                            if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
+                                $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
+                            }else{
+                                if(!empty($id_name)){
+                                    $id_name = '"'.$id_name.'"';
+                                    $quads_ad_to_add =   "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
+                                    '<div class="quads-location quads-ad' .esc_html($ads['ad_id']).
+                                     '" id="quads-ad' .esc_html($ads['ad_id']). '" style="'.esc_html($quads_ad_style).'"';
+                                     if($datalazydelay > 0 ){
+                                        $quads_ad_to_add .='data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'" \n".';
+                                     }
+                    
+                                    $quads_ad_to_add .='>'.quads_render_ad($ads['quads_ad_old_id'], $ads['code'])."\n".'</div>'. "\n";
+                                    $content = quads_after_id_class_ad_creator($content,$id_name,$type_name);
+                                    $content = str_replace('afterIdAd', $quads_ad_to_add, $content);
+                                }
+                            }
+                        break;
+                    }
+            
+                }
+
+            }
+        }
+
+    }
+    return $content;
+  }
