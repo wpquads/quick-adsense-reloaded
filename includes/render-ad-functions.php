@@ -1435,7 +1435,6 @@ function quads_is_propeller( $id, $string ) {
  */
 function quads_is_ad_image( $id, $string ) {
     global $quads_options;
-    var_dump($quads_options['ads'][$id]['ad_type']);
     if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'ad_image') {
         return true;
     }

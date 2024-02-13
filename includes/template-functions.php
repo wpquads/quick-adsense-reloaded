@@ -2855,7 +2855,7 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
     }
 
             $adscode =
-                "\n".'<!-- WP QUADS Content 111 Ad Plugin v. '.QUADS_VERSION .' -->'."\n".
+                "\n".'<!-- WP QUADS Content Ad Plugin v. '.QUADS_VERSION .' -->'."\n".
                 '<div class="'.$wpimage_quads.'-location quads-ad' .esc_attr($id). ' '.$dev_name.'" id="quads-ad' .esc_attr($id). '" style="'.esc_attr($style).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ad_meta)).'">'."\n".
                 $output."\n".
                 '</div>'. "\n";
@@ -3632,7 +3632,7 @@ function quads_is_lazyload_template($options, $ads){
 
                 $quads_ad_style = quads_get_inline_ad_style_new($ads['ad_id']);
                 $datalazydelay = quads_lazyload_delay_template($ads);
-
+                $quad_parsed_ads = '';
               
                 $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
                 if(isset($ads['position'])){
@@ -3644,20 +3644,40 @@ function quads_is_lazyload_template($options, $ads){
                                 $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
                             }else{
                                 if(!empty($class_name)){
+                                    if($ads['ad_type'] == 'random_ads') {
+                                        if ( function_exists( 'quads_parse_random_ads' ) ) {
+                                            $quad_parsed_ads  ='<!--CusRnd'.$ads['ad_id'].'-->';
+                                            $quad_parsed_ads = quads_parse_random_ads_new($quad_parsed_ads);
+                                        }
+                                    }else if($ads['ad_type'] == 'rotator_ads') {
+                                        if ( function_exists( 'quads_parse_rotator_ads' ) ) {
+                                            $quad_parsed_ads  ='<!--CusRot'.$ads['ad_id'].'-->';
+                                            $quad_parsed_ads = quads_parse_rotator_ads($quad_parsed_ads);
+                                        
+                                    }else if($ads['ad_type'] == 'group_insertion') {
+                                        if ( function_exists( 'quads_parse_group_insert_ads' ) ) {
+                                            $quad_parsed_ads  ='<!--CusGI'.$ads['ad_id'].'-->';
+                                            $quad_parsed_ads = quads_parse_group_insert_ads($quad_parsed_ads);
+                                        }
+                                    }else{
+                                        $quad_parsed_ads = quads_render_ad($ads['quads_ad_old_id'],$ads['code']);
+                                    }
+
                                     $class_name = '"'.$class_name.'"';
                                     $quads_ad_to_add =   "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
                                     '<div class="quads-location quads-ad' .esc_html($ads['ad_id']).
                                      '" id="quads-ad' .esc_html($ads['ad_id']). '" style="'.esc_html($quads_ad_style).'"';
                                      if($datalazydelay){
-                                        $quads_ad_to_add .='data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'" \n".';
+                                        $quads_ad_to_add .='data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'" \n"';
                                      }
-                    
-                                    $quads_ad_to_add .='>'.quads_render_ad($ads['quads_ad_old_id'], $ads['code'])."\n".'</div>'. "\n";
+                                    $quads_ad_to_add .='>'.$quad_parsed_ads."\n".'</div>'. "\n";
                                     $content = quads_after_id_class_ad_creator($content,$class_name,$type_name);
                                     $content = str_replace('afterClassAd', $quads_ad_to_add, $content);
-                                
-                                }
                             }
+                        }
+
+                    }
+                            
                         break;
                         case 'ad_after_id':
                             $type_name = 'id';
@@ -3666,6 +3686,25 @@ function quads_is_lazyload_template($options, $ads){
                                 $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
                             }else{
                                 if(!empty($id_name)){
+                                    if($ads['ad_type'] == 'random_ads') {
+                                        if ( function_exists( 'quads_parse_random_ads' ) ) {
+                                            $quad_parsed_ads  ='<!--CusRnd'.$ads['ad_id'].'-->';
+                                            $quad_parsed_ads = quads_parse_random_ads_new($quad_parsed_ads);
+                                        }
+                                    }else if($ads['ad_type'] == 'rotator_ads') {
+                                        if ( function_exists( 'quads_parse_rotator_ads' ) ) {
+                                            $quad_parsed_ads  ='<!--CusRot'.$ads['ad_id'].'-->';
+                                            $quad_parsed_ads = quads_parse_rotator_ads($quad_parsed_ads);
+                                        
+                                    }else if($ads['ad_type'] == 'group_insertion') {
+                                        if ( function_exists( 'quads_parse_group_insert_ads' ) ) {
+                                            $quad_parsed_ads  ='<!--CusGI'.$ads['ad_id'].'-->';
+                                            $quad_parsed_ads = quads_parse_group_insert_ads($quad_parsed_ads);
+                                        }
+                                    }else{
+                                        $quad_parsed_ads = quads_render_ad($ads['quads_ad_old_id'],$ads['code']);
+                                    }
+
                                     $id_name = '"'.$id_name.'"';
                                     $quads_ad_to_add =   "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
                                     '<div class="quads-location quads-ad' .esc_html($ads['ad_id']).
@@ -3674,10 +3713,11 @@ function quads_is_lazyload_template($options, $ads){
                                         $quads_ad_to_add .='data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'" \n".';
                                      }
                     
-                                    $quads_ad_to_add .='>'.quads_render_ad($ads['quads_ad_old_id'], $ads['code'])."\n".'</div>'. "\n";
+                                    $quads_ad_to_add .='>'.$quad_parsed_ads."\n".'</div>'. "\n";
                                     $content = quads_after_id_class_ad_creator($content,$id_name,$type_name);
                                     $content = str_replace('afterIdAd', $quads_ad_to_add, $content);
                                 }
+                             }
                             }
                         break;
                     }
