@@ -3664,15 +3664,8 @@ function quads_is_lazyload_template($options, $ads){
                                     }
 
                                     $class_name = '"'.$class_name.'"';
-                                    $quads_ad_to_add =   "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
-                                    '<div class="quads-location quads-ad' .esc_html($ads['ad_id']).
-                                     '" id="quads-ad' .esc_html($ads['ad_id']). '" style="'.esc_html($quads_ad_style).'"';
-                                     if($datalazydelay){
-                                        $quads_ad_to_add .='data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'" \n"';
-                                     }
-                                    $quads_ad_to_add .='>'.$quad_parsed_ads."\n".'</div>'. "\n";
                                     $content = quads_after_id_class_ad_creator($content,$class_name,$type_name);
-                                    $content = str_replace('afterClassAd', $quads_ad_to_add, $content);
+                                    $content = str_replace('afterClassAd', $quad_parsed_ads, $content);
                             }
                         }
 
@@ -3706,16 +3699,8 @@ function quads_is_lazyload_template($options, $ads){
                                     }
 
                                     $id_name = '"'.$id_name.'"';
-                                    $quads_ad_to_add =   "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
-                                    '<div class="quads-location quads-ad' .esc_html($ads['ad_id']).
-                                     '" id="quads-ad' .esc_html($ads['ad_id']). '" style="'.esc_html($quads_ad_style).'"';
-                                     if($datalazydelay > 0 ){
-                                        $quads_ad_to_add .='data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'" \n".';
-                                     }
-                    
-                                    $quads_ad_to_add .='>'.$quad_parsed_ads."\n".'</div>'. "\n";
                                     $content = quads_after_id_class_ad_creator($content,$id_name,$type_name);
-                                    $content = str_replace('afterIdAd', $quads_ad_to_add, $content);
+                                    $content = str_replace('afterIdAd', $quad_parsed_ads, $content);
                                 }
                              }
                             }
