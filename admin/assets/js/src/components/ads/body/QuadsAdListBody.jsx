@@ -61,6 +61,30 @@ class QuadsAdListBody extends Component {
     }
   }
 
+  handleMasterCheckbox = (e) =>{
+    const { checked } = e.target;
+    const checkboxes = document.querySelectorAll('.quads_checkbox_adlist');
+    console.log(checkboxes);
+    if (checked) {
+      
+      let arr = [];
+      let arr2 = [];
+
+      checkboxes.forEach((checkbox, index) => {
+        checkbox.checked = true;
+          arr.push(checkbox.value);
+          arr2.push(index);
+    });
+      this.setState({bulk_ads_ids:arr , bulk_ads_index:arr2});
+      
+    }else{
+      checkboxes.forEach((checkbox) => {
+          checkbox.checked = false;
+    });
+      this.state.bulk_ads_ids = [];
+      this.state.bulk_ads_index = [];
+    }
+  }
   handleBulkActions = (e) => {
     const { value } = e.target;
     const {__} = wp.i18n; 
@@ -273,8 +297,7 @@ class QuadsAdListBody extends Component {
         if(result.status){
           
             let items = [...this.state.items];
-            let item = { ...items[this.state.more_box_index] };
-                                
+            let item = { ...items[this.state.more_box_index] };             
             if(action == 'duplicate'){              
               item.post.post_id = result.data.post.ID;
               item.post_meta.ad_id = result.data.post.ID;
@@ -282,9 +305,10 @@ class QuadsAdListBody extends Component {
               location.reload();         
             } else if(action == 'delete'){
               let row_indexes = this.state.bulk_ads_index;
-              if(Array.isArray(this.state.more_box_index)){
-                for (let i = 0;i< row_indexes.length;i++){
-                  items.splice(row_indexes[i], 1);
+              const sortedNumbers = row_indexes.slice().sort((a, b) => b - a);
+              if(sortedNumbers.length){
+                for (let i = 0;i< sortedNumbers.length;i++){
+                    items.splice(sortedNumbers[i], 1);
                 }
               }else{
                 items.splice(this.state.more_box_index,1);
@@ -304,7 +328,6 @@ class QuadsAdListBody extends Component {
     );  
 
   }
-
   mainSearchMethod = (search_text, page , sort_by = '',filter_by = '') => { 
       this.setState({isLoaded:false})
       let get_eppp = quads_localize_data.num_of_ads_to_display
@@ -446,6 +469,7 @@ class QuadsAdListBody extends Component {
                   nodatashowAddTypeSelector ={this.props.nodatashowAddTypeSelector}
                   handleBulkCheckbox = {this.handleBulkCheckbox}
                   settings = {this.props.settings}
+                  handleMasterCheckbox={this.handleMasterCheckbox}
                 />
               </div>            
               <div className="quads-list-pagination" style={{visibility:this.state.display_pagination?'visible':'hidden'}} >

@@ -262,7 +262,7 @@ class QuadsAdList extends Component {
         <table className="quads-ad-table">
           <thead>
           <tr>
-          <th>{__('#', 'quick-adsense-reloaded')}</th>
+          <th> <input id='quads_master_checkbox' name='quads_ids_' value={'all'} type='checkbox' onClick={this.props.handleMasterCheckbox}/></th>
           <th>{__('Name', 'quick-adsense-reloaded')}</th>
           <th>{__('Type', 'quick-adsense-reloaded')}</th>
           <th>{__('Last Modified', 'quick-adsense-reloaded')}</th>
