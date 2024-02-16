@@ -91,7 +91,7 @@ class QuadsAdListSettings extends Component {
                 logging_toggle     : false,
                 analytics          : false,
                 multiUserValue     : [],
-                RoleBasedAccess    : [{label: "Administrator", value: "administrator"}],
+                RoleBasedAccess    : [],
                 multiTagsValue     : [],
                 multiPluginsValue  : [],
                 notice_type        : 'ad_blocker_message',
@@ -121,6 +121,8 @@ class QuadsAdListSettings extends Component {
             q_admin_url:'',
             black: true,
             checked: false,
+            role_permission_modal :false,
+            role_active_tab:0
         };
   }
   onFileChange = (event) => {
@@ -455,12 +457,43 @@ handleMultiPluginsChange = (option) => {
   handleRoleBasedAccess = (option) => {
     const { settings } = this.state; 
     if(option?.length >= 1 ){
-    settings.RoleBasedAccess = option;
+      const rolesWithCapabilities = option.map((role, index) => {
+        if (!('setting_access' in role)) {
+          return { ...role, setting_access: true };
+        }
+        return role;
+      });
+      console.log(rolesWithCapabilities);
+    settings.RoleBasedAccess = rolesWithCapabilities;
     this.state.settings.namer = 'RoleBasedAccess';
     this.setState(settings);
     this.saveSettings();
   }
 }
+
+handleCapabilityChange = (event) =>{
+  const { settings } = this.state;
+  const tabsindex = event.target.dataset.index;
+  const value = event.target.checked?true:false;
+  console.log(value);
+  const rolesWithCapabilities = settings.RoleBasedAccess.map((role, index) => {
+    if(index == tabsindex){
+      return { ...role, setting_access: value };
+    }
+    return role;
+  });
+  console.log(rolesWithCapabilities);
+  settings.RoleBasedAccess = rolesWithCapabilities;
+  console.log(settings);
+  this.state.settings.namer = 'RoleBasedAccess';
+  this.setState(settings);
+  this.saveSettings();
+  
+  }
+
+  handleTabClick(index){
+    this.setState({ role_active_tab: index });
+  }
     page_redirect_select_fun = (option) => {
         const { settings } = this.state;
         settings.page_redirect_path = option;
@@ -732,7 +765,27 @@ handleMultiPluginsChange = (option) => {
     this.saveSettings();
     this.setState({click_fraud_protection_popup:false});
   }
+  quadsUserHasSettingsAccess() {
+    let roles_access =  this.state.settings;
+    let user_roles = quads_localize_data.user_roles;
+    roles_access = roles_access.RoleBasedAccess;
+      for (let role of user_roles) {
+          if(role == 'administrator' || role == 'super_admin'){
+            return true;
+          }
+          let roleAccess = roles_access.find(item => item.value === role);
+          if (roleAccess && roleAccess.setting_access === true) {
+              return true; 
+          }
+      }
+      return false; 
+  }
     saveSettings = () => {
+
+      if(!this.quadsUserHasSettingsAccess){
+         return __('Unauthorised Action', 'quick-adsense-reloaded');
+      }
+      
       const formData = new FormData();
       formData.append("file", this.state.backup_file);
       formData.append("settings", JSON.stringify(this.state.settings));
@@ -1031,6 +1084,9 @@ handleMultiPluginsChange = (option) => {
   open_ad_text_modal = () =>{
     this.setState({adtxt_modal:true});
   }
+  open_role_permission_modal = () =>{
+    this.setState({role_permission_modal:true});
+  }
   adsforwp_to_quads_model = () =>{
     this.setState({adsforwp_to_quads_model:true});
   }
@@ -1038,7 +1094,7 @@ handleMultiPluginsChange = (option) => {
     this.setState({advance_ads_to_quads_model:true});
   }
   closeModal = () =>{
-    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false,advance_ads_to_quads_model:false,revenue_sharing_modal:false});
+    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false,advance_ads_to_quads_model:false,revenue_sharing_modal:false,role_permission_modal:false});
   }
   getErrorMessage =(type) => {
     const {__} = wp.i18n;
@@ -1234,6 +1290,47 @@ handleMultiPluginsChange = (option) => {
                        </label>
             </div>
              </div>
+             </div>
+            </div> : null
+            }
+                {this.state.role_permission_modal ?
+           <div className="quads-modal-popup quads-role-permission">
+            <div className="quads-modal-popup-content">
+             <span className="quads-modal-close" onClick={this.closeModal}>&times;</span>
+             <h3>{__('Role Capabilities', 'quick-adsense-reloaded')}</h3>
+             <div className="quads-modal-description"></div>
+              <div className="quads-modal-content">
+                <div className="quads-roles-vertical-tabs-container">
+              <div className="quads-roles-vertical-tabs">
+              {settings.RoleBasedAccess.length > 0 ? settings.RoleBasedAccess.map((tab, index) => (
+                <div
+                    key={index}
+                    className={`tab ${this.state.role_active_tab === index ? 'active' : ''}`}
+                    onClick={() => this.handleTabClick(index)}
+                  >
+                    {tab.label}
+                  </div>
+                )) :'' }
+                </div>
+                <div className="quads-roles-tab-content">
+                    <table>
+                      <tbody>
+                      {settings.RoleBasedAccess.length > 0 ? settings.RoleBasedAccess.map((tab, index) => (
+                        <tr key={index} className="quads-roles-tab-pane" style={{display:this.state.role_active_tab==index?'block':'none'}}>
+                        <th><label htmlFor="setting_access">{__('Settings Access', 'quick-adsense-reloaded')}</label></th>
+                        <td>
+                            <label className="quads-switch">
+                                <input data-index={index} id={"setting_access_"+index} type="checkbox" onChange={this.handleCapabilityChange} defaultChecked={settings.RoleBasedAccess[index]?.setting_access}/>
+                                <span id={"setting_access_"+index+"_"} className="quads-slider"></span>
+                            </label>
+                        </td>
+                        </tr>
+                      )) :'' }
+                      </tbody>
+                    </table> 
+              </div>
+            </div>
+              </div>
              </div>
             </div> : null
             }
@@ -1795,7 +1892,7 @@ handleMultiPluginsChange = (option) => {
                  {this.state.quadsIsAdmin ?
                  <tr>
                     <th scope="row"><label htmlFor="RoleBasedAccess">{__('Role Based Access', 'quick-adsense-reloaded')}</label></th>
-                    <td>
+                    <td className='quadsRoleAccess'>
                     {this.state.selectedBtnOpt == 'RoleBasedAccess' ?
                     <div className="quads-spin-cntr">
                        <div className="quads-set-spin"></div>
@@ -1810,6 +1907,7 @@ handleMultiPluginsChange = (option) => {
                       onChange={this.handleRoleBasedAccess}
                     />
                     }
+                    {this.state.multiUserOptions.length > 0 ? <span onClick={this.open_role_permission_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''}
                        {/* <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-access-quads-rolebase/"></a> */}
 
                     </td>

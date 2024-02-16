@@ -248,7 +248,8 @@ function quads_options_page_new() {
             'ajax_url' => $ajax_call,
             'num_of_ads_to_display' => $get_e_p_p_p,
             'get_admin_url' => $get_admin_url,
-            'wpml_activation' => $get_activated_data
+            'wpml_activation' => $get_activated_data,
+            'user_roles'=>quads_get_current_user_roles()
                 
         );
         $data = apply_filters('quads_localize_filter',$data,'quads_localize_data');
@@ -461,4 +462,21 @@ function quads_render_adsense_form(){
     </div>
 </div>
 <?php
+}
+function quads_get_current_user_roles() {
+ 
+  if( is_user_logged_in() ) {
+ 
+    $user = wp_get_current_user();
+ 
+    $roles = ( array ) $user->roles;
+ 
+    return $roles; // This will returns an array
+ 
+  } else {
+ 
+    return array();
+ 
+  }
+ 
 }

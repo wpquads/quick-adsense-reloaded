@@ -198,6 +198,21 @@ class QuadsAdListNavLink extends Component {
               document.head.appendChild(link);
             })
     }
+   quadsUserHasSettingsAccess() {
+    let roles_access =  this.props.settings;
+    let user_roles = quads_localize_data.user_roles;
+    roles_access = roles_access.RoleBasedAccess;
+      for (let role of user_roles) {
+          if(role == 'administrator' || role == 'super_admin'){
+            return true;
+          }
+          let roleAccess = roles_access.find(item => item.value === role);
+          if (roleAccess && roleAccess.setting_access === true) {
+              return true; 
+          }
+      }
+      return false; 
+  }
   
   
   render() {
@@ -252,7 +267,7 @@ class QuadsAdListNavLink extends Component {
         <div className="quads-ad-tab">
             <ul>
                 <li><Link to={'admin.php?page=quads-settings'} className={current == 'ads' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Ads', 'quick-adsense-reloaded')}</Link></li>
-                <li><Link to={'admin.php?page=quads-settings&path=settings'} className={current == 'settings' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Settings', 'quick-adsense-reloaded')}</Link></li>
+                {this.quadsUserHasSettingsAccess?<li><Link to={'admin.php?page=quads-settings&path=settings'} className={current == 'settings' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Settings', 'quick-adsense-reloaded')}</Link></li>:''}
                 {this.state.displayReports ?
                 <li><Link to={'admin.php?page=quads-settings&path=reports'} className={current == 'reports' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Reports', 'quick-adsense-reloaded')}</Link></li>
                 : null }

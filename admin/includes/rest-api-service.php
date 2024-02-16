@@ -144,15 +144,16 @@ class QUADS_Ad_Setup_Api_Service {
               global $wp_roles;
 
               $choices = $wp_roles->get_names();
+             
 
-              if( is_multisite() ){
-
-                $choices['super_admin'] = esc_html__('Super Admin','schema-and-structured-data-for-wp');
-
+              if( !is_multisite() ){
+                if(isset($choices['administrator'])){
+                  unset($choices['administrator']);
+                }
               }
             }else if($condition == 'taxonomy'){
 
-              $choices    = array('all' => esc_html__('All','schema-and-structured-data-for-wp'));
+              $choices    = array('all' => esc_html__('All','quick-adsense-reloaded'));
               $taxonomies = $this->quads_post_taxonomy_generator();
               $choices    = array_merge($choices, $taxonomies);
 

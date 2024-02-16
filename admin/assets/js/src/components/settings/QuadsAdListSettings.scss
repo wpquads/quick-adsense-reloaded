@@ -687,3 +687,47 @@ select#abtesting_report {
   padding: 2px;
   vertical-align: bottom;
 }
+.quadsRoleAccess{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.quads-role-permission h3{
+padding: 10px;
+margin:auto;
+}
+.quads-role-permission .quads-modal-content{
+ text-align: left;
+  }
+  .quads-roles-vertical-tabs-container {
+    display: flex;
+  }
+  
+  .quads-roles-vertical-tabs {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .quads-roles-tab {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .quads-roles-tab.active {
+    font-weight: bold;
+  }
+  
+  .quads-roles-tab-content {
+    margin-left: 20px;
+  }
+  
+  .quads-roles-tab-pane {
+    display: none;
+  }
+  
+  .quads-roles-tab-pane.active {
+    display: block;
+  }
+  
