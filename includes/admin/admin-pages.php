@@ -121,10 +121,13 @@ function quads_has_setting_access(){
     global $quads_options;
     $user = wp_get_current_user();
     $roles = ( array ) $user->roles;
-    $role_access = $quads_options['RoleBasedAccess'];
+    $role_access = isset($quads_options['RoleBasedAccess'])?$quads_options['RoleBasedAccess']:[];
     foreach ($roles as $role) {
+        if ($role == 'administrator' || $role == 'super_admin') {
+            return true; // User has access
+        }
         foreach ($role_access as $roleAccess) {
-            if ($role == 'administrator' || $role == 'super_admin' || ($roleAccess['value'] === $role && $roleAccess['setting_access'] === true)) {
+            if ($roleAccess['value'] === $role && $roleAccess['setting_access'] === true) {
                 return true; // User has access
             }
         }

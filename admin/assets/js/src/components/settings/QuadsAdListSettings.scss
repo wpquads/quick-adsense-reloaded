@@ -694,8 +694,9 @@ select#abtesting_report {
 }
 
 .quads-role-permission h3{
-padding: 10px;
+padding: 10px 20px 10px 10px !important;
 margin:auto;
+
 }
 .quads-role-permission .quads-modal-content{
  text-align: left;
@@ -730,4 +731,13 @@ margin:auto;
   .quads-roles-tab-pane.active {
     display: block;
   }
+  .quads-roles-vertical-tabs .tab {
+    padding: 10px;
+    border-right: 1px solid;
+    cursor: pointer;
+}
+.quads-roles-vertical-tabs .active{
+  background-color:blue;
+  color:#fff;
+}
   
