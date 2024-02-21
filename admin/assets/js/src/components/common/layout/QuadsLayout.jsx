@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
-
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 import './QuadsLayout.scss';
 
@@ -24,12 +25,12 @@ class QuadsLayout extends Component {
                   <tbody>                  
                     <tr><td><label>{__('Align', 'quick-adsense-reloaded')}</label></td>
                       <td>
-                        <select name="align" value={post_meta.align} onChange={this.props.adFormChangeHandler}>
-                          <option value="3">{__('Default', 'quick-adsense-reloaded')}</option>
-                          <option value="0">{__('Left', 'quick-adsense-reloaded')}</option>
-                          <option value="1">{__('Center', 'quick-adsense-reloaded')}</option>
-                          <option value="2">{__('Right', 'quick-adsense-reloaded')}</option>                          
-                        </select>
+                        <Select name="align" value={post_meta.align} onChange={this.props.adFormChangeHandler} style={{minWidth:'200px'}}>
+                          <MenuItem value="3">{__('Default', 'quick-adsense-reloaded')}</MenuItem>
+                          <MenuItem value="0">{__('Left', 'quick-adsense-reloaded')}</MenuItem>
+                          <MenuItem value="1">{__('Center', 'quick-adsense-reloaded')}</MenuItem>
+                          <MenuItem value="2">{__('Right', 'quick-adsense-reloaded')}</MenuItem>                          
+                        </Select>
                       </td>
                       </tr>
                       <tr>
