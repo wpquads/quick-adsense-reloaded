@@ -2473,6 +2473,18 @@ select#abtesting_report {
 .quads-roles-vertical-tabs .active {
   background-color: blue;
   color: #fff; }
+
+@keyframes quadsFadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+.quads-role-permission {
+  animation: quadsFadeIn 0.5s; }
+
+.quads-modal-content .i-root-1 {
+  background-color: unset; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

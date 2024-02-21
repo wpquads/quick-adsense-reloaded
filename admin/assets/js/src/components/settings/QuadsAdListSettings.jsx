@@ -5,7 +5,8 @@ import Icon from '@material-ui/core/Icon';
 import { Alert } from '@material-ui/lab';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import MSelect from '@material-ui/core/Select';
+import Select from "react-select";
 //import "react-select/dist/react-select.css";
 import './QuadsAdListSettings.scss';
 import QuadsAdSettingsNavLink from './QuadsAdSettingsNavLink';
@@ -13,6 +14,7 @@ import QuadsAdSettingsProTemplate from './QuadsAdSettingsProTemplate';
 import copy from 'copy-to-clipboard';
 import { SketchPicker } from 'react-color';
 import reactCSS from 'reactcss';
+import QuadsVerticalTabs from './QuadsVerticalTabs';
 const {__} = wp.i18n;
 // import {saveAs} from "file-saver";
 class QuadsAdListSettings extends Component {
@@ -123,8 +125,7 @@ class QuadsAdListSettings extends Component {
             q_admin_url:'',
             black: true,
             checked: false,
-            role_permission_modal :false,
-            role_active_tab:0
+            role_permission_modal :false
         };
   }
   onFileChange = (event) => {
@@ -493,9 +494,6 @@ handleCapabilityChange = (event) =>{
   
   }
 
-  handleTabClick(index){
-    this.setState({ role_active_tab: index });
-  }
     page_redirect_select_fun = (option) => {
         const { settings } = this.state;
         settings.page_redirect_path = option;
@@ -1298,40 +1296,11 @@ handleCapabilityChange = (event) =>{
                 {this.state.role_permission_modal ?
            <div className="quads-modal-popup quads-role-permission">
             <div className="quads-modal-popup-content">
-             <span className="quads-modal-close" onClick={this.closeModal}>&times;</span>
+            <div className="quads-modal-header"> <span className="quads-modal-close" onClick={this.closeModal}>&times;</span>
              <h3>{__('Role Capabilities', 'quick-adsense-reloaded')}</h3>
-             <div className="quads-modal-description"></div>
-              <div className="quads-modal-content">
-                <div className="quads-roles-vertical-tabs-container">
-              <div className="quads-roles-vertical-tabs">
-              {settings.RoleBasedAccess.length > 0 ? settings.RoleBasedAccess.map((tab, index) => (
-                <div
-                    key={index}
-                    className={`tab ${this.state.role_active_tab === index ? 'active' : ''}`}
-                    onClick={() => this.handleTabClick(index)}
-                  >
-                    {tab.label}
-                  </div>
-                )) :'' }
-                </div>
-                <div className="quads-roles-tab-content">
-                    <table>
-                      <tbody>
-                      {settings.RoleBasedAccess.length > 0 ? settings.RoleBasedAccess.map((tab, index) => (
-                        <tr key={index} className="quads-roles-tab-pane" style={{display:this.state.role_active_tab==index?'block':'none'}}>
-                        <th><label htmlFor="setting_access">{__('Settings Access', 'quick-adsense-reloaded')}</label></th>
-                        <td>
-                            <label className="quads-switch">
-                                <input data-index={index} id={"setting_access_"+index} type="checkbox" onChange={this.handleCapabilityChange} defaultChecked={settings.RoleBasedAccess[index]?.setting_access}/>
-                                <span id={"setting_access_"+index+"_"} className="quads-slider"></span>
-                            </label>
-                        </td>
-                        </tr>
-                      )) :'' }
-                      </tbody>
-                    </table> 
-              </div>
             </div>
+              <div className="quads-modal-content">
+              <QuadsVerticalTabs RoleBasedAccess={settings.RoleBasedAccess} handleCapabilityChange={this.handleCapabilityChange} />
               </div>
              </div>
             </div> : null
@@ -1928,7 +1897,7 @@ handleCapabilityChange = (event) =>{
                        <th><label htmlFor="report_logging">{__('Report Logging Method', 'quick-adsense-reloaded')}</label></th>
                         <td>
                           <FormControl style={{minWidth:'300px'}} >
-                          <Select
+                          <MSelect
                             name="report_logging" 
                             id="report_logging"
                             onChange={e =>this.selectLoggingChangeHandler(e)} 
@@ -1936,7 +1905,7 @@ handleCapabilityChange = (event) =>{
                           >
                             <MenuItem value="combined_legacy">{__('Combined Data (Legacy)', 'quick-adsense-reloaded')}</MenuItem>
                             <MenuItem value="improved_v2">{__('Separate Data (Improved V2)', 'quick-adsense-reloaded')}</MenuItem>
-                          </Select>
+                          </MSelect>
                         </FormControl>
                           {(settings.logging_toggle != 'off')?settings.report_logging == 'improved_v2'?
                           <p>{__('You are now using new improved report tracking.', 'quick-adsense-reloaded')} </p>
