@@ -2630,9 +2630,6 @@ and open the template in the editor.
   outline: 0;
   box-shadow: none; }
 
-.quads-ad-table th:nth-child(4) {
-  color: transparent; }
-
 .quads-edit-btn {
   text-decoration: none; }
 
@@ -2644,7 +2641,7 @@ and open the template in the editor.
 
 .quads-more-icon-box {
   position: absolute;
-  top: 0px;
+  top: 80%;
   left: -100px;
   z-index: 100000;
   float: left;
@@ -2935,6 +2932,20 @@ a.quads-btn-cancel {
 a.quads-btn-cancel:hover {
   background: #666 !important;
   color: #fff !important; }
+
+input[type=checkbox]:checked {
+  background-color: #005af0;
+  color: #fff; }
+
+input[type=checkbox]:checked::before {
+  filter: brightness(0) invert(1); }
+
+.quads-ad-table .partial-checked::before {
+  filter: brightness(0) invert(1);
+  content: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pjxzdmcgdmlld0JveD0iMCAwIDI1NiAyNTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3QgZmlsbD0ibm9uZSIgaGVpZ2h0PSIyNTYiIHdpZHRoPSIyNTYiLz48bGluZSBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIyNCIgeDE9IjQwIiB4Mj0iMjE2IiB5MT0iMTI4IiB5Mj0iMTI4Ii8+PC9zdmc+"); }
+
+.quads-ad-table .partial-checked {
+  background-color: #005af0; }
 .quads-ad-networks li {
   background: #fff;
   border-radius: 10px;

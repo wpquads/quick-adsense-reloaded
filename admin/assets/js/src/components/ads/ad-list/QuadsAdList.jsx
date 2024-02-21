@@ -262,7 +262,7 @@ class QuadsAdList extends Component {
         <table className="quads-ad-table">
           <thead>
           <tr>
-          <th> <input id='quads_master_checkbox' name='quads_ids_' value={'all'} type='checkbox' onClick={this.props.handleMasterCheckbox}/></th>
+          <th style={{width:'20px'}}> <input id='quads_master_checkbox' name='quads_ids_' value={'all'} type='checkbox' onClick={this.props.handleMasterCheckbox}/></th>
           <th>{__('Name', 'quick-adsense-reloaded')}</th>
           <th>{__('Type', 'quick-adsense-reloaded')}</th>
           <th>{__('Last Modified', 'quick-adsense-reloaded')}</th>
@@ -312,7 +312,7 @@ class QuadsAdList extends Component {
                   <div style={t_main} className="MuiTooltip-popper MuiTooltip-popperArrow" id="tooltip" x-placement="bottom"><div className="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >{__('Edit Ad', 'quick-adsense-reloaded')}<span className="MuiTooltip-arrow" style={ttp_1_}></span></div></div>
                    : '' }
                 {item.post_meta.ad_id && this.props.more_box_id ==  item.post_meta.ad_id ?
-                <div className="quads-more-icon-box" style={{left:this.props.settings.ad_performance_tracking ?'100px':'0px'}} ref={this.wrapperRef}>
+                <div className="quads-more-icon-box" style={{left:this.props.settings.ad_performance_tracking ?(this.props.settings.ad_log?'10%':'-5%'):'-30%'}} ref={this.wrapperRef}>
                   <div className="quads-more-icon-box-close" onClick={this.props.hideMoreIconBox}><Icon>close</Icon></div>
                   <ul>
                     <li role="presentation"><a onClick={this.props.processAction} data-ad={item.post_meta.ad_id} data-id={item.post.post_status == 'publish' ? 'draft' : 'publish'} ><Icon>{item.post.post_status == 'publish' ? 'drafts' : 'publish'}</Icon> <span>{__(item.post.post_status == 'publish' ? __('Set to Draft', 'quick-adsense-reloaded') : __('Publish', 'quick-adsense-reloaded'))}</span></a></li>

@@ -3,7 +3,9 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import queryString from 'query-string'
 import Icon from '@material-ui/core/Icon';
 import { Alert } from '@material-ui/lab';
-import Select from "react-select";
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 //import "react-select/dist/react-select.css";
 import './QuadsAdListSettings.scss';
 import QuadsAdSettingsNavLink from './QuadsAdSettingsNavLink';
@@ -1925,10 +1927,17 @@ handleCapabilityChange = (event) =>{
                     <tr>
                        <th><label htmlFor="report_logging">{__('Report Logging Method', 'quick-adsense-reloaded')}</label></th>
                         <td>
-                          <select name="report_logging" id="report_logging" onChange={e =>this.selectLoggingChangeHandler(e)} value={settings.report_logging} >
-                            <option value="combined_legacy">{__('Combined Data (Legacy)', 'quick-adsense-reloaded')}</option>
-                            <option value="improved_v2">{__('Separate Data (Improved V2)', 'quick-adsense-reloaded')}</option>
-                          </select>
+                          <FormControl style={{minWidth:'300px'}} >
+                          <Select
+                            name="report_logging" 
+                            id="report_logging"
+                            onChange={e =>this.selectLoggingChangeHandler(e)} 
+                            value={settings.report_logging}
+                          >
+                            <MenuItem value="combined_legacy">{__('Combined Data (Legacy)', 'quick-adsense-reloaded')}</MenuItem>
+                            <MenuItem value="improved_v2">{__('Separate Data (Improved V2)', 'quick-adsense-reloaded')}</MenuItem>
+                          </Select>
+                        </FormControl>
                           {(settings.logging_toggle != 'off')?settings.report_logging == 'improved_v2'?
                           <p>{__('You are now using new improved report tracking.', 'quick-adsense-reloaded')} </p>
                           :

@@ -54,17 +54,40 @@ class QuadsAdListBody extends Component {
       arr = arr.concat(value);
       arr2 = arr2.concat(e.target.dataset.index);
       this.setState({bulk_ads_ids:arr , bulk_ads_index:arr2});
+      this.handleCheckBoxUI(arr);
       
     }else{
       this.state.bulk_ads_ids = this.state.bulk_ads_ids.filter((ele)=> ele !==value);
       this.state.bulk_ads_index = this.state.bulk_ads_index.filter((ele)=> ele !== e.target.dataset.index);
+      this.handleCheckBoxUI(this.state.bulk_ads_ids);
     }
   }
 
+  handleCheckBoxUI = (arr) => {
+    let master_check = document.querySelector('#quads_master_checkbox');
+        let all_checks = document.querySelectorAll('.quads_checkbox_adlist');
+      if(arr.length){
+        if(master_check && all_checks){
+          if(all_checks.length>arr.length){
+            master_check.classList.add("partial-checked");
+            master_check.checked=false;
+          }else if(all_checks.length==arr.length){
+            master_check.checked=true;
+            master_check.classList.remove("partial-checked");
+          }
+          else{
+            master_check.checked= false;
+            master_check.classList.remove("partial-checked");
+          }
+        }
+      }else{
+        master_check.checked= false;
+        master_check.classList.remove("partial-checked");
+      }
+  }
   handleMasterCheckbox = (e) =>{
     const { checked } = e.target;
     const checkboxes = document.querySelectorAll('.quads_checkbox_adlist');
-    console.log(checkboxes);
     if (checked) {
       
       let arr = [];
@@ -84,6 +107,7 @@ class QuadsAdListBody extends Component {
       this.state.bulk_ads_ids = [];
       this.state.bulk_ads_index = [];
     }
+    e.target.classList.remove('partial-checked');
   }
   handleBulkActions = (e) => {
     const { value } = e.target;

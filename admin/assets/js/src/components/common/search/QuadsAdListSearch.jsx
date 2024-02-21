@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import ReactDOM from "react-dom";
 import queryString from 'query-string'
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 import './QuadsAdListSearch.scss';
 
@@ -34,40 +37,67 @@ class QuadsAdListSearch extends Component {
       onChange={e =>this.props.triggerSearch(e)} value={page.ad_id} placeholder={__('Search by ad unit, id, format, etc', 'quick-adsense-reloaded')} type="text"/>
 :
 <div>
-  <div className='quads-select-div'>
-<label>{__('Bulk Actions', 'quick-adsense-reloaded')}<select className='quads_bulk_actions' onChange={this.props.handleBulkActions}><option value={''}>{__('-- Select --', 'quick-adsense-reloaded')}</option><option value={'draft'}>{__('Set to Draft', 'quick-adsense-reloaded')}</option><option value={'publish'}>{__('Set to Publish', 'quick-adsense-reloaded')}</option><option value={'delete'}>{__('Delete', 'quick-adsense-reloaded')}</option></select></label>
-<label>{__('Sort By', 'quick-adsense-reloaded')} <select  onChange={this.props.handleSortBy}><option value={''}>{__('-- Select --', 'quick-adsense-reloaded')}</option><option value={'impression'}>{__('Sort by Impression', 'quick-adsense-reloaded')}</option><option value={'click'}>{__('Sort by Clicks', 'quick-adsense-reloaded')}</option></select></label>
-<label>{__('Filter By', 'quick-adsense-reloaded')} <select  onChange={this.props.handleFilterBy}>
-    <option value={''}>{__('-- Select --', 'quick-adsense-reloaded')}</option>
-    <option value={'adsense'}>{__('Adsense', 'quick-adsense-reloaded')}</option>
-    <option value={'plain_text'}>{__('Custom Code', 'quick-adsense-reloaded')}</option>
-    <option value={'rotator_ads'}>{__('Rotator Ads', 'quick-adsense-reloaded')}</option>
-    <option value={'random_ads'}>{__('Random Ads', 'quick-adsense-reloaded')}</option>
-    <option value={'popup_ads'}>{__('Popup Ads', 'quick-adsense-reloaded')}</option>
-    <option value={'video_ads'}>{__('Video Ads', 'quick-adsense-reloaded')}</option>
-    <option value={'double_click'}>{__('Double Click', 'quick-adsense-reloaded')}</option>
-    <option value={'yandex'}>{__('Yandex', 'quick-adsense-reloaded')}</option>
-    <option value={'mgid'}>{__('mgid', 'quick-adsense-reloaded')}</option>
-    <option value={'propeller'}>{__('Propeller', 'quick-adsense-reloaded')}</option>
-    <option value={'ad_image'}>{__('Banner Image', 'quick-adsense-reloaded')}</option>
-    <option value={'ad_blindness'}>{__('ad_blindness', 'quick-adsense-reloaded')}</option>
-    <option value={'ab_testing'}>{__('A/B Testing', 'quick-adsense-reloaded')}</option>
-    <option value={'taboola'}>{__('Taboola', 'quick-adsense-reloaded')}</option>
-    <option value={'media_net'}>{__('Media.net', 'quick-adsense-reloaded')}</option>
-    <option value={'mediavine'}>{__('Mediavine', 'quick-adsense-reloaded')}</option>
-    <option value={'outbrain'}>{__('Outbrain', 'quick-adsense-reloaded')}</option>
-    <option value={'infolinks'}>{__('Infolinks', 'quick-adsense-reloaded')}</option>
-    <option value={'background_ad'}>{__('Background Ad', 'quick-adsense-reloaded')}</option>
-    <option value={'group_insertion'}>{__('Group Insertion', 'quick-adsense-reloaded')}</option>
-    <option value={'skip_ads'}>{__('Skip Ads', 'quick-adsense-reloaded')}</option>
-    <option value={'loop_ads'}>{__('Loop Ads', 'quick-adsense-reloaded')}</option>
-    <option value={'carousel_ads'}>{__('Carousel Ads', 'quick-adsense-reloaded')}</option>
-    <option value={'parallax_ads'}>{__('Parallax Ads', 'quick-adsense-reloaded')}</option>
-    <option value={'half_page_ads'}>{__('Half Page Ads', 'quick-adsense-reloaded')}</option>
-    <option value={'sticky_scroll'}>{__('Sticky Scroll', 'quick-adsense-reloaded')}</option>
-    <option value={'floating_cubes'}>{__('Floating Cubes', 'quick-adsense-reloaded')}</option>    
-</select></label>
-</div>
+{page.path === undefined?  <div className='quads-select-div'>
+    <FormControl style={{minWidth:'200px',paddingRight:'10px'}}>
+        <InputLabel id="quads_bulk_actions_lid">{__('Bulk Actions', 'quick-adsense-reloaded')}</InputLabel>
+        <Select
+          labelId="quads_bulk_actions_lid"
+          className="quads_bulk_actions"
+          onChange={this.props.handleBulkActions}
+        >
+          <MenuItem value={'draft'}>{__('Set to Draft', 'quick-adsense-reloaded')}</MenuItem>
+          <MenuItem value={'publish'}>{__('Set to Publish', 'quick-adsense-reloaded')}</MenuItem>
+          <MenuItem value={'delete'}>{__('Delete', 'quick-adsense-reloaded')}</MenuItem>
+        </Select>
+      </FormControl>
+
+      <FormControl style={{minWidth:'200px',paddingRight:'10px'}}>
+        <InputLabel id="quads_sort_lid">{__('Sort By', 'quick-adsense-reloaded')}</InputLabel>
+        <Select
+          labelId="quads_sort_lid"
+          onChange={this.props.handleSortBy}
+        >
+          <MenuItem value={'impression'}>{__('Sort by Impression', 'quick-adsense-reloaded')}</MenuItem>
+          <MenuItem value={'click'}>{__('Sort by Clicks', 'quick-adsense-reloaded')}</MenuItem>
+        </Select>
+      </FormControl>
+
+      <FormControl style={{minWidth:'200px'}}>
+        <InputLabel id="quads_filter_lid">{__('Filter By', 'quick-adsense-reloaded')}</InputLabel>
+        <Select
+          labelId="quads_filter_lid"
+          onChange={this.props.handleFilterBy}
+        >
+        <MenuItem value={'adsense'}>{__('Adsense', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'plain_text'}>{__('Custom Code', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'rotator_ads'}>{__('Rotator Ads', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'random_ads'}>{__('Random Ads', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'popup_ads'}>{__('Popup Ads', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'video_ads'}>{__('Video Ads', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'double_click'}>{__('Double Click', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'yandex'}>{__('Yandex', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'mgid'}>{__('mgid', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'propeller'}>{__('Propeller', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'ad_image'}>{__('Banner Image', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'ad_blindness'}>{__('ad_blindness', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'ab_testing'}>{__('A/B Testing', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'taboola'}>{__('Taboola', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'media_net'}>{__('Media.net', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'mediavine'}>{__('Mediavine', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'outbrain'}>{__('Outbrain', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'infolinks'}>{__('Infolinks', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'background_ad'}>{__('Background Ad', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'group_insertion'}>{__('Group Insertion', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'skip_ads'}>{__('Skip Ads', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'loop_ads'}>{__('Loop Ads', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'carousel_ads'}>{__('Carousel Ads', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'parallax_ads'}>{__('Parallax Ads', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'half_page_ads'}>{__('Half Page Ads', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'sticky_scroll'}>{__('Sticky Scroll', 'quick-adsense-reloaded')}</MenuItem>
+        <MenuItem value={'floating_cubes'}>{__('Floating Cubes', 'quick-adsense-reloaded')}</MenuItem> 
+        </Select>
+      </FormControl>
+</div>:''}
 <input
      style = {{ backgroundImage: `url(${searchIcon})`,          
      backgroundRepeat: 'no-repeat',
