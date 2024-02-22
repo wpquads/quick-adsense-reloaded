@@ -2485,6 +2485,14 @@ select#abtesting_report {
 
 .quads-modal-content .i-root-1 {
   background-color: unset; }
+
+.quads-role-permission .quads-modal-close {
+  position: relative;
+  top: 10px;
+  right: 10px; }
+
+[class^="i-root-"] {
+  background-color: transparent; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

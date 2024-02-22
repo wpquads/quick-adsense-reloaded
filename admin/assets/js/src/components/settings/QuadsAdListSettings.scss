@@ -749,3 +749,12 @@ margin:auto;
 .quads-modal-content .i-root-1{
   background-color:unset;
 }
+
+.quads-role-permission .quads-modal-close {
+  position: relative;
+    top: 10px;
+    right: 10px;
+}
+[class^="i-root-"]{
+  background-color: transparent;
+}

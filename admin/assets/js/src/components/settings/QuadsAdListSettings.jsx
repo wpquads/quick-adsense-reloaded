@@ -471,6 +471,11 @@ handleMultiPluginsChange = (option) => {
     this.state.settings.namer = 'RoleBasedAccess';
     this.setState(settings);
     this.saveSettings();
+  }else{
+    settings.RoleBasedAccess = [];
+    this.state.settings.namer = 'RoleBasedAccess';
+    this.setState(settings);
+    this.saveSettings();
   }
 }
 
@@ -1878,8 +1883,7 @@ handleCapabilityChange = (event) =>{
                       onChange={this.handleRoleBasedAccess}
                     />
                     }
-                    {this.state.multiUserOptions.length > 0 ? <span onClick={this.open_role_permission_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''}
-                       {/* <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-access-quads-rolebase/"></a> */}
+                    {this.state.settings.RoleBasedAccess.length > 0 ? <span onClick={this.open_role_permission_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''}
 
                     </td>
                   </tr>:null}
