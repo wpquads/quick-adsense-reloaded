@@ -274,7 +274,7 @@ class QuadsAdList extends Component {
                    
             <tr key={index}>
                 <td><QuadsCheckbox index={index} name='quads_ids' value={item.post_meta.ad_id} onClick={this.props.handleBulkCheckbox}/></td>
-                <td>{item.post_meta.label} {item.post_meta.ad_type == 'rotator_ads' || item.post_meta.ad_type == 'carousel_ads' || item.post_meta.ad_type == 'group_insertion' ? <span className="quads-adlists info-wrpr"><span className="material-icons info" aria-hidden="true" onClick={() => this.showInfoAds(item.post_meta.ad_id)}>info</span>{ item.post_meta.ad_id == this.state.adListsId && this.state.toggleAdsLists ? this.getActiveAdsLists(item.post_meta.ads_list, index) : '' }</span> : ''} {item.post.post_status == 'draft' ? <span className="quads-ad-label-draft">{__('draft','quick-adsense-reloaded')}</span> : ''}</td>
+                <td><Link onMouseEnter={this.props.EditHoverIn} onMouseLeave={this.props.EditHoverOut} data-index={index} data-id={item.post_meta.ad_id} to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.post_meta.ad_type}&action=edit&post=${item.post.post_id}`} className="quads-edit-btn"> {item.post_meta.label} </Link> {item.post_meta.ad_type == 'rotator_ads' || item.post_meta.ad_type == 'carousel_ads' || item.post_meta.ad_type == 'group_insertion' ? <span className="quads-adlists info-wrpr"><span className="material-icons info" aria-hidden="true" onClick={() => this.showInfoAds(item.post_meta.ad_id)}>info</span>{ item.post_meta.ad_id == this.state.adListsId && this.state.toggleAdsLists ? this.getActiveAdsLists(item.post_meta.ads_list, index) : '' }</span> : ''} {item.post.post_status == 'draft' ? <span className="quads-ad-label-draft">{__('draft','quick-adsense-reloaded')}</span> : ''}</td>
                 <td>{this.getImageByAdType(item.post_meta.ad_type, index)} {this.getAmpLogoByEnabled(item.post_meta.enabled_on_amp, index)}</td>
                 <td>{item.post.post_modified}</td>
                 <td>
@@ -312,7 +312,7 @@ class QuadsAdList extends Component {
                   <div style={t_main} className="MuiTooltip-popper MuiTooltip-popperArrow" id="tooltip" x-placement="bottom"><div className="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >{__('Edit Ad', 'quick-adsense-reloaded')}<span className="MuiTooltip-arrow" style={ttp_1_}></span></div></div>
                    : '' }
                 {item.post_meta.ad_id && this.props.more_box_id ==  item.post_meta.ad_id ?
-                <div className="quads-more-icon-box" style={{left:this.props.settings.ad_performance_tracking ?(this.props.settings.ad_log?'10%':'-5%'):'-30%'}} ref={this.wrapperRef}>
+                <div className="quads-more-icon-box" style={{left:this.props.settings.ad_performance_tracking ?(this.props.settings.ad_log?'10%':'-5%'):'-25%'}} ref={this.wrapperRef}>
                   <div className="quads-more-icon-box-close" onClick={this.props.hideMoreIconBox}><Icon>close</Icon></div>
                   <ul>
                     <li role="presentation"><a onClick={this.props.processAction} data-ad={item.post_meta.ad_id} data-id={item.post.post_status == 'publish' ? 'draft' : 'publish'} ><Icon>{item.post.post_status == 'publish' ? 'drafts' : 'publish'}</Icon> <span>{__(item.post.post_status == 'publish' ? __('Set to Draft', 'quick-adsense-reloaded') : __('Publish', 'quick-adsense-reloaded'))}</span></a></li>

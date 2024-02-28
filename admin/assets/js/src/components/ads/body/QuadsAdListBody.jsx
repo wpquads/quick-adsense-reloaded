@@ -55,11 +55,17 @@ class QuadsAdListBody extends Component {
       arr2 = arr2.concat(e.target.dataset.index);
       this.setState({bulk_ads_ids:arr , bulk_ads_index:arr2});
       this.handleCheckBoxUI(arr);
+      if(e.target.parentElement.parentElement.parentElement){
+        e.target.parentElement.parentElement.parentElement.classList.add('quads-checked');
+      }
       
     }else{
       this.state.bulk_ads_ids = this.state.bulk_ads_ids.filter((ele)=> ele !==value);
       this.state.bulk_ads_index = this.state.bulk_ads_index.filter((ele)=> ele !== e.target.dataset.index);
       this.handleCheckBoxUI(this.state.bulk_ads_ids);
+      if(e.target.parentElement.parentElement.parentElement){
+        e.target.parentElement.parentElement.parentElement.classList.remove('quads-checked');
+      }
     }
   }
 
@@ -95,6 +101,7 @@ class QuadsAdListBody extends Component {
 
       checkboxes.forEach((checkbox, index) => {
         checkbox.checked = true;
+          checkbox.parentElement.parentElement.parentElement.classList.add('quads-checked');
           arr.push(checkbox.value);
           arr2.push(index);
     });
@@ -103,6 +110,7 @@ class QuadsAdListBody extends Component {
     }else{
       checkboxes.forEach((checkbox) => {
           checkbox.checked = false;
+          checkbox.parentElement.parentElement.parentElement.classList.remove('quads-checked');
     });
       this.state.bulk_ads_ids = [];
       this.state.bulk_ads_index = [];

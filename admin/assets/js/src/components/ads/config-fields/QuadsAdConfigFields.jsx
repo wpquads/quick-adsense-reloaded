@@ -760,10 +760,10 @@ error_outline
 </span>{__('Enter AD Unit Name', 'quick-adsense-reloaded')}</div> :''}</td></tr>
                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
-                        <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
-                        <option value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</option>
-                        <option value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</option> 
-                      </select>
+                      <MSelect style={{minWidth:'200px'}} value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
+                        <MenuItem value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</MenuItem>
+                        <MenuItem value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</MenuItem> 
+                      </MSelect>
                       {
                         post_meta.adsense_type !== 'responsive' ?                        
                       <div className="quads-adsense-width-heigth">
@@ -1181,10 +1181,10 @@ error_outline
                      </td></tr>
                      <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
-                        <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
-                        <option value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</option>
-                        <option value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</option> 
-                      </select>
+                      <MSelect style={{minWidth:'200px'}} value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
+                        <MenuItem value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</MenuItem>
+                        <MenuItem value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</MenuItem> 
+                      </MSelect>
                       {
                         post_meta.adsense_type !== 'responsive' ?                        
                       <div className="quads-adsense-width-heigth">
@@ -1227,10 +1227,10 @@ error_outline
                      </td></tr>
                      <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
-                        <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
-                        <option value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</option>
-                        <option value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</option> 
-                      </select>
+                      <MSelect style={{minWidth:'200px'}} value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
+                        <MenuItem value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</MenuItem>
+                        <MenuItem value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</MenuItem> 
+                      </MSelect>
                       {
                         post_meta.adsense_type !== 'responsive' ?                        
                       <div className="quads-adsense-width-heigth">

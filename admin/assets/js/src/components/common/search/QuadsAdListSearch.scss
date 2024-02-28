@@ -27,6 +27,7 @@ and open the template in the editor.
 .quads-ad-search-box .quads-select-div{
   display: flex;
   margin-bottom: 10px;
+  justify-content: space-between;
 
 }
 .quads-select-div select{
@@ -34,4 +35,13 @@ and open the template in the editor.
 }
 .quads-select-div label{
     margin-right: 10px;
+    width:100%;
+}
+.quads-select-div .MuiFormControl-root{
+    color:#000;
+    text-align: center;
+    //background-color: #f1f3f4;
+}
+.MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded{
+    margin-top:50px; 
 }

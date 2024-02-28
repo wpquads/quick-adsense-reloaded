@@ -2518,13 +2518,22 @@ and open the template in the editor.
 
 .quads-ad-search-box .quads-select-div {
   display: flex;
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  justify-content: space-between; }
 
 .quads-select-div select {
   border: 1px solid #e1e1e1; }
 
 .quads-select-div label {
-  margin-right: 10px; }
+  margin-right: 10px;
+  width: 100%; }
+
+.quads-select-div .MuiFormControl-root {
+  color: #000;
+  text-align: center; }
+
+.MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded {
+  margin-top: 50px; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -2966,6 +2975,9 @@ input[type=checkbox]:checked::before {
 
 .quads-ad-table .partial-checked {
   background-color: #005af0; }
+
+.quads-ad-table .quads-checked {
+  background: #f1f3f4; }
 .quads-ad-networks li {
   background: #fff;
   border-radius: 10px;

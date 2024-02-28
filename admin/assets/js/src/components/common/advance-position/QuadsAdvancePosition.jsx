@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import './QuadsAdvancePosition.scss';
 import { Alert } from '@material-ui/lab';
 import Icon from '@material-ui/core/Icon';
+import Select from '@material-ui/core/Select';
 
 class QuadsAdvancePosition extends Component {
 
@@ -56,7 +57,7 @@ check_plugin_exist = (event) => {
                     <div>
                         {quads_localize_data.is_amp_enable &&  post_meta.enabled_on_amp ?
                         <>
-                            <select className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
+                            <Select className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                                <>
                                {post_meta.ad_type != "adpushup" ?                                
                                 <>
@@ -106,10 +107,10 @@ check_plugin_exist = (event) => {
                                     {post_meta.ad_type =='adsense' || post_meta.ad_type =='double_click' ?  <option value="amp_story_ads">{__('AMP Story', 'quick-adsense-reloaded')}</option> : null }
                                 </optgroup>
 
-                            </select>
+                            </Select>
                             {post_meta.ad_type == "adpushup" ? <p>{__('This selection is just for AMP', 'quick-adsense-reloaded')}</p> : ''}
                             </>                            
-                            : <select className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
+                            : <Select className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                                 <option value="select_position">{__('Select Position', 'quick-adsense-reloaded')}</option>
                                 <option value="random_ad_placement">{__('Random Placement', 'quick-adsense-reloaded')}</option>
                                 <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>
@@ -146,7 +147,7 @@ check_plugin_exist = (event) => {
                                 <option value="after_header">{__('After the Header', 'quick-adsense-reloaded')}</option>
                                     </optgroup>
                                 : ''}    
-                            </select>  }
+                            </Select>  }
                         <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Select Where Will The AD Appear', 'quick-adsense-reloaded')}</div></span> : ''}</div>
                     </div>
                     <div className='position_content'>
