@@ -842,11 +842,9 @@ drawChart(config);
         if(page){
             if(page.id){
                 this.setState({ad_id:page.id});
-                console.log(page.id);
             }
             if(page.path){
                 this.setState({current_page:page.path});
-                console.log(page.path);
             }
         }
 

@@ -72,7 +72,6 @@ window.addEventListener("load", function(){
                     var adHeight = post_half_page_adWidth.height();
                     var adArrowRight = $('.half-page-arrow-right');
                     var adArrowLeft = $('.half-page-arrow-left');
-                    console.log(adArrowRight);
                     $("#post_half_page_openClose").click(function() {  
                         if(isSlide){
                             post_half_page_ad.animate({bottom: "0"},700);

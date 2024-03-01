@@ -316,7 +316,6 @@
 function display_report(response){
 
     var report_type = document.getElementById('report_type').value;
-    console.log(report_type);
     if(report_type == 'top_device_type') {
 
         var data_length = response.length;

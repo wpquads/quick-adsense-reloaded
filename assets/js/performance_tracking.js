@@ -17,7 +17,6 @@
                     dataType: "json",
                     data:{action:"quads_insert_ad_impression", ad_ids:ad_ids, quads_front_nonce:quads_analytics.quads_front_nonce,currentLocation:currentLocation},                    
                     error: function(response){                    
-                    console.log(response);
                     }
                 });     
         } 

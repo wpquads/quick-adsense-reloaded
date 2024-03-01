@@ -138,7 +138,7 @@ function quads_admin_newdb_upgrade(){
                     dataType: "json",
                     async: !0,
                     success: function(e) {
-                        console.log(e);
+                        
                         jQuery(".spinner").removeClass("is-active");
                         jQuery(\'.dbupgrade_infotable\').show();
                         jQuery(\'.dbupgrade_link\').hide();
@@ -165,7 +165,6 @@ function quads_admin_newdb_upgrade(){
                             dataType: "json",
                             async: !0,
                             success: function(e) {
-                                console.log(e);
                                 if(e.status == "success"){
                                 jQuery(".spinner").removeClass("is-active");
                                 jQuery(\'.quads_db_upgrade\').hide();

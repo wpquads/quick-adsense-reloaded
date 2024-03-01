@@ -17,7 +17,6 @@ jQuery(document).ready(function ($) {
 
 $('a[href$="quads_switch_to_new"]').removeAttr("href").attr('onClick', "quads_switch_version('new',this);");
 $('a[href$="quads_switch_to_old"]').removeAttr("href").attr('onClick', "quads_switch_version('old',this);");
-
     $(".wpquads-send-query").on("click", function(e){
         e.preventDefault();   
         var message     = $("#wpquads_query_message").val();  

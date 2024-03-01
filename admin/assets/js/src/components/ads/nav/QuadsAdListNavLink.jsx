@@ -14,6 +14,7 @@ class QuadsAdListNavLink extends Component {
             settings:this.props.settings,
             displayReports:false,
             displayad_logging:false,
+            setting_access : false,
            All_ad_network: [
                     {ad_type:'adsense',ad_type_name:'AdSense'},
                     {ad_type:'double_click',ad_type_name:'Double Click'},
@@ -69,6 +70,7 @@ class QuadsAdListNavLink extends Component {
                         settings[meta_key] =    meta_val;
                     })
                     this.setState({settings:settings});
+                    this.quadsUserHasSettingsAccess(settings);
 
                 }
             );
@@ -198,20 +200,18 @@ class QuadsAdListNavLink extends Component {
               document.head.appendChild(link);
             })
     }
-   quadsUserHasSettingsAccess() {
-    let roles_access =  this.props.settings;
+   quadsUserHasSettingsAccess= (settings) =>  {
     let user_roles = quads_localize_data.user_roles;
-    roles_access = roles_access.RoleBasedAccess;
+    let roles_access = settings.RoleBasedAccess;
       for (let role of user_roles) {
           if(role == 'administrator' || role == 'super_admin'){
-            return true;
+            this.setState({ setting_access: true });
           }
           let roleAccess = roles_access.find(item => item.value === role);
           if (roleAccess && roleAccess.setting_access === true) {
-              return true; 
+            this.setState({ setting_access: true });
           }
       }
-      return false; 
   }
   
   
@@ -267,7 +267,7 @@ class QuadsAdListNavLink extends Component {
         <div className="quads-ad-tab">
             <ul>
                 <li><Link to={'admin.php?page=quads-settings'} className={current == 'ads' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Ads', 'quick-adsense-reloaded')}</Link></li>
-                {this.quadsUserHasSettingsAccess?<li><Link to={'admin.php?page=quads-settings&path=settings'} className={current == 'settings' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Settings', 'quick-adsense-reloaded')}</Link></li>:''}
+                {this.state.setting_access?<li><Link to={'admin.php?page=quads-settings&path=settings'} className={current == 'settings' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Settings', 'quick-adsense-reloaded')}</Link></li>:''}
                 {this.state.displayReports ?
                 <li><Link to={'admin.php?page=quads-settings&path=reports'} className={current == 'reports' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Reports', 'quick-adsense-reloaded')}</Link></li>
                 : null }

@@ -226,7 +226,6 @@ notice_bg_color = (color) => {
                 link.download = `${filename}.json`;
                 link.href = url;
                 link.click();
-            console.log(result);
             },
             (error) => {
             }
@@ -466,7 +465,6 @@ handleMultiPluginsChange = (option) => {
         }
         return role;
       });
-      console.log(rolesWithCapabilities);
     settings.RoleBasedAccess = rolesWithCapabilities;
     this.state.settings.namer = 'RoleBasedAccess';
     this.setState(settings);
@@ -483,16 +481,13 @@ handleCapabilityChange = (event) =>{
   const { settings } = this.state;
   const tabsindex = event.target.dataset.index;
   const value = event.target.checked?true:false;
-  console.log(value);
   const rolesWithCapabilities = settings.RoleBasedAccess.map((role, index) => {
     if(index == tabsindex){
       return { ...role, setting_access: value };
     }
     return role;
   });
-  console.log(rolesWithCapabilities);
   settings.RoleBasedAccess = rolesWithCapabilities;
-  console.log(settings);
   this.state.settings.namer = 'RoleBasedAccess';
   this.setState(settings);
   this.saveSettings();
@@ -2159,6 +2154,8 @@ handleCapabilityChange = (event) =>{
             {__('Activate License', 'quick-adsense-reloaded')}
             </a>
           }
+          <p>{__('Please Activate Your License to get feature updates and premium support.', 'quick-adsense-reloaded')} <a href="https://wpquads.com/accounts/?account_page=downloads" target="_blank">{__('Get Your License Here', 'quick-adsense-reloaded')}</a></p>
+						<p><a href="https://wpquads.com/documentation/" target="_blank">{__('Documentation', 'quick-adsense-reloaded')}</a> | <a href="https://wpquads.com/support/" target="_blank">{__('Contact Tech Support', 'quick-adsense-reloaded')}</a></p>
           </div> : null}
           {quads_localize_data.licenses.license !== "valid" ?  
           <div className="">

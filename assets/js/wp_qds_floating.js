@@ -15,7 +15,6 @@ window.addEventListener("load", function(){
                 activeSlide=0;
             }
             wpquads_3d_slider.classList.add("wpquads-slide"+activeSlide+"-active");
-            console.log(activeSlide);
             switch (activeSlide) {
                 case 0:
                     wpquads_3d_slider.removeAttribute('style');
