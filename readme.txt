@@ -326,5 +326,5 @@ Alternative Installation:
 * Fixed: Wrong parameters passed to impressions and clicks functionality #755
 * Fixed: When we enable the ad performance tracking option, a lot of requests are sent to the server. #763
 
-Complete changelog: https://wpquads.com/changelog
+Complete changelog: [https://wpquads.com/changelog](https://wpquads.com/changelog) 
 
