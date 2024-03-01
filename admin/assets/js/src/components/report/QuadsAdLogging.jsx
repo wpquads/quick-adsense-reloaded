@@ -104,8 +104,7 @@ class QuadsAdLogging extends Component {
      });
 }
 open_ad = (ad_id) => {
-    console.log(ad_id);
-    
+  
         getAdDataById =  (ad_id) => {
 
       let url = quads_localize_data.rest_url+'quads-route/get-ad-by-id?ad-id='+ad_id;   
@@ -271,7 +270,7 @@ renderSwitch(param='') {
                  ))} 
                 </tbody>
                
-                </table> : <div> {__('No Data', 'quick-adsense-reloaded')}</div> }
+                </table> : <table style={{width:'100%'}}><tbody><tr><td align='center'><h3>{__('No Data', 'quick-adsense-reloaded')}</h3></td></tr></tbody></table> }
                 </div>  
                 <div className="quads-list-pagination">
                 <QuadsAdListPagination ad_list={this.state} triggerPagination={this.QuadsLogPaginateAd} search_text={this.state.search_text} />

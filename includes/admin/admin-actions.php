@@ -60,8 +60,11 @@ function quads_id_delete(){
    
 	if( ! current_user_can( 'manage_options' ) ) { return false; }
     delete_option('add_blocked_ip');
-    echo 'Operation success';
-    exit;
+    if (isset($_COOKIE['quads_ad_clicks'])) {
+        unset($_COOKIE['quads_ad_clicks']);
+        setcookie('quads_ad_clicks', '', time() - 3600, '/'); // empty value and old timestamp
+    }
+    wp_send_json( array('status'=>'Operation success'));
 }
 
 

@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react';
 import './QuadsAdConfigFields.scss';
 import QuadsAdModal from '../../common/modal/QuadsAdModal';
 import QuadsLargeAdModal from '../../common/modal/QuadsLargeAdModal';
-
+import MenuItem from '@material-ui/core/MenuItem';
+import MSelect from '@material-ui/core/Select';
 import Icon from '@material-ui/core/Icon';
 import Select from "react-select";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -458,14 +459,14 @@ const {__} = wp.i18n;
                     <tr><td><label>{__('AdSense Type', 'quick-adsense-reloaded')}</label></td>
                     <td>
                       <div>
-                        <select value={post_meta.adsense_ad_type} onChange={this.props.adFormChangeHandler} name="adsense_ad_type" id="adsense_ad_type">
-                          <option value="display_ads">{__('Display Ads', 'quick-adsense-reloaded')}</option>
-                          <option value="in_feed_ads">{__('In-Feed Ads', 'quick-adsense-reloaded')}</option>
-                          <option value="in_article_ads">{__('In-Article Ads', 'quick-adsense-reloaded')}</option> 
-                          <option value="adsense_auto_ads">{__('Auto Ads', 'quick-adsense-reloaded')}</option>
-                            {quads_localize_data.is_amp_enable || post_meta.adsense_ad_type == "adsense_sticky_ads" ?    <option value="adsense_sticky_ads">{__('Sticky (Only AMP)', 'quick-adsense-reloaded')}</option>:null}
-                            <option value="matched_content">{__('Matched content', 'quick-adsense-reloaded')}</option>
-                        </select>
+                        <MSelect  style={{minWidth:'200px'}} value={post_meta.adsense_ad_type} onChange={this.props.adFormChangeHandler} name="adsense_ad_type" id="adsense_ad_type">
+                          <MenuItem value="display_ads">{__('Display Ads', 'quick-adsense-reloaded')}</MenuItem>
+                          <MenuItem value="in_feed_ads">{__('In-Feed Ads', 'quick-adsense-reloaded')}</MenuItem>
+                          <MenuItem value="in_article_ads">{__('In-Article Ads', 'quick-adsense-reloaded')}</MenuItem> 
+                          <MenuItem value="adsense_auto_ads">{__('Auto Ads', 'quick-adsense-reloaded')}</MenuItem>
+                            {quads_localize_data.is_amp_enable || post_meta.adsense_ad_type == "adsense_sticky_ads" ?    <MenuItem value="adsense_sticky_ads">{__('Sticky (Only AMP)', 'quick-adsense-reloaded')}</MenuItem>:null}
+                            <MenuItem value="matched_content">{__('Matched content', 'quick-adsense-reloaded')}</MenuItem>
+                        </MSelect>
                       </div>
                     </td></tr> 
                     {post_meta.adsense_ad_type == 'in_feed_ads' ? 
@@ -486,10 +487,10 @@ const {__} = wp.i18n;
                       { !post_meta.adsense_ad_type || post_meta.adsense_ad_type == 'display_ads' || post_meta.adsense_ad_type == 'matched_content' || post_meta.adsense_ad_type == 'adsense_sticky_ads' ? (
                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
-                        <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
-                        <option value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</option>
-                        <option value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</option> 
-                      </select>
+                        <MSelect style={{minWidth:'200px'}} value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
+                        <MenuItem value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</MenuItem>
+                        <MenuItem value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</MenuItem> 
+                      </MSelect>
                       {
                         post_meta.adsense_type !== 'responsive' ?                        
                       <div className="quads-adsense-width-heigth">
@@ -759,10 +760,10 @@ error_outline
 </span>{__('Enter AD Unit Name', 'quick-adsense-reloaded')}</div> :''}</td></tr>
                     <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
-                        <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
-                        <option value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</option>
-                        <option value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</option> 
-                      </select>
+                      <MSelect style={{minWidth:'200px'}} value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
+                        <MenuItem value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</MenuItem>
+                        <MenuItem value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</MenuItem> 
+                      </MSelect>
                       {
                         post_meta.adsense_type !== 'responsive' ?                        
                       <div className="quads-adsense-width-heigth">
@@ -1180,10 +1181,10 @@ error_outline
                      </td></tr>
                      <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
-                        <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
-                        <option value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</option>
-                        <option value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</option> 
-                      </select>
+                      <MSelect style={{minWidth:'200px'}} value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
+                        <MenuItem value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</MenuItem>
+                        <MenuItem value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</MenuItem> 
+                      </MSelect>
                       {
                         post_meta.adsense_type !== 'responsive' ?                        
                       <div className="quads-adsense-width-heigth">
@@ -1226,10 +1227,10 @@ error_outline
                      </td></tr>
                      <tr><td><label>{__('Size', 'quick-adsense-reloaded')}</label></td><td>
                       <div>
-                        <select value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
-                        <option value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</option>
-                        <option value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</option> 
-                      </select>
+                      <MSelect style={{minWidth:'200px'}} value={post_meta.adsense_type} onChange={this.props.adFormChangeHandler} name="adsense_type" id="adsense_type">
+                        <MenuItem value="normal">{__('Fixed Size', 'quick-adsense-reloaded')}</MenuItem>
+                        <MenuItem value="responsive">{__('Responsive', 'quick-adsense-reloaded')}</MenuItem> 
+                      </MSelect>
                       {
                         post_meta.adsense_type !== 'responsive' ?                        
                       <div className="quads-adsense-width-heigth">
@@ -1653,9 +1654,9 @@ error_outline
                 </div> : ''}
                 {this.props.ad_type == 'background_ad' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-background-ad-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
                 {this.props.ad_type == 'plain_text' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-custom-code-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
-                {this.props.ad_type == 'adsense' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-adsense-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')}{ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'adsense' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-adsense-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
                 {this.props.ad_type == 'yandex' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-yandexdirect-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
-                {this.props.ad_type == 'mgid' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-mgid-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')}{ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'mgid' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-mgid-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
                 {this.props.ad_type == 'taboola' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-taboola-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
                 {this.props.ad_type == 'media_net' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-media-net-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
                 {this.props.ad_type == 'outbrain' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-outbrain-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}

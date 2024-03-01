@@ -45,11 +45,10 @@ function quads_plugins_loaded_bbpress(){
 add_filter('wp_quads_content_html_last_filter','quads_content_modifier');
 function quads_content_modifier( $content_buffer ){
     $data =    quads_load_ads_common('newspaper_theme',$content_buffer);
-    return $data;
     if(empty($data)){
         return $content_buffer;
     }
-  return $data;
+    return $data;
 }
 
 function quads_bbp_template_after_Ads(){
@@ -69,7 +68,7 @@ function quads_bbp_template_before_replies_loop(){
 
 function quads_api_services_cllbck()
 {
-    // Global $quads_ads variable to reduce db calls #631
+       // Global $quads_ads variable to reduce db calls #631
         require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
         $api_service = new QUADS_Ad_Setup_Api_Service();
         $quads_ads = $api_service->getAdDataByParam('quads-ads');
@@ -1410,34 +1409,6 @@ function quads_filter_default_ads_new( $content ) {
                     
                         $content =  quads_remove_ad_from_content($content,$cusads,$ads);
 
-                    break;
-                    case 'ad_after_id':
-                        $type_name = 'id';
-                        $id_name = isset($ads['after_id_name']) ? $ads['after_id_name'] : '';
-                        $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
-                        if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
-                            $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
-                        }else{
-                            if(!empty($id_name)){
-                                $id_name = '"'.$id_name.'"';
-                                $content = quads_after_id_class_ad_creator($content,$id_name,$type_name);
-                                $content = str_replace('afterIdAd', $cusads, $content);
-                            }
-                        }
-                    break;
-                    case 'ad_after_class':
-                        $type_name = 'class';
-                        $class_name = isset($ads['after_class_name']) ? $ads['after_class_name'] : '';
-                        $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
-                        if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
-                            $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
-                        }else{
-                            if(!empty($class_name)){
-                                $class_name = '"'.$class_name.'"';
-                                $content = quads_after_id_class_ad_creator($content,$class_name,$type_name);
-                                $content = str_replace('afterClassAd', $cusads, $content);
-                            }
-                        }
                     break;
                     case 'ad_after_customq':
                         $type_name = 'custom';
@@ -2801,11 +2772,13 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
         return $content; 
     }
     $flag = true;
+    
+    $ad_meta = get_post_meta($id, '',true);
     // if it was sticky ad return empty
     if (isset($ad_meta['adsense_ad_type'][0]) && $ad_meta['adsense_ad_type'][0] == 'adsense_sticky_ads' ){
         $flag = false;
     }
-    $ad_meta = get_post_meta($id, '',true);
+
     if (isset($ad_meta['code'][0])&& $flag) {
         if(!empty($ad_meta['code'][0])){
 
@@ -2883,7 +2856,7 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
 
             $adscode =
                 "\n".'<!-- WP QUADS Content Ad Plugin v. '.QUADS_VERSION .' -->'."\n".
-                '<div class="'.$wpimage_quads.'-location quads-ad' .esc_attr($id). ' '.$dev_name.'" id="quads-ad' .esc_attr($id). '" style="'.esc_attr($style).'">'."\n".
+                '<div class="'.$wpimage_quads.'-location quads-ad' .esc_attr($id). ' '.$dev_name.'" id="quads-ad' .esc_attr($id). '" style="'.esc_attr($style).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ad_meta)).'">'."\n".
                 $output."\n".
                 '</div>'. "\n";
         }
@@ -3456,30 +3429,43 @@ if($repeat_paragraph){
                         $ref_node  = $paragraphs[$offset]->nextSibling;
                         $ad_dom =  new DOMDocument( '1.0', $wp_charset );
                         libxml_use_internal_errors( true );
-                        $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
+                        $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'));
 
-                        foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
-                          $importedNode = $doc->importNode( $importedNode, true );
-                          if($ref_node){
-                            $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
-                          }
+                        $importedNodes = [];
+                        foreach ($ad_dom->childNodes as $importedNode) {
+                            if ($importedNode->nodeType === XML_ELEMENT_NODE) {
+                                $importedNodes[] = $doc->importNode($importedNode, true);
+                            }
+                        }
+                    
+                        foreach ($importedNodes as $importedNode) {
+                            if ($ref_node) {
+                                $ref_node->parentNode->insertBefore($importedNode, $ref_node);
+                            }
                         }
 }
     }else{
-      if(isset($paragraphs[$position])){
-            $ref_node  = $paragraphs[$position];
-      
-            $ad_dom =  new DOMDocument( '1.0', $wp_charset );
-            libxml_use_internal_errors( true );
-       $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><meta http-equiv="Content-Type" content="text/html; charset=' . $wp_charset . '" /><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
-      
-            foreach ( $ad_dom->getElementsByTagName( 'body' )->item( 0 )->childNodes as $importedNode ) {
-              $importedNode = $doc->importNode( $importedNode, true );
-                if($ref_node){
-                      $ref_node->parentNode->insertBefore( $importedNode, $ref_node );
-                    }
+        if (isset($paragraphs[$position])) {
+            $ref_node = $paragraphs[$position];
+            
+            $ad_dom = new DOMDocument('1.0', $wp_charset);
+            libxml_use_internal_errors(true);
+            $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'));
+            
+            $importedNodes = [];
+            foreach ($ad_dom->childNodes as $importedNode) {
+                if ($importedNode->nodeType === XML_ELEMENT_NODE) {
+                    $importedNodes[] = $doc->importNode($importedNode, true);
+                }
             }
-      }
+        
+            foreach ($importedNodes as $importedNode) {
+                if ($ref_node) {
+                    $ref_node->parentNode->insertBefore($importedNode, $ref_node);
+                }
+            }
+        }
+        
     }
     $content =$doc->saveHTML();
     return $content;  
@@ -3488,6 +3474,7 @@ if($repeat_paragraph){
 function quads_after_id_class_ad_creator($content,$srch_name,$type_name){
 
     $dom = new \DOMDocument();
+    libxml_use_internal_errors(true);
     if(function_exists('mb_convert_encoding')){
         $dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
     }else{
@@ -3564,15 +3551,167 @@ function quads_parse_floating_cubes_ads() {
     }
 }
 function quads_is_lazyload_template($options, $ads){
-    if((isset($options['delay_ad_sec'] ) && $options['delay_ad_sec']) || (isset($ads['check_lazy_load'] ) && $ads['check_lazy_load'])){
+    if((function_exists('quads_delay_ad_sec') && quads_delay_ad_sec()) || (isset($ads['check_lazy_load'] ) && $ads['check_lazy_load'])){
         return true;
     }
     return false;
   }
 
   function quads_lazyload_delay_template($ads){
-    if(isset($ads['check_lazy_load'] ) && isset($ads['check_lazy_load_delay']) && $ads['check_lazy_load_delay'] > 0 ){
-        return (intval($ads['check_lazy_load_delay'])*1000);
+    if(isset($ads['check_lazy_load'] ) && $ads['check_lazy_load'] && isset($ads['check_lazy_load_delay']) && $ads['check_lazy_load_delay'] > 0 ){
+        if(is_array($ads['check_lazy_load_delay']) && isset($ads['check_lazy_load_delay'][0])){
+            return (intval($ads['check_lazy_load_delay'][0])*1000); 
+        }else{
+            return (intval($ads['check_lazy_load_delay'])*1000);
+        }
+        
     }
-    return 3000;
+    if((function_exists('quads_delay_ad_sec') && quads_delay_ad_sec())){
+        return 3000;
+    }
+    return 0;
+  }
+
+  add_filter('wp_quads_content_html_last_filter','quads_position_insert_advance',11,1);
+  function quads_position_insert_advance($content){
+    $quads_ads = quads_api_services_cllbck();
+    if(isset($quads_ads['posts_data'])){        
+        foreach($quads_ads['posts_data'] as $key => $value){
+            $ads =$value['post_meta'];
+            if($value['post']['post_status']== 'draft'){
+                continue;
+            }
+
+     if(isset($ads['visibility_include']))
+         $ads['visibility_include'] = unserialize($ads['visibility_include']);
+     if(isset($ads['visibility_exclude']))
+         $ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);
+
+     if(isset($ads['targeting_include']))
+         $ads['targeting_include'] = unserialize($ads['targeting_include']);
+
+     if(isset($ads['targeting_exclude']))
+         $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
+
+
+        $is_on         = quads_is_visibility_on($ads);
+        $is_visitor_on = quads_is_visitor_on($ads);
+        $is_click_fraud_on = quads_click_fraud_on();
+
+        if(isset($ads['ad_id'])){
+            $post_status = get_post_status($ads['ad_id']); 
+        }else{
+            $post_status =  'publish';
+        }
+        $quads_enabled_position = array('ad_after_class','ad_after_id');
+            if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish' && in_array($ads['position'],$quads_enabled_position)){
+                $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;
+                // placeholder string for custom ad spots
+                if(isset($ads['random_ads_list']) && !empty($ads['random_ads_list'])){
+                    $cusads = '<!--CusRnd'.esc_html($ads['ad_id']).'-->';
+                }else if($ads['ad_type']== 'rotator_ads' &&isset($ads['ads_list']) && !empty($ads['ads_list'])){
+                    $cusads = '<!--CusRot'.esc_html($ads['ad_id']).'-->';
+                }else if($ads['ad_type']== 'popup_ads' &&isset($ads['ads_list']) && !empty($ads['ads_list'])){
+                    $cusads = '<!--pop_up_ads'.esc_html($ads['ad_id']).'-->';
+                }
+                else if($ads['ad_type']== 'video_ads'){
+                    $cusads = '<!--video_ad'.esc_html($ads['ad_id']).'-->';
+                }
+                else if($ads['ad_type']== 'parallax_ads'){
+                    $cusads = '<!--parallax_ad'.esc_html($ads['ad_id']).'-->';
+                }
+                else if($ads['ad_type']== 'half_page_ads'){
+                    $cusads = '<!--half_page_ad'.esc_html($ads['ad_id']).'-->';
+                }
+                else if($ads['ad_type']== 'floating_cubes'){
+                    $cusads = '<!--floating_cubes_ad'.esc_html($ads['ad_id']).'-->';
+                }
+                else{                   
+                    $cusads = '<!--CusAds'.esc_html($ads['ad_id']).'-->';
+                }
+
+                $quads_ad_style = quads_get_inline_ad_style_new($ads['ad_id']);
+                $datalazydelay = quads_lazyload_delay_template($ads);
+                $quad_parsed_ads = '';
+              
+                $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
+                if(isset($ads['position'])){
+                    switch($ads['position']){
+                        case 'ad_after_class':
+                            $type_name = 'class';
+                            $class_name = isset($ads['after_class_name']) ? $ads['after_class_name'] : '';  
+                            if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
+                                $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
+                            }else{
+                                if(!empty($class_name)){
+                                    if($ads['ad_type'] == 'random_ads') {
+                                        if ( function_exists( 'quads_parse_random_ads' ) ) {
+                                            $quad_parsed_ads  ='<!--CusRnd'.$ads['ad_id'].'-->';
+                                            $quad_parsed_ads = quads_parse_random_ads_new($quad_parsed_ads);
+                                        }
+                                    }else if($ads['ad_type'] == 'rotator_ads') {
+                                        if ( function_exists( 'quads_parse_rotator_ads' ) ) {
+                                            $quad_parsed_ads  ='<!--CusRot'.$ads['ad_id'].'-->';
+                                            $quad_parsed_ads = quads_parse_rotator_ads($quad_parsed_ads);
+                                        
+                                    }else if($ads['ad_type'] == 'group_insertion') {
+                                        if ( function_exists( 'quads_parse_group_insert_ads' ) ) {
+                                            $quad_parsed_ads  ='<!--CusGI'.$ads['ad_id'].'-->';
+                                            $quad_parsed_ads = quads_parse_group_insert_ads($quad_parsed_ads);
+                                        }
+                                    }else{
+                                        $quad_parsed_ads = quads_render_ad($ads['quads_ad_old_id'],$ads['code']);
+                                    }
+
+                                    $class_name = '"'.$class_name.'"';
+                                    $content = quads_after_id_class_ad_creator($content,$class_name,$type_name);
+                                    $content = str_replace('afterClassAd', $quad_parsed_ads, $content);
+                            }
+                        }
+
+                    }
+                            
+                        break;
+                        case 'ad_after_id':
+                            $type_name = 'id';
+                            $id_name = isset($ads['after_id_name']) ? $ads['after_id_name'] : '';
+                            if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
+                                $content =  quads_remove_ad_from_content($content,$cusads,'',$paragraph_no,$repeat_paragraph);
+                            }else{
+                                if(!empty($id_name)){
+                                    if($ads['ad_type'] == 'random_ads') {
+                                        if ( function_exists( 'quads_parse_random_ads' ) ) {
+                                            $quad_parsed_ads  ='<!--CusRnd'.$ads['ad_id'].'-->';
+                                            $quad_parsed_ads = quads_parse_random_ads_new($quad_parsed_ads);
+                                        }
+                                    }else if($ads['ad_type'] == 'rotator_ads') {
+                                        if ( function_exists( 'quads_parse_rotator_ads' ) ) {
+                                            $quad_parsed_ads  ='<!--CusRot'.$ads['ad_id'].'-->';
+                                            $quad_parsed_ads = quads_parse_rotator_ads($quad_parsed_ads);
+                                        
+                                    }else if($ads['ad_type'] == 'group_insertion') {
+                                        if ( function_exists( 'quads_parse_group_insert_ads' ) ) {
+                                            $quad_parsed_ads  ='<!--CusGI'.$ads['ad_id'].'-->';
+                                            $quad_parsed_ads = quads_parse_group_insert_ads($quad_parsed_ads);
+                                        }
+                                    }else{
+                                        $quad_parsed_ads = quads_render_ad($ads['quads_ad_old_id'],$ads['code']);
+                                    }
+
+                                    $id_name = '"'.$id_name.'"';
+                                    $content = quads_after_id_class_ad_creator($content,$id_name,$type_name);
+                                    $content = str_replace('afterIdAd', $quad_parsed_ads, $content);
+                                }
+                             }
+                            }
+                        break;
+                    }
+            
+                }
+
+            }
+        }
+
+    }
+    return $content;
   }

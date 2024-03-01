@@ -392,7 +392,6 @@ class Quads_single_report extends Component {
                         get_table.innerHTML = 'No data Found'
                     }
                     else{
-                        console.log(response);
                         this.display_report_stats_imp_click(response)
                         render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
                         get_table.innerHTML = render_data
@@ -444,7 +443,6 @@ class Quads_single_report extends Component {
                         q_rtt.innerHTML = ''
                     }
                     else{
-                        console.log(response);
                         let pro_not = document.getElementById('quads_reports_pro_notify')
                         if(pro_not){
                             pro_not.innerHTML = ''
@@ -596,7 +594,6 @@ class Quads_single_report extends Component {
                         get_table.innerHTML = 'No data Found'
                     }
                     else{
-                        console.log(response);
                         this.display_report_stats_imp_click(response)
                         render_data = "<table><tbody><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
                         get_table.innerHTML = render_data
@@ -681,8 +678,6 @@ class Quads_single_report extends Component {
                         get_table_tot.innerHTML = 'No data Found'
                     }
                     else{
-                        
-                        console.log(response);
                         this.display_report_stats_imp_click(response)
                         var ad_day = response.ad_day
 

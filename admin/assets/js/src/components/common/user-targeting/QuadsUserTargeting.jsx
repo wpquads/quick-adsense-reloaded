@@ -20,10 +20,9 @@ class QuadsUserTargeting extends Component {
             excludedToggle  : false,
             includedRightPlaceholder: 'Select Targeting Data',
             excludedRightPlaceholder: 'Select Targeting Data',
-            includedRightTextPlaceholder: 'Enter Targeting Data',
-            excludedRightTextPlaceholder: 'Enter Targeting Data',
+            includedRightTextPlaceholder: 'Select Targeting Data',
+            excludedRightTextPlaceholder: 'Select Targeting Data',
             TargetingConditionIncluded: "AND",
-
             multiTypeIncludedValue:[],
             multiTypeExcludedValue:[],
 
@@ -46,6 +45,7 @@ class QuadsUserTargeting extends Component {
                 {label:'User Role', value:'user_type'},
                 {label:'Country', value:'geo_location_country'},
                 {label:'City', value:'geo_location_city'},
+                {label:'State', value:'geo_location_state'},
                 {label:'Cookie', value:'cookie'},
                 {label:'URL Parameter ', value:'url_parameter'},
                 {label:'Referring URL ', value:'referrer_url'},
@@ -257,7 +257,7 @@ class QuadsUserTargeting extends Component {
     handleMultiIncludedLeftChange = (option) => {
         let type = this.state.multiTypeTargetOption[option.value];
         let self =this;
-        if( !quads_localize_data.is_pro && (option.value==='geo_location_country' || option.value==='geo_location_city')){
+        if( !quads_localize_data.is_pro && (option.value==='geo_location_country' || option.value==='geo_location_city' ||option.value==='geo_location_state')){
             this.setState({includedMainToggle:false});
             return;
         }else{
@@ -265,10 +265,13 @@ class QuadsUserTargeting extends Component {
         }
         var placeholder = 'Search for ' + option.label;
 
-        if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url' || option.value==='geo_location_city'){
+        if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url' || option.value==='geo_location_city'|| option.value==='geo_location_state'){
             placeholder = 'Enter your ' + option.label;
             if(option.value==='geo_location_city'){
                 placeholder = 'Add City name';
+            }
+            if(option.value==='geo_location_state'){
+                placeholder = 'Add State name';
             }
             this.setState({includedTextToggle:false});
             this.setState({multiTypeLeftIncludedValue:option, includedDynamicOptions:type, textTypeRightIncludedValue:'', includedRightPlaceholder:placeholder});
@@ -305,17 +308,20 @@ class QuadsUserTargeting extends Component {
     handleMultiExcludedLeftChange = (option) => {
         let type = this.state.multiTypeTargetOption[option.value];
         let self =this;
-        if( !quads_localize_data.is_pro && (option.value==='geo_location_country' || option.value==='geo_location_city')){
+        if( !quads_localize_data.is_pro && (option.value==='geo_location_country' || option.value==='geo_location_city' ||option.value==='geo_location_state')){
             this.setState({excludedMainToggle:false});
             return;
         }else{
             this.setState({excludedMainToggle:true});
         }
         var placeholder = 'Search for ' + option.label;
-        if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url' || option.value==='geo_location_city'){
+        if(option.value==='cookie' || option.value==='url_parameter' || option.value==='referrer_url' || option.value==='geo_location_city' ||option.value==='geo_location_state'){
             placeholder = 'Enter your ' + option.label;
             if(option.value==='geo_location_city'){
                 placeholder = 'Add City name';
+            }
+            if(option.value==='geo_location_state'){
+                placeholder = 'Add State name';
             }
             this.setState({excludedTextToggle:false});
             this.setState({multiTypeLeftExcludedValue:option, excludedDynamicOptions:type, textTypeRightExcludedValue:'', excludedRightPlaceholder:placeholder});
@@ -425,7 +431,7 @@ class QuadsUserTargeting extends Component {
     }
     handleMultiIncludedRightChange = (option) => {
         let type  = this.state.multiTypeLeftIncludedValue;
-        if(type.value==='cookie' || type.value==='url_parameter' || type.value==='referrer_url'  || type.value==='geo_location_city'){
+        if(type.value==='cookie' || type.value==='url_parameter' || type.value==='referrer_url'  || type.value==='geo_location_city' || type.value==='geo_location_state' ){
             this.setState({textTypeRightIncludedValue:option.target.value});
         }else{
             this.setState({multiTypeRightIncludedValue:option});
@@ -440,7 +446,7 @@ class QuadsUserTargeting extends Component {
     }
     handleMultiExcludedRightChange = (option) => {
         let type  = this.state.multiTypeLeftExcludedValue;
-        if(type.value=='cookie' || type.value==='url_parameter' || type.value==='referrer_url'|| type.value==='geo_location_city'){
+        if(type.value=='cookie' || type.value==='url_parameter' || type.value==='referrer_url'|| type.value==='geo_location_city' || type.value==='geo_location_state'){
             this.setState({textTypeRightExcludedValue:option.target.value});
         }else{
             this.setState({multiTypeRightExcludedValue:option});
@@ -573,11 +579,11 @@ class QuadsUserTargeting extends Component {
                 <div className="quads-panel">
                     <div className="quads-panel-body">
                         <div className="quads-user-targeting-label">
-                            <b>When</b>  {__(' should the ad display?', 'quick-adsense-reloaded')}
+                            <b>{__('When','quick-adsense-reloaded')}</b>  {__(' should the ad display?', 'quick-adsense-reloaded')}
                         </div>
 
                         <div className="quads-user-targeting">
-                            <h2>Included On <a onClick={this.includedToggle}><Icon>add_circle</Icon></a>  </h2>
+                            <h2> {__('Included On','quick-adsense-reloaded')} <a onClick={this.includedToggle}><Icon>add_circle</Icon></a>  </h2>
 
 
                             <div className="quads-target-item-list">
@@ -620,7 +626,7 @@ class QuadsUserTargeting extends Component {
                                                 />
                                             </td>
                                             <td><a onClick={this.addIncluded_condition}
-                                                   className="quads-btn quads-btn-primary">Add</a></td>
+                                                   className="quads-btn quads-btn-primary">{__('Add','quick-adsense-reloaded')}</a></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -641,7 +647,7 @@ class QuadsUserTargeting extends Component {
                                                     styles={colorStyles}
                                                 />
                                                 {this.state.is_amp_endpoint_inc?
-                                                    <span className="amp-support">AMP does not support Browser Width Targeting</span>
+                                                    <span className="amp-support">{__('AMP does not support Browser Width Targeting','quick-adsense-reloaded')}</span>
                                                     :''}
                                             </td>
                                             {this.state.includedMainToggle ? (
@@ -673,7 +679,7 @@ class QuadsUserTargeting extends Component {
                                                             :''}
                                                     </td>
                                                     <td><a onClick={this.addIncluded} className="quads-btn quads-btn-primary">Add</a></td>
-                                                </>) :<><td className="targeting_get_pro">This feature is available in PRO version </td><td><a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a> </td></>}
+                                                </>) :<><td className="targeting_get_pro">{__('This feature is available in PRO version','quick-adsense-reloaded')} </td><td><a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">{__('Unlock this feature','quick-adsense-reloaded')}</a> </td></>}
                                         </tr>
                                         </tbody>
                                     </table>
@@ -721,7 +727,7 @@ class QuadsUserTargeting extends Component {
                                                 />
                                             </td>
                                             <td><a onClick={this.addExcluded_condition}
-                                                   className="quads-btn quads-btn-primary">Add</a></td>
+                                                   className="quads-btn quads-btn-primary">{__('Add','quick-adsense-reloaded')}</a></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -742,7 +748,7 @@ class QuadsUserTargeting extends Component {
                                                     styles={colorStyles}
                                                 />
                                                 {this.state.is_amp_endpoint_exc?
-                                                    <span className="amp-support">AMP does not support Browser Width Targeting</span>
+                                                    <span className="amp-support">{__('AMP does not support Browser Width Targeting','quick-adsense-reloaded')}</span>
                                                     :''}
                                             </td>
                                             {this.state.excludedMainToggle ? (
@@ -777,7 +783,7 @@ class QuadsUserTargeting extends Component {
                                                             :''}
                                                     </td>
                                                     <td><a onClick={this.addExcluded} className="quads-btn quads-btn-primary">Add</a></td>
-                                                </>) : <><td className="targeting_get_pro">This feature is available in PRO version</td><td><a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">Unlock this feature</a> </td></>}
+                                                </>) : <><td className="targeting_get_pro">{__('This feature is available in PRO version','quick-adsense-reloaded')}</td><td><a className="quads-got_pro premium_features_btn" href="https://wpquads.com/#buy-wpquads" target="_blank">{__('Unlock this feature','quick-adsense-reloaded')}</a> </td></>}
                                         </tr>
                                         </tbody>
                                     </table>

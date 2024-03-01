@@ -6,6 +6,7 @@ import QuadsAdCreateRouter from  '../ad-create-router/QuadsAdCreateRouter'
 import Icon from '@material-ui/core/Icon';
 import Tooltip from '@material-ui/core/Tooltip';
 import { Alert } from '@material-ui/lab';
+import QuadsCheckbox from "./QuadsCheckbox";
 
 
 import './QuadsAdList.scss';
@@ -261,6 +262,7 @@ class QuadsAdList extends Component {
         <table className="quads-ad-table">
           <thead>
           <tr>
+          <th style={{width:'20px'}}> <input id='quads_master_checkbox' name='quads_ids_' value={'all'} type='checkbox' onClick={this.props.handleMasterCheckbox}/></th>
           <th>{__('Name', 'quick-adsense-reloaded')}</th>
           <th>{__('Type', 'quick-adsense-reloaded')}</th>
           <th>{__('Last Modified', 'quick-adsense-reloaded')}</th>
@@ -271,7 +273,8 @@ class QuadsAdList extends Component {
           {items.map((item, index) => ( item.post_meta.ad_id &&(    
                    
             <tr key={index}>
-                <td>{item.post_meta.label} {item.post_meta.ad_type == 'rotator_ads' || item.post_meta.ad_type == 'carousel_ads' || item.post_meta.ad_type == 'group_insertion' ? <span className="quads-adlists info-wrpr"><span className="material-icons info" aria-hidden="true" onClick={() => this.showInfoAds(item.post_meta.ad_id)}>info</span>{ item.post_meta.ad_id == this.state.adListsId && this.state.toggleAdsLists ? this.getActiveAdsLists(item.post_meta.ads_list, index) : '' }</span> : ''} {item.post.post_status == 'draft' ? <span className="quads-ad-label-draft">draft</span> : ''}</td>
+                <td><QuadsCheckbox index={index} name='quads_ids' value={item.post_meta.ad_id} onClick={this.props.handleBulkCheckbox}/></td>
+                <td><Link onMouseEnter={this.props.EditHoverIn} onMouseLeave={this.props.EditHoverOut} data-index={index} data-id={item.post_meta.ad_id} to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.post_meta.ad_type}&action=edit&post=${item.post.post_id}`} className="quads-edit-btn"> {item.post_meta.label} </Link> {item.post_meta.ad_type == 'rotator_ads' || item.post_meta.ad_type == 'carousel_ads' || item.post_meta.ad_type == 'group_insertion' ? <span className="quads-adlists info-wrpr"><span className="material-icons info" aria-hidden="true" onClick={() => this.showInfoAds(item.post_meta.ad_id)}>info</span>{ item.post_meta.ad_id == this.state.adListsId && this.state.toggleAdsLists ? this.getActiveAdsLists(item.post_meta.ads_list, index) : '' }</span> : ''} {item.post.post_status == 'draft' ? <span className="quads-ad-label-draft">{__('draft','quick-adsense-reloaded')}</span> : ''}</td>
                 <td>{this.getImageByAdType(item.post_meta.ad_type, index)} {this.getAmpLogoByEnabled(item.post_meta.enabled_on_amp, index)}</td>
                 <td>{item.post.post_modified}</td>
                 <td>
@@ -306,19 +309,19 @@ class QuadsAdList extends Component {
                 { item.post_meta.ad_id && this.props.edit_hover_id ==  item.post_meta.ad_id ?
                   
             
-                  <div style={t_main} className="MuiTooltip-popper MuiTooltip-popperArrow" id="tooltip" x-placement="bottom"><div className="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >Edit Ad<span className="MuiTooltip-arrow" style={ttp_1_}></span></div></div>
+                  <div style={t_main} className="MuiTooltip-popper MuiTooltip-popperArrow" id="tooltip" x-placement="bottom"><div className="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >{__('Edit Ad', 'quick-adsense-reloaded')}<span className="MuiTooltip-arrow" style={ttp_1_}></span></div></div>
                    : '' }
                 {item.post_meta.ad_id && this.props.more_box_id ==  item.post_meta.ad_id ?
-                <div className="quads-more-icon-box" style={{left:this.props.settings.ad_performance_tracking ?'100px':'0px'}} ref={this.wrapperRef}>
+                <div className="quads-more-icon-box" style={{left:this.props.settings.ad_performance_tracking ?(this.props.settings.ad_log?'10%':'-5%'):'-25%'}} ref={this.wrapperRef}>
                   <div className="quads-more-icon-box-close" onClick={this.props.hideMoreIconBox}><Icon>close</Icon></div>
                   <ul>
-                    <li role="presentation"><a onClick={this.props.processAction} data-ad={item.post_meta.ad_id} data-id={item.post.post_status == 'publish' ? 'draft' : 'publish'} ><Icon>{item.post.post_status == 'publish' ? 'drafts' : 'publish'}</Icon> <span>{__(item.post.post_status == 'publish' ? 'Set to Draft' : 'Publish', 'quick-adsense-reloaded')}</span></a></li>
+                    <li role="presentation"><a onClick={this.props.processAction} data-ad={item.post_meta.ad_id} data-id={item.post.post_status == 'publish' ? 'draft' : 'publish'} ><Icon>{item.post.post_status == 'publish' ? 'drafts' : 'publish'}</Icon> <span>{__(item.post.post_status == 'publish' ? __('Set to Draft', 'quick-adsense-reloaded') : __('Publish', 'quick-adsense-reloaded'))}</span></a></li>
                     <li role="presentation"><a onClick={this.props.showDeleteModal} data-ad={item.post_meta.ad_id} data-id="delete"><Icon>delete</Icon> <span>{__('Delete', 'quick-adsense-reloaded')}</span></a></li>
                     <li role="presentation"><a onClick={this.props.processAction} data-ad={item.post_meta.ad_id} data-id="duplicate"><Icon>file_copy</Icon> <span>{__('Duplicate', 'quick-adsense-reloaded')}</span></a></li>
                   </ul>
                   </div> : ''  } 
                 { item.post_meta.ad_id && this.props.more_hover_box_id ==  item.post_meta.ad_id ?
-                  <div role="tooltip" style={t_main_more} id="tooltip_3" className="MuiTooltip-popper MuiTooltip-popperArrow" x-placement="bottom"><div className="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >{__('More Options','quick-adsence-reloaded')}<span className="MuiTooltip-arrow" style={ttp_1_}></span></div></div> : '' }
+                  <div role="tooltip" style={t_main_more} id="tooltip_3" className="MuiTooltip-popper MuiTooltip-popperArrow" x-placement="bottom"><div className="MuiTooltip-tooltip MuiTooltip-tooltipPlacementLeft MuiTooltip-tooltipArrow" style={ttp_1} >{__('More Options','quick-adsense-reloaded')}<span className="MuiTooltip-arrow" style={ttp_1_}></span></div></div> : '' }
                   
                 <a onMouseEnter={this.props.showMoreHoverIn} onMouseLeave={this.props.showMoreHoverOut} className="quads-edit-btn" data-index={index} data-id={item.post_meta.ad_id} onClick={this.props.showMoreIconBox}><Icon>more_vert_icon</Icon></a>       
         
@@ -328,15 +331,15 @@ class QuadsAdList extends Component {
              )   ))} 
             </tbody>
         </table> : <div className="nodatadiv"><div className="first_ad_main">
-                      <h3>{__('Thank you for using WP Quads','quick-adsence-reloaded')}</h3>
-                      <div className="first_ad">{__('Let\'s', 'quick-adsense-reloaded') } <strong>{__('create our First Ad', 'quick-adsense-reloaded') } </strong>, {__('in 3 simple steps', 'quick-adsense-reloaded') }. </div>
+                      <h3>{__('Thank you for using WP Quads','quick-adsense-reloaded')}</h3>
+                      <div className="first_ad">{__('Let\'s ', 'quick-adsense-reloaded') } <strong>{__('create our First Ad', 'quick-adsense-reloaded') }</strong> {__(' in 3 simple steps', 'quick-adsense-reloaded') }. </div>
                       <div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.props.nodatashowAddTypeSelector}><Icon>add_circle</Icon>{__('Create Ad', 'quick-adsense-reloaded') }</a></div>
                   </div>
                   {quads.quads_import_classic_ads_popup && quads.quads_get_active_ads !=="0" ?
                     <div className="fakebox" >
                     <div className="fakebox_close" onClick={() => this.quads_classic_ads('no')}> </div>
-                        <div><h3>{__('This is your first time on New Interface','quick-adsence-reloaded')}</h3></div>
-                        <div className="text">{__('Would you like to import your ads from the classic view?','quick-adsence-reloaded')} </div>
+                        <div><h3>{__('This is your first time on New Interface','quick-adsense-reloaded')}</h3></div>
+                        <div className="text">{__('Would you like to import your ads from the classic view?','quick-adsense-reloaded')} </div>
                         {!this.state.importquadsclassicalertcss?
                         <div className="quads-add-btn"><a className="quads-btn quads-btn-primary yes" onClick={() => this.quads_classic_ads('yes')}>Yes, Import</a><a className="quads-btn quads-btn-primary no" onClick={() => this.quads_classic_ads('no')}>{__('No Thanks', 'quick-adsense-reloaded') }</a></div>
                          : ''}

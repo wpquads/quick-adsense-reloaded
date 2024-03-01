@@ -64,12 +64,14 @@ function quads_add_options_link() {
                     }
                 $license_alert = isset($days) && $days!==0 && $days<=30 && $days!=='Lifetime' ? "<span class='wpquads_pro_icon dashicons dashicons-warning wpquads_pro_alert' style='color: #ffb229;left: 3px;position: relative;'></span>": "" ;
                 }
-                
-                $quads_settings_page = add_submenu_page('quads-settings', __('Settings', 'quick-adsense-reloaded'), 'Settings'.$license_alert.'', $quads_permissions, 'quads-settings&path=settings', 'quads_options_page_new');
-                
+                if(quads_has_setting_access()){
+                    $quads_settings_page = add_submenu_page('quads-settings', __('Settings', 'quick-adsense-reloaded'), 'Settings'.$license_alert.'', $quads_permissions, 'quads-settings&path=settings', 'quads_options_page_new');
+                }            
             }
             else{
-                $quads_settings_page = add_submenu_page('quads-settings', __('Settings', 'quick-adsense-reloaded'), 'Settings', $quads_permissions, 'quads-settings&path=settings', 'quads_options_page_new');
+                if(quads_has_setting_access()){
+                    $quads_settings_page = add_submenu_page('quads-settings', __('Settings', 'quick-adsense-reloaded'), 'Settings', $quads_permissions, 'quads-settings&path=settings', 'quads_options_page_new');
+                }
             }
             if( isset($quads_options['reports_settings']) && $quads_options['reports_settings'] == 1 )
             $quads_settings_page = add_submenu_page('quads-settings', __('Reports', 'quick-adsense-reloaded'), 'Reports', $quads_permissions, 'quads-settings&path=reports', 'quads_options_page_new');
@@ -113,4 +115,22 @@ function quads_is_addon_page() {
 	if ( 'quads-addons' == $currentpage ) {
 		return true;
 	}
+}
+
+function quads_has_setting_access(){
+    global $quads_options;
+    $user = wp_get_current_user();
+    $roles = ( array ) $user->roles;
+    $role_access = isset($quads_options['RoleBasedAccess'])?$quads_options['RoleBasedAccess']:[];
+    foreach ($roles as $role) {
+        if ($role == 'administrator' || $role == 'super_admin') {
+            return true; // User has access
+        }
+        foreach ($role_access as $roleAccess) {
+            if ($roleAccess['value'] === $role && $roleAccess['setting_access'] === true) {
+                return true; // User has access
+            }
+        }
+    }
+    return false;
 }

@@ -10,7 +10,7 @@ class QuadsVisibility extends Component {
             currentExcludedConType: '',
             includedToggle: false,
             excludedToggle: false,
-            includedRightPlaceholder: 'Select Targeting Data',
+            includedRightPlaceholder:'Select Targeting Data',
             excludedRightPlaceholder: 'Select Targeting Data',
             multiTypeIncludedValue: [],
             multiTypeExcludedValue: [],
@@ -242,12 +242,12 @@ class QuadsVisibility extends Component {
                 <div className="quads-panel">
                     <div className="quads-panel-body">
                         <div className="quads-user-targeting-label">
-                            <b>Which</b> {__(' pages would you like to display?', 'quick-adsense-reloaded')}
+                            <b>{__('Which','quick-adsense-reloaded')}</b> {__(' pages would you like to display?', 'quick-adsense-reloaded')}
                             <div>{(this.state.multiTypeIncludedValue.length <= 0 && show_form_error) ? <span
-                                className="quads-error">Select at least one visibility condition</span> : ''}</div>
+                                className="quads-error">{__('Select at least one visibility condition','quick-adsense-reloaded')} </span> : ''}</div>
                         </div>
                         <div className="quads-user-targeting">
-                            <h2>Included On <a onClick={this.includedToggle}><Icon>add_circle</Icon></a></h2>
+                            <h2>{__('Included On','quick-adsense-reloaded')} <a onClick={this.includedToggle}><Icon>add_circle</Icon></a></h2>
                             <div className="quads-target-item-list">
                                 {
                                     this.state.multiTypeIncludedValue ?
@@ -292,7 +292,7 @@ class QuadsVisibility extends Component {
                                                 />
                                             </td>
                                             <td><a onClick={this.addIncluded_condition}
-                                                   className="quads-btn quads-btn-primary">Add</a></td>
+                                                   className="quads-btn quads-btn-primary">{__('Add','quick-adsense-reloaded')}</a></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -306,7 +306,7 @@ class QuadsVisibility extends Component {
                                             <td>
                                                 <Select
                                                     name="userTargetingIncludedType"
-                                                    placeholder="Select Targeting Type"
+                                                    placeholder={__('Select Targeting Type','quick-adsense-reloaded')}
                                                     options={this.state.multiTypeOptions}
                                                     value={this.multiTypeLeftIncludedValue}
                                                     onChange={this.handleMultiIncludedLeftChange}
@@ -317,7 +317,7 @@ class QuadsVisibility extends Component {
                                                 <Select
                                                     Clearable={true}
                                                     name="userTargetingIncludedData"
-                                                    placeholder={this.state.includedRightPlaceholder}
+                                                    placeholder={__(this.state.includedRightPlaceholder,'quick-adsense-reloaded')}
                                                     value={this.state.multiTypeRightIncludedValue}
                                                     options={this.state.includedDynamicOptions}
                                                     onChange={this.handleMultiIncludedRightChange}
@@ -326,7 +326,7 @@ class QuadsVisibility extends Component {
                                                 />
                                             </td>
                                             <td><a onClick={this.addIncluded}
-                                                   className="quads-btn quads-btn-primary">Add</a></td>
+                                                   className="quads-btn quads-btn-primary">{__('Add','quick-adsense-reloaded')}</a></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -334,7 +334,7 @@ class QuadsVisibility extends Component {
                                 : ''}
                         </div>
                         <div className="quads-user-targeting">
-                            <h2>Excluded On <a onClick={this.excludedToggle}><Icon>remove_circle</Icon></a></h2>
+                            <h2>{__('Excluded On ','quick-adsense-reloaded')} <a onClick={this.excludedToggle}><Icon>remove_circle</Icon></a></h2>
                             <div className="quads-target-item-list">
                                 {
                                     this.state.multiTypeExcludedValue ?
@@ -368,7 +368,7 @@ class QuadsVisibility extends Component {
                                             <td>
                                                 <Select
                                                     name="TargetingConditionIncluded"
-                                                    placeholder="Select Condition"
+                                                    placeholder={__('Select Condition','quick-adsense-reloaded')}
                                                     onChange={this.TargetingConditionExcluded}
                                                     options={[
                                                         {label: 'AND', value: 'AND'},
@@ -378,7 +378,7 @@ class QuadsVisibility extends Component {
                                                 />
                                             </td>
                                             <td><a onClick={this.addExcluded_condition}
-                                                   className="quads-btn quads-btn-primary">Add</a></td>
+                                                   className="quads-btn quads-btn-primary">{__('Add','quick-adsense-reloaded')}</a></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -392,7 +392,7 @@ class QuadsVisibility extends Component {
                                             <td>
                                                 <Select
                                                     name="userTargetingExcludedType"
-                                                    placeholder="Select Targeting Type"
+                                                    placeholder={__('Select Targeting Type','quick-adsense-reloaded')}
                                                     options={this.state.multiTypeOptions}
                                                     value={this.multiTypeLeftExcludedValue}
                                                     onChange={this.handleMultiExcludedLeftChange}
@@ -403,7 +403,7 @@ class QuadsVisibility extends Component {
                                                 <Select
                                                     Clearable={true}
                                                     name="userTargetingExcludedData"
-                                                    placeholder={this.state.excludedRightPlaceholder}
+                                                    placeholder={__(this.state.excludedRightPlaceholder,'quick-adsense-reloaded')}
                                                     value={this.state.multiTypeRightExcludedValue}
                                                     options={this.state.excludedDynamicOptions}
                                                     onChange={this.handleMultiExcludedRightChange}
@@ -412,7 +412,7 @@ class QuadsVisibility extends Component {
                                                 />
                                             </td>
                                             <td><a onClick={this.addExcluded}
-                                                   className="quads-btn quads-btn-primary">Add</a></td>
+                                                   className="quads-btn quads-btn-primary">{__('Add','quick-adsense-reloaded')}</a></td>
                                         </tr>
                                         </tbody>
                                     </table>

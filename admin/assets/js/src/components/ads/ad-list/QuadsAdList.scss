@@ -101,9 +101,6 @@ and open the template in the editor.
 .ad_logging .quads-ad-table th:nth-child(4) {
     color: #5f6368;
  }
-.quads-ad-table th:nth-child(4) {
-    color: transparent;
-}
 .quads-action-div a.quads-edit-btn, .quads-action-div a.quads-more-btn{
     cursor: pointer;
     color: #555;
@@ -126,9 +123,6 @@ and open the template in the editor.
     outline: 0;
     box-shadow: none;
 }
-.quads-ad-table th:nth-child(4) {
-    color: transparent;
-}
 .quads-edit-btn{
     text-decoration: none;
 }
@@ -140,7 +134,7 @@ and open the template in the editor.
 }
 .quads-more-icon-box{
     position: absolute;
-    top: 0px;
+    top: 80%;
     left: -100px;
     z-index: 100000;
     float: left;

@@ -687,3 +687,77 @@ select#abtesting_report {
   padding: 2px;
   vertical-align: bottom;
 }
+.quadsRoleAccess{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.quads-role-permission h3{
+padding: 10px 20px 10px 10px !important;
+margin:auto;
+
+}
+.quads-role-permission .quads-modal-content{
+ text-align: left;
+  }
+  .quads-roles-vertical-tabs-container {
+    display: flex;
+  }
+  
+  .quads-roles-vertical-tabs {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .quads-roles-tab {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .quads-roles-tab.active {
+    font-weight: bold;
+  }
+  
+  .quads-roles-tab-content {
+    margin-left: 20px;
+  }
+  
+  .quads-roles-tab-pane {
+    display: none;
+  }
+  
+  .quads-roles-tab-pane.active {
+    display: block;
+  }
+  .quads-roles-vertical-tabs .tab {
+    padding: 10px;
+    border-right: 1px solid;
+    cursor: pointer;
+}
+.quads-roles-vertical-tabs .active{
+  background-color:blue;
+  color:#fff;
+}
+@keyframes quadsFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.quads-role-permission{ animation: quadsFadeIn 0.5s; }
+
+.quads-modal-content .i-root-1{
+  background-color:unset;
+}
+
+.quads-role-permission .quads-modal-close {
+  position: relative;
+    top: 10px;
+    right: 10px;
+}
+[class^="i-root-"]{
+  background-color: transparent;
+}
+.quads-settings-tab-container .MuiSelect-root{
+  margin-top:6%; 
+}

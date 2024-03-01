@@ -74,7 +74,10 @@ class QuadsAdConfig extends Component {
               </div>
               : ""}
               <div className="quads-btn-navigate">
-              <div className="quads-next" onClick={this.props.moveNext}><a className="quads-btn quads-btn-primary">{__('Next', 'quick-adsense-reloaded')}</a></div>
+              <div className="quads-next" onClick={this.props.moveNext}>
+              {(this.props.parentState.show_form_error) ? <span className="quads_form_msg"><span className="material-icons">
+                      error_outline</span>{__('Please fill all required fields', 'quick-adsense-reloaded')}</span> :''} &nbsp;
+                      <a className="quads-btn quads-btn-primary">{__('Next', 'quick-adsense-reloaded')}</a></div>
               </div>
             </Fragment>
            );

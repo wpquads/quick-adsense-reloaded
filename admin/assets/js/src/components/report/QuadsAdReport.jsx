@@ -18,7 +18,7 @@ class QuadsAdReport extends Component {
             custom_period: false,
             redirect:false,
             adsense_modal :false,
-            current_page : 'report',
+            current_page : 'reports',
             isLoading : false,
             cust_fromdate:new Date(),
             cust_todate:new Date(),
@@ -842,11 +842,9 @@ drawChart(config);
         if(page){
             if(page.id){
                 this.setState({ad_id:page.id});
-                console.log(page.id);
             }
             if(page.path){
                 this.setState({current_page:page.path});
-                console.log(page.path);
             }
         }
 
@@ -896,7 +894,7 @@ drawChart(config);
         this.setState({adsense_modal:true});
     }
     closeModal =() =>{
-        this.setState({adsense_modal:false,current_page:'report'});
+        this.setState({adsense_modal:false,current_page:'reports'});
     }
     change_page =(newPageName) =>{
         this.setState({current_page:newPageName});
@@ -1588,7 +1586,7 @@ drawChart(config);
 
         return (
             <>
-                { this.state.current_page == 'report' ?
+                { this.state.current_page == 'reports' ?
                     <Fragment>
                         <div>
                             <div className="quads-ad-networks-reports">

@@ -49,6 +49,7 @@ class QuadsAdsAdvancedSettings extends Component {
     console.log(this.props.parentState);
     const current_date_obj = new Date();
     const current_date = `${current_date_obj.getFullYear()}-${String(current_date_obj.getMonth()+1).padStart(2,"0")}-${String(current_date_obj.getDate()).padStart(2,"0")}`;
+    const next_schedule_date = `${current_date_obj.getFullYear()}-${String(current_date_obj.getMonth()+1).padStart(2,"0")}-${String(current_date_obj.getDate()+1).padStart(2,"0")}`;
     const days_options = [
       { value: 'mon', label: __('Monday', 'quick-adsense-reloaded') },
       { value: 'tue', label: __('Tuesday', 'quick-adsense-reloaded')  },
@@ -65,6 +66,10 @@ class QuadsAdsAdvancedSettings extends Component {
          <div className="quads-panel-body">
           <table>
             <tbody>
+            <tr>
+              <td><label className='q_exp_date' htmlFor="publish_date">{__('Schedule Ad', 'quick-adsense-reloaded')}</label></td>
+              <td><input className='publish_date' id="publish_date" name="publish_date" min={next_schedule_date} onChange={this.props.adFormChangeHandler} type="date" value={post_meta.publish_date}/></td>
+              </tr>
               <tr>
               <td><label className='q_exp_date' htmlFor="check_exp_date">{__('Set Expire Date', 'quick-adsense-reloaded')}</label></td>
               <td>

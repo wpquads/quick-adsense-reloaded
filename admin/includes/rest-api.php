@@ -896,7 +896,6 @@ class QUADS_Ad_Setup_Api {
                     foreach ($advance_ads_meta_key as $key => $val){
                         update_post_meta($post_id, $key, $val);
                     }
-                    // var_dump($advance_ads_meta_key);
                     require_once QUADS_PLUGIN_DIR . '/admin/includes/migration-service.php';
                     $this->migration_service = new QUADS_Ad_Migration();
                     $this->migration_service->quadsUpdateOldAd($post_id, $advance_ads_meta_key);
@@ -1861,6 +1860,8 @@ return array('status' => 't');
             $paged        =  1;
             $offset       =  0;
             $post_type    = 'quads-ads';
+            $sort_by      = null;
+            $filter_by    = null;
 
             if(isset($_GET['pageno'])){
                 $paged    = sanitize_text_field($_GET['pageno']);
@@ -1871,7 +1872,13 @@ return array('status' => 't');
              if(isset($_GET['search_param'])){
                 $search_param = sanitize_text_field($_GET['search_param']);
             }
-            $result = $this->api_service->getAdDataByParam($post_type, $attr, $rvcount, $paged, $offset, $search_param);
+            if(isset($_GET['sort_by'])){
+                $sort_by = sanitize_text_field($_GET['sort_by']);
+            }
+            if(isset($_GET['filter_by'])){
+                $filter_by = sanitize_text_field($_GET['filter_by']);
+            }
+            $result = $this->api_service->getAdDataByParam($post_type, $attr, $rvcount, $paged, $offset, $search_param , $filter_by , $sort_by);
             return $result;
 
         }

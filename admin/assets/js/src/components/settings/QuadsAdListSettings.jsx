@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import queryString from 'query-string'
 import Icon from '@material-ui/core/Icon';
 import { Alert } from '@material-ui/lab';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import MSelect from '@material-ui/core/Select';
 import Select from "react-select";
 //import "react-select/dist/react-select.css";
 import './QuadsAdListSettings.scss';
@@ -11,6 +14,7 @@ import QuadsAdSettingsProTemplate from './QuadsAdSettingsProTemplate';
 import copy from 'copy-to-clipboard';
 import { SketchPicker } from 'react-color';
 import reactCSS from 'reactcss';
+import QuadsVerticalTabs from './QuadsVerticalTabs';
 const {__} = wp.i18n;
 // import {saveAs} from "file-saver";
 class QuadsAdListSettings extends Component {
@@ -91,7 +95,7 @@ class QuadsAdListSettings extends Component {
                 logging_toggle     : false,
                 analytics          : false,
                 multiUserValue     : [],
-                RoleBasedAccess    : [{label: "Administrator", value: "administrator"}],
+                RoleBasedAccess    : [],
                 multiTagsValue     : [],
                 multiPluginsValue  : [],
                 notice_type        : 'ad_blocker_message',
@@ -121,6 +125,7 @@ class QuadsAdListSettings extends Component {
             q_admin_url:'',
             black: true,
             checked: false,
+            role_permission_modal :false
         };
   }
   onFileChange = (event) => {
@@ -221,7 +226,6 @@ notice_bg_color = (color) => {
                 link.download = `${filename}.json`;
                 link.href = url;
                 link.click();
-            console.log(result);
             },
             (error) => {
             }
@@ -455,12 +459,41 @@ handleMultiPluginsChange = (option) => {
   handleRoleBasedAccess = (option) => {
     const { settings } = this.state; 
     if(option?.length >= 1 ){
-    settings.RoleBasedAccess = option;
+      const rolesWithCapabilities = option.map((role, index) => {
+        if (!('setting_access' in role)) {
+          return { ...role, setting_access: true };
+        }
+        return role;
+      });
+    settings.RoleBasedAccess = rolesWithCapabilities;
+    this.state.settings.namer = 'RoleBasedAccess';
+    this.setState(settings);
+    this.saveSettings();
+  }else{
+    settings.RoleBasedAccess = [];
     this.state.settings.namer = 'RoleBasedAccess';
     this.setState(settings);
     this.saveSettings();
   }
 }
+
+handleCapabilityChange = (event) =>{
+  const { settings } = this.state;
+  const tabsindex = event.target.dataset.index;
+  const value = event.target.checked?true:false;
+  const rolesWithCapabilities = settings.RoleBasedAccess.map((role, index) => {
+    if(index == tabsindex){
+      return { ...role, setting_access: value };
+    }
+    return role;
+  });
+  settings.RoleBasedAccess = rolesWithCapabilities;
+  this.state.settings.namer = 'RoleBasedAccess';
+  this.setState(settings);
+  this.saveSettings();
+  
+  }
+
     page_redirect_select_fun = (option) => {
         const { settings } = this.state;
         settings.page_redirect_path = option;
@@ -732,7 +765,27 @@ handleMultiPluginsChange = (option) => {
     this.saveSettings();
     this.setState({click_fraud_protection_popup:false});
   }
+  quadsUserHasSettingsAccess() {
+    let roles_access =  this.state.settings;
+    let user_roles = quads_localize_data.user_roles;
+    roles_access = roles_access.RoleBasedAccess;
+      for (let role of user_roles) {
+          if(role == 'administrator' || role == 'super_admin'){
+            return true;
+          }
+          let roleAccess = roles_access.find(item => item.value === role);
+          if (roleAccess && roleAccess.setting_access === true) {
+              return true; 
+          }
+      }
+      return false; 
+  }
     saveSettings = () => {
+
+      if(!this.quadsUserHasSettingsAccess){
+         return __('Unauthorised Action', 'quick-adsense-reloaded');
+      }
+      
       const formData = new FormData();
       formData.append("file", this.state.backup_file);
       formData.append("settings", JSON.stringify(this.state.settings));
@@ -995,8 +1048,7 @@ handleMultiPluginsChange = (option) => {
   formhandler = (e) => {
     if (window.confirm(__("You are about to clear Log Data, do you wish to continue?", 'quick-adsense-reloaded'))) {
     e.preventDefault();
-    console.log( this.state.q_admin_url+'?action=quads_id_delete' );
-    fetch( this.state.q_admin_url+'?action=quads_id_delete' , {
+    fetch( this.state.q_admin_url+'?action=quads_id_delete&nonce='+quads.nonce , {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -1032,6 +1084,9 @@ handleMultiPluginsChange = (option) => {
   open_ad_text_modal = () =>{
     this.setState({adtxt_modal:true});
   }
+  open_role_permission_modal = () =>{
+    this.setState({role_permission_modal:true});
+  }
   adsforwp_to_quads_model = () =>{
     this.setState({adsforwp_to_quads_model:true});
   }
@@ -1039,7 +1094,7 @@ handleMultiPluginsChange = (option) => {
     this.setState({advance_ads_to_quads_model:true});
   }
   closeModal = () =>{
-    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false,advance_ads_to_quads_model:false,revenue_sharing_modal:false});
+    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false,advance_ads_to_quads_model:false,revenue_sharing_modal:false,role_permission_modal:false});
   }
   getErrorMessage =(type) => {
     const {__} = wp.i18n;
@@ -1235,6 +1290,18 @@ handleMultiPluginsChange = (option) => {
                        </label>
             </div>
              </div>
+             </div>
+            </div> : null
+            }
+                {this.state.role_permission_modal ?
+           <div className="quads-modal-popup quads-role-permission">
+            <div className="quads-modal-popup-content">
+            <div className="quads-modal-header"> <span className="quads-modal-close" onClick={this.closeModal}>&times;</span>
+             <h3>{__('Role Capabilities', 'quick-adsense-reloaded')}</h3>
+            </div>
+              <div className="quads-modal-content">
+              <QuadsVerticalTabs RoleBasedAccess={settings.RoleBasedAccess} handleCapabilityChange={this.handleCapabilityChange} />
+              </div>
              </div>
             </div> : null
             }
@@ -1796,7 +1863,7 @@ handleMultiPluginsChange = (option) => {
                  {this.state.quadsIsAdmin ?
                  <tr>
                     <th scope="row"><label htmlFor="RoleBasedAccess">{__('Role Based Access', 'quick-adsense-reloaded')}</label></th>
-                    <td>
+                    <td className='quadsRoleAccess'>
                     {this.state.selectedBtnOpt == 'RoleBasedAccess' ?
                     <div className="quads-spin-cntr">
                        <div className="quads-set-spin"></div>
@@ -1811,7 +1878,7 @@ handleMultiPluginsChange = (option) => {
                       onChange={this.handleRoleBasedAccess}
                     />
                     }
-                       {/* <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-access-quads-rolebase/"></a> */}
+                    {this.state.settings.RoleBasedAccess.length > 0 ? <span onClick={this.open_role_permission_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''}
 
                     </td>
                   </tr>:null}
@@ -1828,10 +1895,17 @@ handleMultiPluginsChange = (option) => {
                     <tr>
                        <th><label htmlFor="report_logging">{__('Report Logging Method', 'quick-adsense-reloaded')}</label></th>
                         <td>
-                          <select name="report_logging" id="report_logging" onChange={e =>this.selectLoggingChangeHandler(e)} value={settings.report_logging} >
-                            <option value="combined_legacy">{__('Combined Data (Legacy)', 'quick-adsense-reloaded')}</option>
-                            <option value="improved_v2">{__('Separate Data (Improved V2)', 'quick-adsense-reloaded')}</option>
-                          </select>
+                          <FormControl style={{minWidth:'300px'}} >
+                          <MSelect
+                            name="report_logging" 
+                            id="report_logging"
+                            onChange={e =>this.selectLoggingChangeHandler(e)} 
+                            value={settings.report_logging}
+                          >
+                            <MenuItem value="combined_legacy">{__('Combined Data (Legacy)', 'quick-adsense-reloaded')}</MenuItem>
+                            <MenuItem value="improved_v2">{__('Separate Data (Improved V2)', 'quick-adsense-reloaded')}</MenuItem>
+                          </MSelect>
+                        </FormControl>
                           {(settings.logging_toggle != 'off')?settings.report_logging == 'improved_v2'?
                           <p>{__('You are now using new improved report tracking.', 'quick-adsense-reloaded')} </p>
                           :
@@ -2080,6 +2154,8 @@ handleMultiPluginsChange = (option) => {
             {__('Activate License', 'quick-adsense-reloaded')}
             </a>
           }
+          <p>{__('Please Activate Your License to get feature updates and premium support.', 'quick-adsense-reloaded')} <a href="https://wpquads.com/accounts/?account_page=downloads" target="_blank">{__('Get Your License Here', 'quick-adsense-reloaded')}</a></p>
+						<p><a href="https://wpquads.com/documentation/" target="_blank">{__('Documentation', 'quick-adsense-reloaded')}</a> | <a href="https://wpquads.com/support/" target="_blank">{__('Contact Tech Support', 'quick-adsense-reloaded')}</a></p>
           </div> : null}
           {quads_localize_data.licenses.license !== "valid" ?  
           <div className="">
