@@ -10,7 +10,6 @@ const {__} = wp.i18n;
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: '#005af0',
     display: 'flex',
     height: 224,
   },
