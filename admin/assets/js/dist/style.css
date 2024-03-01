@@ -2493,6 +2493,9 @@ select#abtesting_report {
 
 [class^="i-root-"] {
   background-color: transparent; }
+
+.quads-settings-tab-container .MuiSelect-root {
+  margin-top: 6%; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -2519,7 +2522,8 @@ and open the template in the editor.
 .quads-ad-search-box .quads-select-div {
   display: flex;
   margin-bottom: 10px;
-  justify-content: space-between; }
+  justify-content: space-between;
+  background-color: #efefef; }
 
 .quads-select-div select {
   border: 1px solid #e1e1e1; }
