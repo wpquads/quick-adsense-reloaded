@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.4
 Requires PHP: 5.4
-Stable tag: 2.0.80
+Stable tag: 2.0.81
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -206,6 +206,19 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.81 ( 01 February 2024 ) =
+* New: Feature to Show/Hide the appearance of the Ad depending on states #847
+* New: Added Feature of scheduling ads. #653
+* Improvement: Duplication of position dropdown (code improvement) #862
+* Improvement: Show a required field message near next button while adding ads #806
+* Improvement: Add filters in ad list page #864
+* Feature: Role-based access for settings #865
+* Fixed: Warning in debug log #852
+* Fixed: Click fraud protection is not working for non amp users #866
+* Fixed: Dual HTML tag was added to the source code. #868
+* Fixed: after_class target does not work when class is out site the_content #869
+* Fixed: Report tab is showing blank.  #870
 
 = 2.0.80 ( 30 December 2023 ) =
 * Fixed: Compatibility with the plugin Loco Translate #861
