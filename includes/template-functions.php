@@ -3604,7 +3604,7 @@ function quads_is_lazyload_template($options, $ads){
             $post_status =  'publish';
         }
         $quads_enabled_position = array('ad_after_class','ad_after_id');
-            if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish' && in_array($ads['position'],$quads_enabled_position)){
+            if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish' && isset($ads['position']) && in_array($ads['position'],$quads_enabled_position)){
                 $paragraph_no = (isset($ads['paragraph_number']) && $ads['paragraph_number'] !='') ? $ads['paragraph_number'] : 1;
                 // placeholder string for custom ad spots
                 if(isset($ads['random_ads_list']) && !empty($ads['random_ads_list'])){
