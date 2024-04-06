@@ -3429,7 +3429,12 @@ if($repeat_paragraph){
                         $ref_node  = $paragraphs[$offset]->nextSibling;
                         $ad_dom =  new DOMDocument( '1.0', $wp_charset );
                         libxml_use_internal_errors( true );
-                        $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'));
+                        $quick_tags_pattern = '/<!--CusAds\d+-->/';
+                        if (preg_match($quick_tags_pattern, $ads)) {
+                            $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
+                        }else{
+                            $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'));
+                        }
 
                         $importedNodes = [];
                         foreach ($ad_dom->childNodes as $importedNode) {
@@ -3450,7 +3455,12 @@ if($repeat_paragraph){
             
             $ad_dom = new DOMDocument('1.0', $wp_charset);
             libxml_use_internal_errors(true);
-            $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'));
+            $quick_tags_pattern = '/<!--CusAds\d+-->/';
+            if (preg_match($quick_tags_pattern, $ads)) {
+                $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
+            }else{
+                $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'));
+            }
             
             $importedNodes = [];
             foreach ($ad_dom->childNodes as $importedNode) {
@@ -3653,6 +3663,7 @@ function quads_is_lazyload_template($options, $ads){
                                         if ( function_exists( 'quads_parse_rotator_ads' ) ) {
                                             $quad_parsed_ads  ='<!--CusRot'.$ads['ad_id'].'-->';
                                             $quad_parsed_ads = quads_parse_rotator_ads($quad_parsed_ads);
+                                        }
                                         
                                     }else if($ads['ad_type'] == 'group_insertion') {
                                         if ( function_exists( 'quads_parse_group_insert_ads' ) ) {
@@ -3667,12 +3678,12 @@ function quads_is_lazyload_template($options, $ads){
                                     $content = quads_after_id_class_ad_creator($content,$class_name,$type_name);
                                     $content = str_replace('afterClassAd', $quad_parsed_ads, $content);
                             }
-                        }
 
                     }
                             
                         break;
                         case 'ad_after_id':
+                            
                             $type_name = 'id';
                             $id_name = isset($ads['after_id_name']) ? $ads['after_id_name'] : '';
                             if( strpos($content, "</blockquote>") || strpos($content, "</table>")){
@@ -3688,6 +3699,7 @@ function quads_is_lazyload_template($options, $ads){
                                         if ( function_exists( 'quads_parse_rotator_ads' ) ) {
                                             $quad_parsed_ads  ='<!--CusRot'.$ads['ad_id'].'-->';
                                             $quad_parsed_ads = quads_parse_rotator_ads($quad_parsed_ads);
+                                        }
                                         
                                     }else if($ads['ad_type'] == 'group_insertion') {
                                         if ( function_exists( 'quads_parse_group_insert_ads' ) ) {
@@ -3697,12 +3709,10 @@ function quads_is_lazyload_template($options, $ads){
                                     }else{
                                         $quad_parsed_ads = quads_render_ad($ads['quads_ad_old_id'],$ads['code']);
                                     }
-
                                     $id_name = '"'.$id_name.'"';
                                     $content = quads_after_id_class_ad_creator($content,$id_name,$type_name);
                                     $content = str_replace('afterIdAd', $quad_parsed_ads, $content);
                                 }
-                             }
                             }
                         break;
                     }
