@@ -121,6 +121,7 @@ class QuadsAdCreateRouter extends Component {
             adpushup_site_id           : '',
             adpushup_slot_id           : '',            
             refresh_type               : 'on_load',
+            sort_type               : 'random',
             num_ads_t_s               : '1',
             loop_add_title            :'',
             loop_add_description      :'',

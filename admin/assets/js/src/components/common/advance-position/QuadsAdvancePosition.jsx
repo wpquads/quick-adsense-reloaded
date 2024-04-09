@@ -2,9 +2,6 @@ import React, { Component, Fragment } from 'react';
 import './QuadsAdvancePosition.scss';
 import { Alert } from '@material-ui/lab';
 import Icon from '@material-ui/core/Icon';
-import Select from '@material-ui/core/Select';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import MenuItem from '@material-ui/core/MenuItem';
 
 class QuadsAdvancePosition extends Component {
 
@@ -39,7 +36,7 @@ check_plugin_exist = (event) => {
                 (result) => {
                     let ad_extra_position =  Object.entries(result).map(([key, value]) => {
                         return (
-                            <MenuItem key={key} value={'api-'+value.location}>{value.description}</MenuItem>
+                            <option key={key} value={'api-'+value.location}>{value.description}</option>
                         )
                     });
                     this.setState({ad_extra_position:ad_extra_position});
@@ -59,99 +56,97 @@ check_plugin_exist = (event) => {
                     <div>
                         {quads_localize_data.is_amp_enable &&  post_meta.enabled_on_amp ?
                         <>
-                            <Select style={{minWidth:'250px'}} className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
+                            <select style={{minWidth:'250px'}} className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                                <>
                                {post_meta.ad_type != "adpushup" ?                                
                                 <>
-                                <ListSubheader>Full Support ( AMP &amp; NON AMP )</ListSubheader>
-                                    <MenuItem value="select_position">{__('Select Position', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="random_ad_placement">{__('Random Placement', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="middle_of_post">{__('Middle of Post', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="end_of_post">{__('End of Post', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="after_more_tag">{__('Right after the', 'quick-adsense-reloaded')} &lt;!--more--&gt; {__('tag', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="before_last_paragraph">{__('Right before the last Paragraph', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="after_image">{__('After Image', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="before_image">{__('Before Image', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="ad_after_id">{__('After Id', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="ad_after_class">{__('After Class', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="ad_after_customq">{__('After Advance Selector', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="ad_after_html_tag">{__('After HTML Tag', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="amp_ads_in_loops">{__('Inbetween Loop', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="ad_sticky_ad">{__('Sticky (NON AMP ONLY)', 'quick-adsense-reloaded')}</MenuItem>
+                                <optgroup label='Full Support ( AMP &amp; NON AMP )'>
+                                    <option value="select_position">{__('Select Position', 'quick-adsense-reloaded')}</option>
+                                    <option value="random_ad_placement">{__('Random Placement', 'quick-adsense-reloaded')}</option>
+                                    <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>
+                                    <option value="middle_of_post">{__('Middle of Post', 'quick-adsense-reloaded')}</option>
+                                    <option value="end_of_post">{__('End of Post', 'quick-adsense-reloaded')}</option>
+                                    <option value="after_more_tag">{__('Right after the', 'quick-adsense-reloaded')} &lt;!--more--&gt; {__('tag', 'quick-adsense-reloaded')}</option>
+                                    <option value="before_last_paragraph">{__('Right before the last Paragraph', 'quick-adsense-reloaded')}</option>
+                                    <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
+                                    <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>
+                                    <option value="before_image">{__('Before Image', 'quick-adsense-reloaded')}</option>
+                                    <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
+                                    <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
+                                    <option value="ad_after_id">{__('After Id', 'quick-adsense-reloaded')}</option>
+                                    <option value="ad_after_class">{__('After Class', 'quick-adsense-reloaded')}</option>
+                                    <option value="ad_after_customq">{__('After Advance Selector', 'quick-adsense-reloaded')}</option>
+                                    <option value="ad_after_html_tag">{__('After HTML Tag', 'quick-adsense-reloaded')}</option>
+                                    <option value="amp_ads_in_loops">{__('Inbetween Loop', 'quick-adsense-reloaded')}</option>
+                                    <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
+                                    <option value="ad_sticky_ad">{__('Sticky (NON AMP ONLY)', 'quick-adsense-reloaded')}</option>
                                     {this.state.ad_extra_position}
-
+                                    </optgroup>
                                 {quads_localize_data.is_newsPapertheme_exist ?
-                                 <ListSubheader>Newspaper Theme support</ListSubheader>
+                                     <option value="before_header">{__('Before the Header (Newspaper Theme)', 'quick-adsense-reloaded')}</option>
+                                     
                                 : ''}
                                 {quads_localize_data.is_newsPapertheme_exist ?
-                                <MenuItem value="before_header">{__('Before the Header', 'quick-adsense-reloaded')}</MenuItem>
-                                : ''}
-                                {quads_localize_data.is_newsPapertheme_exist ?
-                                <MenuItem value="after_header">{__('After the Header', 'quick-adsense-reloaded')}</MenuItem>
+                                     <option value="after_header">{__('After the Header (Newspaper Theme)', 'quick-adsense-reloaded')}</option>
                                 : ''}
                                 </>
                                 : ''}  
                                </> 
-                               <ListSubheader>Partial Support ( AMP Only )</ListSubheader>
-                                    <MenuItem value="amp_after_featured_image">{__('After Featured Image', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="amp_below_the_header">{__('Below the Header (SiteWide)', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="amp_below_the_footer">{__('Below the Footer (SiteWide)', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="amp_above_the_footer">{__('Above the Footer (SiteWide)', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="amp_above_the_post_content">{__('Above the Post Content (Single Post)', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="amp_below_the_post_content">{__('Below the Post Content (Single Post)', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="amp_below_the_title">{__('Below the Title (Single Post)', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="amp_above_related_post">{__('Above Related Posts (Single Post)', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="amp_below_author_box">{__('Below the Author Box (Single Post)', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="amp_after_paragraph">{__('After Paragraph (Single Post)', 'quick-adsense-reloaded')}</MenuItem>
-                                    <MenuItem value="amp_doubleclick_sticky_ad">{__('Sticky (AMP)', 'quick-adsense-reloaded')} </MenuItem>
-                                    {post_meta.ad_type =='adsense' || post_meta.ad_type =='double_click' ?  <MenuItem value="amp_story_ads">{__('AMP Story', 'quick-adsense-reloaded')}</MenuItem> : null }
-
-                            </Select>
+                               <optgroup label='Partial Support ( AMP Only )'>
+                                    <option value="amp_after_featured_image">{__('After Featured Image', 'quick-adsense-reloaded')}</option>
+                                    <option value="amp_below_the_header">{__('Below the Header (SiteWide)', 'quick-adsense-reloaded')}</option>
+                                    <option value="amp_below_the_footer">{__('Below the Footer (SiteWide)', 'quick-adsense-reloaded')}</option>
+                                    <option value="amp_above_the_footer">{__('Above the Footer (SiteWide)', 'quick-adsense-reloaded')}</option>
+                                    <option value="amp_above_the_post_content">{__('Above the Post Content (Single Post)', 'quick-adsense-reloaded')}</option>
+                                    <option value="amp_below_the_post_content">{__('Below the Post Content (Single Post)', 'quick-adsense-reloaded')}</option>
+                                    <option value="amp_below_the_title">{__('Below the Title (Single Post)', 'quick-adsense-reloaded')}</option>
+                                    <option value="amp_above_related_post">{__('Above Related Posts (Single Post)', 'quick-adsense-reloaded')}</option>
+                                    <option value="amp_below_author_box">{__('Below the Author Box (Single Post)', 'quick-adsense-reloaded')}</option>
+                                    <option value="amp_after_paragraph">{__('After Paragraph (Single Post)', 'quick-adsense-reloaded')}</option>
+                                    <option value="amp_doubleclick_sticky_ad">{__('Sticky (AMP)', 'quick-adsense-reloaded')} </option>
+                                    {post_meta.ad_type =='adsense' || post_meta.ad_type =='double_click' ?  <option value="amp_story_ads">{__('AMP Story', 'quick-adsense-reloaded')}</option> : null }
+                                    </optgroup>
+                            </select>
                             {post_meta.ad_type == "adpushup" ? <p>{__('This selection is just for AMP', 'quick-adsense-reloaded')}</p> : ''}
                             </>                            
-                            : <Select style={{minWidth:'250px'}} className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
-                                <MenuItem value="select_position">{__('Select Position', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="random_ad_placement">{__('Random Placement', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="middle_of_post">{__('Middle of Post', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="end_of_post">{__('End of Post', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="after_more_tag">{__('Right after the', 'quick-adsense-reloaded')} &lt;!--more--&gt; {__('tag', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="before_last_paragraph">{__('Right before the last Paragraph', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="after_image">{__('After Image', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="before_image">{__('Before Image', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="ad_after_id">{__('After Id', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="ad_after_class">{__('After Class', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="ad_after_customq">{__('After Advance Selector', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="ad_after_html_tag">{__('After HTML Tag', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="ad_before_html_tag">{__('Before HTML Tag', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="ad_sticky_ad">{__('Sticky', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="amp_ads_in_loops">{__('Inbetween Loop', 'quick-adsense-reloaded')}</MenuItem>
+                            : <select style={{minWidth:'250px'}} className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
+                                <option value="select_position">{__('Select Position', 'quick-adsense-reloaded')}</option>
+                                <option value="random_ad_placement">{__('Random Placement', 'quick-adsense-reloaded')}</option>
+                                <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>
+                                <option value="middle_of_post">{__('Middle of Post', 'quick-adsense-reloaded')}</option>
+                                <option value="end_of_post">{__('End of Post', 'quick-adsense-reloaded')}</option>
+                                <option value="after_more_tag">{__('Right after the', 'quick-adsense-reloaded')} &lt;!--more--&gt; {__('tag', 'quick-adsense-reloaded')}</option>
+                                <option value="before_last_paragraph">{__('Right before the last Paragraph', 'quick-adsense-reloaded')}</option>
+                                <option value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</option>
+                                <option value="after_image">{__('After Image', 'quick-adsense-reloaded')}</option>
+                                <option value="before_image">{__('Before Image', 'quick-adsense-reloaded')}</option>
+                                <option value="after_word_count">{__('By Word Count', 'quick-adsense-reloaded')}</option>
+                                <option value="after_the_percentage">{__('After the Percentage', 'quick-adsense-reloaded')}</option>
+                                <option value="ad_after_id">{__('After Id', 'quick-adsense-reloaded')}</option>
+                                <option value="ad_after_class">{__('After Class', 'quick-adsense-reloaded')}</option>
+                                <option value="ad_after_customq">{__('After Advance Selector', 'quick-adsense-reloaded')}</option>
+                                <option value="ad_after_html_tag">{__('After HTML Tag', 'quick-adsense-reloaded')}</option>
+                                <option value="ad_before_html_tag">{__('Before HTML Tag', 'quick-adsense-reloaded')}</option>
+                                <option value="ad_sticky_ad">{__('Sticky', 'quick-adsense-reloaded')}</option>
+                                <option value="amp_ads_in_loops">{__('Inbetween Loop', 'quick-adsense-reloaded')}</option>
                                 {quads_localize_data.is_bbpress_exist ?
                                     <>
-                                        <MenuItem value="bbpress_before_ad">{__('BBpress Before Ad', 'quick-adsense-reloaded')}</MenuItem>
-                                        <MenuItem value="bbpress_after_ad">{__('BBpress After Ad', 'quick-adsense-reloaded')}</MenuItem>
-                                        <MenuItem value="bbpress_before_reply">{__('BBpress Before Reply', 'quick-adsense-reloaded')}</MenuItem>
-                                        <MenuItem value="bbpress_after_reply">{__('BBpress After Reply', 'quick-adsense-reloaded')}</MenuItem>
+                                        <option value="bbpress_before_ad">{__('BBpress Before Ad', 'quick-adsense-reloaded')}</option>
+                                        <option value="bbpress_after_ad">{__('BBpress After Ad', 'quick-adsense-reloaded')}</option>
+                                        <option value="bbpress_before_reply">{__('BBpress Before Reply', 'quick-adsense-reloaded')}</option>
+                                        <option value="bbpress_after_reply">{__('BBpress After Reply', 'quick-adsense-reloaded')}</option>
                                     </>
                                     :null}
                                     
                                 {this.state.ad_extra_position}
-                                <MenuItem value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</MenuItem>
+                                <option value="ad_shortcode">{__('Shortcode (Manual)', 'quick-adsense-reloaded')}</option>
                                 {quads_localize_data.is_newsPapertheme_exist ?
                                 <optgroup label="Newspaper Theme support">
-                                <MenuItem value="before_header">{__('Before the Header', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="after_header">{__('After the Header', 'quick-adsense-reloaded')}</MenuItem>
+                                <option value="before_header">{__('Before the Header', 'quick-adsense-reloaded')}</option>
+                                <option value="after_header">{__('After the Header', 'quick-adsense-reloaded')}</option>
                                     </optgroup>
                                 : ''}    
-                            </Select>  }
+                            </select>  }
                         <div>{ (show_form_error && post_meta.position == '')  ? <span className="quads-error"><div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Select Where Will The AD Appear', 'quick-adsense-reloaded')}</div></span> : ''}</div>
                     </div>
                     <div className='position_content'>
