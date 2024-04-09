@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 6.4
+Tested up to: 6.5
 Requires PHP: 5.4
-Stable tag: 2.0.81
+Stable tag: 2.0.82
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -207,6 +207,14 @@ Alternative Installation:
 
 == Changelog ==
 
+= 2.0.82 ( 09 April 2024 ) =
+* New: Added option sorting type in rotator ads #880
+* Improvement: Duplication of position dropdown (code improvement) #862
+* Fixed: Conflict issue with 2.0.81 version #875
+* Fixed: Mobile Plain Text / HTML / JS option is not getting saved #879
+* Fixed: option to add the mobile-specific ad in the custom ad is not getting saved #873
+* Fixed: PHP Warning (2.0.81): Undefined array key “position” #874
+
 = 2.0.81 ( 01 March 2024 ) =
 * New: Feature to Show/Hide the appearance of the Ad depending on states #847
 * New: Added Feature of scheduling ads. #653
@@ -310,21 +318,4 @@ Alternative Installation:
 = 2.0.72.1 ( 21 June 2023 ) =
 * Cannot access offset of type string on string #768
 
-= 2.0.72 ( 19 June 2023 ) =
-* Added: New Option to set expiry date #747
-* Fixed: Some errors in Apache error log #750
-* Fixed: Option "Ad after HTML tag" is not working #748
-* Fixed: Some issues are occurring with vide ads #719
-* Fixed: There is a need to make a feature where users can add mobile device-specific ads. #725
-* Fixed: Improvement requirement in Impression and click counts #724
-* Fixed: Ad Logging UI is broken (pro) #684
-* Fixed: Toggle to disable "All Ads should appear after 3-4 seconds of loading the page" #704
-* Fixed: Checkbox selection should work on every respective label click #751
-* Fixed: Newspaper theme ad options should only be available if the theme is activated #753
-* Fixed: Banner Ads are appearing on the Store page even if not configured #752
-* Fixed: URL Parameter inside targeting is not working. #754
-* Fixed: Wrong parameters passed to impressions and clicks functionality #755
-* Fixed: When we enable the ad performance tracking option, a lot of requests are sent to the server. #763
-
-Complete changelog: [https://wpquads.com/changelog](https://wpquads.com/changelog) 
-
+Full changelog available [ at changelog.txt](https://plugins.svn.wordpress.org/quick-adsense-reloaded/trunk/changelog.txt)
