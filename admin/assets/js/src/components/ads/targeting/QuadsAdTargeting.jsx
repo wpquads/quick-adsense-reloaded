@@ -380,6 +380,16 @@ class QuadsAdTargeting extends Component {
                                 <td><a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-auto-rotation-how-to-set-it-up/"></a></td> : '' }
                                 </tr>
                         : null}
+
+                  {post_meta.ad_type == 'rotator_ads' ?
+                        <tr className='rotation_table'>
+                            <td><label>{__('Sorting', 'quick-adsense-reloaded')}</label></td>
+                            <td><Select style={{minWidth:'250px',marginTop:'20px'}}  value={post_meta.sort_type} name="sort_type" onChange={this.props.adFormChangeHandler} >
+                                <MenuItem value="random">{__('Random ads', 'quick-adsense-reloaded')}</MenuItem>
+                                <MenuItem value="ordered">{__('Ordered ads', 'quick-adsense-reloaded')}</MenuItem>
+                                </Select></td>
+                                </tr>
+                        : null}
                     {post_meta.ad_type == 'rotator_ads' && post_meta.refresh_type == 'on_interval' ?
                     <tr>
                     

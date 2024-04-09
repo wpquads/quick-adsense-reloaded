@@ -121,6 +121,7 @@ class QuadsAdCreateRouter extends Component {
             adpushup_site_id           : '',
             adpushup_slot_id           : '',            
             refresh_type               : 'on_load',
+            sort_type               : 'random',
             num_ads_t_s               : '1',
             loop_add_title            :'',
             loop_add_description      :'',
@@ -154,7 +155,8 @@ class QuadsAdCreateRouter extends Component {
             check_lazy_load_delay     :3,
             add_url_nofollow          : true,
             delay_ad_sec              :false,
-            publish_date              : ''
+            publish_date              : '',
+            mob_code                  : ''
 
             },
             quads_form_errors : {
@@ -166,7 +168,7 @@ class QuadsAdCreateRouter extends Component {
               visibility_include   : [],
               random_ads_list      : [],
               ads_list            : [],
-              floating_slides     : [],   
+              floating_slides     : []
             }                    
         };       
      this.include_timer = null;      
@@ -419,9 +421,10 @@ class QuadsAdCreateRouter extends Component {
       body_json.quads_post_meta.popup_ads =body_json['popup_ads'];
       body_json.quads_post_meta.video_ads =body_json['video_ads'];
       body_json.quads_post_meta.ads_list = this.ads_list; 
-      body_json.quads_post_meta.floating_slides = this.floating_slides;
+      body_json.quads_post_meta.floating_slides = this.floating_slides; 
       body_json.quads_post_meta.set_spec_day = this.set_spec_day;
- 
+      body_json.mob_code = body_json.quads_post_meta['mob_code'];
+           
       let url = quads_localize_data.rest_url + 'quads-route/update-ad';
       fetch(url,{
         method: "post",
