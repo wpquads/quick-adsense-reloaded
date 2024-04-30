@@ -43,7 +43,7 @@
                     }
                 });     
         } 
-             $(".quads-location").on("click",function(){
+             $(document).on('click', '.quads-location, .quads-child-ads', function(e){
                         var ad_id = $(this).attr('id');
                         var currentLocation = window.location.href;                        
                   if(ad_id){
