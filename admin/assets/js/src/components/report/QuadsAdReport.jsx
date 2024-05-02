@@ -908,7 +908,7 @@ drawChart(config);
             current_page:'view_reports_stats'
         })
         setTimeout(() => {
-            document.getElementById("view_stats_report").value='all';
+            document.getElementById("view_stats_report").value='top_five_ads';
             document.getElementById("report_period").value='last_7_days';
           this.view_report_stats_form_ChangeHandler_main_report_tab();
         }, 500);
@@ -1036,12 +1036,16 @@ drawChart(config);
                                 ad_imp_individual_dates = response.ad_imp_individual_dates
                                 pass_Date = 'Date'
                             }
-                if(id=="all")
+                if(id=="all" || id == 'top_five_ads')
                 {
-                    
+                        let reportHeading = 'All Ads';
+                        if(id == 'top_five_ads'){
+                            reportHeading = 'Top 5 Performing Ads';
+                        }
+                        
                        render_data = `<table>
                         <tbody>
-                        <tr><td colspan="7" align="center"><b>Top 5 Performing Ads</b></td></tr>
+                        <tr><td colspan="7" align="center"><b>${reportHeading}</b></td></tr>
                         <tr>
                         <td><b>Ad Name</b></td>
                         <td><b>Mobile Impressions</b></td>
@@ -1170,11 +1174,15 @@ drawChart(config);
                     }
                     else if( ad_day == "this_month" ){
 
-                        if(id=="all")
+                        if(id=="all" || id == 'top_five_ads')
                         {
+                            let reportHeading = 'All Ads';
+                            if(id == 'top_five_ads'){
+                                reportHeading = 'Top 5 Performing Ads';
+                            }
                             render_data = `<table>
                                 <tbody>
-                                <tr><td colspan="7" align="center"><b>Top 5 Performing Ads</b></td></tr>
+                                <tr><td colspan="7" align="center"><b>${reportHeading}</b></td></tr>
                                 <tr>
                                 <td><b>Ad Name</b></td>
                                 <td><b>Mobile Impressions</b></td>
@@ -1300,12 +1308,16 @@ drawChart(config);
                     }
                     else{
 
-                        if(id=="all")
+                        if(id=="all" || id == 'top_five_ads')
                         {
         
+                            let reportHeading = 'All Ads';
+                            if(id == 'top_five_ads'){
+                                reportHeading = 'Top 5 Performing Ads';
+                            }
                             render_data = `<table>
                                 <tbody>
-                                <tr><td colspan="7" align="center"><b>Top 5 Performing Ads</b></td></tr>
+                                <tr><td colspan="7" align="center"><b>${reportHeading}</b></td></tr>
                                 <tr>
                                 <td><b>Ad Name</b></td>
                                 <td><b>Mobile Impressions</b></td>
@@ -1378,11 +1390,15 @@ drawChart(config);
                     else{
                         var top5_ads = response.top5_ads
                         this.display_report_stats_main_report(response)
-                        if(id=="all")
+                        if(id=="all" || id == 'top_five_ads')
                         {
+                            let reportHeading = 'All Ads';
+                            if(id == 'top_five_ads'){
+                                reportHeading = 'Top 5 Performing Ads';
+                            }
                             render_data = `<table>
                                 <tbody>
-                                <tr><td colspan="3" align="center"><b>Top 5 Performing Ads</b></td></tr>
+                                <tr><td colspan="3" align="center"><b>${reportHeading}</b></td></tr>
                                 <tr>
                                 <td><b>Ad Name</b></td>
                                 <td><b>Mobile Impressions</b></td>
@@ -1694,6 +1710,7 @@ drawChart(config);
                     
                     <select name="view_stats_report" onChange={this.view_report_stats_form_ChangeHandler_main_report_tab} id={'view_stats_report'} placeholder="Select Ads" >
                         <option value="select">{__('Select Ad', 'quick-adsense-reloaded')}</option>
+                        <option value="top_five_ads">{__('Top 5 Ads', 'quick-adsense-reloaded')}</option>
                         <option value="all">{__('All Ads', 'quick-adsense-reloaded')}</option>
                         {this.state.getallads_data_temp ? this.state.getallads_data_temp.map( item => (
                             <option key={item.value} value={item.value}>{item.label}</option>

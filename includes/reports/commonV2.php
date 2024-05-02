@@ -448,7 +448,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$to_date =  strtotime($dates_i_chart[0]);
 
 
-			if($ad_id=='all') {
+			if($ad_id=='all' || $ad_id == 'top_five_ads') {
 				$results_impresn_desk = $wpdb->get_results($wpdb->prepare("SELECT stats_impressions,DATE(FROM_UNIXTIME(stats_date)) as stats_date  FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE stats_date BETWEEN %d AND %d",array($to_date,$from_date)));
 				$results_impresn_mob = $wpdb->get_results($wpdb->prepare("SELECT stats_impressions,DATE(FROM_UNIXTIME(stats_date))  as stats_date  FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date BETWEEN %d AND %d",array($to_date,$from_date)));
 			}
@@ -486,7 +486,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$desk_indi_impr_day_counts = $ad_desk_imprsn_values;	
 			$individual_impr_day_counts = $ad_imprsn_values;
 
-			if($ad_id=='all') {
+			if($ad_id=='all' || $ad_id == 'top_five_ads') {
 				$results_clicks_desk = $wpdb->get_results($wpdb->prepare("SELECT stats_clicks,DATE(FROM_UNIXTIME(stats_date)) as stats_date  FROM `{$wpdb->prefix}quads_clicks_desktop` WHERE stats_date BETWEEN %d AND %d",array($to_date,$from_date)));
 				$results_clicks_mob = $wpdb->get_results($wpdb->prepare("SELECT stats_clicks,DATE(FROM_UNIXTIME(stats_date)) as stats_date FROM `{$wpdb->prefix}quads_clicks_mobile` WHERE stats_date BETWEEN %d AND %d",array($to_date,$from_date)));
 			}
@@ -524,6 +524,16 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 					
 			if($ad_id=="all")
 			{
+				$array_top5= $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0) + IFNULL(impr_mob.stats_impressions,0)) as total_impression
+				FROM {$wpdb->prefix}posts as posts
+				LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id AND impr_mob.stats_date BETWEEN %d AND %d
+				LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id AND impr_desk.stats_date BETWEEN %d AND %d
+				LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id AND click_mob.stats_date BETWEEN %d AND %d
+				LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id AND click_desk.stats_date BETWEEN %d AND %d
+				WHERE posts.post_type='quads-ads' AND posts.post_status='publish'
+				GROUP BY posts.ID
+				ORDER BY total_click DESC , total_impression DESC;",array($to_date,$from_date,$to_date,$from_date,$to_date,$from_date,$to_date,$from_date)));			
+			}else if($ad_id == 'top_five_ads'){
 				$array_top5= $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0) + IFNULL(impr_mob.stats_impressions,0)) as total_impression
 				FROM {$wpdb->prefix}posts as posts
 				LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id AND impr_mob.stats_date BETWEEN %d AND %d
@@ -600,7 +610,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		$get_impressions_specific_dates =$dates_i_chart;
 
 
-		if($ad_id=='all') {
+		if($ad_id=='all' || $ad_id == 'top_five_ads') {
 			$results_clicks_desk = $wpdb->get_results($wpdb->prepare("SELECT stats_clicks,DATE(FROM_UNIXTIME(stats_date)) as stats_date FROM `{$wpdb->prefix}quads_clicks_desktop` WHERE stats_date BETWEEN %d AND %d",array($first_date_,$current_date_month_)));
 			$results_clicks_mob = $wpdb->get_results($wpdb->prepare("SELECT stats_clicks,DATE(FROM_UNIXTIME(stats_date)) as stats_date  FROM `{$wpdb->prefix}quads_clicks_mobile` WHERE stats_date BETWEEN %d AND %d",array($first_date_,$current_date_month_)));
 		}
@@ -642,8 +652,18 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 				LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id AND click_desk.stats_date BETWEEN %d AND %d
 				WHERE posts.post_type='quads-ads' AND posts.post_status='publish'
 				GROUP BY posts.ID
+				ORDER BY total_click DESC , total_impression DESC",array($first_date_,$current_date_month_,$first_date_,$current_date_month_,$first_date_,$current_date_month_,$first_date_,$current_date_month_)));			
+		}else if($ad_id == 'top_five_ads'){
+			$array_top5= $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0) + IFNULL(impr_mob.stats_impressions,0)) as total_impression
+				FROM {$wpdb->prefix}posts as posts
+				LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id AND impr_mob.stats_date BETWEEN %d AND %d
+				LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id AND impr_desk.stats_date BETWEEN %d AND %d
+				LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id AND click_mob.stats_date BETWEEN %d AND %d
+				LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id AND click_desk.stats_date BETWEEN %d AND %d
+				WHERE posts.post_type='quads-ads' AND posts.post_status='publish'
+				GROUP BY posts.ID
 				ORDER BY total_click DESC , total_impression DESC
-				LIMIT %d;",array($first_date_,$current_date_month_,$first_date_,$current_date_month_,$first_date_,$current_date_month_,$first_date_,$current_date_month_,5)));			
+				LIMIT %d;",array($first_date_,$current_date_month_,$first_date_,$current_date_month_,$first_date_,$current_date_month_,$first_date_,$current_date_month_,5)));
 		}
 	}
 		else if( $day == "last_month" ){
@@ -698,7 +718,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$individual_impr_day_counts = $ad_imprsn_values;
 
 		$get_impressions_specific_dates = $dates_i_chart;
-		if($ad_id=='all') {
+		if($ad_id=='all' || $ad_id=='top_five_ads') {
 			$results_clicks_desk = $wpdb->get_results($wpdb->prepare("SELECT stats_clicks,DATE(FROM_UNIXTIME(stats_date)) as stats_date FROM `{$wpdb->prefix}quads_clicks_desktop` WHERE   MONTH(FROM_UNIXTIME(stats_date))=MONTH(now())-1 AND YEAR(FROM_UNIXTIME(stats_date)) = %d",array($year)));
 			$results_clicks_mob = $wpdb->get_results($wpdb->prepare("SELECT stats_clicks,DATE(FROM_UNIXTIME(stats_date)) as stats_date FROM `{$wpdb->prefix}quads_clicks_mobile` WHERE  MONTH(FROM_UNIXTIME(stats_date))=MONTH(now())-1 AND YEAR(FROM_UNIXTIME(stats_date)) = %d",array($year)));
 		}
@@ -741,6 +761,16 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 				LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id AND  MONTH(FROM_UNIXTIME(click_desk.stats_date))=MONTH(now())-1 AND YEAR(FROM_UNIXTIME(click_desk.stats_date)) = %d
 				WHERE posts.post_type='quads-ads' AND posts.post_status='publish'
 				GROUP BY posts.ID
+				ORDER BY total_click DESC , total_impression DESC",array($year,$year,$year,$year)));			
+		}else if($ad_id == 'top_five_ads'){
+			$array_top5= $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0) + IFNULL(impr_mob.stats_impressions,0)) as total_impression
+				FROM {$wpdb->prefix}posts as posts
+				LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id AND  MONTH(FROM_UNIXTIME(impr_mob.stats_date))=MONTH(now())-1 AND YEAR(FROM_UNIXTIME(impr_mob.stats_date)) = %d
+				LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id AND  MONTH(FROM_UNIXTIME(impr_desk.stats_date))=MONTH(now())-1 AND YEAR(FROM_UNIXTIME(impr_desk.stats_date)) = %d
+				LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id AND  MONTH(FROM_UNIXTIME(click_mob.stats_date))=MONTH(now())-1 AND YEAR(FROM_UNIXTIME(click_mob.stats_date)) = %d
+				LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id AND  MONTH(FROM_UNIXTIME(click_desk.stats_date))=MONTH(now())-1 AND YEAR(FROM_UNIXTIME(click_desk.stats_date)) = %d
+				WHERE posts.post_type='quads-ads' AND posts.post_status='publish'
+				GROUP BY posts.ID
 				ORDER BY total_click DESC , total_impression DESC
 				LIMIT %d;",array($year,$year,$year,$year,5)));			
 		}
@@ -754,7 +784,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$first_date_ = date('Y-m-d',strtotime('first day of this month'));
 			$current_date_month_ = date('Y-m-d');
 
-			if($ad_id=='all') {
+			if($ad_id=='all' || $ad_id == 'top_five_ads') {
 				$results_impresn_desk = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as desk_impressions, stats_year  FROM `{$wpdb->prefix}quads_impressions_desktop` GROUP BY stats_year"));
 				$results_impresn_mob = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as mob_impressions, stats_year  FROM `{$wpdb->prefix}quads_impressions_mobile`  GROUP BY stats_year"));
 			}
@@ -811,7 +841,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$get_impressions_specific_dates = $ad_imprsn_values;
 
 
-			if($ad_id=='all') {
+			if($ad_id=='all' || $ad_id == 'top_five_ads') {
 				$results_clicks_desk = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_clicks),0) as desk_clicks, stats_year  FROM `{$wpdb->prefix}quads_clicks_desktop` GROUP BY stats_year"));
 				$results_clicks_mob = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_clicks),0) as mob_clicks, stats_year  FROM `{$wpdb->prefix}quads_clicks_mobile`  GROUP BY stats_year"));
 			}
@@ -869,6 +899,16 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 					LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id
 					WHERE posts.post_type='quads-ads'AND posts.post_status='publish'
 					GROUP BY posts.ID
+					ORDER BY total_click DESC , total_impression DESC;"));			
+			}else if($ad_id == 'top_five_ads'){
+				$array_top5= $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
+					FROM {$wpdb->prefix}posts as posts
+					LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id
+					LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id
+					LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id
+					LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id
+					WHERE posts.post_type='quads-ads'AND posts.post_status='publish'
+					GROUP BY posts.ID
 					ORDER BY total_click DESC , total_impression DESC
 					LIMIT %d;",array(5)));			
 			}
@@ -882,7 +922,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$year= date("Y");
 			$first_date_ = date('Y-m-d',strtotime('first day of this month'));
 			$current_date_month_ = date('Y-m-d');
-			if($ad_id=="all"){
+			if($ad_id=="all" || $ad_id == 'top_five_ads'){
 				$yearly_mob_impressions = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 1 THEN stats_impressions END),0) AS jan_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 2 THEN stats_impressions END),0) AS feb_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 3 THEN stats_impressions END),0) AS mar_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 4 THEN stats_impressions END),0) AS apr_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 5 THEN stats_impressions END),0) AS may_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 6 THEN stats_impressions END),0) AS jun_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 7 THEN stats_impressions END),0) AS jul_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 8 THEN stats_impressions END),0) AS aug_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 9 THEN stats_impressions END),0) AS sep_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 10 THEN stats_impressions END),0) AS oct_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 11 THEN stats_impressions END),0) AS nov_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 12 THEN stats_impressions END),0) as dec_impr FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE  YEAR(FROM_UNIXTIME(stats_date)) = %s ; ",array($year)));
 				$yearly_desk_impressions = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 1 THEN stats_impressions END),0) AS jan_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 2 THEN stats_impressions END),0) AS feb_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 3 THEN stats_impressions END),0) AS mar_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 4 THEN stats_impressions END),0) AS apr_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 5 THEN stats_impressions END),0) AS may_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 6 THEN stats_impressions END),0) AS jun_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 7 THEN stats_impressions END),0) AS jul_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 8 THEN stats_impressions END),0) AS aug_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 9 THEN stats_impressions END),0) AS sep_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 10 THEN stats_impressions END),0) AS oct_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 11 THEN stats_impressions END),0) AS nov_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 12 THEN stats_impressions END),0) as dec_impr FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE  YEAR(FROM_UNIXTIME(stats_date)) = %s ; ",array($year)));
 			}else{
@@ -907,7 +947,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$individual_impr_day_counts = $ad_imprsn_values;
 			$individual_ad_dates = [1];
 
-			if($ad_id=="all"){
+			if($ad_id=="all" || $ad_id == 'top_five_ads'){
 				$yearly_mob_clicks = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 1 THEN stats_clicks END),0) AS jan_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 2 THEN stats_clicks END),0) AS feb_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 3 THEN stats_clicks END),0) AS mar_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 4 THEN stats_clicks END),0) AS apr_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 5 THEN stats_clicks END),0) AS may_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 6 THEN stats_clicks END),0) AS jun_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 7 THEN stats_clicks END),0) AS jul_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 8 THEN stats_clicks END),0) AS aug_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 9 THEN stats_clicks END),0) AS sep_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 10 THEN stats_clicks END),0) AS oct_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 11 THEN stats_clicks END),0) AS nov_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 12 THEN stats_clicks END),0) as dec_impr FROM `{$wpdb->prefix}quads_clicks_mobile` WHERE  YEAR(FROM_UNIXTIME(stats_date)) = %s ; ",array($year)));
 				$yearly_desk_clicks = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 1 THEN stats_clicks END),0) AS jan_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 2 THEN stats_clicks END),0) AS feb_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 3 THEN stats_clicks END),0) AS mar_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 4 THEN stats_clicks END),0) AS apr_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 5 THEN stats_clicks END),0) AS may_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 6 THEN stats_clicks END),0) AS jun_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 7 THEN stats_clicks END),0) AS jul_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 8 THEN stats_clicks END),0) AS aug_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 9 THEN stats_clicks END),0) AS sep_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 10 THEN stats_clicks END),0) AS oct_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 11 THEN stats_clicks END),0) AS nov_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 12 THEN stats_clicks END),0) as dec_impr FROM `{$wpdb->prefix}quads_clicks_desktop` WHERE YEAR(FROM_UNIXTIME(stats_date)) = %s ; ",array($year)));
 			}else{
@@ -944,6 +984,16 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 					LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id AND YEAR(FROM_UNIXTIME(click_desk.stats_date)) = %d
 					WHERE posts.post_type='quads-ads' AND posts.post_status='publish'
 					GROUP BY posts.ID
+					ORDER BY total_click DESC , total_impression DESC;",array($year,$year,$year,$year)));			
+			}else if($ad_id == 'top_five_ads'){
+				$array_top5= $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
+					FROM {$wpdb->prefix}posts as posts
+					LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id AND YEAR(FROM_UNIXTIME(impr_mob.stats_date)) = %d
+					LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id AND YEAR(FROM_UNIXTIME(impr_desk.stats_date)) = %d
+					LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id AND YEAR(FROM_UNIXTIME(click_mob.stats_date)) = %d
+					LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id AND YEAR(FROM_UNIXTIME(click_desk.stats_date)) = %d
+					WHERE posts.post_type='quads-ads' AND posts.post_status='publish'
+					GROUP BY posts.ID
 					ORDER BY total_click DESC , total_impression DESC
 					LIMIT %d;",array($year,$year,$year,$year,5)));			
 			}
@@ -953,7 +1003,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		
 		$yesterday_date = date('Y-m-d',strtotime("-1 days"));
 
-		if($ad_id=='all') {
+		if($ad_id=='all' || $ad_id == 'top_five_ads') {
 			$results_impresn_desk = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as  stats_impressions  FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE stats_date = %d",array(strtotime($yesterday_date))));
 			$results_impresn_mob = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as  stats_impressions FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date = %d",array(strtotime($yesterday_date))));
 		}
@@ -962,7 +1012,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$results_impresn_mob = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as  stats_impressions FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date = %d AND ad_id = %d",array(strtotime($yesterday_date),$ad_id)));
 		}
 		
-		if($ad_id=='all') {
+		if($ad_id=='all' || $ad_id == 'top_five_ads') {
 			$results_clicks_desk = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_clicks),0) as  stats_clicks  FROM `{$wpdb->prefix}quads_clicks_desktop` WHERE stats_date = %d",array(strtotime($yesterday_date))));
 			$results_clicks_mob = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_clicks),0)as  stats_clicks FROM `{$wpdb->prefix}quads_clicks_mobile` WHERE stats_date = %d",array(strtotime($yesterday_date))));
 		}
@@ -1000,6 +1050,16 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 						LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id AND click_desk.stats_date = %d
 						WHERE posts.post_type='quads-ads' AND posts.post_status='publish'
 						GROUP BY posts.ID
+						ORDER BY total_click DESC , total_impression DESC;",array(strtotime($yesterday_date),strtotime($yesterday_date),strtotime($yesterday_date),strtotime($yesterday_date))));	
+			}else if($ad_id == 'top_five_ads'){
+				$array_top5= $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
+						FROM {$wpdb->prefix}posts as posts
+						LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id AND impr_mob.stats_date = %d
+						LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id AND impr_desk.stats_date = %d
+						LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id AND click_mob.stats_date = %d
+						LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id AND click_desk.stats_date = %d
+						WHERE posts.post_type='quads-ads' AND posts.post_status='publish'
+						GROUP BY posts.ID
 						ORDER BY total_click DESC , total_impression DESC
 						LIMIT %d;",array(strtotime($yesterday_date),strtotime($yesterday_date),strtotime($yesterday_date),strtotime($yesterday_date),5)));	
 			}
@@ -1008,7 +1068,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	else if( $day == "today" ) {
 		$get_impressions_specific_dates = str_replace('-','/',$todays_date);
 			
-		if($ad_id=='all') {
+		if($ad_id=='all' || $ad_id == 'top_five_ads') {
 			$results_impresn_desk = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as  stats_impressions  FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE stats_date = %d",array(strtotime($todays_date))));
 			$results_impresn_mob = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as  stats_impressions FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date = %d",array(strtotime($todays_date))));
 		}
@@ -1017,7 +1077,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$results_impresn_mob = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as  stats_impressions FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date = %d AND ad_id = %d",array(strtotime($todays_date),$ad_id)));
 		}
 		
-		if($ad_id=='all') {
+		if($ad_id=='all' || $ad_id == 'top_five_ads') {
 			$results_clicks_desk = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_clicks),0) as  stats_clicks  FROM `{$wpdb->prefix}quads_clicks_desktop` WHERE stats_date = %d",array(strtotime($todays_date))));
 			$results_clicks_mob = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_clicks),0)as  stats_clicks FROM `{$wpdb->prefix}quads_clicks_mobile` WHERE stats_date = %d",array(strtotime($todays_date))));
 		}
@@ -1056,6 +1116,16 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 					LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id AND click_desk.stats_date = %d
 					WHERE posts.post_type='quads-ads' AND posts.post_status='publish'
 					GROUP BY posts.ID
+					ORDER BY total_click DESC , total_impression DESC;",array(strtotime($todays_date),strtotime($todays_date),strtotime($todays_date),strtotime($todays_date))));	
+			}else if($ad_id == 'top_five_ads'){
+				$array_top5= $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
+					FROM {$wpdb->prefix}posts as posts
+					LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id AND impr_mob.stats_date = %d
+					LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id AND impr_desk.stats_date = %d
+					LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id AND click_mob.stats_date = %d
+					LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id AND click_desk.stats_date = %d
+					WHERE posts.post_type='quads-ads' AND posts.post_status='publish'
+					GROUP BY posts.ID
 					ORDER BY total_click DESC , total_impression DESC
 					LIMIT %d;",array(strtotime($todays_date),strtotime($todays_date),strtotime($todays_date),strtotime($todays_date),5)));	
 			}
@@ -1072,7 +1142,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		$get_to = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$1-$2-$3', $todate);
 
 		
-		if($ad_id=='all') {
+		if($ad_id=='all' || $ad_id == 'top_five_ads') {
 			$results_impresn_desk = $wpdb->get_results($wpdb->prepare("SELECT stats_impressions as desk_imprsn,DATE(FROM_UNIXTIME(stats_date)) as stats_date  FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE stats_date BETWEEN %d AND %d",array(strtotime($get_from),strtotime($get_to))));
 			$results_impresn_mob = $wpdb->get_results($wpdb->prepare("SELECT stats_impressions as mob_imprsn,DATE(FROM_UNIXTIME(stats_date)) as stats_date FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date BETWEEN %d AND %d",array(strtotime($get_from),strtotime($get_to))));
 		}
@@ -1145,7 +1215,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		$desk_indi_impr_day_counts = $ad_desk_imprsn_values;
 		$individual_impr_day_counts = $ad_imprsn_values;
 
-		if($ad_id=='all') {
+		if($ad_id=='all' || $ad_id == 'top_five_ads') {
 			$results_clicks_desk = $wpdb->get_results($wpdb->prepare("SELECT stats_clicks as desk_clicks,DATE(FROM_UNIXTIME(stats_date)) as stats_date  FROM `{$wpdb->prefix}quads_clicks_desktop` WHERE stats_date BETWEEN %d AND %d",array(strtotime($get_from),strtotime($get_to))));
 			$results_clicks_mob = $wpdb->get_results($wpdb->prepare("SELECT stats_clicks as mob_clicks,DATE(FROM_UNIXTIME(stats_date)) as stats_date FROM `{$wpdb->prefix}quads_clicks_mobile` WHERE stats_date BETWEEN %d AND %d",array(strtotime($get_from),strtotime($get_to))));
 		}
@@ -1197,6 +1267,16 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 
 		if($ad_id=="all")
 			{
+				$array_top5= $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0) + IFNULL(impr_mob.stats_impressions,0)) as total_impression
+				FROM {$wpdb->prefix}posts as posts
+				LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id AND impr_mob.stats_date BETWEEN %d AND %d
+				LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id AND impr_desk.stats_date BETWEEN %d AND %d
+				LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id AND click_mob.stats_date BETWEEN %d AND %d
+				LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id AND click_desk.stats_date BETWEEN %d AND %d
+				WHERE posts.post_type='quads-ads' AND posts.post_status='publish'
+				GROUP BY posts.ID
+				ORDER BY total_click DESC , total_impression DESC;",array($get_from_,$get_to_,$get_from_,$get_to_,$get_from_,$get_to_,$get_from_,$get_to_)));
+			}else if($ad_id == 'top_five_ads'){
 				$array_top5= $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0) + IFNULL(impr_mob.stats_impressions,0)) as total_impression
 				FROM {$wpdb->prefix}posts as posts
 				LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id AND impr_mob.stats_date BETWEEN %d AND %d
