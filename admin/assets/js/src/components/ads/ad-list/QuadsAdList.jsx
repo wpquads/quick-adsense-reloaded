@@ -107,7 +107,8 @@ class QuadsAdList extends Component {
           break;
           case 'random_ads':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/random_ad_icon.png';
-          type = "random ad";
+          type = "Random Ad";
+          break;
           case 'popup_ads':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/popup_ads.png';
           type = "Popup Ad";
