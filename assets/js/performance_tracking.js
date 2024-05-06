@@ -4,10 +4,35 @@
         
         setTimeout(function(){   
             
-        var ad_ids ={};    
+        var ad_ids ={}; 
+        let adIndex = 0;   
         $(".quads-location").each(function(index){
-           ad_ids[index]= ($(this).attr('id'));
+            if($(this).attr('id') != 'quads-rotate'){
+               ad_ids[adIndex]= ($(this).attr('id'));
+               adIndex++;
+            }
         });  
+        
+        if($('.quads-rotatorad').length > 0){
+            $(".quads-rotatorad").each(function(qrindex){
+                let childAds = $(this).children('.quads-groups-ads-json');
+                if(childAds.length > 0){
+                    let rotatorChildAds = childAds.attr('data-json');
+                    if(rotatorChildAds.length > 0){
+                        let parseRotator = JSON.parse(rotatorChildAds);
+                        if(parseRotator.ads){
+                            $.each(parseRotator.ads, function(rindex, relement){
+                                if(relement.ad_id){
+                                    let addRotateId = 'quads-ad'+relement.ad_id;
+                                    ad_ids[adIndex] = addRotateId;
+                                    adIndex++;
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }  
         
         if($.isEmptyObject( ad_ids ) == false){      
          var currentLocation = window.location.href;         
@@ -20,7 +45,7 @@
                     }
                 });     
         } 
-             $(".quads-location").on("click",function(){
+             $(document).on('click', '.quads-location, .quads-child-ads', function(e){
                         var ad_id = $(this).attr('id');
                         var currentLocation = window.location.href;                        
                   if(ad_id){

@@ -2848,7 +2848,7 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
     $settings = quads_defaultSettings();
     if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support'] ){
         if( $image_banner_device_detect == true ){
-            $wpimage_quads = "quadss";
+            $wpimage_quads = "quads";
         }else{
             $wpimage_quads = "quads";
         }
