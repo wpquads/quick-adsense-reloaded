@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.5
 Requires PHP: 5.4
-Stable tag: 2.0.82
+Stable tag: 2.0.83
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -207,6 +207,12 @@ Alternative Installation:
 
 == Changelog ==
 
+= 2.0.83 ( 06 May 2024 ) =
+* New: Need to create an option where we can see all ad's performance. #882
+* Fixed: Ordered ads are not showing in rotation ads in the Auto Rotate type option. #883
+* Fixed: Particular ads impression is not showing in Rotator ads. #884
+* Fixed: When we add the Random ads but its type is showing pop-up ads #885
+
 = 2.0.82 ( 09 April 2024 ) =
 * New: Added option sorting type in rotator ads #880
 * Improvement: Duplication of position dropdown (code improvement) #862
@@ -315,7 +321,5 @@ Alternative Installation:
 * Fixed: There should be jumb link to redirect to license section #765
 * Fixed: PHP Deprecated: strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated #775
 
-= 2.0.72.1 ( 21 June 2023 ) =
-* Cannot access offset of type string on string #768
 
 Full changelog available [ at changelog.txt](https://plugins.svn.wordpress.org/quick-adsense-reloaded/trunk/changelog.txt)
