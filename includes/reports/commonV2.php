@@ -847,7 +847,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			}
 			else{
 				$results_clicks_desk = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_clicks),0) as desk_clicks, stats_year  FROM `{$wpdb->prefix}quads_clicks_desktop` WHERE ad_id = %d GROUP BY stats_year",array($ad_id)));
-				$results_clicks_desk = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_clicks),0) as mob_clicks, stats_year  FROM `{$wpdb->prefix}quads_clicks_mobile`  WHERE ad_id = %d  GROUP BY stats_year",array($ad_id)));
+				$results_clicks_mob = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_clicks),0) as mob_clicks, stats_year  FROM `{$wpdb->prefix}quads_clicks_mobile`  WHERE ad_id = %d  GROUP BY stats_year",array($ad_id)));
 			
 			}	
 			
@@ -857,7 +857,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		$combinedData = [];
 		$results_clicks_desk = is_array($results_clicks_desk) ? $results_clicks_desk : array();
 		$results_clicks_mob = is_array($results_clicks_mob) ? $results_clicks_mob : array();
-		$merge_array_c = array_merge($results_clicks_desk, $results_clicks_desk);
+		$merge_array_c = array_merge($results_clicks_desk, $results_clicks_mob);
 
 		foreach ($merge_array_c as $item) {
 			$stats_year = $item->stats_year;
@@ -1290,6 +1290,104 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			}
 		
 	}
+	
+	/**
+	 * Fetch only rotator ads if ad_id is selected as all
+	 * @since 2.0.84
+	 * */
+	$rotator_ads = array();
+	$re_arrange_top5 = array();
+	if($ad_id == "all" && $day == "all_time"){
+
+		$rotator_ads = 	$wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID, postmeta.meta_key, postmeta.meta_value  
+																												FROM {$wpdb->prefix}posts as posts 
+																												LEFT JOIN {$wpdb->prefix}postmeta as postmeta ON posts.ID = postmeta.post_id
+																												WHERE posts.post_type = 'quads-ads' AND posts.post_status='publish' AND postmeta.meta_value = 'rotator_ads'" ), ARRAY_A);
+		$rotate_sub_ads = array();
+		$rcnt = 0;
+		if(!empty($rotator_ads) && is_array($rotator_ads)){
+
+			foreach ($rotator_ads as $ra_key => $ra_value) {
+
+				$rotate_sub_ads[$ra_value['ID']][$rcnt]['ID'] = 	$ra_value['ID'];
+				$rotate_sub_ads[$ra_value['ID']][$rcnt]['is_parent'] = 	'yes';
+				$ads_list = get_post_meta($ra_value['ID'], 'ads_list', true);
+
+				if(!empty($ads_list) && is_array($ads_list)){
+
+					foreach ($ads_list as $al_key => $al_value) {
+
+						if(is_array($al_value) && isset($al_value['value'])){
+							$rotate_sub_ads[$ra_value['ID']][$al_value['value']]['ID'] = $al_value['value'];
+							$rotate_sub_ads[$ra_value['ID']][$al_value['value']]['is_parent'] = 'no';
+						}
+						
+					}
+
+				}
+				$rcnt++;
+
+			}
+
+		}
+
+		if(!empty($rotate_sub_ads) && is_array($rotate_sub_ads) && !empty($array_top5) && is_array($array_top5)){
+
+			$re_arrange_top5 = array();
+			$ad_cnt = 0;
+
+			foreach ($rotate_sub_ads as $rsa_key1 => $rsa_value1) {
+
+				if(!empty($rsa_value1) && is_array($rsa_value1)){
+
+					foreach ($rsa_value1 as $rsa_key => $rsa_value) {
+
+						foreach ($array_top5 as $at_key => $at_value) {
+
+							if($rsa_value['ID'] == $at_value->ID && $rsa_value['is_parent'] == 'yes'){
+
+								$re_arrange_top5[$ad_cnt] = $at_value;	
+								$re_arrange_top5[$ad_cnt]->is_parent = $rsa_value['is_parent'];	
+
+							}else if($rsa_value['ID'] == $at_value->ID && $rsa_value['is_parent'] == 'no'){
+
+								$re_arrange_top5[$ad_cnt] = $at_value;	
+								$re_arrange_top5[$ad_cnt]->is_parent = $rsa_value['is_parent'];
+
+							}
+							$ad_cnt++;	
+
+						}	// array_top5 each end
+
+					} // rsa_value1 each end
+
+				} // rsa_value1 if end
+
+			} // rotate_sub_ads each end
+
+			if(!empty($re_arrange_top5) && is_array($re_arrange_top5)){
+
+				$re_arrange_top5 = array_values($re_arrange_top5);
+
+				foreach ($re_arrange_top5 as $rat_key => $rat_value) {
+
+					foreach ($array_top5 as $at_key => $at_value) {
+
+						if($rat_value->ID == $at_value->ID){
+							unset($array_top5[$at_key]);
+						}
+
+					}
+
+				}
+				$array_top5 = array_merge($re_arrange_top5, $array_top5);	
+
+			} // re_arrange_top5 if end
+
+		} // rotate_sub_ads if end
+
+	} // ad_id if end
+
 			
 	  $ad_stats['mob_impressions'] = $ad_mob_imprsn;
 	  $ad_stats['desk_impressions'] = $ad_desk_imprsn;

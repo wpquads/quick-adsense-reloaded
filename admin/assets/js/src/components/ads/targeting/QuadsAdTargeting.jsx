@@ -170,7 +170,7 @@ class QuadsAdTargeting extends Component {
     }
     
   }
-
+  
   render() {
 
     const {__} = wp.i18n;    
@@ -436,6 +436,17 @@ class QuadsAdTargeting extends Component {
                         </td>
                         </tr>
                             
+                        :null}
+                        {post_meta.ad_type == 'rotator_ads' && post_meta.refresh_type == 'on_interval' ?
+                        <tr>
+                        <td className='repeat_impression'><label htmlFor="repeat_impressions"> {__('Repeat Impressions', 'quick-adsense-reloaded')}</label>
+                        <label className="quads-switch">
+                            <input id="repeat_impressions" type="checkbox" name="repeat_impressions" onChange={this.props.adFormChangeHandler} checked={post_meta.repeat_impressions} />
+                            <span className="quads-slider"></span>
+                          </label>
+                        </td> 
+                        <td>{__('Count impression of sub ads on every rotation', 'quick-adsense-reloaded')}</td>                         
+                        </tr>
                         :null}
                         {post_meta.ad_type == 'popup_ads' ?
                         <tr className='popup_table'>

@@ -20,14 +20,16 @@
                     let rotatorChildAds = childAds.attr('data-json');
                     if(rotatorChildAds.length > 0){
                         let parseRotator = JSON.parse(rotatorChildAds);
-                        if(parseRotator.ads){
-                            $.each(parseRotator.ads, function(rindex, relement){
-                                if(relement.ad_id){
-                                    let addRotateId = 'quads-ad'+relement.ad_id;
-                                    ad_ids[adIndex] = addRotateId;
-                                    adIndex++;
-                                }
-                            });
+                        if(!parseRotator.quads_repeat_impressions){
+                            if(parseRotator.ads){
+                                $.each(parseRotator.ads, function(rindex, relement){
+                                    if(relement.ad_id){
+                                        let addRotateId = 'quads-ad'+relement.ad_id;
+                                        ad_ids[adIndex] = addRotateId;
+                                        adIndex++;
+                                    }
+                                });
+                            }
                         }
                     }
                 }
