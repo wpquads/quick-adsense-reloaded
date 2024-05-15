@@ -445,7 +445,7 @@ class QuadsAdTargeting extends Component {
                             <span className="quads-slider"></span>
                           </label>
                         </td> 
-                        <td>{__('Count impression of sub ads on every rotation', 'quick-adsense-reloaded')}</td>                         
+                        <td>{__('Count impression of rotation ads on every rotation', 'quick-adsense-reloaded')}</td>                         
                         </tr>
                         :null}
                         {post_meta.ad_type == 'popup_ads' ?
