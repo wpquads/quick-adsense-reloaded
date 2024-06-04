@@ -716,9 +716,9 @@ drawChart(config);
            let getallads_data =[];
            let ad_ids_temp =[];
            Object.entries(result.posts_data).map(([key, value]) => {
-           if(value.post_meta['ad_type'] != "random_ads" && value.post_meta['ad_type'] != "rotator_ads" && value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] != "draft")
+           if(value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] != "draft")
              getallads_data.push({label: value.post['post_title'], value: value.post['post_id']});
-           if(value.post_meta['ad_type'] != "random_ads" && value.post_meta['ad_type'] != "rotator_ads" && value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] == "publish")
+           if(value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] == "publish")
              ad_ids_temp.push(value.post['post_id']);
            })      
              this.setState({
@@ -1057,7 +1057,20 @@ drawChart(config);
                         </tr>
                         ${  
                             top5_ads.map( (ads, index) =>  {
-                            return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();"  data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.mob_imprsn?ads.mob_imprsn:0}</td><td>${ads.desk_imprsn}</td><td>${ads.total_impression}</td><td>${ads.mob_clicks?ads.mob_clicks:0}</td><td>${ads.desk_clicks}</td><td>${ads.total_click}</td></tr>`
+                                if(id == "all"){
+                                    if(typeof ads.is_parent !== 'undefined'){
+                                        if(ads.is_parent == 'yes'){
+                                            return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();"  data-id="${ads.ID}"  ><td style="width: 225px;"><strong>${ads.post_title}</strong></td><td>${ads.mob_imprsn?ads.mob_imprsn:0}</td><td>${ads.desk_imprsn}</td><td>${ads.total_impression}</td><td>${ads.mob_clicks?ads.mob_clicks:0}</td><td>${ads.desk_clicks}</td><td>${ads.total_click}</td></tr>`
+                                        }else if(ads.is_parent == 'no'){
+                                            return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();"  data-id="${ads.ID}"  ><td style="padding-left: 30px;">${ads.post_title}</td><td>${ads.mob_imprsn?ads.mob_imprsn:0}</td><td>${ads.desk_imprsn}</td><td>${ads.total_impression}</td><td>${ads.mob_clicks?ads.mob_clicks:0}</td><td>${ads.desk_clicks}</td><td>${ads.total_click}</td></tr>`
+                                        }
+                                    }else{
+                                        return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();"  data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.mob_imprsn?ads.mob_imprsn:0}</td><td>${ads.desk_imprsn}</td><td>${ads.total_impression}</td><td>${ads.mob_clicks?ads.mob_clicks:0}</td><td>${ads.desk_clicks}</td><td>${ads.total_click}</td></tr>`
+                                    }
+                                    return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();"  data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.mob_imprsn?ads.mob_imprsn:0}</td><td>${ads.desk_imprsn}</td><td>${ads.total_impression}</td><td>${ads.mob_clicks?ads.mob_clicks:0}</td><td>${ads.desk_clicks}</td><td>${ads.total_click}</td></tr>`
+                                }else{
+                                    return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();"  data-id="${ads.ID}"  ><td>${ads.post_title}</td><td>${ads.mob_imprsn?ads.mob_imprsn:0}</td><td>${ads.desk_imprsn}</td><td>${ads.total_impression}</td><td>${ads.mob_clicks?ads.mob_clicks:0}</td><td>${ads.desk_clicks}</td><td>${ads.total_click}</td></tr>`
+                                }
                         }).join('')
                         }
 

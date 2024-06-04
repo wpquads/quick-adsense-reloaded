@@ -1,3 +1,7 @@
+= 2.0.84 ( 04 June 2024 ) =
+* Improvement: Few modifications done for Rotator ads #887
+* Fixed: The option to set an ad on Taxonomy terms is not working #889
+
 = 2.0.83 ( 06 May 2024 ) =
 * New: Need to create an option where we can see all ad's performance. #882
 * Fixed: Ordered ads are not showing in rotation ads in the Auto Rotate type option. #883

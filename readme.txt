@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.5
 Requires PHP: 5.4
-Stable tag: 2.0.83
+Stable tag: 2.0.84
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -207,6 +207,10 @@ Alternative Installation:
 
 == Changelog ==
 
+= 2.0.84 ( 04 June 2024 ) =
+* Improvement: Few modifications done for Rotator ads #887
+* Fixed: The option to set an ad on Taxonomy terms is not working #889
+
 = 2.0.83 ( 06 May 2024 ) =
 * New: Need to create an option where we can see all ad's performance. #882
 * Fixed: Ordered ads are not showing in rotation ads in the Auto Rotate type option. #883
@@ -306,20 +310,6 @@ Alternative Installation:
 * Fixed: Ads are not working on the AMP #785
 * Fixed: A Deprecated warning reported #786
 * Fixed: Fix for ad container adding at every ad position in boombox theme
-
-= 2.0.73 ( 14 July 2023 ) =
-* Fixed: Undefined array key "ad" #761
-* Fixed: Access offset of type string on string #76
-* Fixed: Need to make an option to show the pop up ad on bottom of the page/post #731
-* Fixed: DOMDocumment::loadHTML() Unexpected end tag Entity #770
-* Fixed: Banner Ads are not showing up on the Search Page #764
-* Fixed: Need option for next and prev arrow for carousel ad #772
-* Fixed: Floating ads not working on some particular pages [User Specific Mukul] #771
-* Fixed: PHP Warning on server and Error #760
-* Fixed: Role Based Access not working. #758
-* Fixed: "ads.txt - Automatic Creation" Option is not working. #756
-* Fixed: There should be jumb link to redirect to license section #765
-* Fixed: PHP Deprecated: strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated #775
 
 
 Full changelog available [ at changelog.txt](https://plugins.svn.wordpress.org/quick-adsense-reloaded/trunk/changelog.txt)

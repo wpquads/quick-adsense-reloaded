@@ -803,6 +803,7 @@ function quads_comparison_logic_checker($visibility){
 
 
     case 'ef_taxonomy':
+    case 'taxonomy':
 
     $taxonomy_names = get_post_taxonomies( $post->ID );
 
