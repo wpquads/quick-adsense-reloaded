@@ -2652,7 +2652,7 @@ function quads_parse_half_page_ads($content) {
             '<div class="post_half_page_ad">
             <div class="post_half_page_openClose_box">
             <div id="post_half_page_openClose">
-            <div id="post_half_pageVertical-text">'.__( $half_page_ads_page_vertical_text, 'quick-adsense-reloaded' ).'</div>
+            <div id="post_half_pageVertical-text">'.esc_html( $half_page_ads_page_vertical_text).'</div>
             </div>
             <div class="half-page-arrow-left" id="half-page-arrow-left"></div>
             <div class="half-page-arrow-right" id="half-page-arrow-right"></div>

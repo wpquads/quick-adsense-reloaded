@@ -126,7 +126,7 @@ function quads_common_head_code(){
     }
     global $quads_options;
     if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']== true) {
-        echo quads_load_loading_script();
+        echo quads_load_loading_script(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Adding static script 
     }
     $data_slot  = '';
     $adsense     = false;
@@ -1085,19 +1085,29 @@ function quads_render_floating_ads_async($id) {
 
 }
 
-function quads_load_loading_script(){
+function quads_load_loading_script() {
     global $quads_options;
     $script = '';
-    if ($quads_options['lazy_load_global']== true) {
-    $script .=  "\n".'<script>';
-    $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
-    $script .= file_get_contents(QUADS_PLUGIN_DIR.'assets/js/lazyload' . $suffix .'.js');
 
-    $script .='</script>' . "\n";
-        }
+    if ($quads_options['lazy_load_global'] === true) {
+        // Include the WordPress Filesystem API and initialize it.
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+        WP_Filesystem();
+        global $wp_filesystem;
+        $suffix = quadsIsDebugMode() ? '' : '.min';
+        $file_path = QUADS_PLUGIN_DIR . 'assets/js/lazyload' . $suffix . '.js';
+        $script_content = $wp_filesystem->get_contents($file_path);
+
+        if ($script_content !== false) {
+            $script .= "\n<script>\n";
+            $script .= $script_content;
+            $script .= '</script>' . "\n";
+        } 
+    }
+
     return $script;
-
 }
+
 
 /**
  * Render Google Ad Code Java Script for desktop devices

@@ -210,9 +210,9 @@ function quads_ad( $args ) {
 
 	}
 	if ( $args['echo'] ) {
-		echo $code;
+		echo $code; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Content are already escaped.
 	} else {
-		return $code;
+		return $code; 
 	}
 }
 /**

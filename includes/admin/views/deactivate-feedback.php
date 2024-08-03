@@ -17,7 +17,7 @@ shuffle($reasons);
     <div id="quick-adsense-reloaded-feedback-content">
 	<form action="" method="post">
 	<input type="hidden" name="quads_feedback_nonce" value="<?php echo wp_create_nonce( 'quads_feedback_nonce');?>">
-	    <h3><strong><?php _e('If you have a moment, please let us know why you are deactivating:', 'quick-adsense-reloaded'); ?></strong></h3>
+	    <h3><strong><?php esc_html_e('If you have a moment, please let us know why you are deactivating:', 'quick-adsense-reloaded'); ?></strong></h3>
 	    <ul>
                 <?php 
                 foreach ($reasons as $reason){
@@ -28,9 +28,9 @@ shuffle($reasons);
 	    <?php if ($email) : ?>
     	    <input type="hidden" name="quads_disable_from" value="<?php echo $email; ?>"/>
 	    <?php endif; ?>
-	    <input id="quick-adsense-reloaded-feedback-submit" class="button button-primary" type="submit" name="quads_disable_submit" value="<?php _e('Submit & Deactivate', 'quick-adsense-reloaded'); ?>"/>
-	    <a class="button"><?php _e('Only Deactivate', 'quick-adsense-reloaded'); ?></a>
-	    <a class="quick-adsense-reloaded-feedback-not-deactivate" href="#"><?php _e('Don\'t deactivate', 'quick-adsense-reloaded'); ?></a>
+	    <input id="quick-adsense-reloaded-feedback-submit" class="button button-primary" type="submit" name="quads_disable_submit" value="<?php esc_html_e('Submit & Deactivate', 'quick-adsense-reloaded'); ?>"/>
+	    <a class="button"><?php esc_html_e('Only Deactivate', 'quick-adsense-reloaded'); ?></a>
+	    <a class="quick-adsense-reloaded-feedback-not-deactivate" href="#"><?php esc_html_e('Don\'t deactivate', 'quick-adsense-reloaded'); ?></a>
 	</form>
     </div>
 </div>

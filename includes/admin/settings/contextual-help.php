@@ -27,9 +27,11 @@ function quads_settings_contextual_help() {
 */
 	$screen->set_help_sidebar(
 		'<p><strong>' . $screen->id . sprintf( __( 'For more information:', 'quick-adsense-reloaded' ) . '</strong></p>' .
-		'<p>' . sprintf( __( 'Visit the <a href="%s">documentation</a> on the Quick AdSense Reloaded website.', 'quick-adsense-reloaded' ), esc_url( 'https://wordpress.org/plugins/quick-adsense-reloaded' ) ) ) . '</p>' .
+		'<p>' . sprintf( /* translators: %s: Quick AdSense Reloaded documentation URL */
+			__( 'Visit the <a href="%s">documentation</a> on the Quick AdSense Reloaded website.', 'quick-adsense-reloaded' ), esc_url( 'https://wordpress.org/plugins/quick-adsense-reloaded' ) ) ) . '</p>' .
 		'<p>' . sprintf(
-					__( '<a href="%s">Post an issue</a> on <a href="%s">Quick AdSense Reloaded</a>. View <a href="%s">extensions</a>.', 'quick-adsense-reloaded' ),
+					/* translators: %s: Quick AdSense Reloaded support forum URL */
+					__( '<a href="%1$s">Post an issue</a> on <a href="%2$s">Quick AdSense Reloaded</a>. View <a href="%3$s">extensions</a>.', 'quick-adsense-reloaded' ),
 					esc_url( 'https://wordpress.org/plugins/quick-adsense-reloaded' ),
 					esc_url( 'https://wordpress.org/plugins/quick-adsense-reloaded' ),
 					esc_url( 'https://wordpress.org/plugins/quick-adsense-reloaded' )

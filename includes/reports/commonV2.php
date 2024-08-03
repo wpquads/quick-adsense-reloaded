@@ -1440,7 +1440,7 @@ function quads_adsense_get_access_token($account){
 			// No account at all.
 			return array(
 				'status' => false,
-				'msg' => wp_kses( sprintf( __( 'Advanced Ads does not have access to your account (<code>%s</code>) anymore.', 'advanced-ads' ), $account ), array( 'code' => true ) ),
+				'msg' => wp_kses( /* translators: %s: account name */ sprintf( __( 'Advanced Ads does not have access to your account (<code>%s</code>) anymore.', 'advanced-ads' ), $account ), array( 'code' => true ) ),
 				'reload' => true,
 			);
 		}
@@ -1467,7 +1467,7 @@ function quads_adsense_renew_access_token( $account ) {
 	if ( is_wp_error( $response ) ) {
 		return array(
 			'status' => false,
-			'msg'    => sprintf( esc_html__( 'error while renewing access token for "%s"', 'advanced-ads' ), $account ),
+			'msg'    => sprintf( /* translators: %s: account name */ esc_html__( 'error while renewing access token for "%s"', 'advanced-ads' ), $account ),
 			'raw'    => $response->get_error_message(),
 		);
 	} else {
@@ -1489,7 +1489,7 @@ function quads_adsense_renew_access_token( $account ) {
 		} else {
 			return array(
 				'status' => false,
-				'msg'    => sprintf( esc_html__( 'invalid response received while renewing access token for "%s"', 'advanced-ads' ),  $account ),
+				'msg'    => sprintf( /* translators: %s: account name */ esc_html__( 'invalid response received while renewing access token for "%s"', 'advanced-ads' ),  $account ),
 				'raw'    => $response['body'],
 			);
 		}

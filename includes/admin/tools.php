@@ -90,9 +90,9 @@ function quads_tools_import_export_display() {
         <!-- We have to close the old form first//-->
 
 	<div class="quads-postbox">
-		<h3><span><?php _e( 'Export Settings', 'quick-adsense-reloaded' ); ?></span></h3>
+		<h3><span><?php esc_html_e( 'Export Settings', 'quick-adsense-reloaded' ); ?></span></h3>
 		<div class="inside">
-			<p><?php _e( 'Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded' ); ?></p>
+			<p><?php esc_html_e( 'Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded' ); ?></p>
 			<form method="post" action="<?php echo admin_url( 'admin.php?page=quads-settings&tab=imexport' ); ?>" id="quads-export-settings">
 				<p><input type="hidden" name="quads-action" value="export_settings" /></p>
 				<p>
@@ -104,9 +104,9 @@ function quads_tools_import_export_display() {
 	</div><!-- .postbox -->
 
 	<div class="quads-postbox">
-		<h3><span><?php _e( 'Import Settings', 'quick-adsense-reloaded' ); ?></span></h3>
+		<h3><span><?php esc_html_e( 'Import Settings', 'quick-adsense-reloaded' ); ?></span></h3>
 		<div class="inside">
-			<p><?php _e( 'Import the Quick AdSense Reloaded settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'quick-adsense-reloaded' ); ?></p>
+			<p><?php esc_html_e( 'Import the Quick AdSense Reloaded settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'quick-adsense-reloaded' ); ?></p>
 			<form method="post" enctype="multipart/form-data" action="<?php echo admin_url( 'admin.php?page=quads-settings&tab=imexport' ); ?>">
 				<p>
 					<input type="file" name="import_file"/>
@@ -501,9 +501,9 @@ function quads_import_quick_adsense_settings(){
 	do_action( 'quads_import_quick_adsense_settings_before' );
 ?>
 	<div class="quads-postbox" id="quads-import-settings">
-		<h3><span><?php _e( 'Import from Quick AdSense', 'quick-adsense-reloaded' ); ?></span></h3>
+		<h3><span><?php esc_html_e( 'Import from Quick AdSense', 'quick-adsense-reloaded' ); ?></span></h3>
 		<div class="inside">
-			<p><?php _e( 'Import the settings for Quick AdSense Reloaded from Quick AdSense v. 1.9.2.', 'quick-adsense-reloaded' ); ?></p>
+			<p><?php esc_html_e( 'Import the settings for Quick AdSense Reloaded from Quick AdSense v. 1.9.2.', 'quick-adsense-reloaded' ); ?></p>
 			
 			<!--
                         <form id="quads_quick_adsense_input" method="post" action="<?php echo admin_url( 'admin.php?page=quads-settings&tab=imexport' ); ?>" onsubmit="return confirm('Importing the settings from Quick AdSense will overwrite all your current settings. Are you sure?');">

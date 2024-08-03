@@ -57,7 +57,7 @@ class Quads_Elementor extends Widget_Base {
 
 	protected function render() {
 		$settings = $this->get_settings_for_display();
-		echo  $settings['seleted_add'] ;
+		echo  $settings['seleted_add'] ;  //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is handled by Elementor
 	}
 
 	protected function _content_template() {

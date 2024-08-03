@@ -248,7 +248,7 @@ class QUADS_License {
 		$quads_license_settings = array(
 			array(
 				'id'      => $this->item_shortname . '_license_key',
-				'name'    => sprintf( __( '%1$s License Key', 'quick-adsense-reloaded' ), $this->item_name ),
+				'name'    => sprintf( /* translators: %s: Quick AdSense Reloaded */ __( '%1$s License Key', 'quick-adsense-reloaded' ), $this->item_name ),
 				'desc'    => '',
 				'type'    => 'license_key',
 				'options' => array( 'is_valid_license_option' => $this->item_shortname . '_license_active' ),
@@ -280,7 +280,7 @@ class QUADS_License {
 			return;
 		}
 
-		echo '<p>' . sprintf(
+		echo '<p>' . sprintf( /* translators: %s: Quick AdSense Reloaded documentation URL */
 			__( 'Enter your extension license keys here to receive updates for purchased extensions. If your license key has expired, please <a href="%s" target="_blank" title="License renewal FAQ">renew your license</a>.', 'quick-adsense-reloaded' ),
 			'http://wpquads.com/renew-my-license/'
 		) . '</p>';

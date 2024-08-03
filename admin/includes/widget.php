@@ -45,25 +45,24 @@ class Quads_Ads_Widget extends WP_Widget {
         if( quads_check_meta_setting( 'NoAds' ) === '1' ){
             return false;
         }
-//          exit(print_r($instance['ads']));
         $cont = quads_post_settings_to_quicktags( get_the_content() );
         $ads = isset($quads_options['ads'][$instance['ads']])?$quads_options['ads'][$instance['ads']]:'';
 		$ads_fixed = isset($instance['ads_fixed'])?$instance['ads_fixed']:'';
 
 		if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_is_visibility_on($ads)) {
-            echo $args['before_widget'];
+            echo wp_kses_post($args['before_widget']);
             
             $code = quads_render_ad( $instance['ads'], $ads['code'] );
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if($ads_fixed) {
 				$this->fixed_widget();
-	            echo '<div id="quads-ad' . $instance['ads'] . '_widget" class="quads_widget_fixed">';
+	            echo '<div id="quads-ad' . esc_attr($instance['ads']) . '_widget" class="quads_widget_fixed">';
             }else{
-	            echo '<div id="quads-ad' . $instance['ads'] . '_widget">';
+	            echo '<div id="quads-ad' . esc_attr($instance['ads']) . '_widget">';
             }
-            echo $code;
+            echo wp_kses_post($code);
             echo '</div>';
-            echo $args['after_widget'];	
+            echo wp_kses_post($args['after_widget']);	
         }
         	
 	}
@@ -103,7 +102,7 @@ class Quads_Ads_Widget extends WP_Widget {
 				if( is_array($ad) && array_key_exists( 'label', $ad ) ){ 
 					$title = $ad['label'];
 				}
-             echo '<option '. esc_attr(selected( $ads, $key, false)).' value="'.esc_attr($key).'">'.esc_html__($title, 'quick-adsense-reloaded').'</option>';
+             echo '<option '. esc_attr(selected( $ads, $key, false)).' value="'.esc_attr($key).'">'.esc_html( $title ).'</option>';
             }
 
             echo '</select>';

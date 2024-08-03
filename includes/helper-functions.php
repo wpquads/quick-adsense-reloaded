@@ -66,7 +66,7 @@ function quads_send_feedback() {
         parse_str( $_POST['data'], $form );
     }
     if ( ! wp_verify_nonce( $form['quads_feedback_nonce'] , 'quads_feedback_nonce' ) ) {
-        die( __( 'Invalid nonce', 'quick-adsense-reloaded' ) ); 
+        die( esc_html__( 'Invalid nonce', 'quick-adsense-reloaded' ) ); 
     }
     
     $text = '';

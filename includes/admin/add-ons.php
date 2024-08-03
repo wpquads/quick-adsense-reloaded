@@ -753,311 +753,143 @@ a.quads-nav-link:focus{box-shadow:none;}
  * @return void
  */
 function quads_add_ons_page() {
-    ob_start();
-	
-    $freepro_listing = '
-	<div class="quads-ad-header">
-		<div class="quads-logo"><img height="42" width="175" src="'.QUADS_PLUGIN_URL.'admin/assets/js/src/images/quads-v2-logo.png"></div>
-		<a class="quads-got_pro premium_features_btn" href="'.admin_url('admin.php?page=quads-addons#upgrade_to_premium').'">Upgrade to Premium</a>
-		<div class="quads-ad-menu">
-				<div class="quads-ad-tab-wrapper">
-					<div class="quads-ad-tab">
-						<ul>
-							<li><a class="quads-nav-link" href="'.admin_url('admin.php?page=quads-settings').'">Ads</a></li>
-							<li><a class="quads-nav-link" href="'.admin_url('admin.php?page=quads-settings&amp;path=settings').'">Settings</a></li>
-							<li class="current"><a class="quads-nav-link" href="'.admin_url('admin.php?page=quads-settings&amp;path=reports').'">Reports</a></li>
-						</ul>
-					</div>
-				</div>
-		</div>
-	</div>
-<div id="quads_freevspro">
+  
+    echo '<div class="quads-ad-header">
+    <div class="quads-logo"><img height="42" width="175" src="' . esc_url(QUADS_PLUGIN_URL . 'admin/assets/js/src/images/quads-v2-logo.png') . '"></div>
+    <a class="quads-got_pro premium_features_btn" href="' . esc_url(admin_url('admin.php?page=quads-addons#upgrade_to_premium')) . '">' . esc_html__('Upgrade to Premium', 'quick-adsense-reloaded') . '</a>
+    <div class="quads-ad-menu">
+            <div class="quads-ad-tab-wrapper">
+                <div class="quads-ad-tab">
+                    <ul>
+                        <li><a class="quads-nav-link" href="' . esc_url(admin_url('admin.php?page=quads-settings')) . '">' . esc_html__('Ads', 'quick-adsense-reloaded') . '</a></li>
+                        <li><a class="quads-nav-link" href="' . esc_url(admin_url('admin.php?page=quads-settings&path=settings')) . '">' . esc_html__('Settings', 'quick-adsense-reloaded') . '</a></li>
+                        <li class="current"><a class="quads-nav-link" href="' . esc_url(admin_url('admin.php?page=quads-settings&path=reports')) . '">' . esc_html__('Reports', 'quick-adsense-reloaded') . '</a></li>
+                    </ul>
+                </div>
+            </div>
+    </div>
+    </div>
+    <div id="quads_freevspro">
     <div class="fp-wr">
         <div class="fp-cnt">
-            <h1>Upgrade to Pro</h1>
-            <p>Take your Quads to the next level Save time & earn more with next level AdSense integration!</p>
-            <a class="buy" href="#upgrade">BUY NOW</a>
+            <h1>' . esc_html__('Upgrade to Pro', 'quick-adsense-reloaded') . '</h1>
+            <p>' . esc_html__('Take your Quads to the next level Save time & earn more with next level AdSense integration!', 'quick-adsense-reloaded') . '</p>
+            <a class="buy" href="#upgrade">' . esc_html__('BUY NOW', 'quick-adsense-reloaded') . '</a>
         </div>
         <div class="pvf">
             <div class="ext">
                 <div class="ex-1 e-1">
-                    <img src="'.QUADS_PLUGIN_URL . 'assets/images/ex-1.png" />
-                    <h4>Features</h4>
-                    <p>Includes a suite of advanced features like Ad Rotator, Group Insertion, GEO Location 10+ premium features.</p>
+                    <img src="' . esc_url(QUADS_PLUGIN_URL . 'assets/images/ex-1.png') . '" />
+                    <h4>' . esc_html__('Features', 'quick-adsense-reloaded') . '</h4>
+                    <p>' . esc_html__('Includes a suite of advanced features like Ad Rotator, Group Insertion, GEO Location 10+ premium features.', 'quick-adsense-reloaded') . '</p>
                 </div>
                 <div class="ex-1 e-2">
-                    <img src="'.QUADS_PLUGIN_URL . 'assets/images/ex-2.png" />
-                    <h4>Simple Setup</h4>
-                    <p>We focus on important stuff and keep it clean and simple. WP QUADS Pro makes it extremely easy to deliver well converting ads to your audience.</p>
+                    <img src="' . esc_url(QUADS_PLUGIN_URL . 'assets/images/ex-2.png') . '" />
+                    <h4>' . esc_html__('Simple Setup', 'quick-adsense-reloaded') . '</h4>
+                    <p>' . esc_html__('We focus on important stuff and keep it clean and simple. WP QUADS Pro makes it extremely easy to deliver well converting ads to your audience.', 'quick-adsense-reloaded') . '</p>
                 </div>
                 <div class="ex-1 e-3">
-                    <img src="'.QUADS_PLUGIN_URL . 'assets/images/ex-3.png" />
-                    <h4>Dedicated Support</h4>
-                    <p>Get private ticketing help from our full-time staff who helps you with the technical issues.</p>
+                    <img src="' . esc_url(QUADS_PLUGIN_URL . 'assets/images/ex-3.png') . '" />
+                    <h4>' . esc_html__('Dedicated Support', 'quick-adsense-reloaded') . '</h4>
+                    <p>' . esc_html__('Get private ticketing help from our full-time staff who helps you with the technical issues.', 'quick-adsense-reloaded') . '</p>
                 </div>
             </div><!-- /. ext -->
             <div class="pvf-cnt">
                 <div class="pvf-tlt">
-                    <h2 id="upgrade_to_premium">Compare Pro vs. Free Version</h2>
-                    <span>See what you\'ll get with the WPQuads Premium Version</span>
+                    <h2 id="upgrade_to_premium">' . esc_html__('Compare Pro vs. Free Version', 'quick-adsense-reloaded') . '</h2>
+                    <span>' . esc_html__("See what you'll get with the WPQuads Premium Version", 'quick-adsense-reloaded') . '</span>
                 </div>
                 <div class="pvf-cmp">
                     <div class="fr">
-                        <h1>FREE</h1>
+                        <h1>' . esc_html__('FREE', 'quick-adsense-reloaded') . '</h1>
                         <div class="fr-fe">
                             <div class="fe-1">
-                                <h4>Continuous Development</h4>
-                                <p>We take bug reports and feature requests seriously. We’re Continuously developing & improve this product for last 4 years with passion and love.</p>
+                                <h4>' . esc_html__('Continuous Development', 'quick-adsense-reloaded') . '</h4>
+                                <p>' . esc_html__('We take bug reports and feature requests seriously. We’re Continuously developing & improve this product for last 4 years with passion and love.', 'quick-adsense-reloaded') . '</p>
                             </div>
                             <div class="fe-1">
-                                <h4>10+ Features</h4>
-                                <p>We\'re constantly expanding the plugin and make it more useful. We have wide variety of features which will fit any use-case.</p>
+                                <h4>' . esc_html__('10+ Features', 'quick-adsense-reloaded') . '</h4>
+                                <p>' . esc_html__("We're constantly expanding the plugin and make it more useful. We have wide variety of features which will fit any use-case.", 'quick-adsense-reloaded') . '</p>
                             </div>
                             <div class="fe-1">
-                                <h4>Design</h4>
-                                <p>We focus on important stuff and keep it clean and simple. WP QUADS Pro makes it extremely easy to deliver well converting ads to your audience.</p>
+                                <h4>' . esc_html__('Design', 'quick-adsense-reloaded') . '</h4>
+                                <p>' . esc_html__('We focus on important stuff and keep it clean and simple. WP QUADS Pro makes it extremely easy to deliver well converting ads to your audience.', 'quick-adsense-reloaded') . '</p>
                             </div>
                             <div class="fe-1">
-                                <h4>Technical Support</h4>
-                                <p>We have a full time team which helps you with each and every issue regarding Quads.</p>
+                                <h4>' . esc_html__('Technical Support', 'quick-adsense-reloaded') . '</h4>
+                                <p>' . esc_html__('We have a full time team which helps you with each and every issue regarding Quads.', 'quick-adsense-reloaded') . '</p>
                             </div>
                         </div><!-- /. fr-fe -->
                     </div><!-- /. fr -->
                     <div class="pr">
-                        <h1>PRO</h1>
+                        <h1>' . esc_html__('PRO', 'quick-adsense-reloaded') . '</h1>
                         <div class="pr-fe">
-                            <span>Everything in Free, and:</span>
+                            <span>' . esc_html__('Everything in Free, and:', 'quick-adsense-reloaded') . '</span>
                             <div class="fet">
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
-                                        <h4>GEO Location</h4>
+                                        <img src="' . esc_url(QUADS_PLUGIN_URL . 'assets/images/tick.png') . '" />
+                                        <h4>' . esc_html__('GEO Location', 'quick-adsense-reloaded') . '</h4>
                                     </div>
-                                    <p>Target the ads by Country & City.</p>
+                                    <p>' . esc_html__('Target the ads by Country & City.', 'quick-adsense-reloaded') . '</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
-                                        <h4>Ad Rotator</h4>
+                                        <img src="' . esc_url(QUADS_PLUGIN_URL . 'assets/images/tick.png') . '" />
+                                        <h4>' . esc_html__('Ad Rotator', 'quick-adsense-reloaded') . '</h4>
                                     </div>
-                                    <p>with on-reload or auto-refresh functionality.</p>
+                                    <p>' . esc_html__('with on-reload or auto-refresh functionality.', 'quick-adsense-reloaded') . '</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
-                                        <h4>Group Insertion</h4>
+                                        <img src="' . esc_url(QUADS_PLUGIN_URL . 'assets/images/tick.png') . '" />
+                                        <h4>' . esc_html__('Group Insertion', 'quick-adsense-reloaded') . '</h4>
                                     </div>
-                                    <p>Insert multiple ads with one-go.</p>
+                                    <p>' . esc_html__('Insert multiple ads with one-go.', 'quick-adsense-reloaded') . '</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
-                                        <h4>AMP Support</h4>
+                                        <img src="' . esc_url(QUADS_PLUGIN_URL . 'assets/images/tick.png') . '" />
+                                        <h4>' . esc_html__('AMP Support', 'quick-adsense-reloaded') . '</h4>
                                     </div>
-                                    <p>Add ads on your AMP page.</p>
+                                    <p>' . esc_html__('Add ads on your AMP page.', 'quick-adsense-reloaded') . '</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
-                                        <h4>Global Excluder</h4>
+                                        <img src="' . esc_url(QUADS_PLUGIN_URL . 'assets/images/tick.png') . '" />
+                                        <h4>' . esc_html__('Global Excluder', 'quick-adsense-reloaded') . '</h4>
                                     </div>
-                                    <p>Exclude the ads based on the tags.</p>
+                                    <p>' . esc_html__('Exclude the ads based on the tags.', 'quick-adsense-reloaded') . '</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
-                                        <h4>Google Analytics</h4>
+                                        <img src="' . esc_url(QUADS_PLUGIN_URL . 'assets/images/tick.png') . '" />
+                                        <h4>' . esc_html__('Google Analytics', 'quick-adsense-reloaded') . '</h4>
                                     </div>
-                                    <p>Check how many visitors are using ad blockers.</p>
+                                    <p>' . esc_html__('Check how many visitors are using ad blockers.', 'quick-adsense-reloaded') . '</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
-                                        <h4>Google Auto Ads</h4>
+                                        <img src="' . esc_url(QUADS_PLUGIN_URL . 'assets/images/tick.png') . '" />
+                                        <h4>' . esc_html__('Private Support', 'quick-adsense-reloaded') . '</h4>
                                     </div>
-                                    <p>Dedicated Google Auto Ads tag.</p>
+                                    <p>' . esc_html__('Get help from our team of experts.', 'quick-adsense-reloaded') . '</p>
                                 </div>
                                 <div class="fe-2">
                                     <div class="fe-t">
-                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
-                                        <h4>Dedicated Support</h4>
+                                        <img src="' . esc_url(QUADS_PLUGIN_URL . 'assets/images/tick.png') . '" />
+                                        <h4>' . esc_html__('And much more', 'quick-adsense-reloaded') . '</h4>
                                     </div>
-                                    <p>With a Dedicated person helping you with the extension setup and questions.</p>
-                                </div>
-                                <div class="fe-2">
-                                    <div class="fe-t">
-                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
-                                        <h4>Continious Updates</h4>
-                                    </div>
-                                    <p>We\'re continiously updating our premium features and releasing them.</p>
-                                </div>
-                                <div class="fe-2">
-                                    <div class="fe-t">
-                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
-                                        <h4>Innovation</h4>
-                                    </div>
-                                    <p>Be the first one to get the innovative features that we build in the future.</p>
-                                </div>
-                                <div class="fe-2">
-                                    <div class="fe-t">
-                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
-                                        <h4>Reports</h4>
-                                    </div>
-                                    <p>Reports feature we can display the day-wise earing and forecast.</p>
-                                </div>
-                                <div class="fe-2">
-                                    <div class="fe-t">
-                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
-                                        <h4>Hide Quads Markup</h4>
-                                    </div>
-                                    <p>Hide Quads Markup from sourcecode.</p>
-                                </div>
-                                <div class="fe-2">
-                                    <div class="fe-t">
-                                        <img src="'.QUADS_PLUGIN_URL . 'assets/images/tick.png" />
-                                        <h4>50+ Plugin Support</h4>
-                                    </div>
-                                    <p>Works smoothly almost all the plugin.</p>
+                                    <p>' . esc_html__('With upcoming feature updates.', 'quick-adsense-reloaded') . '</p>
                                 </div>
                             </div><!-- /. fet -->
-                            <div class="pr-btn">
-                                <a href="#upgrade">Upgrade to Pro</a>
-                            </div><!-- /. pr-btn -->
                         </div><!-- /. pr-fe -->
-                    </div><!-- /.pr -->
+                    </div><!-- /. pr -->
                 </div><!-- /. pvf-cmp -->
             </div><!-- /. pvf-cnt -->
-            <div id="upgrade" class="amp-upg">
-                <div class="upg-t">
-                    <h2>Let\'s Upgrade Your Ads Revenue</h2>
-                    <span>Choose your plan and upgrade in minutes!</span>
-                </div>
-                <div class="pri-lst">
-                    <div class="pri-tb">
-                        <a target="_blank" href="https://wpquads.com/checkout?edd_action=add_to_cart&amp;download_id=11&amp;edd_options[price_id]=1">
-                            <h5>PERSONAL</h5>
-                            <span class="d-amt"><sup>$</sup>89</span>
-                            <span class="amt"><sup>$</sup>89</span>
-                            <span class="s-amt">(Save $59)</span>
-                            <span class="bil">Billed Annually</span>
-                            <span class="s">1 Site License</span>
-                            <span class="e">E-mail support</span>
-                            <span class="f">Pro Features</span>
-                            <span class="sv">Save $800+</span>
-                            <span class="pri-by">Buy Now</span>
-                        </a>
-                    </div>
-                    <div class="pri-tb rec">
-                        <a target="_blank" href="https://wpquads.com/checkout?edd_action=add_to_cart&amp;download_id=11&amp;edd_options[price_id]=2">
-                            <h5>MULTIPLE</h5>
-                            <span class="d-amt"><sup>$</sup>139</span>
-                            <span class="amt"><sup>$</sup>139</span>
-                            <span class="s-amt">(Save $79)</span>
-                            <span class="bil">Billed Annually</span>
-                            <span class="s">5 Site License</span>
-                            <span class="e">E-mail support</span>
-                            <span class="f">Pro Features</span>
-                            <span class="sv">Save 55%</span>
-                            <span class="pri-by">Buy Now</span>
-                         <span class="rcm">RECOMMENDED</span>
-                        </a>
-                    </div>
-                    <div class="pri-tb ">
-                        <a target="_blank" href="https://wpquads.com/checkout?edd_action=add_to_cart&amp;download_id=11&amp;edd_options[price_id]=3">
-                            <h5>WEBMASTER</h5>
-                            <span class="d-amt"><sup>$</sup>199</span>
-                            <span class="amt"><sup>$</sup>199</span>
-                            <span class="s-amt">(Save $99)</span>
-                            <span class="bil">Billed Annually</span>
-                            <span class="s">Unlimited Site License</span>
-                            <span class="e">E-mail support</span>
-                            <span class="f">Pro Features</span>
-                            <span class="sv">Save 83%</span>
-                            <span class="pri-by">Buy Now</span>
-
-                        </a>
-                    </div>
-                    <div class="pri-tb">
-                        <a target="_blank" href="https://wpquads.com/checkout?edd_action=add_to_cart&amp;download_id=11&amp;edd_options[price_id]=4">
-                            <h5>FREELANCER</h5>
-                            <span class="d-amt"><sup>$</sup>449</span>
-                            <span class="amt"><sup>$</sup>449</span>
-                            <span class="s-amt">(Save $119)</span>
-                            <span class="bil">Lifetime Support</span>
-                            <span class="s">Unlimited Site License</span>
-                            <span class="e">E-mail support</span>
-                            <span class="f">Pro Features</span>
-                            <span class="sv">Save 90%</span>
-                            <span class="pri-by">Buy Now</span>
-                        </a>
-                    </div>
-           
-                </div><!-- /.pri-lst -->
-                <div class="tru-us">
-                    <img src="'.QUADS_PLUGIN_URL . 'assets/images/rating.png" />
-                    <h2>Trusted by more that 60,000+ Users!</h2>
-                    <p>More than 60k Websites, Blogs & E-Commerce website are powered by our Quads making it the #1 Rated Quads plugin in WordPress Community.</p>
-                    <a href="https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/?filter=5" target="_blank">Read The Reviews</a>
-                </div>
-            </div><!--/ .amp-upg -->
-            <div class="ampfaq">
-                <h4>Frequently Asked Questions</h4>
-                <div class="faq-lst">
-                    <div class="lt">
-                        <ul>
-                            <li>
-                                <span>Is there a setup fee?</span>
-                                <p>No. There are no setup fees on any of our plans</p>
-                            </li>
-                            <li>
-                                <span>What\'s the time span for your contracts?</span>
-                                <p>All the plans are year-to-year which are subscribed annually.</p>
-                            </li>
-                            <li>
-                                <span>What payment methods are accepted?</span>
-                                <p>We accepts PayPal and Credit Card payments.</p>
-                            </li>
-                            <li>
-                                <span>Do you offer support if I need help?</span>
-                                <p>Yes! Top-notch customer support for our paid customers is key for a quality product, so we’ll do our very best to resolve any issues you encounter via our support page.</p>
-                            </li>
-                            <li>
-                                <span>Can I use the plugins after my subscription is expired?</span>
-                                <p>Yes, you can use the plugins but you will not get future updates for those plugins.</p>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="rt">
-                        <ul>
-                            <li>
-                                <span>Can I cancel my membership at any time?</span>
-                                <p>Yes. You can cancel your membership by contacting us.</p>
-                            </li>
-                            <li>
-                                <span>Can I change my plan later on?</span>
-                                <p>Yes. You can upgrade or downgrade your plan by contacting us.</p>
-                            </li>
-                            <li>
-                                <span>Do you offer refunds?</span>
-                                <p>You are fully protected by our 100% Money Back Guarantee Unconditional. If during the next 14 days you experience an issue that makes the plugin unusable and we are unable to resolve it, we’ll happily offer a full refund.</p>
-                            </li>
-                            <li>
-                                <span>Do I get updates for the premium plugin?</span>
-                                <p>Yes, you will get updates for all the premium plugins until your subscription is active.</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div><!-- /.faq-lst -->
-                <div class="f-cnt">
-                    <span>I have other pre-sale questions, can you help?</span>
-                    <p>All the plans are year-to-year which are subscribed annually.</p>
-                    <a href="https://wpquads.com/support/">Contact a Human</a>
-                </div><!-- /.f-cnt -->
-            </div><!-- /.faq -->
         </div><!-- /. pvf -->
-    </div><!-- /. fp-wr --></div>';
+    </div><!-- /. fp-wr -->
+    </div><!-- /#quads_freevspro -->';
 
-    echo $freepro_listing;
 
-    echo ob_get_clean();
 }

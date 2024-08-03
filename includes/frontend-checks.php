@@ -163,7 +163,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
         $wp_admin_bar->add_node( array(
             'parent' => 'quads_ad_check',
             'id' => 'quads_ad_check_no_dom_document',
-            'title' => sprintf( __( 'The %s extension(s) is not loaded', 'quick-adsense-reloaded' ), 'dom' ),
+            'title' => sprintf( /* translators: %s: DOM extension */ __( 'The %s extension(s) is not loaded', 'quick-adsense-reloaded' ), 'dom' ),
             'href' => 'http://php.net/manual/en/book.dom.php',
             'meta' => array(
                 'class' => 'quads_ad_check_warning',

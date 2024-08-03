@@ -174,14 +174,14 @@ class QUADS_SL_Plugin_Updater {
 			$changelog_link = self_admin_url( 'index.php?edd_sl_action=view_plugin_changelog&plugin=' . $this->name . '&slug=' . $this->slug . '&TB_iframe=true&width=772&height=911' );
 
 			if ( empty( $version_info->download_link ) ) {
-				printf(
+				printf( /* translators: 1: plugin name, 2: changelog link, 3: new version */
 					__( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a>.', 'edd' ),
 					esc_html( $version_info->name ),
 					esc_url( $changelog_link ),
 					esc_html( $version_info->new_version )
 				);
 			} else {
-				printf(
+				printf( /* translators: 1: plugin name, 2: changelog link, 3: new version, 4 update link */
 					__( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a> or <a href="%4$s">update now</a>.', 'edd' ),
 					esc_html( $version_info->name ),
 					esc_url( $changelog_link ),
