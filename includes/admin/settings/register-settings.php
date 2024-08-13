@@ -184,7 +184,7 @@ function quads_get_registered_settings() {
        'general' => apply_filters( 'quads_settings_general', array(
            array(
                'id' => 'general_header',
-               'name' => '<strong>' . __( 'General & Position', 'quick-adsense-reloaded' ) . '</strong>',
+               'name' =>  __( 'General & Position', 'quick-adsense-reloaded' ) ,
                'desc' => '',
                'type' => 'header'
            ),
@@ -278,7 +278,7 @@ function quads_get_registered_settings() {
            ),
            'adsense_header' => array(
                'id' => 'adsense_header',
-               'name' => '<strong>' . __( 'Ads', 'quick-adsense-reloaded' ) . '</strong>',
+               'name' =>  __( 'Ads', 'quick-adsense-reloaded' ) ,
                'desc' => '<div class="adsense_admin_header">' . __( 'Enter your ads below:</div>
                                <ul style="margin-top:10px;">
                                <li style="font-weight:600;">- <i>AdSense</i> for using <span style="font-weight:600;">AdSense Text & display Ads</span>!</li>
@@ -301,7 +301,7 @@ function quads_get_registered_settings() {
            ),
            'widget_header' => array(
                'id' => 'widget_header',
-               'name' => '<strong>' . __( 'Widget Ads', 'quick-adsense-reloaded' ) . '</strong>',
+               'name' =>  __( 'Widget Ads', 'quick-adsense-reloaded' ) ,
                'desc' => sprintf( /* translators: %s: widger url*/
                   __( 'After creating your ads here go to <a href="%s" target="_self">Appearance->Widgets</a> and drag the WP QUADS widget into place.', 'quick-adsense-reloaded' ), admin_url() . 'widgets.php' ),
                'type' => 'header'
@@ -378,7 +378,7 @@ function quads_get_registered_settings() {
            ),
            array(
                'id' => 'plugin_header',
-               'name' => '<strong>' . __( 'Plugin Settings', 'quick-adsense-reloaded' ) . '</strong>',
+               'name' =>  __( 'Plugin Settings', 'quick-adsense-reloaded' ) ,
                'desc' => '',
                'type' => 'header'
            ),
