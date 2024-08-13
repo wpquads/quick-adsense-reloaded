@@ -501,7 +501,6 @@ function quads_get_active_ads_data() {
 
 add_action('wp_ajax_wpquads_ads_for_shortcode_data', 'wpquads_ads_for_shortcode_data');
 function wpquads_ads_for_shortcode_data(){
-
       $html = quads_get_active_ads_data();
       echo json_encode($html);
       wp_die();
@@ -1964,10 +1963,6 @@ function quads_adsense_code_callback( $args ) {
 
    $g_data_ad_height = isset( $quads_options['ads']['ad'. $args['id']]['g_data_ad_height'] ) ? $quads_options['ads']['ad'. $args['id']]['g_data_ad_height'] : '';
 
-   //$args['desc'] = __( '<strong>Shortcode:</strong> [quads id="'.$args['id'].'"] | <strong>PHP:</strong> echo do_shortcode(\'[quads id="'.$args['id'].'"]\');', 'quick-adsense-reloaded' );
-
-   //$label = !empty($new_label) ? $new_label :
-   // Create a shorter var to make HTML cleaner
    $id = 'ad' . $args['id'];
    ?>
    <div class="quads-ad-toggle-header quads-box-close" data-box-id="quads-toggle<?php echo esc_attr($id); ?>">
@@ -2018,11 +2013,11 @@ function quads_adsense_code_callback( $args ) {
               <span class="quads-pro-notice" style="display:block;margin-top:20px;"><?php echo sprintf( /* translators: %s: WP QUADS PRO URL */ __( 'Install <a href="%s" target="_blank">WP QUADS PRO</a> to fully support AdSense Responsive ads.', 'quick-adsense-reloaded' ), 'http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin' ) ?></span>
            <?php } ?>
            <br />
-           <label class="quads-label-left quads-type-normal" for="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]">Width </label><input type="number" step="1" id="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]" class="small-text quads-type-normal" value="<?php echo esc_attr($g_data_ad_width); ?>">
-           <label class="quads-type-normal" for="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_height]">Height </label><input type="number" step="1" id="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_height]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_height]" class="small-text quads-type-normal" value="<?php echo esc_attr($g_data_ad_height); ?>">
+           <label class="quads-label-left quads-type-normal" for="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]"><?php echo esc_html__( 'Width', 'quick-adsense-reloaded' )?> </label><input type="number" step="1" id="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]" class="small-text quads-type-normal" value="<?php echo esc_attr($g_data_ad_width); ?>">
+           <label class="quads-type-normal" for="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_height]"><?php echo esc_html__( 'Height', 'quick-adsense-reloaded' )?> </label><input type="number" step="1" id="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_height]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_height]" class="small-text quads-type-normal" value="<?php echo esc_attr($g_data_ad_height); ?>">
        </div>
        <div class="quads-style">
-           <h3>Layout</h3>
+           <h3> <?php echo esc_html__( 'Layout', 'quick-adsense-reloaded' )?></h3>
    <?php
    $args_ad_position = array(
        'id' => 'align',
@@ -2036,21 +2031,21 @@ function quads_adsense_code_callback( $args ) {
            '2' => 'Right'
        )
    );
-   echo quads_adposition_callback( $id, $args_ad_position );
+   echo quads_adposition_callback( $id, $args_ad_position ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Output is escaped in the function itself
    // if WP QUADS PRO is installed and version number is higher or equal 1.2.7 show the new margin settings
    if( !quads_is_extra() ) {
       ?>
 
               <br />
               <label class="quads-label-left" for="quads_settings[ads][<?php echo esc_attr($id); ?>][margin]"><?php esc_html_e( 'Margin', 'quick-adsense-reloaded' ); ?></label>
-              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo $id; ?>][margin]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][margin]" value="<?php echo esc_attr( stripslashes( $margin ) ); ?>"/>px
-   <?php } echo apply_filters( 'quads_render_margin', '', esc_attr($id) ); ?>
+              <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo esc_attr($id); ?>][margin]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][margin]" value="<?php echo esc_attr( stripslashes( $margin ) ); ?>"/><?php echo esc_html__( 'px', 'quick-adsense-reloaded' );?>
+   <?php } echo apply_filters( 'quads_render_margin', '', esc_attr($id) ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Output is escaped in the function itself ?>
        </div>
            <?php
            if (quads_is_extra()){
-               echo apply_filters( 'quads_advanced_settings', '', esc_attr($id) );
+               echo apply_filters( 'quads_advanced_settings', '', esc_attr($id) ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Output is escaped in the function itself
            }
-           echo quads_pro_overlay();
+           echo quads_pro_overlay(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Output is escaped in the function itself
            ?>
    </div>
        <?php
@@ -2127,7 +2122,7 @@ function quads_adsense_code_callback( $args ) {
        $id = $args['id']; //xss ok
        ?>
    <div class="quads-ad-toggle-header quads-box-close" data-box-id="quads-toggle<?php echo esc_attr($id); ?>">
-       <div class="quads-toogle-title"><?php echo $label; ?></div>
+       <div class="quads-toogle-title"><?php echo esc_html($label); ?></div>
        <a class="quads-toggle" data-box-id="quads-toggle<?php echo esc_attr($id); ?>" href="#"><div class="quads-close-open-icon"></div></a>
    </div>
    <div class="quads-ad-toggle-container" id="quads-toggle<?php echo esc_attr($id); ?>" style="display:none;">
@@ -2143,7 +2138,7 @@ function quads_adsense_code_callback( $args ) {
            'plain_text' => 'Plain Text / HTML / JS'
        )
    );
-   echo quads_adtype_callback( $id, $args_ad_type );
+   echo quads_adtype_callback( $id, $args_ad_type ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Output is escaped in the function itself
    ?>
        </div>
        <textarea style="vertical-align:top;margin-right:20px;" class="large-text quads-textarea" cols="50" rows="10" id="quads_settings[ads][<?php echo esc_attr($id); ?>][code]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][code]"><?php echo esc_textarea( stripslashes( $code ) ); ?></textarea><label for="quads_settings[ads][ <?php echo esc_attr($id); ?> ][code]"> <?php echo wp_kses_post($args['desc']); ?></label>
@@ -2165,17 +2160,17 @@ function quads_adsense_code_callback( $args ) {
            'responsive' => 'Responsive'
        )
    );
-   echo quads_adense_select_callback( $id, $args_adsense_type );
+   echo quads_adense_select_callback( $id, $args_adsense_type ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Output is escaped in the function itself
    ?>
            <?php if( !quads_is_extra() ) { ?>
-              < class="quads-pro-notice" style="display:block;margin-top:20px;"><?php echo sprintf( /* translators: %s: WP QUADS PRO URL */ __( 'Install <a href="%s" target="_blank">WP QUADS PRO</a> to fully support AdSense Responsive ads.', 'quick-adsense-reloaded' ), 'http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin' ) ?></span>
+            <span class="quads-pro-notice" style="display:block;margin-top:20px;"><?php echo esc_html__( 'Install WP QUADS PRO to fully support AdSense Responsive ads.', 'quick-adsense-reloaded' ) . '<a href="' . esc_url( 'http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin' ) . '" target="_blank">' .esc_html__( 'WP QUADS PRO', 'quick-adsense-reloaded' ) . '</a>';?></span>
            <?php } ?>
            <br />
            <label class="quads-label-left quads-type-normal" for="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]">Width </label><input type="number" step="1" id="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]" class="small-text quads-type-normal" value="<?php echo esc_attr($g_data_ad_width); ?>">
            <label class="quads-type-normal" for="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_height]">Height </label><input type="number" step="1" id="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_height]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_height]" class="small-text quads-type-normal" value="<?php echo esc_attr($g_data_ad_height); ?>">
        </div>
        <div class="quads-style">
-           <h3>Layout</h3>
+           <h3><?php esc_html__('Layout' ,'quick-adsense-reloaded')?></h3>
    <?php
    $args_ad_position = array(
        'id' => 'align',
@@ -2189,7 +2184,7 @@ function quads_adsense_code_callback( $args ) {
            '2' => 'Right'
        )
    );
-   echo quads_adposition_callback( $id, $args_ad_position );
+   echo quads_adposition_callback( $id, $args_ad_position ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Output is escaped in the function itself
    // if WP QUADS PRO is installed and version number is higher or equal 1.2.7 show the new margin settings
    if( !quads_is_extra() ) {
       ?>
@@ -2206,13 +2201,13 @@ function quads_adsense_code_callback( $args ) {
               <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo esc_attr($id); ?>][paddingbottom]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][paddingbottom]" value="<?php echo esc_attr( stripslashes( $paddingbottom ) ); ?>"/>
               <input type="number" step="1" max="" min="" class="small-text" id="quads_settings[ads][<?php echo esc_attr($id); ?>][paddingleft]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][paddingleft]" value="<?php echo esc_attr( stripslashes( $paddingleft ) ); ?>"/>px
 
-   <?php } echo apply_filters( 'quads_render_margin', '', esc_attr($id) ); ?>
+   <?php } echo apply_filters( 'quads_render_margin', '', esc_attr($id) ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Output is escaped in the function itself ?>
        </div>
            <?php
            if (quads_is_extra()){
-           echo apply_filters( 'quads_advanced_settings', '', esc_attr($id) );
+           echo apply_filters( 'quads_advanced_settings', '', esc_attr($id) ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Output is escaped in the function itself
            }
-           echo quads_pro_overlay();
+           echo quads_pro_overlay(); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Output is escaped in the function itself
            ?>
    </div>
        <?php
@@ -2227,7 +2222,7 @@ function quads_adsense_code_callback( $args ) {
           return '';
        }
 
-       $html = '<div class="quads-advanced-ad-box quads-pro-overlay"><a href="http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin" target="_blank"><img src="' . QUADS_PLUGIN_URL . '/assets/images/get_pro_overlay.png"></a></div>';
+       $html = '<div class="quads-advanced-ad-box quads-pro-overlay"><a href="'.esc_url('http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin').'" target="_blank"><img src="' . esc_url(QUADS_PLUGIN_URL.'/assets/images/get_pro_overlay.png') . '"></a></div>';
 
        return $html;
     }
