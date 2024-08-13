@@ -501,6 +501,12 @@ function quads_get_active_ads_data() {
 
 add_action('wp_ajax_wpquads_ads_for_shortcode_data', 'wpquads_ads_for_shortcode_data');
 function wpquads_ads_for_shortcode_data(){
+   if ( ! isset( $_POST['wpquads_security_nonce'] ) ){
+         wp_die('Invalid Request');
+   }
+   if ( !wp_verify_nonce( $_POST['wpquads_security_nonce'], 'quads_ajax_nonce' ) && !current_user_can( 'manage_options' )){
+         wp_die('Unauthorized Request');
+   }
       $html = quads_get_active_ads_data();
       echo json_encode($html);
       wp_die();
