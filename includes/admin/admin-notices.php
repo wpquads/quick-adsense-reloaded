@@ -416,7 +416,7 @@ function quads_update_notice() {
     if( (version_compare( QUADS_VERSION, '1.3.9', '>=' ) ) && quads_is_pro_active() && (version_compare( QUADS_PRO_VERSION, '1.3.0', '<' ) ) ) {
         ?>
         <div class="updated notice" style="border-left: 4px solid #ffba00;">
-            <p><?php echo  '<p><strong>' . esc_html( /* trsnsltors: %s: plugin version */  sprintf( __( 'WP QUADS %1$s:', 'quick-adsense-reloaded' ), esc_attr(QUADS_VERSION) ) ) . '</strong> ' . 
+            <p><?php echo  '<p><strong>' . esc_html( /* transltors: %s: plugin version */  sprintf( __( 'WP QUADS %1$s:', 'quick-adsense-reloaded' ), esc_attr(QUADS_VERSION) ) ) . '</strong> ' . 
                         esc_html__('Update WP QUADS PRO to get custom post type support from', 'quick-adsense-reloaded') . 
                         ' <a href="' . esc_url(admin_url('admin.php?page=quads-settings')) . '">' . esc_html__('General Settings', 'quick-adsense-reloaded') . 
                         '</a>.' . 
