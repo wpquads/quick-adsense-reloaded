@@ -738,6 +738,7 @@ function quads_get_settings_tabs() {
  */
 function quads_header_callback( $args ) {
    if( !empty( $args['desc'] ) ) {
+      //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Escaping has been done in quads_get_registered_settings() function
       echo $args['desc'];
    } else {
       echo '&nbsp';
@@ -776,7 +777,7 @@ function quads_checkbox_adsense_callback( $args ) {
    global $quads_options;
 
    $checked = isset( $quads_options[$args['id']] ) ? checked( 1, $quads_options[$args['id']], false ) : '';
-   echo '<input type="checkbox" id="quads_settings[' . esc_attr($args['id']) . ']" name="quads_settings[' . esc_attr($args['id']) . ']" value="1" ' . $checked . '/>';
+   echo '<input type="checkbox" id="quads_settings[' . esc_attr($args['id']) . ']" name="quads_settings[' . esc_attr($args['id']) . ']" value="1" ' . esc_attr( $checked ) . '/>';
    echo '<label class="quads_hidden" for="quads_settings[' . esc_attr($args['id']) . ']"> ' . esc_html($args['desc']) . '</label>';
 }
 
@@ -970,7 +971,8 @@ function quads_textarea_callback( $args ) {
 
    $size = ( isset( $args['size'] ) && !is_null( $args['size'] ) ) ? $args['size'] : '40';
    echo '<textarea class="large-text quads-textarea" cols="50" rows="' .  esc_attr($size) . '" id="quads_settings[' .  esc_attr($args['id']) . ']" name="quads_settings[' .  esc_attr($args['id']) . ']">' . esc_textarea( stripslashes( $value ) ) . '</textarea>';
-   echo '<label class="quads_hidden" for="quads_settings[' .  esc_attr($args['id']) . ']"> ' .  esc_html($args['desc']) . '</label>';
+   //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above
+   echo '<label class="quads_hidden" for="quads_settings[' .  esc_attr($args['id']) . ']"> ' .  $args['desc'] . '</label>';
 }
 
 /**
@@ -1006,9 +1008,13 @@ function quads_password_callback( $args ) {
  * @return void
  */
 function quads_missing_callback( $args ) {
-   echo '<div class="callback_data">';
-   printf( /* translators: %s: the setting ID */ __( 'The callback function used for the <strong>%s</strong> setting is missing.', 'quick-adsense-reloaded' ), esc_attr($args['id']) );
-   echo '</div>';
+    ?>
+    <div class="callback_data">
+        <?php echo esc_html( 'The callback function used for the', 'quick-adsense-reloaded' ); ?> 
+        <strong> <?php echo esc_html($args['id']); ?> </strong> 
+        <?php echo esc_html( 'setting is missing.', 'quick-adsense-reloaded' ); ?> 
+    </div>
+    <?php
 }
 
 /**
@@ -1037,7 +1043,9 @@ function quads_select_callback( $args ) {
    endforeach;
 
    echo  '</select>';
-   echo  '<label class="quads_hidden" for="quads_settings[' . esc_attr($args['id']) . ']"> ' . esc_html($args['desc']) . '</label>';
+   //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above
+   echo  '<label class="quads_hidden" for="quads_settings[' . esc_attr($args['id']) . ']"> ' . $args['desc'] . '</label>';
+   //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above
    echo  '<br>' . $args['desc2'];
 
 }
@@ -1118,7 +1126,8 @@ function quads_rich_editor_callback( $args ) {
 
    if( $wp_version >= 3.3 && function_exists( 'wp_editor' ) ) {
       ob_start();
-      wp_editor( stripslashes( $value ), 'quads_settings_' . esc_attr($args['id']), array('textarea_name' => 'quads_settings[' . esc_attr($args['id']) . ']', 'textarea_rows' => $args['textarea_rows']) );
+      wp_editor( stripslashes( $value ), 'quads_settings_' . esc_attr($args['id']), array('textarea_name' => 'quads_settings[' . esc_attr($args['id']) . ']', 'textarea_rows' => esc_attr( $args['textarea_rows'] ) ) );
+      // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above
       echo ob_get_clean();
    } else {
       echo '<textarea class="large-text quads-richeditor" rows="10" id="quads_settings[' .  esc_attr($args['id']) . ']" name="quads_settings[' .  esc_attr( $args['id']) . ']">' . esc_textarea( stripslashes( $value ) ) . '</textarea>';
@@ -1147,11 +1156,11 @@ function quads_upload_callback( $args ) {
       $value = isset( $args['std'] ) ? $args['std'] : '';
 
    $size = ( isset( $args['size'] ) && !is_null( $args['size'] ) ) ? $args['size'] : 'regular';
-   $html = '<input type="text" class="' . esc_attr($size) . '-text quads_upload_field" id="quads_settings[' . esc_attr($args['id']) . ']" name="quads_settings[' . esc_attr($args['id']) . ']" value="' . esc_attr( stripslashes( $value ) ) . '"/>';
-   $html .= '<span>&nbsp;<input type="button" class="quads_settings_upload_button button-secondary" value="' . __( 'Upload File', 'quick-adsense-reloaded' ) . '"/></span>';
-   $html .= '<label class="quads_hidden" for="quads_settings[' . esc_attr($args['id']) . ']"> ' . esc_attr($args['desc']) . '</label>';
-
-   echo $html;
+   ?>
+   <input type="text" class="<?php echo esc_attr($size); ?>-text quads_upload_field" id="quads_settings[<?php echo esc_attr( $args['id'] );?>]" name="quads_settings[<?php echo esc_attr($args['id']);?>]" value="<?php echo esc_attr( stripslashes( $value ) ); ?>" />
+   <span>&nbsp;<input type="button" class="quads_settings_upload_button button-secondary" value="<?php echo esc_html__( 'Upload File', 'quick-adsense-reloaded' ); ?>"/></span>
+   <label class="quads_hidden" for="quads_settings[<?php echo esc_attr( $args['id'] );?>]"><?php echo esc_html($args['desc']); ?></label>';
+   <?php
 }
 
 
@@ -1213,10 +1222,10 @@ function quads_color_callback( $args ) {
    $default = isset( $args['std'] ) ? $args['std'] : '';
 
    $size = ( isset( $args['size'] ) && !is_null( $args['size'] ) ) ? $args['size'] : 'regular';
-   $html = '<input type="text" class="quads-color-picker" id="quads_settings[' . esc_attr($args['id']) . ']" name="quads_settings[' . esc_attr($args['id']) . ']" value="' . esc_attr( $value ) . '" data-default-color="' . esc_attr( $default ) . '" />';
-   $html .= '<label class="quads_hidden" for="quads_settings[' .esc_attr( $args['id']) . ']"> ' . esc_attr($args['desc']) . '</label>';
-
-   echo $html;
+   ?>
+   <input type="text" class="quads-color-picker" id="quads_settings[<?php echo esc_attr($args['id']); ?>]" name="quads_settings[<?php echo esc_attr($args['id']); ?>]" value="<?php echo esc_attr( $value ); ?>" data-default-color="<?php echo esc_attr( $default );?>" />
+   <label class="quads_hidden" for="quads_settings[<?php echo esc_attr( $args['id']);?>]"><?php echo esc_html($args['desc']); ?></label>
+   <?php
 }
 
 /**
@@ -1396,36 +1405,45 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 
       $size = ( isset( $args['size'] ) && !is_null( $args['size'] ) ) ? $args['size'] : 'regular';
       $html="";
-      if( ( is_object( $license ) && 'valid' == $license->license ) || 'valid' == $license ) {
 
-         $html = '<div class="quads-after-actv"><span class="after_activation">Congratulations!</span><span class="after_activation_in"> WP QUADS PRO is now activated and working for you. This enables the Advanced Settings and High Performance for your ADS!</span></div>';
-      }
-
-      $html .= '<input type="text" class="' . sanitize_html_class( $size ) . '-text" id="quads_settings[' . quads_sanitize_key( $args['id'] ) . ']" name="quads_settings[' . quads_sanitize_key( $args['id'] ) . ']" value="' . esc_attr( $value ) . '"/>';
-        
-      if( ( is_object( $license ) && 'valid' == $license->license ) || 'valid' == $license ) {
-         $html .= '&nbsp;<input type="submit" class="button-secondary" name="' . $args['id'] . '_deactivate" value="' . __( 'Deactivate License', 'quick-adsense-reloaded' ) . '"/>';
-         $html .= '&nbsp;<input type="submit" class="button-secondary" name="' . $args['id'] . '_refresh" value="' . __( 'Refresh Info', 'quick-adsense-reloaded' ) . '"/>';
-      }
-
-      $html .= '<label for="quads_settings[' . quads_sanitize_key( $args['id'] ) . ']"> ' . wp_kses_post( $args['desc'] ) . '</label>';
-
-      if( !empty( $messages ) ) {
-         foreach ( $messages as $message ) {
-
-            $html .= '<div class="quads-license-data quads-license-' . sanitize_html_class($class) . '">';
-            $html .= '<p>' . sanitize_text_field($message) . '</p>';
-            $html .= '</div>';
-         }
-      }
-
-      wp_nonce_field( quads_sanitize_key( $args['id'] ) . '-nonce', quads_sanitize_key( $args['id'] ) . '-nonce' );
-
-      if( isset( $license_status ) ) {
-         echo '<div class="' . $license_status . '">' . $html . '</div>';
-      } else {
-         echo '<div class="quads-license-null">' . $html . '</div>';
-      }
+    if( isset( $license_status ) ) {
+    ?> <div class="' . $license_status . '">' <?php  
+    }else{
+    ?> <div class="quads-license-null"> <?php  
+    }
+        if( ( is_object( $license ) && 'valid' == $license->license ) || 'valid' == $license ) {
+        ?>
+            <div class="quads-after-actv"><span class="after_activation"><?php echo esc_html__( 'Congratulations!', 'quick-adsense-reloaded' ); ?></span><span class="after_activation_in"> <?php echo esc_html__( 'WP QUADS PRO is now activated and working for you. This enables the Advanced Settings and High Performance for your ADS!', 'quick-adsense-reloaded' ); ?></span></div>
+        <?php    
+        }
+        ?>
+        <?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_sanitize_key() function  ?>
+        <input type="text" class="<?php echo sanitize_html_class( $size );?>-text" id="quads_settings[<?php echo quads_sanitize_key( $args['id'] );?>]" name="quads_settings[<?php echo quads_sanitize_key( $args['id'] );?>]" value="<?php echo esc_attr( $value );?>" />
+        <?php 
+        if( ( is_object( $license ) && 'valid' == $license->license ) || 'valid' == $license ) {
+        ?>
+            &nbsp;<input type="submit" class="button-secondary" name="<?php echo esc_attr( $args['id'] );?>_deactivate" value="<?php echo esc_html__( 'Deactivate License', 'quick-adsense-reloaded' );?> "/>
+            &nbsp;<input type="submit" class="button-secondary" name="<?php echo esc_attr($args['id']);?>_refresh" value="<?php esc_html__( 'Refresh Info', 'quick-adsense-reloaded' );?>"/>
+        <?php
+        }
+        ?>
+        <?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_sanitize_key() function  ?>
+        <label for="quads_settings[<?php echo quads_sanitize_key( $args['id'] ); ?>]"><?php echo wp_kses_post( $args['desc'] ); ?></label>
+        <?php
+        if( !empty( $messages ) ) {
+            foreach ( $messages as $message ) {
+        ?>
+                <div class="quads-license-data quads-license-<?php echo sanitize_html_class($class); ?>">
+                <p><?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above */ echo $message;?></p>
+                </div>
+        <?php
+            }
+        }
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_sanitize_key() function
+        wp_nonce_field( quads_sanitize_key( $args['id'] ) . '-nonce', quads_sanitize_key( $args['id'] ) . '-nonce' );
+        ?>
+    </div>
+    <?php
    }
 
 }
@@ -1439,6 +1457,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
  */
 function quads_addons_callback( $args ) {
    $html = quads_add_ons_page();
+   // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping has already been done in quads_add_ons_page() function
    echo $html;
 }
 
@@ -1452,6 +1471,7 @@ function quads_addons_callback( $args ) {
 function quads_imexport_callback( $args ) {
    $html = quads_tools_import_export_display();
    $html .= quads_import_quick_adsense_settings();
+   // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping has already been done in above functions
    echo $html;
 }
 
@@ -1464,6 +1484,7 @@ function quads_imexport_callback( $args ) {
  */
 function quads_systeminfo_callback( $args ) {
    $html = quads_tools_sysinfo_display();
+   // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping has already been done in quads_tools_sysinfo_display() function
    echo $html;
 }
 
@@ -1486,7 +1507,7 @@ function quads_upload_image_callback( $args ) {
    $size = ( isset( $args['size'] ) && !is_null( $args['size'] ) ) ? $args['size'] : 'regular';
    echo '<input type="text" class="' . esc_attr($size) . '-text ' . esc_attr($args['id']) . '" id="quads_settings[' . esc_attr($args['id']) . ']" name="quads_settings[' . esc_attr($args['id']) . ']" value="' . esc_attr( $value ) . '"/>';
 
-   echo '<input type="submit" class="button-secondary quads_upload_image" name="' . esc_attr($args['id']) . '_upload" value="' . __( 'Select Image', 'quick-adsense-reloaded' ) . '"/>';
+   echo '<input type="submit" class="button-secondary quads_upload_image" name="' . esc_attr($args['id']) . '_upload" value="' . esc_html__( 'Select Image', 'quick-adsense-reloaded' ) . '"/>';
 
    echo '<label class="quads_hidden" for="quads_settings[' . esc_attr($args['id']) . ']"> ' . wp_kses_post($args['desc']) . '</label>';
 
@@ -1505,8 +1526,7 @@ function quads_upload_image_callback( $args ) {
 
 function quads_note_callback( $args ) {
    global $quads_options;
-   $html = '';
-   echo $html;
+
 }
 
 /**
@@ -1666,13 +1686,14 @@ function quads_get_values() {
 function quads_visibility_callback( $args ) {
    global $quads_options, $quads;
 
-   $html = $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppHome]', 'current' => !empty( $quads_options['visibility']['AppHome'] ) ? $quads_options['visibility']['AppHome'] : null, 'class' => 'quads-checkbox') ) . __( 'Homepage ', 'quick-adsense-reloaded' );
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppCate]', 'current' => !empty( $quads_options['visibility']['AppCate'] ) ? $quads_options['visibility']['AppCate'] : null, 'class' => 'quads-checkbox') ) . __( 'Categories ', 'quick-adsense-reloaded' );
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppArch]', 'current' => !empty( $quads_options['visibility']['AppArch'] ) ? $quads_options['visibility']['AppArch'] : null, 'class' => 'quads-checkbox') ) . __( 'Archives ', 'quick-adsense-reloaded' );
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppTags]', 'current' => !empty( $quads_options['visibility']['AppTags'] ) ? $quads_options['visibility']['AppTags'] : null, 'class' => 'quads-checkbox') ) . __( 'Tags', 'quick-adsense-reloaded' ) . '<br>';
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppSide]', 'current' => !empty( $quads_options['visibility']['AppSide'] ) ? $quads_options['visibility']['AppSide'] : null, 'class' => 'quads-checkbox') ) . __( 'Hide Ad Widgets on Homepage', 'quick-adsense-reloaded' ) . '<br>';
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppLogg]', 'current' => !empty( $quads_options['visibility']['AppLogg'] ) ? $quads_options['visibility']['AppLogg'] : null, 'class' => 'quads-checkbox') ) . __( 'Hide Ads when user is logged in.', 'quick-adsense-reloaded' ) . '<br>';
+   $html = $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppHome]', 'current' => !empty( $quads_options['visibility']['AppHome'] ) ? $quads_options['visibility']['AppHome'] : null, 'class' => 'quads-checkbox') ) . esc_html__( 'Homepage ', 'quick-adsense-reloaded' );
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppCate]', 'current' => !empty( $quads_options['visibility']['AppCate'] ) ? $quads_options['visibility']['AppCate'] : null, 'class' => 'quads-checkbox') ) . esc_html__( 'Categories ', 'quick-adsense-reloaded' );
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppArch]', 'current' => !empty( $quads_options['visibility']['AppArch'] ) ? $quads_options['visibility']['AppArch'] : null, 'class' => 'quads-checkbox') ) . esc_html__( 'Archives ', 'quick-adsense-reloaded' );
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppTags]', 'current' => !empty( $quads_options['visibility']['AppTags'] ) ? $quads_options['visibility']['AppTags'] : null, 'class' => 'quads-checkbox') ) . esc_html__( 'Tags', 'quick-adsense-reloaded' ) . '<br>';
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppSide]', 'current' => !empty( $quads_options['visibility']['AppSide'] ) ? $quads_options['visibility']['AppSide'] : null, 'class' => 'quads-checkbox') ) . esc_html__( 'Hide Ad Widgets on Homepage', 'quick-adsense-reloaded' ) . '<br>';
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[visibility][AppLogg]', 'current' => !empty( $quads_options['visibility']['AppLogg'] ) ? $quads_options['visibility']['AppLogg'] : null, 'class' => 'quads-checkbox') ) . esc_html__( 'Hide Ads when user is logged in.', 'quick-adsense-reloaded' ) . '<br>';
 
+   // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above
    echo $html;
 }
 
@@ -1693,75 +1714,76 @@ function quads_ad_position_callback( $args ) {
    // Pos 1
    $html = $quads->html->checkbox( array('name' => 'quads_settings[pos1][BegnAds]', 'current' => !empty( $quads_options['pos1']['BegnAds'] ) ? $quads_options['pos1']['BegnAds'] : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos1][BegnRnd]', 'name' => 'quads_settings[pos1][BegnRnd]', 'selected' => !empty( $quads_options['pos1']['BegnRnd'] ) ? $quads_options['pos1']['BegnRnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos1][BegnRnd]', 'name' => 'quads_settings[pos1][BegnRnd]', 'selected' => !empty( $quads_options['pos1']['BegnRnd'] ) ? esc_attr( $quads_options['pos1']['BegnRnd'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' ' . __( 'to <strong>Beginning of Post</strong>', 'quick-adsense-reloaded' ) . '</br>';
 
    // Pos 2
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos2][MiddAds]', 'current' => !empty( $quads_options['pos2']['MiddAds'] ) ? $quads_options['pos2']['MiddAds'] : null, 'class' => 'quads-checkbox quads-assign') );
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos2][MiddAds]', 'current' => !empty( $quads_options['pos2']['MiddAds'] ) ? esc_attr( $quads_options['pos2']['MiddAds'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos2][MiddRnd]', 'name' => 'quads_settings[pos2][MiddRnd]', 'selected' => !empty( $quads_options['pos2']['MiddRnd'] ) ? $quads_options['pos2']['MiddRnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos2][MiddRnd]', 'name' => 'quads_settings[pos2][MiddRnd]', 'selected' => !empty( $quads_options['pos2']['MiddRnd'] ) ? esc_attr( $quads_options['pos2']['MiddRnd'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' ' . __( 'to <strong>Middle of Post</strong>', 'quick-adsense-reloaded' ) . '</br>';
 
    // Pos 3
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos3][EndiAds]', 'current' => !empty( $quads_options['pos3']['EndiAds'] ) ? $quads_options['pos3']['EndiAds'] : null, 'class' => 'quads-checkbox quads-assign') );
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos3][EndiAds]', 'current' => !empty( $quads_options['pos3']['EndiAds'] ) ? esc_attr( $quads_options['pos3']['EndiAds'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos3][EndiRnd]', 'name' => 'quads_settings[pos3][EndiRnd]', 'selected' => !empty( $quads_options['pos3']['EndiRnd'] ) ? $quads_options['pos3']['EndiRnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos3][EndiRnd]', 'name' => 'quads_settings[pos3][EndiRnd]', 'selected' => !empty( $quads_options['pos3']['EndiRnd'] ) ? esc_attr( $quads_options['pos3']['EndiRnd'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' ' . __( 'to <strong>End of Post</strong>', 'quick-adsense-reloaded' ) . '</br>';
 
    // Pos 4
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos4][MoreAds]', 'current' => !empty( $quads_options['pos4']['MoreAds'] ) ? $quads_options['pos4']['MoreAds'] : null, 'class' => 'quads-checkbox quads-assign') );
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos4][MoreAds]', 'current' => !empty( $quads_options['pos4']['MoreAds'] ) ? esc_attr( $quads_options['pos4']['MoreAds'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos4][MoreRnd]', 'name' => 'quads_settings[pos4][MoreRnd]', 'selected' => !empty( $quads_options['pos4']['MoreRnd'] ) ? $quads_options['pos4']['MoreRnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos4][MoreRnd]', 'name' => 'quads_settings[pos4][MoreRnd]', 'selected' => !empty( $quads_options['pos4']['MoreRnd'] ) ? esc_attr( $quads_options['pos4']['MoreRnd'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' ' . __( 'right after <strong>the <span style="font-family:Courier New,Courier,Fixed;">&lt;!--more--&gt;</span> tag</strong>', 'quick-adsense-reloaded' ) . '</br>';
 
    // Pos 5
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos5][LapaAds]', 'current' => !empty( $quads_options['pos5']['LapaAds'] ) ? $quads_options['pos5']['LapaAds'] : null, 'class' => 'quads-checkbox quads-assign') );
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos5][LapaAds]', 'current' => !empty( $quads_options['pos5']['LapaAds'] ) ? esc_attr( $quads_options['pos5']['LapaAds'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos5][LapaRnd]', 'name' => 'quads_settings[pos5][LapaRnd]', 'selected' => !empty( $quads_options['pos5']['LapaRnd'] ) ? $quads_options['pos5']['LapaRnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos5][LapaRnd]', 'name' => 'quads_settings[pos5][LapaRnd]', 'selected' => !empty( $quads_options['pos5']['LapaRnd'] ) ? esc_attr( $quads_options['pos5']['LapaRnd'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' ' . __( 'right before <strong>the last Paragraph</strong>', 'quick-adsense-reloaded' ) . ' </br>';
 
    // Pos 6
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos6][Par1Ads]', 'current' => !empty( $quads_options['pos6']['Par1Ads'] ) ? $quads_options['pos6']['Par1Ads'] : null, 'class' => 'quads-checkbox quads-assign') );
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos6][Par1Ads]', 'current' => !empty( $quads_options['pos6']['Par1Ads'] ) ? esc_attr( $quads_options['pos6']['Par1Ads'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos6][Par1Rnd]', 'name' => 'quads_settings[pos6][Par1Rnd]', 'selected' => !empty( $quads_options['pos6']['Par1Rnd'] ) ? $quads_options['pos6']['Par1Rnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos6][Par1Rnd]', 'name' => 'quads_settings[pos6][Par1Rnd]', 'selected' => !empty( $quads_options['pos6']['Par1Rnd'] ) ? esc_attr( $quads_options['pos6']['Par1Rnd'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' <strong>' . __( 'After Paragraph', 'quick-adsense-reloaded' ) . '</strong> ';
-   $html .= $quads->html->select( array('options' => quads_get_values(), 'class' => 'quads-paragraph', 'id' => 'quads_settings[pos6][Par1Nup]', 'name' => 'quads_settings[pos6][Par1Nup]', 'selected' => !empty( $quads_options['pos6']['Par1Nup'] ) ? $quads_options['pos6']['Par1Nup'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+   $html .= $quads->html->select( array('options' => quads_get_values(), 'class' => 'quads-paragraph', 'id' => 'quads_settings[pos6][Par1Nup]', 'name' => 'quads_settings[pos6][Par1Nup]', 'selected' => !empty( $quads_options['pos6']['Par1Nup'] ) ? esc_attr( $quads_options['pos6']['Par1Nup'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' ' . __( '→', 'quick-adsense-reloaded' ) . ' ';
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos6][Par1Con]', 'current' => !empty( $quads_options['pos6']['Par1Con'] ) ? $quads_options['pos6']['Par1Con'] : null, 'class' => 'quads-checkbox quads-assign') );
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos6][Par1Con]', 'current' => !empty( $quads_options['pos6']['Par1Con'] ) ? esc_attr( $quads_options['pos6']['Par1Con'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . __( 'to <strong>End of Post</strong> if fewer paragraphs are found.', 'quick-adsense-reloaded' ) . ' </br>';
 
    // Pos 7
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos7][Par2Ads]', 'current' => !empty( $quads_options['pos7']['Par2Ads'] ) ? $quads_options['pos7']['Par2Ads'] : null, 'class' => 'quads-checkbox quads-assign') );
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos7][Par2Ads]', 'current' => !empty( $quads_options['pos7']['Par2Ads'] ) ? esc_attr( $quads_options['pos7']['Par2Ads'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos7][Par2Rnd]', 'name' => 'quads_settings[pos7][Par2Rnd]', 'selected' => !empty( $quads_options['pos7']['Par2Rnd'] ) ? $quads_options['pos7']['Par2Rnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos7][Par2Rnd]', 'name' => 'quads_settings[pos7][Par2Rnd]', 'selected' => !empty( $quads_options['pos7']['Par2Rnd'] ) ? esc_attr( $quads_options['pos7']['Par2Rnd'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' <strong>' . __( 'After Paragraph', 'quick-adsense-reloaded' ) . '</strong> ';
-   $html .= $quads->html->select( array('options' => quads_get_values(), 'id' => 'quads_settings[pos7][Par2Nup]', 'name' => 'quads_settings[pos7][Par2Nup]', 'selected' => !empty( $quads_options['pos7']['Par2Nup'] ) ? $quads_options['pos7']['Par2Nup'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+   $html .= $quads->html->select( array('options' => quads_get_values(), 'id' => 'quads_settings[pos7][Par2Nup]', 'name' => 'quads_settings[pos7][Par2Nup]', 'selected' => !empty( $quads_options['pos7']['Par2Nup'] ) ? esc_attr( $quads_options['pos7']['Par2Nup'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' ' . __( '→', 'quick-adsense-reloaded' ) . ' ';
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos7][Par2Con]', 'current' => !empty( $quads_options['pos7']['Par2Con'] ) ? $quads_options['pos7']['Par2Con'] : null, 'class' => 'quads-checkbox quads-assign') );
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos7][Par2Con]', 'current' => !empty( $quads_options['pos7']['Par2Con'] ) ? esc_attr( $quads_options['pos7']['Par2Con'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . __( 'to <strong>End of Post</strong> if fewer paragraphs are found.', 'quick-adsense-reloaded' ) . ' </br>';
 
    // Pos 8
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos8][Par3Ads]', 'current' => !empty( $quads_options['pos8']['Par3Ads'] ) ? $quads_options['pos8']['Par3Ads'] : null, 'class' => 'quads-checkbox quads-assign') );
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos8][Par3Ads]', 'current' => !empty( $quads_options['pos8']['Par3Ads'] ) ? esc_attr( $quads_options['pos8']['Par3Ads'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos8][Par3Rnd]', 'name' => 'quads_settings[pos8][Par3Rnd]', 'selected' => !empty( $quads_options['pos8']['Par3Rnd'] ) ? $quads_options['pos8']['Par3Rnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+   $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos8][Par3Rnd]', 'name' => 'quads_settings[pos8][Par3Rnd]', 'selected' => !empty( $quads_options['pos8']['Par3Rnd'] ) ? esc_attr( $quads_options['pos8']['Par3Rnd'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' <strong>' . __( 'After Paragraph', 'quick-adsense-reloaded' ) . '</strong> ';
-   $html .= $quads->html->select( array('options' => quads_get_values(), 'id' => 'quads_settings[pos8][Par3Nup]', 'name' => 'quads_settings[pos8][Par3Nup]', 'selected' => !empty( $quads_options['pos8']['Par3Nup'] ) ? $quads_options['pos8']['Par3Nup'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+   $html .= $quads->html->select( array('options' => quads_get_values(), 'id' => 'quads_settings[pos8][Par3Nup]', 'name' => 'quads_settings[pos8][Par3Nup]', 'selected' => !empty( $quads_options['pos8']['Par3Nup'] ) ? esc_attr( $quads_options['pos8']['Par3Nup'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' ' . __( '→', 'quick-adsense-reloaded' ) . ' ';
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos8][Par3Con]', 'current' => !empty( $quads_options['pos8']['Par3Con'] ) ? $quads_options['pos8']['Par3Con'] : null, 'class' => 'quads-checkbox quads-assign') );
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos8][Par3Con]', 'current' => !empty( $quads_options['pos8']['Par3Con'] ) ? esc_attr( $quads_options['pos8']['Par3Con'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . __( 'to <strong>End of Post</strong> if fewer paragraphs are found.', 'quick-adsense-reloaded' ) . ' </br>';
 
    $html .= apply_filters( 'quads_extra_paragraph', '' );
 
    // Pos 9
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos9][Img1Ads]', 'current' => !empty( $quads_options['pos9']['Img1Ads'] ) ? $quads_options['pos9']['Img1Ads'] : null, 'class' => 'quads-checkbox quads-assign') );
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos9][Img1Ads]', 'current' => !empty( $quads_options['pos9']['Img1Ads'] ) ? esc_attr( $quads_options['pos9']['Img1Ads'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . __( 'Assign', 'quick-adsense-reloaded' ) . ' ';
-   $html .= $quads->html->select( array('options' => quads_get_ads(), 'name' => 'quads_settings[pos9][Img1Rnd]', 'selected' => !empty( $quads_options['pos9']['Img1Rnd'] ) ? $quads_options['pos9']['Img1Rnd'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+   $html .= $quads->html->select( array('options' => quads_get_ads(), 'name' => 'quads_settings[pos9][Img1Rnd]', 'selected' => !empty( $quads_options['pos9']['Img1Rnd'] ) ? esc_attr( $quads_options['pos9']['Img1Rnd'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' <strong>' . __( 'After Image', 'quick-adsense-reloaded' ) . ' </strong>';
-   $html .= $quads->html->select( array('options' => quads_get_values(), 'id' => 'quads_settings[pos9][Img1Nup]', 'name' => 'quads_settings[pos9][Img1Nup]', 'selected' => !empty( $quads_options['pos9']['Img1Nup'] ) ? $quads_options['pos9']['Img1Nup'] : null, 'show_option_all' => false, 'show_option_none' => false) );
+   $html .= $quads->html->select( array('options' => quads_get_values(), 'id' => 'quads_settings[pos9][Img1Nup]', 'name' => 'quads_settings[pos9][Img1Nup]', 'selected' => !empty( $quads_options['pos9']['Img1Nup'] ) ? esc_attr( $quads_options['pos9']['Img1Nup'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' ' . __( '→', 'quick-adsense-reloaded' ) . ' ';
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos9][Img1Con]', 'current' => !empty( $quads_options['pos9']['Img1Con'] ) ? $quads_options['pos9']['Img1Con'] : null, 'class' => 'quads-checkbox quads-assign') );
+   $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos9][Img1Con]', 'current' => !empty( $quads_options['pos9']['Img1Con'] ) ? esc_attr( $quads_options['pos9']['Img1Con'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . __( 'after <b>Image\'s outer</b><b><span style="font-family:Courier New,Courier,Fixed;"> &lt;div&gt; wp-caption</span></b> if any.', 'quick-adsense-reloaded' ) . ' </br>';
 
+   // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above
    echo apply_filters( 'quads_ad_position_callback', $html );
 }
 
@@ -1786,8 +1808,9 @@ function quads_quicktags_callback( $args ) {
                 </ol></div>';
 
    $html .= $quads->html->checkbox( array('name' => 'quads_settings[quicktags][QckTags]', 'current' => !empty( $quads_options['quicktags']['QckTags'] ) ? $quads_options['quicktags']['QckTags'] : null, 'class' => 'quads-checkbox') );
-   $html .= __( 'Show Quicktag Buttons on the HTML Post Editor', 'quick-adsense-reloaded' ) . '</br>';
-   $html .= '<span class="quads-desc">' . __( 'Tags can be inserted into a post via the additional Quicktag Buttons at the HTML Edit Post SubPanel.', 'quick-adsense-reloaded' ) . '</span>';
+   $html .= esc_html__( 'Show Quicktag Buttons on the HTML Post Editor', 'quick-adsense-reloaded' ) . '</br>';
+   $html .= '<span class="quads-desc">' . esc_html__( 'Tags can be inserted into a post via the additional Quicktag Buttons at the HTML Edit Post SubPanel.', 'quick-adsense-reloaded' ) . '</span>';
+   // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above
    echo $html;
 }
 
@@ -1824,6 +1847,7 @@ function quads_ajax_add_ads(){
    ob_end_clean();
 
    echo '<tr><td>';
+   // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above
    echo $content;
    echo '</td></tr>';
    die();
@@ -1876,7 +1900,7 @@ function quads_count_normal_ads() {
 
 function quads_new_ad_callback(){
       if (quads_is_extra()) {
-       echo '<a href="#" id="quads-add-new-ad">' . __('Add New Ad','quick-adsense-reloaded') . '</a>';
+       echo '<a href="#" id="quads-add-new-ad">' . esc_html__('Add New Ad','quick-adsense-reloaded') . '</a>';
       }
 }
 
@@ -1909,6 +1933,7 @@ function quads_ad_code_callback(){
          $args['name'] = !empty( $quads_options['ads']['ad' . $id]['label'] ) ? $quads_options['ads']['ad' . $id]['label'] : 'Ad ' . $id;
 
          echo '<tr><td>';
+         // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_adsense_code_callback() function
          echo quads_adsense_code_callback( $args );
          echo '</td></tr>';
 
@@ -1933,6 +1958,7 @@ function quads_ad_code_callback(){
       // Skip if its a widget ad
       if ( (strpos($ads, 'ad' . $id) === 0) && (false === strpos($ads, 'ad' . $id . '_widget') ) ){
       echo '<tr><td>';
+      // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_adsense_code_callback() function
       echo quads_adsense_code_callback( $args );
       echo '</td></tr>';
       }
@@ -1988,13 +2014,14 @@ function quads_adsense_code_callback( $args ) {
            'plain_text' => 'Plain Text / HTML / JS'
        )
    );
+   // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_adtype_callback() function
    echo quads_adtype_callback( $id, $args_ad_type );
    ?>
        </div>
        <textarea style="vertical-align:top;margin-right:20px;" class="large-text quads-textarea" cols="50" rows="10" id="quads_settings[ads][<?php echo esc_attr($id); ?>][code]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][code]"><?php echo esc_textarea( stripslashes( $code ) ); ?></textarea>
        <!--<label for="quads_settings[ads][ <?php //echo $id; ?> ][code]"> <?php //echo $args['desc']; ?></label><br>//-->
        <label for="quads_shortcode_<?php echo esc_attr($args['id']);?>">Post Shortcode:</label><input readonly id="quads_shortcode_<?php echo esc_attr($args['id']);?>" type="text" onclick="this.focus(); this.select()" value='[quads id=<?php echo esc_attr($args['id']);?>]' title="Optional: Copy and paste the shortcode into the post editor, click below then press Ctrl + C (PC) or Cmd + C (Mac).">
-       <label for="quads_php_shortcode_<?php echo esc_attr($args['id']);?>">PHP:</label><input readonly id="quads_php_shortcode_<?php echo esc_attr($args['id']);?>" type="text" onclick="this.focus(); this.select()" style="width:290px;" value="&lt;?php echo do_shortcode('[quads id=<?php echo esc_attr($args['id']); ?>]'); ?&gt;" title="Optional: Copy and paste the PHP code into your theme files, click below then press Ctrl + C (PC) or Cmd + C (Mac).">
+       <label for="quads_php_shortcode_<?php echo esc_attr($args['id']);?>">PHP:</label><input readonly id="quads_php_shortcode_<?php echo esc_attr($args['id']);?>" type="text" onclick="this.focus(); this.select()" style="width:290px;" value="&lt;?php echo do_shortcode('[quads id=<?php echo esc_attr($args['id']); ?>]'); ?&gt;" title="<?php echo esc_html('Optional: Copy and paste the PHP code into your theme files, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'quick-adsense-reloaded');?>">
        <br>
        <div class="quads_adsense_code">
            <input type="button" style="vertical-align:inherit;" class="button button-primary quads-add-adsense" value="Copy / Paste AdSense Code"> <span>or add Ad Slot ID & Publisher ID manually below:</span>
@@ -2013,10 +2040,11 @@ function quads_adsense_code_callback( $args ) {
            'responsive' => 'Responsive'
        )
    );
+   // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_adense_select_callback() function
    echo quads_adense_select_callback( $id, $args );
    ?>
            <?php if( !quads_is_extra() ) { ?>
-              <span class="quads-pro-notice" style="display:block;margin-top:20px;"><?php echo sprintf( /* translators: %s: WP QUADS PRO URL */ __( 'Install <a href="%s" target="_blank">WP QUADS PRO</a> to fully support AdSense Responsive ads.', 'quick-adsense-reloaded' ), 'http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin' ) ?></span>
+              <span class="quads-pro-notice" style="display:block;margin-top:20px;"><?php echo sprintf( /* translators: %s: WP QUADS PRO URL  */ __( 'Install <a href="%s" target="_blank">WP QUADS PRO</a> to fully support AdSense Responsive ads.', 'quick-adsense-reloaded' ), 'http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin' ) ?></span>
            <?php } ?>
            <br />
            <label class="quads-label-left quads-type-normal" for="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]"><?php echo esc_html__( 'Width', 'quick-adsense-reloaded' )?> </label><input type="number" step="1" id="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]" class="small-text quads-type-normal" value="<?php echo esc_attr($g_data_ad_width); ?>">
@@ -2147,10 +2175,10 @@ function quads_adsense_code_callback( $args ) {
    echo quads_adtype_callback( $id, $args_ad_type ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Output is escaped in the function itself
    ?>
        </div>
-       <textarea style="vertical-align:top;margin-right:20px;" class="large-text quads-textarea" cols="50" rows="10" id="quads_settings[ads][<?php echo esc_attr($id); ?>][code]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][code]"><?php echo esc_textarea( stripslashes( $code ) ); ?></textarea><label for="quads_settings[ads][ <?php echo esc_attr($id); ?> ][code]"> <?php echo wp_kses_post($args['desc']); ?></label>
+       <textarea style="vertical-align:top;margin-right:20px;" class="large-text quads-textarea" cols="50" rows="10" id="quads_settings[ads][<?php echo esc_attr($id); ?>][code]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][code]"><?php echo esc_textarea( stripslashes( $code ) ); ?></textarea><label for="quads_settings[ads][ <?php echo esc_attr($id); ?> ][code]"> <?php echo wp_kses_post($args['desc']); ?>></label>
        <br>
        <div class="quads_adsense_code">
-           <input type="button" style="vertical-align:inherit;" class="button button-primary quads-add-adsense" value="Copy / Paste AdSense Code"> <span>or add Ad Slot ID & Publisher ID manually below:</span>
+           <input type="button" style="vertical-align:inherit;" class="button button-primary quads-add-adsense" value="<?php echo esc_html__( 'Copy / Paste AdSense Code', 'quick-adsense-reloaded' ); ?>"> <span><?php echo esc_html__( '_or add Ad Slot ID & Publisher ID manually below:', 'quick-adsense-reloaded'); ?></span>
            <br />
    <?php //echo __('Generate Ad Slot & Publisher ID automatically from your adsense code', 'quick-adsense-reloaded') ?>
            <label class="quads-label-left" for="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_slot]">Ad Slot ID </label><input type="text" class="quads-medium-size quads-bggrey" id="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_slot]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_slot]" value="<?php echo esc_attr($g_data_ad_slot); ?>">

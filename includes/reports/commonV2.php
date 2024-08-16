@@ -1755,6 +1755,7 @@ if($import_details['status'] == 'active' && !$import_done){
 				$import_details['imported'] = 0;
 				$import_details['total'] = 0;
 				update_option('quads_import_data',$import_details);
+				//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				die(quads_adsense_import_old_db());
 			}
 

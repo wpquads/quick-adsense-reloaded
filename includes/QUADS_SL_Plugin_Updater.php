@@ -169,7 +169,7 @@ class QUADS_SL_Plugin_Updater {
 
 			// build a plugin list row, with update notification
 			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
-			echo '<tr class="plugin-update-tr"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message">';
+			echo '<tr class="plugin-update-tr"><td colspan="' . esc_attr( $wp_list_table->get_column_count() ) . '" class="plugin-update colspanchange"><div class="update-message">';
 
 			$changelog_link = self_admin_url( 'index.php?edd_sl_action=view_plugin_changelog&plugin=' . $this->name . '&slug=' . $this->slug . '&TB_iframe=true&width=772&height=911' );
 
@@ -322,7 +322,7 @@ class QUADS_SL_Plugin_Updater {
 		}
 
 		if( ! current_user_can( 'update_plugins' ) ) {
-			wp_die( __( 'You do not have permission to install plugin updates', 'edd' ), __( 'Error', 'edd' ), array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You do not have permission to install plugin updates', 'edd' ), esc_html__( 'Error', 'edd' ), array( 'response' => 403 ) );
 		}
 
 		$response = $this->api_request( 'plugin_latest_version', array( 'slug' => $_REQUEST['slug'] ) );

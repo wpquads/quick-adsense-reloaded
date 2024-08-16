@@ -280,8 +280,8 @@ class QUADS_License {
 			return;
 		}
 
-		echo '<p>' . sprintf( /* translators: %s: Quick AdSense Reloaded documentation URL */
-			__( 'Enter your extension license keys here to receive updates for purchased extensions. If your license key has expired, please <a href="%s" target="_blank" title="License renewal FAQ">renew your license</a>.', 'quick-adsense-reloaded' ),
+		echo '<p>' . esc_html( sprintf( /* translators: %s: Quick AdSense Reloaded documentation URL */
+			__( 'Enter your extension license keys here to receive updates for purchased extensions. If your license key has expired, please <a href="%s" target="_blank" title="License renewal FAQ">renew your license</a>.', 'quick-adsense-reloaded' ) ),
 			'http://wpquads.com/renew-my-license/'
 		) . '</p>';
 
@@ -509,7 +509,7 @@ class QUADS_License {
 
 		if( ! wp_verify_nonce( $_REQUEST[ $this->item_shortname . '_license_key-nonce'], $this->item_shortname . '_license_key-nonce' ) ) {
 		
-			wp_die( __( 'Nonce verification failed', 'quick-adsense-reloaded' ), __( 'Error', 'quick-adsense-reloaded' ), array( 'response' => 403 ) );
+			wp_die( esc_html__( 'Nonce verification failed', 'quick-adsense-reloaded' ), esc_html__( 'Error', 'quick-adsense-reloaded' ), array( 'response' => 403 ) );
                 
 		}
                 
@@ -705,7 +705,7 @@ class QUADS_License {
 
 		if( ( ! is_object( $license ) || 'valid' !== $license->license ) && empty( $showed_imissing_key_message[ $this->item_shortname ] ) ) {
 
-			echo '&nbsp;<strong><a href="' . esc_url( admin_url( 'admin.php?page=quads-settings&tab=licenses' ) ) . '">' . __( 'Enter valid license key for automatic updates.', 'quick-adsense-reloaded' ) . '</a></strong>';
+			echo '&nbsp;<strong><a href="' . esc_url( admin_url( 'admin.php?page=quads-settings&tab=licenses' ) ) . '">' . esc_html__( 'Enter valid license key for automatic updates.', 'quick-adsense-reloaded' ) . '</a></strong>';
 			$showed_imissing_key_message[ $this->item_shortname ] = true;
 		}
 

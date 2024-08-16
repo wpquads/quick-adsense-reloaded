@@ -139,10 +139,12 @@ class quads_output_amp_condition_display{
     public function quads_amp_condition_ad_code($condition, $count=null){               
                 
         $result = $this->quads_amp_condition_get_ad_code($condition, $count);
-        if($condition == 'quads_amp_story_ads')
+        if( $condition == 'quads_amp_story_ads' ) {
             return $result;
-        else
-	        echo $result;
+        } else {
+	        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is already done in quads_amp_condition_get_ad_code() function
+            echo $result;
+        }
     } 
     public function quads_amp_condition_get_ad_code($condition, $count=null){
       // if (quads_is_amp_endpoint()){
@@ -187,9 +189,11 @@ class quads_output_amp_condition_display{
              if($is_on && $is_visitor_on && $post_status=='publish' ||$condition == 'quads_amp_story_ads'){
 	             if($ads['position'] =='amp_after_featured_image' && $condition == 'quads_after_featured_image'){
               $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+              //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is already done in quads_replace_ads_new()
               echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
           }else if(($ads['position'] =='amp_below_the_header' || $ads['position'] == 'after_header') && $condition == 'quads_below_the_header'){
             $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is already done in quads_replace_ads_new()
             echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
           }else if($ads['position'] =='amp_doubleclick_sticky_ad' && $condition == 'quads_sticky_ad_doubleclick'){
                 global $quads_options;
@@ -228,27 +232,35 @@ class quads_output_amp_condition_display{
                         $GLOBALS['quadsampstickyInCss'] = $sanitizer_obj->get_amp_styles();
                     }
                 }
-                 echo $output;
+                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above
+                echo $output;
           }else if($ads['position'] =='amp_below_the_footer' && $condition == 'quads_below_the_footer'){
             $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is already done in quads_replace_ads_new()
             echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
           }else if($ads['position'] =='amp_above_the_footer' && $condition == 'quads_above_the_footer'){
             $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is already done in quads_replace_ads_new()
             echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
           }else if($ads['position'] =='amp_above_the_post_content' && $condition == 'quads_above_the_post_content'){
             $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is already done in quads_replace_ads_new()
             echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
           }else if($ads['position'] =='amp_below_the_post_content' && $condition == 'quads_below_the_post_content'){
             $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is already done in quads_replace_ads_new()
             echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
           }else if($ads['position'] =='amp_below_the_title' && $condition == 'quads_below_the_title'){
             $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is already done in quads_replace_ads_new()
             echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
           }else if($ads['position'] =='amp_above_related_post' && $condition == 'quads_above_related_post'){
             $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is already done in quads_replace_ads_new()
             echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
           }else if($ads['position'] =='amp_below_author_box' && $condition == 'quads_below_author_box'){
             $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+            //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is already done in quads_replace_ads_new()
             echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
           }else if($ads['position'] =='amp_ads_in_loops' && $condition == 'quads_ads_in_loops'){
             $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
@@ -256,10 +268,12 @@ class quads_output_amp_condition_display{
                $ad_code ='';
             $displayed_posts        = get_option('posts_per_page');        
             if(intval($ads_loop_number) == $count){            
+                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is already done in quads_replace_ads_new()
                 echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
             }
          }else if($ads['position'] =='quads_before_head' && $condition == 'before_header'){
           $tag= '<!--CusAds'.$ads['ad_id'].'-->'; 
+          //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is already done in quads_replace_ads_new()
           echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
        }else if($ads['position'] =='amp_story_ads' && $condition == 'quads_amp_story_ads'){
 
@@ -296,7 +310,8 @@ class quads_output_amp_condition_display{
                                                      data-enable-refresh="10">';
 		             $output	.=	'</amp-ad>';
 		             $output	.= '</amp-sticky-ad>';
-		             echo $output;
+		          //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above
+                    echo $output;
              }
         }
         }

@@ -41,7 +41,7 @@ function quads_tools_page() {
 				), $tab_url );
 
 				$active = $active_tab == $tab_id ? ' quads-nav-tab-active' : '';
-				echo '<a href="' . esc_url( $tab_url ) . '" title="' . esc_attr( $tab_name ) . '" class="quads-nav-tab' . $active . '">' . esc_html( $tab_name ) . '</a>';
+				echo '<a href="' . esc_url( $tab_url ) . '" title="' . esc_attr( $tab_name ) . '" class="quads-nav-tab' . esc_attr( $active ) . '">' . esc_html( $tab_name ) . '</a>';
 
 			}
 			?>
@@ -93,11 +93,11 @@ function quads_tools_import_export_display() {
 		<h3><span><?php esc_html_e( 'Export Settings', 'quick-adsense-reloaded' ); ?></span></h3>
 		<div class="inside">
 			<p><?php esc_html_e( 'Export the Quick AdSense Reloaded settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'quick-adsense-reloaded' ); ?></p>
-			<form method="post" action="<?php echo admin_url( 'admin.php?page=quads-settings&tab=imexport' ); ?>" id="quads-export-settings">
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin.php?page=quads-settings&tab=imexport' ) ); ?>" id="quads-export-settings">
 				<p><input type="hidden" name="quads-action" value="export_settings" /></p>
 				<p>
 					<?php wp_nonce_field( 'quads_export_nonce', 'quads_export_nonce' ); ?>
-					<?php submit_button( __( 'Export', 'quick-adsense-reloaded' ), 'primary', 'submit', false ); ?>
+					<?php submit_button( esc_html__( 'Export', 'quick-adsense-reloaded' ), 'primary', 'submit', false ); ?>
 				</p>
 			</form>
 		</div><!-- .inside -->
@@ -107,14 +107,14 @@ function quads_tools_import_export_display() {
 		<h3><span><?php esc_html_e( 'Import Settings', 'quick-adsense-reloaded' ); ?></span></h3>
 		<div class="inside">
 			<p><?php esc_html_e( 'Import the Quick AdSense Reloaded settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'quick-adsense-reloaded' ); ?></p>
-			<form method="post" enctype="multipart/form-data" action="<?php echo admin_url( 'admin.php?page=quads-settings&tab=imexport' ); ?>">
+			<form method="post" enctype="multipart/form-data" action="<?php echo esc_url( admin_url( 'admin.php?page=quads-settings&tab=imexport' ) ); ?>">
 				<p>
 					<input type="file" name="import_file"/>
 				</p>
 				<p>
 					<input type="hidden" name="quads-action" value="import_settings" />
 					<?php wp_nonce_field( 'quads_import_nonce', 'quads_import_nonce' ); ?>
-					<?php submit_button( __( 'Import', 'quick-adsense-reloaded' ), 'secondary', 'submit', false ); ?>
+					<?php submit_button( esc_html__( 'Import', 'quick-adsense-reloaded' ), 'secondary', 'submit', false ); ?>
 				</p>
 			</form>
 		</div><!-- .inside -->
@@ -218,13 +218,13 @@ function quads_tools_import_export_process_import() {
 		return;
 
     if( quads_get_file_extension( $_FILES['import_file']['name'] ) != 'json' ) {
-        wp_die( __( 'Please upload a valid .json file', 'quick-adsense-reloaded' ) );
+        wp_die( esc_html__( 'Please upload a valid .json file', 'quick-adsense-reloaded' ) );
     }
 
 	$import_file = $_FILES['import_file']['tmp_name'];
 
 	if( empty( $import_file ) ) {
-		wp_die( __( 'Please upload a file to import', 'quick-adsense-reloaded' ) );
+		wp_die( esc_html__( 'Please upload a file to import', 'quick-adsense-reloaded' ) );
 	}
 
 	// Retrieve the settings from the file and convert the json object to an array
@@ -253,7 +253,7 @@ function quads_tools_sysinfo_display() {
         
 ?>
 	<!--<form action="<?php //echo esc_url( admin_url( 'admin.php?page=quads-settings&tab=system_info' ) ); ?>" method="post" dir="ltr">//-->
-		<textarea readonly="readonly" onclick="this.focus(); this.select()" id="system-info-textarea" name="quads-sysinfo" title="To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac)."><?php echo quads_tools_sysinfo_get(); ?></textarea>
+		<textarea readonly="readonly" onclick="this.focus(); this.select()" id="system-info-textarea" name="quads-sysinfo" title="To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac)."><?php /* phpcs:ignore 	WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_tools_sysinfo_get() function */ echo quads_tools_sysinfo_get(); ?></textarea>
 		<!--
                 <p class="submit">
 			<input type="hidden" name="quads-action" value="download_sysinfo" />-->
@@ -261,7 +261,8 @@ function quads_tools_sysinfo_display() {
 		<!--</p>//-->
 	<!--</form>//-->
 <?php
-       echo '<br>' . quads_render_backup_settings(); 
+    // phpcs:ignore 	WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_tools_sysinfo_get() function
+    echo '<br>' . quads_render_backup_settings(); 
 
 }
 add_action( 'quads_tools_tab_system_info', 'quads_tools_sysinfo_display' );
@@ -276,7 +277,7 @@ function quads_render_backup_settings(){
 	}
        
        $settings = json_encode(get_option('quads_settings_1_5_2'));
-       echo '<h3>' . __('Backup data from WP QUADS 1.5.2', 'quick-adsense-reloaded') .  '</h3>' . __('Copy and paste this data into an empty text file with extension *.json');       
+       echo '<h3>' . esc_html__('Backup data from WP QUADS 1.5.2', 'quick-adsense-reloaded') .  '</h3>' . esc_html__('Copy and paste this data into an empty text file with extension *.json');       
        ?>
 
        <textarea readonly="readonly" onclick="this.focus(); this.select()" id="backup-settings-textarea" name="quads-backupsettings" title="To copy the backup settings info, click below then press Ctrl + C (PC) or Cmd + C (Mac)."><?php echo $settings; ?></textarea>
@@ -471,15 +472,15 @@ function quads_tools_sysinfo_get() {
  */
 function quads_tools_sysinfo_download() {
     
-        if( ! current_user_can( 'update_plugins' ) )
-		return;
+    if( ! current_user_can( 'update_plugins' ) ) return;
+    if( ! isset( $_POST['quads-sysinfo'] ) ) return;
     
 	nocache_headers();
 
 	header( 'Content-Type: text/plain' );
 	header( 'Content-Disposition: attachment; filename="quads-system-info.txt"' );
 
-	echo wp_strip_all_tags( $_POST['quads-sysinfo'] );
+	echo esc_html( wp_strip_all_tags( wp_unslash( $_POST['quads-sysinfo'] ) ) );
 	wp_die();
 }
 add_action( 'quads_download_sysinfo', 'quads_tools_sysinfo_download' );
@@ -506,7 +507,7 @@ function quads_import_quick_adsense_settings(){
 			<p><?php esc_html_e( 'Import the settings for Quick AdSense Reloaded from Quick AdSense v. 1.9.2.', 'quick-adsense-reloaded' ); ?></p>
 			
 			<!--
-                        <form id="quads_quick_adsense_input" method="post" action="<?php echo admin_url( 'admin.php?page=quads-settings&tab=imexport' ); ?>" onsubmit="return confirm('Importing the settings from Quick AdSense will overwrite all your current settings. Are you sure?');">
+                        <form id="quads_quick_adsense_input" method="post" action="<?php echo esc_url( admin_url( 'admin.php?page=quads-settings&tab=imexport' ) ); ?>" onsubmit="return confirm('Importing the settings from Quick AdSense will overwrite all your current settings. Are you sure?');">
                         -->
 				<p><input type="hidden" name="quads-action" value="import_quick_adsense" /></p>
 				<p>
