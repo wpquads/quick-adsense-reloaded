@@ -727,7 +727,3 @@ function quads_hide_auto_ads_notice() {
 }
 
 add_action( 'quads_hide_auto_ads_notice', 'quads_hide_auto_ads_notice' );
-
-function quads_licene_acivation_notice(){
-    
-}
