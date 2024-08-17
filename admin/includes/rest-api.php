@@ -1586,7 +1586,7 @@ class QUADS_Ad_Setup_Api {
             $settings = array();
 	        $settings = get_option( 'quads_settings' );
             header( 'Content-Type: application/json; charset=utf-8' );
-	        header( 'Content-Disposition: attachment; filename=' . apply_filters( 'quads_settings_export_filename', 'quads-settings-export-' . date( 'm-d-Y' ) ) . '.json' );
+	        header( 'Content-Disposition: attachment; filename=' . apply_filters( 'quads_settings_export_filename', 'quads-settings-export-' . gmdate( 'm-d-Y' ) ) . '.json' );
             header( "Expires: 0" );
             return   $settings ;
         }
@@ -1594,7 +1594,7 @@ class QUADS_Ad_Setup_Api {
             $files = $request->get_file_params();
 
             if ( ! empty( $files ) ) {
-                $file_data = @file_get_contents($files['myFile']['tmp_name']);
+                $file_data = quads_local_file_get_contents($files['myFile']['tmp_name']);
                 $file_data = json_decode($file_data,true);
 
 

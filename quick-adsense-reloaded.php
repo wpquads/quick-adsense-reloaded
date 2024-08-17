@@ -594,3 +594,31 @@ function quads_check_for_newinstall(){
       }
    }
 }
+
+/**
+ * Load local files and return file contents
+ * @param $file_path String
+ * @return file contents
+ * @since 2.0.85
+ * */
+function quads_local_file_get_contents( $file_path ){
+
+   $file_safe =   '';
+
+    // Include WordPress Filesystem API
+    if ( ! function_exists( 'WP_Filesystem' ) ) {
+        require_once( ABSPATH . 'wp-admin/includes/file.php' );
+    }
+
+    // Initialize the API
+    global $wp_filesystem;
+    if ( ! WP_Filesystem() ) {
+        return $file_safe;
+    }
+    // Check if the file exists
+    if ( $wp_filesystem->exists( $file_path ) ) {
+        // Read the file content
+        $file_safe = $wp_filesystem->get_contents( $file_path );
+        return $file_safe;
+    }
+}
