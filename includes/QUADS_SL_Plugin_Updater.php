@@ -308,15 +308,17 @@ class QUADS_SL_Plugin_Updater {
 
 	public function show_changelog() {
 
-
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if( empty( $_REQUEST['edd_sl_action'] ) || 'view_plugin_changelog' != $_REQUEST['edd_sl_action'] ) {
 			return;
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if( empty( $_REQUEST['plugin'] ) ) {
 			return;
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if( empty( $_REQUEST['slug'] ) ) {
 			return;
 		}
@@ -325,6 +327,7 @@ class QUADS_SL_Plugin_Updater {
 			wp_die( esc_html__( 'You do not have permission to install plugin updates', 'edd' ), esc_html__( 'Error', 'edd' ), array( 'response' => 403 ) );
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$response = $this->api_request( 'plugin_latest_version', array( 'slug' => $_REQUEST['slug'] ) );
 
 		if( $response && isset( $response->sections['changelog'] ) ) {

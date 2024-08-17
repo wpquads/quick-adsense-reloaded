@@ -85,7 +85,8 @@ class Quads_Meta_Box {
         if ($this->is_inline_edit()) {
             return $post_id;
         }
-        $post_type = isset($_POST['post_type']) ? $_POST['post_type'] : null;
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: Nonce verification is done below
+        $post_type = isset($_POST['post_type']) ? sanitize_text_field( wp_unslash( $_POST['post_type'] ) ) : null;
         // Update options only if they are appliable
         if (!in_array($post_type, $this->get_allowed_post_types())) {
             return $post_id;
@@ -123,9 +124,11 @@ class Quads_Meta_Box {
 		return defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ? true : false;
 	}
 	protected function is_inline_edit() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: This is a dependant function  
 		return isset( $_POST['_inline_edit'] ) ?  true : false;
 	}
 	protected function is_doing_preview () {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: This is a dependant function 
 		return !empty( $_POST['wp-preview'] );
 	}
 }

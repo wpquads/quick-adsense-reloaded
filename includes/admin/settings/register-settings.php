@@ -607,10 +607,12 @@ function quads_settings_sanitize( $input = array() ) {
    global $quads_options;
 
 
+   // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but sanitizing the settings fields
    if( empty( $_POST['_wp_http_referer'] ) ) {
       return $input;
    }
 
+   // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but sanitizing the settings fields
    parse_str( $_POST['_wp_http_referer'], $referrer );
 
    $settings = quads_get_registered_settings();
@@ -1351,13 +1353,13 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
                case 'expired' :
 
                if (isset($license->expires)) {
-                $license_exp = date('Y-m-d', strtotime($license->expires));
-                $license_exp_d = date('d F Y', strtotime($license->expires));
+                $license_exp = gmdate('Y-m-d', strtotime($license->expires));
+                $license_exp_d = gmdate('d F Y', strtotime($license->expires));
                 if (isset($license->expires)) {
                 $license->expires = $license_exp_d;
               }
               $license_info_lifetime = $license->expires;
-              $today = date('Y-m-d');
+              $today = gmdate('Y-m-d');
               $exp_date = $license_exp;
               $date1 = date_create($today);
               $date2 = date_create($exp_date);
@@ -1998,7 +2000,7 @@ function quads_adsense_code_callback( $args ) {
    $id = 'ad' . $args['id'];
    ?>
    <div class="quads-ad-toggle-header quads-box-close" data-box-id="quads-toggle<?php echo esc_attr($id); ?>">
-       <div class="quads-toogle-title"><span contenteditable="true" id="quads-ad-label-<?php echo esc_attr($id); ?>"><?php echo sanitize_title($label); ?></span><input type="hidden" class="quads-input-label" name="quads_settings[ads][<?php echo esc_attr($id); ?>][label]" value="<?php echo sanitize_title($new_label); ?>"></div>
+       <div class="quads-toogle-title"><span contenteditable="true" id="quads-ad-label-<?php echo esc_attr($id); ?>"><?php echo esc_html($label); ?></span><input type="hidden" class="quads-input-label" name="quads_settings[ads][<?php echo esc_attr($id); ?>][label]" value="<?php echo esc_attr($new_label); ?>"></div>
        <a class="quads-toggle" data-box-id="quads-toggle<?php echo esc_attr($id); ?>" href="#"><div class="quads-close-open-icon"></div></a>
    </div>
    <div class="quads-ad-toggle-container" id="quads-toggle<?php echo esc_attr($id); ?>" style="display:none;">
@@ -2044,7 +2046,12 @@ function quads_adsense_code_callback( $args ) {
    echo quads_adense_select_callback( $id, $args );
    ?>
            <?php if( !quads_is_extra() ) { ?>
-              <span class="quads-pro-notice" style="display:block;margin-top:20px;"><?php echo sprintf( /* translators: %s: WP QUADS PRO URL  */ __( 'Install <a href="%s" target="_blank">WP QUADS PRO</a> to fully support AdSense Responsive ads.', 'quick-adsense-reloaded' ), 'http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin' ) ?></span>
+            <span class="quads-pro-notice" style="display:block;margin-top:20px;">
+              <?php echo esc_html__( 'Install', 'quick-adsense-reloaded' ); ?> 
+              <a href="http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin" target="_blank"><?php echo esc_html__( 'WP QUADS PRO' ); ?>
+              </a> 
+              <?php echo esc_html__( 'to fully support AdSense Responsive ads.', 'quick-adsense-reloaded' ); ?>
+            </span>
            <?php } ?>
            <br />
            <label class="quads-label-left quads-type-normal" for="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]"><?php echo esc_html__( 'Width', 'quick-adsense-reloaded' )?> </label><input type="number" step="1" id="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]" class="small-text quads-type-normal" value="<?php echo esc_attr($g_data_ad_width); ?>">
@@ -2602,6 +2609,7 @@ function quads_save_extra_user_profile_fields( $user_id ) {
     if ( !current_user_can( 'edit_user', $user_id ) ) {
         return false;
     }
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: We are not processing form information just updating the user meta
     $adsense_pub_id = isset($_POST['quads_adsense_pub_id']) ? sanitize_text_field($_POST['quads_adsense_pub_id']) : '';
     update_user_meta( $user_id, 'quads_adsense_pub_id', $adsense_pub_id );
 }

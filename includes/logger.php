@@ -71,7 +71,7 @@ class quadsLogger {
           global $quads_options;  
           $enabled = isset($quads_options['debug_mode']) ? $quads_options['debug_mode'] : false;
           if ($enabled)
-	  $this->write("[". date('l jS F Y : h:i:sa') . "] ". $string . "\r\n");
+	  $this->write("[". gmdate('l jS F Y : h:i:sa') . "] ". $string . "\r\n");
           
           return false;
 	}

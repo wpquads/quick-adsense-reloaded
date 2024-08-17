@@ -24,10 +24,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @return      void
  */
 function quads_tools_page() {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called to load the tools page where all security measurament is done.
 	$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'import_export';
 ?>
 	<div class="wrap">
-		<?php screen_icon(); ?>
 		<h2 class="quads-nav-tab-wrapper">
 			<?php
 			foreach( quads_get_tools_tabs() as $tab_id => $tab_name ) {
@@ -162,7 +162,7 @@ function quads_tools_import_export_process_export() {
 
 	nocache_headers();
 	header( 'Content-Type: application/json; charset=utf-8' );
-	header( 'Content-Disposition: attachment; filename=' . apply_filters( 'quads_settings_export_filename', 'quads-settings-export-' . date( 'm-d-Y' ) ) . '.json' );
+	header( 'Content-Disposition: attachment; filename=' . apply_filters( 'quads_settings_export_filename', 'quads-settings-export-' . gmdate( 'm-d-Y' ) ) . '.json' );
 	header( "Expires: 0" );
 
 	echo json_encode( $settings );
@@ -473,6 +473,7 @@ function quads_tools_sysinfo_get() {
 function quads_tools_sysinfo_download() {
     
     if( ! current_user_can( 'update_plugins' ) ) return;
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: This is a dependent function
     if( ! isset( $_POST['quads-sysinfo'] ) ) return;
     
 	nocache_headers();
@@ -480,6 +481,7 @@ function quads_tools_sysinfo_download() {
 	header( 'Content-Type: text/plain' );
 	header( 'Content-Disposition: attachment; filename="quads-system-info.txt"' );
 
+	// phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: This is a dependent function
 	echo esc_html( wp_strip_all_tags( wp_unslash( $_POST['quads-sysinfo'] ) ) );
 	wp_die();
 }

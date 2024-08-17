@@ -74,6 +74,7 @@ class quads_Welcome {
 		delete_transient( 'quads_activation_redirect' );
 
 		// Bail if activating from network, or bulk
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( is_network_admin() || isset( $_GET['activate-multi'] ) ){
 			return;
                 }

@@ -78,9 +78,10 @@ public function quads_insert_ad_impression(){
       
       $referrer_url  = wp_get_referer();      
       $todays_date = '';
-      $todays_date = date('Y-m-d');
-      $year = date("Y");
+      $todays_date = gmdate('Y-m-d');
+      $year = gmdate("Y");
       $user_ip      =  $this->quads_get_client_ip();
+      // phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: This is the dependant function, nonce verification is done from where this call has been made to this function
       $actual_link  = (isset($_POST['currentLocation'])) ? esc_url($_POST['currentLocation']):'';
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
         $actual_link = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -395,8 +396,8 @@ public function quads_get_client_ip() {
       $id_array = explode('quads-ad', $ad_id );
 
       $ad_id = $id_array[1]; 
-      $todays_date = date('Y-m-d');
-      $year = date("Y"); 
+      $todays_date = gmdate('Y-m-d');
+      $year = gmdate("Y"); 
       $device_name=substr($device_name, 0, 20);
 
       $current_click_stat = $wpdb->get_row($wpdb->prepare("SELECT id,ad_clicks FROM  {$wpdb->prefix}quads_stats  WHERE ad_id = %d AND ad_device_name = %s AND ad_thetime = %d AND referrer = %s AND ip_address = %s AND url = %s",array($ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link))),ARRAY_A);

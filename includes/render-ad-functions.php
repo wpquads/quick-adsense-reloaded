@@ -2010,7 +2010,7 @@ add_filter( 'quads_render_ad', 'quads_render_ad_label_new',99,2 );
         if(isset($quads_options['ad_owner_revenue_per']) && $quads_options['ad_owner_revenue_per']){
             $ad_owner_revenue_per         =  isset( $quads_options['ad_owner_revenue_per'] ) ? $quads_options['ad_owner_revenue_per'] : 0;
             $display_per_in_minute      = (60*$ad_owner_revenue_per)/100;
-            $current_second = date("s");
+            $current_second = gmdate("s");
 
             if(!($current_second <= $display_per_in_minute)) {
              $author_adsense_ids['author_pub_id']     =  get_the_author_meta( 'quads_adsense_pub_id' );

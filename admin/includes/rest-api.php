@@ -1863,19 +1863,29 @@ return array('status' => 't');
             $sort_by      = null;
             $filter_by    = null;
 
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
             if(isset($_GET['pageno'])){
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
                 $paged    = sanitize_text_field($_GET['pageno']);
             }
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
             if(isset($_GET['posts_per_page'])){
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
                 $rvcount = sanitize_text_field($_GET['posts_per_page']);
             }
-             if(isset($_GET['search_param'])){
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
+            if(isset($_GET['search_param'])){
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
                 $search_param = sanitize_text_field($_GET['search_param']);
             }
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
             if(isset($_GET['sort_by'])){
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
                 $sort_by = sanitize_text_field($_GET['sort_by']);
             }
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
             if(isset($_GET['filter_by'])){
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
                 $filter_by = sanitize_text_field($_GET['filter_by']);
             }
             $result = $this->api_service->getAdDataByParam($post_type, $attr, $rvcount, $paged, $offset, $search_param , $filter_by , $sort_by);
@@ -1884,7 +1894,9 @@ return array('status' => 't');
         }
         public function getAdAnalytics(){
             $default_return =['impressions'=>0,'clicks'=>0];
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading ads analytics.
             if(isset($_GET['ad_id'])){
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading ads analytics.
                 $ad_id    = sanitize_text_field($_GET['ad_id']);
                 $ad_analytics= quads_get_ad_stats('sumofstats',$ad_id);
                 return $ad_analytics;
@@ -1944,7 +1956,7 @@ return array('status' => 't');
                     $response = array('status' => 'f', 'msg' =>  __( 'Please upload a file to import', 'quick-adsense-reloaded' ));
                 }
 
-                $settings = json_decode( file_get_contents( $import_file ), true);
+                $settings = json_decode( quads_local_file_get_contents( $import_file ), true);
                 update_option( 'quads_settings', $settings );
                 $response = array('file_status' => 't','status' => 't', 'msg' =>  __( 'file uploaded successfully', 'quick-adsense-reloaded' ));
 

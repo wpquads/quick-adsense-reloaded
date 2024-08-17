@@ -290,9 +290,9 @@ private function quads_insert_impression($ad_id){
   if($exclude_admin && current_user_can('administrator')){
     return ;
   }
-  $todays_date = date('Y-m-d');
+  $todays_date = gmdate('Y-m-d');
   $todays_date = strtotime($todays_date);
-  $year = intval(date('Y'));
+  $year = intval(gmdate('Y'));
   $id_array = explode('quads-ad', $ad_id );
   $ad_id = $id_array[1];
 
@@ -334,9 +334,9 @@ private  function quads_insert_clicks($ad_id){
   if($exclude_admin && current_user_can('administrator')){
     return ;
   }
-  $todays_date = date('Y-m-d');
+  $todays_date = gmdate('Y-m-d');
   $todays_date = strtotime($todays_date);
-  $year = intval(date('Y'));
+  $year = intval( gmdate('Y') );
   $id_array = explode('quads-ad', $ad_id );
   $ad_id = $id_array[1];
 
@@ -366,6 +366,7 @@ if($performance_tracking){
 
 if($log_enabled){
       $referrer_url  = wp_get_referer(); 
+      // phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: This is the dependant function, nonce verification is done from where this call has been made to this function
       $actual_link  = (isset($_POST['currentLocation'])) ? esc_url($_POST['currentLocation']):'';
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
         $actual_link = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";

@@ -60,6 +60,7 @@ function quads_admin_messages() {
 
     }
 
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only displaying the admin notices
     if( isset( $_GET['quads-action'] ) && $_GET['quads-action'] === 'validate' && quads_is_admin_page() && quads_is_any_ad_activated() && quads_is_post_type_activated() && quads_get_active_ads() > 0 ) {
         echo '<div class="notice notice-success"><strong>' .esc_html__('No errors detected in WP QUADS settings.','quick-adsense-reloaded'). '</strong>'. esc_html__('If ads are still not shown read the ','quick-adsense-reloaded'). '<a href="'.esc_url('http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink').'" target="_blank">'.esc_html__('troubleshooting guide','quick-adsense-reloaded') . '</a> </div>';
     }
@@ -218,7 +219,7 @@ function quads_show_rate_div(){
 
 
     $install_date = get_option( 'quads_install_date' );
-    $display_date = date( 'Y-m-d h:i:s' );
+    $display_date = gmdate( 'Y-m-d h:i:s' );
     $datetime1    = new DateTime( $install_date );
     $datetime2    = new DateTime( $display_date );
     $diff_intrval = round( ($datetime2->format( 'U' ) - $datetime1->format( 'U' )) / (60 * 60 * 24) );
@@ -318,7 +319,7 @@ add_action( 'wp_ajax_quads_hide_rating', 'quads_hide_rating_div' );
 function quads_hide_rating_notice_week() {
     if( ! current_user_can( 'manage_options' ) ) { return; }
     $nextweek   = time() + (7 * 24 * 60 * 60);
-    $human_date = date( 'Y-m-d h:i:s', $nextweek );
+    $human_date = gmdate( 'Y-m-d h:i:s', $nextweek );
     update_option( 'quads_date_next_notice', $human_date );
     update_option( 'quads_rating_div', 'yes' );
     echo json_encode( array("success") );
@@ -338,7 +339,7 @@ function quads_rate_again() {
         return false;
     }
 
-    $current_date = date( 'Y-m-d h:i:s' );
+    $current_date = gmdate( 'Y-m-d h:i:s' );
     $datetime1    = new DateTime( $rate_again_date );
     $datetime2    = new DateTime( $current_date );
     $diff_intrval = round( ($datetime2->format( 'U' ) - $datetime1->format( 'U' )) / (60 * 60 * 24) );
@@ -726,3 +727,7 @@ function quads_hide_auto_ads_notice() {
 }
 
 add_action( 'quads_hide_auto_ads_notice', 'quads_hide_auto_ads_notice' );
+
+function quads_licene_acivation_notice(){
+    
+}

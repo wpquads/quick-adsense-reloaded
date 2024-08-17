@@ -83,15 +83,19 @@ Class RollingCurlX {
         }
         //the request map that maps the request queue to request curl handles
         $requests_map = array();
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_multi_init --Reason: Third party file so attention not needed
         $multi_handle = curl_multi_init();
         //start processing the initial request queue
         for($i = 0; $i < $this->_maxConcurrent; $i++) {
+            // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_init --Reason: Third party file so attention not needed
             $ch = curl_init();
 
             $request =& $this->requests[$i];
             $this->addTimer($request);
 
+            // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_setopt_array --Reason: Third party file so attention not needed
             curl_setopt_array($ch, $this->buildOptions($request));
+            // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_multi_add_handle --Reason: Third party file so attention not needed
             curl_multi_add_handle($multi_handle, $ch);
 
 
@@ -100,18 +104,23 @@ Class RollingCurlX {
             $requests_map[$key] = $i;
         }
         do{
+            // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_multi_exec --Reason: Third party file so attention not needed
             while(($mh_status = curl_multi_exec($multi_handle, $active)) == CURLM_CALL_MULTI_PERFORM);
             if($mh_status != CURLM_OK) {
                 break;
             }
 
             //a request is just completed, find out which one
+            // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_multi_info_read --Reason: Third party file so attention not needed
             while($completed = curl_multi_info_read($multi_handle)) {
                 $ch = $completed['handle'];
+                // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_getinfo --Reason: Third party file so attention not needed
                 $request_info = curl_getinfo($ch);
+                // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_errno --Reason: Third party file so attention not needed
                 if(curl_errno($ch) !== 0 || intval($request_info['http_code']) !== 200) { //if server responded with http error
                     $response = false;
                 } else { //sucessful response
+                    // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_multi_getcontent --Reason: Third party file so attention not needed
                     $response = curl_multi_getcontent($ch);
                 }
 
@@ -133,6 +142,7 @@ Class RollingCurlX {
 
                 //remove completed request and its curl handle
                 unset($requests_map[$key]);
+                // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_multi_remove_handle --Reason: Third party file so attention not needed
                 curl_multi_remove_handle($multi_handle, $ch);
 
                 //call the callback function and pass request info and user data to it
@@ -143,12 +153,14 @@ Class RollingCurlX {
 
                 //add/start a new request to the request queue
                 if($i < count($this->requests) && isset($this->requests[$i])) { //if requests left
+                    // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_init --Reason: Third party file so attention not needed
                     $ch = curl_init();
 
                     $request =& $this->requests[$i];
                     $this->addTimer($request);
-
+                    // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_setopt_array --Reason: Third party file so attention not needed
                     curl_setopt_array($ch, $this->buildOptions($request));
+                    // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_multi_add_handle --Reason: Third party file so attention not needed
                     curl_multi_add_handle($multi_handle, $ch);
 
                     //add curl handle of a new request to the request map
@@ -158,6 +170,7 @@ Class RollingCurlX {
                 }
             }
             if($active) {
+                // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_multi_select --Reason: Third party file so attention not needed
                 if(curl_multi_select($multi_handle, $this->_timeout) === -1) { //wait for activity on any connection
                     usleep(5);
                 }
@@ -166,6 +179,7 @@ Class RollingCurlX {
         } while ($active || count($requests_map)); //End do-while
 
         $this->reset();
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.curl_curl_multi_close --Reason: Third party file so attention not needed
         curl_multi_close($multi_handle);
     }
 

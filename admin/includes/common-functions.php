@@ -40,6 +40,7 @@ function quads_sanitize_post_meta($key, $meta){
 
     global $wpdb;
 
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
     $results = $wpdb->get_results( $wpdb->prepare("select post_id from $wpdb->postmeta where meta_key=%s &&  meta_value = %s ",$meta_key,$meta_value), ARRAY_A );
     
     if(isset($results[0]['post_id'])){

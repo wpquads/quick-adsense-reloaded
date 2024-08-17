@@ -45,7 +45,9 @@ function quads_get_tab_header($page, $section){
  * @return boolean
  */
 function quads_is_excluded($pages){
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but checking if current page is excluded
     if (isset($_GET['tab'])){
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but checking if current page is excluded
         $currentpage = $_GET['tab'];
         if (isset($currentpage) && in_array($currentpage, $pages))
                 return true;
@@ -185,15 +187,15 @@ function quads_options_page_new() {
         
         $licenses = get_option( 'quads_wp_quads_pro_license_active' );
         if (isset($licenses->expires)) {
-        $license_exp = date('Y-m-d', strtotime($licenses->expires));
-        $license_exp_d = date('d F Y', strtotime($licenses->expires));
+        $license_exp = gmdate('Y-m-d', strtotime($licenses->expires));
+        $license_exp_d = gmdate('d F Y', strtotime($licenses->expires));
         $license_info_lifetime = $licenses->expires;
 
         // if (isset($licenses->expires)) {
         // $licenses->expires = $license_exp_d;
         // }
 
-        $today = date('Y-m-d');
+        $today = gmdate('Y-m-d');
         $exp_date = $license_exp;
         $date1 = date_create($today);
             $date2 = date_create($exp_date);
@@ -298,7 +300,8 @@ function quads_version_switch(){
 function quads_options_page() {
 	global $quads_options;
 
-	$active_tab = isset( $_GET[ 'tab' ] ) && array_key_exists( $_GET['tab'], quads_get_settings_tabs() ) ? $_GET[ 'tab' ] : 'general';
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information just rendering the options page contents
+    $active_tab = isset( $_GET[ 'tab' ] ) && array_key_exists( $_GET['tab'], quads_get_settings_tabs() ) ? $_GET[ 'tab' ] : 'general';
 	?>
 	<div class="wrap quads_admin">
              <h1 style="text-align:center;"> <?php echo esc_html(QUADS_NAME . ' ' . QUADS_VERSION); ?></h1>
