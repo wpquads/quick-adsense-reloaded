@@ -8,11 +8,11 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 5.4
 Stable tag: 2.0.84
 
-Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
+Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
 == Description ==
 The legendary [WPQuads Ads](https://wpquads.com/)  plugin is back with the modern approach for an Ads solution. WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
