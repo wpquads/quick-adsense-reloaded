@@ -98,7 +98,7 @@ class Quads_Meta_Box {
         }
         // Verify nonce
         if (!empty($_POST['quads_config']) && !check_admin_referer('quads_config', 'quads_config_nonce')) {
-            wp_die(esc_html__('Nonce incorrect!', 'quads'));
+            wp_die( esc_html__( 'Nonce incorrect!', 'quick-adsense-reloaded' ) );
         }
         $config = isset($_POST[$this->config_key]) ? $_POST[$this->config_key] : array();
         $visibility_config = isset($config['visibility']) ? $config['visibility'] : array();

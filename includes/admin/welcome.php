@@ -132,7 +132,7 @@ class quads_Welcome {
 				. $script_content . "\n" // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: The content is a static script file.
 				. "</script>\n";
 		} else {
-			echo esc_html("<!-- Error: Unable to read the script file. -->\n",'quick-adsense-reloaded');
+			echo esc_html__("<!-- Error: Unable to read the script file. -->\n",'quick-adsense-reloaded');
 		}
 	}
 	
