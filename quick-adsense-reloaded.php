@@ -624,3 +624,45 @@ function quads_local_file_get_contents( $file_path ){
         return $file_safe;
     }
 }
+
+/**
+ * Put file contents to local file
+ * @param $file_path String
+ * @return file contents
+ * @since 2.0.85
+ * */
+function quads_local_file_put_contents() {
+
+      $writestatus = '';
+
+      if ( ! function_exists( 'WP_Filesystem' ) ) {
+         include_once ABSPATH . '/wp-admin/includes/file.php';
+      }
+
+      global $wp_filesystem;
+      if ( ! $wp_filesystem ) {
+         WP_Filesystem();
+      }
+
+      if ( $wp_filesystem->exists( $this->ad_support ) ) {
+         $wp_filesystem->delete( $this->ad_support );
+      }
+
+      if ( ! $wp_filesystem->exists( $this->ad_support ) ) {
+         $response = wp_remote_get( ADSFORWP_PLUGIN_DIR_URI . 'public/assets/js/ads-front.js' );
+
+         if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
+            $swHtmlContent = wp_remote_retrieve_body( $response );
+            $writestatus   = $wp_filesystem->put_contents( $this->ad_support, $swHtmlContent, FS_CHMOD_FILE );
+         }
+      }
+
+      if ( $writestatus ) {
+
+         return true;
+
+      } else {
+
+         return false;
+      }
+   }

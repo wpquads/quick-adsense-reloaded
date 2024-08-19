@@ -698,6 +698,7 @@ if($license_info){
 
           if ( count( $post_metas )!=0 ) {
 
+            // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
             $sql_query = $wpdb->prepare( "INSERT INTO $wpdb->postmeta ( post_id, meta_key, meta_value ) ");
 
             foreach ( $post_metas as $post_meta ) {

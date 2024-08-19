@@ -23,6 +23,6 @@ class TextAreaHidden extends Elements
      */
     public function render()
     {
-        return ($this->renderFile) ? @file_get_contents($this->renderFile) : $this->prepareOutput();
+        return ( $this->renderFile ) ? quads_local_file_get_contents( $this->renderFile ) : $this->prepareOutput();
     }
 }

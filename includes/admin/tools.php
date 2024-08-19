@@ -228,7 +228,7 @@ function quads_tools_import_export_process_import() {
 	}
 
 	// Retrieve the settings from the file and convert the json object to an array
-	$settings = quads_object_to_array( json_decode( file_get_contents( $import_file ) ) );
+	$settings = quads_object_to_array( json_decode( quads_local_file_get_contents( $import_file ) ) );
 
 	update_option( 'quads_settings', $settings );
 
