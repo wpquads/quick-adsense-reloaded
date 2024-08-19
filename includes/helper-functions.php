@@ -62,11 +62,16 @@ function quads_add_deactivation_feedback_modal() {
  */
 function quads_send_feedback() {
 
+    if( function_exists('current_user_can') && ! current_user_can( 'manage_options' ) ) {
+        die( esc_html__( 'You are not allowed to perform this action', 'quick-adsense-reloaded' ) );
+    }
+
     if( isset( $_POST['data'] ) ) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: Nince verification si done below
         parse_str( $_POST['data'], $form );
     }
     if ( ! wp_verify_nonce( $form['quads_feedback_nonce'] , 'quads_feedback_nonce' ) ) {
-        die( __( 'Invalid nonce', 'quick-adsense-reloaded' ) ); 
+        die( esc_html__( 'Invalid nonce', 'quick-adsense-reloaded' ) ); 
     }
     
     $text = '';

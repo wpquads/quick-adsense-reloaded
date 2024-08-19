@@ -294,7 +294,7 @@ $ip = array();
     $new_ip = $_SERVER['REMOTE_ADDR'];
   }
    $ip =  get_option('add_blocked_ip') ? get_option('add_blocked_ip') : array() ;
-   array_push( $ip, array('ip'=>$new_ip,'time'=>date('l d-m-Y H:i:s') ) );
+   array_push( $ip, array( 'ip'=>$new_ip,'time' => gmdate('l d-m-Y H:i:s') ) );
    $ip = array_values(array_column( $ip , null, 'ip' ));
   return $ip;
 }

@@ -74,6 +74,7 @@ class quads_Welcome {
 		delete_transient( 'quads_activation_redirect' );
 
 		// Bail if activating from network, or bulk
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( is_network_admin() || isset( $_GET['activate-multi'] ) ){
 			return;
                 }
@@ -100,25 +101,42 @@ class quads_Welcome {
 	 *
 	 * @return array
 	 */
-		public function print_shortcode_plugin(  ) {
-
-			static $printed = null;
-
-		if ( $printed !== null ) {
+	public function print_shortcode_plugin() {
+		static $printed = null;
+	
+		if ($printed !== null) {
 			return;
 		}
-
+	
 		$printed = true;
-
-		if ( ! $this->hooks_exist() ) {
+	
+		if (!$this->hooks_exist()) {
 			return;
 		}
-		echo "<script>\n"
-
-			. file_get_contents( QUADS_PLUGIN_DIR . 'assets/js/tinymce_shortcode.js' ) . "\n"
-			. "</script>\n";
-		
+	
+		// Include the WordPress Filesystem API and initialize it.
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		WP_Filesystem();
+	
+		// Get the global $wp_filesystem object.
+		global $wp_filesystem;
+	
+		// Define the file path.
+		$file_path = QUADS_PLUGIN_DIR . 'assets/js/tinymce_shortcode.js';
+	
+		// Get the file contents using the Filesystem API.
+		$script_content = $wp_filesystem->get_contents($file_path);
+	
+		if ($script_content !== false) {
+			echo "<script>\n"
+				. $script_content . "\n" // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: The content is a static script file.
+				. "</script>\n";
+		} else {
+			echo esc_html__("<!-- Error: Unable to read the script file. -->\n",'quick-adsense-reloaded');
+		}
 	}
+	
+
 
 	/**
 	 * Add button to tinyMCE window.

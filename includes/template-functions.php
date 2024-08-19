@@ -107,10 +107,12 @@ function quads_load_ads_common($user_position,$html=''){
              if($is_on && $is_visitor_on && $post_status == 'publish'){
           if(($ads['position'] == 'bbpress_after_ad' && $user_position == 'bbpress_after_ad' )|| ($ads['position'] == 'bbpress_before_ad' && $user_position == 'bbpress_before_ad')){
               $tag= '<!--CusAds'.esc_html($ads['ad_id']).'-->';
+              // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_replace_ads_new() function
               echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
           }else if(($ads['position'] == 'bbpress_before_reply' && $user_position == 'bbpress_before_reply' )|| ($ads['position'] == 'bbpress_after_reply' && $user_position == 'bbpress_after_reply')){
             if((did_action( 'bbp_theme_before_reply_content' ) % $ads['paragraph_number'] == 0  && $user_position == 'bbpress_before_reply' )|| (did_action( 'bbp_theme_after_reply_content' ) % $ads['paragraph_number'] == 0 && $user_position == 'bbpress_after_reply')){
                   $tag= '<!--CusAds'.esc_html($ads['ad_id']).'-->';
+                  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_replace_ads_new() function
                   echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
             }
           }elseif( $ads['position'] == 'before_header' && $user_position == 'newspaper_theme'){
@@ -333,13 +335,13 @@ function quads_adblocker_popup_notice(){
     if($settings['notice_type'] == 'popup'){
         
 
-      $content_color = sanitize_hex_color($settings['notice_txt_color']);
-      $notice_title = esc_attr($settings['notice_title']);
-      $notice_description = esc_attr($settings['notice_description']);
-      $button_txt = esc_attr($settings['btn_txt']);
-      $background_color = sanitize_hex_color($settings['notice_bg_color']);
-      $btn_txt_color = sanitize_hex_color($settings['notice_btn_txt_color']);
-      $btn_background_color = sanitize_hex_color($settings['notice_btn_bg_color']);
+      $content_color = $settings['notice_txt_color'];
+      $notice_title = $settings['notice_title'];
+      $notice_description = $settings['notice_description'];
+      $button_txt = $settings['btn_txt'];
+      $background_color = $settings['notice_bg_color'];
+      $btn_txt_color = $settings['notice_btn_txt_color'];
+      $btn_background_color = $settings['notice_btn_bg_color'];
       
   ?>
     <div id="quads-myModal_" class="quads-modal" style="display:none">
@@ -351,11 +353,11 @@ function quads_adblocker_popup_notice(){
           <?php
         }
         ?>
-        <h2 style="text-align: center;padding-top:0;color: <?php echo $content_color;?>;"><?php echo $notice_title;?></h2>
-        <p style="margin:0 0 1.5em;padding: 0;text-align: center;color: <?php echo $content_color;?>;"><?php echo $notice_description;?></p>
+        <h2 style="text-align: center;padding-top:0;color: <?php echo sanitize_hex_color( $content_color );?>;"><?php echo esc_attr( $notice_title );?></h2>
+        <p style="margin:0 0 1.5em;padding: 0;text-align: center;color: <?php echo sanitize_hex_color( $content_color );?>;"><?php echo esc_attr( $notice_description );?></p>
         <?php if( isset($settings['notice_close_btn']) && $settings['notice_close_btn'] &&  !empty($button_txt) ){
           ?>
-          <button class="quads-button quads-closebtn quads-cls-notice"><?php echo $button_txt;?></button>
+          <button class="quads-button quads-closebtn quads-cls-notice"><?php echo esc_attr( $button_txt );?></button>
         <?php
         }
         ?>
@@ -384,7 +386,7 @@ function quads_adblocker_popup_notice(){
 
     /* Modal Content */
     .quads-modal-content {
-      background-color: <?php echo $background_color;?>;
+      background-color: <?php echo sanitize_hex_color( $background_color );?>;
       margin: auto;
       padding: 20px;
       border: 1px solid #888;
@@ -395,7 +397,7 @@ function quads_adblocker_popup_notice(){
 
     /* The Close Button */
     .quads-close{
-      color: <?php echo $btn_txt_color;?>;
+      color: <?php echo sanitize_hex_color( $btn_txt_color );?>;
       float: right;
       font-size: 28px;
       font-weight: bold;
@@ -408,9 +410,9 @@ function quads_adblocker_popup_notice(){
       cursor: pointer;
     }
     .quads-button {
-      background-color: <?php echo $btn_background_color;?>; /* Green */
+      background-color: <?php echo sanitize_hex_color( $btn_background_color );?>; /* Green */
       border: none;
-      color: <?php echo $btn_txt_color;?>;
+      color: <?php echo sanitize_hex_color( $btn_txt_color );?>;
       padding: 10px 15px;
       text-align: center;
       text-decoration: none;
@@ -452,6 +454,7 @@ function quads_adblocker_notice_jsondata(){
         );
       $output    .= '/* ]]> */';
       $output    .= '</script>';
+      // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above
       echo $output;
     }
     }
@@ -462,12 +465,12 @@ function quads_adblocker_notice_bar(){
   if( isset($settings['ad_blocker_support']) && $settings['ad_blocker_support']){
     if($settings['notice_type'] == 'bar' ){
       
-      $notice_description = esc_attr($settings['notice_description']);
-      $button_txt = esc_attr($settings['btn_txt']);
-      $content_color = sanitize_hex_color($settings['notice_txt_color']);
-      $background_color = sanitize_hex_color($settings['notice_bg_color']);
-      $btn_txt_color = sanitize_hex_color($settings['notice_btn_txt_color']);
-      $btn_background_color = sanitize_hex_color($settings['notice_btn_bg_color']);
+      $notice_description = $settings['notice_description'];
+      $button_txt = $settings['btn_txt'];
+      $content_color = $settings['notice_txt_color'];
+      $background_color = $settings['notice_bg_color'];
+      $btn_txt_color = $settings['notice_btn_txt_color'];
+      $btn_background_color = $settings['notice_btn_bg_color'];
       $notice_bar = !empty($settings['notice_bar']) ? $settings['notice_bar'] : '';
       $notice_bar_sticky = !empty($settings['notice_bar_sticky']) ? $settings['notice_bar_sticky'] : '';
 
@@ -479,14 +482,14 @@ function quads_adblocker_notice_bar(){
       <span class="quads-close quads-cls-notice">&times;</span>  
     <?php } ?>
       <div class="quads-adblocker-message">
-      <?php echo $notice_description;?>
+      <?php echo esc_attr( $notice_description );?>
       </div>
       <?php if( isset($settings['notice_close_btn'])&& $settings['notice_close_btn'] && !empty($button_txt)){?>
-      <button class="quads-button quads-closebtn quads-cls-notice"><?php echo $button_txt;?></button>  
+      <button class="quads-button quads-closebtn quads-cls-notice"><?php echo esc_attr( $button_txt );?></button>  
     <?php } ?>
     </div>
-    <input type="hidden" id="quads_notice_bar" value="<?php echo $notice_bar;?>">
-    <input type="hidden" id="quads_notice_bar_sticky" value="<?php echo $notice_bar_sticky;?>">
+    <input type="hidden" id="quads_notice_bar" value="<?php echo esc_attr( $notice_bar );?>">
+    <input type="hidden" id="quads_notice_bar_sticky" value="<?php echo esc_attr( $notice_bar_sticky );?>">
   </div>
   <style>
     .quads-adblocker-message{
@@ -495,8 +498,8 @@ function quads_adblocker_notice_bar(){
     .quads-adblocker-notice-bar {
       display: none;
       width: 100%;
-      background: <?php echo $background_color;?>;
-      color: <?php echo $content_color;?>;
+      background: <?php echo sanitize_hex_color( $background_color );?>;
+      color: <?php echo sanitize_hex_color( $content_color );?>;
       padding: 0.5em 0px;
       font-size: 16px;
       line-height: 1.8;
@@ -511,7 +514,7 @@ function quads_adblocker_notice_bar(){
       text-align: center;
     }
     .quads-close{
-      color: <?php echo $btn_txt_color;?>;
+      color: <?php echo sanitize_hex_color( $btn_txt_color );?>;
       float: right;
       font-size: 20px;
       font-weight: bold;
@@ -523,9 +526,9 @@ function quads_adblocker_notice_bar(){
       cursor: pointer;
     }
     .quads-button {
-      background-color: <?php echo $btn_background_color;?>; /* Green */
+      background-color: <?php echo sanitize_hex_color( $btn_background_color );?>; /* Green */
       border: none;
-      color: <?php echo $btn_txt_color;?>;
+      color: <?php echo sanitize_hex_color( $btn_txt_color );?>;
       padding: 5px 10px;
       text-align: center;
       text-decoration: none;
@@ -2652,7 +2655,7 @@ function quads_parse_half_page_ads($content) {
             '<div class="post_half_page_ad">
             <div class="post_half_page_openClose_box">
             <div id="post_half_page_openClose">
-            <div id="post_half_pageVertical-text">'.__( $half_page_ads_page_vertical_text, 'quick-adsense-reloaded' ).'</div>
+            <div id="post_half_pageVertical-text">'.esc_html( $half_page_ads_page_vertical_text).'</div>
             </div>
             <div class="half-page-arrow-left" id="half-page-arrow-left"></div>
             <div class="half-page-arrow-right" id="half-page-arrow-right"></div>
@@ -3101,6 +3104,7 @@ function quads_del_element($array, $idx) {
                     $is_on         = quads_is_visibility_on($ads);
                     $is_visitor_on = quads_is_visitor_on($ads);
                     if($is_on && $is_visitor_on ){
+                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done is quads_replace_ads_new() function
                         echo   quads_replace_ads_new( $tag, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
 
                     }
@@ -3375,9 +3379,10 @@ function quads_del_element($array, $idx) {
                 } 
                 if($is_on && $is_visitor_on && $post_status=='publish' && isset($ads['visibility_include'][0]['value']['value']) && $ads['visibility_include'][0]['value']['value']=='show_globally'){
                     if(in_array($ads['ad_type'],array('ad_image','adsense','plain_text'))){
-                        //echo quads_render_ad($ads['quads_ad_old_id'], $ads['code']);
+                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                         echo "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n"
                         .'<div class="quads-location quads-ad' .esc_html($ads['ad_id']). '" id="quads-ad' .esc_html($ads['ad_id']). '">'."\n"
+                        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_render_ad() function
                         .quads_render_ad($ads['quads_ad_old_id'], $ads['code'])."\n"
                         .'</div>'. "\n";
                     } 
@@ -3550,10 +3555,12 @@ function quads_parse_floating_cubes_ads() {
         else
           $post_status =  'publish';
 
-        if($is_on && $is_visitor_on && $post_status=='publish'){
+        if( $is_on && $is_visitor_on && $post_status=='publish' ){
+                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 echo "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n"
-                .'<div class="quads-location quads-ad' .esc_html($ads['ad_id']). '" id="quads-ad' .esc_html($ads['ad_id']). '">'."\n"
-                .quads_render_ad($ads['quads_ad_old_id'], $ads['code'])."\n"
+                .'<div class="quads-location quads-ad' .esc_html( $ads['ad_id'] ). '" id="quads-ad' .esc_html( $ads['ad_id'] ). '">'."\n"
+                //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_render_ad() function
+                .quads_render_ad( $ads['quads_ad_old_id'], $ads['code'] )."\n"
                 .'</div>'. "\n";
           }
 

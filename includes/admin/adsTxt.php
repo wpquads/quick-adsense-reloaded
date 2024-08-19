@@ -39,7 +39,7 @@ class adsTxt {
         }
         
         // get everything from ads.txt and convert to array
-        $contentText = file_get_contents($this->filename);
+        $contentText = quads_local_file_get_contents($this->filename);
         
         // Pattern not find 
         if (strpos($contentText, $this->pattern) === false) {
@@ -78,7 +78,7 @@ class adsTxt {
         }
 
         // get everything from ads.txt and convert to array
-        $contentText = file_get_contents($this->filename);
+        $contentText = quads_local_file_get_contents($this->filename);
         
         // Change all \r\n to \n
         //$contentText = str_replace(array("\r\n", "\n"), '', $contentText);

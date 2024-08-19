@@ -6,10 +6,11 @@
  * Description: Insert Google AdSense and other ad formats fully automatic into your website
  * Author: WP Quads
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
- * Version: 2.0.84
+ * Version: 2.0.85
  * Text Domain: quick-adsense-reloaded
  * Domain Path: languages
  * Credits: WP QUADS - Quick AdSense Reloaded is a fork of Quick AdSense
+ * License: GPL2
  *
  * WP QUADS is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +39,7 @@ if( !defined( 'ABSPATH' ) )
 
 // Plugin version
 if( !defined( 'QUADS_VERSION' ) ) {
-  define( 'QUADS_VERSION', '2.0.84' );
+  define( 'QUADS_VERSION', '2.0.85' );
 }
 
 // Plugin name
@@ -132,7 +133,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             self::$instance->includes();
             self::$instance->load_textdomain();
             self::$instance->load_hooks();
-            self::$instance->logger = new quadsLogger( "quick_adsense_log_" . date( "Y-m-d" ) . ".log", quadsLogger::INFO );
+            self::$instance->logger = new quadsLogger( "quick_adsense_log_" . gmdate( "Y-m-d" ) . ".log", quadsLogger::INFO );
             self::$instance->html = new QUADS_HTML_Elements();
             self::$instance->adsense = new wpquads\adsense(get_option('quads_settings'));
          }
@@ -151,7 +152,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
        */
       public function __clone() {
          // Cloning instances of the class is forbidden
-         _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'QUADS' ), '1.0' );
+         _doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'quick-adsense-reloaded' ), '1.0' );
       }
 
       /**
@@ -163,7 +164,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
        */
       public function __wakeup() {
          // Unserializing instances of the class is forbidden
-         _doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'QUADS' ), '1.0' );
+         _doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'quick-adsense-reloaded' ), '1.0' );
       }
 
       /**
@@ -413,7 +414,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          // Update the current version
          //update_option( 'quads_version', QUADS_VERSION );
          // Add plugin installation date and variable for rating div
-         add_option( 'quads_install_date', date( 'Y-m-d h:i:s' ) );
+         add_option( 'quads_install_date', gmdate( 'Y-m-d h:i:s' ) );
          add_option( 'quads_rating_div', 'no' );
          add_option( 'quads_show_theme_notice', 'yes' );
 
@@ -549,6 +550,7 @@ if (QUADS_VERSION >= '2.0.28' && quads_is_pro_active() ) {
 add_action( 'wp_loaded','quads_checker_license' );
 function quads_checker_license(){
   if ( QUADS_VERSION == '2.0.33' && function_exists('quads_is_pro_active') && quads_is_pro_active() ) {
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
     if( isset( $_GET["page"] ) && !empty( $_GET ) && $_GET["page"] == 'quads-settings' && isset($_GET["tab"]) && $_GET["tab"] == 'licenses' ){
       $quads_license_obj = new QUADS_License( __FILE__, 'WP QUADS PRO', QUADS_PRO_VERSION, 'Rene Hermenau', 'edd_sl_license_key' );
       $trans_check = get_transient( 'quads_adsense_license_auto_check' );
@@ -559,6 +561,7 @@ function quads_checker_license(){
   }
 }
 
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 if( function_exists('quads_is_pro_active') && quads_is_pro_active() && isset( $_GET["page"] ) && !empty( $_GET ) && $_GET["page"] == 'quads-settings' && isset($_GET["tab"]) && $_GET["tab"] == 'licenses' ){
     $license = get_option( 'quads_wp_quads_pro_license_active' );
     if( !empty( $license ) && is_object( $license ) && $license->license == 'valid' ) {
@@ -580,9 +583,9 @@ function quads_check_for_newinstall(){
    $quads_install_date = get_option('quads_install_date',false);
    $quads_install_date_flag = get_option('quads_install_date_flag',false);
    if($quads_install_date && !$quads_install_date_flag){
-      $quads_today = date('Y-m-d');
+      $quads_today = gmdate('Y-m-d');
       if($quads_install_date){
-         $quads_install_date = date('Y-m-d',strtotime($quads_install_date));
+         $quads_install_date = gmdate('Y-m-d',strtotime($quads_install_date));
       }
       if($quads_install_date == $quads_today){
          update_option('quads_install_date_flag',true);
@@ -593,4 +596,32 @@ function quads_check_for_newinstall(){
          
       }
    }
+}
+
+/**
+ * Load local files and return file contents
+ * @param $file_path String
+ * @return file contents
+ * @since 2.0.85
+ * */
+function quads_local_file_get_contents( $file_path ){
+
+   $file_safe =   '';
+
+    // Include WordPress Filesystem API
+    if ( ! function_exists( 'WP_Filesystem' ) ) {
+        require_once( ABSPATH . 'wp-admin/includes/file.php' );
+    }
+
+    // Initialize the API
+    global $wp_filesystem;
+    if ( ! WP_Filesystem() ) {
+        return $file_safe;
+    }
+    // Check if the file exists
+    if ( $wp_filesystem->exists( $file_path ) ) {
+        // Read the file content
+        $file_safe = $wp_filesystem->get_contents( $file_path );
+        return $file_safe;
+    }
 }

@@ -83,6 +83,7 @@ function click_fraud_protection(){
  */
 if(!function_exists('quads_is_admin_page')){
     function quads_is_admin_page() {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is the dependant function to check if current admin page is an QUADS admin page
         $currentpage = isset($_GET['page']) ? $_GET['page'] : '';
         if ( ! is_admin() || ! did_action( 'wp_loaded' ) ) {
             return false;
@@ -125,13 +126,13 @@ function quads_show_adpushup_notice(){
         return false;
         }
     
-        $message  = __( 'Get 30+ ad networks to compete for your ad inventory with Google Certified Publishing partner AdPushup.', 'quick-adsense-reloaded' );
-        $message .= '  <a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_adpushup_notice" class="close_adpushup" target="_self" title="Close Notice" style="font-weight:bold;"><span class="screen-reader-text">Dismiss this notice.</span></a>';
-        $message .= '<br><br><a target="_blank" href="https://www.adpushup.com/publisher/wp-quads/" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Know More</a>';
-        $message .= '  <a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_adpushup_notice" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Close Notice</a>';
+        $message  = esc_html__( 'Get 30+ ad networks to compete for your ad inventory with Google Certified Publishing partner AdPushup.', 'quick-adsense-reloaded' );
+        $message .= '  <a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_adpushup_notice" class="close_adpushup" target="_self" title="'.esc_html__( 'Close Notice', 'quick-adsense-reloaded' ).'" style="font-weight:bold;"><span class="screen-reader-text">'.esc_html__( 'Dismiss this notice', 'quick-adsense-reloaded').'</span></a>';
+        $message .= '<br><br><a target="_blank" href="https://www.adpushup.com/publisher/wp-quads/" class="button-primary thankyou" target="_self" title="'.esc_html__( 'Close Notice', 'quick-adsense-reloaded' ).'" style="font-weight:bold;">'.esc_html__( 'Know More', 'quick-adsense-reloaded').'</a>';
+        $message .= '  <a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_adpushup_notice" class="button-primary thankyou" target="_self" title="'.esc_html__( 'Close Notice', 'quick-adsense-reloaded' ).'" style="font-weight:bold;">'.esc_html__( 'Close Notice', 'quick-adsense-reloaded').'</a>';
         ?>
         <div class="updated notice" style="border-left: 4px solid #ffba00;">
-            <p><?php echo $message; ?></p>
+            <p><?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above */ echo $message; ?></p>
         </div>
         <?php
 
@@ -324,6 +325,7 @@ function quads_load_admin_fonts( $hook ) {
     </style>';
 
     if( isset($hook) && $hook == "admin.php" ) {
+        //phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped
         echo $font_styles ;
     } 
 }
@@ -895,6 +897,7 @@ function quads_inline_styles_amp() {
     $css .=".quads-ad-label { font-size: 12px; text-align: center; color: #333;}";
 
     if (quads_is_amp_endpoint()){
+        //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo $css;
     }
 }

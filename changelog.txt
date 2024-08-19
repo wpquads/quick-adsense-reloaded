@@ -1,3 +1,6 @@
+= 2.0.85 ( 19 August 2024 ) =
+* Fixed: Broken Access Control vulnerability reported by patchstack.com
+
 = 2.0.84 ( 04 June 2024 ) =
 * Improvement: Few modifications done for Rotator ads #887
 * Fixed: The option to set an ad on Taxonomy terms is not working #889

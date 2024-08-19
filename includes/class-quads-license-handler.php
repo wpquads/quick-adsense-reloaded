@@ -120,7 +120,8 @@ class QUADS_License {
 		//add_action( 'admin_notices', array( $this, 'notices' ) );
 
 		add_action( 'in_plugin_update_message-' . plugin_basename( $this->file ), array( $this, 'plugin_row_license_missing' ), 10, 2 );
-		if(isset($_POST['requestfrom']) &&$_POST['requestfrom'] == 'wpquads2'){
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: This is a dependent function
+		if( isset( $_POST['requestfrom'] ) && $_POST['requestfrom'] == 'wpquads2' ) {
 			$this->activate_license2();
 			$this->deactivate_license2();
 			$this->auto_updater();
@@ -146,14 +147,14 @@ class QUADS_License {
   $license_data = get_option( $this->item_shortname . '_license_active' );
 
   			if (isset($license_data->expires)) {
-        $license_exp = date('Y-m-d', strtotime($license_data->expires));
-        $license_exp_d = date('d F Y', strtotime($license_data->expires));
+        $license_exp = gmdate('Y-m-d', strtotime($license_data->expires));
+        $license_exp_d = gmdate('d F Y', strtotime($license_data->expires));
       
         if (isset($license_data->expires)) {
         	$license_data->expires = $license_exp_d;
         }
         $license_info_lifetime = $license_data->expires;
-		$today = date('Y-m-d');
+		$today = gmdate('Y-m-d');
 		$exp_date = $license_exp;
 		$date1 = date_create($today);
 			$date2 = date_create($exp_date);
@@ -170,10 +171,12 @@ class QUADS_License {
 			}
     }
 
-    if (isset($days)) {
-    if ($days>= 0 && $days <= 30   ) {
-    if(isset($_GET["path"])&&!empty($_GET)){
-    	if($_GET['path'] == 'settings_licenses' ){
+    if ( isset( $days ) ) {
+    if ( $days >= 0 && $days <= 30   ) {
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function
+    if( isset( $_GET["path"] ) && ! empty( $_GET ) ) {
+    	// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function
+    	if( $_GET['path'] == 'settings_licenses' ) {
     		// $this->weekly_license_check();
     	};
     }
@@ -198,9 +201,9 @@ class QUADS_License {
 	public function auto_checker(){
 		$details = get_option( 'quads_wp_quads_pro_license_active' );
 		if (isset($details->expires)) {
-		$license_exp = date('Y-m-d', strtotime($details->expires));
+		$license_exp = gmdate('Y-m-d', strtotime($details->expires));
 		$license_info_lifetime = $details->expires;
-		$today = date('Y-m-d');
+		$today = gmdate('Y-m-d');
 		$exp_date = $license_exp;
 		$date1 = date_create($today);
 			$date2 = date_create($exp_date);
@@ -218,12 +221,14 @@ class QUADS_License {
 		}
 	
 		if ( $details ) {
-		if ( isset($days) && $days <=7 ) {
+		if ( isset( $days ) && $days <= 7 ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: There is no form submission and this is a dependent function 
 			if( isset( $_GET["page"] ) && !empty( $_GET ) ) {
 				$quads_mode = get_option('quads-mode');
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: There is no form submission and this is a dependent function
 				if( $quads_mode !== "old" && $_GET['page'] == 'quads-settings' ){
 					$trans_check = get_transient( 'quads_adsense_r_t' );
-					if ( $days<=7 && $trans_check !== 'quads_adsense_r_tvalue' ) {
+					if ( $days <= 7 && $trans_check !== 'quads_adsense_r_tvalue' ) {
 						$this->weekly_license_check();
 					}
 					$transient =  'quads_adsense_r_t';
@@ -248,7 +253,7 @@ class QUADS_License {
 		$quads_license_settings = array(
 			array(
 				'id'      => $this->item_shortname . '_license_key',
-				'name'    => sprintf( __( '%1$s License Key', 'quick-adsense-reloaded' ), $this->item_name ),
+				'name'    => sprintf( /* translators: %s: Quick AdSense Reloaded */ __( '%1$s License Key', 'quick-adsense-reloaded' ), $this->item_name ),
 				'desc'    => '',
 				'type'    => 'license_key',
 				'options' => array( 'is_valid_license_option' => $this->item_shortname . '_license_active' ),
@@ -280,8 +285,8 @@ class QUADS_License {
 			return;
 		}
 
-		echo '<p>' . sprintf(
-			__( 'Enter your extension license keys here to receive updates for purchased extensions. If your license key has expired, please <a href="%s" target="_blank" title="License renewal FAQ">renew your license</a>.', 'quick-adsense-reloaded' ),
+		echo '<p>' . esc_html( sprintf( /* translators: %s: Quick AdSense Reloaded documentation URL */
+			__( 'Enter your extension license keys here to receive updates for purchased extensions. If your license key has expired, please <a href="%s" target="_blank" title="License renewal FAQ">renew your license</a>.', 'quick-adsense-reloaded' ) ),
 			'http://wpquads.com/renew-my-license/'
 		) . '</p>';
 
@@ -296,6 +301,7 @@ class QUADS_License {
 	 * @return  void
 	 */
 	public function activate_license2() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: There is no form submission and this is a dependent function
 		$post_setting  =json_decode($_POST['settings'], true);
 
                if ( ! current_user_can( 'manage_options' ) ) {
@@ -354,10 +360,10 @@ class QUADS_License {
 		update_option( $this->item_shortname . '_license_active', $license_data );
       $response = array('status' => 't','license' => 'actived', 'msg' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ), 'expiring_days' => $license_data->expires); 
 
-      $license_exp = date('Y-m-d', strtotime($details->expires));
-			$license_exp_d = date('d F Y', strtotime($details->expires));
+      $license_exp = gmdate('Y-m-d', strtotime($details->expires));
+			$license_exp_d = gmdate('d F Y', strtotime($details->expires));
 			$license_info_lifetime = $details->expires;
-		$today = date('Y-m-d');
+		$today = gmdate('Y-m-d');
 		$exp_date = $license_exp;
 		$date1 = date_create($today);
 			$date2 = date_create($exp_date);
@@ -383,10 +389,10 @@ class QUADS_License {
 	public function activate_license() {
 		$details = get_option( $this->item_shortname . '_license_active' );
 		if (isset($license_data->expires)) {
-		$license_exp = date('Y-m-d', strtotime($details->expires));
-		$license_exp_d = date('d F Y', strtotime($details->expires));
+		$license_exp = gmdate('Y-m-d', strtotime($details->expires));
+		$license_exp_d = gmdate('d F Y', strtotime($details->expires));
 		$license_info_lifetime = $details->expires;
-		$today = date('Y-m-d');
+		$today = gmdate('Y-m-d');
 		$exp_date = $license_exp;
 		$date1 = date_create($today);
 			$date2 = date_create($exp_date);
@@ -440,10 +446,10 @@ class QUADS_License {
 		if( empty( $license ) ) {
 			return;
 		}
-			$license_exp = date('Y-m-d', strtotime($details->expires));
-			$license_exp_d = date('d F Y', strtotime($details->expires));
+			$license_exp = gmdate('Y-m-d', strtotime($details->expires));
+			$license_exp_d = gmdate('d F Y', strtotime($details->expires));
 			$license_info_lifetime = $details->expires;
-			$today = date('Y-m-d');
+			$today = gmdate('Y-m-d');
 			$exp_date = $license_exp;
 			$date1 = date_create($today);
 			$date2 = date_create($exp_date);
@@ -509,7 +515,7 @@ class QUADS_License {
 
 		if( ! wp_verify_nonce( $_REQUEST[ $this->item_shortname . '_license_key-nonce'], $this->item_shortname . '_license_key-nonce' ) ) {
 		
-			wp_die( __( 'Nonce verification failed', 'quick-adsense-reloaded' ), __( 'Error', 'quick-adsense-reloaded' ), array( 'response' => 403 ) );
+			wp_die( esc_html__( 'Nonce verification failed', 'quick-adsense-reloaded' ), esc_html__( 'Error', 'quick-adsense-reloaded' ), array( 'response' => 403 ) );
                 
 		}
                 
@@ -558,6 +564,7 @@ class QUADS_License {
 	 * @return  void
 	 */
 	public function deactivate_license2() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: There is no form submission and this is a dependent function
 		$post_setting  =json_decode($_POST['settings'], true);
 
                if ( ! current_user_can( 'manage_options' ) ) {
@@ -569,6 +576,7 @@ class QUADS_License {
 		}
 
 		// Run on deactivate button press
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: There is no form submission and this is a dependent function
 		if ( isset( $_POST['quads_wp_quads_pro_license_key_deactivate'] ) ) {
 			// Data to send to the API
 			$api_params = array(
@@ -611,6 +619,7 @@ class QUADS_License {
 	 */
 	public function weekly_license_check() {
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: There is no form submission and this is a dependent function
 		if( ! empty( $_POST['quads_settings'] ) ) {
 			return; // Don't fire when saving settings
 		}
@@ -649,14 +658,14 @@ class QUADS_License {
 		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 		if ($license_data->license == "expired") {
   			if (isset($license_data->expires)) {
-        $license_exp = date('Y-m-d', strtotime($license_data->expires));
-        $license_exp_d = date('d F Y', strtotime($license_data->expires));
+        $license_exp = gmdate('Y-m-d', strtotime($license_data->expires));
+        $license_exp_d = gmdate('d F Y', strtotime($license_data->expires));
       
         if (isset($license_data->expires)) {
         	$license_data->expires = $license_exp_d;
         }
         $license_info_lifetime = $license_data->expires;
-		$today = date('Y-m-d');
+		$today = gmdate('Y-m-d');
 		$exp_date = $license_exp;
 		$date1 = date_create($today);
 			$date2 = date_create($exp_date);
@@ -680,6 +689,7 @@ class QUADS_License {
 
 		if ($response['response']['code'] == 200 && $response['response']['message'] == 'OK') {
 			if ( QUADS_VERSION == '2.0.33' && function_exists('quads_is_pro_active') && quads_is_pro_active() ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: There is no form submission and this is a dependent function
 				if( isset( $_GET["page"] ) && !empty( $_GET ) && $_GET["page"] == 'quads-settings' && isset($_GET["tab"]) && $_GET["tab"] == 'licenses' ){
 			$transient_load =  'quads_adsense_license_auto_check';
             $value_load =  'quads_adsense_license_auto_check_value';
@@ -705,7 +715,7 @@ class QUADS_License {
 
 		if( ( ! is_object( $license ) || 'valid' !== $license->license ) && empty( $showed_imissing_key_message[ $this->item_shortname ] ) ) {
 
-			echo '&nbsp;<strong><a href="' . esc_url( admin_url( 'admin.php?page=quads-settings&tab=licenses' ) ) . '">' . __( 'Enter valid license key for automatic updates.', 'quick-adsense-reloaded' ) . '</a></strong>';
+			echo '&nbsp;<strong><a href="' . esc_url( admin_url( 'admin.php?page=quads-settings&tab=licenses' ) ) . '">' . esc_html__( 'Enter valid license key for automatic updates.', 'quick-adsense-reloaded' ) . '</a></strong>';
 			$showed_imissing_key_message[ $this->item_shortname ] = true;
 		}
 

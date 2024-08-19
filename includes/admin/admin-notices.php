@@ -52,18 +52,29 @@ function quads_admin_messages() {
 
 
     if( quads_is_admin_page() ) {
-        echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="wpquads-adblock-notice">' . sprintf( __( '<strong><p>Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup</strong></p>', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
+
+        echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="wpquads-adblock-notice">' .
+            '<strong>' . esc_html__('Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup', 'quick-adsense-reloaded') . '</strong><br><br>' .
+            '<a href="' . esc_url(admin_url('admin.php?page=quads-settings#quads_settingsgeneral_header')) . '">' . esc_html__('Go to WP QUADS Settings', 'quick-adsense-reloaded') . '</a>' .
+            '</div>';
+
     }
 
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only displaying the admin notices
     if( isset( $_GET['quads-action'] ) && $_GET['quads-action'] === 'validate' && quads_is_admin_page() && quads_is_any_ad_activated() && quads_is_post_type_activated() && quads_get_active_ads() > 0 ) {
-        echo '<div class="notice notice-success">' . sprintf( __( '<strong>No errors detected in WP QUADS settings.</strong> If ads are still not shown read the <a href="%s" target="_blank">troubleshooting guide</a>' ), 'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink' ) . '</div>';
+        echo '<div class="notice notice-success"><strong>' .esc_html__('No errors detected in WP QUADS settings.','quick-adsense-reloaded'). '</strong>'. esc_html__('If ads are still not shown read the ','quick-adsense-reloaded'). '<a href="'.esc_url('http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink').'" target="_blank">'.esc_html__('troubleshooting guide','quick-adsense-reloaded') . '</a> </div>';
     }
 quads_show_rate_div();
 
 }
 function quads_admin_messages_new(){
        if( quads_is_admin_page() ) {
-        echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="wpquads-adblock-notice">' . sprintf( __( '<strong><p>Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup</strong></p>', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings#quads_settingsgeneral_header' ) . '</div>';
+        echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="wpquads-adblock-notice">' . 
+        '<strong>' . esc_html__('Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup', 'quick-adsense-reloaded') . '</strong>' . 
+        '</p>' . 
+        '<p><a href="' . esc_url(admin_url('admin.php?page=quads-settings#quads_settingsgeneral_header')) . '">' . 
+        esc_html__('Go to WP QUADS Settings', 'quick-adsense-reloaded') . '</a></p>' . 
+        '</div>';    
     }
 }
 
@@ -132,7 +143,7 @@ function quads_admin_newdb_upgrade(){
                  \'action\':\'quads_start_newdb_migration\',
                  \'nonce\':\''.esc_attr($import_nonce ).'\'}
                 jQuery.ajax({
-                    url: "' . admin_url( 'admin-ajax.php').'",
+                    url: "' . esc_url(admin_url( 'admin-ajax.php')).'",
                     type: "post",
                     data: data,
                     dataType: "json",
@@ -159,7 +170,7 @@ function quads_admin_newdb_upgrade(){
                          \'action\':\'quads_hide_newdb_migration\',
                          \'nonce\':\''.esc_attr($import_nonce ).'\'}
                         jQuery.ajax({
-                            url: "' . admin_url( 'admin-ajax.php').'",
+                            url: "' . esc_url(admin_url( 'admin-ajax.php')).'",
                             type: "post",
                             data: data,
                             dataType: "json",
@@ -208,7 +219,7 @@ function quads_show_rate_div(){
 
 
     $install_date = get_option( 'quads_install_date' );
-    $display_date = date( 'Y-m-d h:i:s' );
+    $display_date = gmdate( 'Y-m-d h:i:s' );
     $datetime1    = new DateTime( $install_date );
     $datetime2    = new DateTime( $display_date );
     $diff_intrval = round( ($datetime2->format( 'U' ) - $datetime1->format( 'U' )) / (60 * 60 * 24) );
@@ -237,7 +248,7 @@ function quads_show_rate_div(){
         var data={\'action\':\'quads_hide_rating\'}
              jQuery.ajax({
         
-        url: "' . admin_url( 'admin-ajax.php' ) . '",
+        url: "' . esc_url(admin_url( 'admin-ajax.php' )) . '",
         type: "post",
         data: data,
         dataType: "json",
@@ -257,7 +268,7 @@ function quads_show_rate_div(){
         var data={\'action\':\'quads_hide_rating_week\'}
              jQuery.ajax({
         
-        url: "' . admin_url( 'admin-ajax.php' ) . '",
+        url: "' . esc_url(admin_url( 'admin-ajax.php' )) . '",
         type: "post",
         data: data,
         dataType: "json",
@@ -308,7 +319,7 @@ add_action( 'wp_ajax_quads_hide_rating', 'quads_hide_rating_div' );
 function quads_hide_rating_notice_week() {
     if( ! current_user_can( 'manage_options' ) ) { return; }
     $nextweek   = time() + (7 * 24 * 60 * 60);
-    $human_date = date( 'Y-m-d h:i:s', $nextweek );
+    $human_date = gmdate( 'Y-m-d h:i:s', $nextweek );
     update_option( 'quads_date_next_notice', $human_date );
     update_option( 'quads_rating_div', 'yes' );
     echo json_encode( array("success") );
@@ -328,7 +339,7 @@ function quads_rate_again() {
         return false;
     }
 
-    $current_date = date( 'Y-m-d h:i:s' );
+    $current_date = gmdate( 'Y-m-d h:i:s' );
     $datetime1    = new DateTime( $rate_again_date );
     $datetime2    = new DateTime( $current_date );
     $diff_intrval = round( ($datetime2->format( 'U' ) - $datetime1->format( 'U' )) / (60 * 60 * 24) );
@@ -363,20 +374,32 @@ function quads_plugin_deactivated_notice() {
  * This notice is shown for user of the bimber and bunchy theme
  * 
  * Not used at the moment
- */
-function quads_theme_notice() {
-
+ */function quads_theme_notice() {
     $show_notice = get_option( 'quads_show_theme_notice' );
 
-    if( false !== $show_notice && 'no' !== $show_notice && quads_is_commercial_theme() ) {
-        $message = __( '<strong>Extend the' . quads_is_commercial_theme() . '</strong> theme with <strong>WP QUADS PRO!</strong><br>Save time and earn more - Bring your AdSense earnings to next level. <a href="http://wpquads.com?utm_campaign=adminnotice&utm_source=admin_notice&utm_medium=admin&utm_content=bimber_upgrade_notice" target="_blank"> Purchase Now</a> or <a href="http://wpquads.com?utm_campaign=free_plugin&utm_source=admin_notice&utm_medium=admin&utm_content=bimber_upgrade_notice" target="_blank">Get Details</a> <p> <a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=close_upgrade_notice" class="button">Close Notice</a>', 'quick-adsense-reloaded' );
+    if ( false !== $show_notice && 'no' !== $show_notice && quads_is_commercial_theme() ) {
         ?>
         <div class="updated notice" style="border-left: 4px solid #ffba00;">
-            <p><?php echo $message; ?></p>
-        </div> <?php
-        //update_option ('quads_show_theme_notice', 'no');
+            <p>
+                <?php
+                echo sprintf(
+                    /* translators: 1: theme name, 2: plugin name, 3: purchase link, 4: details link, 5: close link */
+                    esc_html__( 'Extend the %1$s theme with %2$s! Save time and earn more - Bring your AdSense earnings to the next level. %3$s or %4$s. %5$s', 'quick-adsense-reloaded' ),
+                    '<strong>' . esc_html( quads_is_commercial_theme() ) . '</strong>',
+                    '<strong>WP QUADS PRO</strong>',
+                    '<a href="' . esc_url( 'http://wpquads.com?utm_campaign=adminnotice&utm_source=admin_notice&utm_medium=admin&utm_content=bimber_upgrade_notice' ) . '" target="_blank">' . esc_html__( 'Purchase Now', 'quick-adsense-reloaded' ) . '</a>',
+                    '<a href="' . esc_url( 'http://wpquads.com?utm_campaign=free_plugin&utm_source=admin_notice&utm_medium=admin&utm_content=bimber_upgrade_notice' ) . '" target="_blank">' . esc_html__( 'Get Details', 'quick-adsense-reloaded' ) . '</a>',
+                    '<p><a href="' . esc_url( admin_url( 'admin.php?page=quads-settings&quads-action=close_upgrade_notice' ) ) . '" class="button">' . esc_html__( 'Close Notice', 'quick-adsense-reloaded' ) . '</a></p>'
+                );
+                ?>
+            </p>
+        </div>
+        <?php
     }
 }
+
+
+
 
 /**
  * This notice is shown after updating to 1.3.9
@@ -392,20 +415,37 @@ function quads_update_notice() {
     }
 
     if( (version_compare( QUADS_VERSION, '1.3.9', '>=' ) ) && quads_is_pro_active() && (version_compare( QUADS_PRO_VERSION, '1.3.0', '<' ) ) ) {
-        $message = sprintf( __( '<strong>WP QUADS ' . QUADS_VERSION . ': </strong> Update WP QUADS PRO to get custom post type support from <a href="%s">General Settings</a>.', 'quick-adsense-reloaded' ), admin_url() . 'admin.php?page=quads-settings' );
-        $message .= '<br><br><a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_update_notice" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Close Notice</a>';
         ?>
         <div class="updated notice" style="border-left: 4px solid #ffba00;">
-            <p><?php echo $message; ?></p>
+            <p><?php echo  '<p><strong>' . esc_html( /* translators: %s: plugin version */  sprintf( __( 'WP QUADS %1$s:', 'quick-adsense-reloaded' ), esc_attr(QUADS_VERSION) ) ) . '</strong> ' . 
+                        esc_html__('Update WP QUADS PRO to get custom post type support from', 'quick-adsense-reloaded') . 
+                        ' <a href="' . esc_url(admin_url('admin.php?page=quads-settings')) . '">' . esc_html__('General Settings', 'quick-adsense-reloaded') . 
+                        '</a>.' . 
+                        '<br><br>' . 
+                        '<a href="' . esc_url(admin_url('admin.php?page=quads-settings&quads-action=hide_update_notice')) . 
+                        '" class="button-primary thankyou" target="_self" title="' . esc_attr__('Close Notice', 'quick-adsense-reloaded') . 
+                        '" style="font-weight:bold;">' . esc_html__('Close Notice', 'quick-adsense-reloaded') . 
+                        '</a></p>';
+ 
+     ?></p>
         </div> <?php
-        //update_option ('quads_show_update_notice', 'no');
     } else
     if( !quads_is_advanced() ) {
-        $message = sprintf( __( '<strong>WP QUADS ' . QUADS_VERSION . ': </strong> Install <a href="%1s" target="_blank">WP QUADS PRO</a> to get custom post type support in <a href="%2s">General Settings</a>.', 'quick-adsense-reloaded' ), 'http://wpquads.com?utm_campaign=admin_notice&utm_source=admin_notice&utm_medium=admin&utm_content=custom_post_type', admin_url() . 'admin.php?page=quads-settings' );
-        $message .= '<br><br><a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_update_notice" class="button-primary thankyou" target="_self" title="Close Notice" style="font-weight:bold;">Close Notice</a>';
         ?>
         <div class="updated notice" style="border-left: 4px solid #ffba00;">
-            <p><?php echo $message; ?></p>
+            <p><?php echo '<p><strong>' . esc_html( sprintf( /* translators: %s: plugin version */ __('WP QUADS %1$s:', 'quick-adsense-reloaded'), QUADS_VERSION ) ) . '</strong> ' . 
+                        esc_html__('Install', 'quick-adsense-reloaded') . 
+                        ' <a href="' . esc_url('http://wpquads.com?utm_campaign=admin_notice&utm_source=admin_notice&utm_medium=admin&utm_content=custom_post_type') . 
+                        '" target="_blank">' . esc_html__('WP QUADS PRO', 'quick-adsense-reloaded') . 
+                        '</a> ' . esc_html__('to get custom post type support in', 'quick-adsense-reloaded') . 
+                        ' <a href="' . esc_url(admin_url('admin.php?page=quads-settings')) . '">' . esc_html__('General Settings', 'quick-adsense-reloaded') . 
+                        '</a>.' . 
+                        '<br><br>' . 
+                        '<a href="' . esc_url(admin_url('admin.php?page=quads-settings&quads-action=hide_update_notice')) . 
+                        '" class="button-primary thankyou" target="_self" title="' . esc_attr__('Close Notice', 'quick-adsense-reloaded') . 
+                        '" style="font-weight:bold;">' . esc_html__('Close Notice', 'quick-adsense-reloaded') . 
+                        '</a></p>';
+        ?></p>
         </div>
         <?php
     }
@@ -417,11 +457,24 @@ function quads_update_notice() {
  */
 function quads_update_notice_v2() {
 
-    if( quads_is_pro_active() && (version_compare( QUADS_PRO_VERSION, '1.3.6', '<' ) ) && quads_is_admin_page() ) {
-        $message = sprintf( __( 'You need to update <strong>WP QUADS PRO to version 1.3.6</strong> or higher. Your version of <strong>WP QUADS Pro</strong> is ' . QUADS_PRO_VERSION . '.<br>WP QUADS Pro ' . QUADS_PRO_VERSION . ' supports unlimited amount of ads. <br>Updating requires a valid <a href="%s" target="_new">license key</a>.', 'quick-adsense-reloaded' ), 'https://wpquads.com/#buy-wpquads?utm_source=plugin_notice&utm_medium=admin&utm_campaign=activate_license' );
+    if( quads_is_pro_active() && (version_compare( QUADS_PRO_VERSION, '1.3.6', '<' ) ) && quads_is_admin_page() ) { 
         ?>
         <div class="notice notice-error">
-            <p><?php echo $message; ?></p>
+            <p><?php 
+            echo '<p>' . 
+            esc_html__('You need to update', 'quick-adsense-reloaded') . 
+            ' <strong>' . esc_html__('WP QUADS PRO to version 1.3.6', 'quick-adsense-reloaded') . 
+            '</strong> ' . esc_html__('or higher. Your version of', 'quick-adsense-reloaded') . 
+            ' <strong>' . esc_html__('WP QUADS Pro', 'quick-adsense-reloaded') . '</strong> ' . 
+            esc_html__('is', 'quick-adsense-reloaded') . ' ' . esc_html(QUADS_PRO_VERSION) . 
+            '.<br>' . esc_html__('WP QUADS Pro', 'quick-adsense-reloaded') . ' ' . 
+            esc_html(QUADS_PRO_VERSION) . ' ' . esc_html__('supports unlimited amount of ads.', 'quick-adsense-reloaded') . 
+            '<br>' . esc_html__('Updating requires a valid', 'quick-adsense-reloaded') . 
+            ' <a href="' . esc_url('https://wpquads.com/#buy-wpquads?utm_source=plugin_notice&utm_medium=admin&utm_campaign=activate_license') . 
+            '" target="_new">' . esc_html__('license key', 'quick-adsense-reloaded') . '</a>.' . 
+            '</p>';
+        
+             ?></p>
         </div> <?php
     }
 }
@@ -439,16 +492,19 @@ function quads_update_notice_1_5_3() {
 
     $previous_version = get_option( 'quads_version_upgraded_from' );
 
-    //wp_die(QUADS_VERSION);
     // Show update message if previous version was lower than 1.7 - This makes sure that the message is shown for future updates without complicated version number conditions
     if( !empty( $previous_version ) && version_compare( QUADS_VERSION, '1.7.0', '<=' ) ) {
-
-        $message = sprintf( __( 'This is a huge update! The data structure of WP QUADS has been modified and improved for better performance and great new features. <br> For the case you\'d experience issues, we made a <a href="%1s" target="_self">backup of previous WP QUADS data</a>. So you can <a href="%2s" target="_new">switch back to the previous version</a> anytime. <br><br>Please <a href="%3s" target="_new">open first a support ticket</a> if you experience any issue.', 'quick-adsense-reloaded' ), admin_url() . '?page=quads-settings&tab=help', 'https://wpquads.com/docs/install-older-plugin-version/?utm_source=plugin_notice&utm_medium=admin&utm_campaign=install_older_version', 'https://wordpress.org/support/plugin/quick-adsense-reloaded' );
         ?>
         <div class="notice notice-error">
-            <p><?php echo $message; ?></p>
+            <p><?php echo '<p>' . esc_html__('This is a huge update! The data structure of WP QUADS has been modified and improved for better performance and great new features.', 'quick-adsense-reloaded') . '<br>' .
+                                esc_html__('For the case you\'d experience issues, we made a', 'quick-adsense-reloaded') . ' <a href="' . esc_url(admin_url('?page=quads-settings&tab=help')) . '" target="_self">' . esc_html__('backup of previous WP QUADS data', 'quick-adsense-reloaded') . '</a>. ' .
+                                esc_html__('So you can', 'quick-adsense-reloaded') . ' <a href="' . esc_url('https://wpquads.com/docs/install-older-plugin-version/?utm_source=plugin_notice&utm_medium=admin&utm_campaign=install_older_version') . '" target="_new">' . esc_html__('switch back to the previous version', 'quick-adsense-reloaded') . '</a> ' .
+                                esc_html__('anytime.', 'quick-adsense-reloaded') . '<br><br>' .
+                                esc_html__('Please', 'quick-adsense-reloaded') . ' <a href="' . esc_url('https://wordpress.org/support/plugin/quick-adsense-reloaded') . '" target="_new">' . esc_html__('open first a support ticket', 'quick-adsense-reloaded') . '</a> ' .
+                                esc_html__('if you experience any issue.', 'quick-adsense-reloaded') . '</p>';
+            ?></p>
             <?php
-            echo '<p><a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_update_notice_1_5_3" class="button-primary" target="_self" title="Close Notice" style="font-weight:bold;">' . __( 'Close Notice', 'quick-adsense-reloaded' ) . '</a>';
+            echo '<p><a href="' . esc_url(admin_url('admin.php?page=quads-settings&quads-action=hide_update_notice_1_5_3')) . '" class="button-primary" target="_self" title="Close Notice" style="font-weight:bold;">' . esc_html__( 'Close Notice', 'quick-adsense-reloaded' ) . '</a>';
             ?>
         </div> <?php
     }
@@ -598,7 +654,7 @@ function quads_show_ads_txt_notice() {
 
         // render blurb
         $adsTxtError = new wpquads\template( '/includes/admin/views/notices', $notice );
-        echo $adsTxtError->render();
+        echo wp_kses_post($adsTxtError->render());
     }
 }
 
@@ -625,11 +681,8 @@ function quads_show_license_expired() {
 
     
     echo '<div class="notice notice-error">';
-    echo sprintf(
-            __( '<p>Oh No! <strong>WP Quads Pro</strong> license key is not activated or has been expired. It expires on %s. Renew or activate your license key to make sure that your (AdSense) ads are shown properly with your WordPress, version ' . $wp_version . '<br>'
-                    . '<a href="%s" target="_blank" title="Renew your license key" class="button"><strong>Renew Your License Key Now</strong></a> | <a href="%s" title="Renew your license key">I am aware of possible issues and want to hide this reminder</a>'
-                    , 'quick-adsense-reloaded' ), date_i18n( get_option( 'date_format' ), strtotime( isset($lic->expires)?$lic->expires:null, current_time( 'timestamp' ) ) ), 'http://wpquads.com/checkout/?edd_license_key=' . $licKey . '&utm_campaign=adminnotic123e&utm_source=adminnotice123&utm_medium=admin&utm_content=license-expired', admin_url() . 'admin.php?page=quads-settings&tab=licenses&quads-action=hide_license_expired_notice'
-    );
+    echo '<p>' . esc_html__('Oh No! ', 'quick-adsense-reloaded') . '<strong>' . esc_html__('WP Quads Pro', 'quick-adsense-reloaded') . '</strong> ' . esc_html__('license key is not activated or has been expired. It expires on ', 'quick-adsense-reloaded') . esc_html(date_i18n(get_option('date_format'), strtotime(isset($lic->expires) ? $lic->expires : null, current_time('timestamp')))) . '. ' . esc_html__('Renew or activate your license key to make sure that your (AdSense) ads are shown properly with your WordPress, version ', 'quick-adsense-reloaded') . esc_html($wp_version) . '<br>
+    <a href="' . esc_url('http://wpquads.com/checkout/?edd_license_key=' . $licKey . '&utm_campaign=adminnotic123e&utm_source=adminnotice123&utm_medium=admin&utm_content=license-expired') . '" target="_blank" title="' . esc_attr__('Renew your license key', 'quick-adsense-reloaded') . '" class="button"><strong>' . esc_html__('Renew Your License Key Now', 'quick-adsense-reloaded') . '</strong></a> | <a href="' . esc_url(admin_url() . 'admin.php?page=quads-settings&tab=licenses&quads-action=hide_license_expired_notice') . '" title="' . esc_attr__('Renew your license key', 'quick-adsense-reloaded') . '">' . esc_html__('I am aware of possible issues and want to hide this reminder', 'quick-adsense-reloaded') . '</a>';
     echo '</p></div>';
 }
 
@@ -648,33 +701,19 @@ add_action( 'quads_hide_license_expired_notice', 'quads_hide_license_expired_not
  */
 function quads_show_update_auto_ads() {
 
-
-    $message = sprintf( __( '<h2 style="color:white;">WP QUADS & Google Auto Ads</h2>'
-                    . 'WP QUADS Pro adds support for Google Auto Ads<br><br> Get the Pro plugin from <a href="https://wpquads.com/?utm_source=wp-admin&utm_medium=autoads-notice&utm_campaign=autoads-notice" target="_blank" style="color:#87c131;font-weight:500;">wpquads.com</a>'
-                    , 'mashsb' ), admin_url() . 'admin.php?page=quads-settings'
-    );
-
-    if( get_option( 'quads_show_notice_auto_ads' ) === 'no' ) {
+    if ( get_option( 'quads_show_notice_auto_ads' ) === 'no' ) {
         return false;
     }
 
-    // admin notice after updating wp quads
-    echo '<div class="quads-notice-gdpr update-nag" style="background-color: black;color: #87c131;padding: 20px;margin-top: 20px;border: 3px solid #87c131;display:block;">' . $message .
-    '<p><a href="' . admin_url() . 'admin.php?page=quads-settings&quads-action=hide_auto_ads_notice" class="quads_hide_gdpr" title="I got it" style="text-decoration:none;color:white;">- I Understand! Do Not Show This Hint Again -</a></a>' .
-    '</div>';
+    // Admin notice after updating WP QUADS
+    echo '<div class="quads-notice-gdpr update-nag" style="background-color: black;color: #87c131;padding: 20px;margin-top: 20px;border: 3px solid #87c131;display:block;">';
+    echo '<h2 style="color:white;">' . esc_html__('WP QUADS & Google Auto Ads', 'quick-adsense-reloaded') . '</h2>';
+    echo '<p>' . esc_html__('WP QUADS Pro adds support for Google Auto Ads', 'quick-adsense-reloaded') . '</p><br>';
+    echo '<p>' . esc_html__('Get the Pro plugin from', 'quick-adsense-reloaded') . '<a href="'.esc_url('https://wpquads.com/?utm_source=wp-admin&utm_medium=autoads-notice&utm_campaign=autoads-notice').'" target="_blank" style="color:#87c131;font-weight:500;">'. esc_html__('wpquads.com', 'quick-adsense-reloaded').'</a></p><br>';
+    echo '<p><a href="' . esc_url(admin_url('admin.php?page=quads-settings&quads-action=hide_auto_ads_notice')) . '" class="quads_hide_gdpr" title="' . esc_attr__('I got it', 'quick-adsense-reloaded') . '" style="text-decoration:none;color:white;">- ' . esc_html__('I Understand! Do Not Show This Hint Again', 'quick-adsense-reloaded') . ' -</a></p>';
+    echo '</div>';
 }
-function quads_licene_acivation_notice(){
-    $quads_mode = get_option('quads-mode');
-    if($quads_mode == 'new'){
-        $message = __( 'Activate the License of <a href="'.admin_url('admin.php?page=quads-settings&path=settings_licenses').'" target="_blank"> <strong>WP QUADS PRO!</strong></a><br><p>', 'quick-adsense-reloaded' );
-    }else{
-        $message = __( 'Activate the License of <a href="'.admin_url('admin.php?page=quads-settings&tab=licenses').'" target="_blank"> <strong>WP QUADS PRO!</strong></a><br><p>', 'quick-adsense-reloaded' );
-    }
-        ?>
-        <div class="updated notice" style="border-left: 4px solid #ffba00;">
-            <p><?php echo $message; ?></p>
-        </div><?php
-}
+
 
 /**
  * Hide GDPR notice

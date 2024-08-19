@@ -148,12 +148,13 @@ class quads_widgets_1 extends WP_Widget {
             $style = quads_get_inline_widget_ad_style($this->adsID);
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
-                echo $args['before_widget'];
+                echo wp_kses($args['before_widget'], wp_kses_allowed_html('post'));
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget" style="'.sanitize_html_class($style).'">';
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_render_ad function 
             echo quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
-                echo $args['after_widget'];
+                echo wp_kses($args['after_widget'], wp_kses_allowed_html('post'));
         };
     }
 
@@ -194,11 +195,12 @@ class quads_widgets_2 extends WP_Widget {
         if( strpos( $cont, "<!--OffAds-->" ) === false && strpos( $cont, "<!--OffWidget-->" ) === false && quads_widget_ad_is_allowed() && !quads_hide_ad_widget_on_homepage() ) {
 
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
-            echo $args['before_widget'];
+            echo wp_kses($args['before_widget'], wp_kses_allowed_html('post'));
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_render_ad function
             echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
-            echo $args['after_widget'];
+            echo wp_kses($args['after_widget'], wp_kses_allowed_html('post'));
         };
     }
 
@@ -240,12 +242,13 @@ class quads_widgets_3 extends WP_Widget {
             
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
-                echo $args['before_widget'];
+                echo wp_kses($args['before_widget'], wp_kses_allowed_html('post'));
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_render_ad function
             echo quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
-                echo $args['after_widget'];
+                echo wp_kses($args['after_widget'], wp_kses_allowed_html('post'));
         };
     }
 
@@ -287,12 +290,13 @@ class quads_widgets_4 extends WP_Widget {
 
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
-                echo $args['before_widget'];
+                echo wp_kses($args['before_widget'], wp_kses_allowed_html('post'));
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_render_ad function
             echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
-                echo $args['after_widget'];
+                echo wp_kses($args['after_widget'], wp_kses_allowed_html('post'));
         };
     }
 
@@ -333,12 +337,13 @@ class quads_widgets_5 extends WP_Widget {
 
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
-                echo $args['before_widget'];
+                echo wp_kses($args['before_widget'], wp_kses_allowed_html('post'));
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_render_ad function
             echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
-                echo $args['after_widget'];
+                echo wp_kses($args['after_widget'], wp_kses_allowed_html('post'));
         };
     }
 
@@ -380,12 +385,13 @@ class quads_widgets_6 extends WP_Widget {
 
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
-                echo $args['before_widget'];
+                echo wp_kses($args['before_widget'], wp_kses_allowed_html('post'));
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_render_ad function
             echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
-                echo $args['after_widget'];
+                echo wp_kses($args['after_widget'], wp_kses_allowed_html('post'));
         };
     }
 
@@ -427,12 +433,13 @@ class quads_widgets_7 extends WP_Widget {
 
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
-                echo $args['before_widget'];
+                echo wp_kses($args['before_widget'], wp_kses_allowed_html('post'));
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_render_ad function
             echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
-                echo $args['after_widget'];
+                echo wp_kses($args['after_widget'], wp_kses_allowed_html('post'));
         };
     }
 
@@ -474,12 +481,13 @@ class quads_widgets_8 extends WP_Widget {
 
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
-                echo $args['before_widget'];
+                echo wp_kses($args['before_widget'], wp_kses_allowed_html('post'));
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_render_ad function
             echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
-                echo $args['after_widget'];
+                echo wp_kses($args['after_widget'], wp_kses_allowed_html('post'));
         };
     }
 
@@ -521,12 +529,13 @@ class quads_widgets_9 extends WP_Widget {
 
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
-                echo $args['before_widget'];
+                echo wp_kses($args['before_widget'], wp_kses_allowed_html('post'));
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_render_ad function
             echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
-                echo $args['after_widget'];
+                echo wp_kses($args['after_widget'], wp_kses_allowed_html('post'));
         };
     }
 
@@ -568,12 +577,13 @@ class quads_widgets_10 extends WP_Widget {
 
             echo "\n" . "<!-- Quick Adsense Reloaded -->" . "\n";
             if( array_key_exists( 'before_widget', $args ) )
-                echo $args['before_widget'];
+                echo wp_kses($args['before_widget'], wp_kses_allowed_html('post'));
             echo '<div id="quads-ad' . esc_attr($this->adsID) . '_widget">';
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_render_ad function
             echo  quads_render_ad( 'ad' . esc_attr($this->adsID) . '_widget', $quads_options['ads']['ad' . esc_attr($this->adsID) . '_widget']['code'] );
             echo '</div>';
             if( array_key_exists( 'after_widget', $args ) )
-                echo $args['after_widget'];
+                echo wp_kses($args['after_widget'], wp_kses_allowed_html('post'));
         };
     }
 

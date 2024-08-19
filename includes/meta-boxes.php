@@ -58,7 +58,7 @@ class Quads_Meta_Box {
 		// on first load, when post meta value is empty, we set defaults based on quicktags in content
 		$visibility_value = wp_parse_args( $visibility_value, quads_get_quicktags_from_content( $post->post_content ) );
 		$quicktags = quads_quicktag_list();
-		echo $nonce;
+		echo $nonce; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: nonce field is escaped
 		foreach ( $quicktags as $quicktag_id => $quicktag_label ) {
 			$checkbox_name = sprintf( '%s[visibility][%s]', $this->config_key, $quicktag_id );
 			?>
@@ -85,7 +85,8 @@ class Quads_Meta_Box {
         if ($this->is_inline_edit()) {
             return $post_id;
         }
-        $post_type = isset($_POST['post_type']) ? $_POST['post_type'] : null;
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: Nonce verification is done below
+        $post_type = isset($_POST['post_type']) ? sanitize_text_field( wp_unslash( $_POST['post_type'] ) ) : null;
         // Update options only if they are appliable
         if (!in_array($post_type, $this->get_allowed_post_types())) {
             return $post_id;
@@ -97,7 +98,7 @@ class Quads_Meta_Box {
         }
         // Verify nonce
         if (!empty($_POST['quads_config']) && !check_admin_referer('quads_config', 'quads_config_nonce')) {
-            wp_die(__('Nonce incorrect!', 'quads'));
+            wp_die( esc_html__( 'Nonce incorrect!', 'quick-adsense-reloaded' ) );
         }
         $config = isset($_POST[$this->config_key]) ? $_POST[$this->config_key] : array();
         $visibility_config = isset($config['visibility']) ? $config['visibility'] : array();
@@ -123,9 +124,11 @@ class Quads_Meta_Box {
 		return defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ? true : false;
 	}
 	protected function is_inline_edit() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: This is a dependant function  
 		return isset( $_POST['_inline_edit'] ) ?  true : false;
 	}
 	protected function is_doing_preview () {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: This is a dependant function 
 		return !empty( $_POST['wp-preview'] );
 	}
 }

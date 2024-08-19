@@ -32,7 +32,7 @@ function quads_get_tab_header($page, $section){
     $sanitizedID = str_replace('[', '', $field['id'] );
     $sanitizedID = str_replace(']', '', $sanitizedID );     
      if ( strpos($field['callback'],'header') !== false && !quads_is_excluded(array('help', 'licenses') ) ) { 
-         echo '<li class="quads-tabs"><a href="#' . $sanitizedID . '">' . $field['title'] .'</a></li>';
+         echo '<li class="quads-tabs"><a href="#' . esc_attr($sanitizedID) . '">' . esc_attr($field['title']) .'</a></li>';
      }
     }
     echo '</ul>';
@@ -45,7 +45,9 @@ function quads_get_tab_header($page, $section){
  * @return boolean
  */
 function quads_is_excluded($pages){
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but checking if current page is excluded
     if (isset($_GET['tab'])){
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but checking if current page is excluded
         $currentpage = $_GET['tab'];
         if (isset($currentpage) && in_array($currentpage, $pages))
                 return true;
@@ -97,30 +99,30 @@ function quads_do_settings_fields($page, $section) {
        // Check if header has been created previously
        if (strpos($field['callback'],'header') !== false && $firstHeader === false) { 
            
-           echo '<div id="' . $sanitizedID . '">'; 
+           echo '<div id="' .esc_attr($sanitizedID)  . '">'; 
            echo '<table class="quads-form-table"><tbody>';
            $firstHeader = true;
            
        } elseif (strpos($field['callback'],'header') !== false && $firstHeader === true) { 
        // Header has been created previously so we have to close the first opened div
-           echo '</table></div><div id="' . $sanitizedID . '">'; 
+           echo '</table></div><div id="' . esc_attr($sanitizedID) . '">'; 
            echo '<table class="quads-form-table"><tbody>';  
        }  
         
         if (!empty($field['args']['label_for']) && !quads_is_excluded_title( $field['args']['id'] )){
             echo '<tr class="quads-row">';
             echo '<td class="quads-row th">';
-            echo '<label for="' . esc_attr($field['args']['label_for']) . '">' . $field['title'] . '</label>';
+            echo '<label for="' . esc_attr($field['args']['label_for']) . '">' . esc_attr($field['title']) . '</label>';
             echo '</td></tr>';
         }else if (!empty($field['title']) && !empty($field['args']['helper-desc']) && !quads_is_excluded_title( $field['args']['id'] ) ){
             echo '<tr class="quads-row">';
             echo '<td class="quads-row th">';//xss ok
-            echo '<div class="col-title">' . $field['title'] . '<a class="quads-general-helper" href="#"></a><div class="quads-message">' . $field['args']['helper-desc']. '</div></div>';
+            echo '<div class="col-title">' . esc_attr($field['title']) . '<a class="quads-general-helper" href="#"></a><div class="quads-message">' . esc_html($field['args']['helper-desc']). '</div></div>';
             echo '</td></tr>';
         }else if (!empty($field['title']) && !empty($field['args']['id']) && !quads_is_excluded_title( $field['args']['id'] ) ){
             echo '<tr class="quads-row">';
             echo '<td class="quads-row th">'; //xss ok
-            echo '<div class="col-title" id="'.$field['args']['id'].'">' . $field['title'] . '</div>';
+            echo '<div class="col-title" id="'.esc_attr($field['args']['id']).'">' . esc_attr($field['title']) . '</div>';
             echo '</td></tr>';
         }
         
@@ -185,15 +187,15 @@ function quads_options_page_new() {
         
         $licenses = get_option( 'quads_wp_quads_pro_license_active' );
         if (isset($licenses->expires)) {
-        $license_exp = date('Y-m-d', strtotime($licenses->expires));
-        $license_exp_d = date('d F Y', strtotime($licenses->expires));
+        $license_exp = gmdate('Y-m-d', strtotime($licenses->expires));
+        $license_exp_d = gmdate('d F Y', strtotime($licenses->expires));
         $license_info_lifetime = $licenses->expires;
 
         // if (isset($licenses->expires)) {
         // $licenses->expires = $license_exp_d;
         // }
 
-        $today = date('Y-m-d');
+        $today = gmdate('Y-m-d');
         $exp_date = $license_exp;
         $date1 = date_create($today);
             $date2 = date_create($exp_date);
@@ -263,7 +265,7 @@ function quads_options_page_new() {
 
         echo '<div id="quads-ad-content"></div>';
 
-        echo '<div class="quads-admin-debug">'.quads_get_debug_messages().'</div>';
+        echo '<div class="quads-admin-debug">'.quads_get_debug_messages().'</div>';  //phpcs:ignore --Reason: Duming options for debug mode
             	
 }
 
@@ -282,7 +284,7 @@ function quads_version_switch(){
     }else{
          update_option('quads-mode','new');
     }
-    echo '<script>window.location="'.admin_url("admin.php?page=quads-settings").'";</script>';
+    echo '<script>window.location="'.esc_url(admin_url("admin.php?page=quads-settings")).'";</script>';
   
 }
 
@@ -298,12 +300,11 @@ function quads_version_switch(){
 function quads_options_page() {
 	global $quads_options;
 
-	$active_tab = isset( $_GET[ 'tab' ] ) && array_key_exists( $_GET['tab'], quads_get_settings_tabs() ) ? $_GET[ 'tab' ] : 'general';
-
-	ob_start();
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information just rendering the options page contents
+    $active_tab = isset( $_GET[ 'tab' ] ) && array_key_exists( $_GET['tab'], quads_get_settings_tabs() ) ? $_GET[ 'tab' ] : 'general';
 	?>
 	<div class="wrap quads_admin">
-             <h1 style="text-align:center;"> <?php echo QUADS_NAME . ' ' . QUADS_VERSION; ?></h1>
+             <h1 style="text-align:center;"> <?php echo esc_html(QUADS_NAME . ' ' . QUADS_VERSION); ?></h1>
 		<h2 class="quads-nav-tab-wrapper">
 			<?php
 			foreach( quads_get_settings_tabs() as $tab_id => $tab_name ) {
@@ -315,7 +316,7 @@ function quads_options_page() {
 
 				$active = $active_tab == $tab_id ? ' quads-nav-tab-active' : '';
 
-				echo '<a href="' . esc_url( $tab_url ) . '" title="' . esc_attr( $tab_name ) . '" class="quads-nav-tab' . $active . '">';
+				echo '<a href="' . esc_url( $tab_url ) . '" title="' . esc_attr( $tab_name ) . '" class="quads-nav-tab' . esc_attr($active) . '">';
 					echo esc_html( $tab_name );
 				echo '</a>';
 			}
@@ -338,7 +339,7 @@ function quads_options_page() {
                                     submit_button(null, 'primary', 'quads-save-settings' , true, $other_attributes ); 
                                     if ($active_tab !== 'licenses'){
                                     ?>
-                                    <!--<a href="<?php //echo admin_url() . '/admin.php?page=quads-settings&quads-action=validate'; ?> " id="quads-validate"><?php //_e('Validate Ad Settings','quick-adsense-reloaded')?></a>//-->
+                                    <!--<a href="<?php //echo admin_url() . '/admin.php?page=quads-settings&quads-action=validate'; ?> " id="quads-validate"><?php //esc_html_e('Validate Ad Settings','quick-adsense-reloaded')?></a>//-->
                                 <?php
                                 }
                                 
@@ -349,34 +350,32 @@ function quads_options_page() {
                         <?php
                         
                         if ($active_tab !== 'addons' && $active_tab !== 'licenses'){
-                        echo sprintf( __( '<strong>If you like this plugin please do us a BIG favor and give us a 5 star rating <a href="%s" target="_blank">here</a> . If you have issues, open a <a href="%2s" target="_blank">support ticket</a>, so that we can sort it out. Thank you!</strong>', 'quick-adsense-reloaded' ),
-                           'https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/#new-post',
-                           'http://wpquads.com/support/'
-                        );
-                        echo '<br/><br/>' . sprintf( __( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve it', 'quick-adsense-reloaded' ),
-			'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=bottomlink',
-                     'https://wp-staging.com/?utm_source=wpquads_plugin&utm_campaign=footer&utm_medium=website&utm_term=bottomlink'
-                        );
+                        echo '<strong>'. esc_html__( 'If you like this plugin please do us a BIG favor and give us a 5 star rating ', 'quick-adsense-reloaded' ) .
+                        '<a href="' . esc_url( 'https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/#new-post' ) . '" target="_blank">' .
+                        esc_html__( 'here', 'quick-adsense-reloaded' ) . '</a>' .
+                        esc_html__( '. If you have issues, open a ', 'quick-adsense-reloaded' ) .
+                        '<a href="' . esc_url( 'http://wpquads.com/support/' ) . '" target="_blank">' .
+                        esc_html__( 'support ticket', 'quick-adsense-reloaded' ) . '</a>' .
+                        esc_html__( ', so that we can sort it out. Thank you!', 'quick-adsense-reloaded' ).'</strong>';
+                        echo '<br/><br/><strong>' . esc_html__( 'Ads are not showing? Read the troubleshooting guide to find out how to resolve it', 'quick-adsense-reloaded' ) . '<a href="' . esc_url( 'http://example.com/troubleshooting-guide' ) . '" target="_blank">' . esc_html__( 'troubleshooting guide', 'quick-adsense-reloaded' ) . '</a></strong>';
                         }
                         ?>
                         </div>
                     </div> 
                     <div style="display: inline-block;width: 242px;">
                     <div class="switch_to_v2">
-                    <h3>WPQuads 2.0 has the better User interface</h3> 
-                    <p>We have improved the WPQuads and made it better than ever! Step into the future with one-click!</p>
-                    <div onclick="quads_switch_version('new',this);" class="switch_to_v2_btn"><a  href="#">Switch to New Panel</a></div>
+                    <h3><?php echo esc_html__('WPQuads 2.0 has the better User interface','quick-adsense-reloaded');?></h3> 
+                    <p><?php echo esc_html__('We have improved the WPQuads and made it better than ever! Step into the future with one-click!','quick-adsense-reloaded');?></p>
+                    <div onclick="quads_switch_version('new',this);" class="switch_to_v2_btn"><a  href="#"><?php echo esc_html__('Switch to New Panel','quick-adsense-reloaded');?></a></div>
                     </div>
                     <?php quads_get_advertising(); ?>
                 </div>
 		</div><!-- #tab_container-->
                 <div id="quads-save-result"></div>
-                <div class="quads-admin-debug"><?php echo quads_get_debug_messages(); ?></div>
-                <?php echo quads_render_adsense_form(); ?>
+                <div class="quads-admin-debug"><?php echo quads_get_debug_messages(); //phpcs:ignore --Reason: Dumping options for debug mode ?></div>
+                <?php echo quads_render_adsense_form(); //phpcs:ignore --Reason: Already escaped ?>
 	</div><!-- .wrap -->
 	<?php
-    echo ob_get_clean();
-	
 }
 
 function quads_get_debug_messages(){
@@ -398,19 +397,14 @@ function quads_get_advertising() {
     if (  quads_is_extra() ){
         return '';
     }
-    ob_start();
             ?>
     <div class="quads-panel-sidebar" style="float:left;min-width: 301px;margin-left: 1px;margin-top:0px;">
         <a href="http://wpquads.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-quads&utm_campaign=wpquads" target="_blank">
-            <img src="<?php echo QUADS_PLUGIN_URL . '/assets/images/quads_banner_250x521_buy.png'; ?>">
+            <img src="<?php echo esc_url(QUADS_PLUGIN_URL . '/assets/images/quads_banner_250x521_buy.png'); ?>">
         </a>
         <br>
-        <!-- <a style="display:block;" href="http://demo.clickfraud-monitoring.com/?utm_source=wpquads&utm_medium=banner&utm_term=click-cfm&utm_campaign=wpquads" target="_blank">
-            <img src="<?php //echo QUADS_PLUGIN_URL . '/assets/images/banner_250x296-cfm.png'; ?>">
-        </a> -->
     </div>
     <?php
-    echo ob_get_clean();
 }
 
 /**
@@ -419,13 +413,12 @@ function quads_get_advertising() {
  * @return void
  */
 function quads_render_social(){
-    ob_start()?>
-        
+         ?>
         <div class='quads-share-button-container'>
                         <div class='quads-share-button quads-share-button-twitter' data-share-url="https://wordpress.org/plugins/quick-adsense-reloaded">
                             <div clas='box'>
                                 <a href="https://twitter.com/share?url=https://wordpress.org/plugins/quick-adsense-reloaded&text=Quick%20AdSense%20reloaded%20-%20a%20brand%20new%20fork%20of%20the%20popular%20AdSense%20Plugin%20Quick%20Adsense!" target='_blank'>
-                                    <span class='quads-share'><?php echo __('Tweet','quick-adsense-reloaded'); ?></span>
+                                    <span class='quads-share'><?php echo esc_html('Tweet','quick-adsense-reloaded'); ?></span>
                                 </a>
                             </div>
                         </div>
@@ -433,14 +426,13 @@ function quads_render_social(){
                         <div class="quads-share-button quads-share-button-facebook" data-share-url="https://wordpress.org/plugins/quick-adsense-reloaded">
                             <div class="box">
                                 <a href="https://www.facebook.com/sharer/sharer.php?u=https://wordpress.org/plugins/quick-adsense-reloaded" target="_blank">
-                                    <span class='quads-share'><?php echo __('Share','quick-adsense-reloaded'); ?></span>
+                                    <span class='quads-share'><?php echo esc_html('Share','quick-adsense-reloaded'); ?></span>
                                 </a>
                             </div>
                         </div>
             </div>
         
         <?php
-        echo ob_get_clean();
 }
 
 
@@ -452,11 +444,11 @@ function quads_render_adsense_form(){
 ?>
 <div id="quads-adsense-bg-div" style="display: none;">
     <div id="quads-adsense-container">
-        <h3><?php _e( 'Enter <a ahref="https://wpquads.com/docs/how-to-create-and-where-to-get-adsense-code/" target="_blank">AdSense text & display ad code</a> here', 'quick-adsense-reloaded' ); ?></h3>
-        <?php _e('Do not enter <a href="https://wpquads.com/docs/integrate-page-level-ads-wordpress/" target="_blank">AdSense page level ads</a> or <a href="https://wpquads.com/introducing-new-adsense-auto-ads/" target="_blank">Auto ads!</a> <br> <a href="https://wpquads.com/docs/how-to-create-and-where-to-get-adsense-code/" target="_blank">Learn how to create AdSense ad code</a>', 'quick-adsense-reloaded'); ?>
+        <h3><?php esc_html_e( 'Enter <a ahref="https://wpquads.com/docs/how-to-create-and-where-to-get-adsense-code/" target="_blank">AdSense text & display ad code</a> here', 'quick-adsense-reloaded' ); ?></h3>
+        <?php esc_html_e('Do not enter <a href="https://wpquads.com/docs/integrate-page-level-ads-wordpress/" target="_blank">AdSense page level ads</a> or <a href="https://wpquads.com/introducing-new-adsense-auto-ads/" target="_blank">Auto ads!</a> <br> <a href="https://wpquads.com/docs/how-to-create-and-where-to-get-adsense-code/" target="_blank">Learn how to create AdSense ad code</a>', 'quick-adsense-reloaded'); ?>
         <textarea rows="15" cols="55" id="quads-adsense-form"></textarea><hr />
-        <button class="button button-primary" id="quads-paste-button"><?php _e( 'Get Code', 'quick-adsense-reloaded' ); ?></button>&nbsp;&nbsp;
-        <button class="button button-secondary" id="quads-close-button"><?php _e( 'Close', 'quick-adsense-reloaded' ); ?></button>
+        <button class="button button-primary" id="quads-paste-button"><?php esc_html_e( 'Get Code', 'quick-adsense-reloaded' ); ?></button>&nbsp;&nbsp;
+        <button class="button button-secondary" id="quads-close-button"><?php esc_html_e( 'Close', 'quick-adsense-reloaded' ); ?></button>
         <div id="quads-msg"></div>
         <input type="hidden" id="quads-adsense-id" value="">
     </div>

@@ -169,19 +169,19 @@ class QUADS_SL_Plugin_Updater {
 
 			// build a plugin list row, with update notification
 			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
-			echo '<tr class="plugin-update-tr"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message">';
+			echo '<tr class="plugin-update-tr"><td colspan="' . esc_attr( $wp_list_table->get_column_count() ) . '" class="plugin-update colspanchange"><div class="update-message">';
 
 			$changelog_link = self_admin_url( 'index.php?edd_sl_action=view_plugin_changelog&plugin=' . $this->name . '&slug=' . $this->slug . '&TB_iframe=true&width=772&height=911' );
 
 			if ( empty( $version_info->download_link ) ) {
-				printf(
+				printf( /* translators: 1: plugin name, 2: changelog link, 3: new version */
 					__( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a>.', 'edd' ),
 					esc_html( $version_info->name ),
 					esc_url( $changelog_link ),
 					esc_html( $version_info->new_version )
 				);
 			} else {
-				printf(
+				printf( /* translators: 1: plugin name, 2: changelog link, 3: new version, 4 update link */
 					__( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a> or <a href="%4$s">update now</a>.', 'edd' ),
 					esc_html( $version_info->name ),
 					esc_url( $changelog_link ),
@@ -308,23 +308,26 @@ class QUADS_SL_Plugin_Updater {
 
 	public function show_changelog() {
 
-
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if( empty( $_REQUEST['edd_sl_action'] ) || 'view_plugin_changelog' != $_REQUEST['edd_sl_action'] ) {
 			return;
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if( empty( $_REQUEST['plugin'] ) ) {
 			return;
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if( empty( $_REQUEST['slug'] ) ) {
 			return;
 		}
 
 		if( ! current_user_can( 'update_plugins' ) ) {
-			wp_die( __( 'You do not have permission to install plugin updates', 'edd' ), __( 'Error', 'edd' ), array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You do not have permission to install plugin updates', 'edd' ), esc_html__( 'Error', 'edd' ), array( 'response' => 403 ) );
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$response = $this->api_request( 'plugin_latest_version', array( 'slug' => $_REQUEST['slug'] ) );
 
 		if( $response && isset( $response->sections['changelog'] ) ) {

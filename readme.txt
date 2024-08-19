@@ -8,11 +8,11 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 5.4
-Stable tag: 2.0.84
+Stable tag: 2.0.85
 
-Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Background Ads, Revenue Sharing, Ad Blocker & High Performance.
+Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
 == Description ==
 The legendary [WPQuads Ads](https://wpquads.com/)  plugin is back with the modern approach for an Ads solution. WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
@@ -207,6 +207,9 @@ Alternative Installation:
 
 == Changelog ==
 
+= 2.0.85 ( 19 August 2024 ) =
+* Fixed: Broken Access Control vulnerability reported by patchstack.com
+
 = 2.0.84 ( 04 June 2024 ) =
 * Improvement: Few modifications done for Rotator ads #887
 * Fixed: The option to set an ad on Taxonomy terms is not working #889
@@ -298,18 +301,5 @@ Alternative Installation:
 * Fixed: Undefined property #790
 * Fixed: Changes needed in feedback form #792
 * Fixed: Undefined array key "mob_banner_ad_width" #793
-
-= 2.0.74 ( 22 August 2023 ) =
-* Added: Exclude impression count of the admin #757
-* Added: Add size option for mobile specific banner #789
-* Added: Cookies time option for popup ad #791
-* Fixed: Undefined array key "position" #774
-* Fixed: Height and width is not applied in sticky ads(AMP) #779
-* Fixed: Error in browser console while adding Adsense Ads #781
-* Fixed: The Fraud Protection option is not working properly #782
-* Fixed: Ads are not working on the AMP #785
-* Fixed: A Deprecated warning reported #786
-* Fixed: Fix for ad container adding at every ad position in boombox theme
-
 
 Full changelog available [ at changelog.txt](https://plugins.svn.wordpress.org/quick-adsense-reloaded/trunk/changelog.txt)

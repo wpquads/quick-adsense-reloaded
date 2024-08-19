@@ -118,8 +118,8 @@ class QUADS_Ad_Setup_Api_Service {
             if(!empty($search)){
               $args['name__like'] = $search;
             }
-
-            $terms = get_terms( 'category', $args);
+            $args['taxonomy']   = 'category'; 
+            $terms = get_terms( $args );
 
             if( !empty($terms) ) {
 
@@ -203,8 +203,8 @@ class QUADS_Ad_Setup_Api_Service {
             foreach($taxonomies as $key => $val){
 
               if(strpos($key, 'tag') !== false){
-
-                $terms = get_terms( $key, $args);
+                $args['taxonomy']   = $key;
+                $terms = get_terms( $args );
 
                 if( !empty($terms) ) {
 
@@ -363,38 +363,38 @@ class QUADS_Ad_Setup_Api_Service {
           if($sort_by =='impression'){
               if(isset($quads_options['report_logging']) && $quads_options['report_logging'] = 'improved_v2'){
 
-                $array_ids_result = $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
+                $array_ids_result = $wpdb->get_results("SELECT posts.ID as ID,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
                 FROM {$wpdb->prefix}posts as posts
                 LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id
                 LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id
                 WHERE posts.post_type='quads-ads'AND posts.post_status='publish'
                 GROUP BY posts.ID
-                ORDER BY total_impression DESC;"));
+                ORDER BY total_impression DESC;");
 
               }else{
-                $array_ids_result = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression from `{$wpdb->prefix}quads_single_stats_`
+                $array_ids_result = $wpdb->get_results("SELECT `{$wpdb->prefix}posts`.ID,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression from `{$wpdb->prefix}quads_single_stats_`
                  INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id
                  GROUP BY `{$wpdb->prefix}posts`.ID 
-                 ORDER BY total_impression DESC;"));
+                 ORDER BY total_impression DESC;");
               }
           }
 
           if($sort_by =='click'){
             if(isset($quads_options['report_logging']) && $quads_options['report_logging'] = 'improved_v2'){
 
-              $array_ids_result = $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID,IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click
+              $array_ids_result = $wpdb->get_results("SELECT posts.ID as ID,IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click
               FROM {$wpdb->prefix}posts as posts
               LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id
               LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id
               WHERE posts.post_type='quads-ads'AND posts.post_status='publish'
               GROUP BY posts.ID
-              ORDER BY total_click DESC;"));
+              ORDER BY total_click DESC;");
 
             }else{
-              $array_ids_result = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_`
+              $array_ids_result = $wpdb->get_results("SELECT `{$wpdb->prefix}posts`.ID,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_`
                INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id
                GROUP BY `{$wpdb->prefix}posts`.ID 
-               ORDER BY total_click DESC;"));
+               ORDER BY total_click DESC;");
             }
 
           }
@@ -585,7 +585,7 @@ if($license_info){
               $post_status    = $parameters['quads_ad_status'];
             }
            
-            if(isset($post_meta['publish_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $post_meta['publish_date']) && $post_meta['publish_date'] >= date("Y-m-d")){
+            if(isset($post_meta['publish_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $post_meta['publish_date']) && $post_meta['publish_date'] >= gmdate("Y-m-d")){
               $post_status    = 'draft';
             }
 
@@ -698,6 +698,7 @@ if($license_info){
 
           if ( count( $post_metas )!=0 ) {
 
+            // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
             $sql_query = $wpdb->prepare( "INSERT INTO $wpdb->postmeta ( post_id, meta_key, meta_value ) ");
 
             foreach ( $post_metas as $post_meta ) {
@@ -711,6 +712,7 @@ if($license_info){
                 }else{
                   $meta_value = esc_sql( $post_meta->meta_value);
                 }
+                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
                 $sql_query_sel[]= $wpdb->prepare( "SELECT $new_post_id, '$meta_key', '$meta_value' " );
              }
 
@@ -755,8 +757,8 @@ if($license_info){
       if(defined('quads_add_count')){
         return quads_add_count;
       }else{
-        $query = $wpdb->prepare("SELECT COUNT(ID) as total_posts FROM $wpdb->posts Where post_type=%s AND (post_status=%s OR post_status=%s) ",'quads-ads','publish','draft');
-        $total_result = $wpdb->get_var($query,0,0);
+        $total_result = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(ID) as total_posts FROM $wpdb->posts Where post_type=%s AND (post_status=%s OR post_status=%s) ",'quads-ads','publish','draft'), 0, 0 );
+        
         if($total_result)
         {
           $total_result = (int) $total_result;

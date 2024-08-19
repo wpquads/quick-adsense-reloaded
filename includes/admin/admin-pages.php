@@ -45,9 +45,9 @@ function quads_add_options_link() {
                 $license_alert = $days = '';
                 $license_info = get_option( 'quads_wp_quads_pro_license_active' );
                 if ( isset( $license_info ) ) {
-                    $license_exp = isset( $license_info->expires ) ? date('Y-m-d', strtotime( $license_info->expires) ) : '' ;
+                    $license_exp = isset( $license_info->expires ) ? gmdate('Y-m-d', strtotime( $license_info->expires) ) : '' ;
                     $license_info_lifetime = isset( $license_info->expires ) ? $license_info->expires : '' ;
-                    $today = date('Y-m-d');
+                    $today = gmdate('Y-m-d');
                     $exp_date = $license_exp;
                     $date1 = date_create($today);
                     $date2 = date_create($exp_date);
@@ -107,7 +107,8 @@ add_action( 'admin_menu', 'quads_add_options_link', 10 );
  *  @return bool True if QUADS admin page.
  */
 function quads_is_addon_page() {
-        $currentpage = isset($_GET['page']) ? $_GET['page'] : '';
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only checking wheather current page is a  Quads add-on page.
+    $currentpage = isset($_GET['page']) ? $_GET['page'] : '';
 	if ( ! is_admin() || ! did_action( 'wp_loaded' ) ) {
 		return false;
 	}

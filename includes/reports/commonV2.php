@@ -334,7 +334,7 @@ function quads_adsense_get_report_data($request_data){
 
 	$forcast_date_count = 0;
 
-	$endDate = (isset($parameters['endDate'])&& $parameters['endDate'])?$parameters['endDate'] :date('Y-m-d');
+	$endDate = (isset($parameters['endDate'])&& $parameters['endDate'])?$parameters['endDate'] :gmdate('Y-m-d');
 
 	switch ($report_period) {
 		case 'last_7_days':
@@ -361,7 +361,7 @@ function quads_adsense_get_report_data($request_data){
 		case 'custom':
 
 			$startDate = (isset($parameters['cust_fromdate'])&& !empty($parameters['cust_fromdate']))?strtotime(str_replace("/", "-",$parameters['cust_fromdate'])) :strtotime("now");
-			$endDate = (isset($parameters['cust_todate'])&& !empty($parameters['cust_todate']))?date("Y-m-d", strtotime(str_replace("/", "-",$parameters['cust_todate']))) :date("Y-m-d");
+			$endDate = (isset($parameters['cust_todate'])&& !empty($parameters['cust_todate']))?gmdate("Y-m-d", strtotime(str_replace("/", "-",$parameters['cust_todate']))) :gmdate("Y-m-d");
 			$forcast_date_count = 365;
 			break;
 		case 'all_time':
@@ -375,7 +375,7 @@ function quads_adsense_get_report_data($request_data){
 	}
 
 	$account_id = $parameters['account_id'];
-	$startDate = date("Y-m-d", $startDate);//date('Y-m-d',$startDate);
+	$startDate = gmdate("Y-m-d", $startDate);//date('Y-m-d',$startDate);
 	$token_data    = quads_adsense_get_access_token($account_id);
 
 	switch ($report_type){
@@ -421,13 +421,17 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	global $wpdb;
     $ad_stats = array();
 	
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 	if(isset($_GET['id'])){
+	    // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 	    $ad_id = sanitize_text_field($_GET['id']);
 	}
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 	if(isset($_GET['day'])){
+	    // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 	    $day = sanitize_text_field($_GET['day']);
 	}
-	$todays_date = date("Y-m-d");
+	$todays_date = gmdate("Y-m-d");
 	$individual_ad_dates = '';
 	$get_desk_impr_specific_dates =[];
 	$get_mob_impr_specific_dates =[];
@@ -436,12 +440,12 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		if( $day == "last_7_days" ){
 
 			$loop = 7 ;
-			$month= date("m");
-			$date_= date("d");
-			$year= date("Y");
+			$month= gmdate("m");
+			$date_= gmdate("d");
+			$year= gmdate("Y");
 			$dates_i_chart = array() ;
 			for( $i=0; $i<$loop; $i++ ){
-				$dates_i_chart[] = ''.date('Y-m-d', mktime(0,0,0,$month,( $date_-$i ) , $year ) );
+				$dates_i_chart[] = ''.gmdate('Y-m-d', mktime(0,0,0,$month,( $date_-$i ) , $year ) );
 			}
 			sort($dates_i_chart);
 			$from_date = strtotime($todays_date);
@@ -551,12 +555,12 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		else if( $day == "this_month" ){
 			
 			$loop = 30 ;
-			$month= date("m");
-			$date_= date("d");
-			$year= date("Y");
-			$first_date_ = date('Y-m-d',strtotime('first day of this month'));
+			$month= gmdate("m");
+			$date_= gmdate("d");
+			$year= gmdate("Y");
+			$first_date_ = gmdate('Y-m-d',strtotime('first day of this month'));
 			$first_date_ = strtotime($first_date_);
-			$current_date_month_ = date('Y-m-d');
+			$current_date_month_ = gmdate('Y-m-d');
 			$current_date_month_ = strtotime($current_date_month_);
 
 			if($ad_id=='all') {
@@ -569,10 +573,10 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			}
 			
 			$dates_i_chart = array();
-			$first_date = date('Y-m-d',strtotime('first day of this month'));
+			$first_date = gmdate('Y-m-d',strtotime('first day of this month'));
 			
 			$first__date = $first_date; 
-			$last_date_month = date("Y-m-t", strtotime($first__date));
+			$last_date_month = gmdate("Y-m-t", strtotime($first__date));
 			$begin = new DateTime( $first__date );
 			$end   = new DateTime( $last_date_month );
 			
@@ -669,7 +673,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		else if( $day == "last_month" ){
 			
 			$loop = 30 ;
-			$year = intval(date("Y",strtotime("-1 month")));
+			$year = intval(gmdate("Y",strtotime("-1 month")));
 			if($ad_id=='all') {
 				$results_impresn_desk = $wpdb->get_results($wpdb->prepare("SELECT stats_impressions,DATE(FROM_UNIXTIME(stats_date)) as stats_date  FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE   MONTH(FROM_UNIXTIME(stats_date))=MONTH(now())-1 AND YEAR(FROM_UNIXTIME(stats_date)) = %d",array($year)));
 				$results_impresn_mob = $wpdb->get_results($wpdb->prepare("SELECT stats_impressions,DATE(FROM_UNIXTIME(stats_date)) as stats_date  FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE  MONTH(FROM_UNIXTIME(stats_date))=MONTH(now())-1 AND YEAR(FROM_UNIXTIME(stats_date)) = %d",array($year)));
@@ -683,13 +687,13 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$ad_mob_imprsn_values = $ad_desk_imprsn_values = $ad_imprsn_values = array() ;
 			$ad_mob_click_values = $ad_desk_click_values = $ad_click_values = array();	
 			$dates_i_chart= array();
-			$year = date("Y",strtotime("-1 month"));
-			$month = date("m",strtotime("-1 month"));
+			$year = gmdate("Y",strtotime("-1 month"));
+			$month = gmdate("m",strtotime("-1 month"));
 			
 			for($d=1; $d<=31; $d++){
 				$time=mktime(12, 0, 0, $month, $d, $year);          
-				if (date('m', $time)==$month)       
-					$dates_i_chart[] =date('Y-m-d', $time);
+				if (gmdate('m', $time)==$month)       
+					$dates_i_chart[] =gmdate('Y-m-d', $time);
 					$ad_mob_imprsn_values[]=0;
 					$ad_desk_imprsn_values[]=0;
 					$ad_imprsn_values[]=0;
@@ -778,11 +782,11 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		else if( $day == "all_time" ){
 			
 			$loop = 30 ;
-			$month= date("m");
-			$date_= date("d");
-			$year= date("Y");
-			$first_date_ = date('Y-m-d',strtotime('first day of this month'));
-			$current_date_month_ = date('Y-m-d');
+			$month= gmdate("m");
+			$date_= gmdate("d");
+			$year= gmdate("Y");
+			$first_date_ = gmdate('Y-m-d',strtotime('first day of this month'));
+			$current_date_month_ = gmdate('Y-m-d');
 
 			if($ad_id=='all' || $ad_id == 'top_five_ads') {
 				$results_impresn_desk = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as desk_impressions, stats_year  FROM `{$wpdb->prefix}quads_impressions_desktop` GROUP BY stats_year"));
@@ -917,11 +921,11 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		else if( $day == "this_year" ){
 			
 			$loop = 30 ;
-			$month= date("m");
-			$date_= date("d");
-			$year= date("Y");
-			$first_date_ = date('Y-m-d',strtotime('first day of this month'));
-			$current_date_month_ = date('Y-m-d');
+			$month= gmdate("m");
+			$date_= gmdate("d");
+			$year= gmdate("Y");
+			$first_date_ = gmdate('Y-m-d',strtotime('first day of this month'));
+			$current_date_month_ = gmdate('Y-m-d');
 			if($ad_id=="all" || $ad_id == 'top_five_ads'){
 				$yearly_mob_impressions = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 1 THEN stats_impressions END),0) AS jan_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 2 THEN stats_impressions END),0) AS feb_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 3 THEN stats_impressions END),0) AS mar_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 4 THEN stats_impressions END),0) AS apr_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 5 THEN stats_impressions END),0) AS may_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 6 THEN stats_impressions END),0) AS jun_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 7 THEN stats_impressions END),0) AS jul_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 8 THEN stats_impressions END),0) AS aug_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 9 THEN stats_impressions END),0) AS sep_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 10 THEN stats_impressions END),0) AS oct_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 11 THEN stats_impressions END),0) AS nov_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 12 THEN stats_impressions END),0) as dec_impr FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE  YEAR(FROM_UNIXTIME(stats_date)) = %s ; ",array($year)));
 				$yearly_desk_impressions = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 1 THEN stats_impressions END),0) AS jan_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 2 THEN stats_impressions END),0) AS feb_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 3 THEN stats_impressions END),0) AS mar_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 4 THEN stats_impressions END),0) AS apr_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 5 THEN stats_impressions END),0) AS may_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 6 THEN stats_impressions END),0) AS jun_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 7 THEN stats_impressions END),0) AS jul_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 8 THEN stats_impressions END),0) AS aug_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 9 THEN stats_impressions END),0) AS sep_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 10 THEN stats_impressions END),0) AS oct_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 11 THEN stats_impressions END),0) AS nov_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(stats_date)) = 12 THEN stats_impressions END),0) as dec_impr FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE  YEAR(FROM_UNIXTIME(stats_date)) = %s ; ",array($year)));
@@ -1001,7 +1005,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	}
 	else if( $day == "yesterday" ){
 		
-		$yesterday_date = date('Y-m-d',strtotime("-1 days"));
+		$yesterday_date = gmdate('Y-m-d',strtotime("-1 days"));
 
 		if($ad_id=='all' || $ad_id == 'top_five_ads') {
 			$results_impresn_desk = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as  stats_impressions  FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE stats_date = %d",array(strtotime($yesterday_date))));
@@ -1132,10 +1136,14 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 
 	}
 	else if( $day == "custom" ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 		if(isset($_GET['fromdate'])){
+		    // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 		    $fromdate = sanitize_text_field($_GET['fromdate']);
 		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 		if(isset($_GET['todate'])){
+		    // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 		    $todate = sanitize_text_field($_GET['todate']);
 		}
 		$get_from = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$1-$2-$3', $fromdate);
@@ -1440,7 +1448,7 @@ function quads_adsense_get_access_token($account){
 			// No account at all.
 			return array(
 				'status' => false,
-				'msg' => wp_kses( sprintf( __( 'Advanced Ads does not have access to your account (<code>%s</code>) anymore.', 'advanced-ads' ), $account ), array( 'code' => true ) ),
+				'msg' => wp_kses( /* translators: %s: account name */ sprintf( __( 'Advanced Ads does not have access to your account (<code>%s</code>) anymore.', 'advanced-ads' ), $account ), array( 'code' => true ) ),
 				'reload' => true,
 			);
 		}
@@ -1467,7 +1475,7 @@ function quads_adsense_renew_access_token( $account ) {
 	if ( is_wp_error( $response ) ) {
 		return array(
 			'status' => false,
-			'msg'    => sprintf( esc_html__( 'error while renewing access token for "%s"', 'advanced-ads' ), $account ),
+			'msg'    => sprintf( /* translators: %s: account name */ esc_html__( 'error while renewing access token for "%s"', 'advanced-ads' ), $account ),
 			'raw'    => $response->get_error_message(),
 		);
 	} else {
@@ -1489,7 +1497,7 @@ function quads_adsense_renew_access_token( $account ) {
 		} else {
 			return array(
 				'status' => false,
-				'msg'    => sprintf( esc_html__( 'invalid response received while renewing access token for "%s"', 'advanced-ads' ),  $account ),
+				'msg'    => sprintf( /* translators: %s: account name */ esc_html__( 'invalid response received while renewing access token for "%s"', 'advanced-ads' ),  $account ),
 				'raw'    => $response['body'],
 			);
 		}
@@ -1533,7 +1541,7 @@ function quads_get_date($type) {
 		case 'day' :
 			$timezone = get_option('timezone_string');
 			if($timezone) {
-				$server_timezone = date('e');
+				$server_timezone = gmdate('e');
 				date_default_timezone_set($timezone);
 				$result = strtotime('00:00:00') + (get_option('gmt_offset') * 3600);
 				date_default_timezone_set($server_timezone);
@@ -1755,6 +1763,7 @@ if($import_details['status'] == 'active' && !$import_done){
 				$import_details['imported'] = 0;
 				$import_details['total'] = 0;
 				update_option('quads_import_data',$import_details);
+				//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				die(quads_adsense_import_old_db());
 			}
 
@@ -1801,7 +1810,7 @@ if($import_details['status'] == 'active' && !$import_done){
 				$insertQueryValues = array();
 				foreach($res_array as $r){
 					if($r[$evnt_type] > 0) {
-						array_push( $insertQueryValues, "(" . $r['ad_id'] .",".$r[$evnt_type].",".$r['ad_thetime'].",".date('Y',$r['ad_thetime']). ")" );
+						array_push( $insertQueryValues, "(" . $r['ad_id'] .",".$r[$evnt_type].",".$r['ad_thetime'].",".gmdate('Y',$r['ad_thetime']). ")" );
 					}
 				}
 				$insertQuery .= implode( ",", $insertQueryValues );
@@ -1933,7 +1942,7 @@ function quads_import_reports($data = null){
 					$insertQuery = "INSERT INTO %i (ad_id,%i,stats_date,stats_year) VALUES";
 					$insertQueryValues = array();
 					foreach($res_array as $r){
-							array_push( $insertQueryValues, "(" . $r['ad_id'] .",".$r[$evnt_type].",".$r['ad_thetime'].",".date('Y',$r['ad_thetime']). ")" );
+							array_push( $insertQueryValues, "(" . $r['ad_id'] .",".$r[$evnt_type].",".$r['ad_thetime'].",".gmdate('Y',$r['ad_thetime']). ")" );
 					}
 					$insertQuery .= implode( ",", $insertQueryValues );
 					$status = $wpdb->query($wpdb->prepare($insertQuery,array($params['new_db'],'stats_'.$evnt_type)));
