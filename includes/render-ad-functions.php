@@ -339,9 +339,10 @@ function quads_render_ad_image_async( $id ) {
 
             $mob_bnr_wdt = isset($quads_options['ads'][$id]['mob_banner_ad_width'])?$quads_options['ads'][$id]['mob_banner_ad_width']:300;
             $mob_bnr_hgt = isset($quads_options['ads'][$id]['mob_banner_ad_height'])?$quads_options['ads'][$id]['mob_banner_ad_height']:300;
+            $placeholder_image = QUADS_PLUGIN_URL . 'assets/images/placeholder.svg';
             $html .= '
             <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" '.($add_nofollow?'rel="nofollow"':'').'>
-            <img width="'.esc_attr($mob_bnr_wdt). '" height="'.esc_attr($mob_bnr_hgt). '" '.(quads_is_lazyload_render($quads_options,$id) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($image_render_src).'" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"> 
+            <img width="'.esc_attr($mob_bnr_wdt). '" height="'.esc_attr($mob_bnr_hgt). '" '.(quads_is_lazyload_render($quads_options,$id) ? 'src="'.esc_url($placeholder_image).'" data-src' : 'src').'="'.esc_attr($image_render_src).'" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"> 
             </a>';
             }
         }
@@ -358,10 +359,10 @@ function quads_render_ad_image_async( $id ) {
         else {
         $bnr_wdt=$quads_options['ads'][$id]['banner_ad_width']?$quads_options['ads'][$id]['banner_ad_width']:($quads_options['ads'][$id]['image_width']?$quads_options['ads'][$id]['image_width']:300);
         $bnr_hgt=$quads_options['ads'][$id]['banner_ad_height']?$quads_options['ads'][$id]['banner_ad_height']:($quads_options['ads'][$id]['image_height']?$quads_options['ads'][$id]['image_height']:300);
-
+        $placeholder_image = QUADS_PLUGIN_URL . 'assets/images/placeholder.svg';
             $html .= ' 
         <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" '.($add_nofollow?'rel="nofollow"':'').'>
-        <img width="'.esc_attr($bnr_wdt). '" height="'.esc_attr($bnr_hgt). '" '.(quads_is_lazyload_render($quads_options,$id) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($quads_options['ads'][$id]['image_src']). '" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"> 
+        <img width="'.esc_attr($bnr_wdt). '" height="'.esc_attr($bnr_hgt). '" '.(quads_is_lazyload_render($quads_options,$id) ? 'src="'.esc_url( $placeholder_image ).'" data-src' : 'src').'="'.esc_attr($quads_options['ads'][$id]['image_src']). '" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"> 
         </a>';
         }
         
@@ -979,7 +980,8 @@ function quads_render_carousel_ads_async($id) {
 					 $image=$ad_meta['image_mobile_src'][0];
 				 }
                  list($carousel_width, $carousel_height) = getimagesize($image);
-                $html .='<a imagebanner class="im-'.esc_attr($org_ad_id).'" target="_blank" href="'.esc_url($ad_meta['image_redirect_url'][0]). '" rel="nofollow"><img  class="quads_carousel_img" '.( quads_is_lazyload_render($quads_options,$id)? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($image).'" alt="'.esc_attr($ad_meta['label'][0]).'" width="'.esc_attr($carousel_width).'px" height="'.esc_attr($carousel_height).'px" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'" '.($add_nofollow?'rel=nofollow':'').'> </a>';  
+                 $placeholder_image = QUADS_PLUGIN_URL . 'assets/images/placeholder.svg';
+                $html .='<a imagebanner class="im-'.esc_attr($org_ad_id).'" target="_blank" href="'.esc_url($ad_meta['image_redirect_url'][0]). '" rel="nofollow"><img  class="quads_carousel_img" '.( quads_is_lazyload_render($quads_options,$id)? 'src="'.esc_url( $placeholder_image ).'" data-src' : 'src').'="'.esc_url($image).'" alt="'.esc_attr($ad_meta['label'][0]).'" width="'.esc_attr($carousel_width).'px" height="'.esc_attr($carousel_height).'px" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'" '.($add_nofollow?'rel=nofollow':'').'> </a>';  
             }
         
             if(isset($ad_meta['ad_type']) && isset($ad_meta['ad_type'][0]) && $ad_meta['ad_type'][0]=='plain_text')
