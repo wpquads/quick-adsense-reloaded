@@ -157,7 +157,8 @@ class QuadsAdCreateRouter extends Component {
             add_url_nofollow          : true,
             delay_ad_sec              :false,
             publish_date              : '',
-            mob_code                  : ''
+            mob_code                  : '',
+            carousel_close            : false,
 
             },
             quads_form_errors : {

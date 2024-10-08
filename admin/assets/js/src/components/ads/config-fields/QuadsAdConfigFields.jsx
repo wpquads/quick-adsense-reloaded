@@ -1471,6 +1471,15 @@ error_outline
                           </label>
                         </td>
                         </tr>
+                        <tr>
+                        <td><label className='carousel_close' htmlFor="carousel_close">{__('Show Close Button', 'quick-adsense-reloaded')}</label></td>
+                        <td>
+                        <label className="quads-switch exp_date">
+                        <input className='exp_date_check' id="carousel_close" checked={post_meta.carousel_close} name="carousel_close" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                            <span className="quads-slider"></span>
+                          </label>
+                        </td>
+                        </tr>
                          <tr style={{marginBottom: 0 + 'px'}}><td><label>{__('Select Ads ', 'quick-adsense-reloaded')}</label></td><td><a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a></td></tr>
                         <tr><td colSpan={'2'} style={{width:'100%'}}>
                         {this.state.ads_list ?

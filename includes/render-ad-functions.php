@@ -922,6 +922,7 @@ function quads_render_carousel_ads_async($id) {
     $carousel_arrows = isset($quads_options['ads'][$id]['carousel_arrows'])?$quads_options['ads'][$id]['carousel_arrows']:false;
     $carousel_speed = isset($quads_options['ads'][$id]['carousel_speed'])?$quads_options['ads'][$id]['carousel_speed']:1;
     $crsl_rnd = isset($quads_options['ads'][$id]['carousel_rndms'])?$quads_options['ads'][$id]['carousel_rndms']:false;
+    $close_btn = isset($quads_options['ads'][$id]['carousel_close'])?$quads_options['ads'][$id]['carousel_close']:false;
      $total_slides=count($ads_list);
     
     if($crsl_rnd){
@@ -951,12 +952,15 @@ function quads_render_carousel_ads_async($id) {
     {
         $html.='<div class="quads-content quads-section" style="max-width:100%;overflow:hidden;">';
         $html.='<div class="quads-carousel-container" id="carousel-container-'.esc_attr($org_ad_id).'" data-speed="'.esc_attr($carousel_speed*1000).'"  data-slide="1" data-adid="'.esc_attr($org_ad_id).'">';
+       
         if($carousel_arrows){
-            $html.='<span class="quads_carousel_back"><</span>';
+            $html.='<span class="quads_carousel_back">&lt;</span>';
         }
         
     }
-   
+    if($close_btn){
+        $html.='<span class="quads_carousel_close">&times;</span>';
+    }
    
     foreach($ads_list as $ad)
     {
@@ -998,7 +1002,7 @@ function quads_render_carousel_ads_async($id) {
     if($carousel_type=="slider")
     {
         if($carousel_arrows){
-            $html.='<span class="quads_carousel_next">></span>';
+            $html.='<span class="quads_carousel_next">&gt;</span>';
         }
         $html.='</div></div>';
     }
