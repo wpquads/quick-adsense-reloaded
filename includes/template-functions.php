@@ -745,7 +745,9 @@ function quads_change_adsbygoogle_to_amp($content){
         if(empty($content)){
             return $content;
           }
-        @$dom->loadHTML($content);
+        libxml_use_internal_errors(true);
+        $dom->loadHTML($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        libxml_clear_errors();
         $nodes = $dom->getElementsByTagName( 'ins' );
 
         $num_nodes  = $nodes->length;
@@ -3402,12 +3404,13 @@ function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$r
      libxml_use_internal_errors( true );
      if($content)
      {
-        $doc->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
+        $doc->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
      }
      else
      {
         return '';
      }
+     libxml_clear_errors();
       $xpath = new DOMXPath( $doc );
       $items = $xpath->query( '/html/body/' . $tag );
       $whitespaces = json_decode( '"\t\n\r \u00A0"' );
@@ -3436,11 +3439,11 @@ if($repeat_paragraph){
                         libxml_use_internal_errors( true );
                         $quick_tags_pattern = '/<!--CusAds\d+-->/';
                         if (preg_match($quick_tags_pattern, $ads)) {
-                            $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
+                            $ad_dom->loadHTML(mb_convert_encoding( $ads, 'HTML-ENTITIES', 'UTF-8') , LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
                         }else{
-                            $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'));
+                            $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'),LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
                         }
-
+                        libxml_clear_errors();
                         $importedNodes = [];
                         foreach ($ad_dom->childNodes as $importedNode) {
                             if ($importedNode->nodeType === XML_ELEMENT_NODE) {
@@ -3462,11 +3465,11 @@ if($repeat_paragraph){
             libxml_use_internal_errors(true);
             $quick_tags_pattern = '/<!--CusAds\d+-->/';
             if (preg_match($quick_tags_pattern, $ads)) {
-                $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'));
+                $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
             }else{
-                $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'));
+                $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
             }
-            
+            libxml_clear_errors();
             $importedNodes = [];
             foreach ($ad_dom->childNodes as $importedNode) {
                 if ($importedNode->nodeType === XML_ELEMENT_NODE) {
@@ -3491,10 +3494,11 @@ function quads_after_id_class_ad_creator($content,$srch_name,$type_name){
     $dom = new \DOMDocument();
     libxml_use_internal_errors(true);
     if(function_exists('mb_convert_encoding')){
-        $dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
+        $dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
     }else{
-        $dom->loadHTML( $content );
+        $dom->loadHTML( $content , LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
     }
+    libxml_clear_errors();
     $finder = new DomXPath($dom);
     if($type_name == 'id'){
         $after_ad = 'afterIdAd';
