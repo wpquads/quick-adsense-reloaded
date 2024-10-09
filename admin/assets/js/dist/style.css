@@ -2991,6 +2991,10 @@ input[type=checkbox]:checked::before {
 
 .quads-ad-table .quads-checked {
   background: #f1f3f4; }
+
+#quads_selected_total_cnt {
+  font-size: 16px;
+  color: #333; }
 .quads-ad-networks li {
   background: #fff;
   border-radius: 10px;
