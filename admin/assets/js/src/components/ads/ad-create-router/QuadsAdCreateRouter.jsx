@@ -1046,6 +1046,11 @@ class QuadsAdCreateRouter extends Component {
     this.setState({quads_is_saved:false});
   }
 
+  moveTostart = () => {
+    this.movePrev();
+    this.movePrev();
+   };
+
   render() {
     
       const location = this.props.location;         
@@ -1164,9 +1169,15 @@ class QuadsAdCreateRouter extends Component {
                 <div className="quads-ad-config-menu">
                     <div className="quads-ad-config-tab">
                         <ul>
-                            <li className={`${ (page.path =='wizard') ? 'quads-selected' : ''}`}>{__('Configuration', 'quick-adsense-reloaded') }</li>
-                            <li className={`${ (page.path =='wizard_target') ? 'quads-selected' : ''}`}>{__('Targeting', 'quick-adsense-reloaded') }</li>
-                            <li className={`${ (page.path =='wizard_publish') ? 'quads-selected' : ''}`}>{__('Publish', 'quick-adsense-reloaded') }</li>                            
+                            <li className={`${ (page.path =='wizard') ? 'quads-selected' : ''}`}>
+                              <a className={'config-header-link'} onClick={page.path === 'wizard_target' ? this.movePrev :  ( page.path === 'wizard_publish' ? this.moveTostart : undefined )}> {__('Configuration', 'quick-adsense-reloaded') } </a>
+                            </li>
+                            <li className={`${ (page.path =='wizard_target') ? 'quads-selected' : ''}`}>
+                            <a className={'config-header-link'} onClick={page.path === 'wizard' ? this.moveNext : ( page.path === 'wizard_publish' ? this.movePrev : undefined )} > {__('Targeting', 'quick-adsense-reloaded') } </a>
+                            </li>
+                            <li className={`${ (page.path =='wizard_publish') ? 'quads-selected' : ''}`}>
+                            <a> {__('Publish', 'quick-adsense-reloaded') } </a>
+                            </li>                            
                         </ul>   
                     </div>                    
                 </div>

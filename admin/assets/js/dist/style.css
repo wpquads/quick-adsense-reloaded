@@ -340,6 +340,10 @@ div#quads_report_table {
 
 select#report_type {
   margin-top: 20px; }
+
+.config-header-link {
+  text-decoration: none;
+  cursor: pointer; }
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -1348,7 +1352,12 @@ a.quads-nav-link-active {
   text-transform: capitalize; }
 
 .quads-btn-navigate {
-  padding: 0px 60px; }
+  padding: 0px 60px;
+  position: fixed;
+  bottom: 25px;
+  right: 10px;
+  display: inline-flex;
+  flex-direction: row-reverse; }
 
 .quads-btn-navigate .quads-btn-primary {
   padding: 15px 25px; }

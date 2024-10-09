@@ -753,6 +753,11 @@ padding: 20px 30px; }
 }
 .quads-btn-navigate{
   padding: 0px 60px;
+  position: fixed;
+  bottom: 25px;
+  right: 10px;
+  display: inline-flex;
+  flex-direction: row-reverse;
 }
 .quads-btn-navigate .quads-btn-primary{
   padding:15px 25px
