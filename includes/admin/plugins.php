@@ -46,3 +46,22 @@ function quads_premium_plugin_action_links( $links, $file ){
 	}
 
 add_filter('plugin_action_links', 'quads_premium_plugin_action_links', 10, 2);
+
+/**
+ * Function to fix the issue with the Jannah theme which is causing every rest api request redirect to homepage 
+ * 
+ * @see https://github.com/wpquads/quick-adsense-reloaded/issues/890
+ * @since 2.0.86
+ */
+function quads_override_custom_rewrite_rules($rules) {
+    // Check if the unwanted rule exists, then remove it
+	if( function_exists( 'wpse_custom_rewrite_rules' ) ){
+		foreach ($rules as $rule => $rewrite) {
+			if (strpos($rule, '(.+?)/(.+?)/?$') !== false) {
+				unset($rules[$rule]); // Unset the problematic rule
+			}
+		}
+	}
+    return $rules;
+}
+add_filter('rewrite_rules_array', 'quads_override_custom_rewrite_rules', 20);
