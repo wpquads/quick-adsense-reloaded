@@ -24,6 +24,7 @@ class QuadsAdList extends Component {
            importquadsclassicmsgprocessing : "",  
            importquadsclassiccss : false,
            importquadsclassicalertcss : false,
+           copiedInputId: null,
         };
         this.wrapperRef = React.createRef();
         this.handleClickOutside = this.handleClickOutside.bind(this);               
@@ -223,6 +224,23 @@ class QuadsAdList extends Component {
   showInfoAds = (cAdId) => {
     this.setState({adListsId: cAdId, toggleAdsLists: !this.state.toggleAdsLists});
   }
+
+   handleCopy = ( event ) => {
+
+    const valueToCopy = event.target.value;
+    event.target.select();
+    navigator.clipboard.writeText(valueToCopy)
+    .then(() => {
+      let inputId = (valueToCopy).match(/\d+/);
+        this.setState({copiedInputId: inputId});
+        setTimeout(() => {
+          this.setState({copiedInputId: null});
+        }, 3000);
+      })
+      .catch(err => {
+        console.error('Failed to copy text: ', err);
+      });
+  };
    
   render() {    
     
@@ -267,7 +285,8 @@ class QuadsAdList extends Component {
           <th>{__('Name', 'quick-adsense-reloaded')}</th>
           <th>{__('Type', 'quick-adsense-reloaded')}</th>
           <th>{__('Last Modified', 'quick-adsense-reloaded')}</th>
-          <th></th>
+          <th style={{width:'140px'}}>{__('Shortcode', 'quick-adsense-reloaded')}</th>
+          <th>{__('Actions', 'quick-adsense-reloaded')}</th>
           </tr>
           </thead>
           <tbody>
@@ -278,6 +297,9 @@ class QuadsAdList extends Component {
                 <td><Link onMouseEnter={this.props.EditHoverIn} onMouseLeave={this.props.EditHoverOut} data-index={index} data-id={item.post_meta.ad_id} to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.post_meta.ad_type}&action=edit&post=${item.post.post_id}`} className="quads-edit-btn"> {item.post_meta.label} </Link> {item.post_meta.ad_type == 'rotator_ads' || item.post_meta.ad_type == 'carousel_ads' || item.post_meta.ad_type == 'group_insertion' ? <span className="quads-adlists info-wrpr"><span className="material-icons info" aria-hidden="true" onClick={() => this.showInfoAds(item.post_meta.ad_id)}>info</span>{ item.post_meta.ad_id == this.state.adListsId && this.state.toggleAdsLists ? this.getActiveAdsLists(item.post_meta.ads_list, index) : '' }</span> : ''} {item.post.post_status == 'draft' ? <span className="quads-ad-label-draft">{__('draft','quick-adsense-reloaded')}</span> : ''}</td>
                 <td>{this.getImageByAdType(item.post_meta.ad_type, index)} {this.getAmpLogoByEnabled(item.post_meta.enabled_on_amp, index)}</td>
                 <td>{item.post.post_modified}</td>
+                <td><input name="post_shortcode" id={'post_shortcode_'+(item.post_meta.quads_ad_old_id).match(/\d+/)} data-attr={''+(item.post_meta.quads_ad_old_id).match(/\d+/)+''} type="text" defaultValue={'[quads id='+(item.post_meta.quads_ad_old_id).match(/\d+/)+']'}  onClick={this.handleCopy} style={{ cursor: 'pointer' , width: '120px'}} readOnly/>
+                {this.state.copiedInputId == (item.post_meta.quads_ad_old_id).match(/\d+/)[0] && (<span style={{ color: 'white',position: 'relative',top: '-25px',background: 'green',padding: '5px 35px',borderRadius: '5px',left: '0' }}>Copied!</span>)}
+              </td>
                 <td>
                 <div className="quads-action-div">
                 {this.props.static_box_id ==  item.post_meta.ad_id ?
@@ -328,6 +350,7 @@ class QuadsAdList extends Component {
         
                 </div>  
                 </td>
+                
             </tr>
              )   ))} 
             </tbody>
