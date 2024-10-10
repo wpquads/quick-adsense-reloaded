@@ -13,8 +13,34 @@ class QuadsAdListSearch extends Component {
       
     super(props);
     this.state = {      
-      posts_found:0,  
+      posts_found:0,
+      ad_types : [],  
     };       
+  }
+
+  // create afunction to get  adtypes from the server
+
+  componentDidMount() {
+    this.getAdTypes();
+  }
+
+  getAdTypes = () => {
+    let url = quads_localize_data.rest_url+'quads-route/get-ad-types';
+    fetch(url,{
+      headers: {
+        'X-WP-Nonce': quads_localize_data.nonce,
+      }
+    }
+    )
+    .then(res => res.json())
+    .then(
+      (result) => {
+        this.setState({ad_types: result});
+      },
+      (error) => {
+
+      }
+    );
   }
    
   static getDerivedStateFromProps(props, state) {   
@@ -26,6 +52,35 @@ class QuadsAdListSearch extends Component {
     const page = queryString.parse(window.location.search);
     const {__} = wp.i18n;      
     let searchIcon = quads_localize_data.quads_plugin_url+'admin/assets/img/quads-search.png'; 
+    const adOptions = [
+      { value: 'adsense', label: __('Adsense', 'quick-adsense-reloaded') },
+      { value: 'plain_text', label: __('Custom Code', 'quick-adsense-reloaded') },
+      { value: 'rotator_ads', label: __('Rotator Ads', 'quick-adsense-reloaded') },
+      { value: 'random_ads', label: __('Random Ads', 'quick-adsense-reloaded') },
+      { value: 'popup_ads', label: __('Popup Ads', 'quick-adsense-reloaded') },
+      { value: 'video_ads', label: __('Video Ads', 'quick-adsense-reloaded') },
+      { value: 'double_click', label: __('Double Click', 'quick-adsense-reloaded') },
+      { value: 'yandex', label: __('Yandex', 'quick-adsense-reloaded') },
+      { value: 'mgid', label: __('mgid', 'quick-adsense-reloaded') },
+      { value: 'propeller', label: __('Propeller', 'quick-adsense-reloaded') },
+      { value: 'ad_image', label: __('Banner Image', 'quick-adsense-reloaded') },
+      { value: 'ad_blindness', label: __('ad_blindness', 'quick-adsense-reloaded') },
+      { value: 'ab_testing', label: __('A/B Testing', 'quick-adsense-reloaded') },
+      { value: 'taboola', label: __('Taboola', 'quick-adsense-reloaded') },
+      { value: 'media_net', label: __('Media.net', 'quick-adsense-reloaded') },
+      { value: 'mediavine', label: __('Mediavine', 'quick-adsense-reloaded') },
+      { value: 'outbrain', label: __('Outbrain', 'quick-adsense-reloaded') },
+      { value: 'infolinks', label: __('Infolinks', 'quick-adsense-reloaded') },
+      { value: 'background_ad', label: __('Background Ad', 'quick-adsense-reloaded') },
+      { value: 'group_insertion', label: __('Group Insertion', 'quick-adsense-reloaded') },
+      { value: 'skip_ads', label: __('Skip Ads', 'quick-adsense-reloaded') },
+      { value: 'loop_ads', label: __('Loop Ads', 'quick-adsense-reloaded') },
+      { value: 'carousel_ads', label: __('Carousel Ads', 'quick-adsense-reloaded') },
+      { value: 'parallax_ads', label: __('Parallax Ads', 'quick-adsense-reloaded') },
+      { value: 'half_page_ads', label: __('Half Page Ads', 'quick-adsense-reloaded') },
+      { value: 'sticky_scroll', label: __('Sticky Scroll', 'quick-adsense-reloaded') },
+      { value: 'floating_cubes', label: __('Floating Cubes', 'quick-adsense-reloaded') }
+    ];
     return (
      <div className="quads-ad-search-box">
        {typeof this.props.search_text === 'undefined'  && typeof page.ad_id !== 'undefined' ?
@@ -68,33 +123,15 @@ class QuadsAdListSearch extends Component {
           labelId="quads_filter_lid"
           onChange={this.props.handleFilterBy}
         >
-        <MenuItem value={'adsense'}>{__('Adsense', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'plain_text'}>{__('Custom Code', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'rotator_ads'}>{__('Rotator Ads', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'random_ads'}>{__('Random Ads', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'popup_ads'}>{__('Popup Ads', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'video_ads'}>{__('Video Ads', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'double_click'}>{__('Double Click', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'yandex'}>{__('Yandex', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'mgid'}>{__('mgid', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'propeller'}>{__('Propeller', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'ad_image'}>{__('Banner Image', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'ad_blindness'}>{__('ad_blindness', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'ab_testing'}>{__('A/B Testing', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'taboola'}>{__('Taboola', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'media_net'}>{__('Media.net', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'mediavine'}>{__('Mediavine', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'outbrain'}>{__('Outbrain', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'infolinks'}>{__('Infolinks', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'background_ad'}>{__('Background Ad', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'group_insertion'}>{__('Group Insertion', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'skip_ads'}>{__('Skip Ads', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'loop_ads'}>{__('Loop Ads', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'carousel_ads'}>{__('Carousel Ads', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'parallax_ads'}>{__('Parallax Ads', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'half_page_ads'}>{__('Half Page Ads', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'sticky_scroll'}>{__('Sticky Scroll', 'quick-adsense-reloaded')}</MenuItem>
-        <MenuItem value={'floating_cubes'}>{__('Floating Cubes', 'quick-adsense-reloaded')}</MenuItem> 
+        {adOptions
+            .filter(option => this.state.ad_types.includes(option.value)) 
+            .sort((a, b) => a.label.localeCompare(b.label))
+            .map(option => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))
+          }
         </Select>
       </FormControl>
 </div>:''}

@@ -237,6 +237,13 @@ class QUADS_Ad_Setup_Api {
                     return $this->quads_current_user_can();
                 }
         ));
+        register_rest_route( 'quads-route', 'get-ad-types', array(
+            'methods'    => 'GET',
+            'callback'   => array($this, 'getAdTypes'),
+            'permission_callback' => function(){
+                return $this->quads_current_user_can();
+            }
+        ));
         }
         public function quads_register_ad(){
 	        global $_quads_registered_ad_locations;
@@ -1902,6 +1909,35 @@ return array('status' => 't');
                 return $ad_analytics;
             }
             return $default_return;
+        }
+        public function getAdTypes(){
+            $ad_types = array(
+                'adsense' => 'Adsense',
+                'double_click' => 'Double Click',
+                'plain_text' => 'Plain Text',
+                'ad_image' => 'Ad Image',
+            );
+            
+            // get all the ad types from the database in post meta for which ads are created
+            $args = array(
+                'post_type'      => 'quads-ads',
+                'posts_per_page' => -1, // Get all posts
+                'fields'         => 'ids' // Only retrieve post IDs
+            );
+            $query = new WP_Query($args);
+            $post_ids = $query->posts;
+            if (!empty($post_ids)) {
+                $ad_types = array();
+            
+                foreach ($post_ids as $post_id) {
+                    $ad_type = get_post_meta($post_id, 'ad_type', true);
+                    if ($ad_type && !in_array($ad_type, $ad_types)) {
+                        $ad_types[] = $ad_type; // Add distinct ad_types
+                    }
+                }
+            }
+
+            return $ad_types;
         }
         public function getAdloggingData($request){
             $parameters = $request->get_params();
