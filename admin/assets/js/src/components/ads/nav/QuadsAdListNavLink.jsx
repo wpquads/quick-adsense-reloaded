@@ -207,7 +207,7 @@ class QuadsAdListNavLink extends Component {
           if(role == 'administrator' || role == 'super_admin'){
             this.setState({ setting_access: true });
           }
-          let roleAccess = roles_access.find(item => item.value === role);
+          let roleAccess = roles_access ? roles_access.find(item => item.value === role) : '';
           if (roleAccess && roleAccess.setting_access === true) {
             this.setState({ setting_access: true });
           }

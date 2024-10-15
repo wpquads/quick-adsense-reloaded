@@ -773,7 +773,7 @@ handleCapabilityChange = (event) =>{
           if(role == 'administrator' || role == 'super_admin'){
             return true;
           }
-          let roleAccess = roles_access.find(item => item.value === role);
+          let roleAccess = roles_access ? roles_access.find(item => item.value === role) : '';
           if (roleAccess && roleAccess.setting_access === true) {
               return true; 
           }
