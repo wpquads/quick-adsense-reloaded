@@ -35,7 +35,8 @@ class QuadsAdListSearch extends Component {
     .then(res => res.json())
     .then(
       (result) => {
-        this.setState({ad_types: result});
+        let adTypesArray = Array.isArray(result) ? result : Object.values(result);
+        this.setState({ad_types: adTypesArray});
       },
       (error) => {
 
