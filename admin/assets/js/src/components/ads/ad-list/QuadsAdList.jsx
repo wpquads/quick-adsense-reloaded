@@ -202,6 +202,10 @@ class QuadsAdList extends Component {
             img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/floating_ads_icon.png';
             type = "Floating Ad";
             break;
+            case 'ads_space':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ads_space_icon.png';
+              type = "Ads Space";
+              break;
         default:
           break;
       }

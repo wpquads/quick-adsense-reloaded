@@ -8,9 +8,9 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 5.4
-Stable tag: 2.0.85
+Stable tag: 2.0.86
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -206,6 +206,16 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.86 ( 07 November 2024 ) =
+* New: Feature for payment methods for selling ads #550
+* Improvement: Few improvements of Dashboard #876
+* Improvement: Carousel ads required X button to close/hide the ads #902
+* Improvement: Few improvements required #897
+* Compatiblity: Compatiblity with Jannah news theme. #890
+* Fixed: Dual HTML tag was added to the source code. #868
+* Fixed: Conflict with Ultimate FAQ - WordPress FAQ and Accordion Plugin #903
+* Test: Test with WordPress version 6.7 #905
 
 = 2.0.85 ( 19 August 2024 ) =
 * Fixed: Broken Access Control vulnerability reported by patchstack.com

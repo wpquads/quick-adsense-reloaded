@@ -159,6 +159,8 @@ class QuadsAdCreateRouter extends Component {
             publish_date              : '',
             mob_code                  : '',
             carousel_close            : false,
+            ad_cost                   : 0,
+            ad_cost_type              : 'per_day',
 
             },
             quads_form_errors : {
@@ -726,13 +728,20 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             }
             break;
-            case 'floating_cubes':
-              if(validation_flag && quads_post_meta.floating_slides.length >=1 && quads_post_meta.floating_cubes_type && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
-                this.saveAdFormData('publish');
-              }else{
-                this.setState({show_form_error:true});
-              }
-              break;    
+        case 'floating_cubes':
+          if (validation_flag && quads_post_meta.floating_slides.length >= 1 && quads_post_meta.floating_cubes_type && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)) {
+            this.saveAdFormData('publish');
+          } else {
+            this.setState({ show_form_error: true });
+          }
+          break;
+        case 'ads_space':
+          if (quads_post_meta.code && quads_post_meta.ad_cost > 0 ) {
+            this.saveAdFormData('publish');
+          } else {
+            this.setState({ show_form_error: true });
+          }
+          break;    
         default:
           break;
       }
@@ -1012,6 +1021,15 @@ class QuadsAdCreateRouter extends Component {
                   this.setState({show_form_error:true});
                 }
                 break;
+
+                case 'ads_space':
+                  if (quads_post_meta.code && quads_post_meta.ad_cost > 0 ) {
+                    this.props.history.push(new_url);
+                  } else {
+                    this.setState({ show_form_error: true });
+                  }
+
+                  break;
           default:
             break;
         }

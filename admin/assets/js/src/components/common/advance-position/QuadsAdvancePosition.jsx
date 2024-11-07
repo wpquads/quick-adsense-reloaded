@@ -50,13 +50,16 @@ check_plugin_exist = (event) => {
         const {__} = wp.i18n;
         const post_meta = this.props.parentState.quads_post_meta;
         const show_form_error = this.props.parentState.show_form_error;
+        if(post_meta.ad_type == 'ads_space'){
+            post_meta.position = 'ad_shortcode';
+        }
         return (
             <div>
                 <div className="quads-position-dropdown">
                     <div>
                         {quads_localize_data.is_amp_enable &&  post_meta.enabled_on_amp ?
                         <>
-                            <select style={{minWidth:'250px'}} className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
+                            <select style={{minWidth:'250px'}} className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} disabled={post_meta.ad_type == 'ads_space'} >
                                <>
                                {post_meta.ad_type != "adpushup" ?                                
                                 <>
@@ -109,7 +112,7 @@ check_plugin_exist = (event) => {
                             </select>
                             {post_meta.ad_type == "adpushup" ? <p>{__('This selection is just for AMP', 'quick-adsense-reloaded')}</p> : ''}
                             </>                            
-                            : <select style={{minWidth:'250px'}} className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
+                            : <select style={{minWidth:'250px'}} disabled={post_meta.ad_type == 'ads_space'} className={(show_form_error && post_meta.position == '') ? 'quads_form_error' : ''} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                                 <option value="select_position">{__('Select Position', 'quick-adsense-reloaded')}</option>
                                 <option value="random_ad_placement">{__('Random Placement', 'quick-adsense-reloaded')}</option>
                                 <option value="beginning_of_post">{__('Beginning of Post', 'quick-adsense-reloaded')}</option>

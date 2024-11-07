@@ -66,11 +66,12 @@ class QuadsAdsAdvancedSettings extends Component {
          <div className="quads-panel-body">
           <table>
             <tbody>
+              { post_meta.ad_type != 'ads_space' ? 
             <tr>
               <td><label className='q_exp_date' htmlFor="publish_date">{__('Schedule Ad', 'quick-adsense-reloaded')}</label></td>
               <td><input className='publish_date' id="publish_date" name="publish_date" min={next_schedule_date} onChange={this.props.adFormChangeHandler} type="date" value={post_meta.publish_date}/></td>
-              </tr>
-              <tr>
+              </tr> :''}
+              { post_meta.ad_type != 'ads_space' ? <tr>
               <td><label className='q_exp_date' htmlFor="check_exp_date">{__('Set Expire Date', 'quick-adsense-reloaded')}</label></td>
               <td>
               <label className="quads-switch exp_date">
@@ -78,20 +79,21 @@ class QuadsAdsAdvancedSettings extends Component {
                   <span className="quads-slider"></span>
                 </label>
               </td>
-              </tr>
-              { post_meta.check_exp_date && post_meta.check_exp_date == 1 ? <tr>
-              <td><label className='q_exp_date' htmlFor="exp_date_from">{__('From ', 'quick-adsense-reloaded')}</label></td>
-              <td><input className='exp_date_from' id="exp_date_from" name="exp_date_from" min={current_date} onChange={this.props.adFormChangeHandler} type="date" value={post_meta.exp_date_from}/></td>
+              </tr> :''}
+              { ( post_meta.check_exp_date && post_meta.check_exp_date == 1) ? <tr>
+              <td><label className='q_exp_date' htmlFor="exp_date_from"> {__('From ', 'quick-adsense-reloaded')}</label></td>
+              <td><input className='exp_date_from' id="exp_date_from" name="exp_date_from" min={current_date} onChange={this.props.adFormChangeHandler} type="date" value={post_meta.exp_date_from}/>
+              </td>
               </tr>
               : ''
               }
-              { post_meta.check_exp_date && post_meta.check_exp_date == 1 ? <tr>
+              { ( post_meta.check_exp_date && post_meta.check_exp_date == 1) ? <tr>
               <td><label className='q_exp_date' htmlFor="check_exp_to">{__('To ', 'quick-adsense-reloaded')}</label></td>
               <td><input className='exp_date_to' id="exp_date_to" name="exp_date_to" onChange={this.props.adFormChangeHandler} min={post_meta.exp_date_from} type="date" value={post_meta.exp_date_to}/></td>
               </tr>
               : ''
               }
-              <tr>
+              { post_meta.ad_type != 'ads_space' ? <tr>
               <td><label className='q_spec_day' htmlFor="check_spec_day">{__('Set Specific Day', 'quick-adsense-reloaded')}</label></td>
               <td>
               <label className="quads-switch spec_day">
@@ -99,7 +101,7 @@ class QuadsAdsAdvancedSettings extends Component {
                   <span className="quads-slider"></span>
                 </label>
               </td>
-              </tr>
+              </tr> :''}
               { post_meta.check_spec_day && post_meta.check_spec_day == 1 ? <tr>
               <td><label>{__('Days ', 'quick-adsense-reloaded')}</label></td>
               <td style={{width:'300px'}}>

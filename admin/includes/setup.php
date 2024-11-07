@@ -419,6 +419,27 @@ public function quads_database_install() {
                 
 	}
 
+    if(!in_array("{$wpdb->prefix}quads_adbuy_data", $found_tables)) {
+            
+		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_adbuy_data` (
+			`id` bigint(10) NOT NULL AUTO_INCREMENT,
+            `user_id` int(50) NOT NULL,
+            `ad_id` int(50) NOT NULL,
+            `ad_content` text NOT NULL,
+            `ad_link` varchar(255) NOT NULL,
+            `ad_image` varchar(255) DEFAULT NULL,
+            `start_date` datetime NOT NULL,
+            `end_date` datetime NOT NULL,
+            `payment_response` text  NULL,
+            `payment_status` varchar(15) NOT NULL DEFAULT 'pending',
+            `ad_status` varchar(15) NOT NULL DEFAULT 'pending',
+            PRIMARY KEY  (`id`),
+            KEY `quads_adbuy_adid` (`ad_id`)
+		)
+        ".$charset_collate.$engine.";");
+                
+	}
+
 }
 
 public function quadsSyncRandomAdsInNewDesign(){
