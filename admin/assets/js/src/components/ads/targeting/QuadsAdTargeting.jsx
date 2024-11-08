@@ -210,7 +210,8 @@ class QuadsAdTargeting extends Component {
                 post_meta.ad_type == 'parallax_ads' ||
                 post_meta.ad_type == 'half_page_ads' ||
                 post_meta.ad_type == 'carousel_ads' ||
-                post_meta.ad_type == 'sticky_scroll'
+                post_meta.ad_type == 'ads_space'
+
               ) ?
               <>
                 <div>{__('Position', 'quick-adsense-reloaded')}</div>  

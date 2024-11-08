@@ -162,11 +162,15 @@ class QuadsAdListNavLink extends Component {
               img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/halfpage_ads_icon.png';
               break;
               case 'sticky_scroll':
-                img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/sticky_scroll_icon.png';
-                break;
-                case 'floating_cubes':
-                  img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/floating_ads.png';
-                  break;
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/sticky_scroll_icon.png';
+              break;
+              case 'floating_cubes':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/floating_ads.png';
+              break;
+              case 'ads_space':
+              img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ads_space_icon.png';
+              type = "Ads Space";
+              break;
             default:
               break;
           }
@@ -207,7 +211,7 @@ class QuadsAdListNavLink extends Component {
           if(role == 'administrator' || role == 'super_admin'){
             this.setState({ setting_access: true });
           }
-          let roleAccess = roles_access.find(item => item.value === role);
+          let roleAccess = roles_access ? roles_access.find(item => item.value === role) : '';
           if (roleAccess && roleAccess.setting_access === true) {
             this.setState({ setting_access: true });
           }
@@ -222,7 +226,7 @@ class QuadsAdListNavLink extends Component {
 
     if(typeof(page.path)  != 'undefined' ) {
 
-        if( page.path == 'settings' || page.path == 'settings_tools' || page.path == 'settings_importer' || page.path == 'settings_legacy' || page.path == 'settings_support' || page.path == 'settings_licenses' || page.path == 'settings_google_autoads')  {
+        if( page.path == 'settings' || page.path == 'settings_tools' || page.path == 'settings_importer' || page.path == 'settings_legacy' || page.path == 'settings_support' || page.path == 'settings_licenses' || page.path == 'settings_google_autoads' || page.path == 'settings_adsell')  {
             jQuery('.wp-submenu li').removeClass('current');
             jQuery('a[href$="quads-settings&path=settings"]').parent().addClass('current');
             current = 'settings';
@@ -239,6 +243,11 @@ class QuadsAdListNavLink extends Component {
           jQuery('.wp-submenu li').removeClass('current');
           jQuery('a[href$="quads-settings&path=ad_logging"]').parent().addClass('current');
           current = 'ad_logging';
+      }
+        else if(page.path == 'adsell'){
+          jQuery('.wp-submenu li').removeClass('current');
+          jQuery('a[href$="quads-settings&path=adsell"]').parent().addClass('current');
+          current = 'adsell';
       }
         }else if(page.page == 'quads-settings'){
             jQuery('.wp-submenu li').removeClass('current');
@@ -267,6 +276,7 @@ class QuadsAdListNavLink extends Component {
         <div className="quads-ad-tab">
             <ul>
                 <li><Link to={'admin.php?page=quads-settings'} className={current == 'ads' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Ads', 'quick-adsense-reloaded')}</Link></li>
+                <li><Link to={'admin.php?page=quads-settings&path=adsell'} className={current == 'adsell' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Sellable Ads', 'quick-adsense-reloaded')}</Link></li>
                 {this.state.setting_access?<li><Link to={'admin.php?page=quads-settings&path=settings'} className={current == 'settings' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Settings', 'quick-adsense-reloaded')}</Link></li>:''}
                 {this.state.displayReports ?
                 <li><Link to={'admin.php?page=quads-settings&path=reports'} className={current == 'reports' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Reports', 'quick-adsense-reloaded')}</Link></li>
@@ -274,7 +284,7 @@ class QuadsAdListNavLink extends Component {
                 {quads_localize_data.is_pro && this.state.displayad_logging ?
                 <li><Link to={'admin.php?page=quads-settings&path=ad_logging'} className={current == 'ad_logging' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Log', 'quick-adsense-reloaded')}</Link></li>
                 : null }
-                <li><div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.showAddTypeSelector}><Icon>add_circle</Icon>{__('Create Ad', 'quick-adsense-reloaded')}</a></div></li>
+                { (current == 'adsell') ? <li><div className="quads-add-btn"><Link to={'admin.php?page=quads-settings&path=wizard&ad_type=ads_space'} className="quads-btn quads-btn-primary"><Icon>add_circle</Icon>{__('Create Ad', 'quick-adsense-reloaded')}</Link></div></li> :  <li><div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.showAddTypeSelector}><Icon>add_circle</Icon>{__('Create Ad', 'quick-adsense-reloaded')}</a></div></li>}
             </ul>
         </div>
         </div>

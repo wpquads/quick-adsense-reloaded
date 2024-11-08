@@ -50,7 +50,7 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
 
 
     // Return the original ad code if it's no adsense code
-    if( false === quads_is_adsense( $id, $string ) && !empty( $string ) ) {
+    if( false === quads_is_adsense( $id, $string ) && false === quads_is_ads_space($id, $string ) && !empty( $string ) ) {
         // allow use of shortcodes in ad plain text content
         $string = quadsCleanShortcode('quads', $string);
         //wp_die('t1');
@@ -108,6 +108,10 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     }
     if( true === quads_is_floating_ads( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_floating_ads_async( $id ),$post_id );
+    }
+
+    if( true === quads_is_ads_space( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_ads_space_async( $id ),$post_id );
     }
     // Return empty string
     return '';
@@ -339,9 +343,10 @@ function quads_render_ad_image_async( $id ) {
 
             $mob_bnr_wdt = isset($quads_options['ads'][$id]['mob_banner_ad_width'])?$quads_options['ads'][$id]['mob_banner_ad_width']:300;
             $mob_bnr_hgt = isset($quads_options['ads'][$id]['mob_banner_ad_height'])?$quads_options['ads'][$id]['mob_banner_ad_height']:300;
+            $placeholder_image = QUADS_PLUGIN_URL . 'assets/images/placeholder.svg';
             $html .= '
             <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" '.($add_nofollow?'rel="nofollow"':'').'>
-            <img width="'.esc_attr($mob_bnr_wdt). '" height="'.esc_attr($mob_bnr_hgt). '" '.(quads_is_lazyload_render($quads_options,$id) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($image_render_src).'" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"> 
+            <img width="'.esc_attr($mob_bnr_wdt). '" height="'.esc_attr($mob_bnr_hgt). '" '.(quads_is_lazyload_render($quads_options,$id) ? 'src="'.esc_url($placeholder_image).'" data-src' : 'src').'="'.esc_attr($image_render_src).'" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"> 
             </a>';
             }
         }
@@ -358,10 +363,10 @@ function quads_render_ad_image_async( $id ) {
         else {
         $bnr_wdt=$quads_options['ads'][$id]['banner_ad_width']?$quads_options['ads'][$id]['banner_ad_width']:($quads_options['ads'][$id]['image_width']?$quads_options['ads'][$id]['image_width']:300);
         $bnr_hgt=$quads_options['ads'][$id]['banner_ad_height']?$quads_options['ads'][$id]['banner_ad_height']:($quads_options['ads'][$id]['image_height']?$quads_options['ads'][$id]['image_height']:300);
-
+        $placeholder_image = QUADS_PLUGIN_URL . 'assets/images/placeholder.svg';
             $html .= ' 
         <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" '.($add_nofollow?'rel="nofollow"':'').'>
-        <img width="'.esc_attr($bnr_wdt). '" height="'.esc_attr($bnr_hgt). '" '.(quads_is_lazyload_render($quads_options,$id) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($quads_options['ads'][$id]['image_src']). '" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"> 
+        <img width="'.esc_attr($bnr_wdt). '" height="'.esc_attr($bnr_hgt). '" '.(quads_is_lazyload_render($quads_options,$id) ? 'src="'.esc_url( $placeholder_image ).'" data-src' : 'src').'="'.esc_attr($quads_options['ads'][$id]['image_src']). '" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"> 
         </a>';
         }
         
@@ -921,6 +926,7 @@ function quads_render_carousel_ads_async($id) {
     $carousel_arrows = isset($quads_options['ads'][$id]['carousel_arrows'])?$quads_options['ads'][$id]['carousel_arrows']:false;
     $carousel_speed = isset($quads_options['ads'][$id]['carousel_speed'])?$quads_options['ads'][$id]['carousel_speed']:1;
     $crsl_rnd = isset($quads_options['ads'][$id]['carousel_rndms'])?$quads_options['ads'][$id]['carousel_rndms']:false;
+    $close_btn = isset($quads_options['ads'][$id]['carousel_close'])?$quads_options['ads'][$id]['carousel_close']:false;
      $total_slides=count($ads_list);
     
     if($crsl_rnd){
@@ -950,12 +956,15 @@ function quads_render_carousel_ads_async($id) {
     {
         $html.='<div class="quads-content quads-section" style="max-width:100%;overflow:hidden;">';
         $html.='<div class="quads-carousel-container" id="carousel-container-'.esc_attr($org_ad_id).'" data-speed="'.esc_attr($carousel_speed*1000).'"  data-slide="1" data-adid="'.esc_attr($org_ad_id).'">';
+       
         if($carousel_arrows){
-            $html.='<span class="quads_carousel_back"><</span>';
+            $html.='<span class="quads_carousel_back">&lt;</span>';
         }
         
     }
-   
+    if($close_btn){
+        $html.='<span class="quads_carousel_close">&times;</span>';
+    }
    
     foreach($ads_list as $ad)
     {
@@ -979,7 +988,8 @@ function quads_render_carousel_ads_async($id) {
 					 $image=$ad_meta['image_mobile_src'][0];
 				 }
                  list($carousel_width, $carousel_height) = getimagesize($image);
-                $html .='<a imagebanner class="im-'.esc_attr($org_ad_id).'" target="_blank" href="'.esc_url($ad_meta['image_redirect_url'][0]). '" rel="nofollow"><img  class="quads_carousel_img" '.( quads_is_lazyload_render($quads_options,$id)? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($image).'" alt="'.esc_attr($ad_meta['label'][0]).'" width="'.esc_attr($carousel_width).'px" height="'.esc_attr($carousel_height).'px" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'" '.($add_nofollow?'rel=nofollow':'').'> </a>';  
+                 $placeholder_image = QUADS_PLUGIN_URL . 'assets/images/placeholder.svg';
+                $html .='<a imagebanner class="im-'.esc_attr($org_ad_id).'" target="_blank" href="'.esc_url($ad_meta['image_redirect_url'][0]). '" rel="nofollow"><img  class="quads_carousel_img" '.( quads_is_lazyload_render($quads_options,$id)? 'src="'.esc_url( $placeholder_image ).'" data-src' : 'src').'="'.esc_url($image).'" alt="'.esc_attr($ad_meta['label'][0]).'" width="'.esc_attr($carousel_width).'px" height="'.esc_attr($carousel_height).'px" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'" '.($add_nofollow?'rel=nofollow':'').'> </a>';  
             }
         
             if(isset($ad_meta['ad_type']) && isset($ad_meta['ad_type'][0]) && $ad_meta['ad_type'][0]=='plain_text')
@@ -996,7 +1006,7 @@ function quads_render_carousel_ads_async($id) {
     if($carousel_type=="slider")
     {
         if($carousel_arrows){
-            $html.='<span class="quads_carousel_next">></span>';
+            $html.='<span class="quads_carousel_next">&gt;</span>';
         }
         $html.='</div></div>';
     }
@@ -1083,6 +1093,43 @@ function quads_render_floating_ads_async($id) {
     wp_enqueue_script( 'wp_qds_floating', $js_dir . 'wp_qds_floating' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
     return apply_filters( 'quads_render_floating__ads_async', $html );
 
+}
+
+function quads_render_ads_space_async($id) {
+    global $quads_options;
+    $align_array = array('0'=>'flex-start','1'=>'center','2'=>'flex-end','3'=>'stretch');
+    $ads_code = $quads_options['ads'][$id]['code']?$quads_options['ads'][$id]['code']:'Advertise on this Space';
+    $banner_width = $quads_options['ads'][$id]['banner_ad_width']?$quads_options['ads'][$id]['banner_ad_width']:'300';
+    $banner_height = $quads_options['ads'][$id]['banner_ad_height']?$quads_options['ads'][$id]['banner_ad_height']:'250';
+    $align = $quads_options['ads'][$id]['align']?$quads_options['ads'][$id]['align']:'3';
+    $align = isset($align_array[$align])?$align_array[$align]:'flex-start';
+    $ad_id = isset($quads_options['ads'][$id]['ad_id'])?$quads_options['ads'][$id]['ad_id']:$id;
+
+    $ads_to_show = quads_get_active_ads_by_slot($ad_id);
+
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Ads Space --> \n\n";
+    if ( empty( $ads_to_show ) ) {
+        $html .= '<a target="_blank" class="quads-ads-space-advertise" href="'.esc_url(site_url('buy-adspace?ad_slot_id='.$ad_id)).'" style="display:block;text-align:center;">';
+        $html .= '<div class="quads-ads-space" id="quads-ads-space-'.esc_attr($id).'" style="display:flex;align-items: center;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;background:#efefef;justify-content:'.esc_attr($align).';">'.$ads_code.'</div>';
+        $html .='</a>';
+        // advertise  here link
+        
+    }else{
+
+        $html .= '<div class="quads-ads-space" id="quads-ads-space-'.esc_attr($id).'" >';
+         foreach($ads_to_show as $ad){
+            if(isset($ad->ad_image) && !empty($ad->ad_image) && isset($ad->ad_link) && !empty($ad->ad_link)){
+                $html .='<a href="'.esc_url($ad->ad_link).'" target="_blank" style="display:flex;align-items: center;margin:5px;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;background:#efefef;justify-content:'.esc_attr($align).';" ><img '.(quads_is_lazyload_render($quads_options,$id) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($ad->ad_image).'" alt="Advertisment" style="object-fit: cover;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px"  data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"></a>';
+            }else{
+                $html .='<a href="'.esc_url($ad->ad_link).'" target="_blank" style="display:flex;align-items: center;margin:5px;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;background:#efefef;justify-content:'.esc_attr($align).';" >'.wp_kses_post($ad->ad_content).'</a>';
+            }
+           
+         }
+        $html .='</div>';
+    }
+    //$html .= '<a target="_blank" class="quads-ads-space-advertise" href="'.esc_url(site_url('buy-adspace?ad_slot_id='.$ad_id)).'" style="display:block;text-align:center;">'.esc_html__('Advertise Here','quick-adsense-reloaded').'</a>';
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_ads_space_async', $html );
 }
 
 function quads_load_loading_script() {
@@ -1597,7 +1644,21 @@ function quads_is_floating_ads( $id, $string ) {
     }
     return false;
 }
+/**
+ * Check if ad code is Ads Space
+ *
+ * @param1 id int id of the ad
+ * @param string $string ad code
+ * @return boolean
+ */
+function quads_is_ads_space( $id, $string ) {
+    global $quads_options;
 
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'ads_space') {
+        return true;
+    }
+    return false;
+}
 /**
  * Render advert on amp pages
  *

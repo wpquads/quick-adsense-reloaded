@@ -27,7 +27,8 @@ class QuadsAdConfigFields extends Component {
     currentselectedvalue: "",
     currentselectedlabel : "",
     height:"",
-    width:"",              
+    width:"",
+    currency:quads_localize_data.currency,              
     };       
   }   
   adsToggle = () => {
@@ -448,7 +449,6 @@ const {__} = wp.i18n;
           const show_form_error = this.props.parentState.show_form_error;
           const comp_html = [];   
           let ad_type_name = '';     
-
           switch (this.props.ad_type) {
 
             case 'adsense':
@@ -1471,6 +1471,15 @@ error_outline
                           </label>
                         </td>
                         </tr>
+                        <tr>
+                        <td><label className='carousel_close' htmlFor="carousel_close">{__('Show Close Button', 'quick-adsense-reloaded')}</label></td>
+                        <td>
+                        <label className="quads-switch exp_date">
+                        <input className='exp_date_check' id="carousel_close" checked={post_meta.carousel_close} name="carousel_close" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                            <span className="quads-slider"></span>
+                          </label>
+                        </td>
+                        </tr>
                          <tr style={{marginBottom: 0 + 'px'}}><td><label>{__('Select Ads ', 'quick-adsense-reloaded')}</label></td><td><a onClick={this.adsToggle_list}><Icon>add_circle</Icon></a></td></tr>
                         <tr><td colSpan={'2'} style={{width:'100%'}}>
                         {this.state.ads_list ?
@@ -1630,6 +1639,43 @@ error_outline
                       </div>);
       
                     break;
+                    case 'ads_space':
+                      ad_type_name = 'Ad Space';
+                      post_meta.code = post_meta.code ? post_meta.code : __('Advertise on this Space', 'quick-adsense-reloaded');
+                      comp_html.push(<div key="ad_space">
+                        <table><tbody>
+                          <tr>
+                            <td><label>{__('Ad Space Text', 'quick-adsense-reloaded')}</label></td>
+                            <td><textarea className={(show_form_error && post_meta.code == '') ? 'quads_form_error' : ''} cols="50" rows="5" value={post_meta.code} onChange={this.props.adFormChangeHandler} id="code" name="code" />
+                              {(show_form_error && post_meta.code == '') ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Enter Plain Text / HTML / JS', 'quick-adsense-reloaded')}</div> : ''}</td>
+                          </tr>
+                          <tr>
+                      <td><label>{__('Ad Size', 'quick-adsense-reloaded')}</label></td>
+                      <td>
+                      <div className="quads-banner-width-heigth">
+                        <div className="quads-banner-width">
+                          <label>{__('Width(px)', 'quick-banner-reloaded')}
+                          <input value={post_meta.banner_ad_width?post_meta.banner_ad_width:300} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_width" name="banner_ad_width" placeholder="300"/> 
+                          </label>
+                        </div>
+                        <div className="quads-banner-height">
+                          <label>{__('Height(px)', 'quick-banner-reloaded')}
+                          <input value={post_meta.banner_ad_height?post_meta.banner_ad_height:300} onChange={this.props.adFormChangeHandler} type="number" id="banner_ad_height" name="banner_ad_height" placeholder="300"/>  
+                          
+                          </label>
+                        </div>
+                      </div>
+                     </td></tr>
+                     <tr>
+                            <td><label>{__('Ad Cost', 'quick-adsense-reloaded')} per day </label></td>
+                            <td><input value={post_meta.ad_cost} onChange={this.props.adFormChangeHandler} type="number" id="ad_cost" name="ad_cost" placeholder="10" style={{width:'100px'}}/>  {this.state.currency} <br/><br/>
+                            {__('Make sure you have added paypal email and Set payment currency in ', 'quick-adsense-reloaded')} <a href='?page=quads-settings&path=settings_adsell'>{__('Sellable Ads settings', 'quick-adsense-reloaded')}</a>
+                            {(show_form_error && post_meta.ad_cost <= 0 ) ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Ad cost must be greater than  0 ', 'quick-adsense-reloaded')}</div> : ''}
+                            </td>
+                          </tr>
+                        </tbody></table>
+                      </div>);      
+                  break;
             default:
               comp_html.push(<div key="noads" >{__('Ad not found', 'quick-adsense-reloaded')}</div>);
               break;
@@ -1667,6 +1713,7 @@ error_outline
                 {this.props.ad_type == 'skip_ads' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/what-is-skippable-ad-and-how-to-use-it/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
                 {this.props.ad_type == 'propeller' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-setup-propeller-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
                 {this.props.ad_type == 'ab_testing' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-add-ab-testing/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
+                {this.props.ad_type == 'ads_space' ?  <a className="quads-docs-link" target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/">{__('View Documentation on', 'quick-adsense-reloaded')} {ad_type_name} {__('AD', 'quick-adsense-reloaded')}</a>:''}
                 
                 <div className="quads-panel">
                  <div className="quads-panel-body">{comp_html}</div>

@@ -109,6 +109,7 @@ class QuadsAdListSettings extends Component {
                 adsforwp_to_quads  : false,
                 optimize_core_vitals : false, 
                 namer : '', 
+                email_notification_adsell_expiry : true,
                 },
             quads_wp_quads_pro_license_key : '',
             importampforwpmsg : "",
@@ -773,7 +774,7 @@ handleCapabilityChange = (event) =>{
           if(role == 'administrator' || role == 'super_admin'){
             return true;
           }
-          let roleAccess = roles_access.find(item => item.value === role);
+          let roleAccess = roles_access ? roles_access.find(item => item.value === role) : '';
           if (roleAccess && roleAccess.setting_access === true) {
               return true; 
           }
@@ -2112,6 +2113,7 @@ handleCapabilityChange = (event) =>{
                 </div>
                 </div>
                );
+               
                case "settings_licenses":  return(
                 <div className="quads-settings-tab-container">
                 <div className="quads-help-support">
@@ -2176,6 +2178,61 @@ handleCapabilityChange = (event) =>{
             <div id="quads_licensemsg"></div> : null}
 
                 </div>
+                </div>
+               );
+               case "settings_adsell":  return(
+                <div className="quads-settings-tab-container">
+                 <table className="form-table" role="presentation"><tbody><tr>
+                    <th scope="row"><label>{__('Paypal Email', 'quick-adsense-reloaded')}</label></th>
+                    <td>
+                     <input type="text" name="paypal_email" style={{maxWidth:'25rem',width:'100%'}} value={settings.paypal_email} onChange={this.formChangeHandler} />
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><label htmlFor="hide_ajax">{__('Currency', 'quick-adsense-reloaded')}</label></th>
+                    <td>
+                     <select name="currency" value={settings.currency} onChange={this.formChangeHandler}>
+                      <option value="USD">USD</option>
+                      <option value="EUR">EUR</option>
+                      <option value="GBP">GBP</option>
+                      <option value="AUD">AUD</option>
+                      <option value="CAD">CAD</option>
+                      <option value="JPY">JPY</option>
+                      <option value="NZD">NZD</option>
+                      <option value="CHF">CHF</option>
+                      <option value="HKD">HKD</option>
+                      <option value="SGD">SGD</option>
+                      <option value="SEK">SEK</option>
+                      <option value="DKK">DKK</option>
+                      <option value="PLN">PLN</option>
+                      <option value="NOK">NOK</option>
+                      <option value="HUF">HUF</option>
+                      <option value="CZK">CZK</option>
+                      <option value="ILS">ILS</option>
+                      <option value="MXN">MXN</option>
+                      <option value="BRL">BRL</option>
+                      <option value="MYR">MYR</option>
+                      <option value="PHP">PHP</option>
+                      <option value="TWD">TWD</option>
+                      <option value="THB">THB</option>
+                      <option value="TRY">TRY</option>
+                      <option value="RUB">RUB</option>
+                      <option value="INR">INR</option>
+                      <option value="CNY">CNY</option>
+                      <option value="IDR">IDR</option>
+                      <option value="KRW">KRW</option>
+                      <option value="ZAR">ZAR</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><label htmlFor="hide_ajax">{__('Email Notification on Ad Expiry', 'quick-adsense-reloaded')}</label></th>
+                    <td>
+                      <label className="quads-switch"><input id="email_notification_adsell_expiry" type="checkbox" name="email_notification_adsell_expiry" checked={settings.email_notification_adsell_expiry} onChange={this.formChangeHandler} /><span className="quads-slider"></span></label>
+                      <p>{__('User will receive an email notification when an ad is about to expire or is expired.', 'quick-adsense-reloaded')}</p>
+                    </td>
+                    </tr>
+                  </tbody></table>
                 </div>
                );
             }

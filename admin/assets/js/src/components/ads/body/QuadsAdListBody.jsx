@@ -72,7 +72,9 @@ class QuadsAdListBody extends Component {
   handleCheckBoxUI = (arr) => {
     let master_check = document.querySelector('#quads_master_checkbox');
         let all_checks = document.querySelectorAll('.quads_checkbox_adlist');
+        let total_cnt = document.querySelector('#quads_selected_total_cnt');
       if(arr.length){
+        total_cnt.innerHTML = '('+arr.length+')';
         if(master_check && all_checks){
           if(all_checks.length>arr.length){
             master_check.classList.add("partial-checked");
@@ -87,6 +89,7 @@ class QuadsAdListBody extends Component {
           }
         }
       }else{
+        total_cnt.innerHTML = '';
         master_check.checked= false;
         master_check.classList.remove("partial-checked");
       }
@@ -94,7 +97,9 @@ class QuadsAdListBody extends Component {
   handleMasterCheckbox = (e) =>{
     const { checked } = e.target;
     const checkboxes = document.querySelectorAll('.quads_checkbox_adlist');
+    let total_cnt = document.querySelector('#quads_selected_total_cnt');
     if (checked) {
+
       
       let arr = [];
       let arr2 = [];
@@ -105,6 +110,8 @@ class QuadsAdListBody extends Component {
           arr.push(checkbox.value);
           arr2.push(index);
     });
+
+    total_cnt.innerHTML = '('+checkboxes.length+')';
       this.setState({bulk_ads_ids:arr , bulk_ads_index:arr2});
       
     }else{
@@ -114,7 +121,9 @@ class QuadsAdListBody extends Component {
     });
       this.state.bulk_ads_ids = [];
       this.state.bulk_ads_index = [];
+      total_cnt.innerHTML = '';
     }
+    
     e.target.classList.remove('partial-checked');
   }
   handleBulkActions = (e) => {

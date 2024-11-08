@@ -41,6 +41,7 @@ function quads_add_options_link() {
 
             $quads_settings_page = add_submenu_page('quads-settings', __('Ads', 'quick-adsense-reloaded'), 'Ads', $quads_permissions, 'quads-settings', 'quads_options_page_new');
 
+             add_submenu_page('quads-settings', __('Adsell', 'quick-adsense-reloaded'), 'Sellable Ads', $quads_permissions, 'quads-settings&path=adsell', 'quads_options_page_new');
 	        if( defined('QUADS_PRO_VERSION') ){
                 $license_alert = $days = '';
                 $license_info = get_option( 'quads_wp_quads_pro_license_active' );
@@ -76,7 +77,7 @@ function quads_add_options_link() {
             if( isset($quads_options['reports_settings']) && $quads_options['reports_settings'] == 1 )
             $quads_settings_page = add_submenu_page('quads-settings', __('Reports', 'quick-adsense-reloaded'), 'Reports', $quads_permissions, 'quads-settings&path=reports', 'quads_options_page_new');
 
-            add_submenu_page('quads-settings', __('Return to Classic view', 'quick-adsense-reloaded'), 'Return to Classic view', $quads_permissions, 'quads_switch_to_old', 'quads_version_switch');
+           // add_submenu_page('quads-settings', __('Return to Classic view', 'quick-adsense-reloaded'), 'Return to Classic view', $quads_permissions, 'quads_switch_to_old', 'quads_version_switch');
 
         }else{
             $quads_parent_page = add_menu_page('Quick AdSense Reloaded Settings', $label, 'manage_options', 'quads-settings', 'quads_options_page', 'data:image/svg+xml;base64,' . $wpquads_logo);

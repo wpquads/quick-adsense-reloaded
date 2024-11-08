@@ -20,7 +20,7 @@ class QuadsAdConfig extends Component {
   render() {
 
     const {__} = wp.i18n; 
-    const page = queryString.parse(window.location.search);   
+    const page = queryString.parse(window.location.search); 
 
     if(typeof(page.ad_type) === 'undefined'){
       return ( 

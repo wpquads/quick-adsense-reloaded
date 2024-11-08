@@ -238,6 +238,8 @@ function quads_options_page_new() {
         $ajax_call = admin_url( 'admin-ajax.php' );
         $get_admin_url = admin_url('admin.php');
         $get_activated_data = is_plugin_active('sitepress-multilingual-cms/sitepress.php') ? is_plugin_active('sitepress-multilingual-cms/sitepress.php') : 0 ;
+        $quads_settings = get_option('quads_settings');
+        $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
         $data = array(
             'quads_plugin_url'     => QUADS_PLUGIN_URL,
             'rest_url'             => esc_url_raw( rest_url() ),
@@ -251,7 +253,8 @@ function quads_options_page_new() {
             'num_of_ads_to_display' => $get_e_p_p_p,
             'get_admin_url' => $get_admin_url,
             'wpml_activation' => $get_activated_data,
-            'user_roles'=>quads_get_current_user_roles()
+            'user_roles'=>quads_get_current_user_roles(),
+            'currency' => $currency,
                 
         );
         $data = apply_filters('quads_localize_filter',$data,'quads_localize_data');

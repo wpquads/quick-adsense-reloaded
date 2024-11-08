@@ -157,7 +157,10 @@ class QuadsAdCreateRouter extends Component {
             add_url_nofollow          : true,
             delay_ad_sec              :false,
             publish_date              : '',
-            mob_code                  : ''
+            mob_code                  : '',
+            carousel_close            : false,
+            ad_cost                   : 0,
+            ad_cost_type              : 'per_day',
 
             },
             quads_form_errors : {
@@ -725,13 +728,20 @@ class QuadsAdCreateRouter extends Component {
               this.setState({show_form_error:true});
             }
             break;
-            case 'floating_cubes':
-              if(validation_flag && quads_post_meta.floating_slides.length >=1 && quads_post_meta.floating_cubes_type && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
-                this.saveAdFormData('publish');
-              }else{
-                this.setState({show_form_error:true});
-              }
-              break;    
+        case 'floating_cubes':
+          if (validation_flag && quads_post_meta.floating_slides.length >= 1 && quads_post_meta.floating_cubes_type && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)) {
+            this.saveAdFormData('publish');
+          } else {
+            this.setState({ show_form_error: true });
+          }
+          break;
+        case 'ads_space':
+          if (quads_post_meta.code && quads_post_meta.ad_cost > 0 ) {
+            this.saveAdFormData('publish');
+          } else {
+            this.setState({ show_form_error: true });
+          }
+          break;    
         default:
           break;
       }
@@ -1011,6 +1021,15 @@ class QuadsAdCreateRouter extends Component {
                   this.setState({show_form_error:true});
                 }
                 break;
+
+                case 'ads_space':
+                  if (quads_post_meta.code && quads_post_meta.ad_cost > 0 ) {
+                    this.props.history.push(new_url);
+                  } else {
+                    this.setState({ show_form_error: true });
+                  }
+
+                  break;
           default:
             break;
         }
@@ -1044,6 +1063,11 @@ class QuadsAdCreateRouter extends Component {
   closeNotice = () => {
     this.setState({quads_is_saved:false});
   }
+
+  moveTostart = () => {
+    this.movePrev();
+    this.movePrev();
+   };
 
   render() {
     
@@ -1163,9 +1187,15 @@ class QuadsAdCreateRouter extends Component {
                 <div className="quads-ad-config-menu">
                     <div className="quads-ad-config-tab">
                         <ul>
-                            <li className={`${ (page.path =='wizard') ? 'quads-selected' : ''}`}>{__('Configuration', 'quick-adsense-reloaded') }</li>
-                            <li className={`${ (page.path =='wizard_target') ? 'quads-selected' : ''}`}>{__('Targeting', 'quick-adsense-reloaded') }</li>
-                            <li className={`${ (page.path =='wizard_publish') ? 'quads-selected' : ''}`}>{__('Publish', 'quick-adsense-reloaded') }</li>                            
+                            <li className={`${ (page.path =='wizard') ? 'quads-selected' : ''}`}>
+                              <a className={'config-header-link'} onClick={page.path === 'wizard_target' ? this.movePrev :  ( page.path === 'wizard_publish' ? this.moveTostart : undefined )}> {__('Configuration', 'quick-adsense-reloaded') } </a>
+                            </li>
+                            <li className={`${ (page.path =='wizard_target') ? 'quads-selected' : ''}`}>
+                            <a className={'config-header-link'} onClick={page.path === 'wizard' ? this.moveNext : ( page.path === 'wizard_publish' ? this.movePrev : undefined )} > {__('Targeting', 'quick-adsense-reloaded') } </a>
+                            </li>
+                            <li className={`${ (page.path =='wizard_publish') ? 'quads-selected' : ''}`}>
+                            <a> {__('Publish', 'quick-adsense-reloaded') } </a>
+                            </li>                            
                         </ul>   
                     </div>                    
                 </div>

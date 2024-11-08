@@ -329,14 +329,40 @@ class QUADS_Ad_Setup_Api_Service {
                     array(
                       'relation' => 'OR',
                       array(
-                          'value'   => $search_param,
-                          'compare' => '='
-                      ),
+                        'key'     =>   'label',
+                        'value'   => $search_param,
+                        'compare' => 'LIKE'
+                    ),
+                    array(
+                        'key'     =>   'ad_type',
+                        'value'   => $search_param,
+                        'compare' => 'LIKE'
+                    ),
                       array(
-                          'value'   => $search_param,
-                          'compare' => 'LIKE'
+                      'key'     => 'ID', 
+                      'value'   => intval($search_param),
+                      'compare' => '='
+                    )
                       )
-                      )
+                    );
+                }else{
+                  $meta_query_args = array(
+                    'relation' => 'OR',
+                    array(
+                        'key'     =>   'label',
+                        'value'   => $search_param,
+                        'compare' => 'LIKE'
+                    ),
+                    array(
+                        'key'     =>   'ad_type',
+                        'value'   => $search_param,
+                        'compare' => 'LIKE'
+                    ),
+                      array(
+                      'key'     => 'ID', 
+                      'value'   => intval($search_param),
+                      'compare' => '='
+                    )
                     );
                 }
                 $arg['meta_query']          = $meta_query_args;

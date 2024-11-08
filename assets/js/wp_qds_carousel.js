@@ -77,4 +77,17 @@ window.addEventListener("load", function(){
         });
     });
     
+    const wpquads_carousel_close_btns = document.querySelectorAll(".quads_carousel_close");
+    wpquads_carousel_close_btns.forEach(element => {
+        element.addEventListener('click',function(){
+            var temp_id = element.parentNode.getAttribute('data-adid')?element.parentNode.getAttribute('data-adid'):0;
+            clearInterval(quads_carousel_intervals[temp_id]);
+            if(temp_id){
+                let car_con = document.getElementById('carousel-container-'+temp_id);
+                if(car_con){
+                    car_con.remove();
+                }
+            }
+        });
+    });
 });

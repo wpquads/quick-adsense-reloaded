@@ -237,6 +237,27 @@ class QUADS_Ad_Setup_Api {
                     return $this->quads_current_user_can();
                 }
         ));
+        register_rest_route( 'quads-route', 'get-ad-types', array(
+            'methods'    => 'GET',
+            'callback'   => array($this, 'getAdTypes'),
+            'permission_callback' => function(){
+                return $this->quads_current_user_can();
+            }
+        ));
+        register_rest_route( 'quads-route', 'list-adsell-records', array(
+            'methods'    => 'GET',
+            'callback'   => array($this, 'getAdSellList'),
+            'permission_callback' => function(){
+                return $this->quads_current_user_can();
+            }
+        ));
+        register_rest_route('quads-route', '/adsell/(?P<id>\d+)/(?P<status>approved|disapproved)', [
+            'methods'  => 'POST',
+            'callback' => array($this, 'updateAdsellStatus'),
+            'permission_callback' => function() {
+                return $this->quads_current_user_can();
+            }
+        ]);
         }
         public function quads_register_ad(){
 	        global $_quads_registered_ad_locations;
@@ -1903,6 +1924,81 @@ return array('status' => 't');
             }
             return $default_return;
         }
+        public function getAdTypes(){
+            $ad_types = array(
+                'adsense' => 'Adsense',
+                'double_click' => 'Double Click',
+                'plain_text' => 'Plain Text',
+                'ad_image' => 'Ad Image',
+            );
+            
+            // get all the ad types from the database in post meta for which ads are created
+            $args = array(
+                'post_type'      => 'quads-ads',
+                'posts_per_page' => -1, // Get all posts
+                'fields'         => 'ids' // Only retrieve post IDs
+            );
+            $query = new WP_Query($args);
+            $post_ids = $query->posts;
+            if (!empty($post_ids)) {
+                $ad_types = array();
+            
+                foreach ($post_ids as $post_id) {
+                    $ad_type = get_post_meta($post_id, 'ad_type', true);
+                    if ($ad_type && !in_array($ad_type, $ad_types)) {
+                        $ad_types[] = $ad_type; // Add distinct ad_types
+                    }
+                }
+            }
+
+            return $ad_types;
+        }
+        
+        public function getAdSellList( $request ){
+            
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'quads_adbuy_data'; 
+            $page = (int) $request->get_param('page') ?: 1;
+            $per_page = 10;
+            $offset = ($page - 1) * $per_page;
+        
+            // Query the records
+            $results = $wpdb->get_results($wpdb->prepare(
+                "SELECT * FROM $table_name WHERE payment_status = %s ORDER BY id DESC LIMIT %d OFFSET %d",
+                'paid',
+                $per_page,
+                $offset
+            ));
+
+            $total = $wpdb->get_var("SELECT COUNT(*)  FROM $table_name WHERE payment_status = 'paid'");
+
+            foreach ($results as $key => $result) {
+                $ad_id = $result->ad_id;
+                $ad_name = get_the_title($ad_id);
+                $results[$key]->ad_name = $ad_name;
+            }
+        
+            return ['records'=>$results,'total'=> $total ];
+        } 
+
+        public function updateAdsellStatus($request) {
+            // Retrieve parameters from the request
+            $id = (int) $request['id'];
+            $status = sanitize_text_field($request['status']);
+        
+            $new_status = ($status === 'approved') ? 'approved' : 'disapproved';
+    
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'quads_adbuy_data';
+            $status = $wpdb->update(
+                $table_name,
+                ['ad_status' => $new_status],
+                ['id' => $id]
+            );
+            
+            return ['success' => true];
+        }
+        
         public function getAdloggingData($request){
             $parameters = $request->get_params();
             $search_param = array();
