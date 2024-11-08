@@ -237,8 +237,18 @@ class QuadsAdList extends Component {
     .then(() => {
       let inputId = (valueToCopy).match(/\d+/);
         this.setState({copiedInputId: inputId});
+        let  target = document.getElementById('post_shortcode_'+inputId);
+        target.style.backgroundColor = 'green';
+        target.style.color = 'white';
+        target.style.textAlign = 'center';
+        target.value = 'Copied!';
+
         setTimeout(() => {
           this.setState({copiedInputId: null});
+          target.style.backgroundColor = '';
+          target.style.color = '';
+          target.textAlign = '';
+          target.value = valueToCopy ;
         }, 3000);
       })
       .catch(err => {
@@ -302,7 +312,6 @@ class QuadsAdList extends Component {
                 <td>{this.getImageByAdType(item.post_meta.ad_type, index)} {this.getAmpLogoByEnabled(item.post_meta.enabled_on_amp, index)}</td>
                 <td>{item.post.post_modified}</td>
                 <td><input name="post_shortcode" id={'post_shortcode_'+(item.post_meta.quads_ad_old_id).match(/\d+/)} data-attr={''+(item.post_meta.quads_ad_old_id).match(/\d+/)+''} type="text" defaultValue={'[quads id='+(item.post_meta.quads_ad_old_id).match(/\d+/)+']'}  onClick={this.handleCopy} style={{ cursor: 'pointer' , width: '120px'}} readOnly/>
-                {this.state.copiedInputId == (item.post_meta.quads_ad_old_id).match(/\d+/)[0] && (<span style={{ color: 'white',position: 'relative',top: '-25px',background: 'green',padding: '5px 35px',borderRadius: '5px',left: '0' }}>Copied!</span>)}
               </td>
                 <td>
                 <div className="quads-action-div">

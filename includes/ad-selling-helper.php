@@ -433,7 +433,6 @@ function isValidDateRange(start, end) {
 
         // Re-enable the submit button and reset its text
         submitButton.disabled = false;
-        submitButton.textContent = 'Submit';
 
         if (xhr.status >= 200 && xhr.status < 400) {
             var response = JSON.parse(xhr.responseText);
@@ -637,20 +636,20 @@ function wpquads_handle_paypal_notify(WP_REST_Request $request) {
         $ad_details_html = "";
         //send email to  user and admin
         $to = $payer_email;
-        $subject = 'Ad Payment Confirmation';
-        $message = 'Your ad payment has been confirmed. Your ad will be live soon.'.PHP_EOL;
+        $subject = esc_html__( 'Ad Payment Confirmation', 'quick-adsense-reloaded' );
+        $message = esc_html__( 'Your ad payment has been confirmed. Your ad will be live soon.', 'quick-adsense-reloaded' ).PHP_EOL;
         //also add the ad details in the email
         $ad_details_html .= 'Ad Details: '.PHP_EOL;
         $ad_details_html .= 'Ad Slot: ' . get_the_title($ad_details->ad_id ) . PHP_EOL;
-        $ad_details_html .= 'Start Date: ' . $ad_details->start_date . PHP_EOL;
-        $ad_details_html .= 'End Date: ' .  $ad_details->end_date . PHP_EOL;
-        $ad_details_html .= 'Ad Link: ' .  $ad_details->ad_link . PHP_EOL;
-        $ad_details_html .= 'Ad Image: ' .  $ad_details->ad_image . PHP_EOL;
-        $ad_details_html .= 'Total Cost: ' . $currency . $total_cost . PHP_EOL;
-        $ad_details_html .= 'Payment Status: ' . $payment_status . PHP_EOL;
-        $ad_details_html .= 'Payer Email: ' . $payer_email . PHP_EOL;
-        $ad_details_html .= 'Order ID: ' . $order_id . PHP_EOL;
-        $ad_details_html .= 'Order ID: ' . $order_id . PHP_EOL;
+        $ad_details_html .= 'Start Date: ' . esc_html($ad_details->start_date) . PHP_EOL;
+        $ad_details_html .= 'End Date: ' .  esc_html($ad_details->end_date) . PHP_EOL;
+        $ad_details_html .= 'Ad Link: ' .  esc_html($ad_details->ad_link) . PHP_EOL;
+        $ad_details_html .= 'Ad Image: ' .  esc_html($ad_details->ad_image) . PHP_EOL;
+        $ad_details_html .= 'Total Cost: ' . esc_html($currency . $total_cost) . PHP_EOL;
+        $ad_details_html .= 'Payment Status: ' . esc_html($payment_status) . PHP_EOL;
+        $ad_details_html .= 'Payer Email: ' . esc_html($payer_email) . PHP_EOL;
+        $ad_details_html .= 'Order ID: ' . esc_html($order_id) . PHP_EOL;
+        $ad_details_html .= 'Order ID: ' . esc_html($order_id) . PHP_EOL;
         $message .= $ad_details_html;
         
 
@@ -658,9 +657,9 @@ function wpquads_handle_paypal_notify(WP_REST_Request $request) {
         wp_mail( $to, $subject, $message, $headers );
 
         $to = get_option('admin_email');
-        $subject = 'Ad Payment Confirmation';
-        $message = 'Ad payment has been confirmed for user: ' . $payer_email. PHP_EOL;
-        $message = 'Please  review the AD so that it can go live ' . PHP_EOL;
+        $subject = esc_html__( 'Ad Payment Confirmation', 'quick-adsense-reloaded' );
+        $message = esc_html__( 'Ad payment has been confirmed for user: ', 'quick-adsense-reloaded' ) . $payer_email. PHP_EOL;
+        $message = esc_html__( 'Please  review the AD so that it can go live ', 'quick-adsense-reloaded' ). PHP_EOL;
         //also add reminder to review the ad
 
         $message .= $ad_details_html;
@@ -696,98 +695,119 @@ function quads_get_active_sellads_ids( ){
  * Send Expired Ad Notification Email
  * @param mixed $ad_id
  * @param mixed $user_id
+ * @param string $type Notification type (reminder or expiry)
  * @return void
  */
-function quads_send_ad_expiry_email( $ad_id, $user_id ){
+function quads_send_ad_expiry_email( $ad_id, $user_id, $type = 'expiry' ){
     $ad = get_post( $ad_id );
     $user = get_user_by('id', $user_id);
     $to = $user->user_email;
-    $subject = 'Ad Expiry Notification';
-    $message = 'Your ad has expired and is no longer showing on the site. Please renew your ad to continue showing it on the site. <br> Renew your ad here: '.site_url('buy-adspace').PHP_EOL;
+    $subject = ($type === 'reminder') ? esc_html__( 'Ad Expiry Reminder', 'quick-adsense-reloaded' ) : esc_html__( 'Ad Expiry Notification', 'quick-adsense-reloaded' );
+    
+    if ( $type === 'reminder' ) {
+        $message = esc_html__( 'Your ad is set to expire in 2 days. Please renew your ad to continue showing it on the site. Renew your ad here: ', 'quick-adsense-reloaded' )
+            . '<a href="' . esc_url( site_url('buy-adspace') ) . '" target="_blank">' . esc_url( site_url('buy-adspace') ) . '</a>' . PHP_EOL;
+    } else {
+        $message = esc_html__( 'Your ad has expired and is no longer showing on the site. Please renew your ad to continue showing it on the site. Renew your ad here: ', 'quick-adsense-reloaded' )
+            . '<a href="' . esc_url( site_url('buy-adspace') ) . '" target="_blank">' . esc_url( site_url('buy-adspace') ) . '</a>' . PHP_EOL;
+    }
+
     $headers = array('Content-Type: text/html; charset=UTF-8');
     wp_mail( $to, $subject, $message, $headers );
 }
 
 
 // Schedule the cron job if it’s not already scheduled
-
 if ( ! wp_next_scheduled( 'quads_daily_check_expired_sellads' ) ) {
-    
     $quads_settings = get_option( 'quads_settings' );
     if( (isset($quads_settings['email_notification_adsell_expiry']) && $quads_settings['email_notification_adsell_expiry']) || empty( $quads_settings['email_notification_adsell_expiry'] ) ){
         wp_schedule_event( time(), 'daily', 'quads_daily_check_expired_sellads' );
-    }else{
+    } else {
         wp_clear_scheduled_hook( 'quads_daily_check_expired_sellads' );
     }
-
 }
 add_action( 'quads_daily_check_expired_sellads', 'quads_check_expired_sellads' );
 
 /**
- * Checks for ads that expired yesterday and sends expiry notification emails.
+ * Checks for ads that expired yesterday and ads expiring in two days, sending notification emails accordingly.
  */
 function quads_check_expired_sellads() {
-
     $yesterday = date( 'Y-m-d', strtotime( '-1 day', current_time( 'timestamp' ) ) );
+    $two_days_ahead = date( 'Y-m-d', strtotime( '+2 days', current_time( 'timestamp' ) ) );
 
-    // Query posts with 'end_date' meta set to yesterday
-    $args = [
-        'post_type'      => 'quads-ads',  
+    $query_args = [
+        'post_type'      => 'quads-ads',
         'posts_per_page' => -1,
         'meta_query'     => [
             'relation' => 'AND',
-            [
-                'key'     => 'end_date',
-                'value'   => $yesterday,
-                'compare' => '=',
-                'type'    => 'DATE',
-            ],
             [
                 'key'     => 'ad_type',
                 'value'   => 'ads_space',
                 'compare' => '=',
             ],
+            [
+                'relation' => 'OR',
+                [
+                    'key'     => 'end_date',
+                    'value'   => $yesterday,
+                    'compare' => '=',
+                    'type'    => 'DATE',
+                ],
+                [
+                    'key'     => 'end_date',
+                    'value'   => $two_days_ahead,
+                    'compare' => '=',
+                    'type'    => 'DATE',
+                ],
+            ],
         ],
     ];
 
-// Get expired ads using WP_Query
-$expired_ads = new WP_Query( $args );
+    // Get relevant ads using WP_Query
+    $ads = new WP_Query( $query_args );
 
-if ( $expired_ads->have_posts() ) {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'quads_adbuy_data';
+    if ( $ads->have_posts() ) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'quads_adbuy_data';
 
-    // Collect all ad IDs from the query
-    $ad_ids = [];
-    while ( $expired_ads->have_posts() ) {
-        $expired_ads->the_post();
-        $ad_ids[] = get_the_ID();
-    }
-    wp_reset_postdata();
+        // Collect ad IDs and determine email type based on expiration date
+        $ad_ids = [];
+        $ad_email_types = [];
+        while ( $ads->have_posts() ) {
+            $ads->the_post();
+            $ad_id = get_the_ID();
+            $end_date = get_post_meta( $ad_id, 'end_date', true );
 
-    // Only proceed if there are ad IDs to check
-    if ( ! empty( $ad_ids ) ) {
-        // Prepare the SQL query to get user IDs for these ad IDs
-        $placeholders = implode( ',', array_fill( 0, count( $ad_ids ), '%d' ) );
-        $query        = $wpdb->prepare(
-            "SELECT user_id, ad_id FROM $table_name WHERE ad_id IN ($placeholders)",
-            ...$ad_ids
-        );
+            if ( $end_date === $yesterday ) {
+                $ad_email_types[$ad_id] = 'expiry';
+            } elseif ( $end_date === $two_days_ahead ) {
+                $ad_email_types[$ad_id] = 'reminder';
+            }
+            $ad_ids[] = $ad_id;
+        }
+        wp_reset_postdata();
 
-        // Execute the query and get results
-        $users = $wpdb->get_results( $query );
+        // Only proceed if there are ad IDs to check
+        if ( ! empty( $ad_ids ) ) {
+            $placeholders = implode( ',', array_fill( 0, count( $ad_ids ), '%d' ) );
+            $query        = $wpdb->prepare(
+                "SELECT user_id, ad_id FROM $table_name WHERE ad_id IN ($placeholders)",
+                ...$ad_ids
+            );
 
-        // Process each user and ad combination
-        foreach ( $users as $user ) {
-            $user_id = $user->user_id;
-            $ad_id   = $user->ad_id;
+            // Execute the query and get results
+            $users = $wpdb->get_results( $query );
 
-            // Send the expiry email
-            quads_send_ad_expiry_email( $ad_id, $user_id );
+            // Process each user and ad combination
+            foreach ( $users as $user ) {
+                $user_id = $user->user_id;
+                $ad_id   = $user->ad_id;
+
+                // Determine email type and send the notification
+                if ( isset( $ad_email_types[$ad_id] ) ) {
+                    quads_send_ad_expiry_email( $ad_id, $user_id, $ad_email_types[$ad_id] );
+                }
+            }
         }
     }
 }
-
-}
-
-

@@ -95,7 +95,8 @@ const AdSellRecords = () => {
         <div className='sellable_ads_wrapper'>
             <h1>  {__('Sellable Ads', 'quick-adsense-reloaded')}</h1>
 
-            {/* Search Bar */}
+            {currentRecords.length > 0 && (
+
             <input
                 type="text"
                 placeholder={__('Search records...', 'quick-adsense-reloaded')}
@@ -103,6 +104,7 @@ const AdSellRecords = () => {
                 value={searchTerm}
                 onChange={handleSearch}
             />
+            )}
 
             
 
@@ -111,6 +113,7 @@ const AdSellRecords = () => {
                  <div className="quads-cover-spin"></div>
             ) : (<div>
                 <table className='quads-ad-table'>
+                {currentRecords.length > 0 && (
                     <thead>
                         <tr>
                             <th>{__('ID', 'quick-adsense-reloaded')}</th>
@@ -121,6 +124,7 @@ const AdSellRecords = () => {
                             <th>{__('Action', 'quick-adsense-reloaded')}</th>
                         </tr>
                     </thead>
+                )}
                     <tbody>
                     {currentRecords.map((record) => (
                         <tr key={record.id}>
@@ -182,9 +186,13 @@ const AdSellRecords = () => {
                     </tbody>
                 </table>
 
-                 {/* Pagination */}
+            
             <div className='quads-pagination'>
-           
+               
+                {currentRecords.length === 0 && (
+                    <h2>{__('No ads have been purchased on your site as of now.', 'quick-adsense-reloaded')}</h2>
+                )}
+            {currentRecords.length > 0 && (
             <div className='pages'>
                 {Array.from({ length: totalPages }, (_, index) => (
                     <button
@@ -196,19 +204,23 @@ const AdSellRecords = () => {
                     </button>
                 ))}
             </div>
-
+            )}
+ {currentRecords.length > 0 && (
             <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
             >
-                Previous
+                {__('Previous', 'quick-adsense-reloaded')}
             </button>
+            )}
+             {currentRecords.length > 0 && (
             <button
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
             >
-                Next
+                {__('Next', 'quick-adsense-reloaded')}
             </button>
+            )}
         </div>
         </div>
             )}
