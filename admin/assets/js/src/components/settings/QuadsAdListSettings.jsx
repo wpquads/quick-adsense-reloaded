@@ -2229,7 +2229,7 @@ handleCapabilityChange = (event) =>{
                     <th scope="row"><label htmlFor="hide_ajax">{__('Email Notification on Ad Expiry', 'quick-adsense-reloaded')}</label></th>
                     <td>
                       <label className="quads-switch"><input id="email_notification_adsell_expiry" type="checkbox" name="email_notification_adsell_expiry" checked={settings.email_notification_adsell_expiry} onChange={this.formChangeHandler} /><span className="quads-slider"></span></label>
-                      <p>{__('User will receive an email notification when an ad expires.', 'quick-adsense-reloaded')}</p>
+                      <p>{__('User will receive an email notification when an ad is about to expire or is expired.', 'quick-adsense-reloaded')}</p>
                     </td>
                     </tr>
                   </tbody></table>
