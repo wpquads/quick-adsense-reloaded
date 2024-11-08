@@ -26,6 +26,9 @@ window.addEventListener("load", function(){
             return;
         }
         var cur_slide = car_con.getAttribute('data-slide')?car_con.getAttribute('data-slide'):1;
+        if (!x || x.length === 0) {
+            return;
+        }
         var x = document.getElementsByClassName("quads-slides-"+current_carousel_id);
         for (i = 0; i < x.length; i++) {x[i].style.display = "none";}
         if(quads_move=='back'){
