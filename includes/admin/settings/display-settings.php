@@ -240,6 +240,7 @@ function quads_options_page_new() {
         $get_activated_data = is_plugin_active('sitepress-multilingual-cms/sitepress.php') ? is_plugin_active('sitepress-multilingual-cms/sitepress.php') : 0 ;
         $quads_settings = get_option('quads_settings');
         $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
+        $sellable_ads = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : 0;
         $data = array(
             'quads_plugin_url'     => QUADS_PLUGIN_URL,
             'rest_url'             => esc_url_raw( rest_url() ),
@@ -255,6 +256,7 @@ function quads_options_page_new() {
             'wpml_activation' => $get_activated_data,
             'user_roles'=>quads_get_current_user_roles(),
             'currency' => $currency,
+            'sellable_ads' => $sellable_ads
                 
         );
         $data = apply_filters('quads_localize_filter',$data,'quads_localize_data');

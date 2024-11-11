@@ -13,10 +13,18 @@ if( !defined( 'ABSPATH' ) ) {
 */
 function quads_create_sellpage_on_activation() {
     // Check if the page already exists
-    $existing_page = get_page_by_path( 'buy-adspace' ); // You can change the slug
+    $existing_page = get_page_by_path( 'buy-adspace' );
+    $quads_sell_page = get_option( 'quads_sellpage' , false );
+    $quads_settings = get_option( 'quads_settings' , []);
 
+    if ( $existing_page && ! $quads_sell_page ) {
+        $quads_settings['payment_page'] = $existing_page->ID;
+        update_option( 'quads_settings', $quads_settings , false);
+        update_option( 'quads_sellpage', true , false);
+        return;
+    }
     // If the page doesn't exist, create a new page
-    if ( ! $existing_page ) {
+    if ( ! $existing_page && ! $quads_sell_page ) {
         $page_data = array(
             'post_title'     => esc_html__( 'Buy Adspace', 'quick-adsense-reloaded' ),
             'post_content'   => '[quads_buy_form]',
@@ -30,7 +38,9 @@ function quads_create_sellpage_on_activation() {
 
         if ( $page_id && ! is_wp_error( $page_id ) ) {
             // Save the page slug or ID in the options table
-            update_option( 'quads_sell_page', 'buy-adspace' ); // You can store the page slug or ID
+            $quads_settings['payment_page'] = $page_id;
+            update_option( 'quads_settings', $quads_settings , false);
+            update_option( 'quads_sellpage', true , false);
         }
     }
 }
@@ -83,13 +93,15 @@ function quads_ads_buy_form() {
 
     if ( $ads ) {
         $booked_ads = quads_get_active_sellads_ids();
+        $quads_settings = get_option( 'quads_settings' );
+        $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] :'USD';
         foreach ( $ads as $ad ) {
             if( in_array( $ad, array_column( $booked_ads, 'ad_id' ) ) ){
                 continue;
             }
             $ad_list[ $ad ] [ 'name' ]= get_the_title( $ad );
             $ad_list[ $ad ] [ 'price' ]= get_post_meta( $ad , 'ad_cost', true )? get_post_meta( $ad , 'ad_cost', true ) : 999;
-            $ad_list[ $ad ] [ 'currency' ]= get_post_meta( $ad , 'USD', true )? get_post_meta( $ad , 'USD', true ) : 'USD';
+            $ad_list[ $ad ] [ 'currency' ]= $currency ? $currency : 'USD';
             $ad_list[ $ad ] [ 'type' ]= get_post_meta( $ad , 'ad_cost_type', true ) ? get_post_meta( $ad , 'ad_cost_type', true ) : 'per day';
         }
     }

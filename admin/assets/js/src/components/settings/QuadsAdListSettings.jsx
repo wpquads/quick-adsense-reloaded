@@ -64,6 +64,7 @@ class QuadsAdListSettings extends Component {
                 skippable_ads : true,
                 ad_performance_tracking : false,
                 exclude_admin_tracking : false,
+                sellable_ads : true,
                 reports_settings : true,
                 ad_logging : false,
                 ad_owner_revenue_per:50,
@@ -109,7 +110,10 @@ class QuadsAdListSettings extends Component {
                 adsforwp_to_quads  : false,
                 optimize_core_vitals : false, 
                 namer : '', 
+                currency : 'USD',
                 email_notification_adsell_expiry : true,
+                paypal_email : '',
+                payment_page : 'buy-adspace',
                 },
             quads_wp_quads_pro_license_key : '',
             importampforwpmsg : "",
@@ -126,7 +130,8 @@ class QuadsAdListSettings extends Component {
             q_admin_url:'',
             black: true,
             checked: false,
-            role_permission_modal :false
+            role_permission_modal :false,
+            pages: [],
         };
   }
   onFileChange = (event) => {
@@ -714,6 +719,24 @@ handleCapabilityChange = (event) =>{
       q_admin_url = ''
     }
   }
+  getPages = () => {
+    let url = quads_localize_data.rest_url + 'quads-route/get-pages';
+    fetch(url,{
+      headers: {
+        'X-WP-Nonce': quads_localize_data.nonce,
+      }
+    })
+    .then(res => res.json())
+    .then(
+      (data) => {
+        console.log(data);
+          this.setState({pages:data});
+      },
+      (error) => {
+      }
+    );
+  }
+
   
   componentDidMount(){
     this.get_blocked_ips();
@@ -724,6 +747,7 @@ handleCapabilityChange = (event) =>{
     this.getPlugins('');
     this.getQuadsInfo();
     this.getPageDataMeta('page');
+    this.getPages();
     if(quads_localize_data.licenses == '' && typeof this.state.licensemsg === 'undefined'){
         this.setState({ licensemsg: __('Please activate your WP QUADS PRO License Key', 'quick-adsense-reloaded') });
     }else  if(quads_localize_data.licenses.license == 'valid'){
@@ -781,12 +805,11 @@ handleCapabilityChange = (event) =>{
       }
       return false; 
   }
-    saveSettings = () => {
+    saveSettings = ( reload_page = false ) => {
 
       if(!this.quadsUserHasSettingsAccess){
          return __('Unauthorised Action', 'quick-adsense-reloaded');
       }
-      
       const formData = new FormData();
       formData.append("file", this.state.backup_file);
       formData.append("settings", JSON.stringify(this.state.settings));
@@ -851,6 +874,9 @@ handleCapabilityChange = (event) =>{
               }, 1000);
 
               this.setState({settings_error:result.msg, button_spinner_toggle:false, selectedBtnOpt:null});
+              if(reload_page){
+                location.reload();
+              }
             }
         },
         (error) => {
@@ -1023,8 +1049,13 @@ handleCapabilityChange = (event) =>{
      if(name == 'tcf_2_integration'){
       this.saveSettings();
      }
-     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking'|| name == 'report_logging' || name == 'ad_log' || name == 'global_excluder' || name == 'delay_ad_sec' || name == 'skippable_ads' || name == 'exclude_admin_tracking'){
-      this.saveSettings();
+     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking'|| name == 'report_logging' || name == 'ad_log' || name == 'global_excluder' || name == 'delay_ad_sec' || name == 'skippable_ads' || name == 'exclude_admin_tracking' || name == 'sellable_ads'){
+      
+      if(name == 'sellable_ads'){
+        this.saveSettings(true);
+      }else{
+        this.saveSettings();
+      }
     }
     if(name == 'adsforwp_quads_shortcode'|| name == 'adsforwp_quads_gutenberg' || name == 'advance_ads_to_quads'){
      this.saveSettings();
@@ -1861,6 +1892,23 @@ handleCapabilityChange = (event) =>{
                       }
                      </td>
                  </tr>
+                 <tr>
+                     <th><label htmlFor="sellable_ads">{__('Sellable Ads', 'quick-adsense-reloaded')}</label></th>
+                     <td>
+                      {this.state.selectedBtnOpt == 'sellable_ads' ?
+                         <div className="quads-spin-cntr">
+                          <div className="quads-set-spin"></div>
+                         </div> :
+                         <label className="quads-switch">
+                             <input id="sellable_ads" type="checkbox" name="sellable_ads" onChange={this.formChangeHandler} checked={settings.sellable_ads} />
+                             <span id="sellable_ads_" className="quads-slider"></span>
+                             <div className="lazy_loader_sa"></div>
+                         </label>
+                         
+                      }
+                       <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/"></a>
+                     </td>
+                 </tr>
                  {this.state.quadsIsAdmin ?
                  <tr>
                     <th scope="row"><label htmlFor="RoleBasedAccess">{__('Role Based Access', 'quick-adsense-reloaded')}</label></th>
@@ -2232,6 +2280,19 @@ handleCapabilityChange = (event) =>{
                       <p>{__('User will receive an email notification when an ad is about to expire or is expired.', 'quick-adsense-reloaded')}</p>
                     </td>
                     </tr>
+                    <tr>
+                    <th scope="row"><label>{__('Payment Page', 'quick-adsense-reloaded')}</label></th>
+                    <td>
+                     <select name="payment_page" value={settings.payment_page} onChange={this.formChangeHandler}>
+                      <option value="">{__('Select Page', 'quick-adsense-reloaded')}</option>
+                      {this.state.pages.map((page, index) => (
+                        <option key={index} value={page['ID']}>{page['post_title']}</option>
+                      ))}
+                    </select>
+                    <p>{__('By default we have created  a payment page named "Buy Adspace". But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_buy_form]</code> {__(' and select that page from above . ')} <br/>  {__('Note : Payment page must  exists and contains the shortcode')} <code>[quads_buy_form]</code>
+                    <a target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/">{__('Learn More')}</a></p>
+                    </td>
+                  </tr>
                   </tbody></table>
                 </div>
                );

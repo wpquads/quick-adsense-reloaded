@@ -258,6 +258,14 @@ class QUADS_Ad_Setup_Api {
                 return $this->quads_current_user_can();
             }
         ]);
+
+        register_rest_route( 'quads-route', 'get-pages', array(
+            'methods'    => 'GET',
+            'callback'   => array($this, 'getPages'),
+            'permission_callback' => function(){
+                return $this->quads_current_user_can();
+            }
+        ));
         }
         public function quads_register_ad(){
 	        global $_quads_registered_ad_locations;
@@ -1800,6 +1808,15 @@ return array('status' => 't');
             }
             return $quads_settings;
         }
+
+        public function getPages($request){
+
+            global $wpdb;
+            $query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'page' AND post_status = 'publish' ORDER BY post_title ASC";
+            $results = $wpdb->get_results($query, ARRAY_A);
+            return $results;
+
+        }
         public function getConditionList($request_data){
 
             $response = array();
@@ -2069,7 +2086,7 @@ return array('status' => 't');
                     }
                     $result      = $this->api_service->updateSettings($param_array);
                     if($result){
-                        $response = array('status' => 'tp', 'msg' =>  __( 'Settings has been saved successfullycv', 'quick-adsense-reloaded' ));
+                        $response = array('status' => 'tp', 'msg' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
                         if(is_array($result)){
                             if ($result['license'] == "invalid") {
                                 $response = array('status' => 'lic_not_valid','license'=>$result['license'], 'msgINV' =>  __( 'Settings has been saved successfullyvf', 'quick-adsense-reloaded' ));

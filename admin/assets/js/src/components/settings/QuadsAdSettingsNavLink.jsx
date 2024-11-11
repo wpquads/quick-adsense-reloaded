@@ -26,7 +26,7 @@ class QuadsAdSettingsNavLink extends Component {
       <div className="quads-settings-tab">
       <ul>
           <li><h2><Link to={'admin.php?page=quads-settings&path=settings'} className={current == 'settings' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'}>{__('Features', 'quick-adsense-reloaded')}</Link></h2></li>
-          <li><h2><Link to={'admin.php?page=quads-settings&path=settings_adsell'} className={current == 'settings_adsell' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'}>{__('Sellable Ads', 'quick-adsense-reloaded')}</Link></h2></li>
+          {quads_localize_data.sellable_ads ? <li><h2><Link to={'admin.php?page=quads-settings&path=settings_adsell'} className={current == 'settings_adsell' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'}>{__('Sellable Ads', 'quick-adsense-reloaded')}</Link></h2></li>:''}
           <li><h2><Link to={'admin.php?page=quads-settings&path=settings_tools'} className={current == 'settings_tools' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'}>{__('Tools', 'quick-adsense-reloaded')}</Link></h2></li>
            <li><h2><Link to={'admin.php?page=quads-settings&path=settings_importer'} className={current == 'settings_importer' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'}>{__('Importer', 'quick-adsense-reloaded')}</Link></h2></li>
           <li><h2><Link to={'admin.php?page=quads-settings&path=settings_legacy'} className={current == 'settings_legacy' ? 'quads-nav-link quads-nav-link-active' : 'quads-nav-link'}>{__('Legacy', 'quick-adsense-reloaded')}</Link></h2></li>
