@@ -1127,7 +1127,7 @@ function quads_render_ads_space_async($id) {
 
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Ads Space --> \n\n";
     if ( empty( $ads_to_show ) ) {
-        $html .= '<a target="_blank" class="quads-ads-space-advertise" href="'.esc_url(site_url('buy-adspace?ad_slot_id='.$ad_id)).'" style="display:block;text-align:center;">';
+        $html .= '<a target="_blank" class="quads-ads-space-advertise" href="'.esc_url($payment_page.'?ad_slot_id='.$ad_id).'" style="display:block;text-align:center;">';
         $html .= '<div class="quads-ads-space" id="quads-ads-space-'.esc_attr($id).'" style="display:flex;align-items: center;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;background:#efefef;justify-content:'.esc_attr($align).';">'.$ads_code.'</div>';
         $html .='</a>';
         // advertise  here link
