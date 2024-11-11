@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.7
 Requires PHP: 5.4
-Stable tag: 2.0.86
+Stable tag: 2.0.86.1
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -207,6 +207,10 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.86.1 ( 11 November 2024 ) =
+* Improvement: Option to prevent automatic creation of a sellable ad page #909
+* Fixed: Uncaught TypeError: Cannot read properties of undefined (reading 'style') #907
 
 = 2.0.86 ( 07 November 2024 ) =
 * New: Feature for payment methods for selling ads #550
