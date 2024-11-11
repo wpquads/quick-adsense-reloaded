@@ -489,7 +489,11 @@ function isValidDateRange(start, end) {
     return ob_get_clean();
 }
 
+$quads_settings = get_option( 'quads_settings' );
+$sellable_ads = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : false;
+if ( $sellable_ads ) {
 add_shortcode( 'quads_buy_form', 'quads_ads_buy_form' );
+}
 
 
 function handle_ad_buy_form_submission() {

@@ -127,11 +127,13 @@ class AdTypeSelectorNavLink extends Component {
           {this.props.All_ad_network.map((item, index) =>
              <li title={item.ad_type} key={item.ad_type} ><Link to={`admin.php?page=quads-settings&path=wizard&ad_type=${item.ad_type}`} className="quads-nav-link" >{this.props.getImageByAdType(item.ad_type, index)}<span className="ad_type_name_">{item.ad_type_name}</span></Link></li>  )}
         </ul>
-         
-      <p className='quads-ad-selling'>{__('Sellable Ads', 'quick-adsense-reloaded')}</p>
-      <ul>
-        <li title="Ads Space" key="ads-space" ><Link to={`admin.php?page=quads-settings&path=wizard&ad_type=ads_space`} className="quads-nav-link" >{this.props.getImageByAdType('ads_space', 'ads_space')}<span className="ad_type_name_">Ads Space</span></Link></li>
-      </ul>
+       {quads_localize_data.sellable_ads == 1 ?<p className='quads-ad-selling'>{__('Sellable Ads', 'quick-adsense-reloaded')}</p>:''}  
+       {quads_localize_data.sellable_ads == 1 ?
+       <ul>
+       <li title="Ads Space" key="ads-space" ><Link to={`admin.php?page=quads-settings&path=wizard&ad_type=ads_space`} className="quads-nav-link" >{this.props.getImageByAdType('ads_space', 'ads_space')}<span className="ad_type_name_">Ads Space</span></Link></li>
+     </ul>
+     :''} 
+      
       </div>
 
      

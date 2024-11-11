@@ -1812,7 +1812,7 @@ return array('status' => 't');
         public function getPages($request){
 
             global $wpdb;
-            $query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'page' AND post_status = 'publish' ORDER BY post_title ASC";
+            $query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'page' AND post_status = 'publish' ORDER BY post_title ASC LIMIT 0, 100";
             $results = $wpdb->get_results($query, ARRAY_A);
             return $results;
 
@@ -2087,14 +2087,22 @@ return array('status' => 't');
                     $result      = $this->api_service->updateSettings($param_array);
                     if($result){
                         $response = array('status' => 'tp', 'msg' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
+                         // when sellable is disabled then make buy-adspace slug page to draft
+                        if(isset($param_array['sellable_ads']) && $param_array['sellable_ads'] == 0){
+                            $page = get_page_by_path('buy-adspace');
+                            if($page && $page->post_status == 'publish'){
+                                wp_update_post(array('ID' => $page->ID, 'post_status' => 'draft'));
+                            }
+                        }
                         if(is_array($result)){
                             if ($result['license'] == "invalid") {
-                                $response = array('status' => 'lic_not_valid','license'=>$result['license'], 'msgINV' =>  __( 'Settings has been saved successfullyvf', 'quick-adsense-reloaded' ));
+                                $response = array('status' => 'lic_not_valid','license'=>$result['license'], 'msgINV' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
+
                             }
                             else
                                 {
                                     if ($result['license'] == "valid") {
-                                        $response = array('status' => 'license_validated','license'=>$result['license'], 'msgV' =>  __( 'Settings has been saved successfullyvf', 'quick-adsense-reloaded' ));
+                                        $response = array('status' => 'license_validated','license'=>$result['license'], 'msgV' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
                                     }
                                 }
                             }

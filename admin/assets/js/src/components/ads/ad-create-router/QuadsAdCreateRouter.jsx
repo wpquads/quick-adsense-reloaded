@@ -159,7 +159,7 @@ class QuadsAdCreateRouter extends Component {
             publish_date              : '',
             mob_code                  : '',
             carousel_close            : false,
-            ad_cost                   : 0,
+            ad_cost                   : 1,
             ad_cost_type              : 'per_day',
 
             },
