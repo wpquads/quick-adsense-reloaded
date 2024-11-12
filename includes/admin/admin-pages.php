@@ -41,7 +41,7 @@ function quads_add_options_link() {
 
             $quads_settings_page = add_submenu_page('quads-settings', __('Ads', 'quick-adsense-reloaded'), 'Ads', $quads_permissions, 'quads-settings', 'quads_options_page_new');
             $quads_settings = get_option('quads_settings',[]);
-            $sellable_ads = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : 0;
+            $sellable_ads = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : 1 ;
             if(  $sellable_ads ){
                 add_submenu_page('quads-settings', __('Adsell', 'quick-adsense-reloaded'), 'Sellable Ads', $quads_permissions, 'quads-settings&path=adsell', 'quads_options_page_new');
             }
