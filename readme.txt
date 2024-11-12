@@ -208,7 +208,7 @@ Alternative Installation:
 
 == Changelog ==
 
-= 2.0.86.1 ( 11 November 2024 ) =
+= 2.0.86.1 ( 12 November 2024 ) =
 * Improvement: Option to prevent automatic creation of a sellable ad page #909
 * Fixed: Uncaught TypeError: Cannot read properties of undefined (reading 'style') #907
 
