@@ -1098,7 +1098,7 @@ function quads_render_floating_ads_async($id) {
 function quads_render_ads_space_async($id) {
     global $quads_options,$post;
     $quads_settings = get_option( 'quads_settings' ,[]);
-    $enable_adsell = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : false;
+    $enable_adsell = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : true;
     if( ! $enable_adsell ){
         return '';
     }
