@@ -1124,10 +1124,12 @@ function quads_render_ads_space_async($id) {
         return '<div class="quads-ads-space" id="quads-ads-space-'.esc_attr($id).'" style="display:flex;align-items: center;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;background:#efefef;justify-content:'.esc_attr($align).';">'.esc_html__('Payment Page is not setup. Contact Admin','quick_adsense_reloaded').'</div>';
     }
 
+    $payment_url  = add_query_arg( array('ad_slot_id' => $ad_id), $payment_page );
+
 
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Ads Space --> \n\n";
     if ( empty( $ads_to_show ) ) {
-        $html .= '<a target="_blank" class="quads-ads-space-advertise" href="'.esc_url($payment_page.'?ad_slot_id='.$ad_id).'" style="display:block;text-align:center;">';
+        $html .= '<a target="_blank" class="quads-ads-space-advertise" href="'.esc_url( $payment_url ).'" style="display:block;text-align:center;">';
         $html .= '<div class="quads-ads-space" id="quads-ads-space-'.esc_attr($id).'" style="display:flex;align-items: center;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;background:#efefef;justify-content:'.esc_attr($align).';">'.$ads_code.'</div>';
         $html .='</a>';
         // advertise  here link
@@ -1145,7 +1147,6 @@ function quads_render_ads_space_async($id) {
          }
         $html .='</div>';
     }
-    //$html .= '<a target="_blank" class="quads-ads-space-advertise" href="'.esc_url(site_url('buy-adspace?ad_slot_id='.$ad_id)).'" style="display:block;text-align:center;">'.esc_html__('Advertise Here','quick-adsense-reloaded').'</a>';
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_ads_space_async', $html );
 }
