@@ -331,7 +331,7 @@ function quads_ads_buy_form() {
             <p><strong><?php echo esc_html__('Selected Slot:','quick-adsense-reloaded');?></strong> <span id="summary-slot"></span></p>
             <p><strong><?php echo esc_html__('Start Date:','quick-adsense-reloaded');?></strong> <span id="summary-start-date"></span></p>
             <p><strong><?php echo esc_html__('End Date:','quick-adsense-reloaded');?></strong> <span id="summary-end-date"></span></p>
-            <p><strong><?php echo esc_html__('Total Cost:','quick-adsense-reloaded');?></strong> $<span id="total-cost">0</span></p>
+            <p><strong><?php echo esc_html__('Total Cost:','quick-adsense-reloaded');?></strong> <?php echo esc_html($currency); ?><span id="total-cost">0</span></p>
 
             <input type="hidden" name="action" value="submit_ad_buy_form" />
             <input type="hidden" name="nonce" value="<?php echo wp_create_nonce( 'submit_ad_buy_form' )?>" />
