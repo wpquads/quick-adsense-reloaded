@@ -3404,6 +3404,13 @@ function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$r
      libxml_use_internal_errors( true );
      if($content)
      {
+        // Wrap all <!--shortcodes-->  in div to prevent them from being moved
+        if (preg_match_all('/<!--(\w+)(.*?)-->/', $content, $matches)) {
+            foreach ($matches[0] as $key => $shortcode) {
+                $wrapped_shortcode = '<div> ' . $shortcode . ' </div>';
+                $content = str_replace($shortcode, $wrapped_shortcode, $content);
+            }
+        }
         $doc->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
      }
      else
