@@ -34,7 +34,7 @@ function quads_admin_messages() {
         // quads_show_update_auto_ads();
     }else{
         if(!quads_is_extra())
-        quads_license_acivation_notice();
+        quads_license_activation_notice();
     }
     
 
@@ -67,7 +67,7 @@ function quads_admin_messages() {
 quads_show_rate_div();
 
 }
-function quads_license_acivation_notice(){
+function quads_license_activation_notice(){
     $quads_mode = get_option('quads-mode');
     if($quads_mode == 'new'){
         $message = __( 'Activate the License of <a href="'.admin_url('admin.php?page=quads-settings&path=settings_licenses').'" target="_blank"> <strong>WP QUADS PRO!</strong></a><br><p>', 'quick-adsense-reloaded' );
