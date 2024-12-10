@@ -1666,14 +1666,27 @@ error_outline
                         </div>
                       </div>
                      </td></tr>
-                     <tr>
+                          <tr>
                             <td><label>{__('Ad Cost', 'quick-adsense-reloaded')} per day </label></td>
                             <td><input value={post_meta.ad_cost} onChange={this.props.adFormChangeHandler} type="number" id="ad_cost" name="ad_cost" placeholder="10" style={{width:'100px'}}/>  {this.state.currency} <br/><br/>
                             {__('Make sure you have added paypal email and Set payment currency in ', 'quick-adsense-reloaded')} <a href='?page=quads-settings&path=settings_adsell'>{__('Sellable Ads settings', 'quick-adsense-reloaded')}</a>
                             {(show_form_error && post_meta.ad_cost <= 0 ) ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Ad cost must be greater than  0 ', 'quick-adsense-reloaded')}</div> : ''}
                             </td>
+                          </tr> 
+
+                          <tr>
+                            <td><label>{__('Ad Minimum', 'quick-adsense-reloaded')}</label></td>
+                            <td>
+                              <input value={post_meta.ad_minimum_days} onChange={this.props.adFormChangeHandler} type="number" id="ad_minimum_days" name="ad_minimum_days" placeholder="10" style={{width:'100px'}}/> 
+                              <MSelect style={{minWidth:'200px'}} value={(post_meta.ad_minimum_selection!==undefined)?post_meta.ad_minimum_selection:'day'} onChange={this.props.adFormChangeHandler} name="ad_minimum_selection" id="ad_minimum_selection">
+                                <MenuItem value="day">{__('Days(s)', 'quick-adsense-reloaded')}</MenuItem>
+                                <MenuItem value="month">{__('Month(s)', 'quick-adsense-reloaded')}</MenuItem> 
+                              </MSelect><br/>
+                            {(show_form_error && post_meta.ad_minimum_days <= 0 ) ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Ad days must be greater than  0 ', 'quick-adsense-reloaded')}</div> : ''}
+                            </td>
                           </tr>
-                        </tbody></table>
+                        </tbody>
+                      </table>
                       </div>);      
                   break;
             default:
