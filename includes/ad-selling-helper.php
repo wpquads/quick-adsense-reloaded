@@ -118,14 +118,14 @@ function quads_ads_buy_form() {
             if($ad_minimum_selection=='day'){
                 $st_date = date('Y-m-d');
                 $end_date = date('Y-m-d', strtotime('+'.$ad_minimum_days.' month'));
-                $end_min_selection = 'min="'.$end_date.'"';
-                $end_min_value = 'value="'.$end_date.'"';
+                $end_min_selection = 'min='.$end_date;
+                $end_min_value = 'value='.$end_date;
                 $ad_selection_info = 'Minimum '.$ad_minimum_days.' day(s) selection is possible for the selected Ad Slot';
             }else if($ad_minimum_selection=='month'){
                 $st_date = date('Y-m-d');
                 $end_date = date('Y-m-d', strtotime('+'.$ad_minimum_days.' day'));
-                $end_min_selection = 'min="'.$end_date.'"';
-                $end_min_value = 'value="'.$end_date.'"';
+                $end_min_selection = 'min='.$end_date;
+                $end_min_value = 'value='.$end_date;
                 $ad_selection_info = 'Minimum '.$ad_minimum_days.' month(s) selection is possible for the selected Ad Slot';
             }
         }
@@ -332,11 +332,11 @@ function quads_ads_buy_form() {
 
 
             <label for="start_date"><?php echo esc_html__('Start Date','quick-adsense-reloaded');?></label>
-            <input type="date" name="start_date" id="start_date" required value="<?php echo date('Y-m-d');?>" min="<?php echo date('Y-m-d');?>" onblur="handleChangeDate('blur',this,'start')"/>
+            <input type="date" name="start_date" id="start_date" required value="<?php echo esc_attr( date('Y-m-d') );?>" min="<?php echo esc_attr( date('Y-m-d') );?>" onblur="handleChangeDate('blur',this,'start')"/>
 
             <label for="end_date"><?php echo esc_html__('End Date','quick-adsense-reloaded');?></label>
-            <input type="date" name="end_date" id="end_date" required <?php echo $end_min_value?> <?php echo $end_min_selection?>/>
-            <p id="ad_selection_info" style="color:gray;font-size:14px;margin-top:-10px"><?php echo $ad_selection_info?></p>
+            <input type="date" name="end_date" id="end_date" required <?php echo esc_attr($end_min_value)?> <?php echo esc_attr($end_min_selection)?> />
+            <p id="ad_selection_info" style="color:gray;font-size:14px;margin-top:-10px"><?php echo esc_attr($ad_selection_info)?></p>
             <label for="ad_link"><?php echo esc_html__('Ad Link','quick-adsense-reloaded');?></label>
             <input type="url" name="ad_link" id="ad_link" required placeholder="Ad Link"/>
 
@@ -408,11 +408,11 @@ function quads_ads_buy_form() {
             }
         }
     }
-    function handleChangeDate(ev, object,type) {
+    function handleChangeDate( ev, object,type ) {
         let ad_slot_id = document.getElementById("ad_slot_id").value;
-        let ad_info = ad_lists[ad_slot_id];
+        let ad_info = ad_lists[ ad_slot_id ];
         var numberOfDaysToAdd = ad_info.ad_minimum_days;
-        numberOfDaysToAdd = parseInt(numberOfDaysToAdd);
+        numberOfDaysToAdd = parseInt( numberOfDaysToAdd );
         var minimumSelection = ad_info.ad_minimum_selection;
        
         let thisdate = object.value;
@@ -421,21 +421,21 @@ function quads_ads_buy_form() {
             let newDate = '';
             let ad_selection_info = '';
             if(minimumSelection=='day'){
-                newDate = selectedDate.setDate(selectedDate.getDate() + numberOfDaysToAdd);
+                newDate = selectedDate.setDate( selectedDate.getDate() + numberOfDaysToAdd );
                 ad_selection_info = 'Minimum '+numberOfDaysToAdd+' day(s) selection is possible for the selected Ad Slot';
             }else if(minimumSelection=='month'){
-                newDate = selectedDate.setMonth(selectedDate.getMonth() + numberOfDaysToAdd);
+                newDate = selectedDate.setMonth( selectedDate.getMonth() + numberOfDaysToAdd );
                 ad_selection_info = 'Minimum '+numberOfDaysToAdd+' month(s) selection is possible for the selected Ad Slot';
             }
             document.getElementById("ad_selection_info").innerHTML = ad_selection_info;
             if(newDate!=""){
-                newDate = new Date(newDate);
+                newDate = new Date( newDate );
                 let nday = newDate.getDate();
                 nday = nday.toString().padStart(2, '0');
                 let nmonth = newDate.getMonth() + 1;
                 nmonth = nmonth.toString().padStart(2, '0');
                 let nyear = newDate.getFullYear();
-                const formattedDate = handleConvertFormat(newDate);
+                const formattedDate = handleConvertFormat( newDate );
                 if(type=="start"){
                     document.getElementById('end_date').value=formattedDate;
                     document.getElementById('end_date').setAttribute('min', formattedDate);
