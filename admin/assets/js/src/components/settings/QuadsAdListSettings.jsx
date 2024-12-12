@@ -113,7 +113,11 @@ class QuadsAdListSettings extends Component {
                 currency : 'USD',
                 email_notification_adsell_expiry : true,
                 paypal_email : '',
+                payment_gateway : 'paypal',
                 payment_page : 'buy-adspace',
+                authorize_name : '',
+                authorize_transactionKey : '',
+                authorize_merchant_name : '',
                 },
             quads_wp_quads_pro_license_key : '',
             importampforwpmsg : "",
@@ -2230,12 +2234,46 @@ handleCapabilityChange = (event) =>{
                );
                case "settings_adsell":  return(
                 <div className="quads-settings-tab-container">
-                 <table className="form-table" role="presentation"><tbody><tr>
-                    <th scope="row"><label>{__('Paypal Email', 'quick-adsense-reloaded')}</label></th>
-                    <td>
-                     <input type="text" name="paypal_email" style={{maxWidth:'25rem',width:'100%'}} value={settings.paypal_email} onChange={this.formChangeHandler} />
-                    </td>
+                 <table className="form-table" role="presentation"><tbody>
+                  <tr>
+                  <th scope="row"><label>{__('Payment Gateway', 'quick-adsense-reloaded')}</label></th>
+                  <td>
+                  <select value={settings.payment_gateway} onChange={this.formChangeHandler} name="payment_gateway" id="payment_gateway">
+                    <option value="paypal">{__('Paypal', 'quick-adsense-reloaded')}</option>
+                    <option value="authorize">{__('Authorize.net', 'quick-adsense-reloaded')}</option>
+                  </select>
+                  </td>
                   </tr>
+                  {(settings.payment_gateway==='paypal') &&
+                    <tr>
+                      <th scope="row"><label>{__('Paypal Email', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="paypal_email" style={{maxWidth:'25rem',width:'100%'}} value={settings.paypal_email} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                  }
+                  {(settings.payment_gateway==='authorize') &&
+                  <>
+                    <tr>
+                      <th scope="row"><label>{__('Authorize.net Name', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="authorize_name" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_name} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><label>{__('Authorize.net transactionKey', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="authorize_transactionKey" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_transactionKey} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><label>{__('Authorize.net Merchant Name', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="authorize_merchant_name" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_merchant_name} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                  </>
+                  }
                   <tr>
                     <th scope="row"><label htmlFor="hide_ajax">{__('Currency', 'quick-adsense-reloaded')}</label></th>
                     <td>

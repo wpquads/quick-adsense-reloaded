@@ -48,6 +48,87 @@ add_action( 'admin_init', 'quads_create_sellpage_on_activation' );
 
 add_action( 'upgrader_process_complete', 'quads_adsell_upgrade_handler', 10, 2 );
 
+add_action( 'init', 'quads_authorize_payment_success' );
+function quads_authorize_payment_success(){
+    if(isset($_GET['status']) && $_GET['status']=='success' && isset($_GET['ad_slot_id']) && $_GET['ad_slot_id']>0 && isset($_GET['refId']) && $_GET['refId']!="" && isset($_GET['user_id']) && $_GET['user_id']){
+        
+        $slot_id = sanitize_text_field( wp_unslash( $_GET['ad_slot_id'] ) );
+        $order_id = sanitize_text_field( wp_unslash( $_GET['refId'] ) );
+        $user_id = sanitize_text_field( wp_unslash( $_GET['user_id'] ) );
+        $price = get_post_meta( $slot_id, 'ad_cost' );
+        if(!empty($price)){
+            $price = $price[0];
+        }else{
+            $price = '';
+        }
+        $user = get_user_by( 'id', $user_id );
+        if($user){
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'quads_adbuy_data';
+
+            $ad_details = $wpdb->get_row("SELECT * FROM $table_name WHERE id = $order_id AND user_id = $user->ID");
+           
+            if (!$ad_details) {
+                return false;
+                //return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad not found'), 404);
+            }
+            $payment_status = 'paid';
+            if ($ad_details->payment_status === 'paid') {
+                return false;
+            // return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad already paid'), 400);
+            }
+            $params = array();
+            $params['payment_date'] = date('Y-m-d H:i:s');
+            $wpdb->update(
+                $table_name,
+                array('payment_status' => 'paid' , 'payment_response'=> json_encode($params)), // Data to update
+                array('id' => $order_id , 'user_id'=>$user->ID) 
+            );
+
+            //get the ad details from db
+            $setting= get_option('quads_settings',[]);
+            $currency = isset($setting['currency']) ? $setting['currency'] :'USD';
+            $payer_email = $user->user_email;
+            $ad_details_html = "";
+            //send email to  user and admin
+            $to = $payer_email;
+            $subject = esc_html__( 'Ad Payment Confirmation', 'quick-adsense-reloaded' );
+            $message = esc_html__( 'Your ad payment has been confirmed. Your ad will be live soon.', 'quick-adsense-reloaded' ).PHP_EOL;
+
+            $start_date = $ad_details->start_date;
+            $end_date = $ad_details->end_date;
+            $days = ( strtotime( $end_date ) - strtotime( $start_date ) ) / ( 60 * 60 * 24 ) + 1;
+            $total_cost = $price * $days;
+            //also add the ad details in the email
+            $ad_details_html .= 'Ad Details: '.PHP_EOL;
+            $ad_details_html .= 'Ad Slot: ' . get_the_title($ad_details->ad_id ) . PHP_EOL;
+            $ad_details_html .= 'Start Date: ' . esc_html($ad_details->start_date) . PHP_EOL;
+            $ad_details_html .= 'End Date: ' .  esc_html($ad_details->end_date) . PHP_EOL;
+            $ad_details_html .= 'Ad Link: ' .  esc_html($ad_details->ad_link) . PHP_EOL;
+            $ad_details_html .= 'Ad Image: ' .  esc_html($ad_details->ad_image) . PHP_EOL;
+            $ad_details_html .= 'Total Cost: ' . esc_html($currency . $total_cost) . PHP_EOL;
+            $ad_details_html .= 'Payment Status: ' . esc_html($payment_status) . PHP_EOL;
+            $ad_details_html .= 'Payer Email: ' . esc_html($payer_email) . PHP_EOL;
+            $ad_details_html .= 'Order ID: ' . esc_html($order_id) . PHP_EOL;
+            $message .= $ad_details_html;
+            
+
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            wp_mail( $to, $subject, $message, $headers );
+
+            $to = get_option('admin_email');
+            $subject = esc_html__( 'Ad Payment Confirmation', 'quick-adsense-reloaded' );
+            $message = esc_html__( 'Ad payment has been confirmed for user: ', 'quick-adsense-reloaded' ) . $payer_email. PHP_EOL;
+            $message = esc_html__( 'Please  review the AD so that it can go live ', 'quick-adsense-reloaded' ). PHP_EOL;
+            //also add reminder to review the ad
+
+            $message .= $ad_details_html;
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            wp_mail( $to, $subject, $message, $headers );
+        }
+    }
+}
+
 /**
  * Create a new page on plugin upgrade
  * @param mixed $upgrader_object
@@ -71,6 +152,7 @@ function quads_adsell_upgrade_handler( $upgrader_object, $options ) {
  * Create a custom form for buying ads
  * @since 2.0.86
  */
+
 function quads_ads_buy_form() {
     $ad_list = array();
     
@@ -107,6 +189,11 @@ function quads_ads_buy_form() {
             $ad_list[ $ad ] [ 'type' ]= get_post_meta( $ad , 'ad_cost_type', true ) ? get_post_meta( $ad , 'ad_cost_type', true ) : 'per day';
         }
     }
+    global $wp;
+    $redirect_link =  add_query_arg( $_SERVER['QUERY_STRING'], '', home_url( $wp->request ) );
+    
+    
+      
     $selected_ad_list = $ad_list[ $selected_ad_slot ];
     $end_min_selection = '';
     $end_min_value = '';
@@ -115,13 +202,13 @@ function quads_ads_buy_form() {
         $ad_minimum_days = $selected_ad_list[ 'ad_minimum_days' ];
         $ad_minimum_selection = $selected_ad_list[ 'ad_minimum_selection' ];
         if($ad_minimum_days!="" && $ad_minimum_days>0){
-            if($ad_minimum_selection=='day'){
+            if($ad_minimum_selection=='month'){
                 $st_date = date('Y-m-d');
                 $end_date = date('Y-m-d', strtotime('+'.$ad_minimum_days.' month'));
                 $end_min_selection = 'min='.$end_date;
                 $end_min_value = 'value='.$end_date;
                 $ad_selection_info = 'Minimum '.$ad_minimum_days.' day(s) selection is possible for the selected Ad Slot';
-            }else if($ad_minimum_selection=='month'){
+            }else if($ad_minimum_selection=='day'){
                 $st_date = date('Y-m-d');
                 $end_date = date('Y-m-d', strtotime('+'.$ad_minimum_days.' day'));
                 $end_min_selection = 'min='.$end_date;
@@ -339,6 +426,8 @@ function quads_ads_buy_form() {
             <p id="ad_selection_info" style="color:gray;font-size:14px;margin-top:-10px"><?php echo esc_attr($ad_selection_info)?></p>
             <label for="ad_link"><?php echo esc_html__('Ad Link','quick-adsense-reloaded');?></label>
             <input type="url" name="ad_link" id="ad_link" required placeholder="Ad Link"/>
+            <input type="hidden" name="redirect_link" id="redirect_link" value=<?php echo esc_url_raw( $redirect_link )?>/>
+          
 
             <label for="ad_content"><?php echo esc_html__('Ad Content','quick-adsense-reloaded');?> <small>(This will be ignored if Ad image is present)</small></label>
             <textarea name="ad_content" id="ad_content" rows="4"> You ad text here</textarea>
@@ -631,6 +720,8 @@ function handle_ad_buy_form_submission() {
     }
 
     // Sanitize and validate the remaining fields
+    $redirect_link  = esc_url_raw( wp_unslash( $_POST['redirect_link'] ) );
+    $cancel_link  = intval( wp_unslash($_POST['cancel_link'] ) );
     $ad_slot_id  = intval( wp_unslash($_POST['ad_slot_id'] ) );
     $start_date  = sanitize_text_field( wp_unslash($_POST['start_date'] ) );
     $end_date    = sanitize_text_field( wp_unslash($_POST['end_date'] ) );
@@ -675,29 +766,143 @@ function handle_ad_buy_form_submission() {
 
     if ( $result ) {
         $quads_settings = get_option( 'quads_settings' );
-        $paypal_email =  isset($quads_settings['paypal_email']) ? $quads_settings['paypal_email'] : '';
+        $payment_gateway = isset($quads_settings['payment_gateway']) ? $quads_settings['payment_gateway'] : 'paypal';
+        $payment_gateway = isset($quads_settings['payment_gateway']) ? $quads_settings['payment_gateway'] : 'paypal';
+        if($payment_gateway=='paypal'){
+            $paypal_email =  isset($quads_settings['paypal_email']) ? $quads_settings['paypal_email'] : '';
 
-        if ( empty( $paypal_email ) ) {
-            wp_send_json_error( array( 'message' => 'PayPal email not set.Please inform Siteadmin' ) );
+            if ( empty( $paypal_email ) ) {
+                wp_send_json_error( array( 'message' => 'PayPal email not set.Please inform Siteadmin' ) );
+            }
+
+            $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
+
+            $order_id = $wpdb->insert_id;
+            // Prepare the PayPal form
+            $paypal_form = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
+            $paypal_form .= '<input type="hidden" name="cmd" value="_xclick">';
+            $paypal_form .= '<input type="hidden" name="business" value="'.sanitize_email( $paypal_email ).'">'; // Your PayPal email
+            $paypal_form .= '<input type="hidden" name="item_name" value="'.esc_attr( $name).'">';
+            $paypal_form .= '<input type="hidden" name="amount" value="'.esc_attr($total_cost).'">';
+            $paypal_form .= '<input type="hidden" name="currency_code" value="'.esc_attr($currency).'">';
+            $paypal_form .= '<input type="hidden" name="return" value="' . esc_url( site_url( 'buy-adspace' ).'?status=success' ) . '">';
+            $paypal_form .= '<input type="hidden" name="cancel_return" value="' . esc_url( site_url( 'buy-adspace' ).'?status=cancelled' ) . '">';
+            $paypal_form .= '<input type="hidden" name="notify_url" value="' . esc_url( rest_url('wpquads/v1/paypal_notify_url') ) . '">';
+            $paypal_form .= '<input type="hidden" name="item_number" value="' . esc_attr($order_id) . '">';
+            $paypal_form .= '<input type="hidden" name="custom" value="' . esc_attr($user_id) . '">';
+
+            wp_send_json_success( array( 'message' => 'Ad submission successful.' , 'paypal_form'=>$paypal_form) );
+        }else if($payment_gateway=='authorize'){
+            $authorize_name =  isset($quads_settings['authorize_name']) ? $quads_settings['authorize_name'] : '';
+            $authorize_transactionKey =  isset($quads_settings['authorize_transactionKey']) ? $quads_settings['authorize_transactionKey'] : '';
+            $authorize_merchant_name =  isset($quads_settings['authorize_merchant_name']) ? $quads_settings['authorize_merchant_name'] : '';
+
+            if ( empty( $authorize_name ) || empty( $authorize_transactionKey ) ) {
+                wp_send_json_error( array( 'message' => 'Authorize Credentials are not set. Please inform Siteadmin' ) );
+            }
+            $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
+
+            $order_id = $wpdb->insert_id;
+            //$authorize_url ='https://apitest.authorize.net/xml/v1/request.api';
+            $authorize_url ='https://api.authorize.net/xml/v1/request.api';
+            $redirect_link = rtrim($redirect_link,'/');
+            $success_link = $redirect_link.'&refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id;
+            $cancel_link = $redirect_link.'&refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id;
+        
+         $send_data = '{
+                "getHostedPaymentPageRequest": {
+                  "merchantAuthentication": {
+                    "name": "'.esc_attr( $authorize_name ).'",
+                    "transactionKey": "'.esc_attr( $authorize_transactionKey ).'"
+                  },
+                  "refId": "'.esc_attr( $order_id ).'",
+                  "transactionRequest": {
+                    "transactionType": "authCaptureTransaction",
+                    "amount": "'.esc_attr( $total_cost ).'",
+                    "profile": {
+                      "customerProfileId": "'.esc_attr( $user_id ).'"
+                    },
+                    "customer": {
+                      "email": ""
+                    }
+                  },
+                  "hostedPaymentSettings": {
+                    "setting": [{
+                      "settingName": "hostedPaymentReturnOptions",
+                      "settingValue": "{\"showReceipt\": true, \"url\": \"'.esc_url( $success_link ).'\", \"urlText\": \"Continue\", \"cancelUrl\": \"'.esc_url( $cancel_link ).'\", \"cancelUrlText\": \"Cancel\"}"
+                    }, {
+                      "settingName": "hostedPaymentButtonOptions",
+                      "settingValue": "{\"text\": \"Pay\"}"
+                    }, {
+                      "settingName": "hostedPaymentStyleOptions",
+                      "settingValue": "{\"bgColor\": \"blue\"}"
+                    }, {
+                      "settingName": "hostedPaymentPaymentOptions",
+                      "settingValue": "{\"cardCodeRequired\": false, \"showCreditCard\": true, \"showBankAccount\": true}"
+                    }, {
+                      "settingName": "hostedPaymentSecurityOptions",
+                      "settingValue": "{\"captcha\": false}"
+                    }, {
+                      "settingName": "hostedPaymentShippingAddressOptions",
+                      "settingValue": "{\"show\": false, \"required\": false}"
+                    }, {
+                      "settingName": "hostedPaymentBillingAddressOptions",
+                      "settingValue": "{\"show\": true, \"required\": false}"
+                    }, {
+                      "settingName": "hostedPaymentCustomerOptions",
+                      "settingValue": "{\"showEmail\": false, \"requiredEmail\": false, \"addPaymentProfile\": true}"
+                    }, {
+                      "settingName": "hostedPaymentOrderOptions",
+                      "settingValue": "{\"show\": true, \"merchantName\": \"'.esc_attr( $authorize_merchant_name ).'\"}"
+                    }, {
+                      "settingName": "hostedPaymentIFrameCommunicatorUrl",
+                      "settingValue": "{\"url\": \"'.esc_url( $success_link ).'\"}"
+                    }]
+                  }
+                }
+              }';
+             // echo $send_data;
+             // die;
+            $response = wp_remote_post($authorize_url, array(
+                'headers'   => array('content-type' => 'application/json'),
+                'body'      => $send_data,
+                'method'    => 'POST'
+            ));
+            
+             // Make sure there are no errors
+              if ( is_wp_error( $response ) ) {    
+                wp_send_json_error( array( 'message' => 'Processing failed.' ) );
+                die;
+              }
+              
+              $resp_data = wp_remote_retrieve_body( $response );
+              $re = str_replace( '﻿', '', $resp_data );
+
+              $re = json_encode( $resp_data );
+              $re = str_replace( '\ufeff', '', $re);
+              $re = json_decode( $re );
+              $re = json_decode( $re,true );
+            if( isset( $re['token'] ) && $re['token']!="" ){
+                $token = $re['token'];
+                //$form_url = 'https://test.authorize.net/payment/payment';
+                $form_url = 'https://accept.authorize.net/payment/payment';
+                $auth_form ='<!doctype html>
+                            <html lang="en">
+                            <head>
+                                <meta charset="utf-8">
+                                <title>Hosted Accept.js Payment Form</title>
+                            </head>
+                            <body>
+                                <form id="paymentForm" method="POST" action="'.esc_url( $form_url ).'">
+                                    <input type="hidden" name="token" id="token" value="'.esc_attr( $token ).'" />
+                                </form>
+                            </body>
+                            </html>';
+            wp_send_json_success( array( 'message' => 'Ad submission successful.' , 'paypal_form'=>$auth_form) );
+            }else {
+                wp_send_json_error( array( 'message' => 'Failed to process payment.' ) );
+            }
         }
-
-        $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
-
-        $order_id = $wpdb->insert_id;
-        // Prepare the PayPal form
-        $paypal_form = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
-        $paypal_form .= '<input type="hidden" name="cmd" value="_xclick">';
-        $paypal_form .= '<input type="hidden" name="business" value="'.sanitize_email( $paypal_email ).'">'; // Your PayPal email
-        $paypal_form .= '<input type="hidden" name="item_name" value="'.esc_attr( $name).'">';
-        $paypal_form .= '<input type="hidden" name="amount" value="'.esc_attr($total_cost).'">';
-        $paypal_form .= '<input type="hidden" name="currency_code" value="'.esc_attr($currency).'">';
-        $paypal_form .= '<input type="hidden" name="return" value="' . esc_url( site_url( 'buy-adspace' ).'?status=success' ) . '">';
-        $paypal_form .= '<input type="hidden" name="cancel_return" value="' . esc_url( site_url( 'buy-adspace' ).'?status=cancelled' ) . '">';
-        $paypal_form .= '<input type="hidden" name="notify_url" value="' . esc_url( rest_url('wpquads/v1/paypal_notify_url') ) . '">';
-        $paypal_form .= '<input type="hidden" name="item_number" value="' . esc_attr($order_id) . '">';
-        $paypal_form .= '<input type="hidden" name="custom" value="' . esc_attr($user_id) . '">';
-
-        wp_send_json_success( array( 'message' => 'Ad submission successful.' , 'paypal_form'=>$paypal_form) );
     } else {
         wp_send_json_error( array( 'message' => 'Failed to submit ad.' ) );
     }

@@ -626,3 +626,21 @@ function quads_local_file_get_contents( $file_path ){
         return $file_safe;
     }
 }
+//add_action('init','test');
+function test(){
+   $re = '{
+    "token": "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.8jBfyvY76U",
+    "messages": {
+        "resultCode": "Ok",
+        "message": [
+            {
+                "code": "I00001",
+                "text": "Successful."
+            }
+        ]
+    }
+}';
+$res = json_decode($re, true);
+echo $res['token'];
+die;
+}
