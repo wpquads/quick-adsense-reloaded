@@ -2261,7 +2261,7 @@ handleCapabilityChange = (event) =>{
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><label>{__('Authorize.net transactionKey', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label>{__('Authorize.net Transaction Key', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="authorize_transactionKey" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_transactionKey} onChange={this.formChangeHandler} />
                       </td>
