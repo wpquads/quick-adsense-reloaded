@@ -1121,7 +1121,7 @@ function quads_render_ads_space_async($id) {
 
 
     if( ! $payment_page ){
-        return '<div class="quads-ads-space" id="quads-ads-space-'.esc_attr($id).'" style="display:flex;align-items: center;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;background:#efefef;justify-content:'.esc_attr($align).';">'.esc_html__('Payment Page is not setup. Contact Admin','quick_adsense_reloaded').'</div>';
+        return '<div class="quads-ads-space" id="quads-ads-space-'.esc_attr($id).'" style="display:flex;align-items: center;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;background:#efefef;justify-content:'.esc_attr($align).';">'.esc_html__('Payment Page is not setup. Contact Admin','quick-adsense-reloaded').'</div>';
     }
 
     $payment_url  = add_query_arg( array('ad_slot_id' => $ad_id), $payment_page );

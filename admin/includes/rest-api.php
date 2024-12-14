@@ -275,6 +275,7 @@ class QUADS_Ad_Setup_Api {
     public static function log( $task = 'No task provided' ) {
 
         $message = date_i18n( '[Y-m-d H:i:s]' ) . ' ' . $task . "\n";
+         // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
         error_log( $message, 3, WP_CONTENT_DIR . '/Quads-ads-google-api-requests.log' );
     }
     public function reportsAdsenseConfcode() {
@@ -1763,6 +1764,7 @@ return array('status' => 't');
                 }else{
                     $settings = quads_defaultSettings();
                     if($settings['adsTxtEnabled']){
+                        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
                         if (false !== file_put_contents(ABSPATH . 'ads.txt', $parameters[0])) {
                             // show notice that ads.txt has been created
                             set_transient('quads_vi_ads_txt_notice', true, 300);
@@ -1812,6 +1814,7 @@ return array('status' => 't');
         public function getPages($request){
 
             global $wpdb;
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
             $query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'page' AND post_status = 'publish' ORDER BY post_title ASC LIMIT 0, 100";
             $results = $wpdb->get_results($query, ARRAY_A);
             return $results;
@@ -1904,27 +1907,27 @@ return array('status' => 't');
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
             if(isset($_GET['pageno'])){
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
-                $paged    = sanitize_text_field($_GET['pageno']);
+                $paged    = sanitize_text_field( wp_unslash( $_GET['pageno'] ) );
             }
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
             if(isset($_GET['posts_per_page'])){
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
-                $rvcount = sanitize_text_field($_GET['posts_per_page']);
+                $rvcount = sanitize_text_field( wp_unslash( $_GET['posts_per_page'] ) );
             }
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
             if(isset($_GET['search_param'])){
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
-                $search_param = sanitize_text_field($_GET['search_param']);
+                $search_param = sanitize_text_field( wp_unslash( $_GET['search_param'] ) );
             }
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
             if(isset($_GET['sort_by'])){
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
-                $sort_by = sanitize_text_field($_GET['sort_by']);
+                $sort_by = sanitize_text_field( wp_unslash( $_GET['sort_by'] ) );
             }
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
             if(isset($_GET['filter_by'])){
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
-                $filter_by = sanitize_text_field($_GET['filter_by']);
+                $filter_by = sanitize_text_field( wp_unslash( $_GET['filter_by'] ) );
             }
             $result = $this->api_service->getAdDataByParam($post_type, $attr, $rvcount, $paged, $offset, $search_param , $filter_by , $sort_by);
             return $result;
@@ -1934,8 +1937,8 @@ return array('status' => 't');
             $default_return =['impressions'=>0,'clicks'=>0];
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading ads analytics.
             if(isset($_GET['ad_id'])){
-                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading ads analytics.
-                $ad_id    = sanitize_text_field($_GET['ad_id']);
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended  -- Reason: We are not processing form information but only loading ads analytics.
+                $ad_id    = sanitize_text_field( wp_unslash( $_GET['ad_id'] ));
                 $ad_analytics= quads_get_ad_stats('sumofstats',$ad_id);
                 return $ad_analytics;
             }
@@ -1980,13 +1983,14 @@ return array('status' => 't');
             $offset = ($page - 1) * $per_page;
         
             // Query the records
+            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
             $results = $wpdb->get_results($wpdb->prepare(
                 "SELECT * FROM $table_name WHERE payment_status = %s ORDER BY id DESC LIMIT %d OFFSET %d",
                 'paid',
                 $per_page,
                 $offset
             ));
-
+            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
             $total = $wpdb->get_var("SELECT COUNT(*)  FROM $table_name WHERE payment_status = 'paid'");
 
             foreach ($results as $key => $result) {

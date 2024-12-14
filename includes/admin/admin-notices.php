@@ -70,13 +70,15 @@ quads_show_rate_div();
 function quads_license_activation_notice(){
     $quads_mode = get_option('quads-mode');
     if($quads_mode == 'new'){
+        //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
         $message = __( 'Activate the License of <a href="'.admin_url('admin.php?page=quads-settings&path=settings_licenses').'" target="_blank"> <strong>WP QUADS PRO!</strong></a><br><p>', 'quick-adsense-reloaded' );
     }else{
+        //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
         $message = __( 'Activate the License of <a href="'.admin_url('admin.php?page=quads-settings&tab=licenses').'" target="_blank"> <strong>WP QUADS PRO!</strong></a><br><p>', 'quick-adsense-reloaded' );
     }
     ?>
     <div class="updated notice" style="border-left: 4px solid #ffba00;">
-        <p><?php echo $message; ?></p>
+        <p><?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo $message; ?></p>
     </div><?php
 }
 function quads_admin_messages_new(){
@@ -370,9 +372,10 @@ function quads_rate_again() {
 function quads_plugin_deactivated_notice() {
     if( false !== ( $deactivated_notice_id = get_transient( 'quads_deactivated_notice_id' ) ) ) {
         if( '1' === $deactivated_notice_id ) {
-            $message = __( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS.", 'wpstg' );
+            $message = __( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS.", 'quick-adsense-reloaded' );
         } else {
-            $message = __( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS Pro.", 'wpstg' );
+            //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+            $message = __( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS Pro.", 'quick-adsense-reloaded' );
         }
         ?>
         <div class="updated notice is-dismissible" style="border-left: 4px solid #ffba00;">

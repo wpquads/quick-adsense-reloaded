@@ -445,7 +445,7 @@ function quads_ads_buy_form() {
             <p><strong><?php echo esc_html__('Total Cost:','quick-adsense-reloaded');?></strong> <?php echo esc_html($currency); ?> <span id="total-cost">0</span></p>
 
             <input type="hidden" name="action" value="submit_ad_buy_form" />
-            <input type="hidden" name="nonce" value="<?php echo wp_create_nonce( 'submit_ad_buy_form' )?>" />
+            <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce( 'submit_ad_buy_form' ));?>" />
 
             <!-- PayPal Payment Button -->
             <div id="paypal-button-container"></div>
@@ -456,7 +456,7 @@ function quads_ads_buy_form() {
 
     <script>
     let ad_lists = <?php echo json_encode($ad_list)?>;
-    let selected_id = <?php echo $selected_ad_slot?>;
+    let selected_id = <?php echo esc_attr($selected_ad_slot)?>;
     calculateTotalCost(selected_id);  
     function handleConvertFormat(newDate){
         newDate = new Date(newDate);

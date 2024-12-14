@@ -12,7 +12,7 @@ class Quads_Elementor extends Widget_Base {
 	}
 
 	public function get_title() {
-		return __( 'WP QUADS', 'wp-quads' );
+		return __( 'WP QUADS', 'quick-adsense-reloaded' );
 	}
 
 	public function get_icon() {
@@ -39,7 +39,7 @@ class Quads_Elementor extends Widget_Base {
 		$this->start_controls_section(
 			'content_section',
 			[
-				'label' => __( 'Content', 'wp-quads' ),
+				'label' => __( 'Content', 'quick-adsense-reloaded' ),
 				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -47,7 +47,7 @@ class Quads_Elementor extends Widget_Base {
 		$this->add_control(
 			'seleted_add',
 			[
-				'label' => __( 'Select add to Display', 'wp-quads' ),
+				'label' => __( 'Select add to Display', 'quick-adsense-reloaded' ),
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'options' => $options,
 			]
