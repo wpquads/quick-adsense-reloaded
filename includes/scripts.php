@@ -407,7 +407,7 @@ function quads_inline_styles() {
     $css .="
     .quads-location ins.adsbygoogle {
         background: transparent !important;
-    }
+    }.quads-location .quads_rotator_img{ opacity:1 !important;}
     .quads.quads_ad_container { display: grid; grid-template-columns: auto; grid-gap: 10px; padding: 10px; }
     .grid_image{animation: fadeIn 0.5s;-webkit-animation: fadeIn 0.5s;-moz-animation: fadeIn 0.5s;
         -o-animation: fadeIn 0.5s;-ms-animation: fadeIn 0.5s;}
