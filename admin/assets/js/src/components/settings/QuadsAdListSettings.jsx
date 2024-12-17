@@ -118,7 +118,9 @@ class QuadsAdListSettings extends Component {
                 authorize_name : '',
                 authorize_transactionKey : '',
                 authorize_merchant_name : '',
-                },
+                stripe_publishable_key : '',
+                stripe_secret_key : '',
+            },
             quads_wp_quads_pro_license_key : '',
             importampforwpmsg : "",
             importampforwpmsgprocessing : "",
@@ -2241,6 +2243,7 @@ handleCapabilityChange = (event) =>{
                   <select value={settings.payment_gateway} onChange={this.formChangeHandler} name="payment_gateway" id="payment_gateway">
                     <option value="paypal">{__('Paypal', 'quick-adsense-reloaded')}</option>
                     <option value="authorize">{__('Authorize.net', 'quick-adsense-reloaded')}</option>
+                    <option value="stripe">{__('Stripe', 'quick-adsense-reloaded')}</option>
                   </select>
                   </td>
                   </tr>
@@ -2270,6 +2273,22 @@ handleCapabilityChange = (event) =>{
                       <th scope="row"><label>{__('Authorize.net Merchant Name', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="authorize_merchant_name" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_merchant_name} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                  </>
+                  }
+                   {(settings.payment_gateway==='stripe') &&
+                  <>
+                    <tr>
+                      <th scope="row"><label>{__('Stripe Publishable Key', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="stripe_publishable_key" style={{maxWidth:'25rem',width:'100%'}} value={settings.stripe_publishable_key} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><label>{__('Stripe Secret key', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="stripe_secret_key" style={{maxWidth:'25rem',width:'100%'}} value={settings.stripe_secret_key} onChange={this.formChangeHandler} />
                       </td>
                     </tr>
                   </>

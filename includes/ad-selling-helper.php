@@ -373,8 +373,11 @@ function quads_ads_buy_form() {
 
 
     </style>
-   
-    <form id="quads-adbuy-form" method="POST" action="<?php echo esc_url(admin_url('admin-ajax.php')); ?>" enctype="multipart/form-data">
+    <?php 
+        $quads_settings = get_option( 'quads_settings' );
+        $payment_gateway = isset($quads_settings['payment_gateway']) ? $quads_settings['payment_gateway'] : 'paypal';
+    ?>
+    <form id="quads-adbuy-form" method="POST" action="<?php echo ($payment_gateway!='stripe')?esc_url(admin_url('admin-ajax.php')):'/process-payment'; ?>" enctype="multipart/form-data">
     <?php
 
     if (isset($_GET['status']) && $_GET['status'] == 'success') {
@@ -449,12 +452,19 @@ function quads_ads_buy_form() {
 
             <!-- PayPal Payment Button -->
             <div id="paypal-button-container"></div>
+            <div>
+                <label>Card Info</label>
+                <div id="card-element"></div>
+            </div>
         </div>
-
         <button type="submit"><?php echo esc_html__('Submit','quick-adsense-reloaded');?></button>
     </form>
-
+   
+    <?php if($payment_gateway=='stripe'){?>
+    <script src="https://js.stripe.com/v3/"></script>
+    <?php }?>
     <script>
+   
     let ad_lists = <?php echo json_encode($ad_list)?>;
     let selected_id = <?php echo esc_attr($selected_ad_slot)?>;
     calculateTotalCost(selected_id);  
@@ -616,7 +626,7 @@ function isValidDateRange(start, end) {
     return endDate >= startDate; 
 }
 
-        document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('quads-adbuy-form').addEventListener('submit', function(e) {
     e.preventDefault(); // Prevent the form from submitting normally
 
@@ -671,7 +681,23 @@ function isValidDateRange(start, end) {
     // Send the form data
     xhr.send(formData);
 });
+    var stripe = Stripe('pk_test_51QWtjGD7rdLSMTejjccGOqFyFFLNF1d7Tzw5dvZlbelJxpAmp9e9Pa7gAdfOWSxwRWhdLgoq2mK1bP9oef9UoWeu00BOHyC2Pt'); // Replace with your key
+    var elements = stripe.elements();
+    var card = elements.create('card');
+    card.mount('#card-element');
+    const form = document.getElementById('stripe-payment-form');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const {error, paymentIntent} = await stripe.confirmCardPayment(CLIENT_SECRET, {
+            payment_method: {card: cardElement}
+        });
 
+        if (error) {
+            console.log('Payment failed:', error);
+        } else if (paymentIntent.status === 'succeeded') {
+            console.log('Payment successful!');
+        }
+    });
 });
 
 
@@ -697,7 +723,7 @@ function handle_ad_buy_form_submission() {
     if ( ! check_ajax_referer( 'submit_ad_buy_form', 'nonce', false ) ) {
         wp_send_json_error( array( 'message' => 'Invalid request.' ) );
     }
-
+  
     // Handle form fields, sanitize input, validate, and process accordingly
     $user_id = is_user_logged_in() ? get_current_user_id() : 0;
 
@@ -765,8 +791,8 @@ function handle_ad_buy_form_submission() {
 
 
     if ( $result ) {
+        
         $quads_settings = get_option( 'quads_settings' );
-        $payment_gateway = isset($quads_settings['payment_gateway']) ? $quads_settings['payment_gateway'] : 'paypal';
         $payment_gateway = isset($quads_settings['payment_gateway']) ? $quads_settings['payment_gateway'] : 'paypal';
         if($payment_gateway=='paypal'){
             $paypal_email =  isset($quads_settings['paypal_email']) ? $quads_settings['paypal_email'] : '';
@@ -902,11 +928,69 @@ function handle_ad_buy_form_submission() {
             }else {
                 wp_send_json_error( array( 'message' => 'Failed to process payment.' ) );
             }
+        }else if($payment_gateway=='stripe'){
+            if ( defined( 'XMLRPC_REQUEST' ) || defined( 'REST_REQUEST' ) || ( defined( 'WP_INSTALLING' ) && WP_INSTALLING ) || wp_doing_ajax() ) {
+                @ini_set( 'display_errors', 1 );
+            }
+            require_once('stripe/vendor/autoload.php'); // Get this from Stripe's PHP SDK
+
+            $stripe = new \Stripe\StripeClient("sk_test_51QWtjGD7rdLSMTejVFh68DYUBw4t7mwz4qq7NGfT8tpYlt5EUjhmd4OXAOkLnkcLx4Tue23SwwCEtwPLCOU8NlCs00aYJ1SsWO"); 
+        
+            header('Content-Type: application/json');
+        
+            $checkout_session = $stripe->checkout->sessions->create([
+                'payment_method_types' => ['card'],
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'usd',
+                        'unit_amount' => 2000, // $20.00, for example
+                        'product_data' => [
+                            'name' => $name,
+                        ],
+                    ],
+                    'quantity' => 1,
+                ]],
+                'mode' => 'payment',
+                'success_url' => 'https://yourdomain.com/success',
+                'cancel_url' => 'https://yourdomain.com/cancel',
+            ]);
+        
+            echo json_encode(['id' => $checkout_session->id]);
         }
     } else {
         wp_send_json_error( array( 'message' => 'Failed to submit ad.' ) );
     }
 }
+
+function process_stripe_payment() {
+    require_once('../stripe/vendor/autoload.php'); // Get this from Stripe's PHP SDK
+
+    \Stripe\Stripe::setApiKey("sk_test_51QWtjGD7rdLSMTejVFh68DYUBw4t7mwz4qq7NGfT8tpYlt5EUjhmd4OXAOkLnkcLx4Tue23SwwCEtwPLCOU8NlCs00aYJ1SsWO"); 
+
+    header('Content-Type: application/json');
+
+    $checkout_session = \Stripe\Checkout\Session::create([
+        'payment_method_types' => ['card'],
+        'line_items' => [[
+            'price_data' => [
+                'currency' => 'usd',
+                'unit_amount' => 2000, // $20.00, for example
+                'product_data' => [
+                    'name' => 'Your Product Name',
+                ],
+            ],
+            'quantity' => 1,
+        ]],
+        'mode' => 'payment',
+        'success_url' => 'https://yourdomain.com/success',
+        'cancel_url' => 'https://yourdomain.com/cancel',
+    ]);
+
+    echo json_encode(['id' => $checkout_session->id]);
+    exit;
+}
+//add_action('wp_ajax_process_stripe_payment', 'process_stripe_payment'); // If user is logged in
+//add_action('wp_ajax_nopriv_process_stripe_payment', 'process_stripe_payment'); // If user is not logged in
 
 add_action( 'wp_ajax_submit_ad_buy_form', 'handle_ad_buy_form_submission' );
 add_action( 'wp_ajax_nopriv_submit_ad_buy_form', 'handle_ad_buy_form_submission' );
