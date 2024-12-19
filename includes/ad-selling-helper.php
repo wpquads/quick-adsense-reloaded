@@ -700,12 +700,12 @@ function isValidDateRange(start, end) {
 
 });
 <?php if($payment_gateway=='stripe'){?>
-    var stripe = Stripe('<?php echo $stripe_publishable_key?>'); // Replace with your key
+    var stripe = Stripe('<?php echo esc_attr($stripe_publishable_key)?>'); // Replace with your key
     var elements = stripe.elements();
     var card = elements.create('card');
     card.mount('#card-element');
 <?php }?>
-async function processStripePaymentSuccess(data){
+async function processStripePaymentSuccess( data ){
     let client_secret = data.id;
     let success_link = data.success_link;
     let cancel_url = data.cancel_url;
@@ -966,8 +966,8 @@ function handle_ad_buy_form_submission() {
                 $total_cost = $total_cost*100;
                 // Create a PaymentIntent
                 $paymentIntent = \Stripe\PaymentIntent::create([
-                    'amount' => $total_cost, // Amount in cents
-                    'currency' => strtolower($currency),
+                    'amount' => esc_attr( $total_cost ), // Amount in cents
+                    'currency' => esc_attr( strtolower($currency) ),
                     'payment_method_types' => ['card'], // Use 'card' as the payment method
                 ]);
             
@@ -981,28 +981,6 @@ function handle_ad_buy_form_submission() {
                 wp_send_json_error( array( 'message' => 'Failed to submit ad.' ) );
                 die;
             }
-           /*  $stripe = new \Stripe\StripeClient($stripe_secret_key); 
-            $total_cost = $total_cost*100;
-            header('Content-Type: application/json');
-        
-            $checkout_session = $stripe->checkout->sessions->create([
-                'payment_method_types' => ['card'],
-                'line_items' => [[
-                    'price_data' => [
-                        'currency' => strtolower($currency),
-                        'unit_amount' => $total_cost, // $20.00, for example
-                        'product_data' => [
-                            'name' => $name,
-                        ],
-                    ],
-                    'quantity' => 1,
-                ]],
-                'mode' => 'payment',
-                'success_url' => $success_link,
-                'cancel_url' => $cancel_link,
-            ]); */
-            wp_send_json_success( array( 'message' => 'Ad submission successful.' , 'id' => $checkout_session->id,'success_link'=>$success_link,'cancel_url'=>$cancel_link) );
-            die;
         }
     } else {
         wp_send_json_error( array( 'message' => 'Failed to submit ad.' ) );
