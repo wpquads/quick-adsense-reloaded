@@ -65,6 +65,7 @@ class QuadsAdListSettings extends Component {
                 ad_performance_tracking : false,
                 exclude_admin_tracking : false,
                 sellable_ads : true,
+                disableads : true,
                 reports_settings : true,
                 ad_logging : false,
                 ad_owner_revenue_per:50,
@@ -120,6 +121,18 @@ class QuadsAdListSettings extends Component {
                 authorize_merchant_name : '',
                 stripe_publishable_key : '',
                 stripe_secret_key : '',
+                _dacurrency : 'USD',
+                _daemail_notification_adsell_expiry : true,
+                _dapaypal_email : '',
+                _dapayment_gateway : 'paypal',
+                _dapayment_page : 'buy-adspace',
+                _daauthorize_name : '',
+                _daauthorize_transactionKey : '',
+                _daauthorize_merchant_name : '',
+                _dastripe_publishable_key : '',
+                _dastripe_secret_key : '',
+                _dacost : '',
+                _daduration : 'monthly',
             },
             quads_wp_quads_pro_license_key : '',
             importampforwpmsg : "",
@@ -1055,9 +1068,9 @@ handleCapabilityChange = (event) =>{
      if(name == 'tcf_2_integration'){
       this.saveSettings();
      }
-     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking'|| name == 'report_logging' || name == 'ad_log' || name == 'global_excluder' || name == 'delay_ad_sec' || name == 'skippable_ads' || name == 'exclude_admin_tracking' || name == 'sellable_ads'){
+     if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking'|| name == 'report_logging' || name == 'ad_log' || name == 'global_excluder' || name == 'delay_ad_sec' || name == 'skippable_ads' || name == 'exclude_admin_tracking' || name == 'sellable_ads' || name == 'disableads'){
       
-      if(name == 'sellable_ads'){
+      if(name == 'sellable_ads' || name == 'disableads'){
         this.saveSettings(true);
       }else{
         this.saveSettings();
@@ -1899,6 +1912,23 @@ handleCapabilityChange = (event) =>{
                      </td>
                  </tr>
                  <tr>
+                     <th><label htmlFor="disableads">{__('Disable Ads', 'quick-adsense-reloaded')}</label></th>
+                     <td>
+                      {this.state.selectedBtnOpt == 'disableads' ?
+                         <div className="quads-spin-cntr">
+                          <div className="quads-set-spin"></div>
+                         </div> :
+                         <label className="quads-switch">
+                             <input id="disableads" type="checkbox" name="disableads" onChange={this.formChangeHandler} checked={settings.disableads} />
+                             <span id="disableads_" className="quads-slider"></span>
+                             <div className="lazy_loader_sa"></div>
+                         </label>
+                         
+                      }
+                      {/*  <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/"></a> */}
+                     </td>
+                 </tr>
+                 <tr>
                      <th><label htmlFor="sellable_ads">{__('Sellable Ads', 'quick-adsense-reloaded')}</label></th>
                      <td>
                       {this.state.selectedBtnOpt == 'sellable_ads' ?
@@ -2350,6 +2380,140 @@ handleCapabilityChange = (event) =>{
                     <a target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/">{__('Learn More')}</a></p>
                     </td>
                   </tr>
+                  </tbody></table>
+                </div>
+               );
+               case "settings_disableads":  return(
+                <div className="quads-settings-tab-container">
+                 <table className="form-table" role="presentation"><tbody>
+                  <tr>
+                  <th scope="row"><label>{__('Payment Gateway', 'quick-adsense-reloaded')}</label></th>
+                  <td>
+                  <select value={settings._dapayment_gateway} onChange={this.formChangeHandler} name="_dapayment_gateway" id="_dapayment_gateway">
+                    <option value="paypal">{__('Paypal', 'quick-adsense-reloaded')}</option>
+                    <option value="authorize">{__('Authorize.net', 'quick-adsense-reloaded')}</option>
+                    <option value="stripe">{__('Stripe', 'quick-adsense-reloaded')}</option>
+                  </select>
+                  </td>
+                  </tr>
+                  {(settings._dapayment_gateway==='paypal') &&
+                    <tr>
+                      <th scope="row"><label>{__('Paypal Email', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="_dapaypal_email" style={{maxWidth:'25rem',width:'100%'}} value={settings._dapaypal_email} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                  }
+                  {(settings._dapayment_gateway==='authorize') &&
+                  <>
+                    <tr>
+                      <th scope="row"><label>{__('Authorize.net Name', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="_daauthorize_name" style={{maxWidth:'25rem',width:'100%'}} value={settings._daauthorize_name} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><label>{__('Authorize.net Transaction Key', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="_daauthorize_transactionKey" style={{maxWidth:'25rem',width:'100%'}} value={settings._daauthorize_transactionKey} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><label>{__('Authorize.net Merchant Name', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="_daauthorize_merchant_name" style={{maxWidth:'25rem',width:'100%'}} value={settings._daauthorize_merchant_name} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                  </>
+                  }
+                   {(settings._dapayment_gateway==='stripe') &&
+                  <>
+                    <tr>
+                      <th scope="row"><label>{__('Stripe Publishable Key', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="_dastripe_publishable_key" style={{maxWidth:'25rem',width:'100%'}} value={settings._dastripe_publishable_key} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><label>{__('Stripe Secret key', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="_dastripe_secret_key" style={{maxWidth:'25rem',width:'100%'}} value={settings._dastripe_secret_key} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                  </>
+                  }
+                  <tr>
+                    <th scope="row"><label htmlFor="hide_ajax">{__('Currency', 'quick-adsense-reloaded')}</label></th>
+                    <td>
+                     <select name="_dacurrency" value={settings._dacurrency} onChange={this.formChangeHandler}>
+                      <option value="USD">USD</option>
+                      <option value="EUR">EUR</option>
+                      <option value="GBP">GBP</option>
+                      <option value="AUD">AUD</option>
+                      <option value="CAD">CAD</option>
+                      <option value="JPY">JPY</option>
+                      <option value="NZD">NZD</option>
+                      <option value="CHF">CHF</option>
+                      <option value="HKD">HKD</option>
+                      <option value="SGD">SGD</option>
+                      <option value="SEK">SEK</option>
+                      <option value="DKK">DKK</option>
+                      <option value="PLN">PLN</option>
+                      <option value="NOK">NOK</option>
+                      <option value="HUF">HUF</option>
+                      <option value="CZK">CZK</option>
+                      <option value="ILS">ILS</option>
+                      <option value="MXN">MXN</option>
+                      <option value="BRL">BRL</option>
+                      <option value="MYR">MYR</option>
+                      <option value="PHP">PHP</option>
+                      <option value="TWD">TWD</option>
+                      <option value="THB">THB</option>
+                      <option value="TRY">TRY</option>
+                      <option value="RUB">RUB</option>
+                      <option value="INR">INR</option>
+                      <option value="CNY">CNY</option>
+                      <option value="IDR">IDR</option>
+                      <option value="KRW">KRW</option>
+                      <option value="ZAR">ZAR</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                      <th scope="row"><label>{__('Diable Ads Cost', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="_dacost" style={{maxWidth:'25rem',width:'100%'}} value={settings._dacost} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                  <tr>
+                      <th scope="row"><label>{__('Duration', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <select value={settings._daduration} onChange={this.formChangeHandler} name="_daduration" id="_daduration">
+                        <option value="monthly">{__('Monthly', 'quick-adsense-reloaded')}</option>
+                        <option value="yearly">{__('Yearly', 'quick-adsense-reloaded')}</option>
+                      </select>
+                      </td>
+                    </tr>
+                 {/*  <tr>
+                    <th scope="row"><label htmlFor="hide_ajax">{__('Email Notification on Ad Expiry', 'quick-adsense-reloaded')}</label></th>
+                    <td>
+                      <label className="quads-switch"><input id="_daemail_notification_adsell_expiry" type="checkbox" name="_daemail_notification_adsell_expiry" checked={settings._daemail_notification_adsell_expiry} onChange={this.formChangeHandler} /><span className="quads-slider"></span></label>
+                      <p>{__('User will receive an email notification when an ad is about to expire or is expired.', 'quick-adsense-reloaded')}</p>
+                    </td>
+                    </tr> */}
+                   {/*  <tr>
+                    <th scope="row"><label>{__('Payment Page', 'quick-adsense-reloaded')}</label></th>
+                    <td>
+                     <select name="payment_page" value={settings.payment_page} onChange={this.formChangeHandler}>
+                      <option value="">{__('Select Page', 'quick-adsense-reloaded')}</option>
+                      {this.state.pages.map((page, index) => (
+                        <option key={index} value={page['ID']}>{page['post_title']}</option>
+                      ))}
+                    </select>
+                    <p>{__('By default we have created  a payment page named "')}<b>{__('Buy Adspace')}</b>{__('". But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_buy_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_buy_form]</code>
+                    <a target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/">{__('Learn More')}</a></p>
+                    </td>
+                  </tr> */}
                   </tbody></table>
                 </div>
                );

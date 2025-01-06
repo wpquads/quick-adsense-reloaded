@@ -241,6 +241,7 @@ function quads_options_page_new() {
         $quads_settings = get_option('quads_settings');
         $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
         $sellable_ads = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : 1;
+        $disableads = isset($quads_settings['disableads']) ? $quads_settings['disableads'] : 1;
         $data = array(
             'quads_plugin_url'     => QUADS_PLUGIN_URL,
             'rest_url'             => esc_url_raw( rest_url() ),
@@ -256,8 +257,8 @@ function quads_options_page_new() {
             'wpml_activation' => $get_activated_data,
             'user_roles'=>quads_get_current_user_roles(),
             'currency' => $currency,
-            'sellable_ads' => $sellable_ads
-                
+            'sellable_ads' => $sellable_ads,
+            'disableads' => $disableads
         );
         $data = apply_filters('quads_localize_filter',$data,'quads_localize_data');
         wp_register_script( 'quads-admin-ad-script', QUADS_PLUGIN_URL . 'admin/assets/js/dist/adminscript.js', array( 'wp-i18n' ), QUADS_VERSION );

@@ -45,6 +45,42 @@ function quads_create_sellpage_on_activation() {
     }
 }
 add_action( 'admin_init', 'quads_create_sellpage_on_activation' );
+function quads_create_ads_disable_page_on_activation() {
+    // Check if the page already exists
+    $existing_page = get_page_by_path( 'disable-ads' );
+    $quads_disableads_page = get_option( 'quads_disableads' , false );
+    $quads_settings = get_option( 'quads_settings' , []);
+
+    if ( $existing_page && ! $quads_disableads_page ) {
+        $quads_settings['_dapayment_page'] = $existing_page->ID;
+        update_option( 'quads_settings', $quads_settings , false);
+        update_option( 'quads_disableadspage', true , false);
+        return;
+    }
+
+    // If the page doesn't exist, create a new page
+   
+    if ( ! $existing_page ) {
+        $page_data = array(
+            'post_title'     => esc_html__( 'Disable Ads', 'quick-adsense-reloaded' ),
+            'post_content'   => '[quads_disable_ads_form]',
+            'post_status'    => 'publish',
+            'post_type'      => 'page',
+            'post_author'    => get_current_user_id(),
+            'post_name'      => 'disable-ads', // Custom slug
+        );
+
+        $page_id = wp_insert_post( $page_data ); // Create the page
+
+        if ( $page_id && ! is_wp_error( $page_id ) ) {
+            // Save the page slug or ID in the options table
+            $quads_settings['_dapayment_page'] = $page_id;
+            update_option( 'quads_settings', $quads_settings , false);
+            update_option( 'quads_disableadspage', true , false);
+        }
+    }
+}
+add_action( 'admin_init', 'quads_create_ads_disable_page_on_activation' );
 
 add_action( 'upgrader_process_complete', 'quads_adsell_upgrade_handler', 10, 2 );
 
@@ -142,6 +178,7 @@ function quads_adsell_upgrade_handler( $upgrader_object, $options ) {
             foreach ( $options['plugins'] as $plugin ) {
                 if ( strpos( $plugin, 'quick-adsense-reloaded/quick-adsense-reloaded.php' ) !== false ) {
                     quads_create_sellpage_on_activation(); 
+                    quads_create_ads_disable_page_on_activation(); 
                 }
             }
         }
@@ -731,7 +768,412 @@ $sellable_ads = isset($quads_settings['sellable_ads']) ? $quads_settings['sellab
 if ( $sellable_ads ) {
     add_shortcode( 'quads_buy_form', 'quads_ads_buy_form' );
 }
+$disable_ads = isset($quads_settings['disable_ads']) ? $quads_settings['disable_ads'] : true;
+if ( $disable_ads ) {
+    add_shortcode( 'quads_disable_ads_form', 'quads_ads_disable_form' );
+}
+function quads_ads_disable_form(){
+    ob_start();
+    ?>
+<style>
+.da-payment-box{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 43px;
+}
+.da-payment-box2{
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin: auto;
+    width: 100%;
+}
+.da-payment-box3{
+    padding: 16px 24px 32px;background-color: #fff;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    width: 100%;align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+.da-title1{
+    border-bottom: 1px solid #e3e3e3;
+    font: 600 14px 'Work Sans', sans-serif;
+    line-height: 22px;
+    margin-bottom: 32px;
+    padding-bottom: 8px;
+    text-align: center;
+    text-transform: uppercase;
+    width: 100%;
+}
+.da-content-box{
+    align-items: center;display: flex;flex-direction: column;
+}
+.da-sub-content{
+    font: 700 32px 'Merriweather', 'GeorgiaCustom';gap: 4px;padding-bottom: 8px
+}
+.da-sub-content2{
+    font: 400 12px 'Work Sans', sans-serif;padding-bottom: 16px;text-transform: capitalize;
+}
+.da-subcribe-btn{
+    background-color: #dc0000;height: 48px;border: none;
+    border-radius: 8px;
+    color: #fff;
+    font: 600 14px 'Work Sans', sans-serif;
+    width: 100%;
+    cursor:pointer
+}
+._da-open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+}
 
+._da-modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+  
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+._da-modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+._da-close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+._da-close:hover,
+._da-close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+#quads-adbuy-form {
+    font-family: Arial, sans-serif;
+}
+
+#quads-adbuy-form h2 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #333;
+}
+
+/* Form Sections */
+#quads-adbuy-form .form-section {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+#quads-adbuy-form .form-section:last-child {
+    border-bottom: none;
+}
+
+/* Form Fields */
+#quads-adbuy-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#quads-adbuy-form input[type="text"],
+#quads-adbuy-form input[type="email"],
+#quads-adbuy-form input[type="password"],
+#quads-adbuy-form input[type="url"],
+#quads-adbuy-form input[type="date"],
+#quads-adbuy-form select,
+#quads-adbuy-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+#quads-adbuy-form input[type="file"] {
+    margin-bottom: 15px;
+}
+
+#quads-adbuy-form input[type="submit"],
+#quads-adbuy-form button {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#quads-adbuy-form input[type="submit"]:hover,
+#quads-adbuy-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Summary Section */
+#quads-adbuy-form #summary-section {
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+#quads-adbuy-form #summary-section p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+#quads-adbuy-form #summary-section strong {
+    font-weight: bold;
+}
+
+#quads-adbuy-form #total-cost {
+    font-size: 18px;
+    color: #d9534f;
+}
+
+#quads-adbuy-form #paypal-button-container {
+    margin-top: 20px;
+}
+#quads-adbuy-form .notice-success {
+    margin: 20px 0; 
+    padding: 15px; 
+    border: 1px solid #4caf50;
+    background-color: #dff0d8; 
+    color: #3c763d; 
+    border-radius: 4px; 
+    position: relative; 
+}
+
+#quads-adbuy-form .notice-success p {
+    margin: 0;
+}
+
+#quads-adbuy-form .notice-error {
+    margin: 20px 0; 
+    padding: 15px; 
+    border: 1px solid #d9534f; 
+    background-color: #f2dede; 
+    color: #a94442; 
+    border-radius: 4px; 
+    position: relative; 
+}
+
+#quads-adbuy-form .notice-error p {
+    margin: 0;
+}
+
+#quads-adbuy-form .notice-dismiss {
+    cursor: pointer; 
+    position: absolute; 
+    top: 15px; 
+    right: 15px;
+    background: none; 
+    border: none; 
+    font-size: 20px;
+    line-height: 1; 
+    color: #a94442;
+}
+
+</style>
+<?php
+    $quads_settings = get_option( 'quads_settings' );
+    $currency = isset($quads_settings['_dacurrency']) ? $quads_settings['_dacurrency'] :'USD';
+    $_dacost = isset($quads_settings['_dacost']) ? $quads_settings['_dacost'] :'';
+    $_daduration = isset($quads_settings['_daduration']) ? $quads_settings['_daduration'] :'Monthly';
+    $payment_gateway = isset($quads_settings['_dapayment_gateway']) ? $quads_settings['_dapayment_gateway'] : 'paypal';
+    $stripe_publishable_key = '';
+    $stripe_secret_key = '';
+    if($payment_gateway=='stripe'){
+        $stripe_publishable_key =  isset($quads_settings['_dastripe_publishable_key']) ? $quads_settings['_dastripe_publishable_key'] : '';
+    
+        $stripe_secret_key =  isset($quads_settings['_dastripe_secret_key']) ? $quads_settings['_dastripe_secret_key'] : '';
+    }
+    $user_id = get_current_user_id();
+?>
+<div class="da-payment-box">
+    <p style="margin: 0;text-align: center;">Flash Sale: $49.99/Year</p>
+    <div>
+        <p style="margin: 0; text-align: center;">Unlock a year of exclusive access to premium journalism, expert opinions, and in-depth analysis trusted by world’s forward thinking leaders for just $49.99. </p>
+        <p style="margin: 0;text-align: center;">Become a Forbes member for less than $1/week.</p>
+    </div>
+</div>
+<div class="da-payment-box2">
+   <div class="da-payment-box3">
+       <p class="da-title1"><?php echo $_daduration;?></p>
+       <div class="da-content-box">
+           <p class="da-sub-content"><span style="font-size: 12px;"><?php echo $currency?></span><?php echo $_dacost?></p>
+           <!-- <p class="da-sub-content2">For your first year</p> -->
+       </div>
+       <button type="button" class="da-subcribe-btn" onclick="openAdsBlockForm()">Subscribe</button>
+   </div>
+</div>
+<div id="adsBlockForm" class="_da-modal">
+  <!-- Modal content -->
+  <form id="quads-adbuy-form" method="POST" action="<?php echo ($payment_gateway!='stripe')?esc_url(admin_url('admin-ajax.php')):'/process-payment'; ?>" enctype="multipart/form-data">
+    <div class="_da-modal-content">
+        <span class="_da-close" onclick="closeAdsBlockForm()">&times;</span>
+        <?php if ( ! $user_id ) : ?>
+            <div id="user-info-section" class="form-section">
+                <h2><?php echo esc_html__('User Information','quick-adsense-reloaded');?></h2>
+                <label for="full_name"><?php echo esc_html__('Full Name','quick-adsense-reloaded');?></label>
+                <input type="text" name="full_name" id="full_name" required />
+
+                <label for="email"><?php echo esc_html__('Email','quick-adsense-reloaded');?></label>
+                <input type="email" name="email" id="email" required />
+
+                <label for="password"><?php echo esc_html__('Password','quick-adsense-reloaded');?></label>
+                <input type="password" name="password" id="password" required />
+            </div>
+        <?php endif; ?>
+        <input type="hidden" name="action" value="submit_disablead_form" />
+        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce( 'submit_disablead_form' ));?>" />
+        <!-- PayPal Payment Button -->
+        <div id="paypal-button-container"></div>
+        <?php if($payment_gateway=='stripe'){?>
+            <div>
+                <label>Card Info</label>
+                <div id="card-element"style="padding:10px"></div>
+            </div>
+        <?php }?>
+        <button type="submit"><?php echo esc_html__('Proceed for Payment','quick-adsense-reloaded');?></button>
+    </div>
+</form>
+<?php if($payment_gateway=='stripe'){?>
+    <script src="https://js.stripe.com/v3/"></script>
+<?php }?>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('quads-adbuy-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent the form from submitting normally
+
+            var form = this;
+            var formData = new FormData(form);
+
+            // Disable the submit button and change its text
+            var submitButton = form.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '<?php echo esc_url(admin_url('admin-ajax.php')); ?>', true);
+
+
+            // Handle the success and error responses
+            xhr.onload = function() {
+
+                // Re-enable the submit button and reset its text
+                submitButton.disabled = false;
+
+                if (xhr.status >= 200 && xhr.status < 400) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        var paypalFormContainer = document.createElement('div');
+                        if(response.data.paypal_form){
+                            paypalFormContainer.innerHTML = response.data.paypal_form;
+                            document.body.appendChild(paypalFormContainer);
+                        }
+                        // Automatically submit the PayPal form
+                        var paypalForm = paypalFormContainer.querySelector('form');
+                        if (paypalForm) {
+                            paypalForm.submit();
+                        }else{
+                            console.log(response.data.id);
+                            
+                            if(response.data.id){
+                                processStripePaymentSuccess(response.data);
+                            }
+                        }
+                    } else {
+                        alert('Error: ' + response.data.message);
+                    }
+                } else {
+                    alert('An error occurred: ' + xhr.statusText);
+                }
+            };
+
+            // Handle network errors
+            xhr.onerror = function() {
+
+                // Re-enable the submit button and reset its text
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit';
+
+                alert('An error occurred during the request.');
+            };
+
+            // Send the form data
+            xhr.send(formData);
+        });
+    });
+<?php if($payment_gateway=='stripe'){?>
+    var stripe = Stripe('<?php echo esc_attr($stripe_publishable_key)?>'); // Replace with your key
+    var elements = stripe.elements();
+    var card = elements.create('card');
+    card.mount('#card-element');
+<?php }?>
+async function processStripePaymentSuccess( data ){
+    let client_secret = data.id;
+    let success_link = data.success_link;
+    let cancel_url = data.cancel_url;
+    const {error, paymentIntent} = await stripe.confirmCardPayment(client_secret, {
+        payment_method: {card: card}
+    });
+
+    if (error) {
+        window.location.href = cancel_url;
+    } else if (paymentIntent.status === 'succeeded') {
+        window.location.href = success_link;
+    } 
+}
+    function openAdsBlockForm() {
+        document.getElementById("adsBlockForm").style.display = "block";
+    }
+
+    function closeAdsBlockForm() {
+        document.getElementById("adsBlockForm").style.display = "none";
+    }
+</script>
+<?php
+return ob_get_clean();
+}
 
 function handle_ad_buy_form_submission() {
    
@@ -989,7 +1431,236 @@ function handle_ad_buy_form_submission() {
 }
 add_action( 'wp_ajax_submit_ad_buy_form', 'handle_ad_buy_form_submission' );
 add_action( 'wp_ajax_nopriv_submit_ad_buy_form', 'handle_ad_buy_form_submission' );
+function handle_submit_disablead_form() {
+   
+    if ( ! isset( $_POST['action'] ) || $_POST['action'] !== 'submit_disablead_form' ) {
+        wp_send_json_error( array( 'message' => 'Invalid request.' ) );
+    }
 
+    if ( ! check_ajax_referer( 'submit_disablead_form', 'nonce', false ) ) {
+        wp_send_json_error( array( 'message' => 'Invalid request.' ) );
+    }
+  
+    // Handle form fields, sanitize input, validate, and process accordingly
+    $user_id = is_user_logged_in() ? get_current_user_id() : 0;
+
+    // If user is not logged in, register them using the provided info
+    if ( ! $user_id ) {
+        $full_name = sanitize_text_field( wp_unslash( $_POST['full_name']  ) );
+        $email = sanitize_email( wp_unslash( $_POST['email'] )  );
+        $password = sanitize_text_field( wp_unslash( $_POST['password'] ) );
+
+        if ( empty( $full_name ) || empty( $email ) || empty( $password ) ) {
+            wp_send_json_error( array( 'message' => 'Please fill in all fields.' ) );
+        }
+
+        // Create the new user
+        $user_id = wp_create_user( $email, $password, $email );
+
+        if ( is_wp_error( $user_id ) ) {
+            wp_send_json_error( array( 'message' => 'Failed to create account. ' . $user_id->get_error_message() ) );
+        }
+    }
+
+    // Sanitize and validate the remaining fields
+    $redirect_link  = esc_url_raw( wp_unslash( $_POST['redirect_link'] ) );
+    $cancel_link  = intval( wp_unslash($_POST['cancel_link'] ) );
+    
+
+    // Insert the ad buy record in the database
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'quads_disabledad_data';
+    
+    $quads_settings = get_option( 'quads_settings' );
+    $currency = isset($quads_settings['_dacurrency']) ? $quads_settings['_dacurrency'] :'USD';
+    $price = isset($quads_settings['_dacost']) ? $quads_settings['_dacost'] :0;
+    $_daduration = isset($quads_settings['_daduration']) ? $quads_settings['_daduration'] :'Monthly';
+    $result = $wpdb->insert( $table_name, array(
+        'user_id'        => $user_id,
+        'disable_cost' =>$price,
+        'disable_duration' =>$_daduration,
+        'payment_status' => 'pending', // Update after payment
+        'disable_status'      => 'pending', // Set to pending until approved
+    ) );
+    
+    if ( $result ) { 
+        $payment_gateway = isset($quads_settings['_dapayment_gateway']) ? $quads_settings['_dapayment_gateway'] : 'paypal';
+        if($payment_gateway=='paypal'){
+            $paypal_email =  isset($quads_settings['_dapaypal_email']) ? $quads_settings['_dapaypal_email'] : '';
+
+            if ( empty( $paypal_email ) ) {
+                wp_send_json_error( array( 'message' => 'PayPal email not set.Please inform Siteadmin' ) );
+            }
+
+            $currency = isset($quads_settings['_dacurrency']) ? $quads_settings['_dacurrency'] : 'USD';
+
+            $order_id = $wpdb->insert_id;
+            // Prepare the PayPal form
+            $paypal_form = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
+            $paypal_form .= '<input type="hidden" name="cmd" value="_xclick">';
+            $paypal_form .= '<input type="hidden" name="business" value="'.sanitize_email( $paypal_email ).'">'; // Your PayPal email
+            $paypal_form .= '<input type="hidden" name="item_name" value="'.esc_attr( $name).'">';
+            $paypal_form .= '<input type="hidden" name="amount" value="'.esc_attr($total_cost).'">';
+            $paypal_form .= '<input type="hidden" name="currency_code" value="'.esc_attr($currency).'">';
+            $paypal_form .= '<input type="hidden" name="return" value="' . esc_url( site_url( 'disable-ads' ).'?status=success' ) . '">';
+            $paypal_form .= '<input type="hidden" name="cancel_return" value="' . esc_url( site_url( 'disable-ads' ).'?status=cancelled' ) . '">';
+            $paypal_form .= '<input type="hidden" name="notify_url" value="' . esc_url( rest_url('wpquads/v1/paypal_notify_url') ) . '">';
+            $paypal_form .= '<input type="hidden" name="item_number" value="' . esc_attr($order_id) . '">';
+            $paypal_form .= '<input type="hidden" name="custom" value="' . esc_attr($user_id) . '">';
+
+            wp_send_json_success( array( 'message' => 'Ad submission successful.' , 'paypal_form'=>$paypal_form) );
+        }else if($payment_gateway=='authorize'){
+            $authorize_name =  isset($quads_settings['_daauthorize_name']) ? $quads_settings['_daauthorize_name'] : '';
+            $authorize_transactionKey =  isset($quads_settings['_daauthorize_transactionKey']) ? $quads_settings['_daauthorize_transactionKey'] : '';
+            $authorize_merchant_name =  isset($quads_settings['_daauthorize_merchant_name']) ? $quads_settings['_daauthorize_merchant_name'] : '';
+
+            if ( empty( $authorize_name ) || empty( $authorize_transactionKey ) ) {
+                wp_send_json_error( array( 'message' => 'Authorize Credentials are not set. Please inform Siteadmin' ) );
+            }
+            $currency = isset($quads_settings['_dacurrency']) ? $quads_settings['_dacurrency'] : 'USD';
+
+            $order_id = $wpdb->insert_id;
+            //$authorize_url ='https://apitest.authorize.net/xml/v1/request.api';
+            $authorize_url ='https://api.authorize.net/xml/v1/request.api';
+            $redirect_link = rtrim($redirect_link,'/');
+            $success_link = $redirect_link.'&refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id;
+            $cancel_link = $redirect_link.'&refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id;
+        
+         $send_data = '{
+                "getHostedPaymentPageRequest": {
+                  "merchantAuthentication": {
+                    "name": "'.esc_attr( $authorize_name ).'",
+                    "transactionKey": "'.esc_attr( $authorize_transactionKey ).'"
+                  },
+                  "refId": "'.esc_attr( $order_id ).'",
+                  "transactionRequest": {
+                    "transactionType": "authCaptureTransaction",
+                    "amount": "'.esc_attr( $total_cost ).'",
+                    "profile": {
+                      "customerProfileId": "'.esc_attr( $user_id ).'"
+                    },
+                    "customer": {
+                      "email": ""
+                    }
+                  },
+                  "hostedPaymentSettings": {
+                    "setting": [{
+                      "settingName": "hostedPaymentReturnOptions",
+                      "settingValue": "{\"showReceipt\": true, \"url\": \"'.esc_url( $success_link ).'\", \"urlText\": \"Continue\", \"cancelUrl\": \"'.esc_url( $cancel_link ).'\", \"cancelUrlText\": \"Cancel\"}"
+                    }, {
+                      "settingName": "hostedPaymentButtonOptions",
+                      "settingValue": "{\"text\": \"Pay\"}"
+                    }, {
+                      "settingName": "hostedPaymentStyleOptions",
+                      "settingValue": "{\"bgColor\": \"blue\"}"
+                    }, {
+                      "settingName": "hostedPaymentPaymentOptions",
+                      "settingValue": "{\"cardCodeRequired\": false, \"showCreditCard\": true, \"showBankAccount\": true}"
+                    }, {
+                      "settingName": "hostedPaymentSecurityOptions",
+                      "settingValue": "{\"captcha\": false}"
+                    }, {
+                      "settingName": "hostedPaymentShippingAddressOptions",
+                      "settingValue": "{\"show\": false, \"required\": false}"
+                    }, {
+                      "settingName": "hostedPaymentBillingAddressOptions",
+                      "settingValue": "{\"show\": true, \"required\": false}"
+                    }, {
+                      "settingName": "hostedPaymentCustomerOptions",
+                      "settingValue": "{\"showEmail\": false, \"requiredEmail\": false, \"addPaymentProfile\": true}"
+                    }, {
+                      "settingName": "hostedPaymentOrderOptions",
+                      "settingValue": "{\"show\": true, \"merchantName\": \"'.esc_attr( $authorize_merchant_name ).'\"}"
+                    }, {
+                      "settingName": "hostedPaymentIFrameCommunicatorUrl",
+                      "settingValue": "{\"url\": \"'.esc_url( $success_link ).'\"}"
+                    }]
+                  }
+                }
+              }';
+             // echo $send_data;
+             // die;
+            $response = wp_remote_post($authorize_url, array(
+                'headers'   => array('content-type' => 'application/json'),
+                'body'      => $send_data,
+                'method'    => 'POST'
+            ));
+            
+             // Make sure there are no errors
+              if ( is_wp_error( $response ) ) {    
+                wp_send_json_error( array( 'message' => 'Processing failed.' ) );
+                die;
+              }
+              
+              $resp_data = wp_remote_retrieve_body( $response );
+              $re = str_replace( '﻿', '', $resp_data );
+
+              $re = json_encode( $resp_data );
+              $re = str_replace( '\ufeff', '', $re);
+              $re = json_decode( $re );
+              $re = json_decode( $re,true );
+            if( isset( $re['token'] ) && $re['token']!="" ){
+                $token = $re['token'];
+                //$form_url = 'https://test.authorize.net/payment/payment';
+                $form_url = 'https://accept.authorize.net/payment/payment';
+                $auth_form ='<!doctype html>
+                            <html lang="en">
+                            <head>
+                                <meta charset="utf-8">
+                                <title>Hosted Accept.js Payment Form</title>
+                            </head>
+                            <body>
+                                <form id="paymentForm" method="POST" action="'.esc_url( $form_url ).'">
+                                    <input type="hidden" name="token" id="token" value="'.esc_attr( $token ).'" />
+                                </form>
+                            </body>
+                            </html>';
+            wp_send_json_success( array( 'message' => 'Ad submission successful.' , 'paypal_form'=>$auth_form) );
+            }else {
+                wp_send_json_error( array( 'message' => 'Failed to process payment.' ) );
+            }
+        }else if($payment_gateway=='stripe'){
+            $stripe_publishable_key =  isset($quads_settings['_dastripe_publishable_key']) ? $quads_settings['_dastripe_publishable_key'] : '';
+        
+            $stripe_secret_key =  isset($quads_settings['_dastripe_secret_key']) ? $quads_settings['_dastripe_secret_key'] : '';
+            if ( empty( $stripe_secret_key ) || empty( $stripe_publishable_key ) ) {
+                wp_send_json_error( array( 'message' => 'Stripe Credentials are not set. Please inform Siteadmin' ) );
+            }
+            $currency = isset($quads_settings['_dacurrency']) ? $quads_settings['_dacurrency'] : 'USD';
+
+            $order_id = $wpdb->insert_id;
+            $redirect_link = rtrim($redirect_link,'/');
+            $success_link = $redirect_link.'&refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id;
+            $cancel_link = $redirect_link.'&refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id;
+            require_once('stripe/vendor/autoload.php'); // Get this from Stripe's PHP SDK
+            \Stripe\Stripe::setApiKey($stripe_secret_key);
+            try {
+                $total_cost = $total_cost*100;
+                // Create a PaymentIntent
+                $paymentIntent = \Stripe\PaymentIntent::create([
+                    'amount' => esc_attr( $total_cost ), // Amount in cents
+                    'currency' => esc_attr( strtolower($currency) ),
+                    'payment_method_types' => ['card'], // Use 'card' as the payment method
+                ]);
+            
+                $output = [
+                    'clientSecret' => $paymentIntent->client_secret,
+                ];
+            
+                wp_send_json_success( array( 'message' => 'Ad submission successful.' , 'id' => $paymentIntent->client_secret,'success_link'=>$success_link,'cancel_url'=>$cancel_link) );
+                die;
+            } catch (\Stripe\Exception\ApiErrorException $e) {
+                wp_send_json_error( array( 'message' => 'Failed to submit ad.' ) );
+                die;
+            }
+        }
+    } else {
+        wp_send_json_error( array( 'message' => 'Failed to submit ad.' ) );
+        die;
+    }
+}
+add_action( 'wp_ajax_submit_disablead_form', 'handle_submit_disablead_form' );
+add_action( 'wp_ajax_nopriv_submit_disablead_form', 'handle_submit_disablead_form' );
 
 add_action('rest_api_init', function () {
     register_rest_route('wpquads/v1', '/paypal_notify_url', array(
