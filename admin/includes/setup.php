@@ -449,6 +449,9 @@ public function quads_database_install() {
             `payment_status` varchar(15) NOT NULL DEFAULT 'pending',
             `disable_status` varchar(15) NOT NULL DEFAULT 'pending',
             `disable_duration` varchar(15) NOT NULL,
+            `username` text  NULL,
+            `user_email` text  NULL,
+            `disable_date` date NOT NULL,
             PRIMARY KEY  (`disable_ad_id`),
             KEY `quads_disablead_id` (`disable_ad_id`)
 		)

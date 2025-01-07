@@ -215,9 +215,15 @@ function quads_check_the_content_filter( $content ) {
     return $content;
 }
 function quads_disable_add_subscribe() {
+    if(quads_disable_ads()){
+        return false;
+    }
+    if(isset($_COOKIE['disable_ad_notice'])){
+        return false;
+    }
     $quads_settings = get_option('quads_settings');
     $disableads = isset($quads_settings['disableads']) ? $quads_settings['disableads'] : '';
-    $da_page_id = isset($quads_settings['_dapayment_page']) ? $quads_settings['_dapayment_page'] : 0;
+    $da_page_id = isset($quads_settings['dapayment_page']) ? $quads_settings['dapayment_page'] : 0;
     $payment_page = get_permalink( $da_page_id );
     
     if($disableads==1 && get_the_ID()!=$da_page_id){
@@ -299,12 +305,12 @@ function quads_disable_add_subscribe() {
         white-space: nowrap;
     }
 </style>
-<div class="disable-ads-container">
+<div class="disable-ads-container" id="disable-ads-block">
 	<div class="da-top-flexbox" style="">
 		<div class="meter-display">
 			Disable Ads by Subscribing
 		</div>
-		<button class="da-close-button" style="" ng-click="close()">
+		<button class="da-close-button" style="cursor:pointer" onclick="handleCloseDisableAd()">
 			<svg width="16" height="16" viewBox="0 0 16 16" style="margin-left: 13px;
     margin-right: 13px;" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path fill-rule="evenodd" clip-rule="evenodd" d="M16.0001 1.23076L14.7693 0L8.00004 6.76927L1.23077 2.85321e-05L0 1.23079L6.76927 8.00003L0.000110543 14.7692L1.23088 15.9999L8.00004 9.23079L14.7692 16L16 14.7692L9.23081 8.00003L16.0001 1.23076Z" fill="#F8F8F8"></path>
@@ -320,6 +326,13 @@ function quads_disable_add_subscribe() {
 		<a class="da-meter-cta" href="<?php echo $payment_page;?>" target="_blank">Subscribe Now</a>
 	</div>
 </div>
+<script>
+    function handleCloseDisableAd(){
+        document.getElementById('disable-ads-block').style.display = 'none';
+        var expires = (new Date(Date.now()+ 86400*1000)).toUTCString();
+        document.cookie = "disable_ad_notice=true; expires=" + expires + ";path=/;"
+    }
+</script>
 <?php
     }
 }

@@ -24,7 +24,7 @@ const QuadsDisabledAdsList = () => {
     useEffect(() => {
         const fetchRecords = async () => {
             setLoading(true);
-            const endpoint = `${apiEndpoint}quads-route/list-adsell-records`;
+            const endpoint = `${apiEndpoint}quads-route/list-disabledad-records`;
             try {
                 const response = await fetch(`${endpoint}?page=${currentPage}&limit=${recordsPerPage}&search=${searchTerm}`, {
                     method: 'GET',
@@ -52,32 +52,7 @@ const QuadsDisabledAdsList = () => {
         fetchRecords();
     }, [apiEndpoint, currentPage, searchTerm]);
 
-    // Approve or Disapprove record
-    const handleApproval = async (id, ad_status) => {
-        try {
-            const response = await fetch(`${apiEndpoint}quads-route/adsell/${id}/${ad_status}`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'X-WP-Nonce': quads_localize_data.nonce
-                },
-                body: JSON.stringify({ ad_status })
-            });
-            const result = await response.json();
-            if (result.success) {
-                setRecords((prevRecords) =>
-                    prevRecords.map((record) =>
-                        record.id === id ? { ...record, ad_status } : record
-                    )
-                );
-            } else {
-                console.error(`Error approving/disapproving record ${id}`, result);
-            }
-        } catch (error) {
-            console.error(`Error updating record ${id}`, error);
-        }
-    };
+   
 
     // Search handler
     const handleSearch = (e) => {
@@ -117,69 +92,25 @@ const QuadsDisabledAdsList = () => {
                     <thead>
                         <tr>
                             <th>{__('ID', 'quick-adsense-reloaded')}</th>
-                            <th>{__('AD Slot', 'quick-adsense-reloaded')}</th>
-                            <th>{__('AD Contents', 'quick-adsense-reloaded')}</th>
+                            <th>{__('Amount', 'quick-adsense-reloaded')}</th>
                             <th>{__('Duration', 'quick-adsense-reloaded')}</th>
+                            <th>{__('User Info', 'quick-adsense-reloaded')}</th>
                             <th>{__('Status', 'quick-adsense-reloaded')}</th>
-                            <th>{__('Action', 'quick-adsense-reloaded')}</th>
+                            
                         </tr>
                     </thead>
                 )}
                     <tbody>
                     {currentRecords.map((record) => (
-                        <tr key={record.id}>
-                            <td>{record.id}</td>
-                            <td>{record.ad_name}</td>
+                        <tr key={record.disable_ad_id}>
+                            <td>{record.disable_ad_id}</td>
+                            <td>{record.disable_cost}</td>
+                            <td>{record.disable_duration}</td>
                             <td>
-                                {record.ad_image ? (
-                                    <img src={record.ad_image} alt={record.ad_name} width={'100px'}/>
-                                ) : (
-                                    //truncating the content to 50 characters
-                                    record.ad_content.length > 50 ? record.ad_content.substring(0, 300) + '...' : record.ad_content
-                                )}
-                                <br/>Link : {record.ad_link}
-                           </td>
-                            <td>{formatDate(record.start_date)} - {formatDate(record.end_date)}</td>
-
-                            <td>{record.ad_status}</td>
-                            <td>
-                                {record.ad_status == 'pending'  && (
-                                    <button
-                                        onClick={() => handleApproval(record.id, 'approved')}
-                                    >
-                                        {__('Approve', 'quick-adsense-reloaded')}
-                                    </button>
-                                    
-                                )}
-                                 {record.ad_status == 'pending' && (
-                                    <button
-                                    onClick={() => handleApproval(record.id, 'disapproved')}
-                                >
-                                    {__('Disapprove', 'quick-adsense-reloaded')}
-                                </button>
-                                    
-                                )}
-                                {record.ad_status == 'disapproved' && (
-                                    <button
-                                        onClick={() => handleApproval(record.id, 'approved')}
-                                    >
-                                        {__('Approve', 'quick-adsense-reloaded')}
-                                    </button>
-                                )}
-                                 {record.ad_status == 'approved' && new Date(record.end_date) >= new Date() &&  (
-                                    <button
-                                        onClick={() => handleApproval(record.id, 'disapproved')}
-                                    >
-                                        {__('Disapprove', 'quick-adsense-reloaded')}
-                                    </button>
-                                )}
-
-                                {record.ad_status == 'approved' && new Date(record.end_date) < new Date() && (
-                                   __('AD Expired', 'quick-adsense-reloaded')
-                                )}
-
-
+                                <p style={{margin:'0px'}}>{record.username}</p>
+                                <p style={{margin:'0px'}}>{record.user_email}</p>
                             </td>
+                            <td>{record.payment_status}</td>
                         </tr>
                     ))}
 
@@ -190,7 +121,7 @@ const QuadsDisabledAdsList = () => {
             <div className='quads-pagination'>
                
                 {currentRecords.length === 0 && (
-                    <h2>{__('No ads have been purchased on your site as of now.', 'quick-adsense-reloaded')}</h2>
+                    <h2>{__('No Disable ads on your site as of now.', 'quick-adsense-reloaded')}</h2>
                 )}
             {currentRecords.length > 0 && (
             <div className='pages'>

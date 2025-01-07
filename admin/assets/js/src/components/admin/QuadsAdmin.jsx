@@ -9,7 +9,6 @@ import QuadsAdLogging from '../report/QuadsAdLogging'
 import Quads_single_report from '../report/Quads_single_report';
 import { Link } from 'react-router-dom';
 import AdSellRecords from './../settings/QuadsAdSellList';
-import QuadsDisabledAdsList from '../settings/QuadsDisabledAdsList';
 
 class QuadsAdmin extends Component {
 
@@ -136,9 +135,6 @@ class QuadsAdmin extends Component {
                             }
                             if(pagePath.includes('adsell')){
                               return <AdSellRecords />;
-                            }
-                            if(pagePath.includes('disableads')){
-                              return <QuadsDisabledAdsList />;
                             }
                             if(pagePath.includes('ads')){
                                 return <QuadsAdListBody

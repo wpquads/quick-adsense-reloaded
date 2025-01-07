@@ -251,6 +251,13 @@ class QUADS_Ad_Setup_Api {
                 return $this->quads_current_user_can();
             }
         ));
+        register_rest_route( 'quads-route', 'list-disabledad-records', array(
+            'methods'    => 'GET',
+            'callback'   => array($this, 'getDisabledAdsList'),
+            'permission_callback' => function(){
+                return $this->quads_current_user_can();
+            }
+        ));
         register_rest_route('quads-route', '/adsell/(?P<id>\d+)/(?P<status>approved|disapproved)', [
             'methods'  => 'POST',
             'callback' => array($this, 'updateAdsellStatus'),
@@ -2000,6 +2007,32 @@ return array('status' => 't');
             }
         
             return ['records'=>$results,'total'=> $total ];
+        } 
+        public function getDisabledAdsList( $request ){
+            
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'quads_disabledad_data'; 
+            $page = (int) $request->get_param('page') ?: 1;
+            $per_page = 10;
+            $offset = ($page - 1) * $per_page;
+        
+            // Query the records
+            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
+            $results = $wpdb->get_results($wpdb->prepare(
+                "SELECT * FROM $table_name WHERE payment_status = %s ORDER BY disable_ad_id DESC LIMIT %d OFFSET %d",
+                'paid',
+                $per_page,
+                $offset
+            ));
+            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
+            $total = $wpdb->get_var("SELECT COUNT(*)  FROM $table_name WHERE payment_status = 'paid'");
+
+            $resp = array();
+            foreach ($results as $key => $result) {
+                $resp[] = $result;
+            }
+        
+            return ['records'=>$resp,'total'=> $total ];
         } 
 
         public function updateAdsellStatus($request) {

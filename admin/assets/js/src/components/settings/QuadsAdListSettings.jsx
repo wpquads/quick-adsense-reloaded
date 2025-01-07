@@ -15,6 +15,7 @@ import copy from 'copy-to-clipboard';
 import { SketchPicker } from 'react-color';
 import reactCSS from 'reactcss';
 import QuadsVerticalTabs from './QuadsVerticalTabs';
+import QuadsDisabledAdsList from './QuadsDisabledAdsList';
 const {__} = wp.i18n;
 // import {saveAs} from "file-saver";
 class QuadsAdListSettings extends Component {
@@ -125,7 +126,8 @@ class QuadsAdListSettings extends Component {
                 _daemail_notification_adsell_expiry : true,
                 _dapaypal_email : '',
                 _dapayment_gateway : 'paypal',
-                _dapayment_page : 'buy-adspace',
+                
+                dapayment_page : 'disable-ads',
                 _daauthorize_name : '',
                 _daauthorize_transactionKey : '',
                 _daauthorize_merchant_name : '',
@@ -2501,26 +2503,30 @@ handleCapabilityChange = (event) =>{
                       <p>{__('User will receive an email notification when an ad is about to expire or is expired.', 'quick-adsense-reloaded')}</p>
                     </td>
                     </tr> */}
-                   {/*  <tr>
+                    <tr>
                     <th scope="row"><label>{__('Payment Page', 'quick-adsense-reloaded')}</label></th>
                     <td>
-                     <select name="payment_page" value={settings.payment_page} onChange={this.formChangeHandler}>
+                     <select name="dapayment_page" value={settings.dapayment_page} onChange={this.formChangeHandler} id="dapayment_page">
                       <option value="">{__('Select Page', 'quick-adsense-reloaded')}</option>
                       {this.state.pages.map((page, index) => (
                         <option key={index} value={page['ID']}>{page['post_title']}</option>
                       ))}
                     </select>
-                    <p>{__('By default we have created  a payment page named "')}<b>{__('Buy Adspace')}</b>{__('". But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_buy_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_buy_form]</code>
+                    <p>{__('By default we have created  a payment page named "')}<b>{__('Disable Ads')}</b>{__('". But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_disable_ads_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_disable_ads_form]</code>
                     <a target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/">{__('Learn More')}</a></p>
                     </td>
-                  </tr> */}
+                  </tr>
                   </tbody></table>
                 </div>
                );
+               case "settings_disableadslist":  return(
+                <QuadsDisabledAdsList />
+               );
+            
             }
           })()}
 
-          {page.path == 'settings_support' || page.path == 'settings_importer' || page.path == 'settings' || page.path == 'settings_licenses' ? '' : (
+          {page.path == 'settings_support' || page.path == 'settings_importer' || page.path == 'settings_disableadslist' || page.path == 'settings' || page.path == 'settings_licenses' ? '' : (
             <div className="quads-save-settings">
             {this.state.button_spinner_toggle ?
             <a className="quads-btn quads-btn-primary">

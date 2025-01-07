@@ -48,11 +48,11 @@ add_action( 'admin_init', 'quads_create_sellpage_on_activation' );
 function quads_create_ads_disable_page_on_activation() {
     // Check if the page already exists
     $existing_page = get_page_by_path( 'disable-ads' );
-    $quads_disableads_page = get_option( 'quads_disableads' , false );
+    $quads_disableads_page = get_option( 'quads_disableadspage' , false );
     $quads_settings = get_option( 'quads_settings' , []);
 
     if ( $existing_page && ! $quads_disableads_page ) {
-        $quads_settings['_dapayment_page'] = $existing_page->ID;
+        $quads_settings['dapayment_page'] = $existing_page->ID;
         update_option( 'quads_settings', $quads_settings , false);
         update_option( 'quads_disableadspage', true , false);
         return;
@@ -74,7 +74,7 @@ function quads_create_ads_disable_page_on_activation() {
 
         if ( $page_id && ! is_wp_error( $page_id ) ) {
             // Save the page slug or ID in the options table
-            $quads_settings['_dapayment_page'] = $page_id;
+            $quads_settings['dapayment_page'] = $page_id;
             update_option( 'quads_settings', $quads_settings , false);
             update_option( 'quads_disableadspage', true , false);
         }
@@ -86,7 +86,7 @@ add_action( 'upgrader_process_complete', 'quads_adsell_upgrade_handler', 10, 2 )
 
 add_action( 'init', 'quads_authorize_payment_success' );
 function quads_authorize_payment_success(){
-    if(isset($_GET['status']) && $_GET['status']=='success' && isset($_GET['ad_slot_id']) && $_GET['ad_slot_id']>0 && isset($_GET['refId']) && $_GET['refId']!="" && isset($_GET['user_id']) && $_GET['user_id']){
+    if(isset($_GET['status']) && $_GET['status']=='success' && isset($_GET['ad_slot_id']) && $_GET['ad_slot_id']>0 && isset($_GET['refId']) && $_GET['refId']!="" && isset($_GET['user_id']) && $_GET['user_id'] && !isset($_GET['target'])){
         
         $slot_id = sanitize_text_field( wp_unslash( $_GET['ad_slot_id'] ) );
         $order_id = sanitize_text_field( wp_unslash( $_GET['refId'] ) );
@@ -156,6 +156,70 @@ function quads_authorize_payment_success(){
             $subject = esc_html__( 'Ad Payment Confirmation', 'quick-adsense-reloaded' );
             $message = esc_html__( 'Ad payment has been confirmed for user: ', 'quick-adsense-reloaded' ) . $payer_email. PHP_EOL;
             $message = esc_html__( 'Please  review the AD so that it can go live ', 'quick-adsense-reloaded' ). PHP_EOL;
+            //also add reminder to review the ad
+
+            $message .= $ad_details_html;
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            wp_mail( $to, $subject, $message, $headers );
+        }
+    }else if(isset($_GET['status']) && $_GET['status']=='success' && isset($_GET['refId']) && $_GET['refId']!="" && isset($_GET['user_id']) && $_GET['user_id'] && isset($_GET['target']) && $_GET['target']=='disablead'){
+        $order_id = sanitize_text_field( wp_unslash( $_GET['refId'] ) );
+        $user_id = sanitize_text_field( wp_unslash( $_GET['user_id'] ) );
+        
+        $user = get_user_by( 'id', $user_id );
+        if($user){
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'quads_disabledad_data';
+
+            $ad_details = $wpdb->get_row("SELECT * FROM $table_name WHERE disable_ad_id = $order_id AND user_id = $user->ID");
+           
+            if (!$ad_details) {
+                return false;
+                //return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad not found'), 404);
+            }
+            $payment_status = 'paid';
+            if ($ad_details->payment_status === 'paid') {
+                return false;
+            // return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad already paid'), 400);
+            }
+            $duration = $ad_details->disable_duration;
+            $params = array();
+            $params['payment_date'] = date('Y-m-d H:i:s');
+            $wpdb->update(
+                $table_name,
+                array('payment_status' => 'paid' , 'payment_response'=> json_encode($params)), // Data to update
+                array('disable_ad_id' => $order_id , 'user_id'=>$user->ID) 
+            );
+
+            //get the ad details from db
+            $setting= get_option('quads_settings',[]);
+            $currency = isset($setting['_dacurrency']) ? $setting['_dacurrency'] :'USD';
+            $price = isset($setting['_dacost']) ? $setting['_dacurrency'] :'USD';
+            $payer_email = $user->user_email;
+            $ad_details_html = "";
+            //send email to  user and admin
+            $to = $payer_email;
+            $subject = esc_html__( 'Payment Confirmation', 'quick-adsense-reloaded' );
+            $message = esc_html__( 'Your payment has been confirmed', 'quick-adsense-reloaded' ).PHP_EOL;
+
+            $total_cost = $price;
+            //also add the ad details in the email
+            $ad_details_html .= 'Ad Details: '.PHP_EOL;
+            $ad_details_html .= 'Total Cost: ' . esc_html($currency . $total_cost) . PHP_EOL;
+            $ad_details_html .= 'Duration: ' . esc_html($duration) . PHP_EOL;
+            $ad_details_html .= 'Payment Status: ' . esc_html($payment_status) . PHP_EOL;
+            $ad_details_html .= 'Payer Email: ' . esc_html($payer_email) . PHP_EOL;
+            $ad_details_html .= 'Order ID: ' . esc_html($order_id) . PHP_EOL;
+            $message .= $ad_details_html;
+            
+
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            wp_mail( $to, $subject, $message, $headers );
+
+            $to = get_option('admin_email');
+            $subject = esc_html__( 'Ad Payment Confirmation', 'quick-adsense-reloaded' );
+            $message = esc_html__( 'Ad payment has been confirmed for user: ', 'quick-adsense-reloaded' ) . $payer_email. PHP_EOL;
+           
             //also add reminder to review the ad
 
             $message .= $ad_details_html;
@@ -971,7 +1035,7 @@ function quads_ads_disable_form(){
 #quads-adbuy-form #paypal-button-container {
     margin-top: 20px;
 }
-#quads-adbuy-form .notice-success {
+._danotice-success {
     margin: 20px 0; 
     padding: 15px; 
     border: 1px solid #4caf50;
@@ -981,11 +1045,11 @@ function quads_ads_disable_form(){
     position: relative; 
 }
 
-#quads-adbuy-form .notice-success p {
+._danotice-success p {
     margin: 0;
 }
 
-#quads-adbuy-form .notice-error {
+._danotice-error {
     margin: 20px 0; 
     padding: 15px; 
     border: 1px solid #d9534f; 
@@ -995,11 +1059,11 @@ function quads_ads_disable_form(){
     position: relative; 
 }
 
-#quads-adbuy-form .notice-error p {
+._danotice-error p {
     margin: 0;
 }
 
-#quads-adbuy-form .notice-dismiss {
+._danotice-dismiss {
     cursor: pointer; 
     position: absolute; 
     top: 15px; 
@@ -1026,6 +1090,15 @@ function quads_ads_disable_form(){
         $stripe_secret_key =  isset($quads_settings['_dastripe_secret_key']) ? $quads_settings['_dastripe_secret_key'] : '';
     }
     $user_id = get_current_user_id();
+    if (isset($_GET['status']) && $_GET['status'] == 'success') {
+        echo '<div class="_danotice _danotice-success _dais-dismissible">
+        <p>Successfully Submitted. You will get a confirmation email when your payment is confirmed.</p>
+    </div>';
+        } elseif (isset($_GET['status']) && $_GET['status'] == 'cancelled') {
+            echo '<div class="_danotice _danotice-error _dais-dismissible">
+        <p>Payment Cancelled. Please try again.</p>
+    </div>';
+        }
 ?>
 <div class="da-payment-box">
     <p style="margin: 0;text-align: center;">Flash Sale: $49.99/Year</p>
@@ -1293,8 +1366,8 @@ function handle_ad_buy_form_submission() {
             //$authorize_url ='https://apitest.authorize.net/xml/v1/request.api';
             $authorize_url ='https://api.authorize.net/xml/v1/request.api';
             $redirect_link = rtrim($redirect_link,'/');
-            $success_link = $redirect_link.'&refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id;
-            $cancel_link = $redirect_link.'&refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id;
+            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
+            $cancel_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
         
          $send_data = '{
                 "getHostedPaymentPageRequest": {
@@ -1400,8 +1473,8 @@ function handle_ad_buy_form_submission() {
 
             $order_id = $wpdb->insert_id;
             $redirect_link = rtrim($redirect_link,'/');
-            $success_link = $redirect_link.'&refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id;
-            $cancel_link = $redirect_link.'&refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id;
+            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
+            $cancel_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
             require_once('stripe/vendor/autoload.php'); // Get this from Stripe's PHP SDK
             \Stripe\Stripe::setApiKey($stripe_secret_key);
             try {
@@ -1475,10 +1548,20 @@ function handle_submit_disablead_form() {
     $currency = isset($quads_settings['_dacurrency']) ? $quads_settings['_dacurrency'] :'USD';
     $price = isset($quads_settings['_dacost']) ? $quads_settings['_dacost'] :0;
     $_daduration = isset($quads_settings['_daduration']) ? $quads_settings['_daduration'] :'Monthly';
+    $da_page_id = isset($quads_settings['dapayment_page']) ? $quads_settings['dapayment_page'] : 0;
+    $payment_page = get_permalink( $da_page_id );
+
+    $user_info = get_userdata($user_id);
+    $user_data = $user_info->data;
+    $user_name =  $user_data->display_name;
+    $user_email =  $user_data->user_email;
     $result = $wpdb->insert( $table_name, array(
         'user_id'        => $user_id,
         'disable_cost' =>$price,
         'disable_duration' =>$_daduration,
+        'username' =>$user_name,
+        'user_email' =>$user_email,
+        'disable_date' =>date('Y-m-d'),
         'payment_status' => 'pending', // Update after payment
         'disable_status'      => 'pending', // Set to pending until approved
     ) );
@@ -1500,10 +1583,10 @@ function handle_submit_disablead_form() {
             $paypal_form .= '<input type="hidden" name="cmd" value="_xclick">';
             $paypal_form .= '<input type="hidden" name="business" value="'.sanitize_email( $paypal_email ).'">'; // Your PayPal email
             $paypal_form .= '<input type="hidden" name="item_name" value="'.esc_attr( $name).'">';
-            $paypal_form .= '<input type="hidden" name="amount" value="'.esc_attr($total_cost).'">';
+            $paypal_form .= '<input type="hidden" name="amount" value="'.esc_attr($price).'">';
             $paypal_form .= '<input type="hidden" name="currency_code" value="'.esc_attr($currency).'">';
-            $paypal_form .= '<input type="hidden" name="return" value="' . esc_url( site_url( 'disable-ads' ).'?status=success' ) . '">';
-            $paypal_form .= '<input type="hidden" name="cancel_return" value="' . esc_url( site_url( 'disable-ads' ).'?status=cancelled' ) . '">';
+            $paypal_form .= '<input type="hidden" name="return" value="' . esc_url( site_url( 'disable-ads' ).'?status=success&target=disablead' ) . '">';
+            $paypal_form .= '<input type="hidden" name="cancel_return" value="' . esc_url( site_url( 'disable-ads' ).'?status=cancelled&target=disablead' ) . '">';
             $paypal_form .= '<input type="hidden" name="notify_url" value="' . esc_url( rest_url('wpquads/v1/paypal_notify_url') ) . '">';
             $paypal_form .= '<input type="hidden" name="item_number" value="' . esc_attr($order_id) . '">';
             $paypal_form .= '<input type="hidden" name="custom" value="' . esc_attr($user_id) . '">';
@@ -1523,8 +1606,8 @@ function handle_submit_disablead_form() {
             //$authorize_url ='https://apitest.authorize.net/xml/v1/request.api';
             $authorize_url ='https://api.authorize.net/xml/v1/request.api';
             $redirect_link = rtrim($redirect_link,'/');
-            $success_link = $redirect_link.'&refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id;
-            $cancel_link = $redirect_link.'&refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id;
+            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&target=disablead&status=success&user_id='.$user_id;
+            $cancel_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&target=disablead&cancel=true&user_id='.$user_id;
         
          $send_data = '{
                 "getHostedPaymentPageRequest": {
@@ -1535,7 +1618,7 @@ function handle_submit_disablead_form() {
                   "refId": "'.esc_attr( $order_id ).'",
                   "transactionRequest": {
                     "transactionType": "authCaptureTransaction",
-                    "amount": "'.esc_attr( $total_cost ).'",
+                    "amount": "'.esc_attr( $price ).'",
                     "profile": {
                       "customerProfileId": "'.esc_attr( $user_id ).'"
                     },
@@ -1630,12 +1713,12 @@ function handle_submit_disablead_form() {
 
             $order_id = $wpdb->insert_id;
             $redirect_link = rtrim($redirect_link,'/');
-            $success_link = $redirect_link.'&refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id;
-            $cancel_link = $redirect_link.'&refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id;
+            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&target=disablead&status=success&user_id='.$user_id;
+            $cancel_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&target=disablead&cancel=true&user_id='.$user_id;
             require_once('stripe/vendor/autoload.php'); // Get this from Stripe's PHP SDK
             \Stripe\Stripe::setApiKey($stripe_secret_key);
             try {
-                $total_cost = $total_cost*100;
+                $total_cost = $price*100;
                 // Create a PaymentIntent
                 $paymentIntent = \Stripe\PaymentIntent::create([
                     'amount' => esc_attr( $total_cost ), // Amount in cents
