@@ -149,7 +149,7 @@ const QuadsDisabledAdsList = () => {
             <div className='quads-pagination'>
                
                 {currentRecords.length === 0 && (
-                    <h2>{__('No Disable ads on your site as of now.', 'quick-adsense-reloaded')}</h2>
+                    <h2>{__('No Disabled ad users on your site as of now.', 'quick-adsense-reloaded')}</h2>
                 )}
             {currentRecords.length > 0 && (
             <div className='pages'>
