@@ -265,6 +265,13 @@ class QUADS_Ad_Setup_Api {
                 return $this->quads_current_user_can();
             }
         ]);
+        register_rest_route('quads-route', '/disabledads/(?P<id>\d+)/(?P<status>paid|unsubscribe)', [
+            'methods'  => 'POST',
+            'callback' => array($this, 'updateDisableAdStatus'),
+            'permission_callback' => function() {
+                return $this->quads_current_user_can();
+            }
+        ]);
 
         register_rest_route( 'quads-route', 'get-pages', array(
             'methods'    => 'GET',
@@ -2019,22 +2026,60 @@ return array('status' => 't');
             // Query the records
             /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
             $results = $wpdb->get_results($wpdb->prepare(
-                "SELECT * FROM $table_name WHERE payment_status = %s ORDER BY disable_ad_id DESC LIMIT %d OFFSET %d",
-                'paid',
+                "SELECT * FROM $table_name WHERE payment_status in('paid','unsubscribe') ORDER BY disable_ad_id DESC LIMIT %d OFFSET %d",
                 $per_page,
                 $offset
             ));
             /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
-            $total = $wpdb->get_var("SELECT COUNT(*)  FROM $table_name WHERE payment_status = 'paid'");
+            $total = $wpdb->get_var("SELECT COUNT(*)  FROM $table_name WHERE payment_status in('paid','unsubscribe')");
 
             $resp = array();
             foreach ($results as $key => $result) {
+                $disable_duration = $result->disable_duration;
+                $result->start_date = '';
+                $result->end_date = '';
+                $result->color = '#ef3400';
+                if($result->payment_status=='unsubscribe'){
+                    $result->color = '#005aef';
+                }
+
+                if( $result->payment_response !="" ){
+                    $payment_response = json_decode( $result->payment_response, true );
+                    if( isset( $payment_response['payment_date'] ) ){
+                        $payment_date = $payment_response['payment_date'];
+                        $futureDate= date('Y-m-d');
+                        $currentDate= date('Y-m-d');
+                        if( $disable_duration=='yearly' ){
+                            $futureDate=date('Y-m-d', strtotime('+1 year', strtotime($payment_date)) );
+                        }else if( $disable_duration=='monthly' ){
+                            $futureDate=date('Y-m-d', strtotime('+1 month', strtotime($payment_date)) );
+                        }
+                        $result->start_date = date( 'd M Y', strtotime( $payment_date ) );
+                        $result->end_date = date( 'd M Y', strtotime( $futureDate ) );
+                    }
+                }
                 $resp[] = $result;
             }
         
             return ['records'=>$resp,'total'=> $total ];
         } 
-
+        public function updateDisableAdStatus($request) {
+            // Retrieve parameters from the request
+            $id = (int) $request['id'];
+            $status = sanitize_text_field($request['status']);
+        
+            $new_status = ($status === 'paid') ? 'unsubscribe' : 'paid';
+    
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'quads_disabledad_data';
+            $status = $wpdb->update(
+                $table_name,
+                ['payment_status' => $new_status],
+                ['disable_ad_id' => $id]
+            );
+            
+            return ['success' => true];
+        }
         public function updateAdsellStatus($request) {
             // Retrieve parameters from the request
             $id = (int) $request['id'];

@@ -52,6 +52,28 @@ const QuadsDisabledAdsList = () => {
         fetchRecords();
     }, [apiEndpoint, currentPage, searchTerm]);
 
+    const handleApproval = async (id, ad_status, index) => {
+        let record_list = [...records];
+        try {
+            const response = await fetch(`${apiEndpoint}quads-route/disabledads/${id}/${ad_status}`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-WP-Nonce': quads_localize_data.nonce
+                },
+                body: JSON.stringify({ ad_status })
+            });
+            const result = await response.json();
+            if (result.success) {
+               window.location.reload();
+            } else {
+                console.error(`Error approving/disapproving record ${id}`, result);
+            }
+        } catch (error) {
+            console.error(`Error updating record ${id}`, error);
+        }
+    };
    
 
     // Search handler
@@ -94,23 +116,29 @@ const QuadsDisabledAdsList = () => {
                             <th>{__('ID', 'quick-adsense-reloaded')}</th>
                             <th>{__('Amount', 'quick-adsense-reloaded')}</th>
                             <th>{__('Duration', 'quick-adsense-reloaded')}</th>
+                            <th>{__('Subscription Start', 'quick-adsense-reloaded')}</th>
+                            <th>{__('Subscription End', 'quick-adsense-reloaded')}</th>
                             <th>{__('User Info', 'quick-adsense-reloaded')}</th>
                             <th>{__('Status', 'quick-adsense-reloaded')}</th>
+                            <th></th>
                             
                         </tr>
                     </thead>
                 )}
                     <tbody>
-                    {currentRecords.map((record) => (
+                    {currentRecords.map((record, index) => (
                         <tr key={record.disable_ad_id}>
                             <td>{record.disable_ad_id}</td>
                             <td>{record.disable_cost}</td>
                             <td>{record.disable_duration}</td>
+                            <td>{record.start_date}</td>
+                            <td>{record.end_date}</td>
                             <td>
                                 <p style={{margin:'0px'}}>{record.username}</p>
                                 <p style={{margin:'0px'}}>{record.user_email}</p>
                             </td>
                             <td>{record.payment_status}</td>
+                            <td><button type="button" className='quads-btn quads-btn-primary' style={{padding:'3px 7px',fontSize:'14px', backgroundColor:record.color}} onClick={()=>handleApproval(record.disable_ad_id,record.payment_status,index)}>{(record.payment_status==='paid')?'Unsubscribe':'Subscribe'}</button></td>
                         </tr>
                     ))}
 

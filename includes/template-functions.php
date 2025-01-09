@@ -877,20 +877,22 @@ function quads_disable_ads(){
     $table_name = $wpdb->prefix . 'quads_disabledad_data'; 
     $ad_details = $wpdb->get_row("SELECT * FROM $table_name WHERE user_email = '$email' AND payment_status = 'paid' and user_id=$user_ID order by disable_ad_id desc limit 1");
     $is_disable_ad = false;
-    $disable_duration = $ad_details->disable_duration;
-    if( $ad_details->payment_response !="" ){
-        $payment_response = json_decode( $ad_details->payment_response, true );
-        if( isset( $payment_response['payment_date'] ) ){
-            $payment_date = $payment_response['payment_date'];
-            $futureDate= date('Y-m-d');
-            $currentDate= date('Y-m-d');
-            if( $disable_duration=='yearly' ){
-                $futureDate=date('Y-m-d', strtotime('+1 year', strtotime($payment_date)) );
-            }else if( $disable_duration=='monthly' ){
-                $futureDate=date('Y-m-d', strtotime('+1 month', strtotime($payment_date)) );
-            }
-            if($currentDate<=$futureDate){
-                $is_disable_ad = true;
+    if(!empty($ad_details)){
+        $disable_duration = $ad_details->disable_duration;
+        if( $ad_details->payment_response !="" ){
+            $payment_response = json_decode( $ad_details->payment_response, true );
+            if( isset( $payment_response['payment_date'] ) ){
+                $payment_date = $payment_response['payment_date'];
+                $futureDate= date('Y-m-d');
+                $currentDate= date('Y-m-d');
+                if( $disable_duration=='yearly' ){
+                    $futureDate=date('Y-m-d', strtotime('+1 year', strtotime($payment_date)) );
+                }else if( $disable_duration=='monthly' ){
+                    $futureDate=date('Y-m-d', strtotime('+1 month', strtotime($payment_date)) );
+                }
+                if($currentDate<=$futureDate){
+                    $is_disable_ad = true;
+                }
             }
         }
     }

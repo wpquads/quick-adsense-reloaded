@@ -226,7 +226,7 @@ class QuadsAdListNavLink extends Component {
 
     if(typeof(page.path)  != 'undefined' ) {
 
-        if( page.path == 'settings' || page.path == 'settings_tools' || page.path == 'settings_importer' || page.path == 'settings_legacy' || page.path == 'settings_support' || page.path == 'settings_licenses' || page.path == 'settings_google_autoads' || page.path == 'settings_adsell')  {
+        if( page.path == 'settings' || page.path == 'settings_tools' || page.path == 'settings_importer' || page.path == 'settings_legacy' || page.path == 'settings_support' || page.path == 'settings_licenses' || page.path == 'settings_google_autoads' || page.path == 'settings_adsell' || page.path == 'settings_disableads' || page.path == 'settings_disableadslist')  {
             jQuery('.wp-submenu li').removeClass('current');
             jQuery('a[href$="quads-settings&path=settings"]').parent().addClass('current');
             current = 'settings';

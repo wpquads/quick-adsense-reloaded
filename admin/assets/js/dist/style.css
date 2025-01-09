@@ -2537,6 +2537,9 @@ select#abtesting_report {
   padding: 5px 10px;
   margin-right: 10px; }
 
+.quads-settings-content {
+  display: block; }
+
 .sellable_ads_wrapper .quads-pagination .pages {
   margin-bottom: 10px; }
 

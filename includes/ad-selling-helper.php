@@ -857,7 +857,7 @@ function quads_ads_disable_form(){
     width: 100%;
 }
 .da-payment-box3{
-    padding: 16px 24px 32px;background-color: #fff;
+    padding: 0px 16px 24px 32px;background-color: #fff;
     border: 1px solid #bbb;
     border-radius: 4px;
     width: 100%;align-items: center;
@@ -869,7 +869,7 @@ function quads_ads_disable_form(){
 }
 .da-title1{
     border-bottom: 1px solid #e3e3e3;
-    font: 600 14px 'Work Sans', sans-serif;
+    font: 600 22px 'Work Sans', sans-serif;
     line-height: 22px;
     margin-bottom: 32px;
     padding-bottom: 8px;
@@ -881,10 +881,16 @@ function quads_ads_disable_form(){
     align-items: center;display: flex;flex-direction: column;
 }
 .da-sub-content{
-    font: 700 32px 'Merriweather', 'GeorgiaCustom';gap: 4px;padding-bottom: 8px
+    font: 700 55px 'Merriweather', 'GeorgiaCustom';
+    gap: 4px;
+    padding-bottom: 8px;
+    margin:0px;
 }
 .da-sub-content2{
-    font: 400 12px 'Work Sans', sans-serif;padding-bottom: 16px;text-transform: capitalize;
+    font: 400 18px 'Work Sans', sans-serif;
+    padding-bottom: 16px;
+    line-height : 1.5;
+    text-align:center;
 }
 .da-subcribe-btn{
     background-color: #dc0000;height: 48px;border: none;
@@ -1100,19 +1106,12 @@ function quads_ads_disable_form(){
     </div>';
         }
 ?>
-<div class="da-payment-box">
-    <p style="margin: 0;text-align: center;">Flash Sale: $49.99/Year</p>
-    <div>
-        <p style="margin: 0; text-align: center;">Unlock a year of exclusive access to premium journalism, expert opinions, and in-depth analysis trusted by world’s forward thinking leaders for just $49.99. </p>
-        <p style="margin: 0;text-align: center;">Become a Forbes member for less than $1/week.</p>
-    </div>
-</div>
 <div class="da-payment-box2">
    <div class="da-payment-box3">
        <p class="da-title1"><?php echo $_daduration;?></p>
        <div class="da-content-box">
-           <p class="da-sub-content"><span style="font-size: 12px;"><?php echo $currency?></span><?php echo $_dacost?></p>
-           <!-- <p class="da-sub-content2">For your first year</p> -->
+           <p class="da-sub-content">$<?php echo $_dacost?></p>
+           <p class="da-sub-content2">Take your browsing to the next level by upgrading to our premium plan, where you can enjoy an uninterrupted, completely ad-free experience, ensuring faster loading times, a cleaner interface, and seamless access to all your favorite content without any distractions</p>
        </div>
        <button type="button" class="da-subcribe-btn" onclick="openAdsBlockForm()">Subscribe</button>
    </div>
@@ -1345,8 +1344,8 @@ function handle_ad_buy_form_submission() {
             $paypal_form .= '<input type="hidden" name="item_name" value="'.esc_attr( $name).'">';
             $paypal_form .= '<input type="hidden" name="amount" value="'.esc_attr($total_cost).'">';
             $paypal_form .= '<input type="hidden" name="currency_code" value="'.esc_attr($currency).'">';
-            $paypal_form .= '<input type="hidden" name="return" value="' . esc_url( site_url( 'buy-adspace' ).'?status=success' ) . '">';
-            $paypal_form .= '<input type="hidden" name="cancel_return" value="' . esc_url( site_url( 'buy-adspace' ).'?status=cancelled' ) . '">';
+            $paypal_form .= '<input type="hidden" name="return" value="' . esc_url( $redirect_link.'?status=success' ) . '">';
+            $paypal_form .= '<input type="hidden" name="cancel_return" value="' . esc_url( $redirect_link.'?status=cancelled' ) . '">';
             $paypal_form .= '<input type="hidden" name="notify_url" value="' . esc_url( rest_url('wpquads/v1/paypal_notify_url') ) . '">';
             $paypal_form .= '<input type="hidden" name="item_number" value="' . esc_attr($order_id) . '">';
             $paypal_form .= '<input type="hidden" name="custom" value="' . esc_attr($user_id) . '">';
@@ -1567,6 +1566,7 @@ function handle_submit_disablead_form() {
     ) );
     
     if ( $result ) { 
+        $redirect_link = rtrim($redirect_link,'/');
         $payment_gateway = isset($quads_settings['_dapayment_gateway']) ? $quads_settings['_dapayment_gateway'] : 'paypal';
         if($payment_gateway=='paypal'){
             $paypal_email =  isset($quads_settings['_dapaypal_email']) ? $quads_settings['_dapaypal_email'] : '';
@@ -1585,9 +1585,9 @@ function handle_submit_disablead_form() {
             $paypal_form .= '<input type="hidden" name="item_name" value="'.esc_attr( $name).'">';
             $paypal_form .= '<input type="hidden" name="amount" value="'.esc_attr($price).'">';
             $paypal_form .= '<input type="hidden" name="currency_code" value="'.esc_attr($currency).'">';
-            $paypal_form .= '<input type="hidden" name="return" value="' . esc_url( site_url( 'disable-ads' ).'?status=success&target=disablead' ) . '">';
-            $paypal_form .= '<input type="hidden" name="cancel_return" value="' . esc_url( site_url( 'disable-ads' ).'?status=cancelled&target=disablead' ) . '">';
-            $paypal_form .= '<input type="hidden" name="notify_url" value="' . esc_url( rest_url('wpquads/v1/paypal_notify_url') ) . '">';
+            $paypal_form .= '<input type="hidden" name="return" value="' . esc_url( $redirect_link.'?status=success&target=disablead' ) . '">';
+            $paypal_form .= '<input type="hidden" name="cancel_return" value="' . esc_url( $redirect_link.'?status=cancelled&target=disablead' ) . '">';
+            $paypal_form .= '<input type="hidden" name="notify_url" value="' . esc_url( rest_url('wpquads/v1/paypal_disable_ad_notify_url') ) . '">';
             $paypal_form .= '<input type="hidden" name="item_number" value="' . esc_attr($order_id) . '">';
             $paypal_form .= '<input type="hidden" name="custom" value="' . esc_attr($user_id) . '">';
 
@@ -1752,6 +1752,13 @@ add_action('rest_api_init', function () {
         'permission_callback' => '__return_true', // You can define your own permissions check
     ));
 });
+add_action('rest_api_init', function () {
+    register_rest_route('wpquads/v1', '/paypal_disable_ad_notify_url', array(
+        'methods'  => 'POST',
+        'callback' => 'wpquads_handle_paypal_disable_ad_notify',
+        'permission_callback' => '__return_true', // You can define your own permissions check
+    ));
+});
 
 function wpquads_handle_paypal_notify(WP_REST_Request $request) {
     $params = $request->get_params();
@@ -1823,6 +1830,83 @@ function wpquads_handle_paypal_notify(WP_REST_Request $request) {
         $headers = array('Content-Type: text/html; charset=UTF-8');
         wp_mail( $to, $subject, $message, $headers );
 
+    }
+
+    // Respond back with a success message
+    return new WP_REST_Response(array('status' => 'success'), 200);
+}
+function wpquads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
+    $params = $request->get_params();
+
+    $payment_status = isset($params['payment_status']) ? sanitize_text_field($params['payment_status']) : '';
+    $order_id     = isset($params['item_number']) ? intval($params['item_number']) : 0;
+    $payer_email    = isset($params['payer_email']) ? sanitize_email($params['payer_email']) : '';
+    $user_id = isset($params['custom']) ? intval($params['custom']) : 0;
+    $total_cost = isset($params['mc_gross']) ? floatval($params['mc_gross']) : 0;
+    $test_ipn = isset($params['test_ipn']) ? floatval($params['test_ipn']) : 0;
+    $user = get_user_by('id', $user_id);
+
+    // Check if the payment is complete
+    if ($user && $payment_status === 'Completed') {
+        // Update your database, set ad status to 'active', etc.
+        // Example: Mark the ad as paid in your custom table
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'quads_disabledad_data';
+
+        $ad_details = $wpdb->get_row("SELECT * FROM $table_name WHERE disable_ad_id = $order_id AND user_id = $user->ID");
+        
+        if (!$ad_details) {
+            return false;
+            //return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad not found'), 404);
+        }
+        $payment_status = 'paid';
+        if ($ad_details->payment_status === 'paid') {
+            return false;
+        // return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad already paid'), 400);
+        }
+        $duration = $ad_details->disable_duration;
+        $params = array();
+        $params['payment_date'] = date('Y-m-d H:i:s');
+        $wpdb->update(
+            $table_name,
+            array('payment_status' => 'paid' , 'payment_response'=> json_encode($params)), // Data to update
+            array('disable_ad_id' => $order_id , 'user_id'=>$user->ID) 
+        );
+
+        //get the ad details from db
+        $setting= get_option('quads_settings',[]);
+        $currency = isset($setting['_dacurrency']) ? $setting['_dacurrency'] :'USD';
+        $price = isset($setting['_dacost']) ? $setting['_dacurrency'] :'USD';
+        $payer_email = $user->user_email;
+        $ad_details_html = "";
+        //send email to  user and admin
+        $to = $payer_email;
+        $subject = esc_html__( 'Payment Confirmation', 'quick-adsense-reloaded' );
+        $message = esc_html__( 'Your payment has been confirmed', 'quick-adsense-reloaded' ).PHP_EOL;
+
+        $total_cost = $price;
+        //also add the ad details in the email
+        $ad_details_html .= 'Ad Details: '.PHP_EOL;
+        $ad_details_html .= 'Total Cost: ' . esc_html($currency . $total_cost) . PHP_EOL;
+        $ad_details_html .= 'Duration: ' . esc_html($duration) . PHP_EOL;
+        $ad_details_html .= 'Payment Status: ' . esc_html($payment_status) . PHP_EOL;
+        $ad_details_html .= 'Payer Email: ' . esc_html($payer_email) . PHP_EOL;
+        $ad_details_html .= 'Order ID: ' . esc_html($order_id) . PHP_EOL;
+        $message .= $ad_details_html;
+        
+
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        wp_mail( $to, $subject, $message, $headers );
+
+        $to = get_option('admin_email');
+        $subject = esc_html__( 'Ad Payment Confirmation', 'quick-adsense-reloaded' );
+        $message = esc_html__( 'Ad payment has been confirmed for user: ', 'quick-adsense-reloaded' ) . $payer_email. PHP_EOL;
+        
+        //also add reminder to review the ad
+
+        $message .= $ad_details_html;
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        wp_mail( $to, $subject, $message, $headers );
     }
 
     // Respond back with a success message
