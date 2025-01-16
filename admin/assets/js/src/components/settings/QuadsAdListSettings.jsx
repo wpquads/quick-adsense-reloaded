@@ -38,6 +38,7 @@ class QuadsAdListSettings extends Component {
             quadsIsAdmin :false,
             settings_error :'',
             adtxt_modal :false,
+            sellable_ads_modal :false,
             global_excluder_modal :false,
             revenue_sharing_modal :false,
             customer_querey_error: '',
@@ -1137,6 +1138,9 @@ handleCapabilityChange = (event) =>{
   open_ad_text_modal = () =>{
     this.setState({adtxt_modal:true});
   }
+  open_sellable_ad_modal = () =>{
+    this.setState({sellable_ads_modal:true});
+  }
   open_role_permission_modal = () =>{
     this.setState({role_permission_modal:true});
   }
@@ -1147,7 +1151,7 @@ handleCapabilityChange = (event) =>{
     this.setState({advance_ads_to_quads_model:true});
   }
   closeModal = () =>{
-    this.setState({adtxt_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false,advance_ads_to_quads_model:false,revenue_sharing_modal:false,role_permission_modal:false});
+    this.setState({adtxt_modal:false, sellable_ads_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false,advance_ads_to_quads_model:false,revenue_sharing_modal:false,role_permission_modal:false});
   }
   getErrorMessage =(type) => {
     const {__} = wp.i18n;
@@ -1273,14 +1277,147 @@ handleCapabilityChange = (event) =>{
                     : null}
           <div className="quads-hidden-elements">
             {/* add txt modal */}
+           {this.state.sellable_ads_modal ?
+           <>
+           <div className="quads-large-popup-bglayout">  </div>
+           <div className="quads-large-popup">
+            <div className="quads-large-popup-content1">
+             <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
+              <div className="quads-large-popup-title">
+             <h1>{__('Sellable Ads', 'quick-adsense-reloaded')}</h1>
+             </div>
+             <div className="quads-large-description"></div>
+             <div className="quads-large-content">
+                 <div className="quads-settings-tab-container">
+                 <table className="form-table" role="presentation"><tbody>
+                  <tr>
+                  <th scope="row"><label>{__('Payment Gateway', 'quick-adsense-reloaded')}</label></th>
+                  <td>
+                  <select value={settings.payment_gateway} onChange={this.formChangeHandler} name="payment_gateway" id="payment_gateway">
+                    <option value="paypal">{__('Paypal', 'quick-adsense-reloaded')}</option>
+                    <option value="authorize">{__('Authorize.net', 'quick-adsense-reloaded')}</option>
+                    <option value="stripe">{__('Stripe', 'quick-adsense-reloaded')}</option>
+                  </select>
+                  </td>
+                  </tr>
+                  {(settings.payment_gateway==='paypal') &&
+                    <tr>
+                      <th scope="row"><label>{__('Paypal Email', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="paypal_email" style={{maxWidth:'25rem',width:'100%'}} value={settings.paypal_email} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                  }
+                  {(settings.payment_gateway==='authorize') &&
+                  <>
+                    <tr>
+                      <th scope="row"><label>{__('Authorize.net Name', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="authorize_name" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_name} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><label>{__('Authorize.net Transaction Key', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="authorize_transactionKey" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_transactionKey} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><label>{__('Authorize.net Merchant Name', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="authorize_merchant_name" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_merchant_name} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                  </>
+                  }
+                   {(settings.payment_gateway==='stripe') &&
+                  <>
+                    <tr>
+                      <th scope="row"><label>{__('Stripe Publishable Key', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="stripe_publishable_key" style={{maxWidth:'25rem',width:'100%'}} value={settings.stripe_publishable_key} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><label>{__('Stripe Secret key', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="stripe_secret_key" style={{maxWidth:'25rem',width:'100%'}} value={settings.stripe_secret_key} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                  </>
+                  }
+                  <tr>
+                    <th scope="row"><label htmlFor="hide_ajax">{__('Currency', 'quick-adsense-reloaded')}</label></th>
+                    <td>
+                     <select name="currency" value={settings.currency} onChange={this.formChangeHandler}>
+                      <option value="USD">USD</option>
+                      <option value="EUR">EUR</option>
+                      <option value="GBP">GBP</option>
+                      <option value="AUD">AUD</option>
+                      <option value="CAD">CAD</option>
+                      <option value="JPY">JPY</option>
+                      <option value="NZD">NZD</option>
+                      <option value="CHF">CHF</option>
+                      <option value="HKD">HKD</option>
+                      <option value="SGD">SGD</option>
+                      <option value="SEK">SEK</option>
+                      <option value="DKK">DKK</option>
+                      <option value="PLN">PLN</option>
+                      <option value="NOK">NOK</option>
+                      <option value="HUF">HUF</option>
+                      <option value="CZK">CZK</option>
+                      <option value="ILS">ILS</option>
+                      <option value="MXN">MXN</option>
+                      <option value="BRL">BRL</option>
+                      <option value="MYR">MYR</option>
+                      <option value="PHP">PHP</option>
+                      <option value="TWD">TWD</option>
+                      <option value="THB">THB</option>
+                      <option value="TRY">TRY</option>
+                      <option value="RUB">RUB</option>
+                      <option value="INR">INR</option>
+                      <option value="CNY">CNY</option>
+                      <option value="IDR">IDR</option>
+                      <option value="KRW">KRW</option>
+                      <option value="ZAR">ZAR</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><label htmlFor="hide_ajax">{__('Email Notification on Ad Expiry', 'quick-adsense-reloaded')}</label></th>
+                    <td>
+                      <label className="quads-switch" style={{height:'26px'}}><input id="email_notification_adsell_expiry" type="checkbox" name="email_notification_adsell_expiry" checked={settings.email_notification_adsell_expiry} onChange={this.formChangeHandler} /><span className="quads-slider"></span></label>
+                      <p>{__('User will receive an email notification when an ad is about to expire or is expired.', 'quick-adsense-reloaded')}</p>
+                    </td>
+                    </tr>
+                    <tr>
+                    <th scope="row"><label>{__('Payment Page', 'quick-adsense-reloaded')}</label></th>
+                    <td>
+                     <select name="payment_page" value={settings.payment_page} onChange={this.formChangeHandler}>
+                      <option value="">{__('Select Page', 'quick-adsense-reloaded')}</option>
+                      {this.state.pages.map((page, index) => (
+                        <option key={index} value={page['ID']}>{page['post_title']}</option>
+                      ))}
+                    </select>
+                    <p>{__('By default we have created  a payment page named "')}<b>{__('Buy Adspace')}</b>{__('". But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_buy_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_buy_form]</code>
+                    <a target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/">{__('Learn More')}</a></p>
+                    </td>
+                  </tr>
+                  </tbody></table>
+                </div>
+             </div>
+             <div className="quads-save-close"><a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>{__('Validate & Save', 'quick-adsense-reloaded')}</a></div>
+             </div>
+            </div> </>: null
+            }
            {this.state.adtxt_modal ?
            <>
            <div className="quads-large-popup-bglayout">  </div>
            <div className="quads-large-popup">
-            <div className="quads-large-popup-content">
+            <div className="quads-large-popup-content1">
              <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
               <div className="quads-large-popup-title">
-             <h1>{__('Ad Txt', 'quick-adsense-reloaded')}</h1>
+                 <h1>{__('Ad Txt', 'quick-adsense-reloaded')}</h1>
              </div>
              <div className="quads-large-description"></div>
 
@@ -1298,8 +1435,11 @@ handleCapabilityChange = (event) =>{
               </ul>
              </div>
             :null}
-               <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>{__('Validate & Save', 'quick-adsense-reloaded')}</a>
+               
              </div>
+             
+             <div className="quads-save-close"><a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.validateAdstxt}>{__('Validate & Save', 'quick-adsense-reloaded')}</a></div>
+             
              </div>
             </div> </>: null
             }
@@ -1363,7 +1503,7 @@ handleCapabilityChange = (event) =>{
                 <>           <div className="quads-large-popup-bglayout">  </div>
 
            <div className="quads-large-popup">
-            <div className="quads-large-popup-content">
+            <div className="quads-large-popup-content1">
              <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
                 <div className="quads-large-popup-title">
                     <h1>{__('Global Excluder', 'quick-adsense-reloaded')}</h1>
@@ -1424,7 +1564,7 @@ handleCapabilityChange = (event) =>{
             <>
                 <div className="quads-large-popup-bglayout">  </div>
            <div className="quads-large-popup">
-            <div className="quads-large-popup-content">
+            <div className="quads-large-popup-content1">
              <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
              <div className="quads-large-popup-title">
              <h1>Revenue Sharing</h1>
@@ -1441,13 +1581,12 @@ handleCapabilityChange = (event) =>{
                                      <input type="number"  min={0} max={100} placeholder="Percentage"  name="ad_author_revenue_per" value={settings.ad_author_revenue_per} onChange={this.formChangeHandler} />
                                   </td>
                                 </tr>
-                               </tbody></table>
-
-                                          <div className="quads-save-close">
+                               </tbody></table>                    
+             </div>
+             <div className="quads-save-close">
                                           {__('Enter the percentage of revenue that you would like to share', 'quick-adsense-reloaded')}
                             <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveRevenueSharing}>{__('Save Changes', 'quick-adsense-reloaded')}</a>
                             </div>
-             </div>
              </div>
             </div> </>: null
             }
@@ -1456,7 +1595,7 @@ handleCapabilityChange = (event) =>{
             <>
               <div className="quads-large-popup-bglayout">  </div>
            <div className="quads-large-popup">
-            <div className="quads-large-popup-content">
+            <div className="quads-large-popup-content1">
              <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
             <div className="quads-large-popup-title">
               <h1>Notice For Ad Blocker</h1>
@@ -1620,11 +1759,13 @@ handleCapabilityChange = (event) =>{
                                     onChange={this.page_redirect_select_fun}
                                   />
                                   </td>
-                                </tr>: null}</tbody></table><div className="quads-save-close">
-  To know more about Ad Blocker you can <a  target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-blocker-support-in-wp-quads/">view this </a>
-                            <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveAdBlockSuport}>Save Changes</a>
-                            </div>
+                                </tr>: null}</tbody></table>
+                                To know more about Ad Blocker you can <a  target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-blocker-support-in-wp-quads/">view this </a>
              </div>
+             <div className="quads-save-close">
+  
+                <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveAdBlockSuport}>Save Changes</a>
+                            </div>
              </div>
             </div> </>: null
             }
@@ -1632,7 +1773,7 @@ handleCapabilityChange = (event) =>{
             <>
               <div className="quads-large-popup-bglayout">  </div>
            <div className="quads-large-popup">
-            <div className="quads-large-popup-content">
+            <div className="quads-large-popup-content1">
              <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
             <div className="quads-large-popup-title">
               <h1>Click Fraud Protection</h1>
@@ -1690,15 +1831,15 @@ handleCapabilityChange = (event) =>{
                                 : ''}
                                 
                               </div>
-                              <div className="quads-save-close">
-                              {this.state.button_spinner_toggle ?
-                                <a className="quads-btn quads-btn-primary quads-large-btn">
-                                <span className="quads-btn-spinner"></span>Saving...</a> :
-                                <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveAdBlockSuport}>Save Changes</a>
-                              }
-                              </div>
                             
              </div>
+              <div className="quads-save-close">
+              {this.state.button_spinner_toggle ?
+                <a className="quads-btn quads-btn-primary quads-large-btn">
+                <span className="quads-btn-spinner"></span>Saving...</a> :
+                <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveAdBlockSuport}>Save Changes</a>
+              }
+              </div>
              </div>
             </div> </>: null
             }
@@ -1740,7 +1881,7 @@ handleCapabilityChange = (event) =>{
                           <div className="lazy_loader"></div>
                         </label>
                       } 
-                       {settings.adsTxtEnabled ? <span onClick={this.open_ad_text_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''}
+                       {settings.adsTxtEnabled ? <><span onClick={this.open_ad_text_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span><span style={{marginLeft:'10px',cursor:'pointer'}} onClick={this.open_ad_text_modal}>View Settings</span></> : ''}
                        <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-ads-txt-and-how-to-use-it/"></a>
                      </td>
                      </tr>
@@ -1762,7 +1903,7 @@ handleCapabilityChange = (event) =>{
                       } 
                          
 
-                         {settings.global_excluder_enabled ? <span onClick={this.open_global_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                         {settings.global_excluder_enabled ? <><span onClick={this.open_global_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span><span style={{marginLeft:'10px',cursor:'pointer'}}  onClick={this.open_global_excluder}>View Settings</span></> : null}
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-globally-exclude-or-hide-ads-for-user-roles-with-wp-quads-pro/"></a>
                      </td>
                      </tr>:null}
@@ -1795,7 +1936,7 @@ handleCapabilityChange = (event) =>{
                          <div className="lazy_loader_a"></div>
                        </label>
                        }
-                       {settings.ad_blocker_support ? <span onClick={this.ad_blocker_support} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                       {settings.ad_blocker_support ? <><span onClick={this.ad_blocker_support} className="quads-generic-icon dashicons dashicons-admin-generic"></span><span style={{marginLeft:'10px',cursor:'pointer'}} onClick={this.ad_blocker_support}>View Settings</span></> : null}
                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-use-ad-blocker-support-in-wp-quads/"></a>
                      </td>
                      </tr>
@@ -1812,7 +1953,7 @@ handleCapabilityChange = (event) =>{
                          <div className="lazy_loader_c"></div>
                         </label>
                       }
-                       {settings.click_fraud_protection ? <span onClick={this.click_fraud_protection_popup} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                       {settings.click_fraud_protection ? <><span onClick={this.click_fraud_protection_popup} className="quads-generic-icon dashicons dashicons-admin-generic"></span><span style={{marginLeft:'10px',cursor:'pointer'}} onClick={this.click_fraud_protection_popup}>View Settings</span></> : null}
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-click-fraud-protection-and-how-to-use-it/"></a>
                      </td>
                      </tr>
@@ -1829,7 +1970,7 @@ handleCapabilityChange = (event) =>{
                          <div className="lazy_loader_r"></div>
                         </label> 
                       }
-                       {settings.revenue_sharing_enabled ? <span onClick={this.open_revenue_sharing_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : null}
+                       {settings.revenue_sharing_enabled ? <><span onClick={this.open_revenue_sharing_excluder} className="quads-generic-icon dashicons dashicons-admin-generic"></span><span style={{marginLeft:'10px',cursor:'pointer'}} onClick={this.open_revenue_sharing_excluder}>View Settings</span></> : null}
                          <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/setup-revenue-sharing-in-wordpress-and-amp/"></a>
                      </td>
                      </tr>
@@ -1925,7 +2066,6 @@ handleCapabilityChange = (event) =>{
                              <span id="disableads_" className="quads-slider"></span>
                              <div className="lazy_loader_sa"></div>
                          </label>
-                         
                       }
                       {/*  <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/"></a> */}
                      </td>
@@ -1944,6 +2084,7 @@ handleCapabilityChange = (event) =>{
                          </label>
                          
                       }
+                      {settings.sellable_ads ? <><span onClick={this.open_sellable_ad_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span><span style={{marginLeft:'10px',cursor:'pointer'}} onClick={this.open_sellable_ad_modal}>View Settings</span></> : ''}
                        <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/"></a>
                      </td>
                  </tr>
@@ -1965,7 +2106,7 @@ handleCapabilityChange = (event) =>{
                       onChange={this.handleRoleBasedAccess}
                     />
                     }
-                    {this.state.settings.RoleBasedAccess.length > 0 ? <span onClick={this.open_role_permission_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span> : ''}
+                    {this.state.settings.RoleBasedAccess.length > 0 ? <><span onClick={this.open_role_permission_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span><span style={{marginLeft:'10px',cursor:'pointer'}} onClick={this.open_role_permission_modal}>View Settings</span></> : ''}
 
                     </td>
                   </tr>:null}
@@ -2062,7 +2203,7 @@ handleCapabilityChange = (event) =>{
                         <th><label>{__('ADS for WP Ads', 'quick-adsense-reloaded')}</label></th>
                         <td>
                           <a className="quads-btn quads-btn-primary" id="import_ads_for_wp" onClick={this.importadsforwpdata}>{__('Import', 'quick-adsense-reloaded')}</a>
-                          {settings.adsforwp_to_quads == 'imported' ? <span onClick={this.adsforwp_to_quads_model} className="quads-generic-icon import_ads_for_wp dashicons dashicons-admin-generic"></span> : ''}
+                          {settings.adsforwp_to_quads == 'imported' ? <><span onClick={this.adsforwp_to_quads_model} className="quads-generic-icon import_ads_for_wp dashicons dashicons-admin-generic"></span><span style={{marginLeft:'10px',cursor:'pointer'}} onClick={this.adsforwp_to_quads_model}>View Settings</span></> : ''}
                             {this.state.importadsforwpmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importadsforwpmsg}</Alert> : null}
                             {this.state.importadsforwpmsgprocessing ? <div className='updating-message importadsforwpmsgprocessing'><p>Importing Ads</p></div>: ''}
                         </td>
@@ -2071,7 +2212,7 @@ handleCapabilityChange = (event) =>{
                         <th><label>{__('Advanced Ads', 'quick-adsense-reloaded')}</label></th>
                         <td>
                           <a className="quads-btn quads-btn-primary" id="import_advanced_ads" onClick={this.importadvancedadsdata}>{__('Import', 'quick-adsense-reloaded')}</a>
-                          {settings.advance_ads_to_quads == 'imported' ? <span onClick={this.advance_ads_to_quads_model} className="quads-generic-icon import_advanced_ads dashicons dashicons-admin-generic"></span> : ''} 
+                          {settings.advance_ads_to_quads == 'imported' ? <><span onClick={this.advance_ads_to_quads_model} className="quads-generic-icon import_advanced_ads dashicons dashicons-admin-generic"></span></> : ''} 
 
                             {this.state.importadvancedadsmsg  ? <Alert severity="success" action={<Icon onClick={this.closeQuerySuccess}>close</Icon>}>{this.state.importadvancedadsmsg}</Alert> : null}
                             {this.state.importadvancedadsmsgprocessing ? <div className='updating-message importadvancedadsmsgprocessing'><p>Importing Ads</p></div>: ''}
@@ -2365,7 +2506,7 @@ handleCapabilityChange = (event) =>{
                   <tr>
                     <th scope="row"><label htmlFor="hide_ajax">{__('Email Notification on Ad Expiry', 'quick-adsense-reloaded')}</label></th>
                     <td>
-                      <label className="quads-switch"><input id="email_notification_adsell_expiry" type="checkbox" name="email_notification_adsell_expiry" checked={settings.email_notification_adsell_expiry} onChange={this.formChangeHandler} /><span className="quads-slider"></span></label>
+                      <label className="quads-switch" style={{height:'26px'}}><input id="email_notification_adsell_expiry" type="checkbox" name="email_notification_adsell_expiry" checked={settings.email_notification_adsell_expiry} onChange={this.formChangeHandler} /><span className="quads-slider"></span></label>
                       <p>{__('User will receive an email notification when an ad is about to expire or is expired.', 'quick-adsense-reloaded')}</p>
                     </td>
                     </tr>
