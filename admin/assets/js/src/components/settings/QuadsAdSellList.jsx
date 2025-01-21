@@ -90,20 +90,27 @@ const AdSellRecords = () => {
     const currentRecords = records.slice(indexOfFirstRecord, indexOfLastRecord);
 
     const totalPages = Math.ceil(totalRecords / recordsPerPage);
-
+    let searchIcon = quads_localize_data.quads_plugin_url+'admin/assets/img/quads-search.png'; 
     return (
-        <div className='sellable_ads_wrapper'>
-            <h1>  {__('Sellable Ads', 'quick-adsense-reloaded')}</h1>
-
+        <div className='sellable_ads_wrapper' style={{marginTop:'20px'}}>
+        
             {currentRecords.length > 0 && (
-
-            <input
-                type="text"
-                placeholder={__('Search records...', 'quick-adsense-reloaded')}
-                className='quads-ad-search-box'
-                value={searchTerm}
-                onChange={handleSearch}
-            />
+                <div className="quads-search-box-panel">                
+                    <div className="quads-search-box">
+                        
+                            <input
+                                style = {{ backgroundImage: `url(${searchIcon})`,          
+                                backgroundRepeat: 'no-repeat',
+                            }}
+                            type="text"
+                            placeholder={__('Search records...', 'quick-adsense-reloaded')}
+                            className='quads-ad-search-box'
+                            value={searchTerm}
+                            onChange={handleSearch}
+                        />
+                        
+                    </div>   
+              </div>   
             )}
 
             

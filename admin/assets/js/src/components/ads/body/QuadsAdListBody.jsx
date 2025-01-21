@@ -370,11 +370,17 @@ class QuadsAdListBody extends Component {
 
   }
   mainSearchMethod = (search_text, page , sort_by = '',filter_by = '') => { 
+      let filter_not_by = '';
+      if(this.props.ad_type && this.props.ad_type==='ads_space') {
+        filter_by = 'ads_space';
+      }else if(this.props.ad_type && this.props.ad_type==='ads') {
+        filter_not_by = 'ads_space';
+      }
       this.setState({isLoaded:false})
       let get_eppp = quads_localize_data.num_of_ads_to_display
-      let url = quads_localize_data.rest_url + "quads-route/get-ads-list?search_param="+search_text+"&posts_per_page="+get_eppp+"&pageno="+page+"&sort_by="+sort_by+"&filter_by="+filter_by;
+      let url = quads_localize_data.rest_url + "quads-route/get-ads-list?search_param="+search_text+"&posts_per_page="+get_eppp+"&pageno="+page+"&sort_by="+sort_by+"&filter_by="+filter_by+"&filter_not_by="+filter_not_by;
       if(quads_localize_data.rest_url.includes('?')){
-         url = quads_localize_data.rest_url + "quads-route/get-ads-list&search_param="+search_text+"&posts_per_page="+get_eppp+"&pageno="+page+"&sort_by="+sort_by+"&filter_by="+filter_by;  
+         url = quads_localize_data.rest_url + "quads-route/get-ads-list&search_param="+search_text+"&posts_per_page="+get_eppp+"&pageno="+page+"&sort_by="+sort_by+"&filter_by="+filter_by+"&filter_not_by="+filter_not_by; 
       }
       fetch(url, {
         headers: {                    

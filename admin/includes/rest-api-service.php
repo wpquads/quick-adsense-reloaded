@@ -288,7 +288,7 @@ class QUADS_Ad_Setup_Api_Service {
 
     }
 
-    public function getAdDataByParam($post_type, $attr = null, $rvcount = null, $paged = null, $offset = null, $search_param=null , $filter_by = null , $sort_by = null){
+    public function getAdDataByParam($post_type, $attr = null, $rvcount = null, $paged = null, $offset = null, $search_param=null , $filter_by = null , $sort_by = null,$filter_not_by = null){
 
         $response   = array();
         $arg        = array();
@@ -318,6 +318,7 @@ class QUADS_Ad_Setup_Api_Service {
         if($offset){
             $arg['offset']    = $offset;
         }
+        
         if($search_param){
                 if($filter_by){
                   $meta_query_args = array(
@@ -344,6 +345,15 @@ class QUADS_Ad_Setup_Api_Service {
                       'compare' => '='
                     )
                       )
+                    );
+                }else if($filter_not_by){
+                  $meta_query_args = array(
+                    'relation' => 'AND',
+                    array(
+                      'key'     =>   'ad_type',
+                      'value'   =>   $filter_not_by,
+                      'compare' =>   '!='
+                    )
                     );
                 }else{
                   $meta_query_args = array(
@@ -374,6 +384,16 @@ class QUADS_Ad_Setup_Api_Service {
               array(
                 'key'     =>   'ad_type',
                 'value'   =>   $filter_by
+              )
+              );
+              $arg['meta_query']          = $meta_query_args;
+              $arg['paged']               = 1;
+          }else if($filter_not_by){
+            $meta_query_args = array(
+              array(
+                'key'     =>   'ad_type',
+                'value'   =>   $filter_not_by,
+                'compare' =>  '!='
               )
               );
               $arg['meta_query']          = $meta_query_args;

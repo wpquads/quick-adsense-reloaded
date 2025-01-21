@@ -1917,6 +1917,7 @@ return array('status' => 't');
             $post_type    = 'quads-ads';
             $sort_by      = null;
             $filter_by    = null;
+            $filter_not_by    = null;
 
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
             if(isset($_GET['pageno'])){
@@ -1943,7 +1944,11 @@ return array('status' => 't');
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
                 $filter_by = sanitize_text_field( wp_unslash( $_GET['filter_by'] ) );
             }
-            $result = $this->api_service->getAdDataByParam($post_type, $attr, $rvcount, $paged, $offset, $search_param , $filter_by , $sort_by);
+            if(isset($_GET['filter_not_by'])){
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
+                $filter_not_by = sanitize_text_field( wp_unslash( $_GET['filter_not_by'] ) );
+            }
+            $result = $this->api_service->getAdDataByParam($post_type, $attr, $rvcount, $paged, $offset, $search_param , $filter_by , $sort_by, $filter_not_by);
             return $result;
 
         }

@@ -17,6 +17,7 @@ class QuadsAdmin extends Component {
         this.state = {                            
                 switchToOld: false,
                 ad_type_toggle: false,
+                adsell_selected_tab: 'ads_list',
                 settings  : []          
             };  
            // this.quads_occasional_ads_method();   
@@ -24,6 +25,9 @@ class QuadsAdmin extends Component {
       nodatashowAddTypeSelector = (e) => {
         e.preventDefault();
         this.setState({ad_type_toggle:true});    
+    }
+    handleSetAddSellsSelectTab = (tab) =>{
+      this.setState({adsell_selected_tab:tab})
     }
     setStateOfToggle = (toggle) => {
       this.setState({ad_type_toggle: toggle});
@@ -134,10 +138,36 @@ class QuadsAdmin extends Component {
                                 return <QuadsAdListSettings/>;                                
                             }
                             if(pagePath.includes('adsell')){
-                              return <AdSellRecords />;
+                              return (
+                                <>
+                                <div className="quads-ad-menu">
+                                  <div className="quads-ad-tab-wrapper">
+                                    <div className="quads-ad-tab">
+                                      <ul>
+                                        <li style={{cursor:'pointer'}} className={(this.state.adsell_selected_tab==='ads_list')?'current':''} onClick={()=>this.handleSetAddSellsSelectTab('ads_list')}><a class={(this.state.adsell_selected_tab==='ads_list')?'quads-nav-link quads-nav-link-active':'quads-nav-link'}>Ads List</a></li>
+                                        <li style={{cursor:'pointer'}} className={(this.state.adsell_selected_tab==='approval_list')?'current':''} onClick={()=>this.handleSetAddSellsSelectTab('approval_list')}>
+                                          <a class={(this.state.adsell_selected_tab==='approval_list')?'quads-nav-link quads-nav-link-active':'quads-nav-link'}>Approval List</a></li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                                {(this.state.adsell_selected_tab==='ads_list') &&
+                                 <QuadsAdListBody
+                                 settings = {this.state.settings}
+                                 ad_type='ads_space'
+                                  nodatashowAddTypeSelector ={this.nodatashowAddTypeSelector}
+                                  setStateOfToggle ={this.setStateOfToggle}
+                                  />
+                                }
+                                {(this.state.adsell_selected_tab==='approval_list') &&
+                                  <AdSellRecords />
+                                }
+                                </>
+                              );
                             }
                             if(pagePath.includes('ads')){
                                 return <QuadsAdListBody
+                                ad_type='ads'
                                 settings = {this.state.settings}
                                  nodatashowAddTypeSelector ={this.nodatashowAddTypeSelector}
                                  setStateOfToggle ={this.setStateOfToggle}
