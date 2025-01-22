@@ -62,7 +62,7 @@ function quads_create_ads_disable_page_on_activation() {
    
     if ( ! $existing_page ) {
         $page_data = array(
-            'post_title'     => esc_html__( 'Disable Ads', 'quick-adsense-reloaded' ),
+            'post_title'     => esc_html__( 'Hide Ads for Premium Members', 'quick-adsense-reloaded' ),
             'post_content'   => '[quads_disable_ads_form]',
             'post_status'    => 'publish',
             'post_type'      => 'page',

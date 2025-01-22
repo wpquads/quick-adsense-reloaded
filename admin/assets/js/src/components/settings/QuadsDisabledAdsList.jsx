@@ -90,8 +90,6 @@ const QuadsDisabledAdsList = () => {
 
     return (
         <div className='sellable_ads_wrapper'>
-            <h1>  {__('Disabled Ads', 'quick-adsense-reloaded')}</h1>
-
             {currentRecords.length > 0 && (
 
             <input
@@ -149,7 +147,7 @@ const QuadsDisabledAdsList = () => {
             <div className='quads-pagination'>
                
                 {currentRecords.length === 0 && (
-                    <h2>{__('No Disabled ad users on your site as of now.', 'quick-adsense-reloaded')}</h2>
+                    <h2>{__('No Hide Ads for Premium Members users on your site as of now.', 'quick-adsense-reloaded')}</h2>
                 )}
             {currentRecords.length > 0 && (
             <div className='pages'>

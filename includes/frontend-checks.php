@@ -308,7 +308,7 @@ function quads_disable_add_subscribe() {
 <div class="disable-ads-container" id="disable-ads-block">
 	<div class="da-top-flexbox" style="">
 		<div class="meter-display">
-			Disable Ads by Subscribing
+            Hide Ads for Premium Members by Subscribing
 		</div>
 		<button class="da-close-button" style="cursor:pointer" onclick="handleCloseDisableAd()">
 			<svg width="16" height="16" viewBox="0 0 16 16" style="margin-left: 13px;
@@ -320,8 +320,8 @@ function quads_disable_add_subscribe() {
 
 	<div class="da-bottom-flexbox">
 		<div class="message">
-			<span class="da-lead">Disable Ads.</span>
-			<span class="da-sub-lead">Disable ads by clicking on subscribe button.</span>
+			<span class="da-lead">Hide Ads for Premium Members.</span>
+			<span class="da-sub-lead">Hide Ads for Premium Members by clicking on subscribe button.</span>
 		</div>
 		<a class="da-meter-cta" href="<?php echo $payment_page;?>" target="_blank">Subscribe Now</a>
 	</div>

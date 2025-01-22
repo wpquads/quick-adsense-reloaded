@@ -118,7 +118,7 @@ class QuadsAdListSettings extends Component {
                 currency : 'USD',
                 email_notification_adsell_expiry : true,
                 paypal_email : '',
-                payment_gateway : 'paypal',
+                payment_gateway : '',
                 payment_page : 'buy-adspace',
                 authorize_name : '',
                 authorize_transactionKey : '',
@@ -128,7 +128,7 @@ class QuadsAdListSettings extends Component {
                 _dacurrency : 'USD',
                 _daemail_notification_adsell_expiry : true,
                 _dapaypal_email : '',
-                _dapayment_gateway : 'paypal',
+                _dapayment_gateway : '',
                 
                 dapayment_page : 'disable-ads',
                 _daauthorize_name : '',
@@ -1048,6 +1048,8 @@ handleCapabilityChange = (event) =>{
     }
   formChangeHandler = (event) => {
     let name  = event.target.name;
+    console.log(name);
+    
     //spin
     this.setState({selectedBtnOpt:name});
     this.state.settings.namer  = name;
@@ -1077,7 +1079,18 @@ handleCapabilityChange = (event) =>{
      if(name == 'rotator_ads_settings' || name == 'group_insertion_settings' || name == 'blindness_settings' || name == 'ab_testing_settings' || name == 'reports_settings' || name == 'ad_performance_tracking'|| name == 'report_logging' || name == 'ad_log' || name == 'global_excluder' || name == 'delay_ad_sec' || name == 'skippable_ads' || name == 'exclude_admin_tracking' || name == 'sellable_ads' || name == 'disableads'){
       
       if(name == 'sellable_ads' || name == 'disableads'){
-        this.saveSettings(true);
+        if(name==='sellable_ads'){
+          if(value===true){
+            if(document.getElementById('handleShowSellableAds')){
+              document.getElementById('handleShowSellableAds').click();
+            }
+          }else{
+            if(document.getElementById('handleHideSellableAds')){
+              document.getElementById('handleHideSellableAds').click();
+            }
+          }
+        }
+        this.saveSettings();
       }else{
         this.saveSettings();
       }
@@ -1303,6 +1316,7 @@ handleCapabilityChange = (event) =>{
                   <th scope="row"><label>{__('Payment Gateway', 'quick-adsense-reloaded')}</label></th>
                   <td>
                   <select value={settings.payment_gateway} onChange={this.formChangeHandler} name="payment_gateway" id="payment_gateway">
+                    <option value="">{__('Setup Payment Gateway', 'quick-adsense-reloaded')}</option>
                     <option value="paypal">{__('Paypal', 'quick-adsense-reloaded')}</option>
                     <option value="authorize">{__('Authorize.net', 'quick-adsense-reloaded')}</option>
                     <option value="stripe">{__('Stripe', 'quick-adsense-reloaded')}</option>
@@ -1311,7 +1325,7 @@ handleCapabilityChange = (event) =>{
                   </tr>
                   {(settings.payment_gateway==='paypal') &&
                     <tr>
-                      <th scope="row"><label>{__('Paypal Email', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Paypal Email', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="paypal_email" style={{maxWidth:'25rem',width:'100%'}} value={settings.paypal_email} onChange={this.formChangeHandler} />
                       </td>
@@ -1320,19 +1334,19 @@ handleCapabilityChange = (event) =>{
                   {(settings.payment_gateway==='authorize') &&
                   <>
                     <tr>
-                      <th scope="row"><label>{__('Authorize.net Name', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Authorize.net Name', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="authorize_name" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_name} onChange={this.formChangeHandler} />
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><label>{__('Authorize.net Transaction Key', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Authorize.net Transaction Key', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="authorize_transactionKey" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_transactionKey} onChange={this.formChangeHandler} />
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><label>{__('Authorize.net Merchant Name', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Authorize.net Merchant Name', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="authorize_merchant_name" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_merchant_name} onChange={this.formChangeHandler} />
                       </td>
@@ -1342,13 +1356,13 @@ handleCapabilityChange = (event) =>{
                    {(settings.payment_gateway==='stripe') &&
                   <>
                     <tr>
-                      <th scope="row"><label>{__('Stripe Publishable Key', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Stripe Publishable Key', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="stripe_publishable_key" style={{maxWidth:'25rem',width:'100%'}} value={settings.stripe_publishable_key} onChange={this.formChangeHandler} />
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><label>{__('Stripe Secret key', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Stripe Secret key', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="stripe_secret_key" style={{maxWidth:'25rem',width:'100%'}} value={settings.stripe_secret_key} onChange={this.formChangeHandler} />
                       </td>
@@ -1426,7 +1440,7 @@ handleCapabilityChange = (event) =>{
             <div className="quads-large-popup-content1">
              <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
               <div className="quads-large-popup-title">
-             <h1>{__('Disabled Ads', 'quick-adsense-reloaded')}</h1>
+             <h1>{__('Hide Ads for Premium Members', 'quick-adsense-reloaded')}</h1>
              </div>
              <div className="quads-large-description"></div>
              <div className="quads-large-content">
@@ -1436,6 +1450,7 @@ handleCapabilityChange = (event) =>{
                   <th scope="row"><label>{__('Payment Gateway', 'quick-adsense-reloaded')}</label></th>
                   <td>
                   <select value={settings._dapayment_gateway} onChange={this.formChangeHandler} name="_dapayment_gateway" id="_dapayment_gateway">
+                    <option value="">{__('Setup Payment Gateway', 'quick-adsense-reloaded')}</option>
                     <option value="paypal">{__('Paypal', 'quick-adsense-reloaded')}</option>
                     <option value="authorize">{__('Authorize.net', 'quick-adsense-reloaded')}</option>
                     <option value="stripe">{__('Stripe', 'quick-adsense-reloaded')}</option>
@@ -1444,7 +1459,7 @@ handleCapabilityChange = (event) =>{
                   </tr>
                   {(settings._dapayment_gateway==='paypal') &&
                     <tr>
-                      <th scope="row"><label>{__('Paypal Email', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Paypal Email', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="_dapaypal_email" style={{maxWidth:'25rem',width:'100%'}} value={settings._dapaypal_email} onChange={this.formChangeHandler} />
                       </td>
@@ -1453,19 +1468,19 @@ handleCapabilityChange = (event) =>{
                   {(settings._dapayment_gateway==='authorize') &&
                   <>
                     <tr>
-                      <th scope="row"><label>{__('Authorize.net Name', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Authorize.net Name', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="_daauthorize_name" style={{maxWidth:'25rem',width:'100%'}} value={settings._daauthorize_name} onChange={this.formChangeHandler} />
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><label>{__('Authorize.net Transaction Key', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Authorize.net Transaction Key', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="_daauthorize_transactionKey" style={{maxWidth:'25rem',width:'100%'}} value={settings._daauthorize_transactionKey} onChange={this.formChangeHandler} />
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><label>{__('Authorize.net Merchant Name', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Authorize.net Merchant Name', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="_daauthorize_merchant_name" style={{maxWidth:'25rem',width:'100%'}} value={settings._daauthorize_merchant_name} onChange={this.formChangeHandler} />
                       </td>
@@ -1475,13 +1490,13 @@ handleCapabilityChange = (event) =>{
                    {(settings._dapayment_gateway==='stripe') &&
                   <>
                     <tr>
-                      <th scope="row"><label>{__('Stripe Publishable Key', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Stripe Publishable Key', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="_dastripe_publishable_key" style={{maxWidth:'25rem',width:'100%'}} value={settings._dastripe_publishable_key} onChange={this.formChangeHandler} />
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><label>{__('Stripe Secret key', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Stripe Secret key', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="_dastripe_secret_key" style={{maxWidth:'25rem',width:'100%'}} value={settings._dastripe_secret_key} onChange={this.formChangeHandler} />
                       </td>
@@ -1556,7 +1571,7 @@ handleCapabilityChange = (event) =>{
                         <option key={index} value={page['ID']}>{page['post_title']}</option>
                       ))}
                     </select>
-                    <p>{__('By default we have created  a payment page named "')}<b>{__('Disable Ads')}</b>{__('". But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_disable_ads_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_disable_ads_form]</code>
+                    <p>{__('By default we have created  a payment page named "')}<b>{__('Hide Ads for Premium Members')}</b>{__('". But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_disable_ads_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_disable_ads_form]</code>
                     <a target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/">{__('Learn More')}</a></p>
                     </td>
                   </tr>
@@ -2598,7 +2613,7 @@ handleCapabilityChange = (event) =>{
                   </tr>
                   {(settings.payment_gateway==='paypal') &&
                     <tr>
-                      <th scope="row"><label>{__('Paypal Email', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Paypal Email', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="paypal_email" style={{maxWidth:'25rem',width:'100%'}} value={settings.paypal_email} onChange={this.formChangeHandler} />
                       </td>
@@ -2607,19 +2622,19 @@ handleCapabilityChange = (event) =>{
                   {(settings.payment_gateway==='authorize') &&
                   <>
                     <tr>
-                      <th scope="row"><label>{__('Authorize.net Name', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Authorize.net Name', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="authorize_name" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_name} onChange={this.formChangeHandler} />
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><label>{__('Authorize.net Transaction Key', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Authorize.net Transaction Key', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="authorize_transactionKey" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_transactionKey} onChange={this.formChangeHandler} />
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><label>{__('Authorize.net Merchant Name', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Authorize.net Merchant Name', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="authorize_merchant_name" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_merchant_name} onChange={this.formChangeHandler} />
                       </td>
@@ -2629,13 +2644,13 @@ handleCapabilityChange = (event) =>{
                    {(settings.payment_gateway==='stripe') &&
                   <>
                     <tr>
-                      <th scope="row"><label>{__('Stripe Publishable Key', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Stripe Publishable Key', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="stripe_publishable_key" style={{maxWidth:'25rem',width:'100%'}} value={settings.stripe_publishable_key} onChange={this.formChangeHandler} />
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><label>{__('Stripe Secret key', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Stripe Secret key', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="stripe_secret_key" style={{maxWidth:'25rem',width:'100%'}} value={settings.stripe_secret_key} onChange={this.formChangeHandler} />
                       </td>
@@ -2717,7 +2732,7 @@ handleCapabilityChange = (event) =>{
                   </tr>
                   {(settings._dapayment_gateway==='paypal') &&
                     <tr>
-                      <th scope="row"><label>{__('Paypal Email', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Paypal Email', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="_dapaypal_email" style={{maxWidth:'25rem',width:'100%'}} value={settings._dapaypal_email} onChange={this.formChangeHandler} />
                       </td>
@@ -2726,19 +2741,19 @@ handleCapabilityChange = (event) =>{
                   {(settings._dapayment_gateway==='authorize') &&
                   <>
                     <tr>
-                      <th scope="row"><label>{__('Authorize.net Name', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Authorize.net Name', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="_daauthorize_name" style={{maxWidth:'25rem',width:'100%'}} value={settings._daauthorize_name} onChange={this.formChangeHandler} />
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><label>{__('Authorize.net Transaction Key', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Authorize.net Transaction Key', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="_daauthorize_transactionKey" style={{maxWidth:'25rem',width:'100%'}} value={settings._daauthorize_transactionKey} onChange={this.formChangeHandler} />
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><label>{__('Authorize.net Merchant Name', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Authorize.net Merchant Name', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="_daauthorize_merchant_name" style={{maxWidth:'25rem',width:'100%'}} value={settings._daauthorize_merchant_name} onChange={this.formChangeHandler} />
                       </td>
@@ -2748,13 +2763,13 @@ handleCapabilityChange = (event) =>{
                    {(settings._dapayment_gateway==='stripe') &&
                   <>
                     <tr>
-                      <th scope="row"><label>{__('Stripe Publishable Key', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Stripe Publishable Key', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="_dastripe_publishable_key" style={{maxWidth:'25rem',width:'100%'}} value={settings._dastripe_publishable_key} onChange={this.formChangeHandler} />
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><label>{__('Stripe Secret key', 'quick-adsense-reloaded')}</label></th>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Stripe Secret key', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="_dastripe_secret_key" style={{maxWidth:'25rem',width:'100%'}} value={settings._dastripe_secret_key} onChange={this.formChangeHandler} />
                       </td>
@@ -2829,8 +2844,8 @@ handleCapabilityChange = (event) =>{
                         <option key={index} value={page['ID']}>{page['post_title']}</option>
                       ))}
                     </select>
-                    <p>{__('By default we have created  a payment page named "')}<b>{__('Disable Ads')}</b>{__('". But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_disable_ads_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_disable_ads_form]</code>
-                    <a target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/">{__('Learn More')}</a></p>
+                    <p>{__('By default we have created  a payment page named "')}<b>{__('Hide Ads for Premium Members')}</b>{__('". But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_disable_ads_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_disable_ads_form]</code>
+                    </p>
                     </td>
                   </tr>
                   </tbody></table>

@@ -441,7 +441,7 @@ class QuadsAdListBody extends Component {
     );            
 } 
 
-  componentDidMount() {    
+  componentDidMount() {  
           this.mainSearchMethod(this.state.search_text, this.state.page); 
   }  
   timer = null;
@@ -491,13 +491,30 @@ class QuadsAdListBody extends Component {
              </div>        
             </div>
               : ''}  
-              </div>         
+              </div> 
+              {(this.state.items && this.state.items.length>0) &&        
               <div className="quads-search-box-panel">                
-                <div className="quads-search-box"><QuadsAdListSearch ad_list={this.state} triggerSearch={this.QuadsSearchAd} handleSortBy={this.handleSortBy} handleFilterBy={this.handleFilterBy}  handleBulkActions={this.handleBulkActions}/></div>                
-              </div>              
+                <div className="quads-search-box">
+                  <QuadsAdListSearch ad_list={this.state} triggerSearch={this.QuadsSearchAd} handleSortBy={this.handleSortBy} handleFilterBy={this.handleFilterBy}  handleBulkActions={this.handleBulkActions}/>
+                </div>                
+              </div>  
+              }
+              {(this.props.ad_type==='ads_space' && this.state.isLoaded===true) &&
+              <div style={{marginTop:'16px'}}>
+                {(this.props.settings && this.props.settings.payment_gateway==='') &&
+                  <label>Warning : <strong>Payment Gateway</strong> not selected for Sellable Ads. Go to <strong>Settings{' > '}Sellable Ads Settings {' > '}Select Payment Gateway</strong></label>
+                }
+                <br />
+                {(this.props.settings && this.props.settings.payment_page==='') &&
+                  <label>Warning : <strong>Payment Page</strong> not selected for Sellable Ads. Go to <strong>Settings{' > '}Sellable Ads Settings {' > '}Select Payment Page</strong></label>
+                }
+              </div>
+              }
+              
               <div className="quads-list-ads">
                 <QuadsAdList
                   {...this.state}
+                  ad_type = {this.props.ad_type}
                   ad_list={this.state}
                   showMoreIconBox ={this.showMoreIconBox}
                   showMoreHoverIn ={this.showMoreHoverIn}

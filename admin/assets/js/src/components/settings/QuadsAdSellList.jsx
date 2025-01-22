@@ -97,7 +97,6 @@ const AdSellRecords = () => {
             {currentRecords.length > 0 && (
                 <div className="quads-search-box-panel">                
                     <div className="quads-search-box">
-                        
                             <input
                                 style = {{ backgroundImage: `url(${searchIcon})`,          
                                 backgroundRepeat: 'no-repeat',
@@ -108,7 +107,6 @@ const AdSellRecords = () => {
                             value={searchTerm}
                             onChange={handleSearch}
                         />
-                        
                     </div>   
               </div>   
             )}
@@ -150,16 +148,20 @@ const AdSellRecords = () => {
 
                             <td>{record.ad_status}</td>
                             <td>
-                                {record.ad_status == 'pending'  && (
+                                {record.ad_status == 'approved'  && (
                                     <button
+                                        className='quads-btn quads-btn-primary'
+                                        style={{padding:'5px 10px',fontSize:'14px'}}
                                         onClick={() => handleApproval(record.id, 'approved')}
                                     >
                                         {__('Approve', 'quick-adsense-reloaded')}
                                     </button>
                                     
                                 )}
-                                 {record.ad_status == 'pending' && (
+                                 {record.ad_status == 'approved' && (
                                     <button
+                                    style={{padding:'5px 10px',fontSize:'14px'}}
+                                    className='quads-btn quads-btn-primary'
                                     onClick={() => handleApproval(record.id, 'disapproved')}
                                 >
                                     {__('Disapprove', 'quick-adsense-reloaded')}
@@ -168,6 +170,8 @@ const AdSellRecords = () => {
                                 )}
                                 {record.ad_status == 'disapproved' && (
                                     <button
+                                    style={{padding:'5px 10px',fontSize:'14px'}}
+                                    className='quads-btn quads-btn-primary'
                                         onClick={() => handleApproval(record.id, 'approved')}
                                     >
                                         {__('Approve', 'quick-adsense-reloaded')}
@@ -175,6 +179,8 @@ const AdSellRecords = () => {
                                 )}
                                  {record.ad_status == 'approved' && new Date(record.end_date) >= new Date() &&  (
                                     <button
+                                    style={{padding:'5px 10px',fontSize:'14px'}}
+                                    className='quads-btn quads-btn-primary'
                                         onClick={() => handleApproval(record.id, 'disapproved')}
                                     >
                                         {__('Disapprove', 'quick-adsense-reloaded')}
