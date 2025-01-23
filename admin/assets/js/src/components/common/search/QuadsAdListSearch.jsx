@@ -93,7 +93,7 @@ class QuadsAdListSearch extends Component {
       onChange={e =>this.props.triggerSearch(e)} value={page.ad_id} placeholder={__('Search by ad unit, id, format, etc', 'quick-adsense-reloaded')} type="text"/>
 :
 <div>
-{page.path === undefined?  <div className='quads-select-div quads-mui-select'>
+{(page.path === undefined || page.path === 'adsell')?  <div className='quads-select-div quads-mui-select'>
     <FormControl style={{width:'100%',paddingRight:'8px'}}>
         <InputLabel id="quads_bulk_actions_lid">{__('Bulk Actions', 'quick-adsense-reloaded')}</InputLabel>
         <Select
@@ -117,7 +117,7 @@ class QuadsAdListSearch extends Component {
           <MenuItem value={'click'}>{__('Sort by Clicks', 'quick-adsense-reloaded')}</MenuItem>
         </Select>
       </FormControl>
-
+      {(page.path === undefined ) &&
       <FormControl style={{width:'100%'}}>
         <InputLabel id="quads_filter_lid">{__('Filter By', 'quick-adsense-reloaded')}</InputLabel>
         <Select
@@ -135,6 +135,7 @@ class QuadsAdListSearch extends Component {
           }
         </Select>
       </FormControl>
+      }
 </div>:''}
 <input
      style = {{ backgroundImage: `url(${searchIcon})`,          

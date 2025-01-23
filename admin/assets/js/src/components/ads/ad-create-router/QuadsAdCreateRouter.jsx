@@ -792,7 +792,11 @@ class QuadsAdCreateRouter extends Component {
 
       e.preventDefault();
       let page    = queryString.parse(window.location.search);   
+      let is_ad_space = page['ad_type'];
       let new_url = this.props.location.pathname + '?page=quads-settings';
+      if(is_ad_space==='ads_space'){
+        new_url = this.props.location.pathname + '?page=quads-settings&path=adsell';
+      }
       
       if(this.state.quads_state_changed && !this.state.quads_is_saved){
 

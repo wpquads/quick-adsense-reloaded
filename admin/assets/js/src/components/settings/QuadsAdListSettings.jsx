@@ -1771,10 +1771,11 @@ handleCapabilityChange = (event) =>{
                                      <input type="number"  min={0} max={100} placeholder="Percentage"  name="ad_author_revenue_per" value={settings.ad_author_revenue_per} onChange={this.formChangeHandler} />
                                   </td>
                                 </tr>
-                               </tbody></table>                    
+                               </tbody></table>  
+              <p>{__('Enter the percentage of revenue that you would like to share', 'quick-adsense-reloaded')}</p>                  
              </div>
              <div className="quads-save-close">
-                                          {__('Enter the percentage of revenue that you would like to share', 'quick-adsense-reloaded')}
+                                          
                             <a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveRevenueSharing}>{__('Save Changes', 'quick-adsense-reloaded')}</a>
                             </div>
              </div>
@@ -2257,7 +2258,7 @@ handleCapabilityChange = (event) =>{
                              <div className="lazy_loader_sa"></div>
                          </label>
                       }
-                      {settings.disableads ? <><span onClick={this.open_disable_ad_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span><span style={{marginLeft:'10px',cursor:'pointer'}} onClick={this.open_disable_ad_modal}>View Settings</span> |<span onClick={this.open_disable_list_modal} className="quads-generic-icon dashicons dashicons-visibility"></span><span style={{marginLeft:'10px',cursor:'pointer'}} onClick={this.open_disable_list_modal}>View Members List</span></> : ''}
+                      {settings.disableads ? <><span onClick={this.open_disable_ad_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span><span style={{marginLeft:'10px',cursor:'pointer'}} onClick={this.open_disable_ad_modal}>View Settings</span><span style={{marginLeft:'10px'}}> | </span><span onClick={this.open_disable_list_modal} className="quads-generic-icon dashicons dashicons-visibility"></span><span style={{marginLeft:'10px',cursor:'pointer'}} onClick={this.open_disable_list_modal}>View Members List</span></> : ''}
                       {/*  <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/"></a> */}
                      </td>
                  </tr>

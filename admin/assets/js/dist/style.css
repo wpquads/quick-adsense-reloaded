@@ -1455,8 +1455,8 @@ a.quads-nav-link-active {
 .quads-large-popup {
   position: fixed;
   top: 30px;
-  left: 30px;
-  right: 30px;
+  left: 15%;
+  right: 15%;
   padding-bottom: 15px;
   z-index: 160000;
   overflow: auto;
