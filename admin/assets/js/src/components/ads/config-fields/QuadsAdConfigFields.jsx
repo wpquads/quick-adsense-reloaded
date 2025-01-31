@@ -146,6 +146,44 @@ class QuadsAdConfigFields extends Component {
           image_frame.open();
 
     }
+    selectadbannerimages  = (event) => {
+      var image_frame;
+      var self =this;
+      if(image_frame){
+       image_frame.open();
+      }
+
+      // Define image_frame as wp.media object
+      image_frame = wp.media({
+                 library : {
+                      type : 'image',
+                  }
+             });
+      image_frame.on('close',function() {
+                  // On close, get selections and save to the hidden input
+                  // plus other AJAX stuff to refresh the image preview
+                  var selection =  image_frame.state().get('selection');
+                  var id = '';
+                  var src = '';
+                  var my_index = 0;
+                
+                  selection.each(function(attachment) {
+                    
+                     id = attachment['id'];
+                     src = attachment.attributes.sizes.full.url;
+                     self.setState({height:attachment.attributes.height,width:attachment.attributes.width});
+                  });
+                  self.props.adFormChangeHandler({ target : { name : 'ad_space_banner_image_src' , value : src } });                  
+               });   
+      image_frame.on('open',function() {
+              // On open, get the id from the hidden input
+              // and select the appropiate images in the media manager
+              var selection =  image_frame.state().get('selection');
+
+            });
+          image_frame.open();
+
+    }
   
     selectvideo  = (event) => {
       var video_frame;
@@ -235,6 +273,10 @@ class QuadsAdConfigFields extends Component {
 }
     remove_image_2 = (e) => {
     this.props.adFormChangeHandler({ target : { name : 'image_mobile_src' , value : '' } });    
+
+}
+    remove_adspace_image = (e) => {
+    this.props.adFormChangeHandler({ target : { name : 'ad_space_banner_image_src' , value : '' } });    
 
 }
 removeSeleted = (e) => {
@@ -1645,10 +1687,37 @@ error_outline
                       comp_html.push(<div key="ad_space">
                         <table><tbody>
                           <tr>
+                            <td><label>{__('Ad Space Type', 'quick-adsense-reloaded')}</label></td>
+                            <td>
+                              <MSelect value={(post_meta.ad_space_type!==undefined)?post_meta.ad_space_type:'text'} onChange={this.props.adFormChangeHandler} name="ad_space_type" id="ad_space_type" style={{width:'300px'}}>
+                                  <MenuItem value="text">{__('Text', 'quick-adsense-reloaded')}</MenuItem>
+                                  <MenuItem value="banner">{__('Banner', 'quick-adsense-reloaded')}</MenuItem> 
+                              </MSelect>
+                            </td>
+                          </tr>
+                          {(post_meta.ad_space_type!=='banner') &&
+                          <tr>
                             <td><label>{__('Ad Space Text', 'quick-adsense-reloaded')}</label></td>
                             <td><textarea className={(show_form_error && post_meta.code == '') ? 'quads_form_error' : ''} cols="50" rows="5" value={post_meta.code} onChange={this.props.adFormChangeHandler} id="code" name="code" />
                               {(show_form_error && post_meta.code == '') ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Enter Plain Text / HTML / JS', 'quick-adsense-reloaded')}</div> : ''}</td>
                           </tr>
+                          }
+                          {(post_meta.ad_space_type==='banner') &&
+                          <>
+                        
+                          <tr>
+                            <td><label>{__('Ad Space Banner', 'quick-adsense-reloaded')}</label></td>
+                            <td>
+                            {post_meta.ad_space_banner_image_src == '' ? <div><a className="button" onClick={this.selectadbannerimages}>{__(' Upload Banner', 'quick-adsense-reloaded')}</a></div>
+                            : <div>
+                            <img src={post_meta.ad_space_banner_image_src} className="banner_image" width={post_meta.banner_ad_width?post_meta.banner_ad_width:300} height={post_meta.banner_ad_height?post_meta.banner_ad_height:300} />
+                            <a className="button" onClick={this.remove_adspace_image}>{__('Remove Banner', 'quick-adsense-reloaded')}</a></div>}
+                            {(show_form_error && post_meta.ad_space_banner_image_src == '') ? <div className="quads_form_msg"><span className="material-icons">
+                              error_outline</span>{__('Upload Ad Space Banner', 'quick-adsense-reloaded')} </div> :''}
+                              </td>
+                            </tr>
+                          </>
+                          }
                           <tr>
                       <td><label>{__('Ad Size', 'quick-adsense-reloaded')}</label></td>
                       <td>

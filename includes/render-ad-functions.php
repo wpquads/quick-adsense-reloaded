@@ -1110,6 +1110,9 @@ function quads_render_ads_space_async($id) {
     $payment_page = get_permalink( $payment_page );
 
     $align_array = array('0'=>'flex-start','1'=>'center','2'=>'flex-end','3'=>'stretch');
+    $ad_space_type = $quads_options['ads'][$id]['ad_space_type']?$quads_options['ads'][$id]['ad_space_type']:'text';
+    $ad_banner_image = $quads_options['ads'][$id]['ad_space_banner_image_src']?$quads_options['ads'][$id]['ad_space_banner_image_src']:'';
+
     $ads_code = $quads_options['ads'][$id]['code']?$quads_options['ads'][$id]['code']:'Advertise on this Space';
     $banner_width = $quads_options['ads'][$id]['banner_ad_width']?$quads_options['ads'][$id]['banner_ad_width']:'300';
     $banner_height = $quads_options['ads'][$id]['banner_ad_height']?$quads_options['ads'][$id]['banner_ad_height']:'250';
@@ -1119,6 +1122,11 @@ function quads_render_ads_space_async($id) {
 
     $ads_to_show = quads_get_active_ads_by_slot($ad_id);
 
+    $banner_bg = '';
+    if($ad_space_type=='banner' && $ad_banner_image!=""){
+        $banner_bg = '<img src="'.esc_url($ad_banner_image).'" class="banner_image" width="'.esc_attr($banner_width).'" height="'.esc_attr($banner_height).'">';
+        $ads_code = '';
+    }
 
     if( ! $payment_page ){
         return '<div class="quads-ads-space" id="quads-ads-space-'.esc_attr($id).'" style="display:flex;align-items: center;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;background:#efefef;justify-content:'.esc_attr($align).';">'.esc_html__('Payment Page is not setup. Contact Admin','quick-adsense-reloaded').'</div>';
@@ -1130,7 +1138,11 @@ function quads_render_ads_space_async($id) {
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Ads Space --> \n\n";
     if ( empty( $ads_to_show ) ) {
         $html .= '<a target="_blank" class="quads-ads-space-advertise" href="'.esc_url( $payment_url ).'" style="display:block;text-align:center;">';
-        $html .= '<div class="quads-ads-space" id="quads-ads-space-'.esc_attr($id).'" style="display:flex;align-items: center;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;background:#efefef;justify-content:'.esc_attr($align).';">'.$ads_code.'</div>';
+        if($banner_bg!==""){
+            $html .= $banner_bg;
+        }else{
+            $html .= '<div class="quads-ads-space" id="quads-ads-space-'.esc_attr($id).'" style="display:flex;align-items: center;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;background:#efefef;justify-content:'.esc_attr($align).';">'.$ads_code.'</div>';
+        }
         $html .='</a>';
         // advertise  here link
         

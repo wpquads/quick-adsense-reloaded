@@ -148,7 +148,7 @@ const AdSellRecords = () => {
 
                             <td>{record.ad_status}</td>
                             <td>
-                                {record.ad_status == 'approved'  && (
+                                {record.ad_status == 'pending'  && (
                                     <button
                                         className='quads-btn quads-btn-primary'
                                         style={{padding:'5px 10px',fontSize:'14px'}}
@@ -158,7 +158,7 @@ const AdSellRecords = () => {
                                     </button>
                                     
                                 )}
-                                 {record.ad_status == 'approved' && (
+                                 {record.ad_status == 'pending' && (
                                     <button
                                     style={{padding:'5px 10px',fontSize:'14px'}}
                                     className='quads-btn quads-btn-primary'

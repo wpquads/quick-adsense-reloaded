@@ -541,7 +541,7 @@ function quads_ads_buy_form() {
           
 
             <label for="ad_content"><?php echo esc_html__('Ad Content','quick-adsense-reloaded');?> <small>(This will be ignored if Ad image is present)</small></label>
-            <textarea name="ad_content" id="ad_content" rows="4"> You ad text here</textarea>
+            <textarea name="ad_content" id="ad_content" rows="4"> Your ad text here</textarea>
 
             <label for="ad_image"><?php echo esc_html__('Upload Ad Image','quick-adsense-reloaded');?> (optional) </label>
             <input type="file" name="ad_image" id="ad_image" accept="image/*" />
@@ -831,10 +831,160 @@ $quads_settings = get_option( 'quads_settings' );
 $sellable_ads = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : true;
 if ( $sellable_ads ) {
     add_shortcode( 'quads_buy_form', 'quads_ads_buy_form' );
+    add_shortcode( 'sellable_premium_member_page', 'quads_sellable_premium_member_page' );
 }
 $disable_ads = isset($quads_settings['disable_ads']) ? $quads_settings['disable_ads'] : true;
 if ( $disable_ads ) {
     add_shortcode( 'quads_disable_ads_form', 'quads_ads_disable_form' );
+}
+function quads_custom_premimum_memeber_login() {
+    if (isset($_POST['username']) && isset($_POST['password'])) {
+        global $wp;
+        $redirect_url = home_url( $wp->request );
+        $creds = array(
+            'user_login'    => $_POST['username'],
+            'user_password' => $_POST['password'],
+            'remember'      => true
+        );
+        $user = wp_signon($creds, false);
+        if (!is_wp_error($user)) {
+            wp_redirect($redirect_url);
+            exit;
+        } else {
+            echo '<p>Login failed! Please try again.</p>';
+        }
+    }
+}
+function quads_update_member_subscription() {
+    if (isset($_POST['id']) && isset($_POST['ad_link']) && isset($_POST['ad_content']) && isset($_POST['submit-update-member-ad-space'])) {
+        
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'quads_adbuy_data'; 
+        $update_data = array();
+        $update_data['ad_link'] =  esc_url($_POST['ad_link']);
+        $update_data['ad_content'] =  esc_attr($_POST['ad_content']);
+        if ( ! empty( $_FILES['ad_image']['name'] ) ) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+            $uploaded_file = wp_handle_upload( $_FILES['ad_image'], array( 'test_form' => false ) );
+            if ( isset( $uploaded_file['url'] ) ) {
+                $ad_image = esc_url_raw( $uploaded_file['url'] );
+                $update_data['ad_image'] =  $ad_image;
+            }
+        }
+        $status = $wpdb->update(
+            $table_name,
+            $update_data,
+            ['id' => $_POST['id']]
+        );
+        global $wp;
+        $redirect_url = home_url( $wp->request );
+        wp_redirect($redirect_url);
+            exit;
+    }
+}
+function get_premimum_member_ad_space($user_id){
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'quads_adbuy_data'; 
+   
+    // Query the records
+    /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
+    $results = $wpdb->get_results($wpdb->prepare(
+        "SELECT * FROM $table_name WHERE payment_status = %s and user_id = $user_id ORDER BY id DESC limit 1",
+        'paid'
+    ));
+   
+    foreach ($results as $key => $result) {
+        $ad_id = $result->ad_id;
+        $ad_name = get_the_title($ad_id);
+        $results[$key]->ad_name = $ad_name;
+    }
+    return $results;
+} 
+function quads_sellable_premium_member_page(){
+    ob_start();
+    
+?>
+<style>
+    /*! This file is auto-generated */
+    #login form p.submit,.login *,body,html{margin:0;padding:0}.login form,.login h1 a{font-weight:400;overflow:hidden}.login form,.login form .input,.login form input[type=checkbox],.login input[type=text]{background:#fff}body,html{height:100%}body{background:#f0f0f1;min-width:0;color:#3c434a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;font-size:13px;line-height:1.4}.login label,p{line-height:1.5}a{color:#2271b1;transition-property:border,background,color;transition-duration:.05s;transition-timing-function:ease-in-out;outline:0}a:active,a:hover{color:#135e96}a:focus{color:#043959;box-shadow:0 0 0 2px #2271b1;outline:transparent solid 2px}#loginform p.submit{border:none;margin:-10px 0 20px}.login .input::-ms-clear{display:none}.login .wp-pwd{position:relative}.login form{margin-top:20px;margin-left:0;padding:26px 24px;border:1px solid #c3c4c7;box-shadow:0 1px 3px rgba(0,0,0,.04)}.login .button-primary{float:right;background: #2271b1;
+    border-color: #2271b1;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: none;min-height: 32px;
+    line-height: 2.30769231;
+    padding: 0 12px;}#login form p{margin-bottom:0}.login label{font-size:14px;display:inline-block;margin-bottom:3px}.login h1{text-align:center}.login h1 a{background-image:url(../images/w-logo-blue.png?ver=20131202);background-image:none,url(../images/wordpress-logo.svg?ver=20131107);background-size:84px;background-position:center top;background-repeat:no-repeat;color:#3c434a;height:84px;font-size:20px;line-height:1.3;margin:0 auto 25px;padding:0;text-decoration:none;width:84px;text-indent:-9999px;outline:0;display:block}#login{width:320px;padding:5% 0 0;margin:auto}.login form .input,.login input[type=password],.login input[type=text],.login input[type=url],.login input[type=file],.login textarea{font-size:24px;line-height:1.33333333;width:95%;border-width:.0625rem;padding:.1875rem .3125rem;margin:0 6px 16px 0;min-height:40px;max-height:none}.login input.password-input{font-family:Consolas,Monaco,monospace}.wp-login-logo{color:#3c434a;font-size:20px}.preview-ad-space{background: #fff}.preview-ad-space h3{margin:0px;text-align:center}
+</style>
+<?php 
+$user_id = is_user_logged_in() ? get_current_user_id() : 0;
+if($user_id==0){?>
+<div class="login">
+    <div id="login">
+        <h1 class="wp-login-logo">Member Login</h1>
+        <form name="loginform" id="loginform" method="post">
+            <p>
+                <label for="user_login">Username or Email Address</label>
+                <input type="text" name="username" id="user_login" class="input" value="" size="20" autocapitalize="off" autocomplete="username" required="required">
+            </p>
+
+            <div class="user-pass-wrap">
+                <label for="user_pass">Password</label>
+                <div class="wp-pwd">
+                    <input type="password" name="password" id="user_pass" class="input password-input" value="" size="20" autocomplete="current-password" spellcheck="false" required="required">
+                </div>
+            </div>
+            <p class="submit">
+                <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="Log In">
+            </p>
+        </form>
+    </div>
+</div>
+<?php 
+quads_custom_premimum_memeber_login();
+}else{
+    $ad_space_list = get_premimum_member_ad_space($user_id);
+    if(!empty($ad_space_list)){
+        $asdata = $ad_space_list[0];
+?>
+    <div class="login preview-ad-space">
+    <form name="loginform" id="loginform" method="post" enctype="multipart/form-data">
+        <h3>Preview Ad Space</h3> 
+        <div>
+            <label for="ad_link">Ad Link</label>
+            <input type="url" name="ad_link" id="ad_link" required placeholder="Ad Link" value=<?=esc_url($asdata->ad_link)?>>
+            <input type="hidden" name="id" id="id"  value=<?=intval($asdata->id)?>>
+        </div>
+        <div>
+            <label for="ad_content">Ad Content</label>
+            <textarea name="ad_content" id="ad_content" rows="4"><?=esc_attr($asdata->ad_content)?></textarea>
+        </div>
+        <div><label for="ad_image">Ad Image</label></div>
+        <div>
+            <?php if($asdata->ad_image!=""){?>
+                <img id="ad_image_src" src="<?=esc_url($asdata->ad_image)?>"/>
+            <?php }?>
+            <input type="file" name="ad_image" id="ad_image" accept="image/*"  onchange="onFileSelected(event)">
+        </div>
+        <p class="submit">
+            <input type="submit" name="submit-update-member-ad-space" class="button button-primary button-large" value="Update Information" style="cursor:pointer">
+        </p>
+    </form>
+    </div>
+    <script>
+        function onFileSelected(event) {
+            
+            var selectedFile = event.target.files[0];
+            let url = window.URL.createObjectURL(selectedFile);
+            
+            document.getElementById('ad_image_src').setAttribute('src',url);
+            
+        }
+    </script>
+<?php 
+quads_update_member_subscription();
+}}?>
+<?php
+
+return ob_get_clean();
 }
 function quads_ads_disable_form(){
     ob_start();

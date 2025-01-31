@@ -215,7 +215,7 @@ function quads_check_the_content_filter( $content ) {
     return $content;
 }
 function quads_disable_add_subscribe() {
-    if(quads_disable_ads()){
+    if(quads_disable_ads() || is_404()){
         return false;
     }
     if(isset($_COOKIE['disable_ad_notice'])){

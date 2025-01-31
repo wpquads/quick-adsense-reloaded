@@ -1424,6 +1424,14 @@ handleCapabilityChange = (event) =>{
                     </select>
                     <p>{__('By default we have created  a payment page named "')}<b>{__('Buy Adspace')}</b>{__('". But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_buy_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_buy_form]</code>
                     <a target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/">{__('Learn More')}</a></p>
+                    <br/>
+                    <br/>
+                    <p>
+                      <b>{__('Member Login Form :')}</b>
+                      {__(' Create a page and paste the ')} 
+                      <code>[sellable_premium_member_page]</code> 
+                      {__(' shortcode for Member Login . ')}
+                    </p>
                     </td>
                   </tr>
                   </tbody></table>
