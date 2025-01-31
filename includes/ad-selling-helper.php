@@ -308,13 +308,13 @@ function quads_ads_buy_form() {
                 $end_date = date('Y-m-d', strtotime('+'.$ad_minimum_days.' month'));
                 $end_min_selection = 'min='.$end_date;
                 $end_min_value = 'value='.$end_date;
-                $ad_selection_info = 'Minimum '.$ad_minimum_days.' day(s) selection is possible for the selected Ad Slot';
+                $ad_selection_info = 'Minimum '.$ad_minimum_days.' month(s) selection is possible for the selected Ad Slot';
             }else if($ad_minimum_selection=='day'){
                 $st_date = date('Y-m-d');
                 $end_date = date('Y-m-d', strtotime('+'.$ad_minimum_days.' day'));
                 $end_min_selection = 'min='.$end_date;
                 $end_min_value = 'value='.$end_date;
-                $ad_selection_info = 'Minimum '.$ad_minimum_days.' month(s) selection is possible for the selected Ad Slot';
+                $ad_selection_info = 'Minimum '.$ad_minimum_days.' day(s) selection is possible for the selected Ad Slot';
             }
         }
     }
