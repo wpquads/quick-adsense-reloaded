@@ -499,18 +499,7 @@ class QuadsAdListBody extends Component {
                 </div>                
               </div>  
               }
-              {(this.props.ad_type==='ads_space' && this.state.isLoaded===true) &&
-              <div style={{marginTop:'16px'}}>
-                {(this.props.settings && this.props.settings.payment_gateway==='') &&
-                  <label>Warning : <strong>Payment Gateway</strong> not selected for Sellable Ads. Go to <strong>Settings{' > '}Sellable Ads Settings {' > '}Select Payment Gateway</strong></label>
-                }
-                <br />
-                {(this.props.settings && this.props.settings.payment_page==='') &&
-                  <label>Warning : <strong>Payment Page</strong> not selected for Sellable Ads. Go to <strong>Settings{' > '}Sellable Ads Settings {' > '}Select Payment Page</strong></label>
-                }
-              </div>
-              }
-              
+             
               <div className="quads-list-ads">
                 <QuadsAdList
                   {...this.state}

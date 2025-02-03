@@ -293,28 +293,28 @@ function quads_ads_buy_form() {
     global $wp;
     $redirect_link =  add_query_arg( $_SERVER['QUERY_STRING'], '', home_url( $wp->request ) );
     
-    
-      
-    $selected_ad_list = $ad_list[ $selected_ad_slot ];
-    $end_min_selection = '';
-    $end_min_value = '';
-    $ad_selection_info = '';
-    if(isset($selected_ad_list[ 'ad_minimum_days' ])){
-        $ad_minimum_days = $selected_ad_list[ 'ad_minimum_days' ];
-        $ad_minimum_selection = $selected_ad_list[ 'ad_minimum_selection' ];
-        if($ad_minimum_days!="" && $ad_minimum_days>0){
-            if($ad_minimum_selection=='month'){
-                $st_date = date('Y-m-d');
-                $end_date = date('Y-m-d', strtotime('+'.$ad_minimum_days.' month'));
-                $end_min_selection = 'min='.$end_date;
-                $end_min_value = 'value='.$end_date;
-                $ad_selection_info = 'Minimum '.$ad_minimum_days.' month(s) selection is possible for the selected Ad Slot';
-            }else if($ad_minimum_selection=='day'){
-                $st_date = date('Y-m-d');
-                $end_date = date('Y-m-d', strtotime('+'.$ad_minimum_days.' day'));
-                $end_min_selection = 'min='.$end_date;
-                $end_min_value = 'value='.$end_date;
-                $ad_selection_info = 'Minimum '.$ad_minimum_days.' day(s) selection is possible for the selected Ad Slot';
+   if( $selected_ad_slot != ""){
+        $selected_ad_list = $ad_list[ $selected_ad_slot ];
+        $end_min_selection = '';
+        $end_min_value = '';
+        $ad_selection_info = '';
+        if(isset($selected_ad_list[ 'ad_minimum_days' ])){
+            $ad_minimum_days = $selected_ad_list[ 'ad_minimum_days' ];
+            $ad_minimum_selection = $selected_ad_list[ 'ad_minimum_selection' ];
+            if($ad_minimum_days!="" && $ad_minimum_days>0){
+                if($ad_minimum_selection=='month'){
+                    $st_date = date('Y-m-d');
+                    $end_date = date('Y-m-d', strtotime('+'.$ad_minimum_days.' month'));
+                    $end_min_selection = 'min='.$end_date;
+                    $end_min_value = 'value='.$end_date;
+                    $ad_selection_info = 'Minimum '.$ad_minimum_days.' month(s) selection is possible for the selected Ad Slot';
+                }else if($ad_minimum_selection=='day'){
+                    $st_date = date('Y-m-d');
+                    $end_date = date('Y-m-d', strtotime('+'.$ad_minimum_days.' day'));
+                    $end_min_selection = 'min='.$end_date;
+                    $end_min_value = 'value='.$end_date;
+                    $ad_selection_info = 'Minimum '.$ad_minimum_days.' day(s) selection is possible for the selected Ad Slot';
+                }
             }
         }
     }
@@ -523,7 +523,7 @@ function quads_ads_buy_form() {
                 <?php foreach ( $ad_list as $key => $value ) : ?>
                     <option value="<?php echo esc_attr( $key ); ?>" data-price="<?php echo esc_attr( $value['price'] ); ?>"  data-days="<?php echo esc_attr( $value['ad_minimum_days'] ); ?>"  data-minimum-selection="<?php echo esc_attr( $value['ad_minimum_selection'] ); ?>"
                         <?php selected( $selected_ad_slot, $key ); // Check if this is the selected option ?>>
-                        <?php echo esc_html( $value['name'] ); ?> (<?php echo esc_html( $value['currency'] ); ?> <?php echo esc_html( $value['price'] ); ?> <?php echo esc_html( $value['type'] ); ?>)
+                        <?php echo esc_html( $value['name'] ); ?> (<?php echo esc_html( $value['currency'] ); ?> <?php echo esc_html( $value['price'] ); ?><?php echo esc_html( strtoupper( str_replace('per_','/',$value['type']) ) ); ?>)
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -533,8 +533,8 @@ function quads_ads_buy_form() {
             <input type="date" name="start_date" id="start_date" required value="<?php echo esc_attr( date('Y-m-d') );?>" min="<?php echo esc_attr( date('Y-m-d') );?>" onblur="handleChangeDate('blur',this,'start')"/>
 
             <label for="end_date"><?php echo esc_html__('End Date','quick-adsense-reloaded');?></label>
-            <input type="date" name="end_date" id="end_date" required <?php echo esc_attr($end_min_value)?> <?php echo esc_attr($end_min_selection)?> />
-            <p id="ad_selection_info" style="color:gray;font-size:14px;margin-top:-10px"><?php echo esc_attr($ad_selection_info)?></p>
+            <input type="date" name="end_date" id="end_date" required <?php echo isset($end_min_value)? esc_attr($end_min_value) : ''?> <?php echo isset($end_min_selection)?esc_attr($end_min_selection):''?> />
+            <p id="ad_selection_info" style="color:gray;font-size:14px;margin-top:-10px"><?php echo (isset($ad_selection_info))?esc_attr($ad_selection_info):''?></p>
             <label for="ad_link"><?php echo esc_html__('Ad Link','quick-adsense-reloaded');?></label>
             <input type="url" name="ad_link" id="ad_link" required placeholder="Ad Link"/>
             <input type="hidden" name="redirect_link" id="redirect_link" value=<?php echo esc_url_raw( $redirect_link )?>/>
@@ -576,8 +576,12 @@ function quads_ads_buy_form() {
     <script>
    
     let ad_lists = <?php echo json_encode($ad_list)?>;
-    let selected_id = <?php echo esc_attr($selected_ad_slot)?>;
-    calculateTotalCost(selected_id);  
+    
+    let selected_id = '';
+    <?php if($selected_ad_slot!=""){?>
+     selected_id = <?php echo esc_attr($selected_ad_slot)?>;
+     calculateTotalCost(selected_id);  
+    <?php }?>
     function handleConvertFormat(newDate){
         newDate = new Date(newDate);
         let nday = newDate.getDate();
@@ -585,7 +589,7 @@ function quads_ads_buy_form() {
         let nmonth = newDate.getMonth() + 1;
         nmonth = nmonth.toString().padStart(2, '0');
         let nyear = newDate.getFullYear();
-        const formattedDate = `${nyear}-${nmonth}-${nday}`;
+        const formattedDate = `${nday}/${nmonth}/${nyear}`;
         return formattedDate;
     }            
     function calculateTotalCost(selected_id){
@@ -612,7 +616,7 @@ function quads_ads_buy_form() {
             if(newDate!==""){
                 const days = calculateDays(start_date, newDate);
                 let totalCost = price * days;
-                totalCost = days.toFixed(2);
+                totalCost = totalCost.toFixed(2);
                 document.getElementById('total-cost').innerText = totalCost;
             }
         }
@@ -655,7 +659,9 @@ function quads_ads_buy_form() {
     }
 
     document.getElementById('ad_slot_id').addEventListener('change', function() {
-        const pricePerDay = this.options[this.selectedIndex].getAttribute('data-price');
+        let slotid =  this.options[this.selectedIndex].value;
+        window.location.href = '?ad_slot_id='+slotid;
+        /* const pricePerDay = this.options[this.selectedIndex].getAttribute('data-price');
         const dataDays = this.options[this.selectedIndex].getAttribute('data-days');
         const dataDaysSelectionType = this.options[this.selectedIndex].getAttribute('data-minimum-selection');
         const startDate = document.getElementById('start_date').value;
@@ -668,7 +674,7 @@ function quads_ads_buy_form() {
             document.getElementById('total-cost').innerText = totalCost;
         }
 
-        document.getElementById('summary-slot').innerText = this.options[this.selectedIndex].text;
+        document.getElementById('summary-slot').innerText = this.options[this.selectedIndex].text; */
     });
 
 function handleAdSlotChange(){
@@ -833,7 +839,7 @@ if ( $sellable_ads ) {
     add_shortcode( 'quads_buy_form', 'quads_ads_buy_form' );
     add_shortcode( 'sellable_premium_member_page', 'quads_sellable_premium_member_page' );
 }
-$disable_ads = isset($quads_settings['disable_ads']) ? $quads_settings['disable_ads'] : true;
+$disable_ads = isset($quads_settings['disableads']) ? $quads_settings['disableads'] : false;
 if ( $disable_ads ) {
     add_shortcode( 'quads_disable_ads_form', 'quads_ads_disable_form' );
 }

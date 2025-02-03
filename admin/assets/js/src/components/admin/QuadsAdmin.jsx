@@ -9,6 +9,7 @@ import QuadsAdLogging from '../report/QuadsAdLogging'
 import Quads_single_report from '../report/Quads_single_report';
 import { Link } from 'react-router-dom';
 import AdSellRecords from './../settings/QuadsAdSellList';
+import { Alert } from '@material-ui/lab';
 
 class QuadsAdmin extends Component {
 
@@ -21,6 +22,25 @@ class QuadsAdmin extends Component {
                 settings  : []          
             };  
            // this.quads_occasional_ads_method();   
+      }
+      componentDidMount = () =>{
+        this.getSettings_data();
+      }
+      getSettings_data = () => {
+        let url = quads_localize_data.rest_url + 'quads-route/get-settings';
+        fetch(url, {
+          headers: {
+            'X-WP-Nonce': quads_localize_data.nonce,
+          }
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+              this.setState({settings:result});
+            },
+            (error) => {
+            }
+          );
       }
       nodatashowAddTypeSelector = (e) => {
         e.preventDefault();
@@ -140,6 +160,16 @@ class QuadsAdmin extends Component {
                             if(pagePath.includes('adsell')){
                               return (
                                 <>
+                                 <div>
+                                  {this.state.settings.payment_gateway}
+                                    {(this.state.settings && this.state.settings.payment_gateway==='') &&
+                                      <Alert severity="error"  style={{marginBottom:'5px'}}>Warning : <strong>Payment Gateway</strong> not selected for Sellable Ads. Go to <strong>Settings{' > '}Sellable Ads Settings {' > '}Select Payment Gateway</strong></Alert>
+                                    }
+                                    
+                                    {(this.state.settings && this.state.settings.payment_page==='') &&
+                                    <Alert severity="error">Warning : <strong>Payment Page</strong> not selected for Sellable Ads. Go to <strong>Settings{' > '}Sellable Ads Settings {' > '}Select Payment Page</strong></Alert>
+                                    }
+                                  </div>
                                 <div className="quads-ad-menu">
                                   <div className="quads-ad-tab-wrapper">
                                     <div className="quads-ad-tab">

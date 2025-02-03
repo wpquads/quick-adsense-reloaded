@@ -1110,8 +1110,8 @@ function quads_render_ads_space_async($id) {
     $payment_page = get_permalink( $payment_page );
 
     $align_array = array('0'=>'flex-start','1'=>'center','2'=>'flex-end','3'=>'stretch');
-    $ad_space_type = $quads_options['ads'][$id]['ad_space_type']?$quads_options['ads'][$id]['ad_space_type']:'text';
-    $ad_banner_image = $quads_options['ads'][$id]['ad_space_banner_image_src']?$quads_options['ads'][$id]['ad_space_banner_image_src']:'';
+    $ad_space_type = (isset($quads_options['ads'][$id]['ad_space_type']))?$quads_options['ads'][$id]['ad_space_type']:'text';
+    $ad_banner_image = (isset($quads_options['ads'][$id]['ad_space_banner_image_src']))?$quads_options['ads'][$id]['ad_space_banner_image_src']:'';
 
     $ads_code = $quads_options['ads'][$id]['code']?$quads_options['ads'][$id]['code']:'Advertise on this Space';
     $banner_width = $quads_options['ads'][$id]['banner_ad_width']?$quads_options['ads'][$id]['banner_ad_width']:'300';
