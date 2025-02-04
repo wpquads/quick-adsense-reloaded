@@ -1137,11 +1137,11 @@ function quads_render_ads_space_async($id) {
 
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Ads Space --> \n\n";
     if ( empty( $ads_to_show ) ) {
-        $html .= '<a target="_blank" class="quads-ads-space-advertise" href="'.esc_url( $payment_url ).'" style="display:block;text-align:center;">';
+        $html .= '<a target="_blank" class="quads-ads-space-advertise" href="'.esc_url( $payment_url ).'" style="display:block;text-align:center;text-decoration:none">';
         if($banner_bg!==""){
             $html .= $banner_bg;
         }else{
-            $html .= '<div class="quads-ads-space" id="quads-ads-space-'.esc_attr($id).'" style="display:flex;align-items: center;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;background:#efefef;justify-content:'.esc_attr($align).';">'.$ads_code.'</div>';
+            $html .= '<div class="quads-ads-space" id="quads-ads-space-'.esc_attr($id).'" style="text-decoration: none;text-align: center;background: #eee;vertical-align: middle;display: inline-block;border: 1px solid #ccc;display: flex;align-items: center;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;justify-content:'.esc_attr($align).';">'.$ads_code.'</div>';
         }
         $html .='</a>';
         // advertise  here link
