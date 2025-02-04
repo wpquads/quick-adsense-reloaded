@@ -23,6 +23,7 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 
 = Features: =
 * <strong>NEW - Sellable Ads: </strong> Sell your AD space.
+* <strong>NEW - Hide Ads for Premium Members: </strong> Hide Ads for Premium Members.
 * <strong>NEW - Web Stories Integration: </strong> Advertise in AMP Web Stories.
 * <strong>NEW - Click Fraud Protection</strong>: Helps you fight the click fraud and helps you stabilize the ad revenue.
 * <strong>NEW - GDPR & Privacy tools</strong>: We have got the GDPR and other privacy tools planned so that you dont have to worry about complying with privacy laws.
