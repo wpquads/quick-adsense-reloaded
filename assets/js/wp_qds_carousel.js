@@ -36,8 +36,7 @@ window.addEventListener("load", function(){
             cur_slide++;
             if (cur_slide > x.length) {cur_slide = 1;}
         }
-        
-        x[cur_slide-1].style.display = "block";
+        if(x[cur_slide-1]) {  x[cur_slide-1].style.display = "block"; }
         car_con.setAttribute('data-slide',cur_slide);
 
     }

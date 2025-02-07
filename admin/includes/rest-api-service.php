@@ -288,7 +288,7 @@ class QUADS_Ad_Setup_Api_Service {
 
     }
 
-    public function getAdDataByParam($post_type, $attr = null, $rvcount = null, $paged = null, $offset = null, $search_param=null , $filter_by = null , $sort_by = null){
+    public function getAdDataByParam($post_type, $attr = null, $rvcount = null, $paged = null, $offset = null, $search_param=null , $filter_by = null , $sort_by = null,$filter_not_by = null){
 
         $response   = array();
         $arg        = array();
@@ -318,6 +318,7 @@ class QUADS_Ad_Setup_Api_Service {
         if($offset){
             $arg['offset']    = $offset;
         }
+        
         if($search_param){
                 if($filter_by){
                   $meta_query_args = array(
@@ -344,6 +345,15 @@ class QUADS_Ad_Setup_Api_Service {
                       'compare' => '='
                     )
                       )
+                    );
+                }else if($filter_not_by){
+                  $meta_query_args = array(
+                    'relation' => 'AND',
+                    array(
+                      'key'     =>   'ad_type',
+                      'value'   =>   $filter_not_by,
+                      'compare' =>   '!='
+                    )
                     );
                 }else{
                   $meta_query_args = array(
@@ -374,6 +384,16 @@ class QUADS_Ad_Setup_Api_Service {
               array(
                 'key'     =>   'ad_type',
                 'value'   =>   $filter_by
+              )
+              );
+              $arg['meta_query']          = $meta_query_args;
+              $arg['paged']               = 1;
+          }else if($filter_not_by){
+            $meta_query_args = array(
+              array(
+                'key'     =>   'ad_type',
+                'value'   =>   $filter_not_by,
+                'compare' =>  '!='
               )
               );
               $arg['meta_query']          = $meta_query_args;
@@ -498,6 +518,7 @@ class QUADS_Ad_Setup_Api_Service {
               $quads_options['quicktags'] = array($key => $val);
              }else if($key == 'adsTxtText' ){
               if($parameters['adsTxtEnabled']){
+                /* phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents */
                 if (false !== file_put_contents(ABSPATH . 'ads.txt', $val)) {
                     // show notice that ads.txt has been created
                     set_transient('quads_vi_ads_txt_notice', true, 300);
@@ -743,6 +764,7 @@ if($license_info){
              }
 
              $sql_query.= implode(" UNION ALL ", $sql_query_sel);
+             /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */
              $wpdb->query( $sql_query );
              $post_meta= $this->getAdById($new_post_id);
              $this->migration_service->quadsUpdateOldAd($new_post_id, $post_meta['post_meta'],'update_old');

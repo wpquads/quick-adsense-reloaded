@@ -395,7 +395,7 @@ function quads_get_registered_settings() {
                'id' => 'create_settings',
                'name' => __( 'Remove menu button', 'quick-adsense-reloaded' ),
                //'desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
-               'desc' => __( 'Remove it' ),
+               'desc' => __( 'Remove it', 'quick-adsense-reloaded' ),
                'helper-desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
                'type' => 'checkbox',
            ),
@@ -403,7 +403,7 @@ function quads_get_registered_settings() {
                'id' => 'disableAmpScript',
                'name' => __( 'Disable AMP script', 'quick-adsense-reloaded' ),
                //'desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
-               'desc' => __( 'Disable AMP Scripts' ),
+               'desc' => __( 'Disable AMP Scripts', 'quick-adsense-reloaded' ),
                'helper-desc' => __( 'Disable duplicate AMP ad script integration if your AMP plugin is already loading the script https://cdn.ampproject.org/v0/amp-ad-0.1.js into your site', 'quick-adsense-reloaded' ),
                'type' => 'checkbox',
            ),
@@ -2048,7 +2048,7 @@ function quads_adsense_code_callback( $args ) {
            <?php if( !quads_is_extra() ) { ?>
             <span class="quads-pro-notice" style="display:block;margin-top:20px;">
               <?php echo esc_html__( 'Install', 'quick-adsense-reloaded' ); ?> 
-              <a href="http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin" target="_blank"><?php echo esc_html__( 'WP QUADS PRO' ); ?>
+              <a href="http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin" target="_blank"><?php echo esc_html__( 'WP QUADS PRO','quick-adsense-reloaded' ); ?>
               </a> 
               <?php echo esc_html__( 'to fully support AdSense Responsive ads.', 'quick-adsense-reloaded' ); ?>
             </span>
@@ -2583,14 +2583,14 @@ function quads_adsense_code_callback( $args ) {
  */
 function quads_extra_user_profile_fields( $user ) {
     ?>
-    <h3><?php esc_html_e("WPQuads Revenue Sharing", "quads"); ?></h3>
+    <h3><?php esc_html_e("WPQuads Revenue Sharing", 'quick-adsense-reloaded'); ?></h3>
 
     <table class="form-table">
     <tr>
-        <th><label for="quads-data-client-id"><?php esc_html_e("AdSense Publisher ID","quads"); ?></label></th>
+        <th><label for="quads-data-client-id"><?php esc_html_e("AdSense Publisher ID",'quick-adsense-reloaded'); ?></label></th>
         <td>
             <input placeholder="ca-pub-2005XXXXXXXXX342" type="text" name="quads_adsense_pub_id" id="quads_adsense_pub_id" value="<?php echo esc_attr( get_the_author_meta( 'quads_adsense_pub_id', $user->ID ) ); ?>" class="regular-text" /><br />
-            <span class="description"><?php esc_html_e("Please enter your pub ID.", "quads"); ?></span>
+            <span class="description"><?php esc_html_e("Please enter your pub ID.", 'quick-adsense-reloaded'); ?></span>
         </td>
     </tr>
     </table>

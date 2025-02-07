@@ -40,8 +40,12 @@ function quads_add_options_link() {
             $quads_parent_page = add_menu_page('Quick AdSense Reloaded Settings', $label, $quads_permissions, 'quads-settings', 'quads_options_page_new', 'data:image/svg+xml;base64,' . $wpquads_logo);
 
             $quads_settings_page = add_submenu_page('quads-settings', __('Ads', 'quick-adsense-reloaded'), 'Ads', $quads_permissions, 'quads-settings', 'quads_options_page_new');
+            $quads_settings = get_option('quads_settings',[]);
+            $sellable_ads = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : 1 ;
+            if(  $sellable_ads ){
+                add_submenu_page('quads-settings', __('Adsell', 'quick-adsense-reloaded'), 'Sellable Ads', $quads_permissions, 'quads-settings&path=adsell', 'quads_options_page_new');
+            }
 
-             add_submenu_page('quads-settings', __('Adsell', 'quick-adsense-reloaded'), 'Sellable Ads', $quads_permissions, 'quads-settings&path=adsell', 'quads_options_page_new');
 	        if( defined('QUADS_PRO_VERSION') ){
                 $license_alert = $days = '';
                 $license_info = get_option( 'quads_wp_quads_pro_license_active' );

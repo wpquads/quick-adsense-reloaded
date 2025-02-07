@@ -407,12 +407,14 @@ function quads_inline_styles() {
     $css .="
     .quads-location ins.adsbygoogle {
         background: transparent !important;
-    }
+    }.quads-location .quads_rotator_img{ opacity:1 !important;}
     .quads.quads_ad_container { display: grid; grid-template-columns: auto; grid-gap: 10px; padding: 10px; }
     .grid_image{animation: fadeIn 0.5s;-webkit-animation: fadeIn 0.5s;-moz-animation: fadeIn 0.5s;
         -o-animation: fadeIn 0.5s;-ms-animation: fadeIn 0.5s;}
     .quads-ad-label { font-size: 12px; text-align: center; color: #333;}
-    .quads_click_impression { display: none;}";
+    .quads_click_impression { display: none;} .quads-location, .quads-ads-space{max-width:100%;}
+	.quads-location,.quads-ads-space{max-width:340px;} @media only screen and (max-width: 480px) {.penci-builder-element .quads-location, .penci-builder-element .quads-ads-space{max-width:340px;}}
+    ";
     if(in_array("popup_ads", $ads_types)){
             $css .=".quads-popupad {
                 position: fixed;

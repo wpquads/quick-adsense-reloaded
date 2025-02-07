@@ -1096,8 +1096,23 @@ function quads_render_floating_ads_async($id) {
 }
 
 function quads_render_ads_space_async($id) {
-    global $quads_options;
+    global $quads_options,$post;
+    $quads_settings = get_option( 'quads_settings' ,[]);
+    $enable_adsell = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : true;
+    if( ! $enable_adsell ){
+        return '';
+    }
+
+
+    $current_page_id = isset($post) ? $post->ID : null;
+    $current_page_id = $current_page_id ? $current_page_id : get_queried_object_id();
+    $payment_page = isset($quads_settings['payment_page']) ? $quads_settings['payment_page'] : 0;
+    $payment_page = get_permalink( $payment_page );
+
     $align_array = array('0'=>'flex-start','1'=>'center','2'=>'flex-end','3'=>'stretch');
+    $ad_space_type = (isset($quads_options['ads'][$id]['ad_space_type']))?$quads_options['ads'][$id]['ad_space_type']:'text';
+    $ad_banner_image = (isset($quads_options['ads'][$id]['ad_space_banner_image_src']))?$quads_options['ads'][$id]['ad_space_banner_image_src']:'';
+
     $ads_code = $quads_options['ads'][$id]['code']?$quads_options['ads'][$id]['code']:'Advertise on this Space';
     $banner_width = $quads_options['ads'][$id]['banner_ad_width']?$quads_options['ads'][$id]['banner_ad_width']:'300';
     $banner_height = $quads_options['ads'][$id]['banner_ad_height']?$quads_options['ads'][$id]['banner_ad_height']:'250';
@@ -1107,10 +1122,27 @@ function quads_render_ads_space_async($id) {
 
     $ads_to_show = quads_get_active_ads_by_slot($ad_id);
 
+    $banner_bg = '';
+    if($ad_space_type=='banner' && $ad_banner_image!=""){
+        $banner_bg = '<img src="'.esc_url($ad_banner_image).'" class="banner_image" width="'.esc_attr($banner_width).'" height="'.esc_attr($banner_height).'">';
+        $ads_code = '';
+    }
+
+    if( ! $payment_page ){
+        return '<div class="quads-ads-space" id="quads-ads-space-'.esc_attr($id).'" style="display:flex;align-items: center;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;background:#efefef;justify-content:'.esc_attr($align).';">'.esc_html__('Payment Page is not setup. Contact Admin','quick-adsense-reloaded').'</div>';
+    }
+
+    $payment_url  = add_query_arg( array('ad_slot_id' => $ad_id), $payment_page );
+
+
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Ads Space --> \n\n";
     if ( empty( $ads_to_show ) ) {
-        $html .= '<a target="_blank" class="quads-ads-space-advertise" href="'.esc_url(site_url('buy-adspace?ad_slot_id='.$ad_id)).'" style="display:block;text-align:center;">';
-        $html .= '<div class="quads-ads-space" id="quads-ads-space-'.esc_attr($id).'" style="display:flex;align-items: center;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;background:#efefef;justify-content:'.esc_attr($align).';">'.$ads_code.'</div>';
+        $html .= '<a target="_blank" class="quads-ads-space-advertise" href="'.esc_url( $payment_url ).'" style="display:block;text-align:center;text-decoration:none">';
+        if($banner_bg!==""){
+            $html .= $banner_bg;
+        }else{
+            $html .= '<div class="quads-ads-space" id="quads-ads-space-'.esc_attr($id).'" style="text-decoration: none;text-align: center;background: #eee;vertical-align: middle;display: inline-block;border: 1px solid #ccc;display: flex;align-items: center;width:'.esc_attr($banner_width).'px;height:'.esc_attr($banner_height).'px;justify-content:'.esc_attr($align).';">'.$ads_code.'</div>';
+        }
         $html .='</a>';
         // advertise  here link
         
@@ -1127,7 +1159,6 @@ function quads_render_ads_space_async($id) {
          }
         $html .='</div>';
     }
-    //$html .= '<a target="_blank" class="quads-ads-space-advertise" href="'.esc_url(site_url('buy-adspace?ad_slot_id='.$ad_id)).'" style="display:block;text-align:center;">'.esc_html__('Advertise Here','quick-adsense-reloaded').'</a>';
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_ads_space_async', $html );
 }
@@ -2129,3 +2160,14 @@ add_filter( 'quads_render_ad', 'quads_render_ad_label_new',99,2 );
     }
     return 0;
   }
+
+  function  quads_check_if_page_exists($page_id) {
+    $page = get_post($page_id);
+
+    // Check if the post exists and is a page
+    if ($page && $page->post_type === 'page') {
+        return true; // Page exists
+    }
+
+    return false; // Page does not exist
+}

@@ -175,14 +175,14 @@ class QUADS_SL_Plugin_Updater {
 
 			if ( empty( $version_info->download_link ) ) {
 				printf( /* translators: 1: plugin name, 2: changelog link, 3: new version */
-					__( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a>.', 'edd' ),
+					/* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ __( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a>.', 'quick-adsense-reloaded' ),
 					esc_html( $version_info->name ),
 					esc_url( $changelog_link ),
 					esc_html( $version_info->new_version )
 				);
 			} else {
 				printf( /* translators: 1: plugin name, 2: changelog link, 3: new version, 4 update link */
-					__( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a> or <a href="%4$s">update now</a>.', 'edd' ),
+					/* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ __( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a> or <a href="%4$s">update now</a>.', 'quick-adsense-reloaded' ),
 					esc_html( $version_info->name ),
 					esc_url( $changelog_link ),
 					esc_html( $version_info->new_version ),
@@ -324,14 +324,14 @@ class QUADS_SL_Plugin_Updater {
 		}
 
 		if( ! current_user_can( 'update_plugins' ) ) {
-			wp_die( esc_html__( 'You do not have permission to install plugin updates', 'edd' ), esc_html__( 'Error', 'edd' ), array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You do not have permission to install plugin updates', 'quick-adsense-reloaded' ), esc_html__( 'Error', 'quick-adsense-reloaded' ), array( 'response' => 403 ) );
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$response = $this->api_request( 'plugin_latest_version', array( 'slug' => $_REQUEST['slug'] ) );
 
 		if( $response && isset( $response->sections['changelog'] ) ) {
-			echo '<div style="background:#fff;padding:10px;">' . $response->sections['changelog'] . '</div>';
+			echo '<div style="background:#fff;padding:10px;">' . /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ $response->sections['changelog'] . '</div>';
 		}
 
 

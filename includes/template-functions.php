@@ -865,6 +865,39 @@ function quads_get_load_priority(){
  * @param type $content
  * @return type
  */
+function quads_disable_ads(){
+    if( ! is_user_logged_in() ){
+        return false;
+    }
+    $current_user = wp_get_current_user();
+    $email = $current_user->user_email;
+    $user_ID = $current_user->ID;
+   
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'quads_disabledad_data'; 
+    $ad_details = $wpdb->get_row("SELECT * FROM $table_name WHERE user_email = '$email' AND payment_status = 'paid' and user_id=$user_ID order by disable_ad_id desc limit 1");
+    $is_disable_ad = false;
+    if(!empty($ad_details)){
+        $disable_duration = $ad_details->disable_duration;
+        if( $ad_details->payment_response !="" ){
+            $payment_response = json_decode( $ad_details->payment_response, true );
+            if( isset( $payment_response['payment_date'] ) ){
+                $payment_date = $payment_response['payment_date'];
+                $futureDate= date('Y-m-d');
+                $currentDate= date('Y-m-d');
+                if( $disable_duration=='yearly' ){
+                    $futureDate=date('Y-m-d', strtotime('+1 year', strtotime($payment_date)) );
+                }else if( $disable_duration=='monthly' ){
+                    $futureDate=date('Y-m-d', strtotime('+1 month', strtotime($payment_date)) );
+                }
+                if($currentDate<=$futureDate){
+                    $is_disable_ad = true;
+                }
+            }
+        }
+    }
+    return $is_disable_ad;
+}
 function quads_process_content( $content ) {
     global $quads_mode, $quads_options, $adsArray, $adsArrayCus, $visibleContentAds, $ad_count_widget, $visibleShortcodeAds;        
     
@@ -881,7 +914,9 @@ function quads_process_content( $content ) {
         $content = quads_clean_tags( $content );
         return $content;
     }
-
+    if(quads_disable_ads()){
+        return $content;
+    }
     $quads_ad_is_allowed=apply_filters('quads_show_ads',quads_ad_is_allowed( $content ));
     // Do not do anything if ads are not allowed or process is not in the main query
     if( !$quads_ad_is_allowed || !is_main_query() || !is_singular() ) {
@@ -3404,6 +3439,13 @@ function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$r
      libxml_use_internal_errors( true );
      if($content)
      {
+        // Wrap all <!--shortcodes-->  in div to prevent them from being moved
+        if (preg_match_all('/<!--(\w+)(.*?)-->/', $content, $matches)) {
+            foreach ($matches[0] as $key => $shortcode) {
+                $wrapped_shortcode = '<div> ' . $shortcode . ' </div>';
+                $content = str_replace($shortcode, $wrapped_shortcode, $content);
+            }
+        }
         $doc->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
      }
      else

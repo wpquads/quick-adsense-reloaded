@@ -1,0 +1,44 @@
+.sellable_ads_wrapper .quads-ad-search-box {
+    width: 100%;
+    max-width: 100%;
+    height: 50px;
+    vertical-align: top;
+    border: 1px solid #e1e1e1;
+    border-radius: 0px;
+    margin: 0 0px !important;
+    font-size: 16px;
+    color: #666666;
+    padding-left: 60px;
+    background-size: 22px;
+    background-position: 20px;
+}
+.sellable_ads_wrapper .quads-ad-table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    background-color: transparent;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.sellable_ads_wrapper .quads-pagination{
+    margin-top: 20px;
+    text-align: center;
+}
+.sellable_ads_wrapper .quads-pagination button{
+    background: #1A73E8;
+    color: white;
+    padding: 5px 10px;
+    margin-right: 10px;
+}
+.quads-settings-content{
+    display: block;
+}
+.sellable_ads_wrapper .quads-pagination .pages{
+    margin-bottom: 10px;
+}
+
+.sellable_ads_wrapper .loading_text{
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+}

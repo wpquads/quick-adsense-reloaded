@@ -439,6 +439,24 @@ public function quads_database_install() {
         ".$charset_collate.$engine.";");
                 
 	}
+    if(!in_array("{$wpdb->prefix}quads_disabledad_data", $found_tables)) {
+            
+		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_disabledad_data` (
+			`disable_ad_id` bigint(10) NOT NULL AUTO_INCREMENT,
+            `user_id` int(50) NOT NULL,
+            `payment_response` text  NULL,
+            `disable_cost` bigint(10) NOT NULL,
+            `payment_status` varchar(15) NOT NULL DEFAULT 'pending',
+            `disable_status` varchar(15) NOT NULL DEFAULT 'pending',
+            `disable_duration` varchar(15) NOT NULL,
+            `username` text  NULL,
+            `user_email` text  NULL,
+            `disable_date` date NOT NULL,
+            PRIMARY KEY  (`disable_ad_id`),
+            KEY `quads_disablead_id` (`disable_ad_id`)
+		)
+        ".$charset_collate.$engine.";");
+	}
 
 }
 

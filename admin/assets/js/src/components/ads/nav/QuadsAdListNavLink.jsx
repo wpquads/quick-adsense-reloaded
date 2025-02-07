@@ -12,6 +12,7 @@ class QuadsAdListNavLink extends Component {
         this.state = {
             ad_type_toggle:this.props.ad_type_toggle,
             settings:this.props.settings,
+            show_sellable_ads : false,
             displayReports:false,
             displayad_logging:false,
             setting_access : false,
@@ -49,6 +50,12 @@ class QuadsAdListNavLink extends Component {
            ]
         };
         this.getSettings();
+    }
+    handleShowSellableAds = () =>{
+      this.setState({show_sellable_ads:true});
+    }
+    handleHideSellableAds = () =>{
+      this.setState({show_sellable_ads:false});
     }
     getSettings = () => {
         let url = quads_localize_data.rest_url + 'quads-route/get-settings';
@@ -194,7 +201,8 @@ class QuadsAdListNavLink extends Component {
         this.props.setStateOfToggle(false);
     }
     componentDidMount(){
-
+      
+        this.setState({show_sellable_ads:quads_localize_data.sellable_ads})
         this.state.All_ad_network.map((item, index ) => {
             var link = document.createElement('link');
               link.rel = "preload";
@@ -226,7 +234,7 @@ class QuadsAdListNavLink extends Component {
 
     if(typeof(page.path)  != 'undefined' ) {
 
-        if( page.path == 'settings' || page.path == 'settings_tools' || page.path == 'settings_importer' || page.path == 'settings_legacy' || page.path == 'settings_support' || page.path == 'settings_licenses' || page.path == 'settings_google_autoads' || page.path == 'settings_adsell')  {
+        if( page.path == 'settings' || page.path == 'settings_tools' || page.path == 'settings_importer' || page.path == 'settings_legacy' || page.path == 'settings_support' || page.path == 'settings_licenses' || page.path == 'settings_google_autoads' || page.path == 'settings_adsell' || page.path == 'settings_disableads' || page.path == 'settings_disableadslist')  {
             jQuery('.wp-submenu li').removeClass('current');
             jQuery('a[href$="quads-settings&path=settings"]').parent().addClass('current');
             current = 'settings';
@@ -274,9 +282,16 @@ class QuadsAdListNavLink extends Component {
               }
          </div>
         <div className="quads-ad-tab">
+          {(quads_localize_data.sellable_ads!==undefined) &&
+          <>
+            <span id="handleShowSellableAds" onClick={this.handleShowSellableAds}></span>
+            <span  onClick={this.handleHideSellableAds} id="handleHideSellableAds"></span>
+          </>
+          }
             <ul>
                 <li><Link to={'admin.php?page=quads-settings'} className={current == 'ads' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Ads', 'quick-adsense-reloaded')}</Link></li>
-                <li><Link to={'admin.php?page=quads-settings&path=adsell'} className={current == 'adsell' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Sellable Ads', 'quick-adsense-reloaded')}</Link></li>
+                {(this.state.show_sellable_ads === true || this.state.show_sellable_ads===1 || this.state.show_sellable_ads==='1') ? <li><Link to={'admin.php?page=quads-settings&path=adsell'} className={current == 'adsell' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Sellable Ads', 'quick-adsense-reloaded')}</Link></li> : ''}
+                
                 {this.state.setting_access?<li><Link to={'admin.php?page=quads-settings&path=settings'} className={current == 'settings' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Settings', 'quick-adsense-reloaded')}</Link></li>:''}
                 {this.state.displayReports ?
                 <li><Link to={'admin.php?page=quads-settings&path=reports'} className={current == 'reports' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Reports', 'quick-adsense-reloaded')}</Link></li>
@@ -284,7 +299,7 @@ class QuadsAdListNavLink extends Component {
                 {quads_localize_data.is_pro && this.state.displayad_logging ?
                 <li><Link to={'admin.php?page=quads-settings&path=ad_logging'} className={current == 'ad_logging' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Log', 'quick-adsense-reloaded')}</Link></li>
                 : null }
-                { (current == 'adsell') ? <li><div className="quads-add-btn"><Link to={'admin.php?page=quads-settings&path=wizard&ad_type=ads_space'} className="quads-btn quads-btn-primary"><Icon>add_circle</Icon>{__('Create Ad', 'quick-adsense-reloaded')}</Link></div></li> :  <li><div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.showAddTypeSelector}><Icon>add_circle</Icon>{__('Create Ad', 'quick-adsense-reloaded')}</a></div></li>}
+                { (current == 'adsell') ? <li><div className="quads-add-btn"><Link to={'admin.php?page=quads-settings&path=wizard&ad_type=ads_space'} className="quads-btn quads-btn-primary"><Icon>add_circle</Icon>{__('Create Ad Space', 'quick-adsense-reloaded')}</Link></div></li> :  <li><div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.showAddTypeSelector}><Icon>add_circle</Icon>{__('Create Ad', 'quick-adsense-reloaded')}</a></div></li>}
             </ul>
         </div>
         </div>

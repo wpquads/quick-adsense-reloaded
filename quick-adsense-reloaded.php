@@ -1,12 +1,11 @@
 <?php
-
 /**
  * Plugin Name: AdSense Integration WP QUADS
  * Plugin URI: https://wordpress.org/plugins/quick-adsense-reloaded/
  * Description: Insert Google AdSense and other ad formats fully automatic into your website
  * Author: WP Quads
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
- * Version: 2.0.86
+ * Version: 2.0.87
  * Text Domain: quick-adsense-reloaded
  * Domain Path: languages
  * Credits: WP QUADS - Quick AdSense Reloaded is a fork of Quick AdSense
@@ -39,7 +38,7 @@ if( !defined( 'ABSPATH' ) )
 
 // Plugin version
 if( !defined( 'QUADS_VERSION' ) ) {
-  define( 'QUADS_VERSION', '2.0.86' );
+  define( 'QUADS_VERSION', '2.0.87' );
 }
 
 // Plugin name

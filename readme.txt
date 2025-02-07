@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.7
 Requires PHP: 5.4
-Stable tag: 2.0.86
+Stable tag: 2.0.87
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -23,6 +23,7 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 
 = Features: =
 * <strong>NEW - Sellable Ads: </strong> Sell your AD space.
+* <strong>NEW - Hide Ads for Premium Members: </strong> Hide Ads for Premium Members.
 * <strong>NEW - Web Stories Integration: </strong> Advertise in AMP Web Stories.
 * <strong>NEW - Click Fraud Protection</strong>: Helps you fight the click fraud and helps you stabilize the ad revenue.
 * <strong>NEW - GDPR & Privacy tools</strong>: We have got the GDPR and other privacy tools planned so that you dont have to worry about complying with privacy laws.
@@ -207,6 +208,14 @@ Alternative Installation:
 
 
 == Changelog ==
+
+= 2.0.87 ( 04 February 2025 ) =
+* New: Feature Hide ads for Premium Members, and UI Improvement for Sellable Ads #496
+* New: Need to add feature to upload the own defualt image in advertise space, Edit the customers advert details after they have purchased #923
+
+= 2.0.86.1 ( 12 November 2024 ) =
+* Improvement: Option to prevent automatic creation of a sellable ad page #909
+* Fixed: Uncaught TypeError: Cannot read properties of undefined (reading 'style') #907
 
 = 2.0.86 ( 07 November 2024 ) =
 * New: Feature for payment methods for selling ads #550

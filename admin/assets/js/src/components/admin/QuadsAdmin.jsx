@@ -9,6 +9,7 @@ import QuadsAdLogging from '../report/QuadsAdLogging'
 import Quads_single_report from '../report/Quads_single_report';
 import { Link } from 'react-router-dom';
 import AdSellRecords from './../settings/QuadsAdSellList';
+import { Alert } from '@material-ui/lab';
 
 class QuadsAdmin extends Component {
 
@@ -17,13 +18,36 @@ class QuadsAdmin extends Component {
         this.state = {                            
                 switchToOld: false,
                 ad_type_toggle: false,
+                adsell_selected_tab: 'ads_list',
                 settings  : []          
             };  
            // this.quads_occasional_ads_method();   
       }
+      componentDidMount = () =>{
+        this.getSettings_data();
+      }
+      getSettings_data = () => {
+        let url = quads_localize_data.rest_url + 'quads-route/get-settings';
+        fetch(url, {
+          headers: {
+            'X-WP-Nonce': quads_localize_data.nonce,
+          }
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+              this.setState({settings:result});
+            },
+            (error) => {
+            }
+          );
+      }
       nodatashowAddTypeSelector = (e) => {
         e.preventDefault();
         this.setState({ad_type_toggle:true});    
+    }
+    handleSetAddSellsSelectTab = (tab) =>{
+      this.setState({adsell_selected_tab:tab})
     }
     setStateOfToggle = (toggle) => {
       this.setState({ad_type_toggle: toggle});
@@ -134,10 +158,46 @@ class QuadsAdmin extends Component {
                                 return <QuadsAdListSettings/>;                                
                             }
                             if(pagePath.includes('adsell')){
-                              return <AdSellRecords />;
+                              return (
+                                <>
+                                 <div>
+                                  {this.state.settings.payment_gateway}
+                                    {(this.state.settings && this.state.settings.payment_gateway==='') &&
+                                      <Alert severity="error"  style={{marginBottom:'5px'}}>Warning : <strong>Payment Gateway</strong> not selected for Sellable Ads. Go to <strong>Settings{' > '}Sellable Ads Settings {' > '}Select Payment Gateway</strong></Alert>
+                                    }
+                                    
+                                    {(this.state.settings && this.state.settings.payment_page==='') &&
+                                    <Alert severity="error">Warning : <strong>Payment Page</strong> not selected for Sellable Ads. Go to <strong>Settings{' > '}Sellable Ads Settings {' > '}Select Payment Page</strong></Alert>
+                                    }
+                                  </div>
+                                <div className="quads-ad-menu">
+                                  <div className="quads-ad-tab-wrapper">
+                                    <div className="quads-ad-tab">
+                                      <ul>
+                                        <li style={{cursor:'pointer'}} className={(this.state.adsell_selected_tab==='ads_list')?'current':''} onClick={()=>this.handleSetAddSellsSelectTab('ads_list')}><a class={(this.state.adsell_selected_tab==='ads_list')?'quads-nav-link quads-nav-link-active':'quads-nav-link'}>Ads List</a></li>
+                                        <li style={{cursor:'pointer'}} className={(this.state.adsell_selected_tab==='approval_list')?'current':''} onClick={()=>this.handleSetAddSellsSelectTab('approval_list')}>
+                                          <a class={(this.state.adsell_selected_tab==='approval_list')?'quads-nav-link quads-nav-link-active':'quads-nav-link'}>Approval List</a></li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                                {(this.state.adsell_selected_tab==='ads_list') &&
+                                 <QuadsAdListBody
+                                 settings = {this.state.settings}
+                                 ad_type='ads_space'
+                                  nodatashowAddTypeSelector ={this.nodatashowAddTypeSelector}
+                                  setStateOfToggle ={this.setStateOfToggle}
+                                  />
+                                }
+                                {(this.state.adsell_selected_tab==='approval_list') &&
+                                  <AdSellRecords />
+                                }
+                                </>
+                              );
                             }
                             if(pagePath.includes('ads')){
                                 return <QuadsAdListBody
+                                ad_type='ads'
                                 settings = {this.state.settings}
                                  nodatashowAddTypeSelector ={this.nodatashowAddTypeSelector}
                                  setStateOfToggle ={this.setStateOfToggle}

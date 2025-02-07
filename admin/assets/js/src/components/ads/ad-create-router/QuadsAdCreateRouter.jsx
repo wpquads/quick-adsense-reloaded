@@ -159,7 +159,7 @@ class QuadsAdCreateRouter extends Component {
             publish_date              : '',
             mob_code                  : '',
             carousel_close            : false,
-            ad_cost                   : 0,
+            ad_cost                   : 1,
             ad_cost_type              : 'per_day',
 
             },
@@ -474,7 +474,7 @@ class QuadsAdCreateRouter extends Component {
     adFormChangeHandler = (event) => {
    
       const name = event.target.name;
-      const value = event.target.type === 'checkbox' ?  event.target.checked : event.target.value;  
+      let value = event.target.type === 'checkbox' ?  event.target.checked : event.target.value;  
       if(name == 'position' && value == 'amp_story_ads'){
         let url = quads_localize_data.rest_url+'quads-route/check_plugin_exist?plugin_name=amp_story';   
         fetch(url,{
@@ -512,6 +512,9 @@ class QuadsAdCreateRouter extends Component {
         const { quads_post_meta } = { ...this.state };
         const currentState = quads_post_meta;      
         if(name){
+          if(name==='image_redirect_url'){
+            value = decodeURIComponent(value);
+          }
           currentState[name] = value;     
             this.setState({ quads_post_meta: currentState,  quads_state_changed: true });  
         }                  
@@ -789,7 +792,11 @@ class QuadsAdCreateRouter extends Component {
 
       e.preventDefault();
       let page    = queryString.parse(window.location.search);   
+      let is_ad_space = page['ad_type'];
       let new_url = this.props.location.pathname + '?page=quads-settings';
+      if(is_ad_space==='ads_space'){
+        new_url = this.props.location.pathname + '?page=quads-settings&path=adsell';
+      }
       
       if(this.state.quads_state_changed && !this.state.quads_is_saved){
 

@@ -368,9 +368,24 @@ class QuadsAdList extends Component {
              )   ))} 
             </tbody>
         </table> : <div className="nodatadiv"><div className="first_ad_main">
-                      <h3>{__('Thank you for using WP Quads','quick-adsense-reloaded')}</h3>
-                      <div className="first_ad">{__('Let\'s ', 'quick-adsense-reloaded') } <strong>{__('create our First Ad', 'quick-adsense-reloaded') }</strong> {__(' in 3 simple steps', 'quick-adsense-reloaded') }. </div>
-                      <div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.props.nodatashowAddTypeSelector}><Icon>add_circle</Icon>{__('Create Ad', 'quick-adsense-reloaded') }</a></div>
+                    {(this.props.ad_type!=='ads_space') &&
+                      <>
+                        <h3>{__('Thank you for using WP Quads','quick-adsense-reloaded')}</h3>
+                        <div className="first_ad">{__('Let\'s ', 'quick-adsense-reloaded') } <strong>{__('create our First Ad', 'quick-adsense-reloaded') }</strong> {__(' in 3 simple steps', 'quick-adsense-reloaded') }. </div>
+                        <div className="quads-add-btn"><a className="quads-btn quads-btn-primary" onClick={this.props.nodatashowAddTypeSelector}><Icon>add_circle</Icon>{__('Create Ad', 'quick-adsense-reloaded') }</a></div>
+                      </>
+                    }
+                    {(this.props.ad_type==='ads_space') &&
+                      <>
+                        <h3>{__('You don\'t have the ad space available to sell','quick-adsense-reloaded')}</h3>
+                        <div className="first_ad">{__('You can start sellings ads by creating a space on your website from the ', 'quick-adsense-reloaded') } <strong>{__('below button', 'quick-adsense-reloaded') }</strong>. </div>
+                        <div className="quads-add-btn">
+                          <div class="quads-add-btn">
+                            <Link class="quads-btn quads-btn-primary" to={`admin.php?page=quads-settings&path=wizard&ad_type=ads_space`}><Icon>add_circle</Icon>{__('Create Ad Space', 'quick-adsense-reloaded') }</Link>
+                          </div>
+                        </div>
+                      </>
+                    }
                   </div>
                   {quads.quads_import_classic_ads_popup && quads.quads_get_active_ads !=="0" ?
                     <div className="fakebox" >

@@ -214,7 +214,129 @@ function quads_check_the_content_filter( $content ) {
 
     return $content;
 }
+function quads_disable_add_subscribe() {
+    if(quads_disable_ads() || is_404()){
+        return false;
+    }
+    if(isset($_COOKIE['disable_ad_notice'])){
+        return false;
+    }
+    $quads_settings = get_option('quads_settings');
+    $disableads = isset($quads_settings['disableads']) ? $quads_settings['disableads'] : '';
+    $da_page_id = isset($quads_settings['dapayment_page']) ? $quads_settings['dapayment_page'] : 0;
+    $payment_page = get_permalink( $da_page_id );
+    
+    if($disableads==1 && get_the_ID()!=$da_page_id){
+?>
+<style>
+    .disable-ads-container{background: unset;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    left: 0;
+    max-width: 100%;
+    position: fixed;
+    right: 0;
+    width: 100%;
+    z-index: 10;}
+    .da-top-flexbox{
+        border-top: 5px solid #D00;align-items: center;
+    background: #2F2E2E;
+    color: #FFF;
+    display: flex;
+    flex-direction: row;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    justify-content: center;
+    padding: 13px;
+    text-align: center;
+    }
+    .da-close-button{
+        position: absolute;
+    right: 13px;background-color: rgba(0, 0, 0, 0);
+    border: 0;
+    box-shadow: none;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    text-shadow: none;
+    }
+    .da-bottom-flexbox{
+        align-items: center;
+    background: #181716;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 12px;
+    text-align: center;
+    }
+    .da-lead{
+        color: #FFF;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 24px;
+    text-align: center;
+    }
+    .da-sub-lead{
+        color: #FFF;
+    font: 300 16px / 24px 'Work Sans', sans-serif;
+    margin-left: 5px;
+    }
+    .da-meter-cta{
+        align-items: center;
+        background-color: #DC0000;
+        border: none;
+        border-radius: 8px;
+        color: #FFF;
+        display: inline-flex;
+        font: 600 14px / 22px 'Work Sans', sans-serif;
+        height: 48px;
+        justify-content: center;
+        letter-spacing: -0.2px;
+        margin-left: 20px;
+        outline: none;
+        padding: 0 32px;
+        text-align: center;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+</style>
+<div class="disable-ads-container" id="disable-ads-block">
+	<div class="da-top-flexbox" style="">
+		<div class="meter-display">
+            Hide Ads for Premium Members by Subscribing
+		</div>
+		<button class="da-close-button" style="cursor:pointer" onclick="handleCloseDisableAd()">
+			<svg width="16" height="16" viewBox="0 0 16 16" style="margin-left: 13px;
+    margin-right: 13px;" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path fill-rule="evenodd" clip-rule="evenodd" d="M16.0001 1.23076L14.7693 0L8.00004 6.76927L1.23077 2.85321e-05L0 1.23079L6.76927 8.00003L0.000110543 14.7692L1.23088 15.9999L8.00004 9.23079L14.7692 16L16 14.7692L9.23081 8.00003L16.0001 1.23076Z" fill="#F8F8F8"></path>
+			</svg>
+		</button>
+	</div>
 
+	<div class="da-bottom-flexbox">
+		<div class="message">
+			<span class="da-lead">Hide Ads for Premium Members.</span>
+			<span class="da-sub-lead">Hide Ads for Premium Members by clicking on subscribe button.</span>
+		</div>
+		<a class="da-meter-cta" href="<?php echo $payment_page;?>" target="_blank">Subscribe Now</a>
+	</div>
+</div>
+<script>
+    function handleCloseDisableAd(){
+        document.getElementById('disable-ads-block').style.display = 'none';
+        var expires = (new Date(Date.now()+ 86400*1000)).toUTCString();
+        document.cookie = "disable_ad_notice=true; expires=" + expires + ";path=/;"
+    }
+</script>
+<?php
+    }
+}
+add_action( 'wp_footer', 'quads_disable_add_subscribe' );
 /**
  * Check conditions and display warning. Conditions: AdBlocker enabled, jQuery is included in header
  */

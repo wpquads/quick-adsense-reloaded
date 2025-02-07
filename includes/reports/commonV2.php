@@ -206,7 +206,7 @@ function quads_adsense_get_details($request_data){
 
 		} else {
 			if ( isset( $accounts['error'] ) ) {
-				$msg = esc_html__( 'An error occurred while requesting account details.', 'advanced-ads' );
+				$msg = esc_html__( 'An error occurred while requesting account details.', 'quick-adsense-reloaded' );
 				if ( isset( $accounts['error']['message'] ) ) {
 					$msg = $accounts['error']['message'];
 				}
@@ -1441,14 +1441,14 @@ function quads_adsense_get_access_token($account){
 			// There is another account connected.
 			return array(
 				'status' => false,
-				'msg' => esc_html__( 'It seems that some changes have been made in the Quads Ads settings. Please refresh this page.', 'advanced-ads' ),
+				'msg' => esc_html__( 'It seems that some changes have been made in the Quads Ads settings. Please refresh this page.', 'quick-adsense-reloaded' ),
 				'reload' => true,
 			);
 		} else {
 			// No account at all.
 			return array(
 				'status' => false,
-				'msg' => wp_kses( /* translators: %s: account name */ sprintf( __( 'Advanced Ads does not have access to your account (<code>%s</code>) anymore.', 'advanced-ads' ), $account ), array( 'code' => true ) ),
+				'msg' => wp_kses( /* translators: %s: account name */ sprintf( __( 'Advanced Ads does not have access to your account (<code>%s</code>) anymore.', 'quick-adsense-reloaded' ), $account ), array( 'code' => true ) ),
 				'reload' => true,
 			);
 		}
@@ -1475,7 +1475,7 @@ function quads_adsense_renew_access_token( $account ) {
 	if ( is_wp_error( $response ) ) {
 		return array(
 			'status' => false,
-			'msg'    => sprintf( /* translators: %s: account name */ esc_html__( 'error while renewing access token for "%s"', 'advanced-ads' ), $account ),
+			'msg'    => sprintf( /* translators: %s: account name */ esc_html__( 'error while renewing access token for "%s"', 'quick-adsense-reloaded' ), $account ),
 			'raw'    => $response->get_error_message(),
 		);
 	} else {
@@ -1497,7 +1497,7 @@ function quads_adsense_renew_access_token( $account ) {
 		} else {
 			return array(
 				'status' => false,
-				'msg'    => sprintf( /* translators: %s: account name */ esc_html__( 'invalid response received while renewing access token for "%s"', 'advanced-ads' ),  $account ),
+				'msg'    => sprintf( /* translators: %s: account name */ esc_html__( 'invalid response received while renewing access token for "%s"', 'quick-adsense-reloaded' ),  $account ),
 				'raw'    => $response['body'],
 			);
 		}
@@ -1677,7 +1677,7 @@ function wpquads_logs_weekly_clear( $schedules ) {
 	// add a 'weekly' schedule to the existing set
 	$schedules['wpquads_logs_weekly'] = array(
 		'interval' => 604800,
-		'display' => __('Clear Wpquads Logs Weekly')
+		'display' => __('Clear Wpquads Logs Weekly', 'quick-adsense-reloaded')
 	);
 	return $schedules;
 }
@@ -1691,7 +1691,7 @@ function wpquads_cron_import_schedule( $schedules ) {
 	// add a 'weekly' schedule to the existing set
 	$schedules['wpquads_cron_import'] = array(
 		'interval' => 1000,
-		'display' => __('Cron Import Wpquads')
+		'display' => __('Cron Import Wpquads', 'quick-adsense-reloaded' )
 	);
 	return $schedules;
 }
