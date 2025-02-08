@@ -312,6 +312,7 @@ class QUADS_Ad_Setup_Api_Service {
         if($rvcount){
             $arg['posts_per_page']    = $rvcount;
         }
+        $arg['paged'] = 1;
         if($paged){
             $arg['paged']    = $paged;
         }
@@ -387,7 +388,6 @@ class QUADS_Ad_Setup_Api_Service {
               )
               );
               $arg['meta_query']          = $meta_query_args;
-              $arg['paged']               = 1;
           }else if($filter_not_by){
             $meta_query_args = array(
               array(
@@ -397,7 +397,6 @@ class QUADS_Ad_Setup_Api_Service {
               )
               );
               $arg['meta_query']          = $meta_query_args;
-              $arg['paged']               = 1;
           }
          
         }
