@@ -312,7 +312,6 @@ class QUADS_Ad_Setup_Api_Service {
         if($rvcount){
             $arg['posts_per_page']    = $rvcount;
         }
-        $arg['paged'] = 1;
         if($paged){
             $arg['paged']    = $paged;
         }
