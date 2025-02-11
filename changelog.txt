@@ -1,3 +1,9 @@
+= 2.0.87.1 ( 11 February 2025 ) =
+* Added : Admin Option in Global Excluder for Ads #924
+* Fixed : Layout issue persists in Version 2.0.87 #928
+* Fixed : Pagination not working in Ads tab after recent update  #926
+
+
 = 2.0.87 ( 04 February 2025 ) =
 * New: Feature Hide ads for Premium Members, and UI Improvement for Sellable Ads #496
 * New: Need to add feature to upload the own defualt image in advertise space, Edit the customers advert details after they have purchased #923
