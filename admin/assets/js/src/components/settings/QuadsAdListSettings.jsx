@@ -69,7 +69,7 @@ class QuadsAdListSettings extends Component {
                 ad_performance_tracking : false,
                 exclude_admin_tracking : false,
                 sellable_ads : true,
-                disableads : true,
+                disableads : false,
                 reports_settings : true,
                 ad_logging : false,
                 ad_owner_revenue_per:50,

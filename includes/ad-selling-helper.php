@@ -60,7 +60,7 @@ function quads_create_ads_disable_page_on_activation() {
 
     // If the page doesn't exist, create a new page
    
-    if ( ! $existing_page ) {
+    if ( ! $existing_page && ! $quads_disableads_page ) {
         $page_data = array(
             'post_title'     => esc_html__( 'Hide Ads for Premium Members', 'quick-adsense-reloaded' ),
             'post_content'   => '[quads_disable_ads_form]',

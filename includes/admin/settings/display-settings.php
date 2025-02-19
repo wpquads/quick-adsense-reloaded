@@ -241,7 +241,7 @@ function quads_options_page_new() {
         $quads_settings = get_option('quads_settings');
         $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
         $sellable_ads = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : 1;
-        $disableads = isset($quads_settings['disableads']) ? $quads_settings['disableads'] : 1;
+        $disableads = isset($quads_settings['disableads']) ? $quads_settings['disableads'] : 0;
         $data = array(
             'quads_plugin_url'     => QUADS_PLUGIN_URL,
             'rest_url'             => esc_url_raw( rest_url() ),
