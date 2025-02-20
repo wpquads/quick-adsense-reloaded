@@ -448,12 +448,14 @@ class QUADS_Ad_Setup_Api_Service {
           }
 
         }
+       
+        $more_args['filter_by'] = $filter_by;
         
-        $response = $this->getPostsByArg($arg);
+        $response = $this->getPostsByArg( $arg, $more_args );
         return $response;
     }
 
-    public function getPostsByArg($arg){
+    public function getPostsByArg($arg,$more_args = array()){
 
       $response = array();
       if(count($this->amp_front_loop)==0){
@@ -484,7 +486,11 @@ class QUADS_Ad_Setup_Api_Service {
         }
         $response['posts_data']  = $posts_data;
         // if($posts_data[0]['post']['post_status'] == 'publish'){
+        if(isset($more_args['filter_by']) && $more_args['filter_by']=='ads_space'){
+          $response['posts_found'] = $this->getTotalAdsSpace();
+        }else{
           $response['posts_found'] = $this->getTotalAds();
+        }
         // }
          
         $this->amp_front_loop = $response;
@@ -796,17 +802,43 @@ if($license_info){
       if(defined('quads_add_count')){
         return quads_add_count;
       }else{
-        $total_result = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(ID) as total_posts FROM $wpdb->posts Where post_type=%s AND (post_status=%s OR post_status=%s) ",'quads-ads','publish','draft'), 0, 0 );
+        $args = array(
+            'post_type'      => 'quads-ads', // Change to your post type
+            'post_status'    => 'publish',
+            'meta_query'     => array(
+                array(
+                    'key'     => 'ad_type', // Replace with your meta key
+                    'value'   => 'ads_space', // Replace with your meta value
+                    'compare' => '!=', // Comparison operator (=, !=, >, <, LIKE, etc.)
+                ),
+            ),
+            'posts_per_page' => -1, // Get all matching posts
+        );
         
-        if($total_result)
-        {
-          $total_result = (int) $total_result;
-        }else{
-          $total_result = 0;
-        }
-        // setcookie("quads_add_count", $total_result, time() + (60 * 5));
-        define('quads_add_count', $total_result);
-        return $total_result;
+        $query = new WP_Query($args);
+        $post_count = $query->found_posts;
+        define('quads_add_count', $post_count);
+        return $post_count;
       }
+    }
+    private function getTotalAdsSpace()
+    {
+      global $wpdb;
+      $args = array(
+          'post_type'      => 'quads-ads', // Change to your post type
+          'post_status'    => 'publish',
+          'meta_query'     => array(
+              array(
+                  'key'     => 'ad_type', // Replace with your meta key
+                  'value'   => 'ads_space', // Replace with your meta value
+                  'compare' => '=', // Comparison operator (=, !=, >, <, LIKE, etc.)
+              ),
+          ),
+          'posts_per_page' => -1, // Get all matching posts
+      );
+      
+      $query = new WP_Query($args);
+      $post_count = $query->found_posts;
+      return $post_count;
     }
 }
