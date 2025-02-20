@@ -2015,6 +2015,28 @@ return array('status' => 't');
             foreach ($results as $key => $result) {
                 $ad_id = $result->ad_id;
                 $ad_name = get_the_title($ad_id);
+
+                $start_date = date('Y-m-d');
+                $end_date = $result->end_date;
+                $st_date = new DateTime($start_date);
+
+                $en_date = new DateTime($end_date);
+
+                $difference = $st_date->diff($en_date);
+                $days = $difference->days;
+                
+                $expiring_in = 'Expiring in '. intval($days). ' Days';
+                if($en_date>$end_date){
+                    $expiring_in = '';
+                }
+                $results[$key]->expiring_in = '';
+                if($result->ad_status=='approved'){
+                    $results[$key]->expiring_in = $expiring_in;
+                }
+
+                $date_display = date('d M Y', strtotime($result->start_date)).' to '.date('d M Y', strtotime($result->end_date));
+                $results[$key]->date_display = $date_display;
+
                 $results[$key]->ad_name = $ad_name;
             }
         
