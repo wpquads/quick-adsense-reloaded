@@ -484,6 +484,13 @@ function quads_ads_buy_form() {
         
             $stripe_secret_key =  isset($quads_settings['stripe_secret_key']) ? $quads_settings['stripe_secret_key'] : '';
         }
+        $paysatck_public_key = '';
+        $paystack_secret_key = '';
+        if($payment_gateway=='paystack'){
+            $paysatck_public_key =  isset($quads_settings['paysatck_public_key']) ? $quads_settings['paysatck_public_key'] : '';
+        
+            $paystack_secret_key =  isset($quads_settings['paystack_secret_key']) ? $quads_settings['paystack_secret_key'] : '';
+        }
     ?>
     <form id="quads-adbuy-form" method="POST" action="<?php echo ($payment_gateway!='stripe')?esc_url(admin_url('admin-ajax.php')):'/process-payment'; ?>" enctype="multipart/form-data">
     <?php
@@ -572,6 +579,9 @@ function quads_ads_buy_form() {
    
     <?php if($payment_gateway=='stripe'){?>
     <script src="https://js.stripe.com/v3/"></script>
+    <?php }?>
+    <?php if($payment_gateway=='paystack'){?>
+        <script src="https://js.paystack.co/v1/inline.js"></script>
     <?php }?>
     <script>
    
@@ -777,11 +787,15 @@ function isValidDateRange(start, end) {
                 if (paypalForm) {
                     paypalForm.submit();
                 }else{
-                    console.log(response.data.id);
                     
+                    <?php if($payment_gateway=='paystack'){?>
+                        payWithPaystack(response.data);
+                    <?php }?>
+                    <?php if($payment_gateway=='stripe'){?>
                     if(response.data.id){
                         processStripePaymentSuccess(response.data);
                     }
+                    <?php }?>
                 }
             } else {
                 alert('Error: ' + response.data.message);
@@ -812,6 +826,37 @@ function isValidDateRange(start, end) {
     var card = elements.create('card');
     card.mount('#card-element');
 <?php }?>
+function payWithPaystack(data) {
+    let success_link = data.success_link;
+    var handler = PaystackPop.setup({
+        key: data.public_key, // Replace with your Public Key
+        email: data.email,
+        amount: data.amount, //  * 100 Convert to kobo
+        currency: data.currency,
+        callback: function(response) {
+            window.location.href = "verify_payment.php?reference=" + response.reference;
+        },
+        onClose: function() {
+            alert('Payment window closed.');
+        }
+    });
+    handler.openIframe();
+}
+function verifyPaystackPayment(reference,success_link){
+    let nonce = '<?php echo esc_attr(wp_create_nonce( 'submit_ad_buy_form' ));?>';
+    $.ajax({
+        url: '<?php echo esc_url(admin_url('admin-ajax.php')); ?>',
+        type: 'post',
+        data: {reference:reference,nonce:nonce,action:'quads_verify_paystack_payment'},
+        success: function (response, status, XHR) {
+            if(response.data==1){
+                window.location.href = success_link;
+            }
+        },
+        error: function (request, status, error) {
+        },
+    });
+}
 async function processStripePaymentSuccess( data ){
     let client_secret = data.id;
     let success_link = data.success_link;
@@ -1651,12 +1696,69 @@ function handle_ad_buy_form_submission() {
                 wp_send_json_error( array( 'message' => 'Failed to submit ad.' ) );
                 die;
             }
+        }else if($payment_gateway=='paystack'){
+            $paystack_public_key =  isset($quads_settings['paystack_public_key']) ? $quads_settings['paystack_public_key'] : '';
+        
+            $paystack_secret_key =  isset($quads_settings['paystack_secret_key']) ? $quads_settings['paystack_secret_key'] : '';
+            if ( empty( $paystack_secret_key ) || empty( $paystack_public_key ) ) {
+                wp_send_json_error( array( 'message' => 'Stripe Credentials are not set. Please inform Siteadmin' ) );
+            }
+            $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
+
+            $order_id = $wpdb->insert_id;
+            $redirect_link = rtrim($redirect_link,'/');
+            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
+            $cancel_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
+            $total_cost = round($total_cost);
+            $user = get_user_by('id', $user_id);
+            $email = $user->user_email;
+            wp_send_json_success( array( 'message' => 'Ad submission successful.' , 'public_key' =>$paystack_public_key,'secret_key'=>$paystack_secret_key,'email'=>$user->user_email,'amount'=>$total_cost,'currency'=>$currency,'success_link'=>$success_link,'cancel_url'=>$cancel_link) );
+            die;
         }
     } else {
         wp_send_json_error( array( 'message' => 'Failed to submit ad.' ) );
         die;
     }
 }
+add_action( 'wp_ajax_quads_verify_paystack_payment', 'quads_verify_paystack_payment' );
+add_action( 'wp_ajax_nopriv_quads_verify_paystack_payment', 'quads_verify_paystack_payment' );
+
+function quads_verify_paystack_payment(){
+    if ( ! isset( $_POST['action'] ) || $_POST['action'] !== 'submit_ad_buy_form' ) {
+        wp_send_json_error( array( 'message' => 'Invalid request.' ) );
+    } 
+    if ( ! check_ajax_referer( 'submit_ad_buy_form', 'nonce', false ) ) {
+        wp_send_json_error( array( 'message' => 'Invalid request.' ) );
+    }
+    if(isset($_POST['reference'])) {
+        $reference = $_POST['reference'];
+        $secretKey = $_POST['secret_key']; // Replace with your Secret Key
+    
+        $url = "https://api.paystack.co/transaction/verify/" . $reference;
+    
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer $secretKey"]);
+        
+        $response = curl_exec($ch);
+        curl_close($ch);
+        
+        $result = json_decode($response, true);
+    
+        if($result['status'] && $result['data']['status'] == 'success') {
+            echo 1; 
+            die;
+        } else {
+            echo 2; 
+            die;
+        }
+    } else {
+        echo 3; 
+        die;
+    }
+}
+
 add_action( 'wp_ajax_submit_ad_buy_form', 'handle_ad_buy_form_submission' );
 add_action( 'wp_ajax_nopriv_submit_ad_buy_form', 'handle_ad_buy_form_submission' );
 function handle_submit_disablead_form() {
