@@ -1600,7 +1600,7 @@ handleCapabilityChange = (event) =>{
                         <option key={index} value={page['ID']}>{page['post_title']}</option>
                       ))}
                     </select>
-                    <p>{__('By default we have created  a payment page named "')}<b>{__('Hide Ads for Premium Members')}</b>{__('". But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_disable_ads_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_disable_ads_form]</code>
+                    <p>{__('Create a new page and  paste the shortcode ')} <code>[quads_disable_ads_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_disable_ads_form]</code>
                     <a target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/">{__('Learn More')}</a></p>
                     </td>
                   </tr>
@@ -2874,7 +2874,7 @@ handleCapabilityChange = (event) =>{
                         <option key={index} value={page['ID']}>{page['post_title']}</option>
                       ))}
                     </select>
-                    <p>{__('By default we have created  a payment page named "')}<b>{__('Hide Ads for Premium Members')}</b>{__('". But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_disable_ads_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_disable_ads_form]</code>
+                    <p>{__('Create a new page and paste the shortcode ')} <code>[quads_disable_ads_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_disable_ads_form]</code>
                     </p>
                     </td>
                   </tr>

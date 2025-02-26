@@ -1822,6 +1822,15 @@ return array('status' => 't');
             if(file_exists(ABSPATH . 'ads.txt')){
                 $quads_settings['adsTxtText'] = trim(file_get_contents(ABSPATH . 'ads.txt'));
             }
+            $payment_page = (isset($quads_settings['payment_page']))?$quads_settings['payment_page']:'';
+            $page_status = '';
+            if($payment_page>0){
+                $page_info = get_post($payment_page);
+                if(!empty($page_info) && isset($page_info->post_status)){
+                    $page_status = $page_info->post_status;
+                }
+            }
+            $quads_settings['payment_page_status'] = $page_status;
             return $quads_settings;
         }
 
@@ -1829,8 +1838,13 @@ return array('status' => 't');
 
             global $wpdb;
             // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-            $query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'page' AND post_status = 'publish' ORDER BY post_title ASC LIMIT 0, 100";
+            $query = "SELECT ID, post_title,post_status FROM $wpdb->posts WHERE post_type = 'page' AND post_status in( 'publish','draft' ) ORDER BY post_title ASC LIMIT 0, 100";
             $results = $wpdb->get_results($query, ARRAY_A);
+            foreach ($results as $key => $value) {
+                if($value['post_status']=='draft'){
+                    $results[$key]['post_title'] = $value['post_title'].' - Draft';
+                }
+            }
             return $results;
 
         }

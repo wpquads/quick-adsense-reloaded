@@ -28,7 +28,7 @@ function quads_create_sellpage_on_activation() {
         $page_data = array(
             'post_title'     => esc_html__( 'Buy Adspace', 'quick-adsense-reloaded' ),
             'post_content'   => '[quads_buy_form]',
-            'post_status'    => 'publish',
+            'post_status'    => 'draft',
             'post_type'      => 'page',
             'post_author'    => get_current_user_id(),
             'post_name'      => 'buy-adspace', // Custom slug
@@ -80,7 +80,7 @@ function quads_create_ads_disable_page_on_activation() {
         }
     }
 }
-add_action( 'admin_init', 'quads_create_ads_disable_page_on_activation' );
+//add_action( 'admin_init', 'quads_create_ads_disable_page_on_activation' );
 
 add_action( 'upgrader_process_complete', 'quads_adsell_upgrade_handler', 10, 2 );
 
@@ -242,7 +242,7 @@ function quads_adsell_upgrade_handler( $upgrader_object, $options ) {
             foreach ( $options['plugins'] as $plugin ) {
                 if ( strpos( $plugin, 'quick-adsense-reloaded/quick-adsense-reloaded.php' ) !== false ) {
                     quads_create_sellpage_on_activation(); 
-                    quads_create_ads_disable_page_on_activation(); 
+                    //quads_create_ads_disable_page_on_activation(); 
                 }
             }
         }
