@@ -940,14 +940,68 @@ function get_premimum_member_ad_space($user_id){
     // Query the records
     /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
     $results = $wpdb->get_results($wpdb->prepare(
-        "SELECT * FROM $table_name WHERE payment_status = %s and user_id = $user_id ORDER BY id DESC limit 1",
+        "SELECT * FROM $table_name WHERE payment_status = %s and user_id = $user_id ORDER BY id DESC",
         'paid'
     ));
    
     foreach ($results as $key => $result) {
         $ad_id = $result->ad_id;
         $ad_name = get_the_title($ad_id);
+        $start_date = $result->start_date;
+        $end_date = $result->end_date;
+        $display_date = date('d M Y', strtotime($start_date)).' to '.date('d M Y', strtotime($end_date));
         $results[$key]->ad_name = $ad_name;
+        $results[$key]->display_date = $display_date;
+
+        $today = date('Y-m-d');
+        $date1 = new DateTime($end_date);
+        $date2 = new DateTime($today);
+
+        $interval = $date1->diff($date2);
+        $days = $interval->days;
+        $expire_message = '';
+        if($today>$end_date){
+            $expire_message = 'Expired '.$days.' ago';
+        }else{
+            $expire_message = 'Expring in '.$days.' days';
+        }
+        $results[$key]->expire_message = $expire_message;
+    }
+    return $results;
+} 
+function get_premimum_member_ad_space_on_id($id){
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'quads_adbuy_data'; 
+   
+    // Query the records
+    /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
+    $results = $wpdb->get_results($wpdb->prepare(
+        "SELECT * FROM $table_name WHERE payment_status = %s and id = $id ORDER BY id DESC",
+        'paid'
+    ));
+   
+    foreach ($results as $key => $result) {
+        $ad_id = $result->ad_id;
+        $ad_name = get_the_title($ad_id);
+        $start_date = $result->start_date;
+        $end_date = $result->end_date;
+        $display_date = date('d M Y', strtotime($start_date)).' to '.date('d M Y', strtotime($end_date));
+        $results[$key]->ad_name = $ad_name;
+        $results[$key]->display_date = $display_date;
+
+        $today = date('Y-m-d');
+        $date1 = new DateTime($end_date);
+        $date2 = new DateTime($today);
+
+        $interval = $date1->diff($date2);
+        $days = $interval->days;
+        $expire_message = '';
+        if($today>$end_date){
+            $expire_message = 'Expired '.$days.' ago';
+        }else{
+            $expire_message = 'Expring in '.$days.' days';
+        }
+        $results[$key]->expire_message = $expire_message;
     }
     return $results;
 } 
@@ -991,10 +1045,81 @@ if($user_id==0){?>
 </div>
 <?php 
 quads_custom_premimum_memeber_login();
-}else{
+}else if(!isset($_GET['modify_id'])){
     $ad_space_list = get_premimum_member_ad_space($user_id);
-    if(!empty($ad_space_list)){
-        $asdata = $ad_space_list[0];
+    $quads_settings = get_option( 'quads_settings' );
+    $da_page_id = isset($quads_settings['payment_page']) ? $quads_settings['payment_page'] : 0;
+    $payment_page = get_permalink( $da_page_id );
+?>
+<style>
+    #prem-member-subs-table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#prem-member-subs-table td, #prem-member-subs-table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#prem-member-subs-table tr:nth-child(even){background-color: #f2f2f2;}
+
+#prem-member-subs-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #b9b9b9;
+  color: white;
+  white-space: nowrap;
+}
+</style>
+<div class="login preview-ad-space">
+    <form style="overflow-x:auto">
+    
+    <table id="prem-member-subs-table">
+        <thead>
+            <th>Ad Space Name</th>
+            <th>Add Content</th>
+            <th>Add Link</th>
+            <th>Duration</th>
+            <th>Status</th>
+            <th></th>
+        </thead>
+        <tbody>
+    <?php
+    foreach ($ad_space_list as $key => $value) {
+?>
+    <tr>
+        <td><?= esc_attr($value->ad_name)?></td>
+        <td><?= esc_attr($value->ad_content)?></td>
+        <td><?= esc_url($value->ad_link)?></td>
+        <td>
+            <p style="white-space:nowrap"><?= esc_attr($value->display_date)?></p>
+            <p style="color:red"><?= esc_attr($value->expire_message)?></p>
+        </td>
+        <td><?= esc_attr($value->payment_status)?></td>
+        <td style="display:flex">
+            <a href="?modify_id=<?=intval($value->id)?>&renew_id=<?=intval($value->ad_id)?>"><input type="button" class="button button-primary button-large" value="Modify"></a>
+            
+            <a style="margin-left:5px" href="<?=esc_url($payment_page).'?ad_slot_id='.intval($value->ad_id)?>"><input type="button" class="button button-primary button-large" value="Renew"></a>
+        </td>
+    </tr>
+<?php } ?>
+    </tbody>
+    </table>
+    </form>
+    </div>
+<?php
+}
+if(isset($_GET['modify_id'])){
+    $modify_id = $_GET['modify_id'];
+    $renew_id = $_GET['renew_id'];
+    $ad_space_list = get_premimum_member_ad_space_on_id($modify_id);
+    $asdata = $ad_space_list[0];
+    $quads_settings = get_option( 'quads_settings' );
+    $da_page_id = isset($quads_settings['payment_page']) ? $quads_settings['payment_page'] : 0;
+    $payment_page = get_permalink( $da_page_id );
 ?>
     <div class="login preview-ad-space">
     <form name="loginform" id="loginform" method="post" enctype="multipart/form-data">
@@ -1017,9 +1142,12 @@ quads_custom_premimum_memeber_login();
         </div>
         <p class="submit">
             <input type="submit" name="submit-update-member-ad-space" class="button button-primary button-large" value="Update Information" style="cursor:pointer">
+
+            <a href="<?= esc_url($payment_page);?>?ad_slot_id=<?=intval($renew_id)?>"><input type="button"  class="button button-primary button-large" value="Renew"></a>
         </p>
     </form>
     </div>
+    
     <script>
         function onFileSelected(event) {
             
@@ -1032,9 +1160,8 @@ quads_custom_premimum_memeber_login();
     </script>
 <?php 
 quads_update_member_subscription();
-}}?>
+}?>
 <?php
-
 return ob_get_clean();
 }
 function quads_ads_disable_form(){
