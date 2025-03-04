@@ -86,11 +86,20 @@ add_action( 'upgrader_process_complete', 'quads_adsell_upgrade_handler', 10, 2 )
 
 add_action( 'init', 'quads_authorize_payment_success' );
 function quads_authorize_payment_success(){
-    if(isset($_GET['status']) && $_GET['status']=='success' && isset($_GET['ad_slot_id']) && $_GET['ad_slot_id']>0 && isset($_GET['refId']) && $_GET['refId']!="" && isset($_GET['user_id']) && $_GET['user_id'] && !isset($_GET['target'])){
-        
+    if ( !is_user_logged_in() ) {
+        return false;
+    }
+    if(isset($_GET['status']) && $_GET['status']=='success' && isset($_GET['ad_slot_id']) && $_GET['ad_slot_id']>0 && isset($_GET['refId']) && $_GET['refId']!="" && isset($_GET['user_id']) && $_GET['user_id'] && !isset($_GET['target']) && isset($_GET['security']) && $_GET['security']!=""){
+        if( ! wp_verify_nonce( $_GET['security'], 'security' ) ){
+            return;
+        }
+
         $slot_id = sanitize_text_field( wp_unslash( $_GET['ad_slot_id'] ) );
+        $slot_id = intval($slot_id);
         $order_id = sanitize_text_field( wp_unslash( $_GET['refId'] ) );
+        $order_id = intval($order_id);
         $user_id = sanitize_text_field( wp_unslash( $_GET['user_id'] ) );
+        $user_id = intval($user_id);
         $price = get_post_meta( $slot_id, 'ad_cost' );
         if(!empty($price)){
             $price = $price[0];
@@ -162,7 +171,10 @@ function quads_authorize_payment_success(){
             $headers = array('Content-Type: text/html; charset=UTF-8');
             wp_mail( $to, $subject, $message, $headers );
         }
-    }else if(isset($_GET['status']) && $_GET['status']=='success' && isset($_GET['refId']) && $_GET['refId']!="" && isset($_GET['user_id']) && $_GET['user_id'] && isset($_GET['target']) && $_GET['target']=='disablead'){
+    }else if(isset($_GET['status']) && $_GET['status']=='success' && isset($_GET['refId']) && $_GET['refId']!="" && isset($_GET['user_id']) && $_GET['user_id'] && isset($_GET['target']) && $_GET['target']=='disablead'  && isset($_GET['security']) && $_GET['security']!=""){
+        if( ! wp_verify_nonce( $_GET['security'], 'security' ) ){
+            return;
+        }
         $order_id = sanitize_text_field( wp_unslash( $_GET['refId'] ) );
         $user_id = sanitize_text_field( wp_unslash( $_GET['user_id'] ) );
         
@@ -1603,6 +1615,16 @@ function handle_ad_buy_form_submission() {
 
         if ( is_wp_error( $user_id ) ) {
             wp_send_json_error( array( 'message' => 'Failed to create account. ' . $user_id->get_error_message() ) );
+        }else{
+            $creds = array(
+                'user_login'    => $email,
+                'user_password' => $password,
+                'remember'      => true
+            );
+            $user = wp_signon($creds, false);
+            if ( is_wp_error($user)) {
+                wp_send_json_error( array( 'message' => 'Failed to Login. ') );
+            }
         }
     }
 
@@ -1693,7 +1715,8 @@ function handle_ad_buy_form_submission() {
             //$authorize_url ='https://apitest.authorize.net/xml/v1/request.api';
             $authorize_url ='https://api.authorize.net/xml/v1/request.api';
             $redirect_link = rtrim($redirect_link,'/');
-            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
+            $success_nonce = wp_create_nonce( 'submit_ad_buy_form_success' );
+            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id ).'&security='.esc_attr($success_nonce);
             $cancel_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
         
          $send_data = '{
@@ -1769,6 +1792,7 @@ function handle_ad_buy_form_submission() {
               $re = str_replace( '\ufeff', '', $re);
               $re = json_decode( $re );
               $re = json_decode( $re,true );
+
             if( isset( $re['token'] ) && $re['token']!="" ){
                 $token = $re['token'];
                 //$form_url = 'https://test.authorize.net/payment/payment';
@@ -1800,7 +1824,8 @@ function handle_ad_buy_form_submission() {
 
             $order_id = $wpdb->insert_id;
             $redirect_link = rtrim($redirect_link,'/');
-            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
+            $success_nonce = wp_create_nonce( 'submit_ad_buy_form_success' );
+            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id ).'&security='.esc_attr($success_nonce);
             $cancel_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
             require_once('stripe/vendor/autoload.php'); // Get this from Stripe's PHP SDK
             \Stripe\Stripe::setApiKey($stripe_secret_key);
@@ -1834,7 +1859,8 @@ function handle_ad_buy_form_submission() {
 
             $order_id = $wpdb->insert_id;
             $redirect_link = rtrim($redirect_link,'/');
-            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
+            $success_nonce = wp_create_nonce( 'submit_ad_buy_form_success' );
+            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id ).'&security='.esc_attr($success_nonce);
             $cancel_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
             $total_cost = round($total_cost);
             $user = get_user_by('id', $user_id);
@@ -1916,6 +1942,16 @@ function handle_submit_disablead_form() {
 
         if ( is_wp_error( $user_id ) ) {
             wp_send_json_error( array( 'message' => 'Failed to create account. ' . $user_id->get_error_message() ) );
+        }else{
+            $creds = array(
+                'user_login'    => $email,
+                'user_password' => $password,
+                'remember'      => true
+            );
+            $user = wp_signon($creds, false);
+            if ( is_wp_error($user)) {
+                wp_send_json_error( array( 'message' => 'Failed to Login. ') );
+            }
         }
     }
 
@@ -1991,7 +2027,8 @@ function handle_submit_disablead_form() {
             //$authorize_url ='https://apitest.authorize.net/xml/v1/request.api';
             $authorize_url ='https://api.authorize.net/xml/v1/request.api';
             $redirect_link = rtrim($redirect_link,'/');
-            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&target=disablead&status=success&user_id='.$user_id;
+            $success_nonce = wp_create_nonce( 'submit_ad_buy_form_success' );
+            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&target=disablead&status=success&user_id='.$user_id.'&security='.esc_attr($success_nonce);
             $cancel_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&target=disablead&cancel=true&user_id='.$user_id;
         
          $send_data = '{
@@ -2134,14 +2171,18 @@ add_action('rest_api_init', function () {
     register_rest_route('wpquads/v1', '/paypal_notify_url', array(
         'methods'  => 'POST',
         'callback' => 'wpquads_handle_paypal_notify',
-        'permission_callback' => '__return_true', // You can define your own permissions check
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        }
     ));
 });
 add_action('rest_api_init', function () {
     register_rest_route('wpquads/v1', '/paypal_disable_ad_notify_url', array(
         'methods'  => 'POST',
         'callback' => 'wpquads_handle_paypal_disable_ad_notify',
-        'permission_callback' => '__return_true', // You can define your own permissions check
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        }
     ));
 });
 
