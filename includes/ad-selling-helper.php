@@ -86,6 +86,7 @@ add_action( 'upgrader_process_complete', 'quads_adsell_upgrade_handler', 10, 2 )
 
 add_action( 'init', 'quads_authorize_payment_success' );
 function quads_authorize_payment_success(){
+    
     if ( !is_user_logged_in() ) {
         return false;
     }
@@ -305,7 +306,8 @@ function quads_ads_buy_form() {
     global $wp;
     $redirect_link =  add_query_arg( $_SERVER['QUERY_STRING'], '', home_url( $wp->request ) );
     
-   if( $selected_ad_slot != ""){
+   if( $selected_ad_slot != "" && intval($selected_ad_slot)>0 && isset($ad_list[ $selected_ad_slot ])){
+        $selected_ad_slot = intval($selected_ad_slot);
         $selected_ad_list = $ad_list[ $selected_ad_slot ];
         $end_min_selection = '';
         $end_min_value = '';
@@ -2171,24 +2173,19 @@ add_action('rest_api_init', function () {
     register_rest_route('wpquads/v1', '/paypal_notify_url', array(
         'methods'  => 'POST',
         'callback' => 'wpquads_handle_paypal_notify',
-        'permission_callback' => function () {
-            return is_user_logged_in();
-        }
+        'permission_callback' => '__return_true',
     ));
 });
 add_action('rest_api_init', function () {
     register_rest_route('wpquads/v1', '/paypal_disable_ad_notify_url', array(
         'methods'  => 'POST',
         'callback' => 'wpquads_handle_paypal_disable_ad_notify',
-        'permission_callback' => function () {
-            return is_user_logged_in();
-        }
+        'permission_callback' => '__return_true',
     ));
 });
 
 function wpquads_handle_paypal_notify(WP_REST_Request $request) {
     $params = $request->get_params();
-
     $payment_status = isset($params['payment_status']) ? sanitize_text_field($params['payment_status']) : '';
     $order_id     = isset($params['item_number']) ? intval($params['item_number']) : 0;
     $payer_email    = isset($params['payer_email']) ? sanitize_email($params['payer_email']) : '';
@@ -2196,7 +2193,26 @@ function wpquads_handle_paypal_notify(WP_REST_Request $request) {
     $total_cost = isset($params['mc_gross']) ? floatval($params['mc_gross']) : 0;
     $test_ipn = isset($params['test_ipn']) ? floatval($params['test_ipn']) : 0;
     $user = get_user_by('id', $user_id);
+    $post_data = wp_unslash($params);
 
+    // Prepare PayPal verification request
+    $req = 'cmd=_notify-validate';
+    foreach ($post_data as $key => $value) {
+        $req .= "&$key=" . urlencode($value);
+    }
+
+    // Validate with PayPal
+    //$paypal_url = "https://ipnpb.sandbox.paypal.com/cgi-bin/webscr";
+    $paypal_url = "https://ipnpb.paypal.com/cgi-bin/webscr";
+    $response = wp_remote_post($paypal_url, array(
+        'body'      => $req,
+        'timeout'   => 30,
+        'sslverify' => true,
+    ));
+    if (is_wp_error($response) || wp_remote_retrieve_body($response) !== 'VERIFIED') {
+        return new WP_REST_Response(array('status' => 'error', 'message' => 'PayPal IPN verification failed.'), 404);
+    }
+    $params['re'] = wp_remote_retrieve_body($response);
     // Check if the payment is complete
     if ($user && $payment_status === 'Completed') {
         // Update your database, set ad status to 'active', etc.
@@ -2271,7 +2287,25 @@ function wpquads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
     $total_cost = isset($params['mc_gross']) ? floatval($params['mc_gross']) : 0;
     $test_ipn = isset($params['test_ipn']) ? floatval($params['test_ipn']) : 0;
     $user = get_user_by('id', $user_id);
+    // Prepare PayPal verification request
+    $post_data = wp_unslash($params);
+    $req = 'cmd=_notify-validate';
+    foreach ($post_data as $key => $value) {
+        $req .= "&$key=" . urlencode($value);
+    }
 
+    // Validate with PayPal
+    //$paypal_url = "https://ipnpb.sandbox.paypal.com/cgi-bin/webscr";
+    $paypal_url = "https://ipnpb.paypal.com/cgi-bin/webscr";
+    $response = wp_remote_post($paypal_url, array(
+        'body'      => $req,
+        'timeout'   => 30,
+        'sslverify' => true,
+    ));
+    if (is_wp_error($response) || wp_remote_retrieve_body($response) !== 'VERIFIED') {
+        return new WP_REST_Response(array('status' => 'error', 'message' => 'PayPal IPN verification failed.'), 404);
+    }
+    $params['re'] = wp_remote_retrieve_body($response);
     // Check if the payment is complete
     if ($user && $payment_status === 'Completed') {
         // Update your database, set ad status to 'active', etc.
