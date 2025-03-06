@@ -45,42 +45,6 @@ function quads_create_sellpage_on_activation() {
     }
 }
 add_action( 'admin_init', 'quads_create_sellpage_on_activation' );
-function quads_create_ads_disable_page_on_activation() {
-    // Check if the page already exists
-    $existing_page = get_page_by_path( 'disable-ads' );
-    $quads_disableads_page = get_option( 'quads_disableadspage' , false );
-    $quads_settings = get_option( 'quads_settings' , []);
-
-    if ( $existing_page && ! $quads_disableads_page ) {
-        $quads_settings['dapayment_page'] = $existing_page->ID;
-        update_option( 'quads_settings', $quads_settings , false);
-        update_option( 'quads_disableadspage', true , false);
-        return;
-    }
-
-    // If the page doesn't exist, create a new page
-   
-    if ( ! $existing_page && ! $quads_disableads_page ) {
-        $page_data = array(
-            'post_title'     => esc_html__( 'Hide Ads for Premium Members', 'quick-adsense-reloaded' ),
-            'post_content'   => '[quads_disable_ads_form]',
-            'post_status'    => 'publish',
-            'post_type'      => 'page',
-            'post_author'    => get_current_user_id(),
-            'post_name'      => 'disable-ads', // Custom slug
-        );
-
-        $page_id = wp_insert_post( $page_data ); // Create the page
-
-        if ( $page_id && ! is_wp_error( $page_id ) ) {
-            // Save the page slug or ID in the options table
-            $quads_settings['dapayment_page'] = $page_id;
-            update_option( 'quads_settings', $quads_settings , false);
-            update_option( 'quads_disableadspage', true , false);
-        }
-    }
-}
-//add_action( 'admin_init', 'quads_create_ads_disable_page_on_activation' );
 
 add_action( 'upgrader_process_complete', 'quads_adsell_upgrade_handler', 10, 2 );
 
@@ -112,7 +76,8 @@ function quads_authorize_payment_success(){
             global $wpdb;
             $table_name = $wpdb->prefix . 'quads_adbuy_data';
 
-            $ad_details = $wpdb->get_row("SELECT * FROM $table_name WHERE id = $order_id AND user_id = $user->ID");
+            $prepare_qry = $wpdb->prepare( "SELECT * FROM $table_name WHERE id = %d AND user_id = %d",$order_id,$user->ID );
+            $ad_details = $wpdb->get_row($prepare_qry);
            
             if (!$ad_details) {
                 return false;
@@ -124,10 +89,10 @@ function quads_authorize_payment_success(){
             // return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad already paid'), 400);
             }
             $params = array();
-            $params['payment_date'] = date('Y-m-d H:i:s');
+            $params['payment_date'] = gmdate('Y-m-d H:i:s');
             $wpdb->update(
                 $table_name,
-                array('payment_status' => 'paid' , 'payment_response'=> json_encode($params)), // Data to update
+                array('payment_status' => 'paid' , 'payment_response'=> wp_json_encode($params)), // Data to update
                 array('id' => $order_id , 'user_id'=>$user->ID) 
             );
 
@@ -183,8 +148,8 @@ function quads_authorize_payment_success(){
         if($user){
             global $wpdb;
             $table_name = $wpdb->prefix . 'quads_disabledad_data';
-
-            $ad_details = $wpdb->get_row("SELECT * FROM $table_name WHERE disable_ad_id = $order_id AND user_id = $user->ID");
+            $prepare_qry = $wpdb->prepare( "SELECT * FROM $table_name WHERE disable_ad_id = %d AND user_id = %d",$order_id,$user->ID );
+            $ad_details = $wpdb->get_row($prepare_qry);
            
             if (!$ad_details) {
                 return false;
@@ -197,10 +162,10 @@ function quads_authorize_payment_success(){
             }
             $duration = $ad_details->disable_duration;
             $params = array();
-            $params['payment_date'] = date('Y-m-d H:i:s');
+            $params['payment_date'] = gmdate('Y-m-d H:i:s');
             $wpdb->update(
                 $table_name,
-                array('payment_status' => 'paid' , 'payment_response'=> json_encode($params)), // Data to update
+                array('payment_status' => 'paid' , 'payment_response'=> wp_json_encode($params)), // Data to update
                 array('disable_ad_id' => $order_id , 'user_id'=>$user->ID) 
             );
 
@@ -255,7 +220,6 @@ function quads_adsell_upgrade_handler( $upgrader_object, $options ) {
             foreach ( $options['plugins'] as $plugin ) {
                 if ( strpos( $plugin, 'quick-adsense-reloaded/quick-adsense-reloaded.php' ) !== false ) {
                     quads_create_sellpage_on_activation(); 
-                    //quads_create_ads_disable_page_on_activation(); 
                 }
             }
         }
@@ -317,14 +281,14 @@ function quads_ads_buy_form() {
             $ad_minimum_selection = $selected_ad_list[ 'ad_minimum_selection' ];
             if($ad_minimum_days!="" && $ad_minimum_days>0){
                 if($ad_minimum_selection=='month'){
-                    $st_date = date('Y-m-d');
-                    $end_date = date('Y-m-d', strtotime('+'.$ad_minimum_days.' month'));
+                    $st_date = gmdate('Y-m-d');
+                    $end_date = gmdate('Y-m-d', strtotime('+'.$ad_minimum_days.' month'));
                     $end_min_selection = 'min='.$end_date;
                     $end_min_value = 'value='.$end_date;
                     $ad_selection_info = 'Minimum '.$ad_minimum_days.' month(s) selection is possible for the selected Ad Slot';
                 }else if($ad_minimum_selection=='day'){
-                    $st_date = date('Y-m-d');
-                    $end_date = date('Y-m-d', strtotime('+'.$ad_minimum_days.' day'));
+                    $st_date = gmdate('Y-m-d');
+                    $end_date = gmdate('Y-m-d', strtotime('+'.$ad_minimum_days.' day'));
                     $end_min_selection = 'min='.$end_date;
                     $end_min_value = 'value='.$end_date;
                     $ad_selection_info = 'Minimum '.$ad_minimum_days.' day(s) selection is possible for the selected Ad Slot';
@@ -341,7 +305,8 @@ function quads_ads_buy_form() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_adbuy_data';
     $user_id = get_current_user_id();
-    $my_ads = $wpdb->get_results( "SELECT * FROM $table_name Where user_id = $user_id" );
+    $prepare_qry = $wpdb->prepare("SELECT * FROM $table_name Where user_id = %d",$user_id);
+    $my_ads = $wpdb->get_results( $prepare_qry );
 
 
     // Start output buffering
@@ -509,11 +474,11 @@ function quads_ads_buy_form() {
     <form id="quads-adbuy-form" method="POST" action="<?php echo ($payment_gateway!='stripe')?esc_url(admin_url('admin-ajax.php')):'/process-payment'; ?>" enctype="multipart/form-data">
     <?php
 
-    if (isset($_GET['status']) && $_GET['status'] == 'success') {
+    if (isset( $_GET['status'] ) && $_GET['status'] == 'success') {
         echo '<div class="notice notice-success is-dismissible">
     <p>AD Successfully Submitted. You will get a confirmation email when your payment is confirmed.</p>
 </div>';
-    } elseif (isset($_GET['status']) && $_GET['status'] == 'cancelled') {
+    } elseif (isset( $_GET['status'] ) && $_GET['status'] == 'cancelled') {
         echo '<div class="notice notice-error is-dismissible">
     <p>AD Payment Cancelled. Please try again.</p>
 </div>';
@@ -551,7 +516,7 @@ function quads_ads_buy_form() {
 
 
             <label for="start_date"><?php echo esc_html__('Start Date','quick-adsense-reloaded');?></label>
-            <input type="date" name="start_date" id="start_date" required value="<?php echo esc_attr( date('Y-m-d') );?>" min="<?php echo esc_attr( date('Y-m-d') );?>" onblur="handleChangeDate('blur',this,'start')"/>
+            <input type="date" name="start_date" id="start_date" required value="<?php echo esc_attr( gmdate('Y-m-d') );?>" min="<?php echo esc_attr( gmdate('Y-m-d') );?>" onblur="handleChangeDate('blur',this,'start')"/>
 
             <label for="end_date"><?php echo esc_html__('End Date','quick-adsense-reloaded');?></label>
             <input type="date" name="end_date" id="end_date" required <?php echo isset($end_min_value)? esc_attr($end_min_value) : ''?> <?php echo isset($end_min_selection)?esc_attr($end_min_selection):''?> />
@@ -599,7 +564,7 @@ function quads_ads_buy_form() {
     <?php }?>
     <script>
    
-    let ad_lists = <?php echo json_encode($ad_list)?>;
+    let ad_lists = <?php echo wp_json_encode($ad_list)?>;
     
     let selected_id = '';
     <?php if($selected_ad_slot!=""){?>
@@ -658,13 +623,15 @@ function quads_ads_buy_form() {
             let newDate = '';
             let ad_selection_info = '';
             if(minimumSelection=='day'){
-                newDate = selectedDate.setDate( selectedDate.getDate() + numberOfDaysToAdd );
+                selectedDate.setDate(selectedDate.getDate() + numberOfDaysToAdd); // Add specified days
+                newDate = selectedDate.toISOString().split('T')[0];
                 ad_selection_info = 'Minimum '+numberOfDaysToAdd+' day(s) selection is possible for the selected Ad Slot';
             }else if(minimumSelection=='month'){
                 newDate = selectedDate.setMonth( selectedDate.getMonth() + numberOfDaysToAdd );
                 ad_selection_info = 'Minimum '+numberOfDaysToAdd+' month(s) selection is possible for the selected Ad Slot';
             }
             document.getElementById("ad_selection_info").innerHTML = ad_selection_info;
+          
             if(newDate!=""){
                 newDate = new Date( newDate );
                 let nday = newDate.getDate();
@@ -673,9 +640,12 @@ function quads_ads_buy_form() {
                 nmonth = nmonth.toString().padStart(2, '0');
                 let nyear = newDate.getFullYear();
                 const formattedDate = handleConvertFormat( newDate );
+                
+                let new_date = nyear+'-'+nmonth+'-'+nday;
+                
                 if(type=="start"){
-                    document.getElementById('end_date').value=formattedDate;
-                    document.getElementById('end_date').setAttribute('min', formattedDate);
+                    document.getElementById('end_date').value=new_date;
+                    document.getElementById('end_date').setAttribute('min', new_date);
                 }
                 updateSummary();
             }
@@ -963,11 +933,11 @@ function get_premimum_member_ad_space($user_id){
         $ad_name = get_the_title($ad_id);
         $start_date = $result->start_date;
         $end_date = $result->end_date;
-        $display_date = date('d M Y', strtotime($start_date)).' to '.date('d M Y', strtotime($end_date));
+        $display_date = gmdate('d M Y', strtotime($start_date)).' to '.gmdate('d M Y', strtotime($end_date));
         $results[$key]->ad_name = $ad_name;
         $results[$key]->display_date = $display_date;
 
-        $today = date('Y-m-d');
+        $today = gmdate('Y-m-d');
         $date1 = new DateTime($end_date);
         $date2 = new DateTime($today);
 
@@ -999,11 +969,11 @@ function get_premimum_member_ad_space_on_id($id){
         $ad_name = get_the_title($ad_id);
         $start_date = $result->start_date;
         $end_date = $result->end_date;
-        $display_date = date('d M Y', strtotime($start_date)).' to '.date('d M Y', strtotime($end_date));
+        $display_date = gmdate('d M Y', strtotime($start_date)).' to '.gmdate('d M Y', strtotime($end_date));
         $results[$key]->ad_name = $ad_name;
         $results[$key]->display_date = $display_date;
 
-        $today = date('Y-m-d');
+        $today = gmdate('Y-m-d');
         $date1 = new DateTime($end_date);
         $date2 = new DateTime($today);
 
@@ -1105,18 +1075,18 @@ quads_custom_premimum_memeber_login();
     foreach ($ad_space_list as $key => $value) {
 ?>
     <tr>
-        <td><?= esc_attr($value->ad_name)?></td>
-        <td><?= esc_attr($value->ad_content)?></td>
-        <td><?= esc_url($value->ad_link)?></td>
+        <td><?echo esc_attr($value->ad_name)?></td>
+        <td><?echo esc_attr($value->ad_content)?></td>
+        <td><?echo esc_url($value->ad_link)?></td>
         <td>
-            <p style="white-space:nowrap"><?= esc_attr($value->display_date)?></p>
-            <p style="color:red"><?= esc_attr($value->expire_message)?></p>
+            <p style="white-space:nowrap"><?echo esc_attr($value->display_date)?></p>
+            <p style="color:red"><?echo esc_attr($value->expire_message)?></p>
         </td>
-        <td><?= esc_attr($value->payment_status)?></td>
+        <td><?echo esc_attr($value->payment_status)?></td>
         <td style="display:flex">
-            <a href="?modify_id=<?=intval($value->id)?>&renew_id=<?=intval($value->ad_id)?>"><input type="button" class="button button-primary button-large" value="Modify"></a>
+            <a href="?modify_id=<?echointval($value->id)?>&renew_id=<?echointval($value->ad_id)?>"><input type="button" class="button button-primary button-large" value="Modify"></a>
             
-            <a style="margin-left:5px" href="<?=esc_url($payment_page).'?ad_slot_id='.intval($value->ad_id)?>"><input type="button" class="button button-primary button-large" value="Renew"></a>
+            <a style="margin-left:5px" href="<?echoesc_url($payment_page).'?ad_slot_id='.intval($value->ad_id)?>"><input type="button" class="button button-primary button-large" value="Renew"></a>
         </td>
     </tr>
 <?php } ?>
@@ -1140,24 +1110,24 @@ if(isset($_GET['modify_id'])){
         <h3>Preview Ad Space</h3> 
         <div>
             <label for="ad_link">Ad Link</label>
-            <input type="url" name="ad_link" id="ad_link" required placeholder="Ad Link" value=<?=esc_url($asdata->ad_link)?>>
-            <input type="hidden" name="id" id="id"  value=<?=intval($asdata->id)?>>
+            <input type="url" name="ad_link" id="ad_link" required placeholder="Ad Link" value=<?echoesc_url($asdata->ad_link)?>>
+            <input type="hidden" name="id" id="id"  value=<?echointval($asdata->id)?>>
         </div>
         <div>
             <label for="ad_content">Ad Content</label>
-            <textarea name="ad_content" id="ad_content" rows="4"><?=esc_attr($asdata->ad_content)?></textarea>
+            <textarea name="ad_content" id="ad_content" rows="4"><?echoesc_attr($asdata->ad_content)?></textarea>
         </div>
         <div><label for="ad_image">Ad Image</label></div>
         <div>
             <?php if($asdata->ad_image!=""){?>
-                <img id="ad_image_src" src="<?=esc_url($asdata->ad_image)?>"/>
+                <img id="ad_image_src" src="<?echoesc_url($asdata->ad_image)?>"/>
             <?php }?>
             <input type="file" name="ad_image" id="ad_image" accept="image/*"  onchange="onFileSelected(event)">
         </div>
         <p class="submit">
             <input type="submit" name="submit-update-member-ad-space" class="button button-primary button-large" value="Update Information" style="cursor:pointer">
 
-            <a href="<?= esc_url($payment_page);?>?ad_slot_id=<?=intval($renew_id)?>"><input type="button"  class="button button-primary button-large" value="Renew"></a>
+            <a href="<?echo esc_url($payment_page);?>?ad_slot_id=<?echointval($renew_id)?>"><input type="button"  class="button button-primary button-large" value="Renew"></a>
         </p>
     </form>
     </div>
@@ -1790,7 +1760,7 @@ function handle_ad_buy_form_submission() {
               $resp_data = wp_remote_retrieve_body( $response );
               $re = str_replace( '﻿', '', $resp_data );
 
-              $re = json_encode( $resp_data );
+              $re = wp_json_encode( $resp_data );
               $re = str_replace( '\ufeff', '', $re);
               $re = json_decode( $re );
               $re = json_decode( $re,true );
@@ -1886,28 +1856,39 @@ function quads_verify_paystack_payment(){
         wp_send_json_error( array( 'message' => 'Invalid request.' ) );
     }
     if(isset($_POST['reference'])) {
-        $reference = $_POST['reference'];
-        $secretKey = $_POST['secret_key']; // Replace with your Secret Key
+        $reference = sanitize_text_field( wp_unslash( $_POST['reference'] ) );
+        $secretKey = sanitize_text_field( wp_unslash( $_POST['secret_key'] ) ); // Replace with your Secret Key
     
-        $url = "https://api.paystack.co/transaction/verify/" . $reference;
+        $url = "https://api.paystack.co/transaction/verify/" . esc_attr($reference);
+        $args = [
+            'method'    => 'GET',
+            'headers'   => [
+                'Authorization' => 'Bearer ' . esc_attr($secretKey),
+                'Content-Type'  => 'application/json',
+            ],
+            'timeout'   => 45, // Set timeout to avoid delays
+        ];
     
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer $secretKey"]);
-        
-        $response = curl_exec($ch);
-        curl_close($ch);
-        
-        $result = json_decode($response, true);
+        // Send the request
+        $response = wp_remote_get($url, $args);
     
-        if($result['status'] && $result['data']['status'] == 'success') {
-            echo 1; 
-            die;
-        } else {
-            echo 2; 
+        if (is_wp_error($response)) {
+            echo 3;
             die;
         }
+    
+        // Get the response body
+        $body = wp_remote_retrieve_body($response);
+        $result = json_decode($body, true);
+    
+        if (!isset($result['data']) || $result['status'] !== true) {
+            echo 2;
+            die;
+        }
+    
+        echo 1; 
+        die;
+       
     } else {
         echo 3; 
         die;
@@ -1983,7 +1964,7 @@ function handle_submit_disablead_form() {
         'disable_duration' =>$_daduration,
         'username' =>$user_name,
         'user_email' =>$user_email,
-        'disable_date' =>date('Y-m-d'),
+        'disable_date' =>gmdate('Y-m-d'),
         'payment_status' => 'pending', // Update after payment
         'disable_status'      => 'pending', // Set to pending until approved
     ) );
@@ -2102,7 +2083,7 @@ function handle_submit_disablead_form() {
               $resp_data = wp_remote_retrieve_body( $response );
               $re = str_replace( '﻿', '', $resp_data );
 
-              $re = json_encode( $resp_data );
+              $re = wp_json_encode( $resp_data );
               $re = str_replace( '\ufeff', '', $re);
               $re = json_decode( $re );
               $re = json_decode( $re,true );
@@ -2219,8 +2200,9 @@ function wpquads_handle_paypal_notify(WP_REST_Request $request) {
         // Example: Mark the ad as paid in your custom table
         global $wpdb;
         $table_name = $wpdb->prefix . 'quads_adbuy_data';
-
-        $ad_details = $wpdb->get_row("SELECT * FROM $table_name WHERE id = $order_id AND user_id = $user->ID");
+       
+        $prepare_qry = $wpdb->prepare("SELECT * FROM $table_name WHERE id = %d AND user_id = %d",$order_id,$user->ID);
+        $ad_details = $wpdb->get_row($prepare_qry);
         if (!$ad_details) {
             return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad not found'), 404);
         }
@@ -2231,7 +2213,7 @@ function wpquads_handle_paypal_notify(WP_REST_Request $request) {
         
         $wpdb->update(
             $table_name,
-            array('payment_status' => 'paid' , 'payment_response'=> json_encode($params)), // Data to update
+            array('payment_status' => 'paid' , 'payment_response'=> wp_json_encode($params)), // Data to update
             array('id' => $order_id , 'user_id'=>$user->ID) 
         );
 
@@ -2246,7 +2228,7 @@ function wpquads_handle_paypal_notify(WP_REST_Request $request) {
         $message = esc_html__( 'Your ad payment has been confirmed. Your ad will be live soon.', 'quick-adsense-reloaded' ).PHP_EOL;
         //also add the ad details in the email
         $ad_details_html .= 'Ad Details: '.PHP_EOL;
-        $ad_details_html .= 'Ad Slot: ' . get_the_title($ad_details->ad_id ) . PHP_EOL;
+        $ad_details_html .= 'Ad Slot: ' . esc_attr(get_the_title($ad_details->ad_id )) . PHP_EOL;
         $ad_details_html .= 'Start Date: ' . esc_html($ad_details->start_date) . PHP_EOL;
         $ad_details_html .= 'End Date: ' .  esc_html($ad_details->end_date) . PHP_EOL;
         $ad_details_html .= 'Ad Link: ' .  esc_html($ad_details->ad_link) . PHP_EOL;
@@ -2313,8 +2295,8 @@ function wpquads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'quads_disabledad_data';
 
-        $ad_details = $wpdb->get_row("SELECT * FROM $table_name WHERE disable_ad_id = $order_id AND user_id = $user->ID");
-        
+        $prepare_qry = $wpdb->prepare( "SELECT * FROM $table_name WHERE disable_ad_id = %d AND user_id = %d",$order_id,$user->ID );
+        $ad_details = $wpdb->get_row($prepare_qry);
         if (!$ad_details) {
             return false;
             //return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad not found'), 404);
@@ -2326,10 +2308,10 @@ function wpquads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
         }
         $duration = $ad_details->disable_duration;
         $params = array();
-        $params['payment_date'] = date('Y-m-d H:i:s');
+        $params['payment_date'] = gmdate('Y-m-d H:i:s');
         $wpdb->update(
             $table_name,
-            array('payment_status' => 'paid' , 'payment_response'=> json_encode($params)), // Data to update
+            array('payment_status' => 'paid' , 'payment_response'=> wp_json_encode($params)), // Data to update
             array('disable_ad_id' => $order_id , 'user_id'=>$user->ID) 
         );
 
@@ -2433,8 +2415,8 @@ add_action( 'quads_daily_check_expired_sellads', 'quads_check_expired_sellads' )
  * Checks for ads that expired yesterday and ads expiring in two days, sending notification emails accordingly.
  */
 function quads_check_expired_sellads() {
-    $yesterday = date( 'Y-m-d', strtotime( '-1 day', current_time( 'timestamp' ) ) );
-    $two_days_ahead = date( 'Y-m-d', strtotime( '+2 days', current_time( 'timestamp' ) ) );
+    $yesterday = gmdate( 'Y-m-d', strtotime( '-1 day', current_time( 'timestamp' ) ) );
+    $two_days_ahead = gmdate( 'Y-m-d', strtotime( '+2 days', current_time( 'timestamp' ) ) );
 
     $query_args = [
         'post_type'      => 'quads-ads',
