@@ -1075,18 +1075,18 @@ quads_custom_premimum_memeber_login();
     foreach ($ad_space_list as $key => $value) {
 ?>
     <tr>
-        <td><?echo esc_attr($value->ad_name)?></td>
-        <td><?echo esc_attr($value->ad_content)?></td>
-        <td><?echo esc_url($value->ad_link)?></td>
+        <td><?php echo esc_attr($value->ad_name)?></td>
+        <td><?php echo esc_attr($value->ad_content)?></td>
+        <td><?php echo esc_url($value->ad_link)?></td>
         <td>
-            <p style="white-space:nowrap"><?echo esc_attr($value->display_date)?></p>
-            <p style="color:red"><?echo esc_attr($value->expire_message)?></p>
+            <p style="white-space:nowrap"><?php echo esc_attr($value->display_date)?></p>
+            <p style="color:red"><?php echo esc_attr($value->expire_message)?></p>
         </td>
-        <td><?echo esc_attr($value->payment_status)?></td>
+        <td><?php echo esc_attr($value->payment_status)?></td>
         <td style="display:flex">
-            <a href="?modify_id=<?echointval($value->id)?>&renew_id=<?echointval($value->ad_id)?>"><input type="button" class="button button-primary button-large" value="Modify"></a>
+            <a href="?modify_id=<?php echo intval($value->id)?>&renew_id=<?php echo intval($value->ad_id)?>"><input type="button" class="button button-primary button-large" value="Modify"></a>
             
-            <a style="margin-left:5px" href="<?echoesc_url($payment_page).'?ad_slot_id='.intval($value->ad_id)?>"><input type="button" class="button button-primary button-large" value="Renew"></a>
+            <a style="margin-left:5px" href="<?php echo esc_url($payment_page).'?ad_slot_id='.intval($value->ad_id)?>"><input type="button" class="button button-primary button-large" value="Renew"></a>
         </td>
     </tr>
 <?php } ?>
@@ -1110,24 +1110,24 @@ if(isset($_GET['modify_id'])){
         <h3>Preview Ad Space</h3> 
         <div>
             <label for="ad_link">Ad Link</label>
-            <input type="url" name="ad_link" id="ad_link" required placeholder="Ad Link" value=<?echoesc_url($asdata->ad_link)?>>
-            <input type="hidden" name="id" id="id"  value=<?echointval($asdata->id)?>>
+            <input type="url" name="ad_link" id="ad_link" required placeholder="Ad Link" value=<?php echo esc_url($asdata->ad_link)?>>
+            <input type="hidden" name="id" id="id"  value=<?php echo intval($asdata->id)?>>
         </div>
         <div>
             <label for="ad_content">Ad Content</label>
-            <textarea name="ad_content" id="ad_content" rows="4"><?echoesc_attr($asdata->ad_content)?></textarea>
+            <textarea name="ad_content" id="ad_content" rows="4"><?php echo esc_attr($asdata->ad_content)?></textarea>
         </div>
         <div><label for="ad_image">Ad Image</label></div>
         <div>
             <?php if($asdata->ad_image!=""){?>
-                <img id="ad_image_src" src="<?echoesc_url($asdata->ad_image)?>"/>
+                <img id="ad_image_src" src="<?php echo esc_url($asdata->ad_image)?>"/>
             <?php }?>
             <input type="file" name="ad_image" id="ad_image" accept="image/*"  onchange="onFileSelected(event)">
         </div>
         <p class="submit">
             <input type="submit" name="submit-update-member-ad-space" class="button button-primary button-large" value="Update Information" style="cursor:pointer">
 
-            <a href="<?echo esc_url($payment_page);?>?ad_slot_id=<?echointval($renew_id)?>"><input type="button"  class="button button-primary button-large" value="Renew"></a>
+            <a href="<?php echo esc_url($payment_page);?>?ad_slot_id=<?php echo intval($renew_id)?>"><input type="button"  class="button button-primary button-large" value="Renew"></a>
         </p>
     </form>
     </div>

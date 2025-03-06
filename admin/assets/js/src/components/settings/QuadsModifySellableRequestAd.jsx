@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import 'regenerator-runtime/runtime';
 import './QuadsAdSellList.scss';
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 const {__} = wp.i18n;
 const QuadsModifySellableRequestAd = (props) => {
     const [ad_image, setAdImage] = useState('');
@@ -59,6 +60,28 @@ const QuadsModifySellableRequestAd = (props) => {
         }
         );  
     }
+    const handleChangeDateFormat = (newDate) =>{
+        let nday = newDate.getDate();
+        nday = nday.toString().padStart(2, '0');
+        let nmonth = newDate.getMonth() + 1;
+        nmonth = nmonth.toString().padStart(2, '0');
+        let nyear = newDate.getFullYear();
+        let new_date = nyear+'-'+nmonth+'-'+nday;
+        return new_date;
+    }
+    const handleSelectStartDate = (eve) => {
+        let adata = {...ad_data};
+        eve = handleChangeDateFormat(eve);
+        adata['start_date'] = eve;
+        setAdData(adata); 
+    }
+    const handleSelectEndDate = (eve) => {
+        let adata = {...ad_data};
+        eve = handleChangeDateFormat(eve);
+        adata['end_date'] = eve;
+        setAdData(adata);
+       // this.setState({cust_fromdate:eve}) ;   
+    }
     return (
         <>
         {(ad_data.ad_content) &&
@@ -77,9 +100,17 @@ const QuadsModifySellableRequestAd = (props) => {
                                 <label>Enter Ad Link</label>
                                 <input type='text' style={{width:'100%'}} placeholder='Enter Ad Link' value={ad_data.ad_link} onChange={(e)=>handleChangeAdData(e.target.value,'ad_link')}/>
                             </div>
+                            <div style={{marginTop:'10px'}}>
+                                <label>Start Date</label><br />
+                                <DatePicker id={"fromdate"} placeholderText="Start Date" dateFormat="dd/MM/yyyy" onChange={handleSelectStartDate} value={ad_data.start_date} selected={new Date(ad_data.start_date)}/>
+                            </div>
+                            <div style={{marginTop:'10px'}}>
+                                <label>End Date</label><br />
+                                <DatePicker id={"enddate"} placeholderText="End Date" dateFormat="dd/MM/yyyy" onChange={handleSelectEndDate} value={ad_data.end_date} selected={new Date(ad_data.end_date)}/>
+                            </div>
                             {(ad_data.ad_image!=="") &&
                             <div style={{marginTop:'10px'}}>
-                                <img src={ad_data.ad_image}  id="new_ad_image" style={{width:'150px'}}/>
+                                <img src={ad_data.ad_image}  id="new_ad_image" style={{width:'150px'}} />
                             </div>
                             }
                             {(ad_data.ad_image==="" && ad_image!=="") &&

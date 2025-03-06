@@ -113,6 +113,8 @@ function quads_update_ad_request_data(){
         $update_data = array();
         $update_data['ad_link'] =  esc_url($ad_data['ad_link']);
         $update_data['ad_content'] =  esc_attr($ad_data['ad_content']);
+        $update_data['start_date'] =  gmdate('Y-m-d H:i:s', strtotime($ad_data['start_date']));
+        $update_data['end_date'] =    gmdate('Y-m-d H:i:s', strtotime($ad_data['end_date']));
         if ( ! empty( $_FILES['ad_image']['name'] ) ) {
             require_once ABSPATH . 'wp-admin/includes/file.php';
             $uploaded_file = wp_handle_upload( $_FILES['ad_image'], array( 'test_form' => false ) );

@@ -1963,6 +1963,7 @@ return array('status' => 't');
                 $filter_not_by = sanitize_text_field( wp_unslash( $_GET['filter_not_by'] ) );
             }
             $result = $this->api_service->getAdDataByParam($post_type, $attr, $rvcount, $paged, $offset, $search_param , $filter_by , $sort_by, $filter_not_by);
+           
             return $result;
 
         }
@@ -2047,8 +2048,11 @@ return array('status' => 't');
                 if($result->ad_status=='approved'){
                     $results[$key]->expiring_in = $expiring_in;
                 }
-
-                $date_display = date('d M Y', strtotime($result->start_date)).' to '.date('d M Y', strtotime($result->end_date));
+              
+                $results[$key]->start_date = gmdate('Y-m-d', strtotime($result->start_date));
+                $results[$key]->end_date = gmdate('Y-m-d', strtotime($result->end_date));
+            
+                $date_display = gmdate('d M Y', strtotime($result->start_date)).' to '.gmdate('d M Y', strtotime($result->end_date));
                 $results[$key]->date_display = $date_display;
 
                 $results[$key]->ad_name = $ad_name;
