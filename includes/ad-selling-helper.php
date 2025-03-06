@@ -1063,11 +1063,11 @@ quads_custom_premimum_memeber_login();
     
     <table id="prem-member-subs-table">
         <thead>
-            <th>Ad Space Name</th>
-            <th>Add Content</th>
-            <th>Add Link</th>
-            <th>Duration</th>
-            <th>Status</th>
+            <th><?php echo esc_html__('Ad Space Name','quick-adsense-reloaded');?></th>
+            <th><?php echo esc_html__('Add Content','quick-adsense-reloaded');?></th>
+            <th><?php echo esc_html__('Add Link','quick-adsense-reloaded');?></th>
+            <th><?php echo esc_html__('Duration','quick-adsense-reloaded');?></th>
+            <th><?php echo esc_html__('Status','quick-adsense-reloaded');?></th>
             <th></th>
         </thead>
         <tbody>
