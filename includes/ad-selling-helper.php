@@ -54,11 +54,10 @@ function quads_authorize_payment_success(){
     if ( !is_user_logged_in() ) {
         return false;
     }
-    if(isset($_GET['status']) && $_GET['status']=='success' && isset($_GET['ad_slot_id']) && $_GET['ad_slot_id']>0 && isset($_GET['refId']) && $_GET['refId']!="" && isset($_GET['user_id']) && $_GET['user_id'] && !isset($_GET['target']) && isset($_GET['security']) && $_GET['security']!=""){
-        if( ! wp_verify_nonce( $_GET['security'], 'security' ) ){
-            return;
-        }
-
+    if( !isset( $_GET[ 'security' ] ) || ! wp_verify_nonce( $_GET[ 'security' ], 'security' )){ 
+        return false;
+    }
+    if( isset( $_GET['status'] ) && $_GET['status']=='success' && isset( $_GET['ad_slot_id'] ) && $_GET['ad_slot_id'] > 0 && isset( $_GET['refId'] ) && $_GET['refId'] != "" && isset( $_GET['user_id'] ) && intval( $_GET['user_id'] ) >0 && !isset( $_GET['target'] )){
         $slot_id = sanitize_text_field( wp_unslash( $_GET['ad_slot_id'] ) );
         $slot_id = intval($slot_id);
         $order_id = sanitize_text_field( wp_unslash( $_GET['refId'] ) );
@@ -76,17 +75,15 @@ function quads_authorize_payment_success(){
             global $wpdb;
             $table_name = $wpdb->prefix . 'quads_adbuy_data';
 
-            $prepare_qry = $wpdb->prepare( "SELECT * FROM $table_name WHERE id = %d AND user_id = %d",$order_id,$user->ID );
-            $ad_details = $wpdb->get_row($prepare_qry);
+            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM $table_name WHERE id = %d AND user_id = %d",$order_id,$user->ID ));
            
             if (!$ad_details) {
                 return false;
-                //return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad not found'), 404);
+                
             }
             $payment_status = 'paid';
             if ($ad_details->payment_status === 'paid') {
                 return false;
-            // return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad already paid'), 400);
             }
             $params = array();
             $params['payment_date'] = gmdate('Y-m-d H:i:s');
@@ -137,10 +134,8 @@ function quads_authorize_payment_success(){
             $headers = array('Content-Type: text/html; charset=UTF-8');
             wp_mail( $to, $subject, $message, $headers );
         }
-    }else if(isset($_GET['status']) && $_GET['status']=='success' && isset($_GET['refId']) && $_GET['refId']!="" && isset($_GET['user_id']) && $_GET['user_id'] && isset($_GET['target']) && $_GET['target']=='disablead'  && isset($_GET['security']) && $_GET['security']!=""){
-        if( ! wp_verify_nonce( $_GET['security'], 'security' ) ){
-            return;
-        }
+    }else if( isset( $_GET['status'] ) && $_GET['status'] == 'success' && isset( $_GET['refId'] ) && $_GET['refId'] != "" && isset( $_GET['user_id'] ) && intval( $_GET['user_id'] ) > 0 && isset( $_GET['target'] ) && $_GET['target'] == 'disablead' ){
+       
         $order_id = sanitize_text_field( wp_unslash( $_GET['refId'] ) );
         $user_id = sanitize_text_field( wp_unslash( $_GET['user_id'] ) );
         
@@ -148,17 +143,15 @@ function quads_authorize_payment_success(){
         if($user){
             global $wpdb;
             $table_name = $wpdb->prefix . 'quads_disabledad_data';
-            $prepare_qry = $wpdb->prepare( "SELECT * FROM $table_name WHERE disable_ad_id = %d AND user_id = %d",$order_id,$user->ID );
-            $ad_details = $wpdb->get_row($prepare_qry);
+            
+            $ad_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table_name WHERE disable_ad_id = %d AND user_id = %d", $order_id,$user->ID ) );
            
             if (!$ad_details) {
                 return false;
-                //return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad not found'), 404);
             }
             $payment_status = 'paid';
             if ($ad_details->payment_status === 'paid') {
                 return false;
-            // return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad already paid'), 400);
             }
             $duration = $ad_details->disable_duration;
             $params = array();
@@ -268,7 +261,7 @@ function quads_ads_buy_form() {
         }
     }
     global $wp;
-    $redirect_link =  add_query_arg( $_SERVER['QUERY_STRING'], '', home_url( $wp->request ) );
+    $redirect_link =  ( isset( $_SERVER['QUERY_STRING'] ) )?add_query_arg( wp_unslash( $_SERVER['QUERY_STRING'] ), '', home_url( $wp->request ) ):'';
     
    if( $selected_ad_slot != "" && intval($selected_ad_slot)>0 && isset($ad_list[ $selected_ad_slot ])){
         $selected_ad_slot = intval($selected_ad_slot);
@@ -305,8 +298,7 @@ function quads_ads_buy_form() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_adbuy_data';
     $user_id = get_current_user_id();
-    $prepare_qry = $wpdb->prepare("SELECT * FROM $table_name Where user_id = %d",$user_id);
-    $my_ads = $wpdb->get_results( $prepare_qry );
+    $my_ads = $wpdb->get_results(  $wpdb->prepare( "SELECT * FROM $table_name Where user_id = %d", $user_id ) );
 
 
     // Start output buffering
@@ -476,11 +468,10 @@ function quads_ads_buy_form() {
 
     if (isset( $_GET['status'] ) && $_GET['status'] == 'success') {
         echo '<div class="notice notice-success is-dismissible">
-    <p>AD Successfully Submitted. You will get a confirmation email when your payment is confirmed.</p>
-</div>';
+                <p>'.esc_html__('AD Successfully Submitted. You will get a confirmation email when your payment is confirmed.','quick-adsense-reloaded').'</p></div>';
     } elseif (isset( $_GET['status'] ) && $_GET['status'] == 'cancelled') {
         echo '<div class="notice notice-error is-dismissible">
-    <p>AD Payment Cancelled. Please try again.</p>
+    <p>'.esc_html__('AD Payment Cancelled. Please try again.','quick-adsense-reloaded').'</p>
 </div>';
     }
     ?>
@@ -873,12 +864,13 @@ if ( $disable_ads ) {
     add_shortcode( 'quads_disable_ads_form', 'quads_ads_disable_form' );
 }
 function quads_custom_premimum_memeber_login() {
-    if (isset($_POST['username']) && isset($_POST['password'])) {
+    
+    if ( isset($_POST['username']) && isset($_POST['password']) && isset($_POST['nonce']) && wp_verify_nonce( $_POST['nonce'], 'member_login_form' ) ) {
         global $wp;
         $redirect_url = home_url( $wp->request );
         $creds = array(
-            'user_login'    => $_POST['username'],
-            'user_password' => $_POST['password'],
+            'user_login'    => sanitize_text_field( wp_unslash( $_POST['username'] ) ),
+            'user_password' => sanitize_text_field( wp_unslash( $_POST['password'] ) ),
             'remember'      => true
         );
         $user = wp_signon($creds, false);
@@ -891,13 +883,12 @@ function quads_custom_premimum_memeber_login() {
     }
 }
 function quads_update_member_subscription() {
-    if (isset($_POST['id']) && isset($_POST['ad_link']) && isset($_POST['ad_content']) && isset($_POST['submit-update-member-ad-space'])) {
-        
+    if (isset($_POST['id']) && isset($_POST['ad_link']) && isset($_POST['ad_content']) && isset($_POST['submit-update-member-ad-space']) && isset($_POST['nonce'])  && wp_verify_nonce( $_POST['nonce'], 'member_subscription' )) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'quads_adbuy_data'; 
         $update_data = array();
         $update_data['ad_link'] =  esc_url($_POST['ad_link']);
-        $update_data['ad_content'] =  esc_attr($_POST['ad_content']);
+        $update_data['ad_content'] =  sanitize_text_field( wp_unslash( $_POST['ad_content'] ) );
         if ( ! empty( $_FILES['ad_image']['name'] ) ) {
             require_once ABSPATH . 'wp-admin/includes/file.php';
             $uploaded_file = wp_handle_upload( $_FILES['ad_image'], array( 'test_form' => false ) );
@@ -909,7 +900,7 @@ function quads_update_member_subscription() {
         $status = $wpdb->update(
             $table_name,
             $update_data,
-            ['id' => $_POST['id']]
+            ['id' => intval($_POST['id'])]
         );
         global $wp;
         $redirect_url = home_url( $wp->request );
@@ -923,10 +914,8 @@ function get_premimum_member_ad_space($user_id){
    
     // Query the records
     /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
-    $results = $wpdb->get_results($wpdb->prepare(
-        "SELECT * FROM $table_name WHERE payment_status = %s and user_id = $user_id ORDER BY id DESC",
-        'paid'
-    ));
+    $results = $wpdb->get_results( $wpdb->prepare(
+        "SELECT * FROM $table_name WHERE payment_status = %s and user_id = %d ORDER BY id DESC", 'paid', $user_id ) );
    
     foreach ($results as $key => $result) {
         $ad_id = $result->ad_id;
@@ -945,7 +934,7 @@ function get_premimum_member_ad_space($user_id){
         $days = $interval->days;
         $expire_message = '';
         if($today>$end_date){
-            $expire_message = 'Expired '.$days.' ago';
+            $expire_message = 'Expired '.$days.' days ago';
         }else{
             $expire_message = 'Expring in '.$days.' days';
         }
@@ -960,8 +949,7 @@ function get_premimum_member_ad_space_on_id($id){
     // Query the records
     /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
     $results = $wpdb->get_results($wpdb->prepare(
-        "SELECT * FROM $table_name WHERE payment_status = %s and id = $id ORDER BY id DESC",
-        'paid'
+        "SELECT * FROM $table_name WHERE payment_status = %s and id = %d ORDER BY id DESC", 'paid', $id
     ));
    
     foreach ($results as $key => $result) {
@@ -1020,8 +1008,9 @@ if($user_id==0){?>
                 <div class="wp-pwd">
                     <input type="password" name="password" id="user_pass" class="input password-input" value="" size="20" autocomplete="current-password" spellcheck="false" required="required">
                 </div>
-            </div>
+            </div> 
             <p class="submit">
+                <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce( 'member_login_form' ));?>" />
                 <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="Log In">
             </p>
         </form>
@@ -1059,7 +1048,7 @@ quads_custom_premimum_memeber_login();
 }
 </style>
 <div class="login preview-ad-space">
-    <form style="overflow-x:auto">
+    
     
     <table id="prem-member-subs-table">
         <thead>
@@ -1071,9 +1060,9 @@ quads_custom_premimum_memeber_login();
             <th></th>
         </thead>
         <tbody>
-    <?php
-    foreach ($ad_space_list as $key => $value) {
-?>
+        <?php
+        foreach ($ad_space_list as $key => $value) {
+    ?>
     <tr>
         <td><?php echo esc_attr($value->ad_name)?></td>
         <td><?php echo esc_attr($value->ad_content)?></td>
@@ -1085,21 +1074,20 @@ quads_custom_premimum_memeber_login();
         <td><?php echo esc_attr($value->payment_status)?></td>
         <td style="display:flex">
             <a href="?modify_id=<?php echo intval($value->id)?>&renew_id=<?php echo intval($value->ad_id)?>"><input type="button" class="button button-primary button-large" value="Modify"></a>
-            
             <a style="margin-left:5px" href="<?php echo esc_url($payment_page).'?ad_slot_id='.intval($value->ad_id)?>"><input type="button" class="button button-primary button-large" value="Renew"></a>
         </td>
     </tr>
 <?php } ?>
     </tbody>
     </table>
-    </form>
+    
     </div>
 <?php
 }
-if(isset($_GET['modify_id'])){
-    $modify_id = $_GET['modify_id'];
-    $renew_id = $_GET['renew_id'];
-    $ad_space_list = get_premimum_member_ad_space_on_id($modify_id);
+if( isset( $_GET['modify_id'] ) && !empty( $_GET['modify_id'] ) ){
+    $modify_id = sanitize_text_field( wp_unslash( $_GET['modify_id'] ) );
+    $renew_id = sanitize_text_field( wp_unslash( $_GET['renew_id'] ) );
+    $ad_space_list = get_premimum_member_ad_space_on_id( $modify_id );
     $asdata = $ad_space_list[0];
     $quads_settings = get_option( 'quads_settings' );
     $da_page_id = isset($quads_settings['payment_page']) ? $quads_settings['payment_page'] : 0;
@@ -1107,17 +1095,17 @@ if(isset($_GET['modify_id'])){
 ?>
     <div class="login preview-ad-space">
     <form name="loginform" id="loginform" method="post" enctype="multipart/form-data">
-        <h3>Preview Ad Space</h3> 
+        <h3><?php echo esc_html__( 'Preview Ad Space','quick-adsense-reloaded' ); ?></h3> 
         <div>
-            <label for="ad_link">Ad Link</label>
+            <label for="ad_link"><?php echo esc_html__( 'Ad Link','quick-adsense-reloaded' ); ?></label> 
             <input type="url" name="ad_link" id="ad_link" required placeholder="Ad Link" value=<?php echo esc_url($asdata->ad_link)?>>
             <input type="hidden" name="id" id="id"  value=<?php echo intval($asdata->id)?>>
         </div>
         <div>
-            <label for="ad_content">Ad Content</label>
+            <label for="ad_content"><?php echo esc_html__( 'Ad Content','quick-adsense-reloaded' ); ?></label>
             <textarea name="ad_content" id="ad_content" rows="4"><?php echo esc_attr($asdata->ad_content)?></textarea>
         </div>
-        <div><label for="ad_image">Ad Image</label></div>
+        <div><label for="ad_image"><?php echo esc_html__( 'Ad Image','quick-adsense-reloaded' ); ?></label></div>
         <div>
             <?php if($asdata->ad_image!=""){?>
                 <img id="ad_image_src" src="<?php echo esc_url($asdata->ad_image)?>"/>
@@ -1125,9 +1113,11 @@ if(isset($_GET['modify_id'])){
             <input type="file" name="ad_image" id="ad_image" accept="image/*"  onchange="onFileSelected(event)">
         </div>
         <p class="submit">
-            <input type="submit" name="submit-update-member-ad-space" class="button button-primary button-large" value="Update Information" style="cursor:pointer">
+        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce( 'member_subscription' ));?>" />
 
-            <a href="<?php echo esc_url($payment_page);?>?ad_slot_id=<?php echo intval($renew_id)?>"><input type="button"  class="button button-primary button-large" value="Renew"></a>
+            <input type="submit" name="submit-update-member-ad-space" class="button button-primary button-large" value="<?php echo esc_html__( 'Update Information','quick-adsense-reloaded' );?>" style="cursor:pointer">
+ 
+            <a href="<?php echo esc_url($payment_page);?>?ad_slot_id=<?php echo intval($renew_id)?>"><input type="button"  class="button button-primary button-large" value="<?php echo esc_html__( 'Renew','quick-adsense-reloaded' );?>"></a>
         </p>
     </form>
     </div>
@@ -1410,20 +1400,18 @@ function quads_ads_disable_form(){
     $user_id = get_current_user_id();
     if (isset($_GET['status']) && $_GET['status'] == 'success') {
         echo '<div class="_danotice _danotice-success _dais-dismissible">
-        <p>Successfully Submitted. You will get a confirmation email when your payment is confirmed.</p>
-    </div>';
+        <p>'. esc_html__( 'Successfully Submitted. You will get a confirmation email when your payment is confirmed.','quick-adsense-reloaded' ).'</p></div>';
         } elseif (isset($_GET['status']) && $_GET['status'] == 'cancelled') {
             echo '<div class="_danotice _danotice-error _dais-dismissible">
-        <p>Payment Cancelled. Please try again.</p>
-    </div>';
+        <p>'.esc_html__( 'Payment Cancelled. Please try again.','quick-adsense-reloaded').'</p></div>';
         }
 ?>
 <div class="da-payment-box2">
    <div class="da-payment-box3">
-       <p class="da-title1"><?php echo $_daduration;?></p>
+       <p class="da-title1"><?php echo esc_attr($_daduration);?></p>
        <div class="da-content-box">
-           <p class="da-sub-content">$<?php echo $_dacost?></p>
-           <p class="da-sub-content2">Take your browsing to the next level by upgrading to our premium plan, where you can enjoy an uninterrupted, completely ad-free experience, ensuring faster loading times, a cleaner interface, and seamless access to all your favorite content without any distractions</p>
+           <p class="da-sub-content">$<?php echo esc_attr($_dacost)?></p>
+           <p class="da-sub-content2"><?php echo esc_html__('Take your browsing to the next level by upgrading to our premium plan, where you can enjoy an uninterrupted, completely ad-free experience, ensuring faster loading times, a cleaner interface, and seamless access to all your favorite content without any distractions','quick-adsense-reloaded');?></p>
        </div>
        <button type="button" class="da-subcribe-btn" onclick="openAdsBlockForm()">Subscribe</button>
    </div>
@@ -1574,9 +1562,9 @@ function handle_ad_buy_form_submission() {
 
     // If user is not logged in, register them using the provided info
     if ( ! $user_id ) {
-        $full_name = sanitize_text_field( wp_unslash( $_POST['full_name']  ) );
-        $email = sanitize_email( wp_unslash( $_POST['email'] )  );
-        $password = sanitize_text_field( wp_unslash( $_POST['password'] ) );
+        $full_name = ( isset( $_POST['full_name'] ) )?sanitize_text_field( wp_unslash( $_POST['full_name']  ) ) :'';
+        $email = ( isset( $_POST['email'] ) )? sanitize_email( wp_unslash( $_POST['email'] ) ):'';
+        $password = ( isset( $_POST['password'] ) )? sanitize_text_field( wp_unslash( $_POST['password'] ) ) : '';
 
         if ( empty( $full_name ) || empty( $email ) || empty( $password ) ) {
             wp_send_json_error( array( 'message' => 'Please fill in all fields.' ) );
@@ -1601,12 +1589,12 @@ function handle_ad_buy_form_submission() {
     }
 
     // Sanitize and validate the remaining fields
-    $redirect_link  = esc_url_raw( wp_unslash( $_POST['redirect_link'] ) );
-    $cancel_link  = intval( wp_unslash($_POST['cancel_link'] ) );
-    $ad_slot_id  = intval( wp_unslash($_POST['ad_slot_id'] ) );
-    $start_date  = sanitize_text_field( wp_unslash($_POST['start_date'] ) );
-    $end_date    = sanitize_text_field( wp_unslash($_POST['end_date'] ) );
-    $ad_link     = esc_url_raw( wp_unslash( $_POST['ad_link'] ) );
+    $redirect_link  = isset( $_POST['redirect_link'] )? esc_url_raw( wp_unslash( $_POST['redirect_link'] ) ) : '';
+    $cancel_link  = isset( $_POST['cancel_link'] )? intval( wp_unslash($_POST['cancel_link'] ) ) : '';
+    $ad_slot_id  = isset( $_POST['ad_slot_id'] )? intval( wp_unslash($_POST['ad_slot_id'] ) ) : '';
+    $start_date  = isset( $_POST['start_date'] )? sanitize_text_field( wp_unslash($_POST['start_date'] ) ) : '';
+    $end_date    = isset( $_POST['end_date'] )? sanitize_text_field( wp_unslash($_POST['end_date'] ) ) : '';
+    $ad_link     = isset( $_POST['ad_link'] )? esc_url_raw( wp_unslash( $_POST['ad_link'] ) ) : '';
     $ad_content  = isset($_POST['ad_content']) ? sanitize_textarea_field( wp_unslash ($_POST['ad_content'] ) ):'';
     $ad_image    = ''; // Initialize the ad image URL
 
@@ -1691,63 +1679,91 @@ function handle_ad_buy_form_submission() {
             $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id ).'&security='.esc_attr($success_nonce);
             $cancel_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
         
-         $send_data = '{
-                "getHostedPaymentPageRequest": {
-                  "merchantAuthentication": {
-                    "name": "'.esc_attr( $authorize_name ).'",
-                    "transactionKey": "'.esc_attr( $authorize_transactionKey ).'"
-                  },
-                  "refId": "'.esc_attr( $order_id ).'",
-                  "transactionRequest": {
-                    "transactionType": "authCaptureTransaction",
-                    "amount": "'.esc_attr( $total_cost ).'",
-                    "profile": {
-                      "customerProfileId": "'.esc_attr( $user_id ).'"
-                    },
-                    "customer": {
-                      "email": ""
-                    }
-                  },
-                  "hostedPaymentSettings": {
-                    "setting": [{
-                      "settingName": "hostedPaymentReturnOptions",
-                      "settingValue": "{\"showReceipt\": true, \"url\": \"'.esc_url( $success_link ).'\", \"urlText\": \"Continue\", \"cancelUrl\": \"'.esc_url( $cancel_link ).'\", \"cancelUrlText\": \"Cancel\"}"
-                    }, {
-                      "settingName": "hostedPaymentButtonOptions",
-                      "settingValue": "{\"text\": \"Pay\"}"
-                    }, {
-                      "settingName": "hostedPaymentStyleOptions",
-                      "settingValue": "{\"bgColor\": \"blue\"}"
-                    }, {
-                      "settingName": "hostedPaymentPaymentOptions",
-                      "settingValue": "{\"cardCodeRequired\": false, \"showCreditCard\": true, \"showBankAccount\": true}"
-                    }, {
-                      "settingName": "hostedPaymentSecurityOptions",
-                      "settingValue": "{\"captcha\": false}"
-                    }, {
-                      "settingName": "hostedPaymentShippingAddressOptions",
-                      "settingValue": "{\"show\": false, \"required\": false}"
-                    }, {
-                      "settingName": "hostedPaymentBillingAddressOptions",
-                      "settingValue": "{\"show\": true, \"required\": false}"
-                    }, {
-                      "settingName": "hostedPaymentCustomerOptions",
-                      "settingValue": "{\"showEmail\": false, \"requiredEmail\": false, \"addPaymentProfile\": true}"
-                    }, {
-                      "settingName": "hostedPaymentOrderOptions",
-                      "settingValue": "{\"show\": true, \"merchantName\": \"'.esc_attr( $authorize_merchant_name ).'\"}"
-                    }, {
-                      "settingName": "hostedPaymentIFrameCommunicatorUrl",
-                      "settingValue": "{\"url\": \"'.esc_url( $success_link ).'\"}"
-                    }]
-                  }
-                }
-              }';
+         $send_data = [
+                        "getHostedPaymentPageRequest" => [
+                            "merchantAuthentication" => [
+                                "name" => esc_attr($authorize_name),
+                                "transactionKey" => esc_attr($authorize_transactionKey)
+                            ],
+                            "refId" => esc_attr($order_id),
+                            "transactionRequest" => [
+                                "transactionType" => "authCaptureTransaction",
+                                "amount" => esc_attr($total_cost),
+                                "profile" => [
+                                    "customerProfileId" => esc_attr($user_id)
+                                ],
+                                "customer" => [
+                                    "email" => ""
+                                ]
+                            ],
+                            "hostedPaymentSettings" => [
+                                "setting" => [
+                                    [
+                                        "settingName" => "hostedPaymentReturnOptions",
+                                        "settingValue" => wp_json_encode([
+                                            "showReceipt" => true,
+                                            "url" => esc_url($success_link),
+                                            "urlText" => "Continue",
+                                            "cancelUrl" => esc_url($cancel_link),
+                                            "cancelUrlText" => "Cancel"
+                                        ])
+                                    ],
+                                    [
+                                        "settingName" => "hostedPaymentButtonOptions",
+                                        "settingValue" => wp_json_encode(["text" => "Pay"])
+                                    ],
+                                    [
+                                        "settingName" => "hostedPaymentStyleOptions",
+                                        "settingValue" => wp_json_encode(["bgColor" => "blue"])
+                                    ],
+                                    [
+                                        "settingName" => "hostedPaymentPaymentOptions",
+                                        "settingValue" => wp_json_encode([
+                                            "cardCodeRequired" => false,
+                                            "showCreditCard" => true,
+                                            "showBankAccount" => true
+                                        ])
+                                    ],
+                                    [
+                                        "settingName" => "hostedPaymentSecurityOptions",
+                                        "settingValue" => wp_json_encode(["captcha" => false])
+                                    ],
+                                    [
+                                        "settingName" => "hostedPaymentShippingAddressOptions",
+                                        "settingValue" => wp_json_encode(["show" => false, "required" => false])
+                                    ],
+                                    [
+                                        "settingName" => "hostedPaymentBillingAddressOptions",
+                                        "settingValue" => wp_json_encode(["show" => true, "required" => false])
+                                    ],
+                                    [
+                                        "settingName" => "hostedPaymentCustomerOptions",
+                                        "settingValue" => wp_json_encode([
+                                            "showEmail" => false,
+                                            "requiredEmail" => false,
+                                            "addPaymentProfile" => true
+                                        ])
+                                    ],
+                                    [
+                                        "settingName" => "hostedPaymentOrderOptions",
+                                        "settingValue" => wp_json_encode([
+                                            "show" => true,
+                                            "merchantName" => esc_attr($authorize_merchant_name)
+                                        ])
+                                    ],
+                                    [
+                                        "settingName" => "hostedPaymentIFrameCommunicatorUrl",
+                                        "settingValue" => wp_json_encode(["url" => esc_url($success_link)])
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ];
              // echo $send_data;
              // die;
             $response = wp_remote_post($authorize_url, array(
                 'headers'   => array('content-type' => 'application/json'),
-                'body'      => $send_data,
+                'body'      => wp_json_encode($send_data),
                 'method'    => 'POST'
             ));
             
@@ -1856,8 +1872,8 @@ function quads_verify_paystack_payment(){
         wp_send_json_error( array( 'message' => 'Invalid request.' ) );
     }
     if(isset($_POST['reference'])) {
-        $reference = sanitize_text_field( wp_unslash( $_POST['reference'] ) );
-        $secretKey = sanitize_text_field( wp_unslash( $_POST['secret_key'] ) ); // Replace with your Secret Key
+        $reference = ( isset( $_POST['reference'] ) ) ? sanitize_text_field( wp_unslash( $_POST['reference'] ) ) : '';
+        $secretKey = ( isset( $_POST['secret_key'] ) ) ? sanitize_text_field( wp_unslash( $_POST['secret_key'] ) ) : ''; // Replace with your Secret Key
     
         $url = "https://api.paystack.co/transaction/verify/" . esc_attr($reference);
         $args = [
@@ -1912,9 +1928,9 @@ function handle_submit_disablead_form() {
 
     // If user is not logged in, register them using the provided info
     if ( ! $user_id ) {
-        $full_name = sanitize_text_field( wp_unslash( $_POST['full_name']  ) );
-        $email = sanitize_email( wp_unslash( $_POST['email'] )  );
-        $password = sanitize_text_field( wp_unslash( $_POST['password'] ) );
+        $full_name = ( isset( $_POST['full_name'] ) )?sanitize_text_field( wp_unslash( $_POST['full_name']  ) ) : '';
+        $email = ( isset( $_POST['email'] ) )?sanitize_email( wp_unslash( $_POST['email'] )  ) : '';
+        $password = ( isset( $_POST['password'] ) )?sanitize_text_field( wp_unslash( $_POST['password'] ) ) : '';
 
         if ( empty( $full_name ) || empty( $email ) || empty( $password ) ) {
             wp_send_json_error( array( 'message' => 'Please fill in all fields.' ) );
@@ -1939,8 +1955,8 @@ function handle_submit_disablead_form() {
     }
 
     // Sanitize and validate the remaining fields
-    $redirect_link  = esc_url_raw( wp_unslash( $_POST['redirect_link'] ) );
-    $cancel_link  = intval( wp_unslash($_POST['cancel_link'] ) );
+    $redirect_link  = ( isset( $_POST['redirect_link'] ) )?esc_url_raw( wp_unslash( $_POST['redirect_link'] ) ): '';
+    $cancel_link  = ( isset( $_POST['cancel_link'] ) )?intval( wp_unslash($_POST['cancel_link'] ) ) : '';
     
 
     // Insert the ad buy record in the database
@@ -2201,8 +2217,8 @@ function wpquads_handle_paypal_notify(WP_REST_Request $request) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'quads_adbuy_data';
        
-        $prepare_qry = $wpdb->prepare("SELECT * FROM $table_name WHERE id = %d AND user_id = %d",$order_id,$user->ID);
-        $ad_details = $wpdb->get_row($prepare_qry);
+        
+        $ad_details = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $table_name WHERE id = %d AND user_id = %d",$order_id,$user->ID) );
         if (!$ad_details) {
             return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad not found'), 404);
         }
@@ -2295,16 +2311,13 @@ function wpquads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'quads_disabledad_data';
 
-        $prepare_qry = $wpdb->prepare( "SELECT * FROM $table_name WHERE disable_ad_id = %d AND user_id = %d",$order_id,$user->ID );
-        $ad_details = $wpdb->get_row($prepare_qry);
+        $ad_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table_name WHERE disable_ad_id = %d AND user_id = %d",$order_id,$user->ID ) );
         if (!$ad_details) {
             return false;
-            //return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad not found'), 404);
         }
         $payment_status = 'paid';
         if ($ad_details->payment_status === 'paid') {
             return false;
-        // return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad already paid'), 400);
         }
         $duration = $ad_details->disable_duration;
         $params = array();
@@ -2362,7 +2375,8 @@ function quads_get_active_ads_by_slot( $slot_id = null ){
 
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_adbuy_data';
-    $active_ads = $wpdb->get_results( "SELECT * FROM $table_name Where  ad_id = $slot_id and payment_status = 'paid' and ad_status = 'approved' and end_date >= CURDATE() and start_date <= CURDATE()" );
+    
+    $active_ads = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name Where  ad_id = %d and payment_status = 'paid' and ad_status = 'approved' and end_date >= CURDATE() and start_date <= CURDATE()", $slot_id ) );
     return $active_ads;
 }
 
@@ -2473,13 +2487,13 @@ function quads_check_expired_sellads() {
         // Only proceed if there are ad IDs to check
         if ( ! empty( $ad_ids ) ) {
             $placeholders = implode( ',', array_fill( 0, count( $ad_ids ), '%d' ) );
-            $query        = $wpdb->prepare(
-                "SELECT user_id, ad_id FROM $table_name WHERE ad_id IN ($placeholders)",
-                ...$ad_ids
-            );
+            
 
             // Execute the query and get results
-            $users = $wpdb->get_results( $query );
+            $users = $wpdb->get_results(  $wpdb->prepare(
+                "SELECT user_id, ad_id FROM $table_name WHERE ad_id IN ($placeholders)",
+                ...$ad_ids
+            ) );
 
             // Process each user and ad combination
             foreach ( $users as $user ) {
