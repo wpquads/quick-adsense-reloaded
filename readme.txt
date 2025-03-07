@@ -208,6 +208,12 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.88 ( 07 March 2025 ) =
+* Added : Need to add new feature in Sellable Ads #930
+* Added : By default Hide Ads for Premium Members option should be off and It still creates payment page even after off  #931
+* Added : Need to add integration with Paystack in sellable ads #919
+* Added : New Improvement #934
+* Fixed : Sellable ads should not show normal ads pagination #929
 
 = 2.0.87.1 ( 11 February 2025 ) =
 * Added : Admin Option in Global Excluder for Ads #924
