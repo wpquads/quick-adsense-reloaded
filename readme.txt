@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.7
 Requires PHP: 5.4
-Stable tag: 2.0.87.1
+Stable tag: 2.0.88
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -214,6 +214,7 @@ Alternative Installation:
 * Added : Need to add integration with Paystack in sellable ads #919
 * Added : New Improvement #934
 * Fixed : Sellable ads should not show normal ads pagination #929
+* Fixed : Broken Access Control and SQL Injection vulnerability Reported by Patchstack (astra.r3verii)
 
 = 2.0.87.1 ( 11 February 2025 ) =
 * Added : Admin Option in Global Excluder for Ads #924

@@ -4,6 +4,8 @@
 * Added : Need to add integration with Paystack in sellable ads #919
 * Added : New Improvement #934
 * Fixed : Sellable ads should not show normal ads pagination #929
+* Fixed : Broken Access Control and SQL Injection vulnerability Reported by Patchstack (astra.r3verii)
+
 
 = 2.0.87.1 ( 11 February 2025 ) =
 * Added : Admin Option in Global Excluder for Ads #924
