@@ -69,7 +69,7 @@ class QuadsAdListSettings extends Component {
                 ad_performance_tracking : false,
                 exclude_admin_tracking : false,
                 sellable_ads : true,
-                disableads : true,
+                disableads : false,
                 reports_settings : true,
                 ad_logging : false,
                 ad_owner_revenue_per:50,
@@ -125,6 +125,10 @@ class QuadsAdListSettings extends Component {
                 authorize_merchant_name : '',
                 stripe_publishable_key : '',
                 stripe_secret_key : '',
+                paystack_public_key : '',
+                paystack_secret_key : '',
+                _dapaystack_public_key : '',
+                _dapaystack_secret_key : '',
                 _dacurrency : 'USD',
                 _daemail_notification_adsell_expiry : true,
                 _dapaypal_email : '',
@@ -1320,6 +1324,7 @@ handleCapabilityChange = (event) =>{
                     <option value="paypal">{__('Paypal', 'quick-adsense-reloaded')}</option>
                     <option value="authorize">{__('Authorize.net', 'quick-adsense-reloaded')}</option>
                     <option value="stripe">{__('Stripe', 'quick-adsense-reloaded')}</option>
+                    <option value="paystack">{__('Paystack', 'quick-adsense-reloaded')}</option>
                   </select>
                   </td>
                   </tr>
@@ -1349,6 +1354,22 @@ handleCapabilityChange = (event) =>{
                       <th scope="row"><label style={{marginLeft:'30px'}}>{__('Authorize.net Merchant Name', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="authorize_merchant_name" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_merchant_name} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                  </>
+                  }
+                   {(settings.payment_gateway==='paystack') &&
+                  <>
+                    <tr>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Paystack Public Key', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="paystack_public_key" style={{maxWidth:'25rem',width:'100%'}} value={settings.paystack_public_key} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Stripe Secret key', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="paystack_secret_key" style={{maxWidth:'25rem',width:'100%'}} value={settings.paystack_secret_key} onChange={this.formChangeHandler} />
                       </td>
                     </tr>
                   </>
@@ -1422,7 +1443,7 @@ handleCapabilityChange = (event) =>{
                         <option key={index} value={page['ID']}>{page['post_title']}</option>
                       ))}
                     </select>
-                    <p>{__('By default we have created  a payment page named "')}<b>{__('Buy Adspace')}</b>{__('". But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_buy_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_buy_form]</code>
+                    <p>{__('By default we have created  a payment page named "')}<b>{__('Buy Adspace')}</b>{__('"in Draft to use the same page please publish the page first. But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_buy_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_buy_form]</code>
                     <a target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/">{__('Learn More')}</a></p>
                     <br/>
                     <br/>
@@ -1579,7 +1600,7 @@ handleCapabilityChange = (event) =>{
                         <option key={index} value={page['ID']}>{page['post_title']}</option>
                       ))}
                     </select>
-                    <p>{__('By default we have created  a payment page named "')}<b>{__('Hide Ads for Premium Members')}</b>{__('". But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_disable_ads_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_disable_ads_form]</code>
+                    <p>{__('Create a new page and  paste the shortcode ')} <code>[quads_disable_ads_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_disable_ads_form]</code>
                     <a target="_blank" href="https://wpquads.com/documentation/how-to-set-up-sellable-ads-in-wp-quads/">{__('Learn More')}</a></p>
                     </td>
                   </tr>
@@ -2853,7 +2874,7 @@ handleCapabilityChange = (event) =>{
                         <option key={index} value={page['ID']}>{page['post_title']}</option>
                       ))}
                     </select>
-                    <p>{__('By default we have created  a payment page named "')}<b>{__('Hide Ads for Premium Members')}</b>{__('". But if you have deleted or want to modify , create a new page and  paste the shortcode ')} <code>[quads_disable_ads_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_disable_ads_form]</code>
+                    <p>{__('Create a new page and paste the shortcode ')} <code>[quads_disable_ads_form]</code> {__(' and select that page from above . ')} <br/><br/> <b>{__('Note ')} </b> {__(': Payment page must  exists and contains the shortcode')} <code>[quads_disable_ads_form]</code>
                     </p>
                     </td>
                   </tr>

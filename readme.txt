@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.7
 Requires PHP: 5.4
-Stable tag: 2.0.87
+Stable tag: 2.0.88
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -208,6 +208,18 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.88 ( 07 March 2025 ) =
+* Added : Need to add new feature in Sellable Ads #930
+* Added : By default Hide Ads for Premium Members option should be off and It still creates payment page even after off  #931
+* Added : Need to add integration with Paystack in sellable ads #919
+* Added : New Improvement #934
+* Fixed : Sellable ads should not show normal ads pagination #929
+* Fixed : Broken Access Control and SQL Injection vulnerability Reported by Patchstack (astra.r3verii)
+
+= 2.0.87.1 ( 11 February 2025 ) =
+* Added : Admin Option in Global Excluder for Ads #924
+* Fixed : Layout issue persists in Version 2.0.87 #928
+* Fixed : Pagination not working in Ads tab after recent update  #926
 
 = 2.0.87 ( 04 February 2025 ) =
 * New: Feature Hide ads for Premium Members, and UI Improvement for Sellable Ads #496
@@ -313,13 +325,5 @@ Alternative Installation:
 * Fixed: Uncaught TypeError: Cannot read properties of null #815
 * Fixed: Add Alt Tag Field for Custom Image Ad in WP QUADS AMP #816
 * Fixed: Sticky Ad code improvement.
-
-= 2.0.75 ( 29 August 2023 ) =
-* Added: An option to show Sticky ad on top or bottom of the page #731
-* Fixed: Undefined array key "ad-type" #777
-* Fixed: Warning foreach() argument must be of type array|object, int given #787
-* Fixed: Undefined property #790
-* Fixed: Changes needed in feedback form #792
-* Fixed: Undefined array key "mob_banner_ad_width" #793
 
 Full changelog available [ at changelog.txt](https://plugins.svn.wordpress.org/quick-adsense-reloaded/trunk/changelog.txt)

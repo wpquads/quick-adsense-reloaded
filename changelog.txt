@@ -1,3 +1,18 @@
+= 2.0.88 ( 07 March 2025 ) =
+* Added : Need to add new feature in Sellable Ads #930
+* Added : By default Hide Ads for Premium Members option should be off and It still creates payment page even after off  #931
+* Added : Need to add integration with Paystack in sellable ads #919
+* Added : New Improvement #934
+* Fixed : Sellable ads should not show normal ads pagination #929
+* Fixed : Broken Access Control and SQL Injection vulnerability Reported by Patchstack (astra.r3verii)
+
+
+= 2.0.87.1 ( 11 February 2025 ) =
+* Added : Admin Option in Global Excluder for Ads #924
+* Fixed : Layout issue persists in Version 2.0.87 #928
+* Fixed : Pagination not working in Ads tab after recent update  #926
+
+
 = 2.0.87 ( 04 February 2025 ) =
 * New: Feature Hide ads for Premium Members, and UI Improvement for Sellable Ads #496
 * New: Need to add feature to upload the own defualt image in advertise space, Edit the customers advert details after they have purchased #923

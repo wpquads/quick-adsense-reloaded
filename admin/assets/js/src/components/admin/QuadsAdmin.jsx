@@ -161,13 +161,14 @@ class QuadsAdmin extends Component {
                               return (
                                 <>
                                  <div>
-                                  {this.state.settings.payment_gateway}
                                     {(this.state.settings && this.state.settings.payment_gateway==='') &&
                                       <Alert severity="error"  style={{marginBottom:'5px'}}>Warning : <strong>Payment Gateway</strong> not selected for Sellable Ads. Go to <strong>Settings{' > '}Sellable Ads Settings {' > '}Select Payment Gateway</strong></Alert>
                                     }
-                                    
                                     {(this.state.settings && this.state.settings.payment_page==='') &&
-                                    <Alert severity="error">Warning : <strong>Payment Page</strong> not selected for Sellable Ads. Go to <strong>Settings{' > '}Sellable Ads Settings {' > '}Select Payment Page</strong></Alert>
+                                      <Alert severity="error">Warning : <strong>Payment Page</strong> not selected for Sellable Ads. Go to <strong>Settings{' > '}Sellable Ads Settings {' > '}Select Payment Page</strong></Alert>
+                                    }
+                                    {(this.state.settings && this.state.settings.payment_page_status==='draft' && this.state.settings.payment_page!=='' && this.state.settings.payment_gateway!=='') &&
+                                      <Alert severity="error">Warning : Selected Payment Page for Sellable Ads is in <strong>Draft</strong>. Please <strong>Publish</strong> the Payment Page to use this feature.</Alert>
                                     }
                                   </div>
                                 <div className="quads-ad-menu">

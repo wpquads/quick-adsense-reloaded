@@ -97,3 +97,37 @@ function quads_send_feedback() {
     die();
 }
 add_action( 'wp_ajax_quads_send_feedback', 'quads_send_feedback' );
+
+add_action( 'wp_ajax_quads_update_ad_request_data', 'quads_update_ad_request_data' );
+function quads_update_ad_request_data(){
+    if( function_exists('current_user_can') && ! current_user_can( 'manage_options' ) ) {
+        die( esc_html__( 'You are not allowed to perform this action', 'quick-adsense-reloaded' ) );
+    }
+    if ( ! wp_verify_nonce( $_POST['nonce'] , 'wp_rest' ) ) {
+        die( esc_html__( 'Invalid nonce', 'quick-adsense-reloaded' ) ); 
+    }
+    $ad_data = json_decode(stripslashes($_POST['ad_data']), true);
+     if (isset($ad_data['id']) && isset($ad_data['ad_link']) && isset($ad_data['ad_content'])) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'quads_adbuy_data'; 
+        $update_data = array();
+        $update_data['ad_link'] =  esc_url($ad_data['ad_link']);
+        $update_data['ad_content'] =  esc_attr($ad_data['ad_content']);
+        $update_data['start_date'] =  gmdate('Y-m-d H:i:s', strtotime($ad_data['start_date']));
+        $update_data['end_date'] =    gmdate('Y-m-d H:i:s', strtotime($ad_data['end_date']));
+        if ( ! empty( $_FILES['ad_image']['name'] ) ) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+            $uploaded_file = wp_handle_upload( $_FILES['ad_image'], array( 'test_form' => false ) );
+            if ( isset( $uploaded_file['url'] ) ) {
+                $ad_image = esc_url_raw( $uploaded_file['url'] );
+                $update_data['ad_image'] =  $ad_image;
+            }
+        }
+        $status = $wpdb->update(
+            $table_name,
+            $update_data,
+            ['id' => $ad_data['id']]
+        );
+        die;
+    }   
+}

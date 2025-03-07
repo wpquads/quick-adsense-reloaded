@@ -412,9 +412,7 @@ function quads_inline_styles() {
     .grid_image{animation: fadeIn 0.5s;-webkit-animation: fadeIn 0.5s;-moz-animation: fadeIn 0.5s;
         -o-animation: fadeIn 0.5s;-ms-animation: fadeIn 0.5s;}
     .quads-ad-label { font-size: 12px; text-align: center; color: #333;}
-    .quads_click_impression { display: none;} .quads-location, .quads-ads-space{max-width:100%;}
-	.quads-location,.quads-ads-space{max-width:340px;} @media only screen and (max-width: 480px) {.penci-builder-element .quads-location, .penci-builder-element .quads-ads-space{max-width:340px;}}
-    ";
+    .quads_click_impression { display: none;} .quads-location, .quads-ads-space{max-width:100%;} @media only screen and (max-width: 480px) { .quads-ads-space, .penci-builder-element .quads-ads-space{max-width:340px;}}";
     if(in_array("popup_ads", $ads_types)){
             $css .=".quads-popupad {
                 position: fixed;

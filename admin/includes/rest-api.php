@@ -1822,6 +1822,15 @@ return array('status' => 't');
             if(file_exists(ABSPATH . 'ads.txt')){
                 $quads_settings['adsTxtText'] = trim(file_get_contents(ABSPATH . 'ads.txt'));
             }
+            $payment_page = (isset($quads_settings['payment_page']))?$quads_settings['payment_page']:'';
+            $page_status = '';
+            if($payment_page>0){
+                $page_info = get_post($payment_page);
+                if(!empty($page_info) && isset($page_info->post_status)){
+                    $page_status = $page_info->post_status;
+                }
+            }
+            $quads_settings['payment_page_status'] = $page_status;
             return $quads_settings;
         }
 
@@ -1829,8 +1838,13 @@ return array('status' => 't');
 
             global $wpdb;
             // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-            $query = "SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'page' AND post_status = 'publish' ORDER BY post_title ASC LIMIT 0, 100";
+            $query = "SELECT ID, post_title,post_status FROM $wpdb->posts WHERE post_type = 'page' AND post_status in( 'publish','draft' ) ORDER BY post_title ASC LIMIT 0, 100";
             $results = $wpdb->get_results($query, ARRAY_A);
+            foreach ($results as $key => $value) {
+                if($value['post_status']=='draft'){
+                    $results[$key]['post_title'] = $value['post_title'].' - Draft';
+                }
+            }
             return $results;
 
         }
@@ -1949,6 +1963,7 @@ return array('status' => 't');
                 $filter_not_by = sanitize_text_field( wp_unslash( $_GET['filter_not_by'] ) );
             }
             $result = $this->api_service->getAdDataByParam($post_type, $attr, $rvcount, $paged, $offset, $search_param , $filter_by , $sort_by, $filter_not_by);
+           
             return $result;
 
         }
@@ -2015,6 +2030,31 @@ return array('status' => 't');
             foreach ($results as $key => $result) {
                 $ad_id = $result->ad_id;
                 $ad_name = get_the_title($ad_id);
+
+                $start_date = date('Y-m-d');
+                $end_date = $result->end_date;
+                $st_date = new DateTime($start_date);
+
+                $en_date = new DateTime($end_date);
+
+                $difference = $st_date->diff($en_date);
+                $days = $difference->days;
+                
+                $expiring_in = 'Expiring in '. intval($days). ' Days';
+                if($en_date>$end_date){
+                    $expiring_in = '';
+                }
+                $results[$key]->expiring_in = '';
+                if($result->ad_status=='approved'){
+                    $results[$key]->expiring_in = $expiring_in;
+                }
+              
+                $results[$key]->start_date = gmdate('Y-m-d', strtotime($result->start_date));
+                $results[$key]->end_date = gmdate('Y-m-d', strtotime($result->end_date));
+            
+                $date_display = gmdate('d M Y', strtotime($result->start_date)).' to '.gmdate('d M Y', strtotime($result->end_date));
+                $results[$key]->date_display = $date_display;
+
                 $results[$key]->ad_name = $ad_name;
             }
         

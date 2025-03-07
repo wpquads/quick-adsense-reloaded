@@ -1708,7 +1708,7 @@ error_outline
                           <tr>
                             <td><label>{__('Ad Space Banner', 'quick-adsense-reloaded')}</label></td>
                             <td>
-                            {post_meta.ad_space_banner_image_src == '' ? <div><a className="button" onClick={this.selectadbannerimages}>{__(' Upload Banner', 'quick-adsense-reloaded')}</a></div>
+                            {(post_meta.ad_space_banner_image_src == '' || post_meta.ad_space_banner_image_src===undefined ) ? <div><a className="button" onClick={this.selectadbannerimages}>{__(' Upload Banner', 'quick-adsense-reloaded')}</a></div>
                             : <div>
                             <img src={post_meta.ad_space_banner_image_src} className="banner_image" width={post_meta.banner_ad_width?post_meta.banner_ad_width:300} height={post_meta.banner_ad_height?post_meta.banner_ad_height:300} />
                             <a className="button" onClick={this.remove_adspace_image}>{__('Remove Banner', 'quick-adsense-reloaded')}</a></div>}

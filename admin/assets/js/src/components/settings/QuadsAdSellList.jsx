@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import 'regenerator-runtime/runtime';
 import './QuadsAdSellList.scss';
+import QuadsModifySellableRequestAd from './QuadsModifySellableRequestAd';
 
 const {__} = wp.i18n;
 
@@ -13,8 +14,11 @@ const formatDate = (dateString) => {
   };
 
 const AdSellRecords = () => {
+    const [modify_data, setModifyData] = useState({});
+    const [is_modifying, setIsModifying] = useState(false);
     const [records, setRecords] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [selected_index, setSelectedIndex] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage] = useState(10);
     const [searchTerm, setSearchTerm] = useState('');
@@ -52,6 +56,21 @@ const AdSellRecords = () => {
         fetchRecords();
     }, [apiEndpoint, currentPage, searchTerm]);
 
+    const handleEditSellableApproval = (index) =>{
+        let mrecord = [...records];
+        let mdata = mrecord[index];
+        setModifyData(mdata);
+        setIsModifying(true);
+        setSelectedIndex(index);
+    }
+    const handleCloseModal = () =>{
+        setIsModifying(false);
+    }
+    const handleModifyListData = (new_data) =>{
+        let mrecord = [...records];
+        mrecord[selected_index] = new_data;
+        setRecords(mrecord);
+    }
     // Approve or Disapprove record
     const handleApproval = async (id, ad_status) => {
         try {
@@ -94,7 +113,7 @@ const AdSellRecords = () => {
     return (
         <div className='sellable_ads_wrapper' style={{marginTop:'20px'}}>
         
-            {currentRecords.length > 0 && (
+            {records.length > 0 && (
                 <div className="quads-search-box-panel">                
                     <div className="quads-search-box">
                             <input
@@ -116,9 +135,9 @@ const AdSellRecords = () => {
             {/* Listing records */}
             {loading ? (
                  <div className="quads-cover-spin"></div>
-            ) : (<div>
+            ) : (<div style={{overflowX:(records.length>0)?'scroll':''}}>
                 <table className='quads-ad-table'>
-                {currentRecords.length > 0 && (
+                {records.length > 0 && (
                     <thead>
                         <tr>
                             <th>{__('ID', 'quick-adsense-reloaded')}</th>
@@ -131,7 +150,7 @@ const AdSellRecords = () => {
                     </thead>
                 )}
                     <tbody>
-                    {currentRecords.map((record) => (
+                    {records.map((record,index) => (
                         <tr key={record.id}>
                             <td>{record.id}</td>
                             <td>{record.ad_name}</td>
@@ -144,10 +163,15 @@ const AdSellRecords = () => {
                                 )}
                                 <br/>Link : {record.ad_link}
                            </td>
-                            <td>{formatDate(record.start_date)} - {formatDate(record.end_date)}</td>
-
+                            <td>
+                                <p style={{whiteSpace:'nowrap',margin:'0px'}}>{record.date_display}</p>
+                                {(record.expiring_in!=="") &&
+                                    <p style={{color:'red',margin:'0px',textAlign:'center'}}>{record.expiring_in}</p>
+                                }
+                            </td>
                             <td>{record.ad_status}</td>
                             <td>
+                                <div style={{display:'flex'}}>
                                 {record.ad_status == 'pending'  && (
                                     <button
                                         className='quads-btn quads-btn-primary'
@@ -160,11 +184,21 @@ const AdSellRecords = () => {
                                 )}
                                  {record.ad_status == 'pending' && (
                                     <button
-                                    style={{padding:'5px 10px',fontSize:'14px'}}
                                     className='quads-btn quads-btn-primary'
+                                    style={{padding:'5px 10px',fontSize:'14px',background:'#d94f4f'}}
                                     onClick={() => handleApproval(record.id, 'disapproved')}
                                 >
                                     {__('Disapprove', 'quick-adsense-reloaded')}
+                                </button>
+                                    
+                                )}
+                                {record.ad_status == 'pending' && (
+                                    <button
+                                    className='quads-btn quads-btn-primary'
+                                    style={{padding:'5px 10px',fontSize:'14px'}}
+                                    onClick={() => handleEditSellableApproval(index)}
+                                >
+                                    {__('Edit', 'quick-adsense-reloaded')}
                                 </button>
                                     
                                 )}
@@ -179,7 +213,7 @@ const AdSellRecords = () => {
                                 )}
                                  {record.ad_status == 'approved' && new Date(record.end_date) >= new Date() &&  (
                                     <button
-                                    style={{padding:'5px 10px',fontSize:'14px'}}
+                                    style={{padding:'5px 10px',fontSize:'14px',background:'#d94f4f'}}
                                     className='quads-btn quads-btn-primary'
                                         onClick={() => handleApproval(record.id, 'disapproved')}
                                     >
@@ -191,21 +225,21 @@ const AdSellRecords = () => {
                                    __('AD Expired', 'quick-adsense-reloaded')
                                 )}
 
-
+                                </div>
                             </td>
                         </tr>
                     ))}
 
                     </tbody>
                 </table>
-
+            
             
             <div className='quads-pagination'>
                
-                {currentRecords.length === 0 && (
+                {records.length === 0 && (
                     <h2>{__('No ads have been purchased on your site as of now.', 'quick-adsense-reloaded')}</h2>
                 )}
-            {currentRecords.length > 0 && (
+            {records.length > 0 && (
             <div className='pages'>
                 {Array.from({ length: totalPages }, (_, index) => (
                     <button
@@ -218,7 +252,7 @@ const AdSellRecords = () => {
                 ))}
             </div>
             )}
- {currentRecords.length > 0 && (
+ {records.length > 0 && (
             <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
@@ -226,7 +260,7 @@ const AdSellRecords = () => {
                 {__('Previous', 'quick-adsense-reloaded')}
             </button>
             )}
-             {currentRecords.length > 0 && (
+             {records.length > 0 && (
             <button
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
@@ -237,8 +271,9 @@ const AdSellRecords = () => {
         </div>
         </div>
             )}
-
-
+        {(is_modifying===true) &&
+            <QuadsModifySellableRequestAd data={modify_data} handleCloseModal={handleCloseModal} handleModifyListData={handleModifyListData}/>
+        }
         </div>
     );
 };
