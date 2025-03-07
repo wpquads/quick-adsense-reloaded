@@ -108,16 +108,16 @@ function quads_authorize_payment_success(){
             $days = ( strtotime( $end_date ) - strtotime( $start_date ) ) / ( 60 * 60 * 24 ) + 1;
             $total_cost = $price * $days;
             //also add the ad details in the email
-            $ad_details_html .= 'Ad Details: '.PHP_EOL;
-            $ad_details_html .= 'Ad Slot: ' . get_the_title($ad_details->ad_id ) . PHP_EOL;
-            $ad_details_html .= 'Start Date: ' . esc_html($ad_details->start_date) . PHP_EOL;
-            $ad_details_html .= 'End Date: ' .  esc_html($ad_details->end_date) . PHP_EOL;
-            $ad_details_html .= 'Ad Link: ' .  esc_html($ad_details->ad_link) . PHP_EOL;
-            $ad_details_html .= 'Ad Image: ' .  esc_html($ad_details->ad_image) . PHP_EOL;
-            $ad_details_html .= 'Total Cost: ' . esc_html($currency . $total_cost) . PHP_EOL;
-            $ad_details_html .= 'Payment Status: ' . esc_html($payment_status) . PHP_EOL;
-            $ad_details_html .= 'Payer Email: ' . esc_html($payer_email) . PHP_EOL;
-            $ad_details_html .= 'Order ID: ' . esc_html($order_id) . PHP_EOL;
+            $ad_details_html .= esc_html__( 'Ad Details: ', 'quick-adsense-reloaded' ).PHP_EOL;
+            $ad_details_html .= esc_html__( 'Ad Slot: ', 'quick-adsense-reloaded' ) . get_the_title($ad_details->ad_id ) . PHP_EOL;
+            $ad_details_html .= esc_html__( 'Start Date: ', 'quick-adsense-reloaded' ) . esc_html($ad_details->start_date) . PHP_EOL;
+            $ad_details_html .= esc_html__( 'End Date: ', 'quick-adsense-reloaded' ) .  esc_html($ad_details->end_date) . PHP_EOL;
+            $ad_details_html .= esc_html__( 'Ad Link: ', 'quick-adsense-reloaded' ) .  esc_html($ad_details->ad_link) . PHP_EOL;
+            $ad_details_html .= esc_html__( 'Ad Image: ', 'quick-adsense-reloaded' ) .  esc_html($ad_details->ad_image) . PHP_EOL;
+            $ad_details_html .= esc_html__( 'Total Cost: ', 'quick-adsense-reloaded' ) . esc_html($currency . $total_cost) . PHP_EOL;
+            $ad_details_html .= esc_html__( 'Payment Status: ', 'quick-adsense-reloaded' ) . esc_html($payment_status) . PHP_EOL;
+            $ad_details_html .= esc_html__( 'Payer Email: ', 'quick-adsense-reloaded' ) . esc_html($payer_email) . PHP_EOL;
+            $ad_details_html .= esc_html__( 'Order ID: ', 'quick-adsense-reloaded' ) . esc_html($order_id) . PHP_EOL;
             $message .= $ad_details_html;
             
 
@@ -175,12 +175,12 @@ function quads_authorize_payment_success(){
 
             $total_cost = $price;
             //also add the ad details in the email
-            $ad_details_html .= 'Ad Details: '.PHP_EOL;
-            $ad_details_html .= 'Total Cost: ' . esc_html($currency . $total_cost) . PHP_EOL;
-            $ad_details_html .= 'Duration: ' . esc_html($duration) . PHP_EOL;
-            $ad_details_html .= 'Payment Status: ' . esc_html($payment_status) . PHP_EOL;
-            $ad_details_html .= 'Payer Email: ' . esc_html($payer_email) . PHP_EOL;
-            $ad_details_html .= 'Order ID: ' . esc_html($order_id) . PHP_EOL;
+            $ad_details_html .= esc_html__( 'Ad Details: ', 'quick-adsense-reloaded' ).PHP_EOL;
+            $ad_details_html .= esc_html__( 'Total Cost: ', 'quick-adsense-reloaded' ) . esc_html($currency . $total_cost) . PHP_EOL;
+            $ad_details_html .= esc_html__( 'Duration: ', 'quick-adsense-reloaded' ) . esc_html($duration) . PHP_EOL;
+            $ad_details_html .= esc_html__( 'Payment Status: ', 'quick-adsense-reloaded' ) . esc_html($payment_status) . PHP_EOL;
+            $ad_details_html .= esc_html__( 'Payer Email: ', 'quick-adsense-reloaded' ) . esc_html($payer_email) . PHP_EOL;
+            $ad_details_html .= esc_html__( 'Order ID: ', 'quick-adsense-reloaded' ) . esc_html($order_id) . PHP_EOL;
             $message .= $ad_details_html;
             
 
@@ -908,7 +908,7 @@ function quads_update_member_subscription() {
             exit;
     }
 }
-function get_premimum_member_ad_space($user_id){
+function quads_get_premimum_member_ad_space($user_id){
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_adbuy_data'; 
    
@@ -942,7 +942,7 @@ function get_premimum_member_ad_space($user_id){
     }
     return $results;
 } 
-function get_premimum_member_ad_space_on_id($id){
+function quads_get_premimum_member_ad_space_on_id($id){
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_adbuy_data'; 
    
@@ -999,12 +999,12 @@ if($user_id==0){?>
         <h1 class="wp-login-logo">Member Login</h1>
         <form name="loginform" id="loginform" method="post">
             <p>
-                <label for="user_login">Username or Email Address</label>
+                <label for="user_login"> <?php echo esc_html__( 'Username or Email Address','quick-adsense-reloaded' ); ?></label>
                 <input type="text" name="username" id="user_login" class="input" value="" size="20" autocapitalize="off" autocomplete="username" required="required">
             </p>
 
             <div class="user-pass-wrap">
-                <label for="user_pass">Password</label>
+                <label for="user_pass"><?php echo esc_html__( 'Password','quick-adsense-reloaded' ); ?></label>
                 <div class="wp-pwd">
                     <input type="password" name="password" id="user_pass" class="input password-input" value="" size="20" autocomplete="current-password" spellcheck="false" required="required">
                 </div>
@@ -1019,7 +1019,7 @@ if($user_id==0){?>
 <?php 
 quads_custom_premimum_memeber_login();
 }else if(!isset($_GET['modify_id'])){
-    $ad_space_list = get_premimum_member_ad_space($user_id);
+    $ad_space_list = quads_get_premimum_member_ad_space($user_id);
     $quads_settings = get_option( 'quads_settings' );
     $da_page_id = isset($quads_settings['payment_page']) ? $quads_settings['payment_page'] : 0;
     $payment_page = get_permalink( $da_page_id );
@@ -1077,7 +1077,21 @@ quads_custom_premimum_memeber_login();
             <a style="margin-left:5px" href="<?php echo esc_url($payment_page).'?ad_slot_id='.intval($value->ad_id)?>"><input type="button" class="button button-primary button-large" value="Renew"></a>
         </td>
     </tr>
-<?php } ?>
+<?php } 
+if ( count( $ad_space_list )==0 ) {
+?>
+        <tr>
+            <td colspan="6" style="text-align:center">
+                <p>
+                    <?php echo esc_html__( 'No Ad Space purchase yet, Please click the below button to purchase ad space ','quick-adsense-reloaded' ); ?>
+                </p>
+                
+                <a href="<?php echo esc_url($payment_page)?>"><input type="button" class="button button-primary button-large" style="float:none" value="<?php echo esc_html__( 'Purchase Ad Space','quick-adsense-reloaded' );?>"></a>
+            </td>
+        </tr>
+<?php
+}
+?>
     </tbody>
     </table>
     
@@ -1087,7 +1101,7 @@ quads_custom_premimum_memeber_login();
 if( isset( $_GET['modify_id'] ) && !empty( $_GET['modify_id'] ) ){
     $modify_id = sanitize_text_field( wp_unslash( $_GET['modify_id'] ) );
     $renew_id = sanitize_text_field( wp_unslash( $_GET['renew_id'] ) );
-    $ad_space_list = get_premimum_member_ad_space_on_id( $modify_id );
+    $ad_space_list = quads_get_premimum_member_ad_space_on_id( $modify_id );
     $asdata = $ad_space_list[0];
     $quads_settings = get_option( 'quads_settings' );
     $da_page_id = isset($quads_settings['payment_page']) ? $quads_settings['payment_page'] : 0;
@@ -1550,11 +1564,11 @@ return ob_get_clean();
 function handle_ad_buy_form_submission() {
    
     if ( ! isset( $_POST['action'] ) || $_POST['action'] !== 'submit_ad_buy_form' ) {
-        wp_send_json_error( array( 'message' => 'Invalid request.' ) );
+        wp_send_json_error( array( 'message' => esc_html__( 'Invalid request.', 'quick-adsense-reloaded' ) ) );
     }
 
     if ( ! check_ajax_referer( 'submit_ad_buy_form', 'nonce', false ) ) {
-        wp_send_json_error( array( 'message' => 'Invalid request.' ) );
+        wp_send_json_error( array( 'message' => esc_html__( 'Invalid request.', 'quick-adsense-reloaded' ) ) );
     }
   
     // Handle form fields, sanitize input, validate, and process accordingly
@@ -1567,14 +1581,14 @@ function handle_ad_buy_form_submission() {
         $password = ( isset( $_POST['password'] ) )? sanitize_text_field( wp_unslash( $_POST['password'] ) ) : '';
 
         if ( empty( $full_name ) || empty( $email ) || empty( $password ) ) {
-            wp_send_json_error( array( 'message' => 'Please fill in all fields.' ) );
+            wp_send_json_error( array( 'message' => esc_html__( 'Please fill in all fields.', 'quick-adsense-reloaded' ) ) );
         }
 
         // Create the new user
         $user_id = wp_create_user( $email, $password, $email );
 
         if ( is_wp_error( $user_id ) ) {
-            wp_send_json_error( array( 'message' => 'Failed to create account. ' . $user_id->get_error_message() ) );
+            wp_send_json_error( array( 'message' => esc_html__( 'Failed to create account. ', 'quick-adsense-reloaded' ) . $user_id->get_error_message() ) );
         }else{
             $creds = array(
                 'user_login'    => $email,
@@ -1583,7 +1597,7 @@ function handle_ad_buy_form_submission() {
             );
             $user = wp_signon($creds, false);
             if ( is_wp_error($user)) {
-                wp_send_json_error( array( 'message' => 'Failed to Login. ') );
+                wp_send_json_error( array( 'message' => esc_html__( 'Failed to Login. ', 'quick-adsense-reloaded' ) ) );
             }
         }
     }
@@ -1606,7 +1620,7 @@ function handle_ad_buy_form_submission() {
         if ( isset( $uploaded_file['url'] ) ) {
             $ad_image = esc_url_raw( $uploaded_file['url'] );
         } else {
-            wp_send_json_error( array( 'message' => 'Image upload failed.' ) );
+            wp_send_json_error( array( 'message' => esc_html__( 'Image upload failed.', 'quick-adsense-reloaded' ) ) );
         }
     }
 
@@ -1641,7 +1655,7 @@ function handle_ad_buy_form_submission() {
             $paypal_email =  isset($quads_settings['paypal_email']) ? $quads_settings['paypal_email'] : '';
 
             if ( empty( $paypal_email ) ) {
-                wp_send_json_error( array( 'message' => 'PayPal email not set.Please inform Siteadmin' ) );
+                wp_send_json_error( array( 'message' => esc_html__(  'PayPal email not set.Please inform Siteadmin', 'quick-adsense-reloaded' ) ) );
             }
 
             $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
@@ -1660,14 +1674,14 @@ function handle_ad_buy_form_submission() {
             $paypal_form .= '<input type="hidden" name="item_number" value="' . esc_attr($order_id) . '">';
             $paypal_form .= '<input type="hidden" name="custom" value="' . esc_attr($user_id) . '">';
 
-            wp_send_json_success( array( 'message' => 'Ad submission successful.' , 'paypal_form'=>$paypal_form) );
+            wp_send_json_success( array( 'message' => esc_html__( 'Ad submission successful.', 'quick-adsense-reloaded' ) , 'paypal_form'=>$paypal_form) );
         }else if($payment_gateway=='authorize'){
             $authorize_name =  isset($quads_settings['authorize_name']) ? $quads_settings['authorize_name'] : '';
             $authorize_transactionKey =  isset($quads_settings['authorize_transactionKey']) ? $quads_settings['authorize_transactionKey'] : '';
             $authorize_merchant_name =  isset($quads_settings['authorize_merchant_name']) ? $quads_settings['authorize_merchant_name'] : '';
 
             if ( empty( $authorize_name ) || empty( $authorize_transactionKey ) ) {
-                wp_send_json_error( array( 'message' => 'Authorize Credentials are not set. Please inform Siteadmin' ) );
+                wp_send_json_error( array( 'message' => esc_html__( 'Authorize Credentials are not set. Please inform Siteadmin', 'quick-adsense-reloaded' ) ) );
             }
             $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
 
@@ -1769,7 +1783,7 @@ function handle_ad_buy_form_submission() {
             
              // Make sure there are no errors
               if ( is_wp_error( $response ) ) {    
-                wp_send_json_error( array( 'message' => 'Processing failed.' ) );
+                wp_send_json_error( array( 'message' => esc_html__( 'Processing failed.', 'quick-adsense-reloaded' ) ) );
                 die;
               }
               
@@ -1797,16 +1811,16 @@ function handle_ad_buy_form_submission() {
                                 </form>
                             </body>
                             </html>';
-            wp_send_json_success( array( 'message' => 'Ad submission successful.' , 'paypal_form'=>$auth_form) );
+            wp_send_json_success( array( 'message' => esc_html__( 'Ad submission successful.', 'quick-adsense-reloaded' ) , 'paypal_form'=>$auth_form) );
             }else {
-                wp_send_json_error( array( 'message' => 'Failed to process payment.' ) );
+                wp_send_json_error( array( 'message' => esc_html__('Failed to process payment.', 'quick-adsense-reloaded' ) ) );
             }
         }else if($payment_gateway=='stripe'){
             $stripe_publishable_key =  isset($quads_settings['stripe_publishable_key']) ? $quads_settings['stripe_publishable_key'] : '';
         
             $stripe_secret_key =  isset($quads_settings['stripe_secret_key']) ? $quads_settings['stripe_secret_key'] : '';
             if ( empty( $stripe_secret_key ) || empty( $stripe_publishable_key ) ) {
-                wp_send_json_error( array( 'message' => 'Stripe Credentials are not set. Please inform Siteadmin' ) );
+                wp_send_json_error( array( 'message' => esc_html__( 'Stripe Credentials are not set. Please inform Siteadmin', 'quick-adsense-reloaded' ) ) );
             }
             $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
 
@@ -1830,10 +1844,10 @@ function handle_ad_buy_form_submission() {
                     'clientSecret' => $paymentIntent->client_secret,
                 ];
             
-                wp_send_json_success( array( 'message' => 'Ad submission successful.' , 'id' => $paymentIntent->client_secret,'success_link'=>$success_link,'cancel_url'=>$cancel_link) );
+                wp_send_json_success( array( 'message' => esc_html__( 'Ad submission successful.', 'quick-adsense-reloaded' ) , 'id' => $paymentIntent->client_secret,'success_link'=>$success_link,'cancel_url'=>$cancel_link) );
                 die;
             } catch (\Stripe\Exception\ApiErrorException $e) {
-                wp_send_json_error( array( 'message' => 'Failed to submit ad.' ) );
+                wp_send_json_error( array( 'message' => esc_html__( 'Failed to submit ad.', 'quick-adsense-reloaded' ) ) );
                 die;
             }
         }else if($payment_gateway=='paystack'){
@@ -1841,7 +1855,7 @@ function handle_ad_buy_form_submission() {
         
             $paystack_secret_key =  isset($quads_settings['paystack_secret_key']) ? $quads_settings['paystack_secret_key'] : '';
             if ( empty( $paystack_secret_key ) || empty( $paystack_public_key ) ) {
-                wp_send_json_error( array( 'message' => 'Stripe Credentials are not set. Please inform Siteadmin' ) );
+                wp_send_json_error( array( 'message' => esc_html__( 'Stripe Credentials are not set. Please inform Siteadmin', 'quick-adsense-reloaded' ) ) );
             }
             $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
 
@@ -1853,11 +1867,11 @@ function handle_ad_buy_form_submission() {
             $total_cost = round($total_cost);
             $user = get_user_by('id', $user_id);
             $email = $user->user_email;
-            wp_send_json_success( array( 'message' => 'Ad submission successful.' , 'public_key' =>$paystack_public_key,'secret_key'=>$paystack_secret_key,'email'=>$user->user_email,'amount'=>$total_cost,'currency'=>$currency,'success_link'=>$success_link,'cancel_url'=>$cancel_link) );
+            wp_send_json_success( array( 'message' => esc_html__( 'Ad submission successful.', 'quick-adsense-reloaded' ) , 'public_key' =>$paystack_public_key,'secret_key'=>$paystack_secret_key,'email'=>$user->user_email,'amount'=>$total_cost,'currency'=>$currency,'success_link'=>$success_link,'cancel_url'=>$cancel_link) );
             die;
         }
     } else {
-        wp_send_json_error( array( 'message' => 'Failed to submit ad.' ) );
+        wp_send_json_error( array( 'message' => esc_html__( 'Failed to submit ad.', 'quick-adsense-reloaded' ) ) );
         die;
     }
 }
@@ -1866,10 +1880,10 @@ add_action( 'wp_ajax_nopriv_quads_verify_paystack_payment', 'quads_verify_paysta
 
 function quads_verify_paystack_payment(){
     if ( ! isset( $_POST['action'] ) || $_POST['action'] !== 'submit_ad_buy_form' ) {
-        wp_send_json_error( array( 'message' => 'Invalid request.' ) );
+        wp_send_json_error( array( 'message' => esc_html__('Invalid request.', 'quick-adsense-reloaded' ) ) );
     } 
     if ( ! check_ajax_referer( 'submit_ad_buy_form', 'nonce', false ) ) {
-        wp_send_json_error( array( 'message' => 'Invalid request.' ) );
+        wp_send_json_error( array( 'message' => esc_html__('Invalid request.', 'quick-adsense-reloaded' ) ) );
     }
     if(isset($_POST['reference'])) {
         $reference = ( isset( $_POST['reference'] ) ) ? sanitize_text_field( wp_unslash( $_POST['reference'] ) ) : '';
@@ -1913,14 +1927,14 @@ function quads_verify_paystack_payment(){
 
 add_action( 'wp_ajax_submit_ad_buy_form', 'handle_ad_buy_form_submission' );
 add_action( 'wp_ajax_nopriv_submit_ad_buy_form', 'handle_ad_buy_form_submission' );
-function handle_submit_disablead_form() {
+function quads_handle_submit_disablead_form() {
    
     if ( ! isset( $_POST['action'] ) || $_POST['action'] !== 'submit_disablead_form' ) {
-        wp_send_json_error( array( 'message' => 'Invalid request.' ) );
+        wp_send_json_error( array( 'message' => esc_html__('Invalid request.', 'quick-adsense-reloaded' ) ) );
     }
 
     if ( ! check_ajax_referer( 'submit_disablead_form', 'nonce', false ) ) {
-        wp_send_json_error( array( 'message' => 'Invalid request.' ) );
+        wp_send_json_error( array( 'message' => esc_html__('Invalid request.', 'quick-adsense-reloaded' ) ) );
     }
   
     // Handle form fields, sanitize input, validate, and process accordingly
@@ -1933,14 +1947,14 @@ function handle_submit_disablead_form() {
         $password = ( isset( $_POST['password'] ) )?sanitize_text_field( wp_unslash( $_POST['password'] ) ) : '';
 
         if ( empty( $full_name ) || empty( $email ) || empty( $password ) ) {
-            wp_send_json_error( array( 'message' => 'Please fill in all fields.' ) );
+            wp_send_json_error( array( 'message' => esc_html__('Please fill in all fields.', 'quick-adsense-reloaded' ) ) );
         }
 
         // Create the new user
         $user_id = wp_create_user( $email, $password, $email );
 
         if ( is_wp_error( $user_id ) ) {
-            wp_send_json_error( array( 'message' => 'Failed to create account. ' . $user_id->get_error_message() ) );
+            wp_send_json_error( array( 'message' => esc_html__('Failed to create account. ', 'quick-adsense-reloaded' ) . $user_id->get_error_message() ) );
         }else{
             $creds = array(
                 'user_login'    => $email,
@@ -1949,7 +1963,7 @@ function handle_submit_disablead_form() {
             );
             $user = wp_signon($creds, false);
             if ( is_wp_error($user)) {
-                wp_send_json_error( array( 'message' => 'Failed to Login. ') );
+                wp_send_json_error( array( 'message' => esc_html__('Failed to Login. ', 'quick-adsense-reloaded' )) );
             }
         }
     }
@@ -1992,7 +2006,7 @@ function handle_submit_disablead_form() {
             $paypal_email =  isset($quads_settings['_dapaypal_email']) ? $quads_settings['_dapaypal_email'] : '';
 
             if ( empty( $paypal_email ) ) {
-                wp_send_json_error( array( 'message' => 'PayPal email not set.Please inform Siteadmin' ) );
+                wp_send_json_error( array( 'message' => esc_html__( 'PayPal email not set.Please inform Siteadmin', 'quick-adsense-reloaded' ) ) );
             }
 
             $currency = isset($quads_settings['_dacurrency']) ? $quads_settings['_dacurrency'] : 'USD';
@@ -2011,14 +2025,14 @@ function handle_submit_disablead_form() {
             $paypal_form .= '<input type="hidden" name="item_number" value="' . esc_attr($order_id) . '">';
             $paypal_form .= '<input type="hidden" name="custom" value="' . esc_attr($user_id) . '">';
 
-            wp_send_json_success( array( 'message' => 'Ad submission successful.' , 'paypal_form'=>$paypal_form) );
+            wp_send_json_success( array( 'message' => esc_html__( 'Ad submission successful.', 'quick-adsense-reloaded' ) , 'paypal_form'=>$paypal_form) );
         }else if($payment_gateway=='authorize'){
             $authorize_name =  isset($quads_settings['_daauthorize_name']) ? $quads_settings['_daauthorize_name'] : '';
             $authorize_transactionKey =  isset($quads_settings['_daauthorize_transactionKey']) ? $quads_settings['_daauthorize_transactionKey'] : '';
             $authorize_merchant_name =  isset($quads_settings['_daauthorize_merchant_name']) ? $quads_settings['_daauthorize_merchant_name'] : '';
 
             if ( empty( $authorize_name ) || empty( $authorize_transactionKey ) ) {
-                wp_send_json_error( array( 'message' => 'Authorize Credentials are not set. Please inform Siteadmin' ) );
+                wp_send_json_error( array( 'message' => esc_html__('Authorize Credentials are not set. Please inform Siteadmin', 'quick-adsense-reloaded' ) ) );
             }
             $currency = isset($quads_settings['_dacurrency']) ? $quads_settings['_dacurrency'] : 'USD';
 
@@ -2092,7 +2106,7 @@ function handle_submit_disablead_form() {
             
              // Make sure there are no errors
               if ( is_wp_error( $response ) ) {    
-                wp_send_json_error( array( 'message' => 'Processing failed.' ) );
+                wp_send_json_error( array( 'message' => esc_html__( 'Processing failed.', 'quick-adsense-reloaded' ) ) );
                 die;
               }
               
@@ -2119,16 +2133,16 @@ function handle_submit_disablead_form() {
                                 </form>
                             </body>
                             </html>';
-            wp_send_json_success( array( 'message' => 'Ad submission successful.' , 'paypal_form'=>$auth_form) );
+            wp_send_json_success( array( 'message' => esc_html__( 'Ad submission successful.', 'quick-adsense-reloaded' ) , 'paypal_form'=>$auth_form) );
             }else {
-                wp_send_json_error( array( 'message' => 'Failed to process payment.' ) );
+                wp_send_json_error( array( 'message' => esc_html__('Failed to process payment.', 'quick-adsense-reloaded' ) ) );
             }
         }else if($payment_gateway=='stripe'){
             $stripe_publishable_key =  isset($quads_settings['_dastripe_publishable_key']) ? $quads_settings['_dastripe_publishable_key'] : '';
         
             $stripe_secret_key =  isset($quads_settings['_dastripe_secret_key']) ? $quads_settings['_dastripe_secret_key'] : '';
             if ( empty( $stripe_secret_key ) || empty( $stripe_publishable_key ) ) {
-                wp_send_json_error( array( 'message' => 'Stripe Credentials are not set. Please inform Siteadmin' ) );
+                wp_send_json_error( array( 'message' => esc_html__('Stripe Credentials are not set. Please inform Siteadmin', 'quick-adsense-reloaded' ) ) );
             }
             $currency = isset($quads_settings['_dacurrency']) ? $quads_settings['_dacurrency'] : 'USD';
 
@@ -2151,20 +2165,20 @@ function handle_submit_disablead_form() {
                     'clientSecret' => $paymentIntent->client_secret,
                 ];
             
-                wp_send_json_success( array( 'message' => 'Ad submission successful.' , 'id' => $paymentIntent->client_secret,'success_link'=>$success_link,'cancel_url'=>$cancel_link) );
+                wp_send_json_success( array( 'message' => esc_html__( 'Ad submission successful.', 'quick-adsense-reloaded' ) , 'id' => $paymentIntent->client_secret,'success_link'=>$success_link,'cancel_url'=>$cancel_link) );
                 die;
             } catch (\Stripe\Exception\ApiErrorException $e) {
-                wp_send_json_error( array( 'message' => 'Failed to submit ad.' ) );
+                wp_send_json_error( array( 'message' => esc_html__('Failed to submit ad.', 'quick-adsense-reloaded' ) ) );
                 die;
             }
         }
     } else {
-        wp_send_json_error( array( 'message' => 'Failed to submit ad.' ) );
+        wp_send_json_error( array( 'message' => esc_html__('Failed to submit ad.', 'quick-adsense-reloaded' ) ) );
         die;
     }
 }
-add_action( 'wp_ajax_submit_disablead_form', 'handle_submit_disablead_form' );
-add_action( 'wp_ajax_nopriv_submit_disablead_form', 'handle_submit_disablead_form' );
+add_action( 'wp_ajax_submit_disablead_form', 'quads_handle_submit_disablead_form' );
+add_action( 'wp_ajax_nopriv_submit_disablead_form', 'quads_handle_submit_disablead_form' );
 
 add_action('rest_api_init', function () {
     register_rest_route('wpquads/v1', '/paypal_notify_url', array(
@@ -2207,7 +2221,7 @@ function wpquads_handle_paypal_notify(WP_REST_Request $request) {
         'sslverify' => true,
     ));
     if (is_wp_error($response) || wp_remote_retrieve_body($response) !== 'VERIFIED') {
-        return new WP_REST_Response(array('status' => 'error', 'message' => 'PayPal IPN verification failed.'), 404);
+        return new WP_REST_Response(array('status' => 'error', 'message' => esc_html__( 'PayPal IPN verification failed.', 'quick-adsense-reloaded' ) ), 404);
     }
     $params['re'] = wp_remote_retrieve_body($response);
     // Check if the payment is complete
@@ -2220,11 +2234,11 @@ function wpquads_handle_paypal_notify(WP_REST_Request $request) {
         
         $ad_details = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $table_name WHERE id = %d AND user_id = %d",$order_id,$user->ID) );
         if (!$ad_details) {
-            return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad not found'), 404);
+            return new WP_REST_Response( array( 'status' => 'error', 'message' => esc_html__( 'Ad not found', 'quick-adsense-reloaded' ) ), 404);
         }
 
         if ($ad_details->payment_status === 'paid') {
-            return new WP_REST_Response(array('status' => 'error', 'message' => 'Ad already paid'), 400);
+            return new WP_REST_Response( array('status' => 'error', 'message' => esc_html__( 'Ad already paid', 'quick-adsense-reloaded' ) ), 400);
         }
         
         $wpdb->update(
@@ -2243,17 +2257,17 @@ function wpquads_handle_paypal_notify(WP_REST_Request $request) {
         $subject = esc_html__( 'Ad Payment Confirmation', 'quick-adsense-reloaded' );
         $message = esc_html__( 'Your ad payment has been confirmed. Your ad will be live soon.', 'quick-adsense-reloaded' ).PHP_EOL;
         //also add the ad details in the email
-        $ad_details_html .= 'Ad Details: '.PHP_EOL;
-        $ad_details_html .= 'Ad Slot: ' . esc_attr(get_the_title($ad_details->ad_id )) . PHP_EOL;
-        $ad_details_html .= 'Start Date: ' . esc_html($ad_details->start_date) . PHP_EOL;
-        $ad_details_html .= 'End Date: ' .  esc_html($ad_details->end_date) . PHP_EOL;
-        $ad_details_html .= 'Ad Link: ' .  esc_html($ad_details->ad_link) . PHP_EOL;
-        $ad_details_html .= 'Ad Image: ' .  esc_html($ad_details->ad_image) . PHP_EOL;
-        $ad_details_html .= 'Total Cost: ' . esc_html($currency . $total_cost) . PHP_EOL;
-        $ad_details_html .= 'Payment Status: ' . esc_html($payment_status) . PHP_EOL;
-        $ad_details_html .= 'Payer Email: ' . esc_html($payer_email) . PHP_EOL;
-        $ad_details_html .= 'Order ID: ' . esc_html($order_id) . PHP_EOL;
-        $ad_details_html .= 'Order ID: ' . esc_html($order_id) . PHP_EOL;
+        $ad_details_html .= esc_html__( 'Ad Details: ', 'quick-adsense-reloaded' ) . PHP_EOL;
+        $ad_details_html .= esc_html__('Ad Slot: ', 'quick-adsense-reloaded' ) . esc_attr(get_the_title($ad_details->ad_id )) . PHP_EOL;
+        $ad_details_html .= esc_html__('Start Date: ', 'quick-adsense-reloaded' ) . esc_html($ad_details->start_date) . PHP_EOL;
+        $ad_details_html .= esc_html__('End Date: ', 'quick-adsense-reloaded' ) .  esc_html($ad_details->end_date) . PHP_EOL;
+        $ad_details_html .= esc_html__('Ad Link: ', 'quick-adsense-reloaded' ) .  esc_html($ad_details->ad_link) . PHP_EOL;
+        $ad_details_html .= esc_html__('Ad Image: ', 'quick-adsense-reloaded' ) .  esc_html($ad_details->ad_image) . PHP_EOL;
+        $ad_details_html .= esc_html__('Total Cost: ', 'quick-adsense-reloaded' ) . esc_html($currency . $total_cost) . PHP_EOL;
+        $ad_details_html .= esc_html__('Payment Status: ', 'quick-adsense-reloaded' ) . esc_html($payment_status) . PHP_EOL;
+        $ad_details_html .= esc_html__('Payer Email: ', 'quick-adsense-reloaded' ) . esc_html($payer_email) . PHP_EOL;
+        $ad_details_html .= esc_html__('Order ID: ', 'quick-adsense-reloaded' ) . esc_html($order_id) . PHP_EOL;
+        $ad_details_html .= esc_html__('Order ID: ', 'quick-adsense-reloaded' ) . esc_html($order_id) . PHP_EOL;
         $message .= $ad_details_html;
         
 
@@ -2273,7 +2287,7 @@ function wpquads_handle_paypal_notify(WP_REST_Request $request) {
     }
 
     // Respond back with a success message
-    return new WP_REST_Response(array('status' => 'success'), 200);
+    return new WP_REST_Response(array('status' => esc_html__( 'success', 'quick-adsense-reloaded' )), 200);
 }
 function wpquads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
     $params = $request->get_params();
@@ -2301,7 +2315,7 @@ function wpquads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
         'sslverify' => true,
     ));
     if (is_wp_error($response) || wp_remote_retrieve_body($response) !== 'VERIFIED') {
-        return new WP_REST_Response(array('status' => 'error', 'message' => 'PayPal IPN verification failed.'), 404);
+        return new WP_REST_Response(array('status' => 'error', 'message' => esc_html__('PayPal IPN verification failed.', 'quick-adsense-reloaded' )), 404);
     }
     $params['re'] = wp_remote_retrieve_body($response);
     // Check if the payment is complete
@@ -2341,12 +2355,12 @@ function wpquads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
 
         $total_cost = $price;
         //also add the ad details in the email
-        $ad_details_html .= 'Ad Details: '.PHP_EOL;
-        $ad_details_html .= 'Total Cost: ' . esc_html($currency . $total_cost) . PHP_EOL;
-        $ad_details_html .= 'Duration: ' . esc_html($duration) . PHP_EOL;
-        $ad_details_html .= 'Payment Status: ' . esc_html($payment_status) . PHP_EOL;
-        $ad_details_html .= 'Payer Email: ' . esc_html($payer_email) . PHP_EOL;
-        $ad_details_html .= 'Order ID: ' . esc_html($order_id) . PHP_EOL;
+        $ad_details_html .=  esc_html__( 'Ad Details: ', 'quick-adsense-reloaded' ).PHP_EOL;
+        $ad_details_html .=  esc_html__( 'Total Cost: ', 'quick-adsense-reloaded' ) . esc_html($currency . $total_cost) . PHP_EOL;
+        $ad_details_html .=  esc_html__( 'Duration: ', 'quick-adsense-reloaded' ) . esc_html($duration) . PHP_EOL;
+        $ad_details_html .=  esc_html__( 'Payment Status: ', 'quick-adsense-reloaded' ) . esc_html($payment_status) . PHP_EOL;
+        $ad_details_html .= esc_html__( 'Payer Email: ', 'quick-adsense-reloaded' ) . esc_html($payer_email) . PHP_EOL;
+        $ad_details_html .= esc_html__( 'Order ID: ', 'quick-adsense-reloaded' ) . esc_html($order_id) . PHP_EOL;
         $message .= $ad_details_html;
         
 
@@ -2365,7 +2379,7 @@ function wpquads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
     }
 
     // Respond back with a success message
-    return new WP_REST_Response(array('status' => 'success'), 200);
+    return new WP_REST_Response(array('status' => esc_html__( 'success', 'quick-adsense-reloaded' )), 200);
 }
 
 function quads_get_active_ads_by_slot( $slot_id = null ){
