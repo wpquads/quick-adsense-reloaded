@@ -223,7 +223,7 @@ class QuadsAdTargeting extends Component {
                     <tr className="quads-tr-position">
                     <td><label>{__('Where will the AD appear?', 'quick-adsense-reloaded')}</label></td>
                     { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" || post_meta.ad_type == "parallax_ads" || post_meta.ad_type == "half_page_ads" ?  "" : 
-                        <td>{post_meta.ad_type != "group_insertion" || post_meta.ad_type != "sticky_scroll" ? (<QuadsAdvancePosition parentState={this.props.parentState} adFormChangeHandler = {this.props.adFormChangeHandler}/>
+                        <td>{post_meta.ad_type != "group_insertion" && post_meta.ad_type != "sticky_scroll" ? (<QuadsAdvancePosition parentState={this.props.parentState} adFormChangeHandler = {this.props.adFormChangeHandler}/>
                         ):<div><Select  style={{minWidth:'250px',marginTop:'20px'}} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                             <MenuItem value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</MenuItem>
                         </Select>

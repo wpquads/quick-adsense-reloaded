@@ -189,7 +189,10 @@ check_plugin_exist = (event) => {
                                         <input id='repeat_paragraph' checked={post_meta.repeat_paragraph} name="repeat_paragraph" onChange={this.props.adFormChangeHandler} type="checkbox"/>
                                         <label htmlFor="repeat_paragraph"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number}</label>
                                     </div>
-
+                                    <div>
+                                        <label > {__('Limit The Insertion Till Nth Ad', 'quick-adsense-reloaded')}</label>
+                                        <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_limit" value={post_meta.paragraph_limit}  type="number" />
+                                    </div>
 
                                 </div> : ''}
 

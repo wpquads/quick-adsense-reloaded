@@ -1295,6 +1295,7 @@ function quads_filter_default_ads_new( $content ) {
 
                         if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
                           $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
+                          
                           $paragraph_limit         = isset($ads['paragraph_limit']) ? $ads['paragraph_limit'] : '';
                           $insert_after         = isset($ads['insert_after']) ? $ads['insert_after'] : 1;
 
@@ -1355,14 +1356,19 @@ function quads_filter_default_ads_new( $content ) {
                                         }
                                 }
                             }else{
-
+                                $displayed_ad = 1;
                               foreach ($paragraphs as $index => $paragraph) {
                                   if ( trim( $paragraph ) ) {
                                       $paragraphs[$index] .= $closing_p;
                                   }
                                   if ( $paragraph_no == $index + 1 ) {
-                                      $paragraphs[$index] .= $cusads;
+                                        
+                                    $paragraphs[$index] .= $cusads;
+                                    if((!empty($paragraph_limit) && $paragraph_limit < ($displayed_ad + 1) )){
+                                        break;
+                                    }
                                       if($repeat_paragraph && ($paragraph_no < $p_count-$original_paragraph_no)){
+                                        $displayed_ad = $displayed_ad + 1;
                                        $paragraph_no =  $original_paragraph_no+$paragraph_no; 
                                       }
                                   }
