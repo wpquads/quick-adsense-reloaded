@@ -1297,6 +1297,9 @@ function quads_filter_default_ads_new( $content ) {
                           $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
                           
                           $paragraph_limit         = isset($ads['paragraph_limit']) ? $ads['paragraph_limit'] : '';
+                          
+                          $exclude_from_class_id         = isset($ads['exclude_from_class_id']) ? $ads['exclude_from_class_id'] : '';
+
                           $insert_after         = isset($ads['insert_after']) ? $ads['insert_after'] : 1;
 
                           $closing_p        = '</p>';
@@ -1375,12 +1378,19 @@ function quads_filter_default_ads_new( $content ) {
                               }
                             }
                               $content = implode( '', $paragraphs ); 
+                              if( !empty( $exclude_from_class_id ) ){
+                                    $remove_class = 'quads-ad'.$ads['ad_id'];
+                                    $clsidsel = '<!--QuadsExcludesSelector('.$exclude_from_class_id.') ID-'.$ads['ad_id'].'-->';
+                                    $content = $content.$clsidsel;
+                                }
                           }else{                        
                               if($end_of_post){
                                   $content = $content.$cusads;   
                               }                                
                           }
+                         
                       }
+                      
                         break;
                     
                     case 'after_image':
@@ -1755,7 +1765,6 @@ function quads_filter_default_ads_new( $content ) {
         }
         
     }
-    
     return $content;
 }
 
@@ -3434,7 +3443,12 @@ function quads_del_element($array, $idx) {
                 }
             }
             }
-
+          
+            
+            
+            
+            
+            
 function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_paragraph=false){
 
     $wp_charset = get_bloginfo( 'charset' );
@@ -3774,6 +3788,8 @@ function quads_is_lazyload_template($options, $ads){
                                 }
                             }
                         break;
+                        case 'after_paragraph':
+                            $exclude_from_class_id         = isset($ads['exclude_from_class_id']) ? $ads['exclude_from_class_id'] : '';
                     }
             
                 }
@@ -3782,5 +3798,83 @@ function quads_is_lazyload_template($options, $ads){
         }
 
     }
+    
+    
     return $content;
   }
+  function remove_quads_ad_from_excluded($buffer) {
+    // Match all QuadsExcludesSelector instances
+    preg_match_all('/<!--QuadsExcludesSelector\((.*?)\) ID-(\d+)-->/', $buffer, $matches, PREG_SET_ORDER);
+
+    if (empty($matches)) {
+        return $buffer; // No matches, return original content
+    }
+
+    // Load HTML into DOMDocument safely
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true); // Suppress warnings
+    @$dom->loadHTML(mb_convert_encoding($buffer, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    libxml_clear_errors();
+
+    $xpath = new DOMXPath($dom);
+
+    foreach ($matches as $match) {
+        $selectors = explode(' ', trim($match[1])); // Handle multiple selectors
+        $id_number = $match[2]; // Extracted numeric ID (e.g., 424)
+        $quads_ad_class = 'quads-ad' . $id_number; // Construct class quads-ad424
+
+        // Debugging Logs (Check wp-content/debug.log)
+        error_log("Selectors: " . implode(', ', $selectors));
+        error_log("Target ID: $id_number");
+        error_log("Target Ad Class: $quads_ad_class");
+
+        // Process each selector (class or ID)
+        foreach ($selectors as $selector) {
+            $selector = trim($selector);
+            if (empty($selector)) continue;
+
+            if (strpos($selector, '.') === 0) {
+                $selector = substr($selector, 1); // Remove leading dot
+                $query = "//*[contains(concat(' ', normalize-space(@class), ' '), ' $selector ')]";
+            } elseif (strpos($selector, '#') === 0) {
+                $selector = substr($selector, 1); // Remove leading #
+                $query = "//*[@id='$selector']";
+            } else {
+                continue; // Invalid selector, skip it
+            }
+
+            $elements = $xpath->query($query);
+
+            foreach ($elements as $element) {
+                $child_nodes = $element->getElementsByTagName('div'); // Get all <div> children
+                $toRemove = []; // Store nodes to remove
+
+                foreach ($child_nodes as $child) {
+                    if ($child->hasAttribute('class')) {
+                        $child_classes = explode(' ', $child->getAttribute('class'));
+                        if (in_array($quads_ad_class, $child_classes)) {
+                            error_log("Removing: " . $child->getAttribute('class'));
+                            $toRemove[] = $child; // Add to remove list
+                        }
+                    }
+                }
+
+                // Remove the elements AFTER looping (avoids modifying list during iteration)
+                foreach ($toRemove as $node) {
+                    $node->parentNode->removeChild($node);
+                }
+            }
+        }
+    }
+
+    return $dom->saveHTML();
+}
+
+// Use correct WordPress Hook for Output Buffering
+add_action('template_redirect', function () {
+    ob_start('remove_quads_ad_from_excluded');
+});
+
+
+
+

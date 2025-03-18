@@ -193,6 +193,10 @@ check_plugin_exist = (event) => {
                                         <label > {__('Limit The Insertion Till Nth Ad', 'quick-adsense-reloaded')}</label>
                                         <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_limit" value={post_meta.paragraph_limit}  type="number" />
                                     </div>
+                                    <div>
+                                        <label > {__('Exclude from CLASS or ID Selector', 'quick-adsense-reloaded')}</label>
+                                        <input onChange={this.props.adFormChangeHandler} name="exclude_from_class_id" value={post_meta.exclude_from_class_id}  type="text" placeholder='.class_name or #id separated by space'/>
+                                    </div>
 
                                 </div> : ''}
 
