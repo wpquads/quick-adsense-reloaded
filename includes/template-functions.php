@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 // we need to hook into the_content on lower than default priority (that's why we use separate hook)
 add_filter('the_content', 'quads_post_settings_to_quicktags', quads_get_load_priority());
 add_filter('the_content', 'quads_process_content', quads_get_load_priority());
+add_filter('the_excerpt', 'quads_process_excerpt', quads_get_load_priority());
 add_filter('rest_prepare_post', 'quads_classic_to_gutenberg', 10, 1);
 add_filter('the_content', 'quads_change_adsbygoogle_to_amp',11);
 add_action('wp_head',  'quads_common_head_code');
@@ -919,7 +920,60 @@ function quads_process_content( $content ) {
     }
     $quads_ad_is_allowed=apply_filters('quads_show_ads',quads_ad_is_allowed( $content ));
     // Do not do anything if ads are not allowed or process is not in the main query
-    if( !$quads_ad_is_allowed || !is_main_query() || !is_singular() ) {
+    if( !$quads_ad_is_allowed || !is_main_query() || (!is_singular() && !is_front_page()) ) {
+        $content = quads_clean_tags( $content );
+        return $content;
+    }
+
+    $content = quads_sanitize_content( $content );
+    if($quads_mode == 'new'){
+        $content = quads_filter_default_ads_new( $content );
+        $content = '<!--EmptyClear-->' . $content . "\n";
+        $content = quads_clean_tags( $content, true );
+        $content = quads_parse_default_ads_new( $content );
+        $content = quads_parse_quicktags( $content );
+        $content = quads_parse_random_quicktag_ads($content);
+        $content = quads_parse_random_ads_new( $content );
+        $content = quads_clean_tags( $content );
+        $content = quads_parse_popup_ads( $content );
+        $content = quads_parse_video_ads( $content );       
+        $content = quads_parse_parallax_ads( $content ); 
+        $content = quads_parse_half_page_ads( $content );        
+        return do_shortcode( $content );   
+    }else{
+        $content = quads_filter_default_ads( $content );    
+        $content = '<!--EmptyClear-->' . $content . "\n";
+        $content = quads_clean_tags( $content, true );
+        $content = quads_parse_default_ads( $content );    
+        $content = quads_parse_quicktags( $content );
+        $content = quads_parse_random_quicktag_ads($content);
+        $content = quads_parse_random_ads( $content );    
+        $content = quads_clean_tags( $content );
+        return do_shortcode( $content );
+    }    
+}
+function quads_process_excerpt( $content ) {
+    global $quads_mode, $quads_options, $adsArray, $adsArrayCus, $visibleContentAds, $ad_count_widget, $visibleShortcodeAds;        
+    
+    // Array of ad codes ids
+    $adsArray = quads_get_active_ads();
+    
+    // Return is no ads are defined
+    if ($adsArray === 0 && $quads_mode != 'new'){
+        return $content;
+    }
+
+    // Do nothing if maximum ads are reached in post content
+    if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
+        $content = quads_clean_tags( $content );
+        return $content;
+    }
+    if(quads_disable_ads()){
+        return $content;
+    }
+    $quads_ad_is_allowed=apply_filters('quads_show_ads',quads_ad_is_allowed( $content ));
+    // Do not do anything if ads are not allowed or process is not in the main query
+    if( !$quads_ad_is_allowed || !is_main_query() || (!is_singular() && !is_front_page()) ) {
         $content = quads_clean_tags( $content );
         return $content;
     }
@@ -3874,7 +3928,6 @@ function quads_is_lazyload_template($options, $ads){
 add_action('template_redirect', function () {
     ob_start('remove_quads_ad_from_excluded');
 });
-
 
 
 
