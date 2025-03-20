@@ -1197,7 +1197,7 @@ function quads_filter_default_ads_new( $content ) {
                         }                     
                         # code...
                     break;
-
+/* 
                     case 'ad_sticky_ad':
                         $sticky_cookie =   (isset( $_COOKIE['quads_sticky'] ) && $_COOKIE['quads_sticky']!== NULL ) ? $_COOKIE['quads_sticky'] : '' ;
                         if( $sticky_cookie !== "sticky_ad" ){
@@ -1214,7 +1214,7 @@ function quads_filter_default_ads_new( $content ) {
                                 $q_close = '</div>';
                                 $content = $content.$q_main_open.$cusads.$q_close;}                                 
                             }
-                    break;                                
+                    break;    */                             
                     case 'after_more_tag':
                         // Check if ad is after "More Tag"
                         if(strpos( $content, '<!--OffAfMore-->' ) === false ) {                           
@@ -3876,5 +3876,79 @@ add_action('template_redirect', function () {
 });
 
 
+function quads_display_sticky_ads(){
+    $quads_ads = quads_api_services_cllbck(); 
+    $adsArrayCus = array();
+    if(isset($quads_ads['posts_data'])){        
+       
+        foreach($quads_ads['posts_data'] as $key => $value){
+            $ads =$value['post_meta'];
+            if($value['post']['post_status']== 'draft'){
+                continue;
+            }
+            $quads_visibilty = apply_filters('wpquads_ad_conditional_visibility', $value['post_meta']);
+            if(!$quads_visibilty){
+                continue;
+            }
+            if(isset($ads['random_ads_list']))
+            $ads['random_ads_list'] = unserialize($ads['random_ads_list']);
+         if(isset($ads['visibility_include']))
+             $ads['visibility_include'] = unserialize($ads['visibility_include']);
+         if(isset($ads['visibility_exclude']))
+             $ads['visibility_exclude'] = unserialize($ads['visibility_exclude']);
 
+         if(isset($ads['targeting_include']))
+             $ads['targeting_include'] = unserialize($ads['targeting_include']);
 
+         if(isset($ads['targeting_exclude']))
+             $ads['targeting_exclude'] = unserialize($ads['targeting_exclude']);
+            $is_on         = quads_is_visibility_on($ads);
+            $is_visitor_on = quads_is_visitor_on($ads);
+            $is_click_fraud_on = quads_click_fraud_on();
+            if(isset($ads['ad_id']))
+            $post_status = get_post_status($ads['ad_id']); 
+            else
+              $post_status =  'publish';
+            if($is_on && $is_visitor_on && $is_click_fraud_on && $post_status=='publish'){
+                $ads  = apply_filters( 'quads_default_filter_position_data', $ads);
+                $ads  = apply_filters( 'quads_default_filter_position_data_ab_testing', $ads);
+
+                $position     = (isset($ads['position']) && $ads['position'] !='') ? $ads['position'] : '';
+                $cls_btn     = (isset($ads['cls_btn']) && $ads['cls_btn'] !='') ? $ads['cls_btn'] : '';
+                $sticky_show_hide     = (isset($ads['sticky_ad_show_hide']) && $ads['sticky_ad_show_hide'] !='') ? $ads['sticky_ad_show_hide'] : '';
+                $sticky_show_hide_txt     = (isset($ads['sticky_show_hide_txt']) && $ads['sticky_show_hide_txt'] !='') ? $ads['sticky_show_hide_txt'] : 'Slide Up';
+                $sticky_ad_anim = (isset($ads['sticky_ad_anim']) && $ads['sticky_ad_anim'] !='') ? $ads['sticky_ad_anim'] : '';
+                $sticky_ad_anim_text = (isset($ads['sticky_ad_anim_txt']) && $ads['sticky_ad_anim_txt'] !='') ? $ads['sticky_ad_anim_txt'] : '1000';
+              
+ 
+                                   
+                $cusads = '<!--CusAds'.esc_html($ads['ad_id']).'-->';
+                
+               
+                switch ($position) {
+                    case 'ad_sticky_ad':
+                        $sticky_cookie =   (isset( $_COOKIE['quads_sticky'] ) && $_COOKIE['quads_sticky']!== NULL ) ? $_COOKIE['quads_sticky'] : '' ;
+                        if( $sticky_cookie !== "sticky_ad" ){
+                            if(strpos( $content, '<!--OffEnd-->' ) === false ) {
+                                $a_tag = $btn_tag = '';
+                                if( isset($cls_btn) && $cls_btn == 1 ){
+                                    $a_tag = '<a class="quads-sticky-ad-close">x</a>';
+                                }
+                                if( isset($sticky_show_hide) && $sticky_show_hide == 1 ){
+                                    $btn_tag = '<div class="quads-sticky-show-btn">'.esc_attr($sticky_show_hide_txt).'</div>';
+                                }
+                                $anim_attr = ( isset($sticky_ad_anim) && $sticky_ad_anim == 1 ) ? ' data-anim-tod='.$sticky_ad_anim_text.'' : '';
+                                $q_main_open = ''.$btn_tag.'<div class="quads-sticky"'.$anim_attr.'>'.$a_tag.'';
+                                $q_close = '</div>';
+                                $content = $q_main_open.$cusads.$q_close;
+                                echo quads_replace_ads_new( $content, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
+                            }                                 
+                        }
+                        break;    
+                }
+            }
+        }
+    }
+}
+
+add_action( 'wp_footer', 'quads_display_sticky_ads'  );
