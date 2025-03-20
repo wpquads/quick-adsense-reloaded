@@ -97,6 +97,9 @@ class QuadsAdList extends Component {
         case 'adsense':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/adsensev3.png';
           break;
+        case 'admob':
+          img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/adMob.png';
+          break;
         case 'plain_text':
           img_url = quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/htmlcode.png';
           type = "custom code";

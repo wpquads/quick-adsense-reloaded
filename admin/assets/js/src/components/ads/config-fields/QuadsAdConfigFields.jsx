@@ -558,6 +558,23 @@ const {__} = wp.i18n;
                 </div>);
 
               break;
+            case 'admob':
+             ad_type_name = 'AdMob';  
+              comp_html.push(<div key="admob">
+                <table>
+                  <tbody>
+                   
+                    <tr><td><label>{__('Data Client ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.admob_data_ad_client == '') ? 'quads_form_error' : ''} value={post_meta.admob_data_ad_client} placeholder="ca-pub-2005XXXXXXXXX342" onChange={this.props.adFormChangeHandler} type="text" id="admob_data_ad_client" name="admob_data_ad_client" />
+                   </td></tr>
+                   <tr><td><label>{__('Data Slot ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.admob_data_ad_slot == '') ? 'quads_form_error' : ''}  value={post_meta.admob_data_ad_slot} onChange={this.props.adFormChangeHandler} type="text" id="admob_data_ad_slot" name="admob_data_ad_slot" placeholder="70XXXXXX12" />
+                    {(show_form_error && post_meta.admob_data_ad_slot == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline
+                    </span>{__('Enter Data Slot ID', 'quick-adsense-reloaded')}</div> :''}</td></tr>
+                  </tbody>
+                </table>
+                </div>);
+
+              break;
           
               case 'plain_text':                
                 ad_type_name = 'Plain Text / HTML / JS';
