@@ -3205,7 +3205,9 @@ function quads_del_element($array, $idx) {
                 
                 $is_on = true;
             }           
-            
+            if( isset($ads['position']) && $ads['position'] == 'ad_sticky_ad' ){
+                $is_on = false;
+            }
             if($is_on && $is_visitor_on && $post_status=='publish'){
                 if(isset($ads['ad_type']) && $ads['ad_type'] == 'background_ad'){
 
