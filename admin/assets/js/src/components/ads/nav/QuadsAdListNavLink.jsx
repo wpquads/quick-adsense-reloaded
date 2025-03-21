@@ -18,7 +18,7 @@ class QuadsAdListNavLink extends Component {
             setting_access : false,
            All_ad_network: [
                     {ad_type:'adsense',ad_type_name:'AdSense'},
-                    {ad_type:'admob',ad_type_name:'AdMob'},
+                    {ad_type:'admob',ad_type_name:'Reward Ad'},
                     {ad_type:'double_click',ad_type_name:'Double Click'},
                     // {ad_type:'adpushup',ad_type_name:'AdPushup'},
                     {ad_type:'yandex',ad_type_name:'Yandex'},
