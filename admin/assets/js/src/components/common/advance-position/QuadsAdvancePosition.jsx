@@ -173,33 +173,7 @@ check_plugin_exist = (event) => {
                                     <label htmlFor="repeat_paragraph"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number}</label>
                                 </div> : ''}
 
-                            {post_meta.position == 'after_paragraph' ?
-                                <div>
-                                    <div>
-                                        <label>
-                                            {post_meta.position == 'after_paragraph' ? <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_number" value={post_meta.paragraph_number}  type="number" /> : ''}
-
-
-                                        </label>
-                                        <label htmlFor="enable_on_end_of_post">
-                                            <input id='enable_on_end_of_post' checked={post_meta.enable_on_end_of_post} name="enable_on_end_of_post" onChange={this.props.adFormChangeHandler} type="checkbox"/>
-                                            {__('to', 'quick-adsense-reloaded')} <strong>{__('End of Post', 'quick-adsense-reloaded')}</strong> {__('if fewer paragraphs', 'quick-adsense-reloaded')}</label>
-                                    </div>
-                                    <div>
-                                        <input id='repeat_paragraph' checked={post_meta.repeat_paragraph} name="repeat_paragraph" onChange={this.props.adFormChangeHandler} type="checkbox"/>
-                                        <label htmlFor="repeat_paragraph"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number}</label>
-                                    </div>
-                                    <div>
-                                        <label > {__('Limit The Insertion Till Nth Ad', 'quick-adsense-reloaded')}</label>
-                                        <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_limit" value={post_meta.paragraph_limit}  type="number" />
-                                    </div>
-                                    <div>
-                                        <label > {__('Exclude from CLASS or ID Selector', 'quick-adsense-reloaded')}</label>
-                                        <input onChange={this.props.adFormChangeHandler} name="exclude_from_class_id" value={post_meta.exclude_from_class_id}  type="text" placeholder='.class_name or #id separated by space'/>
-                                    </div>
-
-                                </div> : ''}
-
+                          
                                 {
                                     post_meta.position == "amp_after_paragraph" ? 
                                     <div>

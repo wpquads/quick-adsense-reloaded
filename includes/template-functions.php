@@ -3805,74 +3805,171 @@ function quads_is_lazyload_template($options, $ads){
     return $content;
   }
   function remove_quads_ad_from_excluded($buffer) {
-    // Match all QuadsExcludesSelector instances
     preg_match_all('/<!--QuadsExcludesSelector\((.*?)\) ID-(\d+)-->/', $buffer, $matches, PREG_SET_ORDER);
-
     if (empty($matches)) {
-        return $buffer; // No matches, return original content
+        error_log("No QuadsExcludesSelector matches found");
+        return $buffer;
     }
 
-    // Load HTML into DOMDocument safely
     $dom = new DOMDocument();
-    libxml_use_internal_errors(true); // Suppress warnings
-    @$dom->loadHTML(mb_convert_encoding($buffer, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    libxml_use_internal_errors(true);
+    @$dom->loadHTML('<?xml encoding="UTF-8">' . $buffer, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
     libxml_clear_errors();
 
     $xpath = new DOMXPath($dom);
 
+    // Step 1: Track all ad positions
+    $paragraph_count = 0;
+    $ad_positions = []; // [position => [node, html, class]]
+    $nodes = $xpath->query('//*');
+    foreach ($nodes as $node) {
+        if ($node->nodeName === 'p') {
+            $paragraph_count++;
+        }
+        if ($node->nodeName === 'div' && $node->hasAttribute('class')) {
+            $classes = explode(' ', $node->getAttribute('class'));
+            foreach ($classes as $class) {
+                if (preg_match('/^quads-ad\d+$/', $class)) {
+                    $ad_positions[$paragraph_count] = [
+                        'node' => $node,
+                        'html' => $dom->saveHTML($node),
+                        'class' => $class
+                    ];
+                    break;
+                }
+            }
+        }
+    }
+    error_log("Initial ad positions: " . json_encode(array_map(fn($pos) => "$pos ({$ad_positions[$pos]['class']})", array_keys($ad_positions))));
+
+    // Step 2: Remove ad within selector
+    $removed_ad = null;
+    $removed_position = null;
+    $removed_class = null;
     foreach ($matches as $match) {
-        $selectors = explode(' ', trim($match[1])); // Handle multiple selectors
-        $id_number = $match[2]; // Extracted numeric ID (e.g., 424)
-        $quads_ad_class = 'quads-ad' . $id_number; // Construct class quads-ad424
+        $selectors = explode(' ', trim($match[1]));
+        $id_number = $match[2];
+        $quads_ad_class = 'quads-ad' . $id_number;
 
-        // Debugging Logs (Check wp-content/debug.log)
-        error_log("Selectors: " . implode(', ', $selectors));
-        error_log("Target ID: $id_number");
-        error_log("Target Ad Class: $quads_ad_class");
-
-        // Process each selector (class or ID)
         foreach ($selectors as $selector) {
             $selector = trim($selector);
             if (empty($selector)) continue;
 
-            if (strpos($selector, '.') === 0) {
-                $selector = substr($selector, 1); // Remove leading dot
-                $query = "//*[contains(concat(' ', normalize-space(@class), ' '), ' $selector ')]";
-            } elseif (strpos($selector, '#') === 0) {
-                $selector = substr($selector, 1); // Remove leading #
-                $query = "//*[@id='$selector']";
-            } else {
-                continue; // Invalid selector, skip it
-            }
+            $query = (strpos($selector, '.') === 0)
+                ? "//*[contains(concat(' ', normalize-space(@class), ' '), ' " . substr($selector, 1) . " ')]//div[contains(@class, '$quads_ad_class')]"
+                : "//*[@id='" . substr($selector, 1) . "']//div[contains(@class, '$quads_ad_class')]";
 
-            $elements = $xpath->query($query);
-
-            foreach ($elements as $element) {
-                $child_nodes = $element->getElementsByTagName('div'); // Get all <div> children
-                $toRemove = []; // Store nodes to remove
-
-                foreach ($child_nodes as $child) {
-                    if ($child->hasAttribute('class')) {
-                        $child_classes = explode(' ', $child->getAttribute('class'));
-                        if (in_array($quads_ad_class, $child_classes)) {
-                            error_log("Removing: " . $child->getAttribute('class'));
-                            $toRemove[] = $child; // Add to remove list
+            $ads_to_remove = $xpath->query($query);
+            foreach ($ads_to_remove as $ad) {
+                foreach ($ad_positions as $pos => $data) {
+                    if ($data['node']->isSameNode($ad)) {
+                        $removed_ad = $data['html'];
+                        $removed_position = $pos;
+                        $removed_class = $data['class'];
+                        error_log("Removing ad at position $pos ($removed_class): " . $removed_ad);
+                        if ($ad->parentNode) {
+                            $ad->parentNode->removeChild($ad);
                         }
+                        unset($ad_positions[$pos]);
+                        break 2;
                     }
-                }
-
-                // Remove the elements AFTER looping (avoids modifying list during iteration)
-                foreach ($toRemove as $node) {
-                    $node->parentNode->removeChild($node);
                 }
             }
         }
     }
 
-    return $dom->saveHTML();
+    // Step 3: Shift only similar ads
+    if ($removed_ad && $removed_position !== null && $removed_class) {
+        $remaining_positions = array_keys($ad_positions);
+        sort($remaining_positions);
+        error_log("Remaining positions: " . json_encode(array_map(fn($pos) => "$pos ({$ad_positions[$pos]['class']})", $remaining_positions)));
+
+        $similar_ad_positions = array_filter($remaining_positions, fn($pos) => $ad_positions[$pos]['class'] === $removed_class && $pos > $removed_position);
+        sort($similar_ad_positions);
+        error_log("Similar ad positions after $removed_position: " . json_encode($similar_ad_positions));
+
+        $new_ad_positions = $ad_positions; // Start with all positions
+        unset($new_ad_positions[$removed_position]); // Ensure removed ad is gone
+
+        if (!empty($similar_ad_positions)) {
+            // Shift removed ad to first similar position
+            $first_similar_pos = array_shift($similar_ad_positions);
+            $shifted_ads = [$removed_position => $removed_ad]; // Start with removed ad
+
+            // Collect ads to shift
+            foreach ($remaining_positions as $pos) {
+                if ($ad_positions[$pos]['class'] === $removed_class && $pos > $removed_position) {
+                    $shifted_ads[$pos] = $ad_positions[$pos]['html'];
+                }
+            }
+
+            $shifted_keys = array_keys($shifted_ads);
+            sort($shifted_keys);
+            $shifted_positions = array_merge([$first_similar_pos], $similar_ad_positions);
+            foreach ($shifted_keys as $index => $old_pos) {
+                $new_pos = $shifted_positions[$index] ?? max($remaining_positions) + 1;
+                $new_ad_positions[$new_pos] = $shifted_ads[$old_pos];
+                unset($new_ad_positions[$old_pos]); // Remove old position
+                error_log("Shifted ad from $old_pos to $new_pos");
+            }
+        } else {
+            // If no similar ads after, place at next available position
+            $next_pos = $removed_position;
+            while (isset($new_ad_positions[$next_pos])) {
+                $next_pos++;
+            }
+            $new_ad_positions[$next_pos] = $removed_ad;
+            error_log("No similar ads to shift, placed at $next_pos");
+        }
+
+        error_log("New ad positions: " . json_encode(array_map(fn($pos) => "$pos ({$new_ad_positions[$pos]['class']})", array_keys($new_ad_positions))));
+
+        // Step 4: Re-insert ads
+        foreach ($ad_positions as $pos => $data) {
+            if ($data['node']->parentNode) {
+                $data['node']->parentNode->removeChild($data['node']);
+            }
+        }
+
+        $paragraphs = $xpath->query('//p');
+        foreach ($paragraphs as $index => $p) {
+            $pos = $index + 1;
+            if (isset($new_ad_positions[$pos])) {
+                $fragment = $dom->createDocumentFragment();
+                if ($fragment->appendXML($new_ad_positions[$pos]['html'] ?? $new_ad_positions[$pos])) {
+                    if ($p->nextSibling) {
+                        $p->parentNode->insertBefore($fragment, $p->nextSibling);
+                    } else {
+                        $p->parentNode->appendChild($fragment);
+                    }
+                    error_log("Inserted ad after paragraph $pos");
+                } else {
+                    error_log("Failed to append XML for position $pos");
+                }
+            }
+        }
+
+        $last_para = $paragraphs->item($paragraphs->length - 1);
+        foreach ($new_ad_positions as $pos => $data) {
+            $html = $data['html'] ?? $data;
+            if ($pos > $paragraphs->length) {
+                $fragment = $dom->createDocumentFragment();
+                if ($fragment->appendXML($html)) {
+                    $last_para->parentNode->appendChild($fragment);
+                    error_log("Appended ad at position $pos");
+                } else {
+                    error_log("Failed to append XML for position $pos");
+                }
+            }
+        }
+    } else {
+        error_log("No ads removed");
+    }
+
+    $html = $dom->saveHTML();
+    return str_replace('<?xml encoding="UTF-8">', '', $html);
 }
 
-// Use correct WordPress Hook for Output Buffering
 add_action('template_redirect', function () {
     ob_start('remove_quads_ad_from_excluded');
 });
