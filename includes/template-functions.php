@@ -1380,7 +1380,7 @@ function quads_filter_default_ads_new( $content ) {
                               $content = implode( '', $paragraphs ); 
                               if( !empty( $exclude_from_class_id ) ){
                                     $remove_class = 'quads-ad'.$ads['ad_id'];
-                                    $clsidsel = '<!--QuadsExcludesSelector('.$exclude_from_class_id.') ID-'.$ads['ad_id'].'-->';
+                                    $clsidsel = '<!--QuadsExcludesSelector('.$exclude_from_class_id.') ID-'.$ads['ad_id'].' INS-'.$insert_after.' PL-'.$paragraph_limit.' -->';
                                     $content = $content.$clsidsel;
                                 }
                           }else{                        
@@ -3805,9 +3805,9 @@ function quads_is_lazyload_template($options, $ads){
     return $content;
   }
   function remove_quads_ad_from_excluded($buffer) {
-    preg_match_all('/<!--QuadsExcludesSelector\((.*?)\) ID-(\d+)-->/', $buffer, $matches, PREG_SET_ORDER);
+    preg_match_all('/<!--QuadsExcludesSelector\((.*?)\) ID-(\d+) (INS-\d+) (PL-\d+) -->/', $buffer, $matches, PREG_SET_ORDER);
     if (empty($matches)) {
-        error_log("No QuadsExcludesSelector matches found");
+        
         return $buffer;
     }
 
@@ -3818,39 +3818,44 @@ function quads_is_lazyload_template($options, $ads){
 
     $xpath = new DOMXPath($dom);
 
-    // Step 1: Track all ad positions
+    // Track paragraphs and ad positions
     $paragraph_count = 0;
-    $ad_positions = []; // [position => [node, html, class]]
+    $ad_positions = [];
+    $paragraphs = [];
     $nodes = $xpath->query('//*');
+
     foreach ($nodes as $node) {
         if ($node->nodeName === 'p') {
             $paragraph_count++;
+            $paragraphs[$paragraph_count] = $node;
         }
         if ($node->nodeName === 'div' && $node->hasAttribute('class')) {
             $classes = explode(' ', $node->getAttribute('class'));
             foreach ($classes as $class) {
                 if (preg_match('/^quads-ad\d+$/', $class)) {
-                    $ad_positions[$paragraph_count] = [
+                    $ad_positions[$paragraph_count][] = [
                         'node' => $node,
                         'html' => $dom->saveHTML($node),
                         'class' => $class
                     ];
-                    break;
                 }
             }
         }
     }
-    error_log("Initial ad positions: " . json_encode(array_map(fn($pos) => "$pos ({$ad_positions[$pos]['class']})", array_keys($ad_positions))));
 
-    // Step 2: Remove ad within selector
-    $removed_ad = null;
-    $removed_position = null;
-    $removed_class = null;
+    
+
     foreach ($matches as $match) {
         $selectors = explode(' ', trim($match[1]));
         $id_number = $match[2];
         $quads_ad_class = 'quads-ad' . $id_number;
+        $insert_after = (int)str_replace('INS-', '', $match[3]);
+        $paragraph_limit = (int)str_replace('PL-', '', $match[4]);
 
+        $removed_ads = [];
+        $removed_positions = [];
+
+        // Step 1: Remove ads from excluded areas
         foreach ($selectors as $selector) {
             $selector = trim($selector);
             if (empty($selector)) continue;
@@ -3861,118 +3866,109 @@ function quads_is_lazyload_template($options, $ads){
 
             $ads_to_remove = $xpath->query($query);
             foreach ($ads_to_remove as $ad) {
-                foreach ($ad_positions as $pos => $data) {
-                    if ($data['node']->isSameNode($ad)) {
-                        $removed_ad = $data['html'];
-                        $removed_position = $pos;
-                        $removed_class = $data['class'];
-                        error_log("Removing ad at position $pos ($removed_class): " . $removed_ad);
-                        if ($ad->parentNode) {
-                            $ad->parentNode->removeChild($ad);
+                foreach ($ad_positions as $pos => $ads) {
+                    foreach ($ads as $index => $data) {
+                        if ($data['node']->isSameNode($ad)) {
+                            $removed_ads[] = $data['html'];
+                            $removed_positions[] = $pos;
+                            
+                            if ($ad->parentNode) {
+                                $ad->parentNode->removeChild($ad);
+                            }
+                            unset($ad_positions[$pos][$index]);
                         }
-                        unset($ad_positions[$pos]);
-                        break 2;
+                    }
+                }
+            }
+        }
+
+        // Step 2: Process removed ads with shifting logic
+        while (!empty($removed_ads)) {
+            $current_ad = array_shift($removed_ads);
+            $original_position = array_shift($removed_positions);
+
+            // Find all existing positions of similar ads
+            $similar_ad_positions = [];
+            foreach ($ad_positions as $pos => $ads) {
+                foreach ($ads as $ad_data) {
+                    if ($ad_data['class'] === $quads_ad_class) {
+                        $similar_ad_positions[] = $pos;
+                    }
+                }
+            }
+            sort($similar_ad_positions);
+
+            // Find next available similar ad position
+            $target_position = null;
+            foreach ($similar_ad_positions as $pos) {
+                if ($pos > $original_position) {
+                    $target_position = $pos;
+                    break;
+                }
+            }
+
+            if ($target_position !== null) {
+                // Remove the similar ad at target position
+                foreach ($ad_positions[$target_position] as $index => $ad_data) {
+                    if ($ad_data['class'] === $quads_ad_class) {
+                        $removed_ads[] = $ad_data['html'];
+                        $removed_positions[] = $target_position;
+                        $ad_positions[$target_position][$index]['node']->parentNode->removeChild($ad_positions[$target_position][$index]['node']);
+                        unset($ad_positions[$target_position][$index]);
+                        
+                        break;
+                    }
+                }
+
+                // Place current ad at target position
+                $new_ad_node = $dom->createDocumentFragment();
+                $new_ad_node->appendXML($current_ad);
+                if ($paragraphs[$target_position]->parentNode) {
+                    $paragraphs[$target_position]->parentNode->insertBefore($new_ad_node, $paragraphs[$target_position]->nextSibling);
+                    $ad_positions[$target_position][] = ['html' => $current_ad, 'class' => $quads_ad_class];
+                    
+                }
+            } else {
+                // No similar ads found, calculate position based on average spacing
+                if (!empty($similar_ad_positions)) {
+                    $gaps = [];
+                    for ($i = 1; $i < count($similar_ad_positions); $i++) {
+                        $gaps[] = $similar_ad_positions[$i] - $similar_ad_positions[$i-1];
+                    }
+                    $average_gap = count($gaps) ? array_sum($gaps) / count($gaps) : $insert_after;
+                    $target_position = max($paragraph_limit, $original_position + round($average_gap));
+                } else {
+                    $target_position = max($paragraph_limit, $original_position + $insert_after);
+                }
+
+                // Ensure no duplicate at target position
+                while (isset($ad_positions[$target_position]) && in_array($quads_ad_class, array_column($ad_positions[$target_position], 'class'))) {
+                    $target_position++;
+                }
+
+                if (isset($paragraphs[$target_position])) {
+                    $new_ad_node = $dom->createDocumentFragment();
+                    $new_ad_node->appendXML($current_ad);
+                    if ($paragraphs[$target_position]->parentNode) {
+                        $paragraphs[$target_position]->parentNode->insertBefore($new_ad_node, $paragraphs[$target_position]->nextSibling);
+                        $ad_positions[$target_position][] = ['html' => $current_ad, 'class' => $quads_ad_class];
+                        
                     }
                 }
             }
         }
     }
 
-    // Step 3: Shift only similar ads
-    if ($removed_ad && $removed_position !== null && $removed_class) {
-        $remaining_positions = array_keys($ad_positions);
-        sort($remaining_positions);
-        error_log("Remaining positions: " . json_encode(array_map(fn($pos) => "$pos ({$ad_positions[$pos]['class']})", $remaining_positions)));
-
-        $similar_ad_positions = array_filter($remaining_positions, fn($pos) => $ad_positions[$pos]['class'] === $removed_class && $pos > $removed_position);
-        sort($similar_ad_positions);
-        error_log("Similar ad positions after $removed_position: " . json_encode($similar_ad_positions));
-
-        $new_ad_positions = $ad_positions; // Start with all positions
-        unset($new_ad_positions[$removed_position]); // Ensure removed ad is gone
-
-        if (!empty($similar_ad_positions)) {
-            // Shift removed ad to first similar position
-            $first_similar_pos = array_shift($similar_ad_positions);
-            $shifted_ads = [$removed_position => $removed_ad]; // Start with removed ad
-
-            // Collect ads to shift
-            foreach ($remaining_positions as $pos) {
-                if ($ad_positions[$pos]['class'] === $removed_class && $pos > $removed_position) {
-                    $shifted_ads[$pos] = $ad_positions[$pos]['html'];
-                }
-            }
-
-            $shifted_keys = array_keys($shifted_ads);
-            sort($shifted_keys);
-            $shifted_positions = array_merge([$first_similar_pos], $similar_ad_positions);
-            foreach ($shifted_keys as $index => $old_pos) {
-                $new_pos = $shifted_positions[$index] ?? max($remaining_positions) + 1;
-                $new_ad_positions[$new_pos] = $shifted_ads[$old_pos];
-                unset($new_ad_positions[$old_pos]); // Remove old position
-                error_log("Shifted ad from $old_pos to $new_pos");
-            }
-        } else {
-            // If no similar ads after, place at next available position
-            $next_pos = $removed_position;
-            while (isset($new_ad_positions[$next_pos])) {
-                $next_pos++;
-            }
-            $new_ad_positions[$next_pos] = $removed_ad;
-            error_log("No similar ads to shift, placed at $next_pos");
-        }
-
-        error_log("New ad positions: " . json_encode(array_map(fn($pos) => "$pos ({$new_ad_positions[$pos]['class']})", array_keys($new_ad_positions))));
-
-        // Step 4: Re-insert ads
-        foreach ($ad_positions as $pos => $data) {
-            if ($data['node']->parentNode) {
-                $data['node']->parentNode->removeChild($data['node']);
-            }
-        }
-
-        $paragraphs = $xpath->query('//p');
-        foreach ($paragraphs as $index => $p) {
-            $pos = $index + 1;
-            if (isset($new_ad_positions[$pos])) {
-                $fragment = $dom->createDocumentFragment();
-                if ($fragment->appendXML($new_ad_positions[$pos]['html'] ?? $new_ad_positions[$pos])) {
-                    if ($p->nextSibling) {
-                        $p->parentNode->insertBefore($fragment, $p->nextSibling);
-                    } else {
-                        $p->parentNode->appendChild($fragment);
-                    }
-                    error_log("Inserted ad after paragraph $pos");
-                } else {
-                    error_log("Failed to append XML for position $pos");
-                }
-            }
-        }
-
-        $last_para = $paragraphs->item($paragraphs->length - 1);
-        foreach ($new_ad_positions as $pos => $data) {
-            $html = $data['html'] ?? $data;
-            if ($pos > $paragraphs->length) {
-                $fragment = $dom->createDocumentFragment();
-                if ($fragment->appendXML($html)) {
-                    $last_para->parentNode->appendChild($fragment);
-                    error_log("Appended ad at position $pos");
-                } else {
-                    error_log("Failed to append XML for position $pos");
-                }
-            }
-        }
-    } else {
-        error_log("No ads removed");
-    }
-
-    $html = $dom->saveHTML();
-    return str_replace('<?xml encoding="UTF-8">', '', $html);
+    return str_replace('<?xml encoding="UTF-8">', '', $dom->saveHTML());
 }
 
 add_action('template_redirect', function () {
     ob_start('remove_quads_ad_from_excluded');
 });
+
+
+
+
 
 
 function quads_display_sticky_ads(){
