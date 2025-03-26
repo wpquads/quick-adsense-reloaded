@@ -255,10 +255,12 @@ class QuadsAdTargeting extends Component {
                     </tr>
                     <tr>
                       <td>
+                      
+                      </td>
+                      <td>
                       <input id='repeat_paragraph' checked={post_meta.repeat_paragraph} name="repeat_paragraph" onChange={this.props.adFormChangeHandler} type="checkbox"/>
                       <label htmlFor="repeat_paragraph"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number}</label>
                       </td>
-                      <td></td>
                     </tr>
                     {(post_meta.repeat_paragraph) &&
                     <tr>

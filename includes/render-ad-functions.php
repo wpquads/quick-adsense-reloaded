@@ -377,7 +377,7 @@ function quads_render_admob_async( $id, $ad_data  ) {
 }
 
 // Load the AdSense script in the header
-function add_adsense_script() {
+function quads_add_adsense_script() {
     $param = apply_filters('admobi_client_data', array(
         'client_id' => '',
         'slot_id'   => ''
@@ -392,7 +392,7 @@ function add_adsense_script() {
         crossorigin="anonymous"></script>
     <?php
 }
-add_action('wp_enqueue_scripts', 'add_adsense_script'); // Register script globally
+add_action('wp_enqueue_scripts', 'quads_add_adsense_script'); // Register script globally
 /**
  * Render ad banner
  *
