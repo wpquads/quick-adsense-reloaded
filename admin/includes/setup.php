@@ -371,20 +371,6 @@ public function quads_database_install() {
         ".$charset_collate.$engine.";");
                 
 	}
-    if(!in_array("{$wpdb->prefix}quads_redeem_coupons", $found_tables)) {
-            
-		dbDelta("CREATE TABLE `{$wpdb->prefix}quads_redeem_coupons` (
-			`crid` bigint(10) NOT NULL AUTO_INCREMENT,
-            `ad_id` int(50) NOT NULL,
-            `ad_buy_id` int(50) NOT NULL,
-            `user_id` int(50) NOT NULL,
-            `coupon` varchar(255) DEFAULT NULL,
-            `redeem_date` datetime NOT NULL,
-            PRIMARY KEY  (`crid`)
-		)
-        ".$charset_collate.$engine.";");
-                
-	}
 
     if(!in_array("{$wpdb->prefix}quads_impressions_mobile", $found_tables)) {
             
