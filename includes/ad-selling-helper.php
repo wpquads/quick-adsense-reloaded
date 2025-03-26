@@ -1691,18 +1691,6 @@ function handle_ad_buy_form_submission() {
         $order_id = $wpdb->insert_id;
         if( $coupon_discount_amount !='' && $coupon_discount_amount>0){
             $total_cost = $total_cost - $coupon_discount_amount;
-    
-            if( $coupon_code != '' ){
-                $redeem_table_name = $wpdb->prefix . 'quads_redeem_coupons';
-                $coupon_redeem = array(
-                    'ad_id'       => $ad_slot_id, 
-                    'user_id'     => $user_id,
-                    'ad_buy_id'     => $order_id,
-                    'coupon'      => $coupon_code, 
-                    'redeem_date' => date('Y-m-d H:i:s')
-                );
-                $inserted = $wpdb->insert($redeem_table_name, $coupon_redeem);
-            }
         }
         $quads_settings = get_option( 'quads_settings' );
         $payment_gateway = isset($quads_settings['payment_gateway']) ? $quads_settings['payment_gateway'] : 'paypal';
@@ -1995,21 +1983,40 @@ function quads_redeem_coupon(){
             die;
         }
         if( $coupon != "" && $slot_id != ""){
+            $quads_settings = get_option( 'quads_settings' );
             $post_data = get_post_meta($slot_id);
-            $discount_name = ( isset( $post_data[ 'discount_name' ] ) ) ? $post_data[ 'discount_name' ] : '';
+            $discount_name = '';
+            $coupon_code = '';
+            $coupon_start_date = '';
+            $coupon_type_selection = '';
+            $coupon_expire_date = '';
+            $coupon_amount = '';
+            
+            if( isset( $post_data[ 'coupon_code' ] ) && $post_data[ 'coupon_code' ] != "" ){
+                $discount_name = ( isset( $post_data[ 'discount_name' ] ) ) ? $post_data[ 'discount_name' ][0] : '';
 
-            $coupon_code = ( isset( $post_data[ 'coupon_code' ] ) && isset( $post_data[ 'coupon_code' ][0] ) ) ? $post_data[ 'coupon_code' ][0] : '';
+                $coupon_code = ( isset( $post_data[ 'coupon_code' ] ) && isset( $post_data[ 'coupon_code' ][0] ) ) ? $post_data[ 'coupon_code' ][0] : '';
 
-            $coupon_start_date = ( isset( $post_data[ 'coupon_start_date' ] ) && isset( $post_data[ 'coupon_start_date' ][0] ) ) ? $post_data[ 'coupon_start_date' ][0] : '';
+                $coupon_start_date = ( isset( $post_data[ 'coupon_start_date' ] ) && isset( $post_data[ 'coupon_start_date' ][0] ) ) ? $post_data[ 'coupon_start_date' ][0] : '';
 
-            $coupon_type_selection = ( isset( $post_data[ 'coupon_type_selection' ] ) && isset( $post_data[ 'coupon_type_selection' ][0] ) ) ? $post_data[ 'coupon_type_selection' ][0] : 'percent';
+                $coupon_type_selection = ( isset( $post_data[ 'coupon_type_selection' ] ) && isset( $post_data[ 'coupon_type_selection' ][0] ) ) ? $post_data[ 'coupon_type_selection' ][0] : 'percent';
 
-            $coupon_expire_date = ( isset( $post_data[ 'coupon_expire_date' ] ) && isset( $post_data[ 'coupon_expire_date' ][0] ) ) ? $post_data[ 'coupon_expire_date' ][0] : '';
+                $coupon_expire_date = ( isset( $post_data[ 'coupon_expire_date' ] ) && isset( $post_data[ 'coupon_expire_date' ][0] ) ) ? $post_data[ 'coupon_expire_date' ][0] : '';
 
-            $coupon_max_users = ( isset( $post_data[ 'coupon_max_users' ] ) && isset( $post_data[ 'coupon_max_users' ][0] ) ) ? $post_data[ 'coupon_max_users' ][0] : '';
+                $coupon_amount = ( isset( $post_data[ 'coupon_amount' ] ) && isset( $post_data[ 'coupon_amount' ][0] ) ) ? $post_data[ 'coupon_amount' ][0] : 10;
+            }else if( $quads_settings[ 'coupon_code' ] ){
+                $discount_name = ( isset( $quads_settings[ 'discount_name' ] ) ) ? $quads_settings[ 'discount_name' ] : '';
 
-            $coupon_amount = ( isset( $post_data[ 'coupon_amount' ] ) && isset( $post_data[ 'coupon_amount' ][0] ) ) ? $post_data[ 'coupon_amount' ][0] : 10;
-           
+                $coupon_code = ( isset( $quads_settings[ 'coupon_code' ] ) && isset( $quads_settings[ 'coupon_code' ] ) ) ? $quads_settings[ 'coupon_code' ] : '';
+
+                $coupon_start_date = ( isset( $quads_settings[ 'coupon_start_date' ] ) && isset( $quads_settings[ 'coupon_start_date' ] ) ) ? $quads_settings[ 'coupon_start_date' ] : '';
+
+                $coupon_type_selection = ( isset( $quads_settings[ 'coupon_type_selection' ] ) && isset( $quads_settings[ 'coupon_type_selection' ] ) ) ? $quads_settings[ 'coupon_type_selection' ] : 'percent';
+
+                $coupon_expire_date = ( isset( $quads_settings[ 'coupon_expire_date' ] ) && isset( $quads_settings[ 'coupon_expire_date' ] ) ) ? $quads_settings[ 'coupon_expire_date' ] : '';
+
+                $coupon_amount = ( isset( $quads_settings[ 'coupon_amount' ] ) && isset( $quads_settings[ 'coupon_amount' ] ) ) ? $quads_settings[ 'coupon_amount' ] : 10;
+            }
             if( trim( $coupon_code ) != trim( $coupon ) ){
                 wp_send_json_error( array( 'success'=>2, 'message' => esc_html__('Invalid coupon, please try another one.', 'quick-adsense-reloaded' ) ) );
                 die;
@@ -2023,18 +2030,6 @@ function quads_redeem_coupon(){
             if( $is_expired ){
                 wp_send_json_error( array( 'success'=>2, 'message' => esc_html__('Coupon expired, please try another one.', 'quick-adsense-reloaded' ) ) );
                 die;
-            }
-            
-            if( $coupon_max_users >=1 ){
-                global $wpdb;
-                $table_name = $wpdb->prefix . 'quads_redeem_coupons';
-                $total_count = $wpdb->get_var(
-                    $wpdb->prepare( "SELECT COUNT(*) FROM $table_name WHERE coupon = %s", $coupon )
-                );
-                if( $total_count >= $coupon_max_users ){
-                    wp_send_json_error( array( 'success'=>2, 'message' => esc_html__('Coupon exceeded redeemption', 'quick-adsense-reloaded' ) ) );
-                    die;
-                }
             }
             
             $cal_amount = 0;

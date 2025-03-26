@@ -1810,11 +1810,6 @@ error_outline
                             <td><input value={post_meta.coupon_expire_date} onChange={this.props.adFormChangeHandler} type="date" id="coupon_expire_date" name="coupon_expire_date" placeholder="Coupon Expire Date"/> 
                             </td>
                           </tr> 
-                          <tr>
-                            <td><label>{__('Max Users', 'quick-adsense-reloaded')}</label></td>
-                            <td><input value={(post_meta.coupon_max_users)?post_meta.coupon_max_users:1} onChange={this.props.adFormChangeHandler} type="number" id="coupon_max_users" name="coupon_max_users" placeholder="Coupon Max Users"/> 
-                            </td>
-                          </tr> 
                         </tbody>
                       </table>
                       </div>);      
