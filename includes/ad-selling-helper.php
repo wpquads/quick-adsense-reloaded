@@ -2004,7 +2004,7 @@ function quads_redeem_coupon(){
                 $coupon_expire_date = ( isset( $post_data[ 'coupon_expire_date' ] ) && isset( $post_data[ 'coupon_expire_date' ][0] ) ) ? $post_data[ 'coupon_expire_date' ][0] : '';
 
                 $coupon_amount = ( isset( $post_data[ 'coupon_amount' ] ) && isset( $post_data[ 'coupon_amount' ][0] ) ) ? $post_data[ 'coupon_amount' ][0] : 10;
-            }else if( $quads_settings[ 'coupon_code' ] ){
+            }else if( isset( $quads_settings[ 'coupon_code' ] ) && !empty( $quads_settings[ 'coupon_code' ] )){
                 $discount_name = ( isset( $quads_settings[ 'discount_name' ] ) ) ? $quads_settings[ 'discount_name' ] : '';
 
                 $coupon_code = ( isset( $quads_settings[ 'coupon_code' ] ) && isset( $quads_settings[ 'coupon_code' ] ) ) ? $quads_settings[ 'coupon_code' ] : '';
