@@ -1992,7 +1992,7 @@ function quads_redeem_coupon(){
             $coupon_expire_date = '';
             $coupon_amount = '';
             
-            if( isset( $post_data[ 'coupon_code' ] ) && $post_data[ 'coupon_code' ] != "" ){
+            if( isset( $post_data[ 'coupon_code' ] ) && $post_data[ 'coupon_code' ] != "" && trim( $coupon )== trim( $post_data[ 'coupon_code' ] ) ){
                 $discount_name = ( isset( $post_data[ 'discount_name' ] ) ) ? $post_data[ 'discount_name' ][0] : '';
 
                 $coupon_code = ( isset( $post_data[ 'coupon_code' ] ) && isset( $post_data[ 'coupon_code' ][0] ) ) ? $post_data[ 'coupon_code' ][0] : '';
