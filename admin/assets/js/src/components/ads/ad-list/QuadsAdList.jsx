@@ -357,7 +357,7 @@ class QuadsAdList extends Component {
                     <li role="presentation"><a onClick={this.props.processAction} data-ad={item.post_meta.ad_id} data-id={item.post.post_status == 'publish' ? 'draft' : 'publish'} ><Icon>{item.post.post_status == 'publish' ? 'drafts' : 'publish'}</Icon> <span>{__(item.post.post_status == 'publish' ? __('Set to Draft', 'quick-adsense-reloaded') : __('Publish', 'quick-adsense-reloaded'))}</span></a></li>
                     <li role="presentation"><a onClick={this.props.showDeleteModal} data-ad={item.post_meta.ad_id} data-id="delete"><Icon>delete</Icon> <span>{__('Delete', 'quick-adsense-reloaded')}</span></a></li>
                     <li role="presentation"><a onClick={this.props.processAction} data-ad={item.post_meta.ad_id} data-id="duplicate"><Icon>file_copy</Icon> <span>{__('Duplicate', 'quick-adsense-reloaded')}</span></a></li>
-                    <li role="presentation"><a onClick={this.props.processAction} data-ad={item.post_meta.ad_id} data-id="clear_impression"><Icon>clear</Icon> <span>{__('Reset Clicks & Impressions', 'quick-adsense-reloaded')}</span></a></li>
+                    <li role="presentation"><a onClick={this.props.showResetImpressonModal} data-ad={item.post_meta.ad_id} data-id="clear_impression"><Icon>clear</Icon> <span>{__('Reset Stats', 'quick-adsense-reloaded')}</span></a></li>
                   </ul>
                   </div> : ''  } 
                 { item.post_meta.ad_id && this.props.more_hover_box_id ==  item.post_meta.ad_id ?
