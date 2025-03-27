@@ -1422,13 +1422,15 @@ function quads_filter_default_ads_new( $content ) {
                                     }
                                     
                                     if ($paragraph_no == $index + 1) {
-                                        $new_para = $paragraphs[$index] . $cusads;
-                                        $is_found_parent = quads_check_parent_by_dynamic_block($new_para, $content, $exclude_from_class_id);
-                                        if ($is_found_parent == true) {
-                                            $index++; // Increment index before continuing
-                                            $paragraph_no++;
-                                            $paragraph_no = $paragraph_no +1;
-                                            continue; // Skip to next iteration
+                                        if(!empty($exclude_from_class_id)){
+                                            $new_para = $paragraphs[$index] . $cusads;
+                                            $is_found_parent = quads_check_parent_by_dynamic_block($new_para, $content, $exclude_from_class_id);
+                                            if ($is_found_parent == true) {
+                                                $index++; // Increment index before continuing
+                                                $paragraph_no++;
+                                                $paragraph_no = $paragraph_no +1;
+                                                continue; // Skip to next iteration
+                                            }
                                         }
                                         
                                         // Only execute this if $is_found_parent is false
