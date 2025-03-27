@@ -1773,43 +1773,48 @@ error_outline
                           </tr>
                         
                           <tr>
-                            <td colSpan={2}><label>{__('Coupon & Discount', 'quick-adsense-reloaded')}</label></td>
+                            <td><label>{__('Coupon & Discount', 'quick-adsense-reloaded')}</label></td>
+                            <td><input id="enabled_coupon" checked={post_meta.enabled_coupon} name="enabled_coupon" onChange={this.props.adFormChangeHandler} type="checkbox"/></td>
                           </tr>
-                          <tr>
-                            <td><label>{__('Name', 'quick-adsense-reloaded')} </label></td>
-                            <td><input value={post_meta.discount_name} onChange={this.props.adFormChangeHandler} type="text" id="discount_name" name="discount_name" placeholder="Name of the discount"/> 
-                            </td>
-                          </tr> 
-                          <tr>
-                            <td><label>{__('Coupon Code', 'quick-adsense-reloaded')}  </label></td>
-                            <td><input value={post_meta.coupon_code} onChange={this.props.adFormChangeHandler} type="text" id="coupon_code" name="coupon_code" placeholder="Coupon Code Ex: 10PERCENT"/> 
-                            </td>
-                          </tr> 
-                          <tr>
-                            <td><label>{__('Coupon Type', 'quick-adsense-reloaded')}</label></td>
-                            <td>
-                              <MSelect style={{minWidth:'200px'}} value={(post_meta.coupon_type_selection!==undefined)?post_meta.coupon_type_selection:'percent'} onChange={this.props.adFormChangeHandler} name="coupon_type_selection" id="coupon_type_selection">
-                                <MenuItem value="percent">{__('Percent', 'quick-adsense-reloaded')}</MenuItem>
-                                <MenuItem value="fixed_amount">{__('Fixed Amount', 'quick-adsense-reloaded')}</MenuItem> 
-                              </MSelect><br/>
-                           
-                            </td>
-                          </tr>
-                          <tr>
-                            <td><label>{__('Amount / Percent', 'quick-adsense-reloaded')}</label></td>
-                            <td><input value={(post_meta.coupon_amount)?post_meta.coupon_amount:10} onChange={this.props.adFormChangeHandler} type="number" id="coupon_amount" name="coupon_amount" placeholder="10"/> 
-                            </td>
-                          </tr> 
-                          <tr>
-                            <td><label>{__('Start Date', 'quick-adsense-reloaded')}</label></td>
-                            <td><input value={post_meta.coupon_start_date} onChange={this.props.adFormChangeHandler} type="date" id="coupon_start_date" name="coupon_start_date" placeholder="Coupon Start Date"/> 
-                            </td>
-                          </tr> 
-                          <tr>
-                            <td><label>{__('Expiration Date', 'quick-adsense-reloaded')}</label></td>
-                            <td><input value={post_meta.coupon_expire_date} onChange={this.props.adFormChangeHandler} type="date" id="coupon_expire_date" name="coupon_expire_date" placeholder="Coupon Expire Date"/> 
-                            </td>
-                          </tr> 
+                          {(post_meta.enabled_coupon) &&
+                          <>
+                            <tr>
+                              <td><label>{__('Name', 'quick-adsense-reloaded')} </label></td>
+                              <td><input value={post_meta.discount_name} onChange={this.props.adFormChangeHandler} type="text" id="discount_name" name="discount_name" placeholder="Name of the discount"/> 
+                              </td>
+                            </tr> 
+                            <tr>
+                              <td><label>{__('Coupon Code', 'quick-adsense-reloaded')}  </label></td>
+                              <td><input value={post_meta.coupon_code} onChange={this.props.adFormChangeHandler} type="text" id="coupon_code" name="coupon_code" placeholder="Coupon Code Ex: 10PERCENT"/> 
+                              </td>
+                            </tr> 
+                            <tr>
+                              <td><label>{__('Coupon Type', 'quick-adsense-reloaded')}</label></td>
+                              <td>
+                                <MSelect style={{minWidth:'200px'}} value={(post_meta.coupon_type_selection!==undefined)?post_meta.coupon_type_selection:'percent'} onChange={this.props.adFormChangeHandler} name="coupon_type_selection" id="coupon_type_selection">
+                                  <MenuItem value="percent">{__('Percent', 'quick-adsense-reloaded')}</MenuItem>
+                                  <MenuItem value="fixed_amount">{__('Fixed Amount', 'quick-adsense-reloaded')}</MenuItem> 
+                                </MSelect><br/>
+                            
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><label>{__('Amount / Percent', 'quick-adsense-reloaded')}</label></td>
+                              <td><input value={(post_meta.coupon_amount)?post_meta.coupon_amount:10} onChange={this.props.adFormChangeHandler} type="number" id="coupon_amount" name="coupon_amount" placeholder="10"/> 
+                              </td>
+                            </tr> 
+                            <tr>
+                              <td><label>{__('Start Date', 'quick-adsense-reloaded')}</label></td>
+                              <td><input value={post_meta.coupon_start_date} onChange={this.props.adFormChangeHandler} type="date" id="coupon_start_date" name="coupon_start_date" placeholder="Coupon Start Date"/> 
+                              </td>
+                            </tr> 
+                            <tr>
+                              <td><label>{__('Expiration Date', 'quick-adsense-reloaded')}</label></td>
+                              <td><input value={post_meta.coupon_expire_date} onChange={this.props.adFormChangeHandler} type="date" id="coupon_expire_date" name="coupon_expire_date" placeholder="Coupon Expire Date"/> 
+                              </td>
+                            </tr> 
+                          </>
+                          }
                         </tbody>
                       </table>
                       </div>);      

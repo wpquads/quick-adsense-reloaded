@@ -504,7 +504,7 @@ class QuadsAdListBody extends Component {
               <div className="quads-modal-popup">            
             <div className="quads-modal-popup-content">   
               <div className="quads-modal-popup-txt">          
-              <h3>{__('Are you sure you want to', 'quick-adsense-reloaded')}<span> {__(' RESET  ', 'quick-adsense-reloaded')} </span>{__( 'Reset Stats of this ad?', 'quick-adsense-reloaded')}</h3> 
+              <h3>{__('Are you sure you want to', 'quick-adsense-reloaded')}<span> {__(' RESET  ', 'quick-adsense-reloaded')} </span>{__( 'Stats of this ad?', 'quick-adsense-reloaded')}</h3> 
               <p>{__('It will permenently reset the Stats and you won\'t be able to see the ad again. You cannot undo this action.', 'quick-adsense-reloaded')}</p>
               </div>           
              <div className="quads-modal-content">
