@@ -1072,6 +1072,57 @@ function quads_get_max_allowed_post_ads( $content ) {
  * @param string $content
  * @return string content
  */
+function quads_check_parent_by_dynamic_block($targetFragment, $content, $selectorsString) {
+    // Extract paragraph
+    if (preg_match('/<p[^>]*>(.*?)<\/p>/i', $targetFragment, $paragraphMatch)) {
+        $targetParagraph = $paragraphMatch[0];
+    } else {
+        $targetParagraph = $targetFragment;
+    }
+    
+    
+    // Load content into DOM
+    $doc = new DOMDocument();
+    @$doc->loadHTML($content);
+    $paragraphs = $doc->getElementsByTagName('p');
+    
+    $selectors = explode(" ", $selectorsString);
+    
+    
+    // Find matching paragraph
+    foreach ($paragraphs as $p) {
+        $pHtml = $doc->saveHTML($p);
+        $normalizedP = preg_replace('/\s+/', ' ', trim($pHtml));
+        $normalizedTarget = preg_replace('/\s+/', ' ', trim($targetParagraph));
+        
+        
+        if ($normalizedP === $normalizedTarget) {
+            $parent = $p->parentNode;
+            $parentClasses = $parent->getAttribute('class');
+            $parentId = $parent->getAttribute('id');
+            
+            
+            foreach ($selectors as $selector) {
+                if (strpos($selector, '#') === 0) {
+                    if ($parentId === ltrim($selector, '#')) {
+                        var_dump("Match found for ID: ", $selector);
+                        return true;
+                    }
+                } else {
+                    $selector = ltrim($selector, '.');
+                    if (strpos($parentClasses, $selector) !== false) {
+                        
+                        return true;
+                    }
+                }
+            }
+            
+            return false;
+        }
+    }
+    
+    return false;
+}
 function quads_filter_default_ads_new( $content ) {
     
  
@@ -1297,12 +1348,14 @@ function quads_filter_default_ads_new( $content ) {
                           $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
                           
                           $paragraph_limit         = isset($ads['paragraph_limit']) ? $ads['paragraph_limit'] : '';
+                          $pnumber         = isset($ads['paragraph_number']) ? $ads['paragraph_number'] : '';
                           
                           $exclude_from_class_id         = isset($ads['exclude_from_class_id']) ? $ads['exclude_from_class_id'] : '';
 
                           $insert_after         = isset($ads['insert_after']) ? $ads['insert_after'] : 1;
 
                           $closing_p        = '</p>';
+                          //var_dump($content);
                           $paragraphs       = array_filter(explode( $closing_p, $content ));
                           $p_count          = count($paragraphs);
                           $original_paragraph_no = $paragraph_no;                                                             
@@ -1360,29 +1413,42 @@ function quads_filter_default_ads_new( $content ) {
                                 }
                             }else{
                                 $displayed_ad = 1;
-                              foreach ($paragraphs as $index => $paragraph) {
-                                  if ( trim( $paragraph ) ) {
-                                      $paragraphs[$index] .= $closing_p;
-                                  }
-                                  if ( $paragraph_no == $index + 1 ) {
-                                        
-                                    $paragraphs[$index] .= $cusads;
-                                    if((!empty($paragraph_limit) && $paragraph_limit < ($displayed_ad + 1) )){
-                                        break;
+                                $index = 0;
+                                while ($index < count($paragraphs)) {
+                                    $paragraph = $paragraphs[$index];
+                                    
+                                    if (trim($paragraph)) {
+                                        $paragraphs[$index] .= $closing_p;
                                     }
-                                      if($repeat_paragraph && ($paragraph_no < $p_count-$original_paragraph_no)){
-                                        $displayed_ad = $displayed_ad + 1;
-                                       $paragraph_no =  $original_paragraph_no+$paragraph_no; 
-                                      }
-                                  }
-                              }
+                                    
+                                    if ($paragraph_no == $index + 1) {
+                                        $new_para = $paragraphs[$index] . $cusads;
+                                        $is_found_parent = quads_check_parent_by_dynamic_block($new_para, $content, $exclude_from_class_id);
+                                        if ($is_found_parent == true) {
+                                            $index++; // Increment index before continuing
+                                            $paragraph_no++;
+                                            continue; // Skip to next iteration
+                                        }
+                                        
+                                        // Only execute this if $is_found_parent is false
+                                        $paragraphs[$index] .= $cusads;
+                                        
+                                        // Check display limit and break if exceeded
+                                        if (!empty($paragraph_limit) && $paragraph_limit < ($displayed_ad + 1)) {
+                                            break;
+                                        }
+                                        
+                                        // Handle paragraph repetition
+                                        if ($repeat_paragraph && ($paragraph_no < $p_count - $original_paragraph_no)) {
+                                            $displayed_ad++;
+                                            $paragraph_no = $original_paragraph_no + $paragraph_no;
+                                        }
+                                    }
+                                  
+                                    $index++; // Always increment index to ensure progress
+                                }
                             }
                               $content = implode( '', $paragraphs ); 
-                              if( !empty( $exclude_from_class_id ) ){
-                                    $remove_class = 'quads-ad'.$ads['ad_id'];
-                                    $clsidsel = '<!--QuadsExcludesSelector('.$exclude_from_class_id.') ID-'.$ads['ad_id'].' INS-'.$insert_after.' PL-'.$paragraph_limit.' -->';
-                                    $content = $content.$clsidsel;
-                                }
                           }else{                        
                               if($end_of_post){
                                   $content = $content.$cusads;   
@@ -3800,177 +3866,8 @@ function quads_is_lazyload_template($options, $ads){
         }
 
     }
-    
-    
     return $content;
   }
-  function remove_quads_ad_from_excluded($buffer) {
-    preg_match_all('/<!--QuadsExcludesSelector\((.*?)\) ID-(\d+) (INS-\d+) (PL-\d+) -->/', $buffer, $matches, PREG_SET_ORDER);
-    if (empty($matches)) {
-        
-        return $buffer;
-    }
-
-    $dom = new DOMDocument();
-    libxml_use_internal_errors(true);
-    @$dom->loadHTML('<?xml encoding="UTF-8">' . $buffer, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-    libxml_clear_errors();
-
-    $xpath = new DOMXPath($dom);
-
-    // Track paragraphs and ad positions
-    $paragraph_count = 0;
-    $ad_positions = [];
-    $paragraphs = [];
-    $nodes = $xpath->query('//*');
-
-    foreach ($nodes as $node) {
-        if ($node->nodeName === 'p') {
-            $paragraph_count++;
-            $paragraphs[$paragraph_count] = $node;
-        }
-        if ($node->nodeName === 'div' && $node->hasAttribute('class')) {
-            $classes = explode(' ', $node->getAttribute('class'));
-            foreach ($classes as $class) {
-                if (preg_match('/^quads-ad\d+$/', $class)) {
-                    $ad_positions[$paragraph_count][] = [
-                        'node' => $node,
-                        'html' => $dom->saveHTML($node),
-                        'class' => $class
-                    ];
-                }
-            }
-        }
-    }
-
-    
-
-    foreach ($matches as $match) {
-        $selectors = explode(' ', trim($match[1]));
-        $id_number = $match[2];
-        $quads_ad_class = 'quads-ad' . $id_number;
-        $insert_after = (int)str_replace('INS-', '', $match[3]);
-        $paragraph_limit = (int)str_replace('PL-', '', $match[4]);
-
-        $removed_ads = [];
-        $removed_positions = [];
-
-        // Step 1: Remove ads from excluded areas
-        foreach ($selectors as $selector) {
-            $selector = trim($selector);
-            if (empty($selector)) continue;
-
-            $query = (strpos($selector, '.') === 0)
-                ? "//*[contains(concat(' ', normalize-space(@class), ' '), ' " . substr($selector, 1) . " ')]//div[contains(@class, '$quads_ad_class')]"
-                : "//*[@id='" . substr($selector, 1) . "']//div[contains(@class, '$quads_ad_class')]";
-
-            $ads_to_remove = $xpath->query($query);
-            foreach ($ads_to_remove as $ad) {
-                foreach ($ad_positions as $pos => $ads) {
-                    foreach ($ads as $index => $data) {
-                        if ($data['node']->isSameNode($ad)) {
-                            $removed_ads[] = $data['html'];
-                            $removed_positions[] = $pos;
-                            
-                            if ($ad->parentNode) {
-                                $ad->parentNode->removeChild($ad);
-                            }
-                            unset($ad_positions[$pos][$index]);
-                        }
-                    }
-                }
-            }
-        }
-
-        // Step 2: Process removed ads with shifting logic
-        while (!empty($removed_ads)) {
-            $current_ad = array_shift($removed_ads);
-            $original_position = array_shift($removed_positions);
-
-            // Find all existing positions of similar ads
-            $similar_ad_positions = [];
-            foreach ($ad_positions as $pos => $ads) {
-                foreach ($ads as $ad_data) {
-                    if ($ad_data['class'] === $quads_ad_class) {
-                        $similar_ad_positions[] = $pos;
-                    }
-                }
-            }
-            sort($similar_ad_positions);
-
-            // Find next available similar ad position
-            $target_position = null;
-            foreach ($similar_ad_positions as $pos) {
-                if ($pos > $original_position) {
-                    $target_position = $pos;
-                    break;
-                }
-            }
-
-            if ($target_position !== null) {
-                // Remove the similar ad at target position
-                foreach ($ad_positions[$target_position] as $index => $ad_data) {
-                    if ($ad_data['class'] === $quads_ad_class) {
-                        $removed_ads[] = $ad_data['html'];
-                        $removed_positions[] = $target_position;
-                        $ad_positions[$target_position][$index]['node']->parentNode->removeChild($ad_positions[$target_position][$index]['node']);
-                        unset($ad_positions[$target_position][$index]);
-                        
-                        break;
-                    }
-                }
-
-                // Place current ad at target position
-                $new_ad_node = $dom->createDocumentFragment();
-                $new_ad_node->appendXML($current_ad);
-                if ($paragraphs[$target_position]->parentNode) {
-                    $paragraphs[$target_position]->parentNode->insertBefore($new_ad_node, $paragraphs[$target_position]->nextSibling);
-                    $ad_positions[$target_position][] = ['html' => $current_ad, 'class' => $quads_ad_class];
-                    
-                }
-            } else {
-                // No similar ads found, calculate position based on average spacing
-                if (!empty($similar_ad_positions)) {
-                    $gaps = [];
-                    for ($i = 1; $i < count($similar_ad_positions); $i++) {
-                        $gaps[] = $similar_ad_positions[$i] - $similar_ad_positions[$i-1];
-                    }
-                    $average_gap = count($gaps) ? array_sum($gaps) / count($gaps) : $insert_after;
-                    $target_position = max($paragraph_limit, $original_position + round($average_gap));
-                } else {
-                    $target_position = max($paragraph_limit, $original_position + $insert_after);
-                }
-
-                // Ensure no duplicate at target position
-                while (isset($ad_positions[$target_position]) && in_array($quads_ad_class, array_column($ad_positions[$target_position], 'class'))) {
-                    $target_position++;
-                }
-
-                if (isset($paragraphs[$target_position])) {
-                    $new_ad_node = $dom->createDocumentFragment();
-                    $new_ad_node->appendXML($current_ad);
-                    if ($paragraphs[$target_position]->parentNode) {
-                        $paragraphs[$target_position]->parentNode->insertBefore($new_ad_node, $paragraphs[$target_position]->nextSibling);
-                        $ad_positions[$target_position][] = ['html' => $current_ad, 'class' => $quads_ad_class];
-                        
-                    }
-                }
-            }
-        }
-    }
-
-    return str_replace('<?xml encoding="UTF-8">', '', $dom->saveHTML());
-}
-
-add_action('template_redirect', function () {
-    ob_start('remove_quads_ad_from_excluded');
-});
-
-
-
-
-
-
 function quads_display_sticky_ads(){
     $quads_ads = quads_api_services_cllbck(); 
     $adsArrayCus = array();
