@@ -1427,6 +1427,7 @@ function quads_filter_default_ads_new( $content ) {
                                         if ($is_found_parent == true) {
                                             $index++; // Increment index before continuing
                                             $paragraph_no++;
+                                            $paragraph_no = $paragraph_no +1;
                                             continue; // Skip to next iteration
                                         }
                                         
