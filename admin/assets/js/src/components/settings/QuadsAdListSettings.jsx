@@ -1471,11 +1471,12 @@ handleCapabilityChange = (event) =>{
                   <tr>
                     <th><label>{__('Coupon Type', 'quick-adsense-reloaded')}</label></th>
                     <td>
-                      <MSelect style={{width:'100%'}} value={(settings.coupon_type_selection!==undefined)?settings.coupon_type_selection:'percent'} onChange={this.formChangeHandler} name="coupon_type_selection" id="coupon_type_selection">
-                        <MenuItem value="percent">{__('Percent', 'quick-adsense-reloaded')}</MenuItem>
-                        <MenuItem value="fixed_amount">{__('Fixed Amount', 'quick-adsense-reloaded')}</MenuItem> 
-                      </MSelect><br/>
-                    
+                      
+                        <select value={(settings.coupon_type_selection!==undefined)?settings.coupon_type_selection:'percent'} onChange={this.formChangeHandler} name="coupon_type_selection" id="coupon_type_selection">
+                          <option value="percent">{__('Percent', 'quick-adsense-reloaded')}</option>
+                          <option value="fixed_amount">{__('Fixed Amount', 'quick-adsense-reloaded')}</option> 
+                        </select>
+                      
                     </td>
                   </tr>
                   <tr>

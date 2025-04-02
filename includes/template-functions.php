@@ -1105,7 +1105,6 @@ function quads_check_parent_by_dynamic_block($targetFragment, $content, $selecto
             foreach ($selectors as $selector) {
                 if (strpos($selector, '#') === 0) {
                     if ($parentId === ltrim($selector, '#')) {
-                        var_dump("Match found for ID: ", $selector);
                         return true;
                     }
                 } else {
@@ -1355,7 +1354,6 @@ function quads_filter_default_ads_new( $content ) {
                           $insert_after         = isset($ads['insert_after']) ? $ads['insert_after'] : 1;
 
                           $closing_p        = '</p>';
-                          //var_dump($content);
                           $paragraphs       = array_filter(explode( $closing_p, $content ));
                           $p_count          = count($paragraphs);
                           $original_paragraph_no = $paragraph_no;                                                             
