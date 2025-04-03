@@ -771,7 +771,112 @@ if($license_info){
 
       return $response;
     }
+  public function resetImpressionAndClick( $ad_id ){
+    $this->resetImpressionDesktop( $ad_id );
+    $this->resetImpressionMobile( $ad_id );
+    $this->resetClicksDesktop( $ad_id );
+    $this->resetClicksMobile( $ad_id );
+  }
+  public function resetImpressionDesktop( $ad_id ){
+    global $wpdb;
 
+    // Define your table name (with the WordPress prefix)
+    $table_name = $wpdb->prefix . 'quads_impressions_desktop';
+
+    // Data to update
+    $data = array(
+        'stats_impressions' => 0
+    );
+
+    // Where condition
+    $where = array(
+        'ad_id' => intval( $ad_id )
+    );
+
+    // Update format (optional, helps prevent SQL injection)
+    $format = array('%d'); // %s for strings, %d for integers
+
+    // Where format
+    $where_format = array('%d');
+
+    // Perform the update query
+    $wpdb->update($table_name, $data, $where, $format, $where_format);
+  }
+  public function resetImpressionMobile( $ad_id ){
+    global $wpdb;
+
+    // Define your table name (with the WordPress prefix)
+    $table_name = $wpdb->prefix . 'quads_impressions_mobile';
+
+    // Data to update
+    $data = array(
+        'stats_impressions' => 0
+    );
+
+    // Where condition
+    $where = array(
+        'ad_id' => intval( $ad_id )
+    );
+
+    // Update format (optional, helps prevent SQL injection)
+    $format = array('%d'); // %s for strings, %d for integers
+
+    // Where format
+    $where_format = array('%d');
+
+    // Perform the update query
+    $wpdb->update($table_name, $data, $where, $format, $where_format);
+  }
+  public function resetClicksDesktop( $ad_id ){
+    global $wpdb;
+
+    // Define your table name (with the WordPress prefix)
+    $table_name = $wpdb->prefix . 'quads_clicks_desktop';
+
+    // Data to update
+    $data = array(
+        'stats_clicks' => 0
+    );
+
+    // Where condition
+    $where = array(
+        'ad_id' => intval( $ad_id )
+    );
+
+    // Update format (optional, helps prevent SQL injection)
+    $format = array('%d'); // %s for strings, %d for integers
+
+    // Where format
+    $where_format = array('%d');
+
+    // Perform the update query
+    $wpdb->update($table_name, $data, $where, $format, $where_format);
+  }
+  public function resetClicksMobile( $ad_id ){
+    global $wpdb;
+
+    // Define your table name (with the WordPress prefix)
+    $table_name = $wpdb->prefix . 'quads_clicks_mobile';
+
+    // Data to update
+    $data = array(
+        'stats_clicks' => 0
+    );
+
+    // Where condition
+    $where = array(
+        'ad_id' => intval( $ad_id )
+    );
+
+    // Update format (optional, helps prevent SQL injection)
+    $format = array('%d'); // %s for strings, %d for integers
+
+    // Where format
+    $where_format = array('%d');
+
+    // Perform the update query
+    $wpdb->update($table_name, $data, $where, $format, $where_format);
+  }
 	public function deleteAd($ad_id){
 //  current_user_can already checked in class QUADS_Ad_Setup_Api
     $quads_settings = get_option('quads_settings');

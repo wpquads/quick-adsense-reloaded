@@ -558,6 +558,23 @@ const {__} = wp.i18n;
                 </div>);
 
               break;
+            case 'admob':
+             ad_type_name = 'Reward Ad';  
+              comp_html.push(<div key="admob">
+                <table>
+                  <tbody>
+                   
+                    <tr><td><label>{__('Data Client ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.admob_data_ad_client == '') ? 'quads_form_error' : ''} value={post_meta.admob_data_ad_client} placeholder="ca-pub-2005XXXXXXXXX342" onChange={this.props.adFormChangeHandler} type="text" id="admob_data_ad_client" name="admob_data_ad_client" />
+                   </td></tr>
+                   <tr><td><label>{__('Data Slot ID', 'quick-adsense-reloaded')}</label></td><td><input className={(show_form_error && post_meta.admob_data_ad_slot == '') ? 'quads_form_error' : ''}  value={post_meta.admob_data_ad_slot} onChange={this.props.adFormChangeHandler} type="text" id="admob_data_ad_slot" name="admob_data_ad_slot" placeholder="70XXXXXX12" />
+                    {(show_form_error && post_meta.admob_data_ad_slot == '') ? <div className="quads_form_msg"><span className="material-icons">
+                    error_outline
+                    </span>{__('Enter Data Slot ID', 'quick-adsense-reloaded')}</div> :''}</td></tr>
+                  </tbody>
+                </table>
+                </div>);
+
+              break;
           
               case 'plain_text':                
                 ad_type_name = 'Plain Text / HTML / JS';
@@ -1754,6 +1771,50 @@ error_outline
                             {(show_form_error && post_meta.ad_minimum_days <= 0 ) ? <div className="quads_form_msg"><span className="material-icons">error_outline</span>{__('Ad days must be greater than  0 ', 'quick-adsense-reloaded')}</div> : ''}
                             </td>
                           </tr>
+                        
+                          <tr>
+                            <td><label>{__('Coupon & Discount', 'quick-adsense-reloaded')}</label></td>
+                            <td><input id="enabled_coupon" checked={post_meta.enabled_coupon} name="enabled_coupon" onChange={this.props.adFormChangeHandler} type="checkbox"/></td>
+                          </tr>
+                          {(post_meta.enabled_coupon) &&
+                          <>
+                            <tr>
+                              <td><label>{__('Name', 'quick-adsense-reloaded')} </label></td>
+                              <td><input value={post_meta.discount_name} onChange={this.props.adFormChangeHandler} type="text" id="discount_name" name="discount_name" placeholder="Name of the discount"/> 
+                              </td>
+                            </tr> 
+                            <tr>
+                              <td><label>{__('Coupon Code', 'quick-adsense-reloaded')}  </label></td>
+                              <td><input value={post_meta.coupon_code} onChange={this.props.adFormChangeHandler} type="text" id="coupon_code" name="coupon_code" placeholder="Coupon Code Ex: 10PERCENT"/> 
+                              </td>
+                            </tr> 
+                            <tr>
+                              <td><label>{__('Coupon Type', 'quick-adsense-reloaded')}</label></td>
+                              <td>
+                                <MSelect style={{minWidth:'200px'}} value={(post_meta.coupon_type_selection!==undefined)?post_meta.coupon_type_selection:'percent'} onChange={this.props.adFormChangeHandler} name="coupon_type_selection" id="coupon_type_selection">
+                                  <MenuItem value="percent">{__('Percent', 'quick-adsense-reloaded')}</MenuItem>
+                                  <MenuItem value="fixed_amount">{__('Fixed Amount', 'quick-adsense-reloaded')}</MenuItem> 
+                                </MSelect><br/>
+                            
+                              </td>
+                            </tr>
+                            <tr>
+                              <td><label>{__('Amount / Percent', 'quick-adsense-reloaded')}</label></td>
+                              <td><input value={(post_meta.coupon_amount)?post_meta.coupon_amount:10} onChange={this.props.adFormChangeHandler} type="number" id="coupon_amount" name="coupon_amount" placeholder="10"/> 
+                              </td>
+                            </tr> 
+                            <tr>
+                              <td><label>{__('Start Date', 'quick-adsense-reloaded')}</label></td>
+                              <td><input value={post_meta.coupon_start_date} onChange={this.props.adFormChangeHandler} type="date" id="coupon_start_date" name="coupon_start_date" placeholder="Coupon Start Date"/> 
+                              </td>
+                            </tr> 
+                            <tr>
+                              <td><label>{__('Expiration Date', 'quick-adsense-reloaded')}</label></td>
+                              <td><input value={post_meta.coupon_expire_date} onChange={this.props.adFormChangeHandler} type="date" id="coupon_expire_date" name="coupon_expire_date" placeholder="Coupon Expire Date"/> 
+                              </td>
+                            </tr> 
+                          </>
+                          }
                         </tbody>
                       </table>
                       </div>);      

@@ -19,5 +19,17 @@
         "id"  :"data-slot-id",        
         "type": "text"
         }        
+    ],                              
+    "admob": [
+        {
+        "label" :"Data Client ID",
+        "id"  :"data-client-id",        
+        "type": "text"
+        },
+        {
+        "label" :"Data Slot ID",
+        "id"  :"data-slot-id",        
+        "type": "text"
+        }        
     ]                              
 }

@@ -1455,6 +1455,45 @@ handleCapabilityChange = (event) =>{
                     </p>
                     </td>
                   </tr>
+                  <tr>
+                    <th colSpan={2}><label>{__('Coupon & Discount', 'quick-adsense-reloaded')}  </label></th>
+                  </tr> 
+                  <tr>
+                    <th><label>{__('Name', 'quick-adsense-reloaded')} </label></th>
+                    <td><input value={settings.discount_name} onChange={this.formChangeHandler} type="text" id="discount_name" name="discount_name" placeholder="Name of the discount" style={{width:'100%'}}/> 
+                    </td>
+                  </tr> 
+                  <tr>
+                    <th><label>{__('Coupon Code', 'quick-adsense-reloaded')}  </label></th>
+                    <td><input value={settings.coupon_code} onChange={this.formChangeHandler} type="text" id="coupon_code" name="coupon_code" placeholder="Coupon Code Ex: 10PERCENT" style={{width:'100%'}}/> 
+                    </td>
+                  </tr> 
+                  <tr>
+                    <th><label>{__('Coupon Type', 'quick-adsense-reloaded')}</label></th>
+                    <td>
+                      
+                        <select value={(settings.coupon_type_selection!==undefined)?settings.coupon_type_selection:'percent'} onChange={this.formChangeHandler} name="coupon_type_selection" id="coupon_type_selection">
+                          <option value="percent">{__('Percent', 'quick-adsense-reloaded')}</option>
+                          <option value="fixed_amount">{__('Fixed Amount', 'quick-adsense-reloaded')}</option> 
+                        </select>
+                      
+                    </td>
+                  </tr>
+                  <tr>
+                    <th><label>{__('Amount / Percent', 'quick-adsense-reloaded')}</label></th>
+                    <td><input value={(settings.coupon_amount)?settings.coupon_amount:10} onChange={this.formChangeHandler} type="number" id="coupon_amount" name="coupon_amount" placeholder="10" style={{width:'100%'}}/> 
+                    </td>
+                  </tr> 
+                  <tr>
+                    <th><label>{__('Start Date', 'quick-adsense-reloaded')}</label></th>
+                    <td><input value={settings.coupon_start_date} onChange={this.formChangeHandler} type="date" id="coupon_start_date" name="coupon_start_date" placeholder="Coupon Start Date" style={{width:'100%'}}/> 
+                    </td>
+                  </tr> 
+                  <tr>
+                    <th><label>{__('Expiration Date', 'quick-adsense-reloaded')}</label></th>
+                    <td><input value={settings.coupon_expire_date} onChange={this.formChangeHandler} type="date" id="coupon_expire_date" name="coupon_expire_date" placeholder="Coupon Expire Date" style={{width:'100%'}}/> 
+                    </td>
+                  </tr> 
                   </tbody></table>
                 </div>
              </div>

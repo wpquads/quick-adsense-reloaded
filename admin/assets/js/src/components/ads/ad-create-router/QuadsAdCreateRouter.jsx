@@ -560,6 +560,14 @@ class QuadsAdCreateRouter extends Component {
             }
             
           break;
+          case 'admob':
+            if(validation_flag && (quads_post_meta.admob_data_ad_slot) && quads_post_meta.admob_data_ad_client && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
+              this.saveAdFormData('publish');   
+            }else{
+              this.setState({show_form_error:true});
+            }
+            
+          break;
           case 'random_ads':
             if(validation_flag && quads_post_meta.random_ads_list.length > 0 && quads_post_meta.position && (quads_post_meta.position == 'ad_shortcode' || quads_post_meta.visibility_include.length > 0)){
               this.saveAdFormData('publish');   
@@ -843,6 +851,10 @@ class QuadsAdCreateRouter extends Component {
                 this.setState({show_form_error:true});
               }
               
+            break;
+
+            case 'admob':
+              this.props.history.push(new_url); 
             break;
          case 'random_ads':
           if(quads_post_meta.random_ads_list.length > 0 ){

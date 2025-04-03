@@ -220,10 +220,11 @@ class QuadsAdTargeting extends Component {
                 <table>
                   <tbody>
                   { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" || post_meta.ad_type == "parallax_ads" || post_meta.ad_type == "half_page_ads" || post_meta.ad_type == "loop_ads" ?  "" : 
+                  <>
                     <tr className="quads-tr-position">
                     <td><label>{__('Where will the AD appear?', 'quick-adsense-reloaded')}</label></td>
                     { post_meta.ad_type == "popup_ads" || post_meta.ad_type == "video_ads" || post_meta.ad_type == "parallax_ads" || post_meta.ad_type == "half_page_ads" ?  "" : 
-                        <td>{post_meta.ad_type != "group_insertion" || post_meta.ad_type != "sticky_scroll" ? (<QuadsAdvancePosition parentState={this.props.parentState} adFormChangeHandler = {this.props.adFormChangeHandler}/>
+                        <td>{post_meta.ad_type != "group_insertion" && post_meta.ad_type != "sticky_scroll" ? (<QuadsAdvancePosition parentState={this.props.parentState} adFormChangeHandler = {this.props.adFormChangeHandler}/>
                         ):<div><Select  style={{minWidth:'250px',marginTop:'20px'}} value={post_meta.position} name="position" onChange={this.props.adFormChangeHandler} >
                             <MenuItem value="after_paragraph">{__('After Paragraph', 'quick-adsense-reloaded')}</MenuItem>
                         </Select>
@@ -241,7 +242,42 @@ class QuadsAdTargeting extends Component {
                             }</td>
                           }
                     </tr>
-                        }
+                    {(post_meta.position=='after_paragraph') &&
+                    <>
+                    <tr>
+                        <td><label>{__('Number of paragraph', 'quick-adsense-reloaded')}</label></td>
+                        <td>
+                          <input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_number" value={post_meta.paragraph_number}  type="number" /> 
+                          <label htmlFor="enable_on_end_of_post">
+                          <input id='enable_on_end_of_post' checked={post_meta.enable_on_end_of_post} name="enable_on_end_of_post" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                          {__('to', 'quick-adsense-reloaded')} <strong>{__('End of Post', 'quick-adsense-reloaded')}</strong> {__('if fewer paragraphs', 'quick-adsense-reloaded')}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                      <td>
+                      
+                      </td>
+                      <td>
+                      <input id='repeat_paragraph' checked={post_meta.repeat_paragraph} name="repeat_paragraph" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                      <label htmlFor="repeat_paragraph"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number}</label>
+                      </td>
+                    </tr>
+                    {(post_meta.repeat_paragraph) &&
+                    <tr>
+                      <td><label > {__('Limit The Insertion Till Nth Ad', 'quick-adsense-reloaded')}</label></td>
+                      <td><input min="1" onChange={this.props.adFormChangeHandler} name="paragraph_limit" value={post_meta.paragraph_limit}  type="number" /></td>
+                    </tr>
+                    }
+                    <tr>
+                      <td><label > {__('Skip Paragraphs by Class/ID', 'quick-adsense-reloaded')}</label></td>
+                      <td>
+                      <input onChange={this.props.adFormChangeHandler} name="exclude_from_class_id" value={post_meta.exclude_from_class_id}  type="text" placeholder='.class_name or #id separated by space'/>
+                      </td>
+                    </tr>
+                    </>
+                    }
+                  </>
+                  }
                       {post_meta.position == 'ad_after_id' ? (
                       <tr>
                         <td><label>{__('Enter Id Name', 'quick-adsense-reloaded')}</label></td>

@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.7
 Requires PHP: 5.4
-Stable tag: 2.0.88
+Stable tag: 2.0.89
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -208,6 +208,14 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.89 ( 03 April 2025 ) =
+* Added : Need to add an option to exclude Ads via class of the element #894
+* Added : Need to add Google Reward ads feature #921
+* Added : Add discount/coupon feature in sellable ads #925
+* Added : Add an option to reset impression and clicks #888
+* Fixed : The option Limit The Insertion Till Nth Ad is no longer shown in the feature Group Insertion #937
+* Fixed : Banner Sticky ad is not visible in home page when there is not static home page selected #940
+
 = 2.0.88 ( 07 March 2025 ) =
 * Added : Need to add new feature in Sellable Ads #930
 * Added : By default Hide Ads for Premium Members option should be off and It still creates payment page even after off  #931

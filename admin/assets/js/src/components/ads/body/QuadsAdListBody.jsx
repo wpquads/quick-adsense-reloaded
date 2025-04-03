@@ -34,7 +34,8 @@ class QuadsAdListBody extends Component {
       static_box_id       : null,
       static_box_index    : null,
       delete_modal      : false,
-      delete_modal_id   : null,
+      reset_impression_model      : false,
+      reset_impression_model_id   : null,
       display_pagination:false,
       analytics_impressions:0,
       analytics_clicks:0, 
@@ -172,8 +173,15 @@ class QuadsAdListBody extends Component {
     const ad_id = e.currentTarget.dataset.ad;
     this.setState({delete_modal:true, more_box_id:null, delete_modal_id:ad_id});
   }
+  showResetImpressonModal =(e) => {
+    const ad_id = e.currentTarget.dataset.ad;
+    this.setState({reset_impression_model:true, more_box_id:null, reset_impression_model_id:ad_id});
+  }
   hideDeleteModal =(e) => {    
     this.setState({delete_modal:false, delete_modal_id:null});
+  }  
+  hideResetImpressionModal =(e) => {    
+    this.setState({reset_impression_model:false, reset_impression_model_id:null});
   }  
   showMoreIconBox = (e) => {
     e.preventDefault();        
@@ -321,7 +329,7 @@ class QuadsAdListBody extends Component {
       action: action,
     }        
     const url = quads_localize_data.rest_url + "quads-route/ad-more-action";
-  
+    
     fetch(url, {
       method: "post",
       headers: {    
@@ -334,7 +342,8 @@ class QuadsAdListBody extends Component {
     .then(res => res.json())
     .then(
       (result) => {   
-        this.setState({actionPerform:false});
+        this.setState({actionPerform:false,reset_impression_model:false});
+        
         if(result.status){
           
             let items = [...this.state.items];
@@ -359,7 +368,7 @@ class QuadsAdListBody extends Component {
               item.post.post_status = action;
               items[this.state.more_box_index] = item;
             }
-            this.setState({ items: items, more_box_id:null, delete_modal:false,bulk_ads_ids:[],bulk_ads_index:[]});
+            this.setState({ items: items, more_box_id:null, delete_modal:false,reset_impression_model:false,bulk_ads_ids:[],bulk_ads_index:[]});
             this.renderCheckbox();
         }
       },        
@@ -491,6 +500,20 @@ class QuadsAdListBody extends Component {
              </div>        
             </div>
               : ''}  
+              {this.state.reset_impression_model ? 
+              <div className="quads-modal-popup">            
+            <div className="quads-modal-popup-content">   
+              <div className="quads-modal-popup-txt">          
+              <h3>{__('Are you sure you want to', 'quick-adsense-reloaded')}<span> {__(' RESET  ', 'quick-adsense-reloaded')} </span>{__( 'Stats of this ad?', 'quick-adsense-reloaded')}</h3> 
+              <p>{__('It will permenently reset the Stats and you won\'t be able to see the ad again. You cannot undo this action.', 'quick-adsense-reloaded')}</p>
+              </div>           
+             <div className="quads-modal-content">
+             <a className="quads-btn quads-btn-cancel" onClick={this.hideResetImpressionModal}>{__('Cancel', 'quick-adsense-reloaded')}</a>
+              <a data-id="clear_impression" data-ad={this.state.reset_impression_model_id} className="quads-btn quads-btn-delete" onClick={this.processAction}>{__('Reset', 'quick-adsense-reloaded')}</a>
+             </div>             
+             </div>        
+            </div>
+              : ''}  
               </div> 
               {(this.state.items && this.state.items.length>0) &&        
               <div className="quads-search-box-panel">                
@@ -519,6 +542,7 @@ class QuadsAdListBody extends Component {
                   hideStaticIconBox = {this.hideStaticIconBox}
                   processAction   ={this.processAction}
                   showDeleteModal ={this.showDeleteModal}
+                  showResetImpressonModal ={this.showResetImpressonModal}
                   nodatashowAddTypeSelector ={this.props.nodatashowAddTypeSelector}
                   handleBulkCheckbox = {this.handleBulkCheckbox}
                   settings = {this.props.settings}

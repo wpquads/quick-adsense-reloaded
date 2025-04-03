@@ -530,11 +530,15 @@ function quads_ads_buy_form() {
             <p><strong><?php echo esc_html__('Selected Slot:','quick-adsense-reloaded');?></strong> <span id="summary-slot"></span></p>
             <p><strong><?php echo esc_html__('Start Date:','quick-adsense-reloaded');?></strong> <span id="summary-start-date"></span></p>
             <p><strong><?php echo esc_html__('End Date:','quick-adsense-reloaded');?></strong> <span id="summary-end-date"></span></p>
+
+            <input type="text" name="coupon_code" id="coupon_code" class="input" value="" size="20" autocapitalize="off" autocomplete="coupon_code" placeholder="Redeem a coupon (if any)" style="width:200px;margin:0px" onchange="handleRedeemCouponCode(event)">
+            <input type="hidden" name="coupon_discount_amount" id="coupon_discount_amount" class="input">
+            <p style="color:red;margin:0px" id="coupon_error"></p>
             <p><strong><?php echo esc_html__('Total Cost:','quick-adsense-reloaded');?></strong> <?php echo esc_html($currency); ?> <span id="total-cost">0</span></p>
 
             <input type="hidden" name="action" value="submit_ad_buy_form" />
             <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce( 'submit_ad_buy_form' ));?>" />
-
+                
             <!-- PayPal Payment Button -->
             <div id="paypal-button-container"></div>
             <?php if($payment_gateway=='stripe'){?>
@@ -562,6 +566,35 @@ function quads_ads_buy_form() {
      selected_id = <?php echo esc_attr($selected_ad_slot)?>;
      calculateTotalCost(selected_id);  
     <?php }?>
+    function handleRedeemCouponCode(event){
+        let coupon = event.target.value;
+        let nonce = '<?php echo esc_attr(wp_create_nonce( 'redeem_coupon_code' ));?>';
+        let total_cost = document.getElementById('total-cost').innerHTML;
+        jQuery.ajax({
+            url: '<?php echo esc_url(admin_url('admin-ajax.php')); ?>',
+            type: 'post',
+            data: {slot_id:selected_id,coupon:coupon,nonce:nonce,action:'quads_redeem_coupon',total_cost:total_cost},
+            success: function (response, status, XHR) {
+               let data = response.data;
+               if( data.success == 2 ){
+                    let message = data.message;
+                    document.getElementById('coupon_error').innerHTML = message;
+                    setTimeout(() => {
+                        document.getElementById('coupon_error').innerHTML = '';
+                    }, 5000);
+               }else{
+                   let message = data.message;
+                    document.getElementById('coupon_error').innerHTML = 'You are eligible for discount of '+message;
+                    total_cost = total_cost - message;
+                    document.getElementById('total-cost').innerText = total_cost;
+                    document.getElementById('coupon_discount_amount').value = message;
+                    document.getElementById('coupon_error').style.color = 'green';
+               }
+            },
+            error: function (request, status, error) {
+            },
+        });
+    }
     function handleConvertFormat(newDate){
         newDate = new Date(newDate);
         let nday = newDate.getDate();
@@ -1611,6 +1644,11 @@ function handle_ad_buy_form_submission() {
     $end_date    = isset( $_POST['end_date'] )? sanitize_text_field( wp_unslash($_POST['end_date'] ) ) : '';
     $ad_link     = isset( $_POST['ad_link'] )? esc_url_raw( wp_unslash( $_POST['ad_link'] ) ) : '';
     $ad_content  = isset($_POST['ad_content']) ? sanitize_textarea_field( wp_unslash ($_POST['ad_content'] ) ):'';
+
+    $coupon_code  = isset($_POST['coupon_code']) ? sanitize_textarea_field( wp_unslash ($_POST['coupon_code'] ) ):'';
+
+    $coupon_discount_amount  = isset($_POST['coupon_discount_amount']) ? sanitize_textarea_field( wp_unslash ($_POST['coupon_discount_amount'] ) ):'';
+
     $ad_image    = ''; // Initialize the ad image URL
 
     // Handle file upload if provided
@@ -1645,11 +1683,15 @@ function handle_ad_buy_form_submission() {
     $currency = "USD";
     $days = ( strtotime( $end_date ) - strtotime( $start_date ) ) / ( 60 * 60 * 24 ) + 1;
     $total_cost = $price * $days;
+   
     $name = get_the_title( $ad_slot_id );
 
 
     if ( $result ) {
-        
+        $order_id = $wpdb->insert_id;
+        if( $coupon_discount_amount !='' && $coupon_discount_amount>0){
+            $total_cost = $total_cost - $coupon_discount_amount;
+        }
         $quads_settings = get_option( 'quads_settings' );
         $payment_gateway = isset($quads_settings['payment_gateway']) ? $quads_settings['payment_gateway'] : 'paypal';
         if($payment_gateway=='paypal'){
@@ -1661,7 +1703,6 @@ function handle_ad_buy_form_submission() {
 
             $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
 
-            $order_id = $wpdb->insert_id;
             // Prepare the PayPal form
             $paypal_form = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
             $paypal_form .= '<input type="hidden" name="cmd" value="_xclick">';
@@ -1686,7 +1727,7 @@ function handle_ad_buy_form_submission() {
             }
             $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
 
-            $order_id = $wpdb->insert_id;
+            
             //$authorize_url ='https://apitest.authorize.net/xml/v1/request.api';
             $authorize_url ='https://api.authorize.net/xml/v1/request.api';
             $redirect_link = rtrim($redirect_link,'/');
@@ -1825,7 +1866,7 @@ function handle_ad_buy_form_submission() {
             }
             $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
 
-            $order_id = $wpdb->insert_id;
+            
             $redirect_link = rtrim($redirect_link,'/');
             $success_nonce = wp_create_nonce( 'submit_ad_buy_form_success' );
             $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id ).'&security='.esc_attr($success_nonce);
@@ -1860,7 +1901,6 @@ function handle_ad_buy_form_submission() {
             }
             $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
 
-            $order_id = $wpdb->insert_id;
             $redirect_link = rtrim($redirect_link,'/');
             $success_nonce = wp_create_nonce( 'submit_ad_buy_form_success' );
             $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id ).'&security='.esc_attr($success_nonce);
@@ -1920,6 +1960,88 @@ function quads_verify_paystack_payment(){
         echo 1; 
         die;
        
+    } else {
+        echo 3; 
+        die;
+    }
+}
+add_action( 'wp_ajax_quads_redeem_coupon', 'quads_redeem_coupon' );
+add_action( 'wp_ajax_nopriv_quads_redeem_coupon', 'quads_redeem_coupon' );
+
+function quads_redeem_coupon(){ 
+    if( !isset( $_POST[ 'nonce' ] ) || ! wp_verify_nonce( $_POST[ 'nonce' ], 'redeem_coupon_code' )){ 
+        return false;
+    }
+    if(isset($_POST['coupon'])) {
+        $coupon = ( isset( $_POST['coupon'] ) ) ? sanitize_text_field( wp_unslash( $_POST['coupon'] ) ) : '';
+
+        $slot_id = ( isset( $_POST['slot_id'] ) ) ? sanitize_text_field( wp_unslash( $_POST['slot_id'] ) ) : '';
+
+        $total_cost = ( isset( $_POST['total_cost'] ) ) ? sanitize_text_field( wp_unslash( $_POST['total_cost'] ) ) : '';
+        if( $total_cost == '' ||  $total_cost ==0){
+            wp_send_json_error( array( 'success'=>2, 'message' => esc_html__('Can not apply coupon code', 'quick-adsense-reloaded' ) ) );
+            die;
+        }
+        if( $coupon != "" && $slot_id != ""){
+            $quads_settings = get_option( 'quads_settings' );
+            $post_data = get_post_meta($slot_id);
+            $discount_name = '';
+            $coupon_code = '';
+            $coupon_start_date = '';
+            $coupon_type_selection = '';
+            $coupon_expire_date = '';
+            $coupon_amount = '';
+            
+            if( isset( $post_data[ 'coupon_code' ] ) && $post_data[ 'coupon_code' ] != "" && trim( $coupon )== trim( $post_data[ 'coupon_code' ] ) ){
+                $discount_name = ( isset( $post_data[ 'discount_name' ] ) ) ? $post_data[ 'discount_name' ][0] : '';
+
+                $coupon_code = ( isset( $post_data[ 'coupon_code' ] ) && isset( $post_data[ 'coupon_code' ][0] ) ) ? $post_data[ 'coupon_code' ][0] : '';
+
+                $coupon_start_date = ( isset( $post_data[ 'coupon_start_date' ] ) && isset( $post_data[ 'coupon_start_date' ][0] ) ) ? $post_data[ 'coupon_start_date' ][0] : '';
+
+                $coupon_type_selection = ( isset( $post_data[ 'coupon_type_selection' ] ) && isset( $post_data[ 'coupon_type_selection' ][0] ) ) ? $post_data[ 'coupon_type_selection' ][0] : 'percent';
+
+                $coupon_expire_date = ( isset( $post_data[ 'coupon_expire_date' ] ) && isset( $post_data[ 'coupon_expire_date' ][0] ) ) ? $post_data[ 'coupon_expire_date' ][0] : '';
+
+                $coupon_amount = ( isset( $post_data[ 'coupon_amount' ] ) && isset( $post_data[ 'coupon_amount' ][0] ) ) ? $post_data[ 'coupon_amount' ][0] : 10;
+            }else if( isset( $quads_settings[ 'coupon_code' ] ) && !empty( $quads_settings[ 'coupon_code' ] )){
+                $discount_name = ( isset( $quads_settings[ 'discount_name' ] ) ) ? $quads_settings[ 'discount_name' ] : '';
+
+                $coupon_code = ( isset( $quads_settings[ 'coupon_code' ] ) && isset( $quads_settings[ 'coupon_code' ] ) ) ? $quads_settings[ 'coupon_code' ] : '';
+
+                $coupon_start_date = ( isset( $quads_settings[ 'coupon_start_date' ] ) && isset( $quads_settings[ 'coupon_start_date' ] ) ) ? $quads_settings[ 'coupon_start_date' ] : '';
+
+                $coupon_type_selection = ( isset( $quads_settings[ 'coupon_type_selection' ] ) && isset( $quads_settings[ 'coupon_type_selection' ] ) ) ? $quads_settings[ 'coupon_type_selection' ] : 'percent';
+
+                $coupon_expire_date = ( isset( $quads_settings[ 'coupon_expire_date' ] ) && isset( $quads_settings[ 'coupon_expire_date' ] ) ) ? $quads_settings[ 'coupon_expire_date' ] : '';
+
+                $coupon_amount = ( isset( $quads_settings[ 'coupon_amount' ] ) && isset( $quads_settings[ 'coupon_amount' ] ) ) ? $quads_settings[ 'coupon_amount' ] : 10;
+            }
+            if( trim( $coupon_code ) != trim( $coupon ) ){
+                wp_send_json_error( array( 'success'=>2, 'message' => esc_html__('Invalid coupon, please try another one.', 'quick-adsense-reloaded' ) ) );
+                die;
+            }
+            $today = date('Y-m-d');
+            $is_expired = false;
+            if( $coupon_expire_date && $coupon_expire_date !='' && $coupon_expire_date < $today ){
+                $is_expired = true;
+            }
+            $resp = array();
+            if( $is_expired ){
+                wp_send_json_error( array( 'success'=>2, 'message' => esc_html__('Coupon expired, please try another one.', 'quick-adsense-reloaded' ) ) );
+                die;
+            }
+            
+            $cal_amount = 0;
+            if( $coupon_type_selection=='percent' ){
+                $cal_amount = ( $total_cost * $coupon_amount ) / 100;
+            }else if( $coupon_type_selection=='fixed_amount' ){
+                $cal_amount =$coupon_amount;
+            }
+
+            wp_send_json_error( array( 'success'=>1, 'message' => esc_html__($cal_amount, 'quick-adsense-reloaded' ) ) );
+            die;
+        }
     } else {
         echo 3; 
         die;

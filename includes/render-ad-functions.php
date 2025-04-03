@@ -37,7 +37,7 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
    }else{
     $post_id= quadsGetPostIdByMetaKeyValue('quads_ad_old_id', $id);
    }
-    
+   
 
     /* check total adcount and stop ads from displaying when maxads limit is reached */
     if(!quads_adcount_check($quads_mode)){ 
@@ -72,6 +72,9 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     }
     if( true === quads_is_yandex( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_yandex_async( $id ),$post_id );
+    }
+    if( true === quads_is_admob( $id, $string ) ) {
+        return apply_filters( 'quads_render_ad', quads_render_admob_async( $id,$quads_options['ads'][$id] ),$post_id );
     }
     if( true === quads_is_mgid( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_mgid_async( $id ),$post_id );
@@ -310,6 +313,86 @@ function quads_render_yandex_async( $id ) {
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_yandex_async', $html );
 }
+
+
+function quads_render_admob_async( $id, $ad_data  ) {
+    $client_id = $ad_data['admob_data_ad_client'];
+    $slot_id = $ad_data['admob_data_ad_slot'];
+
+    // Store the values in a filter
+    add_filter('admobi_client_data', function() use ($client_id, $slot_id) {
+        return array('client_id' => $client_id, 'slot_id' => $slot_id);
+    });
+    $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdMob async --> \n\n";
+    $html .='<ins class="adsbygoogle"
+     style="display:inline-block;width:320px;height:100px"
+     data-ad-client="'.esc_attr( $client_id ).'"
+     data-ad-slot="'.esc_attr( $slot_id ).'"></ins>';
+    $html .= "<script>
+    function QuadsloadRewardedAd(rewardedAd) {
+        if (rewardedAd != null) {
+            rewardedAd.show(result => {
+                if (result.status === 'viewed') {
+                    console.log('Reward was granted successfully:', result.reward);
+                    const today = new Date().toISOString().split('T')[0];
+                    localStorage.setItem('lastAdShownDate', today);
+                } else {
+                    console.log('Reward was not granted');
+                }
+            });
+        } else {
+            console.log('No rewarded ad available');
+        }
+    }
+
+    window.adsbygoogle = window.adsbygoogle || [];
+
+    function QuadsinitializeAd() {
+        const slotVars = {
+            google_ad_loaded_callback: QuadsloadRewardedAd,
+            google_ad_format: 'rewarded',
+            google_ad_slot: ".esc_attr($slot_id).",
+        };
+        window.adsbygoogle.push({ params: slotVars });
+    }
+
+    function QuadsshouldShowAd() {
+        const lastAdShownDate = localStorage.getItem('lastAdShownDate');
+        const today = new Date().toISOString().split('T')[0];
+        return lastAdShownDate !== today;
+    }
+
+    window.onload = function () {
+        if (QuadsshouldShowAd()) {
+            setTimeout(() => {
+                QuadsinitializeAd();
+            }, 6000);
+        } else {
+            console.log('Ad will not be shown again today.');
+        }
+    };
+</script>";
+    $html .= "\n <!-- end WP QUADS --> \n\n";
+    return apply_filters( 'quads_render_admob_async', $html );
+}
+
+// Load the AdSense script in the header
+function quads_add_adsense_script() {
+    $param = apply_filters('admobi_client_data', array(
+        'client_id' => '',
+        'slot_id'   => ''
+    ));
+
+    if (empty($param['client_id'])) {
+        return; // Prevent errors if no client_id is set
+    }
+
+    ?>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<?php echo esc_attr($param['client_id']); ?>" 
+        crossorigin="anonymous"></script>
+    <?php
+}
+add_action('wp_enqueue_scripts', 'quads_add_adsense_script'); // Register script globally
 /**
  * Render ad banner
  *
@@ -1477,6 +1560,13 @@ function quads_is_yandex( $id, $string ) {
     global $quads_options;
 
     if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'yandex') {
+        return true;
+    }
+    return false;
+}
+function quads_is_admob( $id, $string ) {
+    global $quads_options;
+    if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'admob') {
         return true;
     }
     return false;

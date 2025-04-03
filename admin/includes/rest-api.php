@@ -1707,6 +1707,12 @@ return array('status' => 't');
                             $response = array('status'=> 't', 'msg' => 'Deleted Successfully', 'data' => array());
                         }
                         break;
+                    case 'clear_impression':
+                        $result = $this->api_service->resetImpressionAndClick($ad_id);
+                        if($result){
+                            $response = array('status'=> 't', 'msg' => 'Reset Successfully', 'data' => array());
+                        }
+                        break;
 
                     default:
                         # code...
