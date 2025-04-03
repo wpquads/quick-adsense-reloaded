@@ -1,4 +1,4 @@
-= 2.0.89 ( 02 April 2025 ) =
+= 2.0.89 ( 03 April 2025 ) =
 * Added : Need to add an option to exclude Ads via class of the element #894
 * Added : Need to add Google Reward ads feature #921
 * Added : Add discount/coupon feature in sellable ads #925
