@@ -1071,7 +1071,7 @@ handleCapabilityChange = (event) =>{
         settings[name] = value;
         this.setState(settings);
     }
-    if(name == 'adsTxtEnabled' || name == 'global_excluder_enabled' || name == 'lazy_load_global' || name == 'ad_blocker_support' || name == 'click_fraud_protection' || name == 'revenue_sharing_enabled' || name == 'hide_quads_markup' || name == 'optimize_core_vitals'){
+    if(name == 'adsTxtEnabled' || name == 'global_excluder_enabled' || name == 'lazy_load_global' || name == 'ad_blocker_support' || name == 'click_fraud_protection' || name == 'revenue_sharing_enabled' || name == 'hide_quads_markup' || name == 'optimize_core_vitals' || name == 'uninstall_on_delete' || name == 'debug_mode' || name == 'hide_ajax' || name == 'QckTags'){
       this.saveSettings();
      }
      if(name == 'ip_geolocation_api'){
