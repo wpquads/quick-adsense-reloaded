@@ -897,10 +897,21 @@ handleCapabilityChange = (event) =>{
               document.body.appendChild(createDiv);
               var quads_response_suc = document.getElementsByClassName("quads_response-suc-wrap bottom-left")[0];
     quads_response_suc.innerHTML += "<div class='quads_response-suc-single quads_response-suc-success'><span class='quads_response-suc-loader quads_response-suc-loaded'></span>Settings Saved</div>";
-              setTimeout(() => {
-                var quads_response_suc_ = document.getElementsByClassName("quads_response-suc-wrap bottom-left")[0];
-                quads_response_suc_.remove();
-              }, 1000);
+              const element = document.getElementsByClassName("quads_response-suc-wrap bottom-left")[0];
+
+              if (element) {
+                  let opacity = 1;
+                  const interval = setInterval(() => {
+                      opacity -= 0.05; // Decrease opacity gradually
+                      element.style.opacity = opacity;
+              
+                      if (opacity <= 0) {
+                          clearInterval(interval);
+                          element.remove(); // Remove from DOM
+                      }
+                  }, 50); // Run every 50ms
+              }
+    
 
               this.setState({settings_error:result.msg, button_spinner_toggle:false, selectedBtnOpt:null});
               if(reload_page){
@@ -2408,13 +2419,27 @@ handleCapabilityChange = (event) =>{
                       </tr>
                        :null}<tr>
                        <th><label htmlFor="uninstall_on_delete">{__('Delete Data on Uninstall?', 'quick-adsense-reloaded')}</label></th>
-                        <td><label className="quads-switch"><input id="uninstall_on_delete" type="checkbox" onChange={this.formChangeHandler} name="uninstall_on_delete" checked={settings.uninstall_on_delete} /><span className="quads-slider"></span></label>
-                        <a className="quads-general-helper quads-general-helper-new" href="#"></a><div className="quads-message bottom" >Check this box if you would like <strong>Settings-&gt;WPQUADS</strong> to completely remove all of its data when the plugin is deleted.</div>
+                        <td>
+                        {this.state.selectedBtnOpt == 'uninstall_on_delete' ?
+                        <div className="quads-spin-cntr">
+                           <div className="quads-set-spin"></div>
+                        </div> :
+                        <label className="quads-switch"><input id="uninstall_on_delete" type="checkbox" onChange={this.formChangeHandler} name="uninstall_on_delete" checked={settings.uninstall_on_delete} /><span className="quads-slider"></span></label>
+                        }
+                        <a className="quads-general-helper quads-general-helper-new" href="#"></a>
+                        <div className="quads-message bottom" >Check this box if you would like <strong>Settings-&gt;WPQUADS</strong> to completely remove all of its data when the plugin is deleted.</div>
                         </td>
                       </tr>
                       <tr>
                        <th><label htmlFor="debug_mode">{__('Debug Mode', 'quick-adsense-reloaded')}</label></th>
-                        <td><label className="quads-switch"><input id="debug_mode" type="checkbox" onChange={this.formChangeHandler} name="debug_mode" checked={settings.debug_mode} /><span className="quads-slider"></span></label></td>
+                        <td>
+                        {this.state.selectedBtnOpt == 'debug_mode' ?
+                        <div className="quads-spin-cntr">
+                           <div className="quads-set-spin"></div>
+                        </div> :
+                          <label className="quads-switch"><input id="debug_mode" type="checkbox" onChange={this.formChangeHandler} name="debug_mode" checked={settings.debug_mode} /><span className="quads-slider"></span></label>
+                        }
+                        </td>
                       </tr>
                       <tr>
                        <th><label htmlFor="copy_system_info">{__('Copy System info', 'quick-adsense-reloaded')}</label></th>
@@ -2537,14 +2562,25 @@ handleCapabilityChange = (event) =>{
                   <tr>
                     <th scope="row"><label htmlFor="hide_ajax">{__('Hide Ads From Ajax Requests', 'quick-adsense-reloaded')}</label></th>
                     <td>
+                    {this.state.selectedBtnOpt == 'hide_ajax' ?
+                        <div className="quads-spin-cntr">
+                           <div className="quads-set-spin"></div>
+                        </div> :
                       <label className="quads-switch"><input id="hide_ajax" type="checkbox" name="hide_ajax" checked={settings.hide_ajax} onChange={this.formChangeHandler} /><span className="quads-slider"></span></label>
+                    }
                       <p>{__('If your site is using ajax based infinite loading it might happen that ads are loaded without any further post content. Disable this here.', 'quick-adsense-reloaded')}</p>
                     </td>
                   </tr>
                   <tr>
                     <th scope="row"><label htmlFor="QckTags">{__('Quicktags', 'quick-adsense-reloaded')}</label></th>
                     <td>
-                      <label className="quads-switch"><input id="QckTags" type="checkbox" name="QckTags" checked={settings.QckTags} onChange={this.formChangeHandler} /><span className="quads-slider"></span></label>{__('Show Quicktag Buttons on the HTML Post Editor', 'quick-adsense-reloaded')}
+                    {this.state.selectedBtnOpt == 'QckTags' ?
+                        <div className="quads-spin-cntr">
+                           <div className="quads-set-spin"></div>
+                        </div> :
+                      <label className="quads-switch"><input id="QckTags" type="checkbox" name="QckTags" checked={settings.QckTags} onChange={this.formChangeHandler} /><span className="quads-slider"></span></label>
+                    }
+                    {__('Show Quicktag Buttons on the HTML Post Editor', 'quick-adsense-reloaded')}
                       <p>{__('Tags can be inserted into a post via the additional Quicktag Buttons at the HTML Edit Post SubPanel.', 'quick-adsense-reloaded')}</p>
                       <p><strong>Optional:</strong>{__('Insert Ads into a post, on-the-fly using below tags', 'quick-adsense-reloaded')}</p>
                       <p>{__('1. Insert', 'quick-adsense-reloaded')} &lt;!--Ads1--&gt;, &lt;!--Ads2--&gt;, {__('etc. into a post to show the Particular Ads at specific location.', 'quick-adsense-reloaded')}</p>
