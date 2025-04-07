@@ -3944,3 +3944,154 @@ function quads_display_sticky_ads(){
 }
 
 add_action( 'wp_footer', 'quads_display_sticky_ads'  );
+
+
+function add_inmobi_cmp_config() {
+    if( quads_is_amp_endpoint() ){
+        return false;
+    }
+    $quads_settings = get_option( 'quads_settings' );
+    $in_mobi_integration = isset($quads_settings['in_mobi_integration']) ? $quads_settings['in_mobi_integration'] : false;
+    $in_mobi_site_id = isset($quads_settings['in_mobi_site_id']) ? $quads_settings['in_mobi_site_id'] : false;
+    $in_mobi_hash_code = isset($quads_settings['in_mobi_hash_code']) ? $quads_settings['in_mobi_hash_code'] : '';
+    $in_mobi_publisher_country_code = isset($quads_settings['in_mobi_publisher_country_code']) ? $quads_settings['in_mobi_publisher_country_code'] : '';
+    $in_mobi_privacy_mode = isset($quads_settings['in_mobi_privacy_mode']) ? $quads_settings['in_mobi_privacy_mode'] : '';
+    $in_mobi_banner_text = isset($quads_settings['in_mobi_banner_text']) ? $quads_settings['in_mobi_banner_text'] : '';
+    
+    // Display Condition is false and ignoreShortcodeCond is empty or not true
+    if( $in_mobi_integration==true  && $in_mobi_site_id != "" && $in_mobi_banner_text != ''){
+        $privacy = array();
+        if (empty($in_mobi_privacy_mode)) {
+            $privacy[] = "GDPR";
+        }else{
+            $exp = explode(',',$in_mobi_privacy_mode);
+            $pri_arr = array();
+            for ($i=0; $i < count($exp); $i++) { 
+                $pr ='"'.$exp[$i].'"';
+                $pri_arr[] = $pr;
+            }
+            $privacy = $pri_arr;
+        }
+        $new_priv = implode( ',', $privacy);
+        echo '<script>
+        window.__cmpConfig = {
+            consentConfig: {
+            siteId: '.esc_attr( $in_mobi_site_id ).',
+            regulations: ['.esc_attr( $new_priv ).'],
+            gdprAppliesGlobally: false,
+            customization: {
+                bannerText: '.esc_html( $in_mobi_banner_text ).',
+                acceptAllText: "Accept",
+                rejectAllText: "Reject",
+                managePreferencesText: "Preferences",
+                theme: "light"
+            }
+            }
+        };
+        </script>';
+        echo '<script src="https://consent.inmobi.com/choice/'.esc_attr( $in_mobi_site_id ).'.js" async></script>';
+    }
+}
+add_action('wp_head', 'add_inmobi_cmp_config');
+add_action('amp_post_template_footer','quads_ampforwp_footer_html_output',11);
+function quads_ampforwp_footer_html_output() {
+    if( ! quads_is_amp_endpoint() ){
+        return false;
+    }
+    $quads_settings = get_option( 'quads_settings' );
+    $in_mobi_integration = isset($quads_settings['in_mobi_integration']) ? $quads_settings['in_mobi_integration'] : false;
+    $in_mobi_site_id = isset($quads_settings['in_mobi_site_id']) ? $quads_settings['in_mobi_site_id'] : false;
+    $in_mobi_hash_code = isset($quads_settings['in_mobi_hash_code']) ? $quads_settings['in_mobi_hash_code'] : '';
+    $in_mobi_publisher_country_code = isset($quads_settings['in_mobi_publisher_country_code']) ? $quads_settings['in_mobi_publisher_country_code'] : '';
+    $in_mobi_privacy_mode = isset($quads_settings['in_mobi_privacy_mode']) ? $quads_settings['in_mobi_privacy_mode'] : '';
+    $in_mobi_banner_text = isset($quads_settings['in_mobi_banner_text']) ? $quads_settings['in_mobi_banner_text'] : '';
+    if ($in_mobi_integration == true) {
+		$id = $in_mobi_site_id;
+		$hashcode = $in_mobi_hash_code;
+		$country = $in_mobi_publisher_country_code;
+		$privacy = $in_mobi_privacy_mode;
+		$lang = 'eng';
+		if (empty($privacy)) {
+			$privacy[] = "GDPR";
+		}else{
+			$exp = explode(',',$privacy);
+			$pri_arr = array();
+			for ($i=0; $i < count($exp); $i++) { 
+				$pr ='"'.$exp[$i].'"';
+				$pri_arr[] = $pr;
+			}
+			$privacy = $pri_arr;
+		}
+		if (empty($lang)) {
+			$lang = 'en';
+		}
+		if (!empty($id) && !empty($hashcode) && !empty($country) ) {?>
+			<amp-consent id="inmobi" layout="nodisplay">
+			<script type="application/json">
+				{
+				"consentInstanceId": "inmobi",
+				"checkConsentHref": "https://api.cmp.inmobi.com/amp/check-consent",
+				"consentRequired": "remote",
+				"promptUISrc": "https://cmp.inmobi.com/tcfv2/amp.html",
+				"clientConfig": {
+					"coreConfig": {
+					"vendorPurposeLegitimateInterestIds": [
+						2,
+						7,
+						8,
+						10,
+						9,
+						11
+					],
+					"publisherPurposeIds": [],
+					"publisherSpecialPurposesIds": [],
+					"publisherFeaturesIds": [],
+					"stacks": [
+						1,
+						42
+					],
+					"publisherLIRestrictionIds": [],
+					"inmobiAccountId": "<?php echo esc_attr( $id )?>",
+					"vendorSpecialPurposesIds": [
+						1,
+						2
+					],
+					"initScreenBodyTextOption": 1,
+					"publisherConsentRestrictionIds": [],
+					"vendorPurposeIds": [2,4,6,7,9,10,1,3,5,8,11],
+					"totalVendors": 1420,
+					"lang_": "en",
+					"privacyMode": [<?php echo implode( ',', $privacy);?>],
+					"publisherPurposeLegitimateInterestIds": [],
+					"hashCode": "<?php echo esc_attr($hashcode)?>",
+					"vendorSpecialFeaturesIds": [
+						1,
+						2
+					],
+					"displayUi": "always",
+					"publisherSpecialFeaturesIds": [],
+					"googleEnabled": false,
+					"vendorListUpdateFreq": 30,
+					"publisherCountryCode": "<?php echo esc_attr( $country );?>",
+					"vendorFeaturesIds": [
+						1,
+						2,
+						3
+					],
+					"gvlVersion": 3
+					},
+					"coreUiLabels": { 
+                                        "message": "<?php echo esc_attr( $in_mobi_banner_text );?>",
+                                        "acceptButtonLabel": "Accept All",
+                                        "rejectButtonLabel": "Reject All"
+                                    },
+					"theme": {},
+					"tagVersion": "V3"
+				}
+				}
+			</script>
+			</amp-consent>
+		<?php
+		}
+	}
+}

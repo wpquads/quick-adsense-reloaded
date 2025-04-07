@@ -39,6 +39,7 @@ class QuadsAdListSettings extends Component {
             settings_error :'',
             adtxt_modal :false,
             sellable_ads_modal :false,
+            in_mobi_settings_modal :false,
             disable_ads_modal :false,
             disable_list_modal :false,
             global_excluder_modal :false,
@@ -1082,7 +1083,7 @@ handleCapabilityChange = (event) =>{
         settings[name] = value;
         this.setState(settings);
     }
-    if(name == 'adsTxtEnabled' || name == 'global_excluder_enabled' || name == 'lazy_load_global' || name == 'ad_blocker_support' || name == 'click_fraud_protection' || name == 'revenue_sharing_enabled' || name == 'hide_quads_markup' || name == 'optimize_core_vitals' || name == 'uninstall_on_delete' || name == 'debug_mode' || name == 'hide_ajax' || name == 'QckTags'){
+    if(name == 'adsTxtEnabled' || name == 'global_excluder_enabled' || name == 'lazy_load_global' || name == 'ad_blocker_support' || name == 'click_fraud_protection' || name == 'revenue_sharing_enabled' || name == 'hide_quads_markup' || name == 'optimize_core_vitals' || name == 'uninstall_on_delete' || name == 'debug_mode' || name == 'hide_ajax' || name == 'QckTags' || name == 'in_mobi_integration'){
       this.saveSettings();
      }
      if(name == 'ip_geolocation_api'){
@@ -1172,6 +1173,9 @@ handleCapabilityChange = (event) =>{
   open_sellable_ad_modal = () =>{
     this.setState({sellable_ads_modal:true});
   }
+  open_in_mobi_settings_modal = () =>{
+    this.setState({in_mobi_settings_modal:true});
+  }
   open_disable_ad_modal = () =>{
     this.setState({disable_ads_modal:true});
   }
@@ -1188,7 +1192,7 @@ handleCapabilityChange = (event) =>{
     this.setState({advance_ads_to_quads_model:true});
   }
   closeModal = () =>{
-    this.setState({adtxt_modal:false, sellable_ads_modal:false,disable_ads_modal:false,disable_list_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false,advance_ads_to_quads_model:false,revenue_sharing_modal:false,role_permission_modal:false});
+    this.setState({adtxt_modal:false, sellable_ads_modal:false,in_mobi_settings_modal:false,disable_ads_modal:false,disable_list_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false,advance_ads_to_quads_model:false,revenue_sharing_modal:false,role_permission_modal:false});
   }
   getErrorMessage =(type) => {
     const {__} = wp.i18n;
@@ -1313,7 +1317,55 @@ handleCapabilityChange = (event) =>{
             {this.state.isLoading ? <div className="quads-cover-spin"></div>
                     : null}
           <div className="quads-hidden-elements">
-            {/* add txt modal */}
+          
+           {this.state.in_mobi_settings_modal ?
+           <>
+           <div className="quads-large-popup-bglayout">  </div>
+           <div className="quads-large-popup">
+            <div className="quads-large-popup-content1">
+             <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
+              <div className="quads-large-popup-title">
+             <h1>{__('inMobi Integration', 'quick-adsense-reloaded')}</h1>
+             </div>
+             <div className="quads-large-description"></div>
+             <div className="quads-large-content">
+                 <div className="quads-settings-tab-container">
+                 <table className="form-table" role="presentation"><tbody>
+                 
+                  <tr>
+                    <th><label>{__('Site ID', 'quick-adsense-reloaded')} </label></th>
+                    <td><input value={settings.in_mobi_site_id} onChange={this.formChangeHandler} type="text" id="in_mobi_site_id" name="in_mobi_site_id" placeholder="Site ID" style={{width:'100%'}}/> 
+                    </td>
+                  </tr> 
+                  <tr>
+                    <th><label>{__('Hash Code', 'quick-adsense-reloaded')}  </label></th>
+                    <td><input value={settings.in_mobi_hash_code} onChange={this.formChangeHandler} type="text" id="in_mobi_hash_code" name="in_mobi_hash_code" placeholder="3BDXDqoakCk4Q4LzQqBGVQ" style={{width:'100%'}}/> 
+                    </td>
+                  </tr> 
+                  
+                  <tr>
+                    <th><label>{__('Publisher Country Code', 'quick-adsense-reloaded')}</label></th>
+                    <td><input value={(settings.in_mobi_publisher_country_code)?settings.in_mobi_publisher_country_code:''} onChange={this.formChangeHandler} type="text" id="in_mobi_publisher_country_code" name="in_mobi_publisher_country_code" placeholder="US" style={{width:'100%'}}/> 
+                    </td>
+                  </tr> 
+                  
+                  <tr>
+                    <th><label>{__('Privacy Mode', 'quick-adsense-reloaded')}</label></th>
+                    <td><input value={(settings.in_mobi_privacy_mode)?settings.in_mobi_privacy_mode:''} onChange={this.formChangeHandler} type="text" id="in_mobi_privacy_mode" name="in_mobi_privacy_mode" placeholder="GDPR" style={{width:'100%'}}/> 
+                    </td>
+                  </tr> 
+                  <tr>
+                    <th><label>{__('Banner Text', 'quick-adsense-reloaded')}</label></th>
+                    <td><input value={(settings.in_mobi_banner_text)?settings.in_mobi_banner_text:''} onChange={this.formChangeHandler} type="text" id="in_mobi_banner_text" name="in_mobi_banner_text" placeholder="Banner Text" style={{width:'100%'}}/> 
+                    </td>
+                  </tr>
+                  </tbody></table>
+                </div>
+             </div>
+             <div className="quads-save-close"><a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveSettingsHandler}>{__('Save Changes', 'quick-adsense-reloaded')}</a></div>
+             </div>
+            </div> </>: null
+            }
            {this.state.sellable_ads_modal ?
            <>
            <div className="quads-large-popup-bglayout">  </div>
@@ -2258,6 +2310,22 @@ handleCapabilityChange = (event) =>{
                              </label> 
                           }
                              <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/what-is-transparency-consent-framework-tcf-v2-0-and-how-to-use-it/"></a>
+                         </td>
+                     </tr>
+                     <tr>
+                         <th><label htmlFor="in_mobi_integration">{__('inMobi Integration ', 'quick-adsense-reloaded')}</label></th>
+                         <td>
+                            {this.state.selectedBtnOpt == 'in_mobi_integration' ?
+                              <div className="quads-spin-cntr">
+                                <div className="quads-set-spin"></div>
+                              </div> :
+                              <label className="quads-switch">
+                                  <input id="in_mobi_integration" type="checkbox" name="in_mobi_integration" onChange={this.formChangeHandler} checked={settings.in_mobi_integration} />
+                                  <span id="in_mobi_integration_" className="quads-slider"></span>
+                                  <div className="lazy_loader_t"></div>
+                              </label> 
+                            }
+                            {settings.in_mobi_integration ? <><span onClick={this.open_in_mobi_settings_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span><span style={{marginLeft:'10px',cursor:'pointer'}} onClick={this.open_in_mobi_settings_modal}>View Settings</span></> : ''}
                          </td>
                      </tr>
                      <tr>
