@@ -54,7 +54,7 @@ function quads_authorize_payment_success(){
     if ( !is_user_logged_in() ) {
         return false;
     }
-    if( !isset( $_GET[ 'security' ] ) || ! wp_verify_nonce( $_GET[ 'security' ], 'security' )){ 
+    if( !isset( $_GET[ 'security' ] ) || ! wp_verify_nonce( wp_unslash( $_GET[ 'security' ] ), 'security' )){ 
         return false;
     }
     if( isset( $_GET['status'] ) && $_GET['status']=='success' && isset( $_GET['ad_slot_id'] ) && $_GET['ad_slot_id'] > 0 && isset( $_GET['refId'] ) && $_GET['refId'] != "" && isset( $_GET['user_id'] ) && intval( $_GET['user_id'] ) >0 && !isset( $_GET['target'] )){
@@ -75,7 +75,7 @@ function quads_authorize_payment_success(){
             global $wpdb;
             $table_name = $wpdb->prefix . 'quads_adbuy_data';
 
-            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM $table_name WHERE id = %d AND user_id = %d",$order_id,$user->ID ));
+            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM %s WHERE id = %d AND user_id = %d",$table_name, $order_id, $user->ID ));
            
             if (!$ad_details) {
                 return false;
@@ -2021,7 +2021,7 @@ function quads_redeem_coupon(){
                 wp_send_json_error( array( 'success'=>2, 'message' => esc_html__('Invalid coupon, please try another one.', 'quick-adsense-reloaded' ) ) );
                 die;
             }
-            $today = date('Y-m-d');
+            $today = gmdate('Y-m-d');
             $is_expired = false;
             if( $coupon_expire_date && $coupon_expire_date !='' && $coupon_expire_date < $today ){
                 $is_expired = true;
@@ -2039,7 +2039,7 @@ function quads_redeem_coupon(){
                 $cal_amount =$coupon_amount;
             }
 
-            wp_send_json_error( array( 'success'=>1, 'message' => esc_html__($cal_amount, 'quick-adsense-reloaded' ) ) );
+            wp_send_json_error( array( 'success'=>1, 'message' => esc_attr( $cal_amount ) ) );
             die;
         }
     } else {

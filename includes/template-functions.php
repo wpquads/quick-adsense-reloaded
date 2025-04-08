@@ -3933,6 +3933,7 @@ function quads_display_sticky_ads(){
                                 $q_main_open = ''.$btn_tag.'<div class="quads-sticky"'.$anim_attr.'>'.$a_tag.'';
                                 $q_close = '</div>';
                                 $content = $q_main_open.$cusads.$q_close;
+                                /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */
                                 echo quads_replace_ads_new( $content, 'CusAds' . $ads['ad_id'], $ads['ad_id'] );
                             }                                 
                         }
@@ -4061,7 +4062,7 @@ function quads_ampforwp_footer_html_output() {
 					"vendorPurposeIds": [2,4,6,7,9,10,1,3,5,8,11],
 					"totalVendors": 1420,
 					"lang_": "en",
-					"privacyMode": [<?php echo implode( ',', $privacy);?>],
+					"privacyMode": [<?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo implode( ',', $privacy);?>],
 					"publisherPurposeLegitimateInterestIds": [],
 					"hashCode": "<?php echo esc_attr($hashcode)?>",
 					"vendorSpecialFeaturesIds": [

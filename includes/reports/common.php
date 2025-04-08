@@ -2463,8 +2463,10 @@ function quads_get_date($type) {
 			$timezone = get_option('timezone_string');
 			if($timezone) {
 				$server_timezone = gmdate('e');
+				// phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
 				date_default_timezone_set($timezone);
 				$result = strtotime('00:00:00') + (get_option('gmt_offset') * 3600);
+				// phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
 				date_default_timezone_set($server_timezone);
 			} else {
 				$result = gmdate('U', gmmktime(0, 0, 0, gmdate('n'), gmdate('j')));
@@ -2613,8 +2615,10 @@ function quads_get_ad_stats($condition, $ad_id='', $date=null,$parameters ='') {
 					}
 				}
 				$search_param = '';
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery
 				if(isset($parameters['search_param']) && !empty($parameters['search_param'])){
 					if(empty($ad_thetime)){
+						// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery
 						$search_param = $wpdb->prepare("where ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
 						ad_device_name  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
 						ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or

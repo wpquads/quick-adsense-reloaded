@@ -323,7 +323,7 @@ function quads_disable_add_subscribe() {
 			<span class="da-lead">Hide Ads for Premium Members.</span>
 			<span class="da-sub-lead">Hide Ads for Premium Members by clicking on subscribe button.</span>
 		</div>
-		<a class="da-meter-cta" href="<?php echo $payment_page;?>" target="_blank">Subscribe Now</a>
+		<a class="da-meter-cta" href="<?php echo esc_url( $payment_page );?>" target="_blank">Subscribe Now</a>
 	</div>
 </div>
 <script>

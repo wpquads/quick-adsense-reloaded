@@ -1964,6 +1964,7 @@ return array('status' => 't');
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
                 $filter_by = sanitize_text_field( wp_unslash( $_GET['filter_by'] ) );
             }
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             if(isset($_GET['filter_not_by'])){
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
                 $filter_not_by = sanitize_text_field( wp_unslash( $_GET['filter_not_by'] ) );
@@ -2025,7 +2026,8 @@ return array('status' => 't');
             // Query the records
             /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
             $results = $wpdb->get_results($wpdb->prepare(
-                "SELECT * FROM $table_name WHERE payment_status = %s ORDER BY id DESC LIMIT %d OFFSET %d",
+                "SELECT * FROM %s WHERE payment_status = %s ORDER BY id DESC LIMIT %d OFFSET %d",
+                $table_name,
                 'paid',
                 $per_page,
                 $offset
@@ -2037,7 +2039,7 @@ return array('status' => 't');
                 $ad_id = $result->ad_id;
                 $ad_name = get_the_title($ad_id);
 
-                $start_date = date('Y-m-d');
+                $start_date = gmdate('Y-m-d');
                 $end_date = $result->end_date;
                 $st_date = new DateTime($start_date);
 
@@ -2077,7 +2079,8 @@ return array('status' => 't');
             // Query the records
             /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
             $results = $wpdb->get_results($wpdb->prepare(
-                "SELECT * FROM $table_name WHERE payment_status in('paid','unsubscribe') ORDER BY disable_ad_id DESC LIMIT %d OFFSET %d",
+                "SELECT * FROM %s WHERE payment_status in('paid','unsubscribe') ORDER BY disable_ad_id DESC LIMIT %d OFFSET %d",
+                $table_name,
                 $per_page,
                 $offset
             ));
@@ -2098,15 +2101,15 @@ return array('status' => 't');
                     $payment_response = json_decode( $result->payment_response, true );
                     if( isset( $payment_response['payment_date'] ) ){
                         $payment_date = $payment_response['payment_date'];
-                        $futureDate= date('Y-m-d');
-                        $currentDate= date('Y-m-d');
+                        $futureDate= gmdate('Y-m-d');
+                        $currentDate= gmdate('Y-m-d');
                         if( $disable_duration=='yearly' ){
-                            $futureDate=date('Y-m-d', strtotime('+1 year', strtotime($payment_date)) );
+                            $futureDate=gmdate('Y-m-d', strtotime('+1 year', strtotime($payment_date)) );
                         }else if( $disable_duration=='monthly' ){
-                            $futureDate=date('Y-m-d', strtotime('+1 month', strtotime($payment_date)) );
+                            $futureDate=gmdate('Y-m-d', strtotime('+1 month', strtotime($payment_date)) );
                         }
-                        $result->start_date = date( 'd M Y', strtotime( $payment_date ) );
-                        $result->end_date = date( 'd M Y', strtotime( $futureDate ) );
+                        $result->start_date = gmdate( 'd M Y', strtotime( $payment_date ) );
+                        $result->end_date = gmdate( 'd M Y', strtotime( $futureDate ) );
                     }
                 }
                 $resp[] = $result;

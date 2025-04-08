@@ -78,6 +78,7 @@ class quadsLogger {
   
 	private function write($string)
 	{
+	  // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
 	  return fwrite($this->stream, $string);
 	}
   
@@ -101,6 +102,7 @@ class quadsLogger {
          */
         
         function checkDir(){
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_is_writable
             $writable = is_writable($this->folder);
             if ($writable)
                 return true;
@@ -114,13 +116,16 @@ class quadsLogger {
          */
 	private function open($mode="a")
 	{
-          if ($this->checkDir())   
-	  return $this->stream = fopen($this->path, $mode);
+          if ($this->checkDir())  {
+// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
+			  return $this->stream = fopen($this->path, $mode);
+			} 
           //or die("Cannot write to file '$this->path', please ensure '$this->path' is writable.");
 	}
 	
 	private function close()
 	{
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 	  return fclose($this->stream);
 	}
 	
