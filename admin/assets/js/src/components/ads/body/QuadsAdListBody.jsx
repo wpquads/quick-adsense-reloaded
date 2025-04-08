@@ -505,7 +505,7 @@ class QuadsAdListBody extends Component {
             <div className="quads-modal-popup-content">   
               <div className="quads-modal-popup-txt">          
               <h3>{__('Are you sure you want to', 'quick-adsense-reloaded')}<span> {__(' RESET  ', 'quick-adsense-reloaded')} </span>{__( 'Stats of this ad?', 'quick-adsense-reloaded')}</h3> 
-              <p>{__('It will permenently reset the Stats and you won\'t be able to see the ad again. You cannot undo this action.', 'quick-adsense-reloaded')}</p>
+              <p>{__('Resetting will permanently clear all current statistics, including impressions and clicks. Fresh data will be recorded starting from this point. Please note, this action is irreversible once the Reset button is clicked.', 'quick-adsense-reloaded')}</p>
               </div>           
              <div className="quads-modal-content">
              <a className="quads-btn quads-btn-cancel" onClick={this.hideResetImpressionModal}>{__('Cancel', 'quick-adsense-reloaded')}</a>
