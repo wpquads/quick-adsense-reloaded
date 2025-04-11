@@ -883,12 +883,12 @@ function quads_disable_ads(){
             $payment_response = json_decode( $ad_details->payment_response, true );
             if( isset( $payment_response['payment_date'] ) ){
                 $payment_date = $payment_response['payment_date'];
-                $futureDate= date('Y-m-d');
-                $currentDate= date('Y-m-d');
+                $futureDate= gmdate('Y-m-d');
+                $currentDate= gmdate('Y-m-d');
                 if( $disable_duration=='yearly' ){
-                    $futureDate=date('Y-m-d', strtotime('+1 year', strtotime($payment_date)) );
+                    $futureDate=gmdate('Y-m-d', strtotime('+1 year', strtotime($payment_date)) );
                 }else if( $disable_duration=='monthly' ){
-                    $futureDate=date('Y-m-d', strtotime('+1 month', strtotime($payment_date)) );
+                    $futureDate=gmdate('Y-m-d', strtotime('+1 month', strtotime($payment_date)) );
                 }
                 if($currentDate<=$futureDate){
                     $is_disable_ad = true;

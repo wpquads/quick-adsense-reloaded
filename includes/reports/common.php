@@ -287,6 +287,7 @@ function quads_has_token( $adsense_id = '' ) {
 
 function quads_adsense_get_report_abtesting_data(){
 	global $wpdb;
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 	$results = $wpdb->get_results( "SELECT * FROM `{$wpdb->prefix}quads_stats` ");
 	if(!empty($results)) {    
     $quads_table = "<table id=\"blocked_id_table\">"; 
@@ -419,12 +420,12 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 	if( isset( $_GET['id'] ) ) {
-	    // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
+	    // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 	    $ad_id = sanitize_text_field( $_GET['id'] );
 	}
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 	if( isset( $_GET['day'] ) ) {
-	    // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
+	    // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 	    $day = sanitize_text_field( $_GET['day'] );
 	}
 	$todays_date = gmdate("Y-m-d");
@@ -448,31 +449,43 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$to_date = $dates_i[0];
 			if($ad_id=='all') {
 			//old db results
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_impresn_S = $wpdb->get_results($wpdb->prepare("SELECT date_impression,ad_date FROM `{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN %s AND %s ",array($to_date,$from_date)));
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_impresn_S_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, IFNULL(SUM(ad_impressions),0) AS impressions, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.ad_thetime BETWEEN %s AND %s GROUP BY `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_thetime, `{$wpdb->prefix}quads_stats`.ad_device_name",array(strtotime($to_date),strtotime($from_date))));
 		    //new db results
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_impresn_desk_1 = $wpdb->get_results($wpdb->prepare("SELECT stats_impressions as date_impression,DATE(FROM_UNIXTIME(stats_date)) as ad_date  FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE stats_date BETWEEN %d AND %d",array(strtotime($to_date),strtotime($from_date))));
 			if($results_impresn_desk_1){ $results_impresn_S = array_merge($results_impresn_desk_1,$results_impresn_S);}
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_impresn_mob_1 = $wpdb->get_results($wpdb->prepare("SELECT stats_impressions as date_impression,DATE(FROM_UNIXTIME(stats_date))  as ad_date  FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date BETWEEN %d AND %d",array(strtotime($to_date),strtotime($from_date))));
 			if($results_impresn_mob_1){ $results_impresn_S = array_merge($results_impresn_mob_1,$results_impresn_S);}
-
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_impresn_desk_2 = $wpdb->get_results($wpdb->prepare("SELECT ad_id,IFNULL(SUM(stats_impressions),0) as impressions,stats_date as ad_thetime,'desktop' as  ad_device_name  FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE stats_date BETWEEN %d AND %d GROUP BY stats_date",array(strtotime($to_date),strtotime($from_date))));
 			if($results_impresn_desk_2) { $results_impresn_S_2 = array_merge($results_impresn_desk_2,$results_impresn_S_2);}
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_impresn_mob_2 = $wpdb->get_results($wpdb->prepare("SELECT ad_id,IFNULL(SUM(stats_impressions),0) as impressions,stats_date as ad_thetime,'mobile' as  ad_device_name  FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date BETWEEN %d AND %d GROUP BY stats_date",array(strtotime($to_date),strtotime($from_date))));
 			if($results_impresn_mob_2) { $results_impresn_S_2 = array_merge($results_impresn_mob_2,$results_impresn_S_2);}			
 			}
 			else
 			{
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_impresn_S = $wpdb->get_results($wpdb->prepare("SELECT date_impression,ad_date FROM 
 			`{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN %s AND %s AND `ad_id` = %d ",array($to_date,$from_date,$ad_id)));
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_impresn_desk_1 = $wpdb->get_results($wpdb->prepare("SELECT stats_impressions as date_impression,DATE(FROM_UNIXTIME(stats_date)) as ad_date  FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE stats_date BETWEEN %d AND %d AND `ad_id` = %d",array(strtotime($to_date),strtotime($from_date),$ad_id)));
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			if($results_impresn_desk_1){ $results_impresn_S = array_merge($results_impresn_desk_1,$results_impresn_S);}
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_impresn_mob_1 = $wpdb->get_results($wpdb->prepare("SELECT stats_impressions as date_impression,DATE(FROM_UNIXTIME(stats_date))  as ad_date  FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date BETWEEN %d AND %d AND `ad_id` = %d",array(strtotime($to_date),strtotime($from_date),$ad_id)));
 			if($results_impresn_mob_1){ $results_impresn_S = array_merge($results_impresn_mob_1,$results_impresn_S);}
-			
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_impresn_S_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, IFNULL(SUM(ad_impressions),0) AS impressions, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.ad_thetime BETWEEN %s AND %s AND `ad_id` = %d GROUP BY `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_thetime, `{$wpdb->prefix}quads_stats`.ad_device_name",array(strtotime($to_date),strtotime($from_date),$ad_id)));
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 			$results_impresn_desk_2 = $wpdb->get_results($wpdb->prepare("SELECT ad_id,IFNULL(SUM(stats_impressions),0) as impressions,stats_date as ad_thetime,'desktop' as  ad_device_name  FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE stats_date BETWEEN %d AND `ad_id` = %d GROUP BY stats_date",array(strtotime($to_date),strtotime($from_date),$ad_id)));
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 			if($results_impresn_desk_2) { $results_impresn_S_2 = array_merge($results_impresn_desk_2,$results_impresn_S_2);}
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 			$results_impresn_mob_2 = $wpdb->get_results($wpdb->prepare("SELECT ad_id,IFNULL(SUM(stats_impressions),0) as impressions,stats_date as ad_thetime,'mobile' as  ad_device_name  FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date BETWEEN %d AND `ad_id` = %d GROUP BY stats_date",array(strtotime($to_date),strtotime($from_date),$ad_id)));
 			if($results_impresn_mob_2) { $results_impresn_S_2 = array_merge($results_impresn_mob_2,$results_impresn_S_2);}
 			
@@ -527,37 +540,44 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		
 	
 			if($ad_id=='all') {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$results_click_S = $wpdb->get_results($wpdb->prepare("SELECT date_click,ad_date FROM 
 			`{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN %s AND %s ",array($to_date,$from_date)));
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_click_S_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, IFNULL(SUM(ad_clicks),0) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.ad_thetime BETWEEN %s AND %s GROUP BY `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_thetime, `{$wpdb->prefix}quads_stats`.ad_device_name",array(strtotime($to_date),strtotime($from_date))));
 			
-			
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_clicks_desk_1 = $wpdb->get_results($wpdb->prepare("SELECT stats_clicks as date_click,DATE(FROM_UNIXTIME(stats_date)) as ad_date  FROM `{$wpdb->prefix}quads_clicks_desktop` WHERE stats_date BETWEEN %d AND %d",array(strtotime($to_date),strtotime($from_date))));
 			if($results_clicks_desk_1){$results_click_S = array_merge($results_clicks_desk_1,$results_click_S);}
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_clicks_mob_1 = $wpdb->get_results($wpdb->prepare("SELECT stats_clicks as date_click,DATE(FROM_UNIXTIME(stats_date)) as ad_date FROM `{$wpdb->prefix}quads_clicks_mobile` WHERE stats_date BETWEEN %d AND %d",array(strtotime($to_date),strtotime($from_date))));
 			if($results_clicks_mob_1){$results_click_S = array_merge($results_clicks_mob_1,$results_click_S);}
-			
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_clicks_desk_2 = $wpdb->get_results($wpdb->prepare("SELECT ad_id,IFNULL(SUM(stats_clicks),0) as clicks,stats_date as ad_thetime,'desktop' as ad_device_name FROM `{$wpdb->prefix}quads_clicks_desktop` WHERE stats_date BETWEEN %d AND %d GROUP BY stats_date",array(strtotime($to_date),strtotime($from_date))));
 			if($results_clicks_desk_2){$results_click_S_2=array_merge($results_clicks_desk_2,$results_click_S_2);}
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_clicks_mob_2 = $wpdb->get_results($wpdb->prepare("SELECT ad_id,IFNULL(SUM(stats_clicks),0) as clicks,stats_date as ad_thetime,'mobile' as ad_device_name FROM `{$wpdb->prefix}quads_clicks_mobile` WHERE stats_date BETWEEN %d AND %d GROUP BY stats_date",array(strtotime($to_date),strtotime($from_date))));
 			if($results_clicks_mob_2){$results_click_S_2=array_merge($results_clicks_mob_2,$results_click_S_2);}
 	
 			}
 			else
 			{
-
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$results_click_S = $wpdb->get_results($wpdb->prepare("SELECT date_click,ad_date FROM 
 			`{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN %s AND %s ",array($to_date,$from_date)));
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_click_S_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, IFNULL(SUM(ad_clicks),0) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.ad_thetime BETWEEN %s AND %s AND ad_id =%d GROUP BY `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_thetime, `{$wpdb->prefix}quads_stats`.ad_device_name",array(strtotime($to_date),strtotime($from_date),$ad_id)));
 			
-			
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_clicks_desk_1 = $wpdb->get_results($wpdb->prepare("SELECT stats_clicks as date_click,DATE(FROM_UNIXTIME(stats_date)) as ad_date  FROM `{$wpdb->prefix}quads_clicks_desktop` WHERE stats_date BETWEEN %d AND %d AND ad_id =%d",array(strtotime($to_date),strtotime($from_date),$ad_id)));
 			if($results_clicks_desk_1){$results_click_S = array_merge($results_clicks_desk_1,$results_click_S);}
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_clicks_mob_1 = $wpdb->get_results($wpdb->prepare("SELECT stats_clicks as date_click,DATE(FROM_UNIXTIME(stats_date)) as ad_date FROM `{$wpdb->prefix}quads_clicks_mobile` WHERE stats_date BETWEEN %d AND %d AND ad_id =%d",array(strtotime($to_date),strtotime($from_date),$ad_id)));
 			if($results_clicks_mob_1){$results_click_S = array_merge($results_clicks_mob_1,$results_click_S);}
-			
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_clicks_desk_2 = $wpdb->get_results($wpdb->prepare("SELECT ad_id,IFNULL(SUM(stats_clicks),0) as clicks,stats_date as ad_thetime,'desktop' as ad_device_name FROM `{$wpdb->prefix}quads_clicks_desktop` WHERE stats_date BETWEEN %d AND %d AND ad_id =%d GROUP BY stats_date",array(strtotime($to_date),strtotime($from_date),$ad_id)));
 			if($results_clicks_desk_2){$results_click_S_2=array_merge($results_clicks_desk_2,$results_click_S_2);}
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$results_clicks_mob_2 = $wpdb->get_results($wpdb->prepare("SELECT ad_id,IFNULL(SUM(stats_clicks),0) as clicks,stats_date as ad_thetime,'mobile' as ad_device_name FROM `{$wpdb->prefix}quads_clicks_mobile` WHERE stats_date BETWEEN %d AND %d AND ad_id =%d GROUP BY stats_date",array(strtotime($to_date),strtotime($from_date),$ad_id)));
 			if($results_clicks_mob_2){$results_click_S_2=array_merge($results_clicks_mob_2,$results_click_S_2);}
 		
@@ -607,9 +627,10 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			
 			if($ad_id=="all")
 			{
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 				$results_top5 = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,`{$wpdb->prefix}posts`.post_title,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression ,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_` INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id WHERE `{$wpdb->prefix}quads_single_stats_`.ad_date BETWEEN %s AND %s   GROUP BY `{$wpdb->prefix}posts`.post_title ORDER BY `{$wpdb->prefix}quads_single_stats_`.date_click DESC  LIMIT %d",array($to_date,$from_date,5)));
-
-				$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, SUM(ad_impressions) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.ad_thetime BETWEEN %s AND %s GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",array(strtotime($to_date),strtotime($from_date),5)));
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+				$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, SUM(ad_impressions) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.ad_thetime BETWEEN %s AND %s GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",array(strtotime($to_date),strtotime($from_date))));
 
 				$total_click=[0,0,0,0,0,0,0];
 				$total_impression=[0,0,0,0,0,0,0];
@@ -843,9 +864,10 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		$individual_click_day_counts = array_map('wpquadsRemoveNullElement',$ad_click_values);
 		if($ad_id=="all")
 			{
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 				$results_top5 = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,`{$wpdb->prefix}posts`.post_title,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression ,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_` INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id WHERE `{$wpdb->prefix}quads_single_stats_`.ad_date BETWEEN %s AND %s  GROUP BY `{$wpdb->prefix}posts`.post_title ORDER BY `{$wpdb->prefix}quads_single_stats_`.date_click DESC  LIMIT %d",array($first_date_,$current_date_month_,5)));
 
-				$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, IFNULL(SUM(ad_impressions),0) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.ad_thetime BETWEEN %s AND %s GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",array(strtotime($first_date_),strtotime($current_date_month_),5)));
+				$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, IFNULL(SUM(ad_impressions),0) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.ad_thetime BETWEEN %s AND %s GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",array(strtotime($first_date_),strtotime($current_date_month_))));
 				$total_click=[0,0,0,0,0];
 				$total_impression=[0,0,0,0,0];
 				foreach ($results_top5 as $key => $value) {
@@ -1157,8 +1179,9 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$first_date_ = gmdate('Y-m-d',strtotime('first day of this month'));
 			$current_date_month_ = gmdate('Y-m-d');
 			if($ad_id=="all"){
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 				$results_impresn_F = $wpdb->get_results($wpdb->prepare(" SELECT IFNULL(sum(date_impression),0) as date_impression, ad_year FROM `{$wpdb->prefix}quads_single_stats_`  group by ad_year ;"));
-
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 				$results_impresn_desk_1 = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as date_impression, stats_year as ad_year  FROM `{$wpdb->prefix}quads_impressions_desktop` GROUP BY stats_year"));
 				if($results_impresn_desk_1) { 
 					foreach($results_impresn_desk_1 as $key => $value) {
@@ -1171,7 +1194,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 					}
 					$results_impresn_F = array_merge($results_impresn_F,$results_impresn_desk_1);
 				}
-
+// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 				$results_impresn_mob_1 = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as date_impression, stats_year as ad_year FROM `{$wpdb->prefix}quads_impressions_mobile`  GROUP BY stats_year"));
 
 				if($results_impresn_mob_1) { 
@@ -1285,8 +1308,9 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$get_impressions_specific_dates = $ad_imprsn_values;
 
 			if($ad_id=="all"){
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 				$results_click_F = $wpdb->get_results($wpdb->prepare(" SELECT IFNULL(sum(date_click),0) as date_click, ad_year FROM `{$wpdb->prefix}quads_single_stats_`  group by ad_year; "));
-
+// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 				$results_click_desk_1 = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(date_click),0) as date_click, stats_year as ad_year  FROM `{$wpdb->prefix}quads_impressions_desktop` GROUP BY stats_year"));
 				if($results_click_desk_1) { 
 					foreach($results_click_desk_1 as $key => $value) {
@@ -1299,7 +1323,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 					}
 					$results_click_F = array_merge($results_click_F,$results_click_desk_1);
 				}
-
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 				$results_click_mob_1 = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(date_click),0) as date_click, stats_year as ad_year FROM `{$wpdb->prefix}quads_impressions_mobile`  GROUP BY stats_year"));
 
 				if($results_click_mob_1) { 
@@ -1408,8 +1432,8 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			if($ad_id=="all")
 			{
 				$results_top5 = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,`{$wpdb->prefix}posts`.post_title,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression ,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_` INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id   GROUP BY `{$wpdb->prefix}posts`.post_title ORDER BY `{$wpdb->prefix}quads_single_stats_`.date_click DESC  LIMIT %d",5));
-
-				$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, IFNULL(SUM(ad_impressions),0) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",5));
+// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
+				$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, IFNULL(SUM(ad_impressions),0) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC"));
 				$total_click=[0,0,0,0,0];
 				$total_impression=[0,0,0,0,0];
 				foreach ($results_top5 as $key => $value) {
@@ -1442,7 +1466,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 				GROUP BY posts.ID
 				ORDER BY total_click DESC
 				LIMIT 5;"));
-
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 				$array_top_imprs_=$array_top_imprs = $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(impr_desk.stats_impressions),0)as desk_imprsn ,IFNULL(SUM(impr_mob.stats_impressions),0)as mob_imprsn , SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
 				FROM {$wpdb->prefix}posts as posts
 				LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id 
@@ -1745,7 +1769,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$results_top5 = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,`{$wpdb->prefix}posts`.post_title,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression ,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_` INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id  WHERE `{$wpdb->prefix}quads_single_stats_`.`ad_date` = %s  GROUP BY `{$wpdb->prefix}posts`.post_title ORDER BY `{$wpdb->prefix}quads_single_stats_`.date_click DESC  LIMIT %d",array($yesterday_date,5)));
 
 			$unix_todays_date = "'".intval(strtotime($yesterday_date))."'";
-
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 			$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, SUM(ad_impressions) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.`ad_thetime` = $unix_todays_date GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",5));
 			
 			foreach ($results_top5 as $key => $value) {
@@ -1896,7 +1920,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 				$results_top5 = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,`{$wpdb->prefix}posts`.post_title,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression ,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_` INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id  WHERE `{$wpdb->prefix}quads_single_stats_`.`ad_date` = %s  GROUP BY `{$wpdb->prefix}posts`.post_title ORDER BY `{$wpdb->prefix}quads_single_stats_`.date_click DESC  LIMIT %d",array($todays_date,5)));
 
 				$unix_todays_date = "'".intval(strtotime($todays_date))."'";
-
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 				$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, SUM(ad_impressions) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.`ad_thetime` = $unix_todays_date GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",5));
 				
 				foreach ($results_top5 as $key => $value) {
@@ -2048,12 +2072,12 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	else if( $day == "custom" ) {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 		if( isset($_GET['fromdate'] ) ) {
-		    // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
+		    // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		    $fromdate = sanitize_text_field( $_GET['fromdate'] );
 		}
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 		if(isset($_GET['todate'])){
-		    // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
+		    // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		    $todate = sanitize_text_field($_GET['todate']);
 		}
 		$get_from = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$1-$2-$3', $fromdate);
@@ -2152,8 +2176,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		if($ad_id=="all")
 		{
 			$results_click_S = $wpdb->get_results($wpdb->prepare(" SELECT ad_date, date_click FROM `{$wpdb->prefix}quads_single_stats_` WHERE ad_date BETWEEN %s AND %s ",array($get_from,$get_to)));
-
-			$results_click_S_2 = $wpdb->get_results($wpdb->prepare("SELECT ad_thetime, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.ad_thetime BETWEEN %s AND %s GROUP BY `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_thetime, `{$wpdb->prefix}quads_stats`.ad_device_name",array(strtotime($get_from),strtotime($get_to),$ad_id)));
+			$results_click_S_2 = $wpdb->get_results($wpdb->prepare("SELECT ad_thetime, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.ad_thetime BETWEEN %s AND %s GROUP BY `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_thetime, `{$wpdb->prefix}quads_stats`.ad_device_name",array(strtotime($get_from),strtotime($get_to))));
 
 
 		$results_clicks_desk_1 = $wpdb->get_results($wpdb->prepare("SELECT stats_clicks as date_click,DATE(FROM_UNIXTIME(stats_date)) as ad_date FROM `{$wpdb->prefix}quads_clicks_desktop` WHERE stats_date BETWEEN %s AND %s GROUP BY stats_date",array(strtotime($get_from),strtotime($get_to))));
@@ -2235,7 +2258,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		if($ad_id=="all")
 			{
 				$results_top5 = $wpdb->get_results($wpdb->prepare("SELECT `{$wpdb->prefix}posts`.ID,`{$wpdb->prefix}posts`.post_title from `{$wpdb->prefix}quads_single_stats_` INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id   WHERE `{$wpdb->prefix}quads_single_stats_`.`ad_date` BETWEEN %s AND %s  GROUP BY `{$wpdb->prefix}posts`.post_title ORDER BY `{$wpdb->prefix}quads_single_stats_`.date_click DESC  LIMIT %d",array($get_from,$get_to,5)));
-				$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, IFNULL(SUM(CASE WHEN ad_device_name = 'mobile' THEN ad_impressions END),0) AS mob_impr , IFNULL(SUM(CASE WHEN ad_device_name = 'desktop' THEN ad_impressions END),0) AS desk_impr,IFNULL(SUM(CASE WHEN ad_device_name = 'mobile' THEN ad_clicks END),0) AS mob_clks , IFNULL(SUM(CASE WHEN ad_device_name = 'desktop' THEN ad_clicks END),0) AS desk_clks FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.ad_thetime BETWEEN %s AND %s GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",array(strtotime($get_from),strtotime($get_to),5)));
+				$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, IFNULL(SUM(CASE WHEN ad_device_name = 'mobile' THEN ad_impressions END),0) AS mob_impr , IFNULL(SUM(CASE WHEN ad_device_name = 'desktop' THEN ad_impressions END),0) AS desk_impr,IFNULL(SUM(CASE WHEN ad_device_name = 'mobile' THEN ad_clicks END),0) AS mob_clks , IFNULL(SUM(CASE WHEN ad_device_name = 'desktop' THEN ad_clicks END),0) AS desk_clks FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.ad_thetime BETWEEN %s AND %s GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",array(strtotime($get_from),strtotime($get_to))));
 				$total_click=[0,0,0,0,0];
 				$total_impression=[0,0,0,0,0];
 				foreach ($results_top5 as $key => $value) {
@@ -2618,26 +2641,18 @@ function quads_get_ad_stats($condition, $ad_id='', $date=null,$parameters ='') {
 				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery
 				if(isset($parameters['search_param']) && !empty($parameters['search_param'])){
 					if(empty($ad_thetime)){
-						// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery
-						$search_param = $wpdb->prepare("where ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-						ad_device_name  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-						ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-						url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-						browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-						referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%'   "); 
+						// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder, WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral
+						$search_param = $wpdb->prepare("where ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or ad_device_name  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%'   "); 
 					}else {
-					
-						$search_param = $wpdb->prepare("and ( ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-						ad_device_name  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-						ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-						url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-						browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-						referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' )  "); 
+						// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder, WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral
+						$search_param = $wpdb->prepare("and ( ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or ad_device_name  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' )  "); 
 					}
 
 				}
-			$results = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}quads_stats` ". $ad_thetime ." ".$search_param ." LIMIT %d, %d",array($offset,$items_per_page)), ARRAY_A);
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$results = $wpdb->get_results($wpdb->prepare("SELECT * FROM `{$wpdb->prefix}quads_stats` ".$ad_thetime ." ".$search_param ." LIMIT %d, %d",array($offset,$items_per_page)), ARRAY_A);
 					$ad_stats = $results;	
+					// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 					$result_total = $wpdb->get_row($wpdb->prepare("SELECT count(*) as total FROM `{$wpdb->prefix}quads_stats` ". $ad_thetime ." ".$search_param), ARRAY_A);
 					$log_array = array();
 
@@ -2664,24 +2679,17 @@ function quads_get_ad_stats($condition, $ad_id='', $date=null,$parameters ='') {
 					$search_param2 = '';
 					if(isset($parameters['search_param']) && !empty($parameters['search_param'])){
 						if(empty($ad_thetime2)){
-							$search_param = $wpdb->prepare("where ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-							ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-							log_url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-							browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-							referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%'   "); 
+							// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder, WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral
+							$search_param = $wpdb->prepare("where ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or log_url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%'   "); 
 						}else {
-						
-							$search_param = $wpdb->prepare("and ( ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-							ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-							log_url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-							browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-							referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' )  "); 
+						// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder,WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral
+							$search_param = $wpdb->prepare("and ( ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or log_url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' )  "); 
 						}
-		
 					}
-				
+						// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder
 						$results2 = $wpdb->get_results($wpdb->prepare("SELECT ad_id , log_date as ad_thetime,log_clicks ,ip_address,log_url as url,browser,referrer FROM `{$wpdb->prefix}quads_logs` ". $ad_thetime ." ".$search_param." LIMIT %d, %d",array($offset,$items_per_page)), ARRAY_A);
 						$ad_stats2 = $results;
+						// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder
 						$result_total2 = $wpdb->get_row($wpdb->prepare("SELECT count(*) as total FROM `{$wpdb->prefix}quads_logs` ". $ad_thetime ." ".$search_param), ARRAY_A);
 
 					$results = array_merge($results2,$results );

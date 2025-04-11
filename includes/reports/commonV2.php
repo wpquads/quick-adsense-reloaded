@@ -423,12 +423,12 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 	if(isset($_GET['id'])){
-	    // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
+	    // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 	    $ad_id = sanitize_text_field($_GET['id']);
 	}
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 	if(isset($_GET['day'])){
-	    // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
+	    // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 	    $day = sanitize_text_field($_GET['day']);
 	}
 	$todays_date = gmdate("Y-m-d");
@@ -789,7 +789,9 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$current_date_month_ = gmdate('Y-m-d');
 
 			if($ad_id=='all' || $ad_id == 'top_five_ads') {
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 				$results_impresn_desk = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as desk_impressions, stats_year  FROM `{$wpdb->prefix}quads_impressions_desktop` GROUP BY stats_year"));
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 				$results_impresn_mob = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as mob_impressions, stats_year  FROM `{$wpdb->prefix}quads_impressions_mobile`  GROUP BY stats_year"));
 			}
 			else{
@@ -846,7 +848,9 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 
 
 			if($ad_id=='all' || $ad_id == 'top_five_ads') {
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 				$results_clicks_desk = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_clicks),0) as desk_clicks, stats_year  FROM `{$wpdb->prefix}quads_clicks_desktop` GROUP BY stats_year"));
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 				$results_clicks_mob = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_clicks),0) as mob_clicks, stats_year  FROM `{$wpdb->prefix}quads_clicks_mobile`  GROUP BY stats_year"));
 			}
 			else{
@@ -1136,14 +1140,14 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 
 	}
 	else if( $day == "custom" ) {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		if(isset($_GET['fromdate'])){
-		    // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
+		    // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		    $fromdate = sanitize_text_field($_GET['fromdate']);
 		}
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		if(isset($_GET['todate'])){
-		    // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
+		    // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		    $todate = sanitize_text_field($_GET['todate']);
 		}
 		$get_from = preg_replace('/(.*?)-(.*?)-(.*?)T(.*)/', '$1-$2-$3', $fromdate);
@@ -1306,7 +1310,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	$rotator_ads = array();
 	$re_arrange_top5 = array();
 	if($ad_id == "all" && $day == "all_time"){
-
+		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 		$rotator_ads = 	$wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID, postmeta.meta_key, postmeta.meta_value  
 																												FROM {$wpdb->prefix}posts as posts 
 																												LEFT JOIN {$wpdb->prefix}postmeta as postmeta ON posts.ID = postmeta.post_id
@@ -1542,8 +1546,10 @@ function quads_get_date($type) {
 			$timezone = get_option('timezone_string');
 			if($timezone) {
 				$server_timezone = gmdate('e');
+				// phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
 				date_default_timezone_set($timezone);
 				$result = strtotime('00:00:00') + (get_option('gmt_offset') * 3600);
+				// phpcs:ignore WordPress.DateTime.RestrictedFunctions.timezone_change_date_default_timezone_set
 				date_default_timezone_set($server_timezone);
 			} else {
 				$result = gmdate('U', gmmktime(0, 0, 0, gmdate('n'), gmdate('j')));
@@ -1609,24 +1615,18 @@ function quads_get_ad_stats($condition, $ad_id='', $date=null,$parameters ='') {
 			$search_param = '';
 			if(isset($parameters['search_param']) && !empty($parameters['search_param'])){
 				if(empty($ad_thetime)){
-					$search_param = $wpdb->prepare("where ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-					ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-					log_url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-					browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-					referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%'   "); 
+					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder
+					$search_param = $wpdb->prepare("where ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or log_url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%'   "); 
 				}else {
-				
-					$search_param = $wpdb->prepare("and ( ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-					ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-					log_url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-					browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or
-					referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' )  "); 
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder
+					$search_param = $wpdb->prepare("and ( ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or log_url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' )  "); 
 				}
 
 			}
-		
+		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder
 				$results = $wpdb->get_results($wpdb->prepare("SELECT ad_id , log_date as ad_thetime,log_clicks ,ip_address,log_url as url,browser,referrer FROM `{$wpdb->prefix}quads_logs` ". $ad_thetime ." ".$search_param." LIMIT %d, %d",array($offset,$items_per_page)), ARRAY_A);
 				$ad_stats = $results;
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder
 				$result_total = $wpdb->get_row($wpdb->prepare("SELECT count(*) as total FROM `{$wpdb->prefix}quads_logs` ". $ad_thetime ." ".$search_param), ARRAY_A);
 				$log_array = array();
 				foreach($results as $result){
@@ -1713,10 +1713,11 @@ function wpquads_cron_import_action_cb() {
 
 function quads_adsense_import_old_db(){
 ignore_user_abort(true);
+// phpcs:ignore Squiz.PHP.DiscouragedFunctions.Discouraged
 set_time_limit(900);
 $default  = array('status' => 'inactive','current_table'=>'quads_stats','sub_table'=>'','offset'=> 50,'imported' => 0,'total' => 0);
 $import_details = get_option('quads_import_data',$default);
-error_log(json_encode($import_details));
+
 $import_done = get_option('quads_db_import',false);
 global $wpdb;
 if($import_details['status'] == 'active' && !$import_done){
@@ -1729,10 +1730,12 @@ if($import_details['status'] == 'active' && !$import_done){
 			$imported = isset($import_details['imported'])?intval($import_details['imported']):0;
 			$total_records = isset($import_details['total'])?intval($import_details['total']):0;
 			if(!$total_records){
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder
 				$total_records = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM %i WHERE  ad_thetime > %d AND ad_clicks > 0",array($old_db,$since)));
 			}
 			$loop_no = ceil($total_records/$offset);
 			for($i=0;$i<$loop_no;$i++){
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder
 			$old_db_results = $wpdb->get_results($wpdb->prepare("SELECT ad_id,ad_thetime,ad_clicks,ip_address,URL,browser,referrer FROM %i WHERE  ad_thetime > %d AND ad_clicks > 0 LIMIT %d,%d",array($old_db,$since,$imported,$offset)));
 			$wpdb->flush();
 			if(is_array($old_db_results ) && count($old_db_results) > 0){
@@ -1745,10 +1748,10 @@ if($import_details['status'] == 'active' && !$import_done){
 				}
 				if(is_array($insertQueryValues) && count($insertQueryValues)>0){
 					$insertQuery .= implode( ",", $insertQueryValues );
+					// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 					$status = $wpdb->query($wpdb->prepare($insertQuery,array($new_db)));
 				}
 				if(isset($status) && $status !== false){
-					error_log(json_encode($import_details));
 					$imported = $imported+$offset;
 					$import_details['imported'] = $imported;
 					$import_details['total'] = $total_records;
@@ -1788,12 +1791,13 @@ if($import_details['status'] == 'active' && !$import_done){
 		$total_records = isset($import_details['total'])?intval($import_details['total']):0;
 	
 		if(!$total_records){
+			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder
 		  $total_records = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM %i WHERE ad_device_name = %s AND ad_impressions > 0 ",array($old_db,$device)));
 		}
 		$loop_no = ceil($total_records/$offset);
 		
 		for($i=0;$i<$loop_no;$i++){
-	
+	// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder
 			$old_db_results = $wpdb->get_results($wpdb->prepare("SELECT ad_id,%i as counts ,ad_thetime FROM %i WHERE ad_device_name = %s LIMIT %d,%d;",array('ad_'.$evnt_type,$old_db,$device,$imported,$offset)));
 			$wpdb->flush();
 			if(is_array($old_db_results ) && count($old_db_results) > 0){
@@ -1814,8 +1818,9 @@ if($import_details['status'] == 'active' && !$import_done){
 					}
 				}
 				$insertQuery .= implode( ",", $insertQueryValues );
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder
 				$status = $wpdb->query($wpdb->prepare($insertQuery,array($new_db,'stats_'.$evnt_type)));
-				error_log($status);
+				
 				if($status !== false){
 					$imported = $imported+$offset;
 					$import_details['imported'] = $imported;
@@ -1856,10 +1861,12 @@ function quads_import_log_table($data){
 			$imported = isset($data['imported'])?intval($data['imported']):0;
 			$total_records = isset($data['total'])?intval($data['total']):0;
 			if(!$total_records){
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder
 				$total_records = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM %i WHERE  ad_thetime > %d AND ad_clicks > 0",array($old_db,$since)));
 			}
 			$loop_no = ceil($total_records/$offset);
 			for($i=0;$i<$loop_no;$i++){
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder
 			$old_db_results = $wpdb->get_results($wpdb->prepare("SELECT ad_id,ad_thetime,ad_clicks,ip_address,URL,browser,referrer FROM %i WHERE  ad_thetime > %d AND ad_clicks > 0 LIMIT %d,%d",array($old_db,$since,$data['imported'],$offset)));
 			$wpdb->flush();
 			if(is_array($old_db_results ) && count($old_db_results) > 0){
@@ -1872,10 +1879,11 @@ function quads_import_log_table($data){
 				}
 				if(is_array($insertQueryValues) && count($insertQueryValues)>0){
 					$insertQuery .= implode( ",", $insertQueryValues );
+					// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 					$status = $wpdb->query($wpdb->prepare($insertQuery,array($new_db)));
 				}
 				if(isset($status) && $status !== false){
-					error_log(json_encode($data));
+					
 					$imported = $imported+$offset;
 					$data['imported'] = $imported;
 					$data['total'] = $total_records;
@@ -1920,6 +1928,7 @@ function quads_import_reports($data = null){
 			$params['total_records']=$total_records = isset($data['total'])?intval($data['total']):0;
 		
 			if(!$total_records){
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder
 				$params['total_records']=$total_records = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM %i WHERE ad_device_name = %s AND ad_impressions > 0 ",array($old_db,$device)));
 			}
 			$loop_no = ceil($total_records/$offset);
@@ -1927,6 +1936,7 @@ function quads_import_reports($data = null){
 			for($i=0;$i<$loop_no;$i++){
 				$default  = array('status' => 'inactive','current_table'=>'quads_stats','sub_table'=>'','offset'=> 50,'imported' => 0,'total' => 0);
 				$data = get_option('quads_import_data',$default);
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder
 				$old_db_results = $wpdb->get_results($wpdb->prepare("SELECT ad_id,%i as counts ,ad_thetime FROM %i WHERE ad_device_name = %s LIMIT %d,%d;",array('ad_'.$evnt_type,$params['old_db'],$params['device'],$params['imported'],$params['offset'])));
 				$wpdb->flush();
 				if(is_array($old_db_results ) && count($old_db_results) > 0){
@@ -1939,6 +1949,7 @@ function quads_import_reports($data = null){
 							$res_array[$result->ad_id.'|'.$result->ad_thetime]['ad_thetime'] = $result->ad_thetime;
 						}
 					}
+					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder
 					$insertQuery = "INSERT INTO %i (ad_id,%i,stats_date,stats_year) VALUES";
 					$insertQueryValues = array();
 					foreach($res_array as $r){
@@ -1946,7 +1957,7 @@ function quads_import_reports($data = null){
 					}
 					$insertQuery .= implode( ",", $insertQueryValues );
 					$status = $wpdb->query($wpdb->prepare($insertQuery,array($params['new_db'],'stats_'.$evnt_type)));
-					error_log($status);
+					
 					if($status !== false){
 						$imported = $params['imported']+$params['offset'];
 						$data['imported'] = $imported;
@@ -1992,7 +2003,7 @@ function quads_insert_reports_newdb($params){
 				global $wpdb;
 				$res_array=[];
 				$evnt_type = $params['evnt_type'];
-				error_log($evnt_type);
+				
 
 }
 

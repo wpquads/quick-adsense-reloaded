@@ -1845,6 +1845,7 @@ return array('status' => 't');
             global $wpdb;
             // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
             $query = "SELECT ID, post_title,post_status FROM $wpdb->posts WHERE post_type = 'page' AND post_status in( 'publish','draft' ) ORDER BY post_title ASC LIMIT 0, 100";
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
             $results = $wpdb->get_results($query, ARRAY_A);
             foreach ($results as $key => $value) {
                 if($value['post_status']=='draft'){
