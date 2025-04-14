@@ -84,7 +84,7 @@ function click_fraud_protection(){
 if(!function_exists('quads_is_admin_page')){
     function quads_is_admin_page() {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is the dependant function to check if current admin page is an QUADS admin page
-        $currentpage = isset($_GET['page']) ? $_GET['page'] : '';
+        $currentpage = isset($_GET['page']) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
         if ( ! is_admin() || ! did_action( 'wp_loaded' ) ) {
             return false;
         }

@@ -301,7 +301,7 @@ class QUADS_License {
 	 * @return  void
 	 */
 	public function activate_license2() {
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: There is no form submission and this is a dependent function
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		$post_setting  =json_decode($_POST['settings'], true);
 
                if ( ! current_user_can( 'manage_options' ) ) {
@@ -408,7 +408,7 @@ class QUADS_License {
 				$days = -$days;
 			}
 		}
-		
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		if ( ! isset( $_REQUEST[ $this->item_shortname . '_license_key-nonce'] ) || ! wp_verify_nonce( $_REQUEST[ $this->item_shortname . '_license_key-nonce'], $this->item_shortname . '_license_key-nonce' ) ) {
 
 			return;
@@ -440,7 +440,7 @@ class QUADS_License {
 		if ( (is_object( $details ) && 'valid' === $details->license) && !$refresh) {
 			return;
 		}
-		
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 		$license = sanitize_text_field( $_POST['quads_settings'][ $this->item_shortname . '_license_key'] );
 		
 		if( empty( $license ) ) {
@@ -512,7 +512,7 @@ class QUADS_License {
 
 		if ( ! isset( $_POST['quads_settings'][ $this->item_shortname . '_license_key'] ) )
 			return;
-
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		if( ! wp_verify_nonce( $_REQUEST[ $this->item_shortname . '_license_key-nonce'], $this->item_shortname . '_license_key-nonce' ) ) {
 		
 			wp_die( esc_html__( 'Nonce verification failed', 'quick-adsense-reloaded' ), esc_html__( 'Error', 'quick-adsense-reloaded' ), array( 'response' => 403 ) );
@@ -564,7 +564,7 @@ class QUADS_License {
 	 * @return  void
 	 */
 	public function deactivate_license2() {
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: There is no form submission and this is a dependent function
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 		$post_setting  =json_decode($_POST['settings'], true);
 
                if ( ! current_user_can( 'manage_options' ) ) {

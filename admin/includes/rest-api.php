@@ -1845,7 +1845,7 @@ return array('status' => 't');
             global $wpdb;
             // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
             $query = "SELECT ID, post_title,post_status FROM $wpdb->posts WHERE post_type = 'page' AND post_status in( 'publish','draft' ) ORDER BY post_title ASC LIMIT 0, 100";
-            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching 
             $results = $wpdb->get_results($query, ARRAY_A);
             foreach ($results as $key => $value) {
                 if($value['post_status']=='draft'){
@@ -2025,7 +2025,7 @@ return array('status' => 't');
             $offset = ($page - 1) * $per_page;
         
             // Query the records
-            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
+            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery */
             $results = $wpdb->get_results($wpdb->prepare(
                 "SELECT * FROM %s WHERE payment_status = %s ORDER BY id DESC LIMIT %d OFFSET %d",
                 $table_name,
@@ -2033,7 +2033,7 @@ return array('status' => 't');
                 $per_page,
                 $offset
             ));
-            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
+            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching */
             $total = $wpdb->get_var("SELECT COUNT(*)  FROM $table_name WHERE payment_status = 'paid'");
 
             foreach ($results as $key => $result) {
@@ -2078,14 +2078,14 @@ return array('status' => 't');
             $offset = ($page - 1) * $per_page;
         
             // Query the records
-            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
+            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery */
             $results = $wpdb->get_results($wpdb->prepare(
                 "SELECT * FROM %s WHERE payment_status in('paid','unsubscribe') ORDER BY disable_ad_id DESC LIMIT %d OFFSET %d",
                 $table_name,
                 $per_page,
                 $offset
             ));
-            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
+            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching */
             $total = $wpdb->get_var("SELECT COUNT(*)  FROM $table_name WHERE payment_status in('paid','unsubscribe')");
 
             $resp = array();
@@ -2127,6 +2127,7 @@ return array('status' => 't');
     
             global $wpdb;
             $table_name = $wpdb->prefix . 'quads_disabledad_data';
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
             $status = $wpdb->update(
                 $table_name,
                 ['payment_status' => $new_status],
@@ -2144,6 +2145,7 @@ return array('status' => 't');
     
             global $wpdb;
             $table_name = $wpdb->prefix . 'quads_adbuy_data';
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
             $status = $wpdb->update(
                 $table_name,
                 ['ad_status' => $new_status],

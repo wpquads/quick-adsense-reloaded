@@ -899,6 +899,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		
 			if($ad_id=="all")
 			{
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 				$array_top5= $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
 					FROM {$wpdb->prefix}posts as posts
 					LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id
@@ -1615,10 +1616,10 @@ function quads_get_ad_stats($condition, $ad_id='', $date=null,$parameters ='') {
 			$search_param = '';
 			if(isset($parameters['search_param']) && !empty($parameters['search_param'])){
 				if(empty($ad_thetime)){
-					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder
+					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder, WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral
 					$search_param = $wpdb->prepare("where ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or log_url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%'   "); 
 				}else {
-				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder, WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral
 					$search_param = $wpdb->prepare("and ( ad_id  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or ip_address  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or log_url  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or browser  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' or referrer  LIKE '%".$wpdb->esc_like($parameters['search_param'])."%' )  "); 
 				}
 
@@ -1818,7 +1819,7 @@ if($import_details['status'] == 'active' && !$import_done){
 					}
 				}
 				$insertQuery .= implode( ",", $insertQueryValues );
-				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder, WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral
 				$status = $wpdb->query($wpdb->prepare($insertQuery,array($new_db,'stats_'.$evnt_type)));
 				
 				if($status !== false){
@@ -1956,6 +1957,7 @@ function quads_import_reports($data = null){
 							array_push( $insertQueryValues, "(" . $r['ad_id'] .",".$r[$evnt_type].",".$r['ad_thetime'].",".gmdate('Y',$r['ad_thetime']). ")" );
 					}
 					$insertQuery .= implode( ",", $insertQueryValues );
+					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral
 					$status = $wpdb->query($wpdb->prepare($insertQuery,array($params['new_db'],'stats_'.$evnt_type)));
 					
 					if($status !== false){

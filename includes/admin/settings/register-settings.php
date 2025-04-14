@@ -504,7 +504,7 @@ function wpquads_ads_for_shortcode_data(){
    if ( ! isset( $_POST['wpquads_security_nonce'] ) ){
          wp_die('Invalid Request');
    }
-   if ( !wp_verify_nonce( $_POST['wpquads_security_nonce'], 'quads_ajax_nonce' ) && !current_user_can( 'manage_options' )){
+   if ( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wpquads_security_nonce'] ) ), 'quads_ajax_nonce' ) && !current_user_can( 'manage_options' )){
          wp_die('Unauthorized Request');
    }
       $html = quads_get_active_ads_data();
@@ -518,7 +518,7 @@ function wpquads_ads_for_shortcode(){
       if ( ! isset( $_POST['wpquads_security_nonce'] ) ){
         return;
     }
-    if ( !wp_verify_nonce( $_POST['wpquads_security_nonce'], 'quads_ajax_nonce' ) ){
+    if ( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wpquads_security_nonce'] ) ), 'quads_ajax_nonce' ) ){
         return;
     }
      global $quads_options;
@@ -537,19 +537,19 @@ function wpquads_send_query_message(){
     if ( ! isset( $_POST['wpquads_security_nonce'] ) ){
         return;
     }
-    if ( !wp_verify_nonce( $_POST['wpquads_security_nonce'], 'quads_ajax_nonce' ) ){
+    if ( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wpquads_security_nonce'] ) ), 'quads_ajax_nonce' ) ){
         return;
     }
     $customer_type  = 'Are you a premium customer ? No';
     $message = $email = $premium_cus = '';
     if(isset($_POST['message'])){
-        $message = sanitize_textarea_field($_POST['message']);
+        $message = sanitize_textarea_field( wp_unslash( $_POST['message'] ) );
     }
     if(isset($_POST['email'])){
-        $email = sanitize_email($_POST['email']);
+        $email = sanitize_email( wp_unslash( $_POST['email'] ) );
     }
     if(isset($_POST['premium_cus'])){
-        $premium_cus = sanitize_text_field($_POST['premium_cus']);
+        $premium_cus =  sanitize_text_field( wp_unslash( $_POST['premium_cus'] ) );
     }
     $user           = wp_get_current_user();
 
@@ -613,7 +613,7 @@ function quads_settings_sanitize( $input = array() ) {
    }
 
    // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but sanitizing the settings fields
-   parse_str( $_POST['_wp_http_referer'], $referrer );
+   parse_str(  sanitize_text_field( wp_unslash( $_POST['_wp_http_referer'] ) ), $referrer );
 
    $settings = quads_get_registered_settings();
    $tab = isset( $referrer['tab'] ) ? $referrer['tab'] : 'general';
@@ -1828,7 +1828,7 @@ function quads_ajax_add_ads(){
 
    global $quads_options;
 
-   $postCount = !empty($_POST['count']) ? $_POST['count'] : 1;
+   $postCount = !empty($_POST['count']) ? sanitize_text_field( wp_unslash( $_POST['count'] ) ) : 1;
 
 
    $count = isset($quads_options['ads']) ? count ($quads_options['ads']) + $postCount : 10 + $postCount;
@@ -2610,7 +2610,7 @@ function quads_save_extra_user_profile_fields( $user_id ) {
         return false;
     }
     // phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: We are not processing form information just updating the user meta
-    $adsense_pub_id = isset($_POST['quads_adsense_pub_id']) ? sanitize_text_field($_POST['quads_adsense_pub_id']) : '';
+    $adsense_pub_id = isset($_POST['quads_adsense_pub_id']) ? sanitize_text_field( wp_unslash( $_POST['quads_adsense_pub_id'] ) ) : '';
     update_user_meta( $user_id, 'quads_adsense_pub_id', $adsense_pub_id );
 }
 

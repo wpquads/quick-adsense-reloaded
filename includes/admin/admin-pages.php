@@ -113,7 +113,7 @@ add_action( 'admin_menu', 'quads_add_options_link', 10 );
  */
 function quads_is_addon_page() {
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only checking wheather current page is a  Quads add-on page.
-    $currentpage = isset($_GET['page']) ? $_GET['page'] : '';
+    $currentpage = isset($_GET['page']) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
 	if ( ! is_admin() || ! did_action( 'wp_loaded' ) ) {
 		return false;
 	}

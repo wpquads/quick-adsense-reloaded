@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 function quads_tools_page() {
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called to load the tools page where all security measurament is done.
-	$active_tab = isset( $_GET['tab'] ) ? wp_unslash( $_GET['tab'] ): 'import_export';
+	$active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ): 'import_export';
 ?>
 	<div class="wrap">
 		<h2 class="quads-nav-tab-wrapper">
@@ -146,7 +146,7 @@ function quads_tools_import_export_process_export() {
 	if( empty( $_POST['quads_export_nonce'] ) )
 		return;
 
-	if( ! wp_verify_nonce( wp_unslash( $_POST['quads_export_nonce'] ), 'quads_export_nonce' ) )
+	if( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['quads_export_nonce'] ) ), 'quads_export_nonce' ) )
 		return;
 
 	if( ! current_user_can( 'manage_options' ) )
@@ -213,17 +213,17 @@ function quads_tools_import_export_process_import() {
 	if( empty( $_POST['quads_import_nonce'] ) )
 		return;
 	/* phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash */
-	if( ! wp_verify_nonce( $_POST['quads_import_nonce'], 'quads_import_nonce' ) )
+	if( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['quads_import_nonce'] ) ), 'quads_import_nonce' ) )
 		return;
 
 	if( ! current_user_can( 'update_plugins' ) )
 		return;
 
-    if( isset($_FILES['import_file']['name'] ) && quads_get_file_extension( $_FILES['import_file']['name'] ) != 'json' ) {
+    if( isset($_FILES['import_file']['name'] ) && quads_get_file_extension( sanitize_text_field( $_FILES['import_file']['name'] ) ) != 'json' ) {
         wp_die( esc_html__( 'Please upload a valid .json file', 'quick-adsense-reloaded' ) );
     }
 
-	$import_file = ( isset( $_FILES['import_file']['tmp_name'] ) )? $_FILES['import_file']['tmp_name'] : '';
+	$import_file = ( isset( $_FILES['import_file']['tmp_name'] ) )? sanitize_text_field( $_FILES['import_file']['tmp_name'] ) : '';
 
 	if( empty( $import_file ) ) {
 		wp_die( esc_html__( 'Please upload a file to import', 'quick-adsense-reloaded' ) );
@@ -436,7 +436,9 @@ function quads_tools_sysinfo_get() {
 	$return .= "\n" . '-- Webserver Configuration' . "\n\n";
 	$return .= 'PHP Version:              ' . PHP_VERSION . "\n";
 	$return .= 'MySQL Version:            ' . $wpdb->db_version() . "\n";
-	$return .= 'Webserver Info:           ' . $_SERVER['SERVER_SOFTWARE'] . "\n";
+	if( isset( $_SERVER['SERVER_SOFTWARE'] )){
+		$return .= 'Webserver Info:           ' . sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) . "\n";
+	}
 
 	$return  = apply_filters( 'quads_sysinfo_after_webserver_config', $return );
 

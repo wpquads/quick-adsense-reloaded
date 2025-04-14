@@ -24,13 +24,13 @@ function quads_process_actions() {
     // phpcs:ignore WordPress.Security.NonceVerification.Missing
     if (isset($_POST['quads-action'])) {
         // phpcs:ignore WordPress.Security.NonceVerification.Missing
-        do_action('quads_' . $_POST['quads-action'], $_POST);
+        do_action('quads_' . sanitize_text_field( wp_unslash( $_POST['quads-action'] ) ), $_POST);
     }
 
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended
     if (isset($_GET['quads-action'])) {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        do_action('quads_' . $_GET['quads-action'], $_GET);
+        do_action('quads_' . sanitize_text_field( wp_unslash( $_GET['quads-action'] ) ), $_GET);
     }
 }
 
