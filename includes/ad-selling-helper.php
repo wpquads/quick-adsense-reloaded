@@ -2374,7 +2374,7 @@ function wpquads_handle_paypal_notify(WP_REST_Request $request) {
         if ($ad_details->payment_status === 'paid') {
             return new WP_REST_Response( array('status' => 'error', 'message' => esc_html__( 'Ad already paid', 'quick-adsense-reloaded' ) ), 400);
         }
-        
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $wpdb->update(
             $table_name,
             array('payment_status' => 'paid' , 'payment_response'=> wp_json_encode($params)), // Data to update
@@ -2470,6 +2470,7 @@ function wpquads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
         $duration = $ad_details->disable_duration;
         $params = array();
         $params['payment_date'] = gmdate('Y-m-d H:i:s');
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $wpdb->update(
             $table_name,
             array('payment_status' => 'paid' , 'payment_response'=> wp_json_encode($params)), // Data to update
@@ -2532,7 +2533,7 @@ function quads_get_active_sellads_ids( ){
 
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_adbuy_data';
-    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
     $active_ads = $wpdb->get_results( "SELECT ad_id FROM $table_name Where  payment_status = 'paid' and ad_status = 'approved' and end_date >= CURDATE() and start_date <= CURDATE()" );
     return $active_ads;
 }

@@ -307,7 +307,7 @@ function quads_options_page() {
 	global $quads_options;
 
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information just rendering the options page contents
-    $active_tab = isset( $_GET[ 'tab' ] ) && array_key_exists( $_GET['tab'], quads_get_settings_tabs() ) ? sanitize_text_field( wp_unslash( $_GET[ 'tab' ] ) ) : 'general';
+    $active_tab = isset( $_GET[ 'tab' ] ) && array_key_exists( sanitize_text_field( wp_unslash( $_GET['tab'] ) ), quads_get_settings_tabs() ) ? sanitize_text_field( wp_unslash( $_GET[ 'tab' ] ) ) : 'general';
 	?>
 	<div class="wrap quads_admin">
              <h1 style="text-align:center;"> <?php echo esc_html(QUADS_NAME . ' ' . QUADS_VERSION); ?></h1>

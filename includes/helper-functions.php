@@ -103,7 +103,7 @@ function quads_update_ad_request_data(){
     if( function_exists('current_user_can') && ! current_user_can( 'manage_options' ) ) {
         die( esc_html__( 'You are not allowed to perform this action', 'quick-adsense-reloaded' ) );
     }
-    if ( ! wp_verify_nonce(  sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) , 'wp_rest' ) ) {
+    if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce(  sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) , 'wp_rest' ) ) {
         die( esc_html__( 'Invalid nonce', 'quick-adsense-reloaded' ) ); 
     }
     // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated

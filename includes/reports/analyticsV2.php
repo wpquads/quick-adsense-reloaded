@@ -109,7 +109,7 @@ public function quads_insert_ad_impression_amp(){
         return;  
     }      
   
-    $ad_id = sanitize_text_field( wp_unslash( $_POST['ad_id'] ) );
+    $ad_id =  ( ! isset( $_POST['ad_id'] )) ? sanitize_text_field( wp_unslash( $_POST['ad_id'] ) ) : false;
     if($ad_id){     
       $this->quads_insert_clicks($ad_id);
                       

@@ -42,7 +42,7 @@ public function quads_insert_ad_impression(){
      return;  
   }  
   // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-  $ad_ids = array_map('sanitize_text_field', $_POST['ad_ids']);  
+  $ad_ids = ( ! empty( $_POST['ad_ids'] )) ? array_map('sanitize_text_field', $_POST['ad_ids']) : false;  
   
   if($ad_ids){
       
@@ -160,15 +160,15 @@ public function quads_get_client_ip() {
           return; 
       }
       // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
-      if ( !wp_verify_nonce( $_POST['quads_front_nonce'], 'quads_ajax_check_front_nonce' ) ){
+      if ( ! isset( $_POST['quads_front_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['quads_front_nonce'] ) ), 'quads_ajax_check_front_nonce' ) ){
          return;  
       }      
       
-      $ad_id = sanitize_text_field($_POST['ad_id']); 
+      $ad_id = ( isset( $_POST['ad_id'] ) )? sanitize_text_field($_POST['ad_id']) : false; 
       $referrer_url  = wp_get_referer();        
       $user_ip       =  $this->quads_get_client_ip();
       // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
-      $actual_link  = (isset($_POST['currentLocation'])) ? esc_url($_POST['currentLocation']):'';      
+      $actual_link  = (isset($_POST['currentLocation'])) ? esc_url( sanitize_text_field( wp_unslash( $_POST['currentLocation'] ) ) ):'';      
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
         // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
         $actual_link = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -446,6 +446,7 @@ public function quads_get_client_ip() {
               $date_click = 1; //%d
               $ad_year = $year; //%s
               $date_impression = 1; //%s
+              // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
               $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_single_stats_ (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_date,date_click,ad_year,date_impression) VALUES (%d,%d,%d,%d,%s,%s,%s,%s);",array($ad_id,$ad_thetime,$ad_clicks,$ad_impressions,$ad_date,$date_click,$ad_year,$date_impression)));
             }
     }

@@ -1819,7 +1819,7 @@ if($import_details['status'] == 'active' && !$import_done){
 					}
 				}
 				$insertQuery .= implode( ",", $insertQueryValues );
-				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder, WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder, WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral, WordPress.DB.PreparedSQL.NotPrepared
 				$status = $wpdb->query($wpdb->prepare($insertQuery,array($new_db,'stats_'.$evnt_type)));
 				
 				if($status !== false){
@@ -1957,7 +1957,7 @@ function quads_import_reports($data = null){
 							array_push( $insertQueryValues, "(" . $r['ad_id'] .",".$r[$evnt_type].",".$r['ad_thetime'].",".gmdate('Y',$r['ad_thetime']). ")" );
 					}
 					$insertQuery .= implode( ",", $insertQueryValues );
-					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral
+					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral, WordPress.DB.PreparedSQL.NotPrepared
 					$status = $wpdb->query($wpdb->prepare($insertQuery,array($params['new_db'],'stats_'.$evnt_type)));
 					
 					if($status !== false){
@@ -2018,7 +2018,7 @@ function quads_insert_reports_newdb($params){
 
  function quads_start_newdb_migration(){
 	 $quads_cron_manual=['status'=>'fail','msg'=>'Invalid Action'];
-	 if(current_user_can('manage_options') && isset($_POST['nonce']) && wp_verify_nonce($_POST['nonce'], 'quads_newdb_nonce')){
+	 if(current_user_can('manage_options') && isset($_POST['nonce']) && wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'quads_newdb_nonce')){
 	 $quads_cron_manual=['status'=>'success','msg'=>'Cron Started'];
 	 $rest_route = get_rest_url(null,'quads-adsense/import_old_db/');
 	 $default  = array('status' => 'inactive','current_table'=>'quads_stats','sub_table'=>'','offset'=> 50,'imported' => 0,'total' => 0);
@@ -2045,7 +2045,7 @@ function quads_insert_reports_newdb($params){
 
  function quads_hide_newdb_migration(){
 	 $quads_res=['status'=>'fail'];
-	 if(current_user_can('manage_options') && isset($_POST['nonce']) && wp_verify_nonce($_POST['nonce'], 'quads_newdb_nonce')){
+	 if(current_user_can('manage_options') && isset($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'quads_newdb_nonce')){
 	 
 		if(update_option('quads_v2_db_no_import',true)){
 			$quads_res['status'] = 'success';
