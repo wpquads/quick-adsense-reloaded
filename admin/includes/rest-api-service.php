@@ -368,6 +368,7 @@ class QUADS_Ad_Setup_Api_Service {
                     )
                     );
                 }
+                // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
                 $arg['meta_query']          = $meta_query_args;
                 $arg['paged']               = 1;
         }else{
@@ -379,6 +380,7 @@ class QUADS_Ad_Setup_Api_Service {
                 'value'   =>   $filter_by
               )
               );
+              // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
               $arg['meta_query']          = $meta_query_args;
           }else if($filter_not_by){
             $meta_query_args = array(
@@ -388,6 +390,7 @@ class QUADS_Ad_Setup_Api_Service {
                 'compare' =>  '!='
               )
               );
+              // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
               $arg['meta_query']          = $meta_query_args;
           }
          
@@ -917,6 +920,7 @@ if($license_info){
         $args = array(
             'post_type'      => 'quads-ads', // Change to your post type
             'post_status'    => 'publish',
+            // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
             'meta_query'     => array(
                 array(
                     'key'     => 'ad_type', // Replace with your meta key
@@ -939,6 +943,7 @@ if($license_info){
       $args = array(
           'post_type'      => 'quads-ads', // Change to your post type
           'post_status'    => 'publish',
+          // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
           'meta_query'     => array(
               array(
                   'key'     => 'ad_type', // Replace with your meta key

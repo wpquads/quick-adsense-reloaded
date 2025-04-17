@@ -890,6 +890,7 @@ function quads_inline_styles() {
         ";
 }
     // Register empty style so we do not need an external css file
+    // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
     wp_register_style( 'quads-styles', false );
     // Enque empty style
     wp_enqueue_style( 'quads-styles' );

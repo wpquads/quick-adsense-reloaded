@@ -2168,6 +2168,7 @@ function quads_render_ad_label_new( $adcode,$post_id='') {
             $css = '.quads-ad-label{display:none}  .quads-ad-label.quads-ad-label-new{display:block}';
             wp_dequeue_style('quads-ad-label');
             wp_deregister_style('quads-ad-label');
+            // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
             wp_register_style( 'quads-ad-label', false );
             wp_enqueue_style( 'quads-ad-label' );
             wp_add_inline_style( 'quads-ad-label', $css );

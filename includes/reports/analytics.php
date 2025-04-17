@@ -82,7 +82,7 @@ public function quads_insert_ad_impression(){
       $year = gmdate("Y");
       $user_ip      =  $this->quads_get_client_ip();
       // phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: This is the dependant function, nonce verification is done from where this call has been made to this function
-      $actual_link  = (isset($_POST['currentLocation'])) ? esc_url( sanitize_text_field( wp_unslash( $_POST['currentLocation'] ) ) ):'';
+      $actual_link  = (isset($_POST['currentLocation'])) ?  sanitize_text_field( wp_unslash( $_POST['currentLocation'] ) ) :'';
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
         // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
         $actual_link = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -164,11 +164,11 @@ public function quads_get_client_ip() {
          return;  
       }      
       
-      $ad_id = ( isset( $_POST['ad_id'] ) )? sanitize_text_field($_POST['ad_id']) : false; 
+      $ad_id = ( isset( $_POST['ad_id'] ) )? sanitize_text_field( wp_unslash( $_POST['ad_id'] ) ) : false; 
       $referrer_url  = wp_get_referer();        
       $user_ip       =  $this->quads_get_client_ip();
       // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
-      $actual_link  = (isset($_POST['currentLocation'])) ? esc_url( sanitize_text_field( wp_unslash( $_POST['currentLocation'] ) ) ):'';      
+      $actual_link  = (isset($_POST['currentLocation'])) ? sanitize_text_field( wp_unslash( $_POST['currentLocation'] ) ) :'';      
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
         // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
         $actual_link = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";

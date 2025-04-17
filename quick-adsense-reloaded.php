@@ -365,6 +365,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             if( $networkwide ) {
                $old_blog = $wpdb->blogid;
                // Get all blog ids
+               // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
                $blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
                foreach ( $blogids as $blog_id ) {
                   switch_to_blog( $blog_id );

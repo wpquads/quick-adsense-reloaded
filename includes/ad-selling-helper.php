@@ -234,6 +234,7 @@ function quads_ads_buy_form() {
         'post_status'    => 'publish',
         'posts_per_page' => -1,
         'fields' => 'ids',
+        // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
         'meta_query'     => array(
             array(
                 'key'     => 'ad_type',
@@ -556,10 +557,10 @@ function quads_ads_buy_form() {
         <button type="submit"><?php echo esc_html__('Submit','quick-adsense-reloaded');?></button>
     </form>
    
-    <?php if($payment_gateway=='stripe'){?>
+    <?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion?>
     <script src="https://js.stripe.com/v3/"></script>
     <?php }?>
-    <?php if($payment_gateway=='paystack'){?>
+    <?php if($payment_gateway=='paystack'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion?>
         <script src="https://js.paystack.co/v1/inline.js"></script>
     <?php }?>
     <script>
@@ -1141,7 +1142,9 @@ if ( count( $ad_space_list )==0 ) {
 }
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 if( isset( $_GET['modify_id'] ) && !empty( $_GET['modify_id'] ) && isset( $_GET['renew_id'] )  && !empty( $_GET['renew_id'] ) ){
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
     $modify_id = sanitize_text_field( wp_unslash( $_GET['modify_id'] ) );
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
     $renew_id = sanitize_text_field( wp_unslash( $_GET['renew_id'] ) );
     $ad_space_list = quads_get_premimum_member_ad_space_on_id( $modify_id );
     $asdata = $ad_space_list[0];
@@ -1458,6 +1461,7 @@ function quads_ads_disable_form(){
     if (isset($_GET['status']) && $_GET['status'] == 'success') {
         echo '<div class="_danotice _danotice-success _dais-dismissible">
         <p>'. esc_html__( 'Successfully Submitted. You will get a confirmation email when your payment is confirmed.','quick-adsense-reloaded' ).'</p></div>';
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         } elseif (isset($_GET['status']) && $_GET['status'] == 'cancelled') {
             echo '<div class="_danotice _danotice-error _dais-dismissible">
         <p>'.esc_html__( 'Payment Cancelled. Please try again.','quick-adsense-reloaded').'</p></div>';
@@ -1504,7 +1508,7 @@ function quads_ads_disable_form(){
         <button type="submit"><?php echo esc_html__('Proceed for Payment','quick-adsense-reloaded');?></button>
     </div>
 </form>
-<?php if($payment_gateway=='stripe'){?>
+<?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion ?>
     <script src="https://js.stripe.com/v3/"></script>
 <?php }?>
 </div>
@@ -2585,6 +2589,7 @@ function quads_check_expired_sellads() {
     $query_args = [
         'post_type'      => 'quads-ads',
         'posts_per_page' => -1,
+        // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
         'meta_query'     => [
             'relation' => 'AND',
             [

@@ -180,9 +180,9 @@ function quads_is_excluded_title($string){
 function quads_options_page_new() {
 
         global $quads_options;    
-    
+        // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
         wp_enqueue_style('quads-admin-ad-style', QUADS_PLUGIN_URL.'admin/assets/js/dist/style.css');
-        
+        // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
         wp_enqueue_style('quads-material-ui-font', 'https://fonts.googleapis.com/icon?family=Material+Icons');
         
         $licenses = get_option( 'quads_wp_quads_pro_license_active' );
@@ -261,6 +261,7 @@ function quads_options_page_new() {
             'disableads' => $disableads
         );
         $data = apply_filters('quads_localize_filter',$data,'quads_localize_data');
+        // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
         wp_register_script( 'quads-admin-ad-script', QUADS_PLUGIN_URL . 'admin/assets/js/dist/adminscript.js', array( 'wp-i18n' ), QUADS_VERSION );
 
         wp_localize_script( 'quads-admin-ad-script', 'quads_localize_data', $data );
