@@ -1620,7 +1620,7 @@ drawChart(config);
                         <div>
                             <div className="quads-ad-networks-reports">
                                 <ul key={'quads-ad-networks'}>
-                                {quads_localize_data_is_pro ? this.state.All_report_list.map(item => (
+                                {/* {quads_localize_data_is_pro ? this.state.All_report_list.map(item => (
                                     <li key={item.id} data-adtype={item.ad_type} id={item.id}><a className="quads-nav-link-reports" onClick={() => this.quads_adsense_report(this.state.adsense_pub_id)} >
                                             {this.getImageByAdType(item.ad_type)}
                                             {item.ad_type=='adsense' ? <div style={{color: "rgb(0, 90, 240)"}}>
@@ -1642,7 +1642,7 @@ drawChart(config);
                                     </li>
 
                                     
-                                )) : ''}
+                                )) : ''} */}
                                 { quads_localize_data_is_pro ? 
                                     <li data-adtype="abtesting" id="quads-adsense-abtesting" onClick={ () =>{
                                         this.abtesting_handler()
@@ -1655,8 +1655,21 @@ drawChart(config);
                                     } }>
                                     <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>{__('A/B Testing','quick-adsense-reloaded')}</p>
                                     <p style={{ margin: "0",padding: "0" }}>{__('View Report','quick-adsense-reloaded')}</p></div>
+                                    
                                     </li>
-                                    : '' }
+                                    : <li data-adtype="abtesting" id="quads-adsense-abtesting" onClick={ () =>{
+                                        window.open('https://wpquads.com/pricing/#pricings','_blank');
+                                    } } >
+                                    <a className="quads-nav-linkforabtesting" >
+                                    <img style={{marginTop: "20px"}} src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ab.png'}/>
+                                    </a>
+                                    <div id="view_report_abtesting" style={{color: "#005af0"}} onClick={ () =>{
+                                        window.open('https://wpquads.com/pricing/#pricings','_blank');
+                                    } }>
+                                    <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>{__('A/B Testing','quick-adsense-reloaded')}</p>
+                                    <p className="quads-got_pro premium_features_btn" style={{ margin: "0 auto",padding: "0",width:"80%" }}>{__('UPGRADE TO PRO','quick-adsense-reloaded')}</p></div>
+                                    
+                                    </li> }
 
                                     <li data-adtype="view_stats_report" id="quads-adsense-view_stats_report" onClick={ () =>{
                                         this.view_stats_report_handler()
@@ -1699,6 +1712,7 @@ drawChart(config);
                         : 'No Options' }
                         </select>
                         <span id="table_main"></span>
+                        {!this.state.getallads_data_temp.length?<p style={{textAlign:'center',fontSize:'20px',fontWeight:'400'}}> <br></br> {__('You have not setup A/B Testing Ads. Please create a A/B Testing Ads to generate reports.','quick-adsense-reloaded')} <a href="https://wpquads.com/documentation/how-to-add-ab-testing/" target='_blank'>{__('Learn More','quick-adsense-reloaded')}</a></p>: ''}
                         </div>
                         </div>
                         </div>

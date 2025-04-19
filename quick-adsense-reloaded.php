@@ -408,6 +408,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             $quads_options['visibility']['AppArch'] = "1";
             $quads_options['visibility']['AppTags'] = "1";
             $quads_options['quicktags']['QckTags'] = "1";
+            $quads_options['reports_settings'] = "1";
             add_option('quads-mode','new');
             update_option( 'quads_settings', $quads_options );
          }
