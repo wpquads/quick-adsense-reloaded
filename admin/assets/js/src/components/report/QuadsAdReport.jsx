@@ -1736,7 +1736,7 @@ drawChart(config);
                                     <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>{__('A/B Testing','quick-adsense-reloaded')}</p>
                                     <p style={{ margin: "0",padding: "0" }}>{__('View Report','quick-adsense-reloaded')}</p></div>
                                     </div>
-                                    <label className="quads-switch" style={{marginBottom:'10px'}}>
+                                    <label className="quads-switch" style={{marginBottom:'-23px'}}>
                                         {(this.state.settings.ab_testing_settings===undefined) &&
                                         <input id="ab_testing_settings" type="checkbox" name="ab_testing_settings" onChange={this.handleChangeOption} checked={false} />
                                         }
