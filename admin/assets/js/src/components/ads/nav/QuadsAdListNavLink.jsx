@@ -58,6 +58,12 @@ class QuadsAdListNavLink extends Component {
     handleHideSellableAds = () =>{
       this.setState({show_sellable_ads:false});
     }
+    handleShowReports = () =>{
+      this.setState({displayReports:true});
+    }
+    handleHideReports = () =>{
+      this.setState({displayReports:false});
+    }
     getSettings = () => {
         let url = quads_localize_data.rest_url + 'quads-route/get-settings';
         fetch(url,{
@@ -300,6 +306,8 @@ class QuadsAdListNavLink extends Component {
                 {this.state.displayReports ?
                 <li><Link to={'admin.php?page=quads-settings&path=reports'} className={current == 'reports' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Reports', 'quick-adsense-reloaded')}</Link></li>
                 : null }
+                <span id="handleShowReports" onClick={this.handleShowReports}></span>
+                <span  onClick={this.handleHideReports} id="handleHideReports"></span>
                 {quads_localize_data.is_pro && this.state.displayad_logging ?
                 <li><Link to={'admin.php?page=quads-settings&path=ad_logging'} className={current == 'ad_logging' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Log', 'quick-adsense-reloaded')}</Link></li>
                 : null }

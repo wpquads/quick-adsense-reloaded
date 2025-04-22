@@ -31,6 +31,7 @@ class QuadsAdReport extends Component {
             ad_ids_temp: [],
             ad_id:null,
             report_url:quads_localize_data.get_admin_url+'?page=quads-settings&path=reports',
+            settings : {},
             report : {
                 adsense_code: '',
                 adsense_code_data :[
@@ -838,6 +839,7 @@ drawChart(config);
     componentDidMount(){
         this.get_report_status();
         this.getallads(); 
+        this.getSettings(); 
         const page = queryString.parse(window.location.search); 
         if(page){
             if(page.id){
@@ -1600,6 +1602,58 @@ drawChart(config);
                     }
                 });
     }
+    getSettings = () => {
+        
+        let url = quads_localize_data.rest_url + 'quads-route/get-settings';
+        fetch(url,{
+          headers: {
+            'X-WP-Nonce': quads_localize_data.nonce,
+          }
+        })
+        .then(res => res.json())
+        .then(
+          (result) => {
+              this.setState({settings:result});
+          },
+          (error) => {
+           
+          }
+        );
+      }
+    handleChangeOption = (event) =>{
+        let name  = event.target.name;
+        //this.state.settings.namer  = name;
+        let value = '';
+        if(event.target.type === 'checkbox'){
+            value = event.target.checked;
+        }else{
+            value = event.target.value
+        }
+        const { settings } = this.state;
+        settings[name] = value;
+        this.setState(settings);
+
+        const formData = new FormData();
+        formData.append("settings", JSON.stringify(this.state.settings));
+        formData.append("requestfrom",'wpquads2');
+        let url = quads_localize_data.rest_url + 'quads-route/update-settings';
+        fetch(url,{
+            method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'X-WP-Nonce': quads_localize_data.nonce,
+            },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(
+        (result) => {
+        
+        },
+        (error) => {
+    
+        });
+    }
     render() {
         const {__} = wp.i18n;
         const {report} = this.state;
@@ -1643,10 +1697,36 @@ drawChart(config);
 
                                     
                                 )) : ''} */}
+                                <li data-adtype="view_stats_report" id="quads-adsense-view_stats_report"  >
+                                    <div onClick={ () =>{
+                                        this.view_stats_report_handler()
+                                    } } >
+                                    <a className="quads-nav-linkforview_stats_report">
+                                    <img style={{marginTop: "20px"}} src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/view_stats.png'}/>
+                                    </a>
+                                    <div id="view_report_view_stats_report" style={{color: "#005af0"}} onClick={ () =>{
+                                        this.view_stats_report_handler()
+                                    } }>
+                                    <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>{__('Impression & Clicks','quick-adsense-reloaded')}</p>
+                                    <p>{__('View Report','quick-adsense-reloaded')}</p>
+                                    </div>
+                                    </div>
+                                    <label className="quads-switch" style={{marginBottom:'10px'}}>
+                                        {(this.state.settings.ad_performance_tracking===undefined) &&
+                                        <input id="ad_performance_tracking" type="checkbox" name="ad_performance_tracking" onChange={this.handleChangeOption} checked={false} />
+                                        }
+                                        {(this.state.settings.ad_performance_tracking!==undefined) &&
+                                        <input id="ad_performance_tracking" type="checkbox" name="ad_performance_tracking" onChange={this.handleChangeOption} checked={this.state.settings.ad_performance_tracking} />
+                                        }
+                                        <span id="ad_performance_tracking_" className="quads-slider"></span>
+                                        <div className="lazy_loader_ap"></div>
+                                    </label>
+                                    </li>
                                 { quads_localize_data_is_pro ? 
-                                    <li data-adtype="abtesting" id="quads-adsense-abtesting" onClick={ () =>{
+                                    <li data-adtype="abtesting" id="quads-adsense-abtesting"  >
+                                    <div  onClick={ () =>{
                                         this.abtesting_handler()
-                                    } }  >
+                                    } }>
                                     <a className="quads-nav-linkforabtesting" >
                                     <img style={{marginTop: "20px"}} src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ab.png'}/>
                                     </a>
@@ -1655,7 +1735,17 @@ drawChart(config);
                                     } }>
                                     <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>{__('A/B Testing','quick-adsense-reloaded')}</p>
                                     <p style={{ margin: "0",padding: "0" }}>{__('View Report','quick-adsense-reloaded')}</p></div>
-                                    
+                                    </div>
+                                    <label className="quads-switch" style={{marginBottom:'10px'}}>
+                                        {(this.state.settings.ab_testing_settings===undefined) &&
+                                        <input id="ab_testing_settings" type="checkbox" name="ab_testing_settings" onChange={this.handleChangeOption} checked={false} />
+                                        }
+                                        {(this.state.settings.ab_testing_settings!==undefined) &&
+                                        <input id="ab_testing_settings" type="checkbox" name="ab_testing_settings" onChange={this.handleChangeOption} checked={this.state.settings.ab_testing_settings} />
+                                        }
+                                        <span id="ab_testing_settings_" className="quads-slider"></span>
+                                        <div className="lazy_loader_ap"></div>
+                                    </label>
                                     </li>
                                     : <li data-adtype="abtesting" id="quads-adsense-abtesting" onClick={ () =>{
                                         window.open('https://wpquads.com/pricing/#pricings','_blank');
@@ -1668,22 +1758,14 @@ drawChart(config);
                                     } }>
                                     <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>{__('A/B Testing','quick-adsense-reloaded')}</p>
                                     <p className="quads-got_pro premium_features_btn" style={{ margin: "0 auto",padding: "0",width:"80%" }}>{__('UPGRADE TO PRO','quick-adsense-reloaded')}</p></div>
-                                    
+                                    <label className="quads-switch" style={{marginBottom:'-23px'}}>
+                                        <input id="ab_testing_settings" type="checkbox" name="ab_testing_settings" checked={false} />
+                                        <span id="ab_testing_settings_" className="quads-slider"></span>
+                                        <div className="lazy_loader_ap"></div>
+                                    </label>
                                     </li> }
 
-                                    <li data-adtype="view_stats_report" id="quads-adsense-view_stats_report" onClick={ () =>{
-                                        this.view_stats_report_handler()
-                                    } }  >
-                                    <a className="quads-nav-linkforview_stats_report">
-                                    <img style={{marginTop: "20px"}} src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/view_stats.png'}/>
-                                    </a>
-                                    <div id="view_report_view_stats_report" style={{color: "#005af0"}} onClick={ () =>{
-                                        this.view_stats_report_handler()
-                                    } }>
-                                    <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>{__('Impression & Clicks','quick-adsense-reloaded')}</p>
-                                    <p>{__('View Report','quick-adsense-reloaded')}</p>
-                                    </div>
-                                    </li>
+                                    
 
                                 </ul>
                             </div>

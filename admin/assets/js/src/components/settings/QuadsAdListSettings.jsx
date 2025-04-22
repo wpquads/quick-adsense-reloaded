@@ -1064,7 +1064,6 @@ handleCapabilityChange = (event) =>{
     }
   formChangeHandler = (event) => {
     let name  = event.target.name;
-    console.log(name);
     
     //spin
     this.setState({selectedBtnOpt:name});
@@ -1108,6 +1107,17 @@ handleCapabilityChange = (event) =>{
         }
         this.saveSettings();
       }else{
+        if(name==='reports_settings'){
+          if(value===true){
+            if(document.getElementById('handleShowReports')){
+              document.getElementById('handleShowReports').click();
+            }
+          }else{
+            if(document.getElementById('handleHideReports')){
+              document.getElementById('handleHideReports').click();
+            }
+          }
+        }
         this.saveSettings();
       }
     }
@@ -2362,7 +2372,7 @@ handleCapabilityChange = (event) =>{
                  </tr>
              
                  <tr>
-                     <th><label htmlFor="ad_performance_tracking">{__('Ad Performance Tracking', 'quick-adsense-reloaded')}</label></th>
+                     <th><label htmlFor="ad_performance_tracking">{__('Track Impressions & Clicks', 'quick-adsense-reloaded')}</label></th>
                      <td>
                       {this.state.selectedBtnOpt == 'ad_performance_tracking' ?
                          <div className="quads-spin-cntr">
