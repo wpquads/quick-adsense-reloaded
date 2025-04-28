@@ -1707,7 +1707,7 @@ drawChart(config);
                                     <div id="view_report_view_stats_report" style={{color: "#005af0"}} onClick={ () =>{
                                         this.view_stats_report_handler()
                                     } }>
-                                    <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>{__('Impression & Clicks','quick-adsense-reloaded')}</p>
+                                    <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>{__('Impressions & Clicks','quick-adsense-reloaded')}</p>
                                     <p>{__('View Report','quick-adsense-reloaded')}</p>
                                     </div>
                                     </div>

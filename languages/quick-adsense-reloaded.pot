@@ -3576,7 +3576,7 @@ msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1
 #: admin/assets/js/src/components/report/QuadsAdReport.jsx:1643
-msgid "Impression & Clicks"
+msgid "Impressions & Clicks"
 msgstr ""
 
 #: admin/assets/js/dist/adminscript.js:1

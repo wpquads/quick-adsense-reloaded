@@ -2372,22 +2372,6 @@ handleCapabilityChange = (event) =>{
                  </tr>
              
                  <tr>
-                     <th><label htmlFor="ad_performance_tracking">{__('Track Impressions & Clicks', 'quick-adsense-reloaded')}</label></th>
-                     <td>
-                      {this.state.selectedBtnOpt == 'ad_performance_tracking' ?
-                         <div className="quads-spin-cntr">
-                          <div className="quads-set-spin"></div>
-                         </div> :
-                         <label className="quads-switch">
-                             <input id="ad_performance_tracking" type="checkbox" name="ad_performance_tracking" onChange={this.formChangeHandler} checked={settings.ad_performance_tracking} />
-                             <span id="ad_performance_tracking_" className="quads-slider"></span>
-                             <div className="lazy_loader_ap"></div>
-                         </label>
-                      }
-                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/ad-performance-tracking-in-wp-quads/"></a>
-                     </td>
-                 </tr>
-                 <tr>
                      <th><label htmlFor="exclude_admin_tracking">{__('Exclude Admin from tracking', 'quick-adsense-reloaded')}</label></th>
                      <td>
                       {this.state.selectedBtnOpt == 'exclude_admin_tracking' ?
