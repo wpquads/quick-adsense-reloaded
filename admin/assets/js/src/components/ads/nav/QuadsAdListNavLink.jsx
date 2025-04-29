@@ -60,9 +60,30 @@ class QuadsAdListNavLink extends Component {
     }
     handleShowReports = () =>{
       this.setState({displayReports:true});
+      const targetHref = 'admin.php?page=quads-settings&path=reports';
+      const link = document.querySelector(`a[href="${targetHref}"]`);
+      if (link) {
+        link.parentElement.style.display = '';
+      }else {
+        const settingsLink = document.querySelector(`a[href="admin.php?page=quads-settings&path=settings"]`);
+        if (settingsLink) {
+          const settingsLi = settingsLink.closest('li');
+          const newLi = document.createElement('li');
+          const newA = document.createElement('a');
+          newA.href = targetHref;
+          newA.textContent = 'Reports';
+          newLi.appendChild(newA);
+          settingsLi.insertAdjacentElement('afterend', newLi);
+        }
+      }
     }
     handleHideReports = () =>{
       this.setState({displayReports:false});
+      const targetHref = 'admin.php?page=quads-settings&path=reports';
+      const link = document.querySelector(`a[href="${targetHref}"]`);
+      if (link) {
+        link.parentElement.style.display = 'none';
+      }
     }
     getSettings = () => {
         let url = quads_localize_data.rest_url + 'quads-route/get-settings';
