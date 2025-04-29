@@ -78,7 +78,7 @@ function quads_add_options_link() {
                     $quads_settings_page = add_submenu_page('quads-settings', __('Settings', 'quick-adsense-reloaded'), 'Settings', $quads_permissions, 'quads-settings&path=settings', 'quads_options_page_new');
                 }
             }
-            if( isset($quads_options['reports_settings']) && $quads_options['reports_settings'] == 1 )
+            
             $quads_settings_page = add_submenu_page('quads-settings', __('Reports', 'quick-adsense-reloaded'), 'Reports', $quads_permissions, 'quads-settings&path=reports', 'quads_options_page_new');
 
            // add_submenu_page('quads-settings', __('Return to Classic view', 'quick-adsense-reloaded'), 'Return to Classic view', $quads_permissions, 'quads_switch_to_old', 'quads_version_switch');

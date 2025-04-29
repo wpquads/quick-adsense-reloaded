@@ -58,33 +58,7 @@ class QuadsAdListNavLink extends Component {
     handleHideSellableAds = () =>{
       this.setState({show_sellable_ads:false});
     }
-    handleShowReports = () =>{
-      this.setState({displayReports:true});
-      const targetHref = 'admin.php?page=quads-settings&path=reports';
-      const link = document.querySelector(`a[href="${targetHref}"]`);
-      if (link) {
-        link.parentElement.style.display = '';
-      }else {
-        const settingsLink = document.querySelector(`a[href="admin.php?page=quads-settings&path=settings"]`);
-        if (settingsLink) {
-          const settingsLi = settingsLink.closest('li');
-          const newLi = document.createElement('li');
-          const newA = document.createElement('a');
-          newA.href = targetHref;
-          newA.textContent = 'Reports';
-          newLi.appendChild(newA);
-          settingsLi.insertAdjacentElement('afterend', newLi);
-        }
-      }
-    }
-    handleHideReports = () =>{
-      this.setState({displayReports:false});
-      const targetHref = 'admin.php?page=quads-settings&path=reports';
-      const link = document.querySelector(`a[href="${targetHref}"]`);
-      if (link) {
-        link.parentElement.style.display = 'none';
-      }
-    }
+   
     getSettings = () => {
         let url = quads_localize_data.rest_url + 'quads-route/get-settings';
         fetch(url,{
@@ -324,11 +298,8 @@ class QuadsAdListNavLink extends Component {
                 {(this.state.show_sellable_ads === true || this.state.show_sellable_ads===1 || this.state.show_sellable_ads==='1') ? <li><Link to={'admin.php?page=quads-settings&path=adsell'} className={current == 'adsell' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Sellable Ads', 'quick-adsense-reloaded')}</Link></li> : ''}
                 
                 {this.state.setting_access?<li><Link to={'admin.php?page=quads-settings&path=settings'} className={current == 'settings' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Settings', 'quick-adsense-reloaded')}</Link></li>:''}
-                {this.state.displayReports ?
+               
                 <li><Link to={'admin.php?page=quads-settings&path=reports'} className={current == 'reports' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Reports', 'quick-adsense-reloaded')}</Link></li>
-                : null }
-                <span id="handleShowReports" onClick={this.handleShowReports}></span>
-                <span  onClick={this.handleHideReports} id="handleHideReports"></span>
                 {quads_localize_data.is_pro && this.state.displayad_logging ?
                 <li><Link to={'admin.php?page=quads-settings&path=ad_logging'} className={current == 'ad_logging' ? 'quads-nav-link quads-nav-link-active ' : 'quads-nav-link'}>{__('Log', 'quick-adsense-reloaded')}</Link></li>
                 : null }

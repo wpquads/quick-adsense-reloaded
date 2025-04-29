@@ -1281,7 +1281,6 @@ handleCapabilityChange = (event) =>{
     const quads_setting_pro_items =[
       {id:'skippable_ads',title:'Skippable Ad',url:'https://wpquads.com/documentation/how-to-ad-skippable-ads/'},
       {id:'blindness_settings',title:'Ad Blindness',url:'https://wpquads.com/documentation/how-to-enable-ad-blindness-2/'},
-      {id:'ab_testing_settings',title:'AB Testing',url:'https://wpquads.com/documentation/how-to-add-ab-testing'},
       {id:'optimize_core_vitals',title:'Optimize for Core Web Vitals',url:'https://wpquads.com/documentation/how-to-optimize-core-web-vitals-with-wp-quads-plugin/'},
       {id:'hide_quads_markup',title:'Hide Quads Markup',url:'https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/'},
       {id:'global_excluder',title:'Global Excluder',url:'https://wpquads.com/documentation/how-to-globally-exclude-or-hide-ads-for-user-roles-with-wp-quads-pro/'},
@@ -2184,22 +2183,8 @@ handleCapabilityChange = (event) =>{
             switch (page.path) {
               case "settings":   return(
                 <div className="quads-settings-tab-container">
-                 <table className="form-table" role="presentation"><tbody><tr>
-                     <th><label htmlFor="reports_settings">{__('Reports', 'quick-adsense-reloaded')}</label></th>
-                     <td>
-                        {this.state.selectedBtnOpt == 'reports_settings' ? 
-                          <div className="quads-spin-cntr">
-                             <div className="quads-set-spin"></div>
-                          </div> : 
-                           <label className="quads-switch">
-                             <input id="reports_settings" type="checkbox" name="reports_settings" onChange={this.formChangeHandler} checked={settings.reports_settings} />
-                             <span id="reports_settings_" className="quads-slider"></span>
-                             <div className="lazy_loader_rs"></div>
-                           </label>
-                        }
-                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-link-adsense-account-for-the-revenue-reports-feature/"></a>
-                     </td>
-                     </tr>
+                 <table className="form-table" role="presentation">
+                  <tbody>
                  <tr>
                      <th><label htmlFor="adsTxtEnabled">ads.txt - {__('Automatic Creation', 'quick-adsense-reloaded')}</label></th>
                      <td>

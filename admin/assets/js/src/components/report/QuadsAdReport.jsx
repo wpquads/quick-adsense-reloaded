@@ -9,12 +9,15 @@ import queryString from 'query-string'
 
 
 import "react-datepicker/dist/react-datepicker.css";
+import QuadsUpgradeToProModal from '../common/modal/QuadsUpgradeToProModal';
 
 class QuadsAdReport extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            feature_name: '',
+            is_show_go_pro: false,
             custom_period: false,
             redirect:false,
             adsense_modal :false,
@@ -1654,6 +1657,10 @@ drawChart(config);
     
         });
     }
+    handleGoPro = (feature_name='') =>{
+        this.setState({is_show_go_pro:!this.state.is_show_go_pro,feature_name:feature_name});
+    }
+   
     render() {
         const {__} = wp.i18n;
         const {report} = this.state;
@@ -1673,6 +1680,9 @@ drawChart(config);
                     <Fragment>
                         <div>
                             <div className="quads-ad-networks-reports">
+                            {(this.state.is_show_go_pro) &&
+                             <QuadsUpgradeToProModal featureName={this.state.feature_name} changePopupState={this.handleGoPro}/>
+                            }
                                 <ul key={'quads-ad-networks'}>
                                 {/* {quads_localize_data_is_pro ? this.state.All_report_list.map(item => (
                                     <li key={item.id} data-adtype={item.ad_type} id={item.id}><a className="quads-nav-link-reports" onClick={() => this.quads_adsense_report(this.state.adsense_pub_id)} >
@@ -1747,26 +1757,26 @@ drawChart(config);
                                         <div className="lazy_loader_ap"></div>
                                     </label>
                                     </li>
-                                    : <li data-adtype="abtesting" id="quads-adsense-abtesting" onClick={ () =>{
-                                        window.open('https://wpquads.com/pricing/#pricings','_blank');
-                                    } } >
+                                    : <li data-adtype="abtesting" id="quads-adsense-abtesting" style={{position:'relative'}} onClick={ () =>this.handleGoPro('A/B Testing') } >
+                                    <span style={{position: 'absolute',top: '-4px',right: '0px',borderRadius: '74px',background: 'white',color:' #ec3c48',fontSize: '10px',padding: '0 5px',boxShadow: '1px 1px 4px #00000026'}}>
+                                        PRO
+                                    </span>
                                     <a className="quads-nav-linkforabtesting" >
                                     <img style={{marginTop: "20px"}} src={quads_localize_data.quads_plugin_url+'admin/assets/js/src/images/ab.png'}/>
                                     </a>
-                                    <div id="view_report_abtesting" style={{color: "#005af0"}} onClick={ () =>{
-                                        window.open('https://wpquads.com/pricing/#pricings','_blank');
-                                    } }>
+                                    <div id="view_report_abtesting"  style={{color: "#005af0"}}>
+                                    
                                     <p style={{ fontSize: "16px",fontWeight: "700",marginBottom: "11px" }}>{__('A/B Testing','quick-adsense-reloaded')}</p>
-                                    <p className="quads-got_pro premium_features_btn" style={{ margin: "0 auto",padding: "0",width:"80%" }}>{__('UPGRADE TO PRO','quick-adsense-reloaded')}</p></div>
-                                    <label className="quads-switch" style={{marginBottom:'-23px'}}>
+                                    
+                                    </div>
+                                    <label className="quads-switch" style={{marginTop:'35px'}}>
                                         <input id="ab_testing_settings" type="checkbox" name="ab_testing_settings" checked={false} />
                                         <span id="ab_testing_settings_" className="quads-slider"></span>
                                         <div className="lazy_loader_ap"></div>
                                     </label>
                                     </li> }
 
-                                    
-
+                            
                                 </ul>
                             </div>
                         </div>
