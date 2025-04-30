@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import './QuadsAdModal.scss';
 const QuadsUpgradeToProModal = ({ featureName, changePopupState }) => {
     const { __ } = wp.i18n;
+    const hanldeClosePopup = () =>{
+      changePopupState('',false);
+    }
   return (
     <div className="gopropopup quads-modal-popup" style={{zIndex:99999}}>
       <div className="quads-modal-popup-content">
-        <span className="quads-large-close" onClick={changePopupState}>&times;</span>
+        <span className="quads-large-close" onClick={()=>hanldeClosePopup()}>&times;</span>
 
         <div className="quads-modal-popup-txt">
           <div className="quads-modal-popup-heading">

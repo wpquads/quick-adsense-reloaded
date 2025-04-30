@@ -1657,8 +1657,8 @@ drawChart(config);
     
         });
     }
-    handleGoPro = (feature_name='') =>{
-        this.setState({is_show_go_pro:!this.state.is_show_go_pro,feature_name:feature_name});
+    handleGoPro = (feature_name='',is_open) =>{
+        this.setState({is_show_go_pro:is_open,feature_name:feature_name});
     }
    
     render() {
@@ -1757,7 +1757,7 @@ drawChart(config);
                                         <div className="lazy_loader_ap"></div>
                                     </label>
                                     </li>
-                                    : <li data-adtype="abtesting" id="quads-adsense-abtesting" style={{position:'relative'}} onClick={ () =>this.handleGoPro('A/B Testing') } >
+                                    : <li data-adtype="abtesting" id="quads-adsense-abtesting" style={{position:'relative'}} onClick={ () =>this.handleGoPro('A/B Testing', true) } >
                                     <span style={{position: 'absolute',top: '-4px',right: '0px',borderRadius: '74px',background: 'white',color:' #ec3c48',fontSize: '10px',padding: '0 5px',boxShadow: '1px 1px 4px #00000026'}}>
                                         PRO
                                     </span>
@@ -1770,7 +1770,7 @@ drawChart(config);
                                     
                                     </div>
                                     <label className="quads-switch" style={{marginTop:'35px'}}>
-                                        <input id="ab_testing_settings" type="checkbox" name="ab_testing_settings" checked={false} />
+                                        <input id="ab_testing_settings" type="checkbox" name="ab_testing_settings" checked={false}/>
                                         <span id="ab_testing_settings_" className="quads-slider"></span>
                                         <div className="lazy_loader_ap"></div>
                                     </label>
