@@ -208,7 +208,7 @@ Alternative Installation:
 
 
 == Changelog ==
-= 2.0.90 ( 28 April 2025 ) =
+= 2.0.90 ( 30 April 2025 ) =
 * Added : Test with WordPress 6.8 and update readme.txt #947
 * Added : Code Improvement #946
 * Added : The Ad Performance Tracker option conflicts with the Reports option. #944
