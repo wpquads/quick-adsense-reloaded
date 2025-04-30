@@ -774,7 +774,7 @@ function quads_add_ons_page() {
         <div class="fp-cnt">
             <h1>' . esc_html__('Upgrade to Pro', 'quick-adsense-reloaded') . '</h1>
             <p>' . esc_html__('Take your Quads to the next level Save time & earn more with next level AdSense integration!', 'quick-adsense-reloaded') . '</p>
-            <a class="buy" href="#upgrade">' . esc_html__('BUY NOW', 'quick-adsense-reloaded') . '</a>
+            <a class="buy" href="https://wpquads.com/pricing/#pricings" target="_blank">' . esc_html__('BUY NOW', 'quick-adsense-reloaded') . '</a>
         </div>
         <div class="pvf">
             <div class="ext">

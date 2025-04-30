@@ -21,8 +21,9 @@ const QuadsUpgradeToProModal = ({ featureName, changePopupState }) => {
 
         <div className="quads-modal-content">
           <a
-            href="https://wpquads.com/#buy-wpquads"
+            href="https://wpquads.com/pricing/#pricings"
             className="quads-got_pro premium_features_btn"
+            target='_blank'
           >
             {__('Upgrade To PRO', 'quick-adsense-reloaded')}
           </a>
