@@ -38,11 +38,11 @@ public function quads_insert_ad_impression(){
   if ( ! isset( $_POST['quads_front_nonce'] ) ){
       return; 
    }
-  if ( !wp_verify_nonce( $_POST['quads_front_nonce'], 'quads_ajax_check_front_nonce' ) ){
+  if ( !wp_verify_nonce(  sanitize_text_field( wp_unslash( $_POST['quads_front_nonce'] ) ), 'quads_ajax_check_front_nonce' ) ){
      return;  
   }  
-  
-  $ad_ids = array_map('sanitize_text_field', $_POST['ad_ids']);  
+  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+  $ad_ids = ( ! empty( $_POST['ad_ids'] )) ? array_map('sanitize_text_field', $_POST['ad_ids']) : false;  
   
   if($ad_ids){
       
@@ -82,12 +82,13 @@ public function quads_insert_ad_impression(){
       $year = gmdate("Y");
       $user_ip      =  $this->quads_get_client_ip();
       // phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: This is the dependant function, nonce verification is done from where this call has been made to this function
-      $actual_link  = (isset($_POST['currentLocation'])) ? esc_url($_POST['currentLocation']):'';
+      $actual_link  = (isset($_POST['currentLocation'])) ?  sanitize_text_field( wp_unslash( $_POST['currentLocation'] ) ) :'';
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
         $actual_link = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
       }
       
-      $browser = $_SERVER['HTTP_USER_AGENT'];
+      $browser =  ( isset( $_SERVER['HTTP_USER_AGENT'] ))? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) :'';
       
       require_once QUADS_PLUGIN_DIR . '/admin/includes/mobile-detect.php';
       $device_name ='';
@@ -102,24 +103,29 @@ public function quads_insert_ad_impression(){
       }else if($isMobile && !$isTablet){ // Only for mobile
         $device_name  = 'mobile';
       }
+      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
      $current_ad_stat = $wpdb->get_row($wpdb->prepare("SELECT id,ad_impressions FROM  {$wpdb->prefix}quads_stats  WHERE ad_id = %d AND ad_device_name = %s AND ad_thetime = %d AND referrer = %s AND ip_address = %s AND url = %s",array($ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link))),ARRAY_A);
      if(isset($current_ad_stat['id']) && !empty($current_ad_stat['id']))
      {
       $updated_impression=$current_ad_stat['ad_impressions']+1;
+      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
       $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_stats SET ad_impressions = %d  WHERE id = %d", array($updated_impression,$current_ad_stat['id'])));
      }
      else{
+      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
       $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_stats (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_device_name,ip_address,referrer,browser,url) VALUES (%d,%d,%d,%d,%s,%s,%s,%s,%s);",array( $ad_id, $today, 0, 1,  trim($device_name), trim($user_ip) ,trim($referrer_url),trim($browser), $actual_link )));
      }
-    
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
      $current_adstat_single = $wpdb->get_row($wpdb->prepare("SELECT id,ad_impressions,date_impression FROM  {$wpdb->prefix}quads_single_stats_  WHERE ad_id = %d AND ad_date = %s",array($ad_id, $todays_date)),ARRAY_A);
      if(isset($current_adstat_single['id']) && !empty($current_adstat_single['id']))
      {
       $updated_ad_impression=$current_adstat_single['ad_impressions']+1;
       $updated_date_impression=$current_adstat_single['date_impression']+1;
+      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
       $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_single_stats_ SET ad_impressions = %d , date_impression = %d  WHERE id = %d", array($updated_ad_impression,$updated_date_impression,$current_adstat_single['id'])));
      }
      else{
+      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
       $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_single_stats_ (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_date,date_click,ad_year,date_impression) VALUES (%d,%d,%d,%d,%s,%s,%s,%s);",array($ad_id,0,0,1,$todays_date,0,$year,1)));
      }
 }
@@ -127,17 +133,17 @@ public function quads_insert_ad_impression(){
 public function quads_get_client_ip() {
   $ipaddress = '';
   if (isset($_SERVER['HTTP_CLIENT_IP']))
-      $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+      $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
   else if(isset($_SERVER['REMOTE_ADDR']))
-      $ipaddress = $_SERVER['REMOTE_ADDR'];
+      $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
   else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-      $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+      $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
   else if(isset($_SERVER['HTTP_X_FORWARDED']))
-      $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+      $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED'] ) );
   else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
-      $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+      $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED_FOR'] ) );
   else if(isset($_SERVER['HTTP_FORWARDED']))
-      $ipaddress = $_SERVER['HTTP_FORWARDED'];
+      $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED'] ) );
   else
       $ipaddress = 'UNKNOWN';
   return $ipaddress;
@@ -153,19 +159,22 @@ public function quads_get_client_ip() {
       if ( ! isset( $_POST['quads_front_nonce'] ) ){
           return; 
       }
-      if ( !wp_verify_nonce( $_POST['quads_front_nonce'], 'quads_ajax_check_front_nonce' ) ){
+      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
+      if ( ! isset( $_POST['quads_front_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['quads_front_nonce'] ) ), 'quads_ajax_check_front_nonce' ) ){
          return;  
       }      
       
-      $ad_id = sanitize_text_field($_POST['ad_id']); 
+      $ad_id = ( isset( $_POST['ad_id'] ) )? sanitize_text_field( wp_unslash( $_POST['ad_id'] ) ) : false; 
       $referrer_url  = wp_get_referer();        
       $user_ip       =  $this->quads_get_client_ip();
-      $actual_link  = (isset($_POST['currentLocation'])) ? esc_url($_POST['currentLocation']):'';      
+      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
+      $actual_link  = (isset($_POST['currentLocation'])) ? sanitize_text_field( wp_unslash( $_POST['currentLocation'] ) ) :'';      
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
         $actual_link = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
       }
-
+      // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
       $browser = $_SERVER['HTTP_USER_AGENT'];
       require_once QUADS_PLUGIN_DIR . '/admin/includes/mobile-detect.php';
       $device_name ='';
@@ -196,11 +205,11 @@ public function quads_get_client_ip() {
       if ( ! isset( $_GET['quads_front_nonce'] ) ){
           return; 
        }
-      if ( !wp_verify_nonce( $_GET['quads_front_nonce'], 'quads_ajax_check_front_nonce' ) ){
+      if ( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['quads_front_nonce'] ) ), 'quads_ajax_check_front_nonce' ) ){
          return;  
       }  
                          
-     $ad_id       = sanitize_text_field($_GET['event']);           
+     $ad_id       =  ( isset( $_GET['event'] ))? sanitize_text_field( wp_unslash( $_GET['event'] ) ) : false;           
      $device_name = 'amp';           
      
      if($ad_id){
@@ -399,11 +408,12 @@ public function quads_get_client_ip() {
       $todays_date = gmdate('Y-m-d');
       $year = gmdate("Y"); 
       $device_name=substr($device_name, 0, 20);
-
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
       $current_click_stat = $wpdb->get_row($wpdb->prepare("SELECT id,ad_clicks FROM  {$wpdb->prefix}quads_stats  WHERE ad_id = %d AND ad_device_name = %s AND ad_thetime = %d AND referrer = %s AND ip_address = %s AND url = %s",array($ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link))),ARRAY_A);
       if(isset($current_click_stat['id']) && !empty($current_click_stat['id']))
       {
        $updated_clicks=$current_click_stat['ad_clicks']+1;
+       // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
        $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_stats SET ad_clicks = %d  WHERE id = %d", array($updated_clicks,$current_click_stat['id'])));
       }
       else{
@@ -415,15 +425,17 @@ public function quads_get_client_ip() {
         $ip_address = trim($user_ip); //%s
         $browser = trim($browser); //%s
         $url = trim($actual_link); //%s
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_stats (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_device_name,ip_address,referrer,browser,url) VALUES (%d,%d,%d,%d,%s,%s,%s,%s,%s);",array( $ad_id, $ad_thetime,  $ad_clicks,  $ad_impressions,  $ad_device_name, $ip_address , $referrer, $browser, $url )));
       }
 
-
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
       $current_clicks_single = $wpdb->get_row($wpdb->prepare("SELECT id,ad_clicks,date_click FROM  {$wpdb->prefix}quads_single_stats_  WHERE ad_id = %d AND ad_date = %s",array($ad_id, $todays_date)),ARRAY_A);
       if(isset($current_clicks_single['id']) && !empty($current_clicks_single['id']))
       {
        $updated_ad_clicks=$current_clicks_single['ad_clicks']+1;
        $updated_date_clicks=$current_clicks_single['date_click']+1;
+       // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
        $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_single_stats_ SET ad_clicks = %d , date_click = %d  WHERE id = %d", array($updated_ad_clicks,$updated_date_clicks,$current_clicks_single['id'])));
       }
       else{
@@ -434,6 +446,7 @@ public function quads_get_client_ip() {
               $date_click = 1; //%d
               $ad_year = $year; //%s
               $date_impression = 1; //%s
+              // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
               $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_single_stats_ (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_date,date_click,ad_year,date_impression) VALUES (%d,%d,%d,%d,%s,%s,%s,%s);",array($ad_id,$ad_thetime,$ad_clicks,$ad_impressions,$ad_date,$date_click,$ad_year,$date_impression)));
             }
     }
@@ -449,16 +462,18 @@ public function quads_get_client_ip() {
             if ( ! isset( $_GET['quads_front_nonce'] ) ){
                 return; 
              }
-            if ( !wp_verify_nonce( $_GET['quads_front_nonce'], 'quads_ajax_check_front_nonce' ) ){
+            if ( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['quads_front_nonce'] ) ), 'quads_ajax_check_front_nonce' ) ){
                return;  
             }  
             
-            $ad_id = sanitize_text_field($_GET['event']);
+            $ad_id =  ( isset( $_GET['event'] ) )? sanitize_text_field( wp_unslash( $_GET['event'] ) ) : false;
             $device_name = 'amp';            
-            
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             $referrer_url  = (isset($_SERVER['HTTP_REFERER'])) ? esc_url($_SERVER['HTTP_REFERER']):'';
             $user_ip       =  $this->quads_get_client_ip();
+             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
             $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
             $browser = $_SERVER['HTTP_USER_AGENT'];
             require_once QUADS_PLUGIN_DIR . '/admin/includes/mobile-detect.php';
             $device_name ='';

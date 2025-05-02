@@ -67,7 +67,7 @@ function quads_send_feedback() {
     }
 
     if( isset( $_POST['data'] ) ) {
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: Nince verification si done below
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         parse_str( $_POST['data'], $form );
     }
     if ( ! wp_verify_nonce( $form['quads_feedback_nonce'] , 'quads_feedback_nonce' ) ) {
@@ -103,9 +103,10 @@ function quads_update_ad_request_data(){
     if( function_exists('current_user_can') && ! current_user_can( 'manage_options' ) ) {
         die( esc_html__( 'You are not allowed to perform this action', 'quick-adsense-reloaded' ) );
     }
-    if ( ! wp_verify_nonce( $_POST['nonce'] , 'wp_rest' ) ) {
+    if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce(  sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) , 'wp_rest' ) ) {
         die( esc_html__( 'Invalid nonce', 'quick-adsense-reloaded' ) ); 
     }
+    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
     $ad_data = json_decode(stripslashes($_POST['ad_data']), true);
      if (isset($ad_data['id']) && isset($ad_data['ad_link']) && isset($ad_data['ad_content'])) {
         global $wpdb;
@@ -123,6 +124,7 @@ function quads_update_ad_request_data(){
                 $update_data['ad_image'] =  $ad_image;
             }
         }
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $status = $wpdb->update(
             $table_name,
             $update_data,

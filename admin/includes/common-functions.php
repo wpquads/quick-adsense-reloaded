@@ -183,7 +183,9 @@ function quads_change_mode() {
 	}
     
 	update_option('quads_settings_backup', $quads_settings);
-	update_option('quads-mode',sanitize_text_field($_REQUEST['mode']));
+	if( isset( $_REQUEST['mode'] )){
+		update_option('quads-mode',sanitize_text_field(wp_unslash( $_REQUEST['mode'] )));
+	}
 	
 	wp_send_json ( array('status' => 't') );
 

@@ -329,13 +329,13 @@ public function quads_database_install() {
 		$charset_collate .= " COLLATE {$wpdb->collate}";
 	}
 
-	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+	// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
     $found_engine = $wpdb->get_var("SELECT ENGINE FROM `information_schema`.`TABLES` WHERE `TABLE_SCHEMA` = '".DB_NAME."' AND `TABLE_NAME` = '{$wpdb->prefix}posts';");
         
 	if(strtolower($found_engine) == 'innodb') {
 		$engine = ' ENGINE=InnoDB';
 	}
-
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
 	$found_tables = $wpdb->get_col("SHOW TABLES LIKE '{$wpdb->prefix}quads%';");	
 
     if(!in_array("{$wpdb->prefix}quads_logs", $found_tables)) {

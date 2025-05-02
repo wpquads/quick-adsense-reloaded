@@ -48,7 +48,7 @@ function quads_is_excluded($pages){
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but checking if current page is excluded
     if (isset($_GET['tab'])){
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but checking if current page is excluded
-        $currentpage = $_GET['tab'];
+        $currentpage = sanitize_text_field( wp_unslash( $_GET['tab'] ) );
         if (isset($currentpage) && in_array($currentpage, $pages))
                 return true;
     }
@@ -180,9 +180,9 @@ function quads_is_excluded_title($string){
 function quads_options_page_new() {
 
         global $quads_options;    
-    
+        // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
         wp_enqueue_style('quads-admin-ad-style', QUADS_PLUGIN_URL.'admin/assets/js/dist/style.css');
-        
+        // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
         wp_enqueue_style('quads-material-ui-font', 'https://fonts.googleapis.com/icon?family=Material+Icons');
         
         $licenses = get_option( 'quads_wp_quads_pro_license_active' );
@@ -261,6 +261,7 @@ function quads_options_page_new() {
             'disableads' => $disableads
         );
         $data = apply_filters('quads_localize_filter',$data,'quads_localize_data');
+        // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
         wp_register_script( 'quads-admin-ad-script', QUADS_PLUGIN_URL . 'admin/assets/js/dist/adminscript.js', array( 'wp-i18n' ), QUADS_VERSION );
 
         wp_localize_script( 'quads-admin-ad-script', 'quads_localize_data', $data );
@@ -307,7 +308,7 @@ function quads_options_page() {
 	global $quads_options;
 
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information just rendering the options page contents
-    $active_tab = isset( $_GET[ 'tab' ] ) && array_key_exists( $_GET['tab'], quads_get_settings_tabs() ) ? $_GET[ 'tab' ] : 'general';
+    $active_tab = isset( $_GET[ 'tab' ] ) && array_key_exists( sanitize_text_field( wp_unslash( $_GET['tab'] ) ), quads_get_settings_tabs() ) ? sanitize_text_field( wp_unslash( $_GET[ 'tab' ] ) ) : 'general';
 	?>
 	<div class="wrap quads_admin">
              <h1 style="text-align:center;"> <?php echo esc_html(QUADS_NAME . ' ' . QUADS_VERSION); ?></h1>
@@ -389,6 +390,7 @@ function quads_get_debug_messages(){
     
     if (isset($quads_options['debug_mode']) && $quads_options['debug_mode'] == 1){        
         echo '<pre style="clear:both;">';
+        // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
         var_dump($quads_options);
         echo '</pre>';
     }

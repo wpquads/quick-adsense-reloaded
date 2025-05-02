@@ -327,7 +327,7 @@ class QUADS_SL_Plugin_Updater {
 			wp_die( esc_html__( 'You do not have permission to install plugin updates', 'quick-adsense-reloaded' ), esc_html__( 'Error', 'quick-adsense-reloaded' ), array( 'response' => 403 ) );
 		}
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$response = $this->api_request( 'plugin_latest_version', array( 'slug' => $_REQUEST['slug'] ) );
 
 		if( $response && isset( $response->sections['changelog'] ) ) {

@@ -5,7 +5,7 @@
  * Description: Insert Google AdSense and other ad formats fully automatic into your website
  * Author: WP Quads
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
- * Version: 2.0.89
+ * Version: 2.0.90
  * Text Domain: quick-adsense-reloaded
  * Domain Path: languages
  * Credits: WP QUADS - Quick AdSense Reloaded is a fork of Quick AdSense
@@ -38,7 +38,7 @@ if( !defined( 'ABSPATH' ) )
 
 // Plugin version
 if( !defined( 'QUADS_VERSION' ) ) {
-  define( 'QUADS_VERSION', '2.0.89' );
+  define( 'QUADS_VERSION', '2.0.90' );
 }
 
 // Plugin name
@@ -365,6 +365,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             if( $networkwide ) {
                $old_blog = $wpdb->blogid;
                // Get all blog ids
+               // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
                $blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
                foreach ( $blogids as $blog_id ) {
                   switch_to_blog( $blog_id );
@@ -407,6 +408,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             $quads_options['visibility']['AppArch'] = "1";
             $quads_options['visibility']['AppTags'] = "1";
             $quads_options['quicktags']['QckTags'] = "1";
+            $quads_options['reports_settings'] = "1";
             add_option('quads-mode','new');
             update_option( 'quads_settings', $quads_options );
          }

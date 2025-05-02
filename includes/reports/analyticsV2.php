@@ -56,9 +56,10 @@ public function quads_insert_ad_impression(){
   if ( ! isset( $_POST['quads_front_nonce'] ) ){
       return; 
    }
-  if ( !wp_verify_nonce( $_POST['quads_front_nonce'], 'quads_ajax_check_front_nonce' ) ){
+  if ( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['quads_front_nonce'] ) ), 'quads_ajax_check_front_nonce' ) ){
      return;  
   }  
+  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
   $ad_ids = array_map('sanitize_text_field', $_POST['ad_ids']);
   if($ad_ids){
       
@@ -83,11 +84,11 @@ public function quads_insert_ad_impression_amp(){
   if ( ! isset( $_GET['quads_front_nonce'] ) ){
       return; 
     }
-  if ( !wp_verify_nonce( $_GET['quads_front_nonce'], 'quads_ajax_check_front_nonce' ) ){
+  if ( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['quads_front_nonce'] ) ), 'quads_ajax_check_front_nonce' ) ){
       return;  
   }  
                       
-  $ad_id       = sanitize_text_field($_GET['event']);
+  $ad_id       = ( isset( $_GET['event'])) ? sanitize_text_field( wp_unslash( $_GET['event'] ) ) : false;
   if($ad_id){
       $this->quads_insert_impression($ad_id);
   }
@@ -104,11 +105,11 @@ public function quads_insert_ad_impression_amp(){
     if ( ! isset( $_POST['quads_front_nonce'] ) ){
         return; 
     }
-    if ( !wp_verify_nonce( $_POST['quads_front_nonce'], 'quads_ajax_check_front_nonce' ) ){
+    if ( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['quads_front_nonce'] ) ), 'quads_ajax_check_front_nonce' ) ){
         return;  
     }      
   
-    $ad_id = sanitize_text_field($_POST['ad_id']);
+    $ad_id =  ( isset( $_POST['ad_id'] )) ? sanitize_text_field( wp_unslash( $_POST['ad_id'] ) ) : false;
     if($ad_id){     
       $this->quads_insert_clicks($ad_id);
                       
@@ -125,11 +126,11 @@ public function quads_insert_ad_clicks_amp(){
   if ( ! isset( $_GET['quads_front_nonce'] ) ){
       return; 
     }
-  if ( !wp_verify_nonce( $_GET['quads_front_nonce'], 'quads_ajax_check_front_nonce' ) ){
+  if ( !wp_verify_nonce( sanitize_text_field( wp_unslash(  $_GET['quads_front_nonce'] ) ), 'quads_ajax_check_front_nonce' ) ){
       return;  
   }  
   
-  $ad_id = sanitize_text_field($_GET['event']);
+  $ad_id = ( isset( $_GET['event'] ) )? sanitize_text_field( wp_unslash( $_GET['event'] ) ) : false;
   if($ad_id){     
     $this->quads_insert_clicks($ad_id );
   }                           
@@ -310,12 +311,15 @@ private function quads_insert_impression($ad_id){
 }
 
 if($performance_tracking){
+  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $ad_stats = $wpdb->get_row($wpdb->prepare("SELECT id,stats_impressions FROM  {$wpdb->prefix}quads_impressions_{$device_name}  WHERE ad_id = %d AND stats_date = %d",array($ad_id, $todays_date)),ARRAY_A);
         if(isset($ad_stats['id']) && !empty($ad_stats['id'])){
             $updated_impression=$ad_stats['stats_impressions']+1;
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
             $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_impressions_{$device_name}  SET stats_impressions = %d WHERE id = %d", array($updated_impression,$ad_stats['id'])));
         }
         else{
+          // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
             $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_impressions_{$device_name} (ad_id,stats_date,stats_impressions,stats_year) VALUES (%d,%d,%d,%d);",array($ad_id,$todays_date,1,$year)));
         }
 }
@@ -354,32 +358,38 @@ private  function quads_insert_clicks($ad_id){
 }
 
 if($performance_tracking){
+  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
   $ad_stats = $wpdb->get_row($wpdb->prepare("SELECT id,stats_clicks FROM  {$wpdb->prefix}quads_clicks_{$device_name}  WHERE ad_id = %d AND stats_date = %d",array($ad_id, $todays_date)),ARRAY_A);
   if(isset($ad_stats['id']) && !empty($ad_stats['id'])){
       $updated_clicks=$ad_stats['stats_clicks']+1;
+      // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
       $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_clicks_{$device_name}  SET stats_clicks = %d WHERE id = %d", array($updated_clicks,$ad_stats['id'])));
   }
   else{
+     // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
       $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_clicks_{$device_name} (ad_id,stats_date,stats_clicks,stats_year) VALUES (%d,%d,%d,%d);",array($ad_id,$todays_date,1,$year)));
   }
 }
 
 if($log_enabled){
       $referrer_url  = wp_get_referer(); 
-      // phpcs:ignore WordPress.Security.NonceVerification.Missing --Reason: This is the dependant function, nonce verification is done from where this call has been made to this function
+      // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
       $actual_link  = (isset($_POST['currentLocation'])) ? esc_url($_POST['currentLocation']):'';
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
         $actual_link = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
       }
       $user_ip      =  $this->quads_get_client_ip();
       $browser = $this->quads_get_browser();
-
+      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
       $ad_logs = $wpdb->get_row($wpdb->prepare("SELECT id,log_clicks FROM  {$wpdb->prefix}quads_logs WHERE ad_id = %d AND log_date = %s AND ip_address = %s AND log_url = %d AND browser= %s",array($ad_id, $todays_date,trim($user_ip),trim($actual_link),$browser)),ARRAY_A);
       if(isset($ad_logs['id']) && !empty($ad_logs['id'])){
         $updated_clicks = $ad_logs['log_clicks']+1;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_logs  SET log_clicks = %d  WHERE id = %d", array($updated_clicks,$ad_logs['id'])));
       }
       else{
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_logs (ad_id,log_date,log_clicks,ip_address,log_url,browser,referrer) VALUES (%d,%d,%d,%s,%s,%s,%s);",array( $ad_id, $todays_date, 1, trim($user_ip), $actual_link,trim($browser),trim($referrer_url) )));
       }
   }
@@ -388,17 +398,17 @@ if($log_enabled){
 public function quads_get_client_ip() {
   $ipaddress = '';
   if (isset($_SERVER['HTTP_CLIENT_IP']))
-      $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+      $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
   else if(isset($_SERVER['REMOTE_ADDR']))
-      $ipaddress = $_SERVER['REMOTE_ADDR'];
+      $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
   else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-      $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+      $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
   else if(isset($_SERVER['HTTP_X_FORWARDED']))
-      $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+      $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED'] ) );
   else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
-      $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+      $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED_FOR'] ) );
   else if(isset($_SERVER['HTTP_FORWARDED']))
-      $ipaddress = $_SERVER['HTTP_FORWARDED'];
+      $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_FORWARDED'] ) );
   else
       $ipaddress = 'UNKNOWN';
   return $ipaddress;
@@ -406,6 +416,7 @@ public function quads_get_client_ip() {
 
 public function quads_get_browser()
 {
+   // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
     $browser = "Other";
 

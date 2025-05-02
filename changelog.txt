@@ -1,3 +1,10 @@
+= 2.0.90 ( 30 April 2025 ) =
+* Added : Test with WordPress 6.8 and update readme.txt #947
+* Added : Code Improvement #946
+* Added : The Ad Performance Tracker option conflicts with the Reports option. #944
+* Added : Increase the display duration of the bottom-right corner message that appears and disappears when saving settings. #943
+* Added : We need to implement InMobi in our plugin. #939
+
 = 2.0.89 ( 03 April 2025 ) =
 * Added : Need to add an option to exclude Ads via class of the element #894
 * Added : Need to add Google Reward ads feature #921

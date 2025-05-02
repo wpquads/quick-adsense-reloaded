@@ -1845,6 +1845,7 @@ return array('status' => 't');
             global $wpdb;
             // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
             $query = "SELECT ID, post_title,post_status FROM $wpdb->posts WHERE post_type = 'page' AND post_status in( 'publish','draft' ) ORDER BY post_title ASC LIMIT 0, 100";
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching 
             $results = $wpdb->get_results($query, ARRAY_A);
             foreach ($results as $key => $value) {
                 if($value['post_status']=='draft'){
@@ -1964,6 +1965,7 @@ return array('status' => 't');
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
                 $filter_by = sanitize_text_field( wp_unslash( $_GET['filter_by'] ) );
             }
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             if(isset($_GET['filter_not_by'])){
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
                 $filter_not_by = sanitize_text_field( wp_unslash( $_GET['filter_not_by'] ) );
@@ -2023,21 +2025,22 @@ return array('status' => 't');
             $offset = ($page - 1) * $per_page;
         
             // Query the records
-            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
+            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery */
             $results = $wpdb->get_results($wpdb->prepare(
-                "SELECT * FROM $table_name WHERE payment_status = %s ORDER BY id DESC LIMIT %d OFFSET %d",
+                "SELECT * FROM %s WHERE payment_status = %s ORDER BY id DESC LIMIT %d OFFSET %d",
+                $table_name,
                 'paid',
                 $per_page,
                 $offset
             ));
-            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
+            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching */
             $total = $wpdb->get_var("SELECT COUNT(*)  FROM $table_name WHERE payment_status = 'paid'");
 
             foreach ($results as $key => $result) {
                 $ad_id = $result->ad_id;
                 $ad_name = get_the_title($ad_id);
 
-                $start_date = date('Y-m-d');
+                $start_date = gmdate('Y-m-d');
                 $end_date = $result->end_date;
                 $st_date = new DateTime($start_date);
 
@@ -2075,13 +2078,14 @@ return array('status' => 't');
             $offset = ($page - 1) * $per_page;
         
             // Query the records
-            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
+            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery */
             $results = $wpdb->get_results($wpdb->prepare(
-                "SELECT * FROM $table_name WHERE payment_status in('paid','unsubscribe') ORDER BY disable_ad_id DESC LIMIT %d OFFSET %d",
+                "SELECT * FROM %s WHERE payment_status in('paid','unsubscribe') ORDER BY disable_ad_id DESC LIMIT %d OFFSET %d",
+                $table_name,
                 $per_page,
                 $offset
             ));
-            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared */
+            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching */
             $total = $wpdb->get_var("SELECT COUNT(*)  FROM $table_name WHERE payment_status in('paid','unsubscribe')");
 
             $resp = array();
@@ -2098,15 +2102,15 @@ return array('status' => 't');
                     $payment_response = json_decode( $result->payment_response, true );
                     if( isset( $payment_response['payment_date'] ) ){
                         $payment_date = $payment_response['payment_date'];
-                        $futureDate= date('Y-m-d');
-                        $currentDate= date('Y-m-d');
+                        $futureDate= gmdate('Y-m-d');
+                        $currentDate= gmdate('Y-m-d');
                         if( $disable_duration=='yearly' ){
-                            $futureDate=date('Y-m-d', strtotime('+1 year', strtotime($payment_date)) );
+                            $futureDate=gmdate('Y-m-d', strtotime('+1 year', strtotime($payment_date)) );
                         }else if( $disable_duration=='monthly' ){
-                            $futureDate=date('Y-m-d', strtotime('+1 month', strtotime($payment_date)) );
+                            $futureDate=gmdate('Y-m-d', strtotime('+1 month', strtotime($payment_date)) );
                         }
-                        $result->start_date = date( 'd M Y', strtotime( $payment_date ) );
-                        $result->end_date = date( 'd M Y', strtotime( $futureDate ) );
+                        $result->start_date = gmdate( 'd M Y', strtotime( $payment_date ) );
+                        $result->end_date = gmdate( 'd M Y', strtotime( $futureDate ) );
                     }
                 }
                 $resp[] = $result;
@@ -2123,6 +2127,7 @@ return array('status' => 't');
     
             global $wpdb;
             $table_name = $wpdb->prefix . 'quads_disabledad_data';
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
             $status = $wpdb->update(
                 $table_name,
                 ['payment_status' => $new_status],
@@ -2140,6 +2145,7 @@ return array('status' => 't');
     
             global $wpdb;
             $table_name = $wpdb->prefix . 'quads_adbuy_data';
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
             $status = $wpdb->update(
                 $table_name,
                 ['ad_status' => $new_status],

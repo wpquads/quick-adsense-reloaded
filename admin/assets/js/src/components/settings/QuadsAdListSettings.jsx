@@ -39,6 +39,7 @@ class QuadsAdListSettings extends Component {
             settings_error :'',
             adtxt_modal :false,
             sellable_ads_modal :false,
+            in_mobi_settings_modal :false,
             disable_ads_modal :false,
             disable_list_modal :false,
             global_excluder_modal :false,
@@ -897,10 +898,21 @@ handleCapabilityChange = (event) =>{
               document.body.appendChild(createDiv);
               var quads_response_suc = document.getElementsByClassName("quads_response-suc-wrap bottom-left")[0];
     quads_response_suc.innerHTML += "<div class='quads_response-suc-single quads_response-suc-success'><span class='quads_response-suc-loader quads_response-suc-loaded'></span>Settings Saved</div>";
-              setTimeout(() => {
-                var quads_response_suc_ = document.getElementsByClassName("quads_response-suc-wrap bottom-left")[0];
-                quads_response_suc_.remove();
-              }, 1000);
+              const element = document.getElementsByClassName("quads_response-suc-wrap bottom-left")[0];
+
+              if (element) {
+                  let opacity = 1;
+                  const interval = setInterval(() => {
+                      opacity -= 0.05; // Decrease opacity gradually
+                      element.style.opacity = opacity;
+              
+                      if (opacity <= 0) {
+                          clearInterval(interval);
+                          element.remove(); // Remove from DOM
+                      }
+                  }, 50); // Run every 50ms
+              }
+    
 
               this.setState({settings_error:result.msg, button_spinner_toggle:false, selectedBtnOpt:null});
               if(reload_page){
@@ -1052,7 +1064,6 @@ handleCapabilityChange = (event) =>{
     }
   formChangeHandler = (event) => {
     let name  = event.target.name;
-    console.log(name);
     
     //spin
     this.setState({selectedBtnOpt:name});
@@ -1071,7 +1082,7 @@ handleCapabilityChange = (event) =>{
         settings[name] = value;
         this.setState(settings);
     }
-    if(name == 'adsTxtEnabled' || name == 'global_excluder_enabled' || name == 'lazy_load_global' || name == 'ad_blocker_support' || name == 'click_fraud_protection' || name == 'revenue_sharing_enabled' || name == 'hide_quads_markup' || name == 'optimize_core_vitals'){
+    if(name == 'adsTxtEnabled' || name == 'global_excluder_enabled' || name == 'lazy_load_global' || name == 'ad_blocker_support' || name == 'click_fraud_protection' || name == 'revenue_sharing_enabled' || name == 'hide_quads_markup' || name == 'optimize_core_vitals' || name == 'uninstall_on_delete' || name == 'debug_mode' || name == 'hide_ajax' || name == 'QckTags' || name == 'in_mobi_integration'){
       this.saveSettings();
      }
      if(name == 'ip_geolocation_api'){
@@ -1096,6 +1107,17 @@ handleCapabilityChange = (event) =>{
         }
         this.saveSettings();
       }else{
+        if(name==='reports_settings'){
+          if(value===true){
+            if(document.getElementById('handleShowReports')){
+              document.getElementById('handleShowReports').click();
+            }
+          }else{
+            if(document.getElementById('handleHideReports')){
+              document.getElementById('handleHideReports').click();
+            }
+          }
+        }
         this.saveSettings();
       }
     }
@@ -1161,6 +1183,9 @@ handleCapabilityChange = (event) =>{
   open_sellable_ad_modal = () =>{
     this.setState({sellable_ads_modal:true});
   }
+  open_in_mobi_settings_modal = () =>{
+    this.setState({in_mobi_settings_modal:true});
+  }
   open_disable_ad_modal = () =>{
     this.setState({disable_ads_modal:true});
   }
@@ -1177,7 +1202,7 @@ handleCapabilityChange = (event) =>{
     this.setState({advance_ads_to_quads_model:true});
   }
   closeModal = () =>{
-    this.setState({adtxt_modal:false, sellable_ads_modal:false,disable_ads_modal:false,disable_list_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false,advance_ads_to_quads_model:false,revenue_sharing_modal:false,role_permission_modal:false});
+    this.setState({adtxt_modal:false, sellable_ads_modal:false,in_mobi_settings_modal:false,disable_ads_modal:false,disable_list_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false,advance_ads_to_quads_model:false,revenue_sharing_modal:false,role_permission_modal:false});
   }
   getErrorMessage =(type) => {
     const {__} = wp.i18n;
@@ -1256,7 +1281,6 @@ handleCapabilityChange = (event) =>{
     const quads_setting_pro_items =[
       {id:'skippable_ads',title:'Skippable Ad',url:'https://wpquads.com/documentation/how-to-ad-skippable-ads/'},
       {id:'blindness_settings',title:'Ad Blindness',url:'https://wpquads.com/documentation/how-to-enable-ad-blindness-2/'},
-      {id:'ab_testing_settings',title:'AB Testing',url:'https://wpquads.com/documentation/how-to-add-ab-testing'},
       {id:'optimize_core_vitals',title:'Optimize for Core Web Vitals',url:'https://wpquads.com/documentation/how-to-optimize-core-web-vitals-with-wp-quads-plugin/'},
       {id:'hide_quads_markup',title:'Hide Quads Markup',url:'https://wpquads.com/documentation/how-to-hide-extra-quads-markup-from-ads/'},
       {id:'global_excluder',title:'Global Excluder',url:'https://wpquads.com/documentation/how-to-globally-exclude-or-hide-ads-for-user-roles-with-wp-quads-pro/'},
@@ -1302,7 +1326,55 @@ handleCapabilityChange = (event) =>{
             {this.state.isLoading ? <div className="quads-cover-spin"></div>
                     : null}
           <div className="quads-hidden-elements">
-            {/* add txt modal */}
+          
+           {this.state.in_mobi_settings_modal ?
+           <>
+           <div className="quads-large-popup-bglayout">  </div>
+           <div className="quads-large-popup">
+            <div className="quads-large-popup-content1">
+             <span className="quads-large-close" onClick={this.closeModal}>&times;</span>
+              <div className="quads-large-popup-title">
+             <h1>{__('inMobi Integration', 'quick-adsense-reloaded')}</h1>
+             </div>
+             <div className="quads-large-description"></div>
+             <div className="quads-large-content">
+                 <div className="quads-settings-tab-container">
+                 <table className="form-table" role="presentation"><tbody>
+                 
+                  <tr>
+                    <th><label>{__('Site ID', 'quick-adsense-reloaded')} </label></th>
+                    <td><input value={settings.in_mobi_site_id} onChange={this.formChangeHandler} type="text" id="in_mobi_site_id" name="in_mobi_site_id" placeholder="Site ID" style={{width:'100%'}}/> 
+                    </td>
+                  </tr> 
+                  <tr>
+                    <th><label>{__('Hash Code', 'quick-adsense-reloaded')}  </label></th>
+                    <td><input value={settings.in_mobi_hash_code} onChange={this.formChangeHandler} type="text" id="in_mobi_hash_code" name="in_mobi_hash_code" placeholder="3BDXDqoakCk4Q4LzQqBGVQ" style={{width:'100%'}}/> 
+                    </td>
+                  </tr> 
+                  
+                  <tr>
+                    <th><label>{__('Publisher Country Code', 'quick-adsense-reloaded')}</label></th>
+                    <td><input value={(settings.in_mobi_publisher_country_code)?settings.in_mobi_publisher_country_code:''} onChange={this.formChangeHandler} type="text" id="in_mobi_publisher_country_code" name="in_mobi_publisher_country_code" placeholder="US" style={{width:'100%'}}/> 
+                    </td>
+                  </tr> 
+                  
+                  <tr>
+                    <th><label>{__('Privacy Mode', 'quick-adsense-reloaded')}</label></th>
+                    <td><input value={(settings.in_mobi_privacy_mode)?settings.in_mobi_privacy_mode:''} onChange={this.formChangeHandler} type="text" id="in_mobi_privacy_mode" name="in_mobi_privacy_mode" placeholder="GDPR" style={{width:'100%'}}/> 
+                    </td>
+                  </tr> 
+                  <tr>
+                    <th><label>{__('Banner Text', 'quick-adsense-reloaded')}</label></th>
+                    <td><input value={(settings.in_mobi_banner_text)?settings.in_mobi_banner_text:''} onChange={this.formChangeHandler} type="text" id="in_mobi_banner_text" name="in_mobi_banner_text" placeholder="Banner Text" style={{width:'100%'}}/> 
+                    </td>
+                  </tr>
+                  </tbody></table>
+                </div>
+             </div>
+             <div className="quads-save-close"><a className="quads-btn quads-btn-primary quads-large-btn" onClick={this.saveSettingsHandler}>{__('Save Changes', 'quick-adsense-reloaded')}</a></div>
+             </div>
+            </div> </>: null
+            }
            {this.state.sellable_ads_modal ?
            <>
            <div className="quads-large-popup-bglayout">  </div>
@@ -2111,22 +2183,8 @@ handleCapabilityChange = (event) =>{
             switch (page.path) {
               case "settings":   return(
                 <div className="quads-settings-tab-container">
-                 <table className="form-table" role="presentation"><tbody><tr>
-                     <th><label htmlFor="reports_settings">{__('Reports', 'quick-adsense-reloaded')}</label></th>
-                     <td>
-                        {this.state.selectedBtnOpt == 'reports_settings' ? 
-                          <div className="quads-spin-cntr">
-                             <div className="quads-set-spin"></div>
-                          </div> : 
-                           <label className="quads-switch">
-                             <input id="reports_settings" type="checkbox" name="reports_settings" onChange={this.formChangeHandler} checked={settings.reports_settings} />
-                             <span id="reports_settings_" className="quads-slider"></span>
-                             <div className="lazy_loader_rs"></div>
-                           </label>
-                        }
-                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/how-to-link-adsense-account-for-the-revenue-reports-feature/"></a>
-                     </td>
-                     </tr>
+                 <table className="form-table" role="presentation">
+                  <tbody>
                  <tr>
                      <th><label htmlFor="adsTxtEnabled">ads.txt - {__('Automatic Creation', 'quick-adsense-reloaded')}</label></th>
                      <td>
@@ -2250,6 +2308,22 @@ handleCapabilityChange = (event) =>{
                          </td>
                      </tr>
                      <tr>
+                         <th><label htmlFor="in_mobi_integration">{__('inMobi Integration ', 'quick-adsense-reloaded')}</label></th>
+                         <td>
+                            {this.state.selectedBtnOpt == 'in_mobi_integration' ?
+                              <div className="quads-spin-cntr">
+                                <div className="quads-set-spin"></div>
+                              </div> :
+                              <label className="quads-switch">
+                                  <input id="in_mobi_integration" type="checkbox" name="in_mobi_integration" onChange={this.formChangeHandler} checked={settings.in_mobi_integration} />
+                                  <span id="in_mobi_integration_" className="quads-slider"></span>
+                                  <div className="lazy_loader_t"></div>
+                              </label> 
+                            }
+                            {settings.in_mobi_integration ? <><span onClick={this.open_in_mobi_settings_modal} className="quads-generic-icon dashicons dashicons-admin-generic"></span><span style={{marginLeft:'10px',cursor:'pointer'}} onClick={this.open_in_mobi_settings_modal}>View Settings</span></> : ''}
+                         </td>
+                     </tr>
+                     <tr>
                      <th><label htmlFor="rotator_ads_settings">{__('Rotator Ads', 'quick-adsense-reloaded')}</label></th>
                      <td>
                       {this.state.selectedBtnOpt == 'rotator_ads_settings' ?
@@ -2282,22 +2356,6 @@ handleCapabilityChange = (event) =>{
                      </td>
                  </tr>
              
-                 <tr>
-                     <th><label htmlFor="ad_performance_tracking">{__('Ad Performance Tracking', 'quick-adsense-reloaded')}</label></th>
-                     <td>
-                      {this.state.selectedBtnOpt == 'ad_performance_tracking' ?
-                         <div className="quads-spin-cntr">
-                          <div className="quads-set-spin"></div>
-                         </div> :
-                         <label className="quads-switch">
-                             <input id="ad_performance_tracking" type="checkbox" name="ad_performance_tracking" onChange={this.formChangeHandler} checked={settings.ad_performance_tracking} />
-                             <span id="ad_performance_tracking_" className="quads-slider"></span>
-                             <div className="lazy_loader_ap"></div>
-                         </label>
-                      }
-                         <a className="quads-general-helper quads-general-helper-new" target="_blank" href="https://wpquads.com/documentation/ad-performance-tracking-in-wp-quads/"></a>
-                     </td>
-                 </tr>
                  <tr>
                      <th><label htmlFor="exclude_admin_tracking">{__('Exclude Admin from tracking', 'quick-adsense-reloaded')}</label></th>
                      <td>
@@ -2408,13 +2466,27 @@ handleCapabilityChange = (event) =>{
                       </tr>
                        :null}<tr>
                        <th><label htmlFor="uninstall_on_delete">{__('Delete Data on Uninstall?', 'quick-adsense-reloaded')}</label></th>
-                        <td><label className="quads-switch"><input id="uninstall_on_delete" type="checkbox" onChange={this.formChangeHandler} name="uninstall_on_delete" checked={settings.uninstall_on_delete} /><span className="quads-slider"></span></label>
-                        <a className="quads-general-helper quads-general-helper-new" href="#"></a><div className="quads-message bottom" >Check this box if you would like <strong>Settings-&gt;WPQUADS</strong> to completely remove all of its data when the plugin is deleted.</div>
+                        <td>
+                        {this.state.selectedBtnOpt == 'uninstall_on_delete' ?
+                        <div className="quads-spin-cntr">
+                           <div className="quads-set-spin"></div>
+                        </div> :
+                        <label className="quads-switch"><input id="uninstall_on_delete" type="checkbox" onChange={this.formChangeHandler} name="uninstall_on_delete" checked={settings.uninstall_on_delete} /><span className="quads-slider"></span></label>
+                        }
+                        <a className="quads-general-helper quads-general-helper-new" href="#"></a>
+                        <div className="quads-message bottom" >Check this box if you would like <strong>Settings-&gt;WPQUADS</strong> to completely remove all of its data when the plugin is deleted.</div>
                         </td>
                       </tr>
                       <tr>
                        <th><label htmlFor="debug_mode">{__('Debug Mode', 'quick-adsense-reloaded')}</label></th>
-                        <td><label className="quads-switch"><input id="debug_mode" type="checkbox" onChange={this.formChangeHandler} name="debug_mode" checked={settings.debug_mode} /><span className="quads-slider"></span></label></td>
+                        <td>
+                        {this.state.selectedBtnOpt == 'debug_mode' ?
+                        <div className="quads-spin-cntr">
+                           <div className="quads-set-spin"></div>
+                        </div> :
+                          <label className="quads-switch"><input id="debug_mode" type="checkbox" onChange={this.formChangeHandler} name="debug_mode" checked={settings.debug_mode} /><span className="quads-slider"></span></label>
+                        }
+                        </td>
                       </tr>
                       <tr>
                        <th><label htmlFor="copy_system_info">{__('Copy System info', 'quick-adsense-reloaded')}</label></th>
@@ -2537,14 +2609,25 @@ handleCapabilityChange = (event) =>{
                   <tr>
                     <th scope="row"><label htmlFor="hide_ajax">{__('Hide Ads From Ajax Requests', 'quick-adsense-reloaded')}</label></th>
                     <td>
+                    {this.state.selectedBtnOpt == 'hide_ajax' ?
+                        <div className="quads-spin-cntr">
+                           <div className="quads-set-spin"></div>
+                        </div> :
                       <label className="quads-switch"><input id="hide_ajax" type="checkbox" name="hide_ajax" checked={settings.hide_ajax} onChange={this.formChangeHandler} /><span className="quads-slider"></span></label>
+                    }
                       <p>{__('If your site is using ajax based infinite loading it might happen that ads are loaded without any further post content. Disable this here.', 'quick-adsense-reloaded')}</p>
                     </td>
                   </tr>
                   <tr>
                     <th scope="row"><label htmlFor="QckTags">{__('Quicktags', 'quick-adsense-reloaded')}</label></th>
                     <td>
-                      <label className="quads-switch"><input id="QckTags" type="checkbox" name="QckTags" checked={settings.QckTags} onChange={this.formChangeHandler} /><span className="quads-slider"></span></label>{__('Show Quicktag Buttons on the HTML Post Editor', 'quick-adsense-reloaded')}
+                    {this.state.selectedBtnOpt == 'QckTags' ?
+                        <div className="quads-spin-cntr">
+                           <div className="quads-set-spin"></div>
+                        </div> :
+                      <label className="quads-switch"><input id="QckTags" type="checkbox" name="QckTags" checked={settings.QckTags} onChange={this.formChangeHandler} /><span className="quads-slider"></span></label>
+                    }
+                    {__('Show Quicktag Buttons on the HTML Post Editor', 'quick-adsense-reloaded')}
                       <p>{__('Tags can be inserted into a post via the additional Quicktag Buttons at the HTML Edit Post SubPanel.', 'quick-adsense-reloaded')}</p>
                       <p><strong>Optional:</strong>{__('Insert Ads into a post, on-the-fly using below tags', 'quick-adsense-reloaded')}</p>
                       <p>{__('1. Insert', 'quick-adsense-reloaded')} &lt;!--Ads1--&gt;, &lt;!--Ads2--&gt;, {__('etc. into a post to show the Particular Ads at specific location.', 'quick-adsense-reloaded')}</p>

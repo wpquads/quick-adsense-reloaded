@@ -368,6 +368,7 @@ class QUADS_Ad_Setup_Api_Service {
                     )
                     );
                 }
+                // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
                 $arg['meta_query']          = $meta_query_args;
                 $arg['paged']               = 1;
         }else{
@@ -379,6 +380,7 @@ class QUADS_Ad_Setup_Api_Service {
                 'value'   =>   $filter_by
               )
               );
+              // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
               $arg['meta_query']          = $meta_query_args;
           }else if($filter_not_by){
             $meta_query_args = array(
@@ -388,6 +390,7 @@ class QUADS_Ad_Setup_Api_Service {
                 'compare' =>  '!='
               )
               );
+              // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
               $arg['meta_query']          = $meta_query_args;
           }
          
@@ -399,7 +402,7 @@ class QUADS_Ad_Setup_Api_Service {
           $array_ids_result = [];
           if($sort_by =='impression'){
               if(isset($quads_options['report_logging']) && $quads_options['report_logging'] = 'improved_v2'){
-
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
                 $array_ids_result = $wpdb->get_results("SELECT posts.ID as ID,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
                 FROM {$wpdb->prefix}posts as posts
                 LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id
@@ -409,6 +412,7 @@ class QUADS_Ad_Setup_Api_Service {
                 ORDER BY total_impression DESC;");
 
               }else{
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
                 $array_ids_result = $wpdb->get_results("SELECT `{$wpdb->prefix}posts`.ID,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression from `{$wpdb->prefix}quads_single_stats_`
                  INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id
                  GROUP BY `{$wpdb->prefix}posts`.ID 
@@ -418,7 +422,7 @@ class QUADS_Ad_Setup_Api_Service {
 
           if($sort_by =='click'){
             if(isset($quads_options['report_logging']) && $quads_options['report_logging'] = 'improved_v2'){
-
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
               $array_ids_result = $wpdb->get_results("SELECT posts.ID as ID,IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click
               FROM {$wpdb->prefix}posts as posts
               LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id
@@ -428,6 +432,7 @@ class QUADS_Ad_Setup_Api_Service {
               ORDER BY total_click DESC;");
 
             }else{
+              // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
               $array_ids_result = $wpdb->get_results("SELECT `{$wpdb->prefix}posts`.ID,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_`
                INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id
                GROUP BY `{$wpdb->prefix}posts`.ID 
@@ -737,7 +742,7 @@ if($license_info){
             );
 
           $new_post_id = wp_insert_post( $args );
-
+          // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
           $post_metas = $wpdb->get_results($wpdb->prepare("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=%d",$ad_id));
 
           if ( count( $post_metas )!=0 ) {
@@ -762,6 +767,7 @@ if($license_info){
 
              $sql_query.= implode(" UNION ALL ", $sql_query_sel);
              /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */
+             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
              $wpdb->query( $sql_query );
              $post_meta= $this->getAdById($new_post_id);
              $this->migration_service->quadsUpdateOldAd($new_post_id, $post_meta['post_meta'],'update_old');
@@ -800,6 +806,7 @@ if($license_info){
     $where_format = array('%d');
 
     // Perform the update query
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
     $wpdb->update($table_name, $data, $where, $format, $where_format);
   }
   public function resetImpressionMobile( $ad_id ){
@@ -825,6 +832,7 @@ if($license_info){
     $where_format = array('%d');
 
     // Perform the update query
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
     $wpdb->update($table_name, $data, $where, $format, $where_format);
   }
   public function resetClicksDesktop( $ad_id ){
@@ -850,6 +858,7 @@ if($license_info){
     $where_format = array('%d');
 
     // Perform the update query
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
     $wpdb->update($table_name, $data, $where, $format, $where_format);
   }
   public function resetClicksMobile( $ad_id ){
@@ -875,6 +884,7 @@ if($license_info){
     $where_format = array('%d');
 
     // Perform the update query
+     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
     $wpdb->update($table_name, $data, $where, $format, $where_format);
   }
 	public function deleteAd($ad_id){
@@ -910,6 +920,7 @@ if($license_info){
         $args = array(
             'post_type'      => 'quads-ads', // Change to your post type
             'post_status'    => 'publish',
+            // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
             'meta_query'     => array(
                 array(
                     'key'     => 'ad_type', // Replace with your meta key
@@ -932,6 +943,7 @@ if($license_info){
       $args = array(
           'post_type'      => 'quads-ads', // Change to your post type
           'post_status'    => 'publish',
+          // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
           'meta_query'     => array(
               array(
                   'key'     => 'ad_type', // Replace with your meta key

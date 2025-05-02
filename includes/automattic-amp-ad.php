@@ -16,8 +16,7 @@ function quads_amp_add_amp_ad_js( $amp_template ) {
    
    if (isset($quads_options['disableAmpScript'])){
       return false;
-   }
-    ?>
+   } // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion; ?>
     <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
     <?php
 }

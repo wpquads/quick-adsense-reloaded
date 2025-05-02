@@ -100,7 +100,7 @@ class Quads_Meta_Box {
         if (!empty($_POST['quads_config']) && !check_admin_referer('quads_config', 'quads_config_nonce')) {
             wp_die( esc_html__( 'Nonce incorrect!', 'quick-adsense-reloaded' ) );
         }
-        $config = isset($_POST[$this->config_key]) ? $_POST[$this->config_key] : array();
+        $config = isset($_POST[$this->config_key]) ?  sanitize_text_field( wp_unslash( $_POST[$this->config_key] ) ) : array();
         $visibility_config = isset($config['visibility']) ? $config['visibility'] : array();
         // process visibility config
         // store it in separate meta key
