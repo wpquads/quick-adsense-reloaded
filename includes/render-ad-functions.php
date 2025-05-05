@@ -1058,8 +1058,23 @@ function quads_render_carousel_ads_async($id) {
     {
         if(isset($ad['value']))
         {   
-            if(get_post_status($ad['value']) !== 'publish'){
+            $ad_status = get_post_status($ad['value']);
+            if($ad_status !== 'publish'){
+                $ad_name = $ad['label'];
+                $post_id = $wpdb->get_var( $wpdb->prepare(
+                    "SELECT ID FROM $wpdb->posts WHERE post_type='quads-ads' and post_title = %s AND post_status = 'publish'",
+                    $ad_name
+                ) );
+               
+                if ( $post_id ) {
+                    $ad_status = get_post_status($post_id);
+                    $ad['value'] = $post_id;
+                }
+            }
+            if($ad_status !== 'publish'){
+
                 continue;
+
             }
             if($carousel_type=="slider")
             {
