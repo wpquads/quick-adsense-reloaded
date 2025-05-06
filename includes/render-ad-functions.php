@@ -106,7 +106,7 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
     if( true === quads_is_half_page_ads( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_halfpagead_async( $id ),$post_id );
     }
-    if( true === quads_is_carousel_ads( $id, $string ) && in_the_loop() !== true ) {
+    if( true === quads_is_carousel_ads( $id, $string ) ) {
         return apply_filters( 'quads_render_ad', quads_render_carousel_ads_async( $id ),$post_id );
     }
     if( true === quads_is_floating_ads( $id, $string ) ) {
@@ -1764,12 +1764,19 @@ function quads_is_half_page_ads( $id, $string ) {
  * @return boolean
  */
 function quads_is_carousel_ads( $id, $string ) {
-    global $quads_options;
 
+    global $quads_options;
+    
     if( isset($quads_options['ads'][$id]['ad_type']) && $quads_options['ads'][$id]['ad_type'] === 'carousel_ads') {
+        if(is_front_page() && in_the_loop() && is_singular() && $quads_options['ads'][$id]['position'] !== 'ad_shortcode'){
+            return false;
+        }
         return true;
+
     }
+
     return false;
+
 }
 /**
  * Check if ad code is Floating ad
