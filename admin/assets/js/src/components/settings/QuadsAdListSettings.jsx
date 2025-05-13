@@ -758,7 +758,7 @@ handleCapabilityChange = (event) =>{
     .then(res => res.json())
     .then(
       (data) => {
-        console.log(data);
+        
           this.setState({pages:data});
       },
       (error) => {
