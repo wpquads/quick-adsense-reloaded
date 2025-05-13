@@ -1281,7 +1281,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$ad_desk_imprsn +=$value['desk_imprsn'];
 			$ad_imprsn += $value['mob_imprsn']+$value['desk_imprsn'];
 			$date_key = array_search($value['stats_date'], $dates_i_chart);
-			if($date_key){
+			if($date_key !== false){
 				$ad_mob_imprsn_values[$date_key] = $value['mob_imprsn'];
 				$ad_desk_imprsn_values[$date_key] = $value['desk_imprsn'];
 				$ad_imprsn_values[$date_key] = ($value['mob_imprsn']+$value['desk_imprsn']);
@@ -1332,7 +1332,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$ad_desk_clicks +=$value['desk_clicks'];
 			$ad_clicks += $value['mob_clicks']+$value['desk_clicks'];
 			$date_key = array_search($value['stats_date'], $dates_i_chart);
-			if($date_key){
+			if($date_key !== false){
 				$ad_mob_clicks_values[$date_key] = $value['mob_clicks'];
 				$ad_desk_clicks_values[$date_key] = $value['desk_clicks'];
 				$ad_clicks_values[$date_key] = ($value['mob_clicks']+$value['desk_clicks']);
