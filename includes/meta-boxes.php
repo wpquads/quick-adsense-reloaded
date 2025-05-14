@@ -45,16 +45,19 @@ class Quads_Meta_Box {
                 'default'                               // priority
         );
     }
-    public function quads_sanitize_array_recursive($array) {
-        foreach ($array as $key => &$value) {
-            if (is_array($value)) {
-                $value = $this->quads_sanitize_array_recursive($value);
+    public function quads_sanitize_array_recursive( $array ) {
+        foreach ( $array as $key => $value ) {
+            $key = sanitize_key( $key );
+            if ( is_array( $value ) ) {
+                $value = $this->quads_sanitize_array_recursive( $value );
             } else {
-                $value = sanitize_text_field($value);
+                $value = sanitize_text_field( $value );
             }
+            $array[$key] = $value;
         }
         return $array;
     }
+
 
 	public function render_meta_box ( $post, $meta_box ) {
 		// Secure the form with nonce field
