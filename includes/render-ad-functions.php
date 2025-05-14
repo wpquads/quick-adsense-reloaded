@@ -1005,6 +1005,7 @@ function quads_render_halfpagead_async( $id ) {
 function quads_render_carousel_ads_async($id) {
     
     global $quads_options;
+     global $wpdb;
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Carousel AD --> \n\n";
     $ads_list = $quads_options['ads'][$id]['ads_list'];
     $org_ad_id = $quads_options['ads'][$id]['ad_id'];
@@ -1062,9 +1063,13 @@ function quads_render_carousel_ads_async($id) {
             if($ad_status !== 'publish'){
                 $ad_name = $ad['label'];
                 $post_id = $wpdb->get_var( $wpdb->prepare(
-                    "SELECT ID FROM $wpdb->posts WHERE post_type='quads-ads' and post_title = %s AND post_status = 'publish'",
-                    $ad_name
-                ) );
+                    "SELECT ID FROM $wpdb->posts 
+                    WHERE post_type = %s AND post_title = %s AND post_status = %s 
+                    LIMIT 1",
+                    'quads-ads',
+                    $ad_name,
+                    'publish'
+                ));
                
                 if ( $post_id ) {
                     $ad_status = get_post_status($post_id);
