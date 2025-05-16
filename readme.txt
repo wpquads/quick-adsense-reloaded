@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.8
 Requires PHP: 5.4
-Stable tag: 2.0.90
+Stable tag: 2.0.91
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -208,6 +208,15 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.91 ( 16 May 2025 ) =
+* Fixed : BUG: Hide default ads, use manually placed ads" setting resets on publish in v2.0.90 #949
+* Added : Carousel Ads are not getting update with new banners #900
+* Added : Improvement in Slow Queries #950
+* Added : Carousel Ads are showing in the loop which is causing performance issue #951
+* Added : Warnings and Errors in browser console #952
+* Added : Impression report issue #953
+* Added : Click graph is not working #954
+
 = 2.0.90 ( 30 April 2025 ) =
 * Added : Test with WordPress 6.8 and update readme.txt #947
 * Added : Code Improvement #946

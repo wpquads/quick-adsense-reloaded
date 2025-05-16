@@ -1,7 +1,7 @@
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 const UglifyJsPlugin    = require('uglifyjs-webpack-plugin');
 var path = require("path");
-
+const webpack = require('webpack');
 module.exports = {
   entry: {
     app: "./src/index.jsx"
@@ -54,6 +54,9 @@ module.exports = {
     extensions: [".css",".js", ".jsx"]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
+    }),
     new ExtractTextPlugin({
       filename: "style.css",
       allChunks: true

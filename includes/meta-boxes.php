@@ -45,6 +45,20 @@ class Quads_Meta_Box {
                 'default'                               // priority
         );
     }
+    public function quads_sanitize_array_recursive( $array ) {
+        foreach ( $array as $key => $value ) {
+            $key = sanitize_key( $key );
+            if ( is_array( $value ) ) {
+                $value = $this->quads_sanitize_array_recursive( $value );
+            } else {
+                $value = sanitize_text_field( $value );
+            }
+            $array[$key] = $value;
+        }
+        return $array;
+    }
+
+
 	public function render_meta_box ( $post, $meta_box ) {
 		// Secure the form with nonce field
 		$nonce = wp_nonce_field(
@@ -100,7 +114,10 @@ class Quads_Meta_Box {
         if (!empty($_POST['quads_config']) && !check_admin_referer('quads_config', 'quads_config_nonce')) {
             wp_die( esc_html__( 'Nonce incorrect!', 'quick-adsense-reloaded' ) );
         }
-        $config = isset($_POST[$this->config_key]) ?  sanitize_text_field( wp_unslash( $_POST[$this->config_key] ) ) : array();
+        $config = array();
+        if( isset( $_POST[ $this->config_key ] ) ){
+            $config = $this->quads_sanitize_array_recursive( $_POST[ $this->config_key ] );
+        }
         $visibility_config = isset($config['visibility']) ? $config['visibility'] : array();
         // process visibility config
         // store it in separate meta key

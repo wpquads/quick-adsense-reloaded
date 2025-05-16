@@ -13,6 +13,9 @@ class QuadsAdListSearch extends Component {
       
     super(props);
     this.state = {      
+      bulk_action:'',
+      sort_by:'',
+      filter_by:'',
       posts_found:0,
       ad_types : [],  
     };       
@@ -49,6 +52,21 @@ class QuadsAdListSearch extends Component {
         posts_found : props.ad_list?.posts_found,
     };
 }
+  handleBulkActions = (e) =>{
+    let value = e.target.value;
+    this.setState({bulk_action:value});
+    this.props.handleBulkActions(e);
+  }
+  handleSortBy = (e) =>{
+    let value = e.target.value;
+    this.setState({sort_by:value});
+    this.props.handleSortBy(e);
+  }
+  handleFilterBy = (e) =>{
+    let value = e.target.value;
+    this.setState({filter_by:value});
+    this.props.handleFilterBy(e);
+  }
   render() {
     const page = queryString.parse(window.location.search);
     const {__} = wp.i18n;      
@@ -97,9 +115,10 @@ class QuadsAdListSearch extends Component {
     <FormControl style={{width:'100%',paddingRight:'8px'}}>
         <InputLabel id="quads_bulk_actions_lid">{__('Bulk Actions', 'quick-adsense-reloaded')}</InputLabel>
         <Select
+          value={this.state.bulk_action}
           labelId="quads_bulk_actions_lid"
           className="quads_bulk_actions"
-          onChange={this.props.handleBulkActions}
+          onChange={this.handleBulkActions}
         >
           <MenuItem value={'draft'}>{__('Set to Draft', 'quick-adsense-reloaded')}</MenuItem>
           <MenuItem value={'publish'}>{__('Set to Publish', 'quick-adsense-reloaded')}</MenuItem>
@@ -110,8 +129,9 @@ class QuadsAdListSearch extends Component {
       <FormControl style={{width:'100%',paddingRight:'8px'}}>
         <InputLabel id="quads_sort_lid">{__('Sort By', 'quick-adsense-reloaded')}</InputLabel>
         <Select
+          value={this.state.sort_by}
           labelId="quads_sort_lid"
-          onChange={this.props.handleSortBy}
+          onChange={this.handleSortBy}
         >
           <MenuItem value={'impression'}>{__('Sort by Impression', 'quick-adsense-reloaded')}</MenuItem>
           <MenuItem value={'click'}>{__('Sort by Clicks', 'quick-adsense-reloaded')}</MenuItem>
@@ -121,8 +141,9 @@ class QuadsAdListSearch extends Component {
       <FormControl style={{width:'100%'}}>
         <InputLabel id="quads_filter_lid">{__('Filter By', 'quick-adsense-reloaded')}</InputLabel>
         <Select
+          value={this.state.filter_by}
           labelId="quads_filter_lid"
-          onChange={this.props.handleFilterBy}
+          onChange={this.handleFilterBy}
         >
         {adOptions
             .filter(option => this.state.ad_types.includes(option.value)) 
