@@ -1,4 +1,4 @@
-= 2.0.91 ( 15 May 2025 ) =
+= 2.0.91 ( 16 May 2025 ) =
 * Fixed : BUG: Hide default ads, use manually placed ads" setting resets on publish in v2.0.90 #949
 * Added : Carousel Ads are not getting update with new banners #900
 * Added : Improvement in Slow Queries #950
