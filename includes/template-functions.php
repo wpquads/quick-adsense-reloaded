@@ -856,7 +856,8 @@ function quads_get_load_priority(){
     if (!empty($quads_options['priority'])){
         return intval($quads_options['priority']);
     }
-    return 20;
+    $priority = function_exists('Sensei') ? 10 : 20;
+    return $priority;
 }
 
 /**
