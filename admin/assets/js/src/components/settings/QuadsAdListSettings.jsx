@@ -22,6 +22,8 @@ class QuadsAdListSettings extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isDeleting: false,
+            remove_tracking_data:'everything_before_thisyear',    
             display_pro_alert_msg : false,
             notice_txt_color_picker: false,
             notice_bg_color_picker : false,
@@ -239,6 +241,9 @@ notice_bg_color = (color) => {
   handleCopy = () => {
     copy(this.state.textToCopy);
     this.setState({ copied: true });
+  }
+  handleOpenRemoveData = () =>{
+
   }
   export_settings = () => {
     const url = quads_localize_data.rest_url + 'quads-route/export-settings';
@@ -1052,6 +1057,11 @@ handleCapabilityChange = (event) =>{
         }
       );
     }
+    selectRemoveTrackingDataOpt = (event) => {
+      let select_value  = event.target.value;
+
+      this.setState({remove_tracking_data:select_value});
+    }
     selectLoggingChangeHandler = (event) => {
       let select_value  = event.target.value;
       if(select_value == 'combined_legacy'){
@@ -1201,8 +1211,34 @@ handleCapabilityChange = (event) =>{
   advance_ads_to_quads_model = () =>{
     this.setState({advance_ads_to_quads_model:true});
   }
+  remove_tracking_data_quads_modal = () =>{
+    this.setState({remove_tracking_data_modal:true});
+  }
+  handleDeleteTrackingData = () =>{
+    this.setState({ isDeleting: true });
+    const formData = new FormData();
+    formData.append('action', 'quads_remove_old_tracked_data');
+    formData.append('nonce', quads.nonce);
+    formData.append('duration', this.state.remove_tracking_data);
+    fetch(ajaxurl ,{
+          method: "post",
+          body: formData,
+          headers: {
+              'Accept': 'application/json',
+              'X-WP-Nonce': quads_localize_data.nonce,
+          }
+      }) .then(res => res.json())
+      .then(
+          (result) => {
+           this.setState({ isDeleting: false });
+           this.closeModal();
+          },
+          (error) => {
+          }
+      );
+  }
   closeModal = () =>{
-    this.setState({adtxt_modal:false, sellable_ads_modal:false,in_mobi_settings_modal:false,disable_ads_modal:false,disable_list_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false,advance_ads_to_quads_model:false,revenue_sharing_modal:false,role_permission_modal:false});
+    this.setState({adtxt_modal:false, sellable_ads_modal:false,in_mobi_settings_modal:false,disable_ads_modal:false,disable_list_modal:false, global_excluder_modal:false, ad_blocker_support_popup:false,click_fraud_protection_popup:false,adsforwp_to_quads_model:false,advance_ads_to_quads_model:false,revenue_sharing_modal:false,role_permission_modal:false,remove_tracking_data_modal:false});
   }
   getErrorMessage =(type) => {
     const {__} = wp.i18n;
@@ -1772,6 +1808,122 @@ handleCapabilityChange = (event) =>{
              
              </div>
             </div> </>: null
+            }
+           {this.state.remove_tracking_data_modal ?
+           <>
+           <div style={{
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex: 1000
+}}>
+  <div style={{
+    backgroundColor: '#fff',
+    borderRadius: '12px',
+    width: '100%',
+    maxWidth: '400px',
+    padding: '30px',
+    boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+    position: 'relative',
+    textAlign: 'center'
+  }}>
+    <span
+      style={{
+        position: 'absolute',
+        top: '12px',
+        right: '16px',
+        fontSize: '24px',
+        color: '#888',
+        cursor: 'pointer'
+      }}
+      onClick={this.closeModal}
+    >
+      &times;
+    </span>
+
+    <div style={{
+      marginBottom: '20px',
+      width: '64px',
+      height: '64px',
+      margin: '0 auto',
+      backgroundColor: '#ffe5e5',
+      borderRadius: '50%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}>
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </div>
+
+    <h1 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '12px', color: '#333' }}>
+      {__('Remove Tracking Data', 'quick-adsense-reloaded')}
+    </h1>
+
+    <p style={{ fontSize: '14px', color: '#555', marginBottom: '24px' }}>
+      Are you sure you want to delete the tracking data? This action cannot be undone.
+    </p>
+
+    <div style={{ display: 'flex', justifyContent: 'center', gap: '12px' }}>
+      <button
+        onClick={this.closeModal}
+        style={{
+          padding: '10px 16px',
+          backgroundColor: '#e0e0e0',
+          color: '#333',
+          border: 'none',
+          borderRadius: '6px',
+          cursor: 'pointer'
+        }}
+      >
+        Cancel
+      </button>
+
+      <button
+              onClick={this.handleDeleteTrackingData}
+              style={{
+                padding: '10px 16px',
+                backgroundColor: '#e53e3e',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: this.state.isDeleting ? 'not-allowed' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                opacity: this.state.isDeleting ? 0.8 : 1
+              }}
+              disabled={this.state.isDeleting}
+            >
+              {this.state.isDeleting ? (
+                <>
+                  <span className="loader" style={{
+                    width: '16px',
+                    height: '16px',
+                    border: '2px solid #fff',
+                    borderTop: '2px solid transparent',
+                    borderRadius: '50%',
+                    animation: 'spin 0.6s linear infinite'
+                  }} />
+                  Deleting...
+                </>
+              ) : (
+                __('Delete', 'quick-adsense-reloaded')
+              )}
+            </button>
+    </div>
+  </div>
+</div>
+ </>: null
             }
              {this.state.adsforwp_to_quads_model ?
            <div className="quads-modal-popup">
@@ -2464,7 +2616,8 @@ handleCapabilityChange = (event) =>{
                         <td><label className="quads-switch"><input  id="analytics" type="checkbox" onChange={this.formChangeHandler} name="analytics" checked={settings.analytics} /><span className="quads-slider"></span></label>
                         <a className="quads-general-helper quads-general-helper-new" href="#"></a><div className="quads-message bottom" >Check how many visitors are using ad blockers in your Google Analytics account from the event tracking in <i>Google Analytics-&gt;Behavior-&gt;Events</i>. This only works if your visitors are using regular ad blockers like 'adBlock'. There are browser plugins which block all external requests like the  software uBlock origin. This also block google analytics and as a result you do get any analytics data at all.</div></td>
                       </tr>
-                       :null}<tr>
+                       :null}
+                       <tr>
                        <th><label htmlFor="uninstall_on_delete">{__('Delete Data on Uninstall?', 'quick-adsense-reloaded')}</label></th>
                         <td>
                         {this.state.selectedBtnOpt == 'uninstall_on_delete' ?
@@ -2475,6 +2628,23 @@ handleCapabilityChange = (event) =>{
                         }
                         <a className="quads-general-helper quads-general-helper-new" href="#"></a>
                         <div className="quads-message bottom" >Check this box if you would like <strong>Settings-&gt;WPQUADS</strong> to completely remove all of its data when the plugin is deleted.</div>
+                        </td>
+                      </tr>
+                      <tr>
+                       <th><label htmlFor="remove_tracking_data">{__('Remove Old Tracked Data', 'quick-adsense-reloaded')}</label></th>
+                        <td>
+                          <FormControl style={{minWidth:'300px'}} >
+                          <MSelect
+                            name="remove_tracking_data" 
+                            id="remove_tracking_data"
+                            onChange={e =>this.selectRemoveTrackingDataOpt(e)} 
+                            value={this.state.remove_tracking_data}
+                          >
+                            <MenuItem value="everything_before_thisyear">{__('Everything Before This Year', 'quick-adsense-reloaded')}</MenuItem>
+                            <MenuItem value="first6month">{__('First 6 Month', 'quick-adsense-reloaded')}</MenuItem>
+                          </MSelect>
+                        </FormControl>
+                           <a className="quads-btn quads-btn-primary" id="remove_tracking_data" onClick={this.remove_tracking_data_quads_modal}>{__('Remove Data', 'quick-adsense-reloaded')}</a>
                         </td>
                       </tr>
                       <tr>
@@ -2495,6 +2665,7 @@ handleCapabilityChange = (event) =>{
                          <div>{this.state.copied ? <span>{__('System info copied to clipboard', 'quick-adsense-reloaded')}</span> : null}</div>
                        </td>
                       </tr>
+                      
                       <tr>
                         <th><label>{__('Export', 'quick-adsense-reloaded')}</label></th>
                         <td>

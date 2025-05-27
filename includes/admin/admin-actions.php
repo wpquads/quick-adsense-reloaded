@@ -71,6 +71,73 @@ function quads_id_delete(){
     wp_send_json( array('status'=>'Operation success'));
 }
 
+add_action('wp_ajax_quads_remove_old_tracked_data', 'quads_remove_old_tracked_data');
+function quads_remove_old_tracked_data(){
+    if ( !wp_verify_nonce(  sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'quads_ajax_nonce' ) ){
+        return;  
+    }  
+	if( ! current_user_can( 'manage_options' ) ) { return false; }
+    global $wpdb;
+    $duration = sanitize_text_field( wp_unslash( $_POST['duration'] ) );
+    if($duration=='everything_before_thisyear'){
+        $quads_impressions_desktop = $wpdb->prefix . 'quads_impressions_desktop';
+        $query = "DELETE FROM $quads_impressions_desktop WHERE stats_year < YEAR(CURDATE())";
+        $wpdb->query($query);
+
+        $quads_impressions_mobile = $wpdb->prefix . 'quads_impressions_mobile';
+        $query = "DELETE FROM $quads_impressions_mobile WHERE stats_year < YEAR(CURDATE())";
+        $wpdb->query($query);
+
+        $quads_clicks_desktop = $wpdb->prefix . 'quads_clicks_desktop';
+        $query = "DELETE FROM $quads_clicks_desktop WHERE stats_year < YEAR(CURDATE())";
+        $wpdb->query($query);
+
+        $quads_clicks_mobile = $wpdb->prefix . 'quads_clicks_mobile';
+        $query = "DELETE FROM $quads_clicks_mobile WHERE stats_year < YEAR(CURDATE())";
+        $wpdb->query($query);
+    }else if($duration=='first6month'){
+        global $wpdb;
+
+        $quads_impressions_desktop = $wpdb->prefix . 'quads_impressions_desktop';
+
+        $min_date = $wpdb->get_var("SELECT MIN(stats_date) FROM $quads_impressions_desktop");
+        $six_months_seconds = 6 * 30 * 24 * 60 * 60;
+        $cutoff = $min_date + $six_months_seconds;
+
+        $wpdb->query(
+            $wpdb->prepare("DELETE FROM $quads_impressions_desktop WHERE stats_date < %d", $cutoff)
+        );
+        $quads_impressions_mobile = $wpdb->prefix . 'quads_impressions_mobile';
+
+        $min_date = $wpdb->get_var("SELECT MIN(stats_date) FROM $quads_impressions_mobile");
+        $six_months_seconds = 6 * 30 * 24 * 60 * 60;
+        $cutoff = $min_date + $six_months_seconds;
+
+        $wpdb->query(
+            $wpdb->prepare("DELETE FROM $quads_impressions_mobile WHERE stats_date < %d", $cutoff)
+        );
+
+        $quads_clicks_desktop = $wpdb->prefix . 'quads_clicks_desktop';
+
+        $min_date = $wpdb->get_var("SELECT MIN(stats_date) FROM $quads_clicks_desktop");
+        $six_months_seconds = 6 * 30 * 24 * 60 * 60;
+        $cutoff = $min_date + $six_months_seconds;
+
+        $wpdb->query(
+            $wpdb->prepare("DELETE FROM $quads_clicks_desktop WHERE stats_date < %d", $cutoff)
+        );
+        $quads_clicks_mobile = $wpdb->prefix . 'quads_clicks_mobile';
+
+        $min_date = $wpdb->get_var("SELECT MIN(stats_date) FROM $quads_clicks_mobile");
+        $six_months_seconds = 6 * 30 * 24 * 60 * 60;
+        $cutoff = $min_date + $six_months_seconds;
+
+        $wpdb->query(
+            $wpdb->prepare("DELETE FROM $quads_clicks_mobile WHERE stats_date < %d", $cutoff)
+        );   
+    }
+    wp_send_json( array('status'=>'Operation success'));
+}
 
 /**
  * Hide ads txt error notice
