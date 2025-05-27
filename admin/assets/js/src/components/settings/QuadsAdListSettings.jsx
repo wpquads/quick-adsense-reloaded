@@ -2640,6 +2640,7 @@ handleCapabilityChange = (event) =>{
                             onChange={e =>this.selectRemoveTrackingDataOpt(e)} 
                             value={this.state.remove_tracking_data}
                           >
+                            <MenuItem value="all">{__('All', 'quick-adsense-reloaded')}</MenuItem>
                             <MenuItem value="everything_before_thisyear">{__('Everything Before This Year', 'quick-adsense-reloaded')}</MenuItem>
                             <MenuItem value="first6month">{__('First 6 Month', 'quick-adsense-reloaded')}</MenuItem>
                           </MSelect>

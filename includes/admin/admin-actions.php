@@ -79,7 +79,23 @@ function quads_remove_old_tracked_data(){
 	if( ! current_user_can( 'manage_options' ) ) { return false; }
     global $wpdb;
     $duration = sanitize_text_field( wp_unslash( $_POST['duration'] ) );
-    if($duration=='everything_before_thisyear'){
+    if($duration=='all'){
+        $quads_impressions_desktop = $wpdb->prefix . 'quads_impressions_desktop';
+        $query = "TRUNCATE TABLE $quads_impressions_desktop";
+        $wpdb->query($query);
+
+        $quads_impressions_mobile = $wpdb->prefix . 'quads_impressions_mobile';
+        $query = "TRUNCATE TABLE $quads_impressions_mobile";
+        $wpdb->query($query);
+
+        $quads_clicks_desktop = $wpdb->prefix . 'quads_clicks_desktop';
+        $query = "TRUNCATE TABLE $quads_clicks_desktop";
+        $wpdb->query($query);
+
+        $quads_clicks_mobile = $wpdb->prefix . 'quads_clicks_mobile';
+        $query = "TRUNCATE TABLE $quads_clicks_mobile";
+        $wpdb->query($query);
+    }else if($duration=='everything_before_thisyear'){
         $quads_impressions_desktop = $wpdb->prefix . 'quads_impressions_desktop';
         $query = "DELETE FROM $quads_impressions_desktop WHERE stats_year < YEAR(CURDATE())";
         $wpdb->query($query);
