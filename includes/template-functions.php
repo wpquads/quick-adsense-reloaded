@@ -3539,6 +3539,10 @@ function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$r
                 $content = str_replace($shortcode, $wrapped_shortcode, $content);
             }
         }
+        if (strpos($content, 'ewd-ufaq-faq-list') !== false) {
+            $content = preg_replace('/<html\b[^>]*>|<\/html>|<body\b[^>]*>|<\/body>/i', '', $content);
+            $content = '<div>' . $content . '</div>';
+        }
         $doc->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
      }
      else
