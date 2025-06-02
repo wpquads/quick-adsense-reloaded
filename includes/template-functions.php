@@ -4023,7 +4023,7 @@ function quads_ampforwp_footer_html_output() {
 		$privacy = $in_mobi_privacy_mode;
 		$lang = 'eng';
 		if (empty($privacy)) {
-			$privacy[] = "GDPR";
+			$privacy = array("GDPR");
 		}else{
 			$exp = explode(',',$privacy);
 			$pri_arr = array();
