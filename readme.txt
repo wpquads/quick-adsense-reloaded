@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, amp, banner
 Requires at least: 3.6+
 Tested up to: 6.8
 Requires PHP: 5.4
-Stable tag: 2.0.91
+Stable tag: 2.0.92
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -208,6 +208,15 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.92 ( 05 June 2025 ) =
+* Fixed : Deprecation Warning #922
+* Fixed : Single FAQ page is empty if our quads plugin is active #960
+* Fixed : PHP Fatal error in PHP 8+: [] operator not supported for strings in template-functions.php (line 4024) #961
+* Added : Expiry date option based upon impression #956
+* Added : Expire Ads option based upon clicks #957
+* Added : We need to make a compatibility with the Sensei LMS plugin. #958
+* Added : Remove old tracked data #959
+
 = 2.0.91 ( 16 May 2025 ) =
 * Fixed : BUG: Hide default ads, use manually placed ads" setting resets on publish in v2.0.90 #949
 * Added : Carousel Ads are not getting update with new banners #900
