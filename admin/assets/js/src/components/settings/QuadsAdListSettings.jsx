@@ -1869,7 +1869,7 @@ handleCapabilityChange = (event) =>{
     </h1>
 
     <p style={{ fontSize: '14px', color: '#555', marginBottom: '24px' }}>
-      Are you sure you want to delete the tracking data? This action cannot be undone.
+      {__('Are you sure you want to delete the tracking data? This action cannot be undone.', 'quick-adsense-reloaded')}
     </p>
 
     <div style={{ display: 'flex', justifyContent: 'center', gap: '12px' }}>
