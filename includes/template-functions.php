@@ -740,7 +740,13 @@ function quads_change_adsbygoogle_to_amp($content){
     if (quads_is_amp_endpoint()){
         libxml_use_internal_errors(true);
         $dom = new DOMDocument();
-        if (!empty($content)) {
+        if (version_compare(PHP_VERSION, '8.2.0', '<')) {
+            if( function_exists( 'mb_convert_encoding' ) ){
+                $content = mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8');     
+            }else{
+                $content =  preg_replace( '/&.*?;/', 'x', $content ); // multi-byte characters converted to X
+            }
+        }else{
             $content = htmlentities($content, ENT_QUOTES | ENT_HTML5, 'UTF-8');
         }
         if(empty($content)){
