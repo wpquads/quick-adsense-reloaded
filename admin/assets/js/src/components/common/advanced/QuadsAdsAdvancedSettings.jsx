@@ -118,6 +118,40 @@ class QuadsAdsAdvancedSettings extends Component {
               </tr>
               : ''
               }
+              { post_meta.ad_type != 'ads_space' ? <tr>
+              <td><label className='q_spec_day' htmlFor="set_expiry_impression">{__('Set Impression Expiry Limit', 'quick-adsense-reloaded')}</label></td>
+              <td>
+              <label className="quads-switch spec_day">
+              <input className='spec_day_check' id="set_expiry_impression" checked={post_meta.set_expiry_impression} name="set_expiry_impression" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                  <span className="quads-slider"></span>
+                </label>
+              </td>
+              </tr> :''}
+              { post_meta.set_expiry_impression && post_meta.set_expiry_impression == 1 ? <tr>
+              <td><label style={{paddingLeft:'25px'}}>{__('Expiry Limit ', 'quick-adsense-reloaded')}</label></td>
+              <td style={{width:'300px'}}>
+                <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="0" className="small-text" id="expiry_impression" name="expiry_impression" placeholder="" value={post_meta.expiry_impression}/>
+              </td>
+              </tr>
+              : ''
+              }
+              { post_meta.ad_type != 'ads_space' ? <tr>
+              <td><label className='q_spec_day' htmlFor="set_expiry_clicks">{__('Set Clicks Expiry Limit', 'quick-adsense-reloaded')}</label></td>
+              <td>
+              <label className="quads-switch spec_day">
+              <input className='spec_day_check' id="set_expiry_clicks" checked={post_meta.set_expiry_clicks} name="set_expiry_clicks" onChange={this.props.adFormChangeHandler} type="checkbox"/>
+                  <span className="quads-slider"></span>
+                </label>
+              </td>
+              </tr> :''}
+              { post_meta.set_expiry_clicks && post_meta.set_expiry_clicks == 1 ? <tr>
+              <td><label style={{paddingLeft:'25px'}}>{__('Expiry Limit ', 'quick-adsense-reloaded')}</label></td>
+              <td style={{width:'300px'}}>
+                <input onChange={this.props.adFormChangeHandler} type="number" step="1" max="" min="0" className="small-text" id="expiry_clicks" name="expiry_clicks" placeholder="" value={post_meta.expiry_clicks}/>
+              </td>
+              </tr>
+              : ''
+              }
               {(post_meta.ad_type!='adsense' && post_meta.ad_type!='double_click')?
                <tr>
               <td><label className='q_lazy_load' htmlFor="check_lazy_load">{__('Lazy Load', 'quick-adsense-reloaded')}</label></td>

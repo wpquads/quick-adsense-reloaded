@@ -740,11 +740,14 @@ function quads_change_adsbygoogle_to_amp($content){
     if (quads_is_amp_endpoint()){
         libxml_use_internal_errors(true);
         $dom = new DOMDocument();
-         if( function_exists( 'mb_convert_encoding' ) ){
-          $content = mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8');     
-        }
-        else{
-          $content =  preg_replace( '/&.*?;/', 'x', $content ); // multi-byte characters converted to X
+        if (version_compare(PHP_VERSION, '8.2.0', '<')) {
+            if( function_exists( 'mb_convert_encoding' ) ){
+                $content = mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8');     
+            }else{
+                $content =  preg_replace( '/&.*?;/', 'x', $content ); // multi-byte characters converted to X
+            }
+        }else{
+            $content = htmlentities($content, ENT_QUOTES | ENT_HTML5, 'UTF-8');
         }
         if(empty($content)){
             return $content;
@@ -859,7 +862,8 @@ function quads_get_load_priority(){
     if (!empty($quads_options['priority'])){
         return intval($quads_options['priority']);
     }
-    return 20;
+    $priority = function_exists('Sensei') ? 10 : 20;
+    return $priority;
 }
 
 /**
@@ -3541,6 +3545,10 @@ function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$r
                 $content = str_replace($shortcode, $wrapped_shortcode, $content);
             }
         }
+        if (strpos($content, 'ewd-ufaq-faq-list') !== false) {
+            $content = preg_replace('/<html\b[^>]*>|<\/html>|<body\b[^>]*>|<\/body>/i', '', $content);
+            $content = '<div>' . $content . '</div>';
+        }
         $doc->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
      }
      else
@@ -4021,7 +4029,7 @@ function quads_ampforwp_footer_html_output() {
 		$privacy = $in_mobi_privacy_mode;
 		$lang = 'eng';
 		if (empty($privacy)) {
-			$privacy[] = "GDPR";
+			$privacy = array("GDPR");
 		}else{
 			$exp = explode(',',$privacy);
 			$pri_arr = array();

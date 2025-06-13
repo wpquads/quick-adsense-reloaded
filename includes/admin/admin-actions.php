@@ -68,7 +68,66 @@ function quads_id_delete(){
         unset($_COOKIE['quads_ad_clicks']);
         setcookie('quads_ad_clicks', '', time() - 3600, '/'); // empty value and old timestamp
     }
-    wp_send_json( array('status'=>'Operation success'));
+    wp_send_json( array('status'=>esc_html__( 'Operation success', 'quick-adsense-reloaded' ) ));
+}
+
+add_action('wp_ajax_quads_remove_old_tracked_data', 'quads_remove_old_tracked_data');
+function quads_remove_old_tracked_data() {
+    // Check for required parameters
+    if ( ! isset( $_POST['nonce'], $_POST['duration'] ) ) {
+        wp_send_json_error( array( 'error' => esc_html__( 'Missing required parameters.', 'quick-adsense-reloaded' ) ), 400 );
+    }
+
+    // Verify nonce
+    if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'quads_ajax_nonce' ) ) {
+        wp_send_json_error( array( 'error' => esc_html__( 'Invalid nonce.', 'quick-adsense-reloaded' ) ), 403 );
+    }
+
+    // Check user capability
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( array( 'error' => esc_html__( 'Unauthorized access.', 'quick-adsense-reloaded' ) ), 403 );
+    }
+
+    global $wpdb;
+
+    $duration = sanitize_text_field( wp_unslash( $_POST['duration'] ) );
+    $allowed_durations = array( 'all', 'everything_before_thisyear', 'first6month' );
+
+    if ( ! in_array( $duration, $allowed_durations, true ) ) {
+        wp_send_json_error( array( 'error' => esc_html__( 'Invalid duration value.', 'quick-adsense-reloaded' ) ), 400 );
+    }
+
+    $tables = array(
+        'quads_impressions_desktop',
+        'quads_impressions_mobile',
+        'quads_clicks_desktop',
+        'quads_clicks_mobile'
+    );
+
+    foreach ( $tables as $table ) {
+        $table_name = $wpdb->prefix . $table;
+
+        if ( $duration === 'all' ) {
+            $wpdb->query( "TRUNCATE TABLE $table_name" );
+
+        } elseif ( $duration === 'everything_before_thisyear' ) {
+            $wpdb->query(
+                $wpdb->prepare( "DELETE FROM $table_name WHERE stats_year < %d", date( 'Y' ) )
+            );
+
+        } elseif ( $duration === 'first6month' ) {
+            $min_date = $wpdb->get_var( "SELECT MIN(stats_date) FROM $table_name" );
+            if ( $min_date ) {
+                 $six_months_seconds = 6 * 30 * 24 * 60 * 60;
+                 $cutoff = $min_date + $six_months_seconds;
+                $wpdb->query(
+                    $wpdb->prepare( "DELETE FROM $table_name WHERE stats_date < %d", $cutoff_date )
+                );
+            }
+        }
+    }
+
+    wp_send_json_success( array( 'status' =>  esc_html__( 'Operation successful.', 'quick-adsense-reloaded' ) ) );
 }
 
 
