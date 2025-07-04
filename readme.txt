@@ -1,12 +1,12 @@
-=== Ads by WPQuads – Adsense Ads, Banner Ads, Popup Ads ===
+=== Ads by Quads – Adsense Ads, Banner Ads, Popup Ads ===
 
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
-Contributors: wpquads
+Contributors: sanjeevsetu
 Donate link: https://wpquads.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: ad manager, ads, adsense, amp, banner
+Tags: ad manager, ads, adsense, monetize, banner
 Requires at least: 3.6+
 Tested up to: 6.8
 Requires PHP: 5.4
@@ -15,7 +15,7 @@ Stable tag: 2.0.92
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
 == Description ==
-The legendary [WPQuads Ads](https://wpquads.com/)  plugin is back with the modern approach for an Ads solution. WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
+The legendary Ad plugin is back with the modern approach for an Ads solution. WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
 
 [Home](https://wpquads.com/) | [Documentation](https://wpquads.com/documentation/) | [Help](https://wpquads.com/support/) | [Premium version Features](https://wpquads.com/#buy-wpquads)
 
@@ -58,6 +58,10 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 * Remove of small coding issues like “unexpected output” message when plugin is activated on several sites
 * Import / Export function makes plugin migrating to other sites easier. Copy your ads code to other sites.
 * <strong>Caching Power</strong> - Supports WP Rocket, W3 Total and any other Caching plugin.
+
+== 🎥 Watch Quads in Action – Feature Overview (starts at 2:05) ==
+	
+[youtube https://www.youtube.com/watch?v=My7T6yN-qP4&t=2m5s]
 
 = TAKE IT A STEP FURTHER WITH WPQUADS PRO =
 With [WPQUADS PRO](https://wpquads.com/#buy-wpquads) you can add as many ads as you like to your WordPress website. There are no limitations.
