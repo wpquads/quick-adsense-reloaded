@@ -27,7 +27,7 @@ function quads_ad_is_allowed( $content = null ) {
     // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
     
     if ( isset($quads_options['is_ajax']) && (defined('DOING_AJAX') && DOING_AJAX) ||
-         (! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) == 'xmlhttprequest' )
+         (! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower( wp_unslash( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) ) == 'xmlhttprequest' )
         )
         {
           $theme = wp_get_theme();
@@ -105,7 +105,7 @@ function quads_widget_ad_is_allowed( $content = null ) {
     // Never show ads in ajax calls
     // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
     if ( isset($quads_options['is_ajax']) && (defined('DOING_AJAX') && DOING_AJAX) ||
-         (! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) == 'xmlhttprequest' )
+         (! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower( wp_unslash( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) ) == 'xmlhttprequest' )
         )
         {
         /* it's an AJAX call */
@@ -294,7 +294,9 @@ $ip = array();
   }
   //whether ip is from the remote address  
   else{
-    $new_ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
+    if( isset( $_SERVER['REMOTE_ADDR'] ) ){
+      $new_ip =   sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
+    }
   }
    $ip =  get_option('add_blocked_ip') ? get_option('add_blocked_ip') : array() ;
    array_push( $ip, array( 'ip'=>$new_ip,'time' => gmdate('l d-m-Y H:i:s') ) );
@@ -563,9 +565,11 @@ function quads_visitor_comparison_logic_checker($visibility){
 
         break;
         case 'browser_language':
-          $browser_language = substr(sanitize_text_field( wp_unslash( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ), 0, 2);
-          if ( $browser_language == $v_id ) {
-            $result = true;
+          if( isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ){
+            $browser_language = substr(sanitize_text_field( wp_unslash( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ), 0, 2);
+            if ( $browser_language == $v_id ) {
+              $result = true;
+            }
           }
         break;
         case 'multilingual_language':
@@ -578,10 +582,12 @@ function quads_visitor_comparison_logic_checker($visibility){
         break;
 
         case 'url_parameter':
+          if( isset( $_SERVER['REQUEST_URI'] ) ){
               $url = esc_url( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
               if ( strpos($url, $v_id) !== false ) {
                 $result = true;
-              }              
+              }       
+          }       
         break;
 
         case 'cookie':
@@ -648,31 +654,34 @@ return $result;
 }
 
 function quads_check_my_device(){
-    $is_device = '';
-    if(preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|palm|phone|pie|up\.browser|up\.link|webos|wos)/i", strtolower(sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) )))){
-        $is_device = 'phone';        
-    }elseif (preg_match('/(tablet|ipad|playbook)|(android(?!.*(mobi|opera mini)))/i', strtolower(sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) ))) {
-        $is_device = 'tablet_landscape';
-    }else{
-        $is_device = 'desktop';
+    $is_device = 'desktop';
+    if( isset( $_SERVER['HTTP_USER_AGENT'] ) ){
+      if(preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|palm|phone|pie|up\.browser|up\.link|webos|wos)/i", strtolower(sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) )))){
+          $is_device = 'phone';        
+      }elseif (preg_match('/(tablet|ipad|playbook)|(android(?!.*(mobi|opera mini)))/i', strtolower(sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) ))) {
+          $is_device = 'tablet_landscape';
+      }else{
+          $is_device = 'desktop';
+      }
     }
     return $is_device;
 }
 
 function quads_detect_user_agent( ){
         $user_agent_name ='others';
-        if(strpos(sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'Opera') || strpos($user_agent_name, 'OPR/')) $user_agent_name = 'opera';
-        elseif (strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'Edge'))    $user_agent_name = 'edge';
-        elseif (strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'Firefox')) $user_agent_name ='firefox';
-        elseif (strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'MSIE') || strpos($user_agent_name, 'Trident/7')) $user_agent_name = 'internet_explorer';
-        elseif (stripos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'iPod')) $user_agent_name = 'ipod';
-        elseif (stripos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'iPhone')) $user_agent_name = 'iphone';
-        elseif (stripos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'iPad')) $user_agent_name = 'ipad';
-        elseif (stripos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'Android')) $user_agent_name = 'android';
-        elseif (stripos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'webOS')) $user_agent_name = 'webos';
-        elseif (strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'Chrome'))  $user_agent_name = 'chrome';
-        elseif (strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'Safari'))  $user_agent_name = 'safari';
-
+        if( isset( $_SERVER['HTTP_USER_AGENT'] ) ){
+            if(strpos(sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'Opera') || strpos($user_agent_name, 'OPR/')) $user_agent_name = 'opera';
+            elseif (strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'Edge'))    $user_agent_name = 'edge';
+            elseif (strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'Firefox')) $user_agent_name ='firefox';
+            elseif (strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'MSIE') || strpos($user_agent_name, 'Trident/7')) $user_agent_name = 'internet_explorer';
+            elseif (stripos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'iPod')) $user_agent_name = 'ipod';
+            elseif (stripos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'iPhone')) $user_agent_name = 'iphone';
+            elseif (stripos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'iPad')) $user_agent_name = 'ipad';
+            elseif (stripos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'Android')) $user_agent_name = 'android';
+            elseif (stripos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'webOS')) $user_agent_name = 'webos';
+            elseif (strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'Chrome'))  $user_agent_name = 'chrome';
+            elseif (strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ), 'Safari'))  $user_agent_name = 'safari';
+        }
         return $user_agent_name;
 }
 function quads_get_ip_address() {

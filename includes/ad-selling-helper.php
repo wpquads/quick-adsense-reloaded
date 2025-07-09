@@ -557,10 +557,10 @@ function quads_ads_buy_form() {
         <button type="submit"><?php echo esc_html__('Submit','quick-adsense-reloaded');?></button>
     </form>
    
-    <?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion?>
+    <?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript?>
     <script src="https://js.stripe.com/v3/"></script>
     <?php }?>
-    <?php if($payment_gateway=='paystack'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion?>
+    <?php if($payment_gateway=='paystack'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript?>
         <script src="https://js.paystack.co/v1/inline.js"></script>
     <?php }?>
     <script>
@@ -1166,7 +1166,7 @@ if( isset( $_GET['modify_id'] ) && !empty( $_GET['modify_id'] ) && isset( $_GET[
         </div>
         <div><label for="ad_image"><?php echo esc_html__( 'Ad Image','quick-adsense-reloaded' ); ?></label></div>
         <div>
-            <?php if($asdata->ad_image!=""){?>
+            <?php if($asdata->ad_image!=""){ // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
                 <img id="ad_image_src" src="<?php echo esc_url($asdata->ad_image)?>"/>
             <?php }?>
             <input type="file" name="ad_image" id="ad_image" accept="image/*"  onchange="onFileSelected(event)">
@@ -1508,7 +1508,7 @@ function quads_ads_disable_form(){
         <button type="submit"><?php echo esc_html__('Proceed for Payment','quick-adsense-reloaded');?></button>
     </div>
 </form>
-<?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion ?>
+<?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
     <script src="https://js.stripe.com/v3/"></script>
 <?php }?>
 </div>

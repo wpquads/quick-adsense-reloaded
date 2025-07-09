@@ -766,8 +766,7 @@ if($license_info){
              }
 
              $sql_query.= implode(" UNION ALL ", $sql_query_sel);
-             /* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */
-             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
              $wpdb->query( $sql_query );
              $post_meta= $this->getAdById($new_post_id);
              $this->migration_service->quadsUpdateOldAd($new_post_id, $post_meta['post_meta'],'update_old');

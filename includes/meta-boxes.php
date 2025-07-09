@@ -116,7 +116,7 @@ class Quads_Meta_Box {
         }
         $config = array();
         if( isset( $_POST[ $this->config_key ] ) ){
-            $config = $this->quads_sanitize_array_recursive( $_POST[ $this->config_key ] );
+            $config = $this->quads_sanitize_array_recursive( wp_unslash( $_POST[ $this->config_key ] ) );
         }
         $visibility_config = isset($config['visibility']) ? $config['visibility'] : array();
         // process visibility config
