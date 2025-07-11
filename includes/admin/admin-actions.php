@@ -114,6 +114,7 @@ function quads_remove_old_tracked_data() {
         } elseif ( $duration === 'everything_before_thisyear' ) {
              // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.DirectQuery
             $wpdb->query(
+                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
                 $wpdb->prepare( "DELETE FROM $table_name WHERE stats_year < %d", gmdate( 'Y' ) )
             );
 
@@ -123,8 +124,9 @@ function quads_remove_old_tracked_data() {
             if ( $min_date ) {
                  $six_months_seconds = 6 * 30 * 24 * 60 * 60;
                  $cutoff = $min_date + $six_months_seconds;
-                 // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+                 // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
                 $wpdb->query(
+                    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
                     $wpdb->prepare( "DELETE FROM $table_name WHERE stats_date < %d", $cutoff_date )
                 );
             }

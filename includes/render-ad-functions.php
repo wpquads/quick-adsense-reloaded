@@ -248,6 +248,7 @@ function quads_common_head_code(){
 
         }
         if($adsense){
+            // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
             echo '<script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
 
         }
@@ -380,20 +381,23 @@ function quads_render_admob_async( $id, $ad_data  ) {
 
 // Load the AdSense script in the header
 function quads_add_adsense_script() {
-    $param = apply_filters('admobi_client_data', array(
+    $param = apply_filters( 'admobi_client_data', array(
         'client_id' => '',
         'slot_id'   => ''
-    ));
+    ) );
 
-    if (empty($param['client_id'])) {
+    if ( empty( $param['client_id'] ) ) {
         return; // Prevent errors if no client_id is set
     }
-// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
     ?>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<?php echo esc_attr($param['client_id']); ?>" 
+
+    <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- Google AdSense script must be included directly as per platform requirements ?>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<?php echo esc_attr( $param['client_id'] ); ?>" 
         crossorigin="anonymous"></script>
+
     <?php
 }
+
 add_action('wp_enqueue_scripts', 'quads_add_adsense_script'); // Register script globally
 /**
  * Render ad banner
@@ -541,12 +545,15 @@ function quads_render_media_net_async( $id ) {
     $height = (isset($quads_options['ads'][$id]['g_data_ad_height']) && (!empty($quads_options['ads'][$id]['g_data_ad_height']))) ? $quads_options['ads'][$id]['g_data_ad_height']:250;
     // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
     $html .= '<script id="mNCC" language="javascript">
-                medianet_width = "'.esc_attr($width).'";
-                medianet_height = "'.esc_attr($height).'";
-                medianet_crid = "'.esc_attr($quads_options['ads'][$id]['data_crid']).'"
-                medianet_versionId ="3111299"
-               </script>
-               <script src="//contextual.media.net/nmedianet.js?cid='.esc_attr($quads_options['ads'][$id]['data_cid']).'"></script>';
+            medianet_width = "' . esc_attr( $width ) . '";
+            medianet_height = "' . esc_attr( $height ) . '";
+            medianet_crid = "' . esc_attr( $quads_options['ads'][ $id ]['data_crid'] ) . '";
+            medianet_versionId ="3111299";
+        </script>
+        ' .
+        // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- Third-party script required by Media.net, cannot be enqueued normally
+        '<script src="//contextual.media.net/nmedianet.js?cid=' . esc_attr( $quads_options['ads'][ $id ]['data_cid'] ) . '"></script>';
+
 
 
     $html .= "\n <!-- end WP QUADS --> \n\n";
@@ -582,12 +589,16 @@ function quads_render_infolinks_async( $id ) {
     global $quads_options;
 // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Infolinks --> \n\n";
-    $html .= ' <script>
-                                    var infolinks_pid = '.esc_attr($quads_options['ads'][$id]['infolinks_pid']).';
-                                    var infolinks_wsid = '.esc_attr($quads_options['ads'][$id]['infolinks_wsid']).';
-                                    var infolinks_adid = '.esc_attr($quads_options['ads'][$id]['ad_id']).';
-                                  </script>
-                                <script src="//resources.infolinks.com/js/infolinks_main.js"></script>';
+    $html .= '
+    <script>
+        var infolinks_pid = ' . esc_attr( $quads_options['ads'][ $id ]['infolinks_pid'] ) . ';
+        var infolinks_wsid = ' . esc_attr( $quads_options['ads'][ $id ]['infolinks_wsid'] ) . ';
+        var infolinks_adid = ' . esc_attr( $quads_options['ads'][ $id ]['ad_id'] ) . ';
+    </script>
+    ' .
+    // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- Third-party script must be loaded via direct <script> tag
+    '<script src="//resources.infolinks.com/js/infolinks_main.js"></script>';
+
 
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_infolinks_async', $html );
@@ -604,11 +615,12 @@ function quads_render_mgid_async( $id ) {
     // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content MGID --> \n\n";
     $html .= '                             
-                <div id="'.esc_attr($quads_options['ads'][$id]['data_container']).'">
-                </div>
-                <script src="'.esc_attr($quads_options['ads'][$id]['data_js_src']).'" async>
-                </script>
-            ';
+    <div id="' . esc_attr( $quads_options['ads'][ $id ]['data_container'] ) . '">
+    </div>
+    ' .
+    // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- Script is dynamically inserted and cannot be enqueued traditionally
+    '<script src="' . esc_attr( $quads_options['ads'][ $id ]['data_js_src'] ) . '" async></script>';
+
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_mgid_async', $html );
 }

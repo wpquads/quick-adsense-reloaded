@@ -27,8 +27,7 @@ function quads_ad_is_allowed( $content = null ) {
     // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
     
     if ( isset($quads_options['is_ajax']) && (defined('DOING_AJAX') && DOING_AJAX) ||
-         (! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower( wp_unslash( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) ) == 'xmlhttprequest' )
-        )
+         (! empty( wp_unslash( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) ) && strtolower( wp_unslash( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) ) == 'xmlhttprequest' ))
         {
           $theme = wp_get_theme();
           if(is_object($theme) && $theme->name == 'Bimber'){
@@ -105,8 +104,7 @@ function quads_widget_ad_is_allowed( $content = null ) {
     // Never show ads in ajax calls
     // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
     if ( isset($quads_options['is_ajax']) && (defined('DOING_AJAX') && DOING_AJAX) ||
-         (! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower( wp_unslash( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) ) == 'xmlhttprequest' )
-        )
+         (! empty( wp_unslash( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) ) && strtolower( wp_unslash( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) ) == 'xmlhttprequest' ))
         {
         /* it's an AJAX call */
         return false;
