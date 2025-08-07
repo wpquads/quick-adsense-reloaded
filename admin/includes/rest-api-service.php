@@ -896,8 +896,8 @@ if($license_info){
         unset($quads_settings['ads'][$adid]);
         $response = wp_delete_post($adid, true);
       }
-      return $response;
       update_option('quads_settings', $quads_settings);
+      return $response;
     }	
 	}
 

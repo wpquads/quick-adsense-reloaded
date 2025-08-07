@@ -1629,6 +1629,25 @@ class QUADS_Ad_Setup_Api {
 
             $settings = array();
 	        $settings = get_option( 'quads_settings' );
+            
+            // Get only published ads from the posts table
+            $published_ads = array();
+            require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+            $api_service = new QUADS_Ad_Setup_Api_Service();
+            $quads_ads = $api_service->getAdDataByParam('quads-ads');
+            
+            if(isset($quads_ads['posts_data'])) {
+                foreach($quads_ads['posts_data'] as $key => $value) {
+                    // Only include ads that are published (not draft)
+                    if($value['post']['post_status'] == 'publish') {
+                        $published_ads[] = $value['post_meta'];
+                    }
+                }
+            }
+            
+            // Add published ads to settings export
+            $settings['ads'] = $published_ads;
+            
             header( 'Content-Type: application/json; charset=utf-8' );
 	        header( 'Content-Disposition: attachment; filename=' . apply_filters( 'quads_settings_export_filename', 'quads-settings-export-' . gmdate( 'm-d-Y' ) ) . '.json' );
             header( "Expires: 0" );
