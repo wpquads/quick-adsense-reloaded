@@ -210,9 +210,11 @@ function quads_common_head_code(){
               }(document.createElement("script"), document.getElementsByTagName("script")[0], "//cdn.taboola.com/libtrc/'.esc_attr($ads['taboola_publisher_id']).'/loader.js");
               </script>';
             }else if($ads['ad_type']== 'mediavine'){
+                // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
                echo '<link rel="dns-prefetch" href="//scripts.mediavine.com" />
                   <script async="async" data-noptimize="1" data-cfasync="false" src="//scripts.mediavine.com/tags/'.esc_attr($ads['mediavine_site_id']).'.js?ver=5.2.3"></script>';
             }else if($ads['ad_type']== 'outbrain'){
+                // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
                echo '<script async="async" src="http://widgets.outbrain.com/outbrain.js "></script>';
             }else if($ads['ad_type']== 'adpushup'){
                 echo '<script data-cfasync="false" type="text/javascript">
@@ -233,7 +235,7 @@ function quads_common_head_code(){
             $ad_unit_name  = $ads['ad_unit_name'];
             $width        = (isset($ads['g_data_ad_width']) && !empty($ads['g_data_ad_width'])) ? $ads['g_data_ad_width'] : '300';
              $height        = (isset($ads['g_data_ad_height']) && !empty($ads['g_data_ad_height'])) ? $ads['g_data_ad_height'] : '250';
-
+// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
             echo "<script async src='https://securepubads.g.doubleclick.net/tag/js/gpt.js'></script>
                     <script>
                  window.googletag = window.googletag || {cmd: []};
@@ -246,6 +248,7 @@ function quads_common_head_code(){
 
         }
         if($adsense){
+            // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
             echo '<script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>';
 
         }
@@ -378,20 +381,23 @@ function quads_render_admob_async( $id, $ad_data  ) {
 
 // Load the AdSense script in the header
 function quads_add_adsense_script() {
-    $param = apply_filters('admobi_client_data', array(
+    $param = apply_filters( 'admobi_client_data', array(
         'client_id' => '',
         'slot_id'   => ''
-    ));
+    ) );
 
-    if (empty($param['client_id'])) {
+    if ( empty( $param['client_id'] ) ) {
         return; // Prevent errors if no client_id is set
     }
-
     ?>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<?php echo esc_attr($param['client_id']); ?>" 
+
+    <?php // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- Google AdSense script must be included directly as per platform requirements ?>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<?php echo esc_attr( $param['client_id'] ); ?>" 
         crossorigin="anonymous"></script>
+
     <?php
 }
+
 add_action('wp_enqueue_scripts', 'quads_add_adsense_script'); // Register script globally
 /**
  * Render ad banner
@@ -537,13 +543,17 @@ function quads_render_media_net_async( $id ) {
 
     $width = (isset($quads_options['ads'][$id]['g_data_ad_width']) && (!empty($quads_options['ads'][$id]['g_data_ad_width']))) ? $quads_options['ads'][$id]['g_data_ad_width']:300;
     $height = (isset($quads_options['ads'][$id]['g_data_ad_height']) && (!empty($quads_options['ads'][$id]['g_data_ad_height']))) ? $quads_options['ads'][$id]['g_data_ad_height']:250;
+    // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
     $html .= '<script id="mNCC" language="javascript">
-                medianet_width = "'.esc_attr($width).'";
-                medianet_height = "'.esc_attr($height).'";
-                medianet_crid = "'.esc_attr($quads_options['ads'][$id]['data_crid']).'"
-                medianet_versionId ="3111299"
-               </script>
-               <script src="//contextual.media.net/nmedianet.js?cid='.esc_attr($quads_options['ads'][$id]['data_cid']).'"></script>';
+            medianet_width = "' . esc_attr( $width ) . '";
+            medianet_height = "' . esc_attr( $height ) . '";
+            medianet_crid = "' . esc_attr( $quads_options['ads'][ $id ]['data_crid'] ) . '";
+            medianet_versionId ="3111299";
+        </script>
+        ' .
+        // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- Third-party script required by Media.net, cannot be enqueued normally
+        '<script src="//contextual.media.net/nmedianet.js?cid=' . esc_attr( $quads_options['ads'][ $id ]['data_cid'] ) . '"></script>';
+
 
 
     $html .= "\n <!-- end WP QUADS --> \n\n";
@@ -577,14 +587,18 @@ function quads_render_outbrain_async( $id ) {
  */
 function quads_render_infolinks_async( $id ) {
     global $quads_options;
-
+// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content Infolinks --> \n\n";
-    $html .= ' <script>
-                                    var infolinks_pid = '.esc_attr($quads_options['ads'][$id]['infolinks_pid']).';
-                                    var infolinks_wsid = '.esc_attr($quads_options['ads'][$id]['infolinks_wsid']).';
-                                    var infolinks_adid = '.esc_attr($quads_options['ads'][$id]['ad_id']).';
-                                  </script>
-                                <script src="//resources.infolinks.com/js/infolinks_main.js"></script>';
+    $html .= '
+    <script>
+        var infolinks_pid = ' . esc_attr( $quads_options['ads'][ $id ]['infolinks_pid'] ) . ';
+        var infolinks_wsid = ' . esc_attr( $quads_options['ads'][ $id ]['infolinks_wsid'] ) . ';
+        var infolinks_adid = ' . esc_attr( $quads_options['ads'][ $id ]['ad_id'] ) . ';
+    </script>
+    ' .
+    // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- Third-party script must be loaded via direct <script> tag
+    '<script src="//resources.infolinks.com/js/infolinks_main.js"></script>';
+
 
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_infolinks_async', $html );
@@ -598,14 +612,15 @@ function quads_render_infolinks_async( $id ) {
  */
 function quads_render_mgid_async( $id ) {
     global $quads_options;
-
+    // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content MGID --> \n\n";
     $html .= '                             
-                <div id="'.esc_attr($quads_options['ads'][$id]['data_container']).'">
-                </div>
-                <script src="'.esc_attr($quads_options['ads'][$id]['data_js_src']).'" async>
-                </script>
-            ';
+    <div id="' . esc_attr( $quads_options['ads'][ $id ]['data_container'] ) . '">
+    </div>
+    ' .
+    // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript -- Script is dynamically inserted and cannot be enqueued traditionally
+    '<script src="' . esc_attr( $quads_options['ads'][ $id ]['data_js_src'] ) . '" async></script>';
+
     $html .= "\n <!-- end WP QUADS --> \n\n";
     return apply_filters( 'quads_render_mgid_async', $html );
 }
@@ -1062,6 +1077,7 @@ function quads_render_carousel_ads_async($id) {
             $ad_status = get_post_status($ad['value']);
             if($ad_status !== 'publish'){
                 $ad_name = $ad['label'];
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.DirectQuery
                 $post_id = $wpdb->get_var( $wpdb->prepare(
                     "SELECT ID FROM $wpdb->posts 
                     WHERE post_type = %s AND post_title = %s AND post_status = %s 

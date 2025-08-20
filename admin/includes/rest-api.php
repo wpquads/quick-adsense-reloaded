@@ -1629,6 +1629,36 @@ class QUADS_Ad_Setup_Api {
 
             $settings = array();
 	        $settings = get_option( 'quads_settings' );
+            
+            // Get only published ads from the posts table
+            $published_ads = array();
+            require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+            $api_service = new QUADS_Ad_Setup_Api_Service();
+            $quads_ads = $api_service->getAdDataByParam('quads-ads');
+
+            
+            if(isset($settings['ads']) && is_array($settings['ads'])) {
+                $filtered_ads = array();
+                foreach($settings['ads'] as $ad_id => $ad_data) {
+                    $ad_exists = false;
+                    if(isset($quads_ads['posts_data'])) {
+                        foreach($quads_ads['posts_data'] as $post_data) {
+                            if(isset($post_data['post_meta']['quads_ad_old_id']) && $post_data['post_meta']['quads_ad_old_id'] == $ad_id) {
+                                $ad_exists = true;
+                                $ad_data['label'] = $post_data['post_meta']['label'];
+                                break;
+                            }
+                        }
+                    }
+                    // Only keep ads that exist in post data
+                    if($ad_exists) {
+                        $filtered_ads[$ad_id] = $ad_data;
+                    }
+                }
+                $settings['ads'] = $filtered_ads;
+            }
+            
+            // Add published ads to settings export
             header( 'Content-Type: application/json; charset=utf-8' );
 	        header( 'Content-Disposition: attachment; filename=' . apply_filters( 'quads_settings_export_filename', 'quads-settings-export-' . gmdate( 'm-d-Y' ) ) . '.json' );
             header( "Expires: 0" );

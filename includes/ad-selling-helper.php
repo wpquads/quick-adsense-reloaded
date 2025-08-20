@@ -557,10 +557,10 @@ function quads_ads_buy_form() {
         <button type="submit"><?php echo esc_html__('Submit','quick-adsense-reloaded');?></button>
     </form>
    
-    <?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion?>
+    <?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript?>
     <script src="https://js.stripe.com/v3/"></script>
     <?php }?>
-    <?php if($payment_gateway=='paystack'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion?>
+    <?php if($payment_gateway=='paystack'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript?>
         <script src="https://js.paystack.co/v1/inline.js"></script>
     <?php }?>
     <script>
@@ -989,6 +989,7 @@ function quads_get_premimum_member_ad_space_on_id($id){
     // Query the records
     /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching */
     $results = $wpdb->get_results($wpdb->prepare(
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
         "SELECT * FROM $table_name WHERE payment_status = %s and id = %d ORDER BY id DESC", 'paid', $id
     ));
    
@@ -1166,7 +1167,7 @@ if( isset( $_GET['modify_id'] ) && !empty( $_GET['modify_id'] ) && isset( $_GET[
         </div>
         <div><label for="ad_image"><?php echo esc_html__( 'Ad Image','quick-adsense-reloaded' ); ?></label></div>
         <div>
-            <?php if($asdata->ad_image!=""){?>
+            <?php if($asdata->ad_image!=""){ // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
                 <img id="ad_image_src" src="<?php echo esc_url($asdata->ad_image)?>"/>
             <?php }?>
             <input type="file" name="ad_image" id="ad_image" accept="image/*"  onchange="onFileSelected(event)">
@@ -1508,7 +1509,7 @@ function quads_ads_disable_form(){
         <button type="submit"><?php echo esc_html__('Proceed for Payment','quick-adsense-reloaded');?></button>
     </div>
 </form>
-<?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion ?>
+<?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
     <script src="https://js.stripe.com/v3/"></script>
 <?php }?>
 </div>
@@ -2645,8 +2646,9 @@ function quads_check_expired_sellads() {
             
 
             // Execute the query and get results
-            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+            // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
             $users = $wpdb->get_results(  $wpdb->prepare(
+               // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare	
                 "SELECT user_id, ad_id FROM $table_name WHERE ad_id IN ($placeholders)",
                 ...$ad_ids
             ) );

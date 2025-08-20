@@ -108,19 +108,25 @@ function quads_remove_old_tracked_data() {
         $table_name = $wpdb->prefix . $table;
 
         if ( $duration === 'all' ) {
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.DirectQuery
             $wpdb->query( "TRUNCATE TABLE $table_name" );
 
         } elseif ( $duration === 'everything_before_thisyear' ) {
+             // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.DirectQuery
             $wpdb->query(
-                $wpdb->prepare( "DELETE FROM $table_name WHERE stats_year < %d", date( 'Y' ) )
+                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+                $wpdb->prepare( "DELETE FROM $table_name WHERE stats_year < %d", gmdate( 'Y' ) )
             );
 
         } elseif ( $duration === 'first6month' ) {
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.DirectDatabaseQuery.DirectQuery
             $min_date = $wpdb->get_var( "SELECT MIN(stats_date) FROM $table_name" );
             if ( $min_date ) {
                  $six_months_seconds = 6 * 30 * 24 * 60 * 60;
                  $cutoff = $min_date + $six_months_seconds;
+                 // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
                 $wpdb->query(
+                    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
                     $wpdb->prepare( "DELETE FROM $table_name WHERE stats_date < %d", $cutoff_date )
                 );
             }

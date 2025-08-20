@@ -470,10 +470,6 @@ function quads_inline_styles() {
                 cursor: pointer;
                 transition: all 0.5s ease;
                 border-radius: 50%;
-            } @media screen and (max-width: 480px) {
-                .quads.quads_ad_container_ {
-                    left: 10px;
-                }
             }"; 
     }
 

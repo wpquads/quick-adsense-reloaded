@@ -2925,8 +2925,10 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
                     $code .=   $ad_meta['code'][0];
                 }
                 if ( isset($quads_options['lazy_load_global']) && $quads_options['lazy_load_global']===true && strpos($ad_meta['code'][0], 'class="adsbygoogle"') !== false) {
+                    // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
                     $check_script_tag =    preg_match('#<script(.*?)src=(.*?)>(.*?)</script>#is', $code);
                     if($check_script_tag){
+                        // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
                         $code = preg_replace('#<script(.*?)src=(.*?)>(.*?)</script>#is', '', $code);
                     }
                     $code = str_replace( 'class="adsbygoogle"', '', $code );
@@ -4006,6 +4008,7 @@ function add_inmobi_cmp_config() {
             }
         };
         </script>';
+        // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
         echo '<script src="https://consent.inmobi.com/choice/'.esc_attr( $in_mobi_site_id ).'.js" async></script>';
     }
 }

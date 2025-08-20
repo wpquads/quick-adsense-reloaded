@@ -1,21 +1,21 @@
-=== Ads by WPQuads – Adsense Ads, Banner Ads, Popup Ads ===
+=== Ads by Quads – Adsense Ads, Banner Ads, Popup Ads ===
 
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
-Contributors: wpquads
+Contributors: sanjeevsetu
 Donate link: https://wpquads.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: ad manager, ads, adsense, amp, banner
+Tags: ad manager, ads, adsense, monetize, banner
 Requires at least: 3.6+
 Tested up to: 6.8
 Requires PHP: 5.4
-Stable tag: 2.0.92
+Stable tag: 2.0.93
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
 == Description ==
-The legendary [WPQuads Ads](https://wpquads.com/)  plugin is back with the modern approach for an Ads solution. WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
+The legendary Ad plugin is back with the modern approach for an Ads solution. WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
 
 [Home](https://wpquads.com/) | [Documentation](https://wpquads.com/documentation/) | [Help](https://wpquads.com/support/) | [Premium version Features](https://wpquads.com/#buy-wpquads)
 
@@ -58,6 +58,10 @@ WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built
 * Remove of small coding issues like “unexpected output” message when plugin is activated on several sites
 * Import / Export function makes plugin migrating to other sites easier. Copy your ads code to other sites.
 * <strong>Caching Power</strong> - Supports WP Rocket, W3 Total and any other Caching plugin.
+
+== 🎥 Watch Quads in Action – Feature Overview (starts at 2:05) ==
+	
+[youtube https://www.youtube.com/watch?v=My7T6yN-qP4&t=2m5s]
 
 = TAKE IT A STEP FURTHER WITH WPQUADS PRO =
 With [WPQUADS PRO](https://wpquads.com/#buy-wpquads) you can add as many ads as you like to your WordPress website. There are no limitations.
@@ -208,6 +212,12 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.93 ( 20 August 2025 ) =
+* Fixed : Importing ads on another sites shows deleted ads too. #965
+* Fixed : Mobile Popup Ad Not Aligned on Mobile Devices #964
+* Fixed : Patched XSS Vulnerability disclosed by Patchstack (Fiqro Najiah) 
+* Improvement : More Improvement done #963
+
 = 2.0.92 ( 05 June 2025 ) =
 * Fixed : Deprecation Warning #922
 * Fixed : Single FAQ page is empty if our quads plugin is active #960
@@ -345,18 +355,5 @@ Alternative Installation:
 * Fixed: Improvement Requirement in carousel random option #822
 * Fixed: Invalid argument supplied for foreach() #824
 * Fixed: Settings Spiner Code improvement.
-
-= 2.0.76 ( 13 September 2023 ) =
-* Added: In carousel ad, the selected ads should be draggable #798
-* Added: Need to add an option for random carousel banner ads #799
-* Fixed: Warning after recent update #796
-* Fixed: The Position option Sticky Ad (AMP) is not working #797
-* Fixed: Load Ad after 3-4 seconds option is not working for banners #807
-* Fixed: One selecting role based access other setting option is being changed #810
-* Fixed: Loading is missing for few checkbox #811
-* Fixed: Carousel ad Navigation Arrows do not work #813
-* Fixed: Uncaught TypeError: Cannot read properties of null #815
-* Fixed: Add Alt Tag Field for Custom Image Ad in WP QUADS AMP #816
-* Fixed: Sticky Ad code improvement.
 
 Full changelog available [ at changelog.txt](https://plugins.svn.wordpress.org/quick-adsense-reloaded/trunk/changelog.txt)
