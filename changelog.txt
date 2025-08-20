@@ -1,3 +1,10 @@
+= 2.0.93 ( 20 August 2025 ) =
+* Fixed : Importing ads on another sites shows deleted ads too. #965
+* Fixed : Mobile Popup Ad Not Aligned on Mobile Devices #964
+* Fixed : Patched XSS Vulnerability disclosed by Patchstack (Fiqro Najiah) 
+* Improvement : More Improvement done #963
+
+
 = 2.0.92 ( 05 June 2025 ) =
 * Fixed : Deprecation Warning #922
 * Fixed : Single FAQ page is empty if our quads plugin is active #960
