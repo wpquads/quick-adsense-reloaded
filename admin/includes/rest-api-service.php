@@ -629,6 +629,10 @@ if($license_info){
             $ad_id          = isset($post_meta['ad_id']) ? $post_meta['ad_id'] : '';
             $post_status    = 'publish';
 
+            $ad_type = '';
+            if(isset($post_meta['ad_type'])){
+              $ad_type = $post_meta['ad_type'];
+            }
 
             if(isset($parameters['quads_ad_status'])){
               $post_status    = $parameters['quads_ad_status'];
@@ -697,6 +701,16 @@ if($license_info){
                     }
                     if($key == 'mob_code'){
                       $filterd_meta =$val;
+                    }
+
+                    if($key == 'code' && $ad_type == 'plain_text') {
+                       $allowed_html = wp_kses_allowed_html( 'post' );
+                      $allowed_html['script'] = [
+                          'src'    => true,
+                          'async'  => true,
+                          'type'   => true,
+                      ];
+                      $filterd_meta = wp_kses($val, $allowed_html);
                     }
 
                     update_post_meta($ad_id, $key, $filterd_meta);
