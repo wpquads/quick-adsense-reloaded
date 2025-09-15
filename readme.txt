@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, monetize, banner
 Requires at least: 3.6+
 Tested up to: 6.8
 Requires PHP: 5.4
-Stable tag: 2.0.93
+Stable tag: 2.0.94
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -212,6 +212,9 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.94 ( 15 September 2025 ) =
+* Fixed : Display After Every option is not working properly with random ads. #968
+
 = 2.0.93 ( 20 August 2025 ) =
 * Fixed : Importing ads on another sites shows deleted ads too. #965
 * Fixed : Mobile Popup Ad Not Aligned on Mobile Devices #964
@@ -345,15 +348,5 @@ Alternative Installation:
 * Added: After Advance Selector field in "Where Will The AD Appear" option #766
 * Fixed: Visibility validation should not work if we select shortcode(Manual) option #802	
 * Fixed: Targetting city wise to show the ads on frontend is not working #830
-
-= 2.0.77 ( 03 October 2023 ) =
-* Fixed: Text around Ads code removed #519
-* Fixed: Banner ad issue #805
-* Fixed: Already created carousel ad should not be shown inside ad selection dropdown #814
-* Fixed: All created ads and saved settings does not display for allowed role based access users #817
-* Fixed: Error when updating php to version 8.1 #818
-* Fixed: Improvement Requirement in carousel random option #822
-* Fixed: Invalid argument supplied for foreach() #824
-* Fixed: Settings Spiner Code improvement.
 
 Full changelog available [ at changelog.txt](https://plugins.svn.wordpress.org/quick-adsense-reloaded/trunk/changelog.txt)

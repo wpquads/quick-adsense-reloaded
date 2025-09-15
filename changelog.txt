@@ -1,3 +1,6 @@
+= 2.0.94 ( 15 September 2025 ) =
+* Fixed : Display After Every option is not working properly with random ads. #968
+
 = 2.0.93 ( 20 August 2025 ) =
 * Fixed : Importing ads on another sites shows deleted ads too. #965
 * Fixed : Mobile Popup Ad Not Aligned on Mobile Devices #964

@@ -2289,12 +2289,21 @@ function quads_parse_random_quicktag_ads($content){
                 $temp_array[] = $radom_ad['value'];
             }
         }
-        $random_ads_list_after =  array_diff($temp_array, $selected_ads);
+        $used_for_this_ad_id = isset($selected_ads[$ad_id]) ? $selected_ads[$ad_id] : array();
+        $random_ads_list_after =  array_diff($temp_array, $used_for_this_ad_id);
+        
+        // If all ads have been used for this ad_id, reset the used list to allow repetition
+        if(empty($random_ads_list_after)) {
+            $random_ads_list_after = $temp_array;
+            $used_for_this_ad_id = array();
+        }
+        
         $keys = array_keys($random_ads_list_after); 
         if(is_array($keys) && isset($keys[0])){
             shuffle($keys); 
             $randomid = $random_ads_list_after[$keys[0]]; 
-            $selected_ads[] = $randomid;
+            $used_for_this_ad_id[] = $randomid;
+            $selected_ads[$ad_id] = $used_for_this_ad_id;
             $enabled_on_amp = (isset($ad_meta['enabled_on_amp'][0]))? $ad_meta['enabled_on_amp'][0]: '';
             $content = quads_replace_ads_new( $content, 'CusRnd' . $ad_id, $randomid,$enabled_on_amp);
         }
