@@ -1,3 +1,6 @@
+= 2.0.94.1 ( 30 September 2025 ) =
+* Fixed : Patched XSS Vulnerability disclosed by Patchstack (Fiqro Najiah) 
+
 = 2.0.94 ( 15 September 2025 ) =
 * Fixed : Display After Every option is not working properly with random ads. #968
 

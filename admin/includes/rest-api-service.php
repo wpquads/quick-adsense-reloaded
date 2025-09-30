@@ -674,7 +674,34 @@ if($license_info){
                 foreach($post_meta as $key => $val){
                   
 
-                    $filterd_meta = quads_sanitize_post_meta($key, $val);
+                if($key == 'code' && $ad_type == 'plain_text') {
+                
+                $allowed_html = wp_kses_allowed_html('post');
+                $allowed_html['script'] = array(
+                    'src'    => true,
+                    'async'  => true,
+                    'type'   => true,
+                    'media'  => true,
+                    'crossorigin' => true,
+                    'integrity'   => true,
+                );
+                $allowed_html['iframe'] = array(
+                    'src'             => true,
+                    'height'          => true,
+                    'width'           => true,
+                    'frameborder'     => true,
+                    'scrolling'       => true,
+                    'marginwidth'     => true,
+                    'marginheight'    => true,
+                    'allow'           => true,
+                    'allowfullscreen' => true,
+                );
+                // Sanitize with expanded allowed tags
+                $filterd_meta = wp_kses($val, $allowed_html);
+            } else {
+                $filterd_meta = quads_sanitize_post_meta($key, $val);
+            }
+
                     if($key == 'ad_blindness'){
                       $filterd_meta =$val;
                     }
@@ -701,16 +728,6 @@ if($license_info){
                     }
                     if($key == 'mob_code'){
                       $filterd_meta =$val;
-                    }
-
-                    if($key == 'code' && $ad_type == 'plain_text') {
-                       $allowed_html = wp_kses_allowed_html( 'post' );
-                      $allowed_html['script'] = [
-                          'src'    => true,
-                          'async'  => true,
-                          'type'   => true,
-                      ];
-                      $filterd_meta = wp_kses($val, $allowed_html);
                     }
 
                     update_post_meta($ad_id, $key, $filterd_meta);

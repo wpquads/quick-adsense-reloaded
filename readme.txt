@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, monetize, banner
 Requires at least: 3.6+
 Tested up to: 6.8
 Requires PHP: 5.4
-Stable tag: 2.0.94
+Stable tag: 2.0.94.1
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -212,6 +212,9 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.94.1 ( 30 September 2025 ) =
+* Fixed : Patched XSS Vulnerability disclosed by Patchstack (Fiqro Najiah) 
+
 = 2.0.94 ( 15 September 2025 ) =
 * Fixed : Display After Every option is not working properly with random ads. #968
 
