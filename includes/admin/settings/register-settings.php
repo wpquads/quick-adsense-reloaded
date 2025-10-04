@@ -865,7 +865,7 @@ function quads_adtype_callback( $id, $args ) {
       echo '<label for="quads_settings[ads][' . esc_attr($id) . '][ad_type_' . esc_attr($key) . ']">' . esc_html($option) . '</label>&nbsp;';
    endforeach;
 
-   echo '<p class="description quads_hidden">' . esc_html(esc_attr($args['desc'])) . '</p>';
+   echo '<p class="description quads_hidden">' . esc_html($args['desc']) . '</p>';
 }
 
 /**
