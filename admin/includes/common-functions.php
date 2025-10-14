@@ -220,6 +220,9 @@ function quads_sanitize_ad_content($content) {
     
     $content = preg_replace('/href\s*=\s*["\']javascript:[^"\']*["\']/i', 'href="#"', $content);
     $content = preg_replace('/src\s*=\s*["\']javascript:[^"\']*["\']/i', 'src=""', $content);
+    
+    $content = preg_replace('/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/mi', '', $content);
+    
     $content = preg_replace('/javascript\s*:/i', '', $content);
 
     return $content;
