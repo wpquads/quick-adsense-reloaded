@@ -242,6 +242,25 @@ function quads_options_page_new() {
         $currency = isset($quads_settings['currency']) ? $quads_settings['currency'] : 'USD';
         $sellable_ads = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : 1;
         $disableads = isset($quads_settings['disableads']) ? $quads_settings['disableads'] : 0;
+        $is_polylang_activated = is_plugin_active('polylang/polylang.php') ? is_plugin_active('polylang/polylang.php') : 0 ;
+        $pll_languages = [];
+
+        // Add active languages added in polylang plugin
+        if ( function_exists( 'pll_languages_list' ) ) {
+            $languages = PLL()->model->get_languages_list();
+            if ( ! empty( $languages ) && is_array( $languages ) ) {
+                foreach ( $languages as $language ) {
+                    if ( is_object( $language ) && ! empty( $language->name ) ) {
+                        $pll_languages[]     =   array(
+                                                    "value" => $language->slug, 
+                                                     "label" => $language->name  
+                                                );
+                    }
+                }
+            }
+
+        }
+
         $data = array(
             'quads_plugin_url'     => QUADS_PLUGIN_URL,
             'rest_url'             => esc_url_raw( rest_url() ),
@@ -258,7 +277,9 @@ function quads_options_page_new() {
             'user_roles'=>quads_get_current_user_roles(),
             'currency' => $currency,
             'sellable_ads' => $sellable_ads,
-            'disableads' => $disableads
+            'disableads' => $disableads,
+            'is_polylang_activated' => $is_polylang_activated,
+            'pll_languages' => $pll_languages,
         );
         $data = apply_filters('quads_localize_filter',$data,'quads_localize_data');
         // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter

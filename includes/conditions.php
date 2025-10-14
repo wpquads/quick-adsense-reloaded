@@ -571,12 +571,17 @@ function quads_visitor_comparison_logic_checker($visibility){
           }
         break;
         case 'multilingual_language':
-          if( class_exists('SitePress') ){
-          $multilingual_language = apply_filters( 'wpml_current_language', NULL );  
-          if ( $multilingual_language == $v_id ) {
-            $result = true;
-          }
-        }
+            if( class_exists('SitePress') ){
+              $multilingual_language = apply_filters( 'wpml_current_language', NULL );  
+              if ( $multilingual_language == $v_id ) {
+                $result = true;
+              }
+            }else if( function_exists( 'pll_current_language' ) ) {
+                $multilingual_language = pll_current_language();  
+                if ( $multilingual_language == $v_id ) {
+                    $result = true;
+                } 
+            }
         break;
 
         case 'url_parameter':
