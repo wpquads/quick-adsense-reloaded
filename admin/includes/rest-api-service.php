@@ -627,12 +627,7 @@ if($license_info){
 
             $post_meta      = $parameters['quads_post_meta'];
             $ad_id          = isset($post_meta['ad_id']) ? $post_meta['ad_id'] : '';
-            $post_status    = 'publish';
-
-            $ad_type = '';
-            if(isset($post_meta['ad_type'])){
-              $ad_type = $post_meta['ad_type'];
-            }
+            $post_status    = 'publish'; 
 
             if(isset($parameters['quads_ad_status'])){
               $post_status    = $parameters['quads_ad_status'];
@@ -672,35 +667,8 @@ if($license_info){
                 $post_meta['ad_id'] = $ad_id;
 
                 foreach($post_meta as $key => $val){
-                  
-
-                if($key == 'code' && $ad_type == 'plain_text') {
                 
-                $allowed_html = wp_kses_allowed_html('post');
-                $allowed_html['script'] = array(
-                    'src'    => true,
-                    'async'  => true,
-                    'type'   => true,
-                    'media'  => true,
-                    'crossorigin' => true,
-                    'integrity'   => true,
-                );
-                $allowed_html['iframe'] = array(
-                    'src'             => true,
-                    'height'          => true,
-                    'width'           => true,
-                    'frameborder'     => true,
-                    'scrolling'       => true,
-                    'marginwidth'     => true,
-                    'marginheight'    => true,
-                    'allow'           => true,
-                    'allowfullscreen' => true,
-                );
-                // Sanitize with expanded allowed tags
-                $filterd_meta = wp_kses($val, $allowed_html);
-            } else {
-                $filterd_meta = quads_sanitize_post_meta($key, $val);
-            }
+                 $filterd_meta = quads_sanitize_post_meta($key, $val);
 
                     if($key == 'ad_blindness'){
                       $filterd_meta =$val;

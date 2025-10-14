@@ -54,6 +54,8 @@ function quads_render_ad( $id, $string, $widget = false,$ampsupport='' ) {
         // allow use of shortcodes in ad plain text content
         $string = quadsCleanShortcode('quads', $string);
         //wp_die('t1');
+        // Security fix: Remove dangerous JavaScript attributes and event handlers to prevent XSS
+        $string = quads_sanitize_ad_content($string);
         return apply_filters( 'quads_render_ad', $string,$post_id );
     }
 
