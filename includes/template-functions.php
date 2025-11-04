@@ -3839,6 +3839,7 @@ function quads_is_lazyload_template($options, $ads){
                                         }
                                     }else{
                                         $quad_parsed_ads = quads_render_ad($ads['quads_ad_old_id'],$ads['code']);
+                                        $quad_parsed_ads = quads_parse_id_class_ads( $quad_parsed_ads,  $ads['ad_id'] );
                                     }
 
                                     $class_name = '"'.$class_name.'"';
@@ -3875,6 +3876,7 @@ function quads_is_lazyload_template($options, $ads){
                                         }
                                     }else{
                                         $quad_parsed_ads = quads_render_ad($ads['quads_ad_old_id'],$ads['code']);
+                                        $quad_parsed_ads = quads_parse_id_class_ads( $quad_parsed_ads,  $ads['ad_id'] );
                                     }
                                     $id_name = '"'.$id_name.'"';
                                     $content = quads_after_id_class_ad_creator($content,$id_name,$type_name);
@@ -4123,4 +4125,19 @@ function quads_ampforwp_footer_html_output() {
 		<?php
 		}
 	}
+}
+
+/**
+ * @param   $ad
+ * @since   2.0.95
+ * */
+function quads_parse_id_class_ads( $add_content, $id ) {
+    
+    $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . ' -->' . "\n" .
+        '<div class="quads-location quads-ad' . esc_html( $id ) . '" id="quads-ad' . esc_html( $id ) . '">' . "\n";
+    $code .= $add_content;
+    $code .= '</div>' . "\n";
+
+    return $code;
+
 }

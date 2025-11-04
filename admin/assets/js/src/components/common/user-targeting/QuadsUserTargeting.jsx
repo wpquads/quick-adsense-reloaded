@@ -528,13 +528,24 @@ class QuadsUserTargeting extends Component {
 
     componentDidMount(){
         const wpml_activation = quads_localize_data.wpml_activation
+        const polylang_activation = quads_localize_data.is_polylang_activated
         const multiTypeOptions = this.state.multiTypeOptions
+        const multiTypeTargetOption = this.state.multiTypeTargetOption
 
-        if( wpml_activation == 1 ){
+        if( wpml_activation == 1 || polylang_activation == 1 ){
             multiTypeOptions.push( { label:'Language', value:'multilingual_language' } )
             this.setState({
                 multiTypeOptions:multiTypeOptions
             })
+
+            if( quads_localize_data.pll_languages ) {
+                this.setState(prevState => ({
+                    multiTypeTargetOption: {
+                        ...prevState.multiTypeTargetOption,
+                        multilingual_language: quads_localize_data.pll_languages
+                    }
+                }));
+            }
         }
     }
 
