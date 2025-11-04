@@ -865,7 +865,7 @@ function quads_adtype_callback( $id, $args ) {
       echo '<label for="quads_settings[ads][' . esc_attr($id) . '][ad_type_' . esc_attr($key) . ']">' . esc_html($option) . '</label>&nbsp;';
    endforeach;
 
-   echo '<p class="description quads_hidden">' . esc_html(esc_attr($args['desc'])) . '</p>';
+   echo '<p class="description quads_hidden">' . esc_html($args['desc']) . '</p>';
 }
 
 /**
@@ -1425,7 +1425,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
         if( ( is_object( $license ) && 'valid' == $license->license ) || 'valid' == $license ) {
         ?>
             &nbsp;<input type="submit" class="button-secondary" name="<?php echo esc_attr( $args['id'] );?>_deactivate" value="<?php echo esc_html__( 'Deactivate License', 'quick-adsense-reloaded' );?> "/>
-            &nbsp;<input type="submit" class="button-secondary" name="<?php echo esc_attr($args['id']);?>_refresh" value="<?php esc_html__( 'Refresh Info', 'quick-adsense-reloaded' );?>"/>
+            &nbsp;<input type="submit" class="button-secondary" name="<?php echo esc_attr($args['id']);?>_refresh" value="<?php echo esc_attr__( 'Refresh Info', 'quick-adsense-reloaded' );?>"/>
         <?php
         }
         ?>
@@ -2211,7 +2211,7 @@ function quads_adsense_code_callback( $args ) {
            <label class="quads-type-normal" for="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_height]">Height </label><input type="number" step="1" id="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_height]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_height]" class="small-text quads-type-normal" value="<?php echo esc_attr($g_data_ad_height); ?>">
        </div>
        <div class="quads-style">
-           <h3><?php esc_html__('Layout' ,'quick-adsense-reloaded')?></h3>
+           <h3><?php echo esc_html__('Layout' ,'quick-adsense-reloaded')?></h3>
    <?php
    $args_ad_position = array(
        'id' => 'align',
