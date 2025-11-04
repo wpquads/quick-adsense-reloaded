@@ -151,8 +151,14 @@ class QUADS_SL_Plugin_Updater {
 
 			}
 
-			$update_cache->last_checked = time();
-			$update_cache->checked[ $this->name ] = $this->version;
+			if ( false === $update_cache ) {
+				$update_cache = new stdClass();
+				$update_cache->last_checked = time();
+				$update_cache->checked[ $this->name ] = $this->version;
+			} else {
+				$update_cache->last_checked = time();
+				$update_cache->checked[ $this->name ] = $this->version;
+			}			
 
 			set_site_transient( 'update_plugins', $update_cache );
 
