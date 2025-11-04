@@ -720,7 +720,7 @@ drawChart(config);
            let getallads_data =[];
            let ad_ids_temp =[];
            Object.entries(result.posts_data).map(([key, value]) => {
-           if(value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] != "draft")
+           if(value.post_meta['ad_type'] != "group_insertion")
              getallads_data.push({label: value.post['post_title'], value: value.post['post_id']});
            if(value.post_meta['ad_type'] != "group_insertion" && value.post['post_status'] == "publish")
              ad_ids_temp.push(value.post['post_id']);
