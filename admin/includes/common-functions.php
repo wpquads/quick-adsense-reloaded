@@ -19,8 +19,6 @@ function quads_sanitize_post_meta($key, $meta){
 		break;
 		case 'code':
 			$response = wp_unslash($meta);
-			// Additional sanitization to remove dangerous patterns
-			$response = quads_sanitize_ad_content($response);
 		break;
       case 'random_ads_list':
 			$response = wp_unslash($meta);  
@@ -193,37 +191,3 @@ function quads_change_mode() {
 
 }
 add_action('wp_ajax_quads_change_mode', 'quads_change_mode');
-
-/**
- * Sanitize ad content to prevent XSS attacks while preserving legitimate HTML
- * 
- * @param string $content The ad content to sanitize
- * @return string Sanitized ad content
- */
-function quads_sanitize_ad_content($content) {
-    if (empty($content)) {
-        return $content;
-    }
-    
-    // Remove dangerous JavaScript attributes and event handlers
-    $dangerous_attributes = array(
-        'onload', 'onunload', 'onclick', 'onmousedown', 'onmouseup', 'onmouseover', 
-        'onmousemove', 'onmouseout', 'onfocus', 'onblur', 'onkeydown', 'onkeypress', 
-        'onkeyup','onbeforeunload', 'onerror', 'onpagehide', 'onpageshow',
-		'onpopstate', 'onresize'
-    );
-    
-    foreach ($dangerous_attributes as $attr) {
-        $content = preg_replace('/\s*' . preg_quote($attr, '/') . '\s*=\s*["\'][^"\']*["\']/i', '', $content);
-        $content = preg_replace('/\s*' . preg_quote($attr, '/') . '\s*=\s*[^"\'>\s]+/i', '', $content);
-    }
-    
-    $content = preg_replace('/href\s*=\s*["\']javascript:[^"\']*["\']/i', 'href="#"', $content);
-    $content = preg_replace('/src\s*=\s*["\']javascript:[^"\']*["\']/i', 'src=""', $content);
-    
-    $content = preg_replace('/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/mi', '', $content);
-    
-    $content = preg_replace('/javascript\s*:/i', '', $content);
-
-    return $content;
-}
