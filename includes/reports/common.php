@@ -1492,27 +1492,25 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 
 // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$array_top_clicks = $wpdb->get_results(
-				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
-				$wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks ,IFNULL(SUM(click_mob.stats_clicks),0)as mob_clicks , SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click
+				"SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks ,IFNULL(SUM(click_mob.stats_clicks),0)as mob_clicks , SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click
 				FROM {$wpdb->prefix}posts as posts
 				LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id 
                 LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id
 				WHERE posts.post_type='quads-ads' AND posts.post_status='publish'
 				GROUP BY posts.ID
 				ORDER BY total_click DESC
-				LIMIT 5;")
+				LIMIT 5;"
 				);
 				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$array_top_imprs_=$array_top_imprs = $wpdb->get_results(
-					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
-					$wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(impr_desk.stats_impressions),0)as desk_imprsn ,IFNULL(SUM(impr_mob.stats_impressions),0)as mob_imprsn , SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
+					"SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(impr_desk.stats_impressions),0)as desk_imprsn ,IFNULL(SUM(impr_mob.stats_impressions),0)as mob_imprsn , SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
 				FROM {$wpdb->prefix}posts as posts
 				LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id 
 				LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id
 				WHERE posts.post_type='quads-ads' AND posts.post_status='publish'
 				GROUP BY posts.ID
 				ORDER BY total_impression DESC
-				LIMIT 5;")
+				LIMIT 5;"
 				);
 				
 				foreach($array_top_clicks as $key=>$value){

@@ -7,7 +7,7 @@
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
  * Version: 2.0.94.1
  * Text Domain: quick-adsense-reloaded
- * Domain Path: languages
+ * Domain Path: /languages
  * Credits: WP QUADS - Quick AdSense Reloaded is a fork of Quick AdSense
  * License: GPL2
  *

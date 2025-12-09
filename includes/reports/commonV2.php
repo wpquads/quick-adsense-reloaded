@@ -935,8 +935,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			{
 				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$array_top5= $wpdb->get_results(
-					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
-					$wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
+					"SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
 					FROM {$wpdb->prefix}posts as posts
 					LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id
 					LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id
@@ -944,7 +943,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 					LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id
 					WHERE posts.post_type='quads-ads'AND posts.post_status='publish'
 					GROUP BY posts.ID
-					ORDER BY total_click DESC , total_impression DESC;")
+					ORDER BY total_click DESC , total_impression DESC;"
 				);			
 			}else if($ad_id == 'top_five_ads'){
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
@@ -1388,12 +1387,22 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	$re_arrange_top5 = array();
 	if($ad_id == "all" && $day == "all_time"){
 		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-		$rotator_ads = 	$wpdb->get_results(
-			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
-			$wpdb->prepare("SELECT posts.ID as ID, postmeta.meta_key, postmeta.meta_value  
-																												FROM {$wpdb->prefix}posts as posts 
-																												LEFT JOIN {$wpdb->prefix}postmeta as postmeta ON posts.ID = postmeta.post_id
-																												WHERE posts.post_type = 'quads-ads' AND posts.post_status='publish' AND postmeta.meta_value = 'rotator_ads'" ), ARRAY_A);
+		$rotator_ads = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT posts.ID AS ID, postmeta.meta_key, postmeta.meta_value
+				 FROM {$wpdb->prefix}posts AS posts
+				 LEFT JOIN {$wpdb->prefix}postmeta AS postmeta 
+				    ON posts.ID = postmeta.post_id
+				 WHERE posts.post_type = %s
+				   AND posts.post_status = %s
+				   AND postmeta.meta_value = %s",
+				'quads-ads',
+				'publish',
+				'rotator_ads'
+			),
+			ARRAY_A
+		);
+
 		$rotate_sub_ads = array();
 		$rcnt = 0;
 		if(!empty($rotator_ads) && is_array($rotator_ads)){

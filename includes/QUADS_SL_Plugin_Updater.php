@@ -180,20 +180,36 @@ class QUADS_SL_Plugin_Updater {
 			$changelog_link = self_admin_url( 'index.php?edd_sl_action=view_plugin_changelog&plugin=' . $this->name . '&slug=' . $this->slug . '&TB_iframe=true&width=772&height=911' );
 
 			if ( empty( $version_info->download_link ) ) {
-				printf( /* translators: 1: plugin name, 2: changelog link, 3: new version */
-					/* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ __( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a>.', 'quick-adsense-reloaded' ),
+				printf(
+					/* translators: 1: Plugin name, 2: Changelog link, 3: New version number */
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					__(
+						'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a>.',
+						'quick-adsense-reloaded'
+					),
 					esc_html( $version_info->name ),
 					esc_url( $changelog_link ),
 					esc_html( $version_info->new_version )
 				);
 			} else {
-				printf( /* translators: 1: plugin name, 2: changelog link, 3: new version, 4 update link */
-					/* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ __( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a> or <a href="%4$s">update now</a>.', 'quick-adsense-reloaded' ),
+				printf(
+					/* translators: 1: Plugin name, 2: Changelog link URL, 3: New version number, 4: Update link URL */
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped 
+					__(
+						'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a> or <a href="%4$s">update now</a>.',
+						'quick-adsense-reloaded'
+					),
 					esc_html( $version_info->name ),
 					esc_url( $changelog_link ),
 					esc_html( $version_info->new_version ),
-					esc_url( wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' ) . $this->name, 'upgrade-plugin_' . $this->name ) )
+					esc_url(
+						wp_nonce_url(
+							self_admin_url( 'update.php?action=upgrade-plugin&plugin=' ) . $this->name,
+							'upgrade-plugin_' . $this->name
+						)
+					)
 				);
+
 			}
 
 			echo '</div></td></tr>';

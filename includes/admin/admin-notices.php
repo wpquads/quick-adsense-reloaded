@@ -245,7 +245,7 @@ function quads_show_rate_div(){
         This will help to spread its popularity and to make this plugin a better one.
         <br><br>Your help is much appreciated. Thank you very much
         <ul>
-            <li><a href="https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/?filter=5#new-post" class="thankyou" target="_new" title="Ok, you deserved it" style="font-weight:bold;">Ok, you deserved it</a></li>
+            <li><a href="https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/" class="thankyou" target="_new" title="Ok, you deserved it" style="font-weight:bold;">Ok, you deserved it</a></li>
             <li><a href="javascript:void(0);" class="quadsHideRating" title="I already did" style="font-weight:bold;">I already did</a></li>
             <li><a href="javascript:void(0);" class="quadsHideRating" title="No, not good enough" style="font-weight:bold;">No, not good enough</a></li>
             <br>

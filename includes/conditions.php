@@ -23,11 +23,15 @@
 function quads_ad_is_allowed( $content = null ) {
     global $quads_options, $quads_mode;
 
+    $http_requested_with = '';
+    if ( ! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) ) {
+        $http_requested_with = strtolower( sanitize_text_field( wp_unslash( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) ) );
+    }
+
     // Never show ads in ajax calls
     // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-    
     if ( isset($quads_options['is_ajax']) && (defined('DOING_AJAX') && DOING_AJAX) ||
-         ( isset($_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) && ! empty( wp_unslash( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) ) && strtolower( wp_unslash( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) ) == 'xmlhttprequest' ))
+         ( $http_requested_with == 'xmlhttprequest' ))
         {
           $theme = wp_get_theme();
           if(is_object($theme) && $theme->name == 'Bimber'){
@@ -100,11 +104,15 @@ function quads_ad_is_allowed( $content = null ) {
 function quads_widget_ad_is_allowed( $content = null ) {
     global $quads_options;
 
+    $http_requested_with = '';
+    if ( ! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) ) {
+        $http_requested_with = strtolower( sanitize_text_field( wp_unslash( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) ) );
+    }
 
     // Never show ads in ajax calls
     // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
     if ( isset($quads_options['is_ajax']) && (defined('DOING_AJAX') && DOING_AJAX) ||
-         (! empty( wp_unslash( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) ) && strtolower( wp_unslash( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) ) == 'xmlhttprequest' ))
+         ( $http_requested_with == 'xmlhttprequest' ) )
         {
         /* it's an AJAX call */
         return false;

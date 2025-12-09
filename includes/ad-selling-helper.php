@@ -914,8 +914,9 @@ function quads_custom_premimum_memeber_login() {
         );
         $user = wp_signon($creds, false);
         if (!is_wp_error($user)) {
-            wp_redirect($redirect_url);
+            wp_safe_redirect( $redirect_url );
             exit;
+
         } else {
             echo '<p>Login failed! Please try again.</p>';
         }
@@ -944,8 +945,8 @@ function quads_update_member_subscription() {
         );
         global $wp;
         $redirect_url = home_url( $wp->request );
-        wp_redirect($redirect_url);
-            exit;
+        wp_safe_redirect( $redirect_url );
+        exit;
     }
 }
 function quads_get_premimum_member_ad_space($user_id){
@@ -954,8 +955,10 @@ function quads_get_premimum_member_ad_space($user_id){
    
     // Query the records
     /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching */
-    $results = $wpdb->get_results( $wpdb->prepare(
-        "SELECT * FROM $table_name WHERE payment_status = %s and user_id = %d ORDER BY id DESC", 'paid', $user_id ) );
+    $query  = "SELECT * FROM {$table_name} WHERE payment_status = %s AND user_id = %d ORDER BY id DESC";
+    $results = $wpdb->get_results(
+        $wpdb->prepare( $query, 'paid', $user_id )
+    );
    
     foreach ($results as $key => $result) {
         $ad_id = $result->ad_id;
