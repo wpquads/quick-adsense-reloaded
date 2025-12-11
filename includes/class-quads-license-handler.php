@@ -68,21 +68,8 @@ class QUADS_License {
 		}
                  
 		// Setup hooks
-		$this->includes();
 		$this->hooks();
 
-	}
-
-	/**
-	 * Include the updater class
-	 *
-	 * @access  private
-	 * @return  void
-	 */
-	private function includes() {
-		if ( ! class_exists( 'QUADS_SL_Plugin_Updater' ) ) {
-                    require_once 'QUADS_SL_Plugin_Updater.php';    
-                }
 	}
 
 	/**
@@ -191,11 +178,13 @@ class QUADS_License {
 		}
             
 		// Setup the updater
-		$quads_updater = new QUADS_SL_Plugin_Updater(
-			$this->api_url,
-			$this->file,
-			$args
-		);
+		if( class_exists('QUADS_SL_Plugin_Updater') ) {
+			$quads_updater = new QUADS_SL_Plugin_Updater(
+				$this->api_url,
+				$this->file,
+				$args
+			);
+		}
 	}
 
 	public function auto_checker(){
