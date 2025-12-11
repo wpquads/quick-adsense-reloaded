@@ -252,7 +252,7 @@ function quads_from_adsforwp_manual_ads($atts ){
       'post_type'      => 'quads-ads',
       // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
       'meta_key'   => 'adsforwp_ads_id', 
-      // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+      // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query,WordPress.DB.SlowDBQuery.slow_db_query_meta_value
       'meta_value' => $adsforwpid
     );
 
@@ -878,13 +878,13 @@ function quads_disable_ads(){
         return false;
     }
     $current_user = wp_get_current_user();
-    $email = $current_user->user_email;
-    $user_ID = $current_user->ID;
+    $email = sanitize_email( $current_user->user_email );
+    $user_ID = absint( $current_user->ID );
    
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_disabledad_data'; 
-    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-    $ad_details = $wpdb->get_row("SELECT * FROM $table_name WHERE user_email = '$email' AND payment_status = 'paid' and user_id=$user_ID order by disable_ad_id desc limit 1");
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+    $ad_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table_name WHERE user_email = %s AND payment_status = %s and user_id=%d order by disable_ad_id desc limit 1", $email, 'paid', $user_ID ) );
     $is_disable_ad = false;
     if(!empty($ad_details)){
         $disable_duration = $ad_details->disable_duration;
