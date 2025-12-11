@@ -2,15 +2,15 @@
 
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
-Contributors: sanjeevsetu
+Contributors: wpquads
 Donate link: https://wpquads.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, monetize, banner
 Requires at least: 3.6+
-Tested up to: 6.8
+Tested up to: 6.9
 Requires PHP: 5.4
-Stable tag: 2.0.94.1
+Stable tag: 2.0.96
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -212,6 +212,10 @@ Alternative Installation:
 
 
 == Changelog ==
+= 2.0.96 ( 11 December 2025 ) =
+* Fixed : Checked with Plugin Check and added fix.
+* Added : Tested with WordPress 6.9 and update readme.txt
+
 = 2.0.94.1 ( 30 September 2025 ) =
 * Fixed : Patched XSS Vulnerability disclosed by Patchstack (Fiqro Najiah) 
 
