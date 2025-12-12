@@ -212,7 +212,7 @@ Alternative Installation:
 
 
 == Changelog ==
-= 2.0.96 ( 11 December 2025 ) =
+= 2.0.96 ( 12 December 2025 ) =
 * Fixed : Checked with Plugin Check and added fix.
 * Added : Tested with WordPress 6.9 and update readme.txt
 
