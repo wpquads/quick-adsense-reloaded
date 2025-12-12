@@ -175,19 +175,19 @@ function quads_hide_ad_widget_on_homepage(){
 /**
  * Get the total number of active ads
  *
- * @global int $visibleShortcodeAds
- * @global int $visibleContentAdsGlobal
- * @global int $ad_count_custom
- * @global int $ad_count_widget
+ * @global int $quads_visibleShortcodeAds
+ * @global int $quads_visibleContentAdsGlobal
+ * @global int $quads_ad_count_custom
+ * @global int $quads_ad_count_widget
  * @return int number of active ads
  */
 function quads_get_total_ad_count(){
-    global $visibleShortcodeAds, $visibleContentAdsGlobal, $ad_count_custom, $ad_count_widget;
+    global $quads_visibleShortcodeAds, $quads_visibleContentAdsGlobal, $quads_ad_count_custom, $quads_ad_count_widget;
 
-    $shortcode = isset($visibleShortcodeAds) ? (int)$visibleShortcodeAds : 0;
-    $content = isset($visibleContentAdsGlobal) ? (int)$visibleContentAdsGlobal : 0;
-    $custom = isset($ad_count_custom) ? (int)$ad_count_custom : 0;
-    //$widget = isset($ad_count_widget) ? (int)$ad_count_widget : 0;
+    $shortcode = isset($quads_visibleShortcodeAds) ? (int)$quads_visibleShortcodeAds : 0;
+    $content = isset($quads_visibleContentAdsGlobal) ? (int)$quads_visibleContentAdsGlobal : 0;
+    $custom = isset($quads_ad_count_custom) ? (int)$quads_ad_count_custom : 0;
+    //$widget = isset($quads_ad_count_widget) ? (int)$quads_ad_count_widget : 0;
     $widget = quads_get_number_widget_ads();
 
     //wp_die($widget);
@@ -225,10 +225,10 @@ function quads_ad_reach_max_count(){
  * @return int amount of active ads in the_content
  */
 function quads_set_ad_count_content(){
-    global $visibleContentAdsGlobal;
+    global $quads_visibleContentAdsGlobal;
 
-    $visibleContentAdsGlobal++;
-    return $visibleContentAdsGlobal;
+    $quads_visibleContentAdsGlobal++;
+    return $quads_visibleContentAdsGlobal;
 }
 
 /**
@@ -237,10 +237,10 @@ function quads_set_ad_count_content(){
  * @return int amount of active shortcode ads in the_content
  */
 function quads_set_ad_count_shortcode(){
-    global $visibleShortcodeAds;
+    global $quads_visibleShortcodeAds;
 
-    $visibleShortcodeAds++;
-    return $visibleShortcodeAds;
+    $quads_visibleShortcodeAds++;
+    return $quads_visibleShortcodeAds;
 }
 
 /**
@@ -249,10 +249,10 @@ function quads_set_ad_count_shortcode(){
  * @return int amount of active custom ads
  */
 function quads_set_ad_count_custom(){
-    global $ad_count_custom;
+    global $quads_ad_count_custom;
 
-    $ad_count_custom++;
-    return $ad_count_custom;
+    $quads_ad_count_custom++;
+    return $quads_ad_count_custom;
 }
 
 /**
@@ -262,10 +262,10 @@ function quads_set_ad_count_custom(){
  * @deprecated since 1.4.1
  */
 function quads_set_ad_count_widget(){
-    global $ad_count_widget;
+    global $quads_ad_count_widget;
 
-    $ad_count_widget++;
-    return $ad_count_widget;
+    $quads_ad_count_widget++;
+    return $quads_ad_count_widget;
 }
 
 /**
@@ -580,6 +580,7 @@ function quads_visitor_comparison_logic_checker($visibility){
         break;
         case 'multilingual_language':
             if( class_exists('SitePress') ){
+              // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound --Reason this is hook of WPML plugin so prefix already added.
               $multilingual_language = apply_filters( 'wpml_current_language', NULL );  
               if ( $multilingual_language == $v_id ) {
                 $result = true;

@@ -323,7 +323,7 @@ function quads_render_admob_async( $id, $ad_data  ) {
     $slot_id = $ad_data['admob_data_ad_slot'];
 
     // Store the values in a filter
-    add_filter('admobi_client_data', function() use ($client_id, $slot_id) {
+    add_filter('quads_admobi_client_data', function() use ($client_id, $slot_id) {
         return array('client_id' => $client_id, 'slot_id' => $slot_id);
     });
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdMob async --> \n\n";
@@ -381,7 +381,7 @@ function quads_render_admob_async( $id, $ad_data  ) {
 
 // Load the AdSense script in the header
 function quads_add_adsense_script() {
-    $param = apply_filters( 'admobi_client_data', array(
+    $param = apply_filters( 'quads_admobi_client_data', array(
         'client_id' => '',
         'slot_id'   => ''
     ) );

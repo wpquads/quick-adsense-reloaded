@@ -56,9 +56,10 @@ function quads_register_ad( $args ) {
         return;
     }
     if ( ! isset( $_quads_registered_ad_locations  ) ) {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
         $_quads_registered_ad_locations  = array();
     }
-
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
     $_quads_registered_ad_locations [ $args['location'] ] = $args;
 }
 /**

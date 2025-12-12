@@ -145,7 +145,7 @@
 	 *
 	 */
 
-	class Browser {
+	class QUADS_Browser {
 		public $_agent = '';
 		public $_browser_name = '';
 		public $_version = '';

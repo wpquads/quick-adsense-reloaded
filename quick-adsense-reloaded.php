@@ -57,13 +57,13 @@ if( !class_exists( 'QUADS_Utils' ) ) {
 }
 
 // Define some globals
-$visibleContentAds = 0; // Amount of ads which are shown
-$visibleShortcodeAds = 0; // Number of active ads which are shown via shortcodes
-$visibleContentAdsGlobal = 0; // Number of active ads which are shown in the_content
-$ad_count_custom = 0; // Number of active custom ads which are shown on the site
-$ad_count_widget = 0; // Number of active ads in widgets
-$AdsId = array(); // Array of active ad id's
-$maxWidgets = 10; // number of widgets
+$quads_visibleContentAds = 0; // Amount of ads which are shown
+$quads_visibleShortcodeAds = 0; // Number of active ads which are shown via shortcodes
+$quads_visibleContentAdsGlobal = 0; // Number of active ads which are shown in the_content
+$quads_ad_count_custom = 0; // Number of active custom ads which are shown on the site
+$quads_ad_count_widget = 0; // Number of active ads in widgets
+$quads_AdsId = array(); // Array of active ad id's
+$quads_maxWidgets = 10; // number of widgets
 $quads_shortcode_ids=array(); // array of active shortcode ids (new mode)
 $quads_total_ads=0; // Total ads to display (new mode)
 
@@ -330,6 +330,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          $quads_lang_dir = apply_filters( 'quads_languages_directory', $quads_lang_dir );
 
          // Traditional WordPress plugin locale filter
+         // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
          $locale = apply_filters( 'plugin_locale', get_locale(), 'quick-adsense-reloaded' );
          $mofile = sprintf( '%1$s-%2$s.mo', 'quick-adsense-reloaded', $locale );
 
@@ -550,8 +551,8 @@ if (QUADS_VERSION >= '2.0.28' && quads_is_pro_active() ) {
       
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 if( function_exists('quads_is_pro_active') && quads_is_pro_active() && isset( $_GET["page"] ) && !empty( $_GET ) && $_GET["page"] == 'quads-settings' && isset($_GET["tab"]) && $_GET["tab"] == 'licenses' ){
-    $license = get_option( 'quads_wp_quads_pro_license_active' );
-    if( !empty( $license ) && is_object( $license ) && $license->license == 'valid' ) {
+    $quads_license = get_option( 'quads_wp_quads_pro_license_active' );
+    if( !empty( $quads_license ) && is_object( $quads_license ) && $quads_license->license == 'valid' ) {
       add_action('plugins_loaded','quads_settings_update_title');
     }
   }

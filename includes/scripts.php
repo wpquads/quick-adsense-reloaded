@@ -23,7 +23,7 @@ if( function_exists( quads_is_pro_active() ) ) {
 }
 
 add_action( 'admin_print_footer_scripts', 'quads_check_ad_blocker' );
-add_action( 'wp_enqueue_scripts', 'click_fraud_protection' );
+add_action( 'wp_enqueue_scripts', 'quads_click_fraud_protection' );
 add_action( 'wp_enqueue_scripts', 'quads_tcf_2_integration' );
 
 function quads_tcf_2_integration(){
@@ -45,7 +45,7 @@ function quads_tcf_2_integration(){
 }
 
 
-function click_fraud_protection(){
+function quads_click_fraud_protection(){
 
     global $quads_options,$quads_mode;
     if($quads_mode == 'new'){
@@ -973,15 +973,15 @@ function quads_delay_ad_sec() {
  * @author Tedd Garland, René Hermenau
  * @since 0.9.0
  */
-$wpvcomp = ( bool ) (version_compare( get_bloginfo( 'version' ), '3.1', '>=' ));
+$quads_wpvcomp = ( bool ) (version_compare( get_bloginfo( 'version' ), '3.1', '>=' ));
 
 function quads_ads_head_script() {
-    global $quads_options, $wpvcomp;
+    global $quads_options, $quads_wpvcomp;
 
     if( isset( $quads_options['quicktags']['QckTags'] ) ) {
         ?>
         <script>
-        wpvcomp = <?php echo (($wpvcomp == 1) ? "true " : "false"); ?>;
+        wpvcomp = <?php echo (($quads_wpvcomp == 1) ? "true " : "false"); ?>;
         edaddID = new Array();
         edaddNm = new Array();
         if (typeof (edButtons) != 'undefined') {         edadd = edButtons.length;
@@ -1026,7 +1026,7 @@ function quads_ads_head_script() {
     }
 }
 
-if( $wpvcomp ) {
+if( $quads_wpvcomp ) {
     add_action( 'admin_print_footer_scripts', 'quads_ads_head_script' );
 } else {
     add_action( 'admin_head', 'quads_ads_head_javascript_script' );

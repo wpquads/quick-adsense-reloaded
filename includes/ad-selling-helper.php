@@ -893,13 +893,13 @@ async function processStripePaymentSuccess( data ){
 }
 
 $quads_settings = get_option( 'quads_settings' );
-$sellable_ads = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : true;
-if ( $sellable_ads ) {
+$quads_sellable_ads = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : true;
+if ( $quads_sellable_ads ) {
     add_shortcode( 'quads_buy_form', 'quads_ads_buy_form' );
     add_shortcode( 'sellable_premium_member_page', 'quads_sellable_premium_member_page' );
 }
-$disable_ads = isset($quads_settings['disableads']) ? $quads_settings['disableads'] : false;
-if ( $disable_ads ) {
+$quads_disable_ads = isset($quads_settings['disableads']) ? $quads_settings['disableads'] : false;
+if ( $quads_disable_ads ) {
     add_shortcode( 'quads_disable_ads_form', 'quads_ads_disable_form' );
 }
 function quads_custom_premimum_memeber_login() {
@@ -1608,7 +1608,7 @@ async function processStripePaymentSuccess( data ){
 return ob_get_clean();
 }
 
-function handle_ad_buy_form_submission() {
+function quads_handle_ad_buy_form_submission() {
    
     if ( ! isset( $_POST['action'] ) || $_POST['action'] !== 'submit_ad_buy_form' ) {
         wp_send_json_error( array( 'message' => esc_html__( 'Invalid request.', 'quick-adsense-reloaded' ) ) );
@@ -2062,8 +2062,8 @@ function quads_redeem_coupon(){
     }
 }
 
-add_action( 'wp_ajax_submit_ad_buy_form', 'handle_ad_buy_form_submission' );
-add_action( 'wp_ajax_nopriv_submit_ad_buy_form', 'handle_ad_buy_form_submission' );
+add_action( 'wp_ajax_submit_ad_buy_form', 'quads_handle_ad_buy_form_submission' );
+add_action( 'wp_ajax_nopriv_submit_ad_buy_form', 'quads_handle_ad_buy_form_submission' );
 function quads_handle_submit_disablead_form() {
    
     if ( ! isset( $_POST['action'] ) || $_POST['action'] !== 'submit_disablead_form' ) {

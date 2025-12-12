@@ -299,10 +299,10 @@ function quads_render_backup_settings(){
 function quads_tools_sysinfo_get() {
 	global $wpdb, $quads_options;
 
-	if( !class_exists( 'Browser' ) )
+	if( !class_exists( 'QUADS_Browser' ) )
 		require_once QUADS_PLUGIN_DIR . 'includes/libraries/browser.php';
 
-	$browser = new Browser();
+	$browser = new QUADS_Browser();
 
 	// Get theme info
 	if( get_bloginfo( 'version' ) < '3.4' ) {
@@ -551,7 +551,7 @@ function quads_import_quick_adsense_process() {
 	}
         
         
-        $quads_settings          = get_quick_adsense_setting();
+        $quads_settings          = quads_get_quick_adsense_setting();
         $quads_reloaded_settings = get_option('quads_settings');
         
 
@@ -561,7 +561,7 @@ function quads_import_quick_adsense_process() {
         }
 
         $message = __('Most of settings have been already imported successfully! (If not we probably have an unknown issue here)', 'quick-adsense-reloaded');
-        //$message = get_quick_adsense_setting();
+        //$message = quads_get_quick_adsense_setting();
         wp_send_json ( $message );
 
 }
@@ -623,7 +623,7 @@ function quads_check_quick_adsense_version(){
  * @since 0.9.0
  * @return array
  */
-function get_quick_adsense_setting() {
+function quads_get_quick_adsense_setting() {
     $amountAds = 10;
     $amountWidgets = 10;
     $settings = array();

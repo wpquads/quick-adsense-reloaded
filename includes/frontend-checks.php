@@ -21,8 +21,8 @@ function quads_frontend_checks_init() {
         global $wp_version;
         if (version_compare( $wp_version, '5.4', '>=') ){
              if( array_key_exists( 'the_content' , $GLOBALS['wp_filter']) ) {
-                global $the_content;
-                $the_content = true;
+                global $quads_the_content;
+                $quads_the_content = true;
             }
         }else {
            add_filter( 'the_content', 'quads_check_the_content_filter' );
@@ -40,7 +40,7 @@ add_action( 'init', 'quads_frontend_checks_init' );
  * @param obj $wp_admin_bar WP_Admin_Bar
  */
 function quads_add_admin_bar_menu( $wp_admin_bar ) {
-    global $quads_options, $wp_the_query, $post, $wp_scripts, $the_content;
+    global $quads_options, $wp_the_query, $post, $wp_scripts, $quads_the_content;
 
     $error = false;
 
@@ -73,7 +73,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
     // Hidden by default
     if( $wp_the_query->is_singular() ) {
         // Check if the_content filter is available
-        if( !$the_content ) {
+        if( !$quads_the_content ) {
             $wp_admin_bar->add_node( array(
                 'parent' => 'quads_ad_check',
                 'id' => 'quads_ad_check_the_content_not_invoked',
@@ -208,9 +208,9 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
  * @return string $content
  */
 function quads_check_the_content_filter( $content ) {
-    global $the_content;
+    global $quads_the_content;
 
-    $the_content = true;
+    $quads_the_content = true;
 
     return $content;
 }
