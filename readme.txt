@@ -216,6 +216,12 @@ Alternative Installation:
 * Fixed : Checked with Plugin Check and added fix.
 * Added : Tested with WordPress 6.9 and update readme.txt
 
+= 2.0.95 ( 05 November 2025 ) =
+* Added : Option to select Polylang-specific language. #972
+* Improvement : Report should show the draft ads too #974
+* Fixed : Fatal error in query monitor #970
+* Fixed : click was not counted in the after-class condition. #973
+
 = 2.0.94.1 ( 30 September 2025 ) =
 * Fixed : Patched XSS Vulnerability disclosed by Patchstack (Fiqro Najiah) 
 
@@ -349,11 +355,5 @@ Alternative Installation:
 * Fixed: The “Unexptected token error” shows in browser console #845
 * Fixed: Warning appears #846
 * Fixed: Add default width and height for the ads #680
-
-= 2.0.78 ( 10 October 2023 ) =
-* Added: After ID field in "Where Will The AD Appear" option #766
-* Added: After Advance Selector field in "Where Will The AD Appear" option #766
-* Fixed: Visibility validation should not work if we select shortcode(Manual) option #802	
-* Fixed: Targetting city wise to show the ads on frontend is not working #830
 
 Full changelog available [ at changelog.txt](https://plugins.svn.wordpress.org/quick-adsense-reloaded/trunk/changelog.txt)
