@@ -28,6 +28,7 @@ add_action( 'wp_footer', 'quads_parse_floating_cubes_ads' );
 add_action( 'init', 'quads_remove_ads_for_wp_shortcodes',999 );
 
 function quads_get_complete_html( $content_buffer ) {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound --Reason ALready prefixed.
     $content_buffer = apply_filters('wp_quads_content_html_last_filter', $content_buffer);
     return  $content_buffer;
   }
@@ -252,7 +253,7 @@ function quads_from_adsforwp_manual_ads($atts ){
       'post_type'      => 'quads-ads',
       // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
       'meta_key'   => 'adsforwp_ads_id', 
-      // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+      // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query,WordPress.DB.SlowDBQuery.slow_db_query_meta_value
       'meta_value' => $adsforwpid
     );
 
@@ -869,7 +870,7 @@ function quads_get_load_priority(){
 /**
  *
  * @global arr $quads_options
- * @global type $adsArray
+ * @global type $quads_adsArray
  * @param type $content
  * @return type
  */
@@ -878,13 +879,13 @@ function quads_disable_ads(){
         return false;
     }
     $current_user = wp_get_current_user();
-    $email = $current_user->user_email;
-    $user_ID = $current_user->ID;
+    $email = sanitize_email( $current_user->user_email );
+    $user_ID = absint( $current_user->ID );
    
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_disabledad_data'; 
-    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-    $ad_details = $wpdb->get_row("SELECT * FROM $table_name WHERE user_email = '$email' AND payment_status = 'paid' and user_id=$user_ID order by disable_ad_id desc limit 1");
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+    $ad_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table_name WHERE user_email = %s AND payment_status = %s and user_id=%d order by disable_ad_id desc limit 1", $email, 'paid', $user_ID ) );
     $is_disable_ad = false;
     if(!empty($ad_details)){
         $disable_duration = $ad_details->disable_duration;
@@ -908,18 +909,18 @@ function quads_disable_ads(){
     return $is_disable_ad;
 }
 function quads_process_content( $content ) {
-    global $quads_mode, $quads_options, $adsArray, $adsArrayCus, $visibleContentAds, $ad_count_widget, $visibleShortcodeAds;        
+    global $quads_mode, $quads_options, $quads_adsArray, $quads_adsArrayCus, $quads_visibleContentAds, $quads_ad_count_widget, $quads_visibleShortcodeAds;        
     
     // Array of ad codes ids
-    $adsArray = quads_get_active_ads();
+    $quads_adsArray = quads_get_active_ads();
     
     // Return is no ads are defined
-    if ($adsArray === 0 && $quads_mode != 'new'){
+    if ($quads_adsArray === 0 && $quads_mode != 'new'){
         return $content;
     }
 
     // Do nothing if maximum ads are reached in post content
-    if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
+    if( $quads_visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
         $content = quads_clean_tags( $content );
         return $content;
     }
@@ -968,9 +969,9 @@ function quads_process_content( $content ) {
  */
 function quads_get_number_widget_ads() {
     $number_widgets = 0;
-    $maxWidgets = 10;
+    $quads_maxWidgets = 10;
     // count active widget ads
-        for ( $i = 1; $i <= $maxWidgets; $i++ ) {
+        for ( $i = 1; $i <= $quads_maxWidgets; $i++ ) {
             $AdsWidName = 'AdsWidget%d (Quick Adsense Reloaded)';
             $wadsid = sanitize_title( str_replace( array('(', ')'), '', sprintf( $AdsWidName, $i ) ) );
             $number_widgets += (is_active_widget( '', '', $wadsid )) ? 1 : 0;
@@ -998,11 +999,11 @@ function quads_get_active_ads() {
         $tmp = isset( $quads_options['ads']['ad' . $i]['code'] ) ? trim( $quads_options['ads']['ad' . $i]['code'] ) : '';
         // id is valid if there is either the plain text field populated or the adsense ad slot and the ad client id
         if( !empty( $tmp ) || (!empty( $quads_options['ads']['ad' . $i]['g_data_ad_slot'] ) && !empty( $quads_options['ads']['ad' . $i]['g_data_ad_client'] ) ) ) {
-            $adsArray[] = $i;
+            $quads_adsArray[] = $i;
         }
         $i++;
     }
-    return (isset($adsArray) && count($adsArray) > 0) ? $adsArray : 0;
+    return (isset($quads_adsArray) && count($quads_adsArray) > 0) ? $quads_adsArray : 0;
 }
 
 function quads_get_active_ads_ids() {
@@ -1038,11 +1039,11 @@ function quads_get_active_ads_backup() {
         $tmp = isset( $quads_settings_backup['ads']['ad' . $i]['code'] ) ? trim( $quads_settings_backup['ads']['ad' . $i]['code'] ) : '';
         // id is valid if there is either the plain text field populated or the adsense ad slot and the ad client id
         if( !empty( $tmp ) || (!empty( $quads_settings_backup['ads']['ad' . $i]['g_data_ad_slot'] ) && !empty( $quads_settings_backup['ads']['ad' . $i]['g_data_ad_client'] ) ) ) {
-            $adsArray[] = $i;
+            $quads_adsArray[] = $i;
         }
         $i++;
     }
-    return (isset($adsArray) && count($adsArray) > 0) ? $adsArray : 0;
+    return (isset($quads_adsArray) && count($quads_adsArray) > 0) ? $quads_adsArray : 0;
 }
 
 /**
@@ -1077,7 +1078,7 @@ function quads_get_max_allowed_post_ads( $content ) {
  * Filter default ads
  * 
  * @global array $quads_options global settings
- * @global array $adsArrayCus List of ad id'S
+ * @global array $quads_adsArrayCus List of ad id'S
  * @param string $content
  * @return string content
  */
@@ -1134,7 +1135,7 @@ function quads_check_parent_by_dynamic_block($targetFragment, $content, $selecto
 function quads_filter_default_ads_new( $content ) {
     
  
-    global $quads_options, $adsArrayCus;   
+    global $quads_options, $quads_adsArrayCus;   
     
     $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
 
@@ -1147,7 +1148,7 @@ function quads_filter_default_ads_new( $content ) {
 
 
     // Default Ads
-    $adsArrayCus = array();
+    $quads_adsArrayCus = array();
     if(isset($quads_ads['posts_data'])){        
         $i = 1;
         foreach($quads_ads['posts_data'] as $key => $value){
@@ -1835,7 +1836,7 @@ function quads_filter_default_ads_new( $content ) {
                             break;
                 }
 
-                $adsArrayCus[] = $i;   
+                $quads_adsArrayCus[] = $i;   
             }
             $i++;
         }
@@ -1901,13 +1902,13 @@ function quads_add_sticky_script(){
  * Filter default ads
  * 
  * @global array $quads_options global settings
- * @global array $adsArrayCus List of ad id'S
+ * @global array $quads_adsArrayCus List of ad id'S
  * @param string $content
  * @return string content
  */
 function quads_filter_default_ads( $content ) {
 
-    global $quads_options, $adsArrayCus;
+    global $quads_options, $quads_adsArrayCus;
     
     $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
 
@@ -1915,7 +1916,7 @@ function quads_filter_default_ads( $content ) {
         return $content;
     }    
     // Default Ads
-    $adsArrayCus = array();
+    $quads_adsArrayCus = array();
 
     // placeholder string for random ad
     $cusrnd = 'CusRnd';
@@ -1965,50 +1966,50 @@ function quads_filter_default_ads( $content ) {
         $b1 = $cusrnd;
     } else {
         $b1 = $cusads . $beginning_position_ad_id;
-        array_push( $adsArrayCus, $beginning_position_ad_id );
+        array_push( $quads_adsArrayCus, $beginning_position_ad_id );
     };
     
     if( $more_position_ad_id == 0 ) {
         $r1 = $cusrnd;
     } else {
         $r1 = $cusads . $more_position_ad_id;
-        array_push( $adsArrayCus, $more_position_ad_id );
+        array_push( $quads_adsArrayCus, $more_position_ad_id );
     };
     
     if( $middle_position_ad_id == 0 ) {
         $m1 = $cusrnd;
     } else {
         $m1 = $cusads . $middle_position_ad_id;
-        array_push( $adsArrayCus, $middle_position_ad_id );
+        array_push( $quads_adsArrayCus, $middle_position_ad_id );
     };
     if( $last_paragraph_position_ad_id == 0 ) {
         $g1 = $cusrnd;
     } else {
         $g1 = $cusads . $last_paragraph_position_ad_id;
-        array_push( $adsArrayCus, $last_paragraph_position_ad_id );
+        array_push( $quads_adsArrayCus, $last_paragraph_position_ad_id );
     };
     if( $end_position_ad_id == 0 ) {
         $b2 = $cusrnd;
     } else {
         $b2 = $cusads . $end_position_ad_id;
-        array_push( $adsArrayCus, $end_position_ad_id );
+        array_push( $quads_adsArrayCus, $end_position_ad_id );
     };
     for ( $i = 1; $i <= $number; $i++ ) {
         if( $paragraph['id'][$i] == 0 ) {
             $paragraph[$i] = $cusrnd;
         } else {
             $paragraph[$i] = $cusads . $paragraph['id'][$i];
-            array_push( $adsArrayCus, $paragraph['id'][$i] );
+            array_push( $quads_adsArrayCus, $paragraph['id'][$i] );
         };
     }
-    //wp_die(print_r($adsArrayCus));
+    //wp_die(print_r($quads_adsArrayCus));
 
     // Create the arguments for filter quads_filter_paragraphs
     $quads_args = array(
         'paragraph' => $paragraph,
         'cusads' => $cusads,
         'cusrnd' => $cusrnd,
-        'AdsIdCus' => $adsArrayCus,
+        'AdsIdCus' => $quads_adsArrayCus,
     );
 
     // Execute filter to add more paragraph ad spots
@@ -2018,7 +2019,7 @@ function quads_filter_default_ads( $content ) {
     $paragraph = $quads_filtered['paragraph'];
 
     // filtered list of ad spots
-    $adsArrayCus = $quads_filtered['AdsIdCus'];
+    $quads_adsArrayCus = $quads_filtered['AdsIdCus'];
 
     // Create paragraph ads
     $number = 11;
@@ -2081,7 +2082,7 @@ function quads_filter_default_ads( $content ) {
         $imageAd = $cusrnd;
     } else {
         $imageAd = $cusads . $imageAdNo;
-        array_push( $adsArrayCus, $imageAdNo );
+        array_push( $quads_adsArrayCus, $imageAdNo );
     };
 
 
@@ -2215,22 +2216,22 @@ function quads_sanitize_content($content){
  * Parse random ads which are created from quicktag <!--RndAds-->
  * 
  * @global array $adsArray
- * @global int $visibleContentAds
+ * @global int $quads_visibleContentAds
  * @return content
  */
 function quads_parse_random_quicktag_ads($content){
-    global $adsArray, $visibleContentAds, $quads_options;
+    global $quads_adsArray, $quads_visibleContentAds, $quads_options;
     $maxAds = isset($quads_options['maxads']) ? $quads_options['maxads'] : 10;
     /*
      * Replace RndAds Random Ads
      */
-    if(!is_array($adsArray)) { $adsArray = [];}
+    if(!is_array($quads_adsArray)) { $quads_adsArray = [];}
     $content=  str_replace('[quads id=RndAds]', '<!--RndAds-->', $content);
     if( strpos( $content, '<!--RndAds-->' ) !== false && is_singular() ) {
         $adsArrayTmp = array();
-        shuffle( $adsArray );
-        for ( $i = 1; $i <= $maxAds - $visibleContentAds; $i++ ) {
-            if( $i <= count( $adsArray ) ) {
+        shuffle( $quads_adsArray );
+        for ( $i = 1; $i <= $maxAds - $quads_visibleContentAds; $i++ ) {
+            if( $i <= count( $quads_adsArray ) ) {
                 array_push( $adsArrayTmp, $adsArray[$i - 1] );
             }
         }
@@ -2245,11 +2246,11 @@ function quads_parse_random_quicktag_ads($content){
             $content = quads_replace_ads( $content, 'RndAds', $adsArrayTmp[0] );
             $adsArrayTmp = quads_del_element( $adsArrayTmp, 0 );
             if( $tmp != -1 ) {
-                $visibleContentAds += 1;
+                $quads_visibleContentAds += 1;
             };
             //quads_set_ad_count_content();
             //if( quads_ad_reach_max_count() ) {
-            if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
+            if( $quads_visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
                 $content = quads_clean_tags( $content );
                 return $content;
             }
@@ -2263,7 +2264,7 @@ function quads_parse_random_quicktag_ads($content){
  * Parse random default ads which can be enabled from general settings
  * 
  * @global array $adsArray
- * @global int $visibleContentAds
+ * @global int $quads_visibleContentAds
  * @return string
  */
  function quads_parse_random_ads_new($content) {
@@ -2318,11 +2319,11 @@ function quads_parse_random_quicktag_ads($content){
  * Parse random default ads which can be enabled from general settings
  * 
  * @global array $adsArray
- * @global int $visibleContentAds
+ * @global int $quads_visibleContentAds
  * @return string
  */
 function quads_parse_random_ads($content) {
-    global $adsRandom, $visibleContentAds;
+    global $quads_adsRandom, $quads_visibleContentAds;
     
     $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
     if( $off_default_ads ) { // disabled default ads
@@ -2331,23 +2332,23 @@ function quads_parse_random_ads($content) {
 
     if( strpos( $content, '<!--CusRnd-->' ) !== false && is_singular() ) {
 
-        $tcx = count( $adsRandom );
+        $tcx = count( $quads_adsRandom );
         // How often is a random ad appearing in content
         $number_rand_ads = substr_count( $content, '<!--CusRnd-->' );
 
         for ( $i = $tcx; $i <= $number_rand_ads - 1; $i++ ) {
-            array_push( $adsRandom, -1 );
+            array_push( $quads_adsRandom, -1 );
         }
-        shuffle( $adsRandom );
-        //wp_die(print_r($adsRandom));
-        //wp_die($adsRandom[0]);
+        shuffle( $quads_adsRandom );
+        //wp_die(print_r($quads_adsRandom));
+        //wp_die($quads_adsRandom[0]);
         for ( $i = 1; $i <= $number_rand_ads; $i++ ) {
-            $content = quads_replace_ads( $content, 'CusRnd', $adsRandom[0] );
-            $adsRandom = quads_del_element( $adsRandom, 0 );
-            $visibleContentAds += 1;
+            $content = quads_replace_ads( $content, 'CusRnd', $quads_adsRandom[0] );
+            $quads_adsRandom = quads_del_element( $quads_adsRandom, 0 );
+            $quads_visibleContentAds += 1;
             //quads_set_ad_count_content();
             //if( quads_ad_reach_max_count() ) {
-            if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
+            if( $quads_visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
                 $content = quads_clean_tags( $content );
                 return $content;
             }
@@ -2365,20 +2366,20 @@ function quads_parse_random_ads($content) {
  * @return string
  */
 function quads_parse_quicktags($content){
-    global $adsArray, $visibleContentAds;
-    //print_r(count($adsArray));
-    if (!is_array($adsArray)){
+    global $quads_adsArray, $quads_visibleContentAds;
+    //print_r(count($quads_adsArray));
+    if (!is_array($quads_adsArray)){
         return $content;
     }
     $idx = 0;
-    for ( $i = 1; $i <= count( $adsArray ); $i++ ) {
-        if( strpos( $content, '<!--Ads' . $adsArray[$idx] . '-->' ) !== false ) {
-            $content = quads_replace_ads( $content, 'Ads' . $adsArray[$idx], $adsArray[$idx] );
-            //$adsArray = quads_del_element( $adsArray, $idx );
-            $visibleContentAds += 1;
+    for ( $i = 1; $i <= count( $quads_adsArray ); $i++ ) {
+        if( strpos( $content, '<!--Ads' . $quads_adsArray[$idx] . '-->' ) !== false ) {
+            $content = quads_replace_ads( $content, 'Ads' . $quads_adsArray[$idx], $quads_adsArray[$idx] );
+            //$quads_adsArray = quads_del_element( $quads_adsArray, $idx );
+            $quads_visibleContentAds += 1;
             $idx +=1;
             //quads_set_ad_count_content();
-            if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
+            if( $quads_visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
                 $content = quads_clean_tags( $content );
                 return $content;
             }
@@ -2397,7 +2398,7 @@ function quads_parse_quicktags($content){
  * @return string
  */
 function quads_parse_default_ads( $content ) {
-    global $adsArrayCus, $adsRandom, $adsArray, $visibleContentAds;
+    global $quads_adsArrayCus, $quads_adsRandom, $quads_adsArray, $quads_visibleContentAds;
      
     $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
 
@@ -2405,25 +2406,25 @@ function quads_parse_default_ads( $content ) {
         return $content;
     }
     // Create the array which contains the random ads
-    $adsRandom = $adsArray;
+    $quads_adsRandom = $quads_adsArray;
 
-    for ( $i = 0; $i <= count( $adsArrayCus ); $i++ ) {
+    for ( $i = 0; $i <= count( $quads_adsArrayCus ); $i++ ) {
         
-        if( isset( $adsArrayCus[$i] ) && strpos( $content, '<!--CusAds' . $adsArrayCus[$i] . '-->' ) !== false && in_array( $adsArrayCus[$i], $adsArray ) ) {
+        if( isset( $quads_adsArrayCus[$i] ) && strpos( $content, '<!--CusAds' . $quads_adsArrayCus[$i] . '-->' ) !== false && in_array( $quads_adsArrayCus[$i], $quads_adsArray ) ) {
              
-            $content = quads_replace_ads( $content, 'CusAds' . $adsArrayCus[$i], $adsArrayCus[$i] );
+            $content = quads_replace_ads( $content, 'CusAds' . $quads_adsArrayCus[$i], $quads_adsArrayCus[$i] );
 
-            // Create array $adsRandom for quads_parse_random_ads() parsing functions to make sure that the random function 
+            // Create array $quads_adsRandom for quads_parse_random_ads() parsing functions to make sure that the random function 
             // is never using ads that are already used on static ad spots which are generated with quads_parse_default_ads()
             if ($i == 0){
-                $adsRandom = quads_del_element($adsRandom, array_search($adsArrayCus[$i], $adsRandom));
+                $quads_adsRandom = quads_del_element($quads_adsRandom, array_search($quads_adsArrayCus[$i], $quads_adsRandom));
             }else{
-                $adsRandom = quads_del_element($adsRandom, array_search($adsArrayCus[$i-1], $adsRandom));
+                $quads_adsRandom = quads_del_element($quads_adsRandom, array_search($quads_adsArrayCus[$i-1], $quads_adsRandom));
             }
             
-            $visibleContentAds += 1;
+            $quads_visibleContentAds += 1;
 
-            if( $visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
+            if( $quads_visibleContentAds >= quads_get_max_allowed_post_ads( $content )  ) {
              
                 $content = quads_clean_tags( $content );
             }
@@ -2824,7 +2825,7 @@ function quads_parse_half_page_ads($content) {
 }
 
 function quads_parse_default_ads_new( $content ) {
-    global $adsArrayCus, $adsRandom, $adsArray;
+    global $quads_adsArrayCus, $quads_adsRandom, $quads_adsArray;
      
     $off_default_ads = (strpos( $content, '<!--OffDef-->' ) !== false);
 
@@ -3015,6 +3016,7 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
       );
     }
     $content =  $cont[0].$adscode.$cont[1];
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
     $adscode = apply_filters("wp_quads_final_ad_data", $adscode);
 
     return  $content;
@@ -3105,7 +3107,7 @@ function quads_get_inline_ad_style_new( $id ) {
 /**
  * Revert content to original content any remove any processing helper strings
  * 
- * @global int $visibleContentAds
+ * @global int $quads_visibleContentAds
  * @global array $adsArray
  * @global array $quads_options
  * @global int $ad_count
@@ -3115,8 +3117,8 @@ function quads_get_inline_ad_style_new( $id ) {
  * @return string content
  */
 function quads_clean_tags($content, $trimonly = false) {
-    global $visibleContentAds;
-    global $adsArray;
+    global $quads_visibleContentAds;
+    global $quads_adsArray;
         global $quads_options;
         global $ad_count;
         
@@ -3140,8 +3142,8 @@ function quads_clean_tags($content, $trimonly = false) {
         }
     }
     if(!$trimonly && (is_single() || is_page()) ) {
-        $visibleContentAds = 0;
-        $adsArray = array();
+        $quads_visibleContentAds = 0;
+        $quads_adsArray = array();
     }   
     return $content;
 }
@@ -3898,7 +3900,7 @@ function quads_is_lazyload_template($options, $ads){
   }
 function quads_display_sticky_ads(){
     $quads_ads = quads_api_services_cllbck(); 
-    $adsArrayCus = array();
+    $quads_adsArrayCus = array();
     if(isset($quads_ads['posts_data'])){        
        
         foreach($quads_ads['posts_data'] as $key => $value){
@@ -3976,7 +3978,7 @@ function quads_display_sticky_ads(){
 add_action( 'wp_footer', 'quads_display_sticky_ads'  );
 
 
-function add_inmobi_cmp_config() {
+function quads_add_inmobi_cmp_config() {
     if( quads_is_amp_endpoint() ){
         return false;
     }
@@ -4023,7 +4025,7 @@ function add_inmobi_cmp_config() {
         echo '<script src="https://consent.inmobi.com/choice/'.esc_attr( $in_mobi_site_id ).'.js" async></script>';
     }
 }
-add_action('wp_head', 'add_inmobi_cmp_config');
+add_action('wp_head', 'quads_add_inmobi_cmp_config');
 add_action('amp_post_template_footer','quads_ampforwp_footer_html_output',11);
 function quads_ampforwp_footer_html_output() {
     if( ! quads_is_amp_endpoint() ){

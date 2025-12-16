@@ -1,5 +1,5 @@
 <?php 
-$reasons = array(
+$quads_reasons = array(
     		1 => '<li><label><input type="radio" name="quads_disable_reason" value="temporary"/>' . esc_html__('It is only temporary', 'quick-adsense-reloaded') . '</label></li>',
 		2 => '<li><label><input type="radio" name="quads_disable_reason" value="stopped showing ads"/>' . esc_html__('I stopped showing ads on my site', 'quick-adsense-reloaded') . '</label></li>',
 		3 => '<li><label><input type="radio" name="quads_disable_reason" value="missing feature"/>' . esc_html__('I miss a feature', 'quick-adsense-reloaded') . '</label></li>
@@ -11,7 +11,7 @@ $reasons = array(
 		6 => '<li><label><input type="radio" name="quads_disable_reason" value="other"/>' . esc_html__('Other reason', 'quick-adsense-reloaded') . '</label></li>
 		<li><textarea name="quads_disable_text[]" placeholder="' . esc_html__('Please specify, if possible', 'quick-adsense-reloaded') . '"></textarea></li>',
     );
-shuffle($reasons);
+shuffle($quads_reasons);
 ?>
 <div id="quick-adsense-reloaded-feedback-overlay" style="display: none;">
     <div id="quick-adsense-reloaded-feedback-content">
@@ -20,9 +20,9 @@ shuffle($reasons);
 	    <h3><strong><?php esc_html_e('If you have a moment, please let us know why you are deactivating:', 'quick-adsense-reloaded'); ?></strong></h3>
 	    <ul>
                 <?php 
-                foreach ($reasons as $reason){
+                foreach ($quads_reasons as $quads_reason){
                     //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above
-                    echo $reason;
+                    echo $quads_reason;
                 }
                 ?>
 	    </ul>

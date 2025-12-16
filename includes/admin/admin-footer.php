@@ -24,8 +24,8 @@ function quads_admin_rate_us( $footer_text ) {
 	global $typenow;
 
 	if ( quads_is_admin_page() ) {
-		$footer_text = '<strong>' . esc_html__( 'Please do us a BIG favor and give us a 5 star rating' , 'quick-adsense-reloaded' );
-		$footer_text .= ' <a href="'.esc_url('https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/?filter=5#new-post').'" target="_blank">' . esc_html__( 'here', 'quick-adsense-reloaded' ) . '</a>. ';
+		$footer_text = '<strong>' . esc_html__( 'If you enjoy using this plugin, please consider leaving a review' , 'quick-adsense-reloaded' );
+		$footer_text .= ' <a href="'.esc_url('https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/').'" target="_blank">' . esc_html__( 'here', 'quick-adsense-reloaded' ) . '</a>. ';
 		$footer_text .= esc_html__( 'If you have issues, open a', 'quick-adsense-reloaded' );
 		$footer_text .= ' <a href="'.esc_url('http://wpquads.com/support/').'" target="_blank">' . esc_html__( 'support ticket', 'quick-adsense-reloaded' ) . '</a>, ';
 		$footer_text .= esc_html__( 'so that we can sort it out. Thank you!', 'quick-adsense-reloaded' ) . '</strong>';

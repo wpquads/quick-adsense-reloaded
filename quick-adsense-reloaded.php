@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name: AdSense Integration WP QUADS
+ * Plugin Name: Ads by Quads – Adsense Ads, Banner Ads, Popup Ads
  * Plugin URI: https://wordpress.org/plugins/quick-adsense-reloaded/
  * Description: Insert Google AdSense and other ad formats fully automatic into your website
- * Author: Sanjeev Kumar
+ * Author: WP Quads
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
- * Version: 2.0.94.1
+ * Version: 2.0.96
  * Text Domain: quick-adsense-reloaded
- * Domain Path: languages
+ * Domain Path: /languages
  * Credits: WP QUADS - Quick AdSense Reloaded is a fork of Quick AdSense
  * License: GPL2
  *
@@ -38,7 +38,7 @@ if( !defined( 'ABSPATH' ) )
 
 // Plugin version
 if( !defined( 'QUADS_VERSION' ) ) {
-  define( 'QUADS_VERSION', '2.0.94.1' );
+  define( 'QUADS_VERSION', '2.0.96' );
 }
 
 // Plugin name
@@ -57,13 +57,13 @@ if( !class_exists( 'QUADS_Utils' ) ) {
 }
 
 // Define some globals
-$visibleContentAds = 0; // Amount of ads which are shown
-$visibleShortcodeAds = 0; // Number of active ads which are shown via shortcodes
-$visibleContentAdsGlobal = 0; // Number of active ads which are shown in the_content
-$ad_count_custom = 0; // Number of active custom ads which are shown on the site
-$ad_count_widget = 0; // Number of active ads in widgets
-$AdsId = array(); // Array of active ad id's
-$maxWidgets = 10; // number of widgets
+$quads_visibleContentAds = 0; // Amount of ads which are shown
+$quads_visibleShortcodeAds = 0; // Number of active ads which are shown via shortcodes
+$quads_visibleContentAdsGlobal = 0; // Number of active ads which are shown in the_content
+$quads_ad_count_custom = 0; // Number of active custom ads which are shown on the site
+$quads_ad_count_widget = 0; // Number of active ads in widgets
+$quads_AdsId = array(); // Array of active ad id's
+$quads_maxWidgets = 10; // number of widgets
 $quads_shortcode_ids=array(); // array of active shortcode ids (new mode)
 $quads_total_ads=0; // Total ads to display (new mode)
 
@@ -229,7 +229,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/user_roles.php';
          require_once QUADS_PLUGIN_DIR . 'includes/widgets.php';
          require_once QUADS_PLUGIN_DIR . 'includes/template-functions.php';
-         require_once QUADS_PLUGIN_DIR . 'includes/class-quads-license-handler.php';
          require_once QUADS_PLUGIN_DIR . 'includes/logger.php';
          require_once QUADS_PLUGIN_DIR . 'includes/class-quads-html-elements.php';
          require_once QUADS_PLUGIN_DIR . 'includes/shortcodes.php';
@@ -331,6 +330,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          $quads_lang_dir = apply_filters( 'quads_languages_directory', $quads_lang_dir );
 
          // Traditional WordPress plugin locale filter
+         // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
          $locale = apply_filters( 'plugin_locale', get_locale(), 'quick-adsense-reloaded' );
          $mofile = sprintf( '%1$s-%2$s.mo', 'quick-adsense-reloaded', $locale );
 
@@ -549,24 +549,10 @@ if (QUADS_VERSION >= '2.0.28' && quads_is_pro_active() ) {
     }
  }
       
-add_action( 'wp_loaded','quads_checker_license' );
-function quads_checker_license(){
-  if ( QUADS_VERSION == '2.0.33' && function_exists('quads_is_pro_active') && quads_is_pro_active() ) {
-    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-    if( isset( $_GET["page"] ) && !empty( $_GET ) && $_GET["page"] == 'quads-settings' && isset($_GET["tab"]) && $_GET["tab"] == 'licenses' ){
-      $quads_license_obj = new QUADS_License( __FILE__, 'WP QUADS PRO', QUADS_PRO_VERSION, 'Rene Hermenau', 'edd_sl_license_key' );
-      $trans_check = get_transient( 'quads_adsense_license_auto_check' );
-      if ( $trans_check !== 'quads_adsense_license_auto_check_value' ) {
-        $quads_license_obj->weekly_license_check();
-      }
-    }
-  }
-}
-
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 if( function_exists('quads_is_pro_active') && quads_is_pro_active() && isset( $_GET["page"] ) && !empty( $_GET ) && $_GET["page"] == 'quads-settings' && isset($_GET["tab"]) && $_GET["tab"] == 'licenses' ){
-    $license = get_option( 'quads_wp_quads_pro_license_active' );
-    if( !empty( $license ) && is_object( $license ) && $license->license == 'valid' ) {
+    $quads_license = get_option( 'quads_wp_quads_pro_license_active' );
+    if( !empty( $quads_license ) && is_object( $quads_license ) && $quads_license->license == 'valid' ) {
       add_action('plugins_loaded','quads_settings_update_title');
     }
   }

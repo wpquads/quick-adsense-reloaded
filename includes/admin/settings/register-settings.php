@@ -2547,7 +2547,7 @@ function quads_adsense_code_callback( $args ) {
      * This is to ensure that the file is recreated in case it was deleted
      * @return boolean
      */
-   function updateAdsTxt(){
+   function quads_updateAdsTxt(){
        global $quads, $quads_options;
         if(is_file('ads.txt') || !isset($quads_options['adsTxtEnabled'])){
             return false;
@@ -2555,7 +2555,7 @@ function quads_adsense_code_callback( $args ) {
         $adsense = new wpquads\adsense($quads_options);
         $adsense->writeAdsTxt();
     }
- add_action('quads_daily_event', 'updateAdsTxt');
+ add_action('quads_daily_event', 'quads_updateAdsTxt');
 
  // Start 2.0 code from here //
 
@@ -2617,7 +2617,7 @@ function quads_save_extra_user_profile_fields( $user_id ) {
 add_action( 'personal_options_update', 'quads_save_extra_user_profile_fields' );
 add_action( 'edit_user_profile_update', 'quads_save_extra_user_profile_fields' );
 
-function wp_quads_quick_tag() {
+function quads_quick_tag() {
    if ( wp_script_is( 'quicktags' ) ) {
    ?>
 <script language="javascript" type="text/javascript">
@@ -2646,5 +2646,5 @@ function wp_quads_quick_tag() {
 }
 $quads_mode = get_option('quads-mode') ? get_option('quads-mode') : '' ;
 if( isset($quads_mode) && $quads_mode == "old" ) {
-   add_action( 'admin_print_footer_scripts', 'wp_quads_quick_tag', 100 );
+   add_action( 'admin_print_footer_scripts', 'quads_quick_tag', 100 );
 }

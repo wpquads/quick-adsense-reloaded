@@ -210,11 +210,12 @@ function quads_common_head_code(){
               </script>';
             }else if($ads['ad_type']== 'mediavine'){
                 // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
-               echo '<link rel="dns-prefetch" href="//scripts.mediavine.com" />
-                  <script async="async" data-noptimize="1" data-cfasync="false" src="//scripts.mediavine.com/tags/'.esc_attr($ads['mediavine_site_id']).'.js?ver=5.2.3"></script>';
+               echo '<link rel="dns-prefetch" href="//scripts.mediavine.com" />';
+               // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
+                echo '<script async="async" data-noptimize="1" data-cfasync="false" src="//scripts.mediavine.com/tags/'.esc_attr($ads['mediavine_site_id']).'.js?ver=5.2.3"></script>';
             }else if($ads['ad_type']== 'outbrain'){
                 // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
-               echo '<script async="async" src="http://widgets.outbrain.com/outbrain.js "></script>';
+                wp_enqueue_script( 'outbrain-js', 'http://widgets.outbrain.com/outbrain.js', array(), QUADS_VERSION, false );
             }else if($ads['ad_type']== 'adpushup'){
                 echo '<script data-cfasync="false" type="text/javascript">
                 (function(w, d) {
@@ -322,7 +323,7 @@ function quads_render_admob_async( $id, $ad_data  ) {
     $slot_id = $ad_data['admob_data_ad_slot'];
 
     // Store the values in a filter
-    add_filter('admobi_client_data', function() use ($client_id, $slot_id) {
+    add_filter('quads_admobi_client_data', function() use ($client_id, $slot_id) {
         return array('client_id' => $client_id, 'slot_id' => $slot_id);
     });
     $html = "\n <!-- " . QUADS_NAME . " v." . QUADS_VERSION . " Content AdMob async --> \n\n";
@@ -380,7 +381,7 @@ function quads_render_admob_async( $id, $ad_data  ) {
 
 // Load the AdSense script in the header
 function quads_add_adsense_script() {
-    $param = apply_filters( 'admobi_client_data', array(
+    $param = apply_filters( 'quads_admobi_client_data', array(
         'client_id' => '',
         'slot_id'   => ''
     ) );

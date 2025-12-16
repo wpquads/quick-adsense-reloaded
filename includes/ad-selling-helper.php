@@ -137,15 +137,15 @@ function quads_authorize_payment_success(){
         }
     }else if( isset( $_GET['status'] ) && $_GET['status'] == 'success' && isset( $_GET['refId'] ) && $_GET['refId'] != "" && isset( $_GET['user_id'] ) && intval( $_GET['user_id'] ) > 0 && isset( $_GET['target'] ) && $_GET['target'] == 'disablead' ){
        
-        $order_id = sanitize_text_field( wp_unslash( $_GET['refId'] ) );
-        $user_id = sanitize_text_field( wp_unslash( $_GET['user_id'] ) );
+        $order_id =  absint( $_GET['refId'] );
+        $user_id = absint( $_GET['user_id'] );
         
         $user = get_user_by( 'id', $user_id );
         if($user){
             global $wpdb;
             $table_name = $wpdb->prefix . 'quads_disabledad_data';
-            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-            $ad_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table_name WHERE disable_ad_id = %d AND user_id = %d", $order_id,$user->ID ) );
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+            $ad_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table_name WHERE disable_ad_id = %d AND user_id = %d", $order_id,$user_id ) );
            
             if (!$ad_details) {
                 return false;
@@ -301,9 +301,9 @@ function quads_ads_buy_form() {
     // get  my ads from table wp_quads_adbuy_data
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_adbuy_data';
-    $user_id = get_current_user_id();
-    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-    $my_ads = $wpdb->get_results(  $wpdb->prepare( "SELECT * FROM $table_name Where user_id = %d", $user_id ) );
+    $user_id    = absint( get_current_user_id() );
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.PreparedSQL.NotPrepared
+    $my_ads = $wpdb->get_results($wpdb->prepare( "SELECT * FROM $table_name WHERE user_id = %d", $user_id ) );
 
 
     // Start output buffering
@@ -557,12 +557,12 @@ function quads_ads_buy_form() {
         <button type="submit"><?php echo esc_html__('Submit','quick-adsense-reloaded');?></button>
     </form>
    
-    <?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript?>
-    <script src="https://js.stripe.com/v3/"></script>
-    <?php }?>
-    <?php if($payment_gateway=='paystack'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript?>
-        <script src="https://js.paystack.co/v1/inline.js"></script>
-    <?php }?>
+    <?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript
+        wp_enqueue_script( 'stripe-js', 'https://js.stripe.com/v3/', array(), QUADS_VERSION, false );
+    }?>
+    <?php if($payment_gateway=='paystack'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript
+        wp_enqueue_script( 'paystack-js', 'https://js.paystack.co/v1/inline.js', array(), QUADS_VERSION, false );
+    }?>
     <script>
    
     let ad_lists = <?php echo wp_json_encode($ad_list)?>;
@@ -893,13 +893,13 @@ async function processStripePaymentSuccess( data ){
 }
 
 $quads_settings = get_option( 'quads_settings' );
-$sellable_ads = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : true;
-if ( $sellable_ads ) {
+$quads_sellable_ads = isset($quads_settings['sellable_ads']) ? $quads_settings['sellable_ads'] : true;
+if ( $quads_sellable_ads ) {
     add_shortcode( 'quads_buy_form', 'quads_ads_buy_form' );
     add_shortcode( 'sellable_premium_member_page', 'quads_sellable_premium_member_page' );
 }
-$disable_ads = isset($quads_settings['disableads']) ? $quads_settings['disableads'] : false;
-if ( $disable_ads ) {
+$quads_disable_ads = isset($quads_settings['disableads']) ? $quads_settings['disableads'] : false;
+if ( $quads_disable_ads ) {
     add_shortcode( 'quads_disable_ads_form', 'quads_ads_disable_form' );
 }
 function quads_custom_premimum_memeber_login() {
@@ -914,8 +914,9 @@ function quads_custom_premimum_memeber_login() {
         );
         $user = wp_signon($creds, false);
         if (!is_wp_error($user)) {
-            wp_redirect($redirect_url);
+            wp_safe_redirect( $redirect_url );
             exit;
+
         } else {
             echo '<p>Login failed! Please try again.</p>';
         }
@@ -944,18 +945,18 @@ function quads_update_member_subscription() {
         );
         global $wp;
         $redirect_url = home_url( $wp->request );
-        wp_redirect($redirect_url);
-            exit;
+        wp_safe_redirect( $redirect_url );
+        exit;
     }
 }
 function quads_get_premimum_member_ad_space($user_id){
     global $wpdb;
+    $user_id = absint( $user_id );
     $table_name = $wpdb->prefix . 'quads_adbuy_data'; 
    
     // Query the records
-    /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching */
-    $results = $wpdb->get_results( $wpdb->prepare(
-        "SELECT * FROM $table_name WHERE payment_status = %s and user_id = %d ORDER BY id DESC", 'paid', $user_id ) );
+    /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.PreparedSQL.NotPrepared */
+    $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name WHERE payment_status = %s AND user_id = %d ORDER BY id DESC", 'paid', $user_id ) );
    
     foreach ($results as $key => $result) {
         $ad_id = $result->ad_id;
@@ -984,14 +985,12 @@ function quads_get_premimum_member_ad_space($user_id){
 } 
 function quads_get_premimum_member_ad_space_on_id($id){
     global $wpdb;
-    $table_name = $wpdb->prefix . 'quads_adbuy_data'; 
+    $table_name = $wpdb->prefix . 'quads_adbuy_data';
+    $id         = absint( $id ); 
    
     // Query the records
-    /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching */
-    $results = $wpdb->get_results($wpdb->prepare(
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-        "SELECT * FROM $table_name WHERE payment_status = %s and id = %d ORDER BY id DESC", 'paid', $id
-    ));
+    /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.PreparedSQL.NotPrepared */
+    $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name WHERE payment_status = %s AND id = %d ORDER BY id DESC", 'paid', $id ) );
    
     foreach ($results as $key => $result) {
         $ad_id = $result->ad_id;
@@ -1509,9 +1508,9 @@ function quads_ads_disable_form(){
         <button type="submit"><?php echo esc_html__('Proceed for Payment','quick-adsense-reloaded');?></button>
     </div>
 </form>
-<?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript ?>
-    <script src="https://js.stripe.com/v3/"></script>
-<?php }?>
+<?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript
+    wp_enqueue_script( 'stripe-js', 'https://js.stripe.com/v3/', array(), QUADS_VERSION, false );
+}?>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -1609,7 +1608,7 @@ async function processStripePaymentSuccess( data ){
 return ob_get_clean();
 }
 
-function handle_ad_buy_form_submission() {
+function quads_handle_ad_buy_form_submission() {
    
     if ( ! isset( $_POST['action'] ) || $_POST['action'] !== 'submit_ad_buy_form' ) {
         wp_send_json_error( array( 'message' => esc_html__( 'Invalid request.', 'quick-adsense-reloaded' ) ) );
@@ -2063,8 +2062,8 @@ function quads_redeem_coupon(){
     }
 }
 
-add_action( 'wp_ajax_submit_ad_buy_form', 'handle_ad_buy_form_submission' );
-add_action( 'wp_ajax_nopriv_submit_ad_buy_form', 'handle_ad_buy_form_submission' );
+add_action( 'wp_ajax_submit_ad_buy_form', 'quads_handle_ad_buy_form_submission' );
+add_action( 'wp_ajax_nopriv_submit_ad_buy_form', 'quads_handle_ad_buy_form_submission' );
 function quads_handle_submit_disablead_form() {
    
     if ( ! isset( $_POST['action'] ) || $_POST['action'] !== 'submit_disablead_form' ) {
@@ -2337,9 +2336,9 @@ add_action('rest_api_init', function () {
 function wpquads_handle_paypal_notify(WP_REST_Request $request) {
     $params = $request->get_params();
     $payment_status = isset($params['payment_status']) ? sanitize_text_field($params['payment_status']) : '';
-    $order_id     = isset($params['item_number']) ? intval($params['item_number']) : 0;
+    $order_id     = isset($params['item_number']) ? absint($params['item_number']) : 0;
     $payer_email    = isset($params['payer_email']) ? sanitize_email($params['payer_email']) : '';
-    $user_id = isset($params['custom']) ? intval($params['custom']) : 0;
+    $user_id = isset($params['custom']) ? absint($params['custom']) : 0;
     $total_cost = isset($params['mc_gross']) ? floatval($params['mc_gross']) : 0;
     $test_ipn = isset($params['test_ipn']) ? floatval($params['test_ipn']) : 0;
     $user = get_user_by('id', $user_id);
@@ -2370,8 +2369,8 @@ function wpquads_handle_paypal_notify(WP_REST_Request $request) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'quads_adbuy_data';
        
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-        $ad_details = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $table_name WHERE id = %d AND user_id = %d",$order_id,$user->ID) );
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
+        $ad_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table_name WHERE id = %d AND user_id = %d", $order_id, $user_id ) );
         if (!$ad_details) {
             return new WP_REST_Response( array( 'status' => 'error', 'message' => esc_html__( 'Ad not found', 'quick-adsense-reloaded' ) ), 404);
         }
@@ -2432,9 +2431,9 @@ function wpquads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
     $params = $request->get_params();
 
     $payment_status = isset($params['payment_status']) ? sanitize_text_field($params['payment_status']) : '';
-    $order_id     = isset($params['item_number']) ? intval($params['item_number']) : 0;
+    $order_id     = isset($params['item_number']) ? absint($params['item_number']) : 0;
     $payer_email    = isset($params['payer_email']) ? sanitize_email($params['payer_email']) : '';
-    $user_id = isset($params['custom']) ? intval($params['custom']) : 0;
+    $user_id = isset($params['custom']) ? absint($params['custom']) : 0;
     $total_cost = isset($params['mc_gross']) ? floatval($params['mc_gross']) : 0;
     $test_ipn = isset($params['test_ipn']) ? floatval($params['test_ipn']) : 0;
     $user = get_user_by('id', $user_id);
@@ -2463,8 +2462,8 @@ function wpquads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
         // Example: Mark the ad as paid in your custom table
         global $wpdb;
         $table_name = $wpdb->prefix . 'quads_disabledad_data';
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-        $ad_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table_name WHERE disable_ad_id = %d AND user_id = %d",$order_id,$user->ID ) );
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+        $ad_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table_name WHERE disable_ad_id = %d AND user_id = %d", $order_id, $user_id ) );
         if (!$ad_details) {
             return false;
         }
@@ -2529,7 +2528,7 @@ function quads_get_active_ads_by_slot( $slot_id = null ){
 
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_adbuy_data';
-    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
     $active_ads = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name Where  ad_id = %d and payment_status = 'paid' and ad_status = 'approved' and end_date >= CURDATE() and start_date <= CURDATE()", $slot_id ) );
     return $active_ads;
 }
@@ -2538,8 +2537,8 @@ function quads_get_active_sellads_ids( ){
 
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_adbuy_data';
-    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-    $active_ads = $wpdb->get_results( "SELECT ad_id FROM $table_name Where  payment_status = 'paid' and ad_status = 'approved' and end_date >= CURDATE() and start_date <= CURDATE()" );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+    $active_ads = $wpdb->get_results( $wpdb->prepare( "SELECT ad_id FROM $table_name Where  payment_status = %s and ad_status = %s and end_date >= CURDATE() and start_date <= CURDATE()", 'paid', 'approved' ) );
     return $active_ads;
 }
 
@@ -2646,9 +2645,9 @@ function quads_check_expired_sellads() {
             
 
             // Execute the query and get results
-            // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+            // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
             $users = $wpdb->get_results(  $wpdb->prepare(
-               // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare	
+               // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared	
                 "SELECT user_id, ad_id FROM $table_name WHERE ad_id IN ($placeholders)",
                 ...$ad_ids
             ) );

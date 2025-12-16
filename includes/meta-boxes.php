@@ -116,6 +116,7 @@ class Quads_Meta_Box {
         }
         $config = array();
         if( isset( $_POST[ $this->config_key ] ) ){
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized --Reason: Sanitizastion is handled in quads_sanitize_array_recursive function below.
             $config = $this->quads_sanitize_array_recursive( wp_unslash( $_POST[ $this->config_key ] ) );
         }
         $visibility_config = isset($config['visibility']) ? $config['visibility'] : array();

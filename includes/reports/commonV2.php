@@ -933,19 +933,11 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 		
 			if($ad_id=="all")
 			{
-				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 				$array_top5= $wpdb->get_results(
 					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
-					$wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
-					FROM {$wpdb->prefix}posts as posts
-					LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id
-					LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id
-					LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id
-					LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id
-					WHERE posts.post_type='quads-ads'AND posts.post_status='publish'
-					GROUP BY posts.ID
-					ORDER BY total_click DESC , total_impression DESC;")
-				);			
+					$wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression FROM {$wpdb->prefix}posts as posts LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id WHERE posts.post_type='quads-ads'AND posts.post_status='publish' GROUP BY posts.ID ORDER BY total_click DESC , total_impression DESC;")
+				);	
 			}else if($ad_id == 'top_five_ads'){
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$array_top5= $wpdb->get_results($wpdb->prepare("SELECT posts.ID as ID, posts.post_title as post_title, IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
@@ -1388,12 +1380,22 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	$re_arrange_top5 = array();
 	if($ad_id == "all" && $day == "all_time"){
 		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-		$rotator_ads = 	$wpdb->get_results(
-			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
-			$wpdb->prepare("SELECT posts.ID as ID, postmeta.meta_key, postmeta.meta_value  
-																												FROM {$wpdb->prefix}posts as posts 
-																												LEFT JOIN {$wpdb->prefix}postmeta as postmeta ON posts.ID = postmeta.post_id
-																												WHERE posts.post_type = 'quads-ads' AND posts.post_status='publish' AND postmeta.meta_value = 'rotator_ads'" ), ARRAY_A);
+		$rotator_ads = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT posts.ID AS ID, postmeta.meta_key, postmeta.meta_value
+				 FROM {$wpdb->prefix}posts AS posts
+				 LEFT JOIN {$wpdb->prefix}postmeta AS postmeta 
+				    ON posts.ID = postmeta.post_id
+				 WHERE posts.post_type = %s
+				   AND posts.post_status = %s
+				   AND postmeta.meta_value = %s",
+				'quads-ads',
+				'publish',
+				'rotator_ads'
+			),
+			ARRAY_A
+		);
+
 		$rotate_sub_ads = array();
 		$rcnt = 0;
 		if(!empty($rotator_ads) && is_array($rotator_ads)){
@@ -1706,10 +1708,10 @@ function quads_get_ad_stats($condition, $ad_id='', $date=null,$parameters ='') {
 				}
 
 			}
-		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+		// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter --Reason Escaping is already done above
 				$results = $wpdb->get_results($wpdb->prepare("SELECT ad_id , log_date as ad_thetime,log_clicks ,ip_address,log_url as url,browser,referrer FROM `{$wpdb->prefix}quads_logs` ". $ad_thetime ." ".$search_param." LIMIT %d, %d",array($offset,$items_per_page)), ARRAY_A);
 				$ad_stats = $results;
-				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnsupportedPlaceholder, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter --Reason Escaping is already done above
 				$result_total = $wpdb->get_row($wpdb->prepare("SELECT count(*) as total FROM `{$wpdb->prefix}quads_logs` ". $ad_thetime ." ".$search_param), ARRAY_A);
 				$log_array = array();
 				foreach($results as $result){
@@ -1781,8 +1783,8 @@ function wpquads_cron_import_schedule( $schedules ) {
 add_filter( 'cron_schedules', 'wpquads_cron_import_schedule' );
 
 if ( ! wp_next_scheduled( 'wpquads_cron_import' ) ) {
-	$import_details = get_option('quads_import_data');
-	if(isset($import_details['status']) && $import_details['status'] == 'active'){
+	$quads_import_details = get_option('quads_import_data');
+	if(isset($quads_import_details['status']) && $quads_import_details['status'] == 'active'){
 		wp_schedule_event( time(), 'wpquads_cron_import', 'wpquads_cron_import_action' );
 	}
 	
@@ -1799,19 +1801,19 @@ ignore_user_abort(true);
 // phpcs:ignore Squiz.PHP.DiscouragedFunctions.Discouraged
 set_time_limit(900);
 $default  = array('status' => 'inactive','current_table'=>'quads_stats','sub_table'=>'','offset'=> 50,'imported' => 0,'total' => 0);
-$import_details = get_option('quads_import_data',$default);
+$quads_import_details = get_option('quads_import_data',$default);
 
 $import_done = get_option('quads_db_import',false);
 global $wpdb;
-if($import_details['status'] == 'active' && !$import_done){
-	if($import_details['current_table'] == 'quads_stats'){
+if($quads_import_details['status'] == 'active' && !$import_done){
+	if($quads_import_details['current_table'] == 'quads_stats'){
 
 		   $old_db = $wpdb->prefix.'quads_stats';
 			$new_db = $wpdb->prefix.'quads_logs';
 			$since = strtotime("-30 day");
-			$offset = isset($import_details['offset'])?intval($import_details['offset']):50;
-			$imported = isset($import_details['imported'])?intval($import_details['imported']):0;
-			$total_records = isset($import_details['total'])?intval($import_details['total']):0;
+			$offset = isset($quads_import_details['offset'])?intval($quads_import_details['offset']):50;
+			$imported = isset($quads_import_details['imported'])?intval($quads_import_details['imported']):0;
+			$total_records = isset($quads_import_details['total'])?intval($quads_import_details['total']):0;
 			if(!$total_records){
 				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$total_records = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM %i WHERE  ad_thetime > %d AND ad_clicks > 0",array($old_db,$since)));
@@ -1831,36 +1833,36 @@ if($import_details['status'] == 'active' && !$import_done){
 				}
 				if(is_array($insertQueryValues) && count($insertQueryValues)>0){
 					$insertQuery .= implode( ",", $insertQueryValues );
-					// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+					// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
 					$status = $wpdb->query($wpdb->prepare($insertQuery,array($new_db)));
 				}
 				if(isset($status) && $status !== false){
 					$imported = $imported+$offset;
-					$import_details['imported'] = $imported;
-					$import_details['total'] = $total_records;
-					update_option('quads_import_data',$import_details);	
+					$quads_import_details['imported'] = $imported;
+					$quads_import_details['total'] = $total_records;
+					update_option('quads_import_data',$quads_import_details);	
 				}
 			}
 			sleep(1);
 			}
 			if($imported >= $total_records){
-				$import_details['current_table'] = 'quads_single_stats_';
-				$import_details['sub_table'] = 'impressions_mobile';
-				$import_details['imported'] = 0;
-				$import_details['total'] = 0;
-				update_option('quads_import_data',$import_details);
+				$quads_import_details['current_table'] = 'quads_single_stats_';
+				$quads_import_details['sub_table'] = 'impressions_mobile';
+				$quads_import_details['imported'] = 0;
+				$quads_import_details['total'] = 0;
+				update_option('quads_import_data',$quads_import_details);
 				//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				die(quads_adsense_import_old_db());
 			}
 
 
-	}else if($import_details['current_table'] == 'quads_single_stats_' && $import_details['sub_table']){
+	}else if($quads_import_details['current_table'] == 'quads_single_stats_' && $quads_import_details['sub_table']){
 		
 		$device = 'mobile'; 
 		$evnt_type = 'impressions'; 
-		if(isset($import_details['sub_table']) && !empty($import_details['sub_table']))
+		if(isset($quads_import_details['sub_table']) && !empty($quads_import_details['sub_table']))
 		{
-			$tmp =  explode('_', $import_details['sub_table']);
+			$tmp =  explode('_', $quads_import_details['sub_table']);
 			$device = isset($tmp[1])?$tmp[1]:'mobile';
 			$evnt_type = isset($tmp[0])?$tmp[0]:'impressions';
 		}
@@ -1869,9 +1871,9 @@ if($import_details['status'] == 'active' && !$import_done){
 		$old_db = $wpdb->prefix.'quads_stats';
 		$new_db = $wpdb->prefix.'quads_'.$evnt_type.'_'.$device;
 
-		$offset = isset($import_details['offset'])?intval($import_details['offset']):50;
-		$imported = isset($import_details['imported'])?intval($import_details['imported']):0;
-		$total_records = isset($import_details['total'])?intval($import_details['total']):0;
+		$offset = isset($quads_import_details['offset'])?intval($quads_import_details['offset']):50;
+		$imported = isset($quads_import_details['imported'])?intval($quads_import_details['imported']):0;
+		$total_records = isset($quads_import_details['total'])?intval($quads_import_details['total']):0;
 	
 		if(!$total_records){
 			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
@@ -1901,14 +1903,14 @@ if($import_details['status'] == 'active' && !$import_done){
 					}
 				}
 				$insertQuery .= implode( ",", $insertQueryValues );
-				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder, WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnsupportedIdentifierPlaceholder, WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
 				$status = $wpdb->query($wpdb->prepare($insertQuery,array($new_db,'stats_'.$evnt_type)));
 				
 				if($status !== false){
 					$imported = $imported+$offset;
-					$import_details['imported'] = $imported;
-					$import_details['total'] = $total_records;
-					update_option('quads_import_data',$import_details);	
+					$quads_import_details['imported'] = $imported;
+					$quads_import_details['total'] = $total_records;
+					update_option('quads_import_data',$quads_import_details);	
 				}
 
 			}
@@ -1916,14 +1918,14 @@ if($import_details['status'] == 'active' && !$import_done){
 		}
 
 		if($imported >= $total_records){
-			$import_details['current_table'] = 'quads_single_stats_';
-			$import_details['sub_table'] = quads_getnext_table($import_details['sub_table']);
-			$import_details['imported'] = 0;
-			$import_details['total'] = 0;
-			update_option('quads_import_data',$import_details);
+			$quads_import_details['current_table'] = 'quads_single_stats_';
+			$quads_import_details['sub_table'] = quads_getnext_table($quads_import_details['sub_table']);
+			$quads_import_details['imported'] = 0;
+			$quads_import_details['total'] = 0;
+			update_option('quads_import_data',$quads_import_details);
 			quads_adsense_import_old_db();
 		}
-	}else if(!$import_details['sub_table']){
+	}else if(!$quads_import_details['sub_table']){
 		$reset  = array('status' => 'inactive','current_table'=>'quads_stats','sub_table'=>'','offset'=> 50,'imported' => 0,'total' => 0);
 		update_option('quads_import_data' ,$reset);
 		update_option('quads_db_import' ,true);
@@ -1962,7 +1964,7 @@ function quads_import_log_table($data){
 				}
 				if(is_array($insertQueryValues) && count($insertQueryValues)>0){
 					$insertQuery .= implode( ",", $insertQueryValues );
-					// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+					// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
 					$status = $wpdb->query($wpdb->prepare($insertQuery,array($new_db)));
 				}
 				if(isset($status) && $status !== false){
@@ -2039,7 +2041,7 @@ function quads_import_reports($data = null){
 							array_push( $insertQueryValues, "(" . $r['ad_id'] .",".$r[$evnt_type].",".$r['ad_thetime'].",".gmdate('Y',$r['ad_thetime']). ")" );
 					}
 					$insertQuery .= implode( ",", $insertQueryValues );
-					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
+					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnescapedLiteral, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
 					$status = $wpdb->query($wpdb->prepare($insertQuery,array($params['new_db'],'stats_'.$evnt_type)));
 					
 					if($status !== false){
@@ -2104,9 +2106,9 @@ function quads_insert_reports_newdb($params){
 	 $quads_cron_manual=['status'=>'success','msg'=>'Cron Started'];
 	 $rest_route = get_rest_url(null,'quads-adsense/import_old_db/');
 	 $default  = array('status' => 'inactive','current_table'=>'quads_stats','sub_table'=>'','offset'=> 50,'imported' => 0,'total' => 0);
-	$import_details = get_option('quads_import_data',$default);
-	$import_details['status']  = 'active';
-	update_option('quads_import_data',$import_details);
+	$quads_import_details = get_option('quads_import_data',$default);
+	$quads_import_details['status']  = 'active';
+	update_option('quads_import_data',$quads_import_details);
 	   $response = wp_remote_get(esc_url($rest_route),
 			 array(
 				 'timeout'     => 3,

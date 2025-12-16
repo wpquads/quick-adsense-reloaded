@@ -216,6 +216,7 @@ class quads_output_amp_condition_display{
                     if(class_exists('\AMPFORWP_Content')){
                         $sanitizer_obj = new \AMPFORWP_Content( $output,
                                             array(), 
+                                            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound --Reason AMP plugin hook is used here so prefix not needed.
                                             apply_filters( 'amp_content_sanitizers', 
                                                 array( 'AMP_Img_Sanitizer' => array(), 
                                                     'AMP_Blacklist_Sanitizer' => array(),

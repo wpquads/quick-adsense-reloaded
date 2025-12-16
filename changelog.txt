@@ -1,3 +1,13 @@
+= 2.0.96 ( 12 December 2025 ) =
+* Fixed : Checked with Plugin Check and added fix.
+* Added : Tested with WordPress 6.9 and update readme.txt
+
+= 2.0.95 ( 05 November 2025 ) =
+* Added : Option to select Polylang-specific language. #972
+* Improvement : Report should show the draft ads too #974
+* Fixed : Fatal error in query monitor #970
+* Fixed : click was not counted in the after-class condition. #973
+
 = 2.0.94.1 ( 30 September 2025 ) =
 * Fixed : Patched XSS Vulnerability disclosed by Patchstack (Fiqro Najiah) 
 

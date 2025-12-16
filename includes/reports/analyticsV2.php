@@ -311,16 +311,17 @@ private function quads_insert_impression($ad_id){
 }
 
 if($performance_tracking){
-  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-        $ad_stats = $wpdb->get_row($wpdb->prepare("SELECT id,stats_impressions FROM  {$wpdb->prefix}quads_impressions_{$device_name}  WHERE ad_id = %d AND stats_date = %d",array($ad_id, $todays_date)),ARRAY_A);
+  $table_name = $wpdb->prefix . "quads_impressions_" . $device_name;
+  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
+        $ad_stats = $wpdb->get_row($wpdb->prepare("SELECT id,stats_impressions FROM  $table_name  WHERE ad_id = %d AND stats_date = %d",array($ad_id, $todays_date)),ARRAY_A);
         if(isset($ad_stats['id']) && !empty($ad_stats['id'])){
             $updated_impression=$ad_stats['stats_impressions']+1;
-            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-            $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_impressions_{$device_name}  SET stats_impressions = %d WHERE id = %d", array($updated_impression,$ad_stats['id'])));
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
+            $result =  $wpdb->query($wpdb->prepare("UPDATE $table_name  SET stats_impressions = %d WHERE id = %d", array($updated_impression,$ad_stats['id'])));
         }
         else{
-          // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-            $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_impressions_{$device_name} (ad_id,stats_date,stats_impressions,stats_year) VALUES (%d,%d,%d,%d);",array($ad_id,$todays_date,1,$year)));
+          // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
+            $wpdb->query($wpdb->prepare("INSERT INTO $table_name (ad_id,stats_date,stats_impressions,stats_year) VALUES (%d,%d,%d,%d);",array($ad_id,$todays_date,1,$year)));
         }
 }
 }
@@ -358,16 +359,17 @@ private  function quads_insert_clicks($ad_id){
 }
 
 if($performance_tracking){
-  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-  $ad_stats = $wpdb->get_row($wpdb->prepare("SELECT id,stats_clicks FROM  {$wpdb->prefix}quads_clicks_{$device_name}  WHERE ad_id = %d AND stats_date = %d",array($ad_id, $todays_date)),ARRAY_A);
+  $table_name = $wpdb->prefix . "quads_clicks_" . $device_name;
+  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
+  $ad_stats = $wpdb->get_row($wpdb->prepare("SELECT id,stats_clicks FROM  $table_name  WHERE ad_id = %d AND stats_date = %d",array($ad_id, $todays_date)),ARRAY_A);
   if(isset($ad_stats['id']) && !empty($ad_stats['id'])){
       $updated_clicks=$ad_stats['stats_clicks']+1;
-      // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-      $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_clicks_{$device_name}  SET stats_clicks = %d WHERE id = %d", array($updated_clicks,$ad_stats['id'])));
+      // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
+      $result =  $wpdb->query($wpdb->prepare("UPDATE $table_name  SET stats_clicks = %d WHERE id = %d", array($updated_clicks,$ad_stats['id'])));
   }
   else{
-     // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-      $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_clicks_{$device_name} (ad_id,stats_date,stats_clicks,stats_year) VALUES (%d,%d,%d,%d);",array($ad_id,$todays_date,1,$year)));
+     // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
+      $wpdb->query($wpdb->prepare("INSERT INTO $table_name (ad_id,stats_date,stats_clicks,stats_year) VALUES (%d,%d,%d,%d);",array($ad_id,$todays_date,1,$year)));
   }
 }
 

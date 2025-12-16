@@ -133,7 +133,7 @@ class quads_widgets_1 extends WP_Widget {
      * @param array $instance
      */
     public function widget( $args, $instance ) {
-        global $quads_options, $ad_count_widget;
+        global $quads_options, $quads_ad_count_widget;
         
         // All widget ads are deactivated via post meta settings
         if( quads_check_meta_setting( 'NoAds' ) === '1' ){
