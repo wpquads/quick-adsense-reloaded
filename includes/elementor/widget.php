@@ -1,6 +1,8 @@
 <?php
 namespace ElementorQuads;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class Plugin {
 
 	private static $_instance = null;

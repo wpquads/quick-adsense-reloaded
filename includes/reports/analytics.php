@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 class quads_admin_analytics{
   
     public function __construct() {                           
@@ -85,7 +87,9 @@ public function quads_insert_ad_impression(){
       $actual_link  = (isset($_POST['currentLocation'])) ?  sanitize_text_field( wp_unslash( $_POST['currentLocation'] ) ) :'';
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
         // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
-        $actual_link = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $http_host = isset( $_SERVER['HTTP_HOST'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : ''; 
+        $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : ''; 
+        $actual_link = ( is_ssl() ? "https://" : "http://" ) . $http_host . $request_uri;
       }
       
       $browser =  ( isset( $_SERVER['HTTP_USER_AGENT'] ))? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) :'';
@@ -469,12 +473,14 @@ public function quads_get_client_ip() {
             $ad_id =  ( isset( $_GET['event'] ) )? sanitize_text_field( wp_unslash( $_GET['event'] ) ) : false;
             $device_name = 'amp';            
             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-            $referrer_url  = (isset($_SERVER['HTTP_REFERER'])) ? esc_url($_SERVER['HTTP_REFERER']):'';
+            $referrer_url = isset( $_SERVER['HTTP_REFERER'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '';
             $user_ip       =  $this->quads_get_client_ip();
              // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
-            $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            $http_host = isset( $_SERVER['HTTP_HOST'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : ''; 
+            $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : ''; 
+            $actual_link = ( is_ssl() ? "https://" : "http://" ) . $http_host . $request_uri;
             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-            $browser = $_SERVER['HTTP_USER_AGENT'];
+            $browser = ( isset( $_SERVER['HTTP_USER_AGENT'] ) )? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) :'';
             require_once QUADS_PLUGIN_DIR . '/admin/includes/mobile-detect.php';
             $device_name ='';
             $mobile_detect = $isTablet = '';

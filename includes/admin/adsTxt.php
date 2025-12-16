@@ -2,6 +2,8 @@
 
 namespace wpquads;
 
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class adsTxt {
 
     /**

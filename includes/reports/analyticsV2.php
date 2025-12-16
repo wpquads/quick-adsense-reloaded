@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 class quads_admin_analytics{
   
   public function __construct() {                           
@@ -419,7 +421,10 @@ public function quads_get_client_ip() {
 public function quads_get_browser()
 {
    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    $user_agent = '';
+    if ( ! empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
+      $user_agent   = sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ); 
+    }
     $browser = "Other";
 
     $browsers = [

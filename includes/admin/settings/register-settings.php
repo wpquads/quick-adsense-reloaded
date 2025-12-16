@@ -501,12 +501,20 @@ function quads_get_active_ads_data() {
 
 add_action('wp_ajax_wpquads_ads_for_shortcode_data', 'wpquads_ads_for_shortcode_data');
 function wpquads_ads_for_shortcode_data(){
-   if ( ! isset( $_POST['wpquads_security_nonce'] ) ){
-         wp_die('Invalid Request');
-   }
-   if ( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wpquads_security_nonce'] ) ), 'quads_ajax_nonce' ) && !current_user_can( 'manage_options' )){
-         wp_die('Unauthorized Request');
-   }
+    if ( ! isset( $_POST['wpquads_security_nonce'] ) ) {
+        wp_die( esc_html__( 'Invalid request.', 'quick-adsense-reloaded' ) );
+    }
+
+    $nonce = sanitize_text_field( wp_unslash( $_POST['wpquads_security_nonce'] ) );
+
+    if ( ! wp_verify_nonce( $nonce, 'quads_ajax_nonce' ) ) {
+        wp_die( esc_html__( 'Unauthorized request.', 'quick-adsense-reloaded' ) );
+    }
+
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_die( esc_html__( 'Insufficient permissions.', 'quick-adsense-reloaded' ) );
+    }
+
       $html = quads_get_active_ads_data();
       echo json_encode($html);
       wp_die();
@@ -1012,9 +1020,9 @@ function quads_password_callback( $args ) {
 function quads_missing_callback( $args ) {
     ?>
     <div class="callback_data">
-        <?php echo esc_html( 'The callback function used for the', 'quick-adsense-reloaded' ); ?> 
+        <?php echo esc_html__( 'The callback function used for the', 'quick-adsense-reloaded' ); ?> 
         <strong> <?php echo esc_html($args['id']); ?> </strong> 
-        <?php echo esc_html( 'setting is missing.', 'quick-adsense-reloaded' ); ?> 
+        <?php echo esc_html__( 'setting is missing.', 'quick-adsense-reloaded' ); ?> 
     </div>
     <?php
 }
@@ -1790,33 +1798,6 @@ function quads_ad_position_callback( $args ) {
 }
 
 /**
- * Quicktags Callback
- *
- * Renders quicktags fields
- *
- * @since 0.9.0
- * @param array $args Arguments passed by the setting
- * @global $quads_options Array of all the QUADS Options
- * @return void
- */
-function quads_quicktags_callback( $args ) {
-   global $quads_options, $quads;
-
-   // Quicktags info
-   $html = '<div style="margin-bottom:5px;"><strong>Optional: </strong><a href="#" id="quads_insert_ads_action">' . __( ' Insert Ads into a post, on-the-fly', 'quick-adsense-reloaded' ) . '</a></br>' .
-           '<ol style="margin-top:5px;display:none;" id="quads_insert_ads_box">
-                <li>' . __( 'Insert <span class="quads-quote-docs">&lt;!--Ads1--&gt;</span>, <span class="quads-quote-docs">&lt;!--Ads2--&gt;</span>, etc. into a post to show the <b>Particular Ads</b> at specific location.', 'quick-adsense-reloaded' ) . '</li>
-                <li>' . __( 'Insert <span class="quads-quote-docs">&lt;!--RndAds--&gt;</span> into a post to show the <b>Random Ads</b> at specific location', 'quick-adsense-reloaded' ) . '</li>
-                </ol></div>';
-
-   $html .= $quads->html->checkbox( array('name' => 'quads_settings[quicktags][QckTags]', 'current' => !empty( $quads_options['quicktags']['QckTags'] ) ? $quads_options['quicktags']['QckTags'] : null, 'class' => 'quads-checkbox') );
-   $html .= esc_html__( 'Show Quicktag Buttons on the HTML Post Editor', 'quick-adsense-reloaded' ) . '</br>';
-   $html .= '<span class="quads-desc">' . esc_html__( 'Tags can be inserted into a post via the additional Quicktag Buttons at the HTML Edit Post SubPanel.', 'quick-adsense-reloaded' ) . '</span>';
-   // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above
-   echo $html;
-}
-
-/**
  * Add new ad
  * @global array $quads_options
  */
@@ -2022,8 +2003,8 @@ function quads_adsense_code_callback( $args ) {
        </div>
        <textarea style="vertical-align:top;margin-right:20px;" class="large-text quads-textarea" cols="50" rows="10" id="quads_settings[ads][<?php echo esc_attr($id); ?>][code]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][code]"><?php echo esc_textarea( stripslashes( $code ) ); ?></textarea>
        <!--<label for="quads_settings[ads][ <?php //echo $id; ?> ][code]"> <?php //echo $args['desc']; ?></label><br>//-->
-       <label for="quads_shortcode_<?php echo esc_attr($args['id']);?>">Post Shortcode:</label><input readonly id="quads_shortcode_<?php echo esc_attr($args['id']);?>" type="text" onclick="this.focus(); this.select()" value='[quads id=<?php echo esc_attr($args['id']);?>]' title="Optional: Copy and paste the shortcode into the post editor, click below then press Ctrl + C (PC) or Cmd + C (Mac).">
-       <label for="quads_php_shortcode_<?php echo esc_attr($args['id']);?>">PHP:</label><input readonly id="quads_php_shortcode_<?php echo esc_attr($args['id']);?>" type="text" onclick="this.focus(); this.select()" style="width:290px;" value="&lt;?php echo do_shortcode('[quads id=<?php echo esc_attr($args['id']); ?>]'); ?&gt;" title="<?php echo esc_html('Optional: Copy and paste the PHP code into your theme files, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'quick-adsense-reloaded');?>">
+       <label for="quads_shortcode_<?php echo esc_attr($args['id']);?>">Post Shortcode:</label><input readonly id="quads_shortcode_<?php echo esc_attr($args['id']);?>" type="text" onclick="this.focus(); this.select()" value='[quads id=<?php echo esc_attr($args['id']);?>]' title="<?php echo esc_html__('Optional: Copy and paste the PHP code into your theme files, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'quick-adsense-reloaded');?>">
+       <label for="quads_php_shortcode_<?php echo esc_attr($args['id']);?>">PHP:</label><input readonly id="quads_php_shortcode_<?php echo esc_attr($args['id']);?>" type="text" onclick="this.focus(); this.select()" style="width:290px;" value="&lt;?php echo do_shortcode('[quads id=<?php echo esc_attr($args['id']); ?>]'); ?&gt;" title="<?php echo esc_html__('Optional: Copy and paste the PHP code into your theme files, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'quick-adsense-reloaded');?>">
        <br>
        <div class="quads_adsense_code">
            <input type="button" style="vertical-align:inherit;" class="button button-primary quads-add-adsense" value="Copy / Paste AdSense Code"> <span>or add Ad Slot ID & Publisher ID manually below:</span>

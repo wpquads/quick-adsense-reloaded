@@ -7,7 +7,7 @@ Donate link: https://wpquads.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, monetize, banner
-Requires at least: 3.6+
+Requires at least: 6.2
 Tested up to: 6.9
 Requires PHP: 5.4
 Stable tag: 2.0.96
@@ -209,6 +209,67 @@ Alternative Installation:
 9. Settings Page for WPQuads
 10. Widget AD
 11. Customer Support Happiness Stats
+
+
+== External Services ==
+
+This plugin connects to several third-party/external services to provide its full functionality. These services are only used when the related features are enabled by the site administrator.
+
+= Magazine3 Central API =
+This plugin connects to a Magazine3-owned API to manage plugin-related services such as email subscriptions and centralized feature management.
+The plugin sends the site URL, admin email address, and subscription-related information when the admin opts in to email notifications or related services.
+This plugin connects to the WP QUADS licensing and update API to validate licenses and manage plugin updates when license-related features are enabled.
+The plugin sends the site URL, license key, and plugin version to the service during license activation, validation, or update checks.
+This service is provided by "Magazine3": [terms of use](https://magazine3.company/terms-of-service/) [privacy policy.](https://magazine3.company/terms-of-service/)
+
+= InMobi Consent Management =
+This plugin loads the InMobi consent management script to handle user consent for ads and tracking, where applicable.
+The script is loaded on the frontend to manage consent preferences and does not send personally identifiable information by default.
+This service is provided by "InMobi": [terms of use](https://www.inmobi.com/terms-of-service) [privacy policy.](https://www.inmobi.com/website-privacy-policy)
+
+= Google AdSense & Google Ad Manager & Google OAuth Authentication =
+This plugin integrates with Google AdSense and Google Ad Manager to display and manage advertisements.
+API requests may include ad performance data and site identifiers when ad reporting or ad display features are enabled.
+This plugin integrates with Google OAuth to allow users to authenticate with their Google account and to revoke access tokens when requested.
+When a user connects or disconnects a Google account, authentication tokens are exchanged or revoked directly with Google. The plugin does not store Google account passwords.
+This service is provided by "Google": [terms of use](https://policies.google.com/terms) [privacy policy.](https://policies.google.com/privacy)
+
+= Paystack Payment Processing =
+This plugin loads Paystack’s JavaScript library to process payments when payment-related or ad-selling features are enabled.
+Payment information entered by users is sent directly to Paystack during the checkout process. The plugin does not store or process credit card or bank details.
+This service is provided by "Paystack": [terms of use](https://paystack.com/terms#terms) [privacy policy.](https://paystack.com/terms#privacy)
+
+= Stripe Payment Processing =
+This plugin loads Stripe’s JavaScript library to securely process payments when payment-related features are enabled.
+Payment and billing information entered by users is sent directly to Stripe during the checkout process. The plugin itself does not store or process credit card details.
+This service is provided by "Stripe": [terms of use](https://stripe.com/in/legal) [privacy policy.](https://stripe.com/in/privacy)
+
+= Authorize.Net Payment Processing =
+This plugin integrates with Authorize.Net to allow secure payment processing for ad sales.
+Payment data is transmitted directly to Authorize.Net during checkout. The plugin does not store sensitive payment information.
+This service is provided by "Authorize.Net": [terms of use](https://www.authorize.net/about-us/terms.html) [privacy policy.](https://www.authorize.net/company/privacy)
+
+= PayPal Payment Processing =
+This plugin integrates with PayPal to process payments when payment or ad-selling features are enabled.
+Transaction and payment-related information is sent to PayPal during checkout. The plugin does not store or process sensitive payment details such as credit card numbers.
+This service is provided by "PayPal": [terms of use](https://www.paypal.com/us/webapps/mpp/ua/useragreement-full) [privacy policy.](https://www.paypal.com/us/legalhub/paypal/privacy-full)
+
+= Outbrain Content Recommendation Service =
+This plugin loads the Outbrain JavaScript widget to display content recommendations or native advertisements when the related feature is enabled.
+The Outbrain script is loaded on the frontend and may collect usage data such as page views, device information, and interaction data in accordance with Outbrain’s policies.
+No personally identifiable information is intentionally sent by the plugin itself.
+This service is provided by "Outbrain Inc.": [terms of use](https://www.outbrain.com/legal#terms-of-use) [privacy policy.](https://www.outbrain.com/privacy/)
+
+= AMP Project (Sticky Ads) =
+This plugin loads an AMP Project JavaScript component to enable AMP-compatible sticky advertisements when AMP and ad-related features are enabled.
+The script is loaded on AMP pages only and is used to render sticky ad units. The AMP Project may collect usage data in accordance with its policies.
+This service is provided by "The AMP Project": [terms of use](https://terms-of-use.openjsf.org) [privacy policy.](https://privacy-policy.openjsf.org)
+
+= Media.net Contextual Advertising =
+This plugin integrates with Media.net to display contextual advertisements when ad-related features are enabled.
+Media.net scripts may be loaded on the frontend and may collect information such as page context, device information, and interaction data in accordance with Media.net’s policies.
+The plugin does not store personally identifiable information collected by Media.net.
+This service is provided by "Media.net": [terms of use](https://www.media.net/legal/tos/) [privacy policy.](https://www.media.net/privacy-policy/)
 
 
 == Changelog ==

@@ -1,7 +1,7 @@
 <?php
 
 namespace wpquads;
-
+if ( ! defined( 'ABSPATH' ) ) exit;
 /*
  * Class for rendering templates
  */

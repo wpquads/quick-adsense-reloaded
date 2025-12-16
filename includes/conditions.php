@@ -1,5 +1,5 @@
 <?php
-
+if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Conditions
  *
@@ -316,9 +316,10 @@ function quads_click_fraud_on(){
 
   if (isset($quads_options['click_fraud_protection']) && !empty($quads_options['click_fraud_protection']) && $quads_options['click_fraud_protection']  && isset( $_COOKIE['quads_ad_clicks'] ) ) {
     // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized	
-    $quads_ad_click = json_decode( stripslashes( $_COOKIE['quads_ad_clicks'] ), true );
+    $cookie_value  = wp_unslash( $_COOKIE['quads_ad_clicks'] );
+    $quads_ad_click = json_decode( $cookie_value , true );
     $current_time = time();
-    if (isset($quads_options['allowed_click']) && isset($quads_options['ban_duration']) && $quads_ad_click['count']  >= $quads_options['allowed_click'] ) {
+    if (isset($quads_options['allowed_click']) && isset($quads_options['ban_duration']) && isset( $quads_ad_click['count'] ) && $quads_ad_click['count']  >= $quads_options['allowed_click'] ) {
     if(function_exists('quadsGetIPAddress') ){
       $ips = quadsGetIPAddress();
     }
@@ -326,12 +327,12 @@ function quads_click_fraud_on(){
     update_option( 'add_blocked_ip', $final_ip  );
   }
   
-    if (isset($quads_options['allowed_click']) && isset($quads_options['ban_duration']) && $quads_options['allowed_click'] <= $quads_ad_click['count'] ) {
+    if (isset($quads_options['allowed_click']) && isset($quads_options['ban_duration'] ) && isset( $quads_ad_click['count'] ) && $quads_options['allowed_click'] <= $quads_ad_click['count'] ) {
       $cookie_check = false;
-      if($current_time >= strtotime( $quads_ad_click['exp']. ' +'.$quads_options['ban_duration'].' day') ){
+      if( isset( $quads_ad_click['exp'] ) && $current_time >= strtotime( $quads_ad_click['exp']. ' +'.$quads_options['ban_duration'].' day') ){
         $cookie_check = true;
       }else {
-        if ($current_time <= strtotime( $quads_ad_click['exp']. ' +'.$quads_options['click_limit'].' hours') ) {
+        if ( isset( $quads_ad_click['exp'] ) && $current_time <= strtotime( $quads_ad_click['exp']. ' +'.$quads_options['click_limit'].' hours') ) {
              $cookie_check = false;
         }
     }

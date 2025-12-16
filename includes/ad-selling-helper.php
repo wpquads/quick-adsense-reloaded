@@ -520,7 +520,7 @@ function quads_ads_buy_form() {
             <p id="ad_selection_info" style="color:gray;font-size:14px;margin-top:-10px"><?php echo (isset($ad_selection_info))?esc_attr($ad_selection_info):''?></p>
             <label for="ad_link"><?php echo esc_html__('Ad Link','quick-adsense-reloaded');?></label>
             <input type="url" name="ad_link" id="ad_link" required placeholder="Ad Link"/>
-            <input type="hidden" name="redirect_link" id="redirect_link" value=<?php echo esc_url_raw( $redirect_link )?>/>
+            <input type="hidden" name="redirect_link" id="redirect_link" value=<?php echo esc_url( $redirect_link )?>/>
           
 
             <label for="ad_content"><?php echo esc_html__('Ad Content','quick-adsense-reloaded');?> <small>(This will be ignored if Ad image is present)</small></label>

@@ -2,6 +2,8 @@
 /**
  * This class handles displaying ads according to amp display conditions
  */
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 class quads_output_amp_condition_display{            
       private $api_service = null;
     function __construct() {

@@ -3354,7 +3354,8 @@ function quads_del_element($array, $idx) {
                     }else{
                         if($_COOKIE['skip_ads_delay'] != 0){
                             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-                            setcookie('skip_ads_delay', esc_attr(wp_unslash( $_COOKIE['skip_ads_delay'] )-1),-1, "/"); // 86400 = 1 day
+                            $delay = absint( wp_unslash( $_COOKIE['skip_ads_delay'] ) );
+                            setcookie( 'skip_ads_delay', esc_attr( $delay - 1 ), -1, "/" ); // 86400 = 1 day
                             return $content;
                         }
     

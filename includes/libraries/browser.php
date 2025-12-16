@@ -1,4 +1,6 @@
 <?php
+	// Exit if accessed directly
+	if ( ! defined( 'ABSPATH' ) ) exit;
 	/**
 	 * Modified to remove var
 	 * Chris Christoff on 12/26/2012

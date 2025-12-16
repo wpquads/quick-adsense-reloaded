@@ -69,12 +69,17 @@ quads_show_rate_div();
 }
 function quads_license_activation_notice(){
     $quads_mode = get_option('quads-mode');
+    $message = '';
     if($quads_mode == 'new'){
         //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
-        $message = __( 'Activate the License of <a href="'.admin_url('admin.php?page=quads-settings&path=settings_licenses').'" target="_blank"> <strong>WP QUADS PRO!</strong></a><br><p>', 'quick-adsense-reloaded' );
+        $message  = esc_html__( 'Activate the License of', 'quick-adsense-reloaded' ) . ' ';
+        $message .= '<a href="' . esc_url( admin_url( 'admin.php?page=quads-settings&path=settings_licenses' ) ) . '" target="_blank">';
+        $message .= '<strong> WP QUADS PRO!</strong></a>';
     }else{
         //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
-        $message = __( 'Activate the License of <a href="'.admin_url('admin.php?page=quads-settings&tab=licenses').'" target="_blank"> <strong>WP QUADS PRO!</strong></a><br><p>', 'quick-adsense-reloaded' );
+        $message  = esc_html__( 'Activate the License of', 'quick-adsense-reloaded' ) . ' ';
+        $message .= '<a href="' . esc_url( admin_url( 'admin.php?page=quads-settings&tab=licenses' ) ) . '" target="_blank">';
+        $message .= '<strong> WP QUADS PRO!</strong></a>';
     }
     ?>
     <div class="updated notice" style="border-left: 4px solid #ffba00;">

@@ -1,6 +1,8 @@
 <?php
 
 namespace wpquads;
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /*
  * Google AdSense integration for WP QUADS

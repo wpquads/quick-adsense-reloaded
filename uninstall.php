@@ -10,8 +10,9 @@
  * @since       1.0.0
  */
 // Exit if accessed directly
-if( !defined( 'WP_UNINSTALL_PLUGIN' ) )
-   exit;
+if ( ! defined( 'ABSPATH' ) || ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+    exit;
+}
 
 /**
  * Get an option

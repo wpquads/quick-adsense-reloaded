@@ -1,4 +1,5 @@
 <?php 
+ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 $quads_reasons = array(
     		1 => '<li><label><input type="radio" name="quads_disable_reason" value="temporary"/>' . esc_html__('It is only temporary', 'quick-adsense-reloaded') . '</label></li>',
 		2 => '<li><label><input type="radio" name="quads_disable_reason" value="stopped showing ads"/>' . esc_html__('I stopped showing ads on my site', 'quick-adsense-reloaded') . '</label></li>',
