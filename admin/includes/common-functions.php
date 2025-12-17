@@ -20,8 +20,9 @@ function quads_sanitize_post_meta($key, $meta){
 		case 'code':
 			$response = wp_unslash($meta);
 		break;
-      case 'random_ads_list':
-			$response = wp_unslash($meta);  
+    case 'random_ads_list':
+			$response = wp_unslash($meta); 
+		break; 
 		case 'ads_list':
 			$response = wp_unslash($meta);          
 		break;

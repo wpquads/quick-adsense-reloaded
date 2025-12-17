@@ -13,9 +13,9 @@ try {
 
   if ( is_object( $quads_jsonObj ) && ! empty( $quads_jsonObj->session_id ) ) {
 
-    $session_id = sanitize_text_field( wp_unslash( $quads_jsonObj->session_id ) );
+    $quads_session_id = sanitize_text_field( wp_unslash( $quads_jsonObj->session_id ) );
 
-    $quads_session = $quads_stripe->checkout->sessions->retrieve($session_id);
+    $quads_session = $quads_stripe->checkout->sessions->retrieve($quads_session_id);
 
     if ( is_object( $quads_session ) &&  ! empty( $quads_session->status ) && $quads_session->customer_details->email ) {
       echo json_encode(['status' => $quads_session->status, 'customer_email' => $quads_session->customer_details->email]);
