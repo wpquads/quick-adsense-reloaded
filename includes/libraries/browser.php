@@ -218,18 +218,8 @@
 		public $PLATFORM_ANDROID = 'Android';
 
 		public $OPERATING_SYSTEM_UNKNOWN = 'unknown';
-
-//		function Browser($useragent="") {
-//			$this->reset();
-//			if( $useragent != "" ) {
-//				$this->setUserAgent($useragent);
-//			}
-//			else {
-//				$this->determine();
-//			}
-//		}
                 
-                function __construct($useragent="") {
+            function __construct($useragent="") {
                     			$this->reset();
 			if( $useragent != "" ) {
 				$this->setUserAgent($useragent);
