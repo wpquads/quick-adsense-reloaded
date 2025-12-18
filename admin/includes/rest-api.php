@@ -555,7 +555,7 @@ class QUADS_Ad_Setup_Api {
                 }
                 update_option('adsforwp_to_quads', 'imported');
             }
-            return  array('status' => 't', 'data' => 'Ads have been successfully imported');
+            return  array('status' => 't', 'data' => esc_html__( 'Ads have been successfully imported', 'quick-adsense-reloaded' ) );
         }
 
  /** Here we are importing Advance ads to Quads**/
@@ -945,7 +945,7 @@ class QUADS_Ad_Setup_Api {
                     $this->migration_service->quadsUpdateOldAd($post_id, $advance_ads_meta_key);
                 }
             }
-            return  array('status' => 't', 'data' => 'Ads have been successfully imported');
+            return  array('status' => 't', 'data' => esc_html__( 'Ads have been successfully imported', 'quick-adsense-reloaded' ) );
         }
 
      /** Here we are importing AMP for WP and advance Amp ads to Quads**/
@@ -1500,7 +1500,7 @@ class QUADS_Ad_Setup_Api {
                         $this->migration_service->quadsUpdateOldAd('ad'.$ad_count, $adforwp_meta_key);
                 }
             }
-            return  array('status' => 't', 'data' => 'Ads have been successfully imported');
+            return  array('status' => 't', 'data' => esc_html__( 'Ads have been successfully imported', 'quick-adsense-reloaded' ) );
 
         }
         public function quadsSubscribeNewsletter($request){
@@ -1547,7 +1547,7 @@ class QUADS_Ad_Setup_Api {
             if($response){
                 return array('status' => 't', 'data' => $response);
             }else{
-                return array('status' => 'f', 'data' => 'data not found');
+                return array('status' => 'f', 'data' => esc_html__( 'data not found', 'quick-adsense-reloaded' ) );
             }
 
             return $response;
@@ -1569,7 +1569,7 @@ class QUADS_Ad_Setup_Api {
             if($response){
                 return array('status' => 't', 'data' => $response);
             }else{
-                return array('status' => 'f', 'data' => 'data not found');
+                return array('status' => 'f', 'data' => esc_html__( 'data not found', 'quick-adsense-reloaded' ) );
             }
 
             return $response;
@@ -1714,13 +1714,13 @@ return array('status' => 't');
                     case 'publish':
                         $result = $this->api_service->changeAdStatus($ad_id, 'publish');
                         if($result){
-                            $response = array('status'=> 't', 'msg' => 'Changed Successfully', 'data' => array());
+                            $response = array('status'=> 't', 'msg' => esc_html__( 'Changed Successfully', 'quick-adsense-reloaded' ), 'data' => array());
                         }
                         break;
                     case 'draft':
                         $result = $this->api_service->changeAdStatus($ad_id, 'draft');
                         if($result){
-                            $response = array('status'=> 't', 'msg' => 'Changed Successfully', 'data' => array());
+                            $response = array('status'=> 't', 'msg' => esc_html__( 'Changed Successfully', 'quick-adsense-reloaded' ), 'data' => array());
                         }
                         break;
                     case 'duplicate':
@@ -1728,19 +1728,19 @@ return array('status' => 't');
                         $this->quads_clear_all_cache();
                         if($new_ad_id){
                             $data     = $this->api_service->getAdById($new_ad_id);
-                            $response = array('status'=> 't', 'msg' => 'Duplicated Successfully', 'data' => $data);
+                            $response = array('status'=> 't', 'msg' => esc_html__( 'Duplicated Successfully', 'quick-adsense-reloaded' ), 'data' => $data);
                         }
                         break;
                     case 'delete':
                         $result = $this->api_service->deleteAd($ad_id);
                         if($result){
-                            $response = array('status'=> 't', 'msg' => 'Deleted Successfully', 'data' => array());
+                            $response = array('status'=> 't', 'msg' => esc_html__( 'Deleted Successfully', 'quick-adsense-reloaded' ), 'data' => array());
                         }
                         break;
                     case 'clear_impression':
                         $result = $this->api_service->resetImpressionAndClick($ad_id);
                         if($result){
-                            $response = array('status'=> 't', 'msg' => 'Reset Successfully', 'data' => array());
+                            $response = array('status'=> 't', 'msg' => esc_html__( 'Reset Successfully', 'quick-adsense-reloaded' ), 'data' => array());
                         }
                         break;
 
@@ -1759,14 +1759,14 @@ return array('status' => 't');
 			 $nonce      =  $request->get_header('X-WP-Nonce');
 			 if (isset($nonce) && !empty($nonce) && wp_verify_nonce($nonce,'wp_rest'))
 			 {
-             $customer_type  = 'Are you a premium customer ? No';
+             $customer_type  = esc_html__( 'Are you a premium customer ? No', 'quick-adsense-reloaded' );
              $message        = sanitize_textarea_field($parameters['message']);
              $email          = sanitize_text_field($parameters['email']);
              $premium_cus    = sanitize_text_field($parameters['type']);
 			 
 
              if($premium_cus == 'yes'){
-                $customer_type  = 'Are you a premium customer ? Yes';
+                $customer_type  = esc_html__( 'Are you a premium customer ? Yes', 'quick-adsense-reloaded');
              }
 
              $message = '<p>'.$message.'</p><br><br>'
@@ -1796,10 +1796,10 @@ return array('status' => 't');
                  }
 
              }else{
-                return array('status'=>'f', 'msg' => 'Please provide message and email');
+                return array('status'=>'f', 'msg' => esc_html__( 'Please provide message and email' ,'quick-adsense-reloaded') );
              }
         }else{
-		return array('status'=>'f', 'msg' => 'Invalid Request');
+		return array('status'=>'f', 'msg' => esc_html__( 'Invalid Request', 'quick-adsense-reloaded') );
 		}}
         public function validateAdsTxt($request){
 
@@ -1899,7 +1899,7 @@ return array('status' => 't');
             if(isset($parameters['condition'])){
                 $response = $this->api_service->getConditionList($parameters['condition'], $search);
             }else{
-                $response =  array('status' => '404', 'message' => 'property type is required');
+                $response =  array('status' => '404', 'message' => esc_html__( 'property type is required', 'quick-adsense-reloaded' ));
             }
             return $response;
 
@@ -1914,7 +1914,7 @@ return array('status' => 't');
             if(isset($parameters['ad-id'])){
                 $response = $this->api_service->getAdById($parameters['ad-id']);
             }else{
-                $response =  array('status' => '404', 'message' => 'Ad id is required');
+                $response =  array('status' => '404', 'message' => esc_html__( 'Ad id is required', 'quick-adsense-reloaded' ));
             }
             return $response;
 
@@ -1973,12 +1973,12 @@ return array('status' => 't');
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
             if(isset($_GET['pageno'])){
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
-                $paged    = sanitize_text_field( wp_unslash( $_GET['pageno'] ) );
+                $paged    = absint( $_GET['pageno'] );
             }
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
             if(isset($_GET['posts_per_page'])){
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
-                $rvcount = sanitize_text_field( wp_unslash( $_GET['posts_per_page'] ) );
+                $rvcount = absint( $_GET['posts_per_page'] );
             }
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading the ads list on Ads page.
             if(isset($_GET['search_param'])){
@@ -2010,7 +2010,7 @@ return array('status' => 't');
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading ads analytics.
             if(isset($_GET['ad_id'])){
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended  -- Reason: We are not processing form information but only loading ads analytics.
-                $ad_id    = sanitize_text_field( wp_unslash( $_GET['ad_id'] ));
+                $ad_id    = absint( $_GET['ad_id'] );
                 $ad_analytics= quads_get_ad_stats('sumofstats',$ad_id);
                 return $ad_analytics;
             }

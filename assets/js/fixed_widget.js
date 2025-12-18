@@ -82,10 +82,10 @@ function quads_sidebar(options){
                 jQuery(window).off('scroll.' + options.sidebar); 
 	
                 for ( var i = 0; i < widgets.length; i++ ) {
-                    if (widgets[i]) fixed_widget(widgets[i]);
+                    if (widgets[i]) quads_fixed_widget(widgets[i]);
                 }
 
-    function fixed_widget(widget) {		
+    function quads_fixed_widget(widget) {		
 		var trigger_top = widget.offset_top - widget.fixed_margin_top;
 		var trigger_bottom = document_height - options.margin_bottom;
 

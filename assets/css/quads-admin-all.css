@@ -133,7 +133,7 @@ a.close_adpushup:before{
     -webkit-font-smoothing: antialiased;
     float: right;
 }
-.wpquads_hide{
+.quads_hide{
     display: none;
 }
 #systeminfo{
@@ -142,11 +142,11 @@ a.close_adpushup:before{
     margin: 20px 0px 10px;
 }
 
-.wpquads-query-error {
+.quads-query-error {
     color: red;
     font-weight: 700;
 }
-.wpquads-query-success {
+.quads-query-success {
     color: green;
     font-weight: 700;
 }

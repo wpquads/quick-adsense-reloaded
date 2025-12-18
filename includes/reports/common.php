@@ -118,7 +118,7 @@ function quads_confirm_code($request_data){
 		return json_encode(
 			array(
 				'status' => false,
-				'msg'    => 'error while submitting code',
+				'msg'    => esc_html__( 'error while submitting code', 'quick-adsense-reloaded' ),
 				'raw'    => $response->get_error_message(),
 			)
 		);
@@ -421,7 +421,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 	if( isset( $_GET['id'] ) ) {
 	    // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-	    $ad_id = sanitize_text_field( $_GET['id'] );
+	    $ad_id = absint( $_GET['id'] );
 	}
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 	if( isset( $_GET['day'] ) ) {
@@ -805,9 +805,9 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 				$ad_imprsn_values[$key_] += $value->date_impression;
 			}
 		
-		$mob_indi_impr_day_counts = array_map('wpquadsRemoveNullElement',$ad_mob_imprsn_values);
-		$desk_indi_impr_day_counts = array_map('wpquadsRemoveNullElement',$ad_desk_imprsn_values);
-		$individual_impr_day_counts = array_map('wpquadsRemoveNullElement',$ad_imprsn_values);
+		$mob_indi_impr_day_counts = array_map('quadsRemoveNullElement',$ad_mob_imprsn_values);
+		$desk_indi_impr_day_counts = array_map('quadsRemoveNullElement',$ad_desk_imprsn_values);
+		$individual_impr_day_counts = array_map('quadsRemoveNullElement',$ad_imprsn_values);
 
 		$_to_slash = $dates_i_chart;
 		$get_impressions_specific_dates = str_replace('-','/',$_to_slash);
@@ -875,9 +875,9 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$ad_click_values[$key_] += $value->date_click;
 		}
 		
-		$mob_indi_click_day_counts = array_map('wpquadsRemoveNullElement',$ad_mob_click_values);
-		$desk_indi_click_day_counts = array_map('wpquadsRemoveNullElement',$ad_desk_click_values);
-		$individual_click_day_counts = array_map('wpquadsRemoveNullElement',$ad_click_values);
+		$mob_indi_click_day_counts = array_map('quadsRemoveNullElement',$ad_mob_click_values);
+		$desk_indi_click_day_counts = array_map('quadsRemoveNullElement',$ad_desk_click_values);
+		$individual_click_day_counts = array_map('quadsRemoveNullElement',$ad_click_values);
 		if($ad_id=="all")
 			{
 				// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
@@ -1047,9 +1047,9 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 				$ad_desk_imprsn_values[$key_] += $value->desk_imprsn;
 				$ad_imprsn_values[$key_] += $value->date_impression;
 			}
-			$mob_indi_impr_day_counts = array_map('wpquadsRemoveNullElement',$ad_mob_imprsn_values);
-			$desk_indi_impr_day_counts = array_map('wpquadsRemoveNullElement',$ad_desk_imprsn_values);
-			$individual_impr_day_counts = array_map('wpquadsRemoveNullElement',$ad_imprsn_values);
+			$mob_indi_impr_day_counts = array_map('quadsRemoveNullElement',$ad_mob_imprsn_values);
+			$desk_indi_impr_day_counts = array_map('quadsRemoveNullElement',$ad_desk_imprsn_values);
+			$individual_impr_day_counts = array_map('quadsRemoveNullElement',$ad_imprsn_values);
 
 	
 
@@ -1110,9 +1110,9 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$ad_click_values[$key_] += $value->date_click;
 		}
 
-		$mob_indi_click_day_counts = array_map('wpquadsRemoveNullElement',$ad_mob_click_values);
-		$desk_indi_click_day_counts = array_map('wpquadsRemoveNullElement',$ad_desk_click_values);
-		$individual_click_day_counts = array_map('wpquadsRemoveNullElement',$ad_click_values);
+		$mob_indi_click_day_counts = array_map('quadsRemoveNullElement',$ad_mob_click_values);
+		$desk_indi_click_day_counts = array_map('quadsRemoveNullElement',$ad_desk_click_values);
+		$individual_click_day_counts = array_map('quadsRemoveNullElement',$ad_click_values);
 		
 		if($ad_id=="all")
 			{
@@ -1330,9 +1330,9 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 				$ad_desk_imprsn_values_[] = $value->desk_imprsn;
 				$ad_imprsn_values_[] = $value->date_impression;
 			}
-			$mob_indi_impr_day_counts = array_map('wpquadsRemoveNullElement',$ad_mob_imprsn_values_);
-			$desk_indi_impr_day_counts = array_map('wpquadsRemoveNullElement',$ad_desk_imprsn_values_);
-			$individual_impr_day_counts = array_map('wpquadsRemoveNullElement',$ad_imprsn_values_);
+			$mob_indi_impr_day_counts = array_map('quadsRemoveNullElement',$ad_mob_imprsn_values_);
+			$desk_indi_impr_day_counts = array_map('quadsRemoveNullElement',$ad_desk_imprsn_values_);
+			$individual_impr_day_counts = array_map('quadsRemoveNullElement',$ad_imprsn_values_);
 			// individual_impr_day_counts
 			$get_mob_impr_specific_dates = $ad_mob_imprsn_values;
 			$get_desk_impr_specific_dates = $ad_desk_imprsn_values;
@@ -1457,9 +1457,9 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$ad_desk_click_values_[] = $value->desk_click;
 			$ad_click_values_[] = $value->desk_click+$value->mob_click;
 		}
-			$mob_indi_click_day_counts = array_map('wpquadsRemoveNullElement',$ad_mob_click_values_);
-			$desk_indi_click_day_counts = array_map('wpquadsRemoveNullElement',$ad_desk_click_values_);
-			$individual_click_day_counts = array_map('wpquadsRemoveNullElement',$ad_click_values_);
+			$mob_indi_click_day_counts = array_map('quadsRemoveNullElement',$ad_mob_click_values_);
+			$desk_indi_click_day_counts = array_map('quadsRemoveNullElement',$ad_desk_click_values_);
+			$individual_click_day_counts = array_map('quadsRemoveNullElement',$ad_click_values_);
 			
 			if($ad_id=="all")
 			{
@@ -1623,7 +1623,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			
 			$ad_desk_imprsn_values = [$desk_imp->jan_impr,$desk_imp->feb_impr,$desk_imp->mar_impr,$desk_imp->apr_impr,$desk_imp->may_impr,$desk_imp->jun_impr,$desk_imp->jul_impr,$desk_imp->aug_impr,$desk_imp->sep_impr,$desk_imp->oct_impr,$desk_imp->nov_impr,$desk_imp->dec_impr];
 			$ad_desk_imprsn =$desk_imp->jan_impr+$desk_imp->feb_impr+$desk_imp->mar_impr+$desk_imp->apr_impr+$desk_imp->may_impr+$desk_imp->jun_impr+$desk_imp->jul_impr+$desk_imp->aug_impr+$desk_imp->sep_impr+$desk_imp->oct_impr+$desk_imp->nov_impr+$desk_imp->dec_impr;
-			$ad_imprsn_values = wpquadsSumArrays($ad_mob_imprsn_values,$ad_desk_imprsn_values);
+			$ad_imprsn_values = quadsSumArrays($ad_mob_imprsn_values,$ad_desk_imprsn_values);
 			$ad_imprsn = $ad_mob_imprsn+$ad_desk_imprsn;
 
 			$mob_indi_impr_day_counts = $ad_mob_imprsn_values;
@@ -1702,7 +1702,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$ad_desk_click_values = [$desk_clk->jan_impr,$desk_clk->feb_impr,$desk_clk->mar_impr,$desk_clk->apr_impr,$desk_clk->may_impr,$desk_clk->jun_impr,$desk_clk->jul_impr,$desk_clk->aug_impr,$desk_clk->sep_impr,$desk_clk->oct_impr,$desk_clk->nov_impr,$desk_clk->dec_impr];
 
 			$ad_clicks =  $ad_mob_clicks+$ad_desk_clicks;
-			$ad_click_values = wpquadsSumArrays($ad_mob_click_values,$ad_desk_click_values);
+			$ad_click_values = quadsSumArrays($ad_mob_click_values,$ad_desk_click_values);
 
 			$mob_indi_click_day_counts = $ad_mob_click_values;
 			$desk_indi_click_day_counts = $ad_desk_click_values;
@@ -2799,7 +2799,7 @@ function quads_get_ad_stats($condition, $ad_id='', $date=null,$parameters ='') {
 }
 
 
-function wpquadsSumArrays(array $a = [], array $b = []) {
+function quadsSumArrays(array $a = [], array $b = []) {
 	foreach ($a as $k => $v) {
 		if(array_key_exists($k, $b)){
 
@@ -2817,7 +2817,7 @@ function wpquadsSumArrays(array $a = [], array $b = []) {
 	return $b;
 }
 
-function wpquadsRemoveNullElement($val){
+function quadsRemoveNullElement($val){
 	$val = $val?$val:0;
 	return $val;
 }

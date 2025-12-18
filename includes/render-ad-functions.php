@@ -1164,10 +1164,10 @@ function quads_render_floating_ads_async($id) {
     $floating_size = isset($quads_options['ads'][$id]['floating_cubes_size'])?$quads_options['ads'][$id]['floating_cubes_size']:'200';
     $floating_position = isset($quads_options['ads'][$id]['floating_position'])?$quads_options['ads'][$id]['floating_position']:'bottom-right';
     $position_array =['top-left'=>'position:fixed !important;top:0px;left:10px;','top-right'=>'position:fixed !important;top:0px;right:10px;','bottom-left'=>'position:fixed !important;bottom:40px;left:10px;','bottom-right'=>'position:fixed !important;bottom:40px;right:10px;'];
-         $html.='<section class="wpquads-3d-container" id="con-'.esc_attr($id).'" style="'.esc_attr($position_array[$floating_position]).'width:'.esc_attr($floating_size).'px;height:'.esc_attr($floating_size).'px;">
-        <div class="wpquads-3d-close"><span id="wpquads-close-btn" class="wpquads-close-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" > <path d="M6.2253 4.81108C5.83477 4.42056 5.20161 4.42056 4.81108 4.81108C4.42056 5.20161 4.42056 5.83477 4.81108 6.2253L10.5858 12L4.81114 17.7747C4.42062 18.1652 4.42062 18.7984 4.81114 19.1889C5.20167 19.5794 5.83483 19.5794 6.22535 19.1889L12 13.4142L17.7747 19.1889C18.1652 19.5794 18.7984 19.5794 19.1889 19.1889C19.5794 18.7984 19.5794 18.1652 19.1889 17.7747L13.4142 12L19.189 6.2253C19.5795 5.83477 19.5795 5.20161 19.189 4.81108C18.7985 4.42056 18.1653 4.42056 17.7748 4.81108L12 10.5858L6.2253 4.81108Z" fill="currentColor" /> </svg></span></div>
+         $html.='<section class="quads-3d-container" id="con-'.esc_attr($id).'" style="'.esc_attr($position_array[$floating_position]).'width:'.esc_attr($floating_size).'px;height:'.esc_attr($floating_size).'px;">
+        <div class="quads-3d-close"><span id="quads-close-btn" class="quads-close-btn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" > <path d="M6.2253 4.81108C5.83477 4.42056 5.20161 4.42056 4.81108 4.81108C4.42056 5.20161 4.42056 5.83477 4.81108 6.2253L10.5858 12L4.81114 17.7747C4.42062 18.1652 4.42062 18.7984 4.81114 19.1889C5.20167 19.5794 5.83483 19.5794 6.22535 19.1889L12 13.4142L17.7747 19.1889C18.1652 19.5794 18.7984 19.5794 19.1889 19.1889C19.5794 18.7984 19.5794 18.1652 19.1889 17.7747L13.4142 12L19.189 6.2253C19.5795 5.83477 19.5795 5.20161 19.189 4.81108C18.7985 4.42056 18.1653 4.42056 17.7748 4.81108L12 10.5858L6.2253 4.81108Z" fill="currentColor" /> </svg></span></div>
         <input type="hidden" value="'.esc_attr($floating_size).'" class="quadsFloatingSizeValue">
-        <div class="wpquads-3d-cube" id="wpquads-3d-cube">';
+        <div class="quads-3d-cube" id="quads-3d-cube">';
    
     $total_slides=count($ads_list);
     $actual_counter =0;
@@ -1175,7 +1175,7 @@ function quads_render_floating_ads_async($id) {
     {
         $add_nofollow = (isset($ad['add_url_nofollow']) && $ad['add_url_nofollow'])?true:false;
         if(isset($ad['slide']) && isset($ad['link'])){
-            $html.='	<figure class="wpquads-3d-item " style="'.esc_attr(quads_get_float_transform($actual_counter,$floating_size)).'">
+            $html.='	<figure class="quads-3d-item " style="'.esc_attr(quads_get_float_transform($actual_counter,$floating_size)).'">
             <a href="'.esc_url($ad['link']).'" target="_blank" '.($add_nofollow?'rel=nofollow':'').' >
                 <img '.(quads_is_lazyload_render($quads_options,$id) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($ad['slide']).'" alt="'.esc_attr($quads_options['ads'][$id]['label'].' - Slide '.($key+1)).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'">
                 </a>
@@ -1194,7 +1194,7 @@ function quads_render_floating_ads_async($id) {
             if(isset($ads_list[$new]['slide']))
                 {
                     $add_nofollow = (isset($ads_list[$new]['add_url_nofollow']) && $ads_list[$new]['add_url_nofollow'])?true:false;
-                    $html.='	<figure class="wpquads-3d-item " style="'.esc_attr(quads_get_float_transform(($actual_counter+$new),$floating_size)).'">
+                    $html.='	<figure class="quads-3d-item " style="'.esc_attr(quads_get_float_transform(($actual_counter+$new),$floating_size)).'">
                     <a href="'.esc_url($ads_list[$new]['link']).'" target="_blank" '.($add_nofollow?'rel=nofollow':'').'>
                         <img '.(quads_is_lazyload_render($quads_options,$id)  ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($ads_list[$new]['slide']).'" alt="'.esc_attr($quads_options['ads'][$id]['label'].' - Slide '.($total_slides+$i+1)).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'">
                         </a>

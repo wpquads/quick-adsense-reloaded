@@ -122,7 +122,7 @@ function quads_confirm_code($request_data){
 		return json_encode(
 			array(
 				'status' => false,
-				'msg'    => 'error while submitting code',
+				'msg'    => esc_html__( 'error while submitting code', 'quick-adsense-reloaded' ),
 				'raw'    => $response->get_error_message(),
 			)
 		);
@@ -425,7 +425,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 	if(isset($_GET['id'])){
 	    // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-	    $ad_id = sanitize_text_field($_GET['id']);
+	    $ad_id = absint($_GET['id']);
 	}
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 	if(isset($_GET['day'])){
@@ -982,7 +982,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			
 			$ad_desk_imprsn_values = [$desk_imp->jan_impr,$desk_imp->feb_impr,$desk_imp->mar_impr,$desk_imp->apr_impr,$desk_imp->may_impr,$desk_imp->jun_impr,$desk_imp->jul_impr,$desk_imp->aug_impr,$desk_imp->sep_impr,$desk_imp->oct_impr,$desk_imp->nov_impr,$desk_imp->dec_impr];
 			$ad_desk_imprsn =$desk_imp->jan_impr+$desk_imp->feb_impr+$desk_imp->mar_impr+$desk_imp->apr_impr+$desk_imp->may_impr+$desk_imp->jun_impr+$desk_imp->jul_impr+$desk_imp->aug_impr+$desk_imp->sep_impr+$desk_imp->oct_impr+$desk_imp->nov_impr+$desk_imp->dec_impr;
-			$ad_imprsn_values = wpquadsSumArrays($ad_mob_imprsn_values,$ad_desk_imprsn_values);
+			$ad_imprsn_values = quadsSumArrays($ad_mob_imprsn_values,$ad_desk_imprsn_values);
 			$ad_imprsn = $ad_mob_imprsn+$ad_desk_imprsn;
 
 			$mob_indi_impr_day_counts = $ad_mob_imprsn_values;
@@ -1014,7 +1014,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$ad_desk_click_values = [$desk_clk->jan_impr,$desk_clk->feb_impr,$desk_clk->mar_impr,$desk_clk->apr_impr,$desk_clk->may_impr,$desk_clk->jun_impr,$desk_clk->jul_impr,$desk_clk->aug_impr,$desk_clk->sep_impr,$desk_clk->oct_impr,$desk_clk->nov_impr,$desk_clk->dec_impr];
 
 			$ad_clicks =  $ad_mob_clicks+$ad_desk_clicks;
-			$ad_click_values = wpquadsSumArrays($ad_mob_click_values,$ad_desk_click_values);
+			$ad_click_values = quadsSumArrays($ad_mob_click_values,$ad_desk_click_values);
 
 			$mob_indi_click_day_counts = $ad_mob_click_values;
 			$desk_indi_click_day_counts = $ad_desk_click_values;
@@ -1737,7 +1737,7 @@ function quads_get_ad_stats($condition, $ad_id='', $date=null,$parameters ='') {
 }
 
 
-function wpquadsSumArrays(array $a = [], array $b = []) {
+function quadsSumArrays(array $a = [], array $b = []) {
 	foreach ($a as $k => $v) {
 		if(array_key_exists($k, $b)){
 
@@ -1758,40 +1758,40 @@ function wpquadsSumArrays(array $a = [], array $b = []) {
 /*
 * Clear log entries older than 30 days to keep DB size small
 */
-function wpquads_logs_weekly_clear( $schedules ) {
+function quads_logs_weekly_clear( $schedules ) {
 	// add a 'weekly' schedule to the existing set
-	$schedules['wpquads_logs_weekly'] = array(
+	$schedules['quads_logs_weekly'] = array(
 		'interval' => 604800,
-		'display' => __('Clear Wpquads Logs Weekly', 'quick-adsense-reloaded')
+		'display' => __('Clear Quads Logs Weekly', 'quick-adsense-reloaded')
 	);
 	return $schedules;
 }
-add_filter( 'cron_schedules', 'wpquads_logs_weekly_clear' );
+add_filter( 'cron_schedules', 'quads_logs_weekly_clear' );
 
-if ( ! wp_next_scheduled( 'wpquads_logs_weekly_clear' ) ) {
-	wp_schedule_event( time(), 'wpquads_logs_weekly', 'wpquads_logs_weekly_clear' );
+if ( ! wp_next_scheduled( 'quads_logs_weekly_clear' ) ) {
+	wp_schedule_event( time(), 'quads_logs_weekly', 'quads_logs_weekly_clear' );
 }
 
-function wpquads_cron_import_schedule( $schedules ) {
+function quads_cron_import_schedule( $schedules ) {
 	// add a 'weekly' schedule to the existing set
-	$schedules['wpquads_cron_import'] = array(
+	$schedules['quads_cron_import'] = array(
 		'interval' => 1000,
-		'display' => __('Cron Import Wpquads', 'quick-adsense-reloaded' )
+		'display' => __('Cron Import Quads', 'quick-adsense-reloaded' )
 	);
 	return $schedules;
 }
-add_filter( 'cron_schedules', 'wpquads_cron_import_schedule' );
+add_filter( 'cron_schedules', 'quads_cron_import_schedule' );
 
-if ( ! wp_next_scheduled( 'wpquads_cron_import' ) ) {
+if ( ! wp_next_scheduled( 'quads_cron_import' ) ) {
 	$quads_import_details = get_option('quads_import_data');
 	if(isset($quads_import_details['status']) && $quads_import_details['status'] == 'active'){
-		wp_schedule_event( time(), 'wpquads_cron_import', 'wpquads_cron_import_action' );
+		wp_schedule_event( time(), 'quads_cron_import', 'quads_cron_import_action' );
 	}
 	
 }
 
-add_action( 'wpquads_cron_import_action', 'wpquads_cron_import_action_cb' );
-function wpquads_cron_import_action_cb() {
+add_action( 'quads_cron_import_action', 'quads_cron_import_action_cb' );
+function quads_cron_import_action_cb() {
 	quads_adsense_import_old_db();
 }
 
@@ -2101,9 +2101,9 @@ function quads_insert_reports_newdb($params){
  add_action('wp_ajax_quads_start_newdb_migration', 'quads_start_newdb_migration');
 
  function quads_start_newdb_migration(){
-	 $quads_cron_manual=['status'=>'fail','msg'=>'Invalid Action'];
+	 $quads_cron_manual=['status'=>'fail','msg'=> esc_html__( 'Invalid Action', 'quick-adsense-reloaded' )];
 	 if(current_user_can('manage_options') && isset($_POST['nonce']) && wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'quads_newdb_nonce')){
-	 $quads_cron_manual=['status'=>'success','msg'=>'Cron Started'];
+	 $quads_cron_manual=['status'=>'success','msg'=> esc_html__( 'Cron Started', 'quick-adsense-reloaded' )];
 	 $rest_route = get_rest_url(null,'quads-adsense/import_old_db/');
 	 $default  = array('status' => 'inactive','current_table'=>'quads_stats','sub_table'=>'','offset'=> 50,'imported' => 0,'total' => 0);
 	$quads_import_details = get_option('quads_import_data',$default);

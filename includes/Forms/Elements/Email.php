@@ -1,7 +1,7 @@
 <?php
-namespace wpquads;
+namespace quads;
 
-use wpquads\Elements;
+use quads\Elements;
 
 /**
  * Class Email

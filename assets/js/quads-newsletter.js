@@ -50,7 +50,7 @@ jQuery(document).ready(function ($) {
             },
             close: function () {
                 $.post (ajaxurl, {
-                    pointer: 'wpquads_subscribe_pointer',
+                    pointer: 'quads_subscribe_pointer',
                     action: 'dismiss-wp-pointer'
                 });
             },

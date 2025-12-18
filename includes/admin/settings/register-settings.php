@@ -83,28 +83,28 @@ function quads_get_settings() {
    return apply_filters( 'quads_get_settings', $settings );
 }
 
-function wpquads_support_page_callback(){
+function quads_support_page_callback(){
     ?>
-     <div class="wpquads_support_div">
-          <?php echo esc_html__('If you have any query, please write the query in below box or email us at', 'quick-adsense-reloaded') ?> <a href="mailto:team@wpquads.com">team@wpquads.com</a>. <?php echo esc_html__('We will reply to your email address shortly', 'quick-adsense-reloaded') ?><br><br>
-            <span class="wpquads-query-success wpquads_hide"><?php echo esc_html__('Message sent successfully, Please wait we will get back to you shortly', 'quick-adsense-reloaded'); ?></span>
-                    <span class="wpquads-query-error wpquads_hide"><?php echo esc_html__('Message not sent. please check your network connection', 'quick-adsense-reloaded'); ?></span>
+     <div class="quads_support_div">
+          <?php echo esc_html__('If you have any query, please write the query in below box or email us at', 'quick-adsense-reloaded') ?> <a href="mailto:team@QUADS.com">team@QUADS.com</a>. <?php echo esc_html__('We will reply to your email address shortly', 'quick-adsense-reloaded') ?><br><br>
+            <span class="quads-query-success quads_hide"><?php echo esc_html__('Message sent successfully, Please wait we will get back to you shortly', 'quick-adsense-reloaded'); ?></span>
+                    <span class="quads-query-error quads_hide"><?php echo esc_html__('Message not sent. please check your network connection', 'quick-adsense-reloaded'); ?></span>
             <ul>
                 <li>
-                   <input type="text" id="wpquads_query_email" name="wpquads_query_email" placeholder="Your Email">
+                   <input type="text" id="quads_query_email" name="quads_query_email" placeholder="Your Email">
                 </li>
                 <li>
-                    <div><textarea rows="5" cols="60" id="wpquads_query_message" name="wpquads_query_message" placeholder="Write your query"></textarea></div>
+                    <div><textarea rows="5" cols="60" id="quads_query_message" name="quads_query_message" placeholder="Write your query"></textarea></div>
                 </li>
                 <li>
                     <strong><?php echo esc_html__('Are you a premium customer ?', 'quick-adsense-reloaded'); ?></strong>
-                    <select id="wpquads_query_premium_cus" name="wpquads_query_premium_cus">
+                    <select id="quads_query_premium_cus" name="quads_query_premium_cus">
                         <option value=""><?php echo esc_html__('Select', 'quick-adsense-reloaded'); ?></option>
                         <option value="yes"><?php echo esc_html__('Yes', 'quick-adsense-reloaded'); ?></option>
                         <option value="no"><?php echo esc_html__('No', 'quick-adsense-reloaded'); ?></option>
                     </select>
                 </li>
-                <li><button class="button wpquads-send-query"><?php echo esc_html__('Send Message', 'quick-adsense-reloaded'); ?></button></li>
+                <li><button class="button quads-send-query"><?php echo esc_html__('Send Message', 'quick-adsense-reloaded'); ?></button></li>
             </ul>
         </div>
     <?php
@@ -130,10 +130,10 @@ function quads_register_settings() {
       foreach ( $settings as $option ) {
 
          $name = isset( $option['name'] ) ? $option['name'] : '';
-        if($tab=='help' && $option['id'] == 'wpquads_support'){
+        if($tab=='help' && $option['id'] == 'quads_support'){
 
          add_settings_field(
-                     'quads_settings[' . $option['id'] . ']', $name, 'wpquads_support_page_callback', 'quads_settings_' . $tab, 'quads_settings_' . $tab
+                     'quads_settings[' . $option['id'] . ']', $name, 'quads_support_page_callback', 'quads_settings_' . $tab, 'quads_settings_' . $tab
              );
         }else{
              add_settings_field(
@@ -192,7 +192,7 @@ function quads_get_registered_settings() {
                'id' => 'maxads',
                'name' => __( 'Limit Amount of ads:', 'quick-adsense-reloaded' ),
                'desc' => __( ' ads on a page.', 'quick-adsense-reloaded' ),
-               'desc2' => sprintf( /* translators: %s: adsense guide url */ __( '<a href="%s" target="_blank">Read here</a> to learn how many AdSense ads are allowed. If you are unsure set the value to unlimited.', 'quick-adsense-reloaded' ), 'http://wpquads.com/google-adsense-allowed-number-ads/' ),
+               'desc2' => sprintf( /* translators: %s: adsense guide url */ __( '<a href="%s" target="_blank">Read here</a> to learn how many AdSense ads are allowed. If you are unsure set the value to unlimited.', 'quick-adsense-reloaded' ), 'http://QUADS.com/google-adsense-allowed-number-ads/' ),
                'type' => 'select',
                'std' => 100,
                'options' => array(
@@ -260,7 +260,7 @@ function quads_get_registered_settings() {
                   __( 'Allow WP QUADS to generate automatically the ads.txt file in root of your website domain. After enabling and saving settings,
                         check if your ads.txt is correct by opening: <a href="%1$s" target="_blank">%1$s</a> <br><a href="%2$s" target="_blank">Read here</a> to learn more about ads.txt', 'quick-adsense-reloaded' ),
                         get_site_url() . '/ads.txt',
-                       'https://wpquads.com/make-more-revenue-by-using-an-ads-txt-in-your-website-root-domain/'
+                       'https://QUADS.com/make-more-revenue-by-using-an-ads-txt-in-your-website-root-domain/'
                        ),
                'type' => 'checkbox'
            ),
@@ -284,8 +284,8 @@ function quads_get_registered_settings() {
                                <li style="font-weight:600;">- <i>AdSense</i> for using <span style="font-weight:600;">AdSense Text & display Ads</span>!</li>
                                <li style="font-weight:600;">- <i>Plain Text / HTML / JS</i> for all other ads! <br><strong>Caution:</strong> Adding AdSense code into <i>Plain Text</i> option can result in non-displayed ads!</li></ul>', 'quick-adsense-reloaded' )
                . '</ul>'
-               . '<div style="clear:both;">' . sprintf( /* translators: %s: troubleshooting guide url */  __( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve it.', 'quick-adsense-reloaded' ), 'http://wpquads.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=wpquads-settings&utm_medium=website&utm_term=toplink' ) . ''
-               . '<br><a href="http://wpquads.com/effective-adsense-banner-size-formats/?utm_campaign=plugin&utm_source=general_tab&utm_medium=admin&utm_content=best_banner_sizes" target="_blank">Read this</a> to find out the most effective AdSense banner sizes. </div>'
+               . '<div style="clear:both;">' . sprintf( /* translators: %s: troubleshooting guide url */  __( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve it.', 'quick-adsense-reloaded' ), 'http://QUADS.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=QUADS-settings&utm_medium=website&utm_term=toplink' ) . ''
+               . '<br><a href="http://QUADS.com/effective-adsense-banner-size-formats/?utm_campaign=plugin&utm_source=general_tab&utm_medium=admin&utm_content=best_banner_sizes" target="_blank">Read this</a> to find out the most effective AdSense banner sizes. </div>'
                . '<div id="quads-open-toggle" class="button">' . __( 'Open All Ads', 'quick-adsense-reloaded' ) . '</div>',
                'type' => 'header'
            ),
@@ -394,15 +394,15 @@ function quads_get_registered_settings() {
            'create_settings' => array(
                'id' => 'create_settings',
                'name' => __( 'Remove menu button', 'quick-adsense-reloaded' ),
-               //'desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
+               //'desc' => __( 'Make the QUADS settings available from <strong>Settings->QUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
                'desc' => __( 'Remove it', 'quick-adsense-reloaded' ),
-               'helper-desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
+               'helper-desc' => __( 'Make the QUADS settings available from <strong>Settings->QUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
                'type' => 'checkbox',
            ),
            'disableAmpScript' => array(
                'id' => 'disableAmpScript',
                'name' => __( 'Disable AMP script', 'quick-adsense-reloaded' ),
-               //'desc' => __( 'Make the WPQUADS settings available from <strong>Settings->WPQUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
+               //'desc' => __( 'Make the QUADS settings available from <strong>Settings->QUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
                'desc' => __( 'Disable AMP Scripts', 'quick-adsense-reloaded' ),
                'helper-desc' => __( 'Disable duplicate AMP ad script integration if your AMP plugin is already loading the script https://cdn.ampproject.org/v0/amp-ad-0.1.js into your site', 'quick-adsense-reloaded' ),
                'type' => 'checkbox',
@@ -410,15 +410,15 @@ function quads_get_registered_settings() {
            'uninstall_on_delete' => array(
                'id' => 'uninstall_on_delete',
                'name' => __( 'Delete Data on Uninstall?', 'quick-adsense-reloaded' ),
-               //'desc' => __( 'Check this box if you would like <strong>Settings->WPQUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
-                'helper-desc' => __( 'Check this box if you would like <strong>Settings->WPQUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
+               //'desc' => __( 'Check this box if you would like <strong>Settings->QUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
+                'helper-desc' => __( 'Check this box if you would like <strong>Settings->QUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
                'desc' => 'Delete data',
                'type' => 'checkbox'
            ),
            'hide_add_on_disableplugin' => array(
                'id' => 'hide_add_on_disableplugin',
                'name' => __( 'Hide Shortcode after Deactivate', 'quick-adsense-reloaded' ),
-               //'desc' => __( 'Check this box if you would like <strong>Settings->WPQUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
+               //'desc' => __( 'Check this box if you would like <strong>Settings->QUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
                'helper-desc' => __( 'Check this box if you would like to Hide [quads] shortcode from the content after deactivating the plugin.', 'quick-adsense-reloaded' ),
                'desc' => 'Hides [quads] shortcode from the content',
                'type' => 'checkbox'
@@ -461,7 +461,7 @@ function quads_get_registered_settings() {
        'help' => apply_filters( 'quads_settings_help', array(
 
             'support' => array(
-               'id' => 'wpquads_support',
+               'id' => 'quads_support',
                'name' => __( 'Get help from our development team', 'quick-adsense-reloaded' ),
                 'desc' => '',
                'type' => 'header'
@@ -499,13 +499,13 @@ function quads_get_active_ads_data() {
    return (isset($adsArray) && count($adsArray) > 0) ? $adsArray : 0;
 }
 
-add_action('wp_ajax_wpquads_ads_for_shortcode_data', 'wpquads_ads_for_shortcode_data');
-function wpquads_ads_for_shortcode_data(){
-    if ( ! isset( $_POST['wpquads_security_nonce'] ) ) {
+add_action('wp_ajax_quads_ads_for_shortcode_data', 'quads_ads_for_shortcode_data');
+function quads_ads_for_shortcode_data(){
+    if ( ! isset( $_POST['quads_security_nonce'] ) ) {
         wp_die( esc_html__( 'Invalid request.', 'quick-adsense-reloaded' ) );
     }
 
-    $nonce = sanitize_text_field( wp_unslash( $_POST['wpquads_security_nonce'] ) );
+    $nonce = sanitize_text_field( wp_unslash( $_POST['quads_security_nonce'] ) );
 
     if ( ! wp_verify_nonce( $nonce, 'quads_ajax_nonce' ) ) {
         wp_die( esc_html__( 'Unauthorized request.', 'quick-adsense-reloaded' ) );
@@ -521,12 +521,12 @@ function wpquads_ads_for_shortcode_data(){
       
 }
 
-add_action('wp_ajax_wpquads_ads_for_shortcode', 'wpquads_ads_for_shortcode');
-function wpquads_ads_for_shortcode(){
-      if ( ! isset( $_POST['wpquads_security_nonce'] ) ){
+add_action('wp_ajax_quads_ads_for_shortcode', 'quads_ads_for_shortcode');
+function quads_ads_for_shortcode(){
+      if ( ! isset( $_POST['quads_security_nonce'] ) ){
         return;
     }
-    if ( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wpquads_security_nonce'] ) ), 'quads_ajax_nonce' ) ){
+    if ( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['quads_security_nonce'] ) ), 'quads_ajax_nonce' ) ){
         return;
     }
      global $quads_options;
@@ -539,13 +539,13 @@ function wpquads_ads_for_shortcode(){
 
 }
 
-add_action('wp_ajax_wpquads_send_query_message', 'wpquads_send_query_message');
-function wpquads_send_query_message(){
+add_action('wp_ajax_quads_send_query_message', 'quads_send_query_message');
+function quads_send_query_message(){
 
-    if ( ! isset( $_POST['wpquads_security_nonce'] ) ){
+    if ( ! isset( $_POST['quads_security_nonce'] ) ){
         return;
     }
-    if ( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wpquads_security_nonce'] ) ), 'quads_ajax_nonce' ) ){
+    if ( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['quads_security_nonce'] ) ), 'quads_ajax_nonce' ) ){
         return;
     }
     $customer_type  = 'Are you a premium customer ? No';
@@ -565,7 +565,7 @@ function wpquads_send_query_message(){
         $customer_type  = 'Are you a premium customer ? Yes';
     }
 
-    $message = '<p>'.esc_html($message).'</p><br><br>'. esc_attr($customer_type). '<br><br> query from WPQuads support tab <br> User Website URL: '.esc_url(site_url());
+    $message = '<p>'.esc_html($message).'</p><br><br>'. esc_attr($customer_type). '<br><br> query from Quads support tab <br> User Website URL: '.esc_url(site_url());
 
     if($user){
         $user_data  = $user->data;
@@ -575,7 +575,7 @@ function wpquads_send_query_message(){
         }
         //php mailer variables
         $sendto    = 'team@ampforwp.com';
-        $subject   = "WPQuads Support ticket";
+        $subject   = "Quads Support ticket";
         $headers[] = 'Content-Type: text/html; charset=UTF-8';
         $headers[] = 'From: '. esc_attr($user_email);
         $headers[] = 'Reply-To: ' . esc_attr($user_email);
@@ -1275,7 +1275,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 
                   $class = 'error';
                   $messages[] = sprintf( /* translators: %1$s: license expiration date, %2$s: renew license url */
-                          __( 'Your license key expired on %1$s. Please <a href="%2$s" target="_blank" title="Renew your license key">renew your license key</a>.', 'quick-adsense-reloaded' ), date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ), 'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=license_tab&utm_medium=admin&utm_content=license-expired'
+                          __( 'Your license key expired on %1$s. Please <a href="%2$s" target="_blank" title="Renew your license key">renew your license key</a>.', 'quick-adsense-reloaded' ), date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ), 'http://QUADS.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=license_tab&utm_medium=admin&utm_content=license-expired'
                   );
 
                   $license_status = 'quads-license-' . $class . '-notice';
@@ -1286,7 +1286,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 
                   $class = 'error';
                   $messages[] = sprintf( /* translators: %s: Account url */ 
-                          __( 'Invalid license. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> and verify it.', 'quick-adsense-reloaded' ), 'http://wpquads.com/your-account?utm_source=licenses-tab&utm_medium=admin&utm_content=invalid-license&utm_campaign=notice'
+                          __( 'Invalid license. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> and verify it.', 'quick-adsense-reloaded' ), 'http://QUADS.com/your-account?utm_source=licenses-tab&utm_medium=admin&utm_content=invalid-license&utm_campaign=notice'
                   );
 
                   $license_status = 'quads-license-' . $class . '-notice';
@@ -1298,7 +1298,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 
                   $class = 'error';
                   $messages[] = sprintf( /* translators: %1$s: plugin name, %2$s: account page url */
-                          __( 'Your %1$s is not active for this URL. Please <a href="%2$s" target="_blank" title="Visit account page">visit your account page</a> to manage your license key URLs.', 'quick-adsense-reloaded' ), $args['name'], 'http://wpquads.com/your-account?utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin&utm_content=invalid-license'
+                          __( 'Your %1$s is not active for this URL. Please <a href="%2$s" target="_blank" title="Visit account page">visit your account page</a> to manage your license key URLs.', 'quick-adsense-reloaded' ), $args['name'], 'http://QUADS.com/your-account?utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin&utm_content=invalid-license'
                   );
 
                   $license_status = 'quads-license-' . $class . '-notice';
@@ -1317,7 +1317,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
                case 'no_activations_left':
 
                   $class = 'error';
-                  $messages[] = sprintf( /* translators: %s: upgrades url */  __( 'Your license key has reached its activation limit. <a href="%s" target="_blank">View possible upgrades</a> now.', 'quick-adsense-reloaded' ), 'http://wpquads.com/your-account?utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin&utm_content=invalid-license' );
+                  $messages[] = sprintf( /* translators: %s: upgrades url */  __( 'Your license key has reached its activation limit. <a href="%s" target="_blank">View possible upgrades</a> now.', 'quick-adsense-reloaded' ), 'http://QUADS.com/your-account?utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin&utm_content=invalid-license' );
 
                   $license_status = 'quads-license-' . $class . '-notice';
 
@@ -1344,7 +1344,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
                   } elseif( $expiration > $now && $expiration - $now < ( DAY_IN_SECONDS * 30 ) ) {
 
                      $messages[] = sprintf( /* translators: 1: license expiration date , 2:Renew license url */
-                             __( 'Your license key expires soon! It expires on %1$s. <a class="license_expiring" href="%2$s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ), 'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
+                             __( 'Your license key expires soon! It expires on %1$s. <a class="license_expiring" href="%2$s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ), 'http://QUADS.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
                      );
 
                      $license_status = 'quads-license-expires-soon-notice';
@@ -1384,7 +1384,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
             }
           
                 $messages[] = sprintf( /* translators: %s: Renew license url */
-                             __( '<span class="expired_license_main">Your <span class="expired_license">License key has been Expired.</span></span> <a class="lic_is_expired" href="%s" target="_blank" title="Renew license">Renew Now</a>', 'quick-adsense-reloaded' ), 'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
+                             __( '<span class="expired_license_main">Your <span class="expired_license">License key has been Expired.</span></span> <a class="lic_is_expired" href="%s" target="_blank" title="Renew license">Renew Now</a>', 'quick-adsense-reloaded' ), 'http://QUADS.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
                      );
                      $license_status = 'quads-license-error-notice';
                      }
@@ -1393,7 +1393,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 
                case 'inactive' :
                     $messages[] = sprintf( /* translators: %s: Renew license url */
-                             __( 'Your license key has been disabled! <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), 'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
+                             __( 'Your license key has been disabled! <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), 'http://QUADS.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
                      );
                      $license_status = 'quads-license-error-notice';
                 break;
@@ -1403,7 +1403,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 //         switch ( $license->license ) {
 //             case 'invalid' :
 //                    $messages[] = sprintf(
-//                             __( 'Your license key has been disabled! <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), 'http://wpquads.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
+//                             __( 'Your license key has been disabled! <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), 'http://QUADS.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
 //                     );
 //             break;
 //         }
@@ -1459,7 +1459,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 }
 
 /**
- * Registers the Add-Ons field callback for WPQUADS Add-Ons
+ * Registers the Add-Ons field callback for QUADS Add-Ons
  *
  * @since 2.0.5
  * @param array $args Arguments passed by the setting
@@ -1472,7 +1472,7 @@ function quads_addons_callback( $args ) {
 }
 
 /**
- * Registers the im/export callback for WPQUADS
+ * Registers the im/export callback for QUADS
  *
  * @since 0.9.0
  * @param array $args Arguments passed by the setting
@@ -1486,7 +1486,7 @@ function quads_imexport_callback( $args ) {
 }
 
 /**
- * Registers the system info for WPQUADS
+ * Registers the system info for QUADS
  *
  * @since 0.9.0
  * @param array $args Arguments passed by the setting
@@ -2029,7 +2029,7 @@ function quads_adsense_code_callback( $args ) {
            <?php if( !quads_is_extra() ) { ?>
             <span class="quads-pro-notice" style="display:block;margin-top:20px;">
               <?php echo esc_html__( 'Install', 'quick-adsense-reloaded' ); ?> 
-              <a href="http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin" target="_blank"><?php echo esc_html__( 'WP QUADS PRO','quick-adsense-reloaded' ); ?>
+              <a href="http://QUADS.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin" target="_blank"><?php echo esc_html__( 'WP QUADS PRO','quick-adsense-reloaded' ); ?>
               </a> 
               <?php echo esc_html__( 'to fully support AdSense Responsive ads.', 'quick-adsense-reloaded' ); ?>
             </span>
@@ -2185,7 +2185,7 @@ function quads_adsense_code_callback( $args ) {
    echo quads_adense_select_callback( $id, $args_adsense_type ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Output is escaped in the function itself
    ?>
            <?php if( !quads_is_extra() ) { ?>
-            <span class="quads-pro-notice" style="display:block;margin-top:20px;"><?php echo esc_html__( 'Install WP QUADS PRO to fully support AdSense Responsive ads.', 'quick-adsense-reloaded' ) . '<a href="' . esc_url( 'http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin' ) . '" target="_blank">' .esc_html__( 'WP QUADS PRO', 'quick-adsense-reloaded' ) . '</a>';?></span>
+            <span class="quads-pro-notice" style="display:block;margin-top:20px;"><?php echo esc_html__( 'Install WP QUADS PRO to fully support AdSense Responsive ads.', 'quick-adsense-reloaded' ) . '<a href="' . esc_url( 'http://QUADS.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin' ) . '" target="_blank">' .esc_html__( 'WP QUADS PRO', 'quick-adsense-reloaded' ) . '</a>';?></span>
            <?php } ?>
            <br />
            <label class="quads-label-left quads-type-normal" for="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]">Width </label><input type="number" step="1" id="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_width]" class="small-text quads-type-normal" value="<?php echo esc_attr($g_data_ad_width); ?>">
@@ -2244,7 +2244,7 @@ function quads_adsense_code_callback( $args ) {
           return '';
        }
 
-       $html = '<div class="quads-advanced-ad-box quads-pro-overlay"><a href="'.esc_url('http://wpquads.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin').'" target="_blank"><img src="' . esc_url(QUADS_PLUGIN_URL.'/assets/images/get_pro_overlay.png') . '"></a></div>';
+       $html = '<div class="quads-advanced-ad-box quads-pro-overlay"><a href="'.esc_url('http://QUADS.com/?utm_campaign=overlay&utm_source=free-plugin&utm_medium=admin').'" target="_blank"><img src="' . esc_url(QUADS_PLUGIN_URL.'/assets/images/get_pro_overlay.png') . '"></a></div>';
 
        return $html;
     }
@@ -2508,7 +2508,7 @@ function quads_adsense_code_callback( $args ) {
         }
 
         // Create AdSense ads.txt entries
-        $adsense = new \wpquads\adsense($quads_options);
+        $adsense = new \quads\adsense($quads_options);
         if ($adsense->writeAdsTxt()){
             return true;
         } else {
@@ -2533,7 +2533,7 @@ function quads_adsense_code_callback( $args ) {
         if(is_file('ads.txt') || !isset($quads_options['adsTxtEnabled'])){
             return false;
         }
-        $adsense = new wpquads\adsense($quads_options);
+        $adsense = new quads\adsense($quads_options);
         $adsense->writeAdsTxt();
     }
  add_action('quads_daily_event', 'quads_updateAdsTxt');
@@ -2564,7 +2564,7 @@ function quads_adsense_code_callback( $args ) {
  */
 function quads_extra_user_profile_fields( $user ) {
     ?>
-    <h3><?php esc_html_e("WPQuads Revenue Sharing", 'quick-adsense-reloaded'); ?></h3>
+    <h3><?php esc_html_e("Quads Revenue Sharing", 'quick-adsense-reloaded'); ?></h3>
 
     <table class="form-table">
     <tr>
@@ -2607,8 +2607,8 @@ function quads_quick_tag() {
 			type: 'POST',
 			url: ajaxurl,
 			data: {
-				'action': 'wpquads_ads_for_shortcode_data',
-				'wpquads_security_nonce' :quads.nonce
+				'action': 'quads_ads_for_shortcode_data',
+				'quads_security_nonce' :quads.nonce
 			}
          
 		}, 'json' )

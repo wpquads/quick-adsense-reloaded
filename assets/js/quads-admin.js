@@ -21,26 +21,26 @@ if($('a[href$="admin.php?page=quads-addons"]')){
     $('a[href$="admin.php?page=quads-addons"]').css({"color": "#eb3349", "font-size": "bold"});
 }
 
-    $(".wpquads-send-query").on("click", function(e){
+    $(".quads-send-query").on("click", function(e){
         e.preventDefault();   
-        var message     = $("#wpquads_query_message").val();  
-        var email       = $("#wpquads_query_email").val();  
-        var premium_cus = $("#wpquads_query_premium_cus").val(); 
+        var message     = $("#quads_query_message").val();  
+        var email       = $("#quads_query_email").val();  
+        var premium_cus = $("#quads_query_premium_cus").val(); 
         var wpnonce = quads.nonce;
-        if($.trim(message) !='' && premium_cus && $.trim(email) !='' && wpquadsIsEmail(email) == true){
+        if($.trim(message) !='' && premium_cus && $.trim(email) !='' && quadsIsEmail(email) == true){
             $.ajax({
                 type: "POST",    
                 url:ajaxurl,                    
                 dataType: "json",
-                data:{action:"wpquads_send_query_message", premium_cus:premium_cus,message:message,email:email, wpquads_security_nonce:wpnonce},
+                data:{action:"quads_send_query_message", premium_cus:premium_cus,message:message,email:email, quads_security_nonce:wpnonce},
                 success:function(response){  
-                    $(".wpquads_support_div ul").hide();                       
+                    $(".quads_support_div ul").hide();                       
                     if(response['status'] =='t'){
-                        $(".wpquads-query-success").show();
-                        $(".wpquads-query-error").hide();
+                        $(".quads-query-success").show();
+                        $(".quads-query-error").hide();
                     }else{                                  
-                        $(".wpquads-query-success").hide();  
-                        $(".wpquads-query-error").show();
+                        $(".quads-query-success").hide();  
+                        $(".quads-query-error").show();
                     }
                 },
                 error: function(response){                    
@@ -60,13 +60,13 @@ if($('a[href$="admin.php?page=quads-addons"]')){
                 if($.trim(email) == ''){
                     alert('Please enter the email');
                 }
-                if(wpquadsIsEmail(email) == false){
+                if(quadsIsEmail(email) == false){
                     alert('Please enter a valid email');
                 }
             }     
         }                        
     });
-    function wpquadsIsEmail(email) {
+    function quadsIsEmail(email) {
         var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         return regex.test(email);
     }
@@ -164,7 +164,7 @@ if($('a[href$="admin.php?page=quads-addons"]')){
         }
         var elem = '#quads_tab_container .submit';
         var $myElement = $('#quads_settings'),
-        canUserSeeIt = inViewport($myElement);
+        canUserSeeIt = quadsInViewport($myElement);
 
         if ($(elem).length < 1){
             return;
@@ -181,7 +181,7 @@ if($('a[href$="admin.php?page=quads-addons"]')){
             $('#quads-submit-button').css('position', 'fixed').css('bottom', '20px');
             }
     });
-    function inViewport($ele) {
+    function quadsInViewport($ele) {
     var lBound = $(window).scrollTop(),
         uBound = lBound + $(window).height(),
         top = $ele.offset().top,
@@ -388,7 +388,7 @@ if($('a[href$="admin.php?page=quads-addons"]')){
         var parseResult = quadsParseAdSenseCode(content);
         if (false !== parseResult) {
             console.log(parseResult);
-            setDetailsFromAdCode(parseResult);
+            quadsSetDetailsFromAdCode(parseResult);
         }else{
             $('#quads-msg').html('Can not parse AdSense Code. Is the code valid?');
             $('#quads-msg').show();
@@ -403,7 +403,7 @@ if($('a[href$="admin.php?page=quads-addons"]')){
      * @param2 string id of the parent container
      * @returns false
      */
-    function setDetailsFromAdCode(GoogleAd) {
+    function quadsSetDetailsFromAdCode(GoogleAd) {
 
         var containerID = $('#quads-adsense-id').val();
 
@@ -489,26 +489,26 @@ if($('a[href$="admin.php?page=quads-addons"]')){
             console.log('syncronous code');
 
             // Ad Slot ID
-            GoogleAd.slotId = get_google_ad_slot(content);
+            GoogleAd.slotId = quads_get_google_ad_slot(content);
             
-            console.log(get_google_ad_slot(content));
-            console.log(get_google_ad_client(content));
-            console.log(get_google_ad_height(content));
-            console.log(get_google_ad_width(content));
+            console.log(quads_get_google_ad_slot(content));
+            console.log(quads_get_google_ad_client(content));
+            console.log(quads_get_google_ad_height(content));
+            console.log(quads_get_google_ad_width(content));
 
-            if (!quadsIsEmpty(get_google_ad_client(content))) {
+            if (!quadsIsEmpty(quads_get_google_ad_client(content))) {
                 // Ad Publisher ID
-                GoogleAd.pubId = 'ca-pub-' + get_google_ad_client(content);
+                GoogleAd.pubId = 'ca-pub-' + quads_get_google_ad_client(content);
             }else{
                 return false;
             }
 
             if (!quadsIsEmpty(GoogleAd.slotId) && !quadsIsEmpty(GoogleAd.pubId)) {
 
-                if (!quadsIsEmpty(get_google_ad_width(content))) {
+                if (!quadsIsEmpty(quads_get_google_ad_width(content))) {
                     GoogleAd.type = 'normal';
-                    GoogleAd.width = get_google_ad_width(content);
-                    GoogleAd.height = get_google_ad_height(content);
+                    GoogleAd.width = quads_get_google_ad_width(content);
+                    GoogleAd.height = quads_get_google_ad_height(content);
                     return GoogleAd;
                 }
             }
@@ -518,7 +518,7 @@ if($('a[href$="admin.php?page=quads-addons"]')){
         return false;
     }
 
-    function get_google_ad_slot(content) {
+    function quads_get_google_ad_slot(content) {
         const regex = /google_ad_slot\s*=\s*"(\d*)";/g;
         const str = content;
         var m;
@@ -539,7 +539,7 @@ if($('a[href$="admin.php?page=quads-addons"]')){
         }
         return result;
     }
-    function get_google_ad_client(content) {
+    function quads_get_google_ad_client(content) {
         const regex = /google_ad_client\s*=\s*"ca-pub-(\d*)";/g;
         const str = content;
         var m;
@@ -560,7 +560,7 @@ if($('a[href$="admin.php?page=quads-addons"]')){
         }
         return result;
     }
-    function get_google_ad_width(content) {
+    function quads_get_google_ad_width(content) {
         const regex = /google_ad_width\s*=\s*(\d*);/g;
         const str = content;
         var m;
@@ -581,7 +581,7 @@ if($('a[href$="admin.php?page=quads-addons"]')){
         }
         return result;
     }
-    function get_google_ad_height(content) {
+    function quads_get_google_ad_height(content) {
         const regex = /google_ad_height\s*=\s*(\d*);/g;
         const str = content;
         var m;

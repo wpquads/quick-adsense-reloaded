@@ -1,8 +1,8 @@
 <?php
-namespace wpquads;
+namespace quads;
 
-//use wpquads\InterfaceElement;
-//use wpquads\InterfaceElementWithOptions;
+//use quads\InterfaceElement;
+//use quads\InterfaceElementWithOptions;
 
 /**
  * Class Form

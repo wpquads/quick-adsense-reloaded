@@ -1,8 +1,8 @@
 <?php
-namespace wpquads;
+namespace quads;
 
 
-use wpquads\ElementsWithOptions;
+use quads\ElementsWithOptions;
 
 /**
  * Class Radio

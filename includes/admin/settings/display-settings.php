@@ -392,8 +392,8 @@ function quads_options_page() {
                     </div> 
                     <div style="display: inline-block;width: 242px;">
                     <div class="switch_to_v2">
-                    <h3><?php echo esc_html__('WPQuads 2.0 has the better User interface','quick-adsense-reloaded');?></h3> 
-                    <p><?php echo esc_html__('We have improved the WPQuads and made it better than ever! Step into the future with one-click!','quick-adsense-reloaded');?></p>
+                    <h3><?php echo esc_html__('Quads 2.0 has the better User interface','quick-adsense-reloaded');?></h3> 
+                    <p><?php echo esc_html__('We have improved the Quads and made it better than ever! Step into the future with one-click!','quick-adsense-reloaded');?></p>
                     <div onclick="quads_switch_version('new',this);" class="switch_to_v2_btn"><a  href="#"><?php echo esc_html__('Switch to New Panel','quick-adsense-reloaded');?></a></div>
                     </div>
                     <?php quads_get_advertising(); ?>

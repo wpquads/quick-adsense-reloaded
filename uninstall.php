@@ -65,7 +65,6 @@ if( quads_get_option_uninstall( 'uninstall_on_delete' ) ) {
    delete_option( 'quads-mode' );
    delete_option( 'quads_version' );
    delete_option( 'quads_wp_quads_pro_license_active' );
-   delete_option( 'widget_quads_ads_widget' );
    delete_option( 'quads_vi_variant' );
 
   $quads_arg  = array();

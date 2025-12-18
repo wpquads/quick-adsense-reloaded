@@ -302,7 +302,7 @@ private function quads_insert_impression($ad_id){
   require_once QUADS_PLUGIN_DIR . '/admin/includes/mobile-detect.php';
   $device_name ='';
   $mobile_detect = $isTablet = '';
-  $mobile_detect = new Quads_Mobile_Detect;
+  $mobile_detect = new QUADS_Mobile_Detect;
   $isMobile = $mobile_detect->isMobile();
   $isTablet = $mobile_detect->isTablet();
   $device_name  = 'desktop';
@@ -350,7 +350,7 @@ private  function quads_insert_clicks($ad_id){
   require_once QUADS_PLUGIN_DIR . '/admin/includes/mobile-detect.php';
   $device_name ='';
   $mobile_detect = $isTablet = '';
-  $mobile_detect = new Quads_Mobile_Detect;
+  $mobile_detect = new QUADS_Mobile_Detect;
   $isMobile = $mobile_detect->isMobile();
   $isTablet = $mobile_detect->isTablet();
   $device_name  = 'desktop';

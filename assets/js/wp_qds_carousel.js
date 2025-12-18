@@ -1,14 +1,14 @@
 window.addEventListener("load", function(){
-    const wpquads_carousel = document.querySelectorAll(".quads-carousel-container");
+    const quads_carousel = document.querySelectorAll(".quads-carousel-container");
     let quads_carousel_intervals=[];
     let current_carousel_id=0;
     let quads_move = 'next';
-    wpquads_carousel.forEach(carousel => {
-        const wpquads_slider_speed = carousel.getAttribute("data-speed")?carousel.getAttribute("data-speed"):3000;
-        const wpquads_adid = carousel.getAttribute("data-adid")?carousel.getAttribute("data-adid"):0;
-        current_carousel_id=wpquads_adid;
+    quads_carousel.forEach(carousel => {
+        const quads_slider_speed = carousel.getAttribute("data-speed")?carousel.getAttribute("data-speed"):3000;
+        const quads_adid = carousel.getAttribute("data-adid")?carousel.getAttribute("data-adid"):0;
+        current_carousel_id=quads_adid;
         quads_move = 'next';
-        quads_carousel_intervals[wpquads_adid]= quadsCarouselInterval(current_carousel_id,quads_move,wpquads_slider_speed);   
+        quads_carousel_intervals[quads_adid]= quadsCarouselInterval(current_carousel_id,quads_move,quads_slider_speed);   
     });
 
     function quadsCarouselInterval(id,move,delay){
@@ -41,8 +41,8 @@ window.addEventListener("load", function(){
 
     }
 
-    const wpquads_carousel_back_btns = document.querySelectorAll(".quads_carousel_back");
-    wpquads_carousel_back_btns.forEach(element => {
+    const quads_carousel_back_btns = document.querySelectorAll(".quads_carousel_back");
+    quads_carousel_back_btns.forEach(element => {
         element.addEventListener('click',function(){
             var temp_id = element.parentNode.getAttribute('data-adid')?element.parentNode.getAttribute('data-adid'):0;
             clearInterval(quads_carousel_intervals[temp_id]);
@@ -59,8 +59,8 @@ window.addEventListener("load", function(){
             }
         });
     });
-    const wpquads_carousel_next_btns = document.querySelectorAll(".quads_carousel_next");
-    wpquads_carousel_next_btns.forEach(element => {
+    const quads_carousel_next_btns = document.querySelectorAll(".quads_carousel_next");
+    quads_carousel_next_btns.forEach(element => {
         element.addEventListener('click',function(){
             var temp_id = element.parentNode.getAttribute('data-adid')?element.parentNode.getAttribute('data-adid'):0;
             clearInterval(quads_carousel_intervals[temp_id]);
@@ -76,8 +76,8 @@ window.addEventListener("load", function(){
         });
     });
     
-    const wpquads_carousel_close_btns = document.querySelectorAll(".quads_carousel_close");
-    wpquads_carousel_close_btns.forEach(element => {
+    const quads_carousel_close_btns = document.querySelectorAll(".quads_carousel_close");
+    quads_carousel_close_btns.forEach(element => {
         element.addEventListener('click',function(){
             var temp_id = element.parentNode.getAttribute('data-adid')?element.parentNode.getAttribute('data-adid'):0;
             clearInterval(quads_carousel_intervals[temp_id]);

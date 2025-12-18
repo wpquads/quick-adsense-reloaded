@@ -53,7 +53,7 @@ function quads_admin_messages() {
 
     if( quads_is_admin_page() ) {
 
-        echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="wpquads-adblock-notice">' .
+        echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="quads-adblock-notice">' .
             '<strong>' . esc_html__('Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup', 'quick-adsense-reloaded') . '</strong><br><br>' .
             '<a href="' . esc_url(admin_url('admin.php?page=quads-settings#quads_settingsgeneral_header')) . '">' . esc_html__('Go to WP QUADS Settings', 'quick-adsense-reloaded') . '</a>' .
             '</div>';
@@ -88,7 +88,7 @@ function quads_license_activation_notice(){
 }
 function quads_admin_messages_new(){
        if( quads_is_admin_page() ) {
-        echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="wpquads-adblock-notice">' . 
+        echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="quads-adblock-notice">' . 
         '<strong>' . esc_html__('Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup', 'quick-adsense-reloaded') . '</strong>' . 
         '</p>' . 
         '<p><a href="' . esc_url(admin_url('admin.php?page=quads-settings#quads_settingsgeneral_header')) . '">' . 
@@ -646,7 +646,7 @@ function quads_show_ads_txt_notice() {
     if( get_transient( 'close_ads_txt_error' ) && isset( $quads_options['adsTxtEnabled'] ) ) {
 
         // Check if adsense is used and add the adsense publisherId to ads.txt blurb as well
-        $adsense             = new wpquads\adsense( $quads_options );
+        $adsense             = new quads\adsense( $quads_options );
         $adsensePublisherIds = $adsense->getPublisherIds();
 
 
@@ -663,17 +663,17 @@ function quads_show_ads_txt_notice() {
         }
 
         // ads.txt content
-        $notice['message'] = "<p><strong>ADS.TXT couldn't be updated automatically</strong><br><br>Important note: WP QUADS hasn't been able to update your ads.txt file automatically. Please make sure to enter the following line manually into <strong>" . get_home_path() . "ads.txt</strong>:"
+        $notice['message'] = "<p><strong>" . esc_html__( 'ADS.TXT couldnt be updated automatically', 'quick-adsense-reloaded') . "</strong><br><br>" . esc_html__( 'Important note: WP QUADS hasnt been able to update your ads.txt file automatically. Please make sure to enter the following line manually into', 'quick-adsense-reloaded' ) . "<strong>" . get_home_path() . "ads.txt</strong>:"
                 . "<p>"
-                . "<pre>" . $viAdsTxtText . "<br>"
-                . $adsenseAdsTxtText
+                . "<pre>" . esc_html( $viAdsTxtText ) . "<br>"
+                . esc_html( $adsenseAdsTxtText )
                 . "</pre></p>"
-                . "Only by doing so AdSense ads are shown on your site.</p>";
+                . esc_html__( "Only by doing so AdSense ads are shown on your site.", 'quick-adsense-reloaded' ) . "</p>";
         $notice['type']    = 'error';
         $notice['action']  = 'quads_ads_txt_error';
 
         // render blurb
-        $adsTxtError = new wpquads\template( '/includes/admin/views/notices', $notice );
+        $adsTxtError = new quads\QUADS_Template( '/includes/admin/views/notices', $notice );
         echo wp_kses_post($adsTxtError->render());
     }
 }
@@ -729,7 +729,7 @@ function quads_show_update_auto_ads() {
     echo '<div class="quads-notice-gdpr update-nag" style="background-color: black;color: #87c131;padding: 20px;margin-top: 20px;border: 3px solid #87c131;display:block;">';
     echo '<h2 style="color:white;">' . esc_html__('WP QUADS & Google Auto Ads', 'quick-adsense-reloaded') . '</h2>';
     echo '<p>' . esc_html__('WP QUADS Pro adds support for Google Auto Ads', 'quick-adsense-reloaded') . '</p><br>';
-    echo '<p>' . esc_html__('Get the Pro plugin from', 'quick-adsense-reloaded') . '<a href="'.esc_url('https://wpquads.com/?utm_source=wp-admin&utm_medium=autoads-notice&utm_campaign=autoads-notice').'" target="_blank" style="color:#87c131;font-weight:500;">'. esc_html__('wpquads.com', 'quick-adsense-reloaded').'</a></p><br>';
+    echo '<p>' . esc_html__('Get the Pro plugin from', 'quick-adsense-reloaded') . '<a href="'.esc_url('https://wpquads.com/?utm_source=wp-admin&utm_medium=autoads-notice&utm_campaign=autoads-notice').'" target="_blank" style="color:#87c131;font-weight:500;">wpquads.com</a></p><br>';
     echo '<p><a href="' . esc_url(admin_url('admin.php?page=quads-settings&quads-action=hide_auto_ads_notice')) . '" class="quads_hide_gdpr" title="' . esc_attr__('I got it', 'quick-adsense-reloaded') . '" style="text-decoration:none;color:white;">- ' . esc_html__('I Understand! Do Not Show This Hint Again', 'quick-adsense-reloaded') . ' -</a></p>';
     echo '</div>';
 }

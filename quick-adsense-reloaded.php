@@ -132,7 +132,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             self::$instance->load_hooks();
             self::$instance->logger = new quadsLogger( "quick_adsense_log_" . gmdate( "Y-m-d" ) . ".log", quadsLogger::INFO );
             self::$instance->html = new QUADS_HTML_Elements();
-            self::$instance->adsense = new wpquads\adsense(get_option('quads_settings'));
+            self::$instance->adsense = new quads\adsense(get_option('quads_settings'));
          }
          return self::$instance;
       }
@@ -292,11 +292,11 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
     * Register used namespaces
     */
    private function registerNamespaces() {
-      $autoloader = new wpquads\Autoloader();
+      $autoloader = new quads\Autoloader();
 
       // Autoloader
       $autoloader->registerNamespaces( array(
-          "wpquads" => array(
+          "quads" => array(
               QUADS_PLUGIN_DIR,
               QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms',
               QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms' . DIRECTORY_SEPARATOR . 'Elements',
@@ -330,8 +330,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             if( $networkwide ) {
                $old_blog = $wpdb->blogid;
                // Get all blog ids
-               // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-               $blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+               $blog_ids = get_sites();
                foreach ( $blogids as $blog_id ) {
                   switch_to_blog( $blog_id );
                   QuickAdsenseReloaded::during_activation();
@@ -394,7 +393,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
        * @return array
        */
       private function startAdsense(){
-          new wpquads\adsense(get_option( 'quads_settings' ));
+          new quads\adsense(get_option( 'quads_settings' ));
       }
 
    }
@@ -491,13 +490,13 @@ function quads_is_active_deprecated() {
  *
  * @since 1.8.12
  */
-add_action( 'update_option_quads_settings', 'wpquads_remove_shortcode', 10, 3 );
+add_action( 'update_option_quads_settings', 'quads_remove_shortcode', 10, 3 );
 
-function wpquads_remove_shortcode( $old_value, $new_value, $option ) {
+function quads_remove_shortcode( $old_value, $new_value, $option ) {
 
     $mu_plugin_dir  = trailingslashit( WPMU_PLUGIN_DIR );
-    $target_file    = $mu_plugin_dir . 'wpquads_remove_shortcode.php';
-    $source_file    = plugin_dir_path( __FILE__ ) . 'includes/mu-plugin/wpquads_remove_shortcode.php';
+    $target_file    = $mu_plugin_dir . 'quads_remove_shortcode.php';
+    $source_file    = plugin_dir_path( __FILE__ ) . 'includes/mu-plugin/quads_remove_shortcode.php';
 
     // Load WP filesystem
     if ( ! function_exists( 'WP_Filesystem' ) ) {

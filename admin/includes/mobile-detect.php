@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * @version 2.8.33
  */
-class Quads_Mobile_Detect
+class QUADS_Mobile_Detect
 {
     /**
      * Mobile detection type.

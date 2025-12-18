@@ -568,7 +568,7 @@ function quads_adblocker_ad_block(){
         ?>
 <script>
 
-   if(typeof quadsOptions !== 'undefined' && typeof wpquads_adblocker_check_2 
+   if(typeof quadsOptions !== 'undefined' && typeof quads_adblocker_check_2 
   === 'undefined' && quadsOptions.quadsChoice == 'ad_blocker_message'){
   var addEvent1 = function (obj, type, fn) {
       if (obj.addEventListener)
@@ -579,13 +579,13 @@ function quads_adblocker_ad_block(){
           });
   };
    addEvent1(window, 'load', function () {
-      if (typeof wpquads_adblocker_check_2 === "undefined" || wpquads_adblocker_check_2 === false) {
+      if (typeof quads_adblocker_check_2 === "undefined" || quads_adblocker_check_2 === false) {
 
-          highlight_adblocked_ads();
+          quads_highlight_adblocked_ads();
       }
   });
 
-   function highlight_adblocked_ads() {
+   function quads_highlight_adblocked_ads() {
       try {
           var ad_wrappers = document.querySelectorAll('div[id^="quads-ad"]')
       } catch (e) {
@@ -1156,7 +1156,7 @@ function quads_filter_default_ads_new( $content ) {
             if($value['post']['post_status']== 'draft'){
                 continue;
             }
-            $quads_visibilty = apply_filters('wpquads_ad_conditional_visibility', $value['post_meta']);
+            $quads_visibilty = apply_filters('quads_ad_conditional_visibility', $value['post_meta']);
             if(!$quads_visibilty){
                 continue;
             }
@@ -1854,7 +1854,7 @@ function quads_add_sticky_script(){
         foreach($quads_ads['posts_data'] as $key => $value){
             $ads =$value['post_meta'];
             if($value['post']['post_status']== 'draft'){continue;}
-            $quads_visibilty = apply_filters('wpquads_ad_conditional_visibility', $value['post_meta']);
+            $quads_visibilty = apply_filters('quads_ad_conditional_visibility', $value['post_meta']);
             if(!$quads_visibilty){continue;}
             if(isset($ads['random_ads_list']))
             $ads['random_ads_list'] = unserialize($ads['random_ads_list']);
@@ -3909,7 +3909,7 @@ function quads_display_sticky_ads(){
             if($value['post']['post_status']== 'draft'){
                 continue;
             }
-            $quads_visibilty = apply_filters('wpquads_ad_conditional_visibility', $value['post_meta']);
+            $quads_visibilty = apply_filters('quads_ad_conditional_visibility', $value['post_meta']);
             if(!$quads_visibilty){
                 continue;
             }

@@ -310,7 +310,7 @@ function quads_disable_add_subscribe() {
 		<div class="meter-display">
             Hide Ads for Premium Members by Subscribing
 		</div>
-		<button class="da-close-button" style="cursor:pointer" onclick="handleCloseDisableAd()">
+		<button class="da-close-button" style="cursor:pointer" onclick="quadsHandleCloseDisableAd()">
 			<svg width="16" height="16" viewBox="0 0 16 16" style="margin-left: 13px;
     margin-right: 13px;" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path fill-rule="evenodd" clip-rule="evenodd" d="M16.0001 1.23076L14.7693 0L8.00004 6.76927L1.23077 2.85321e-05L0 1.23079L6.76927 8.00003L0.000110543 14.7692L1.23088 15.9999L8.00004 9.23079L14.7692 16L16 14.7692L9.23081 8.00003L16.0001 1.23076Z" fill="#F8F8F8"></path>
@@ -327,7 +327,7 @@ function quads_disable_add_subscribe() {
 	</div>
 </div>
 <script>
-    function handleCloseDisableAd(){
+    function quadsHandleCloseDisableAd(){
         document.getElementById('disable-ads-block').style.display = 'none';
         var expires = (new Date(Date.now()+ 86400*1000)).toUTCString();
         document.cookie = "disable_ad_notice=true; expires=" + expires + ";path=/;"
@@ -358,7 +358,7 @@ function quads_check_adblocker() {
                     });
             };
 
-            function highlight_ads() {
+            function quads_highlight_ads() {
                 try {
                     var ad_wrappers = document.querySelectorAll('div[id^="quads-ad"]')
                 } catch (e) {
@@ -381,9 +381,9 @@ function quads_check_adblocker() {
 
                 var highlight_checkbox = d.getElementById('quads_highlight_ads_checkbox');
                 if (highlight_checkbox) {
-                    addEvent(highlight_checkbox, 'change', highlight_ads);
+                    addEvent(highlight_checkbox, 'change', quads_highlight_ads);
                 }
-                if (adblock_item && typeof wpquads_adblocker_check === 'undefined' || false === wpquads_adblocker_check) {
+                if (adblock_item && typeof quads_adblocker_check === 'undefined' || false === quads_adblocker_check) {
                     // show quads-hidden item
                     adblock_item.className = adblock_item.className.replace(/quads-hidden/, '');
                     hide_fine = true;

@@ -1,6 +1,6 @@
 <?php
 
-namespace wpquads;
+namespace quads;
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
