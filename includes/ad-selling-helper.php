@@ -1036,22 +1036,22 @@ function quads_sellable_premium_member_page() {
 	?>
 	<style>
 		/*! This file is auto-generated */
-		#login form p.submit,.login *,body,html{margin:0;padding:0}.login form,.login h1 a{font-weight:400;overflow:hidden}.login form,.login form .input,.login form input[type=checkbox],.login input[type=text]{background:#fff}body,html{height:100%}body{background:#f0f0f1;min-width:0;color:#3c434a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;font-size:13px;line-height:1.4}.login label,p{line-height:1.5}a{cursor:pointer;color:#2271b1;transition-property:border,background,color;transition-duration:.05s;transition-timing-function:ease-in-out;outline:0}a:active,a:hover{color:#135e96}a:focus{color:#043959;box-shadow:0 0 0 2px #2271b1;outline:transparent solid 2px}#loginform p.submit{border:none;margin:-10px 0 20px}.login .input::-ms-clear{display:none}.login .wp-pwd{position:relative}.login form{margin-top:20px;margin-left:0;padding:26px 24px;border:1px solid #c3c4c7;box-shadow:0 1px 3px rgba(0,0,0,.04)}.login .button-primary{float:right;background: #2271b1;
+		#quads-login form p.submit,.quads-login *,body,html{margin:0;padding:0}.quads-login form,.quads-login h1 a{font-weight:400;overflow:hidden}.quads-login form,.quads-login form .input,.quads-login form input[type=checkbox],.quads-login input[type=text]{background:#fff}body,html{height:100%}body{background:#f0f0f1;min-width:0;color:#3c434a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;font-size:13px;line-height:1.4}.quads-login label,p{line-height:1.5}a{cursor:pointer;color:#2271b1;transition-property:border,background,color;transition-duration:.05s;transition-timing-function:ease-in-out;outline:0}a:active,a:hover{color:#135e96}a:focus{color:#043959;box-shadow:0 0 0 2px #2271b1;outline:transparent solid 2px}#quads-loginform p.submit{border:none;margin:-10px 0 20px}.quads-login .input::-ms-clear{display:none}.quads-login .wp-pwd{position:relative}.quads-login form{margin-top:20px;margin-left:0;padding:26px 24px;border:1px solid #c3c4c7;box-shadow:0 1px 3px rgba(0,0,0,.04)}.quads-login .button-primary{float:right;background: #2271b1;
 		cursor: pointer;
 		border-color: #2271b1;
 		color: #fff;
 		text-decoration: none;
 		text-shadow: none;min-height: 32px;
 		line-height: 2.30769231;
-		padding: 0 12px;}#login form p{margin-bottom:0}.login label{font-size:14px;display:inline-block;margin-bottom:3px}.login h1{text-align:center}.login h1 a{background-image:url(../images/w-logo-blue.png?ver=20131202);background-image:none,url(../images/wordpress-logo.svg?ver=20131107);background-size:84px;background-position:center top;background-repeat:no-repeat;color:#3c434a;height:84px;font-size:20px;line-height:1.3;margin:0 auto 25px;padding:0;text-decoration:none;width:84px;text-indent:-9999px;outline:0;display:block}#login{width:320px;padding:5% 0 0;margin:auto}.login form .input,.login input[type=password],.login input[type=text],.login input[type=url],.login input[type=file],.login textarea{font-size:24px;line-height:1.33333333;width:95%;border-width:.0625rem;padding:.1875rem .3125rem;margin:0 6px 16px 0;min-height:40px;max-height:none}.login input.password-input{font-family:Consolas,Monaco,monospace}.wp-login-logo{color:#3c434a;font-size:20px}.preview-ad-space{background: #fff}.preview-ad-space h3{margin:0px;text-align:center}
+		padding: 0 12px;}#quads-login form p{margin-bottom:0}.quads-login label{font-size:14px;display:inline-block;margin-bottom:3px}.quads-login h1{text-align:center}.quads-login h1 a{background-image:url(../images/w-logo-blue.png?ver=20131202);background-image:none,url(../images/wordpress-logo.svg?ver=20131107);background-size:84px;background-position:center top;background-repeat:no-repeat;color:#3c434a;height:84px;font-size:20px;line-height:1.3;margin:0 auto 25px;padding:0;text-decoration:none;width:84px;text-indent:-9999px;outline:0;display:block}#quads-login{width:320px;padding:5% 0 0;margin:auto}.quads-login form .input,.quads-login input[type=password],.quads-login input[type=text],.quads-login input[type=url],.quads-login input[type=file],.quads-login textarea{font-size:24px;line-height:1.33333333;width:95%;border-width:.0625rem;padding:.1875rem .3125rem;margin:0 6px 16px 0;min-height:40px;max-height:none}.quads-login input.password-input{font-family:Consolas,Monaco,monospace}.quads-wp-login-logo{color:#3c434a;font-size:20px}.quads-preview-ad-space{background: #fff}.quads-preview-ad-space h3{margin:0px;text-align:center}
 	</style>
 	<?php
 	if ( 0 === $user_id ) {
 		?>
-<div class="login">
-    <div id="login">
-        <h1 class="wp-login-logo">Member Login</h1>
-        <form name="loginform" id="loginform" method="post">
+<div class="quads-login">
+    <div id="quads-login">
+        <h1 class="quads-wp-login-logo">Member Login</h1>
+        <form name="loginform" id="quads-loginform" method="post">
             <p>
                 <label for="user_login"> <?php echo esc_html__( 'Username or Email Address','quick-adsense-reloaded' ); ?></label>
                 <input type="text" name="username" id="user_login" class="input" value="" size="20" autocapitalize="off" autocomplete="username" required="required">
@@ -1080,20 +1080,20 @@ function quads_sellable_premium_member_page() {
 		$payment_page   = get_permalink( $da_page_id );
 		?>
 		<style>
-			#prem-member-subs-table {
+			#quads-prem-member-subs-table {
 				font-family: Arial, Helvetica, sans-serif;
 				border-collapse: collapse;
 				width: 100%;
 			}
 
-			#prem-member-subs-table td, #prem-member-subs-table th {
+			#quads-prem-member-subs-table td, #quads-prem-member-subs-table th {
 				border: 1px solid #ddd;
 				padding: 8px;
 			}
 
-			#prem-member-subs-table tr:nth-child(even){background-color: #f2f2f2;}
+			#quads-prem-member-subs-table tr:nth-child(even){background-color: #f2f2f2;}
 
-			#prem-member-subs-table th {
+			#quads-prem-member-subs-table th {
 				padding-top: 12px;
 				padding-bottom: 12px;
 				text-align: left;
@@ -1102,8 +1102,8 @@ function quads_sellable_premium_member_page() {
 				white-space: nowrap;
 			}
 		</style>
-		<div class="login preview-ad-space">
-			<table id="prem-member-subs-table">
+		<div class="quads-login quads-preview-ad-space">
+			<table id="quads-prem-member-subs-table">
 				<thead>
 					<tr>
 						<th><?php echo esc_html__( 'Ad Space Name', 'quick-adsense-reloaded' ); ?></th>
@@ -1179,8 +1179,8 @@ function quads_sellable_premium_member_page() {
 			$payment_page   = get_permalink( $da_page_id );
 			$renew_url      = add_query_arg( array( 'ad_slot_id' => intval( $renew_id ) ), $payment_page );
 			?>
-			<div class="login preview-ad-space">
-				<form name="loginform" id="loginform" method="post" enctype="multipart/form-data">
+			<div class="quads-login quads-preview-ad-space">
+				<form name="loginform" id="quads-loginform" method="post" enctype="multipart/form-data">
 					<h3><?php echo esc_html__( 'Preview Ad Space', 'quick-adsense-reloaded' ); ?></h3>
 					<div>
 						<label for="ad_link"><?php echo esc_html__( 'Ad Link', 'quick-adsense-reloaded' ); ?></label>
@@ -1231,14 +1231,14 @@ function quads_ads_disable_form(){
     ob_start();
     ?>
 <style>
-.da-payment-box{
+.quads-da-payment-box{
     align-items: center;
     display: flex;
     flex-direction: column;
     gap: 16px;
     margin-top: 43px;
 }
-.da-payment-box2{
+.quads-da-payment-box2{
     align-items: center;
     box-sizing: border-box;
     display: flex;
@@ -1247,7 +1247,7 @@ function quads_ads_disable_form(){
     margin: auto;
     width: 100%;
 }
-.da-payment-box3{
+.quads-da-payment-box3{
     padding: 0px 16px 24px 32px;background-color: #fff;
     border: 1px solid #bbb;
     border-radius: 4px;
@@ -1258,7 +1258,7 @@ function quads_ads_disable_form(){
     justify-content: center;
     position: relative;
 }
-.da-title1{
+.quads-da-title1{
     border-bottom: 1px solid #e3e3e3;
     font: 600 22px 'Work Sans', sans-serif;
     line-height: 22px;
@@ -1268,22 +1268,22 @@ function quads_ads_disable_form(){
     text-transform: uppercase;
     width: 100%;
 }
-.da-content-box{
+.quads-da-content-box{
     align-items: center;display: flex;flex-direction: column;
 }
-.da-sub-content{
+.quads-da-sub-content{
     font: 700 55px 'Merriweather', 'GeorgiaCustom';
     gap: 4px;
     padding-bottom: 8px;
     margin:0px;
 }
-.da-sub-content2{
+.quads-da-sub-content2{
     font: 400 18px 'Work Sans', sans-serif;
     padding-bottom: 16px;
     line-height : 1.5;
     text-align:center;
 }
-.da-subcribe-btn{
+.quads-da-subcribe-btn{
     background-color: #dc0000;height: 48px;border: none;
     border-radius: 8px;
     color: #fff;
@@ -1291,7 +1291,7 @@ function quads_ads_disable_form(){
     width: 100%;
     cursor:pointer
 }
-._da-open-button {
+.quads-da-open-button {
   background-color: #555;
   color: white;
   padding: 16px 20px;
@@ -1304,7 +1304,7 @@ function quads_ads_disable_form(){
   width: 280px;
 }
 
-._da-modal {
+.quads-da-modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -1320,7 +1320,7 @@ function quads_ads_disable_form(){
 }
 
 /* Modal Content/Box */
-._da-modal-content {
+.quads-da-modal-content {
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
@@ -1329,15 +1329,15 @@ function quads_ads_disable_form(){
 }
 
 /* The Close Button */
-._da-close {
+.quads-da-close {
   color: #aaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 
-._da-close:hover,
-._da-close:focus {
+.quads-da-close:hover,
+.quads-da-close:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
@@ -1432,7 +1432,7 @@ function quads_ads_disable_form(){
 #quads-adbuy-form #paypal-button-container {
     margin-top: 20px;
 }
-._danotice-success {
+.quads-danotice-success {
     margin: 20px 0; 
     padding: 15px; 
     border: 1px solid #4caf50;
@@ -1442,11 +1442,11 @@ function quads_ads_disable_form(){
     position: relative; 
 }
 
-._danotice-success p {
+.quads-danotice-success p {
     margin: 0;
 }
 
-._danotice-error {
+.quads-danotice-error {
     margin: 20px 0; 
     padding: 15px; 
     border: 1px solid #d9534f; 
@@ -1456,11 +1456,11 @@ function quads_ads_disable_form(){
     position: relative; 
 }
 
-._danotice-error p {
+.quads-danotice-error p {
     margin: 0;
 }
 
-._danotice-dismiss {
+.quads-danotice-dismiss {
     cursor: pointer; 
     position: absolute; 
     top: 15px; 
@@ -1489,29 +1489,29 @@ function quads_ads_disable_form(){
     $user_id = get_current_user_id();
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended
     if (isset($_GET['status']) && $_GET['status'] == 'success') {
-        echo '<div class="_danotice _danotice-success _dais-dismissible">
+        echo '<div class="quads-danotice quads-danotice-success quads-dais-dismissible">
         <p>'. esc_html__( 'Successfully Submitted. You will get a confirmation email when your payment is confirmed.','quick-adsense-reloaded' ).'</p></div>';
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         } elseif (isset($_GET['status']) && $_GET['status'] == 'cancelled') {
-            echo '<div class="_danotice _danotice-error _dais-dismissible">
+            echo '<div class="quads-danotice quads-danotice-error quads-dais-dismissible">
         <p>'.esc_html__( 'Payment Cancelled. Please try again.','quick-adsense-reloaded').'</p></div>';
         }
 ?>
-<div class="da-payment-box2">
-   <div class="da-payment-box3">
-       <p class="da-title1"><?php echo esc_attr($_daduration);?></p>
-       <div class="da-content-box">
-           <p class="da-sub-content">$<?php echo esc_attr($_dacost)?></p>
-           <p class="da-sub-content2"><?php echo esc_html__('Take your browsing to the next level by upgrading to our premium plan, where you can enjoy an uninterrupted, completely ad-free experience, ensuring faster loading times, a cleaner interface, and seamless access to all your favorite content without any distractions','quick-adsense-reloaded');?></p>
+<div class="quads-da-payment-box2">
+   <div class="quads-da-payment-box3">
+       <p class="quads-da-title1"><?php echo esc_attr($_daduration);?></p>
+       <div class="quads-da-content-box">
+           <p class="quads-da-sub-content">$<?php echo esc_attr($_dacost)?></p>
+           <p class="quads-da-sub-content2"><?php echo esc_html__('Take your browsing to the next level by upgrading to our premium plan, where you can enjoy an uninterrupted, completely ad-free experience, ensuring faster loading times, a cleaner interface, and seamless access to all your favorite content without any distractions','quick-adsense-reloaded');?></p>
        </div>
-       <button type="button" class="da-subcribe-btn" onclick="quadsOpenAdsBlockForm()">Subscribe</button>
+       <button type="button" class="quads-da-subcribe-btn" onclick="quadsOpenAdsBlockForm()">Subscribe</button>
    </div>
 </div>
-<div id="adsBlockForm" class="_da-modal">
+<div id="quads-ads-block-form" class="quads-da-modal">
   <!-- Modal content -->
   <form id="quads-adbuy-form" method="POST" action="<?php echo ($payment_gateway!='stripe')?esc_url(admin_url('admin-ajax.php')):'/process-payment'; ?>" enctype="multipart/form-data">
-    <div class="_da-modal-content">
-        <span class="_da-close" onclick="quadsCloseAdsBlockForm()">&times;</span>
+    <div class="quads-da-modal-content">
+        <span class="quads-da-close" onclick="quadsCloseAdsBlockForm()">&times;</span>
         <?php if ( ! $user_id ) : ?>
             <div id="user-info-section" class="form-section">
                 <h2><?php echo esc_html__('User Information','quick-adsense-reloaded');?></h2>
@@ -1627,11 +1627,11 @@ async function quadsProcessStripePaymentSuccess( data ){
     } 
 }
     function quadsOpenAdsBlockForm() {
-        document.getElementById("adsBlockForm").style.display = "block";
+        document.getElementById("quads-ads-block-form").style.display = "block";
     }
 
     function quadsCloseAdsBlockForm() {
-        document.getElementById("adsBlockForm").style.display = "none";
+        document.getElementById("quads-ads-block-form").style.display = "none";
     }
 </script>
 <?php
