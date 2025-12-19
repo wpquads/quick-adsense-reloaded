@@ -1873,15 +1873,21 @@ return array('status' => 't');
         public function getPages($request){
 
             global $wpdb;
-            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
-            $query = "SELECT ID, post_title,post_status FROM $wpdb->posts WHERE post_type = 'page' AND post_status in( 'publish','draft' ) ORDER BY post_title ASC LIMIT 0, 100";
-            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching 
-            $results = $wpdb->get_results($query, ARRAY_A);
-            foreach ($results as $key => $value) {
+            $results = wp_cache_get( 'quads_pages_list_api', 'quick-adsense-reloaded' );
+            if ( false === $results ) {
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+                $query = "SELECT ID, post_title,post_status FROM $wpdb->posts WHERE post_type = 'page' AND post_status in( 'publish','draft' ) ORDER BY post_title ASC LIMIT 0, 100";
+                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
+                $results = $wpdb->get_results($query, ARRAY_A);
+                wp_cache_set( 'quads_pages_list_api', $results, 'quick-adsense-reloaded' );
+            }
+
+             foreach ($results as $key => $value) {
                 if($value['post_status']=='draft'){
                     $results[$key]['post_title'] = $value['post_title'].' - Draft';
                 }
             }
+            
             return $results;
 
         }
@@ -2053,18 +2059,26 @@ return array('status' => 't');
             $page = (int) $request->get_param('page') ?: 1;
             $per_page = 10;
             $offset = ($page - 1) * $per_page;
-        
-            // Query the records
-            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery */
-            $results = $wpdb->get_results($wpdb->prepare(
-                "SELECT * FROM %s WHERE payment_status = %s ORDER BY id DESC LIMIT %d OFFSET %d",
-                $table_name,
-                'paid',
-                $per_page,
-                $offset
-            ));
-            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared */
-            $total = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $table_name WHERE payment_status = %s", 'paid' ) );
+            
+            $results = wp_cache_get( 'wpquads_ad_sell_list_' . $page, 'quick-adsense-reloaded' );
+            if ( false === $results ) {
+                // Query the records
+                /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery */
+                $results = $wpdb->get_results($wpdb->prepare(
+                    "SELECT * FROM %s WHERE payment_status = %s ORDER BY id DESC LIMIT %d OFFSET %d",
+                    $table_name,
+                    'paid',
+                    $per_page,
+                    $offset
+                ));
+                wp_cache_set( 'quads_ad_sell_list_' . $page, $results, 'quick-adsense-reloaded' );
+            }
+            $total = wp_cache_get( 'quads_ad_total_' . $page, 'quick-adsense-reloaded' );
+            if( false === $total ) {
+                /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared */
+                $total = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $table_name WHERE payment_status = %s", 'paid' ) );
+                wp_cache_set( 'quads_ad_total_' . $page, $total, 'quick-adsense-reloaded' );
+            }
 
             foreach ($results as $key => $result) {
                 $ad_id = $result->ad_id;
@@ -2106,17 +2120,26 @@ return array('status' => 't');
             $page = (int) $request->get_param('page') ?: 1;
             $per_page = 10;
             $offset = ($page - 1) * $per_page;
-        
-            // Query the records
-            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery */
-            $results = $wpdb->get_results($wpdb->prepare(
-                "SELECT * FROM %s WHERE payment_status in('paid','unsubscribe') ORDER BY disable_ad_id DESC LIMIT %d OFFSET %d",
-                $table_name,
-                $per_page,
+
+            $results = wp_cache_get( 'quads_disabled_ad_list_' . $page, 'quick-adsense-reloaded' );
+            if ( false === $results ) {
+                // Query the records
+                /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery */
+                $results = $wpdb->get_results($wpdb->prepare(
+                    "SELECT * FROM %s WHERE payment_status in('paid','unsubscribe') ORDER BY disable_ad_id DESC LIMIT %d OFFSET %d",
+                    $table_name,
+                    $per_page,
                 $offset
             ));
-            /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared */
-            $total = $wpdb->get_var("SELECT COUNT(*)  FROM $table_name WHERE payment_status in('paid','unsubscribe')");
+            wp_cache_set( 'quads_disabled_ad_list_' . $page, $results, 'quick-adsense-reloaded' );
+            }
+
+            $total = wp_cache_get( 'quads_disabled_ad_total_' . $page, 'quick-adsense-reloaded' );
+            if( false === $total ) {
+                /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared */
+                $total = $wpdb->get_var("SELECT COUNT(*)  FROM $table_name WHERE payment_status in('paid','unsubscribe')");
+                wp_cache_set( 'quads_disabled_ad_total_' . $page, $total, 'quick-adsense-reloaded' );
+            }
 
             $resp = array();
             foreach ($results as $key => $result) {

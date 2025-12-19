@@ -71,9 +71,12 @@ function quads_authorize_payment_success(){
         if($user){
             global $wpdb;
             $table_name = $wpdb->prefix . 'quads_adbuy_data';
-// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM %s WHERE id = %d AND user_id = %d",$table_name, $order_id, $user->ID ));
-           
+            $ad_details = wp_cache_get('quads_ad_details_'.$order_id.'_'.$user->ID, 'quick-adsense-reloaded');
+            if(false === $ad_details){
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+                $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM %s WHERE id = %d AND user_id = %d",$table_name, $order_id, $user->ID ));
+                wp_cache_set('quads_ad_details_'.$order_id.'_'.$user->ID, $ad_details, 'quick-adsense-reloaded', 3600);
+            }
             if (!$ad_details) {
                 return false;
                 
@@ -141,8 +144,12 @@ function quads_authorize_payment_success(){
         if($user){
             global $wpdb;
             $table_name = $wpdb->prefix . 'quads_disabledad_data';
-            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
-            $ad_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table_name WHERE disable_ad_id = %d AND user_id = %d", $order_id,$user_id ) );
+            $ad_details = wp_cache_get('quads_ad_details_'.$order_id.'_'.$user->ID, 'quick-adsense-reloaded');
+            if(false === $ad_details){
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+                $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM %s WHERE id = %d AND user_id = %d",$table_name, $order_id, $user->ID ));
+                wp_cache_set('quads_ad_details_'.$order_id.'_'.$user->ID, $ad_details, 'quick-adsense-reloaded', 3600);
+            }
            
             if (!$ad_details) {
                 return false;
@@ -299,8 +306,12 @@ function quads_ads_buy_form() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_adbuy_data';
     $user_id    = absint( get_current_user_id() );
-    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.PreparedSQL.NotPrepared
-    $my_ads = $wpdb->get_results($wpdb->prepare( "SELECT * FROM $table_name WHERE user_id = %d", $user_id ) );
+    $my_ads    = wp_cache_get( 'quads_user_ads_' . $user_id, 'quick-adsense-reloaded' );
+    if ( false === $my_ads ) {
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.PreparedSQL.NotPrepared
+        $my_ads = $wpdb->get_results($wpdb->prepare( "SELECT * FROM $table_name WHERE user_id = %d", $user_id ) );
+        wp_cache_set( 'quads_user_ads_' . $user_id, $my_ads, 'quick-adsense-reloaded' , 600 );
+    }
 
 
     // Start output buffering
@@ -937,9 +948,13 @@ function quads_get_premimum_member_ad_space($user_id){
     $user_id = absint( $user_id );
     $table_name = $wpdb->prefix . 'quads_adbuy_data'; 
    
-    // Query the records
-    /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.PreparedSQL.NotPrepared */
-    $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name WHERE payment_status = %s AND user_id = %d ORDER BY id DESC", 'paid', $user_id ) );
+    $results = wp_cache_get( 'quads_user_ads_' . $user_id, 'quick-adsense-reloaded' );
+    if ( false === $results ) {
+        // Query the records
+        /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.PreparedSQL.NotPrepared */
+        $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name WHERE payment_status = %s AND user_id = %d ORDER BY id DESC", 'paid', $user_id ) );
+        wp_cache_set( 'quads_user_ads_' . $user_id, $results, 'quick-adsense-reloaded', 600 );
+    }
    
     foreach ($results as $key => $result) {
         $ad_id = $result->ad_id;
@@ -970,11 +985,15 @@ function quads_get_premimum_member_ad_space_on_id($id){
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_adbuy_data';
     $id         = absint( $id ); 
-   
-    // Query the records
-    /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.PreparedSQL.NotPrepared */
-    $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name WHERE payment_status = %s AND id = %d ORDER BY id DESC", 'paid', $id ) );
-   
+
+    $results = wp_cache_get( 'quads_ad_space_' . $id, 'quick-adsense-reloaded' );
+    if ( false === $results ) {
+        // Query the records
+        /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.PreparedSQL.NotPrepared */
+        $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name WHERE payment_status = %s AND id = %d ORDER BY id DESC", 'paid', $id ) );
+        wp_cache_set( 'quads_ad_space_' . $id, $results, 'quick-adsense-reloaded', 600 );
+    }
+
     foreach ($results as $key => $result) {
         $ad_id = $result->ad_id;
         $ad_name = get_the_title($ad_id);
@@ -2352,8 +2371,12 @@ function quads_handle_paypal_notify(WP_REST_Request $request) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'quads_adbuy_data';
        
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
-        $ad_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table_name WHERE id = %d AND user_id = %d", $order_id, $user_id ) );
+        $ad_details = wp_cache_get('quads_ad_details_'.$order_id.'_'.$user->ID, 'quick-adsense-reloaded');
+        if(false === $ad_details){
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM %s WHERE id = %d AND user_id = %d",$table_name, $order_id, $user->ID ));
+            wp_cache_set('quads_ad_details_'.$order_id.'_'.$user->ID, $ad_details, 'quick-adsense-reloaded', 3600);
+        }
         if (!$ad_details) {
             return new WP_REST_Response( array( 'status' => 'error', 'message' => esc_html__( 'Ad not found', 'quick-adsense-reloaded' ) ), 404);
         }
@@ -2446,7 +2469,12 @@ function quads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'quads_disabledad_data';
         // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
-        $ad_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table_name WHERE disable_ad_id = %d AND user_id = %d", $order_id, $user_id ) );
+        $ad_details = wp_cache_get('quads_ad_details_'.$order_id.'_'.$user->ID, 'quick-adsense-reloaded');
+        if(false === $ad_details){
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM %s WHERE id = %d AND user_id = %d",$table_name, $order_id, $user->ID ));
+            wp_cache_set('quads_ad_details_'.$order_id.'_'.$user->ID, $ad_details, 'quick-adsense-reloaded', 3600);
+        }
         if (!$ad_details) {
             return false;
         }
@@ -2511,8 +2539,12 @@ function quads_get_active_ads_by_slot( $slot_id = null ){
 
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_adbuy_data';
-    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
-    $active_ads = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name Where  ad_id = %d and payment_status = 'paid' and ad_status = 'approved' and end_date >= CURDATE() and start_date <= CURDATE()", $slot_id ) );
+    $active_ads = wp_cache_get( 'quads_active_ads_slot_' . $slot_id , 'quick-adsense-reloaded' );
+    if ( false === $active_ads ) {
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+        $active_ads = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name Where  ad_id = %d and payment_status = 'paid' and ad_status = 'approved' and end_date >= CURDATE() and start_date <= CURDATE()", $slot_id ) );
+        wp_cache_set( 'quads_active_ads_slot_' . $slot_id, $active_ads, 'quick-adsense-reloaded', 600 );
+    }
     return $active_ads;
 }
 
@@ -2520,8 +2552,12 @@ function quads_get_active_sellads_ids( ){
 
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_adbuy_data';
-    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
-    $active_ads = $wpdb->get_results( $wpdb->prepare( "SELECT ad_id FROM $table_name Where  payment_status = %s and ad_status = %s and end_date >= CURDATE() and start_date <= CURDATE()", 'paid', 'approved' ) );
+    $active_ads = wp_cache_get( 'quads_active_sellads_ids', 'quick-adsense-reloaded' );
+    if ( false === $active_ads ) {
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+        $active_ads = $wpdb->get_results( $wpdb->prepare( "SELECT ad_id FROM $table_name Where  payment_status = %s and ad_status = %s and end_date >= CURDATE() and start_date <= CURDATE()", 'paid', 'approved' ) );
+        wp_cache_set( 'quads_active_sellads_ids', $active_ads, 'quick-adsense-reloaded', 600 );
+    }
     return $active_ads;
 }
 
@@ -2628,12 +2664,16 @@ function quads_check_expired_sellads() {
             
 
             // Execute the query and get results
-            // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
-            $users = $wpdb->get_results(  $wpdb->prepare(
-               // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared	
-                "SELECT user_id, ad_id FROM $table_name WHERE ad_id IN ($placeholders)",
-                ...$ad_ids
-            ) );
+            $users = wp_cache_get( 'quads_expired_sellads_users', 'quick-adsense-reloaded' );
+            if ( false === $users ) {
+                // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
+                $users = $wpdb->get_results(  $wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared	
+                    "SELECT user_id, ad_id FROM $table_name WHERE ad_id IN ($placeholders)",
+                    ...$ad_ids
+                ) );
+                wp_cache_set( 'quads_expired_sellads_users', $users, 'quick-adsense-reloaded', 600 );
+            }
 
             // Process each user and ad combination
             foreach ( $users as $user ) {

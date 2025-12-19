@@ -35,22 +35,24 @@ function quads_sanitize_post_meta($key, $meta){
     
   }
 
-  function quadsGetPostIdByMetaKeyValue($meta_key, $meta_value){
+function quadsGetPostIdByMetaKeyValue( $meta_key, $meta_value ) {
 
-    $response = null;
+    $posts = get_posts( [
+        'post_type'      => 'any',
+        'post_status'    => 'any',
+        'fields'         => 'ids',
+        'posts_per_page' => 1,
+        'meta_query'     => [
+            [
+                'key'   => $meta_key,
+                'value' => $meta_value,
+            ],
+        ],
+    ] );
 
-    global $wpdb;
+    return ! empty( $posts ) ? (int) $posts[0] : null;
+}
 
-    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-    $results = $wpdb->get_results( $wpdb->prepare("select post_id from $wpdb->postmeta where meta_key=%s &&  meta_value = %s ",$meta_key,$meta_value), ARRAY_A );
-    
-    if(isset($results[0]['post_id'])){
-        $response = $results[0]['post_id'];
-    }        
-                    
-    return $response;
-
- }
  /**
  * since v2.0
  * Validate a single line.

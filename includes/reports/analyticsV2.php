@@ -314,8 +314,13 @@ private function quads_insert_impression($ad_id){
 
 if($performance_tracking){
   $table_name = $wpdb->prefix . "quads_impressions_" . $device_name;
-  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
-        $ad_stats = $wpdb->get_row($wpdb->prepare("SELECT id,stats_impressions FROM  $table_name  WHERE ad_id = %d AND stats_date = %d",array($ad_id, $todays_date)),ARRAY_A);
+  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+  $ad_stats = wp_cache_get('quads_ad_stats_'.$ad_id.'_'.$device_name.'_'.$todays_date, 'quick-adsense-reloaded');
+  if(false === $ad_stats){
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
+    $ad_stats = $wpdb->get_row($wpdb->prepare("SELECT id,stats_impressions FROM  $table_name  WHERE ad_id = %d AND stats_date = %d",array($ad_id, $todays_date)),ARRAY_A);
+    wp_cache_set('quads_ad_stats_'.$ad_id.'_'.$device_name.'_'.$todays_date, $ad_stats, 'quick-adsense-reloaded', 3600);
+  }
         if(isset($ad_stats['id']) && !empty($ad_stats['id'])){
             $updated_impression=$ad_stats['stats_impressions']+1;
             // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
@@ -362,8 +367,12 @@ private  function quads_insert_clicks($ad_id){
 
 if($performance_tracking){
   $table_name = $wpdb->prefix . "quads_clicks_" . $device_name;
-  // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
-  $ad_stats = $wpdb->get_row($wpdb->prepare("SELECT id,stats_clicks FROM  $table_name  WHERE ad_id = %d AND stats_date = %d",array($ad_id, $todays_date)),ARRAY_A);
+  $ad_stats = wp_cache_get('quads_ad_stats_'.$ad_id.'_'.$device_name.'_'.$todays_date, 'quick-adsense-reloaded');
+  if(false === $ad_stats){
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
+    $ad_stats = $wpdb->get_row($wpdb->prepare("SELECT id,stats_clicks FROM  $table_name  WHERE ad_id = %d AND stats_date = %d",array($ad_id, $todays_date)),ARRAY_A);
+    wp_cache_set('quads_ad_stats_'.$ad_id.'_'.$device_name.'_'.$todays_date, $ad_stats, 'quick-adsense-reloaded', 3600);
+  }
   if(isset($ad_stats['id']) && !empty($ad_stats['id'])){
       $updated_clicks=$ad_stats['stats_clicks']+1;
       // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter
@@ -385,6 +394,8 @@ if($log_enabled){
       }
       $user_ip      =  $this->quads_get_client_ip();
       $browser = $this->quads_get_browser();
+      $ad_logs = wp_cache_get('quads_ad_logs_'.$ad_id.'_'.$todays_date.'_'.$user_ip.'_'.$actual_link.'_'.$browser, 'quick-adsense-reloaded');
+      if(false === $ad_logs){
       // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
       $ad_logs = $wpdb->get_row($wpdb->prepare("SELECT id,log_clicks FROM  {$wpdb->prefix}quads_logs WHERE ad_id = %d AND log_date = %s AND ip_address = %s AND log_url = %d AND browser= %s",array($ad_id, $todays_date,trim($user_ip),trim($actual_link),$browser)),ARRAY_A);
       if(isset($ad_logs['id']) && !empty($ad_logs['id'])){

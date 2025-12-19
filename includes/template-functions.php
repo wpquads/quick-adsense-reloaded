@@ -884,8 +884,13 @@ function quads_disable_ads(){
    
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_disabledad_data'; 
-    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
-    $ad_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table_name WHERE user_email = %s AND payment_status = %s and user_id=%d order by disable_ad_id desc limit 1", $email, 'paid', $user_ID ) );
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+    $ad_details = wp_cache_get('quads_ad_details_'.$email.'_'.$user_ID, 'quick-adsense-reloaded');
+    if(false === $ad_details){
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+        $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM %s WHERE user_email = %s AND payment_status = %s and user_id=%d order by disable_ad_id desc limit 1",$table_name, $email, 'paid', $user_ID ));
+        wp_cache_set('quads_ad_details_'.$email.'_'.$user_ID, $ad_details, 'quick-adsense-reloaded', 3600);
+    }
     $is_disable_ad = false;
     if(!empty($ad_details)){
         $disable_duration = $ad_details->disable_duration;
