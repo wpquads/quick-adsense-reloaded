@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Ads by Quads – Adsense Ads, Banner Ads, Popup Ads
+ * Plugin Name: Quads Ads Manager for Google AdSense, Banner Ads, Popup Ads
  * Plugin URI: https://wordpress.org/plugins/quick-adsense-reloaded/
  * Description: Insert Google AdSense and other ad formats fully automatic into your website
  * Author: WP Quads

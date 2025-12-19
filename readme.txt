@@ -127,7 +127,7 @@ Get access to more professional Settings, options and positions to really push y
 * Browser Width
 
 = Active Development: =
-We are actively developing this plugin and our aim is to make this plugin into the #1 advertisment solution in the world. You can [Request a Feature](https://wpquads.com/support/) or [Report a Bug](https://github.com/wpquads/quick-adsense-reloaded/issues). The code is hosted on [Github](https://github.com/wpquads/quick-adsense-reloaded).
+We are actively developing this plugin with a focus on improving functionality, stability, and usability for a wide range of use cases. You can [Request a Feature](https://wpquads.com/support/) or [Report a Bug](https://github.com/wpquads/quick-adsense-reloaded/issues). The code is hosted on [Github](https://github.com/wpquads/quick-adsense-reloaded).
 
 = Development Roadmap: =
 * <strong>A/B Testing</strong>: Find out which ads perform the most and how you can improve the ad revenue further.
