@@ -1,4 +1,4 @@
-=== Ads by Quads – Adsense Ads, Banner Ads, Popup Ads ===
+=== Quads Ads Manager for Google AdSense, Banner Ads, Popup Ads ===
 
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
@@ -309,11 +309,6 @@ This service is provided by "Propeller Ads": [terms of use](https://www.propelle
 This plugin integrates with AdPushup to display optimized advertisements when AdPushup features are enabled.
 AdPushup scripts are loaded from cdn.adpushup.com and may collect usage data such as page views, device information, and ad performance data in accordance with AdPushup's policies.
 This service is provided by "AdPushup": [terms of use](https://www.adpushup.com/terms-of-service/) [privacy policy.](https://www.adpushup.com/privacy-policy/)
-
-= InMobi Consent Management Platform (CMP) =
-This plugin integrates with InMobi's Consent Management Platform to handle user consent for ads and tracking on AMP pages, where applicable.
-The CMP scripts are loaded from api.cmp.inmobi.com and cmp.inmobi.com to manage consent preferences and do not send personally identifiable information by default.
-This service is provided by "InMobi": [terms of use](https://www.inmobi.com/terms-of-service) [privacy policy.](https://www.inmobi.com/website-privacy-policy)
 
 = WP QUADS License & Update API =
 This plugin connects to the WP QUADS licensing and update API (wpquads.com/edd-sl-api/) to validate licenses and manage plugin updates when license-related features are enabled.
