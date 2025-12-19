@@ -912,7 +912,7 @@ function quads_custom_premimum_memeber_login() {
             exit;
 
         } else {
-            echo '<p>Login failed! Please try again.</p>';
+            echo '<p>' . esc_html__( 'Login failed! Please try again.', 'quick-adsense-reloaded' ) . '</p>';
         }
     }
 }

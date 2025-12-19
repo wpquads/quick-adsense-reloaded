@@ -447,7 +447,7 @@ function quads_render_social(){
                         <div class='quads-share-button quads-share-button-twitter' data-share-url="https://wordpress.org/plugins/quick-adsense-reloaded">
                             <div clas='box'>
                                 <a href="https://twitter.com/share?url=https://wordpress.org/plugins/quick-adsense-reloaded&text=Quick%20AdSense%20reloaded%20-%20a%20brand%20new%20fork%20of%20the%20popular%20AdSense%20Plugin%20Quick%20Adsense!" target='_blank'>
-                                    <span class='quads-share'><?php echo esc_html('Tweet','quick-adsense-reloaded'); ?></span>
+                                    <span class='quads-share'><?php echo esc_html__('Tweet', 'quick-adsense-reloaded'); ?></span>
                                 </a>
                             </div>
                         </div>
@@ -455,7 +455,7 @@ function quads_render_social(){
                         <div class="quads-share-button quads-share-button-facebook" data-share-url="https://wordpress.org/plugins/quick-adsense-reloaded">
                             <div class="box">
                                 <a href="https://www.facebook.com/sharer/sharer.php?u=https://wordpress.org/plugins/quick-adsense-reloaded" target="_blank">
-                                    <span class='quads-share'><?php echo esc_html('Share','quick-adsense-reloaded'); ?></span>
+                                    <span class='quads-share'><?php echo esc_html__('Share', 'quick-adsense-reloaded'); ?></span>
                                 </a>
                             </div>
                         </div>
