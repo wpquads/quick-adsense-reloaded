@@ -257,6 +257,7 @@ function quads_show_rate_div() {
     if ( $diff_intrval >= 7 && ( $rate === 'no' || false === $rate || quads_rate_again() ) ) {
         $review_url = 'https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/';
         $ajax_url   = admin_url( 'admin-ajax.php' );
+        $nonce      = wp_create_nonce( 'quads_hide_rating_nonce' );
         ?>
         <div class="quads_fivestar updated" style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;">
             <p>
@@ -304,7 +305,8 @@ function quads_show_rate_div() {
             $( '.quadsHideRating' ).click(function() {
                 $( '.spinner' ).addClass( 'is-active' );
                 var data = {
-                    'action': 'quads_hide_rating'
+                    'action': 'quads_hide_rating',
+                    'nonce': <?php echo wp_json_encode( $nonce ); ?>
                 };
                 jQuery.ajax({
                     url: <?php echo wp_json_encode( $ajax_url ); ?>,
@@ -327,7 +329,8 @@ function quads_show_rate_div() {
             $( '.quadsHideRatingWeek' ).click(function() {
                 $( '.spinner' ).addClass( 'is-active' );
                 var data = {
-                    'action': 'quads_hide_rating_week'
+                    'action': 'quads_hide_rating_week',
+                    'nonce': <?php echo wp_json_encode( $nonce ); ?>
                 };
                 jQuery.ajax({
                     url: <?php echo wp_json_encode( $ajax_url ); ?>,
@@ -366,6 +369,12 @@ function quads_show_rate_div() {
  * 
  */
 function quads_hide_rating_div() {
+    // Verify nonce
+    if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'quads_hide_rating_nonce' ) ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'Security check failed.', 'quick-adsense-reloaded' ) ) );
+        return;
+    }
+
     if ( ! current_user_can( 'manage_options' ) ) {
         wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to perform this action.', 'quick-adsense-reloaded' ) ) );
         return;
@@ -391,6 +400,12 @@ add_action( 'wp_ajax_quads_hide_rating', 'quads_hide_rating_div' );
  * @return void
  */
 function quads_hide_rating_notice_week() {
+    // Verify nonce
+    if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'quads_hide_rating_nonce' ) ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'Security check failed.', 'quick-adsense-reloaded' ) ) );
+        return;
+    }
+
     if ( ! current_user_can( 'manage_options' ) ) {
         wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to perform this action.', 'quick-adsense-reloaded' ) ) );
         return;

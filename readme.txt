@@ -267,9 +267,187 @@ This service is provided by "The AMP Project": [terms of use](https://terms-of-u
 
 = Media.net Contextual Advertising =
 This plugin integrates with Media.net to display contextual advertisements when ad-related features are enabled.
-Media.net scripts may be loaded on the frontend and may collect information such as page context, device information, and interaction data in accordance with Media.net’s policies.
+Media.net scripts may be loaded on the frontend and may collect information such as page context, device information, and interaction data in accordance with Media.net's policies.
 The plugin does not store personally identifiable information collected by Media.net.
 This service is provided by "Media.net": [terms of use](https://www.media.net/legal/tos/) [privacy policy.](https://www.media.net/privacy-policy/)
+
+= Yandex Direct Advertising =
+This plugin integrates with Yandex Direct to display advertisements when Yandex ad features are enabled.
+Yandex scripts are loaded from yandex.ru domains and may collect usage data such as page views and interaction data in accordance with Yandex's policies.
+This service is provided by "Yandex": [terms of use](https://yandex.com/legal/termsofservice/) [privacy policy.](https://yandex.com/legal/privacy/)
+
+= MGID Native Advertising =
+This plugin integrates with MGID to display native advertisements when MGID ad features are enabled.
+MGID scripts are loaded on the frontend and may collect information such as page context, device information, and interaction data in accordance with MGID's policies.
+The plugin does not store personally identifiable information collected by MGID.
+This service is provided by "MGID": [terms of use](https://www.mgid.com/terms-of-use) [privacy policy.](https://www.mgid.com/privacy-policy)
+
+= Taboola Content Discovery =
+This plugin integrates with Taboola to display content recommendations and native advertisements when Taboola ad features are enabled.
+Taboola scripts are loaded from cdn.taboola.com and may collect usage data such as page views, device information, and interaction data in accordance with Taboola's policies.
+No personally identifiable information is intentionally sent by the plugin itself.
+This service is provided by "Taboola Inc.": [terms of use](https://www.taboola.com/terms-of-use) [privacy policy.](https://www.taboola.com/privacy-policy)
+
+= MediaVine Advertising =
+This plugin integrates with MediaVine to display advertisements when MediaVine ad features are enabled.
+MediaVine scripts are loaded from scripts.mediavine.com and may collect information such as page context, device information, and interaction data in accordance with MediaVine's policies.
+The plugin does not store personally identifiable information collected by MediaVine.
+This service is provided by "MediaVine": [terms of use](https://www.mediavine.com/terms-of-service/) [privacy policy.](https://www.mediavine.com/privacy-policy/)
+
+= Infolinks In-Text Advertising =
+This plugin integrates with Infolinks to display in-text advertisements when Infolinks ad features are enabled.
+Infolinks scripts are loaded from resources.infolinks.com and may collect usage data such as page views and interaction data in accordance with Infolinks's policies.
+This service is provided by "Infolinks": [terms of use](https://www.infolinks.com/terms-of-service/) [privacy policy.](https://www.infolinks.com/privacy-policy/)
+
+= Propeller Ads =
+This plugin integrates with Propeller Ads to display advertisements when Propeller ad features are enabled.
+Propeller scripts are loaded on the frontend and may collect information such as page context, device information, and interaction data in accordance with Propeller's policies.
+The plugin does not store personally identifiable information collected by Propeller.
+This service is provided by "Propeller Ads": [terms of use](https://www.propellerads.com/terms/) [privacy policy.](https://www.propellerads.com/privacy-policy/)
+
+= AdPushup Optimization Platform =
+This plugin integrates with AdPushup to display optimized advertisements when AdPushup features are enabled.
+AdPushup scripts are loaded from cdn.adpushup.com and may collect usage data such as page views, device information, and ad performance data in accordance with AdPushup's policies.
+This service is provided by "AdPushup": [terms of use](https://www.adpushup.com/terms-of-service/) [privacy policy.](https://www.adpushup.com/privacy-policy/)
+
+= InMobi Consent Management Platform (CMP) =
+This plugin integrates with InMobi's Consent Management Platform to handle user consent for ads and tracking on AMP pages, where applicable.
+The CMP scripts are loaded from api.cmp.inmobi.com and cmp.inmobi.com to manage consent preferences and do not send personally identifiable information by default.
+This service is provided by "InMobi": [terms of use](https://www.inmobi.com/terms-of-service) [privacy policy.](https://www.inmobi.com/website-privacy-policy)
+
+= WP QUADS License & Update API =
+This plugin connects to the WP QUADS licensing and update API (wpquads.com/edd-sl-api/) to validate licenses and manage plugin updates when license-related features are enabled.
+The plugin sends the site URL, license key, and plugin version to the service during license activation, validation, or update checks.
+This service is provided by "WP QUADS": [terms of use](https://wpquads.com/terms-conditions/) [privacy policy.](https://wpquads.com/privacy-policy/)
+
+
+== Credits ==
+
+This plugin uses the following third-party libraries and resources:
+
+= PHP Libraries =
+
+* **Stripe PHP SDK** (^16.3) - Payment processing library for Stripe integration
+  * License: MIT License
+  * Source: https://github.com/stripe/stripe-php
+
+* **Mobile Detect** (v2.8.33) - PHP class for detecting mobile devices
+  * License: MIT License
+  * Author: Serban Ghita
+  * Source: https://github.com/serbanghita/Mobile-Detect
+
+= JavaScript Libraries =
+
+* **Chart.js** (v2.9.4) - Simple yet flexible JavaScript charting library
+  * License: MIT License
+  * Source: https://www.chartjs.org/
+
+* **JSColor** (v2.0.4) - JavaScript Color Picker
+  * License: GPLv3 (open source) / Commercial License
+  * Author: Jan Odvarko
+  * Source: http://jscolor.com
+
+* **Chosen** (v1.5.1) - jQuery plugin for making long, unwieldy select boxes more user-friendly
+  * License: MIT License
+  * Source: https://harvesthq.github.io/chosen/
+
+* **React** (^16.14.0) - JavaScript library for building user interfaces
+  * License: MIT License
+  * Source: https://reactjs.org/
+
+* **React DOM** (^16.14.0) - React renderer for the web
+  * License: MIT License
+  * Source: https://reactjs.org/
+
+* **Material-UI** (@material-ui/core ^4.11.4, @material-ui/icons ^4.11.2, @material-ui/lab ^4.0.0-alpha.58) - React components implementing Google's Material Design
+  * License: MIT License
+  * Source: https://material-ui.com/
+
+* **React Router** (^5.2.0) - Declarative routing for React
+  * License: MIT License
+  * Source: https://reactrouter.com/
+
+* **React Router DOM** (^5.2.0) - DOM bindings for React Router
+  * License: MIT License
+  * Source: https://reactrouter.com/
+
+* **React Beautiful DnD** (^13.1.1) - Beautiful and accessible drag and drop for lists with React
+  * License: MIT License
+  * Source: https://github.com/atlassian/react-beautiful-dnd
+
+* **React Charts** (^2.0.0-beta.7) - Simple, immersive and interactive charts for React
+  * License: MIT License
+  * Source: https://github.com/tannerlinsley/react-charts
+
+* **React Color** (^2.19.3) - Color picker component for React
+  * License: MIT License
+  * Source: https://github.com/casesandberg/react-color
+
+* **React Confirm Alert** (^2.7.0) - Confirm dialog for React
+  * License: MIT License
+  * Source: https://github.com/GA-MO/react-confirm-alert
+
+* **React Datepicker** (^3.8.0) - A simple and reusable datepicker component for React
+  * License: MIT License
+  * Source: https://github.com/Hacker0x01/react-datepicker
+
+* **React Select** (^3.2.0) - A flexible and beautiful Select Input control for ReactJS
+  * License: MIT License
+  * Source: https://react-select.com/
+
+* **React Dropdown Select** (^4.7.4) - Lightweight dropdown select component for React
+  * License: MIT License
+  * Source: https://github.com/sanusart/react-dropdown-select
+
+* **Semantic UI React** (^1.3.1) - The official React integration for Semantic UI
+  * License: MIT License
+  * Source: https://react.semantic-ui.com/
+
+* **Moment.js** (^2.29.1) - Parse, validate, manipulate, and display dates
+  * License: MIT License
+  * Source: https://momentjs.com/
+
+* **React Moment** (^0.9.7) - React component for the Moment date library
+  * License: MIT License
+  * Source: https://github.com/headzoo/react-moment
+
+* **Copy to Clipboard** (^3.3.1) - Copy text to clipboard utility
+  * License: MIT License
+  * Source: https://github.com/sudodoki/copy-to-clipboard
+
+* **Typeface Roboto** (0.0.75) - Roboto font family
+  * License: Apache License 2.0
+  * Source: https://github.com/KyleAMathews/typefaces
+
+* **Stripe.js** (v3) - JavaScript library for Stripe payment processing
+  * License: MIT License
+  * Source: https://stripe.com/docs/stripe-js
+
+* **Paystack Inline JS** (v1) - JavaScript library for Paystack payment processing
+  * License: MIT License
+  * Source: https://paystack.com/docs/payments/accept-payments
+
+* **WordPress Editor** (@wordpress/editor ^9.26.3) - WordPress Gutenberg editor components
+  * License: GPL-2.0-or-later
+  * Source: https://github.com/WordPress/gutenberg
+
+= Build Tools & Development Dependencies =
+
+* **Babel** - JavaScript compiler for converting ES6+ code into backwards compatible JavaScript
+  * License: MIT License
+  * Source: https://babeljs.io/
+
+* **Webpack** (^3.12.0) - Module bundler for JavaScript applications
+  * License: MIT License
+  * Source: https://webpack.js.org/
+
+* **CGB Scripts** (^1.23.0) - Create Gutenberg Block scripts
+  * License: GPL-2.0-or-later
+  * Source: https://github.com/ahmadawais/create-guten-block
+
+* **Grunt** - JavaScript task runner
+  * License: MIT License
+  * Source: https://gruntjs.com/
 
 
 == Changelog ==

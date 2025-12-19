@@ -2531,20 +2531,26 @@ function quads_insert_reports_newdb($params){
 
  function quads_start_newdb_migration(){
 	 $quads_cron_manual=['status'=>'fail','msg'=> esc_html__( 'Invalid Action', 'quick-adsense-reloaded' )];
-	 if(current_user_can('manage_options') && isset($_POST['nonce']) && wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'quads_newdb_nonce')){
-	 $quads_cron_manual=['status'=>'success','msg'=> esc_html__( 'Cron Started', 'quick-adsense-reloaded' )];
-	 $rest_route = get_rest_url(null,'quads-adsense/import_old_db/');
-	 $default  = array('status' => 'inactive','current_table'=>'quads_stats','sub_table'=>'','offset'=> 50,'imported' => 0,'total' => 0);
-	$quads_import_details = get_option('quads_import_data',$default);
-	$quads_import_details['status']  = 'active';
-	update_option('quads_import_data',$quads_import_details);
-	   $response = wp_remote_get(esc_url($rest_route),
-			 array(
-				 'timeout'     => 3,
-				 'httpversion' => '1.1',
-			 )
-		 );
+	 if(! isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'quads_newdb_nonce')){
+		$quads_cron_manual=['status'=>'fail','msg'=> esc_html__( 'Invalid nonce.', 'quick-adsense-reloaded' )];
 	 }
+	 if(current_user_can('manage_options')){
+		$quads_cron_manual=['status'=>'success','msg'=> esc_html__( 'Cron Started', 'quick-adsense-reloaded' )];
+		$rest_route = get_rest_url(null,'quads-adsense/import_old_db/');
+		$default  = array('status' => 'inactive','current_table'=>'quads_stats','sub_table'=>'','offset'=> 50,'imported' => 0,'total' => 0);
+		$quads_import_details = get_option('quads_import_data',$default);
+		$quads_import_details['status']  = 'active';
+	   update_option('quads_import_data',$quads_import_details);
+		  $response = wp_remote_get(esc_url($rest_route),
+				array(
+					'timeout'     => 3,
+					'httpversion' => '1.1',
+				)
+			);
+	 }else{	
+		$quads_cron_manual=['status'=>'fail','msg'=> esc_html__( 'You are not allowed to perform this action.', 'quick-adsense-reloaded' )];
+	 }
+
 	 echo json_encode($quads_cron_manual);
 	 wp_die();
  
@@ -2558,12 +2564,17 @@ function quads_insert_reports_newdb($params){
 
  function quads_hide_newdb_migration(){
 	 $quads_res=['status'=>'fail'];
-	 if(current_user_can('manage_options') && isset($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'quads_newdb_nonce')){
+	 if(! isset($_POST['nonce']) || !wp_verify_nonce(sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'quads_newdb_nonce')){
+		$quads_res=['status'=>'fail'];
+	 }
+	 if(current_user_can('manage_options')){
 	 
 		if(update_option('quads_v2_db_no_import',true)){
 			$quads_res['status'] = 'success';
 		}
+	
 	 }
+
 	 echo json_encode($quads_res);
 	 wp_die();
  

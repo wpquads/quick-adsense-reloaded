@@ -897,6 +897,10 @@ if ( $quads_disable_ads ) {
     add_shortcode( 'quads_disable_ads_form', 'quads_ads_disable_form' );
 }
 function quads_custom_premimum_memeber_login() {
+
+    if(isset($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'member_login_form' ) ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'Invalid request.', 'quick-adsense-reloaded' ) ) );
+    }
     
     if ( isset($_POST['username']) && isset($_POST['password']) && isset($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'member_login_form' ) ) {
         global $wp;
