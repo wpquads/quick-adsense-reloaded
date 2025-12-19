@@ -7,9 +7,9 @@ Donate link: https://wpquads.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, monetize, banner
-Requires at least: 6.2
+Requires at least: 5.0
 Tested up to: 6.9
-Requires PHP: 5.4
+Requires PHP: 7.4
 Stable tag: 2.0.96
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
