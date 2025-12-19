@@ -234,77 +234,121 @@ function quads_admin_newdb_upgrade(){
     </script>';
     }  
 }
-function quads_show_rate_div(){
-
+/**
+ * Display rating notice after plugin has been used for more than 7 days
+ *
+ * Shows a notice asking users to rate the plugin on WordPress.org after
+ * they've been using it for at least a week.
+ *
+ * @since 1.0.9
+ * @return void
+ */
+function quads_show_rate_div() {
 
     $install_date = get_option( 'quads_install_date' );
     $display_date = gmdate( 'Y-m-d h:i:s' );
     $datetime1    = new DateTime( $install_date );
     $datetime2    = new DateTime( $display_date );
-    $diff_intrval = round( ($datetime2->format( 'U' ) - $datetime1->format( 'U' )) / (60 * 60 * 24) );
+    $diff_intrval = round( ( $datetime2->format( 'U' ) - $datetime1->format( 'U' ) ) / ( 60 * 60 * 24 ) );
 
     $rate = get_option( 'quads_rating_div', false );
-    if( $diff_intrval >= 7 && ($rate === "no" || false === $rate || quads_rate_again() ) ) {
-        echo '<div class="quads_fivestar updated " style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;">
-        <p>Awesome, you\'ve been using <strong>WP QUADS</strong> for more than 1 week. <br> May i ask you to give it a <strong>5-star rating</strong> on Wordpress? </br>
-        This will help to spread its popularity and to make this plugin a better one.
-        <br><br>Your help is much appreciated. Thank you very much
-        <ul>
-            <li><a href="https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/" class="thankyou" target="_new" title="Ok, you deserved it" style="font-weight:bold;">Ok, you deserved it</a></li>
-            <li><a href="javascript:void(0);" class="quadsHideRating" title="I already did" style="font-weight:bold;">I already did</a></li>
-            <li><a href="javascript:void(0);" class="quadsHideRating" title="No, not good enough" style="font-weight:bold;">No, not good enough</a></li>
-            <br>
-            <li><a href="javascript:void(0);" class="quadsHideRatingWeek" title="No, not good enough" style="font-weight:bold;">I want to rate it later. Ask me again in a week!</a></li>
-            <li class="spinner" style="float:none;display:list-item;margin:0px;"></li>        
-</ul>
-
-    </div>
-    <script>
-    jQuery( document ).ready(function( $ ) {
-
-    jQuery(\'.quadsHideRating\').click(function(){
-    jQuery(".spinner").addClass("is-active");
-        var data={\'action\':\'quads_hide_rating\'}
-             jQuery.ajax({
-        
-        url: "' . esc_url(admin_url( 'admin-ajax.php' )) . '",
-        type: "post",
-        data: data,
-        dataType: "json",
-        async: !0,
-        success: function(e) {
-            if (e=="success") {
-               jQuery(".spinner").removeClass("is-active");
-               jQuery(\'.quads_fivestar\').slideUp(\'fast\');
-               
-            }
-        }
-         });
-        })
     
-        jQuery(\'.quadsHideRatingWeek\').click(function(){
-        jQuery(".spinner").addClass("is-active");
-        var data={\'action\':\'quads_hide_rating_week\'}
-             jQuery.ajax({
-        
-        url: "' . esc_url(admin_url( 'admin-ajax.php' )) . '",
-        type: "post",
-        data: data,
-        dataType: "json",
-        async: !0,
-        success: function(e) {
-            if (e=="success") {
-               jQuery(".spinner").removeClass("is-active");
-               jQuery(\'.quads_fivestar\').slideUp(\'fast\');
-               
-            }
-        }
-         });
-        })
-    
-    });
-    </script>
-    ';
+    // Show notice if 7+ days have passed and rating hasn't been dismissed
+    if ( $diff_intrval >= 7 && ( $rate === 'no' || false === $rate || quads_rate_again() ) ) {
+        $review_url = 'https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/';
+        $ajax_url   = admin_url( 'admin-ajax.php' );
+        ?>
+        <div class="quads_fivestar updated" style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;">
+            <p>
+                <?php
+                echo esc_html__( 'Awesome, you\'ve been using', 'quick-adsense-reloaded' ) . ' ';
+                echo '<strong>' . esc_html__( 'WP QUADS', 'quick-adsense-reloaded' ) . '</strong> ';
+                echo esc_html__( 'for more than 1 week.', 'quick-adsense-reloaded' );
+                ?>
+                <br>
+                <?php echo esc_html__( 'May i ask you to give it a', 'quick-adsense-reloaded' ); ?>
+                <strong><?php echo esc_html__( '5-star rating', 'quick-adsense-reloaded' ); ?></strong>
+                <?php echo esc_html__( 'on WordPress?', 'quick-adsense-reloaded' ); ?>
+                <br>
+                <?php echo esc_html__( 'This will help to spread its popularity and to make this plugin a better one.', 'quick-adsense-reloaded' ); ?>
+                <br><br>
+                <?php echo esc_html__( 'Your help is much appreciated. Thank you very much', 'quick-adsense-reloaded' ); ?>
+            </p>
+            <ul>
+                <li>
+                    <a href="<?php echo esc_url( $review_url ); ?>" class="thankyou" target="_blank" rel="noopener noreferrer" title="<?php echo esc_attr__( 'Ok, you deserved it', 'quick-adsense-reloaded' ); ?>" style="font-weight:bold;">
+                        <?php echo esc_html__( 'Ok, you deserved it', 'quick-adsense-reloaded' ); ?>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="quadsHideRating" title="<?php echo esc_attr__( 'I already did', 'quick-adsense-reloaded' ); ?>" style="font-weight:bold;">
+                        <?php echo esc_html__( 'I already did', 'quick-adsense-reloaded' ); ?>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="quadsHideRating" title="<?php echo esc_attr__( 'No, not good enough', 'quick-adsense-reloaded' ); ?>" style="font-weight:bold;">
+                        <?php echo esc_html__( 'No, not good enough', 'quick-adsense-reloaded' ); ?>
+                    </a>
+                </li>
+                <br>
+                <li>
+                    <a href="javascript:void(0);" class="quadsHideRatingWeek" title="<?php echo esc_attr__( 'I want to rate it later. Ask me again in a week!', 'quick-adsense-reloaded' ); ?>" style="font-weight:bold;">
+                        <?php echo esc_html__( 'I want to rate it later. Ask me again in a week!', 'quick-adsense-reloaded' ); ?>
+                    </a>
+                </li>
+                <li class="spinner" style="float:none;display:list-item;margin:0px;"></li>
+            </ul>
+        </div>
+        <script type="text/javascript">
+        jQuery( document ).ready(function( $ ) {
+            $( '.quadsHideRating' ).click(function() {
+                $( '.spinner' ).addClass( 'is-active' );
+                var data = {
+                    'action': 'quads_hide_rating'
+                };
+                jQuery.ajax({
+                    url: <?php echo wp_json_encode( $ajax_url ); ?>,
+                    type: 'post',
+                    data: data,
+                    dataType: 'json',
+                    async: true,
+                    success: function( response ) {
+                        if ( response && response.success ) {
+                            $( '.spinner' ).removeClass( 'is-active' );
+                            $( '.quads_fivestar' ).slideUp( 'fast' );
+                        }
+                    },
+                    error: function() {
+                        $( '.spinner' ).removeClass( 'is-active' );
+                    }
+                });
+            });
+
+            $( '.quadsHideRatingWeek' ).click(function() {
+                $( '.spinner' ).addClass( 'is-active' );
+                var data = {
+                    'action': 'quads_hide_rating_week'
+                };
+                jQuery.ajax({
+                    url: <?php echo wp_json_encode( $ajax_url ); ?>,
+                    type: 'post',
+                    data: data,
+                    dataType: 'json',
+                    async: true,
+                    success: function( response ) {
+                        if ( response && response.success ) {
+                            $( '.spinner' ).removeClass( 'is-active' );
+                            $( '.quads_fivestar' ).slideUp( 'fast' );
+                        }
+                    },
+                    error: function() {
+                        $( '.spinner' ).removeClass( 'is-active' );
+                    }
+                });
+            });
+        });
+        </script>
+        <?php
     }
 }
 
@@ -321,28 +365,44 @@ function quads_show_rate_div(){
  * @return json string
  * 
  */
-
 function quads_hide_rating_div() {
-    if( ! current_user_can( 'manage_options' ) ) { return; }
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to perform this action.', 'quick-adsense-reloaded' ) ) );
+        return;
+    }
+
     update_option( 'quads_rating_div', 'yes' );
     delete_option( 'quads_date_next_notice' );
-    echo json_encode( array("success") );
-    exit;
+    
+    wp_send_json_success();
 }
 
 add_action( 'wp_ajax_quads_hide_rating', 'quads_hide_rating_div' );
 
 /**
- * Write the timestamp when rating notice will be opened again
+ * Hide rating notice and schedule it to show again after one week
+ *
+ * AJAX handler that dismisses the rating notice and sets a timestamp
+ * to show it again after 7 days.
+ *
+ * @since 1.0.9
+ * @package QUADS
+ * @subpackage Admin/Notices
+ * @return void
  */
 function quads_hide_rating_notice_week() {
-    if( ! current_user_can( 'manage_options' ) ) { return; }
-    $nextweek   = time() + (7 * 24 * 60 * 60);
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to perform this action.', 'quick-adsense-reloaded' ) ) );
+        return;
+    }
+
+    $nextweek   = time() + WEEK_IN_SECONDS;
     $human_date = gmdate( 'Y-m-d h:i:s', $nextweek );
+    
     update_option( 'quads_date_next_notice', $human_date );
     update_option( 'quads_rating_div', 'yes' );
-    echo json_encode( array("success") );
-    exit;
+    
+    wp_send_json_success();
 }
 
 add_action( 'wp_ajax_quads_hide_rating_week', 'quads_hide_rating_notice_week' );

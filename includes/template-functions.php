@@ -1889,7 +1889,7 @@ function quads_add_sticky_script(){
                 {
                     $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
                     $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
-                    wp_enqueue_script('wp_qds_sticky', $js_dir . 'wp_qds_sticky'.$suffix .'.js', array('jquery'), QUADS_VERSION, false );
+                    wp_enqueue_script('quads-wp-qds-sticky', $js_dir . 'wp_qds_sticky'.$suffix .'.js', array('jquery'), QUADS_VERSION, false );
                     break;
                 }
                 else{
@@ -2558,7 +2558,7 @@ function quads_parse_popup_ads($content) {
         $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
         // These have to be global
-        wp_enqueue_script( 'wp_qds_popup', $js_dir . 'wp_qds_popup' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+        wp_enqueue_script( 'quads-wp-qds-popup', $js_dir . 'wp_qds_popup' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
 
     }else{
         $content = quads_replace_ads_new( $content, 'CusRot' . $ad_id, $temp_array[$ad_code],$enabled_on_amp);
@@ -2665,7 +2665,7 @@ function quads_parse_video_ads($content) {
         $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
         // These have to be global
-        wp_enqueue_script( 'wp_qds_video', $js_dir . 'wp_qds_video' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+        wp_enqueue_script( 'quads-wp-qds-video', $js_dir . 'wp_qds_video' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
 
     }
 }
@@ -2747,7 +2747,7 @@ function quads_parse_parallax_ads($content) {
         $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
         // These have to be global
-        wp_enqueue_script( 'wp_qds_parallax', $js_dir . 'wp_qds_parallax' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+        wp_enqueue_script( 'quads-wp-qds-parallax', $js_dir . 'wp_qds_parallax' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
 
     }
 }
@@ -2822,7 +2822,7 @@ function quads_parse_half_page_ads($content) {
         $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
         // These have to be global
-        wp_enqueue_script( 'wp_qds_onload_ads', $js_dir . 'wp_qds_onload_ads' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+        wp_enqueue_script( 'quads-wp-qds-onload-ads', $js_dir . 'wp_qds_onload_ads' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
 
     }
 }

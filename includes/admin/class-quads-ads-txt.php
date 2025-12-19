@@ -4,7 +4,7 @@ namespace quads;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class adsTxt {
+class Quads_Ads_Txt {
 
     /**
      * Content to add

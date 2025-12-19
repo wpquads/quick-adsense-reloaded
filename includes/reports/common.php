@@ -285,44 +285,62 @@ function quads_has_token( $adsense_id = '' ) {
 	return $has_token;
 }
 
-function quads_adsense_get_report_abtesting_data(){
+/**
+ * Get A/B testing report data for REST API
+ *
+ * Retrieves A/B testing statistics from the database and returns them
+ * as formatted HTML table for display in the admin interface.
+ *
+ * @since 1.0.0
+ * @param WP_REST_Request $request REST API request object
+ * @return WP_REST_Response|WP_Error REST API response with table HTML or error
+ */
+function quads_adsense_get_report_abtesting_data( $request ) {
 	global $wpdb;
-	$results = wp_cache_get( 'quads_abtesting_stats', 'quick-adsense-reloaded' );
+
+	$cache_key = 'quads_abtesting_stats';
+	$results   = wp_cache_get( $cache_key, 'quick-adsense-reloaded' );
+
 	if ( false === $results ) {
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-		$results = $wpdb->get_results( "SELECT * FROM `{$wpdb->prefix}quads_stats` ");
-		wp_cache_set( 'quads_abtesting_stats', $results, 'quick-adsense-reloaded', 3600 );
+		$table_name = $wpdb->prefix . 'quads_stats';
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$results = $wpdb->get_results( "SELECT * FROM `{$table_name}`" );
+		wp_cache_set( $cache_key, $results, 'quick-adsense-reloaded', 3600 );
 	}
-	if(!empty($results)) {    
-    $quads_table = "<table id=\"blocked_id_table\">"; 
-    $quads_table.= "<tbody>";
-	$quads_table.= '<tr class="b_in_" style="font-weight: bold;">
-	<td class="b_in_">ID</td>
-	<td class="b_in_">Beginning Of Post</td>
-	<td class="b_in_">End Of Post</td>
-	<td class="b_in_">Middle Of Post</td>
-	<td class="b_in_">After more Tag</td>
-  </tr>';
-    foreach($results as $row){   
-    $userip = $row->ad_clicks;               
-    $quads_table.= '
-	<tr class="b_in">
-                              <td class="b_in" >'.$row->id.'</td>
-                              <td class="b_in">'.(isset($row->Beginning_of_post)?$row->Beginning_of_post:'').'</td>
-                              <td class="b_in">'.(isset($row->End_of_post)?$row->End_of_post:'').'</td>
-                              <td class="b_in">'.(isset($row->Middle_of_post)?$row->Middle_of_post:'').'</td>
-                              <td class="b_in">'.(isset($row->After_more_tag)?$row->After_more_tag:'').'</td>
-	</tr>
-	'; 
-    }
-    $quads_table.= "</tbody>";
-    $quads_table.= "</table>"; 
-}
-echo json_encode(
-	array(
-		'status'    => 'success',
-		'success_msg' => $quads_table,
-	));
+
+	$quads_table = '';
+
+	if ( ! empty( $results ) ) {
+		$quads_table = '<table id="blocked_id_table">';
+		$quads_table .= '<tbody>';
+		$quads_table .= '<tr class="b_in_" style="font-weight: bold;">';
+		$quads_table .= '<td class="b_in_">' . esc_html__( 'ID', 'quick-adsense-reloaded' ) . '</td>';
+		$quads_table .= '<td class="b_in_">' . esc_html__( 'Beginning Of Post', 'quick-adsense-reloaded' ) . '</td>';
+		$quads_table .= '<td class="b_in_">' . esc_html__( 'End Of Post', 'quick-adsense-reloaded' ) . '</td>';
+		$quads_table .= '<td class="b_in_">' . esc_html__( 'Middle Of Post', 'quick-adsense-reloaded' ) . '</td>';
+		$quads_table .= '<td class="b_in_">' . esc_html__( 'After more Tag', 'quick-adsense-reloaded' ) . '</td>';
+		$quads_table .= '</tr>';
+
+		foreach ( $results as $row ) {
+			$quads_table .= '<tr class="b_in">';
+			$quads_table .= '<td class="b_in">' . esc_html( $row->id ) . '</td>';
+			$quads_table .= '<td class="b_in">' . esc_html( isset( $row->Beginning_of_post ) ? $row->Beginning_of_post : '' ) . '</td>';
+			$quads_table .= '<td class="b_in">' . esc_html( isset( $row->End_of_post ) ? $row->End_of_post : '' ) . '</td>';
+			$quads_table .= '<td class="b_in">' . esc_html( isset( $row->Middle_of_post ) ? $row->Middle_of_post : '' ) . '</td>';
+			$quads_table .= '<td class="b_in">' . esc_html( isset( $row->After_more_tag ) ? $row->After_more_tag : '' ) . '</td>';
+			$quads_table .= '</tr>';
+		}
+
+		$quads_table .= '</tbody>';
+		$quads_table .= '</table>';
+	}
+
+	return rest_ensure_response(
+		array(
+			'status'     => 'success',
+			'success_msg' => $quads_table,
+		)
+	);
 }
 
 function quads_adsense_get_report_data($request_data){

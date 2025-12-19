@@ -215,7 +215,7 @@ function quads_common_head_code(){
                 echo '<script async="async" data-noptimize="1" data-cfasync="false" src="//scripts.mediavine.com/tags/'.esc_attr($ads['mediavine_site_id']).'.js?ver=5.2.3"></script>';
             }else if($ads['ad_type']== 'outbrain'){
                 // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
-                wp_enqueue_script( 'outbrain-js', 'http://widgets.outbrain.com/outbrain.js', array(), QUADS_VERSION, false );
+                wp_enqueue_script( 'quads-outbrain-js', 'http://widgets.outbrain.com/outbrain.js', array(), QUADS_VERSION, false );
             }else if($ads['ad_type']== 'adpushup'){
                 echo '<script data-cfasync="false" type="text/javascript">
                 (function(w, d) {
@@ -1143,7 +1143,7 @@ function quads_render_carousel_ads_async($id) {
     $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
     // These have to be global
-    wp_enqueue_script('wp_qds_carousel', $js_dir . 'wp_qds_carousel'.$suffix .'.js', array(), QUADS_VERSION, false );    
+    wp_enqueue_script('quads-wp-qds-carousel', $js_dir . 'wp_qds_carousel'.$suffix .'.js', array(), QUADS_VERSION, false );    
     return apply_filters( 'quads_render_carousel_ads_async', $html );
 
 }
@@ -1214,7 +1214,7 @@ function quads_render_floating_ads_async($id) {
     $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
     // These have to be global
-    wp_enqueue_script( 'wp_qds_floating', $js_dir . 'wp_qds_floating' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+    wp_enqueue_script( 'quads-wp-qds-floating', $js_dir . 'wp_qds_floating' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
     return apply_filters( 'quads_render_floating__ads_async', $html );
 
 }

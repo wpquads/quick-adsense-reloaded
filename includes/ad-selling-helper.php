@@ -566,10 +566,10 @@ function quads_ads_buy_form() {
     </form>
    
     <?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript
-        wp_enqueue_script( 'stripe-js', 'https://js.stripe.com/v3/', array(), QUADS_VERSION, false );
+        wp_enqueue_script( 'quads-stripe-js', QUADS_PLUGIN_URL . 'assets/js/stripe.v3.js', array(), QUADS_VERSION, false );
     }?>
     <?php if($payment_gateway=='paystack'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript
-        wp_enqueue_script( 'paystack-js', 'https://js.paystack.co/v1/inline.js', array(), QUADS_VERSION, false );
+        wp_enqueue_script( 'quads-paystack-js', QUADS_PLUGIN_URL . 'assets/js/paystack.v1.js', array(), QUADS_VERSION, false );
     }?>
     <script>
    
@@ -1019,24 +1019,35 @@ function quads_get_premimum_member_ad_space_on_id($id){
     }
     return $results;
 } 
-function quads_sellable_premium_member_page(){
-    ob_start();
-    
-?>
-<style>
-    /*! This file is auto-generated */
-    #login form p.submit,.login *,body,html{margin:0;padding:0}.login form,.login h1 a{font-weight:400;overflow:hidden}.login form,.login form .input,.login form input[type=checkbox],.login input[type=text]{background:#fff}body,html{height:100%}body{background:#f0f0f1;min-width:0;color:#3c434a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;font-size:13px;line-height:1.4}.login label,p{line-height:1.5}a{cursor:pointer;color:#2271b1;transition-property:border,background,color;transition-duration:.05s;transition-timing-function:ease-in-out;outline:0}a:active,a:hover{color:#135e96}a:focus{color:#043959;box-shadow:0 0 0 2px #2271b1;outline:transparent solid 2px}#loginform p.submit{border:none;margin:-10px 0 20px}.login .input::-ms-clear{display:none}.login .wp-pwd{position:relative}.login form{margin-top:20px;margin-left:0;padding:26px 24px;border:1px solid #c3c4c7;box-shadow:0 1px 3px rgba(0,0,0,.04)}.login .button-primary{float:right;background: #2271b1;
-    cursor: pointer;
-    border-color: #2271b1;
-    color: #fff;
-    text-decoration: none;
-    text-shadow: none;min-height: 32px;
-    line-height: 2.30769231;
-    padding: 0 12px;}#login form p{margin-bottom:0}.login label{font-size:14px;display:inline-block;margin-bottom:3px}.login h1{text-align:center}.login h1 a{background-image:url(../images/w-logo-blue.png?ver=20131202);background-image:none,url(../images/wordpress-logo.svg?ver=20131107);background-size:84px;background-position:center top;background-repeat:no-repeat;color:#3c434a;height:84px;font-size:20px;line-height:1.3;margin:0 auto 25px;padding:0;text-decoration:none;width:84px;text-indent:-9999px;outline:0;display:block}#login{width:320px;padding:5% 0 0;margin:auto}.login form .input,.login input[type=password],.login input[type=text],.login input[type=url],.login input[type=file],.login textarea{font-size:24px;line-height:1.33333333;width:95%;border-width:.0625rem;padding:.1875rem .3125rem;margin:0 6px 16px 0;min-height:40px;max-height:none}.login input.password-input{font-family:Consolas,Monaco,monospace}.wp-login-logo{color:#3c434a;font-size:20px}.preview-ad-space{background: #fff}.preview-ad-space h3{margin:0px;text-align:center}
-</style>
-<?php 
-$user_id = is_user_logged_in() ? get_current_user_id() : 0;
-if($user_id==0){?>
+/**
+ * Display premium member page shortcode
+ *
+ * Renders a login form for non-logged-in users or displays ad space management
+ * interface for logged-in premium members.
+ *
+ * @since 2.0.86
+ * @return string HTML output for the premium member page
+ */
+function quads_sellable_premium_member_page() {
+	ob_start();
+
+	$user_id = is_user_logged_in() ? get_current_user_id() : 0;
+
+	?>
+	<style>
+		/*! This file is auto-generated */
+		#login form p.submit,.login *,body,html{margin:0;padding:0}.login form,.login h1 a{font-weight:400;overflow:hidden}.login form,.login form .input,.login form input[type=checkbox],.login input[type=text]{background:#fff}body,html{height:100%}body{background:#f0f0f1;min-width:0;color:#3c434a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;font-size:13px;line-height:1.4}.login label,p{line-height:1.5}a{cursor:pointer;color:#2271b1;transition-property:border,background,color;transition-duration:.05s;transition-timing-function:ease-in-out;outline:0}a:active,a:hover{color:#135e96}a:focus{color:#043959;box-shadow:0 0 0 2px #2271b1;outline:transparent solid 2px}#loginform p.submit{border:none;margin:-10px 0 20px}.login .input::-ms-clear{display:none}.login .wp-pwd{position:relative}.login form{margin-top:20px;margin-left:0;padding:26px 24px;border:1px solid #c3c4c7;box-shadow:0 1px 3px rgba(0,0,0,.04)}.login .button-primary{float:right;background: #2271b1;
+		cursor: pointer;
+		border-color: #2271b1;
+		color: #fff;
+		text-decoration: none;
+		text-shadow: none;min-height: 32px;
+		line-height: 2.30769231;
+		padding: 0 12px;}#login form p{margin-bottom:0}.login label{font-size:14px;display:inline-block;margin-bottom:3px}.login h1{text-align:center}.login h1 a{background-image:url(../images/w-logo-blue.png?ver=20131202);background-image:none,url(../images/wordpress-logo.svg?ver=20131107);background-size:84px;background-position:center top;background-repeat:no-repeat;color:#3c434a;height:84px;font-size:20px;line-height:1.3;margin:0 auto 25px;padding:0;text-decoration:none;width:84px;text-indent:-9999px;outline:0;display:block}#login{width:320px;padding:5% 0 0;margin:auto}.login form .input,.login input[type=password],.login input[type=text],.login input[type=url],.login input[type=file],.login textarea{font-size:24px;line-height:1.33333333;width:95%;border-width:.0625rem;padding:.1875rem .3125rem;margin:0 6px 16px 0;min-height:40px;max-height:none}.login input.password-input{font-family:Consolas,Monaco,monospace}.wp-login-logo{color:#3c434a;font-size:20px}.preview-ad-space{background: #fff}.preview-ad-space h3{margin:0px;text-align:center}
+	</style>
+	<?php
+	if ( 0 === $user_id ) {
+		?>
 <div class="login">
     <div id="login">
         <h1 class="wp-login-logo">Member Login</h1>
@@ -1052,152 +1063,169 @@ if($user_id==0){?>
                     <input type="password" name="password" id="user_pass" class="input password-input" value="" size="20" autocomplete="current-password" spellcheck="false" required="required">
                 </div>
             </div> 
-            <p class="submit">
-                <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce( 'member_login_form' ));?>" />
-                <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="Log In">
-            </p>
-        </form>
-    </div>
+			<p class="submit">
+				<input type="hidden" name="nonce" value="<?php echo esc_attr( wp_create_nonce( 'member_login_form' ) ); ?>" />
+				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php echo esc_attr__( 'Log In', 'quick-adsense-reloaded' ); ?>">
+			</p>
+		</form>
+	</div>
 </div>
-<?php 
-quads_custom_premimum_memeber_login();
-// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-}else if(!isset($_GET['modify_id'])){
-    $ad_space_list = quads_get_premimum_member_ad_space($user_id);
-    $quads_settings = get_option( 'quads_settings' );
-    $da_page_id = isset($quads_settings['payment_page']) ? $quads_settings['payment_page'] : 0;
-    $payment_page = get_permalink( $da_page_id );
-?>
-<style>
-    #prem-member-subs-table {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
+		<?php
+		quads_custom_premimum_memeber_login();
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	} elseif ( ! isset( $_GET['modify_id'] ) ) {
+		$ad_space_list = quads_get_premimum_member_ad_space( $user_id );
+		$quads_settings = get_option( 'quads_settings' );
+		$da_page_id     = isset( $quads_settings['payment_page'] ) ? $quads_settings['payment_page'] : 0;
+		$payment_page   = get_permalink( $da_page_id );
+		?>
+		<style>
+			#prem-member-subs-table {
+				font-family: Arial, Helvetica, sans-serif;
+				border-collapse: collapse;
+				width: 100%;
+			}
 
-#prem-member-subs-table td, #prem-member-subs-table th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
+			#prem-member-subs-table td, #prem-member-subs-table th {
+				border: 1px solid #ddd;
+				padding: 8px;
+			}
 
-#prem-member-subs-table tr:nth-child(even){background-color: #f2f2f2;}
+			#prem-member-subs-table tr:nth-child(even){background-color: #f2f2f2;}
 
-#prem-member-subs-table th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #b9b9b9;
-  color: white;
-  white-space: nowrap;
-}
-</style>
-<div class="login preview-ad-space">
-    
-    
-    <table id="prem-member-subs-table">
-        <thead>
-            <th><?php echo esc_html__('Ad Space Name','quick-adsense-reloaded');?></th>
-            <th><?php echo esc_html__('Add Content','quick-adsense-reloaded');?></th>
-            <th><?php echo esc_html__('Add Link','quick-adsense-reloaded');?></th>
-            <th><?php echo esc_html__('Duration','quick-adsense-reloaded');?></th>
-            <th><?php echo esc_html__('Status','quick-adsense-reloaded');?></th>
-            <th></th>
-        </thead>
-        <tbody>
-        <?php
-        foreach ($ad_space_list as $key => $value) {
-    ?>
-    <tr>
-        <td><?php echo esc_attr($value->ad_name)?></td>
-        <td><?php echo esc_attr($value->ad_content)?></td>
-        <td><?php echo esc_url($value->ad_link)?></td>
-        <td>
-            <p style="white-space:nowrap"><?php echo esc_attr($value->display_date)?></p>
-            <p style="color:red"><?php echo esc_attr($value->expire_message)?></p>
-        </td>
-        <td><?php echo esc_attr($value->payment_status)?></td>
-        <td style="display:flex">
-            <a href="?modify_id=<?php echo intval($value->id)?>&renew_id=<?php echo intval($value->ad_id)?>"><input type="button" class="button button-primary button-large" value="Modify"></a>
-            <a style="margin-left:5px" href="<?php echo esc_url($payment_page).'?ad_slot_id='.intval($value->ad_id)?>"><input type="button" class="button button-primary button-large" value="Renew"></a>
-        </td>
-    </tr>
-<?php } 
-if ( count( $ad_space_list )==0 ) {
-?>
-        <tr>
-            <td colspan="6" style="text-align:center">
-                <p>
-                    <?php echo esc_html__( 'No Ad Space purchase yet, Please click the below button to purchase ad space ','quick-adsense-reloaded' ); ?>
-                </p>
-                
-                <a href="<?php echo esc_url($payment_page)?>"><input type="button" class="button button-primary button-large" style="float:none" value="<?php echo esc_html__( 'Purchase Ad Space','quick-adsense-reloaded' );?>"></a>
-            </td>
-        </tr>
-<?php
-}
-?>
-    </tbody>
-    </table>
-    
-    </div>
-<?php
-}
-// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-if( isset( $_GET['modify_id'] ) && !empty( $_GET['modify_id'] ) && isset( $_GET['renew_id'] )  && !empty( $_GET['renew_id'] ) ){
-    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-    $modify_id = sanitize_text_field( wp_unslash( $_GET['modify_id'] ) );
-    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-    $renew_id = sanitize_text_field( wp_unslash( $_GET['renew_id'] ) );
-    $ad_space_list = quads_get_premimum_member_ad_space_on_id( $modify_id );
-    $asdata = $ad_space_list[0];
-    $quads_settings = get_option( 'quads_settings' );
-    $da_page_id = isset($quads_settings['payment_page']) ? $quads_settings['payment_page'] : 0;
-    $payment_page = get_permalink( $da_page_id );
-?>
-    <div class="login preview-ad-space">
-    <form name="loginform" id="loginform" method="post" enctype="multipart/form-data">
-        <h3><?php echo esc_html__( 'Preview Ad Space','quick-adsense-reloaded' ); ?></h3> 
-        <div>
-            <label for="ad_link"><?php echo esc_html__( 'Ad Link','quick-adsense-reloaded' ); ?></label> 
-            <input type="url" name="ad_link" id="ad_link" required placeholder="Ad Link" value=<?php echo esc_url($asdata->ad_link)?>>
-            <input type="hidden" name="id" id="id"  value=<?php echo intval($asdata->id)?>>
-        </div>
-        <div>
-            <label for="ad_content"><?php echo esc_html__( 'Ad Content','quick-adsense-reloaded' ); ?></label>
-            <textarea name="ad_content" id="ad_content" rows="4"><?php echo esc_attr($asdata->ad_content)?></textarea>
-        </div>
-        <div><label for="ad_image"><?php echo esc_html__( 'Ad Image','quick-adsense-reloaded' ); ?></label></div>
-        <div>
-            <?php if($asdata->ad_image!=""){ // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
-                <img id="ad_image_src" src="<?php echo esc_url($asdata->ad_image)?>"/>
-            <?php }?>
-            <input type="file" name="ad_image" id="ad_image" accept="image/*"  onchange="quadsOnFileSelected(event)">
-        </div>
-        <p class="submit">
-        <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce( 'member_subscription' ));?>" />
+			#prem-member-subs-table th {
+				padding-top: 12px;
+				padding-bottom: 12px;
+				text-align: left;
+				background-color: #b9b9b9;
+				color: white;
+				white-space: nowrap;
+			}
+		</style>
+		<div class="login preview-ad-space">
+			<table id="prem-member-subs-table">
+				<thead>
+					<tr>
+						<th><?php echo esc_html__( 'Ad Space Name', 'quick-adsense-reloaded' ); ?></th>
+						<th><?php echo esc_html__( 'Add Content', 'quick-adsense-reloaded' ); ?></th>
+						<th><?php echo esc_html__( 'Add Link', 'quick-adsense-reloaded' ); ?></th>
+						<th><?php echo esc_html__( 'Duration', 'quick-adsense-reloaded' ); ?></th>
+						<th><?php echo esc_html__( 'Status', 'quick-adsense-reloaded' ); ?></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+					if ( ! empty( $ad_space_list ) ) {
+						foreach ( $ad_space_list as $key => $value ) {
+							$modify_url = add_query_arg(
+								array(
+									'modify_id' => intval( $value->id ),
+									'renew_id'  => intval( $value->ad_id ),
+								),
+								get_permalink()
+							);
+							$renew_url = add_query_arg(
+								array( 'ad_slot_id' => intval( $value->ad_id ) ),
+								$payment_page
+							);
+							?>
+							<tr>
+								<td><?php echo esc_html( $value->ad_name ); ?></td>
+								<td><?php echo esc_html( $value->ad_content ); ?></td>
+								<td><?php echo esc_url( $value->ad_link ); ?></td>
+								<td>
+									<p style="white-space:nowrap"><?php echo esc_html( $value->display_date ); ?></p>
+									<p style="color:red"><?php echo esc_html( $value->expire_message ); ?></p>
+								</td>
+								<td><?php echo esc_html( $value->payment_status ); ?></td>
+								<td style="display:flex">
+									<a href="<?php echo esc_url( $modify_url ); ?>"><input type="button" class="button button-primary button-large" value="<?php echo esc_attr__( 'Modify', 'quick-adsense-reloaded' ); ?>"></a>
+									<a style="margin-left:5px" href="<?php echo esc_url( $renew_url ); ?>"><input type="button" class="button button-primary button-large" value="<?php echo esc_attr__( 'Renew', 'quick-adsense-reloaded' ); ?>"></a>
+								</td>
+							</tr>
+							<?php
+						}
+					} else {
+						?>
+						<tr>
+							<td colspan="6" style="text-align:center">
+								<p>
+									<?php echo esc_html__( 'No Ad Space purchase yet, Please click the below button to purchase ad space ', 'quick-adsense-reloaded' ); ?>
+								</p>
+								<a href="<?php echo esc_url( $payment_page ); ?>"><input type="button" class="button button-primary button-large" style="float:none" value="<?php echo esc_attr__( 'Purchase Ad Space', 'quick-adsense-reloaded' ); ?>"></a>
+							</td>
+						</tr>
+						<?php
+					}
+					?>
+				</tbody>
+			</table>
+		</div>
+		<?php
+	}
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ( isset( $_GET['modify_id'] ) && ! empty( $_GET['modify_id'] ) && isset( $_GET['renew_id'] ) && ! empty( $_GET['renew_id'] ) ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$modify_id = sanitize_text_field( wp_unslash( $_GET['modify_id'] ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$renew_id     = sanitize_text_field( wp_unslash( $_GET['renew_id'] ) );
+		$ad_space_list = quads_get_premimum_member_ad_space_on_id( $modify_id );
 
-            <input type="submit" name="submit-update-member-ad-space" class="button button-primary button-large" value="<?php echo esc_html__( 'Update Information','quick-adsense-reloaded' );?>" style="cursor:pointer">
- 
-            <a href="<?php echo esc_url($payment_page);?>?ad_slot_id=<?php echo intval($renew_id)?>"><input type="button"  class="button button-primary button-large" value="<?php echo esc_html__( 'Renew','quick-adsense-reloaded' );?>"></a>
-        </p>
-    </form>
-    </div>
-    
-    <script>
-        function quadsOnFileSelected(event) {
-            
-            var selectedFile = event.target.files[0];
-            let url = window.URL.createObjectURL(selectedFile);
-            
-            document.getElementById('ad_image_src').setAttribute('src',url);
-            
-        }
-    </script>
-<?php 
-quads_update_member_subscription();
-}?>
-<?php
-return ob_get_clean();
+		if ( ! empty( $ad_space_list ) && isset( $ad_space_list[0] ) ) {
+			$asdata         = $ad_space_list[0];
+			$quads_settings = get_option( 'quads_settings' );
+			$da_page_id     = isset( $quads_settings['payment_page'] ) ? $quads_settings['payment_page'] : 0;
+			$payment_page   = get_permalink( $da_page_id );
+			$renew_url      = add_query_arg( array( 'ad_slot_id' => intval( $renew_id ) ), $payment_page );
+			?>
+			<div class="login preview-ad-space">
+				<form name="loginform" id="loginform" method="post" enctype="multipart/form-data">
+					<h3><?php echo esc_html__( 'Preview Ad Space', 'quick-adsense-reloaded' ); ?></h3>
+					<div>
+						<label for="ad_link"><?php echo esc_html__( 'Ad Link', 'quick-adsense-reloaded' ); ?></label>
+						<input type="url" name="ad_link" id="ad_link" required placeholder="<?php echo esc_attr__( 'Ad Link', 'quick-adsense-reloaded' ); ?>" value="<?php echo esc_url( $asdata->ad_link ); ?>">
+						<input type="hidden" name="id" id="id" value="<?php echo intval( $asdata->id ); ?>">
+					</div>
+					<div>
+						<label for="ad_content"><?php echo esc_html__( 'Ad Content', 'quick-adsense-reloaded' ); ?></label>
+						<textarea name="ad_content" id="ad_content" rows="4"><?php echo esc_html( $asdata->ad_content ); ?></textarea>
+					</div>
+					<div>
+						<label for="ad_image"><?php echo esc_html__( 'Ad Image', 'quick-adsense-reloaded' ); ?></label>
+					</div>
+					<div>
+						<?php if ( ! empty( $asdata->ad_image ) ) { // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
+							<img id="ad_image_src" src="<?php echo esc_url( $asdata->ad_image ); ?>" alt="<?php echo esc_attr__( 'Ad Image Preview', 'quick-adsense-reloaded' ); ?>"/>
+						<?php } ?>
+						<input type="file" name="ad_image" id="ad_image" accept="image/*" onchange="quadsOnFileSelected(event)">
+					</div>
+					<p class="submit">
+						<input type="hidden" name="nonce" value="<?php echo esc_attr( wp_create_nonce( 'member_subscription' ) ); ?>" />
+						<input type="submit" name="submit-update-member-ad-space" class="button button-primary button-large" value="<?php echo esc_attr__( 'Update Information', 'quick-adsense-reloaded' ); ?>" style="cursor:pointer">
+						<a href="<?php echo esc_url( $renew_url ); ?>"><input type="button" class="button button-primary button-large" value="<?php echo esc_attr__( 'Renew', 'quick-adsense-reloaded' ); ?>"></a>
+					</p>
+				</form>
+			</div>
+
+			<script type="text/javascript">
+				function quadsOnFileSelected(event) {
+					var selectedFile = event.target.files[0];
+					if ( selectedFile ) {
+						var url = window.URL.createObjectURL( selectedFile );
+						var imgElement = document.getElementById('ad_image_src');
+						if ( imgElement ) {
+							imgElement.setAttribute('src', url);
+						}
+					}
+				}
+			</script>
+			<?php
+			quads_update_member_subscription();
+		}
+	}
+
+	return ob_get_clean();
 }
 function quads_ads_disable_form(){
     ob_start();
@@ -1511,7 +1539,7 @@ function quads_ads_disable_form(){
     </div>
 </form>
 <?php if($payment_gateway=='stripe'){ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript
-    wp_enqueue_script( 'stripe-js', 'https://js.stripe.com/v3/', array(), QUADS_VERSION, false );
+    wp_enqueue_script( 'quads-stripe-js', QUADS_PLUGIN_URL . 'assets/js/stripe.v3.js', array(), QUADS_VERSION, false );
 }?>
 </div>
 <script>

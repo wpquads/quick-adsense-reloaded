@@ -1,5 +1,5 @@
 <?php
-namespace ElementorQuads\Widgets;
+namespace quads\elementor;
 
 use Elementor\Widget_Base;
 

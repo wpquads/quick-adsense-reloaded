@@ -232,10 +232,10 @@ if(is_object($screens)){
         wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
     }
     wp_enqueue_script( 'quads-jscolor', $js_dir . 'jscolor' . $suffix . '.js', array(), QUADS_VERSION, false );
-    wp_enqueue_script( 'jquery-chosen', $js_dir . 'chosen.jquery' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+    wp_enqueue_script( 'quads-jquery-chosen', $js_dir . 'chosen.jquery' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
     wp_enqueue_script( 'jquery-form' );
     wp_enqueue_style( 'quads-admin', $css_dir . 'quads-admin' . $suffix . '.css',array(), QUADS_VERSION );
-    wp_enqueue_style( 'jquery-chosen', $css_dir . 'chosen' . $suffix . '.css',array(), QUADS_VERSION );
+    wp_enqueue_style( 'quads-jquery-chosen', $css_dir . 'chosen' . $suffix . '.css',array(), QUADS_VERSION );
 
 
 }

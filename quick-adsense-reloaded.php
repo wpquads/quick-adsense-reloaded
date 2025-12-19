@@ -240,7 +240,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/Cron/Cron.php';
          require_once QUADS_PLUGIN_DIR . 'includes/vendor/google/adsense.php';
          require_once QUADS_PLUGIN_DIR . 'includes/class-template.php';
-         require_once QUADS_PLUGIN_DIR . 'includes/admin/adsTxt.php';
+         require_once QUADS_PLUGIN_DIR . 'includes/admin/class-quads-ads-txt.php';
         require_once QUADS_PLUGIN_DIR . 'includes/elementor/widget.php';
         require_once QUADS_PLUGIN_DIR . 'includes/amp-condition-display.php';
          require_once QUADS_PLUGIN_DIR . 'includes/ad-selling-helper.php';

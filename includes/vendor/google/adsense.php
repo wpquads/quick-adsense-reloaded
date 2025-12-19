@@ -156,7 +156,7 @@ class adsense {
 
         foreach ($publisherIds as $publisherId){
             $content = 'google.com, ' . str_replace('ca-', '', $publisherId) . ', DIRECT, f08c47fec0942fa0';
-            $adsTxt = new adsTxt($content, $content);
+            $adsTxt = new Quads_Ads_Txt($content, $content);
             $adsTxt->writeAdsTxt();
         }
         return true;

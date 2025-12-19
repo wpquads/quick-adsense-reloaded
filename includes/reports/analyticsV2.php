@@ -409,8 +409,9 @@ if($log_enabled){
       }
   }
 }
+}
 
-public function quads_get_client_ip() {
+  public function quads_get_client_ip() {
   $ipaddress = '';
   if (isset($_SERVER['HTTP_CLIENT_IP']))
       $ipaddress = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
