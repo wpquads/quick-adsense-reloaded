@@ -257,7 +257,7 @@ public function quads_add_analytics_amp_tags(){
                               <script type="application/json">
                                 {
                                   "requests": {
-                                    "event": "'.esc_url_raw($ad_clicks_url).'&event=${eventId}"
+                                    "event": "'.esc_url($ad_clicks_url).'&event=${eventId}"
                                   },
                                   "triggers": {
                                     "trackAnchorClicks": {
@@ -387,7 +387,7 @@ if($performance_tracking){
 if($log_enabled){
       $referrer_url  = wp_get_referer(); 
       // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-      $actual_link  = (isset($_POST['currentLocation'])) ? esc_url($_POST['currentLocation']):'';
+      $actual_link  = (isset($_POST['currentLocation'])) ? esc_url_raw( sanitize_text_field( wp_unslash( $_POST['currentLocation'] ) ) ):'';
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
         // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
         $actual_link = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";

@@ -73,8 +73,8 @@ function quads_authorize_payment_success(){
             $table_name = $wpdb->prefix . 'quads_adbuy_data';
             $ad_details = wp_cache_get('quads_ad_details_'.$order_id.'_'.$user->ID, 'quick-adsense-reloaded');
             if(false === $ad_details){
-                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-                $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM %s WHERE id = %d AND user_id = %d",$table_name, $order_id, $user->ID ));
+                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
+                $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `{$table_name}` WHERE id = %d AND user_id = %d", $order_id, $user->ID ));
                 wp_cache_set('quads_ad_details_'.$order_id.'_'.$user->ID, $ad_details, 'quick-adsense-reloaded', 3600);
             }
             if (!$ad_details) {
@@ -1503,9 +1503,9 @@ function quads_ads_disable_form(){
 ?>
 <div class="quads-da-payment-box2">
    <div class="quads-da-payment-box3">
-       <p class="quads-da-title1"><?php echo esc_attr($_daduration);?></p>
+       <p class="quads-da-title1"><?php echo esc_html($_daduration);?></p>
        <div class="quads-da-content-box">
-           <p class="quads-da-sub-content">$<?php echo esc_attr($_dacost)?></p>
+           <p class="quads-da-sub-content">$<?php echo esc_html($_dacost)?></p>
            <p class="quads-da-sub-content2"><?php echo esc_html__('Take your browsing to the next level by upgrading to our premium plan, where you can enjoy an uninterrupted, completely ad-free experience, ensuring faster loading times, a cleaner interface, and seamless access to all your favorite content without any distractions','quick-adsense-reloaded');?></p>
        </div>
        <button type="button" class="quads-da-subcribe-btn" onclick="quadsOpenAdsBlockForm()">Subscribe</button>
@@ -2405,8 +2405,8 @@ function quads_handle_paypal_notify(WP_REST_Request $request) {
        
         $ad_details = wp_cache_get('quads_ad_details_'.$order_id.'_'.$user->ID, 'quick-adsense-reloaded');
         if(false === $ad_details){
-            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM %s WHERE id = %d AND user_id = %d",$table_name, $order_id, $user->ID ));
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
+            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `{$table_name}` WHERE id = %d AND user_id = %d", $order_id, $user->ID ));
             wp_cache_set('quads_ad_details_'.$order_id.'_'.$user->ID, $ad_details, 'quick-adsense-reloaded', 3600);
         }
         if (!$ad_details) {
@@ -2503,8 +2503,8 @@ function quads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
         // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
         $ad_details = wp_cache_get('quads_ad_details_'.$order_id.'_'.$user->ID, 'quick-adsense-reloaded');
         if(false === $ad_details){
-            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM %s WHERE id = %d AND user_id = %d",$table_name, $order_id, $user->ID ));
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
+            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `{$table_name}` WHERE id = %d AND user_id = %d", $order_id, $user->ID ));
             wp_cache_set('quads_ad_details_'.$order_id.'_'.$user->ID, $ad_details, 'quick-adsense-reloaded', 3600);
         }
         if (!$ad_details) {

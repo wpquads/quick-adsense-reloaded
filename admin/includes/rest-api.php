@@ -2065,8 +2065,7 @@ return array('status' => 't');
                 // Query the records
                 /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery */
                 $results = $wpdb->get_results($wpdb->prepare(
-                    "SELECT * FROM %s WHERE payment_status = %s ORDER BY id DESC LIMIT %d OFFSET %d",
-                    $table_name,
+                    "SELECT * FROM `{$table_name}` WHERE payment_status = %s ORDER BY id DESC LIMIT %d OFFSET %d",
                     'paid',
                     $per_page,
                     $offset
@@ -2126,10 +2125,9 @@ return array('status' => 't');
                 // Query the records
                 /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery */
                 $results = $wpdb->get_results($wpdb->prepare(
-                    "SELECT * FROM %s WHERE payment_status in('paid','unsubscribe') ORDER BY disable_ad_id DESC LIMIT %d OFFSET %d",
-                    $table_name,
+                    "SELECT * FROM `{$table_name}` WHERE payment_status in('paid','unsubscribe') ORDER BY disable_ad_id DESC LIMIT %d OFFSET %d",
                     $per_page,
-                $offset
+                    $offset
             ));
             wp_cache_set( 'quads_disabled_ad_list_' . $page, $results, 'quick-adsense-reloaded' );
             }
@@ -2137,7 +2135,7 @@ return array('status' => 't');
             $total = wp_cache_get( 'quads_disabled_ad_total_' . $page, 'quick-adsense-reloaded' );
             if( false === $total ) {
                 /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.NotPrepared */
-                $total = $wpdb->get_var("SELECT COUNT(*)  FROM $table_name WHERE payment_status in('paid','unsubscribe')");
+                $total = $wpdb->get_var("SELECT COUNT(*)  FROM `{$table_name}` WHERE payment_status in('paid','unsubscribe')");
                 wp_cache_set( 'quads_disabled_ad_total_' . $page, $total, 'quick-adsense-reloaded' );
             }
 
@@ -2253,17 +2251,17 @@ return array('status' => 't');
 
                 $parts = explode( '.',$file['file']['name'] );
                 if( end($parts) != 'json' ) {
-                    $response = array('status' => 'f', 'msg' =>  __( 'Please upload a valid .json file', 'quick-adsense-reloaded' ));
+                    $response = array('status' => 'f', 'msg' =>  esc_html__( 'Please upload a valid .json file', 'quick-adsense-reloaded' ));
                 }
 
                 $import_file = $file['file']['tmp_name'];
                 if( empty( $import_file ) ) {
-                    $response = array('status' => 'f', 'msg' =>  __( 'Please upload a file to import', 'quick-adsense-reloaded' ));
+                    $response = array('status' => 'f', 'msg' =>  esc_html__( 'Please upload a file to import', 'quick-adsense-reloaded' ));
                 }
 
                 $settings = json_decode( quads_local_file_get_contents( $import_file ), true);
                 update_option( 'quads_settings', $settings );
-                $response = array('file_status' => 't','status' => 't', 'msg' =>  __( 'file uploaded successfully', 'quick-adsense-reloaded' ));
+                $response = array('file_status' => 't','status' => 't', 'msg' =>  esc_html__( 'file uploaded successfully', 'quick-adsense-reloaded' ));
 
             }else{
                 if(isset($parameters['settings'])){
@@ -2278,7 +2276,7 @@ return array('status' => 't');
                     }
                     $result      = $this->api_service->updateSettings($param_array);
                     if($result){
-                        $response = array('status' => 'tp', 'msg' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
+                        $response = array('status' => 'tp', 'msg' =>  esc_html__( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
                          // when sellable is disabled then make buy-adspace slug page to draft
                         if(isset($param_array['sellable_ads']) && $param_array['sellable_ads'] == 0){
                             $page = get_page_by_path('buy-adspace');

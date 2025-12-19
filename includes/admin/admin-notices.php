@@ -452,7 +452,7 @@ function quads_rate_again() {
 function quads_plugin_deactivated_notice() {
     if( false !== ( $deactivated_notice_id = get_transient( 'quads_deactivated_notice_id' ) ) ) {
         if( '1' === $deactivated_notice_id ) {
-            $message = __( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS.", 'quick-adsense-reloaded' );
+            $message = esc_html__( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS.", 'quick-adsense-reloaded' );
         } else {
             //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
             $message = __( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS Pro.", 'quick-adsense-reloaded' );

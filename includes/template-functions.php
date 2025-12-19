@@ -887,8 +887,8 @@ function quads_disable_ads(){
     // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
     $ad_details = wp_cache_get('quads_ad_details_'.$email.'_'.$user_ID, 'quick-adsense-reloaded');
     if(false === $ad_details){
-        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-        $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM %s WHERE user_email = %s AND payment_status = %s and user_id=%d order by disable_ad_id desc limit 1",$table_name, $email, 'paid', $user_ID ));
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+        $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `{$table_name}` WHERE user_email = %s AND payment_status = %s and user_id=%d order by disable_ad_id desc limit 1", $email, 'paid', $user_ID ));
         wp_cache_set('quads_ad_details_'.$email.'_'.$user_ID, $ad_details, 'quick-adsense-reloaded', 3600);
     }
     $is_disable_ad = false;
@@ -3306,7 +3306,7 @@ function quads_del_element($array, $idx) {
                 if(isset($ads['ad_type']) && $ads['ad_type'] == 'background_ad'){
 
                       $after_body='<div class="quads-bg-wrapper">
-                   <a style="background-image: url('.esc_attr($ads['image_src']).')" class="quads-bg-ad" target="_blank" href="'.esc_attr($ads['image_redirect_url']).'">'
+                   <a style="background-image: url('.esc_url($ads['image_src']).')" class="quads-bg-ad" target="_blank" href="'.esc_url($ads['image_redirect_url']).'">'
                 . '</a>'                               
                 . '<div class="quads-bg-content">';   
                 $style=' <style>     .quads-bg-ad{                             
@@ -3379,11 +3379,11 @@ function quads_del_element($array, $idx) {
                         $add_nofollow = (isset($ads['add_url_nofollow']) && $ads['add_url_nofollow'])?true:false;
                         if(isset($ads['image_redirect_url'])  && !empty($ads['image_redirect_url'])){
                             $html .= '
-                            <a target="_blank" href="'.esc_attr($ads['image_redirect_url']). '" '.($add_nofollow?'rel=nofollow':'').'>
-                            <img class="aligncenter" '.(quads_is_lazyload_template($quads_options,$ads) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($ads['image_src']). '" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'"> 
+                            <a target="_blank" href="'.esc_url($ads['image_redirect_url']). '" '.($add_nofollow?'rel=nofollow':'').'>
+                            <img class="aligncenter" '.(quads_is_lazyload_template($quads_options,$ads) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($ads['image_src']). '" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'"> 
                             </a>';
                         }else{
-                            $html .= '<img class="aligncenter" '.(quads_is_lazyload_template($quads_options,$ads) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($ads['image_src']). '" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'">';
+                            $html .= '<img class="aligncenter" '.(quads_is_lazyload_template($quads_options,$ads) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($ads['image_src']). '" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'">';
                         }
                     }else{
                         $html .= $ads['code'];

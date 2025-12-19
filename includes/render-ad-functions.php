@@ -424,10 +424,10 @@ function quads_render_ad_image_async( $id ) {
             }
             if(isset($quads_options['ads'][$id]['parallax_ads_check']) && $quads_options['ads'][$id]['parallax_ads_check']){
                 $parallax_height=isset($quads_options['ads'][$id]['parallax_height'])?$quads_options['ads'][$id]['parallax_height']:300;
-                $html .='<a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
+                $html .='<a imagebanner target="_blank" href="'.esc_url($quads_options['ads'][$id]['image_redirect_url']). '" rel="nofollow">
                  <div class="quads_parallax parallax_'.esc_attr($id).'"></div>
                  </a>
-                <style> .quads-ad'.esc_attr($quads_options['ads'][$id]['ad_id']).' { margin:0 auto !important;} .parallax_'.esc_attr($id).' {background-image: url("'.esc_attr($image_render_src).'");height:'.esc_attr($parallax_height).'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
+                <style> .quads-ad'.esc_attr($quads_options['ads'][$id]['ad_id']).' { margin:0 auto !important;} .parallax_'.esc_attr($id).' {background-image: url("'.esc_url($image_render_src).'");height:'.esc_attr($parallax_height).'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
             }
             else {
 
@@ -435,8 +435,8 @@ function quads_render_ad_image_async( $id ) {
             $mob_bnr_hgt = isset($quads_options['ads'][$id]['mob_banner_ad_height'])?$quads_options['ads'][$id]['mob_banner_ad_height']:300;
             $placeholder_image = QUADS_PLUGIN_URL . 'assets/images/placeholder.svg';
             $html .= '
-            <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" '.($add_nofollow?'rel="nofollow"':'').'>
-            <img width="'.esc_attr($mob_bnr_wdt). '" height="'.esc_attr($mob_bnr_hgt). '" '.(quads_is_lazyload_render($quads_options,$id) ? 'src="'.esc_url($placeholder_image).'" data-src' : 'src').'="'.esc_attr($image_render_src).'" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"> 
+            <a imagebanner target="_blank" href="'.esc_url($quads_options['ads'][$id]['image_redirect_url']). '" '.($add_nofollow?'rel="nofollow"':'').'>
+            <img width="'.esc_attr($mob_bnr_wdt). '" height="'.esc_attr($mob_bnr_hgt). '" '.(quads_is_lazyload_render($quads_options,$id) ? 'src="'.esc_url($placeholder_image).'" data-src' : 'src').'="'.esc_url($image_render_src).'" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"> 
             </a>';
             }
         }
@@ -444,10 +444,10 @@ function quads_render_ad_image_async( $id ) {
     else if (isset($quads_options['ads'][$id]['image_redirect_url'])  && !empty($quads_options['ads'][$id]['image_redirect_url'])){
         if(isset($quads_options['ads'][$id]['parallax_ads_check']) && $quads_options['ads'][$id]['parallax_ads_check']){
             $parallax_height=isset($quads_options['ads'][$id]['parallax_height'])?$quads_options['ads'][$id]['parallax_height']:300;
-            $html .='<a  imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" '.($add_nofollow?'rel="nofollow"':'').'>
+            $html .='<a  imagebanner target="_blank" href="'.esc_url($quads_options['ads'][$id]['image_redirect_url']). '" '.($add_nofollow?'rel="nofollow"':'').'>
              <div class="quads_parallax parallax_'.esc_attr($id).'"></div>
              </a>
-             <style> .quads-ad'.esc_attr($quads_options['ads'][$id]['ad_id']).' { margin:0 auto !important;} .parallax_'.esc_attr($id).' {background-image: url("'.esc_attr($quads_options['ads'][$id]['image_src']).'");height:'.esc_attr($parallax_height).'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
+             <style> .quads-ad'.esc_attr($quads_options['ads'][$id]['ad_id']).' { margin:0 auto !important;} .parallax_'.esc_attr($id).' {background-image: url("'.esc_url($quads_options['ads'][$id]['image_src']).'");height:'.esc_attr($parallax_height).'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
             
         }
         else {
@@ -455,8 +455,8 @@ function quads_render_ad_image_async( $id ) {
         $bnr_hgt=$quads_options['ads'][$id]['banner_ad_height']?$quads_options['ads'][$id]['banner_ad_height']:($quads_options['ads'][$id]['image_height']?$quads_options['ads'][$id]['image_height']:300);
         $placeholder_image = QUADS_PLUGIN_URL . 'assets/images/placeholder.svg';
             $html .= ' 
-        <a imagebanner target="_blank" href="'.esc_attr($quads_options['ads'][$id]['image_redirect_url']). '" '.($add_nofollow?'rel="nofollow"':'').'>
-        <img width="'.esc_attr($bnr_wdt). '" height="'.esc_attr($bnr_hgt). '" '.(quads_is_lazyload_render($quads_options,$id) ? 'src="'.esc_url( $placeholder_image ).'" data-src' : 'src').'="'.esc_attr($quads_options['ads'][$id]['image_src']). '" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"> 
+        <a imagebanner target="_blank" href="'.esc_url($quads_options['ads'][$id]['image_redirect_url']). '" '.($add_nofollow?'rel="nofollow"':'').'>
+        <img width="'.esc_attr($bnr_wdt). '" height="'.esc_attr($bnr_hgt). '" '.(quads_is_lazyload_render($quads_options,$id) ? 'src="'.esc_url( $placeholder_image ).'" data-src' : 'src').'="'.esc_url($quads_options['ads'][$id]['image_src']). '" alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'"> 
         </a>';
         }
         
@@ -465,11 +465,11 @@ function quads_render_ad_image_async( $id ) {
             
             $parallax_height=isset($quads_options['ads'][$id]['parallax_height'])?$quads_options['ads'][$id]['parallax_height']:300;
             $html .='<div class="quads_parallax parallax_'.esc_attr($id).'"></div>
-            <style>  .quads-ad'.esc_attr($quads_options['ads'][$id]['ad_id']).' { margin:0 auto !important;} .parallax_'.$id.' {background-image: url("'.esc_attr($image_render_src).'");height:'.esc_attr($parallax_height).'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
+            <style>  .quads-ad'.esc_attr($quads_options['ads'][$id]['ad_id']).' { margin:0 auto !important;} .parallax_'.$id.' {background-image: url("'.esc_url($image_render_src).'");height:'.esc_attr($parallax_height).'px;background-attachment: fixed;background-position: center;background-repeat: no-repeat;background-size: auto;}</style>';
         
     }
         else{
-            $html .= '<img '.(quads_is_lazyload_render($quads_options,$id) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($quads_options['ads'][$id]['image_src']). '"  alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'">';
+            $html .= '<img '.(quads_is_lazyload_render($quads_options,$id) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($quads_options['ads'][$id]['image_src']). '"  alt="'.esc_attr($quads_options['ads'][$id]['label']).'" data-lazydelay="'.esc_attr(quads_lazyload_delay_render($quads_options,$id)).'">';
         }
         
     }
@@ -937,7 +937,7 @@ function quads_render_loopad_async( $id ) {
         if(isset($quads_options['ads'][$id]['loop_add_description'])){    
             $html .='<div class="entry-content">
                         <p>'.esc_attr($quads_options['ads'][$id]['loop_add_description']).'</p>
-                        <p><a class="more-link" href="'.esc_attr($quads_options['ads'][$id]['loop_add_link']).'" '.($add_nofollow?'rel=nofollow':'').'>'.__( 'Learn More', 'quick-adsense-reloaded' ).' <span class="screen-reader-text">'.esc_attr($quads_options['ads'][$id]['loop_add_title']).'</span></a></p>
+                        <p><a class="more-link" href="'.esc_attr($quads_options['ads'][$id]['loop_add_link']).'" '.($add_nofollow?'rel=nofollow':'').'>'.esc_html__( 'Learn More', 'quick-adsense-reloaded' ).' <span class="screen-reader-text">'.esc_attr($quads_options['ads'][$id]['loop_add_title']).'</span></a></p>
                      </div><!-- .entry-content -->';
                 }
     $html.='</div><!-- .entry-container -->

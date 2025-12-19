@@ -565,7 +565,7 @@ function quads_visitor_comparison_logic_checker($visibility){
              }
         break;
         case 'referrer_url':
-            $referrer_url  = (isset($_SERVER['HTTP_REFERER'])) ? esc_url( sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) )):'';
+            $referrer_url  = (isset($_SERVER['HTTP_REFERER'])) ? esc_url_raw( sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) )):'';
             if ( $referrer_url == $v_id ) {
               $result = true;
             }
@@ -596,7 +596,7 @@ function quads_visitor_comparison_logic_checker($visibility){
 
         case 'url_parameter':
           if( isset( $_SERVER['REQUEST_URI'] ) ){
-              $url = esc_url( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
+              $url = esc_url_raw( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
               if ( strpos($url, $v_id) !== false ) {
                 $result = true;
               }       
