@@ -267,7 +267,7 @@ function quads_get_registered_settings() {
             array(
                'id' => 'lazy_load_global',
                'name' => esc_html__( 'Lazy Loading for Adsense', 'quick-adsense-reloaded' ),
-               // 'desc' => __( 'Lazy Loading for Adsense', 'quick-adsense-reloaded' ),
+               // 'desc' => esc_html__( 'Lazy Loading for Adsense', 'quick-adsense-reloaded' ),
                'type' => 'checkbox'
            ),
            array(
@@ -713,7 +713,7 @@ function quads_get_settings_tabs() {
    }
 
    if( !empty( $settings['networks'] ) ) {
-      //$tabs['networks'] = __( 'Social Networks', 'quick-adsense-reloaded' );
+      //$tabs['networks'] = esc_html__( 'Social Networks', 'quick-adsense-reloaded' );
    }
 
    if( !empty( $settings['extensions'] ) ) {
@@ -725,13 +725,13 @@ function quads_get_settings_tabs() {
       $tabs['licenses'] = esc_html__( 'License', 'quick-adsense-reloaded' );
    }
 
-   //$tabs['addons'] = __( 'Add-Ons', 'quick-adsense-reloaded' );
+   //$tabs['addons'] = esc_html__( 'Add-Ons', 'quick-adsense-reloaded' );
 
    $tabs['imexport'] = esc_html__( 'Import/Export', 'quick-adsense-reloaded' );
 
    $tabs['help'] = esc_html__( 'Help', 'quick-adsense-reloaded' );
 
-   //$tabs['misc']      = __( 'Misc', 'quick-adsense-reloaded' );
+   //$tabs['misc']      = esc_html__( 'Misc', 'quick-adsense-reloaded' );
 
    return apply_filters( 'quads_settings_tabs', $tabs );
 }
@@ -1399,13 +1399,6 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
             }
          }
 
-//         switch ( $license->license ) {
-//             case 'invalid' :
-//                    $messages[] = sprintf(
-//                             __( 'Your license key has been disabled! <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), 'http://QUADS.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
-//                     );
-//             break;
-//         }
 
       } else {
          $license_status = null;
@@ -1645,7 +1638,7 @@ function quads_get_ads() {
    }
 
    // Start array with
-   $arrHeader = array ( 0 => __( 'Random Ads', 'quick-adsense-reloaded' ) );
+   $arrHeader = array ( 0 => esc_html__( 'Random Ads', 'quick-adsense-reloaded' ) );
 
    $ads = array();
 
@@ -2008,7 +2001,6 @@ function quads_adsense_code_callback( $args ) {
        <div class="quads_adsense_code">
            <input type="button" style="vertical-align:inherit;" class="button button-primary quads-add-adsense" value="Copy / Paste AdSense Code"> <span>or add Ad Slot ID & Publisher ID manually below:</span>
            <br />
-   <?php //echo __('Generate Ad Slot & Publisher ID automatically from your adsense code', 'quick-adsense-reloaded') ?>
            <label class="quads-label-left" for="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_slot]">Ad Slot ID </label><input type="text" class="quads-medium-size quads-bggrey" id="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_slot]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_slot]" value="<?php echo esc_attr($g_data_ad_slot); ?>">
            <label for="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_client]">Publisher ID</label><input type="text" id="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_client]" class="medium-text quads-bggrey" name="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_client]" value="<?php echo esc_attr($g_data_ad_client); ?>">
            <br />
@@ -2167,7 +2159,6 @@ function quads_adsense_code_callback( $args ) {
        <div class="quads_adsense_code">
            <input type="button" style="vertical-align:inherit;" class="button button-primary quads-add-adsense" value="<?php echo esc_html__( 'Copy / Paste AdSense Code', 'quick-adsense-reloaded' ); ?>"> <span><?php echo esc_html__( '_or add Ad Slot ID & Publisher ID manually below:', 'quick-adsense-reloaded'); ?></span>
            <br />
-   <?php //echo __('Generate Ad Slot & Publisher ID automatically from your adsense code', 'quick-adsense-reloaded') ?>
            <label class="quads-label-left" for="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_slot]">Ad Slot ID </label><input type="text" class="quads-medium-size quads-bggrey" id="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_slot]" name="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_slot]" value="<?php echo esc_attr($g_data_ad_slot); ?>">
            <label for="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_client]">Publisher ID</label><input type="text" id="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_client]" class="medium-text quads-bggrey" name="quads_settings[ads][<?php echo esc_attr($id); ?>][g_data_ad_client]" value="<?php echo esc_attr($g_data_ad_client); ?>">
            <br />

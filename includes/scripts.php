@@ -215,7 +215,7 @@ if(is_object($screens)){
         }
     wp_localize_script( 'quads-admin-scripts', 'quads', array(
         'nonce'         => wp_create_nonce( 'quads_ajax_nonce' ),
-        'error'         => __( "error", 'quick-adsense-reloaded' ),
+        'error'         => esc_html__( "error", 'quick-adsense-reloaded' ),
         'path'          => get_option( 'siteurl' ),
         'plugin_url'    => QUADS_PLUGIN_URL,
         'email'         => get_option( 'admin_email' ),

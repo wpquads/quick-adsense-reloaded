@@ -593,7 +593,7 @@ class QUADS_Ad_Setup_Api_Service {
 
                         // Make sure there are no errors
                         if ( is_wp_error( $response ) ) {    
-                          $response = array('status' => 't','license'=>$response, 'msg' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
+                          $response = array('status' => 't','license'=>$response, 'msg' =>  esc_html__( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
                         }
                         // Decode license data
                         $license_data = json_decode( wp_remote_retrieve_body( $response ) );

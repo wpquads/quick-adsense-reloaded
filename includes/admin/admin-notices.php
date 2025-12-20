@@ -455,7 +455,7 @@ function quads_plugin_deactivated_notice() {
             $message = esc_html__( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS.", 'quick-adsense-reloaded' );
         } else {
             //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
-            $message = __( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS Pro.", 'quick-adsense-reloaded' );
+            $message = esc_html__( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS Pro.", 'quick-adsense-reloaded' );
         }
         ?>
         <div class="updated notice is-dismissible" style="border-left: 4px solid #ffba00;">

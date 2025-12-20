@@ -2162,7 +2162,7 @@ function quads_logs_weekly_clear( $schedules ) {
 	// add a 'weekly' schedule to the existing set
 	$schedules['quads_logs_weekly'] = array(
 		'interval' => 604800,
-		'display' => __('Clear Quads Logs Weekly', 'quick-adsense-reloaded')
+		'display' => esc_html__('Clear Quads Logs Weekly', 'quick-adsense-reloaded')
 	);
 	return $schedules;
 }
@@ -2176,7 +2176,7 @@ function quads_cron_import_schedule( $schedules ) {
 	// add a 'weekly' schedule to the existing set
 	$schedules['quads_cron_import'] = array(
 		'interval' => 1000,
-		'display' => __('Cron Import Quads', 'quick-adsense-reloaded' )
+		'display' => esc_html__('Cron Import Quads', 'quick-adsense-reloaded' )
 	);
 	return $schedules;
 }

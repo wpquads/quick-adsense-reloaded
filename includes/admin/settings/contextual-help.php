@@ -40,8 +40,8 @@ function quads_settings_contextual_help() {
 
 	$screen->add_help_tab( array(
 		'id'	    => 'quads-settings-general',
-		'title'	    => __( 'General', 'quick-adsense-reloaded' ),
-		'content'	=> '<p>' . __( 'This screen provides the most basic settings for configuring Quick AdSense Reloaded.', 'quick-adsense-reloaded' ) . '</p>'
+		'title'	    => esc_html__( 'General', 'quick-adsense-reloaded' ),
+		'content'	=> '<p>' . esc_html__( 'This screen provides the most basic settings for configuring Quick AdSense Reloaded.', 'quick-adsense-reloaded' ) . '</p>'
 	) );
 
 

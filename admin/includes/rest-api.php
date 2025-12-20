@@ -2282,13 +2282,13 @@ return array('status' => 't');
                         }
                         if(is_array($result)){
                             if ($result['license'] == "invalid") {
-                                $response = array('status' => 'lic_not_valid','license'=>$result['license'], 'msgINV' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
+                                $response = array('status' => 'lic_not_valid','license'=>$result['license'], 'msgINV' =>  esc_html__( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
 
                             }
                             else
                                 {
                                     if ($result['license'] == "valid") {
-                                        $response = array('status' => 'license_validated','license'=>$result['license'], 'msgV' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
+                                        $response = array('status' => 'license_validated','license'=>$result['license'], 'msgV' =>  esc_html__( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
                                     }
                                 }
                             }
