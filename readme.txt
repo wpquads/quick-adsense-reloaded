@@ -12,16 +12,16 @@ Tested up to: 6.9
 Requires PHP: 7.4
 Stable tag: 2.0.97
 
-Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
+Ads & AdSense plugin with features like Media.net, DFP, ads.txt, Web Stories ads, click fraud protection, revenue sharing, ad blocker detection, and high performance.
 
 == Description ==
-The legendary Ad plugin is back with the modern approach for an Ads solution. WP QUADS is coded well with no overhead and is used on huge websites with millions of monthly page impressions.
+WP QUADS provides a modern approach to ad management. It is well coded, lightweight, and suitable for websites with high traffic volumes.
 
-[Home](https://wpquads.com/) | [Documentation](https://wpquads.com/documentation/) | [Help](https://wpquads.com/support/) | [Premium version Features](https://wpquads.com/#buy-wpquads)
+[Home](https://wpquads.com/) | [Documentation](https://wpquads.com/documentation/) | [Help](https://wpquads.com/support/) | [Premium Features](https://wpquads.com/#buy-wpquads)
 
-WPQuads is the most feature rich & Advanced Ad Inserter & Adsense solution built for WordPress.
+WPQuads is a reliable and extensible ad inserter and AdSense management solution for WordPress.
 
-= Features: =
+== Features: ==
 * <strong>NEW - Sellable Ads: </strong> Sell your AD space.
 * <strong>NEW - Hide Ads for Premium Members: </strong> Hide Ads for Premium Members.
 * <strong>NEW - Web Stories Integration: </strong> Advertise in AMP Web Stories.
