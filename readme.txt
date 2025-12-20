@@ -10,7 +10,7 @@ Tags: ad manager, ads, adsense, monetize, banner
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.0.96
+Stable tag: 2.0.97
 
 Ads & AdSense Plugin with features like Media.net, DFP, Ads.txt, Web Stories Ads, Click Fraud, Revenue Sharing, Ad Blocker & High Performance.
 
@@ -446,6 +446,9 @@ This plugin uses the following third-party libraries and resources:
 
 
 == Changelog ==
+= 2.0.97 ( 20 December 2025 ) =
+* Improvement : Done improvements with respect to PCP and WP.org standards.
+
 = 2.0.96 ( 12 December 2025 ) =
 * Fixed : Checked with Plugin Check and added fix.
 * Added : Tested with WordPress 6.9 and update readme.txt
