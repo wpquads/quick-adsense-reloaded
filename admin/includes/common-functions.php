@@ -36,21 +36,18 @@ function quads_sanitize_post_meta($key, $meta){
   }
 
 function quadsGetPostIdByMetaKeyValue( $meta_key, $meta_value ) {
+    global $wpdb;
 
-    $posts = get_posts( [
-        'post_type'      => 'any',
-        'post_status'    => 'any',
-        'fields'         => 'ids',
-        'posts_per_page' => 1,
-        'meta_query'     => [
-            [
-                'key'   => $meta_key,
-                'value' => $meta_value,
-            ],
-        ],
-    ] );
-
-    return ! empty( $posts ) ? (int) $posts[0] : null;
+    // Use direct database query for better performance than meta_query
+    // This leverages indexes on postmeta table more efficiently
+	
+	$post_id = wp_cache_get('quads_post_id_by_meta_key_value_'.$meta_key.'_'.$meta_value, 'quick-adsense-reloaded');
+	if(false === $post_id){
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is fixed and safe
+		$post_id = $wpdb->get_var( $wpdb->prepare("SELECT post_id FROM `$wpdb->postmeta` WHERE meta_key = %s AND meta_value = %s LIMIT 1",$meta_key,$meta_value));
+		wp_cache_set('quads_post_id_by_meta_key_value_'.$meta_key.'_'.$meta_value, $post_id, 'quick-adsense-reloaded', 3600);
+	}
+    return ! empty( $post_id ) ? (int) $post_id : null;
 }
 
  /**

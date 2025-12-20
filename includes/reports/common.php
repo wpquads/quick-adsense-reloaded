@@ -303,8 +303,8 @@ function quads_adsense_get_report_abtesting_data( $request ) {
 
 	if ( false === $results ) {
 		$table_name = $wpdb->prefix . 'quads_stats';
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$results = $wpdb->get_results( "SELECT * FROM `{$table_name}`" );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is fixed and safe
+		$results = $wpdb->get_results( "SELECT * FROM `$table_name`" );
 		wp_cache_set( $cache_key, $results, 'quick-adsense-reloaded', 3600 );
 	}
 
@@ -2374,8 +2374,8 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$unix_todays_date = "'".intval(strtotime($yesterday_date))."'";
 			$results_top5_2 = wp_cache_get('quads_stats_top5_ads_yesterday_2_' . $yesterday_date , 'quick-adsense-reloaded');
 			if (false === $results_top5_2) {
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
-				$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, SUM(ad_impressions) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.`ad_thetime` = $unix_todays_date GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",5));
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is fixed and safe
+				$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, SUM(ad_impressions) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.`ad_thetime` = %s GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",$unix_todays_date));
 				wp_cache_set('quads_stats_top5_ads_yesterday_2_' . $yesterday_date , $results_top5_2, 'quick-adsense-reloaded', 3600);
 			}
 			
@@ -2591,8 +2591,8 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 				$unix_todays_date = "'".intval(strtotime($todays_date))."'";
 				$results_top5_2 = wp_cache_get('quads_stats_top5_ads_today_2_' . $todays_date , 'quick-adsense-reloaded');
 				if (false === $results_top5_2) {
-					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
-					$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, SUM(ad_impressions) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.`ad_thetime` = {$unix_todays_date} GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",5));
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is fixed and safe
+					$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, SUM(ad_impressions) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.`ad_thetime` = %s GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",$unix_todays_date));
 					wp_cache_set('quads_stats_top5_ads_today_2_' . $todays_date , $results_top5_2, 'quick-adsense-reloaded', 3600);
 				}
 				foreach ($results_top5 as $key => $value) {

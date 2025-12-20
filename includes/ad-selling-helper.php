@@ -73,7 +73,7 @@ function quads_authorize_payment_success(){
             $table_name = $wpdb->prefix . 'quads_adbuy_data';
             $ad_details = wp_cache_get('quads_ad_details_'.$order_id.'_'.$user->ID, 'quick-adsense-reloaded');
             if(false === $ad_details){
-                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
+                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is fixed and safe
                 $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `{$table_name}` WHERE id = %d AND user_id = %d", $order_id, $user->ID ));
                 wp_cache_set('quads_ad_details_'.$order_id.'_'.$user->ID, $ad_details, 'quick-adsense-reloaded', 3600);
             }
@@ -2405,8 +2405,8 @@ function quads_handle_paypal_notify(WP_REST_Request $request) {
        
         $ad_details = wp_cache_get('quads_ad_details_'.$order_id.'_'.$user->ID, 'quick-adsense-reloaded');
         if(false === $ad_details){
-            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
-            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `{$table_name}` WHERE id = %d AND user_id = %d", $order_id, $user->ID ));
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is fixed and safe
+            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `$table_name` WHERE id = %d AND user_id = %d", $order_id, $user->ID ));
             wp_cache_set('quads_ad_details_'.$order_id.'_'.$user->ID, $ad_details, 'quick-adsense-reloaded', 3600);
         }
         if (!$ad_details) {
@@ -2500,11 +2500,10 @@ function quads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
         // Example: Mark the ad as paid in your custom table
         global $wpdb;
         $table_name = $wpdb->prefix . 'quads_disabledad_data';
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
         $ad_details = wp_cache_get('quads_ad_details_'.$order_id.'_'.$user->ID, 'quick-adsense-reloaded');
         if(false === $ad_details){
-            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
-            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `{$table_name}` WHERE id = %d AND user_id = %d", $order_id, $user->ID ));
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is fixed and safe
+            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `$table_name` WHERE id = %d AND user_id = %d", $order_id, $user->ID ));
             wp_cache_set('quads_ad_details_'.$order_id.'_'.$user->ID, $ad_details, 'quick-adsense-reloaded', 3600);
         }
         if (!$ad_details) {

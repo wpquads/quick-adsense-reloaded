@@ -307,8 +307,8 @@ function quads_adsense_get_report_abtesting_data( $request ) {
 
 	if ( false === $results ) {
 		$table_name = $wpdb->prefix . 'quads_ab_testing';
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$results = $wpdb->get_results( "SELECT * FROM `{$table_name}`" );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is fixed and safe
+		$results = $wpdb->get_results($wpdb->prepare( "SELECT * FROM `$table_name`" ));
 		wp_cache_set( $cache_key, $results, 'quick-adsense-reloaded', 3600 );
 	}
 
