@@ -1,7 +1,7 @@
 <?php
-namespace wpquads;
+namespace quads;
 
-//use wpquads\includes\Forms\ElementsWithOptions;
+//use quads\includes\Forms\ElementsWithOptions;
 
 /**
  * Class Select

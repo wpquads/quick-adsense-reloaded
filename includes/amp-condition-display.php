@@ -2,7 +2,9 @@
 /**
  * This class handles displaying ads according to amp display conditions
  */
-class quads_output_amp_condition_display{            
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+class QUADS_Output_Amp_Condition_Display{            
       private $api_service = null;
     function __construct() {
       if($this->api_service == null){
@@ -327,13 +329,13 @@ class quads_output_amp_condition_display{
     }
         
   }
-if (class_exists('quads_output_amp_condition_display')) {
+if (class_exists('QUADS_Output_Amp_Condition_Display')) {
     
         add_action('amp_init', 'quads_amp_hooks_call');
         
         function quads_amp_hooks_call(){
             
-            $quads_condition_obj = new quads_output_amp_condition_display;
+            $quads_condition_obj = new QUADS_Output_Amp_Condition_Display;
             $quads_condition_obj->quads_amp_condition_hooks();   
         
         }        	

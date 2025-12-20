@@ -1,5 +1,5 @@
 <?php
-namespace wpquads;
+namespace quads;
 
 /**
  * Class Numerical

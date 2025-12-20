@@ -392,8 +392,8 @@ function quads_options_page() {
                     </div> 
                     <div style="display: inline-block;width: 242px;">
                     <div class="switch_to_v2">
-                    <h3><?php echo esc_html__('WPQuads 2.0 has the better User interface','quick-adsense-reloaded');?></h3> 
-                    <p><?php echo esc_html__('We have improved the WPQuads and made it better than ever! Step into the future with one-click!','quick-adsense-reloaded');?></p>
+                    <h3><?php echo esc_html__('Quads 2.0 has the better User interface','quick-adsense-reloaded');?></h3> 
+                    <p><?php echo esc_html__('We have improved the Quads and made it better than ever! Step into the future with one-click!','quick-adsense-reloaded');?></p>
                     <div onclick="quads_switch_version('new',this);" class="switch_to_v2_btn"><a  href="#"><?php echo esc_html__('Switch to New Panel','quick-adsense-reloaded');?></a></div>
                     </div>
                     <?php quads_get_advertising(); ?>
@@ -447,7 +447,7 @@ function quads_render_social(){
                         <div class='quads-share-button quads-share-button-twitter' data-share-url="https://wordpress.org/plugins/quick-adsense-reloaded">
                             <div clas='box'>
                                 <a href="https://twitter.com/share?url=https://wordpress.org/plugins/quick-adsense-reloaded&text=Quick%20AdSense%20reloaded%20-%20a%20brand%20new%20fork%20of%20the%20popular%20AdSense%20Plugin%20Quick%20Adsense!" target='_blank'>
-                                    <span class='quads-share'><?php echo esc_html('Tweet','quick-adsense-reloaded'); ?></span>
+                                    <span class='quads-share'><?php echo esc_html__('Tweet', 'quick-adsense-reloaded'); ?></span>
                                 </a>
                             </div>
                         </div>
@@ -455,7 +455,7 @@ function quads_render_social(){
                         <div class="quads-share-button quads-share-button-facebook" data-share-url="https://wordpress.org/plugins/quick-adsense-reloaded">
                             <div class="box">
                                 <a href="https://www.facebook.com/sharer/sharer.php?u=https://wordpress.org/plugins/quick-adsense-reloaded" target="_blank">
-                                    <span class='quads-share'><?php echo esc_html('Share','quick-adsense-reloaded'); ?></span>
+                                    <span class='quads-share'><?php echo esc_html__('Share', 'quick-adsense-reloaded'); ?></span>
                                 </a>
                             </div>
                         </div>

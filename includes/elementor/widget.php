@@ -1,7 +1,9 @@
 <?php
-namespace ElementorQuads;
+namespace quads\elementor;
 
-class Plugin {
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+class QUADS_Elementor_Plugin {
 
 	private static $_instance = null;
 
@@ -43,4 +45,4 @@ class Plugin {
 	}
 }
 
-Plugin::instance();
+QUADS_Elementor_Plugin::instance();

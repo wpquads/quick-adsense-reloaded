@@ -1,5 +1,5 @@
 <?php
-
+if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Widget Functions
  *
@@ -68,7 +68,7 @@ class Quads_Ads_Widget extends WP_Widget {
 	}
 	public function fixed_widget(){
             $suffix = ( quadsIsDebugMode() ) ? '' : '.min'; 
-            wp_enqueue_script( 'fixed_widget', QUADS_PLUGIN_URL . 'assets/js/fixed_widget' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+            wp_enqueue_script( 'quads-fixed-widget', QUADS_PLUGIN_URL . 'assets/js/fixed_widget' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
 }
 
 	/**

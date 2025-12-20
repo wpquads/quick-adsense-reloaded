@@ -181,7 +181,7 @@ class QUADS_HTML_Elements {
 		$data = '';
 		if ( ! empty( $args['data'] ) ) {
 			foreach ( $args['data'] as $key => $value ) {
-				$data .= 'data-' . $key . '="' . $value . '" ';
+				$data .= 'data-' . esc_attr( $key ) . '="' . esc_attr( $value ) . '" ';
 			}
 		}
 
@@ -247,7 +247,7 @@ class QUADS_HTML_Elements {
 
 			$output .= '<label class="quads-label" for="quads-' . sanitize_key( $args['name'] ) . '">' . esc_html( $args['label'] ) . '</label>';
 
-			$output .= '<textarea name="' . esc_attr( $args['name'] ) . '" id="' . esc_attr( $args['name'] ) . '" class="' . $args['class'] . '"' . $disabled . '>' . esc_attr( $args['value'] ) . '</textarea>';
+			$output .= '<textarea name="' . esc_attr( $args['name'] ) . '" id="' . esc_attr( $args['name'] ) . '" class="' . $args['class'] . '"' . $disabled . '>' . esc_textarea( $args['value'] ) . '</textarea>';
 
 			if ( ! empty( $args['desc'] ) ) {
 				$output .= '<span class="quads-description">' . esc_html( $args['desc'] ) . '</span>';

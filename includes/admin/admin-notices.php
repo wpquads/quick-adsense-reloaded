@@ -53,7 +53,7 @@ function quads_admin_messages() {
 
     if( quads_is_admin_page() ) {
 
-        echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="wpquads-adblock-notice">' .
+        echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="quads-adblock-notice">' .
             '<strong>' . esc_html__('Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup', 'quick-adsense-reloaded') . '</strong><br><br>' .
             '<a href="' . esc_url(admin_url('admin.php?page=quads-settings#quads_settingsgeneral_header')) . '">' . esc_html__('Go to WP QUADS Settings', 'quick-adsense-reloaded') . '</a>' .
             '</div>';
@@ -69,12 +69,17 @@ quads_show_rate_div();
 }
 function quads_license_activation_notice(){
     $quads_mode = get_option('quads-mode');
+    $message = '';
     if($quads_mode == 'new'){
         //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
-        $message = __( 'Activate the License of <a href="'.admin_url('admin.php?page=quads-settings&path=settings_licenses').'" target="_blank"> <strong>WP QUADS PRO!</strong></a><br><p>', 'quick-adsense-reloaded' );
+        $message  = esc_html__( 'Activate the License of', 'quick-adsense-reloaded' ) . ' ';
+        $message .= '<a href="' . esc_url( admin_url( 'admin.php?page=quads-settings&path=settings_licenses' ) ) . '" target="_blank">';
+        $message .= '<strong> WP QUADS PRO!</strong></a>';
     }else{
         //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
-        $message = __( 'Activate the License of <a href="'.admin_url('admin.php?page=quads-settings&tab=licenses').'" target="_blank"> <strong>WP QUADS PRO!</strong></a><br><p>', 'quick-adsense-reloaded' );
+        $message  = esc_html__( 'Activate the License of', 'quick-adsense-reloaded' ) . ' ';
+        $message .= '<a href="' . esc_url( admin_url( 'admin.php?page=quads-settings&tab=licenses' ) ) . '" target="_blank">';
+        $message .= '<strong> WP QUADS PRO!</strong></a>';
     }
     ?>
     <div class="updated notice" style="border-left: 4px solid #ffba00;">
@@ -83,7 +88,7 @@ function quads_license_activation_notice(){
 }
 function quads_admin_messages_new(){
        if( quads_is_admin_page() ) {
-        echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="wpquads-adblock-notice">' . 
+        echo '<div class="notice notice-error" style="background-color:#ffebeb;display:none;" id="quads-adblock-notice">' . 
         '<strong>' . esc_html__('Please disable your browser AdBlocker to resolve problems with WP QUADS ad setup', 'quick-adsense-reloaded') . '</strong>' . 
         '</p>' . 
         '<p><a href="' . esc_url(admin_url('admin.php?page=quads-settings#quads_settingsgeneral_header')) . '">' . 
@@ -131,22 +136,22 @@ function quads_admin_newdb_upgrade(){
 
 
         echo '<div class="quads_db_upgrade updated " style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;font-size:16px;"> 
-        <p style="font-size:18px;">'.esc_html('You have selected').' <b>'.esc_html('Report Logging Method').'</b>  to <b>'.esc_html('"Separate Data (Improved V2)"').'</b>.'.esc_html('To import your old tracking data click on import. It may take sometime depending upon size of your website. ').'<b>'.esc_html('Once you have imported the old data we recommend that you do not  select ').'<u>'.esc_html('Combined Data (Legacy)').'</u> '.esc_html('to avoid duplication of data.').'</b>
+        <p style="font-size:18px;">'.esc_html__('You have selected', 'quick-adsense-reloaded').' <b>'.esc_html__('Report Logging Method', 'quick-adsense-reloaded').'</b>  to <b>'.esc_html__('"Separate Data (Improved V2)"', 'quick-adsense-reloaded').'</b>.'.esc_html__('To import your old tracking data click on import. It may take sometime depending upon size of your website. ', 'quick-adsense-reloaded').'<b>'.esc_html__('Once you have imported the old data we recommend that you do not  select ', 'quick-adsense-reloaded').'<u>'.esc_html__('Combined Data (Legacy)', 'quick-adsense-reloaded').'</u> '.esc_html__('to avoid duplication of data.', 'quick-adsense-reloaded').'</b>
         <ul class="dbupgrade_link" style="'.esc_attr($ul_style).'">
-            <li><a href="javascript:void(0);" class="quads_db_upgrade_button" title="Upgrade Performance Tracking" style="font-weight:bold;">Import Tracking Data</a> &nbsp;<a href="javascript:void(0);" style="color:#000" class="quads_db_not_upgrade" title="Do Not import Data" style="font-weight:bold;">Do Not import Data</a></li>
+            <li><a href="javascript:void(0);" class="quads_db_upgrade_button" title="' . esc_attr__( 'Upgrade Performance Tracking', 'quick-adsense-reloaded' ) . '" style="font-weight:bold;">' . esc_html__( 'Import Tracking Data', 'quick-adsense-reloaded' ) . '</a> &nbsp;<a href="javascript:void(0);" style="color:#000" class="quads_db_not_upgrade" title="' . esc_attr__( 'Do Not import Data', 'quick-adsense-reloaded' ) . '" style="font-weight:bold;">' . esc_html__( 'Do Not import Data', 'quick-adsense-reloaded' ) . '</a></li>
             <li class="spinner" style="float:none;display:list-item;margin:0px;"></li>        
         </ul>
         <table class="dbupgrade_infotable" style="padding: 10px;'.esc_attr($tb_style).'">
         <tr>
-        <th>'.esc_html('Upgrade Status').'</th>
+        <th>'.esc_html__('Upgrade Status', 'quick-adsense-reloaded').'</th>
         <td> '.esc_attr($upgrade_percent).'% </td>
         </tr></table>
 
     </div>
     <div id="quads-conform-dialog" class="hidden" style="max-width:800px; position: fixed;top: 35%;left: 25%;background: #fff;padding: 40px;z-index: 999;border: 1px solid;">
-  <h3>'.esc_html('Are you sure you want to continue ?').'</h3>
-  <h4>'.esc_html('Are you sure that you want to continue without old tracking data and start with fresh tracking?').'</h4>
-  <button id="quads_db_confirm" class="quads-btn quads-btn-primary">'.esc_html('Yes, Continue').'</button> &nbsp; <button class="quads-btn quads_db_cancel quads-btn-default">'.esc_html('No,Take me back').'</button>
+  <h3>'.esc_html__('Are you sure you want to continue ?', 'quick-adsense-reloaded').'</h3>
+  <h4>'.esc_html__('Are you sure that you want to continue without old tracking data and start with fresh tracking?', 'quick-adsense-reloaded').'</h4>
+  <button id="quads_db_confirm" class="quads-btn quads-btn-primary">'.esc_html__('Yes, Continue', 'quick-adsense-reloaded').'</button> &nbsp; <button class="quads-btn quads_db_cancel quads-btn-default">'.esc_html__('No,Take me back', 'quick-adsense-reloaded').'</button>
 </div>
     <script>
     jQuery( document ).ready(function( $ ) {
@@ -229,77 +234,124 @@ function quads_admin_newdb_upgrade(){
     </script>';
     }  
 }
-function quads_show_rate_div(){
-
+/**
+ * Display rating notice after plugin has been used for more than 7 days
+ *
+ * Shows a notice asking users to rate the plugin on WordPress.org after
+ * they've been using it for at least a week.
+ *
+ * @since 1.0.9
+ * @return void
+ */
+function quads_show_rate_div() {
 
     $install_date = get_option( 'quads_install_date' );
     $display_date = gmdate( 'Y-m-d h:i:s' );
     $datetime1    = new DateTime( $install_date );
     $datetime2    = new DateTime( $display_date );
-    $diff_intrval = round( ($datetime2->format( 'U' ) - $datetime1->format( 'U' )) / (60 * 60 * 24) );
+    $diff_intrval = round( ( $datetime2->format( 'U' ) - $datetime1->format( 'U' ) ) / ( 60 * 60 * 24 ) );
 
     $rate = get_option( 'quads_rating_div', false );
-    if( $diff_intrval >= 7 && ($rate === "no" || false === $rate || quads_rate_again() ) ) {
-        echo '<div class="quads_fivestar updated " style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;">
-        <p>Awesome, you\'ve been using <strong>WP QUADS</strong> for more than 1 week. <br> May i ask you to give it a <strong>5-star rating</strong> on Wordpress? </br>
-        This will help to spread its popularity and to make this plugin a better one.
-        <br><br>Your help is much appreciated. Thank you very much
-        <ul>
-            <li><a href="https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/" class="thankyou" target="_new" title="Ok, you deserved it" style="font-weight:bold;">Ok, you deserved it</a></li>
-            <li><a href="javascript:void(0);" class="quadsHideRating" title="I already did" style="font-weight:bold;">I already did</a></li>
-            <li><a href="javascript:void(0);" class="quadsHideRating" title="No, not good enough" style="font-weight:bold;">No, not good enough</a></li>
-            <br>
-            <li><a href="javascript:void(0);" class="quadsHideRatingWeek" title="No, not good enough" style="font-weight:bold;">I want to rate it later. Ask me again in a week!</a></li>
-            <li class="spinner" style="float:none;display:list-item;margin:0px;"></li>        
-</ul>
-
-    </div>
-    <script>
-    jQuery( document ).ready(function( $ ) {
-
-    jQuery(\'.quadsHideRating\').click(function(){
-    jQuery(".spinner").addClass("is-active");
-        var data={\'action\':\'quads_hide_rating\'}
-             jQuery.ajax({
-        
-        url: "' . esc_url(admin_url( 'admin-ajax.php' )) . '",
-        type: "post",
-        data: data,
-        dataType: "json",
-        async: !0,
-        success: function(e) {
-            if (e=="success") {
-               jQuery(".spinner").removeClass("is-active");
-               jQuery(\'.quads_fivestar\').slideUp(\'fast\');
-               
-            }
-        }
-         });
-        })
     
-        jQuery(\'.quadsHideRatingWeek\').click(function(){
-        jQuery(".spinner").addClass("is-active");
-        var data={\'action\':\'quads_hide_rating_week\'}
-             jQuery.ajax({
-        
-        url: "' . esc_url(admin_url( 'admin-ajax.php' )) . '",
-        type: "post",
-        data: data,
-        dataType: "json",
-        async: !0,
-        success: function(e) {
-            if (e=="success") {
-               jQuery(".spinner").removeClass("is-active");
-               jQuery(\'.quads_fivestar\').slideUp(\'fast\');
-               
-            }
-        }
-         });
-        })
-    
-    });
-    </script>
-    ';
+    // Show notice if 7+ days have passed and rating hasn't been dismissed
+    if ( $diff_intrval >= 7 && ( $rate === 'no' || false === $rate || quads_rate_again() ) ) {
+        $review_url = 'https://wordpress.org/support/plugin/quick-adsense-reloaded/reviews/';
+        $ajax_url   = admin_url( 'admin-ajax.php' );
+        $nonce      = wp_create_nonce( 'quads_hide_rating_nonce' );
+        ?>
+        <div class="quads_fivestar updated" style="box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);background-color:white;">
+            <p>
+                <?php
+                echo esc_html__( 'Awesome, you\'ve been using', 'quick-adsense-reloaded' ) . ' ';
+                echo '<strong>' . esc_html__( 'WP QUADS', 'quick-adsense-reloaded' ) . '</strong> ';
+                echo esc_html__( 'for more than 1 week.', 'quick-adsense-reloaded' );
+                ?>
+                <br>
+                <?php echo esc_html__( 'May i ask you to give it a', 'quick-adsense-reloaded' ); ?>
+                <strong><?php echo esc_html__( '5-star rating', 'quick-adsense-reloaded' ); ?></strong>
+                <?php echo esc_html__( 'on WordPress?', 'quick-adsense-reloaded' ); ?>
+                <br>
+                <?php echo esc_html__( 'This will help to spread its popularity and to make this plugin a better one.', 'quick-adsense-reloaded' ); ?>
+                <br><br>
+                <?php echo esc_html__( 'Your help is much appreciated. Thank you very much', 'quick-adsense-reloaded' ); ?>
+            </p>
+            <ul>
+                <li>
+                    <a href="<?php echo esc_url( $review_url ); ?>" class="thankyou" target="_blank" rel="noopener noreferrer" title="<?php echo esc_attr__( 'Ok, you deserved it', 'quick-adsense-reloaded' ); ?>" style="font-weight:bold;">
+                        <?php echo esc_html__( 'Ok, you deserved it', 'quick-adsense-reloaded' ); ?>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="quadsHideRating" title="<?php echo esc_attr__( 'I already did', 'quick-adsense-reloaded' ); ?>" style="font-weight:bold;">
+                        <?php echo esc_html__( 'I already did', 'quick-adsense-reloaded' ); ?>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="quadsHideRating" title="<?php echo esc_attr__( 'No, not good enough', 'quick-adsense-reloaded' ); ?>" style="font-weight:bold;">
+                        <?php echo esc_html__( 'No, not good enough', 'quick-adsense-reloaded' ); ?>
+                    </a>
+                </li>
+                <br>
+                <li>
+                    <a href="javascript:void(0);" class="quadsHideRatingWeek" title="<?php echo esc_attr__( 'I want to rate it later. Ask me again in a week!', 'quick-adsense-reloaded' ); ?>" style="font-weight:bold;">
+                        <?php echo esc_html__( 'I want to rate it later. Ask me again in a week!', 'quick-adsense-reloaded' ); ?>
+                    </a>
+                </li>
+                <li class="spinner" style="float:none;display:list-item;margin:0px;"></li>
+            </ul>
+        </div>
+        <script type="text/javascript">
+        jQuery( document ).ready(function( $ ) {
+            $( '.quadsHideRating' ).click(function() {
+                $( '.spinner' ).addClass( 'is-active' );
+                var data = {
+                    'action': 'quads_hide_rating',
+                    'nonce': <?php echo wp_json_encode( $nonce ); ?>
+                };
+                jQuery.ajax({
+                    url: <?php echo wp_json_encode( $ajax_url ); ?>,
+                    type: 'post',
+                    data: data,
+                    dataType: 'json',
+                    async: true,
+                    success: function( response ) {
+                        if ( response && response.success ) {
+                            $( '.spinner' ).removeClass( 'is-active' );
+                            $( '.quads_fivestar' ).slideUp( 'fast' );
+                        }
+                    },
+                    error: function() {
+                        $( '.spinner' ).removeClass( 'is-active' );
+                    }
+                });
+            });
+
+            $( '.quadsHideRatingWeek' ).click(function() {
+                $( '.spinner' ).addClass( 'is-active' );
+                var data = {
+                    'action': 'quads_hide_rating_week',
+                    'nonce': <?php echo wp_json_encode( $nonce ); ?>
+                };
+                jQuery.ajax({
+                    url: <?php echo wp_json_encode( $ajax_url ); ?>,
+                    type: 'post',
+                    data: data,
+                    dataType: 'json',
+                    async: true,
+                    success: function( response ) {
+                        if ( response && response.success ) {
+                            $( '.spinner' ).removeClass( 'is-active' );
+                            $( '.quads_fivestar' ).slideUp( 'fast' );
+                        }
+                    },
+                    error: function() {
+                        $( '.spinner' ).removeClass( 'is-active' );
+                    }
+                });
+            });
+        });
+        </script>
+        <?php
     }
 }
 
@@ -316,28 +368,56 @@ function quads_show_rate_div(){
  * @return json string
  * 
  */
-
 function quads_hide_rating_div() {
-    if( ! current_user_can( 'manage_options' ) ) { return; }
+    // Verify nonce
+    if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'quads_hide_rating_nonce' ) ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'Security check failed.', 'quick-adsense-reloaded' ) ) );
+        return;
+    }
+
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to perform this action.', 'quick-adsense-reloaded' ) ) );
+        return;
+    }
+
     update_option( 'quads_rating_div', 'yes' );
     delete_option( 'quads_date_next_notice' );
-    echo json_encode( array("success") );
-    exit;
+    
+    wp_send_json_success();
 }
 
 add_action( 'wp_ajax_quads_hide_rating', 'quads_hide_rating_div' );
 
 /**
- * Write the timestamp when rating notice will be opened again
+ * Hide rating notice and schedule it to show again after one week
+ *
+ * AJAX handler that dismisses the rating notice and sets a timestamp
+ * to show it again after 7 days.
+ *
+ * @since 1.0.9
+ * @package QUADS
+ * @subpackage Admin/Notices
+ * @return void
  */
 function quads_hide_rating_notice_week() {
-    if( ! current_user_can( 'manage_options' ) ) { return; }
-    $nextweek   = time() + (7 * 24 * 60 * 60);
+    // Verify nonce
+    if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'quads_hide_rating_nonce' ) ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'Security check failed.', 'quick-adsense-reloaded' ) ) );
+        return;
+    }
+
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'You do not have permission to perform this action.', 'quick-adsense-reloaded' ) ) );
+        return;
+    }
+
+    $nextweek   = time() + WEEK_IN_SECONDS;
     $human_date = gmdate( 'Y-m-d h:i:s', $nextweek );
+    
     update_option( 'quads_date_next_notice', $human_date );
     update_option( 'quads_rating_div', 'yes' );
-    echo json_encode( array("success") );
-    exit;
+    
+    wp_send_json_success();
 }
 
 add_action( 'wp_ajax_quads_hide_rating_week', 'quads_hide_rating_notice_week' );
@@ -372,10 +452,10 @@ function quads_rate_again() {
 function quads_plugin_deactivated_notice() {
     if( false !== ( $deactivated_notice_id = get_transient( 'quads_deactivated_notice_id' ) ) ) {
         if( '1' === $deactivated_notice_id ) {
-            $message = __( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS.", 'quick-adsense-reloaded' );
+            $message = esc_html__( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS.", 'quick-adsense-reloaded' );
         } else {
             //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
-            $message = __( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS Pro.", 'quick-adsense-reloaded' );
+            $message = esc_html__( "WP QUADS and WP QUADS Pro cannot be activated both. We've automatically deactivated WP QUADS Pro.", 'quick-adsense-reloaded' );
         }
         ?>
         <div class="updated notice is-dismissible" style="border-left: 4px solid #ffba00;">
@@ -641,7 +721,7 @@ function quads_show_ads_txt_notice() {
     if( get_transient( 'close_ads_txt_error' ) && isset( $quads_options['adsTxtEnabled'] ) ) {
 
         // Check if adsense is used and add the adsense publisherId to ads.txt blurb as well
-        $adsense             = new wpquads\adsense( $quads_options );
+        $adsense             = new quads\adsense( $quads_options );
         $adsensePublisherIds = $adsense->getPublisherIds();
 
 
@@ -658,17 +738,17 @@ function quads_show_ads_txt_notice() {
         }
 
         // ads.txt content
-        $notice['message'] = "<p><strong>ADS.TXT couldn't be updated automatically</strong><br><br>Important note: WP QUADS hasn't been able to update your ads.txt file automatically. Please make sure to enter the following line manually into <strong>" . get_home_path() . "ads.txt</strong>:"
+        $notice['message'] = "<p><strong>" . esc_html__( 'ADS.TXT couldnt be updated automatically', 'quick-adsense-reloaded') . "</strong><br><br>" . esc_html__( 'Important note: WP QUADS hasnt been able to update your ads.txt file automatically. Please make sure to enter the following line manually into', 'quick-adsense-reloaded' ) . "<strong>" . get_home_path() . "ads.txt</strong>:"
                 . "<p>"
-                . "<pre>" . $viAdsTxtText . "<br>"
-                . $adsenseAdsTxtText
+                . "<pre>" . esc_html( $viAdsTxtText ) . "<br>"
+                . esc_html( $adsenseAdsTxtText )
                 . "</pre></p>"
-                . "Only by doing so AdSense ads are shown on your site.</p>";
+                . esc_html__( "Only by doing so AdSense ads are shown on your site.", 'quick-adsense-reloaded' ) . "</p>";
         $notice['type']    = 'error';
         $notice['action']  = 'quads_ads_txt_error';
 
         // render blurb
-        $adsTxtError = new wpquads\template( '/includes/admin/views/notices', $notice );
+        $adsTxtError = new quads\QUADS_Template( '/includes/admin/views/notices', $notice );
         echo wp_kses_post($adsTxtError->render());
     }
 }
@@ -724,7 +804,7 @@ function quads_show_update_auto_ads() {
     echo '<div class="quads-notice-gdpr update-nag" style="background-color: black;color: #87c131;padding: 20px;margin-top: 20px;border: 3px solid #87c131;display:block;">';
     echo '<h2 style="color:white;">' . esc_html__('WP QUADS & Google Auto Ads', 'quick-adsense-reloaded') . '</h2>';
     echo '<p>' . esc_html__('WP QUADS Pro adds support for Google Auto Ads', 'quick-adsense-reloaded') . '</p><br>';
-    echo '<p>' . esc_html__('Get the Pro plugin from', 'quick-adsense-reloaded') . '<a href="'.esc_url('https://wpquads.com/?utm_source=wp-admin&utm_medium=autoads-notice&utm_campaign=autoads-notice').'" target="_blank" style="color:#87c131;font-weight:500;">'. esc_html__('wpquads.com', 'quick-adsense-reloaded').'</a></p><br>';
+    echo '<p>' . esc_html__('Get the Pro plugin from', 'quick-adsense-reloaded') . '<a href="'.esc_url('https://wpquads.com/?utm_source=wp-admin&utm_medium=autoads-notice&utm_campaign=autoads-notice').'" target="_blank" style="color:#87c131;font-weight:500;">wpquads.com</a></p><br>';
     echo '<p><a href="' . esc_url(admin_url('admin.php?page=quads-settings&quads-action=hide_auto_ads_notice')) . '" class="quads_hide_gdpr" title="' . esc_attr__('I got it', 'quick-adsense-reloaded') . '" style="text-decoration:none;color:white;">- ' . esc_html__('I Understand! Do Not Show This Hint Again', 'quick-adsense-reloaded') . ' -</a></p>';
     echo '</div>';
 }

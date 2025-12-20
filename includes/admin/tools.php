@@ -65,8 +65,8 @@ function quads_tools_page() {
 function quads_get_tools_tabs() {
 
 	$tabs                  = array();
-	$tabs['import_export'] = __( 'Import/Export', 'quick-adsense-reloaded' );
-       $tabs['system_info'] = __( 'System Info', 'quick-adsense-reloaded' );
+	$tabs['import_export'] = esc_html__( 'Import/Export', 'quick-adsense-reloaded' );
+       $tabs['system_info'] = esc_html__( 'System Info', 'quick-adsense-reloaded' );
 
 	return apply_filters( 'quads_tools_tabs', $tabs );
 }
@@ -519,7 +519,7 @@ function quads_import_quick_adsense_settings(){
 				<p><input type="hidden" name="quads-action" value="import_quick_adsense" /></p>
 				<p>
 					<?php wp_nonce_field( 'quads_quick_adsense_nonce', 'quads_quick_adsense_nonce' ); ?>
-					<?php submit_button( __( 'Start Import process', 'quick-adsense-reloaded' ), 'primary quads-import-settings', 'submit', false ); ?>
+					<?php submit_button( esc_html__( 'Start Import process', 'quick-adsense-reloaded' ), 'primary quads-import-settings', 'submit', false ); ?>
 				</p>
 			<!--</form>-->
                         <div id="quads-error-details"></div>
@@ -556,11 +556,11 @@ function quads_import_quick_adsense_process() {
         
 
         if (update_option('quads_settings', $quads_settings ) ){
-            $message = __('Most of the settings have been sucessfully imported from Quick AdSense <br> but due to some inconsistencies there are still some options which needs your attention and manual adjusting.','quick-adsense-reloaded');
+            $message = esc_html__('Most of the settings have been sucessfully imported from Quick AdSense <br> but due to some inconsistencies there are still some options which needs your attention and manual adjusting.','quick-adsense-reloaded');
             wp_send_json ( $message );
         }
 
-        $message = __('Most of settings have been already imported successfully! (If not we probably have an unknown issue here)', 'quick-adsense-reloaded');
+        $message = esc_html__('Most of settings have been already imported successfully! (If not we probably have an unknown issue here)', 'quick-adsense-reloaded');
         //$message = quads_get_quick_adsense_setting();
         wp_send_json ( $message );
 

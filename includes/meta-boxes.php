@@ -38,7 +38,7 @@ class Quads_Meta_Box {
 		}
 		add_meta_box(
                 'quads_meta_box',                       // id
-                __('WP QUADS - Hide Ads', 'quick-adsense-reloaded'),     // title
+                esc_html__('WP QUADS - Hide Ads', 'quick-adsense-reloaded'),     // title
                 array($this, 'render_meta_box'),        // render function callback
                 $post_type,                             // post_type
                 'advanced',                               // context

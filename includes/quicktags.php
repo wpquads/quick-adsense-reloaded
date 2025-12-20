@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Quicktags functions
  *
@@ -65,13 +66,13 @@ function quads_strip_quicktags ( $content ) {
  */
 function quads_quicktag_list () {
 	return apply_filters( 'quads_quicktag_list', array(
-		'NoAds' 		=> __( 'Hide all ads on page', 'quick-adsense-reloaded' ),
-		'OffDef'		=> __( 'Hide default ads, use manually placed ads', 'quick-adsense-reloaded' ),
-		'OffWidget'		=> __( 'Hide all ads in sidebar', 'quick-adsense-reloaded' ),
-		'OffBegin'		=> __( 'Hide ad on beginning', 'quick-adsense-reloaded' ),
-		'OffMiddle'		=> __( 'Hide ad in middle', 'quick-adsense-reloaded' ),
-		'OffEnd'		=> __( 'Hide ad on end', 'quick-adsense-reloaded' ),
-		'OffAfMore'		=> __( 'Hide ad after MoreTag', 'quick-adsense-reloaded' ),
-		'OffBfLastPara'         => __( 'Hide ad before last paragraph', 'quick-adsense-reloaded' ),
+		'NoAds' 		=> esc_html__( 'Hide all ads on page', 'quick-adsense-reloaded' ),
+		'OffDef'		=> esc_html__( 'Hide default ads, use manually placed ads', 'quick-adsense-reloaded' ),
+		'OffWidget'		=> esc_html__( 'Hide all ads in sidebar', 'quick-adsense-reloaded' ),
+		'OffBegin'		=> esc_html__( 'Hide ad on beginning', 'quick-adsense-reloaded' ),
+		'OffMiddle'		=> esc_html__( 'Hide ad in middle', 'quick-adsense-reloaded' ),
+		'OffEnd'		=> esc_html__( 'Hide ad on end', 'quick-adsense-reloaded' ),
+		'OffAfMore'		=> esc_html__( 'Hide ad after MoreTag', 'quick-adsense-reloaded' ),
+		'OffBfLastPara'         => esc_html__( 'Hide ad before last paragraph', 'quick-adsense-reloaded' ),
 	) );
 }

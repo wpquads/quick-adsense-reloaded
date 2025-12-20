@@ -25,12 +25,12 @@ class quadsCron {
       // add weekly and monthly intervals
       $schedules['weekly'] = array(
           'interval' => 604800,
-          'display' => __( 'Once Weekly','quick-adsense-reloaded' )
+          'display' => esc_html__( 'Once Weekly','quick-adsense-reloaded' )
       );
 
       $schedules['monthly'] = array(
           'interval' => 2635200,
-          'display' => __( 'Once a month','quick-adsense-reloaded' )
+          'display' => esc_html__( 'Once a month','quick-adsense-reloaded' )
       );
 
       return $schedules;

@@ -20,7 +20,7 @@
                     'X-WP-Nonce': quads_localize_data.nonce,
                 },
                 success: function (response, status, XHR) {
-                    display_report(response);
+                    quads_display_report(response);
                 },
                 error: function (request, status, error) {
                 },
@@ -313,7 +313,7 @@
     });
 
 })(window.jQuery);
-function display_report(response){
+function quads_display_report(response){
 
     var report_type = document.getElementById('report_type').value;
     if(report_type == 'top_device_type') {
@@ -437,11 +437,11 @@ function display_report(response){
             }
         };
     }
-    drawChart(config);
+    quadsDrawChart(config);
 
 }
 
-function drawChart(config){
+function quadsDrawChart(config){
 
     if(document.getElementById("quads_canvas"))
         document.getElementById("quads_canvas").outerHTML = "";

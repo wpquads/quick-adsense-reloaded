@@ -20,8 +20,9 @@ function quads_sanitize_post_meta($key, $meta){
 		case 'code':
 			$response = wp_unslash($meta);
 		break;
-      case 'random_ads_list':
-			$response = wp_unslash($meta);  
+    case 'random_ads_list':
+			$response = wp_unslash($meta); 
+		break; 
 		case 'ads_list':
 			$response = wp_unslash($meta);          
 		break;
@@ -34,22 +35,21 @@ function quads_sanitize_post_meta($key, $meta){
     
   }
 
-  function quadsGetPostIdByMetaKeyValue($meta_key, $meta_value){
-
-    $response = null;
-
+function quadsGetPostIdByMetaKeyValue( $meta_key, $meta_value ) {
     global $wpdb;
 
-    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-    $results = $wpdb->get_results( $wpdb->prepare("select post_id from $wpdb->postmeta where meta_key=%s &&  meta_value = %s ",$meta_key,$meta_value), ARRAY_A );
-    
-    if(isset($results[0]['post_id'])){
-        $response = $results[0]['post_id'];
-    }        
-                    
-    return $response;
+    // Use direct database query for better performance than meta_query
+    // This leverages indexes on postmeta table more efficiently
+	
+	$post_id = wp_cache_get('quads_post_id_by_meta_key_value_'.$meta_key.'_'.$meta_value, 'quick-adsense-reloaded');
+	if(false === $post_id){
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is fixed and safe
+		$post_id = $wpdb->get_var( $wpdb->prepare("SELECT post_id FROM `$wpdb->postmeta` WHERE meta_key = %s AND meta_value = %s LIMIT 1",$meta_key,$meta_value));
+		wp_cache_set('quads_post_id_by_meta_key_value_'.$meta_key.'_'.$meta_value, $post_id, 'quick-adsense-reloaded', 3600);
+	}
+    return ! empty( $post_id ) ? (int) $post_id : null;
+}
 
- }
  /**
  * since v2.0
  * Validate a single line.

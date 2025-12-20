@@ -1,5 +1,5 @@
 <?php
-
+if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Automattic AMP Functions
  *
@@ -17,5 +17,5 @@ function quads_amp_add_amp_ad_js( $amp_template ) {
    if (isset($quads_options['disableAmpScript'])){
       return false;
    } // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion, WordPress.WP.EnqueuedResources.NonEnqueuedScript
-    wp_enqueue_script( 'ampproject-js', 'https://cdn.ampproject.org/v0/amp-ad-0.1.js', array(), QUADS_VERSION, false );
+    wp_enqueue_script( 'quads-ampproject-js', 'https://cdn.ampproject.org/v0/amp-ad-0.1.js', array(), QUADS_VERSION, false );
 }

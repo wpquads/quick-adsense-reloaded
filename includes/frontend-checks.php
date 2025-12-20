@@ -46,14 +46,14 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
 
     $wp_admin_bar->add_node( array(
         'id' => 'quads_ad_check',
-        'title' => __( 'Ad Check', 'quick-adsense-reloaded' ),
+        'title' => esc_html__( 'Ad Check', 'quick-adsense-reloaded' ),
     ) );
 
     // Hidden by default
     $wp_admin_bar->add_node( array(
         'parent' => 'quads_ad_check',
         'id' => 'quads_ad_check_jquery',
-        'title' => __( '- JavaScript / jQuery error', 'quick-adsense-reloaded' ),
+        'title' => esc_html__( '- JavaScript / jQuery error', 'quick-adsense-reloaded' ),
         'href' => 'https://wpquads.com/docs/javascript-issues-breaking-adsense-ads/',
         'meta' => array(
             'class' => 'quads-hidden quads_ad_check_warning',
@@ -65,7 +65,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
     $wp_admin_bar->add_node( array(
         'parent' => 'quads_ad_check',
         'id' => 'quads_ad_check_adblocker_enabled',
-        'title' => __( '- Ad blocker enabled', 'quick-adsense-reloaded' ),
+        'title' => esc_html__( '- Ad blocker enabled', 'quick-adsense-reloaded' ),
         'meta' => array(
             'class' => 'quads-hidden quads_ad_check_warning',
         )
@@ -77,7 +77,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
             $wp_admin_bar->add_node( array(
                 'parent' => 'quads_ad_check',
                 'id' => 'quads_ad_check_the_content_not_invoked',
-                'title' => __( '- <em>the_content</em> filter does not exist', 'quick-adsense-reloaded' ),
+                'title' => '- <em>' . esc_html__( 'the_content', 'quick-adsense-reloaded' ) . '</em> ' . esc_html__( 'filter does not exist', 'quick-adsense-reloaded' ),
                 'href' => 'http://wpquads.com/docs/the_content-filter-missing/',
                 'meta' => array(
                     'class' => 'quads_ad_check_warning',
@@ -94,7 +94,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
                 $wp_admin_bar->add_node( array(
                     'parent' => 'quads_ad_check',
                     'id' => 'quads_ad_check_disabled_on_page',
-                    'title' => __( '- All Ads are disabled on this page', 'quick-adsense-reloaded' ),
+                    'title' => esc_html__( '- All Ads are disabled on this page', 'quick-adsense-reloaded' ),
                     'href' => get_edit_post_link( $post->ID ) . '#quads-ad-settings',
                     'meta' => array(
                         'class' => 'quads_ad_check_warning',
@@ -107,7 +107,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
                 $wp_admin_bar->add_node( array(
                     'parent' => 'quads_ad_check',
                     'id' => 'quads_ad_check_disabled_in_content',
-                    'title' => __( '- Default Ads disabled in content of this page', 'quick-adsense-reloaded' ),
+                    'title' => esc_html__( '- Default Ads disabled in content of this page', 'quick-adsense-reloaded' ),
                     'href' => get_edit_post_link( $post->ID ) . '#quads-ad-settings',
                     'meta' => array(
                         'class' => 'quads_ad_check_warning',
@@ -120,7 +120,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
             $wp_admin_bar->add_node( array(
                 'parent' => 'quads_ad_check',
                 'id' => 'quads_ad_check_post_zero',
-                'title' => __( '- Current post ID is 0 ', 'quick-adsense-reloaded' ),
+                'title' => esc_html__( '- Current post ID is 0 ', 'quick-adsense-reloaded' ),
                 'href' => 'https://wpadvancedads.com/manual/known-plugin-conflicts/#frontend-issue-post-id-empty',
                 'meta' => array(
                     'class' => 'quads_ad_check_warning',
@@ -135,7 +135,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
         $wp_admin_bar->add_node( array(
             'parent' => 'quads_ad_check',
             'id' => 'quads_ad_check_no_404',
-            'title' => __( 'Ads are disabled on 404 pages', 'quick-adsense-reloaded' ),
+            'title' => esc_html__( 'Ads are disabled on 404 pages', 'quick-adsense-reloaded' ),
             'href' => admin_url( 'admin.php?page=quads-settings' ),
             'meta' => array(
                 'class' => 'quads_ad_check_warning',
@@ -149,7 +149,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
         $wp_admin_bar->add_node( array(
             'parent' => 'quads_ad_check',
             'id' => 'quads_ad_check_no_archive',
-            'title' => __( 'Ads are disabled on non singular pages', 'quick-adsense-reloaded' ),
+            'title' => esc_html__( 'Ads are disabled on non singular pages', 'quick-adsense-reloaded' ),
             'href' => admin_url( 'admin.php?page=quads-settings' ),
             'meta' => array(
                 'class' => 'quads_ad_check_warning',
@@ -177,7 +177,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
         $wp_admin_bar->add_node( array(
             'parent' => 'quads_ad_check',
             'id' => 'quads_ad_check_fine',
-            'title' => __( 'WP QUADS is working fine', 'quick-adsense-reloaded' ),
+            'title' => esc_html__( 'WP QUADS is working fine', 'quick-adsense-reloaded' ),
             'href' => false,
   
         ) );
@@ -186,7 +186,7 @@ function quads_add_admin_bar_menu( $wp_admin_bar ) {
     $wp_admin_bar->add_node( array(
         'parent' => 'quads_ad_check',
         'id' => 'quads_ad_check_debug_dfp',
-        'title' => __( 'debug DFP ads', 'quick-adsense-reloaded' ),
+        'title' => esc_html__( 'debug DFP ads', 'quick-adsense-reloaded' ),
         'href' => esc_url( add_query_arg( 'googfc', '' ) ),
         'meta' => array(
             'class' => 'quads-hidden quads_ad_check_debug_dfp_link',
@@ -310,7 +310,7 @@ function quads_disable_add_subscribe() {
 		<div class="meter-display">
             Hide Ads for Premium Members by Subscribing
 		</div>
-		<button class="da-close-button" style="cursor:pointer" onclick="handleCloseDisableAd()">
+		<button class="da-close-button" style="cursor:pointer" onclick="quadsHandleCloseDisableAd()">
 			<svg width="16" height="16" viewBox="0 0 16 16" style="margin-left: 13px;
     margin-right: 13px;" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path fill-rule="evenodd" clip-rule="evenodd" d="M16.0001 1.23076L14.7693 0L8.00004 6.76927L1.23077 2.85321e-05L0 1.23079L6.76927 8.00003L0.000110543 14.7692L1.23088 15.9999L8.00004 9.23079L14.7692 16L16 14.7692L9.23081 8.00003L16.0001 1.23076Z" fill="#F8F8F8"></path>
@@ -327,7 +327,7 @@ function quads_disable_add_subscribe() {
 	</div>
 </div>
 <script>
-    function handleCloseDisableAd(){
+    function quadsHandleCloseDisableAd(){
         document.getElementById('disable-ads-block').style.display = 'none';
         var expires = (new Date(Date.now()+ 86400*1000)).toUTCString();
         document.cookie = "disable_ad_notice=true; expires=" + expires + ";path=/;"
@@ -358,7 +358,7 @@ function quads_check_adblocker() {
                     });
             };
 
-            function highlight_ads() {
+            function quads_highlight_ads() {
                 try {
                     var ad_wrappers = document.querySelectorAll('div[id^="quads-ad"]')
                 } catch (e) {
@@ -381,9 +381,9 @@ function quads_check_adblocker() {
 
                 var highlight_checkbox = d.getElementById('quads_highlight_ads_checkbox');
                 if (highlight_checkbox) {
-                    addEvent(highlight_checkbox, 'change', highlight_ads);
+                    addEvent(highlight_checkbox, 'change', quads_highlight_ads);
                 }
-                if (adblock_item && typeof wpquads_adblocker_check === 'undefined' || false === wpquads_adblocker_check) {
+                if (adblock_item && typeof quads_adblocker_check === 'undefined' || false === quads_adblocker_check) {
                     // show quads-hidden item
                     adblock_item.className = adblock_item.className.replace(/quads-hidden/, '');
                     hide_fine = true;

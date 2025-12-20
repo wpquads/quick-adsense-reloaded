@@ -105,9 +105,9 @@ function quads_check_ad_blocker() {
     ?>
     <script>
         window.onload = function(){
-        if (typeof wpquads_adblocker_check === 'undefined' || false === wpquads_adblocker_check) {
-        if (document.getElementById('wpquads-adblock-notice')){
-        document.getElementById('wpquads-adblock-notice').style.display = 'block';
+        if (typeof quads_adblocker_check === 'undefined' || false === quads_adblocker_check) {
+        if (document.getElementById('quads-adblock-notice')){
+        document.getElementById('quads-adblock-notice').style.display = 'block';
                 console.log('adblocker detected');
         }
         }
@@ -184,7 +184,7 @@ if(is_object($screens)){
 
     global $current_user,$wp_version, $quads;
     $dismissed = explode (',', get_user_meta (wp_get_current_user ()->ID, 'dismissed_wp_pointers', true));                            
-    $do_tour   = !in_array ('wpquads_subscribe_pointer', $dismissed);
+    $do_tour   = !in_array ('quads_subscribe_pointer', $dismissed);
 
     if ($do_tour) {
         wp_enqueue_style ('wp-pointer');
@@ -215,7 +215,7 @@ if(is_object($screens)){
         }
     wp_localize_script( 'quads-admin-scripts', 'quads', array(
         'nonce'         => wp_create_nonce( 'quads_ajax_nonce' ),
-        'error'         => __( "error", 'quick-adsense-reloaded' ),
+        'error'         => esc_html__( "error", 'quick-adsense-reloaded' ),
         'path'          => get_option( 'siteurl' ),
         'plugin_url'    => QUADS_PLUGIN_URL,
         'email'         => get_option( 'admin_email' ),
@@ -232,10 +232,10 @@ if(is_object($screens)){
         wp_enqueue_script( 'quads-admin-ads', $js_dir . 'ads.js', array('jquery'), QUADS_VERSION, false );
     }
     wp_enqueue_script( 'quads-jscolor', $js_dir . 'jscolor' . $suffix . '.js', array(), QUADS_VERSION, false );
-    wp_enqueue_script( 'jquery-chosen', $js_dir . 'chosen.jquery' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+    wp_enqueue_script( 'quads-jquery-chosen', $js_dir . 'chosen.jquery' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
     wp_enqueue_script( 'jquery-form' );
     wp_enqueue_style( 'quads-admin', $css_dir . 'quads-admin' . $suffix . '.css',array(), QUADS_VERSION );
-    wp_enqueue_style( 'jquery-chosen', $css_dir . 'chosen' . $suffix . '.css',array(), QUADS_VERSION );
+    wp_enqueue_style( 'quads-jquery-chosen', $css_dir . 'chosen' . $suffix . '.css',array(), QUADS_VERSION );
 
 
 }
@@ -590,7 +590,7 @@ function quads_inline_styles() {
             }";
     }
     if(in_array("floating_cubes", $ads_types)){ 
-            $css .=".wpquads-3d-container {
+            $css .=".quads-3d-container {
                 border-radius:3px;
                 position:relative;
                 -webkit-perspective:1000px;
@@ -600,7 +600,7 @@ function quads_inline_styles() {
                 perspective:1000px;
                 z-index:999999;
             }
-            .wpquads-3d-cube{
+            .quads-3d-cube{
                 width:100%;
                 height:100%;
                 position:absolute;
@@ -614,29 +614,29 @@ function quads_inline_styles() {
                 -o-transform-style:preserve-3d;
                 transform-style:preserve-3d;
             }
-            .wpquads-3d-cube .wpquads-3d-item{
+            .quads-3d-cube .quads-3d-item{
                 position:absolute;
                 border:3px inset;
                 border-style:outset
             }
-            .wpquads-3d-close{
+            .quads-3d-close{
                 text-align:right;
             }
-            #wpquads-close-btn{
+            #quads-close-btn{
                 text-decoration:none !important;
                 cursor:pointer;
             }
-            #wpquads-close-btn svg{
+            #quads-close-btn svg{
                 padding: 5px;
             }
-            .wpquads-3d-cube .wpquads-3d-item, .wpquads-3d-cube .wpquads-3d-item img{
+            .quads-3d-cube .quads-3d-item, .quads-3d-cube .quads-3d-item img{
                 display:block;
                 margin:0;
                 width:100%;
                 height:100%;
                 background:#fff;
             }
-            .ewd-ufaq-faqs .wpquads-3d-container {
+            .ewd-ufaq-faqs .quads-3d-container {
                 display: none;
             }  ";
     } 

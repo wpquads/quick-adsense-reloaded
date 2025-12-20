@@ -1,8 +1,10 @@
 <?php
 
-namespace wpquads;
+namespace quads;
 
-class adsTxt {
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+class Quads_Ads_Txt {
 
     /**
      * Content to add

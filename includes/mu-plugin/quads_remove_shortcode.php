@@ -12,9 +12,9 @@ if( !defined( 'ABSPATH' ) )
 	exit;
 
 if(!defined( 'QUADS_NAME' ) && !class_exists( 'QuickAdsenseReloaded' )){
-	add_shortcode( 'quads_ad', 'wpquads_remove_unsed_shortcode', 1); 
-	add_shortcode( 'quads', 'wpquads_remove_unsed_shortcode', 1);
-	function wpquads_remove_unsed_shortcode( $atts ) {
+	add_shortcode( 'quads_ad', 'quads_remove_unsed_shortcode', 1); 
+	add_shortcode( 'quads', 'quads_remove_unsed_shortcode', 1);
+	function quads_remove_unsed_shortcode( $atts ) {
 		return '';
 	}
 }

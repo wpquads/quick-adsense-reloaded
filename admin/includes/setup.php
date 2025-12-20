@@ -305,7 +305,7 @@ class QUADS_Ad_Setup {
 
                $this->quadsSyncRandomAdsInNewDesign();
 
-               return  array('status' => 't', 'data' => 'Ads have been successfully imported'); 
+               return  array('status' => 't', 'data' => esc_html__( 'Ads have been successfully imported', 'quick-adsense-reloaded' ) ); 
                    wp_die();         
         }                        
 
@@ -767,7 +767,7 @@ foreach($quads_settings['ads'] as $key2 => $value2){
     }
         update_option('quads_import_classic_ads_popup', 'no'); 
 
-      return  array('status' => 't', 'data' => 'Ads have been successfully imported'); 
+      return  array('status' => 't', 'data' => esc_html__( 'Ads have been successfully imported', 'quick-adsense-reloaded' ) ); 
     wp_die();         
 }  
 }

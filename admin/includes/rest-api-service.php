@@ -402,41 +402,63 @@ class QUADS_Ad_Setup_Api_Service {
           $array_ids_result = [];
           if($sort_by =='impression'){
               if(isset($quads_options['report_logging']) && $quads_options['report_logging'] = 'improved_v2'){
-// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-                $array_ids_result = $wpdb->get_results("SELECT posts.ID as ID,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
-                FROM {$wpdb->prefix}posts as posts
-                LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id
-                LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id
-                WHERE posts.post_type='quads-ads'AND posts.post_status='publish'
-                GROUP BY posts.ID
-                ORDER BY total_impression DESC;");
+                $array_ids_result = wp_cache_get( 'quads_mob_imprsn' ,'quick-adsense-reloaded' );
+
+                if ( false === $array_ids_result ) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- custom query required
+                    $array_ids_result = $wpdb->get_results("SELECT posts.ID as ID,IFNULL(SUM(impr_mob.stats_impressions),0) as mob_imprsn ,IFNULL(SUM(impr_desk.stats_impressions),0) as desk_imprsn,SUM(IFNULL(impr_desk.stats_impressions,0)+IFNULL(impr_mob.stats_impressions,0)) as total_impression
+                    FROM {$wpdb->prefix}posts as posts
+                    LEFT JOIN {$wpdb->prefix}quads_impressions_mobile as impr_mob ON posts.ID=impr_mob.ad_id
+                    LEFT JOIN {$wpdb->prefix}quads_impressions_desktop as impr_desk ON posts.ID=impr_desk.ad_id
+                    WHERE posts.post_type='quads-ads'AND posts.post_status='publish'
+                    GROUP BY posts.ID
+                    ORDER BY total_impression DESC;");
+
+                    wp_cache_set( 'quads_mob_imprsn', $array_ids_result, 'quick-adsense-reloaded', HOUR_IN_SECONDS );
+                }
 
               }else{
-                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-                $array_ids_result = $wpdb->get_results("SELECT `{$wpdb->prefix}posts`.ID,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression from `{$wpdb->prefix}quads_single_stats_`
-                 INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id
-                 GROUP BY `{$wpdb->prefix}posts`.ID 
-                 ORDER BY total_impression DESC;");
+                  $array_ids_result = wp_cache_get( 'quads_total_impression' ,'quick-adsense-reloaded' );
+                  if ( false === $array_ids_result ) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- custom query required
+                    $array_ids_result = $wpdb->get_results("SELECT `{$wpdb->prefix}posts`.ID,SUM(`{$wpdb->prefix}quads_single_stats_`.date_impression) as total_impression from `{$wpdb->prefix}quads_single_stats_`
+                     INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id
+                     GROUP BY `{$wpdb->prefix}posts`.ID 
+                     ORDER BY total_impression DESC;");
+
+                    wp_cache_set( 'quads_total_impression', $array_ids_result, 'quick-adsense-reloaded', HOUR_IN_SECONDS );
+                  }
               }
           }
 
           if($sort_by =='click'){
             if(isset($quads_options['report_logging']) && $quads_options['report_logging'] = 'improved_v2'){
-// phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-              $array_ids_result = $wpdb->get_results("SELECT posts.ID as ID,IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click
-              FROM {$wpdb->prefix}posts as posts
-              LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id
-              LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id
-              WHERE posts.post_type='quads-ads'AND posts.post_status='publish'
-              GROUP BY posts.ID
-              ORDER BY total_click DESC;");
+
+              $array_ids_result = wp_cache_get( 'quads_desk_clicks' ,'quick-adsense-reloaded' );
+              if ( false === $array_ids_result ) {
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- custom query required
+                $array_ids_result = $wpdb->get_results("SELECT posts.ID as ID,IFNULL(SUM(click_desk.stats_clicks),0)as desk_clicks,IFNULL(SUM(click_mob.stats_clicks),0) as mob_clicks,SUM(IFNULL(click_desk.stats_clicks,0)+IFNULL(click_mob.stats_clicks,0)) as total_click
+                FROM {$wpdb->prefix}posts as posts
+                LEFT JOIN {$wpdb->prefix}quads_clicks_mobile as click_mob ON posts.ID=click_mob.ad_id
+                LEFT JOIN {$wpdb->prefix}quads_clicks_desktop as click_desk ON posts.ID=click_desk.ad_id
+                WHERE posts.post_type='quads-ads'AND posts.post_status='publish'
+                GROUP BY posts.ID
+                ORDER BY total_click DESC;");
+
+                wp_cache_set( 'quads_desk_clicks', $array_ids_result, 'quick-adsense-reloaded', HOUR_IN_SECONDS );
+              }
 
             }else{
-              // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-              $array_ids_result = $wpdb->get_results("SELECT `{$wpdb->prefix}posts`.ID,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_`
-               INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id
-               GROUP BY `{$wpdb->prefix}posts`.ID 
-               ORDER BY total_click DESC;");
+              $array_ids_result = wp_cache_get( 'quads_total_click' ,'quick-adsense-reloaded' );
+              if ( false === $array_ids_result ) {
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- custom query required
+                $array_ids_result = $wpdb->get_results("SELECT `{$wpdb->prefix}posts`.ID,SUM(`{$wpdb->prefix}quads_single_stats_`.date_click)as total_click from `{$wpdb->prefix}quads_single_stats_`
+                INNER JOIN `{$wpdb->prefix}posts` ON `{$wpdb->prefix}posts`.ID=`{$wpdb->prefix}quads_single_stats_`.ad_id
+                GROUP BY `{$wpdb->prefix}posts`.ID 
+                ORDER BY total_click DESC;");
+                wp_cache_set( 'quads_total_click', $array_ids_result, 'quick-adsense-reloaded', HOUR_IN_SECONDS );
+              }
+
             }
 
           }
@@ -571,7 +593,7 @@ class QUADS_Ad_Setup_Api_Service {
 
                         // Make sure there are no errors
                         if ( is_wp_error( $response ) ) {    
-                          $response = array('status' => 't','license'=>$response, 'msg' =>  __( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
+                          $response = array('status' => 't','license'=>$response, 'msg' =>  esc_html__( 'Settings has been saved successfully', 'quick-adsense-reloaded' ));
                         }
                         // Decode license data
                         $license_data = json_decode( wp_remote_retrieve_body( $response ) );
@@ -741,8 +763,14 @@ if($license_info){
             );
 
           $new_post_id = wp_insert_post( $args );
-          // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-          $post_metas = $wpdb->get_results($wpdb->prepare("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=%d",$ad_id));
+
+          $post_metas = wp_cache_get( 'quads_post_metas_' . $ad_id ,'quick-adsense-reloaded' );
+          if ( false === $post_metas ) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+            $post_metas = $wpdb->get_results($wpdb->prepare("SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=%d",$ad_id));
+            wp_cache_set( 'quads_post_metas_' . $ad_id, $post_metas, 'quick-adsense-reloaded', HOUR_IN_SECONDS );
+          }
+          
 
           if ( count( $post_metas )!=0 ) {
 

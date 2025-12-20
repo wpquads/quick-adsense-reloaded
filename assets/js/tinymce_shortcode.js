@@ -69,8 +69,8 @@
 			type: 'POST',
 			url: ajaxurl,
 			data: {
-				'action': 'wpquads_ads_for_shortcode',
-				'wpquads_security_nonce' :quads.nonce
+				'action': 'quads_ads_for_shortcode',
+				'quads_security_nonce' :quads.nonce
 			}
 		})
 		.done( function( data, textStatus, jqXHR ) {

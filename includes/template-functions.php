@@ -568,7 +568,7 @@ function quads_adblocker_ad_block(){
         ?>
 <script>
 
-   if(typeof quadsOptions !== 'undefined' && typeof wpquads_adblocker_check_2 
+   if(typeof quadsOptions !== 'undefined' && typeof quads_adblocker_check_2 
   === 'undefined' && quadsOptions.quadsChoice == 'ad_blocker_message'){
   var addEvent1 = function (obj, type, fn) {
       if (obj.addEventListener)
@@ -579,13 +579,13 @@ function quads_adblocker_ad_block(){
           });
   };
    addEvent1(window, 'load', function () {
-      if (typeof wpquads_adblocker_check_2 === "undefined" || wpquads_adblocker_check_2 === false) {
+      if (typeof quads_adblocker_check_2 === "undefined" || quads_adblocker_check_2 === false) {
 
-          highlight_adblocked_ads();
+          quads_highlight_adblocked_ads();
       }
   });
 
-   function highlight_adblocked_ads() {
+   function quads_highlight_adblocked_ads() {
       try {
           var ad_wrappers = document.querySelectorAll('div[id^="quads-ad"]')
       } catch (e) {
@@ -884,8 +884,13 @@ function quads_disable_ads(){
    
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_disabledad_data'; 
-    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
-    $ad_details = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table_name WHERE user_email = %s AND payment_status = %s and user_id=%d order by disable_ad_id desc limit 1", $email, 'paid', $user_ID ) );
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+    $ad_details = wp_cache_get('quads_ad_details_'.$email.'_'.$user_ID, 'quick-adsense-reloaded');
+    if(false === $ad_details){
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter
+        $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `{$table_name}` WHERE user_email = %s AND payment_status = %s and user_id=%d order by disable_ad_id desc limit 1", $email, 'paid', $user_ID ));
+        wp_cache_set('quads_ad_details_'.$email.'_'.$user_ID, $ad_details, 'quick-adsense-reloaded', 3600);
+    }
     $is_disable_ad = false;
     if(!empty($ad_details)){
         $disable_duration = $ad_details->disable_duration;
@@ -1156,7 +1161,7 @@ function quads_filter_default_ads_new( $content ) {
             if($value['post']['post_status']== 'draft'){
                 continue;
             }
-            $quads_visibilty = apply_filters('wpquads_ad_conditional_visibility', $value['post_meta']);
+            $quads_visibilty = apply_filters('quads_ad_conditional_visibility', $value['post_meta']);
             if(!$quads_visibilty){
                 continue;
             }
@@ -1854,7 +1859,7 @@ function quads_add_sticky_script(){
         foreach($quads_ads['posts_data'] as $key => $value){
             $ads =$value['post_meta'];
             if($value['post']['post_status']== 'draft'){continue;}
-            $quads_visibilty = apply_filters('wpquads_ad_conditional_visibility', $value['post_meta']);
+            $quads_visibilty = apply_filters('quads_ad_conditional_visibility', $value['post_meta']);
             if(!$quads_visibilty){continue;}
             if(isset($ads['random_ads_list']))
             $ads['random_ads_list'] = unserialize($ads['random_ads_list']);
@@ -1884,7 +1889,7 @@ function quads_add_sticky_script(){
                 {
                     $js_dir = QUADS_PLUGIN_URL . 'assets/js/';
                     $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
-                    wp_enqueue_script('wp_qds_sticky', $js_dir . 'wp_qds_sticky'.$suffix .'.js', array('jquery'), QUADS_VERSION, false );
+                    wp_enqueue_script('quads-wp-qds-sticky', $js_dir . 'wp_qds_sticky'.$suffix .'.js', array('jquery'), QUADS_VERSION, false );
                     break;
                 }
                 else{
@@ -2553,7 +2558,7 @@ function quads_parse_popup_ads($content) {
         $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
         // These have to be global
-        wp_enqueue_script( 'wp_qds_popup', $js_dir . 'wp_qds_popup' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+        wp_enqueue_script( 'quads-wp-qds-popup', $js_dir . 'wp_qds_popup' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
 
     }else{
         $content = quads_replace_ads_new( $content, 'CusRot' . $ad_id, $temp_array[$ad_code],$enabled_on_amp);
@@ -2660,7 +2665,7 @@ function quads_parse_video_ads($content) {
         $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
         // These have to be global
-        wp_enqueue_script( 'wp_qds_video', $js_dir . 'wp_qds_video' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+        wp_enqueue_script( 'quads-wp-qds-video', $js_dir . 'wp_qds_video' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
 
     }
 }
@@ -2742,7 +2747,7 @@ function quads_parse_parallax_ads($content) {
         $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
         // These have to be global
-        wp_enqueue_script( 'wp_qds_parallax', $js_dir . 'wp_qds_parallax' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+        wp_enqueue_script( 'quads-wp-qds-parallax', $js_dir . 'wp_qds_parallax' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
 
     }
 }
@@ -2817,7 +2822,7 @@ function quads_parse_half_page_ads($content) {
         $suffix = ( quadsIsDebugMode() ) ? '' : '.min';
 
         // These have to be global
-        wp_enqueue_script( 'wp_qds_onload_ads', $js_dir . 'wp_qds_onload_ads' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
+        wp_enqueue_script( 'quads-wp-qds-onload-ads', $js_dir . 'wp_qds_onload_ads' . $suffix . '.js', array('jquery'), QUADS_VERSION, false );
 
     }
 }
@@ -3301,7 +3306,7 @@ function quads_del_element($array, $idx) {
                 if(isset($ads['ad_type']) && $ads['ad_type'] == 'background_ad'){
 
                       $after_body='<div class="quads-bg-wrapper">
-                   <a style="background-image: url('.esc_attr($ads['image_src']).')" class="quads-bg-ad" target="_blank" href="'.esc_attr($ads['image_redirect_url']).'">'
+                   <a style="background-image: url('.esc_url($ads['image_src']).')" class="quads-bg-ad" target="_blank" href="'.esc_url($ads['image_redirect_url']).'">'
                 . '</a>'                               
                 . '<div class="quads-bg-content">';   
                 $style=' <style>     .quads-bg-ad{                             
@@ -3354,7 +3359,8 @@ function quads_del_element($array, $idx) {
                     }else{
                         if($_COOKIE['skip_ads_delay'] != 0){
                             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-                            setcookie('skip_ads_delay', esc_attr(wp_unslash( $_COOKIE['skip_ads_delay'] )-1),-1, "/"); // 86400 = 1 day
+                            $delay = absint( wp_unslash( $_COOKIE['skip_ads_delay'] ) );
+                            setcookie( 'skip_ads_delay', esc_attr( $delay - 1 ), -1, "/" ); // 86400 = 1 day
                             return $content;
                         }
     
@@ -3373,11 +3379,11 @@ function quads_del_element($array, $idx) {
                         $add_nofollow = (isset($ads['add_url_nofollow']) && $ads['add_url_nofollow'])?true:false;
                         if(isset($ads['image_redirect_url'])  && !empty($ads['image_redirect_url'])){
                             $html .= '
-                            <a target="_blank" href="'.esc_attr($ads['image_redirect_url']). '" '.($add_nofollow?'rel=nofollow':'').'>
-                            <img class="aligncenter" '.(quads_is_lazyload_template($quads_options,$ads) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($ads['image_src']). '" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'"> 
+                            <a target="_blank" href="'.esc_url($ads['image_redirect_url']). '" '.($add_nofollow?'rel=nofollow':'').'>
+                            <img class="aligncenter" '.(quads_is_lazyload_template($quads_options,$ads) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($ads['image_src']). '" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'"> 
                             </a>';
                         }else{
-                            $html .= '<img class="aligncenter" '.(quads_is_lazyload_template($quads_options,$ads) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_attr($ads['image_src']). '" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'">';
+                            $html .= '<img class="aligncenter" '.(quads_is_lazyload_template($quads_options,$ads) ? 'src="data:image/svg+xml,%3Csvg%20xmlns=\'http://www.w3.org/2000/svg\'%20viewBox=\'0%200%20480%20270\'%3E%3C/svg%3E" data-src' : 'src').'="'.esc_url($ads['image_src']). '" data-lazydelay="'.esc_attr(quads_lazyload_delay_template($ads)).'">';
                         }
                     }else{
                         $html .= $ads['code'];
@@ -3908,7 +3914,7 @@ function quads_display_sticky_ads(){
             if($value['post']['post_status']== 'draft'){
                 continue;
             }
-            $quads_visibilty = apply_filters('wpquads_ad_conditional_visibility', $value['post_meta']);
+            $quads_visibilty = apply_filters('quads_ad_conditional_visibility', $value['post_meta']);
             if(!$quads_visibilty){
                 continue;
             }

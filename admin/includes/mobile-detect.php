@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Mobile Detect Library
  * Motto: "Every business should have a mobile detection script to detect mobile readers"
@@ -20,7 +21,7 @@
  *
  * @version 2.8.33
  */
-class Quads_Mobile_Detect
+class QUADS_Mobile_Detect
 {
     /**
      * Mobile detection type.

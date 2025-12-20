@@ -1,4 +1,6 @@
 <?php
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 class quads_admin_analytics{
   
     public function __construct() {                           
@@ -85,7 +87,9 @@ public function quads_insert_ad_impression(){
       $actual_link  = (isset($_POST['currentLocation'])) ?  sanitize_text_field( wp_unslash( $_POST['currentLocation'] ) ) :'';
       if(empty($actual_link) && isset($_SERVER['HTTP_HOST'])){
         // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized, WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
-        $actual_link = ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $http_host = isset( $_SERVER['HTTP_HOST'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : ''; 
+        $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : ''; 
+        $actual_link = ( is_ssl() ? "https://" : "http://" ) . $http_host . $request_uri;
       }
       
       $browser =  ( isset( $_SERVER['HTTP_USER_AGENT'] ))? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) :'';
@@ -103,8 +107,13 @@ public function quads_insert_ad_impression(){
       }else if($isMobile && !$isTablet){ // Only for mobile
         $device_name  = 'mobile';
       }
-      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-     $current_ad_stat = $wpdb->get_row($wpdb->prepare("SELECT id,ad_impressions FROM  {$wpdb->prefix}quads_stats  WHERE ad_id = %d AND ad_device_name = %s AND ad_thetime = %d AND referrer = %s AND ip_address = %s AND url = %s",array($ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link))),ARRAY_A);
+      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+      $current_ad_stat = wp_cache_get('quads_current_ad_stat_'.$ad_id.'_'.$device_name.'_'.$today.'_'.$referrer_url.'_'.$user_ip.'_'.$actual_link, 'quick-adsense-reloaded');
+      if(false === $current_ad_stat){
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+        $current_ad_stat = $wpdb->get_row($wpdb->prepare("SELECT id,ad_impressions FROM  {$wpdb->prefix}quads_stats  WHERE ad_id = %d AND ad_device_name = %s AND ad_thetime = %d AND referrer = %s AND ip_address = %s AND url = %s",array($ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link))),ARRAY_A);
+        wp_cache_set('quads_current_ad_stat_'.$ad_id.'_'.$device_name.'_'.$today.'_'.$referrer_url.'_'.$user_ip.'_'.$actual_link, $current_ad_stat, 'quick-adsense-reloaded', 3600);
+      }
      if(isset($current_ad_stat['id']) && !empty($current_ad_stat['id']))
      {
       $updated_impression=$current_ad_stat['ad_impressions']+1;
@@ -115,18 +124,18 @@ public function quads_insert_ad_impression(){
       // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
       $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_stats (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_device_name,ip_address,referrer,browser,url) VALUES (%d,%d,%d,%d,%s,%s,%s,%s,%s);",array( $ad_id, $today, 0, 1,  trim($device_name), trim($user_ip) ,trim($referrer_url),trim($browser), $actual_link )));
      }
-    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-     $current_adstat_single = $wpdb->get_row($wpdb->prepare("SELECT id,ad_impressions,date_impression FROM  {$wpdb->prefix}quads_single_stats_  WHERE ad_id = %d AND ad_date = %s",array($ad_id, $todays_date)),ARRAY_A);
+     $current_adstat_single = wp_cache_get('quads_current_adstat_single_'.$ad_id.'_'.$todays_date, 'quick-adsense-reloaded');
+     if(false === $current_adstat_single){
+      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+      $current_adstat_single = $wpdb->get_row($wpdb->prepare("SELECT id,ad_impressions,date_impression FROM  {$wpdb->prefix}quads_single_stats_  WHERE ad_id = %d AND ad_date = %s",array($ad_id, $todays_date)),ARRAY_A);
+      wp_cache_set('quads_current_adstat_single_'.$ad_id.'_'.$todays_date, $current_adstat_single, 'quick-adsense-reloaded', 3600);
+     }
      if(isset($current_adstat_single['id']) && !empty($current_adstat_single['id']))
      {
       $updated_ad_impression=$current_adstat_single['ad_impressions']+1;
       $updated_date_impression=$current_adstat_single['date_impression']+1;
-      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
       $result =  $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}quads_single_stats_ SET ad_impressions = %d , date_impression = %d  WHERE id = %d", array($updated_ad_impression,$updated_date_impression,$current_adstat_single['id'])));
-     }
-     else{
-      // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-      $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_single_stats_ (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_date,date_click,ad_year,date_impression) VALUES (%d,%d,%d,%d,%s,%s,%s,%s);",array($ad_id,0,0,1,$todays_date,0,$year,1)));
      }
 }
 
@@ -408,8 +417,12 @@ public function quads_get_client_ip() {
       $todays_date = gmdate('Y-m-d');
       $year = gmdate("Y"); 
       $device_name=substr($device_name, 0, 20);
-// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-      $current_click_stat = $wpdb->get_row($wpdb->prepare("SELECT id,ad_clicks FROM  {$wpdb->prefix}quads_stats  WHERE ad_id = %d AND ad_device_name = %s AND ad_thetime = %d AND referrer = %s AND ip_address = %s AND url = %s",array($ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link))),ARRAY_A);
+      $current_click_stat = wp_cache_get('quads_current_click_stat_'.$ad_id.'_'.$device_name.'_'.$today.'_'.$referrer_url.'_'.$user_ip.'_'.$actual_link, 'quick-adsense-reloaded');
+      if(false === $current_click_stat){
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+        $current_click_stat = $wpdb->get_row($wpdb->prepare("SELECT id,ad_clicks FROM  {$wpdb->prefix}quads_stats  WHERE ad_id = %d AND ad_device_name = %s AND ad_thetime = %d AND referrer = %s AND ip_address = %s AND url = %s",array($ad_id, trim($device_name), $today, trim($referrer_url),trim($user_ip),trim($actual_link))),ARRAY_A);
+        wp_cache_set('quads_current_click_stat_'.$ad_id.'_'.$device_name.'_'.$today.'_'.$referrer_url.'_'.$user_ip.'_'.$actual_link, $current_click_stat, 'quick-adsense-reloaded', 3600);
+      }
       if(isset($current_click_stat['id']) && !empty($current_click_stat['id']))
       {
        $updated_clicks=$current_click_stat['ad_clicks']+1;
@@ -428,9 +441,12 @@ public function quads_get_client_ip() {
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}quads_stats (ad_id,ad_thetime,ad_clicks,ad_impressions,ad_device_name,ip_address,referrer,browser,url) VALUES (%d,%d,%d,%d,%s,%s,%s,%s,%s);",array( $ad_id, $ad_thetime,  $ad_clicks,  $ad_impressions,  $ad_device_name, $ip_address , $referrer, $browser, $url )));
       }
-
-// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-      $current_clicks_single = $wpdb->get_row($wpdb->prepare("SELECT id,ad_clicks,date_click FROM  {$wpdb->prefix}quads_single_stats_  WHERE ad_id = %d AND ad_date = %s",array($ad_id, $todays_date)),ARRAY_A);
+      $current_clicks_single = wp_cache_get('quads_current_clicks_single_'.$ad_id.'_'.$todays_date, 'quick-adsense-reloaded');
+      if(false === $current_clicks_single){
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+        $current_clicks_single = $wpdb->get_row($wpdb->prepare("SELECT id,ad_clicks,date_click FROM  {$wpdb->prefix}quads_single_stats_  WHERE ad_id = %d AND ad_date = %s",array($ad_id, $todays_date)),ARRAY_A);
+        wp_cache_set('quads_current_clicks_single_'.$ad_id.'_'.$todays_date, $current_clicks_single, 'quick-adsense-reloaded', 3600);
+      }
       if(isset($current_clicks_single['id']) && !empty($current_clicks_single['id']))
       {
        $updated_ad_clicks=$current_clicks_single['ad_clicks']+1;
@@ -469,12 +485,14 @@ public function quads_get_client_ip() {
             $ad_id =  ( isset( $_GET['event'] ) )? sanitize_text_field( wp_unslash( $_GET['event'] ) ) : false;
             $device_name = 'amp';            
             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-            $referrer_url  = (isset($_SERVER['HTTP_REFERER'])) ? esc_url($_SERVER['HTTP_REFERER']):'';
+            $referrer_url = isset( $_SERVER['HTTP_REFERER'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '';
             $user_ip       =  $this->quads_get_client_ip();
              // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidatedNotSanitized
-            $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            $http_host = isset( $_SERVER['HTTP_HOST'] ) ? esc_url_raw( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : ''; 
+            $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : ''; 
+            $actual_link = ( is_ssl() ? "https://" : "http://" ) . $http_host . $request_uri;
             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotValidated
-            $browser = $_SERVER['HTTP_USER_AGENT'];
+            $browser = ( isset( $_SERVER['HTTP_USER_AGENT'] ) )? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) :'';
             require_once QUADS_PLUGIN_DIR . '/admin/includes/mobile-detect.php';
             $device_name ='';
             $mobile_detect = $isTablet = '';

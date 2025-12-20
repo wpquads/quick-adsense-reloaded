@@ -1,5 +1,5 @@
 <?php
-
+if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Widget Functions
  *
@@ -119,7 +119,7 @@ class quads_widgets_1 extends WP_Widget {
                 $this->AdsWidID, // Base ID
                 str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
-                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'description' => esc_html__( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
@@ -176,7 +176,7 @@ class quads_widgets_2 extends WP_Widget {
                 $this->AdsWidID, // Base ID
                 str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
-                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'description' => esc_html__( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
@@ -222,7 +222,7 @@ class quads_widgets_3 extends WP_Widget {
                 $this->AdsWidID, // Base ID
                 str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
-                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'description' => esc_html__( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
@@ -270,7 +270,7 @@ class quads_widgets_4 extends WP_Widget {
                 $this->AdsWidID, // Base ID
                 str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
-                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'description' => esc_html__( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
@@ -318,7 +318,7 @@ class quads_widgets_5 extends WP_Widget {
                 $this->AdsWidID, // Base ID
                 str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
-                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'description' => esc_html__( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
@@ -365,7 +365,7 @@ class quads_widgets_6 extends WP_Widget {
                 $this->AdsWidID, // Base ID
                 str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
-                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'description' => esc_html__( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
@@ -413,7 +413,7 @@ class quads_widgets_7 extends WP_Widget {
                 $this->AdsWidID, // Base ID
                 str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
-                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'description' => esc_html__( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
@@ -461,7 +461,7 @@ class quads_widgets_8 extends WP_Widget {
                 $this->AdsWidID, // Base ID
                 str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
-                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'description' => esc_html__( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
@@ -509,7 +509,7 @@ class quads_widgets_9 extends WP_Widget {
                 $this->AdsWidID, // Base ID
                 str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
-                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'description' => esc_html__( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );
@@ -557,7 +557,7 @@ class quads_widgets_10 extends WP_Widget {
                 $this->AdsWidID, // Base ID
                 str_replace('Quick Adsense Reloaded', 'WP QUADS', sanitize_title($this->AdsWidName)) , // Name
                 array(
-                    'description' => __( 'Widget contains ad code', 'quick-adsense-reloaded' ),
+                    'description' => esc_html__( 'Widget contains ad code', 'quick-adsense-reloaded' ),
                     'classname' => 'quads-ad'.sanitize_html_class($this->adsID).'_widget'
                     ) // Args
         );

@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
 /**
 * Simple Logger Class
 *
@@ -10,14 +11,19 @@
 *
 **/
 class quadsLogger {
-  var $file, $path, $level, $stream,$folder;
+  public $file;
+	public $path;
+	public $level;
+	public $stream;
+	private $folder;
+
   const INFO  = 4;
   const DEBUG = 3;
   const WARN  = 2;
   const ERROR = 1;
   const FATAL = 0;
   
-	function __construct($file, $level)
+	public function __construct($file, $level)
 	{
 		$this->file = $file;
 		$this->level = $level;
@@ -26,32 +32,32 @@ class quadsLogger {
 		$this->start();
 	}
 	
-	function info($string)
+	public function info($string)
 	{
 	  return $this->check_level(self::INFO) ? true : $this->log($string);
 	}
 	
-	function warn($string)
+	public function warn($string)
 	{
 	  return $this->check_level(self::WARN) ? true : $this->log($string);
 	}
 	
-	function debug($string)
+	public function debug($string)
 	{
 	  return $this->check_level(self::DEBUG) ? true : $this->log($string);
 	}
 	
-	function error($string)
+	public function error($string)
 	{
 	  return $this->check_level(self::ERROR) ? true : $this->log($string);
 	}
 	
-	function fatal($string)
+	public function fatal($string)
 	{
 	  return $this->check_level(self::FATAL) ? true : $this->log($string);
 	}
 	
-	function clear()
+	public function clear()
 	{
 	  $this->close();
 	  $this->open("w");

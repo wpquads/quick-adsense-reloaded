@@ -1,12 +1,12 @@
 <?php
 
-namespace wpquads;
-
+namespace quads;
+if ( ! defined( 'ABSPATH' ) ) exit;
 /*
  * Class for rendering templates
  */
 
-class template {
+class QUADS_Template {
     protected $path, $data;
 
     /**

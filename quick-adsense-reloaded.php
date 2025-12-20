@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: Ads by Quads – Adsense Ads, Banner Ads, Popup Ads
+ * Plugin Name: Quads Ads Manager for Google AdSense
  * Plugin URI: https://wordpress.org/plugins/quick-adsense-reloaded/
  * Description: Insert Google AdSense and other ad formats fully automatic into your website
  * Author: WP Quads
  * Author URI: https://wordpress.org/plugins/quick-adsense-reloaded/
- * Version: 2.0.96
+ * Version: 2.0.97
  * Text Domain: quick-adsense-reloaded
  * Domain Path: /languages
  * Credits: WP QUADS - Quick AdSense Reloaded is a fork of Quick AdSense
@@ -38,7 +38,7 @@ if( !defined( 'ABSPATH' ) )
 
 // Plugin version
 if( !defined( 'QUADS_VERSION' ) ) {
-  define( 'QUADS_VERSION', '2.0.96' );
+  define( 'QUADS_VERSION', '2.0.97' );
 }
 
 // Plugin name
@@ -121,7 +121,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
        * @static var array $instance
        * @uses QuickAdsenseReloaded::setup_constants() Setup the constants needed
        * @uses QuickAdsenseReloaded::includes() Include the required files
-       * @uses QuickAdsenseReloaded::load_textdomain() load the language files
        * @see QUADS()
        * @return The one true QuickAdsenseReloaded
        */
@@ -130,11 +129,10 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             self::$instance = new QuickAdsenseReloaded;
             self::$instance->setup_constants();
             self::$instance->includes();
-            self::$instance->load_textdomain();
             self::$instance->load_hooks();
             self::$instance->logger = new quadsLogger( "quick_adsense_log_" . gmdate( "Y-m-d" ) . ".log", quadsLogger::INFO );
             self::$instance->html = new QUADS_HTML_Elements();
-            self::$instance->adsense = new wpquads\adsense(get_option('quads_settings'));
+            self::$instance->adsense = new quads\adsense(get_option('quads_settings'));
          }
          return self::$instance;
       }
@@ -242,7 +240,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
          require_once QUADS_PLUGIN_DIR . 'includes/Cron/Cron.php';
          require_once QUADS_PLUGIN_DIR . 'includes/vendor/google/adsense.php';
          require_once QUADS_PLUGIN_DIR . 'includes/class-template.php';
-         require_once QUADS_PLUGIN_DIR . 'includes/admin/adsTxt.php';
+         require_once QUADS_PLUGIN_DIR . 'includes/admin/class-quads-ads-txt.php';
         require_once QUADS_PLUGIN_DIR . 'includes/elementor/widget.php';
         require_once QUADS_PLUGIN_DIR . 'includes/amp-condition-display.php';
          require_once QUADS_PLUGIN_DIR . 'includes/ad-selling-helper.php';
@@ -294,11 +292,11 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
     * Register used namespaces
     */
    private function registerNamespaces() {
-      $autoloader = new wpquads\Autoloader();
+      $autoloader = new quads\Autoloader();
 
       // Autoloader
       $autoloader->registerNamespaces( array(
-          "wpquads" => array(
+          "quads" => array(
               QUADS_PLUGIN_DIR,
               QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms',
               QUADS_PLUGIN_DIR . 'includes' . DIRECTORY_SEPARATOR . 'Forms' . DIRECTORY_SEPARATOR . 'Elements',
@@ -317,39 +315,6 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             add_filter( 'admin_footer', 'quads_add_deactivation_feedback_modal' );
       }
 
-      /**
-       * Loads the plugin language files
-       *
-       * @access public
-       * @since 1.0
-       * @return void
-       */
-      public function load_textdomain() {
-         // Set filter for plugin's languages directory
-         $quads_lang_dir = dirname( plugin_basename( QUADS_PLUGIN_FILE ) ) . '/languages/';
-         $quads_lang_dir = apply_filters( 'quads_languages_directory', $quads_lang_dir );
-
-         // Traditional WordPress plugin locale filter
-         // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-         $locale = apply_filters( 'plugin_locale', get_locale(), 'quick-adsense-reloaded' );
-         $mofile = sprintf( '%1$s-%2$s.mo', 'quick-adsense-reloaded', $locale );
-
-         // Setup paths to current locale file
-         $mofile_local = $quads_lang_dir . $mofile;
-         $mofile_global = WP_LANG_DIR . '/quads/' . $mofile;
-         //echo $mofile_local;
-         if( file_exists( $mofile_global ) ) {
-            // Look in global /wp-content/languages/quads folder
-            load_textdomain( 'quick-adsense-reloaded', $mofile_global );
-         } elseif( file_exists( $mofile_local ) ) {
-            // Look in local /wp-content/plugins/quick-adsense-reloaded/languages/ folder
-            load_textdomain( 'quick-adsense-reloaded', $mofile_local );
-         } else {
-            // Load the default language files
-            load_plugin_textdomain( 'quick-adsense-reloaded', false, $quads_lang_dir );
-         }
-      }
-
       /*
        * Activation function fires when the plugin is activated.
        * Checks first if multisite is enabled
@@ -365,8 +330,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
             if( $networkwide ) {
                $old_blog = $wpdb->blogid;
                // Get all blog ids
-               // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.DirectQuery
-               $blogids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+               $blog_ids = get_sites();
                foreach ( $blogids as $blog_id ) {
                   switch_to_blog( $blog_id );
                   QuickAdsenseReloaded::during_activation();
@@ -429,7 +393,7 @@ if( !class_exists( 'QuickAdsenseReloaded' ) ) :
        * @return array
        */
       private function startAdsense(){
-          new wpquads\adsense(get_option( 'quads_settings' ));
+          new quads\adsense(get_option( 'quads_settings' ));
       }
 
    }
@@ -526,18 +490,58 @@ function quads_is_active_deprecated() {
  *
  * @since 1.8.12
  */
-add_action('update_option_quads_settings', 'wpquads_remove_shortcode',10,3);
-function wpquads_remove_shortcode($old_value,$new_value,$option){
-  $content_url =WPMU_PLUGIN_DIR.'/wpquads_remove_shortcode.php';
-  if(isset($new_value['hide_add_on_disableplugin'])){
-    wp_mkdir_p(WPMU_PLUGIN_DIR, 755, true);
-    $sourc =plugin_dir_path( __FILE__ ) . 'includes/mu-plugin/wpquads_remove_shortcode.php';
-    if (!file_exists($content_url)) {
-      copy($sourc,$content_url);
+add_action( 'update_option_quads_settings', 'quads_remove_shortcode', 10, 3 );
+
+function quads_remove_shortcode( $old_value, $new_value, $option ) {
+
+    $mu_plugin_dir  = trailingslashit( WPMU_PLUGIN_DIR );
+    $target_file    = $mu_plugin_dir . 'quads_remove_shortcode.php';
+    $source_file    = plugin_dir_path( __FILE__ ) . 'includes/mu-plugin/quads_remove_shortcode.php';
+
+    // Load WP filesystem
+    if ( ! function_exists( 'WP_Filesystem' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/file.php';
     }
-  }else{
-    wp_delete_file($content_url);
-  }
+
+    WP_Filesystem();
+    global $wp_filesystem;
+
+    if ( ! $wp_filesystem ) {
+        return;
+    }
+
+    // Ensure MU plugin directory exists
+    if ( ! $wp_filesystem->is_dir( $mu_plugin_dir ) ) {
+        $wp_filesystem->mkdir( $mu_plugin_dir );
+    }
+
+    if ( isset( $new_value['hide_add_on_disableplugin'] ) ) {
+
+        // Validate source file
+        if ( ! $wp_filesystem->exists( $source_file ) ) {
+            return;
+        }
+
+        // Copy file only if it doesn't already exist
+        if ( ! $wp_filesystem->exists( $target_file ) ) {
+            $contents = $wp_filesystem->get_contents( $source_file );
+
+            if ( false !== $contents ) {
+                $wp_filesystem->put_contents(
+                    $target_file,
+                    $contents,
+                    FS_CHMOD_FILE
+                );
+            }
+        }
+
+    } else {
+
+        // Safely delete file if it exists
+        if ( $wp_filesystem->exists( $target_file ) ) {
+            $wp_filesystem->delete( $target_file );
+        }
+    }
 }
 
 if (QUADS_VERSION >= '2.0.28' && quads_is_pro_active() ) {
@@ -549,7 +553,7 @@ if (QUADS_VERSION >= '2.0.28' && quads_is_pro_active() ) {
     }
  }
       
-// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: We are just checking in if condition, not storing any data.
 if( function_exists('quads_is_pro_active') && quads_is_pro_active() && isset( $_GET["page"] ) && !empty( $_GET ) && $_GET["page"] == 'quads-settings' && isset($_GET["tab"]) && $_GET["tab"] == 'licenses' ){
     $quads_license = get_option( 'quads_wp_quads_pro_license_active' );
     if( !empty( $quads_license ) && is_object( $quads_license ) && $quads_license->license == 'valid' ) {

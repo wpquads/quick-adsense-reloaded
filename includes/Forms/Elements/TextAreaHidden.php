@@ -1,7 +1,7 @@
 <?php
-namespace wpquads;
+namespace quads;
 
-use wpquads;
+use quads;
 
 /**
  * Class TextArea
