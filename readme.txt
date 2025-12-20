@@ -12,16 +12,14 @@ Tested up to: 6.9
 Requires PHP: 7.4
 Stable tag: 2.0.97
 
-Ads & AdSense plugin with features like Media.net, DFP, ads.txt, Web Stories ads, click fraud protection, revenue sharing, ad blocker detection, and high performance.
+Ads & AdSense plugin supporting Media.net, DFP, ads.txt, Web Stories ads, click fraud protection, revenue sharing, and ad blocker detection.
 
 == Description ==
 WP QUADS provides a modern approach to ad management. It is well coded, lightweight, and suitable for websites with high traffic volumes.
 
-[Home](https://wpquads.com/) | [Documentation](https://wpquads.com/documentation/) | [Help](https://wpquads.com/support/) | [Premium Features](https://wpquads.com/#buy-wpquads)
-
 WPQuads is a reliable and extensible ad inserter and AdSense management solution for WordPress.
 
-== Features: ==
+== Features ==
 * <strong>NEW - Sellable Ads: </strong> Sell your AD space.
 * <strong>NEW - Hide Ads for Premium Members: </strong> Hide Ads for Premium Members.
 * <strong>NEW - Web Stories Integration: </strong> Advertise in AMP Web Stories.
@@ -59,11 +57,13 @@ WPQuads is a reliable and extensible ad inserter and AdSense management solution
 * Import / Export function makes plugin migrating to other sites easier. Copy your ads code to other sites.
 * <strong>Caching Power</strong> - Supports WP Rocket, W3 Total and any other Caching plugin.
 
-== 🎥 Watch Quads in Action – Feature Overview (starts at 2:05) ==
-	
+== Watch Quads in Action ==
+
+= Feature Overview (starts at 2:05)	
+
 [youtube https://www.youtube.com/watch?v=My7T6yN-qP4&t=2m5s]
 
-= TAKE IT A STEP FURTHER WITH WPQUADS PRO =
+== TAKE IT A STEP FURTHER WITH WPQUADS PRO ==
 With [WPQUADS PRO](https://wpquads.com/#buy-wpquads) you can add as many ads as you like to your WordPress website. There are no limitations.
 Get access to more professional Settings, options and positions to really push your ads to the next level.
 * <strong>New - AD Blindness </strong>: Helps you fight the Ad blindness.
@@ -75,7 +75,7 @@ Get access to more professional Settings, options and positions to really push y
 * <strong>[Geo Targeting ](https://wpquads.com/documentation/what-is-geo-location-feature-and-how-to-use-it/)</strong>: Target the ads based on the city and countries.
 
 
-= Ad Vendors Support =
+== Ad Vendors Support ==
 * Google Adsense
 * Google AD Manager, formerly Double Click for Publishers (DFP)
 * Yandex Direct Ads support
@@ -87,7 +87,7 @@ Get access to more professional Settings, options and positions to really push y
 * Infolinks Ads support
 * 20+ more ad vendors coming in the future updates.
 
-= Display Positions for Ads =
+== Display Positions for Ads ==
 * Beginning of Post
 * Middle of Post
 * End of the Post
@@ -102,7 +102,7 @@ Get access to more professional Settings, options and positions to really push y
 * Shortcode & PHP tag placement
 * More display positions are coming in the future updates
 
-= Visibility: You can choose include/exclude the ads from =
+== Visibility ==
 * Post types
 * Post: specific one post or multiple posts
 * Homepage
@@ -115,7 +115,7 @@ Get access to more professional Settings, options and positions to really push y
 * Taxonomy Terms
 * Page Templates
 
-= Targeting: When should the ad be displayed =
+== Targeting ==
 * Device Type
 * Browser Language
 * Logged In
@@ -126,10 +126,10 @@ Get access to more professional Settings, options and positions to really push y
 * Referrer URL Path
 * Browser Width
 
-= Active Development: =
+== Active Development ==
 We are actively developing this plugin with a focus on improving functionality, stability, and usability for a wide range of use cases. You can [Request a Feature](https://wpquads.com/support/) or [Report a Bug](https://github.com/wpquads/quick-adsense-reloaded/issues). The code is hosted on [Github](https://github.com/wpquads/quick-adsense-reloaded).
 
-= Development Roadmap: =
+== Development Roadmap ==
 * <strong>A/B Testing</strong>: Find out which ads perform the most and how you can improve the ad revenue further.
 * <strong>3rd Party compatibility</strong>: Deep integration with BuddyPress, BuddyBoss, bbPress, Paid Membership Pro, WPML, Mailpoet, Multisite, WooCommerce and More.
 * <strong>Innovation & Disruption</strong>: We are constantly evolving our product and going to introduce new features which are not being used by anyone in the world.
@@ -139,13 +139,13 @@ We are actively developing this plugin with a focus on improving functionality, 
 
 **[JOIN CHAT GROUP COMMUNITY](https://t.me/wpquads/)**: Purpose of this group is to get proper suggestions and feedback from plugin users and the community so that we can make the plugin even better.
 
-= Documentation =
+== Documentation ==
 Documentation & Tutorials are available on [Documentation Center](https://wpquads.com/documentation/).
 
-= Technical Support =
+== Technical Support ==
 Support is provided in [Forum](https://wordpress.org/support/plugin/quick-adsense-reloaded/). You can also [Contact us](https://wpquads.com/support/), our turn around time on email is around 12 hours.
 
-= We Guarantee =
+== Important Notes ==
 This plugin does not do any revenue sharing with your Google AdSense ads. We never show our on ads ads on your website.
 We are an active and dedicated member of the WordPress community and we are following strictly the WordPress Codex in terms of code quality and good behave.
 
