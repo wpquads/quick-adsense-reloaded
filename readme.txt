@@ -14,7 +14,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Ads & AdSense plugin supporting Media.net, DFP, ads.txt, Web Stories ads, click fraud protection, revenue sharing, and ad blocker detection.
 
 == Description ==
-WP QUADS provides a modern approach to ad management. It is well coded, lightweight, and suitable for websites with high traffic volumes.
+WPQUADS provides a modern approach to ad management. It is well coded, lightweight, and suitable for websites with high traffic volumes.
 
 [Home](https://wpquads.com/) | [Documentation](https://wpquads.com/documentation/) | [Help](https://wpquads.com/support/) | [Premium Features](https://wpquads.com/#buy-wpquads)
 
