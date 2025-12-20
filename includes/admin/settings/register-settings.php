@@ -192,7 +192,7 @@ function quads_get_registered_settings() {
                'id' => 'maxads',
                'name' => esc_html__( 'Limit Amount of ads:', 'quick-adsense-reloaded' ),
                'desc' => esc_html__( ' ads on a page.', 'quick-adsense-reloaded' ),
-               'desc2' => sprintf( /* translators: %s: adsense guide url */ esc_html__( '<a href="%s" target="_blank">Read here</a> to learn how many AdSense ads are allowed. If you are unsure set the value to unlimited.', 'quick-adsense-reloaded' ), 'http://QUADS.com/google-adsense-allowed-number-ads/' ),
+               'desc2' => sprintf( /* translators: %s: adsense guide url */ '<a href="%s" target="_blank">' . esc_html__( 'Read here', 'quick-adsense-reloaded' ) . '</a> ' . esc_html__( 'to learn how many AdSense ads are allowed. If you are unsure set the value to unlimited.', 'quick-adsense-reloaded' ), 'http://QUADS.com/google-adsense-allowed-number-ads/' ),
                'type' => 'select',
                'std' => 100,
                'options' => array(
@@ -279,12 +279,11 @@ function quads_get_registered_settings() {
            'adsense_header' => array(
                'id' => 'adsense_header',
                'name' =>  esc_html__( 'Ads', 'quick-adsense-reloaded' ) ,
-               'desc' => '<div class="adsense_admin_header">' . esc_html__( 'Enter your ads below:</div>
+               'desc' => '<div class="adsense_admin_header">' . esc_html__( 'Enter your ads below:', 'quick-adsense-reloaded' ) . '</div>
                                <ul style="margin-top:10px;">
-                               <li style="font-weight:600;">- <i>AdSense</i> for using <span style="font-weight:600;">AdSense Text & display Ads</span>!</li>
-                               <li style="font-weight:600;">- <i>Plain Text / HTML / JS</i> for all other ads! <br><strong>Caution:</strong> Adding AdSense code into <i>Plain Text</i> option can result in non-displayed ads!</li></ul>', 'quick-adsense-reloaded' )
-               . '</ul>'
-               . '<div style="clear:both;">' . sprintf( /* translators: %s: troubleshooting guide url */  esc_html__( '<strong>Ads are not showing? Read the <a href="%s" target="_blank">troubleshooting guide</a> to find out how to resolve it.', 'quick-adsense-reloaded' ), 'http://QUADS.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=QUADS-settings&utm_medium=website&utm_term=toplink' ) . ''
+                               <li style="font-weight:600;">- <i>' . esc_html__( 'AdSense', 'quick-adsense-reloaded' ) . '</i> ' . esc_html__( 'for using', 'quick-adsense-reloaded' ) . ' <span style="font-weight:600;">' . esc_html__( 'AdSense Text & display Ads', 'quick-adsense-reloaded' ) . '</span>!</li>
+                               <li style="font-weight:600;">- <i>' . esc_html__( 'Plain Text / HTML / JS', 'quick-adsense-reloaded' ) . '</i> ' . esc_html__( 'for all other ads!', 'quick-adsense-reloaded' ) . ' <br><strong>' . esc_html__( 'Caution:', 'quick-adsense-reloaded' ) . '</strong> ' . esc_html__( 'Adding AdSense code into', 'quick-adsense-reloaded' ) . ' <i>' . esc_html__( 'Plain Text', 'quick-adsense-reloaded' ) . '</i> ' . esc_html__( 'option can result in non-displayed ads!', 'quick-adsense-reloaded' ) . '</li></ul>'
+               . '<div style="clear:both;">' . sprintf( /* translators: %s: troubleshooting guide url */  '<strong>' . esc_html__( 'Ads are not showing? Read the', 'quick-adsense-reloaded' ) . ' <a href="%s" target="_blank">' . esc_html__( 'troubleshooting guide', 'quick-adsense-reloaded' ) . '</a> ' . esc_html__( 'to find out how to resolve it.', 'quick-adsense-reloaded' ) . '</strong>', 'http://QUADS.com/docs/adsense-ads-are-not-showing/?utm_source=plugin&utm_campaign=QUADS-settings&utm_medium=website&utm_term=toplink' ) . ''
                . '<br><a href="http://QUADS.com/effective-adsense-banner-size-formats/?utm_campaign=plugin&utm_source=general_tab&utm_medium=admin&utm_content=best_banner_sizes" target="_blank">Read this</a> to find out the most effective AdSense banner sizes. </div>'
                . '<div id="quads-open-toggle" class="button">' . esc_html__( 'Open All Ads', 'quick-adsense-reloaded' ) . '</div>',
                'type' => 'header'
@@ -303,7 +302,7 @@ function quads_get_registered_settings() {
                'id' => 'widget_header',
                'name' =>  esc_html__( 'Widget Ads', 'quick-adsense-reloaded' ) ,
                'desc' => sprintf( /* translators: %s: widger url*/
-                  esc_html__( 'After creating your ads here go to <a href="%s" target="_self">Appearance->Widgets</a> and drag the WP QUADS widget into place.', 'quick-adsense-reloaded' ), admin_url() . 'widgets.php' ),
+                  esc_html__( 'After creating your ads here go to', 'quick-adsense-reloaded' ) . ' <a href="%s" target="_self">' . esc_html__( 'Appearance->Widgets', 'quick-adsense-reloaded' ) . '</a> ' . esc_html__( 'and drag the WP QUADS widget into place.', 'quick-adsense-reloaded' ), admin_url() . 'widgets.php' ),
                'type' => 'header'
            ),
            'ad1_widget' => array(
@@ -386,7 +385,7 @@ function quads_get_registered_settings() {
                'id' => 'priority',
                'name' => esc_html__( 'Load Priority', 'quick-adsense-reloaded' ),
                //'desc' => esc_html__( 'Do not change this until you know what you are doing. Usually the default value 20 is working fine. Changing this value can lead to unexpected results like ads not showing or loaded on wrong order. <strong>Default:</strong> 20', 'quick-adsense-reloaded' ),
-               'helper-desc' => esc_html__( 'Do not change this until you know what you are doing. Usually the default value 20 is working fine. Changing this value can lead to unexpected results like ads not showing or loaded on wrong order. <strong>Default:</strong> 20', 'quick-adsense-reloaded' ),
+               'helper-desc' => esc_html__( 'Do not change this until you know what you are doing. Usually the default value 20 is working fine. Changing this value can lead to unexpected results like ads not showing or loaded on wrong order.', 'quick-adsense-reloaded' ) . ' <strong>' . esc_html__( 'Default:', 'quick-adsense-reloaded' ) . '</strong> 20',
                'type' => 'number',
                'size' => 'small',
                'std' => 10
@@ -396,7 +395,7 @@ function quads_get_registered_settings() {
                'name' => esc_html__( 'Remove menu button', 'quick-adsense-reloaded' ),
                //'desc' => esc_html__( 'Make the QUADS settings available from <strong>Settings->QUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
                'desc' => esc_html__( 'Remove it', 'quick-adsense-reloaded' ),
-               'helper-desc' => esc_html__( 'Make the QUADS settings available from <strong>Settings->QUADS</strong>. This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
+               'helper-desc' => esc_html__( 'Make the QUADS settings available from', 'quick-adsense-reloaded' ) . ' <strong>' . esc_html__( 'Settings->QUADS', 'quick-adsense-reloaded' ) . '</strong>. ' . esc_html__( 'This will remove the primary menu button from the admin sidebar', 'quick-adsense-reloaded' ),
                'type' => 'checkbox',
            ),
            'disableAmpScript' => array(
@@ -411,7 +410,7 @@ function quads_get_registered_settings() {
                'id' => 'uninstall_on_delete',
                'name' => esc_html__( 'Delete Data on Uninstall?', 'quick-adsense-reloaded' ),
                //'desc' => esc_html__( 'Check this box if you would like <strong>Settings->QUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
-                'helper-desc' => esc_html__( 'Check this box if you would like <strong>Settings->QUADS</strong> to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
+                'helper-desc' => esc_html__( 'Check this box if you would like', 'quick-adsense-reloaded' ) . ' <strong>' . esc_html__( 'Settings->QUADS', 'quick-adsense-reloaded' ) . '</strong> ' . esc_html__( 'to completely remove all of its data when the plugin is deleted.', 'quick-adsense-reloaded' ),
                'desc' => 'Delete data',
                'type' => 'checkbox'
            ),
@@ -1275,7 +1274,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 
                   $class = 'error';
                   $messages[] = sprintf( /* translators: %1$s: license expiration date, %2$s: renew license url */
-                          esc_html__( 'Your license key expired on %1$s. Please <a href="%2$s" target="_blank" title="Renew your license key">renew your license key</a>.', 'quick-adsense-reloaded' ), date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ), 'http://QUADS.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=license_tab&utm_medium=admin&utm_content=license-expired'
+                          esc_html__( 'Your license key expired on %1$s. Please', 'quick-adsense-reloaded' ) . ' <a href="%2$s" target="_blank" title="' . esc_attr__( 'Renew your license key', 'quick-adsense-reloaded' ) . '">' . esc_html__( 'renew your license key', 'quick-adsense-reloaded' ) . '</a>.', date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ), 'http://QUADS.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=license_tab&utm_medium=admin&utm_content=license-expired'
                   );
 
                   $license_status = 'quads-license-' . $class . '-notice';
@@ -1286,7 +1285,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 
                   $class = 'error';
                   $messages[] = sprintf( /* translators: %s: Account url */ 
-                          esc_html__( 'Invalid license. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> and verify it.', 'quick-adsense-reloaded' ), 'http://QUADS.com/your-account?utm_source=licenses-tab&utm_medium=admin&utm_content=invalid-license&utm_campaign=notice'
+                          esc_html__( 'Invalid license. Please', 'quick-adsense-reloaded' ) . ' <a href="%s" target="_blank" title="' . esc_attr__( 'Visit account page', 'quick-adsense-reloaded' ) . '">' . esc_html__( 'visit your account page', 'quick-adsense-reloaded' ) . '</a> ' . esc_html__( 'and verify it.', 'quick-adsense-reloaded' ), 'http://QUADS.com/your-account?utm_source=licenses-tab&utm_medium=admin&utm_content=invalid-license&utm_campaign=notice'
                   );
 
                   $license_status = 'quads-license-' . $class . '-notice';
@@ -1298,7 +1297,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 
                   $class = 'error';
                   $messages[] = sprintf( /* translators: %1$s: plugin name, %2$s: account page url */
-                          esc_html__( 'Your %1$s is not active for this URL. Please <a href="%2$s" target="_blank" title="Visit account page">visit your account page</a> to manage your license key URLs.', 'quick-adsense-reloaded' ), $args['name'], 'http://QUADS.com/your-account?utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin&utm_content=invalid-license'
+                          esc_html__( 'Your %1$s is not active for this URL. Please', 'quick-adsense-reloaded' ) . ' <a href="%2$s" target="_blank" title="' . esc_attr__( 'Visit account page', 'quick-adsense-reloaded' ) . '">' . esc_html__( 'visit your account page', 'quick-adsense-reloaded' ) . '</a> ' . esc_html__( 'to manage your license key URLs.', 'quick-adsense-reloaded' ), $args['name'], 'http://QUADS.com/your-account?utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin&utm_content=invalid-license'
                   );
 
                   $license_status = 'quads-license-' . $class . '-notice';
@@ -1317,7 +1316,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
                case 'no_activations_left':
 
                   $class = 'error';
-                  $messages[] = sprintf( /* translators: %s: upgrades url */  esc_html__( 'Your license key has reached its activation limit. <a href="%s" target="_blank">View possible upgrades</a> now.', 'quick-adsense-reloaded' ), 'http://QUADS.com/your-account?utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin&utm_content=invalid-license' );
+                  $messages[] = sprintf( /* translators: %s: upgrades url */  esc_html__( 'Your license key has reached its activation limit.', 'quick-adsense-reloaded' ) . ' <a href="%s" target="_blank">' . esc_html__( 'View possible upgrades', 'quick-adsense-reloaded' ) . '</a> ' . esc_html__( 'now.', 'quick-adsense-reloaded' ), 'http://QUADS.com/your-account?utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin&utm_content=invalid-license' );
 
                   $license_status = 'quads-license-' . $class . '-notice';
 
@@ -1338,13 +1337,13 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 
                   if( 'lifetime' === $license->expires ) {
 
-                     $messages[] = esc_html__( ' Your <span class="lifetime">License key is Valid for Lifetime</span> ', 'quick-adsense-reloaded' );
+                     $messages[] = ' ' . esc_html__( 'Your', 'quick-adsense-reloaded' ) . ' <span class="lifetime">' . esc_html__( 'License key is Valid for Lifetime', 'quick-adsense-reloaded' ) . '</span> ';
 
                      $license_status = 'quads-license-lifetime-notice';
                   } elseif( $expiration > $now && $expiration - $now < ( DAY_IN_SECONDS * 30 ) ) {
 
                      $messages[] = sprintf( /* translators: 1: license expiration date , 2:Renew license url */
-                             esc_html__( 'Your license key expires soon! It expires on %1$s. <a class="license_expiring" href="%2$s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ), 'http://QUADS.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
+                             esc_html__( 'Your license key expires soon! It expires on %1$s.', 'quick-adsense-reloaded' ) . ' <a class="license_expiring" href="%2$s" target="_blank" title="' . esc_attr__( 'Renew license', 'quick-adsense-reloaded' ) . '">' . esc_html__( 'Renew your license key', 'quick-adsense-reloaded' ) . '</a>.', date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ), 'http://QUADS.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
                      );
 
                      $license_status = 'quads-license-expires-soon-notice';
@@ -1384,7 +1383,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
             }
           
                 $messages[] = sprintf( /* translators: %s: Renew license url */
-                             esc_html__( '<span class="expired_license_main">Your <span class="expired_license">License key has been Expired.</span></span> <a class="lic_is_expired" href="%s" target="_blank" title="Renew license">Renew Now</a>', 'quick-adsense-reloaded' ), 'http://QUADS.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
+                             '<span class="expired_license_main">' . esc_html__( 'Your', 'quick-adsense-reloaded' ) . ' <span class="expired_license">' . esc_html__( 'License key has been Expired.', 'quick-adsense-reloaded' ) . '</span></span> <a class="lic_is_expired" href="%s" target="_blank" title="' . esc_attr__( 'Renew license', 'quick-adsense-reloaded' ) . '">' . esc_html__( 'Renew Now', 'quick-adsense-reloaded' ) . '</a>', 'http://QUADS.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
                      );
                      $license_status = 'quads-license-error-notice';
                      }
@@ -1393,7 +1392,7 @@ if( !function_exists( 'quads_license_key_callback' ) ) {
 
                case 'inactive' :
                     $messages[] = sprintf( /* translators: %s: Renew license url */
-                             esc_html__( 'Your license key has been disabled! <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'quick-adsense-reloaded' ), 'http://QUADS.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
+                             esc_html__( 'Your license key has been disabled!', 'quick-adsense-reloaded' ) . ' <a href="%s" target="_blank" title="' . esc_attr__( 'Renew license', 'quick-adsense-reloaded' ) . '">' . esc_html__( 'Renew your license key', 'quick-adsense-reloaded' ) . '</a>.', 'http://QUADS.com/checkout/?edd_license_key=' . $value . '&utm_campaign=notice&utm_source=licenses-tab&utm_medium=admin'
                      );
                      $license_status = 'quads-license-error-notice';
                 break;
@@ -1725,31 +1724,31 @@ function quads_ad_position_callback( $args ) {
    $html = $quads->html->checkbox( array('name' => 'quads_settings[pos1][BegnAds]', 'current' => !empty( $quads_options['pos1']['BegnAds'] ) ? $quads_options['pos1']['BegnAds'] : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . esc_html__( 'Assign', 'quick-adsense-reloaded' ) . ' ';
    $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos1][BegnRnd]', 'name' => 'quads_settings[pos1][BegnRnd]', 'selected' => !empty( $quads_options['pos1']['BegnRnd'] ) ? esc_attr( $quads_options['pos1']['BegnRnd'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
-   $html .= ' ' . esc_html__( 'to <strong>Beginning of Post</strong>', 'quick-adsense-reloaded' ) . '</br>';
+   $html .= ' ' . esc_html__( 'to', 'quick-adsense-reloaded' ) . ' <strong>' . esc_html__( 'Beginning of Post', 'quick-adsense-reloaded' ) . '</strong></br>';
 
    // Pos 2
    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos2][MiddAds]', 'current' => !empty( $quads_options['pos2']['MiddAds'] ) ? esc_attr( $quads_options['pos2']['MiddAds'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . esc_html__( 'Assign', 'quick-adsense-reloaded' ) . ' ';
    $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos2][MiddRnd]', 'name' => 'quads_settings[pos2][MiddRnd]', 'selected' => !empty( $quads_options['pos2']['MiddRnd'] ) ? esc_attr( $quads_options['pos2']['MiddRnd'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
-   $html .= ' ' . esc_html__( 'to <strong>Middle of Post</strong>', 'quick-adsense-reloaded' ) . '</br>';
+   $html .= ' ' . esc_html__( 'to', 'quick-adsense-reloaded' ) . ' <strong>' . esc_html__( 'Middle of Post', 'quick-adsense-reloaded' ) . '</strong></br>';
 
    // Pos 3
    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos3][EndiAds]', 'current' => !empty( $quads_options['pos3']['EndiAds'] ) ? esc_attr( $quads_options['pos3']['EndiAds'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . esc_html__( 'Assign', 'quick-adsense-reloaded' ) . ' ';
    $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos3][EndiRnd]', 'name' => 'quads_settings[pos3][EndiRnd]', 'selected' => !empty( $quads_options['pos3']['EndiRnd'] ) ? esc_attr( $quads_options['pos3']['EndiRnd'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
-   $html .= ' ' . esc_html__( 'to <strong>End of Post</strong>', 'quick-adsense-reloaded' ) . '</br>';
+   $html .= ' ' . esc_html__( 'to', 'quick-adsense-reloaded' ) . ' <strong>' . esc_html__( 'End of Post', 'quick-adsense-reloaded' ) . '</strong></br>';
 
    // Pos 4
    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos4][MoreAds]', 'current' => !empty( $quads_options['pos4']['MoreAds'] ) ? esc_attr( $quads_options['pos4']['MoreAds'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . esc_html__( 'Assign', 'quick-adsense-reloaded' ) . ' ';
    $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos4][MoreRnd]', 'name' => 'quads_settings[pos4][MoreRnd]', 'selected' => !empty( $quads_options['pos4']['MoreRnd'] ) ? esc_attr( $quads_options['pos4']['MoreRnd'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
-   $html .= ' ' . esc_html__( 'right after <strong>the <span style="font-family:Courier New,Courier,Fixed;">&lt;!--more--&gt;</span> tag</strong>', 'quick-adsense-reloaded' ) . '</br>';
+   $html .= ' ' . esc_html__( 'right after', 'quick-adsense-reloaded' ) . ' <strong>' . esc_html__( 'the', 'quick-adsense-reloaded' ) . ' <span style="font-family:Courier New,Courier,Fixed;">&lt;!--more--&gt;</span> ' . esc_html__( 'tag', 'quick-adsense-reloaded' ) . '</strong></br>';
 
    // Pos 5
    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos5][LapaAds]', 'current' => !empty( $quads_options['pos5']['LapaAds'] ) ? esc_attr( $quads_options['pos5']['LapaAds'] ) : null, 'class' => 'quads-checkbox quads-assign') );
    $html .= ' ' . esc_html__( 'Assign', 'quick-adsense-reloaded' ) . ' ';
    $html .= $quads->html->select( array('options' => quads_get_ads(), 'id' => 'quads_settings[pos5][LapaRnd]', 'name' => 'quads_settings[pos5][LapaRnd]', 'selected' => !empty( $quads_options['pos5']['LapaRnd'] ) ? esc_attr( $quads_options['pos5']['LapaRnd'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
-   $html .= ' ' . esc_html__( 'right before <strong>the last Paragraph</strong>', 'quick-adsense-reloaded' ) . ' </br>';
+   $html .= ' ' . esc_html__( 'right before', 'quick-adsense-reloaded' ) . ' <strong>' . esc_html__( 'the last Paragraph', 'quick-adsense-reloaded' ) . '</strong> </br>';
 
    // Pos 6
    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos6][Par1Ads]', 'current' => !empty( $quads_options['pos6']['Par1Ads'] ) ? esc_attr( $quads_options['pos6']['Par1Ads'] ) : null, 'class' => 'quads-checkbox quads-assign') );
@@ -1759,7 +1758,7 @@ function quads_ad_position_callback( $args ) {
    $html .= $quads->html->select( array('options' => quads_get_values(), 'class' => 'quads-paragraph', 'id' => 'quads_settings[pos6][Par1Nup]', 'name' => 'quads_settings[pos6][Par1Nup]', 'selected' => !empty( $quads_options['pos6']['Par1Nup'] ) ? esc_attr( $quads_options['pos6']['Par1Nup'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' ' . esc_html__( '→', 'quick-adsense-reloaded' ) . ' ';
    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos6][Par1Con]', 'current' => !empty( $quads_options['pos6']['Par1Con'] ) ? esc_attr( $quads_options['pos6']['Par1Con'] ) : null, 'class' => 'quads-checkbox quads-assign') );
-   $html .= ' ' . esc_html__( 'to <strong>End of Post</strong> if fewer paragraphs are found.', 'quick-adsense-reloaded' ) . ' </br>';
+   $html .= ' ' . esc_html__( 'to', 'quick-adsense-reloaded' ) . ' <strong>' . esc_html__( 'End of Post', 'quick-adsense-reloaded' ) . '</strong> ' . esc_html__( 'if fewer paragraphs are found.', 'quick-adsense-reloaded' ) . ' </br>';
 
    // Pos 7
    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos7][Par2Ads]', 'current' => !empty( $quads_options['pos7']['Par2Ads'] ) ? esc_attr( $quads_options['pos7']['Par2Ads'] ) : null, 'class' => 'quads-checkbox quads-assign') );
@@ -1769,7 +1768,7 @@ function quads_ad_position_callback( $args ) {
    $html .= $quads->html->select( array('options' => quads_get_values(), 'id' => 'quads_settings[pos7][Par2Nup]', 'name' => 'quads_settings[pos7][Par2Nup]', 'selected' => !empty( $quads_options['pos7']['Par2Nup'] ) ? esc_attr( $quads_options['pos7']['Par2Nup'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' ' . esc_html__( '→', 'quick-adsense-reloaded' ) . ' ';
    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos7][Par2Con]', 'current' => !empty( $quads_options['pos7']['Par2Con'] ) ? esc_attr( $quads_options['pos7']['Par2Con'] ) : null, 'class' => 'quads-checkbox quads-assign') );
-   $html .= ' ' . esc_html__( 'to <strong>End of Post</strong> if fewer paragraphs are found.', 'quick-adsense-reloaded' ) . ' </br>';
+   $html .= ' ' . esc_html__( 'to', 'quick-adsense-reloaded' ) . ' <strong>' . esc_html__( 'End of Post', 'quick-adsense-reloaded' ) . '</strong> ' . esc_html__( 'if fewer paragraphs are found.', 'quick-adsense-reloaded' ) . ' </br>';
 
    // Pos 8
    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos8][Par3Ads]', 'current' => !empty( $quads_options['pos8']['Par3Ads'] ) ? esc_attr( $quads_options['pos8']['Par3Ads'] ) : null, 'class' => 'quads-checkbox quads-assign') );
@@ -1779,7 +1778,7 @@ function quads_ad_position_callback( $args ) {
    $html .= $quads->html->select( array('options' => quads_get_values(), 'id' => 'quads_settings[pos8][Par3Nup]', 'name' => 'quads_settings[pos8][Par3Nup]', 'selected' => !empty( $quads_options['pos8']['Par3Nup'] ) ? esc_attr( $quads_options['pos8']['Par3Nup'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' ' . esc_html__( '→', 'quick-adsense-reloaded' ) . ' ';
    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos8][Par3Con]', 'current' => !empty( $quads_options['pos8']['Par3Con'] ) ? esc_attr( $quads_options['pos8']['Par3Con'] ) : null, 'class' => 'quads-checkbox quads-assign') );
-   $html .= ' ' . esc_html__( 'to <strong>End of Post</strong> if fewer paragraphs are found.', 'quick-adsense-reloaded' ) . ' </br>';
+   $html .= ' ' . esc_html__( 'to', 'quick-adsense-reloaded' ) . ' <strong>' . esc_html__( 'End of Post', 'quick-adsense-reloaded' ) . '</strong> ' . esc_html__( 'if fewer paragraphs are found.', 'quick-adsense-reloaded' ) . ' </br>';
 
    $html .= apply_filters( 'quads_extra_paragraph', '' );
 
@@ -1791,7 +1790,7 @@ function quads_ad_position_callback( $args ) {
    $html .= $quads->html->select( array('options' => quads_get_values(), 'id' => 'quads_settings[pos9][Img1Nup]', 'name' => 'quads_settings[pos9][Img1Nup]', 'selected' => !empty( $quads_options['pos9']['Img1Nup'] ) ? esc_attr( $quads_options['pos9']['Img1Nup'] ) : null, 'show_option_all' => false, 'show_option_none' => false) );
    $html .= ' ' . esc_html__( '→', 'quick-adsense-reloaded' ) . ' ';
    $html .= $quads->html->checkbox( array('name' => 'quads_settings[pos9][Img1Con]', 'current' => !empty( $quads_options['pos9']['Img1Con'] ) ? esc_attr( $quads_options['pos9']['Img1Con'] ) : null, 'class' => 'quads-checkbox quads-assign') );
-   $html .= ' ' . esc_html__( 'after <b>Image\'s outer</b><b><span style="font-family:Courier New,Courier,Fixed;"> &lt;div&gt; wp-caption</span></b> if any.', 'quick-adsense-reloaded' ) . ' </br>';
+   $html .= ' ' . esc_html__( 'after', 'quick-adsense-reloaded' ) . ' <b>' . esc_html__( 'Image\'s outer', 'quick-adsense-reloaded' ) . '</b><b><span style="font-family:Courier New,Courier,Fixed;"> &lt;div&gt; wp-caption</span></b> ' . esc_html__( 'if any.', 'quick-adsense-reloaded' ) . ' </br>';
 
    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done above
    echo apply_filters( 'quads_ad_position_callback', $html );
