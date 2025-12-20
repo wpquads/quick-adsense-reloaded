@@ -1,21 +1,22 @@
 === Quads Ads Manager for Google AdSense ===
 
+Contributors: wpquads
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
-Contributors: wpquads
-Donate link: https://wpquads.com
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: ad manager, ads, adsense, monetize, banner
-Requires at least: 5.0
 Tested up to: 6.9
+Requires at least: 5.0
 Requires PHP: 7.4
 Stable tag: 2.0.97
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Ads & AdSense plugin supporting Media.net, DFP, ads.txt, Web Stories ads, click fraud protection, revenue sharing, and ad blocker detection.
 
 == Description ==
 WP QUADS provides a modern approach to ad management. It is well coded, lightweight, and suitable for websites with high traffic volumes.
+
+[Home](https://wpquads.com/) | [Documentation](https://wpquads.com/documentation/) | [Help](https://wpquads.com/support/) | [Premium Features](https://wpquads.com/#buy-wpquads)
 
 WPQuads is a reliable and extensible ad inserter and AdSense management solution for WordPress.
 
