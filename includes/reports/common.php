@@ -922,9 +922,10 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 				if ($results_impresn_desk_2) {
 					$results_impresn_F_2 = array_merge($results_impresn_F_2, $results_impresn_desk_2);
 				}
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				
 				$results_impresn_mob_2 = wp_cache_get('quads_stats_impressions_mobile_group_' . $first_date_ . '_' . $current_date_month_, 'quick-adsense-reloaded');
 				if (false === $results_impresn_mob_2) {
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 					$results_impresn_mob_2 = $wpdb->get_results($wpdb->prepare("SELECT stats_impressions as impressions,stats_date as ad_thetime ,'mobile' as ad_device_name FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date BETWEEN %d AND %d", array(strtotime($first_date_), strtotime($current_date_month_))));
 					wp_cache_set('quads_stats_impressions_mobile_group_' . $first_date_ . '_' . $current_date_month_, $results_impresn_mob_2, 'quick-adsense-reloaded', 3600);
 				}
@@ -1161,7 +1162,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 				}
 				$results_top5_2 = wp_cache_get('quads_stats_top5_ads_group_' . $first_date_ . '_' . $current_date_month_, 'quick-adsense-reloaded');
 				if (false === $results_top5_2) {
-					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+					// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, WordPress.DB.DirectDatabaseQuery.DirectQuery
 					$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, IFNULL(SUM(ad_impressions),0) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.ad_thetime BETWEEN %s AND %s GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",array(strtotime($first_date_),strtotime($current_date_month_))));
 					wp_cache_set('quads_stats_top5_ads_group_' . $first_date_ . '_' . $current_date_month_, $results_top5_2, 'quick-adsense-reloaded', 3600);
 				}
@@ -1937,7 +1938,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 				}
 				$results_top5_2 = wp_cache_get('quads_stats_top5_all_time_all_group_' , 'quick-adsense-reloaded');
 				if (false === $results_top5_2) {
-					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 					$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, IFNULL(SUM(ad_impressions),0) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC"));
 					wp_cache_set('quads_stats_top5_all_time_all_group_' , $results_top5_2, 'quick-adsense-reloaded', 3600);
 				}
@@ -2068,7 +2069,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 				}
 				$yearly_desk_impressions = wp_cache_get('quads_stats_yearly_impressions_desktop_' . $ad_id , 'quick-adsense-reloaded');
 				if (false === $yearly_desk_impressions) {
-					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					$yearly_desk_impressions = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(ad_thetime)) = 1 THEN ad_impressions END),0) AS jan_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(ad_thetime)) = 2 THEN ad_impressions END),0) AS feb_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(ad_thetime)) = 3 THEN ad_impressions END),0) AS mar_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(ad_thetime)) = 4 THEN ad_impressions END),0) AS apr_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(ad_thetime)) = 5 THEN ad_impressions END),0) AS may_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(ad_thetime)) = 6 THEN ad_impressions END),0) AS jun_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(ad_thetime)) = 7 THEN ad_impressions END),0) AS jul_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(ad_thetime)) = 8 THEN ad_impressions END),0) AS aug_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(ad_thetime)) = 9 THEN ad_impressions END),0) AS sep_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(ad_thetime)) = 10 THEN ad_impressions END),0) AS oct_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(ad_thetime)) = 11 THEN ad_impressions END),0) AS nov_impr,IFNULL(SUM(CASE WHEN MONTH(FROM_UNIXTIME(ad_thetime)) = 12 THEN ad_impressions END),0) as dec_impr FROM `{$wpdb->prefix}quads_stats` WHERE `ad_device_name` = %s AND  YEAR(FROM_UNIXTIME(ad_thetime)) = %s AND ad_id = %d; ",array('desktop',$year,$ad_id)));
 					wp_cache_set('quads_stats_yearly_impressions_desktop_' . $ad_id , $yearly_desk_impressions, 'quick-adsense-reloaded', 3600);
 				}
@@ -2373,7 +2374,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$unix_todays_date = "'".intval(strtotime($yesterday_date))."'";
 			$results_top5_2 = wp_cache_get('quads_stats_top5_ads_yesterday_2_' . $yesterday_date , 'quick-adsense-reloaded');
 			if (false === $results_top5_2) {
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 				$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, SUM(ad_impressions) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.`ad_thetime` = $unix_todays_date GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",5));
 				wp_cache_set('quads_stats_top5_ads_yesterday_2_' . $yesterday_date , $results_top5_2, 'quick-adsense-reloaded', 3600);
 			}
@@ -2590,8 +2591,8 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 				$unix_todays_date = "'".intval(strtotime($todays_date))."'";
 				$results_top5_2 = wp_cache_get('quads_stats_top5_ads_today_2_' . $todays_date , 'quick-adsense-reloaded');
 				if (false === $results_top5_2) {
-					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-					$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, SUM(ad_impressions) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.`ad_thetime` = $unix_todays_date GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",5));
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+					$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, SUM(ad_impressions) AS impressions, SUM(ad_clicks) AS clicks, ad_device_name FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.`ad_thetime` = {$unix_todays_date} GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",5));
 					wp_cache_set('quads_stats_top5_ads_today_2_' . $todays_date , $results_top5_2, 'quick-adsense-reloaded', 3600);
 				}
 				foreach ($results_top5 as $key => $value) {
@@ -2902,9 +2903,10 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 					wp_cache_set('quads_stats_custom_imprsn_desk_2_' . $ad_id . '_' . $get_from . '_' . $get_to , $results_impresn_desk_2, 'quick-adsense-reloaded', 3600);
 				}
 				if($results_impresn_desk_2){ $results_impresn_C_2 = array_merge($results_impresn_C_2,$results_impresn_desk_2 ); }
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				
 				$results_impresn_mob_2 = wp_cache_get('quads_stats_custom_imprsn_mob_2_' . $ad_id . '_' . $get_from . '_' . $get_to , 'quick-adsense-reloaded');
 				if (false === $results_impresn_mob_2) {
+					//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 					$results_impresn_mob_2 = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as impressions,stats_date as ad_thetime , 'mobile' as ad_device_name FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date BETWEEN %s AND %s AND `ad_id` = %d  GROUP BY stats_date",array(strtotime($get_from),strtotime($get_to),$ad_id)));
 					wp_cache_set('quads_stats_custom_imprsn_mob_2_' . $ad_id . '_' . $get_from . '_' . $get_to , $results_impresn_mob_2, 'quick-adsense-reloaded', 3600);
 				}	
@@ -3110,7 +3112,6 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 					$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, IFNULL(SUM(CASE WHEN ad_device_name = 'mobile' THEN ad_impressions END),0) AS mob_impr , IFNULL(SUM(CASE WHEN ad_device_name = 'desktop' THEN ad_impressions END),0) AS desk_impr,IFNULL(SUM(CASE WHEN ad_device_name = 'mobile' THEN ad_clicks END),0) AS mob_clks , IFNULL(SUM(CASE WHEN ad_device_name = 'desktop' THEN ad_clicks END),0) AS desk_clks FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.ad_thetime BETWEEN %s AND %s GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",array(strtotime($get_from),strtotime($get_to))));
 					wp_cache_set('quads_stats_top5_ads_all_2_' . $get_from . '_' . $get_to , $results_top5_2, 'quick-adsense-reloaded', 3600);
 				}
-				$results_top5_2 = $wpdb->get_results($wpdb->prepare("SELECT `ad_id`, `ad_thetime`, IFNULL(SUM(CASE WHEN ad_device_name = 'mobile' THEN ad_impressions END),0) AS mob_impr , IFNULL(SUM(CASE WHEN ad_device_name = 'desktop' THEN ad_impressions END),0) AS desk_impr,IFNULL(SUM(CASE WHEN ad_device_name = 'mobile' THEN ad_clicks END),0) AS mob_clks , IFNULL(SUM(CASE WHEN ad_device_name = 'desktop' THEN ad_clicks END),0) AS desk_clks FROM `{$wpdb->prefix}quads_stats` WHERE `{$wpdb->prefix}quads_stats`.ad_thetime BETWEEN %s AND %s GROUP By `{$wpdb->prefix}quads_stats`.ad_id, `{$wpdb->prefix}quads_stats`.ad_device_name ORDER BY `{$wpdb->prefix}quads_stats`.ad_thetime DESC",array(strtotime($get_from),strtotime($get_to))));
 				$total_click=[0,0,0,0,0];
 				$total_impression=[0,0,0,0,0];
 				foreach ($results_top5 as $key => $value) {

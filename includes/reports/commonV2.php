@@ -967,12 +967,12 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 				$results_impresn_desk = wp_cache_get( 'quads_stats_report_impresn_desk_all_time' ,'quick-adsense-reloaded');
 				$results_impresn_mob = wp_cache_get( 'quads_stats_report_impresn_mob_all_time' ,'quick-adsense-reloaded');
 				if ( false === $results_impresn_desk ) {
-					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 					$results_impresn_desk = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as desk_impressions, stats_year  FROM `{$wpdb->prefix}quads_impressions_desktop` GROUP BY stats_year"));
 					wp_cache_set( 'quads_stats_report_impresn_desk_all_time', $results_impresn_desk ,'quick-adsense-reloaded', 3600 );
 				}
 				if ( false === $results_impresn_mob ) {
-					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQLPlaceholders.UnnecessaryPrepare
 					$results_impresn_mob = $wpdb->get_results($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as mob_impressions, stats_year  FROM `{$wpdb->prefix}quads_impressions_mobile`  GROUP BY stats_year"));
 					wp_cache_set( 'quads_stats_report_impresn_mob_all_time', $results_impresn_mob ,'quick-adsense-reloaded', 3600 );
 				}
