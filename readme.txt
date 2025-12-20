@@ -216,32 +216,233 @@ Alternative Installation:
 
 This plugin connects to several third-party/external services to provide its full functionality. These services are only used when the related features are enabled by the site administrator.
 
-= Key Services =
+= Magazine3 Central API =
+This plugin connects to a Magazine3-owned API to manage plugin-related services such as email subscriptions and centralized feature management.
+The plugin sends the site URL, admin email address, and subscription-related information when the admin opts in to email notifications or related services.
+This plugin connects to the WP QUADS licensing and update API to validate licenses and manage plugin updates when license-related features are enabled.
+The plugin sends the site URL, license key, and plugin version to the service during license activation, validation, or update checks.
+This service is provided by "Magazine3": [terms of use](https://magazine3.company/terms-of-service/) [privacy policy.](https://magazine3.company/terms-of-service/)
 
-* **Google AdSense & Google Ad Manager** - Display and manage advertisements, OAuth authentication
-* **Stripe Payment Processing** - Secure payment processing for ad sales
-* **PayPal Payment Processing** - Payment processing for ad-selling features
-* **Media.net** - Contextual advertising platform
-* **Taboola** - Content discovery and native advertisements
-* **WP QUADS License & Update API** - License validation and plugin updates
+= InMobi Consent Management =
+This plugin loads the InMobi consent management script to handle user consent for ads and tracking, where applicable.
+The script is loaded on the frontend to manage consent preferences and does not send personally identifiable information by default.
+This service is provided by "InMobi": [terms of use](https://www.inmobi.com/terms-of-service) [privacy policy.](https://www.inmobi.com/website-privacy-policy)
 
-For a complete list of all external services, see [external-services.txt](https://plugins.svn.wordpress.org/quick-adsense-reloaded/trunk/external-services.txt).
+= Google AdSense & Google Ad Manager & Google OAuth Authentication =
+This plugin integrates with Google AdSense and Google Ad Manager to display and manage advertisements.
+API requests may include ad performance data and site identifiers when ad reporting or ad display features are enabled.
+This plugin integrates with Google OAuth to allow users to authenticate with their Google account and to revoke access tokens when requested.
+When a user connects or disconnects a Google account, authentication tokens are exchanged or revoked directly with Google. The plugin does not store Google account passwords.
+This service is provided by "Google": [terms of use](https://policies.google.com/terms) [privacy policy.](https://policies.google.com/privacy)
 
+= Paystack Payment Processing =
+This plugin loads Paystack's JavaScript library to process payments when payment-related or ad-selling features are enabled.
+Payment information entered by users is sent directly to Paystack during the checkout process. The plugin does not store or process credit card or bank details.
+This service is provided by "Paystack": [terms of use](https://paystack.com/terms#terms) [privacy policy.](https://paystack.com/terms#privacy)
+
+= Stripe Payment Processing =
+This plugin loads Stripe's JavaScript library to securely process payments when payment-related features are enabled.
+Payment and billing information entered by users is sent directly to Stripe during the checkout process. The plugin itself does not store or process credit card details.
+This service is provided by "Stripe": [terms of use](https://stripe.com/in/legal) [privacy policy.](https://stripe.com/in/privacy)
+
+= Authorize.Net Payment Processing =
+This plugin integrates with Authorize.Net to allow secure payment processing for ad sales.
+Payment data is transmitted directly to Authorize.Net during checkout. The plugin does not store sensitive payment information.
+This service is provided by "Authorize.Net": [terms of use](https://www.authorize.net/about-us/terms.html) [privacy policy.](https://www.authorize.net/company/privacy)
+
+= PayPal Payment Processing =
+This plugin integrates with PayPal to process payments when payment or ad-selling features are enabled.
+Transaction and payment-related information is sent to PayPal during checkout. The plugin does not store or process sensitive payment details such as credit card numbers.
+This service is provided by "PayPal": [terms of use](https://www.paypal.com/us/webapps/mpp/ua/useragreement-full) [privacy policy.](https://www.paypal.com/us/legalhub/paypal/privacy-full)
+
+= Outbrain Content Recommendation Service =
+This plugin loads the Outbrain JavaScript widget to display content recommendations or native advertisements when the related feature is enabled.
+The Outbrain script is loaded on the frontend and may collect usage data such as page views, device information, and interaction data in accordance with Outbrain's policies.
+No personally identifiable information is intentionally sent by the plugin itself.
+This service is provided by "Outbrain Inc.": [terms of use](https://www.outbrain.com/legal#terms-of-use) [privacy policy.](https://www.outbrain.com/privacy/)
+
+= AMP Project (Sticky Ads) =
+This plugin loads an AMP Project JavaScript component to enable AMP-compatible sticky advertisements when AMP and ad-related features are enabled.
+The script is loaded on AMP pages only and is used to render sticky ad units. The AMP Project may collect usage data in accordance with its policies.
+This service is provided by "The AMP Project": [terms of use](https://terms-of-use.openjsf.org) [privacy policy.](https://privacy-policy.openjsf.org)
+
+= Media.net Contextual Advertising =
+This plugin integrates with Media.net to display contextual advertisements when ad-related features are enabled.
+Media.net scripts may be loaded on the frontend and may collect information such as page context, device information, and interaction data in accordance with Media.net's policies.
+The plugin does not store personally identifiable information collected by Media.net.
+This service is provided by "Media.net": [terms of use](https://www.media.net/legal/tos/) [privacy policy.](https://www.media.net/privacy-policy/)
+
+= Yandex Direct Advertising =
+This plugin integrates with Yandex Direct to display advertisements when Yandex ad features are enabled.
+Yandex scripts are loaded from yandex.ru domains and may collect usage data such as page views and interaction data in accordance with Yandex's policies.
+This service is provided by "Yandex": [terms of use](https://yandex.com/legal/termsofservice/) [privacy policy.](https://yandex.com/legal/privacy/)
+
+= MGID Native Advertising =
+This plugin integrates with MGID to display native advertisements when MGID ad features are enabled.
+MGID scripts are loaded on the frontend and may collect information such as page context, device information, and interaction data in accordance with MGID's policies.
+The plugin does not store personally identifiable information collected by MGID.
+This service is provided by "MGID": [terms of use](https://www.mgid.com/terms-of-use) [privacy policy.](https://www.mgid.com/privacy-policy)
+
+= Taboola Content Discovery =
+This plugin integrates with Taboola to display content recommendations and native advertisements when Taboola ad features are enabled.
+Taboola scripts are loaded from cdn.taboola.com and may collect usage data such as page views, device information, and interaction data in accordance with Taboola's policies.
+No personally identifiable information is intentionally sent by the plugin itself.
+This service is provided by "Taboola Inc.": [terms of use](https://www.taboola.com/terms-of-use) [privacy policy.](https://www.taboola.com/privacy-policy)
+
+= MediaVine Advertising =
+This plugin integrates with MediaVine to display advertisements when MediaVine ad features are enabled.
+MediaVine scripts are loaded from scripts.mediavine.com and may collect information such as page context, device information, and interaction data in accordance with MediaVine's policies.
+The plugin does not store personally identifiable information collected by MediaVine.
+This service is provided by "MediaVine": [terms of use](https://www.mediavine.com/terms-of-service/) [privacy policy.](https://www.mediavine.com/privacy-policy/)
+
+= Infolinks In-Text Advertising =
+This plugin integrates with Infolinks to display in-text advertisements when Infolinks ad features are enabled.
+Infolinks scripts are loaded from resources.infolinks.com and may collect usage data such as page views and interaction data in accordance with Infolinks's policies.
+This service is provided by "Infolinks": [terms of use](https://www.infolinks.com/terms-of-service/) [privacy policy.](https://www.infolinks.com/privacy-policy/)
+
+= Propeller Ads =
+This plugin integrates with Propeller Ads to display advertisements when Propeller ad features are enabled.
+Propeller scripts are loaded on the frontend and may collect information such as page context, device information, and interaction data in accordance with Propeller's policies.
+The plugin does not store personally identifiable information collected by Propeller.
+This service is provided by "Propeller Ads": [terms of use](https://www.propellerads.com/terms/) [privacy policy.](https://www.propellerads.com/privacy-policy/)
+
+= AdPushup Optimization Platform =
+This plugin integrates with AdPushup to display optimized advertisements when AdPushup features are enabled.
+AdPushup scripts are loaded from cdn.adpushup.com and may collect usage data such as page views, device information, and ad performance data in accordance with AdPushup's policies.
+This service is provided by "AdPushup": [terms of use](https://www.adpushup.com/terms-of-service/) [privacy policy.](https://www.adpushup.com/privacy-policy/)
+
+= WP QUADS License & Update API =
+This plugin connects to the WP QUADS licensing and update API (wpquads.com/edd-sl-api/) to validate licenses and manage plugin updates when license-related features are enabled.
+The plugin sends the site URL, license key, and plugin version to the service during license activation, validation, or update checks.
+This service is provided by "WP QUADS": [terms of use](https://wpquads.com/terms-conditions/) [privacy policy.](https://wpquads.com/privacy-policy/)
 
 == Credits ==
 
 This plugin uses the following third-party libraries and resources:
 
-= Key Libraries =
+= PHP Libraries =
+
+* **Stripe PHP SDK** (^16.3) - Payment processing library for Stripe integration
+  * License: MIT License
+  * Source: https://github.com/stripe/stripe-php
+
+* **Mobile Detect** (v2.8.33) - PHP class for detecting mobile devices
+  * License: MIT License
+  * Author: Serban Ghita
+  * Source: https://github.com/serbanghita/Mobile-Detect
+
+= JavaScript Libraries =
+
+* **Chart.js** (v2.9.4) - Simple yet flexible JavaScript charting library
+  * License: MIT License
+  * Source: https://www.chartjs.org/
+
+* **JSColor** (v2.0.4) - JavaScript Color Picker
+  * License: GPLv3 (open source) / Commercial License
+  * Author: Jan Odvarko
+  * Source: http://jscolor.com
+
+* **Chosen** (v1.5.1) - jQuery plugin for making long, unwieldy select boxes more user-friendly
+  * License: MIT License
+  * Source: https://harvesthq.github.io/chosen/
 
 * **React** (^16.14.0) - JavaScript library for building user interfaces
-* **Material-UI** (@material-ui/core ^4.11.4) - React components implementing Google's Material Design
-* **Stripe PHP SDK** (^16.3) - Payment processing library for Stripe integration
-* **Chart.js** (v2.9.4) - Simple yet flexible JavaScript charting library
-* **Mobile Detect** (v2.8.33) - PHP class for detecting mobile devices
-* **WordPress Editor** (@wordpress/editor ^9.26.3) - WordPress Gutenberg editor components
+  * License: MIT License
+  * Source: https://reactjs.org/
 
-For a complete list of all third-party libraries and resources, see [credits.txt](https://plugins.svn.wordpress.org/quick-adsense-reloaded/trunk/credits.txt).
+* **React DOM** (^16.14.0) - React renderer for the web
+  * License: MIT License
+  * Source: https://reactjs.org/
+
+* **Material-UI** (@material-ui/core ^4.11.4, @material-ui/icons ^4.11.2, @material-ui/lab ^4.0.0-alpha.58) - React components implementing Google's Material Design
+  * License: MIT License
+  * Source: https://material-ui.com/
+
+* **React Router** (^5.2.0) - Declarative routing for React
+  * License: MIT License
+  * Source: https://reactrouter.com/
+
+* **React Router DOM** (^5.2.0) - DOM bindings for React Router
+  * License: MIT License
+  * Source: https://reactrouter.com/
+
+* **React Beautiful DnD** (^13.1.1) - Beautiful and accessible drag and drop for lists with React
+  * License: MIT License
+  * Source: https://github.com/atlassian/react-beautiful-dnd
+
+* **React Charts** (^2.0.0-beta.7) - Simple, immersive and interactive charts for React
+  * License: MIT License
+  * Source: https://github.com/tannerlinsley/react-charts
+
+* **React Color** (^2.19.3) - Color picker component for React
+  * License: MIT License
+  * Source: https://github.com/casesandberg/react-color
+
+* **React Confirm Alert** (^2.7.0) - Confirm dialog for React
+  * License: MIT License
+  * Source: https://github.com/GA-MO/react-confirm-alert
+
+* **React Datepicker** (^3.8.0) - A simple and reusable datepicker component for React
+  * License: MIT License
+  * Source: https://github.com/Hacker0x01/react-datepicker
+
+* **React Select** (^3.2.0) - A flexible and beautiful Select Input control for ReactJS
+  * License: MIT License
+  * Source: https://react-select.com/
+
+* **React Dropdown Select** (^4.7.4) - Lightweight dropdown select component for React
+  * License: MIT License
+  * Source: https://github.com/sanusart/react-dropdown-select
+
+* **Semantic UI React** (^1.3.1) - The official React integration for Semantic UI
+  * License: MIT License
+  * Source: https://react.semantic-ui.com/
+
+* **Moment.js** (^2.29.1) - Parse, validate, manipulate, and display dates
+  * License: MIT License
+  * Source: https://momentjs.com/
+
+* **React Moment** (^0.9.7) - React component for the Moment date library
+  * License: MIT License
+  * Source: https://github.com/headzoo/react-moment
+
+* **Copy to Clipboard** (^3.3.1) - Copy text to clipboard utility
+  * License: MIT License
+  * Source: https://github.com/sudodoki/copy-to-clipboard
+
+* **Typeface Roboto** (0.0.75) - Roboto font family
+  * License: Apache License 2.0
+  * Source: https://github.com/KyleAMathews/typefaces
+
+* **Stripe.js** (v3) - JavaScript library for Stripe payment processing
+  * License: MIT License
+  * Source: https://stripe.com/docs/stripe-js
+
+* **Paystack Inline JS** (v1) - JavaScript library for Paystack payment processing
+  * License: MIT License
+  * Source: https://paystack.com/docs/payments/accept-payments
+
+* **WordPress Editor** (@wordpress/editor ^9.26.3) - WordPress Gutenberg editor components
+  * License: GPL-2.0-or-later
+  * Source: https://github.com/WordPress/gutenberg
+
+= Build Tools & Development Dependencies =
+
+* **Babel** - JavaScript compiler for converting ES6+ code into backwards compatible JavaScript
+  * License: MIT License
+  * Source: https://babeljs.io/
+
+* **Webpack** (^3.12.0) - Module bundler for JavaScript applications
+  * License: MIT License
+  * Source: https://webpack.js.org/
+
+* **CGB Scripts** (^1.23.0) - Create Gutenberg Block scripts
+  * License: GPL-2.0-or-later
+  * Source: https://github.com/ahmadawais/create-guten-block
+
+* **Grunt** - JavaScript task runner
+  * License: MIT License
+  * Source: https://gruntjs.com/
 
 
 == Changelog ==
@@ -263,133 +464,5 @@ For a complete list of all third-party libraries and resources, see [credits.txt
 
 = 2.0.94 ( 15 September 2025 ) =
 * Fixed : Display After Every option is not working properly with random ads. #968
-
-= 2.0.93 ( 20 August 2025 ) =
-* Fixed : Importing ads on another sites shows deleted ads too. #965
-* Fixed : Mobile Popup Ad Not Aligned on Mobile Devices #964
-* Fixed : Patched XSS Vulnerability disclosed by Patchstack (Fiqro Najiah) 
-* Improvement : More Improvement done #963
-
-= 2.0.92 ( 05 June 2025 ) =
-* Fixed : Deprecation Warning #922
-* Fixed : Single FAQ page is empty if our quads plugin is active #960
-* Fixed : PHP Fatal error in PHP 8+: [] operator not supported for strings in template-functions.php (line 4024) #961
-* Added : Expiry date option based upon impression #956
-* Added : Expire Ads option based upon clicks #957
-* Added : We need to make a compatibility with the Sensei LMS plugin. #958
-* Added : Remove old tracked data #959
-
-= 2.0.91 ( 16 May 2025 ) =
-* Fixed : BUG: Hide default ads, use manually placed ads" setting resets on publish in v2.0.90 #949
-* Added : Carousel Ads are not getting update with new banners #900
-* Added : Improvement in Slow Queries #950
-* Added : Carousel Ads are showing in the loop which is causing performance issue #951
-* Added : Warnings and Errors in browser console #952
-* Added : Impression report issue #953
-* Added : Click graph is not working #954
-
-= 2.0.90 ( 30 April 2025 ) =
-* Added : Test with WordPress 6.8 and update readme.txt #947
-* Added : Code Improvement #946
-* Added : The Ad Performance Tracker option conflicts with the Reports option. #944
-* Added : Increase the display duration of the bottom-right corner message that appears and disappears when saving settings. #943
-* Added : We need to implement InMobi in our plugin. #939
-
-= 2.0.89 ( 03 April 2025 ) =
-* Added : Need to add an option to exclude Ads via class of the element #894
-* Added : Need to add Google Reward ads feature #921
-* Added : Add discount/coupon feature in sellable ads #925
-* Added : Add an option to reset impression and clicks #888
-* Fixed : The option Limit The Insertion Till Nth Ad is no longer shown in the feature Group Insertion #937
-* Fixed : Banner Sticky ad is not visible in home page when there is not static home page selected #940
-
-= 2.0.88 ( 07 March 2025 ) =
-* Added : Need to add new feature in Sellable Ads #930
-* Added : By default Hide Ads for Premium Members option should be off and It still creates payment page even after off  #931
-* Added : Need to add integration with Paystack in sellable ads #919
-* Added : New Improvement #934
-* Fixed : Sellable ads should not show normal ads pagination #929
-* Fixed : Broken Access Control and SQL Injection vulnerability Reported by Patchstack (astra.r3verii)
-
-= 2.0.87.1 ( 11 February 2025 ) =
-* Added : Admin Option in Global Excluder for Ads #924
-* Fixed : Layout issue persists in Version 2.0.87 #928
-* Fixed : Pagination not working in Ads tab after recent update  #926
-
-= 2.0.87 ( 04 February 2025 ) =
-* New: Feature Hide ads for Premium Members, and UI Improvement for Sellable Ads #496
-* New: Need to add feature to upload the own defualt image in advertise space, Edit the customers advert details after they have purchased #923
-
-= 2.0.86.1 ( 12 November 2024 ) =
-* Improvement: Option to prevent automatic creation of a sellable ad page #909
-* Fixed: Uncaught TypeError: Cannot read properties of undefined (reading 'style') #907
-
-= 2.0.86 ( 07 November 2024 ) =
-* New: Feature for payment methods for selling ads #550
-* Improvement: Few improvements of Dashboard #876
-* Improvement: Carousel ads required X button to close/hide the ads #902
-* Improvement: Few improvements required #897
-* Compatiblity: Compatiblity with Jannah news theme. #890
-* Fixed: Dual HTML tag was added to the source code. #868
-* Fixed: Conflict with Ultimate FAQ - WordPress FAQ and Accordion Plugin #903
-* Test: Test with WordPress version 6.7 #905
-
-= 2.0.85 ( 19 August 2024 ) =
-* Fixed: Broken Access Control vulnerability reported by patchstack.com
-
-= 2.0.84 ( 04 June 2024 ) =
-* Improvement: Few modifications done for Rotator ads #887
-* Fixed: The option to set an ad on Taxonomy terms is not working #889
-
-= 2.0.83 ( 06 May 2024 ) =
-* New: Need to create an option where we can see all ad's performance. #882
-* Fixed: Ordered ads are not showing in rotation ads in the Auto Rotate type option. #883
-* Fixed: Particular ads impression is not showing in Rotator ads. #884
-* Fixed: When we add the Random ads but its type is showing pop-up ads #885
-
-= 2.0.82 ( 09 April 2024 ) =
-* New: Added option sorting type in rotator ads #880
-* Improvement: Duplication of position dropdown (code improvement) #862
-* Fixed: Conflict issue with 2.0.81 version #875
-* Fixed: Mobile Plain Text / HTML / JS option is not getting saved #879
-* Fixed: option to add the mobile-specific ad in the custom ad is not getting saved #873
-* Fixed: PHP Warning (2.0.81): Undefined array key “position” #874
-
-= 2.0.81 ( 01 March 2024 ) =
-* New: Feature to Show/Hide the appearance of the Ad depending on states #847
-* New: Added Feature of scheduling ads. #653
-* Improvement: Duplication of position dropdown (code improvement) #862
-* Improvement: Show a required field message near next button while adding ads #806
-* Improvement: Add filters in ad list page #864
-* Feature: Role-based access for settings #865
-* Fixed: Warning in debug log #852
-* Fixed: Click fraud protection is not working for non amp users #866
-* Fixed: Dual HTML tag was added to the source code. #868
-* Fixed: after_class target does not work when class is out site the_content #869
-* Fixed: Report tab is showing blank.  #870
-
-= 2.0.80 ( 30 December 2023 ) =
-* Fixed: Compatibility with the plugin Loco Translate #861
-* Fixed: Plugin is not being deactivated in multisite #857
-* Fixed: Geo location is not working properly #856
-* Fixed: PHP warning is showing on the user end. #851 #855 #838
-* Improvement:The type attribute is unnecessary for JavaScript resources #859
-* Improvement: The type attribute for the style element is not needed and should be omitted. #858
-* Improvement: option of LazyLoading for all ad units separately. #854
-* Improvement: Option for turn off admin impression and clicks #850
-* Improvement: Follow, unfollow required, as we have given the option for Ad Anchor Link. #843
-* Improvement: new placement option for "Random Ad Placement" #829
-* Improvement: spinning loader in reports dashboard until data not fetched #828
-* New: Option to export reports.(PRO) #833
-
-= 2.0.79 ( 10 November 2023 ) =
-* Improvement:Improved reporting db structure #834
-* Improvement: Improvement in Ad delay feature #839
-* Fixed: Ad loggin pagination need to correct. #840
-* Fixed: Version 2.0.76 and Above Breaking Sticky Ads Functionality #842
-* Fixed: Draft Ads in Random Spot Issue: Ads Continue Displaying #844
-* Fixed: The “Unexptected token error” shows in browser console #845
-* Fixed: Warning appears #846
-* Fixed: Add default width and height for the ads #680
 
 Full changelog available [ at changelog.txt](https://plugins.svn.wordpress.org/quick-adsense-reloaded/trunk/changelog.txt)
