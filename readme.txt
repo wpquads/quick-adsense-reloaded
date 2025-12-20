@@ -1,4 +1,4 @@
-=== Quads Ads Manager for Google AdSense, Banner Ads, Popup Ads ===
+=== Quads Ads Manager for Google AdSense ===
 
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
