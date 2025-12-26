@@ -3550,11 +3550,11 @@ function quads_del_element($array, $idx) {
 function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_paragraph=false){
 
     $wp_charset = get_bloginfo( 'charset' );
-     $tag = 'p[not(parent::blockquote)]|p[not(parent::table)]';
-      $offsets = array();
-       $paragraphs = array();
-     $doc =  new DOMDocument( '1.0', $wp_charset );
-     libxml_use_internal_errors( true );
+    $tag = '//p[not(parent::blockquote) and not(parent::table)]';
+    $offsets = array();
+    $paragraphs = array();
+    $doc =  new DOMDocument( '1.0', $wp_charset );
+    libxml_use_internal_errors( true );
      if($content)
      {
         // Wrap all <!--shortcodes-->  in div to prevent them from being moved
@@ -3576,23 +3576,47 @@ function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$r
      }
      libxml_clear_errors();
       $xpath = new DOMXPath( $doc );
-      $items = $xpath->query( '/html/body/' . $tag );
+      
+      $items = $xpath->query( $tag );
+      
+      if($items->length == 0) {
+          $items = $xpath->query( '//p' );
+          
+          if($items->length == 0) {
+              $items = $xpath->query( '/html/body/p' );
+          }
+          
+          if($items->length == 0) {
+              $items = $xpath->query( '//body//p' );
+          }
+      }
+      
       $whitespaces = json_decode( '"\t\n\r \u00A0"' );
       foreach ( $items  as $item) {
         if (  ( isset( $item->textContent ) && trim( $item->textContent, $whitespaces ) !== '' ) ) { 
           $paragraphs[] = $item;
         }
       }
-      $total_paragraphs = count($paragraphs);    
-      if(isset($ads_data['after_the_percentage_value'])){
-        $percentage       = intval($ads_data['after_the_percentage_value']);
-        $position     = floor(($percentage / 100) * $total_paragraphs);
+      $total_paragraphs = count($paragraphs);
+      
+      $position = 0; // Initialize position
+      if(isset($ads_data['after_the_percentage_value']) && !empty($ads_data['after_the_percentage_value'])){
+        $percentage = intval($ads_data['after_the_percentage_value']);
+        $position = floor(($percentage / 100) * $total_paragraphs);
+        
+        // Ensure position is within bounds
+        if($position < 0) {
+            $position = 0;
+        }
+        if($position >= $total_paragraphs) {
+            $position = max(0, $total_paragraphs - 1);
+        }
       }
      
-if($repeat_paragraph){
+if($repeat_paragraph && isset($ads_data['after_the_percentage_value']) && !empty($ads_data['after_the_percentage_value'])){
       for ( $i = $position -1; $i < $total_paragraphs; $i++ ) {
         // Select every X number.
-        if ( ( $i + 1 ) % $position === 0 )  {
+        if ( $position > 0 && ( $i + 1 ) % $position === 0 )  {
           $offsets[] = $i;
         }
       }
@@ -3622,8 +3646,10 @@ if($repeat_paragraph){
                         }
 }
     }else{
-        if (isset($paragraphs[$position])) {
-            $ref_node = $paragraphs[$position];
+        // Check if position is valid and percentage value exists
+        if (isset($ads_data['after_the_percentage_value']) && !empty($ads_data['after_the_percentage_value']) && isset($paragraphs[$position]) && $position >= 0) {
+            // Insert AFTER the paragraph, not before
+            $ref_node = $paragraphs[$position]->nextSibling;
             
             $ad_dom = new DOMDocument('1.0', $wp_charset);
             libxml_use_internal_errors(true);
@@ -3644,6 +3670,9 @@ if($repeat_paragraph){
             foreach ($importedNodes as $importedNode) {
                 if ($ref_node) {
                     $ref_node->parentNode->insertBefore($importedNode, $ref_node);
+                } else {
+                    // If no nextSibling, append to parent
+                    $paragraphs[$position]->parentNode->appendChild($importedNode);
                 }
             }
         }
