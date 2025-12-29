@@ -3623,25 +3623,51 @@ if($repeat_paragraph && isset($ads_data['after_the_percentage_value']) && !empty
                                foreach ( $offsets as $offset ) {
 
                         $ref_node  = $paragraphs[$offset]->nextSibling;
-                        $ad_dom =  new DOMDocument( '1.0', $wp_charset );
-                        libxml_use_internal_errors( true );
                         $quick_tags_pattern = '/<!--CusAds\d+-->/';
+                        
+                        // Handle placeholder comments differently from actual HTML
                         if (preg_match($quick_tags_pattern, $ads)) {
-                            $ad_dom->loadHTML(mb_convert_encoding( $ads, 'HTML-ENTITIES', 'UTF-8') , LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
-                        }else{
-                            $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'),LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
-                        }
-                        libxml_clear_errors();
-                        $importedNodes = [];
-                        foreach ($ad_dom->childNodes as $importedNode) {
-                            if ($importedNode->nodeType === XML_ELEMENT_NODE) {
-                                $importedNodes[] = $doc->importNode($importedNode, true);
-                            }
-                        }
-                    
-                        foreach ($importedNodes as $importedNode) {
+                            // For placeholder comments, create a comment node directly
+                            $commentNode = $doc->createComment(str_replace(array('<!--', '-->'), '', $ads));
                             if ($ref_node) {
-                                $ref_node->parentNode->insertBefore($importedNode, $ref_node);
+                                $ref_node->parentNode->insertBefore($commentNode, $ref_node);
+                            } else {
+                                $paragraphs[$offset]->parentNode->appendChild($commentNode);
+                            }
+                        } else {
+                            // For actual HTML (like carousel ads), wrap and extract properly
+                            $ad_dom =  new DOMDocument( '1.0', $wp_charset );
+                            libxml_use_internal_errors( true );
+                            // Wrap in html/body to preserve nested div structure
+                            $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><body>' . $ads . '</body></html>', 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                            libxml_clear_errors();
+                            
+                            // Extract nodes from body element to preserve nested structure
+                            $body = $ad_dom->getElementsByTagName('body')->item(0);
+                            $importedNodes = [];
+                            if ($body) {
+                                // Import all child nodes from body (preserves nested divs)
+                                foreach ($body->childNodes as $importedNode) {
+                                    if ($importedNode->nodeType === XML_ELEMENT_NODE) {
+                                        $importedNodes[] = $doc->importNode($importedNode, true);
+                                    }
+                                }
+                            } else {
+                                // Fallback: import direct child nodes
+                                foreach ($ad_dom->childNodes as $importedNode) {
+                                    if ($importedNode->nodeType === XML_ELEMENT_NODE) {
+                                        $importedNodes[] = $doc->importNode($importedNode, true);
+                                    }
+                                }
+                            }
+                        
+                            foreach ($importedNodes as $importedNode) {
+                                if ($ref_node) {
+                                    $ref_node->parentNode->insertBefore($importedNode, $ref_node);
+                                } else {
+                                    // If no nextSibling, append to parent
+                                    $paragraphs[$offset]->parentNode->appendChild($importedNode);
+                                }
                             }
                         }
 }
@@ -3651,28 +3677,51 @@ if($repeat_paragraph && isset($ads_data['after_the_percentage_value']) && !empty
             // Insert AFTER the paragraph, not before
             $ref_node = $paragraphs[$position]->nextSibling;
             
-            $ad_dom = new DOMDocument('1.0', $wp_charset);
-            libxml_use_internal_errors(true);
             $quick_tags_pattern = '/<!--CusAds\d+-->/';
+            
+            // Handle placeholder comments differently from actual HTML
             if (preg_match($quick_tags_pattern, $ads)) {
-                $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            }else{
-                $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            }
-            libxml_clear_errors();
-            $importedNodes = [];
-            foreach ($ad_dom->childNodes as $importedNode) {
-                if ($importedNode->nodeType === XML_ELEMENT_NODE) {
-                    $importedNodes[] = $doc->importNode($importedNode, true);
-                }
-            }
-        
-            foreach ($importedNodes as $importedNode) {
+                // For placeholder comments, create a comment node directly
+                $commentNode = $doc->createComment(str_replace(array('<!--', '-->'), '', $ads));
                 if ($ref_node) {
-                    $ref_node->parentNode->insertBefore($importedNode, $ref_node);
+                    $ref_node->parentNode->insertBefore($commentNode, $ref_node);
                 } else {
-                    // If no nextSibling, append to parent
-                    $paragraphs[$position]->parentNode->appendChild($importedNode);
+                    $paragraphs[$position]->parentNode->appendChild($commentNode);
+                }
+            } else {
+                // For actual HTML (like carousel ads), wrap and extract properly
+                $ad_dom = new DOMDocument('1.0', $wp_charset);
+                libxml_use_internal_errors(true);
+                // Wrap in html/body to preserve nested div structure
+                $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><body>' . $ads . '</body></html>', 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                libxml_clear_errors();
+                
+                // Extract nodes from body element to preserve nested structure
+                $body = $ad_dom->getElementsByTagName('body')->item(0);
+                $importedNodes = [];
+                if ($body) {
+                    // Import all child nodes from body (preserves nested divs)
+                    foreach ($body->childNodes as $importedNode) {
+                        if ($importedNode->nodeType === XML_ELEMENT_NODE) {
+                            $importedNodes[] = $doc->importNode($importedNode, true);
+                        }
+                    }
+                } else {
+                    // Fallback: import direct child nodes
+                    foreach ($ad_dom->childNodes as $importedNode) {
+                        if ($importedNode->nodeType === XML_ELEMENT_NODE) {
+                            $importedNodes[] = $doc->importNode($importedNode, true);
+                        }
+                    }
+                }
+            
+                foreach ($importedNodes as $importedNode) {
+                    if ($ref_node) {
+                        $ref_node->parentNode->insertBefore($importedNode, $ref_node);
+                    } else {
+                        // If no nextSibling, append to parent
+                        $paragraphs[$position]->parentNode->appendChild($importedNode);
+                    }
                 }
             }
         }
