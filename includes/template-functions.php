@@ -1428,6 +1428,10 @@ function quads_filter_default_ads_new( $content ) {
                                 $displayed_ad = 1;
                                 $index = 0;
                                 while ($index < count($paragraphs)) {
+                                    if (!isset($paragraphs[$index])) {
+                                        $index++;
+                                        continue;
+                                    }
                                     $paragraph = $paragraphs[$index];
                                     
                                     if (trim($paragraph)) {
