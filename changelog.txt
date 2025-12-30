@@ -1,3 +1,9 @@
+= 2.0.98 ( 30 December 2025 ) =
+* Fixed : Fatal error in 2.0.97 when using toc elementor widget #982
+* Fixed : Undefined array key in template-functions.php on line 1425 #976
+* Fixed : Carousel ads breaking WooCommerce tabs #983
+* Improvement : Placement after percentage not working #981
+
 = 2.0.97 ( 20 December 2025 ) =
 * Improvement : Done improvements with respect to PCP and WP.org standards.
 

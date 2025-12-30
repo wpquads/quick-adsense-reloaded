@@ -1428,6 +1428,10 @@ function quads_filter_default_ads_new( $content ) {
                                 $displayed_ad = 1;
                                 $index = 0;
                                 while ($index < count($paragraphs)) {
+                                    if (!isset($paragraphs[$index])) {
+                                        $index++;
+                                        continue;
+                                    }
                                     $paragraph = $paragraphs[$index];
                                     
                                     if (trim($paragraph)) {
@@ -3550,11 +3554,11 @@ function quads_del_element($array, $idx) {
 function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_paragraph=false){
 
     $wp_charset = get_bloginfo( 'charset' );
-     $tag = 'p[not(parent::blockquote)]|p[not(parent::table)]';
-      $offsets = array();
-       $paragraphs = array();
-     $doc =  new DOMDocument( '1.0', $wp_charset );
-     libxml_use_internal_errors( true );
+    $tag = '//p[not(parent::blockquote) and not(parent::table)]';
+    $offsets = array();
+    $paragraphs = array();
+    $doc =  new DOMDocument( '1.0', $wp_charset );
+    libxml_use_internal_errors( true );
      if($content)
      {
         // Wrap all <!--shortcodes-->  in div to prevent them from being moved
@@ -3576,74 +3580,152 @@ function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$r
      }
      libxml_clear_errors();
       $xpath = new DOMXPath( $doc );
-      $items = $xpath->query( '/html/body/' . $tag );
+      
+      $items = $xpath->query( $tag );
+      
+      if($items->length == 0) {
+          $items = $xpath->query( '//p' );
+          
+          if($items->length == 0) {
+              $items = $xpath->query( '/html/body/p' );
+          }
+          
+          if($items->length == 0) {
+              $items = $xpath->query( '//body//p' );
+          }
+      }
+      
       $whitespaces = json_decode( '"\t\n\r \u00A0"' );
       foreach ( $items  as $item) {
         if (  ( isset( $item->textContent ) && trim( $item->textContent, $whitespaces ) !== '' ) ) { 
           $paragraphs[] = $item;
         }
       }
-      $total_paragraphs = count($paragraphs);    
-      if(isset($ads_data['after_the_percentage_value'])){
-        $percentage       = intval($ads_data['after_the_percentage_value']);
-        $position     = floor(($percentage / 100) * $total_paragraphs);
+      $total_paragraphs = count($paragraphs);
+      
+      $position = 0; // Initialize position
+      if(isset($ads_data['after_the_percentage_value']) && !empty($ads_data['after_the_percentage_value'])){
+        $percentage = intval($ads_data['after_the_percentage_value']);
+        $position = floor(($percentage / 100) * $total_paragraphs);
+        
+        // Ensure position is within bounds
+        if($position < 0) {
+            $position = 0;
+        }
+        if($position >= $total_paragraphs) {
+            $position = max(0, $total_paragraphs - 1);
+        }
       }
      
-if($repeat_paragraph){
+if($repeat_paragraph && isset($ads_data['after_the_percentage_value']) && !empty($ads_data['after_the_percentage_value'])){
       for ( $i = $position -1; $i < $total_paragraphs; $i++ ) {
         // Select every X number.
-        if ( ( $i + 1 ) % $position === 0 )  {
+        if ( $position > 0 && ( $i + 1 ) % $position === 0 )  {
           $offsets[] = $i;
         }
       }
                                foreach ( $offsets as $offset ) {
 
                         $ref_node  = $paragraphs[$offset]->nextSibling;
-                        $ad_dom =  new DOMDocument( '1.0', $wp_charset );
-                        libxml_use_internal_errors( true );
                         $quick_tags_pattern = '/<!--CusAds\d+-->/';
+                        
+                        // Handle placeholder comments differently from actual HTML
                         if (preg_match($quick_tags_pattern, $ads)) {
-                            $ad_dom->loadHTML(mb_convert_encoding( $ads, 'HTML-ENTITIES', 'UTF-8') , LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
-                        }else{
-                            $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'),LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
-                        }
-                        libxml_clear_errors();
-                        $importedNodes = [];
-                        foreach ($ad_dom->childNodes as $importedNode) {
-                            if ($importedNode->nodeType === XML_ELEMENT_NODE) {
-                                $importedNodes[] = $doc->importNode($importedNode, true);
-                            }
-                        }
-                    
-                        foreach ($importedNodes as $importedNode) {
+                            // For placeholder comments, create a comment node directly
+                            $commentNode = $doc->createComment(str_replace(array('<!--', '-->'), '', $ads));
                             if ($ref_node) {
-                                $ref_node->parentNode->insertBefore($importedNode, $ref_node);
+                                $ref_node->parentNode->insertBefore($commentNode, $ref_node);
+                            } else {
+                                $paragraphs[$offset]->parentNode->appendChild($commentNode);
+                            }
+                        } else {
+                            // For actual HTML (like carousel ads), wrap and extract properly
+                            $ad_dom =  new DOMDocument( '1.0', $wp_charset );
+                            libxml_use_internal_errors( true );
+                            // Wrap in html/body to preserve nested div structure
+                            $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><body>' . $ads . '</body></html>', 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                            libxml_clear_errors();
+                            
+                            // Extract nodes from body element to preserve nested structure
+                            $body = $ad_dom->getElementsByTagName('body')->item(0);
+                            $importedNodes = [];
+                            if ($body) {
+                                // Import all child nodes from body (preserves nested divs)
+                                foreach ($body->childNodes as $importedNode) {
+                                    if ($importedNode->nodeType === XML_ELEMENT_NODE) {
+                                        $importedNodes[] = $doc->importNode($importedNode, true);
+                                    }
+                                }
+                            } else {
+                                // Fallback: import direct child nodes
+                                foreach ($ad_dom->childNodes as $importedNode) {
+                                    if ($importedNode->nodeType === XML_ELEMENT_NODE) {
+                                        $importedNodes[] = $doc->importNode($importedNode, true);
+                                    }
+                                }
+                            }
+                        
+                            foreach ($importedNodes as $importedNode) {
+                                if ($ref_node) {
+                                    $ref_node->parentNode->insertBefore($importedNode, $ref_node);
+                                } else {
+                                    // If no nextSibling, append to parent
+                                    $paragraphs[$offset]->parentNode->appendChild($importedNode);
+                                }
                             }
                         }
 }
     }else{
-        if (isset($paragraphs[$position])) {
-            $ref_node = $paragraphs[$position];
+        // Check if position is valid and percentage value exists
+        if (isset($ads_data['after_the_percentage_value']) && !empty($ads_data['after_the_percentage_value']) && isset($paragraphs[$position]) && $position >= 0) {
+            // Insert AFTER the paragraph, not before
+            $ref_node = $paragraphs[$position]->nextSibling;
             
-            $ad_dom = new DOMDocument('1.0', $wp_charset);
-            libxml_use_internal_errors(true);
             $quick_tags_pattern = '/<!--CusAds\d+-->/';
+            
+            // Handle placeholder comments differently from actual HTML
             if (preg_match($quick_tags_pattern, $ads)) {
-                $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><body>' . $ads, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            }else{
-                $ad_dom->loadHTML(mb_convert_encoding($ads, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            }
-            libxml_clear_errors();
-            $importedNodes = [];
-            foreach ($ad_dom->childNodes as $importedNode) {
-                if ($importedNode->nodeType === XML_ELEMENT_NODE) {
-                    $importedNodes[] = $doc->importNode($importedNode, true);
-                }
-            }
-        
-            foreach ($importedNodes as $importedNode) {
+                // For placeholder comments, create a comment node directly
+                $commentNode = $doc->createComment(str_replace(array('<!--', '-->'), '', $ads));
                 if ($ref_node) {
-                    $ref_node->parentNode->insertBefore($importedNode, $ref_node);
+                    $ref_node->parentNode->insertBefore($commentNode, $ref_node);
+                } else {
+                    $paragraphs[$position]->parentNode->appendChild($commentNode);
+                }
+            } else {
+                // For actual HTML (like carousel ads), wrap and extract properly
+                $ad_dom = new DOMDocument('1.0', $wp_charset);
+                libxml_use_internal_errors(true);
+                // Wrap in html/body to preserve nested div structure
+                $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><body>' . $ads . '</body></html>', 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                libxml_clear_errors();
+                
+                // Extract nodes from body element to preserve nested structure
+                $body = $ad_dom->getElementsByTagName('body')->item(0);
+                $importedNodes = [];
+                if ($body) {
+                    // Import all child nodes from body (preserves nested divs)
+                    foreach ($body->childNodes as $importedNode) {
+                        if ($importedNode->nodeType === XML_ELEMENT_NODE) {
+                            $importedNodes[] = $doc->importNode($importedNode, true);
+                        }
+                    }
+                } else {
+                    // Fallback: import direct child nodes
+                    foreach ($ad_dom->childNodes as $importedNode) {
+                        if ($importedNode->nodeType === XML_ELEMENT_NODE) {
+                            $importedNodes[] = $doc->importNode($importedNode, true);
+                        }
+                    }
+                }
+            
+                foreach ($importedNodes as $importedNode) {
+                    if ($ref_node) {
+                        $ref_node->parentNode->insertBefore($importedNode, $ref_node);
+                    } else {
+                        // If no nextSibling, append to parent
+                        $paragraphs[$position]->parentNode->appendChild($importedNode);
+                    }
                 }
             }
         }
