@@ -7,7 +7,7 @@ Tags: ad manager, ads, adsense, monetize, banner
 Tested up to: 6.9
 Requires at least: 5.0
 Requires PHP: 7.4
-Stable tag: 2.0.97
+Stable tag: 2.0.98
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -446,6 +446,12 @@ This plugin uses the following third-party libraries and resources:
 
 
 == Changelog ==
+= 2.0.98 ( 30 December 2025 ) =
+* Fixed : Fatal error in 2.0.97 when using toc elementor widget #982
+* Fixed : Undefined array key in template-functions.php on line 1425 #976
+* Fixed : Carousel ads breaking WooCommerce tabs #983
+* Improvement : Placement after percentage not working #981
+
 = 2.0.97 ( 20 December 2025 ) =
 * Improvement : Done improvements with respect to PCP and WP.org standards.
 
@@ -461,8 +467,5 @@ This plugin uses the following third-party libraries and resources:
 
 = 2.0.94.1 ( 30 September 2025 ) =
 * Fixed : Patched XSS Vulnerability disclosed by Patchstack (Fiqro Najiah) 
-
-= 2.0.94 ( 15 September 2025 ) =
-* Fixed : Display After Every option is not working properly with random ads. #968
 
 Full changelog available [ at changelog.txt](https://plugins.svn.wordpress.org/quick-adsense-reloaded/trunk/changelog.txt)
