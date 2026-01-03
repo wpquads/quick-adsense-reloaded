@@ -186,6 +186,56 @@ function quads_options_page_new() {
         wp_enqueue_style('quads-material-ui-font', 'https://fonts.googleapis.com/icon?family=Material+Icons');
         
         $licenses = get_option( 'quads_wp_quads_pro_license_active' );
+        if (!$licenses) {
+            $quads_settings = get_option('quads_settings');
+            if (isset($quads_settings['quads_wp_quads_pro_license_key']) && !empty($quads_settings['quads_wp_quads_pro_license_key']) && strpos($quads_settings['quads_wp_quads_pro_license_key'], '****************') === false) {
+                // Call API to check license
+                $item_shortname = 'quads_wp_quads_pro';
+                $item_name = 'WP QUADS PRO';
+                $license = sanitize_text_field($quads_settings['quads_wp_quads_pro_license_key']);
+                $api_params = array(
+                    'edd_action' => 'check_license',
+                    'license'    => $license,
+                    'item_name'  => urlencode($item_name),
+                    'url'        => home_url()
+                );
+                $response = wp_remote_post(
+                    'http://wpquads.com/edd-sl-api/',
+                    array(
+                        'timeout'   => 15,
+                        'sslverify' => false,
+                        'body'      => $api_params
+                    )
+                );
+                if (is_wp_error($response)) {
+                    $licenses = (object) array('license' => 'invalid', 'error' => 'connection_error');
+                } else {
+                    $license_data = json_decode(wp_remote_retrieve_body($response));
+                    if ($license_data) {
+                        update_option('quads_wp_quads_pro_license_active', $license_data);
+                        $licenses = $license_data;
+                    } else {
+                        $licenses = (object) array('license' => 'invalid', 'error' => 'invalid_response');
+                    }
+                }
+            } else {
+                $licenses = (object) array(
+                    'license' => 'invalid',
+                    'error' => '',
+                    'expires' => '',
+                    'price_id' => '',
+                    'activations_left' => '',
+                    'checksum' => '',
+                    'customer_email' => '',
+                    'customer_name' => '',
+                    'item_name' => '',
+                    'license_limit' => '',
+                    'payment_id' => '',
+                    'site_count' => '',
+                    'success' => false
+                );
+            }
+        }
         if (isset($licenses->expires)) {
         $license_exp = gmdate('Y-m-d', strtotime($licenses->expires));
         $license_exp_d = gmdate('d F Y', strtotime($licenses->expires));
