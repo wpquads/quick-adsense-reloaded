@@ -54,8 +54,6 @@ class QuadsAdListSettings extends Component {
             backup_file   : null,
             textToCopy    : '',
             copied: false,
-            license_activation_success: false,
-            license_activation_error: '',
             ad_blocker_support_popup:false,
             click_fraud_protection_popup:false,
             old_settings  : '',
@@ -713,7 +711,7 @@ handleCapabilityChange = (event) =>{
   }
   getSettings = () => {
     let url = quads_localize_data.rest_url + 'quads-route/get-settings';
-    return fetch(url,{
+    fetch(url,{
       headers: {
         'X-WP-Nonce': quads_localize_data.nonce,
       }
@@ -731,17 +729,11 @@ handleCapabilityChange = (event) =>{
           old_settings = {...settings};
           this.setState({settings:settings,old_settings:old_settings});
           this.setState({ isLoading: false });
-          
-          // Update global license data if available
-          if(result.license && quads_localize_data && quads_localize_data.licenses){
-            quads_localize_data.licenses = result.license;
-          }
-          
-          return result;
+
       },
       (error) => {
         this.setState({ isLoading: false });
-        return Promise.reject(error);
+
       }
     );
   }
@@ -882,20 +874,8 @@ handleCapabilityChange = (event) =>{
       .then(
         (result) => {
         const currentpage = queryString.parse(window.location.search);
-        // Handle license activation response without reloading
-        if(currentpage.path =="settings_licenses" && result.status == "license_validated" && result.license == "valid"){
-          // License activated successfully - update state and fetch new settings
-          this.getSettings().then(() => {
-            // Update global license data
-            if(quads_localize_data && quads_localize_data.licenses){
-              quads_localize_data.licenses.license = 'valid';
-            }
-            this.setState({settings_saved: true, license_activation_success: true, button_spinner_toggle: false});
-            this.setState({license_activation_error: ''});
-          });
-        } else if(this.state.licensemsg == "Please activate your WP QUADS PRO License Key" && currentpage.path =="settings_licenses" && result.status != "license_validated"){
-          // Only reload if license wasn't just activated
-          // location.reload();
+        if( (this.state.licensemsg == "Please activate your WP QUADS PRO License Key" && currentpage.path =="settings_licenses") ||( currentpage.path =="settings_licenses" && result.status == "license_validated" && result.license == "valid" )){
+          location.reload();
         }
         if(result.status == "lic_not_valid" && result.license == "invalid" && quads_localize_data.licenses.error != "expired" ){
             setTimeout(function(){ 
@@ -1026,53 +1006,10 @@ handleCapabilityChange = (event) =>{
       .then(res => res.json())
       .then(
         (result) => {
-          this.setState({button_spinner_toggle: false});
-          
-          // Handle license activation/deactivation response
-          if(result.status === 'license_validated' && result.license === 'valid'){
-            // License activated successfully - fetch updated settings to get new license status
-            this.getSettings().then(() => {
-              // Update global license data
-              if(quads_localize_data && quads_localize_data.licenses){
-                quads_localize_data.licenses.license = 'valid';
-              }
-              // Show success message
-              this.setState({settings_saved: true, license_activation_success: true});
-              // Clear any error messages
-              this.setState({license_activation_error: ''});
-            });
-          } else if(result.status === 'lic_not_valid' && result.license === 'invalid'){
-            // Invalid license key
-            this.setState({license_activation_error: __('Invalid license key. Please check your license key and try again.', 'quick-adsense-reloaded')});
-            this.setState({license_activation_success: false});
-          } else if(status === 'deactivate'){
-            // License deactivated - fetch updated settings
-            this.getSettings().then(() => {
-              // Update global license data
-              if(quads_localize_data && quads_localize_data.licenses){
-                quads_localize_data.licenses.license = 'invalid';
-              }
-              // Clear license key from input
-              const { settings } = this.state;
-              settings.quads_wp_quads_pro_license_key = '';
-              this.setState({settings, license_activation_success: false, license_activation_error: ''});
-            });
-          } else if(status === 'refresh'){
-            // License refreshed - fetch updated settings
-            this.getSettings().then(() => {
-              this.setState({settings_saved: true});
-            });
-          } else {
-            // Other response - just reload if needed
-            if(result.status === 't' || result.status === 'tp'){
-              this.setState({settings_saved: true});
-            }
-          }
+          location.reload();
         },
         (error) => {
-          this.setState({button_spinner_toggle: false});
-          this.setState({license_activation_error: __('An error occurred. Please try again.', 'quick-adsense-reloaded')});
-          this.setState({license_activation_success: false});
+         location.reload();
         }
       );
     }
@@ -2935,27 +2872,7 @@ handleCapabilityChange = (event) =>{
                       {/*__('WP QUADS PRO License Key', 'quick-adsense-reloaded')*/}
                     </div>
                    <div>
-                   <input 
-                     value={quads_localize_data.licenses.license === "valid" && settings.quads_wp_quads_pro_license_key && settings.quads_wp_quads_pro_license_key.indexOf('****************') !== -1 
-                       ? settings.quads_wp_quads_pro_license_key 
-                       : (settings.quads_wp_quads_pro_license_key || '')} 
-                     onChange={this.add_license_key} 
-                     name="quads_wp_quads_pro_license_key" 
-                     type="text" 
-                     placeholder="License Key" 
-                     className="quads-premium-cus" 
-                     disabled={quads_localize_data.licenses.license === "valid" && settings.quads_wp_quads_pro_license_key && settings.quads_wp_quads_pro_license_key.indexOf('****************') !== -1}
-                   />
-                   {this.state.license_activation_success && (
-                     <div className="quads-license-success" style={{color: 'green', marginTop: '10px'}}>
-                       {__('License activated successfully!', 'quick-adsense-reloaded')}
-                     </div>
-                   )}
-                   {this.state.license_activation_error && (
-                     <div className="quads-license-error" style={{color: 'red', marginTop: '10px'}}>
-                       {this.state.license_activation_error}
-                     </div>
-                   )}
+                   <input value={settings.quads_wp_quads_pro_license_key} onChange={this.add_license_key} name="quads_wp_quads_pro_license_key" type="text" placeholder="License Key" className="quads-premium-cus" />
                    {
                     quads_localize_data.licenses.license == "valid" ?  
                    <div className="">
