@@ -1,3 +1,7 @@
+= 2.0.98.1 ( 09 January 2026 ) =
+* Fixed : License is not getting activated #985
+* Fixed : Reports section is not opening #986
+
 = 2.0.98 ( 30 December 2025 ) =
 * Fixed : Fatal error in 2.0.97 when using toc elementor widget #982
 * Fixed : Undefined array key in template-functions.php on line 1425 #976

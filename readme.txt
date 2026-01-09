@@ -7,7 +7,7 @@ Tags: ad manager, ads, adsense, monetize, banner
 Tested up to: 6.9
 Requires at least: 5.0
 Requires PHP: 7.4
-Stable tag: 2.0.98
+Stable tag: 2.0.98.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -446,6 +446,10 @@ This plugin uses the following third-party libraries and resources:
 
 
 == Changelog ==
+= 2.0.98.1 ( 09 January 2026 ) =
+* Fixed : License is not getting activated #985
+* Fixed : Reports section is not opening #986
+
 = 2.0.98 ( 30 December 2025 ) =
 * Fixed : Fatal error in 2.0.97 when using toc elementor widget #982
 * Fixed : Undefined array key in template-functions.php on line 1425 #976
@@ -464,8 +468,5 @@ This plugin uses the following third-party libraries and resources:
 * Improvement : Report should show the draft ads too #974
 * Fixed : Fatal error in query monitor #970
 * Fixed : click was not counted in the after-class condition. #973
-
-= 2.0.94.1 ( 30 September 2025 ) =
-* Fixed : Patched XSS Vulnerability disclosed by Patchstack (Fiqro Najiah) 
 
 Full changelog available [ at changelog.txt](https://plugins.svn.wordpress.org/quick-adsense-reloaded/trunk/changelog.txt)
