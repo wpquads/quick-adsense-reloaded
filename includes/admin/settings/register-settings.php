@@ -528,11 +528,91 @@ function quads_ads_for_shortcode(){
     if ( !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['quads_security_nonce'] ) ), 'quads_ajax_nonce' ) ){
         return;
     }
-     global $quads_options;
-      echo '<select id="quads-select-for-shortcode">';
-      foreach ($quads_options['ads'] as $key => $value){
-        echo '<option value="'.esc_attr($key).'"> '.esc_attr($key).'</option>';
-      }
+    
+    global $quads_options;
+    $quads_mode = get_option('quads-mode');
+    
+    echo '<select id="quads-select-for-shortcode">';
+    echo '<option value="">' . esc_html__( '-- Select Ad --', 'quick-adsense-reloaded' ) . '</option>';
+    
+    $ads_found = false;
+    
+    // First, try to get ads from old storage method ($quads_options['ads'])
+    if ( ! empty( $quads_options['ads'] ) && is_array( $quads_options['ads'] ) ) {
+        foreach ( $quads_options['ads'] as $key => $value ) {
+            // Skip widget ads
+            if ( false !== strpos( $key, '_widget' ) ) {
+                continue;
+            }
+            
+            // Skip if value is not an array
+            if ( ! is_array( $value ) ) {
+                continue;
+            }
+            
+            // Get the label or use the key as fallback
+            $title = $key;
+            if ( ! empty( $value['label'] ) ) {
+                $title = $value['label'];
+            } elseif ( ! empty( $value['ad_id'] ) ) {
+                $title = 'Ad ' . $value['ad_id'];
+            }
+            
+            echo '<option value="' . esc_attr( $key ) . '">' . esc_html( $title ) . '</option>';
+            $ads_found = true;
+        }
+    }
+    
+    // Also get ads from custom post types (new mode or if old storage is empty)
+    // This handles migrated ads that might not be in $quads_options['ads']
+    if ( $quads_mode == 'new' || ! $ads_found ) {
+        require_once QUADS_PLUGIN_DIR . '/admin/includes/rest-api-service.php';
+        $api_service = new QUADS_Ad_Setup_Api_Service();
+        $quads_ads = $api_service->getAdDataByParam('quads-ads');
+        
+        if ( isset( $quads_ads['posts_data'] ) && is_array( $quads_ads['posts_data'] ) ) {
+            foreach ( $quads_ads['posts_data'] as $post_data ) {
+                // Skip draft ads
+                if ( isset( $post_data['post']['post_status'] ) && $post_data['post']['post_status'] == 'draft' ) {
+                    continue;
+                }
+                
+                $post_meta = isset( $post_data['post_meta'] ) ? $post_data['post_meta'] : array();
+                $ad_id = isset( $post_meta['ad_id'] ) ? $post_meta['ad_id'] : ( isset( $post_data['post']['ID'] ) ? $post_data['post']['ID'] : '' );
+                
+                if ( empty( $ad_id ) ) {
+                    continue;
+                }
+                
+                // Get label from post meta or post title
+                $title = isset( $post_data['post']['post_title'] ) ? $post_data['post']['post_title'] : '';
+                if ( empty( $title ) && ! empty( $post_meta['label'] ) ) {
+                    $title = $post_meta['label'];
+                }
+                if ( empty( $title ) ) {
+                    $title = 'Ad ' . $ad_id;
+                }
+                
+                // Use quads_ad_old_id if available (for backward compatibility with shortcodes)
+                // Otherwise use the post ID
+                $old_id = isset( $post_meta['quads_ad_old_id'] ) ? $post_meta['quads_ad_old_id'] : '';
+                if ( ! empty( $old_id ) ) {
+                    // Check if we already added this ad from $quads_options['ads']
+                    // Skip to avoid duplicates
+                    if ( isset( $quads_options['ads'][ $old_id ] ) ) {
+                        continue;
+                    }
+                    $value = $old_id;
+                } else {
+                    // No old_id, use post ID directly
+                    $value = $ad_id;
+                }
+                
+                echo '<option value="' . esc_attr( $value ) . '">' . esc_html( $title ) . '</option>';
+            }
+        }
+    }
+    
     echo '</select>';
    wp_die();
 
