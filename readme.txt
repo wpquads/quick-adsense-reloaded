@@ -446,6 +446,12 @@ This plugin uses the following third-party libraries and resources:
 
 
 == Changelog ==
+= 2.0.99 ( 23 February 2026 ) =
+* Fixed : Targeting “Excluded On → User Role” does not include custom WordPress roles #987
+* Fixed : All ads are not coming in quads ad inserter in WP tinymce editor #988
+* Improvement : Sticky Ad Close Button Should Use display: none Instead of opacity: 0 #977
+* Fixed : Authenticated Stored CSS via Ad Meta Parameters disclosed by Wordfence (Muhammad Yudha - DJ)
+
 = 2.0.98.1 ( 09 January 2026 ) =
 * Fixed : License is not getting activated #985
 * Fixed : Reports section is not opening #986
