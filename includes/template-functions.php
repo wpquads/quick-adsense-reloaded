@@ -226,7 +226,7 @@ $atts = is_array( $atts ) ? $atts : array();
    $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
 
    $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
-           '<div class="quads-location quads-ad' . $id . '" id="quads-ad' . $id . '" style="' . $style . '">' . "\n";
+           '<div class="quads-location quads-ad' . esc_attr( $id ) . '" id="quads-ad' . esc_attr( $id ) . '" style="' . esc_attr( $style ) . '">' . "\n";
    $code .= do_shortcode( quads_get_ad( $id ) );
    $code .= '</div>' . "\n";
 
@@ -280,12 +280,12 @@ function quads_from_adsforwp_manual_ads($atts ){
     $style = !quads_is_amp_endpoint() ? apply_filters( 'quads_filter_margins', $margin, 'ad' . $id ) : '';
     if(function_exists('quads_hide_markup') && quads_hide_markup()  ) {
         $adscode =
-            "\n".'<div style="'.esc_html($style).'">'."\n".
+            "\n".'<div style="'.esc_attr( $style ).'">'."\n".
             do_shortcode(quads_get_ad($id)).
             '</div>'. "\n";
     }else {
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  Shortcode Ad -->' . "\n" .
-            '<div class="quads-location quads-ad' . esc_html($id) . '" id="quads-ad' . esc_html($id) . '" style="' . esc_html($style) . '">' . "\n";
+            '<div class="quads-location quads-ad' . esc_attr( $id ) . '" id="quads-ad' . esc_attr( $id ) . '" style="' . esc_attr( $style ) . '">' . "\n";
         $code .= do_shortcode(quads_get_ad($id));
         $code .= '</div>' . "\n";
     }
@@ -1272,9 +1272,10 @@ function quads_filter_default_ads_new( $content ) {
                                     $a_tag = '<a class="quads-sticky-ad-close">x</a>';
                                 }
                                 if( isset($sticky_show_hide) && $sticky_show_hide == 1 ){
-                                    $btn_tag = '<div class="quads-sticky-show-btn">'.esc_attr($sticky_show_hide_txt).'</div>';
+                                    $btn_tag = '<div class="quads-sticky-show-btn">'.esc_html($sticky_show_hide_txt).'</div>';
                                 }
-                                $anim_attr = ( isset($sticky_ad_anim) && $sticky_ad_anim == 1 ) ? ' data-anim-tod='.$sticky_ad_anim_text.'' : '';
+                                $sticky_anim_ms = ( isset($sticky_ad_anim) && $sticky_ad_anim == 1 ) ? absint( $sticky_ad_anim_text ) : 0;
+                                $anim_attr = $sticky_anim_ms > 0 ? ' data-anim-tod="' . esc_attr( (string) $sticky_anim_ms ) . '"' : '';
                                 $q_main_open = ''.$btn_tag.'<div class="quads-sticky"'.$anim_attr.'>'.$a_tag.'';
                                 $q_close = '</div>';
                                 $content = $content.$q_main_open.$cusads.$q_close;}                                 
@@ -2287,9 +2288,13 @@ function quads_parse_random_quicktag_ads($content){
     $number_rand_ads = substr_count( $content, '<!--CusRnd' );
     for ( $i = 0; $i <= $number_rand_ads - 1; $i++ ) {
         preg_match("#<!--CusRnd(.+?)-->#si", $content, $match);
-        $ad_id = $match['1'];
-        if(!empty($ad_id)){
-            $ad_meta = get_post_meta($ad_id, '',true);
+        $ad_id = isset( $match['1'] ) ? quads_sanitize_ad_marker_id( $match['1'] ) : 0;
+        if ( ! $ad_id ) {
+            continue;
+        }
+        $ad_meta = get_post_meta($ad_id, '',true);
+        if ( empty( $ad_meta['random_ads_list']['0'] ) ) {
+            continue;
         }
         $random_ads_list = unserialize($ad_meta['random_ads_list']['0']);
         if (!is_array($random_ads_list)) return $content; 
@@ -2441,6 +2446,37 @@ function quads_parse_default_ads( $content ) {
     }
     return $content;
 }
+
+/**
+ * Sanitize and validate ad marker ID from content (e.g. from <!--half_page_ad123-->).
+ * Prevents XSS via arbitrary marker content and ensures only valid post IDs are used.
+ *
+ * @param string|int $ad_id Raw value from regex match.
+ * @return int Sanitized post ID, or 0 if invalid.
+ */
+function quads_sanitize_ad_marker_id( $ad_id ) {
+	$ad_id = absint( $ad_id );
+	if ( $ad_id <= 0 ) {
+		return 0;
+	}
+	if ( ! get_post( $ad_id ) ) {
+		return 0;
+	}
+	return $ad_id;
+}
+
+/**
+ * Return value only if it is in the allowed list; otherwise return default (safe for HTML attributes).
+ *
+ * @param string $value   Value to check.
+ * @param array  $allowed Allowed values.
+ * @param string $default Default if not allowed.
+ * @return string
+ */
+function quads_allowed_attr_value( $value, $allowed, $default = '' ) {
+	return in_array( (string) $value, $allowed, true ) ? (string) $value : $default;
+}
+
 function quads_parse_popup_ads($content) {
     if(!isset($_COOKIE['quads_popup'])){
     global $quads_options;
@@ -2448,10 +2484,11 @@ function quads_parse_popup_ads($content) {
     if (!isset($match['1'])) {
         return $content;
     }
-    $ad_id = $match['1'];
-    if(!empty($ad_id)){
-        $ad_meta = get_post_meta($ad_id, '',true);
+    $ad_id = quads_sanitize_ad_marker_id( $match['1'] );
+    if ( ! $ad_id ) {
+        return $content;
     }
+    $ad_meta = get_post_meta($ad_id, '',true);
     $ads_list = !empty($ad_meta['ads_list']['0']) ? unserialize($ad_meta['ads_list']['0']) : "" ;
 
     if (!is_array($ads_list)) return $content;
@@ -2464,10 +2501,11 @@ function quads_parse_popup_ads($content) {
 
     $ad_code = array_rand($temp_array);
 
-    $popup_type                    =  isset($ad_meta['popup_type'][0]) ? $ad_meta['popup_type'][0] : '';
+    $popup_type_raw = isset($ad_meta['popup_type'][0]) ? $ad_meta['popup_type'][0] : '';
+    $popup_type = quads_allowed_attr_value( $popup_type_raw, array( 'everytime_popup', 'specific_time_popup', 'on_scroll_popup', 'load_on_top', 'load_on_bottom' ), '' );
     $everytime_popup       =  (isset($ad_meta['everytime_popup'][0]) && !empty($ad_meta['everytime_popup'][0])) ? $ad_meta['everytime_popup'][0] : 0;
-    $specific_time_interval_sec       =  (isset($ad_meta['specific_time_interval_sec'][0]) && !empty($ad_meta['specific_time_interval_sec'][0])) ? $ad_meta['specific_time_interval_sec'][0] : 0;
-    $on_scroll_popup_percentage       =  (isset($ad_meta['on_scroll_popup_percentage'][0]) && !empty($ad_meta['on_scroll_popup_percentage'][0])) ? $ad_meta['on_scroll_popup_percentage'][0] : 0;
+    $specific_time_interval_sec       =  (isset($ad_meta['specific_time_interval_sec'][0]) && !empty($ad_meta['specific_time_interval_sec'][0])) ? absint( $ad_meta['specific_time_interval_sec'][0] ) : 0;
+    $on_scroll_popup_percentage       =  (isset($ad_meta['on_scroll_popup_percentage'][0]) && !empty($ad_meta['on_scroll_popup_percentage'][0])) ? absint( $ad_meta['on_scroll_popup_percentage'][0] ) : 0;
     
     //cookie
     $popup_set_cookie_type       =  (isset($ad_meta['popup_set_cookie_type'][0]) && !empty($ad_meta['popup_set_cookie_type'][0])) ? $ad_meta['popup_set_cookie_type'][0] : 'withcookieexp';
@@ -2531,19 +2569,20 @@ function quads_parse_popup_ads($content) {
         }
         if( $popup_type == "specific_time_popup" || $popup_type == "load_on_top" || $popup_type == "load_on_bottom"){
             $style = "display:none";
-            $popups_data = "data-timer=".$specific_time_interval_sec."";
+            $popups_data = ' data-timer="' . esc_attr( (string) $specific_time_interval_sec ) . '"';
         }
         if( $popup_type == "on_scroll_popup" ){
             $style = "display:none";
-            $popups_data = "data-percent=".$on_scroll_popup_percentage."";
+            $popups_data = ' data-percent="' . esc_attr( (string) $on_scroll_popup_percentage ) . '"';
         }
 
+        $addl_class = '';
         if(  $popup_type == "load_on_top" || $popup_type == "load_on_bottom"){
-            $addl_class='quads_'.$popup_type;
+            $addl_class = 'quads_'.$popup_type;
         }
 
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
-            '<div class="quads-location quads-popupad ad_' . esc_attr($ad_id) . ' '.esc_attr($addl_class).'" id="quads-ad'. esc_attr($ad_id) .'" '.$popups_data.' data-popuptype="'.$popup_type.'" data-cke="'.$data_cke.'" style="' . $style . '">' . "\n";
+            '<div class="quads-location quads-popupad ad_' . esc_attr($ad_id) . ' ' . esc_attr($addl_class) . '" id="quads-ad' . esc_attr($ad_id) . '"' . $popups_data . ' data-popuptype="' . esc_attr($popup_type) . '" data-cke="' . esc_attr($data_cke) . '" style="' . esc_attr( $style ) . '">' . "\n";
         $code .='<div class="quads-groups-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
         $code .='</div>';
 
@@ -2577,15 +2616,17 @@ function quads_parse_video_ads($content) {
         if (!isset($match['1'])) {
             return $content;
         }
-        $ad_id = $match['1'];
-
-        if(!empty($ad_id)){
-            $ad_meta = get_post_meta($ad_id, '',true);
+        $ad_id = quads_sanitize_ad_marker_id( $match['1'] );
+        if ( ! $ad_id ) {
+            return $content;
         }
-        $video_ad_type                    =  isset($ad_meta['video_ad_type'][0]) ? $ad_meta['video_ad_type'][0] : '';
-    $specific_time_interval_sec_video       =  (isset($ad_meta['specific_time_interval_sec_video'][0]) && !empty($ad_meta['specific_time_interval_sec_video'][0])) ? $ad_meta['specific_time_interval_sec_video'][0] : 0;
-    $position =  (isset($ad_meta['video_ad_type_position'][0]) && !empty($ad_meta['video_ad_type_position'][0])) ? $ad_meta['video_ad_type_position'][0] : 0;
-    $on_scroll_video_percentage       =  (isset($ad_meta['on_scroll_video_percentage'][0]) && !empty($ad_meta['on_scroll_video_percentage'][0])) ? $ad_meta['on_scroll_video_percentage'][0] : 0;
+        $ad_meta = get_post_meta($ad_id, '',true);
+        $video_ad_type_raw = isset($ad_meta['video_ad_type'][0]) ? $ad_meta['video_ad_type'][0] : '';
+        $video_ad_type = quads_allowed_attr_value( $video_ad_type_raw, array( 'specific_time_video', 'after_scroll_video' ), '' );
+    $specific_time_interval_sec_video       =  (isset($ad_meta['specific_time_interval_sec_video'][0]) && $ad_meta['specific_time_interval_sec_video'][0] !== '' && $ad_meta['specific_time_interval_sec_video'][0] !== false) ? absint( $ad_meta['specific_time_interval_sec_video'][0] ) : 0;
+    $position_raw = (isset($ad_meta['video_ad_type_position'][0]) && !empty($ad_meta['video_ad_type_position'][0])) ? $ad_meta['video_ad_type_position'][0] : 'v_right';
+    $position = quads_allowed_attr_value( $position_raw, array( 'v_left', 'v_right' ), 'v_right' );
+    $on_scroll_video_percentage       =  (isset($ad_meta['on_scroll_video_percentage'][0]) && $ad_meta['on_scroll_video_percentage'][0] !== '' && $ad_meta['on_scroll_video_percentage'][0] !== false) ? absint( $ad_meta['on_scroll_video_percentage'][0] ) : 0;
     $V_image_src       =  (isset($ad_meta['image_src'][0]) && !empty($ad_meta['image_src'][0])) ? $ad_meta['image_src'][0] : 0;
     $V_redirect       =  (isset($ad_meta['image_redirect_url'][0]) && !empty($ad_meta['image_redirect_url'][0])) ? $ad_meta['image_redirect_url'][0] : '';
     $V_image_width       =  (isset($ad_meta['video_width'][0]) && !empty($ad_meta['video_width'][0])) ? $ad_meta['video_width'][0] : '350';
@@ -2637,19 +2678,19 @@ function quads_parse_video_ads($content) {
         $margin = sprintf( $arr[( int ) $adsalign], $adsmargin );
 
         // Do not create any inline style on AMP site
-        $style = '' ;
+        $style = '';
         $videoad_data = '';
         if( $video_ad_type == "specific_time_video" ){
             $style = "display:none";
-            $videoad_data = "data-position=".$position." data-timer=".$specific_time_interval_sec_video."";
+            $videoad_data = ' data-position="' . esc_attr( $position ) . '" data-timer="' . esc_attr( (string) $specific_time_interval_sec_video ) . '"';
         }
         if( $video_ad_type == "after_scroll_video" ){
             $style = "display:none";
-            $videoad_data = "data-position=".$position." data-percent=".$on_scroll_video_percentage."";
+            $videoad_data = ' data-position="' . esc_attr( $position ) . '" data-percent="' . esc_attr( (string) $on_scroll_video_percentage ) . '"';
         }
 
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
-            '<div class="video_main"><div class="quads-location quads-video ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" '.$videoad_data.' data-videotype="'.$video_ad_type.'" data-redirect="'.esc_url($V_redirect).'" style="' . $style . '">' . "\n";
+            '<div class="video_main"><div class="quads-location quads-video ad_' . esc_attr($ad_id) . '" id="quads-ad' . esc_attr($ad_id) . '"' . $videoad_data . ' data-videotype="' . esc_attr( $video_ad_type ) . '" data-redirect="' . esc_url($V_redirect) . '" style="' . esc_attr( $style ) . '">' . "\n";
 
         $code .='<div class="quads-video-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
         $code .='</div>';
@@ -2682,12 +2723,13 @@ function quads_parse_parallax_ads($content) {
         if (!isset($match['1'])) {           
             return $content;
         }
-        $ad_id = $match['1'];
-        if(!empty($ad_id)){
-            $ad_meta = get_post_meta($ad_id, '',true);
+        $ad_id = quads_sanitize_ad_marker_id( $match['1'] );
+        if ( ! $ad_id ) {
+            return $content;
         }
+        $ad_meta = get_post_meta($ad_id, '',true);
         $parallax_ad_type                    =  'after_scroll_parallax_ads';
-    $on_scroll_parallax_ads_percentage       =  (isset($ad_meta['on_scroll_parallax_ads_percentage'][0]) && !empty($ad_meta['on_scroll_parallax_ads_percentage'][0])) ? $ad_meta['on_scroll_parallax_ads_percentage'][0] : 20;
+    $on_scroll_parallax_ads_percentage       =  (isset($ad_meta['on_scroll_parallax_ads_percentage'][0]) && $ad_meta['on_scroll_parallax_ads_percentage'][0] !== '' && $ad_meta['on_scroll_parallax_ads_percentage'][0] !== false) ? absint( $ad_meta['on_scroll_parallax_ads_percentage'][0] ) : 20;
     $parallax_image_src       =  (isset($ad_meta['image_src'][0]) && !empty($ad_meta['image_src'][0])) ? $ad_meta['image_src'][0] : 0;
     $parallax_btn_url       =  (isset($ad_meta['parallax_btn_url'][0]) && !empty($ad_meta['parallax_btn_url'][0])) ? $ad_meta['parallax_btn_url'][0] : '';
     $parallax_image_width       =  (isset($ad_meta['parallax_ads_width'][0]) && !empty($ad_meta['parallax_ads_width'][0])) ? $ad_meta['parallax_ads_width'][0] : '800';
@@ -2728,11 +2770,11 @@ function quads_parse_parallax_ads($content) {
         $parallax_ads_data = '';
         if( !empty($on_scroll_parallax_ads_percentage)){
             $style = "display:none";
-            $parallax_ads_data = "data-percent=".$on_scroll_parallax_ads_percentage."";
+            $parallax_ads_data = ' data-percent="' . esc_attr( (string) $on_scroll_parallax_ads_percentage ) . '"';
         }
 
         $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . '  popup Ad -->' . "\n" .
-            '<div class="parallax_main"><div class="quads_parallax_scroll_text">Keep Scrolling</div><div class="quads-parallax-spacer"></div><div class="quads-location quads-parallax ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" '.$parallax_ads_data.' data-parallaxtype="'.$parallax_ad_type.'" data-position="'.$parallax_ad_type.'" data-redirect="'.esc_url($parallax_btn_url).'" style="' . $style . '">' . "\n";
+            '<div class="parallax_main"><div class="quads_parallax_scroll_text">Keep Scrolling</div><div class="quads-parallax-spacer"></div><div class="quads-location quads-parallax ad_' . esc_attr($ad_id) . '" id="quads-ad' . esc_attr($ad_id) . '"' . $parallax_ads_data . ' data-parallaxtype="' . esc_attr( $parallax_ad_type ) . '" data-position="' . esc_attr( $parallax_ad_type ) . '" data-redirect="' . esc_url($parallax_btn_url) . '" style="' . esc_attr( $style ) . '">' . "\n";
         $code .='<div class="quads-parallax-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
         $code .='</div>';
 
@@ -2764,13 +2806,16 @@ function quads_parse_half_page_ads($content) {
         if (!isset($match['1'])) {           
             return $content;
         }
-        $ad_id = $match['1'];
-        if(!empty($ad_id)){
-            $ad_meta = get_post_meta($ad_id, '',true);
+        $ad_id = quads_sanitize_ad_marker_id( $match['1'] );
+        if ( ! $ad_id ) {
+            return $content;
         }
-        $half_page_ads_type =  isset($ad_meta['half_page_ads_type'][0]) ? $ad_meta['half_page_ads_type'][0] : '';
-        $half_page_ads_type_position =  isset($ad_meta['half_page_ads_type_position'][0]) ? $ad_meta['half_page_ads_type_position'][0] : '';
-        $half_page_ads_type_specific_time_num =  isset($ad_meta['half_page_ads_type_specific_time_num'][0]) ? $ad_meta['half_page_ads_type_specific_time_num'][0] : '5000';
+        $ad_meta = get_post_meta($ad_id, '',true);
+        $half_page_ads_type_raw = isset($ad_meta['half_page_ads_type'][0]) ? $ad_meta['half_page_ads_type'][0] : '';
+        $half_page_ads_type = quads_allowed_attr_value( $half_page_ads_type_raw, array( 'half_page_ads_type_specific_time_sec', 'half_page_ads_type_on_click' ), '' );
+        $half_page_ads_type_position_raw = isset($ad_meta['half_page_ads_type_position'][0]) ? $ad_meta['half_page_ads_type_position'][0] : '';
+        $half_page_ads_type_position = quads_allowed_attr_value( $half_page_ads_type_position_raw, array( 'half_page_ads_type_position_left', 'half_page_ads_type_position_right' ), '' );
+        $half_page_ads_type_specific_time_num = isset($ad_meta['half_page_ads_type_specific_time_num'][0]) && $ad_meta['half_page_ads_type_specific_time_num'][0] !== '' && $ad_meta['half_page_ads_type_specific_time_num'][0] !== false ? absint( $ad_meta['half_page_ads_type_specific_time_num'][0] ) : 5000;
         $half_page_ads_image_src =  (isset($ad_meta['image_src'][0]) && !empty($ad_meta['image_src'][0])) ? $ad_meta['image_src'][0] : 0;
         $half_page_ads_btn_url =  (isset($ad_meta['half_page_ads_btn_url'][0]) && !empty($ad_meta['half_page_ads_btn_url'][0])) ? $ad_meta['half_page_ads_btn_url'][0] : '';
         $half_page_ads_page_vertical_text =  isset($ad_meta['half_page_ads_page_vertical_text'][0]) ? $ad_meta['half_page_ads_page_vertical_text'][0] : 'Click Here To Open/Close';
@@ -2794,7 +2839,7 @@ function quads_parse_half_page_ads($content) {
         $half_page_ads_data = '';
         if( $half_page_ads_type == "half_page_ads_type_specific_time_sec" ){
             if($half_page_ads_type_specific_time_num){
-                $half_page_ads_data = "data-timer=".$half_page_ads_type_specific_time_num."";
+                $half_page_ads_data = ' data-timer="' . esc_attr( (string) $half_page_ads_type_specific_time_num ) . '"';
             }
         }
 
@@ -2807,7 +2852,7 @@ function quads_parse_half_page_ads($content) {
             <div class="half-page-arrow-left" id="half-page-arrow-left"></div>
             <div class="half-page-arrow-right" id="half-page-arrow-right"></div>
             </div>
-            <div class="quads-location quads-half_page ad_' . esc_attr($ad_id) . '" id="quads-ad'. esc_attr($ad_id) .'" '.$half_page_ads_data.' data-half-page-type="'.$half_page_ads_type.'" data-position="'.$half_page_ads_type_position.'" data-redirect="'.esc_url($half_page_ads_btn_url).'">' . "\n";
+            <div class="quads-location quads-half_page ad_' . esc_attr($ad_id) . '" id="quads-ad' . esc_attr($ad_id) . '"' . $half_page_ads_data . ' data-half-page-type="' . esc_attr( $half_page_ads_type ) . '" data-position="' . esc_attr( $half_page_ads_type_position ) . '" data-redirect="' . esc_url($half_page_ads_btn_url) . '">' . "\n";
         $code .='<div class="quads-half-page-ads-json"  data-json="'. esc_attr(json_encode($response)).'">';
         $code .='</div>';
 
@@ -2845,9 +2890,10 @@ function quads_parse_default_ads_new( $content ) {
     $number_rand_ads = substr_count( $content, '<!--CusAds' );
     for ( $i = 0; $i <= $number_rand_ads - 1; $i++ ) {
          preg_match("#<!--CusAds(.+?)-->#si", $content, $match);
-         $ad_id = isset($match['1'])?$match['1']:'';
-        if( strpos( $content, '<!--CusAds' . $ad_id . '-->' ) !== false )  {
-            $content = quads_replace_ads_new( $content, 'CusAds' . $ad_id, $ad_id );
+         $ad_id_raw = isset( $match['1'] ) ? $match['1'] : '';
+         $ad_id = quads_sanitize_ad_marker_id( $ad_id_raw );
+        if ( $ad_id && strpos( $content, '<!--CusAds' . $ad_id_raw . '-->' ) !== false ) {
+            $content = quads_replace_ads_new( $content, 'CusAds' . $ad_id_raw, $ad_id );
         }
     }
     return $content;
@@ -2892,7 +2938,7 @@ function quads_replace_ads($content, $quicktag, $id) {
         }else{
             $adscode =
                 "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n".
-                '<div class="quads-location quads-ad' .esc_html($id). '" id="quads-ad' .esc_html($id). '" style="'.esc_attr($style).'">'."\n".
+                '<div class="quads-location quads-ad' . esc_attr( $id ) . '" id="quads-ad' . esc_attr( $id ) . '" style="'.esc_attr($style).'">'."\n".
                 quads_render_ad('ad'.$id, $code)."\n".
                 '</div>'. "\n";
         }
@@ -2920,6 +2966,10 @@ function quads_replace_ads_new($content, $quicktag, $id,$ampsupport='') {
 
     if( strpos($content,'<!--'.$quicktag.'-->')===false ) { 
         return $content; 
+    }
+    $id = quads_sanitize_ad_marker_id( $id );
+    if ( ! $id ) {
+        return $content;
     }
     $flag = true;
     
@@ -3535,7 +3585,7 @@ function quads_del_element($array, $idx) {
                     if(in_array($ads['ad_type'],array('ad_image','adsense','plain_text'))){
                         // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                         echo "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n"
-                        .'<div class="quads-location quads-ad' .esc_html($ads['ad_id']). '" id="quads-ad' .esc_html($ads['ad_id']). '">'."\n"
+                        .'<div class="quads-location quads-ad' . esc_attr( $ads['ad_id'] ) . '" id="quads-ad' . esc_attr( $ads['ad_id'] ) . '">'."\n"
                         //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_render_ad() function
                         .quads_render_ad($ads['quads_ad_old_id'], $ads['code'])."\n"
                         .'</div>'. "\n";
@@ -3808,7 +3858,7 @@ function quads_parse_floating_cubes_ads() {
         if( $is_on && $is_visitor_on && $post_status=='publish' ){
                 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 echo "\n".'<!-- WP QUADS Content Ad Plugin v. ' . QUADS_VERSION .' -->'."\n"
-                .'<div class="quads-location quads-ad' .esc_html( $ads['ad_id'] ). '" id="quads-ad' .esc_html( $ads['ad_id'] ). '">'."\n"
+                .'<div class="quads-location quads-ad' . esc_attr( $ads['ad_id'] ) . '" id="quads-ad' . esc_attr( $ads['ad_id'] ) . '">'."\n"
                 //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason: Escaping is done in quads_render_ad() function
                 .quads_render_ad( $ads['quads_ad_old_id'], $ads['code'] )."\n"
                 .'</div>'. "\n";
@@ -4046,9 +4096,10 @@ function quads_display_sticky_ads(){
                                     $a_tag = '<a class="quads-sticky-ad-close">x</a>';
                                 }
                                 if( isset($sticky_show_hide) && $sticky_show_hide == 1 ){
-                                    $btn_tag = '<div class="quads-sticky-show-btn">'.esc_attr($sticky_show_hide_txt).'</div>';
+                                    $btn_tag = '<div class="quads-sticky-show-btn">'.esc_html($sticky_show_hide_txt).'</div>';
                                 }
-                                $anim_attr = ( isset($sticky_ad_anim) && $sticky_ad_anim == 1 ) ? ' data-anim-tod='.$sticky_ad_anim_text.'' : '';
+                                $sticky_anim_ms = ( isset($sticky_ad_anim) && $sticky_ad_anim == 1 ) ? absint( $sticky_ad_anim_text ) : 0;
+                                $anim_attr = $sticky_anim_ms > 0 ? ' data-anim-tod="' . esc_attr( (string) $sticky_anim_ms ) . '"' : '';
                                 $q_main_open = ''.$btn_tag.'<div class="quads-sticky"'.$anim_attr.'>'.$a_tag.'';
                                 $q_close = '</div>';
                                 $content = $q_main_open.$cusads.$q_close;
@@ -4224,7 +4275,7 @@ function quads_ampforwp_footer_html_output() {
 function quads_parse_id_class_ads( $add_content, $id ) {
     
     $code = "\n" . '<!-- WP QUADS v. ' . QUADS_VERSION . ' -->' . "\n" .
-        '<div class="quads-location quads-ad' . esc_html( $id ) . '" id="quads-ad' . esc_html( $id ) . '">' . "\n";
+        '<div class="quads-location quads-ad' . esc_attr( $id ) . '" id="quads-ad' . esc_attr( $id ) . '">' . "\n";
     $code .= $add_content;
     $code .= '</div>' . "\n";
 
