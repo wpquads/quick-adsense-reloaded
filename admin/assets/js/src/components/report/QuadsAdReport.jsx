@@ -3,7 +3,6 @@ import Icon from '@material-ui/core/Icon';
 import Select from "react-select";
 import '../ads/create/QuadsAdListCreate.scss';
 import '../../components/report/QuadsAdReport.scss'
-import {Chart} from 'react-charts'
 import DatePicker from "react-datepicker";
 import queryString from 'query-string'
 
@@ -313,7 +312,7 @@ class QuadsAdReport extends Component {
                 }
             }
               };
-        drawChart(config);
+        this.drawChart(config);
     
     }
 
@@ -611,16 +610,23 @@ class QuadsAdReport extends Component {
 
     drawChart = (config) => {
 
+        if(!window.Chart) {
+            console.error('Chart.js is not loaded');
+            return;
+        }
+
         if(document.getElementById("quads_canvas"))
         document.getElementById("quads_canvas").outerHTML = "";
         var new_canvas = "<canvas id='quads_canvas'>" + " <canvas>";
         document.getElementById('quads_reports_canvas').innerHTML = new_canvas;
         if(window.myPieChart ) {
-            window.myPieChart.update();
+            window.myPieChart.destroy();
         }
         // Get the context of the canvas element we want to select
         var ctx = document.getElementById('quads_canvas');
-        window.myPieChart = new Chart(ctx, config);
+        if(ctx) {
+            window.myPieChart = new window.Chart(ctx, config);
+        }
 
     }
              
@@ -700,7 +706,7 @@ class QuadsAdReport extends Component {
             }
         }
     };
-drawChart(config);
+this.drawChart(config);
 }
 
     getallads = (search_text = '',page = '') => {

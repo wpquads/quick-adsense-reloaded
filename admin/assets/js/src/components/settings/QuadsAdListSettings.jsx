@@ -983,13 +983,25 @@ handleCapabilityChange = (event) =>{
     }
   licensesaveSettings = (status) => {
       const formData = new FormData();
+      
+      // Prepare settings object
+      const settingsToSend = {...this.state.settings};
+      
+      // Set refresh_license to true when activating or refreshing license
+      if(status == 'refresh' || (status !== 'deactivate' && this.state.settings.quads_wp_quads_pro_license_key)){
+        settingsToSend.refresh_license = true;
+      }
+      
       formData.append("file", this.state.backup_file);
-      formData.append("settings", JSON.stringify(this.state.settings));
+      formData.append("settings", JSON.stringify(settingsToSend));
       formData.append("requestfrom", 'wpquads2');
       if(status == 'deactivate'){
         formData.append("quads_wp_quads_pro_license_key_deactivate", 'Deactivate License');
-        formData.append("quads_settings[quads_wp_quads_pro_license_key]", this.state.quads_wp_quads_pro_license_key);
-        formData.append("quads_settings[quads_wp_quads_pro_license_key-nonce]", quads_localize_data.licenses_nonce);
+        // Nonce is not required for REST API deactivation (X-WP-Nonce header is used instead)
+        // Only include if it exists (for backward compatibility)
+        if(quads_localize_data.licenses_nonce){
+          formData.append("quads_settings[quads_wp_quads_pro_license_key-nonce]", quads_localize_data.licenses_nonce);
+        }
       }
       if(status == 'refresh'){
         formData.append("refresh_license", true);

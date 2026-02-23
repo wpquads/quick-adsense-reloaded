@@ -254,6 +254,48 @@ class QuadsUserTargeting extends Component {
 
     }
 
+    getConditionMeta = (condition_type, targeting_type, search_param = '') => {
+        let url = quads_localize_data.rest_url + "quads-route/get-condition-list?condition=" + condition_type + '&search=' + search_param;
+        if (quads_localize_data.rest_url.includes('?')) {
+            url = quads_localize_data.rest_url + "quads-route/get-condition-list&condition=" + condition_type + '&search=' + search_param;
+        }
+        fetch(url, {
+            headers: {
+                'X-WP-Nonce': quads_localize_data.nonce,
+            }
+        })
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    if (targeting_type == 'include') {
+                        this.setState({includedDynamicOptions: result, multiTypeRightIncludedValue: []});
+                    }
+                    if (targeting_type == 'exclude' || targeting_type) {
+                        this.setState({excludedDynamicOptions: result, multiTypeRightExcludedValue: []});
+                    }
+                },
+                (error) => {
+                    this.setState({
+                        quads_is_error: false,
+                    });
+                }
+            );
+    }
+
+    handleMultiIncludedSearch = (q) => {
+        // Fetch roles from API when user types (including empty string to show all)
+        if (this.state.multiTypeLeftIncludedValue && this.state.multiTypeLeftIncludedValue.value === 'user_type') {
+            this.getConditionMeta('user_type', 'include', q || '');
+        }
+    }
+
+    handleMultiExcludedSearch = (q) => {
+        // Fetch roles from API when user types (including empty string to show all)
+        if (this.state.multiTypeLeftExcludedValue && this.state.multiTypeLeftExcludedValue.value === 'user_type') {
+            this.getConditionMeta('user_type', 'exclude', q || '');
+        }
+    }
+
     handleMultiIncludedLeftChange = (option) => {
         let type = this.state.multiTypeTargetOption[option.value];
         let self =this;
@@ -297,6 +339,11 @@ class QuadsUserTargeting extends Component {
                     self.setState({multiTypeLeftIncludedValue:option, includedDynamicOptions:type, multiTypeRightIncludedValue:[], includedRightPlaceholder:placeholder});
                 });
 
+            }else if(option.value==='user_type'){
+                // Fetch user roles dynamically from API to include custom roles
+                this.getConditionMeta(option.value, 'include');
+                this.setState({includedTextToggle:true});
+                this.setState({multiTypeLeftIncludedValue:option, multiTypeRightIncludedValue:[], includedRightPlaceholder:placeholder});
             }else{
                 this.setState({includedTextToggle:true});
                 this.setState({multiTypeLeftIncludedValue:option, includedDynamicOptions:type, multiTypeRightIncludedValue:[], includedRightPlaceholder:placeholder});
@@ -346,6 +393,11 @@ class QuadsUserTargeting extends Component {
                     self.setState({multiTypeLeftExcludedValue:option, excludedDynamicOptions:type, multiTypeRightExcludedValue:[], excludedRightPlaceholder:placeholder});
                 });
 
+            }else if(option.value==='user_type'){
+                // Fetch user roles dynamically from API to include custom roles
+                this.getConditionMeta(option.value, 'exclude');
+                this.setState({excludedTextToggle:true});
+                this.setState({multiTypeLeftExcludedValue:option, multiTypeRightExcludedValue:[], excludedRightPlaceholder:placeholder});
             }else{
                 this.setState({excludedTextToggle:true});
                 this.setState({multiTypeLeftExcludedValue:option, excludedDynamicOptions:type, multiTypeRightExcludedValue:[], excludedRightPlaceholder:placeholder});
@@ -672,6 +724,7 @@ class QuadsUserTargeting extends Component {
                                                                 value={this.state.multiTypeRightIncludedValue}
                                                                 options={this.state.includedDynamicOptions}
                                                                 onChange={this.handleMultiIncludedRightChange}
+                                                                onInputChange={this.handleMultiIncludedSearch}
                                                                 styles={colorStyles}
                                                             />
                                                             :<input type="text"
@@ -774,6 +827,7 @@ class QuadsUserTargeting extends Component {
                                                                 value={this.state.multiTypeRightExcludedValue}
                                                                 options={this.state.excludedDynamicOptions}
                                                                 onChange={this.handleMultiExcludedRightChange}
+                                                                onInputChange={this.handleMultiExcludedSearch}
                                                                 styles={colorStyles}
                                                             />
                                                             :<input type="text"

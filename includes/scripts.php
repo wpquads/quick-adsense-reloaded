@@ -710,12 +710,14 @@ function quads_inline_styles() {
                 margin:0;
                 left:0;
                 text-align: center;
-                opacity: 0;
+                display: none;
                 z-index:999;
                 background-color: rgb(0 0 0 / 70%);
             }
             .quads-sticky.active {
+                display: block;
                 opacity: 1;
+                transition: opacity 0.5s ease;
             }
             .quads-sticky.active .quads-ad-label-new {
                 color:#fff
