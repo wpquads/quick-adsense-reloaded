@@ -2242,7 +2242,7 @@ function quads_parse_random_quicktag_ads($content){
         shuffle( $quads_adsArray );
         for ( $i = 1; $i <= $maxAds - $quads_visibleContentAds; $i++ ) {
             if( $i <= count( $quads_adsArray ) ) {
-                array_push( $adsArrayTmp, $adsArray[$i - 1] );
+                array_push( $adsArrayTmp, $quads_adsArray[$i - 1] );
             }
         }
         $tcx = count( $adsArrayTmp );
