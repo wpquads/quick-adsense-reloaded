@@ -7,7 +7,7 @@ Tags: ad manager, ads, adsense, monetize, banner
 Tested up to: 6.9
 Requires at least: 5.0
 Requires PHP: 7.4
-Stable tag: 2.0.99
+Stable tag: 3.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -446,6 +446,10 @@ This plugin uses the following third-party libraries and resources:
 
 
 == Changelog ==
+= 3.0.1( 11 March 2026 ) =
+* Fixed : Ads report issue #992
+* Fixed : Ads not appearing due to undefined variable $adsArray #991
+
 = 2.0.99 ( 23 February 2026 ) =
 * Fixed : Targeting “Excluded On → User Role” does not include custom WordPress roles #987
 * Fixed : All ads are not coming in quads ad inserter in WP tinymce editor #988
@@ -468,11 +472,5 @@ This plugin uses the following third-party libraries and resources:
 = 2.0.96 ( 12 December 2025 ) =
 * Fixed : Checked with Plugin Check and added fix.
 * Added : Tested with WordPress 6.9 and update readme.txt
-
-= 2.0.95 ( 05 November 2025 ) =
-* Added : Option to select Polylang-specific language. #972
-* Improvement : Report should show the draft ads too #974
-* Fixed : Fatal error in query monitor #970
-* Fixed : click was not counted in the after-class condition. #973
 
 Full changelog available [ at changelog.txt](https://plugins.svn.wordpress.org/quick-adsense-reloaded/trunk/changelog.txt)
