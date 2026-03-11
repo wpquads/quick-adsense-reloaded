@@ -1,3 +1,7 @@
+= 3.0.1( 11 March 2026 ) =
+* Fixed : Ads report issue #992
+* Fixed : Ads not appearing due to undefined variable $adsArray #991
+
 = 2.0.99 ( 23 February 2026 ) =
 * Fixed : Targeting “Excluded On → User Role” does not include custom WordPress roles #987
 * Fixed : All ads are not coming in quads ad inserter in WP tinymce editor #988

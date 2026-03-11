@@ -443,7 +443,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 	if( isset( $_GET['id'] ) ) {
 	    // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
-	    $ad_id = absint( $_GET['id'] );
+	    $ad_id = sanitize_text_field( $_GET['id'] );
 	}
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason: This is a dependent function being called
 	if( isset( $_GET['day'] ) ) {
