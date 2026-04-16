@@ -1,3 +1,9 @@
+= 3.0.2( 16 March 2026 ) =
+* Fixed : Custom filtering not working in reports #995
+* Added : Nigerian Naira (NGN) Curreny in Sellable Ads. #994
+* Improvement : Done improvements with respect to PCP 
+* Tested : WordPress 7.0 and update readme.txt #996
+
 = 3.0.1( 11 March 2026 ) =
 * Fixed : Ads report issue #992
 * Fixed : Ads not appearing due to undefined variable $adsArray #991
