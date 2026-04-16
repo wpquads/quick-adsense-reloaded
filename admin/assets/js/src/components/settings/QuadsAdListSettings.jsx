@@ -1544,6 +1544,7 @@ handleCapabilityChange = (event) =>{
                       <option value="IDR">IDR</option>
                       <option value="KRW">KRW</option>
                       <option value="ZAR">ZAR</option>
+                      <option value="NGN">NGN</option>
                       </select>
                     </td>
                   </tr>
@@ -1725,6 +1726,7 @@ handleCapabilityChange = (event) =>{
                       <option value="IDR">IDR</option>
                       <option value="KRW">KRW</option>
                       <option value="ZAR">ZAR</option>
+                      <option value="NGN">NGN</option>
                       </select>
                     </td>
                   </tr>
@@ -3027,6 +3029,7 @@ handleCapabilityChange = (event) =>{
                       <option value="IDR">IDR</option>
                       <option value="KRW">KRW</option>
                       <option value="ZAR">ZAR</option>
+                      <option value="NGN">NGN</option>
                       </select>
                     </td>
                   </tr>
@@ -3146,6 +3149,7 @@ handleCapabilityChange = (event) =>{
                       <option value="IDR">IDR</option>
                       <option value="KRW">KRW</option>
                       <option value="ZAR">ZAR</option>
+                      <option value="NGN">NGN</option>
                       </select>
                     </td>
                   </tr>
