@@ -7,6 +7,52 @@
 if( !defined( 'ABSPATH' ) ) {
     exit;
 }
+
+/**
+ * Merge query args onto a return URL that may already contain ?key=value (e.g. ad_slot_id on the storefront).
+ *
+ * @param string $base_url Absolute URL.
+ * @param array  $args     Query parameters to merge.
+ * @return string
+ */
+function quads_add_return_query_args( $base_url, array $args ) {
+    $base_url = is_string( $base_url ) ? trim( $base_url ) : '';
+    if ( '' === $base_url ) {
+        return '';
+    }
+    return add_query_arg( $args, $base_url );
+}
+
+/**
+ * Absolute URL for the current request path plus sanitized query string (e.g. pre-selected ad slot).
+ *
+ * @return string
+ */
+function quads_get_checkout_redirect_base_url() {
+    global $wp;
+    $redirect_link = isset( $wp->request ) ? home_url( $wp->request ) : home_url( '/' );
+    if ( isset( $_SERVER['QUERY_STRING'] ) && is_string( $_SERVER['QUERY_STRING'] ) && $_SERVER['QUERY_STRING'] !== '' ) {
+        parse_str( wp_unslash( $_SERVER['QUERY_STRING'] ), $parsed_qs );
+        if ( ! empty( $parsed_qs ) && is_array( $parsed_qs ) ) {
+            $clean_qs = array();
+            foreach ( $parsed_qs as $qs_key => $qs_val ) {
+                $saf_key = sanitize_key( wp_unslash( (string) $qs_key ) );
+                if ( '' === $saf_key ) {
+                    continue;
+                }
+                if ( is_array( $qs_val ) ) {
+                    continue;
+                }
+                $clean_qs[ $saf_key ] = sanitize_text_field( wp_unslash( (string) $qs_val ) );
+            }
+            if ( ! empty( $clean_qs ) ) {
+                $redirect_link = add_query_arg( $clean_qs, $redirect_link );
+            }
+        }
+    }
+
+    return $redirect_link;
+}
 /*
     * Create a new page on plugin activation
     * @since 2.0.86
@@ -267,10 +313,8 @@ function quads_ads_buy_form() {
             $ad_list[ $ad ] [ 'type' ]= get_post_meta( $ad , 'ad_cost_type', true ) ? get_post_meta( $ad , 'ad_cost_type', true ) : 'per day';
         }
     }
-    global $wp;
-    
-    $redirect_link =  ( isset( $_SERVER['QUERY_STRING'] ) )?add_query_arg( sanitize_text_field( wp_unslash( $_SERVER['QUERY_STRING'] ) ), '', home_url( $wp->request ) ):'';
-    
+    $redirect_link = quads_get_checkout_redirect_base_url();
+
    if( $selected_ad_slot != "" && intval($selected_ad_slot)>0 && isset($ad_list[ $selected_ad_slot ])){
         $selected_ad_slot = intval($selected_ad_slot);
         $selected_ad_list = $ad_list[ $selected_ad_slot ];
@@ -528,7 +572,7 @@ function quads_ads_buy_form() {
             <p id="ad_selection_info" style="color:gray;font-size:14px;margin-top:-10px"><?php echo (isset($ad_selection_info))?esc_attr($ad_selection_info):''?></p>
             <label for="ad_link"><?php echo esc_html__('Ad Link','quick-adsense-reloaded');?></label>
             <input type="url" name="ad_link" id="ad_link" required placeholder="Ad Link"/>
-            <input type="hidden" name="redirect_link" id="redirect_link" value=<?php echo esc_url( $redirect_link )?>/>
+            <input type="hidden" name="redirect_link" id="redirect_link" value="<?php echo esc_attr( esc_url( $redirect_link ) ); ?>"/>
           
 
             <label for="ad_content"><?php echo esc_html__('Ad Content','quick-adsense-reloaded');?> <small>(This will be ignored if Ad image is present)</small></label>
@@ -1491,6 +1535,7 @@ function quads_ads_disable_form(){
         $stripe_secret_key =  isset($quads_settings['_dastripe_secret_key']) ? $quads_settings['_dastripe_secret_key'] : '';
     }
     $user_id = get_current_user_id();
+    $redirect_link = quads_get_checkout_redirect_base_url();
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended
     if (isset($_GET['status']) && $_GET['status'] == 'success') {
         echo '<div class="quads-danotice quads-danotice-success quads-dais-dismissible">
@@ -1531,6 +1576,7 @@ function quads_ads_disable_form(){
         <?php endif; ?>
         <input type="hidden" name="action" value="quads_submit_disablead_form" />
         <input type="hidden" name="nonce" value="<?php echo esc_attr(wp_create_nonce( 'quads_submit_disablead_form' ));?>" />
+        <input type="hidden" name="redirect_link" id="disablead_redirect_link" value="<?php echo esc_attr( esc_url( $redirect_link ) ); ?>" />
         <!-- PayPal Payment Button -->
         <div id="paypal-button-container"></div>
         <?php if($payment_gateway=='stripe'){?>
@@ -1642,6 +1688,90 @@ async function quadsProcessStripePaymentSuccess( data ){
 return ob_get_clean();
 }
 
+/**
+ * Validate coupon against slot or global settings (same rules as quads_redeem_coupon).
+ * Do not trust client-submitted discount amounts; use this server-side only.
+ *
+ * @param string $coupon    Coupon code entered by the user.
+ * @param int    $slot_id   Ad slot post ID.
+ * @param float  $base_total Order total before discount.
+ * @return array{status:string,discount:float} status: none|valid|invalid|expired
+ */
+function quads_parse_coupon_discount( $coupon, $slot_id, $base_total ) {
+    $coupon     = is_string( $coupon ) ? trim( $coupon ) : '';
+    $slot_id    = absint( $slot_id );
+    $base_total = (float) $base_total;
+
+    if ( '' === $coupon ) {
+        return array(
+            'status'   => 'none',
+            'discount' => 0.0,
+        );
+    }
+    if ( $slot_id < 1 || $base_total <= 0 ) {
+        return array(
+            'status'   => 'invalid',
+            'discount' => 0.0,
+        );
+    }
+
+    $quads_settings = get_option( 'quads_settings' );
+    $post_data      = get_post_meta( $slot_id );
+    $coupon_code    = '';
+    $coupon_type_selection = 'percent';
+    $coupon_expire_date    = '';
+    $coupon_amount         = 10;
+
+    $slot_coupon_ok = false;
+    if ( isset( $post_data['coupon_code'] ) && isset( $post_data['coupon_code'][0] ) ) {
+        $meta_code = trim( (string) $post_data['coupon_code'][0] );
+        if ( '' !== $meta_code && $coupon === $meta_code ) {
+            $slot_coupon_ok        = true;
+            $coupon_code           = $meta_code;
+            $coupon_type_selection = isset( $post_data['coupon_type_selection'][0] ) ? $post_data['coupon_type_selection'][0] : 'percent';
+            $coupon_expire_date    = isset( $post_data['coupon_expire_date'][0] ) ? $post_data['coupon_expire_date'][0] : '';
+            $coupon_amount         = isset( $post_data['coupon_amount'][0] ) ? $post_data['coupon_amount'][0] : 10;
+        }
+    }
+
+    if ( ! $slot_coupon_ok && isset( $quads_settings['coupon_code'] ) && ! empty( $quads_settings['coupon_code'] ) ) {
+        $coupon_code           = isset( $quads_settings['coupon_code'] ) ? $quads_settings['coupon_code'] : '';
+        $coupon_type_selection = isset( $quads_settings['coupon_type_selection'] ) ? $quads_settings['coupon_type_selection'] : 'percent';
+        $coupon_expire_date    = isset( $quads_settings['coupon_expire_date'] ) ? $quads_settings['coupon_expire_date'] : '';
+        $coupon_amount         = isset( $quads_settings['coupon_amount'] ) ? $quads_settings['coupon_amount'] : 10;
+    }
+
+    if ( trim( (string) $coupon_code ) !== $coupon ) {
+        return array(
+            'status'   => 'invalid',
+            'discount' => 0.0,
+        );
+    }
+
+    $today = gmdate( 'Y-m-d' );
+    if ( $coupon_expire_date && '' !== $coupon_expire_date && $coupon_expire_date < $today ) {
+        return array(
+            'status'   => 'expired',
+            'discount' => 0.0,
+        );
+    }
+
+    $cal_amount = 0.0;
+    if ( 'percent' === $coupon_type_selection ) {
+        $cal_amount = ( $base_total * (float) $coupon_amount ) / 100;
+    } elseif ( 'fixed_amount' === $coupon_type_selection ) {
+        $cal_amount = (float) $coupon_amount;
+    }
+
+    $cal_amount = max( 0.0, $cal_amount );
+    $cal_amount = min( $cal_amount, $base_total );
+
+    return array(
+        'status'   => 'valid',
+        'discount' => $cal_amount,
+    );
+}
+
 function quads_handle_ad_buy_form_submission() {
    
     if ( ! isset( $_POST['action'] ) || $_POST['action'] !== 'quads_submit_ad_buy_form' ) {
@@ -1694,8 +1824,6 @@ function quads_handle_ad_buy_form_submission() {
 
     $coupon_code  = isset($_POST['coupon_code']) ? sanitize_textarea_field( wp_unslash ($_POST['coupon_code'] ) ):'';
 
-    $coupon_discount_amount  = isset($_POST['coupon_discount_amount']) ? sanitize_textarea_field( wp_unslash ($_POST['coupon_discount_amount'] ) ):'';
-
     $ad_image    = ''; // Initialize the ad image URL
 
     // Handle file upload if provided
@@ -1709,6 +1837,21 @@ function quads_handle_ad_buy_form_submission() {
             wp_send_json_error( array( 'message' => esc_html__( 'Image upload failed.', 'quick-adsense-reloaded' ) ) );
         }
     }
+
+    $price      = get_post_meta( $ad_slot_id, 'ad_cost', true );
+    $currency   = 'USD';
+    $days       = ( strtotime( $end_date ) - strtotime( $start_date ) ) / ( 60 * 60 * 24 ) + 1;
+    $total_cost = $price * $days;
+    $name       = get_the_title( $ad_slot_id );
+
+    $coupon_parse = quads_parse_coupon_discount( $coupon_code, $ad_slot_id, (float) $total_cost );
+    if ( 'invalid' === $coupon_parse['status'] || 'expired' === $coupon_parse['status'] ) {
+        $err_msg = ( 'expired' === $coupon_parse['status'] )
+            ? esc_html__( 'Coupon expired, please try another one.', 'quick-adsense-reloaded' )
+            : esc_html__( 'Invalid coupon, please try another one.', 'quick-adsense-reloaded' );
+        wp_send_json_error( array( 'message' => $err_msg ) );
+    }
+    $total_cost = max( 0, (float) $total_cost - (float) $coupon_parse['discount'] );
 
     // Insert the ad buy record in the database
     global $wpdb;
@@ -1726,19 +1869,8 @@ function quads_handle_ad_buy_form_submission() {
         'ad_status'      => 'pending', // Set to pending until approved
     ) );
 
-    $price = get_post_meta( $ad_slot_id, 'ad_cost', true );
-    $currency = "USD";
-    $days = ( strtotime( $end_date ) - strtotime( $start_date ) ) / ( 60 * 60 * 24 ) + 1;
-    $total_cost = $price * $days;
-   
-    $name = get_the_title( $ad_slot_id );
-
-
     if ( $result ) {
         $order_id = $wpdb->insert_id;
-        if( $coupon_discount_amount !='' && $coupon_discount_amount>0){
-            $total_cost = $total_cost - $coupon_discount_amount;
-        }
         $quads_settings = get_option( 'quads_settings' );
         $payment_gateway = isset($quads_settings['payment_gateway']) ? $quads_settings['payment_gateway'] : 'paypal';
         if($payment_gateway=='paypal'){
@@ -1757,11 +1889,28 @@ function quads_handle_ad_buy_form_submission() {
             $paypal_form .= '<input type="hidden" name="item_name" value="'.esc_attr( $name).'">';
             $paypal_form .= '<input type="hidden" name="amount" value="'.esc_attr($total_cost).'">';
             $paypal_form .= '<input type="hidden" name="currency_code" value="'.esc_attr($currency).'">';
-            $paypal_form .= '<input type="hidden" name="return" value="' . esc_url( $redirect_link.'?status=success' ) . '">';
-            $paypal_form .= '<input type="hidden" name="cancel_return" value="' . esc_url( $redirect_link.'?status=cancelled' ) . '">';
+            $paypal_form .= '<input type="hidden" name="return" value="' . esc_url( quads_add_return_query_args( $redirect_link, array( 'status' => 'success' ) ) ) . '">';
+            $paypal_form .= '<input type="hidden" name="cancel_return" value="' . esc_url( quads_add_return_query_args( $redirect_link, array( 'status' => 'cancelled' ) ) ) . '">';
             $paypal_form .= '<input type="hidden" name="notify_url" value="' . esc_url( rest_url('quads/v1/paypal_notify_url') ) . '">';
             $paypal_form .= '<input type="hidden" name="item_number" value="' . esc_attr($order_id) . '">';
             $paypal_form .= '<input type="hidden" name="custom" value="' . esc_attr($user_id) . '">';
+
+            // Store expected total for PayPal IPN verification (mc_gross / mc_currency).
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+            $wpdb->update(
+                $table_name,
+                array(
+                    'payment_response' => wp_json_encode(
+                        array(
+                            'expected_amount'   => round( (float) $total_cost, 2 ),
+                            'expected_currency' => $currency,
+                        )
+                    ),
+                ),
+                array( 'id' => $order_id ),
+                array( '%s' ),
+                array( '%d' )
+            );
 
             wp_send_json_success( array( 'message' => esc_html__( 'Ad submission successful.', 'quick-adsense-reloaded' ) , 'paypal_form'=>$paypal_form) );
         }else if($payment_gateway=='authorize'){
@@ -1779,9 +1928,26 @@ function quads_handle_ad_buy_form_submission() {
             $authorize_url ='https://api.authorize.net/xml/v1/request.api';
             $redirect_link = rtrim($redirect_link,'/');
             $success_nonce = wp_create_nonce( 'quads_submit_ad_buy_form_success' );
-            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id ).'&security='.esc_attr($success_nonce);
-            $cancel_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
-        
+            $success_link = quads_add_return_query_args(
+                $redirect_link,
+                array(
+                    'refId'       => absint( $order_id ),
+                    'status'      => 'success',
+                    'user_id'     => absint( $user_id ),
+                    'ad_slot_id'  => absint( $ad_slot_id ),
+                    'security'    => $success_nonce,
+                )
+            );
+            $cancel_link = quads_add_return_query_args(
+                $redirect_link,
+                array(
+                    'refId'      => absint( $order_id ),
+                    'cancel'     => 'true',
+                    'user_id'    => absint( $user_id ),
+                    'ad_slot_id' => absint( $ad_slot_id ),
+                )
+            );
+
          $send_data = [
                         "getHostedPaymentPageRequest" => [
                             "merchantAuthentication" => [
@@ -1916,8 +2082,25 @@ function quads_handle_ad_buy_form_submission() {
             
             $redirect_link = rtrim($redirect_link,'/');
             $success_nonce = wp_create_nonce( 'quads_submit_ad_buy_form_success' );
-            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id ).'&security='.esc_attr($success_nonce);
-            $cancel_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
+            $success_link = quads_add_return_query_args(
+                $redirect_link,
+                array(
+                    'refId'       => absint( $order_id ),
+                    'status'      => 'success',
+                    'user_id'     => absint( $user_id ),
+                    'ad_slot_id'  => absint( $ad_slot_id ),
+                    'security'    => $success_nonce,
+                )
+            );
+            $cancel_link = quads_add_return_query_args(
+                $redirect_link,
+                array(
+                    'refId'      => absint( $order_id ),
+                    'cancel'     => 'true',
+                    'user_id'    => absint( $user_id ),
+                    'ad_slot_id' => absint( $ad_slot_id ),
+                )
+            );
             require_once('stripe/vendor/autoload.php'); // Get this from Stripe's PHP SDK
             \Stripe\Stripe::setApiKey($stripe_secret_key);
             try {
@@ -1950,8 +2133,25 @@ function quads_handle_ad_buy_form_submission() {
 
             $redirect_link = rtrim($redirect_link,'/');
             $success_nonce = wp_create_nonce( 'quads_submit_ad_buy_form_success' );
-            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&status=success&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id ).'&security='.esc_attr($success_nonce);
-            $cancel_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&cancel=true&user_id='.$user_id.'&ad_slot_id='.esc_attr( $ad_slot_id );
+            $success_link = quads_add_return_query_args(
+                $redirect_link,
+                array(
+                    'refId'       => absint( $order_id ),
+                    'status'      => 'success',
+                    'user_id'     => absint( $user_id ),
+                    'ad_slot_id'  => absint( $ad_slot_id ),
+                    'security'    => $success_nonce,
+                )
+            );
+            $cancel_link = quads_add_return_query_args(
+                $redirect_link,
+                array(
+                    'refId'      => absint( $order_id ),
+                    'cancel'     => 'true',
+                    'user_id'    => absint( $user_id ),
+                    'ad_slot_id' => absint( $ad_slot_id ),
+                )
+            );
             $total_cost = round($total_cost);
             $user = get_user_by('id', $user_id);
             $email = $user->user_email;
@@ -2031,63 +2231,16 @@ function quads_redeem_coupon(){
             die;
         }
         if( $coupon != "" && $slot_id != ""){
-            $quads_settings = get_option( 'quads_settings' );
-            $post_data = get_post_meta($slot_id);
-            $discount_name = '';
-            $coupon_code = '';
-            $coupon_start_date = '';
-            $coupon_type_selection = '';
-            $coupon_expire_date = '';
-            $coupon_amount = '';
-            
-            if( isset( $post_data[ 'coupon_code' ] ) && $post_data[ 'coupon_code' ] != "" && trim( $coupon )== trim( $post_data[ 'coupon_code' ] ) ){
-                $discount_name = ( isset( $post_data[ 'discount_name' ] ) ) ? $post_data[ 'discount_name' ][0] : '';
-
-                $coupon_code = ( isset( $post_data[ 'coupon_code' ] ) && isset( $post_data[ 'coupon_code' ][0] ) ) ? $post_data[ 'coupon_code' ][0] : '';
-
-                $coupon_start_date = ( isset( $post_data[ 'coupon_start_date' ] ) && isset( $post_data[ 'coupon_start_date' ][0] ) ) ? $post_data[ 'coupon_start_date' ][0] : '';
-
-                $coupon_type_selection = ( isset( $post_data[ 'coupon_type_selection' ] ) && isset( $post_data[ 'coupon_type_selection' ][0] ) ) ? $post_data[ 'coupon_type_selection' ][0] : 'percent';
-
-                $coupon_expire_date = ( isset( $post_data[ 'coupon_expire_date' ] ) && isset( $post_data[ 'coupon_expire_date' ][0] ) ) ? $post_data[ 'coupon_expire_date' ][0] : '';
-
-                $coupon_amount = ( isset( $post_data[ 'coupon_amount' ] ) && isset( $post_data[ 'coupon_amount' ][0] ) ) ? $post_data[ 'coupon_amount' ][0] : 10;
-            }else if( isset( $quads_settings[ 'coupon_code' ] ) && !empty( $quads_settings[ 'coupon_code' ] )){
-                $discount_name = ( isset( $quads_settings[ 'discount_name' ] ) ) ? $quads_settings[ 'discount_name' ] : '';
-
-                $coupon_code = ( isset( $quads_settings[ 'coupon_code' ] ) && isset( $quads_settings[ 'coupon_code' ] ) ) ? $quads_settings[ 'coupon_code' ] : '';
-
-                $coupon_start_date = ( isset( $quads_settings[ 'coupon_start_date' ] ) && isset( $quads_settings[ 'coupon_start_date' ] ) ) ? $quads_settings[ 'coupon_start_date' ] : '';
-
-                $coupon_type_selection = ( isset( $quads_settings[ 'coupon_type_selection' ] ) && isset( $quads_settings[ 'coupon_type_selection' ] ) ) ? $quads_settings[ 'coupon_type_selection' ] : 'percent';
-
-                $coupon_expire_date = ( isset( $quads_settings[ 'coupon_expire_date' ] ) && isset( $quads_settings[ 'coupon_expire_date' ] ) ) ? $quads_settings[ 'coupon_expire_date' ] : '';
-
-                $coupon_amount = ( isset( $quads_settings[ 'coupon_amount' ] ) && isset( $quads_settings[ 'coupon_amount' ] ) ) ? $quads_settings[ 'coupon_amount' ] : 10;
-            }
-            if( trim( $coupon_code ) != trim( $coupon ) ){
+            $parsed = quads_parse_coupon_discount( $coupon, absint( $slot_id ), (float) $total_cost );
+            if ( 'invalid' === $parsed['status'] ) {
                 wp_send_json_error( array( 'success'=>2, 'message' => esc_html__('Invalid coupon, please try another one.', 'quick-adsense-reloaded' ) ) );
                 die;
             }
-            $today = gmdate('Y-m-d');
-            $is_expired = false;
-            if( $coupon_expire_date && $coupon_expire_date !='' && $coupon_expire_date < $today ){
-                $is_expired = true;
-            }
-            $resp = array();
-            if( $is_expired ){
+            if ( 'expired' === $parsed['status'] ) {
                 wp_send_json_error( array( 'success'=>2, 'message' => esc_html__('Coupon expired, please try another one.', 'quick-adsense-reloaded' ) ) );
                 die;
             }
-            
-            $cal_amount = 0;
-            if( $coupon_type_selection=='percent' ){
-                $cal_amount = ( $total_cost * $coupon_amount ) / 100;
-            }else if( $coupon_type_selection=='fixed_amount' ){
-                $cal_amount =$coupon_amount;
-            }
-
-            wp_send_json_error( array( 'success'=>1, 'message' => esc_attr( $cal_amount ) ) );
+            wp_send_json_error( array( 'success'=>1, 'message' => esc_attr( $parsed['discount'] ) ) );
             die;
         }
     } else {
@@ -2154,6 +2307,9 @@ function quads_handle_submit_disablead_form() {
     $_daduration = isset($quads_settings['_daduration']) ? $quads_settings['_daduration'] :'Monthly';
     $da_page_id = isset($quads_settings['dapayment_page']) ? $quads_settings['dapayment_page'] : 0;
     $payment_page = get_permalink( $da_page_id );
+    if ( '' === $redirect_link && is_string( $payment_page ) && $payment_page !== '' ) {
+        $redirect_link = esc_url_raw( $payment_page );
+    }
 
     $user_info = get_userdata($user_id);
     $user_data = $user_info->data;
@@ -2191,8 +2347,8 @@ function quads_handle_submit_disablead_form() {
             $paypal_form .= '<input type="hidden" name="item_name" value="'.esc_attr( $name).'">';
             $paypal_form .= '<input type="hidden" name="amount" value="'.esc_attr($price).'">';
             $paypal_form .= '<input type="hidden" name="currency_code" value="'.esc_attr($currency).'">';
-            $paypal_form .= '<input type="hidden" name="return" value="' . esc_url( $redirect_link.'?status=success&target=disablead' ) . '">';
-            $paypal_form .= '<input type="hidden" name="cancel_return" value="' . esc_url( $redirect_link.'?status=cancelled&target=disablead' ) . '">';
+            $paypal_form .= '<input type="hidden" name="return" value="' . esc_url( quads_add_return_query_args( $redirect_link, array( 'status' => 'success', 'target' => 'disablead' ) ) ) . '">';
+            $paypal_form .= '<input type="hidden" name="cancel_return" value="' . esc_url( quads_add_return_query_args( $redirect_link, array( 'status' => 'cancelled', 'target' => 'disablead' ) ) ) . '">';
             $paypal_form .= '<input type="hidden" name="notify_url" value="' . esc_url( rest_url('quads/v1/paypal_disable_ad_notify_url') ) . '">';
             $paypal_form .= '<input type="hidden" name="item_number" value="' . esc_attr($order_id) . '">';
             $paypal_form .= '<input type="hidden" name="custom" value="' . esc_attr($user_id) . '">';
@@ -2213,9 +2369,26 @@ function quads_handle_submit_disablead_form() {
             $authorize_url ='https://api.authorize.net/xml/v1/request.api';
             $redirect_link = rtrim($redirect_link,'/');
             $success_nonce = wp_create_nonce( 'quads_submit_ad_buy_form_success' );
-            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&target=disablead&status=success&user_id='.$user_id.'&security='.esc_attr($success_nonce);
-            $cancel_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&target=disablead&cancel=true&user_id='.$user_id;
-        
+            $success_link = quads_add_return_query_args(
+                $redirect_link,
+                array(
+                    'refId'    => absint( $order_id ),
+                    'target'   => 'disablead',
+                    'status'   => 'success',
+                    'user_id'  => absint( $user_id ),
+                    'security' => $success_nonce,
+                )
+            );
+            $cancel_link = quads_add_return_query_args(
+                $redirect_link,
+                array(
+                    'refId'   => absint( $order_id ),
+                    'target'  => 'disablead',
+                    'cancel'  => 'true',
+                    'user_id' => absint( $user_id ),
+                )
+            );
+
          $send_data = '{
                 "getHostedPaymentPageRequest": {
                   "merchantAuthentication": {
@@ -2320,8 +2493,24 @@ function quads_handle_submit_disablead_form() {
 
             $order_id = $wpdb->insert_id;
             $redirect_link = rtrim($redirect_link,'/');
-            $success_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&target=disablead&status=success&user_id='.$user_id;
-            $cancel_link = $redirect_link.'?refId='.esc_attr( $order_id ).'&target=disablead&cancel=true&user_id='.$user_id;
+            $success_link = quads_add_return_query_args(
+                $redirect_link,
+                array(
+                    'refId'   => absint( $order_id ),
+                    'target'  => 'disablead',
+                    'status'  => 'success',
+                    'user_id' => absint( $user_id ),
+                )
+            );
+            $cancel_link = quads_add_return_query_args(
+                $redirect_link,
+                array(
+                    'refId'   => absint( $order_id ),
+                    'target'  => 'disablead',
+                    'cancel'  => 'true',
+                    'user_id' => absint( $user_id ),
+                )
+            );
             require_once('stripe/vendor/autoload.php'); // Get this from Stripe's PHP SDK
             \Stripe\Stripe::setApiKey($stripe_secret_key);
             try {
@@ -2366,6 +2555,32 @@ add_action('rest_api_init', function () {
         'permission_callback' => '__return_true',
     ));
 });
+
+/**
+ * Whether PayPal IPN payee matches the seller email in settings (receiver_email or business).
+ *
+ * @param array  $ipn_params        IPN POST parameters.
+ * @param string $configured_email  PayPal email from quads_settings.
+ * @return bool
+ */
+function quads_paypal_ipn_receiver_matches_merchant( array $ipn_params, $configured_email ) {
+    $configured_email = trim( (string) $configured_email );
+    if ( '' === $configured_email ) {
+        return false;
+    }
+    $expected = strtolower( sanitize_email( $configured_email ) );
+    if ( '' === $expected ) {
+        return false;
+    }
+    $receiver = '';
+    if ( ! empty( $ipn_params['receiver_email'] ) ) {
+        $receiver = strtolower( sanitize_email( $ipn_params['receiver_email'] ) );
+    }
+    if ( '' === $receiver && ! empty( $ipn_params['business'] ) ) {
+        $receiver = strtolower( sanitize_email( $ipn_params['business'] ) );
+    }
+    return '' !== $receiver && $receiver === $expected;
+}
 
 function quads_handle_paypal_notify(WP_REST_Request $request) {
     $params = $request->get_params();
@@ -2416,15 +2631,111 @@ function quads_handle_paypal_notify(WP_REST_Request $request) {
         if ($ad_details->payment_status === 'paid') {
             return new WP_REST_Response( array('status' => 'error', 'message' => esc_html__( 'Ad already paid', 'quick-adsense-reloaded' ) ), 400);
         }
+
+        $setting           = get_option( 'quads_settings', array() );
+        $configured_paypal = isset( $setting['paypal_email'] ) ? $setting['paypal_email'] : '';
+        if ( ! quads_paypal_ipn_receiver_matches_merchant( $params, $configured_paypal ) ) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+            $wpdb->update(
+                $table_name,
+                array(
+                    'payment_response' => wp_json_encode(
+                        array(
+                            'paypal_amount_mismatch'  => true,
+                            'mismatch_reason'         => 'receiver_email',
+                            'expected_receiver_email' => sanitize_email( $configured_paypal ),
+                            'ipn_receiver_email'      => isset( $params['receiver_email'] ) ? sanitize_email( $params['receiver_email'] ) : '',
+                            'ipn_business'            => isset( $params['business'] ) ? sanitize_email( $params['business'] ) : '',
+                            'ipn'                     => $params,
+                        )
+                    ),
+                ),
+                array( 'id' => $order_id, 'user_id' => $user->ID )
+            );
+            return new WP_REST_Response( array( 'status' => 'error', 'message' => esc_html__( 'PayPal recipient email does not match the PayPal email in Sellable Ads settings.', 'quick-adsense-reloaded' ) ), 200 );
+        }
+
+        $paypal_currency = isset( $params['mc_currency'] ) ? sanitize_text_field( $params['mc_currency'] ) : '';
+        $expected_currency = isset( $setting['currency'] ) ? $setting['currency'] : 'USD';
+        $expected_amount   = null;
+
+        if ( ! empty( $ad_details->payment_response ) ) {
+            $pending_meta = json_decode( $ad_details->payment_response, true );
+            if ( is_array( $pending_meta ) && isset( $pending_meta['expected_amount'] ) ) {
+                $expected_amount   = (float) $pending_meta['expected_amount'];
+                $expected_currency = ! empty( $pending_meta['expected_currency'] ) ? $pending_meta['expected_currency'] : $expected_currency;
+            }
+        }
+        if ( $expected_amount === null ) {
+            $price = get_post_meta( $ad_details->ad_id, 'ad_cost', true );
+            $days  = ( strtotime( $ad_details->end_date ) - strtotime( $ad_details->start_date ) ) / DAY_IN_SECONDS + 1;
+            $expected_amount = round( (float) $price * (float) $days, 2 );
+        }
+
+        if ( $paypal_currency !== '' && strtoupper( $paypal_currency ) !== strtoupper( $expected_currency ) ) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+            $wpdb->update(
+                $table_name,
+                array(
+                    'payment_response' => wp_json_encode(
+                        array(
+                            'paypal_amount_mismatch' => true,
+                            'mismatch_reason'        => 'currency',
+                            'expected_amount'        => $expected_amount,
+                            'expected_currency'      => $expected_currency,
+                            'received_amount'        => round( (float) $total_cost, 2 ),
+                            'received_currency'      => $paypal_currency,
+                            'ipn'                    => $params,
+                        )
+                    ),
+                ),
+                array( 'id' => $order_id, 'user_id' => $user->ID )
+            );
+            return new WP_REST_Response( array( 'status' => 'error', 'message' => esc_html__( 'PayPal currency does not match order.', 'quick-adsense-reloaded' ) ), 200 );
+        }
+
+        if ( abs( round( (float) $expected_amount, 2 ) - round( (float) $total_cost, 2 ) ) > 0.01 ) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+            $wpdb->update(
+                $table_name,
+                array(
+                    'payment_response' => wp_json_encode(
+                        array(
+                            'paypal_amount_mismatch' => true,
+                            'mismatch_reason'        => 'amount',
+                            'expected_amount'        => round( (float) $expected_amount, 2 ),
+                            'expected_currency'      => $expected_currency,
+                            'received_amount'        => round( (float) $total_cost, 2 ),
+                            'received_currency'      => $paypal_currency,
+                            'ipn'                    => $params,
+                        )
+                    ),
+                ),
+                array( 'id' => $order_id, 'user_id' => $user->ID )
+            );
+            return new WP_REST_Response( array( 'status' => 'error', 'message' => esc_html__( 'PayPal payment amount does not match order total.', 'quick-adsense-reloaded' ) ), 200 );
+        }
+
+        $preserved_response = array();
+        if ( ! empty( $ad_details->payment_response ) ) {
+            $decoded_pres = json_decode( $ad_details->payment_response, true );
+            if ( is_array( $decoded_pres ) ) {
+                $preserved_response = $decoded_pres;
+            }
+        }
+        $payment_response_store = array_merge( $preserved_response, array( 'ipn' => $params ) );
+
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $wpdb->update(
             $table_name,
-            array('payment_status' => 'paid' , 'payment_response'=> wp_json_encode($params)), // Data to update
-            array('id' => $order_id , 'user_id'=>$user->ID) 
+            array(
+                'payment_status'   => 'paid',
+                'payment_response' => wp_json_encode( $payment_response_store ),
+            ),
+            array( 'id' => $order_id , 'user_id'=>$user->ID)
         );
 
         //get the ad details from db
-        $setting= get_option('quads_settings',[]);
         $currency = isset($setting['currency']) ? $setting['currency'] :'USD';
 
         $ad_details_html = "";
@@ -2494,6 +2805,7 @@ function quads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
         return new WP_REST_Response(array('status' => 'error', 'message' => esc_html__('PayPal IPN verification failed.', 'quick-adsense-reloaded' )), 404);
     }
     $params['re'] = wp_remote_retrieve_body($response);
+    $ipn_params = $params;
     // Check if the payment is complete
     if ($user && $payment_status === 'Completed') {
         // Update your database, set ad status to 'active', etc.
@@ -2503,7 +2815,7 @@ function quads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
         $ad_details = wp_cache_get('quads_ad_details_'.$order_id.'_'.$user->ID, 'quick-adsense-reloaded');
         if(false === $ad_details){
             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is fixed and safe
-            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `$table_name` WHERE id = %d AND user_id = %d", $order_id, $user->ID ));
+            $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `$table_name` WHERE disable_ad_id = %d AND user_id = %d", $order_id, $user->ID ));
             wp_cache_set('quads_ad_details_'.$order_id.'_'.$user->ID, $ad_details, 'quick-adsense-reloaded', 3600);
         }
         if (!$ad_details) {
@@ -2513,6 +2825,79 @@ function quads_handle_paypal_disable_ad_notify(WP_REST_Request $request) {
         if ($ad_details->payment_status === 'paid') {
             return false;
         }
+
+        $setting            = get_option( 'quads_settings', array() );
+        $configured_paypal  = isset( $setting['_dapaypal_email'] ) ? $setting['_dapaypal_email'] : '';
+        if ( ! quads_paypal_ipn_receiver_matches_merchant( $ipn_params, $configured_paypal ) ) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+            $wpdb->update(
+                $table_name,
+                array(
+                    'payment_response' => wp_json_encode(
+                        array(
+                            'paypal_amount_mismatch'  => true,
+                            'mismatch_reason'         => 'receiver_email',
+                            'expected_receiver_email' => sanitize_email( $configured_paypal ),
+                            'ipn_receiver_email'      => isset( $ipn_params['receiver_email'] ) ? sanitize_email( $ipn_params['receiver_email'] ) : '',
+                            'ipn_business'            => isset( $ipn_params['business'] ) ? sanitize_email( $ipn_params['business'] ) : '',
+                            'ipn'                     => $ipn_params,
+                        )
+                    ),
+                ),
+                array( 'disable_ad_id' => $order_id, 'user_id' => $user->ID )
+            );
+            return new WP_REST_Response( array( 'status' => 'error', 'message' => esc_html__( 'PayPal recipient email does not match the PayPal email in Sellable Ads settings.', 'quick-adsense-reloaded' ) ), 200 );
+        }
+
+        $expected_currency  = isset( $setting['_dacurrency'] ) ? $setting['_dacurrency'] : 'USD';
+        $paypal_currency    = isset( $ipn_params['mc_currency'] ) ? sanitize_text_field( $ipn_params['mc_currency'] ) : '';
+        $expected_amount    = round( (float) $ad_details->disable_cost, 2 );
+        $received_gross     = isset( $ipn_params['mc_gross'] ) ? floatval( $ipn_params['mc_gross'] ) : 0;
+
+        if ( $paypal_currency !== '' && strtoupper( $paypal_currency ) !== strtoupper( $expected_currency ) ) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+            $wpdb->update(
+                $table_name,
+                array(
+                    'payment_response' => wp_json_encode(
+                        array(
+                            'paypal_amount_mismatch' => true,
+                            'mismatch_reason'        => 'currency',
+                            'expected_amount'        => $expected_amount,
+                            'expected_currency'      => $expected_currency,
+                            'received_amount'        => round( $received_gross, 2 ),
+                            'received_currency'      => $paypal_currency,
+                            'ipn'                    => $ipn_params,
+                        )
+                    ),
+                ),
+                array( 'disable_ad_id' => $order_id, 'user_id' => $user->ID )
+            );
+            return new WP_REST_Response( array( 'status' => 'error', 'message' => esc_html__( 'PayPal currency does not match order.', 'quick-adsense-reloaded' ) ), 200 );
+        }
+
+        if ( abs( $expected_amount - round( $received_gross, 2 ) ) > 0.01 ) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+            $wpdb->update(
+                $table_name,
+                array(
+                    'payment_response' => wp_json_encode(
+                        array(
+                            'paypal_amount_mismatch' => true,
+                            'mismatch_reason'        => 'amount',
+                            'expected_amount'        => $expected_amount,
+                            'expected_currency'      => $expected_currency,
+                            'received_amount'        => round( $received_gross, 2 ),
+                            'received_currency'      => $paypal_currency,
+                            'ipn'                    => $ipn_params,
+                        )
+                    ),
+                ),
+                array( 'disable_ad_id' => $order_id, 'user_id' => $user->ID )
+            );
+            return new WP_REST_Response( array( 'status' => 'error', 'message' => esc_html__( 'PayPal payment amount does not match order total.', 'quick-adsense-reloaded' ) ), 200 );
+        }
+
         $duration = $ad_details->disable_duration;
         $params = array();
         $params['payment_date'] = gmdate('Y-m-d H:i:s');
