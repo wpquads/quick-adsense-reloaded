@@ -56,6 +56,15 @@ class QuadsAdReport extends Component {
         this.QuadsRedirectToWizard = this.QuadsRedirectToWizard.bind(this);
     }
 
+    formatDateYMD = (d) => {
+        const date = (d instanceof Date) ? d : new Date(d);
+        if (Number.isNaN(date.getTime())) return '';
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+    }
+
     display_report_stats_main_report = (response) => {
 
         let imp_report = response.impressions
@@ -317,45 +326,17 @@ class QuadsAdReport extends Component {
     }
 
     view_report_fromdate_main_report = (eve) => {
-        let date = ''
-        let newdate = ''
-        let day_val = ''
-
-        let id = document.getElementById('view_stats_report').value
-        newdate = document.getElementById('report_period').value
-        day_val = document.getElementById('report_period').value
-        
-        if( day_val == 'custom' ){
-            var newfromdate;
-            var newtodate;
-            if(eve.target===undefined){
-                this.setState({cust_fromdate:eve}) ;
-            }
-           newfromdate = new Date(this.state.cust_fromdate).toISOString()
-        } 
-
+        const day_val = document.getElementById('report_period')?.value;
+        if (day_val === 'custom' && eve?.target === undefined) {
+            this.setState({ cust_fromdate: eve });
+        }
     }
     
     view_report_todate_main_report = (event) => {
-        let date = ''
-        let newdate = ''
-        let day_val = ''
-        const {report} = this.state
-        if(event.target===undefined){
-             this.setState({cust_todate:event}) ;
+        const day_val = document.getElementById('report_period')?.value;
+        if (day_val === 'custom' && event?.target === undefined) {
+            this.setState({ cust_todate: event });
         }
-        let id = document.getElementById('view_stats_report').value
-        newdate = document.getElementById('report_period').value
-        day_val = document.getElementById('report_period').value
-        
-        if( day_val == 'custom' ){
-            var newtodate;
-            if(event.target===undefined){
-                this.setState({cust_todate:event}) ;
-           }
-           newtodate = new Date(this.state.cust_todate).toISOString()
-        } 
-
     }
 
     get_data_dates_main_report = (eve) => {
@@ -364,10 +345,10 @@ class QuadsAdReport extends Component {
         let id_ = document.getElementById('view_stats_report').value
         newdate = document.getElementById('report_period').value
         day_val = document.getElementById('report_period').value
-        let from_date = new Date(this.state.cust_fromdate).toISOString()
-        let to_date = new Date(this.state.cust_todate).toISOString()
-        
-        var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id_+'&fromdate='+from_date+'&todate='+to_date+'&day='+day_val;
+        const from_date = this.formatDateYMD(this.state.cust_fromdate);
+        const to_date = this.formatDateYMD(this.state.cust_todate);
+
+        var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id=' + encodeURIComponent(id_) + '&fromdate=' + encodeURIComponent(from_date) + '&todate=' + encodeURIComponent(to_date) + '&day=' + encodeURIComponent(day_val);
 
         this.showReportsLoader();
         fetch(url,{
@@ -1381,78 +1362,11 @@ this.drawChart(config);
     } )
         }
         
-        if( day_val == 'custom' ){
-            var newfromdate;
-            var newtodate;
-            if(eve.target===undefined){
-                this.setState({cust_fromdate:eve}) ;
-           }
-            if(eve.target===undefined){
-                this.setState({cust_todate:eve}) ;
-           }
-           newfromdate = new Date(this.state.cust_fromdate).toISOString()
-           newtodate = new Date(this.state.cust_todate).toISOString()
+        if ( day_val == 'custom' ) {
+            // For custom range, only reveal date pickers; fetch happens on "Show data".
             this.setState( { custom_period: true } )
-            var url =  quads_localize_data.rest_url + 'quads-adsense/get_report_stats?id='+id+'&fromdate='+newfromdate+'&todate='+newtodate+'&day='+day_val;
-
-            fetch(url,{
-                method: "post",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-WP-Nonce': quads_localize_data.nonce,
-            },
-            } )
-            .then(res => res.json())
-            .then( (response) => {
-                if(response!=null){
-                    var render_data
-                    var get_table = document.getElementById("quads_report_table")
-                    if(response.clicks == null || response.impressions == null ){
-                        get_table.innerHTML = 'No data Found'
-                    }
-                    else{
-                        var top5_ads = response.top5_ads
-                        this.display_report_stats_main_report(response)
-                        if(id=="all" || id == 'top_five_ads')
-                        {
-                            let reportHeading = 'All Ads';
-                            if(id == 'top_five_ads'){
-                                reportHeading = 'Top 5 Performing Ads';
-                            }
-                            render_data = `<table>
-                                <tbody>
-                                <tr><td colspan="3" align="center"><b>${reportHeading}</b></td></tr>
-                                <tr>
-                                <td><b>Ad Name</b></td>
-                                <td><b>Mobile Impressions</b></td>
-                                <td><b>Desktop Impressions</b></td>
-                                <td><b>Total Impressions</b></td>
-                                <td><b>Mobile Clicks</b></td>
-                                <td><b>Desktop Clicks</b></td>
-                                <td><b>Total Clicks</b></td>
-                                </tr>
-                                ${  
-                                    top5_ads.map( (ads,index) =>  {
-                                    return `<tr key=${index} className="top5_ads_click" onclick="document.getElementById('view_stats_report').click();document.getElementById('view_stats_report').value=`+ads.ID+`;document.getElementById('ajaxSubmitButton').click();" data-id="${ads.ID}" ><td>${ads.post_title}</td><td>${ads.mob_imprsn?ads.mob_imprsn:0}</td><td>${ads.desk_imprsn}</td><td>${ads.total_impression}</td><td>${ads.mob_clicks?ads.mob_clicks:0}</td><td>${ads.desk_clicks}</td><td>${ads.total_click}</td></tr>`
-                                }).join('')
-                                }
-        
-                                </tbody>
-                                </table>
-                                    `;
-                        }
-                        else
-                        {
-                        render_data = "<table><tbody><tr><td colspan='3' align='center'><b>Perfomance report for "+ad_day.charAt(0).toUpperCase() + ad_day.slice(1).replace(/_/g,' ')+"</b></td></tr><tr><td><b>Impressions</b></td><td><b>Clicks</b></td></tr><tr><td>"+response.impressions+"</td><td>"+response.clicks+"</td></tr></tbody></table>"
-                        }
-                        get_table.innerHTML = render_data
-
-                    }
-            }
-            } )
-        }
-        else{
+            return;
+        } else {
             this.setState( { custom_period: false } )
         }
      

@@ -2,7 +2,7 @@
 (function($) {
  function quads_ad_tracker(){
         
-        setTimeout(function(){   
+        $(function(){   
             
         var ad_ids ={}; 
         let adIndex = 0;   
@@ -58,7 +58,7 @@
                });  
              }         
         });                  
-        }, 1000);
+        });
         
    
                 

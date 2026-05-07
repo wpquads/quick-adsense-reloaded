@@ -596,7 +596,6 @@ class QUADS_Ad_Setup_Api_Service {
                         }
                         // Decode license data
                         $license_data = json_decode( wp_remote_retrieve_body( $response ) );
-                        error_log(print_r($license_data,true));
                         if($license_data){
                             $license_info = array('license'=>$license_data->license);
                             if($parameters['refresh_license']==true)

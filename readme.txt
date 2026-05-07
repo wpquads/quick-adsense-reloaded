@@ -4,10 +4,10 @@ Contributors: wpquads
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
 Tags: ad manager, ads, adsense, monetize, banner
-Tested up to: 6.9
+Tested up to: 7.0
 Requires at least: 5.0
 Requires PHP: 7.4
-Stable tag: 3.0.1
+Stable tag: 3.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -446,6 +446,13 @@ This plugin uses the following third-party libraries and resources:
 
 
 == Changelog ==
+= 3.0.2( 16 March 2026 ) =
+* Fixed : Custom filtering not working in reports #995
+* Added : Nigerian Naira (NGN) Curreny in Sellable Ads. #994
+* Improvement : Done improvements with respect to PCP 
+* Tested : WordPress 7.0 and update readme.txt #996
+
+
 = 3.0.1( 11 March 2026 ) =
 * Fixed : Ads report issue #992
 * Fixed : Ads not appearing due to undefined variable $adsArray #991

@@ -1522,12 +1522,24 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$results_impresn_mob = wp_cache_get( 'quads_stats_report_custom_total_mob_imprsn_'.$get_from.'_'.$get_to ,'quick-adsense-reloaded');
 			if ( false === $results_impresn_desk ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-				$results_impresn_desk = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as  stats_impressions  FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE stats_date BETWEEN %d AND %d",array(strtotime($get_from),strtotime($get_to))));
+				$results_impresn_desk = $wpdb->get_results($wpdb->prepare(
+					"SELECT stats_date, IFNULL(SUM(stats_impressions),0) as desk_imprsn
+					 FROM `{$wpdb->prefix}quads_impressions_desktop`
+					 WHERE stats_date BETWEEN %d AND %d
+					 GROUP BY stats_date",
+					array(strtotime($get_from),strtotime($get_to))
+				));
 				wp_cache_set( 'quads_stats_report_custom_total_desk_imprsn_'.$get_from.'_'.$get_to, $results_impresn_desk ,'quick-adsense-reloaded', 3600 );
 			}
 			if ( false === $results_impresn_mob ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-				$results_impresn_mob = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as  stats_impressions FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date BETWEEN %d AND %d",array(strtotime($get_from),strtotime($get_to))));
+				$results_impresn_mob = $wpdb->get_results($wpdb->prepare(
+					"SELECT stats_date, IFNULL(SUM(stats_impressions),0) as mob_imprsn
+					 FROM `{$wpdb->prefix}quads_impressions_mobile`
+					 WHERE stats_date BETWEEN %d AND %d
+					 GROUP BY stats_date",
+					array(strtotime($get_from),strtotime($get_to))
+				));
 				wp_cache_set( 'quads_stats_report_custom_total_mob_imprsn_'.$get_from.'_'.$get_to, $results_impresn_mob ,'quick-adsense-reloaded', 3600 );
 			}
 		}
@@ -1536,12 +1548,24 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$results_impresn_mob = wp_cache_get( 'quads_stats_report_custom_individual_mob_imprsn_'.$get_from.'_'.$get_to.'_'.$ad_id ,'quick-adsense-reloaded');
 			if ( false === $results_impresn_desk ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-				$results_impresn_desk = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as  stats_impressions FROM `{$wpdb->prefix}quads_impressions_desktop` WHERE stats_date BETWEEN %d AND %d AND ad_id = %d",array(strtotime($get_from),strtotime($get_to),$ad_id)));
+				$results_impresn_desk = $wpdb->get_results($wpdb->prepare(
+					"SELECT stats_date, IFNULL(SUM(stats_impressions),0) as desk_imprsn
+					 FROM `{$wpdb->prefix}quads_impressions_desktop`
+					 WHERE stats_date BETWEEN %d AND %d AND ad_id = %d
+					 GROUP BY stats_date",
+					array(strtotime($get_from),strtotime($get_to),$ad_id)
+				));
 				wp_cache_set( 'quads_stats_report_custom_individual_desk_imprsn_'.$get_from.'_'.$get_to.'_'.$ad_id, $results_impresn_desk ,'quick-adsense-reloaded', 3600 );
 			}
 			if ( false === $results_impresn_mob ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-				$results_impresn_mob = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_impressions),0) as  stats_impressions FROM `{$wpdb->prefix}quads_impressions_mobile` WHERE stats_date BETWEEN %d AND %d AND ad_id = %d",array(strtotime($get_from),strtotime($get_to),$ad_id)));
+				$results_impresn_mob = $wpdb->get_results($wpdb->prepare(
+					"SELECT stats_date, IFNULL(SUM(stats_impressions),0) as mob_imprsn
+					 FROM `{$wpdb->prefix}quads_impressions_mobile`
+					 WHERE stats_date BETWEEN %d AND %d AND ad_id = %d
+					 GROUP BY stats_date",
+					array(strtotime($get_from),strtotime($get_to),$ad_id)
+				));
 				wp_cache_set( 'quads_stats_report_custom_individual_mob_imprsn_'.$get_from.'_'.$get_to.'_'.$ad_id, $results_impresn_mob ,'quick-adsense-reloaded', 3600 );
 			}
 		}
@@ -1553,10 +1577,13 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 
 		$period = new DatePeriod(new DateTime(''.$get_from.''), new DateInterval('P1D'), new DateTime(''.$get_to.''.' +1 day'));
 		$dates_i_chart = [];
+		$dates_i_chart_ts = [];
 		foreach ($period as $date) {
-			$dates_i_chart[]= $date->format("Y-m-d");
+			$ymd = $date->format("Y-m-d");
+			$dates_i_chart[] = $ymd;
+			$dates_i_chart_ts[] = strtotime($ymd);
 		}
-		$get_impressions_specific_dates =$dates_i_chart;
+		$get_impressions_specific_dates = $dates_i_chart;
 
 		$combinedData = [];
 		$results_impresn_desk = is_array($results_impresn_desk) ? $results_impresn_desk : array();
@@ -1596,7 +1623,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$ad_mob_imprsn += $value['mob_imprsn'];
 			$ad_desk_imprsn +=$value['desk_imprsn'];
 			$ad_imprsn += $value['mob_imprsn']+$value['desk_imprsn'];
-			$date_key = array_search($value['stats_date'], $dates_i_chart);
+			$date_key = array_search($value['stats_date'], $dates_i_chart_ts);
 			if($date_key !== false){
 				$ad_mob_imprsn_values[$date_key] = $value['mob_imprsn'];
 				$ad_desk_imprsn_values[$date_key] = $value['desk_imprsn'];
@@ -1615,12 +1642,24 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$results_clicks_mob = wp_cache_get( 'quads_stats_report_custom_total_mob_clicks_'.$get_from.'_'.$get_to ,'quick-adsense-reloaded');
 			if ( false === $results_clicks_desk ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-				$results_clicks_desk = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_clicks),0) as  stats_clicks  FROM `{$wpdb->prefix}quads_clicks_desktop` WHERE stats_date BETWEEN %d AND %d",array(strtotime($get_from),strtotime($get_to))));
+				$results_clicks_desk = $wpdb->get_results($wpdb->prepare(
+					"SELECT stats_date, IFNULL(SUM(stats_clicks),0) as desk_clicks
+					 FROM `{$wpdb->prefix}quads_clicks_desktop`
+					 WHERE stats_date BETWEEN %d AND %d
+					 GROUP BY stats_date",
+					array(strtotime($get_from),strtotime($get_to))
+				));
 				wp_cache_set( 'quads_stats_report_custom_total_desk_clicks_'.$get_from.'_'.$get_to, $results_clicks_desk ,'quick-adsense-reloaded', 3600 );
 			}
 			if ( false === $results_clicks_mob ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-				$results_clicks_mob = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_clicks),0)as  stats_clicks FROM `{$wpdb->prefix}quads_clicks_mobile` WHERE stats_date BETWEEN %d AND %d",array(strtotime($get_from),strtotime($get_to))));
+				$results_clicks_mob = $wpdb->get_results($wpdb->prepare(
+					"SELECT stats_date, IFNULL(SUM(stats_clicks),0) as mob_clicks
+					 FROM `{$wpdb->prefix}quads_clicks_mobile`
+					 WHERE stats_date BETWEEN %d AND %d
+					 GROUP BY stats_date",
+					array(strtotime($get_from),strtotime($get_to))
+				));
 				wp_cache_set( 'quads_stats_report_custom_total_mob_clicks_'.$get_from.'_'.$get_to, $results_clicks_mob ,'quick-adsense-reloaded', 3600 );
 			}
 		}
@@ -1629,12 +1668,24 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$results_clicks_mob = wp_cache_get( 'quads_stats_report_custom_individual_mob_clicks_'.$get_from.'_'.$get_to.'_'.$ad_id ,'quick-adsense-reloaded');
 			if ( false === $results_clicks_desk ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-				$results_clicks_desk = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_clicks),0) as  stats_clicks FROM `{$wpdb->prefix}quads_clicks_desktop` WHERE stats_date BETWEEN %d AND %d AND ad_id = %d",array(strtotime($get_from),strtotime($get_to),$ad_id)));
+				$results_clicks_desk = $wpdb->get_results($wpdb->prepare(
+					"SELECT stats_date, IFNULL(SUM(stats_clicks),0) as desk_clicks
+					 FROM `{$wpdb->prefix}quads_clicks_desktop`
+					 WHERE stats_date BETWEEN %d AND %d AND ad_id = %d
+					 GROUP BY stats_date",
+					array(strtotime($get_from),strtotime($get_to),$ad_id)
+				));
 				wp_cache_set( 'quads_stats_report_custom_individual_desk_clicks_'.$get_from.'_'.$get_to.'_'.$ad_id, $results_clicks_desk ,'quick-adsense-reloaded', 3600 );
 			}
 			if ( false === $results_clicks_mob ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-				$results_clicks_mob = $wpdb->get_var($wpdb->prepare("SELECT IFNULL(SUM(stats_clicks),0) as  stats_clicks FROM `{$wpdb->prefix}quads_clicks_mobile` WHERE stats_date BETWEEN %d AND %d AND ad_id = %d",array(strtotime($get_from),strtotime($get_to),$ad_id)));
+				$results_clicks_mob = $wpdb->get_results($wpdb->prepare(
+					"SELECT stats_date, IFNULL(SUM(stats_clicks),0) as mob_clicks
+					 FROM `{$wpdb->prefix}quads_clicks_mobile`
+					 WHERE stats_date BETWEEN %d AND %d AND ad_id = %d
+					 GROUP BY stats_date",
+					array(strtotime($get_from),strtotime($get_to),$ad_id)
+				));
 				wp_cache_set( 'quads_stats_report_custom_individual_mob_clicks_'.$get_from.'_'.$get_to.'_'.$ad_id, $results_clicks_mob ,'quick-adsense-reloaded', 3600 );
 			}
 		}
@@ -1663,7 +1714,7 @@ function quads_ads_stats_get_report_data($request_data, $ad_id=''){
 			$ad_mob_clicks += $value['mob_clicks'];
 			$ad_desk_clicks +=$value['desk_clicks'];
 			$ad_clicks += $value['mob_clicks']+$value['desk_clicks'];
-			$date_key = array_search($value['stats_date'], $dates_i_chart);
+			$date_key = array_search($value['stats_date'], $dates_i_chart_ts);
 			if($date_key !== false){
 				$ad_mob_clicks_values[$date_key] = $value['mob_clicks'];
 				$ad_desk_clicks_values[$date_key] = $value['desk_clicks'];
