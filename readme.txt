@@ -7,7 +7,7 @@ Tags: ad manager, ads, adsense, monetize, banner
 Tested up to: 7.0
 Requires at least: 5.0
 Requires PHP: 7.4
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -446,6 +446,10 @@ This plugin uses the following third-party libraries and resources:
 
 
 == Changelog ==
+= 3.0.3( 08 May 2026 ) =
+* Fixed : Business-logic flaw in the unauthenticated AJAX action `quads_submit_ad_buy_form` disclosed by Patchstack (Bas Albers)
+* Fixed : PayPal payment amount validation issue disclosed by Patchstack (Bas Albers)
+
 = 3.0.2( 16 March 2026 ) =
 * Fixed : Custom filtering not working in reports #995
 * Added : Nigerian Naira (NGN) Curreny in Sellable Ads. #994
@@ -475,9 +479,5 @@ This plugin uses the following third-party libraries and resources:
 
 = 2.0.97 ( 20 December 2025 ) =
 * Improvement : Done improvements with respect to PCP and WP.org standards.
-
-= 2.0.96 ( 12 December 2025 ) =
-* Fixed : Checked with Plugin Check and added fix.
-* Added : Tested with WordPress 6.9 and update readme.txt
 
 Full changelog available [ at changelog.txt](https://plugins.svn.wordpress.org/quick-adsense-reloaded/trunk/changelog.txt)
