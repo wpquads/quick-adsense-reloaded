@@ -1842,6 +1842,100 @@ function quads_parse_coupon_discount( $coupon, $slot_id, $base_total ) {
     );
 }
 
+/**
+ * Validate ad-buy campaign fields server-side (slot, availability, dates, link, pricing).
+ *
+ * @param int    $ad_slot_id  Ad slot post ID.
+ * @param string $start_date  Campaign start date (Y-m-d).
+ * @param string $end_date    Campaign end date (Y-m-d).
+ * @param string $ad_link     Destination URL for the purchased ad.
+ * @return array|WP_Error Validated campaign data or error.
+ */
+function quads_validate_ad_buy_campaign( $ad_slot_id, $start_date, $end_date, $ad_link ) {
+    $ad_slot_id = absint( $ad_slot_id );
+    if ( ! $ad_slot_id ) {
+        return new WP_Error( 'invalid_slot', esc_html__( 'Please select a valid ad slot.', 'quick-adsense-reloaded' ) );
+    }
+
+    $slot_post = get_post( $ad_slot_id );
+    if ( ! $slot_post || 'quads-ads' !== $slot_post->post_type || 'publish' !== $slot_post->post_status ) {
+        return new WP_Error( 'invalid_slot', esc_html__( 'The selected ad slot is not available.', 'quick-adsense-reloaded' ) );
+    }
+
+    if ( 'ads_space' !== get_post_meta( $ad_slot_id, 'ad_type', true ) ) {
+        return new WP_Error( 'invalid_slot', esc_html__( 'The selected ad slot is not available.', 'quick-adsense-reloaded' ) );
+    }
+
+    $booked_ids = array_column( quads_get_active_sellads_ids(), 'ad_id' );
+    if ( in_array( $ad_slot_id, array_map( 'absint', $booked_ids ), true ) ) {
+        return new WP_Error( 'slot_unavailable', esc_html__( 'This ad slot is already booked and cannot be purchased.', 'quick-adsense-reloaded' ) );
+    }
+
+    if ( '' === $ad_link ) {
+        return new WP_Error( 'invalid_link', esc_html__( 'Please provide a valid ad link.', 'quick-adsense-reloaded' ) );
+    }
+
+    $start_date = sanitize_text_field( $start_date );
+    $end_date   = sanitize_text_field( $end_date );
+    $start_dt   = DateTime::createFromFormat( 'Y-m-d', $start_date );
+    $end_dt     = DateTime::createFromFormat( 'Y-m-d', $end_date );
+
+    if ( ! $start_dt || $start_dt->format( 'Y-m-d' ) !== $start_date || ! $end_dt || $end_dt->format( 'Y-m-d' ) !== $end_date ) {
+        return new WP_Error( 'invalid_dates', esc_html__( 'Please provide valid start and end dates.', 'quick-adsense-reloaded' ) );
+    }
+
+    $start_ymd = $start_dt->format( 'Y-m-d' );
+    $end_ymd   = $end_dt->format( 'Y-m-d' );
+    $today     = gmdate( 'Y-m-d' );
+
+    if ( $start_ymd < $today ) {
+        return new WP_Error( 'invalid_start_date', esc_html__( 'Start date cannot be in the past.', 'quick-adsense-reloaded' ) );
+    }
+
+    if ( $end_ymd < $start_ymd ) {
+        return new WP_Error( 'invalid_end_date', esc_html__( 'End date must be on or after the start date.', 'quick-adsense-reloaded' ) );
+    }
+
+    $days = (int) ( ( strtotime( $end_ymd ) - strtotime( $start_ymd ) ) / DAY_IN_SECONDS ) + 1;
+    if ( $days < 1 ) {
+        return new WP_Error( 'invalid_dates', esc_html__( 'Please provide valid start and end dates.', 'quick-adsense-reloaded' ) );
+    }
+
+    $ad_minimum_days      = get_post_meta( $ad_slot_id, 'ad_minimum_days', true );
+    $ad_minimum_selection = get_post_meta( $ad_slot_id, 'ad_minimum_selection', true );
+    if ( ! $ad_minimum_selection ) {
+        $ad_minimum_selection = 'day';
+    }
+
+    if ( '' !== $ad_minimum_days && (int) $ad_minimum_days > 0 ) {
+        if ( 'month' === $ad_minimum_selection ) {
+            $min_end_ymd = gmdate( 'Y-m-d', strtotime( '+' . (int) $ad_minimum_days . ' month', strtotime( $start_ymd ) ) );
+        } else {
+            $min_end_ymd = gmdate( 'Y-m-d', strtotime( '+' . (int) $ad_minimum_days . ' day', strtotime( $start_ymd ) ) );
+        }
+
+        if ( $end_ymd < $min_end_ymd ) {
+            return new WP_Error(
+                'minimum_duration',
+                esc_html__( 'The selected date range does not meet the minimum duration for this ad slot.', 'quick-adsense-reloaded' )
+            );
+        }
+    }
+
+    $price = get_post_meta( $ad_slot_id, 'ad_cost', true );
+    if ( '' === $price || null === $price || (float) $price <= 0 ) {
+        return new WP_Error( 'invalid_price', esc_html__( 'Ad slot pricing is not configured.', 'quick-adsense-reloaded' ) );
+    }
+
+    return array(
+        'price'      => (float) $price,
+        'days'       => $days,
+        'name'       => get_the_title( $ad_slot_id ),
+        'start_date' => $start_ymd,
+        'end_date'   => $end_ymd,
+    );
+}
+
 function quads_handle_ad_buy_form_submission() {
    
     if ( ! isset( $_POST['action'] ) || $_POST['action'] !== 'quads_submit_ad_buy_form' ) {
@@ -1897,6 +1991,18 @@ function quads_handle_ad_buy_form_submission() {
 
     $coupon_code  = isset($_POST['coupon_code']) ? sanitize_textarea_field( wp_unslash ($_POST['coupon_code'] ) ):'';
 
+    $campaign = quads_validate_ad_buy_campaign( $ad_slot_id, $start_date, $end_date, $ad_link );
+    if ( is_wp_error( $campaign ) ) {
+        wp_send_json_error( array( 'message' => $campaign->get_error_message() ) );
+    }
+
+    $ad_slot_id = absint( $ad_slot_id );
+    $start_date = $campaign['start_date'];
+    $end_date   = $campaign['end_date'];
+    $price      = $campaign['price'];
+    $days       = $campaign['days'];
+    $name       = $campaign['name'];
+
     $ad_image    = ''; // Initialize the ad image URL
 
     // Handle file upload if provided
@@ -1911,11 +2017,8 @@ function quads_handle_ad_buy_form_submission() {
         }
     }
 
-    $price      = get_post_meta( $ad_slot_id, 'ad_cost', true );
     $currency   = 'USD';
-    $days       = ( strtotime( $end_date ) - strtotime( $start_date ) ) / ( 60 * 60 * 24 ) + 1;
     $total_cost = $price * $days;
-    $name       = get_the_title( $ad_slot_id );
 
     $coupon_parse = quads_parse_coupon_discount( $coupon_code, $ad_slot_id, (float) $total_cost );
     if ( 'invalid' === $coupon_parse['status'] || 'expired' === $coupon_parse['status'] ) {
