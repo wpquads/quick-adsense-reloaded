@@ -965,9 +965,14 @@ function quads_custom_premimum_memeber_login() {
     }
 }
 function quads_update_member_subscription() {
+    if ( ! is_user_logged_in() ) {
+        return;
+    }
     if (isset($_POST['id']) && isset($_POST['ad_link']) && isset($_POST['ad_content']) && isset($_POST['submit-update-member-ad-space']) && isset($_POST['nonce'])  && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'member_subscription' )) {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'quads_adbuy_data'; 
+        $table_name = $wpdb->prefix . 'quads_adbuy_data';
+        $user_id    = get_current_user_id();
+        $ad_row_id  = absint( $_POST['id'] );
         $update_data = array();
         $update_data['ad_link'] =   sanitize_text_field( wp_unslash( $_POST['ad_link']) ) ;
         $update_data['ad_content'] =  sanitize_text_field( wp_unslash( $_POST['ad_content'] ) );
@@ -983,8 +988,15 @@ function quads_update_member_subscription() {
         $status = $wpdb->update(
             $table_name,
             $update_data,
-            ['id' => intval($_POST['id'])]
+            array(
+                'id'      => $ad_row_id,
+                'user_id' => $user_id,
+            )
         );
+        if ( false !== $status ) {
+            wp_cache_delete( 'quads_user_ads_' . $user_id, 'quick-adsense-reloaded' );
+            wp_cache_delete( 'quads_ad_space_' . $ad_row_id . '_' . $user_id, 'quick-adsense-reloaded' );
+        }
         global $wp;
         $redirect_url = home_url( $wp->request );
         wp_safe_redirect( $redirect_url );
@@ -1029,17 +1041,23 @@ function quads_get_premimum_member_ad_space($user_id){
     }
     return $results;
 } 
-function quads_get_premimum_member_ad_space_on_id($id){
+function quads_get_premimum_member_ad_space_on_id( $id, $user_id ) {
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_adbuy_data';
-    $id         = absint( $id ); 
+    $id         = absint( $id );
+    $user_id    = absint( $user_id );
 
-    $results = wp_cache_get( 'quads_ad_space_' . $id, 'quick-adsense-reloaded' );
+    if ( ! $id || ! $user_id ) {
+        return array();
+    }
+
+    $cache_key = 'quads_ad_space_' . $id . '_' . $user_id;
+    $results   = wp_cache_get( $cache_key, 'quick-adsense-reloaded' );
     if ( false === $results ) {
         // Query the records
         /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.PreparedSQL.NotPrepared */
-        $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name WHERE payment_status = %s AND id = %d ORDER BY id DESC", 'paid', $id ) );
-        wp_cache_set( 'quads_ad_space_' . $id, $results, 'quick-adsense-reloaded', 600 );
+        $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name WHERE payment_status = %s AND id = %d AND user_id = %d ORDER BY id DESC", 'paid', $id, $user_id ) );
+        wp_cache_set( $cache_key, $results, 'quick-adsense-reloaded', 600 );
     }
 
     foreach ($results as $key => $result) {
@@ -1215,10 +1233,10 @@ function quads_sellable_premium_member_page() {
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( isset( $_GET['modify_id'] ) && ! empty( $_GET['modify_id'] ) && isset( $_GET['renew_id'] ) && ! empty( $_GET['renew_id'] ) ) {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$modify_id = sanitize_text_field( wp_unslash( $_GET['modify_id'] ) );
+		$modify_id = absint( wp_unslash( $_GET['modify_id'] ) );
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$renew_id     = sanitize_text_field( wp_unslash( $_GET['renew_id'] ) );
-		$ad_space_list = quads_get_premimum_member_ad_space_on_id( $modify_id );
+		$renew_id     = absint( wp_unslash( $_GET['renew_id'] ) );
+		$ad_space_list = quads_get_premimum_member_ad_space_on_id( $modify_id, $user_id );
 
 		if ( ! empty( $ad_space_list ) && isset( $ad_space_list[0] ) ) {
 			$asdata         = $ad_space_list[0];
@@ -1270,6 +1288,12 @@ function quads_sellable_premium_member_page() {
 			</script>
 			<?php
 			quads_update_member_subscription();
+		} else {
+			?>
+			<div class="quads-login quads-preview-ad-space">
+				<p><?php echo esc_html__( 'You do not have permission to modify this ad space.', 'quick-adsense-reloaded' ); ?></p>
+			</div>
+			<?php
 		}
 	}
 
