@@ -31,8 +31,12 @@ function quads_add_return_query_args( $base_url, array $args ) {
 function quads_get_checkout_redirect_base_url() {
     global $wp;
     $redirect_link = isset( $wp->request ) ? home_url( $wp->request ) : home_url( '/' );
+    $query_string = '';
     if ( isset( $_SERVER['QUERY_STRING'] ) && is_string( $_SERVER['QUERY_STRING'] ) && $_SERVER['QUERY_STRING'] !== '' ) {
-        parse_str( wp_unslash( $_SERVER['QUERY_STRING'] ), $parsed_qs );
+        $query_string = sanitize_text_field( wp_unslash( $_SERVER['QUERY_STRING'] ) );
+    }
+    if ( '' !== $query_string ) {
+        parse_str( $query_string, $parsed_qs );
         if ( ! empty( $parsed_qs ) && is_array( $parsed_qs ) ) {
             $clean_qs = array();
             foreach ( $parsed_qs as $qs_key => $qs_val ) {
@@ -113,11 +117,11 @@ function quads_checkout_return_shows_success_notice( $context = 'adbuy' ) {
 
     if ( 'disablead' === $context ) {
         $table_name = $wpdb->prefix . 'quads_disabledad_data';
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is fixed and safe
         $row = $wpdb->get_row( $wpdb->prepare( "SELECT payment_status FROM `{$table_name}` WHERE disable_ad_id = %d AND user_id = %d", $order_id, $user_id ) );
     } else {
         $table_name = $wpdb->prefix . 'quads_adbuy_data';
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is fixed and safe
         $row = $wpdb->get_row( $wpdb->prepare( "SELECT payment_status FROM `{$table_name}` WHERE id = %d AND user_id = %d", $order_id, $user_id ) );
     }
 
@@ -282,7 +286,7 @@ function quads_authorize_payment_success(){
             $table_name = $wpdb->prefix . 'quads_disabledad_data';
             $ad_details = wp_cache_get('quads_ad_details_'.$order_id.'_'.$user->ID, 'quick-adsense-reloaded');
             if(false === $ad_details){
-                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is fixed and safe
                 $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `{$table_name}` WHERE disable_ad_id = %d AND user_id = %d", $order_id, $user->ID ));
                 wp_cache_set('quads_ad_details_'.$order_id.'_'.$user->ID, $ad_details, 'quick-adsense-reloaded', 3600);
             }
@@ -2023,7 +2027,7 @@ function quads_handle_ad_buy_form_submission() {
 
     // Sanitize and validate the remaining fields
     $redirect_link = quads_sanitize_checkout_redirect_link(
-        isset( $_POST['redirect_link'] ) ? wp_unslash( $_POST['redirect_link'] ) : '',
+        isset( $_POST['redirect_link'] ) ? esc_url_raw( wp_unslash( $_POST['redirect_link'] ) ) : '',
         quads_get_checkout_redirect_base_url()
     );
     $cancel_link  = isset( $_POST['cancel_link'] )? intval( wp_unslash($_POST['cancel_link'] ) ) : '';
@@ -2542,7 +2546,7 @@ function quads_handle_submit_disablead_form() {
     $payment_page = get_permalink( $da_page_id );
     $disable_redirect_fallback = ( is_string( $payment_page ) && '' !== $payment_page ) ? $payment_page : quads_get_checkout_redirect_base_url();
     $redirect_link = quads_sanitize_checkout_redirect_link(
-        isset( $_POST['redirect_link'] ) ? wp_unslash( $_POST['redirect_link'] ) : '',
+        isset( $_POST['redirect_link'] ) ? esc_url_raw( wp_unslash( $_POST['redirect_link'] ) ) : '',
         $disable_redirect_fallback
     );
 
@@ -3262,10 +3266,10 @@ function quads_check_expired_sellads() {
 
     $users = wp_cache_get( 'quads_expired_sellads_users', 'quick-adsense-reloaded' );
     if ( false === $users ) {
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is fixed and safe
         $users = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT user_id, ad_id, end_date FROM `{$table_name}` WHERE payment_status = %s AND ad_status = %s AND ( end_date = %s OR end_date = %s )",
+                "SELECT user_id, ad_id, end_date FROM `{$table_name}` WHERE payment_status = %s AND ad_status = %s AND ( end_date = %s OR end_date = %s )", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is fixed and safe
                 'paid',
                 'approved',
                 $yesterday,
