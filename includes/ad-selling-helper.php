@@ -53,6 +53,36 @@ function quads_get_checkout_redirect_base_url() {
 
     return $redirect_link;
 }
+
+/**
+ * Sanitize a checkout return URL and restrict redirects to this WordPress site.
+ *
+ * @param string $url      User-supplied or generated redirect URL.
+ * @param string $fallback URL to use when the value is empty or not allowed.
+ * @return string
+ */
+function quads_sanitize_checkout_redirect_link( $url, $fallback = '' ) {
+    if ( '' === $fallback ) {
+        $fallback = quads_get_checkout_redirect_base_url();
+    }
+    $fallback = esc_url_raw( $fallback );
+    if ( '' === $fallback ) {
+        $fallback = home_url( '/' );
+    }
+
+    $url = is_string( $url ) ? esc_url_raw( wp_unslash( $url ) ) : '';
+    if ( '' === $url ) {
+        return $fallback;
+    }
+
+    $validated = wp_validate_redirect( $url, '' );
+    if ( '' === $validated ) {
+        return $fallback;
+    }
+
+    return $validated;
+}
+
 /*
     * Create a new page on plugin activation
     * @since 2.0.86
@@ -1854,7 +1884,10 @@ function quads_handle_ad_buy_form_submission() {
     }
 
     // Sanitize and validate the remaining fields
-    $redirect_link  = isset( $_POST['redirect_link'] )? esc_url_raw( wp_unslash( $_POST['redirect_link'] ) ) : '';
+    $redirect_link = quads_sanitize_checkout_redirect_link(
+        isset( $_POST['redirect_link'] ) ? wp_unslash( $_POST['redirect_link'] ) : '',
+        quads_get_checkout_redirect_base_url()
+    );
     $cancel_link  = isset( $_POST['cancel_link'] )? intval( wp_unslash($_POST['cancel_link'] ) ) : '';
     $ad_slot_id  = isset( $_POST['ad_slot_id'] )? intval( wp_unslash($_POST['ad_slot_id'] ) ) : '';
     $start_date  = isset( $_POST['start_date'] )? sanitize_text_field( wp_unslash($_POST['start_date'] ) ) : '';
@@ -2334,9 +2367,7 @@ function quads_handle_submit_disablead_form() {
     }
 
     // Sanitize and validate the remaining fields
-    $redirect_link  = ( isset( $_POST['redirect_link'] ) )?esc_url_raw( wp_unslash( $_POST['redirect_link'] ) ): '';
     $cancel_link  = ( isset( $_POST['cancel_link'] ) )?intval( wp_unslash($_POST['cancel_link'] ) ) : '';
-    
 
     // Insert the ad buy record in the database
     global $wpdb;
@@ -2348,9 +2379,11 @@ function quads_handle_submit_disablead_form() {
     $_daduration = isset($quads_settings['_daduration']) ? $quads_settings['_daduration'] :'Monthly';
     $da_page_id = isset($quads_settings['dapayment_page']) ? $quads_settings['dapayment_page'] : 0;
     $payment_page = get_permalink( $da_page_id );
-    if ( '' === $redirect_link && is_string( $payment_page ) && $payment_page !== '' ) {
-        $redirect_link = esc_url_raw( $payment_page );
-    }
+    $disable_redirect_fallback = ( is_string( $payment_page ) && '' !== $payment_page ) ? $payment_page : quads_get_checkout_redirect_base_url();
+    $redirect_link = quads_sanitize_checkout_redirect_link(
+        isset( $_POST['redirect_link'] ) ? wp_unslash( $_POST['redirect_link'] ) : '',
+        $disable_redirect_fallback
+    );
 
     $user_info = get_userdata($user_id);
     $user_data = $user_info->data;
