@@ -97,16 +97,24 @@ add_action( 'upgrader_process_complete', 'quads_adsell_upgrade_handler', 10, 2 )
 add_action( 'init', 'quads_authorize_payment_success' );
 function quads_authorize_payment_success(){
     
-    if ( !is_user_logged_in() ) {
+    if ( ! is_user_logged_in() ) {
         return false;
     }
-    if( !isset( $_GET[ 'security' ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET[ 'security' ] ) ), 'security' )){ 
+    if ( ! isset( $_GET['security'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['security'] ) ), 'quads_submit_ad_buy_form_success' ) ) {
         return false;
     }
+
+    $current_user_id = get_current_user_id();
+
     if( isset( $_GET['status'] ) && $_GET['status']=='success' && isset( $_GET['ad_slot_id'] ) && $_GET['ad_slot_id'] > 0 && isset( $_GET['refId'] ) && $_GET['refId'] != "" && isset( $_GET['user_id'] ) && intval( $_GET['user_id'] ) >0 && !isset( $_GET['target'] )){
-        $slot_id = absint( $_GET['ad_slot_id'] );
-        $order_id = absint($order_id);
-        $user_id = absint($user_id);
+        $slot_id  = absint( $_GET['ad_slot_id'] );
+        $order_id = absint( $_GET['refId'] );
+        $user_id  = absint( $_GET['user_id'] );
+
+        if ( $current_user_id !== $user_id ) {
+            return false;
+        }
+
         $price = get_post_meta( $slot_id, 'ad_cost' );
         if(!empty($price)){
             $price = $price[0];
@@ -123,12 +131,16 @@ function quads_authorize_payment_success(){
                 $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `{$table_name}` WHERE id = %d AND user_id = %d", $order_id, $user->ID ));
                 wp_cache_set('quads_ad_details_'.$order_id.'_'.$user->ID, $ad_details, 'quick-adsense-reloaded', 3600);
             }
-            if (!$ad_details) {
+            if ( ! $ad_details ) {
                 return false;
-                
             }
+
+            if ( (int) $ad_details->ad_id !== $slot_id ) {
+                return false;
+            }
+
             $payment_status = 'paid';
-            if ($ad_details->payment_status === 'paid') {
+            if ( $ad_details->payment_status === 'paid' ) {
                 return false;
             }
             $params = array();
@@ -139,6 +151,9 @@ function quads_authorize_payment_success(){
                 array('payment_status' => 'paid' , 'payment_response'=> wp_json_encode($params)), // Data to update
                 array('id' => $order_id , 'user_id'=>$user->ID) 
             );
+
+            wp_cache_delete( 'quads_user_ads_' . $user->ID, 'quick-adsense-reloaded' );
+            wp_cache_delete( 'quads_ad_details_' . $order_id . '_' . $user->ID, 'quick-adsense-reloaded' );
 
             //get the ad details from db
             $setting= get_option('quads_settings',[]);
@@ -181,11 +196,15 @@ function quads_authorize_payment_success(){
             $headers = array('Content-Type: text/html; charset=UTF-8');
             wp_mail( $to, $subject, $message, $headers );
         }
-    }else if( isset( $_GET['status'] ) && $_GET['status'] == 'success' && isset( $_GET['refId'] ) && $_GET['refId'] != "" && isset( $_GET['user_id'] ) && intval( $_GET['user_id'] ) > 0 && isset( $_GET['target'] ) && $_GET['target'] == 'disablead' ){
-       
-        $order_id =  absint( $_GET['refId'] );
-        $user_id = absint( $_GET['user_id'] );
-        
+    } elseif ( isset( $_GET['status'] ) && $_GET['status'] == 'success' && isset( $_GET['refId'] ) && $_GET['refId'] != '' && isset( $_GET['user_id'] ) && intval( $_GET['user_id'] ) > 0 && isset( $_GET['target'] ) && $_GET['target'] == 'disablead' ) {
+
+        $order_id = absint( $_GET['refId'] );
+        $user_id  = absint( $_GET['user_id'] );
+
+        if ( $current_user_id !== $user_id ) {
+            return false;
+        }
+
         $user = get_user_by( 'id', $user_id );
         if($user){
             global $wpdb;
