@@ -532,11 +532,8 @@ function quads_ads_buy_form() {
             $stripe_secret_key =  isset($quads_settings['stripe_secret_key']) ? $quads_settings['stripe_secret_key'] : '';
         }
         $paysatck_public_key = '';
-        $paystack_secret_key = '';
         if($payment_gateway=='paystack'){
             $paysatck_public_key =  isset($quads_settings['paysatck_public_key']) ? $quads_settings['paysatck_public_key'] : '';
-        
-            $paystack_secret_key =  isset($quads_settings['paystack_secret_key']) ? $quads_settings['paystack_secret_key'] : '';
         }
     ?>
     <form id="quads-adbuy-form" method="POST" action="<?php echo ($payment_gateway!='stripe')?esc_url(admin_url('admin-ajax.php')):'/process-payment'; ?>" enctype="multipart/form-data">
@@ -905,7 +902,7 @@ function quadsPayWithPaystack(data) {
         amount: data.amount, //  * 100 Convert to kobo
         currency: data.currency,
         callback: function(response) {
-            window.location.href = "verify_payment.php?reference=" + response.reference;
+            verifyPaystackPayment(response.reference, success_link);
         },
         onClose: function() {
             alert('Payment window closed.');
@@ -919,8 +916,8 @@ function verifyPaystackPayment(reference,success_link){
         url: '<?php echo esc_url(admin_url('admin-ajax.php')); ?>',
         type: 'post',
         data: {reference:reference,nonce:nonce,action:'quads_verify_paystack_payment'},
-        success: function (response, status, XHR) {
-            if(response.data==1){
+        success: function (response) {
+            if ( response.success ) {
                 window.location.href = success_link;
             }
         },
@@ -2198,7 +2195,7 @@ function quads_handle_ad_buy_form_submission() {
             $total_cost = round($total_cost);
             $user = get_user_by('id', $user_id);
             $email = $user->user_email;
-            wp_send_json_success( array( 'message' => esc_html__( 'Ad submission successful.', 'quick-adsense-reloaded' ) , 'public_key' =>$paystack_public_key,'secret_key'=>$paystack_secret_key,'email'=>$user->user_email,'amount'=>$total_cost,'currency'=>$currency,'success_link'=>$success_link,'cancel_url'=>$cancel_link) );
+            wp_send_json_success( array( 'message' => esc_html__( 'Ad submission successful.', 'quick-adsense-reloaded' ) , 'public_key' => $paystack_public_key, 'email' => $user->user_email, 'amount' => $total_cost, 'currency' => $currency, 'success_link' => $success_link, 'cancel_url' => $cancel_link ) );
             die;
         }
     } else {
@@ -2210,50 +2207,51 @@ add_action( 'wp_ajax_quads_verify_paystack_payment', 'quads_verify_paystack_paym
 add_action( 'wp_ajax_nopriv_quads_verify_paystack_payment', 'quads_verify_paystack_payment' );
 
 function quads_verify_paystack_payment(){
-    if ( ! isset( $_POST['action'] ) || $_POST['action'] !== 'quads_submit_ad_buy_form' ) {
-        wp_send_json_error( array( 'message' => esc_html__('Invalid request.', 'quick-adsense-reloaded' ) ) );
-    } 
+    if ( ! isset( $_POST['action'] ) || 'quads_verify_paystack_payment' !== $_POST['action'] ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'Invalid request.', 'quick-adsense-reloaded' ) ) );
+    }
     if ( ! check_ajax_referer( 'quads_submit_ad_buy_form', 'nonce', false ) ) {
-        wp_send_json_error( array( 'message' => esc_html__('Invalid request.', 'quick-adsense-reloaded' ) ) );
+        wp_send_json_error( array( 'message' => esc_html__( 'Invalid request.', 'quick-adsense-reloaded' ) ) );
     }
-    if(isset($_POST['reference'])) {
-        $reference = ( isset( $_POST['reference'] ) ) ? sanitize_text_field( wp_unslash( $_POST['reference'] ) ) : '';
-        $secretKey = ( isset( $_POST['secret_key'] ) ) ? sanitize_text_field( wp_unslash( $_POST['secret_key'] ) ) : ''; // Replace with your Secret Key
-    
-        $url = "https://api.paystack.co/transaction/verify/" . esc_attr($reference);
-        $args = [
-            'method'    => 'GET',
-            'headers'   => [
-                'Authorization' => 'Bearer ' . esc_attr($secretKey),
+
+    $reference = isset( $_POST['reference'] ) ? sanitize_text_field( wp_unslash( $_POST['reference'] ) ) : '';
+    if ( '' === $reference ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'Invalid payment reference.', 'quick-adsense-reloaded' ) ) );
+    }
+
+    $quads_settings = get_option( 'quads_settings', array() );
+    $secret_key     = isset( $quads_settings['paystack_secret_key'] ) ? $quads_settings['paystack_secret_key'] : '';
+    if ( '' === $secret_key ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'Paystack is not configured.', 'quick-adsense-reloaded' ) ) );
+    }
+
+    $url      = 'https://api.paystack.co/transaction/verify/' . rawurlencode( $reference );
+    $response = wp_remote_get(
+        $url,
+        array(
+            'method'  => 'GET',
+            'headers' => array(
+                'Authorization' => 'Bearer ' . $secret_key,
                 'Content-Type'  => 'application/json',
-            ],
-            'timeout'   => 45, // Set timeout to avoid delays
-        ];
-    
-        // Send the request
-        $response = wp_remote_get($url, $args);
-    
-        if (is_wp_error($response)) {
-            echo 3;
-            die;
-        }
-    
-        // Get the response body
-        $body = wp_remote_retrieve_body($response);
-        $result = json_decode($body, true);
-    
-        if (!isset($result['data']) || $result['status'] !== true) {
-            echo 2;
-            die;
-        }
-    
-        echo 1; 
-        die;
-       
-    } else {
-        echo 3; 
-        die;
+            ),
+            'timeout' => 45,
+        )
+    );
+
+    if ( is_wp_error( $response ) ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'Payment verification failed.', 'quick-adsense-reloaded' ) ) );
     }
+
+    $result = json_decode( wp_remote_retrieve_body( $response ), true );
+    if ( ! is_array( $result ) || ! isset( $result['data'] ) || true !== $result['status'] ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'Payment not verified.', 'quick-adsense-reloaded' ) ) );
+    }
+
+    if ( isset( $result['data']['status'] ) && 'success' === $result['data']['status'] ) {
+        wp_send_json_success( array( 'verified' => true ) );
+    }
+
+    wp_send_json_error( array( 'message' => esc_html__( 'Payment not completed.', 'quick-adsense-reloaded' ) ) );
 }
 add_action( 'wp_ajax_quads_redeem_coupon', 'quads_redeem_coupon' );
 add_action( 'wp_ajax_nopriv_quads_redeem_coupon', 'quads_redeem_coupon' );
