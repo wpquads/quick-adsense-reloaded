@@ -31,8 +31,12 @@ function quads_add_return_query_args( $base_url, array $args ) {
 function quads_get_checkout_redirect_base_url() {
     global $wp;
     $redirect_link = isset( $wp->request ) ? home_url( $wp->request ) : home_url( '/' );
+    $query_string = '';
     if ( isset( $_SERVER['QUERY_STRING'] ) && is_string( $_SERVER['QUERY_STRING'] ) && $_SERVER['QUERY_STRING'] !== '' ) {
-        parse_str( wp_unslash( $_SERVER['QUERY_STRING'] ), $parsed_qs );
+        $query_string = sanitize_text_field( wp_unslash( $_SERVER['QUERY_STRING'] ) );
+    }
+    if ( '' !== $query_string ) {
+        parse_str( $query_string, $parsed_qs );
         if ( ! empty( $parsed_qs ) && is_array( $parsed_qs ) ) {
             $clean_qs = array();
             foreach ( $parsed_qs as $qs_key => $qs_val ) {
@@ -53,6 +57,77 @@ function quads_get_checkout_redirect_base_url() {
 
     return $redirect_link;
 }
+
+/**
+ * Sanitize a checkout return URL and restrict redirects to this WordPress site.
+ *
+ * @param string $url      User-supplied or generated redirect URL.
+ * @param string $fallback URL to use when the value is empty or not allowed.
+ * @return string
+ */
+function quads_sanitize_checkout_redirect_link( $url, $fallback = '' ) {
+    if ( '' === $fallback ) {
+        $fallback = quads_get_checkout_redirect_base_url();
+    }
+    $fallback = esc_url_raw( $fallback );
+    if ( '' === $fallback ) {
+        $fallback = home_url( '/' );
+    }
+
+    $url = is_string( $url ) ? esc_url_raw( wp_unslash( $url ) ) : '';
+    if ( '' === $url ) {
+        return $fallback;
+    }
+
+    $validated = wp_validate_redirect( $url, '' );
+    if ( '' === $validated ) {
+        return $fallback;
+    }
+
+    return $validated;
+}
+
+/**
+ * Whether the checkout return URL should show a success notice (avoids false positives when refId is present but unpaid).
+ *
+ * @param string $context 'adbuy' or 'disablead'.
+ * @return bool
+ */
+function quads_checkout_return_shows_success_notice( $context = 'adbuy' ) {
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    if ( ! isset( $_GET['status'] ) || 'success' !== $_GET['status'] ) {
+        return false;
+    }
+
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    if ( ! isset( $_GET['refId'] ) || '' === $_GET['refId'] ) {
+        return true;
+    }
+
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    $order_id = absint( $_GET['refId'] );
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+    $user_id = isset( $_GET['user_id'] ) ? absint( $_GET['user_id'] ) : 0;
+
+    if ( ! $order_id || ! $user_id || ! is_user_logged_in() || get_current_user_id() !== $user_id ) {
+        return false;
+    }
+
+    global $wpdb;
+
+    if ( 'disablead' === $context ) {
+        $table_name = $wpdb->prefix . 'quads_disabledad_data';
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is fixed and safe
+        $row = $wpdb->get_row( $wpdb->prepare( "SELECT payment_status FROM `{$table_name}` WHERE disable_ad_id = %d AND user_id = %d", $order_id, $user_id ) );
+    } else {
+        $table_name = $wpdb->prefix . 'quads_adbuy_data';
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is fixed and safe
+        $row = $wpdb->get_row( $wpdb->prepare( "SELECT payment_status FROM `{$table_name}` WHERE id = %d AND user_id = %d", $order_id, $user_id ) );
+    }
+
+    return $row && 'paid' === $row->payment_status;
+}
+
 /*
     * Create a new page on plugin activation
     * @since 2.0.86
@@ -97,16 +172,24 @@ add_action( 'upgrader_process_complete', 'quads_adsell_upgrade_handler', 10, 2 )
 add_action( 'init', 'quads_authorize_payment_success' );
 function quads_authorize_payment_success(){
     
-    if ( !is_user_logged_in() ) {
+    if ( ! is_user_logged_in() ) {
         return false;
     }
-    if( !isset( $_GET[ 'security' ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET[ 'security' ] ) ), 'security' )){ 
+    if ( ! isset( $_GET['security'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['security'] ) ), 'quads_submit_ad_buy_form_success' ) ) {
         return false;
     }
+
+    $current_user_id = get_current_user_id();
+
     if( isset( $_GET['status'] ) && $_GET['status']=='success' && isset( $_GET['ad_slot_id'] ) && $_GET['ad_slot_id'] > 0 && isset( $_GET['refId'] ) && $_GET['refId'] != "" && isset( $_GET['user_id'] ) && intval( $_GET['user_id'] ) >0 && !isset( $_GET['target'] )){
-        $slot_id = absint( $_GET['ad_slot_id'] );
-        $order_id = absint($order_id);
-        $user_id = absint($user_id);
+        $slot_id  = absint( $_GET['ad_slot_id'] );
+        $order_id = absint( $_GET['refId'] );
+        $user_id  = absint( $_GET['user_id'] );
+
+        if ( $current_user_id !== $user_id ) {
+            return false;
+        }
+
         $price = get_post_meta( $slot_id, 'ad_cost' );
         if(!empty($price)){
             $price = $price[0];
@@ -123,12 +206,16 @@ function quads_authorize_payment_success(){
                 $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `{$table_name}` WHERE id = %d AND user_id = %d", $order_id, $user->ID ));
                 wp_cache_set('quads_ad_details_'.$order_id.'_'.$user->ID, $ad_details, 'quick-adsense-reloaded', 3600);
             }
-            if (!$ad_details) {
+            if ( ! $ad_details ) {
                 return false;
-                
             }
+
+            if ( (int) $ad_details->ad_id !== $slot_id ) {
+                return false;
+            }
+
             $payment_status = 'paid';
-            if ($ad_details->payment_status === 'paid') {
+            if ( $ad_details->payment_status === 'paid' ) {
                 return false;
             }
             $params = array();
@@ -139,6 +226,9 @@ function quads_authorize_payment_success(){
                 array('payment_status' => 'paid' , 'payment_response'=> wp_json_encode($params)), // Data to update
                 array('id' => $order_id , 'user_id'=>$user->ID) 
             );
+
+            wp_cache_delete( 'quads_user_ads_' . $user->ID, 'quick-adsense-reloaded' );
+            wp_cache_delete( 'quads_ad_details_' . $order_id . '_' . $user->ID, 'quick-adsense-reloaded' );
 
             //get the ad details from db
             $setting= get_option('quads_settings',[]);
@@ -181,19 +271,23 @@ function quads_authorize_payment_success(){
             $headers = array('Content-Type: text/html; charset=UTF-8');
             wp_mail( $to, $subject, $message, $headers );
         }
-    }else if( isset( $_GET['status'] ) && $_GET['status'] == 'success' && isset( $_GET['refId'] ) && $_GET['refId'] != "" && isset( $_GET['user_id'] ) && intval( $_GET['user_id'] ) > 0 && isset( $_GET['target'] ) && $_GET['target'] == 'disablead' ){
-       
-        $order_id =  absint( $_GET['refId'] );
-        $user_id = absint( $_GET['user_id'] );
-        
+    } elseif ( isset( $_GET['status'] ) && $_GET['status'] == 'success' && isset( $_GET['refId'] ) && $_GET['refId'] != '' && isset( $_GET['user_id'] ) && intval( $_GET['user_id'] ) > 0 && isset( $_GET['target'] ) && $_GET['target'] == 'disablead' ) {
+
+        $order_id = absint( $_GET['refId'] );
+        $user_id  = absint( $_GET['user_id'] );
+
+        if ( $current_user_id !== $user_id ) {
+            return false;
+        }
+
         $user = get_user_by( 'id', $user_id );
         if($user){
             global $wpdb;
             $table_name = $wpdb->prefix . 'quads_disabledad_data';
             $ad_details = wp_cache_get('quads_ad_details_'.$order_id.'_'.$user->ID, 'quick-adsense-reloaded');
             if(false === $ad_details){
-                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-                $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM %s WHERE id = %d AND user_id = %d",$table_name, $order_id, $user->ID ));
+                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is fixed and safe
+                $ad_details = $wpdb->get_row($wpdb->prepare( "SELECT * FROM `{$table_name}` WHERE disable_ad_id = %d AND user_id = %d", $order_id, $user->ID ));
                 wp_cache_set('quads_ad_details_'.$order_id.'_'.$user->ID, $ad_details, 'quick-adsense-reloaded', 3600);
             }
            
@@ -217,7 +311,7 @@ function quads_authorize_payment_success(){
             //get the ad details from db
             $setting= get_option('quads_settings',[]);
             $currency = isset($setting['_dacurrency']) ? $setting['_dacurrency'] :'USD';
-            $price = isset($setting['_dacost']) ? $setting['_dacurrency'] :'USD';
+            $price = isset($setting['_dacost']) ? $setting['_dacost'] : 0;
             $payer_email = $user->user_email;
             $ad_details_html = "";
             //send email to  user and admin
@@ -512,18 +606,18 @@ function quads_ads_buy_form() {
         
             $stripe_secret_key =  isset($quads_settings['stripe_secret_key']) ? $quads_settings['stripe_secret_key'] : '';
         }
-        $paysatck_public_key = '';
-        $paystack_secret_key = '';
+        $paystack_public_key = '';
         if($payment_gateway=='paystack'){
-            $paysatck_public_key =  isset($quads_settings['paysatck_public_key']) ? $quads_settings['paysatck_public_key'] : '';
-        
-            $paystack_secret_key =  isset($quads_settings['paystack_secret_key']) ? $quads_settings['paystack_secret_key'] : '';
+            $paystack_public_key = isset( $quads_settings['paystack_public_key'] ) ? $quads_settings['paystack_public_key'] : '';
+            if ( '' === $paystack_public_key && isset( $quads_settings['paysatck_public_key'] ) ) {
+                $paystack_public_key = $quads_settings['paysatck_public_key'];
+            }
         }
     ?>
     <form id="quads-adbuy-form" method="POST" action="<?php echo ($payment_gateway!='stripe')?esc_url(admin_url('admin-ajax.php')):'/process-payment'; ?>" enctype="multipart/form-data">
     <?php
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-    if (isset( $_GET['status'] ) && $_GET['status'] == 'success') {
+    if ( quads_checkout_return_shows_success_notice( 'adbuy' ) ) {
         echo '<div class="notice notice-success is-dismissible">
                 <p>'.esc_html__('AD Successfully Submitted. You will get a confirmation email when your payment is confirmed.','quick-adsense-reloaded').'</p></div>';
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -886,7 +980,7 @@ function quadsPayWithPaystack(data) {
         amount: data.amount, //  * 100 Convert to kobo
         currency: data.currency,
         callback: function(response) {
-            window.location.href = "verify_payment.php?reference=" + response.reference;
+            verifyPaystackPayment(response.reference, success_link);
         },
         onClose: function() {
             alert('Payment window closed.');
@@ -900,8 +994,8 @@ function verifyPaystackPayment(reference,success_link){
         url: '<?php echo esc_url(admin_url('admin-ajax.php')); ?>',
         type: 'post',
         data: {reference:reference,nonce:nonce,action:'quads_verify_paystack_payment'},
-        success: function (response, status, XHR) {
-            if(response.data==1){
+        success: function (response) {
+            if ( response.success ) {
                 window.location.href = success_link;
             }
         },
@@ -942,11 +1036,11 @@ if ( $quads_disable_ads ) {
 }
 function quads_custom_premimum_memeber_login() {
 
-    if(isset($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'member_login_form' ) ) {
-        wp_send_json_error( array( 'message' => esc_html__( 'Invalid request.', 'quick-adsense-reloaded' ) ) );
-    }
-    
-    if ( isset($_POST['username']) && isset($_POST['password']) && isset($_POST['nonce']) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'member_login_form' ) ) {
+    if ( isset($_POST['username']) && isset($_POST['password']) && isset($_POST['nonce']) ) {
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'member_login_form' ) ) {
+            echo '<p>' . esc_html__( 'Invalid request.', 'quick-adsense-reloaded' ) . '</p>';
+            return;
+        }
         global $wp;
         $redirect_url = home_url( $wp->request );
         $creds = array(
@@ -965,9 +1059,14 @@ function quads_custom_premimum_memeber_login() {
     }
 }
 function quads_update_member_subscription() {
+    if ( ! is_user_logged_in() ) {
+        return;
+    }
     if (isset($_POST['id']) && isset($_POST['ad_link']) && isset($_POST['ad_content']) && isset($_POST['submit-update-member-ad-space']) && isset($_POST['nonce'])  && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'member_subscription' )) {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'quads_adbuy_data'; 
+        $table_name = $wpdb->prefix . 'quads_adbuy_data';
+        $user_id    = get_current_user_id();
+        $ad_row_id  = absint( $_POST['id'] );
         $update_data = array();
         $update_data['ad_link'] =   sanitize_text_field( wp_unslash( $_POST['ad_link']) ) ;
         $update_data['ad_content'] =  sanitize_text_field( wp_unslash( $_POST['ad_content'] ) );
@@ -983,8 +1082,15 @@ function quads_update_member_subscription() {
         $status = $wpdb->update(
             $table_name,
             $update_data,
-            ['id' => intval($_POST['id'])]
+            array(
+                'id'      => $ad_row_id,
+                'user_id' => $user_id,
+            )
         );
+        if ( false !== $status ) {
+            wp_cache_delete( 'quads_user_ads_' . $user_id, 'quick-adsense-reloaded' );
+            wp_cache_delete( 'quads_ad_space_' . $ad_row_id . '_' . $user_id, 'quick-adsense-reloaded' );
+        }
         global $wp;
         $redirect_url = home_url( $wp->request );
         wp_safe_redirect( $redirect_url );
@@ -1029,17 +1135,23 @@ function quads_get_premimum_member_ad_space($user_id){
     }
     return $results;
 } 
-function quads_get_premimum_member_ad_space_on_id($id){
+function quads_get_premimum_member_ad_space_on_id( $id, $user_id ) {
     global $wpdb;
     $table_name = $wpdb->prefix . 'quads_adbuy_data';
-    $id         = absint( $id ); 
+    $id         = absint( $id );
+    $user_id    = absint( $user_id );
 
-    $results = wp_cache_get( 'quads_ad_space_' . $id, 'quick-adsense-reloaded' );
+    if ( ! $id || ! $user_id ) {
+        return array();
+    }
+
+    $cache_key = 'quads_ad_space_' . $id . '_' . $user_id;
+    $results   = wp_cache_get( $cache_key, 'quick-adsense-reloaded' );
     if ( false === $results ) {
         // Query the records
         /* phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.PreparedSQL.NotPrepared */
-        $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name WHERE payment_status = %s AND id = %d ORDER BY id DESC", 'paid', $id ) );
-        wp_cache_set( 'quads_ad_space_' . $id, $results, 'quick-adsense-reloaded', 600 );
+        $results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name WHERE payment_status = %s AND id = %d AND user_id = %d ORDER BY id DESC", 'paid', $id, $user_id ) );
+        wp_cache_set( $cache_key, $results, 'quick-adsense-reloaded', 600 );
     }
 
     foreach ($results as $key => $result) {
@@ -1215,10 +1327,10 @@ function quads_sellable_premium_member_page() {
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( isset( $_GET['modify_id'] ) && ! empty( $_GET['modify_id'] ) && isset( $_GET['renew_id'] ) && ! empty( $_GET['renew_id'] ) ) {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$modify_id = sanitize_text_field( wp_unslash( $_GET['modify_id'] ) );
+		$modify_id = absint( wp_unslash( $_GET['modify_id'] ) );
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$renew_id     = sanitize_text_field( wp_unslash( $_GET['renew_id'] ) );
-		$ad_space_list = quads_get_premimum_member_ad_space_on_id( $modify_id );
+		$renew_id     = absint( wp_unslash( $_GET['renew_id'] ) );
+		$ad_space_list = quads_get_premimum_member_ad_space_on_id( $modify_id, $user_id );
 
 		if ( ! empty( $ad_space_list ) && isset( $ad_space_list[0] ) ) {
 			$asdata         = $ad_space_list[0];
@@ -1270,6 +1382,12 @@ function quads_sellable_premium_member_page() {
 			</script>
 			<?php
 			quads_update_member_subscription();
+		} else {
+			?>
+			<div class="quads-login quads-preview-ad-space">
+				<p><?php echo esc_html__( 'You do not have permission to modify this ad space.', 'quick-adsense-reloaded' ); ?></p>
+			</div>
+			<?php
 		}
 	}
 
@@ -1537,7 +1655,7 @@ function quads_ads_disable_form(){
     $user_id = get_current_user_id();
     $redirect_link = quads_get_checkout_redirect_base_url();
     // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-    if (isset($_GET['status']) && $_GET['status'] == 'success') {
+    if ( quads_checkout_return_shows_success_notice( 'disablead' ) ) {
         echo '<div class="quads-danotice quads-danotice-success quads-dais-dismissible">
         <p>'. esc_html__( 'Successfully Submitted. You will get a confirmation email when your payment is confirmed.','quick-adsense-reloaded' ).'</p></div>';
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -1772,6 +1890,100 @@ function quads_parse_coupon_discount( $coupon, $slot_id, $base_total ) {
     );
 }
 
+/**
+ * Validate ad-buy campaign fields server-side (slot, availability, dates, link, pricing).
+ *
+ * @param int    $ad_slot_id  Ad slot post ID.
+ * @param string $start_date  Campaign start date (Y-m-d).
+ * @param string $end_date    Campaign end date (Y-m-d).
+ * @param string $ad_link     Destination URL for the purchased ad.
+ * @return array|WP_Error Validated campaign data or error.
+ */
+function quads_validate_ad_buy_campaign( $ad_slot_id, $start_date, $end_date, $ad_link ) {
+    $ad_slot_id = absint( $ad_slot_id );
+    if ( ! $ad_slot_id ) {
+        return new WP_Error( 'invalid_slot', esc_html__( 'Please select a valid ad slot.', 'quick-adsense-reloaded' ) );
+    }
+
+    $slot_post = get_post( $ad_slot_id );
+    if ( ! $slot_post || 'quads-ads' !== $slot_post->post_type || 'publish' !== $slot_post->post_status ) {
+        return new WP_Error( 'invalid_slot', esc_html__( 'The selected ad slot is not available.', 'quick-adsense-reloaded' ) );
+    }
+
+    if ( 'ads_space' !== get_post_meta( $ad_slot_id, 'ad_type', true ) ) {
+        return new WP_Error( 'invalid_slot', esc_html__( 'The selected ad slot is not available.', 'quick-adsense-reloaded' ) );
+    }
+
+    $booked_ids = array_column( quads_get_active_sellads_ids(), 'ad_id' );
+    if ( in_array( $ad_slot_id, array_map( 'absint', $booked_ids ), true ) ) {
+        return new WP_Error( 'slot_unavailable', esc_html__( 'This ad slot is already booked and cannot be purchased.', 'quick-adsense-reloaded' ) );
+    }
+
+    if ( '' === $ad_link ) {
+        return new WP_Error( 'invalid_link', esc_html__( 'Please provide a valid ad link.', 'quick-adsense-reloaded' ) );
+    }
+
+    $start_date = sanitize_text_field( $start_date );
+    $end_date   = sanitize_text_field( $end_date );
+    $start_dt   = DateTime::createFromFormat( 'Y-m-d', $start_date );
+    $end_dt     = DateTime::createFromFormat( 'Y-m-d', $end_date );
+
+    if ( ! $start_dt || $start_dt->format( 'Y-m-d' ) !== $start_date || ! $end_dt || $end_dt->format( 'Y-m-d' ) !== $end_date ) {
+        return new WP_Error( 'invalid_dates', esc_html__( 'Please provide valid start and end dates.', 'quick-adsense-reloaded' ) );
+    }
+
+    $start_ymd = $start_dt->format( 'Y-m-d' );
+    $end_ymd   = $end_dt->format( 'Y-m-d' );
+    $today     = gmdate( 'Y-m-d' );
+
+    if ( $start_ymd < $today ) {
+        return new WP_Error( 'invalid_start_date', esc_html__( 'Start date cannot be in the past.', 'quick-adsense-reloaded' ) );
+    }
+
+    if ( $end_ymd < $start_ymd ) {
+        return new WP_Error( 'invalid_end_date', esc_html__( 'End date must be on or after the start date.', 'quick-adsense-reloaded' ) );
+    }
+
+    $days = (int) ( ( strtotime( $end_ymd ) - strtotime( $start_ymd ) ) / DAY_IN_SECONDS ) + 1;
+    if ( $days < 1 ) {
+        return new WP_Error( 'invalid_dates', esc_html__( 'Please provide valid start and end dates.', 'quick-adsense-reloaded' ) );
+    }
+
+    $ad_minimum_days      = get_post_meta( $ad_slot_id, 'ad_minimum_days', true );
+    $ad_minimum_selection = get_post_meta( $ad_slot_id, 'ad_minimum_selection', true );
+    if ( ! $ad_minimum_selection ) {
+        $ad_minimum_selection = 'day';
+    }
+
+    if ( '' !== $ad_minimum_days && (int) $ad_minimum_days > 0 ) {
+        if ( 'month' === $ad_minimum_selection ) {
+            $min_end_ymd = gmdate( 'Y-m-d', strtotime( '+' . (int) $ad_minimum_days . ' month', strtotime( $start_ymd ) ) );
+        } else {
+            $min_end_ymd = gmdate( 'Y-m-d', strtotime( '+' . (int) $ad_minimum_days . ' day', strtotime( $start_ymd ) ) );
+        }
+
+        if ( $end_ymd < $min_end_ymd ) {
+            return new WP_Error(
+                'minimum_duration',
+                esc_html__( 'The selected date range does not meet the minimum duration for this ad slot.', 'quick-adsense-reloaded' )
+            );
+        }
+    }
+
+    $price = get_post_meta( $ad_slot_id, 'ad_cost', true );
+    if ( '' === $price || null === $price || (float) $price <= 0 ) {
+        return new WP_Error( 'invalid_price', esc_html__( 'Ad slot pricing is not configured.', 'quick-adsense-reloaded' ) );
+    }
+
+    return array(
+        'price'      => (float) $price,
+        'days'       => $days,
+        'name'       => get_the_title( $ad_slot_id ),
+        'start_date' => $start_ymd,
+        'end_date'   => $end_ymd,
+    );
+}
+
 function quads_handle_ad_buy_form_submission() {
    
     if ( ! isset( $_POST['action'] ) || $_POST['action'] !== 'quads_submit_ad_buy_form' ) {
@@ -1814,7 +2026,10 @@ function quads_handle_ad_buy_form_submission() {
     }
 
     // Sanitize and validate the remaining fields
-    $redirect_link  = isset( $_POST['redirect_link'] )? esc_url_raw( wp_unslash( $_POST['redirect_link'] ) ) : '';
+    $redirect_link = quads_sanitize_checkout_redirect_link(
+        isset( $_POST['redirect_link'] ) ? esc_url_raw( wp_unslash( $_POST['redirect_link'] ) ) : '',
+        quads_get_checkout_redirect_base_url()
+    );
     $cancel_link  = isset( $_POST['cancel_link'] )? intval( wp_unslash($_POST['cancel_link'] ) ) : '';
     $ad_slot_id  = isset( $_POST['ad_slot_id'] )? intval( wp_unslash($_POST['ad_slot_id'] ) ) : '';
     $start_date  = isset( $_POST['start_date'] )? sanitize_text_field( wp_unslash($_POST['start_date'] ) ) : '';
@@ -1823,6 +2038,18 @@ function quads_handle_ad_buy_form_submission() {
     $ad_content  = isset($_POST['ad_content']) ? sanitize_textarea_field( wp_unslash ($_POST['ad_content'] ) ):'';
 
     $coupon_code  = isset($_POST['coupon_code']) ? sanitize_textarea_field( wp_unslash ($_POST['coupon_code'] ) ):'';
+
+    $campaign = quads_validate_ad_buy_campaign( $ad_slot_id, $start_date, $end_date, $ad_link );
+    if ( is_wp_error( $campaign ) ) {
+        wp_send_json_error( array( 'message' => $campaign->get_error_message() ) );
+    }
+
+    $ad_slot_id = absint( $ad_slot_id );
+    $start_date = $campaign['start_date'];
+    $end_date   = $campaign['end_date'];
+    $price      = $campaign['price'];
+    $days       = $campaign['days'];
+    $name       = $campaign['name'];
 
     $ad_image    = ''; // Initialize the ad image URL
 
@@ -1838,11 +2065,8 @@ function quads_handle_ad_buy_form_submission() {
         }
     }
 
-    $price      = get_post_meta( $ad_slot_id, 'ad_cost', true );
     $currency   = 'USD';
-    $days       = ( strtotime( $end_date ) - strtotime( $start_date ) ) / ( 60 * 60 * 24 ) + 1;
     $total_cost = $price * $days;
-    $name       = get_the_title( $ad_slot_id );
 
     $coupon_parse = quads_parse_coupon_discount( $coupon_code, $ad_slot_id, (float) $total_cost );
     if ( 'invalid' === $coupon_parse['status'] || 'expired' === $coupon_parse['status'] ) {
@@ -1852,6 +2076,14 @@ function quads_handle_ad_buy_form_submission() {
         wp_send_json_error( array( 'message' => $err_msg ) );
     }
     $total_cost = max( 0, (float) $total_cost - (float) $coupon_parse['discount'] );
+
+    $booked_ids = array_column( quads_get_active_sellads_ids(), 'ad_id' );
+    if ( in_array( $ad_slot_id, array_map( 'absint', $booked_ids ), true ) ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'This ad slot is already booked and cannot be purchased.', 'quick-adsense-reloaded' ) ) );
+    }
+
+    $quads_settings_order = get_option( 'quads_settings', array() );
+    $currency_for_order     = isset( $quads_settings_order['currency'] ) ? $quads_settings_order['currency'] : 'USD';
 
     // Insert the ad buy record in the database
     global $wpdb;
@@ -1867,6 +2099,12 @@ function quads_handle_ad_buy_form_submission() {
         'end_date'       => $end_date,
         'payment_status' => 'pending', // Update after payment
         'ad_status'      => 'pending', // Set to pending until approved
+        'payment_response' => wp_json_encode(
+            array(
+                'expected_amount'   => round( (float) $total_cost, 2 ),
+                'expected_currency' => $currency_for_order,
+            )
+        ),
     ) );
 
     if ( $result ) {
@@ -2155,7 +2393,7 @@ function quads_handle_ad_buy_form_submission() {
             $total_cost = round($total_cost);
             $user = get_user_by('id', $user_id);
             $email = $user->user_email;
-            wp_send_json_success( array( 'message' => esc_html__( 'Ad submission successful.', 'quick-adsense-reloaded' ) , 'public_key' =>$paystack_public_key,'secret_key'=>$paystack_secret_key,'email'=>$user->user_email,'amount'=>$total_cost,'currency'=>$currency,'success_link'=>$success_link,'cancel_url'=>$cancel_link) );
+            wp_send_json_success( array( 'message' => esc_html__( 'Ad submission successful.', 'quick-adsense-reloaded' ) , 'public_key' => $paystack_public_key, 'email' => $user->user_email, 'amount' => $total_cost, 'currency' => $currency, 'success_link' => $success_link, 'cancel_url' => $cancel_link ) );
             die;
         }
     } else {
@@ -2167,50 +2405,51 @@ add_action( 'wp_ajax_quads_verify_paystack_payment', 'quads_verify_paystack_paym
 add_action( 'wp_ajax_nopriv_quads_verify_paystack_payment', 'quads_verify_paystack_payment' );
 
 function quads_verify_paystack_payment(){
-    if ( ! isset( $_POST['action'] ) || $_POST['action'] !== 'quads_submit_ad_buy_form' ) {
-        wp_send_json_error( array( 'message' => esc_html__('Invalid request.', 'quick-adsense-reloaded' ) ) );
-    } 
+    if ( ! isset( $_POST['action'] ) || 'quads_verify_paystack_payment' !== $_POST['action'] ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'Invalid request.', 'quick-adsense-reloaded' ) ) );
+    }
     if ( ! check_ajax_referer( 'quads_submit_ad_buy_form', 'nonce', false ) ) {
-        wp_send_json_error( array( 'message' => esc_html__('Invalid request.', 'quick-adsense-reloaded' ) ) );
+        wp_send_json_error( array( 'message' => esc_html__( 'Invalid request.', 'quick-adsense-reloaded' ) ) );
     }
-    if(isset($_POST['reference'])) {
-        $reference = ( isset( $_POST['reference'] ) ) ? sanitize_text_field( wp_unslash( $_POST['reference'] ) ) : '';
-        $secretKey = ( isset( $_POST['secret_key'] ) ) ? sanitize_text_field( wp_unslash( $_POST['secret_key'] ) ) : ''; // Replace with your Secret Key
-    
-        $url = "https://api.paystack.co/transaction/verify/" . esc_attr($reference);
-        $args = [
-            'method'    => 'GET',
-            'headers'   => [
-                'Authorization' => 'Bearer ' . esc_attr($secretKey),
+
+    $reference = isset( $_POST['reference'] ) ? sanitize_text_field( wp_unslash( $_POST['reference'] ) ) : '';
+    if ( '' === $reference ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'Invalid payment reference.', 'quick-adsense-reloaded' ) ) );
+    }
+
+    $quads_settings = get_option( 'quads_settings', array() );
+    $secret_key     = isset( $quads_settings['paystack_secret_key'] ) ? $quads_settings['paystack_secret_key'] : '';
+    if ( '' === $secret_key ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'Paystack is not configured.', 'quick-adsense-reloaded' ) ) );
+    }
+
+    $url      = 'https://api.paystack.co/transaction/verify/' . rawurlencode( $reference );
+    $response = wp_remote_get(
+        $url,
+        array(
+            'method'  => 'GET',
+            'headers' => array(
+                'Authorization' => 'Bearer ' . $secret_key,
                 'Content-Type'  => 'application/json',
-            ],
-            'timeout'   => 45, // Set timeout to avoid delays
-        ];
-    
-        // Send the request
-        $response = wp_remote_get($url, $args);
-    
-        if (is_wp_error($response)) {
-            echo 3;
-            die;
-        }
-    
-        // Get the response body
-        $body = wp_remote_retrieve_body($response);
-        $result = json_decode($body, true);
-    
-        if (!isset($result['data']) || $result['status'] !== true) {
-            echo 2;
-            die;
-        }
-    
-        echo 1; 
-        die;
-       
-    } else {
-        echo 3; 
-        die;
+            ),
+            'timeout' => 45,
+        )
+    );
+
+    if ( is_wp_error( $response ) ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'Payment verification failed.', 'quick-adsense-reloaded' ) ) );
     }
+
+    $result = json_decode( wp_remote_retrieve_body( $response ), true );
+    if ( ! is_array( $result ) || ! isset( $result['data'] ) || true !== $result['status'] ) {
+        wp_send_json_error( array( 'message' => esc_html__( 'Payment not verified.', 'quick-adsense-reloaded' ) ) );
+    }
+
+    if ( isset( $result['data']['status'] ) && 'success' === $result['data']['status'] ) {
+        wp_send_json_success( array( 'verified' => true ) );
+    }
+
+    wp_send_json_error( array( 'message' => esc_html__( 'Payment not completed.', 'quick-adsense-reloaded' ) ) );
 }
 add_action( 'wp_ajax_quads_redeem_coupon', 'quads_redeem_coupon' );
 add_action( 'wp_ajax_nopriv_quads_redeem_coupon', 'quads_redeem_coupon' );
@@ -2240,7 +2479,7 @@ function quads_redeem_coupon(){
                 wp_send_json_error( array( 'success'=>2, 'message' => esc_html__('Coupon expired, please try another one.', 'quick-adsense-reloaded' ) ) );
                 die;
             }
-            wp_send_json_error( array( 'success'=>1, 'message' => esc_attr( $parsed['discount'] ) ) );
+            wp_send_json_success( array( 'success' => 1, 'message' => esc_attr( $parsed['discount'] ) ) );
             die;
         }
     } else {
@@ -2293,9 +2532,7 @@ function quads_handle_submit_disablead_form() {
     }
 
     // Sanitize and validate the remaining fields
-    $redirect_link  = ( isset( $_POST['redirect_link'] ) )?esc_url_raw( wp_unslash( $_POST['redirect_link'] ) ): '';
     $cancel_link  = ( isset( $_POST['cancel_link'] ) )?intval( wp_unslash($_POST['cancel_link'] ) ) : '';
-    
 
     // Insert the ad buy record in the database
     global $wpdb;
@@ -2307,9 +2544,11 @@ function quads_handle_submit_disablead_form() {
     $_daduration = isset($quads_settings['_daduration']) ? $quads_settings['_daduration'] :'Monthly';
     $da_page_id = isset($quads_settings['dapayment_page']) ? $quads_settings['dapayment_page'] : 0;
     $payment_page = get_permalink( $da_page_id );
-    if ( '' === $redirect_link && is_string( $payment_page ) && $payment_page !== '' ) {
-        $redirect_link = esc_url_raw( $payment_page );
-    }
+    $disable_redirect_fallback = ( is_string( $payment_page ) && '' !== $payment_page ) ? $payment_page : quads_get_checkout_redirect_base_url();
+    $redirect_link = quads_sanitize_checkout_redirect_link(
+        isset( $_POST['redirect_link'] ) ? esc_url_raw( wp_unslash( $_POST['redirect_link'] ) ) : '',
+        $disable_redirect_fallback
+    );
 
     $user_info = get_userdata($user_id);
     $user_data = $user_info->data;
@@ -2340,11 +2579,12 @@ function quads_handle_submit_disablead_form() {
             $currency = isset($quads_settings['_dacurrency']) ? $quads_settings['_dacurrency'] : 'USD';
 
             $order_id = $wpdb->insert_id;
+            $item_name = $_daduration;
             // Prepare the PayPal form
             $paypal_form = '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">';
             $paypal_form .= '<input type="hidden" name="cmd" value="_xclick">';
             $paypal_form .= '<input type="hidden" name="business" value="'.sanitize_email( $paypal_email ).'">'; // Your PayPal email
-            $paypal_form .= '<input type="hidden" name="item_name" value="'.esc_attr( $name).'">';
+            $paypal_form .= '<input type="hidden" name="item_name" value="'.esc_attr( $item_name ).'">';
             $paypal_form .= '<input type="hidden" name="amount" value="'.esc_attr($price).'">';
             $paypal_form .= '<input type="hidden" name="currency_code" value="'.esc_attr($currency).'">';
             $paypal_form .= '<input type="hidden" name="return" value="' . esc_url( quads_add_return_query_args( $redirect_link, array( 'status' => 'success', 'target' => 'disablead' ) ) ) . '">';
@@ -3018,89 +3258,33 @@ add_action( 'quads_daily_check_expired_sellads', 'quads_check_expired_sellads' )
  * Checks for ads that expired yesterday and ads expiring in two days, sending notification emails accordingly.
  */
 function quads_check_expired_sellads() {
-    $yesterday = gmdate( 'Y-m-d', strtotime( '-1 day', current_time( 'timestamp' ) ) );
+    $yesterday      = gmdate( 'Y-m-d', strtotime( '-1 day', current_time( 'timestamp' ) ) );
     $two_days_ahead = gmdate( 'Y-m-d', strtotime( '+2 days', current_time( 'timestamp' ) ) );
 
-    $query_args = [
-        'post_type'      => 'quads-ads',
-        'posts_per_page' => -1,
-        // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-        'meta_query'     => [
-            'relation' => 'AND',
-            [
-                'key'     => 'ad_type',
-                'value'   => 'ads_space',
-                'compare' => '=',
-            ],
-            [
-                'relation' => 'OR',
-                [
-                    'key'     => 'end_date',
-                    'value'   => $yesterday,
-                    'compare' => '=',
-                    'type'    => 'DATE',
-                ],
-                [
-                    'key'     => 'end_date',
-                    'value'   => $two_days_ahead,
-                    'compare' => '=',
-                    'type'    => 'DATE',
-                ],
-            ],
-        ],
-    ];
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'quads_adbuy_data';
 
-    // Get relevant ads using WP_Query
-    $ads = new WP_Query( $query_args );
+    $users = wp_cache_get( 'quads_expired_sellads_users', 'quick-adsense-reloaded' );
+    if ( false === $users ) {
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is fixed and safe
+        $users = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT user_id, ad_id, end_date FROM `{$table_name}` WHERE payment_status = %s AND ad_status = %s AND ( end_date = %s OR end_date = %s )", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is fixed and safe
+                'paid',
+                'approved',
+                $yesterday,
+                $two_days_ahead
+            )
+        );
+        wp_cache_set( 'quads_expired_sellads_users', $users, 'quick-adsense-reloaded', 600 );
+    }
 
-    if ( $ads->have_posts() ) {
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'quads_adbuy_data';
+    if ( empty( $users ) ) {
+        return;
+    }
 
-        // Collect ad IDs and determine email type based on expiration date
-        $ad_ids = [];
-        $ad_email_types = [];
-        while ( $ads->have_posts() ) {
-            $ads->the_post();
-            $ad_id = get_the_ID();
-            $end_date = get_post_meta( $ad_id, 'end_date', true );
-
-            if ( $end_date === $yesterday ) {
-                $ad_email_types[$ad_id] = 'expiry';
-            } elseif ( $end_date === $two_days_ahead ) {
-                $ad_email_types[$ad_id] = 'reminder';
-            }
-            $ad_ids[] = $ad_id;
-        }
-        wp_reset_postdata();
-
-        // Only proceed if there are ad IDs to check
-        if ( ! empty( $ad_ids ) ) {
-            $placeholders = implode( ',', array_fill( 0, count( $ad_ids ), '%d' ) );
-            
-
-            // Execute the query and get results
-            $users = wp_cache_get( 'quads_expired_sellads_users', 'quick-adsense-reloaded' );
-            if ( false === $users ) {
-                // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching,PluginCheck.Security.DirectDB.UnescapedDBParameter
-                $users = $wpdb->get_results(  $wpdb->prepare(
-                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare,WordPress.DB.PreparedSQL.NotPrepared	
-                    "SELECT user_id, ad_id FROM $table_name WHERE ad_id IN ($placeholders)",
-                    ...$ad_ids
-                ) );
-                wp_cache_set( 'quads_expired_sellads_users', $users, 'quick-adsense-reloaded', 600 );
-            }
-
-            // Process each user and ad combination
-            foreach ( $users as $user ) {
-                $user_id = $user->user_id;
-                $ad_id   = $user->ad_id;
-
-                // Determine email type and send the notification
-                if ( isset( $ad_email_types[$ad_id] ) ) {
-                    quads_send_ad_expiry_email( $ad_id, $user_id, $ad_email_types[$ad_id] );
-                }
-            }
-        }
+    foreach ( $users as $user ) {
+        $email_type = ( $user->end_date === $yesterday ) ? 'expiry' : 'reminder';
+        quads_send_ad_expiry_email( $user->ad_id, $user->user_id, $email_type );
     }
 }

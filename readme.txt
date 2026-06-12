@@ -7,7 +7,7 @@ Tags: ad manager, ads, adsense, monetize, banner
 Tested up to: 7.0
 Requires at least: 5.0
 Requires PHP: 7.4
-Stable tag: 3.0.3
+Stable tag: 3.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -446,6 +446,10 @@ This plugin uses the following third-party libraries and resources:
 
 
 == Changelog ==
+= 3.0.4( 12 June 2026 ) =
+* Fixed : Vulnerablilty fix Broken Access Control disclosed by Patchstack (Ananda Dhakal) 
+* Improvement : PCP and other improvements #999
+
 = 3.0.3( 08 May 2026 ) =
 * Fixed : Business-logic flaw in the unauthenticated AJAX action `quads_submit_ad_buy_form` disclosed by Patchstack (Bas Albers)
 * Fixed : PayPal payment amount validation issue disclosed by Patchstack (Bas Albers)
