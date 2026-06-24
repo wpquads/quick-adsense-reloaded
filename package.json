@@ -15,7 +15,7 @@
     "time-grunt": "~1.1.0",
     "load-grunt-config": "*",
     "grunt-string-replace": "~1.2.1",
-    "webpack": "1.x",
+    "webpack": "5.x",
     "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#harmony"
   }
   
