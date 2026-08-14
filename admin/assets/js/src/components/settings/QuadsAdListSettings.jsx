@@ -1487,11 +1487,11 @@ handleCapabilityChange = (event) =>{
                       </td>
                     </tr>
                     <tr>
-                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Stripe Secret key', 'quick-adsense-reloaded')}</label></th>
-                      <td>
-                      <input type="text" name="paystack_secret_key" style={{maxWidth:'25rem',width:'100%'}} value={settings.paystack_secret_key} onChange={this.formChangeHandler} />
-                      </td>
-                    </tr>
+                       <th scope="row"><label style={{marginLeft:'30px'}}>{__('Paystack Secret Key', 'quick-adsense-reloaded')}</label></th>
+                       <td>
+                       <input type="text" name="paystack_secret_key" style={{maxWidth:'25rem',width:'100%'}} value={settings.paystack_secret_key} onChange={this.formChangeHandler} />
+                       </td>
+                     </tr>
                   </>
                   }
                    {(settings.payment_gateway==='stripe') &&
@@ -2946,6 +2946,7 @@ handleCapabilityChange = (event) =>{
                     <option value="paypal">{__('Paypal', 'quick-adsense-reloaded')}</option>
                     <option value="authorize">{__('Authorize.net', 'quick-adsense-reloaded')}</option>
                     <option value="stripe">{__('Stripe', 'quick-adsense-reloaded')}</option>
+                    <option value="paystack">{__('Paystack', 'quick-adsense-reloaded')}</option>
                   </select>
                   </td>
                   </tr>
@@ -2975,6 +2976,22 @@ handleCapabilityChange = (event) =>{
                       <th scope="row"><label style={{marginLeft:'30px'}}>{__('Authorize.net Merchant Name', 'quick-adsense-reloaded')}</label></th>
                       <td>
                       <input type="text" name="authorize_merchant_name" style={{maxWidth:'25rem',width:'100%'}} value={settings.authorize_merchant_name} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                  </>
+                  }
+                   {(settings.payment_gateway==='paystack') &&
+                  <>
+                    <tr>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Paystack Public Key', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="paystack_public_key" style={{maxWidth:'25rem',width:'100%'}} value={settings.paystack_public_key} onChange={this.formChangeHandler} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><label style={{marginLeft:'30px'}}>{__('Paystack Secret Key', 'quick-adsense-reloaded')}</label></th>
+                      <td>
+                      <input type="text" name="paystack_secret_key" style={{maxWidth:'25rem',width:'100%'}} value={settings.paystack_secret_key} onChange={this.formChangeHandler} />
                       </td>
                     </tr>
                   </>
