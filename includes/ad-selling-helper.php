@@ -218,6 +218,114 @@ function quads_authorize_payment_success(){
             if ( $ad_details->payment_status === 'paid' ) {
                 return false;
             }
+
+            // Verify payment server-side via the gateway API before writing 'paid' to DB
+            $quads_settings  = get_option( 'quads_settings', array() );
+            $pending_meta    = ! empty( $ad_details->payment_response )
+                ? json_decode( $ad_details->payment_response, true )
+                : array();
+            $stored_gateway  = ( is_array( $pending_meta ) && ! empty( $pending_meta['payment_gateway'] ) )
+                ? $pending_meta['payment_gateway']
+                : ( isset( $quads_settings['payment_gateway'] ) ? $quads_settings['payment_gateway'] : '' );
+            $expected_amount = isset( $pending_meta['expected_amount'] ) ? (float) $pending_meta['expected_amount'] : 0.0;
+
+            if ( 'paystack' === $stored_gateway ) {
+                $reference = isset( $_GET['reference'] ) ? sanitize_text_field( wp_unslash( $_GET['reference'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                if ( '' === $reference ) {
+                    return false; // No reference = payment incomplete / not attempted.
+                }
+                $secret_key = isset( $quads_settings['paystack_secret_key'] ) ? $quads_settings['paystack_secret_key'] : '';
+                if ( '' === $secret_key ) {
+                    return false;
+                }
+                $ps_response = wp_remote_get(
+                    'https://api.paystack.co/transaction/verify/' . rawurlencode( $reference ),
+                    array(
+                        'headers' => array( 'Authorization' => 'Bearer ' . $secret_key ),
+                        'timeout' => 45,
+                    )
+                );
+                if ( is_wp_error( $ps_response ) ) {
+                    return false;
+                }
+                $ps_result = json_decode( wp_remote_retrieve_body( $ps_response ), true );
+                if ( ! isset( $ps_result['data']['status'] ) || 'success' !== $ps_result['data']['status'] ) {
+                    return false; // Paystack transaction not successful.
+                }
+                if ( $expected_amount > 0 ) {
+                    $paid_units = isset( $ps_result['data']['amount'] ) ? (int) $ps_result['data']['amount'] : 0;
+                    if ( $paid_units < (int) round( $expected_amount * 100 ) ) {
+                        return false; // Amount paid is less than expected.
+                    }
+                }
+
+            } elseif ( 'stripe' === $stored_gateway ) {
+                $pi_id = isset( $_GET['payment_intent'] ) ? sanitize_text_field( wp_unslash( $_GET['payment_intent'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                if ( '' === $pi_id ) {
+                    return false;
+                }
+                $secret_key = isset( $quads_settings['stripe_secret_key'] ) ? $quads_settings['stripe_secret_key'] : '';
+                if ( '' === $secret_key ) {
+                    return false;
+                }
+                $st_response = wp_remote_get(
+                    'https://api.stripe.com/v1/payment_intents/' . rawurlencode( $pi_id ),
+                    array(
+                        'headers' => array( 'Authorization' => 'Bearer ' . $secret_key ),
+                        'timeout' => 45,
+                    )
+                );
+                if ( is_wp_error( $st_response ) ) {
+                    return false;
+                }
+                $st_result = json_decode( wp_remote_retrieve_body( $st_response ), true );
+                if ( ! isset( $st_result['status'] ) || 'succeeded' !== $st_result['status'] ) {
+                    return false;
+                }
+
+            } elseif ( 'authorize' === $stored_gateway ) {
+                $trans_id = isset( $_GET['transId'] ) ? sanitize_text_field( wp_unslash( $_GET['transId'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                if ( '' === $trans_id ) {
+                    return false;
+                }
+                $auth_name = isset( $quads_settings['authorize_name'] ) ? $quads_settings['authorize_name'] : '';
+                $auth_key  = isset( $quads_settings['authorize_transactionKey'] ) ? $quads_settings['authorize_transactionKey'] : '';
+                if ( '' === $auth_name || '' === $auth_key ) {
+                    return false;
+                }
+                $an_response = wp_remote_post(
+                    'https://api.authorize.net/xml/v1/request.api',
+                    array(
+                        'headers' => array( 'Content-Type' => 'application/json' ),
+                        'body'    => wp_json_encode( array(
+                            'getTransactionDetailsRequest' => array(
+                                'merchantAuthentication' => array(
+                                    'name'           => $auth_name,
+                                    'transactionKey' => $auth_key,
+                                ),
+                                'transId' => $trans_id,
+                            ),
+                        ) ),
+                        'timeout' => 45,
+                    )
+                );
+                if ( is_wp_error( $an_response ) ) {
+                    return false;
+                }
+                $an_result    = json_decode( wp_remote_retrieve_body( $an_response ), true );
+                $trans_status = isset( $an_result['transaction']['transactionStatus'] ) ? $an_result['transaction']['transactionStatus'] : '';
+                if ( 'settledSuccessfully' !== $trans_status && 'capturedPendingSettlement' !== $trans_status ) {
+                    return false;
+                }
+
+            } elseif ( 'paypal' === $stored_gateway ) {
+                // PayPal uses server-to-server IPN. Never mark as paid from browser redirect alone.
+                return false;
+
+            } else {
+                return false;
+            }
+
             $params = array();
             $params['payment_date'] = gmdate('Y-m-d H:i:s');
             // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
@@ -298,6 +406,72 @@ function quads_authorize_payment_success(){
             if ($ad_details->payment_status === 'paid') {
                 return false;
             }
+
+            // Verify payment server-side via the gateway API before writing 'paid' to DB
+            $da_settings        = get_option( 'quads_settings', array() );
+            $da_pending_meta    = ! empty( $ad_details->payment_response )
+                ? json_decode( $ad_details->payment_response, true )
+                : array();
+            $da_gateway         = ( is_array( $da_pending_meta ) && ! empty( $da_pending_meta['payment_gateway'] ) )
+                ? $da_pending_meta['payment_gateway']
+                : ( isset( $da_settings['_dapayment_gateway'] ) ? $da_settings['_dapayment_gateway'] : '' );
+            $da_expected_amount = isset( $da_pending_meta['expected_amount'] ) ? (float) $da_pending_meta['expected_amount'] : 0.0;
+
+            if ( 'paystack' === $da_gateway ) {
+                $reference  = isset( $_GET['reference'] ) ? sanitize_text_field( wp_unslash( $_GET['reference'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                if ( '' === $reference ) return false;
+                $secret_key = isset( $da_settings['paystack_secret_key'] ) ? $da_settings['paystack_secret_key'] : '';
+                if ( '' === $secret_key ) return false;
+                $ps_r    = wp_remote_get(
+                    'https://api.paystack.co/transaction/verify/' . rawurlencode( $reference ),
+                    array( 'headers' => array( 'Authorization' => 'Bearer ' . $secret_key ), 'timeout' => 45 )
+                );
+                if ( is_wp_error( $ps_r ) ) return false;
+                $ps_data = json_decode( wp_remote_retrieve_body( $ps_r ), true );
+                if ( ! isset( $ps_data['data']['status'] ) || 'success' !== $ps_data['data']['status'] ) return false;
+                if ( $da_expected_amount > 0 ) {
+                    $paid_units = isset( $ps_data['data']['amount'] ) ? (int) $ps_data['data']['amount'] : 0;
+                    if ( $paid_units < (int) round( $da_expected_amount * 100 ) ) return false;
+                }
+            } elseif ( 'stripe' === $da_gateway ) {
+                $pi_id      = isset( $_GET['payment_intent'] ) ? sanitize_text_field( wp_unslash( $_GET['payment_intent'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                if ( '' === $pi_id ) return false;
+                $secret_key = isset( $da_settings['stripe_secret_key'] ) ? $da_settings['stripe_secret_key'] : '';
+                if ( '' === $secret_key ) return false;
+                $st_r    = wp_remote_get(
+                    'https://api.stripe.com/v1/payment_intents/' . rawurlencode( $pi_id ),
+                    array( 'headers' => array( 'Authorization' => 'Bearer ' . $secret_key ), 'timeout' => 45 )
+                );
+                if ( is_wp_error( $st_r ) ) return false;
+                $st_data = json_decode( wp_remote_retrieve_body( $st_r ), true );
+                if ( ! isset( $st_data['status'] ) || 'succeeded' !== $st_data['status'] ) return false;
+            } elseif ( 'authorize' === $da_gateway ) {
+                $trans_id  = isset( $_GET['transId'] ) ? sanitize_text_field( wp_unslash( $_GET['transId'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                if ( '' === $trans_id ) return false;
+                $auth_name = isset( $da_settings['authorize_name'] ) ? $da_settings['authorize_name'] : '';
+                $auth_key  = isset( $da_settings['authorize_transactionKey'] ) ? $da_settings['authorize_transactionKey'] : '';
+                if ( '' === $auth_name || '' === $auth_key ) return false;
+                $an_r = wp_remote_post(
+                    'https://api.authorize.net/xml/v1/request.api',
+                    array(
+                        'headers' => array( 'Content-Type' => 'application/json' ),
+                        'body'    => wp_json_encode( array(
+                            'getTransactionDetailsRequest' => array(
+                                'merchantAuthentication' => array( 'name' => $auth_name, 'transactionKey' => $auth_key ),
+                                'transId' => $trans_id,
+                            ),
+                        ) ),
+                        'timeout' => 45,
+                    )
+                );
+                if ( is_wp_error( $an_r ) ) return false;
+                $an_data      = json_decode( wp_remote_retrieve_body( $an_r ), true );
+                $trans_status = isset( $an_data['transaction']['transactionStatus'] ) ? $an_data['transaction']['transactionStatus'] : '';
+                if ( 'settledSuccessfully' !== $trans_status && 'capturedPendingSettlement' !== $trans_status ) return false;
+            } else {
+                return false;
+            }
+
             $duration = $ad_details->disable_duration;
             $params = array();
             $params['payment_date'] = gmdate('Y-m-d H:i:s');
@@ -2083,7 +2257,8 @@ function quads_handle_ad_buy_form_submission() {
     }
 
     $quads_settings_order = get_option( 'quads_settings', array() );
-    $currency_for_order     = isset( $quads_settings_order['currency'] ) ? $quads_settings_order['currency'] : 'USD';
+    $currency_for_order   = isset( $quads_settings_order['currency'] ) ? $quads_settings_order['currency'] : 'USD';
+    $order_gateway        = isset( $quads_settings_order['payment_gateway'] ) ? $quads_settings_order['payment_gateway'] : 'paypal';
 
     // Insert the ad buy record in the database
     global $wpdb;
@@ -2101,6 +2276,7 @@ function quads_handle_ad_buy_form_submission() {
         'ad_status'      => 'pending', // Set to pending until approved
         'payment_response' => wp_json_encode(
             array(
+                'payment_gateway'   => $order_gateway,
                 'expected_amount'   => round( (float) $total_cost, 2 ),
                 'expected_currency' => $currency_for_order,
             )
@@ -2140,6 +2316,7 @@ function quads_handle_ad_buy_form_submission() {
                 array(
                     'payment_response' => wp_json_encode(
                         array(
+                            'payment_gateway'   => $payment_gateway,
                             'expected_amount'   => round( (float) $total_cost, 2 ),
                             'expected_currency' => $currency,
                         )
@@ -2542,6 +2719,7 @@ function quads_handle_submit_disablead_form() {
     $currency = isset($quads_settings['_dacurrency']) ? $quads_settings['_dacurrency'] :'USD';
     $price = isset($quads_settings['_dacost']) ? $quads_settings['_dacost'] :0;
     $_daduration = isset($quads_settings['_daduration']) ? $quads_settings['_daduration'] :'Monthly';
+    $da_order_gateway = isset($quads_settings['_dapayment_gateway']) ? $quads_settings['_dapayment_gateway'] : 'paypal';
     $da_page_id = isset($quads_settings['dapayment_page']) ? $quads_settings['dapayment_page'] : 0;
     $payment_page = get_permalink( $da_page_id );
     $disable_redirect_fallback = ( is_string( $payment_page ) && '' !== $payment_page ) ? $payment_page : quads_get_checkout_redirect_base_url();
@@ -2556,14 +2734,21 @@ function quads_handle_submit_disablead_form() {
     $user_email =  $user_data->user_email;
     // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
     $result = $wpdb->insert( $table_name, array(
-        'user_id'        => $user_id,
-        'disable_cost' =>$price,
-        'disable_duration' =>$_daduration,
-        'username' =>$user_name,
-        'user_email' =>$user_email,
-        'disable_date' =>gmdate('Y-m-d'),
-        'payment_status' => 'pending', // Update after payment
-        'disable_status'      => 'pending', // Set to pending until approved
+        'user_id'          => $user_id,
+        'disable_cost'     => $price,
+        'disable_duration' => $_daduration,
+        'username'         => $user_name,
+        'user_email'       => $user_email,
+        'disable_date'     => gmdate('Y-m-d'),
+        'payment_status'   => 'pending', // Update after payment
+        'disable_status'   => 'pending', // Set to pending until approved
+        'payment_response' => wp_json_encode(
+            array(
+                'payment_gateway'   => $da_order_gateway,
+                'expected_amount'   => round( (float) $price, 2 ),
+                'expected_currency' => $currency,
+            )
+        ),
     ) );
     
     if ( $result ) { 
