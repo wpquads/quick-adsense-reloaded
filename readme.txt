@@ -449,7 +449,7 @@ This plugin uses the following third-party libraries and resources:
 = 3.0.5( 18 August 2026 ) =
 * Improvement : Changed Field name in sellable ads payment getway #1001
 * Improvement : SSL certification improvemnet for newsletter form #1002
-* Improvement : Code Improvement #1003
+* Improvement : Code Improvement - Vulnerability reported & researched by Shikhali Jamalzade #1003
 * Tested : WordPress 7.1 and updated readme.txt #1004
 
 = 3.0.4( 12 June 2026 ) =
