@@ -4,7 +4,7 @@ Contributors: wpquads
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
 Tags: ad manager, ads, adsense, monetize, banner
-Tested up to: 7.0
+Tested up to: 7.1
 Requires at least: 5.0
 Requires PHP: 7.4
 Stable tag: 3.0.4
