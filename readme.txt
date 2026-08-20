@@ -4,10 +4,10 @@ Contributors: wpquads
 Author URL: https://wpquads.com
 Plugin URL: https://wordpress.org/plugins/quick-adsense-reloaded/
 Tags: ad manager, ads, adsense, monetize, banner
-Tested up to: 7.0
+Tested up to: 7.1
 Requires at least: 5.0
 Requires PHP: 7.4
-Stable tag: 3.0.4
+Stable tag: 3.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -446,6 +446,12 @@ This plugin uses the following third-party libraries and resources:
 
 
 == Changelog ==
+= 3.0.5( 18 August 2026 ) =
+* Improvement : Changed Field name in sellable ads payment getway #1001
+* Improvement : SSL certification improvemnet for newsletter form #1002
+* Improvement : Code Improvement - Vulnerability reported & researched by Shikhali Jamalzade #1003
+* Tested : WordPress 7.1 and updated readme.txt #1004
+
 = 3.0.4( 12 June 2026 ) =
 * Fixed : Vulnerablilty fix Broken Access Control disclosed by Patchstack (Ananda Dhakal) 
 * Improvement : PCP and other improvements #999
