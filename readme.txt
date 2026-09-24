@@ -7,7 +7,7 @@ Tags: ad manager, ads, adsense, monetize, banner
 Tested up to: 7.1
 Requires at least: 5.0
 Requires PHP: 7.4
-Stable tag: 3.0.5
+Stable tag: 3.0.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -446,6 +446,9 @@ This plugin uses the following third-party libraries and resources:
 
 
 == Changelog ==
+= 3.0.5.1( 24 September 2026 ) =
+* Improvement : Feedback form improvement 
+
 = 3.0.5( 18 August 2026 ) =
 * Improvement : Changed Field name in sellable ads payment getway #1001
 * Improvement : SSL certification improvemnet for newsletter form #1002
