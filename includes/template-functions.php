@@ -1137,6 +1137,47 @@ function quads_check_parent_by_dynamic_block($targetFragment, $content, $selecto
     
     return false;
 }
+
+/**
+ * Paragraphs produced by splitting on a closing tag.
+ * A trailing empty chunk from a final closing tag is not a paragraph.
+ *
+ * @param array $paragraphs Split content chunks.
+ * @return int
+ */
+function quads_closed_paragraph_count( $paragraphs ) {
+    $count = count( $paragraphs );
+    if ( $count < 1 ) {
+        return 0;
+    }
+    $last = $paragraphs[ array_key_last( $paragraphs ) ];
+    if ( is_string( $last ) && trim( $last ) === '' ) {
+        $count--;
+    }
+    return $count;
+}
+
+/**
+ * Whether an ad after this paragraph would land inside the protected ending.
+ *
+ * "Stop before the last N paragraphs" means do not insert when N or fewer
+ * paragraphs would remain after the ad. With N = 6, a 30-paragraph article
+ * that starts after paragraph 4 and repeats every 4 is inserted after
+ * paragraphs 4, 8, 12, 16 and 20.
+ *
+ * @param int $paragraph_index 1-based paragraph the ad would follow.
+ * @param int $paragraph_count Total paragraphs in the content.
+ * @param int $skip_last       Trailing paragraphs to keep free of this ad. 0 disables the rule.
+ * @return bool
+ */
+function quads_ad_hits_trailing_paragraphs( $paragraph_index, $paragraph_count, $skip_last ) {
+    $skip_last = absint( $skip_last );
+    if ( $skip_last < 1 ) {
+        return false;
+    }
+    return ( intval( $paragraph_count ) - intval( $paragraph_index ) ) <= $skip_last;
+}
+
 function quads_filter_default_ads_new( $content ) {
     
  
@@ -1364,6 +1405,7 @@ function quads_filter_default_ads_new( $content ) {
                           
                           $paragraph_limit         = isset($ads['paragraph_limit']) ? $ads['paragraph_limit'] : '';
                           $pnumber         = isset($ads['paragraph_number']) ? $ads['paragraph_number'] : '';
+                          $skip_last_paragraphs = isset($ads['skip_last_paragraphs']) ? absint($ads['skip_last_paragraphs']) : 0;
                           
                           $exclude_from_class_id         = isset($ads['exclude_from_class_id']) ? $ads['exclude_from_class_id'] : '';
 
@@ -1372,6 +1414,7 @@ function quads_filter_default_ads_new( $content ) {
                           $closing_p        = '</p>';
                           $paragraphs       = array_filter(explode( $closing_p, $content ));
                           $p_count          = count($paragraphs);
+                          $paragraph_total  = quads_closed_paragraph_count( $paragraphs );
                           $original_paragraph_no = $paragraph_no;                                                             
                           
                           if($paragraph_no <= $p_count){
@@ -1390,10 +1433,14 @@ function quads_filter_default_ads_new( $content ) {
                                         break;
                                     }
                                         if($index+1 == $next_insert_val){
-                                            $displayed_ad +=1;
-                                          $next_insert_val = $next_insert_val+$insert_after;
-                                          $addstart = true;
-                                      }
+                                            if ( quads_ad_hits_trailing_paragraphs( $index + 1, $paragraph_total, $skip_last_paragraphs ) ) {
+                                                $next_insert_val = $paragraph_total + 1;
+                                            } else {
+                                                $displayed_ad +=1;
+                                                $next_insert_val = $next_insert_val+$insert_after;
+                                                $addstart = true;
+                                            }
+                                        }
                                         if($addstart){
                                             $paragraphs[$index] .= $cusads;
                                         }
@@ -1413,10 +1460,14 @@ function quads_filter_default_ads_new( $content ) {
                                         break;
                                     }
                                         if($index+1 == $next_insert_val){
-                                            $displayed_ad +=1;
-                                          $next_insert_val = $next_insert_val+$insert_after;
-                                          $addstart = true;
-                                      }
+                                            if ( quads_ad_hits_trailing_paragraphs( $index + 1, $paragraph_total, $skip_last_paragraphs ) ) {
+                                                $next_insert_val = $paragraph_total + 1;
+                                            } else {
+                                                $displayed_ad +=1;
+                                                $next_insert_val = $next_insert_val+$insert_after;
+                                                $addstart = true;
+                                            }
+                                        }
                                         if($addstart){
                                             $paragraphs[$index] .= $cusads;
                                         }
@@ -1439,7 +1490,7 @@ function quads_filter_default_ads_new( $content ) {
                                         $paragraphs[$index] .= $closing_p;
                                     }
                                     
-                                    if ($paragraph_no == $index + 1) {
+                                    if ($paragraph_no == $index + 1 && ! quads_ad_hits_trailing_paragraphs( $index + 1, $paragraph_total, $skip_last_paragraphs ) ) {
                                         if(!empty($exclude_from_class_id)){
                                             $new_para = $paragraphs[$index] . $cusads;
                                             $is_found_parent = quads_check_parent_by_dynamic_block($new_para, $content, $exclude_from_class_id);
@@ -1470,7 +1521,7 @@ function quads_filter_default_ads_new( $content ) {
                             }
                               $content = implode( '', $paragraphs ); 
                           }else{                        
-                              if($end_of_post){
+                              if($end_of_post && $skip_last_paragraphs < 1){
                                   $content = $content.$cusads;   
                               }                                
                           }
@@ -1698,11 +1749,13 @@ function quads_filter_default_ads_new( $content ) {
                             if(strpos( $content, '<!--OffBfLastPara-->' ) === false ) {
                                 $repeat_paragraph = (isset($ads['repeat_paragraph']) && !empty($ads['repeat_paragraph'])) ? $ads['repeat_paragraph'] : false;
                                 $paragraph_limit         = isset($ads['paragraph_limit']) ? $ads['paragraph_limit'] : '';
+                                $skip_last_paragraphs = isset($ads['skip_last_paragraphs']) ? absint($ads['skip_last_paragraphs']) : 0;
                                 $insert_after         = isset($ads['insert_after']) ? $ads['insert_after'] : 1;
       
                                 $closing_p        = '</p>';
                                 $paragraphs       = explode( $closing_p, $content );
                                 $p_count          = count($paragraphs);
+                                $paragraph_total  = quads_closed_paragraph_count( $paragraphs );
                                 $original_paragraph_no = $paragraph_no;                                                             
                                 
                                 if($paragraph_no <= $p_count){
@@ -1721,10 +1774,14 @@ function quads_filter_default_ads_new( $content ) {
                                               break;
                                           }
                                               if($index+1 == $next_insert_val){
-                                                  $displayed_ad +=1;
-                                                $next_insert_val = $next_insert_val+$insert_after;
-                                                $addstart = true;
-                                            }
+                                                  if ( quads_ad_hits_trailing_paragraphs( $index + 1, $paragraph_total, $skip_last_paragraphs ) ) {
+                                                      $next_insert_val = $paragraph_total + 1;
+                                                  } else {
+                                                      $displayed_ad +=1;
+                                                      $next_insert_val = $next_insert_val+$insert_after;
+                                                      $addstart = true;
+                                                  }
+                                              }
                                               if($addstart){
                                                   $paragraphs[$index] .= $cusads;
                                               }
@@ -1735,7 +1792,7 @@ function quads_filter_default_ads_new( $content ) {
                                         if ( trim( $paragraph ) ) {
                                             $paragraphs[$index] .= $closing_p;
                                         }
-                                        if ( $paragraph_no == $index + 1 ) {
+                                        if ( $paragraph_no == $index + 1 && ! quads_ad_hits_trailing_paragraphs( $index + 1, $paragraph_total, $skip_last_paragraphs ) ) {
                                             $paragraphs[$index] .= $cusads;
                                             if($repeat_paragraph){
                                              $paragraph_no =  $original_paragraph_no+$paragraph_no; 
@@ -1745,7 +1802,7 @@ function quads_filter_default_ads_new( $content ) {
                                   }
                                     $content = implode( '', $paragraphs ); 
                                 }else{
-                                    if($end_of_post){
+                                    if($end_of_post && $skip_last_paragraphs < 1){
                                         $content = $content.$cusads;   
                                     }                                
                                 }
@@ -3601,6 +3658,24 @@ function quads_del_element($array, $idx) {
             
             
             
+/**
+ * Encode non-ASCII characters as numeric HTML entities for DOMDocument.
+ *
+ * mb_convert_encoding() with the HTML-ENTITIES charset is deprecated since PHP 8.2.
+ *
+ * @param string $content HTML fragment.
+ * @return string
+ */
+function quads_encode_html_entities_for_dom( $content ) {
+    if ( ! is_string( $content ) || $content === '' || ! function_exists( 'mb_encode_numericentity' ) ) {
+        return $content;
+    }
+
+    $encoded = mb_encode_numericentity( $content, array( 0x80, 0x10FFFF, 0, 0x1FFFFF ), 'UTF-8' );
+
+    return is_string( $encoded ) ? $encoded : $content;
+}
+
 function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$repeat_paragraph=false){
 
     $wp_charset = get_bloginfo( 'charset' );
@@ -3622,7 +3697,7 @@ function quads_remove_ad_from_content($content,$ads,$ads_data='',$position='',$r
             $content = preg_replace('/<html\b[^>]*>|<\/html>|<body\b[^>]*>|<\/body>/i', '', $content);
             $content = '<div>' . $content . '</div>';
         }
-        $doc->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $doc->loadHTML(quads_encode_html_entities_for_dom($content), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
      }
      else
      {
@@ -3693,7 +3768,7 @@ if($repeat_paragraph && isset($ads_data['after_the_percentage_value']) && !empty
                             $ad_dom =  new DOMDocument( '1.0', $wp_charset );
                             libxml_use_internal_errors( true );
                             // Wrap in html/body to preserve nested div structure
-                            $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><body>' . $ads . '</body></html>', 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                            $ad_dom->loadHTML(quads_encode_html_entities_for_dom('<!DOCTYPE html><html><body>' . $ads . '</body></html>'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
                             libxml_clear_errors();
                             
                             // Extract nodes from body element to preserve nested structure
@@ -3747,7 +3822,7 @@ if($repeat_paragraph && isset($ads_data['after_the_percentage_value']) && !empty
                 $ad_dom = new DOMDocument('1.0', $wp_charset);
                 libxml_use_internal_errors(true);
                 // Wrap in html/body to preserve nested div structure
-                $ad_dom->loadHTML(mb_convert_encoding('<!DOCTYPE html><html><body>' . $ads . '</body></html>', 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+                $ad_dom->loadHTML(quads_encode_html_entities_for_dom('<!DOCTYPE html><html><body>' . $ads . '</body></html>'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
                 libxml_clear_errors();
                 
                 // Extract nodes from body element to preserve nested structure
@@ -3789,11 +3864,7 @@ function quads_after_id_class_ad_creator($content,$srch_name,$type_name){
 
     $dom = new \DOMDocument();
     libxml_use_internal_errors(true);
-    if(function_exists('mb_convert_encoding')){
-        $dom->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-    }else{
-        $dom->loadHTML( $content , LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-    }
+    $dom->loadHTML( quads_encode_html_entities_for_dom( $content ), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
     libxml_clear_errors();
     $finder = new DomXPath($dom);
     if($type_name == 'id'){

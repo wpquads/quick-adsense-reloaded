@@ -175,6 +175,11 @@ check_plugin_exist = (event) => {
                                         <input id='repeat_paragraph' checked={post_meta.repeat_paragraph} name="repeat_paragraph" onChange={this.props.adFormChangeHandler} type="checkbox"/>
                                         <label htmlFor="repeat_paragraph"> {__('Display After Every ', 'quick-adsense-reloaded')}{post_meta.paragraph_number}</label>
                                     </div>
+                                    <div>
+                                        <label htmlFor="skip_last_paragraphs_amp">{__('Stop before the last', 'quick-adsense-reloaded')}</label>
+                                        <input id="skip_last_paragraphs_amp" min="0" onChange={this.props.adFormChangeHandler} name="skip_last_paragraphs" value={post_meta.skip_last_paragraphs ? post_meta.skip_last_paragraphs : ''} type="number" />
+                                        <label htmlFor="skip_last_paragraphs_amp"> {__('paragraphs', 'quick-adsense-reloaded')}</label>
+                                    </div>
 
 
                                 </div> : ''}

@@ -269,6 +269,14 @@ class QuadsAdTargeting extends Component {
                     </tr>
                     }
                     <tr>
+                      <td><label htmlFor="skip_last_paragraphs">{__('Stop before the last', 'quick-adsense-reloaded')}</label></td>
+                      <td>
+                        <input id="skip_last_paragraphs" min="0" onChange={this.props.adFormChangeHandler} name="skip_last_paragraphs" value={post_meta.skip_last_paragraphs ? post_meta.skip_last_paragraphs : ''} type="number" />
+                        <label htmlFor="skip_last_paragraphs"> {__('paragraphs', 'quick-adsense-reloaded')}</label>
+                        <div style={{fontSize: '12px', marginTop: '8px'}}>{__('Leave empty to insert through the end of the article. The ad is skipped when this many paragraphs or fewer would remain after it.', 'quick-adsense-reloaded')}</div>
+                      </td>
+                    </tr>
+                    <tr>
                       <td><label > {__('Skip Paragraphs by Class/ID', 'quick-adsense-reloaded')}</label></td>
                       <td>
                       <input onChange={this.props.adFormChangeHandler} name="exclude_from_class_id" value={post_meta.exclude_from_class_id}  type="text" placeholder='.class_name or #id separated by space'/>
