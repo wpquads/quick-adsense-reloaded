@@ -6,6 +6,7 @@ class QUADS_Ad_Setup_Api {
 
         private static $instance;
         private $api_service = null;
+    // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Google OAuth client ID, not an offloaded asset.
     const CID = '92665529714-u1epglunqmdl9s2nne6cttkfc138smb7.apps.googleusercontent.com';
 
     const CS = 'dHjumDqZSshxPitfVJErRTcX';
@@ -1814,7 +1815,7 @@ return array('status' => 't');
                 }else{
                     $settings = quads_defaultSettings();
                     if($settings['adsTxtEnabled']){
-                        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+                        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents, PluginCheck.CodeAnalysis.WriteFile.ABSPATHDetected -- ads.txt must be served from the site root.
                         if (false !== file_put_contents(ABSPATH . 'ads.txt', $parameters[0])) {
                             // show notice that ads.txt has been created
                             set_transient('quads_vi_ads_txt_notice', true, 300);
