@@ -75,14 +75,43 @@ function quads_send_feedback() {
         die( esc_html__( 'Invalid nonce', 'quick-adsense-reloaded' ) ); 
     }
     
+    $reason = isset( $form['quads_disable_reason'] ) ? sanitize_text_field( $form['quads_disable_reason'] ) : '';
+
+    // Do not send email for these deactivation reasons.
+    $skip_email_reasons = array(
+        'temporary',
+        'other plugin',
+        'stopped showing ads',
+    );
+
+    if ( in_array( $reason, $skip_email_reasons, true ) ) {
+        die();
+    }
+
+    // Only send email for these reasons, and only when feedback text has more than 3 words.
+    $send_email_reasons = array(
+        'technical issue',
+        'other',
+        'missing feature',
+    );
+
+    if ( ! in_array( $reason, $send_email_reasons, true ) ) {
+        die();
+    }
+
     $text = '';
-    if( isset( $form['quads_disable_text'] ) ) {
-        $text = implode( "\n\r", $form['quads_disable_text'] );
+    if ( isset( $form['quads_disable_text'] ) && is_array( $form['quads_disable_text'] ) ) {
+        $texts = array_filter( array_map( 'sanitize_text_field', $form['quads_disable_text'] ) );
+        $text  = implode( "\n\r", $texts );
+    }
+
+    if ( str_word_count( trim( $text ) ) <= 3 ) {
+        die();
     }
 
     $headers = array();
 
-    $from = isset( $form['quads_disable_from'] ) ? $form['quads_disable_from'] : '';
+    $from = isset( $form['quads_disable_from'] ) ? sanitize_email( $form['quads_disable_from'] ) : '';
     if( $from ) {
         $headers[] = "From: $from";
         $headers[] = "Reply-To: $from";
@@ -90,7 +119,7 @@ function quads_send_feedback() {
 
     $subject = "WP Quads";
 
-    $subject .= isset( $form['quads_disable_reason'] ) ? ' - '.$form['quads_disable_reason'] : '(no reason given)';
+    $subject .= ' - ' . $reason;
 
     $success = wp_mail( 'team@magazine3.in', $subject, $text, $headers );
 
