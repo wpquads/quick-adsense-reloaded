@@ -97,6 +97,7 @@ class QuadsAdCreateRouter extends Component {
             after_the_percentage_value: 50,
             ads_loop_number: 1,
             paragraph_limit: '',
+            skip_last_paragraphs: '',
             insert_after: 1,
             image_caption : false,
             include_dropdown           : false,

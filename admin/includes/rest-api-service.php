@@ -542,7 +542,7 @@ class QUADS_Ad_Setup_Api_Service {
               $quads_options['quicktags'] = array($key => $val);
              }else if($key == 'adsTxtText' ){
               if($parameters['adsTxtEnabled']){
-                /* phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents */
+                // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents, PluginCheck.CodeAnalysis.WriteFile.ABSPATHDetected -- ads.txt must be served from the site root.
                 if (false !== file_put_contents(ABSPATH . 'ads.txt', $val)) {
                     // show notice that ads.txt has been created
                     set_transient('quads_vi_ads_txt_notice', true, 300);

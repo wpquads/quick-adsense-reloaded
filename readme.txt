@@ -7,7 +7,7 @@ Tags: ad manager, ads, adsense, monetize, banner
 Tested up to: 7.1
 Requires at least: 5.0
 Requires PHP: 7.4
-Stable tag: 3.0.5.1
+Stable tag: 3.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -446,6 +446,11 @@ This plugin uses the following third-party libraries and resources:
 
 
 == Changelog ==
+= 3.0.6( 09 November 2026 ) =
+* Added : Option to stop ad insertion before the last N paragraphs #1006
+* Fixed : PHP Deprecated: mb_convert_encoding() #1007
+* Improvement : PCP improvements #1009
+
 = 3.0.5.1( 24 September 2026 ) =
 * Improvement : Feedback form improvement 
 

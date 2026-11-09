@@ -1,6 +1,7 @@
 <?php
 if( !defined( 'ABSPATH' ) ) exit;
 add_action( 'admin_enqueue_scripts', 'quads_load_adsnese_scripts', 100 );
+// phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Google OAuth client ID, not an offloaded asset.
 define('client_id','434993230199-hk6lg7d10mi9lja7euvqckef6ji2i4n0.apps.googleusercontent.com');
 define('client_secret','LTUkw1OpRaL4S-kvDaS7tMU_');
 add_action( 'rest_api_init', 'quads_registerRoute');
